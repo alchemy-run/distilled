@@ -35,28 +35,28 @@ export interface CreateStamphogRepoConfigRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** SCM provider this config talks to. Defaults to 'github'. */
-  provider?: string;
+  provider?: string | undefined;
   /** Repository full name, e.g. 'PostHog/posthog'. */
   repository: string;
   /** Whether stamphog actively reviews pull requests for this repo. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Whether merged PRs on this repo are captured for the daily Slack digest. */
-  digest_enabled?: boolean;
+  digest_enabled?: boolean | undefined;
   /** When reviews run: 'label' reviews only pull requests carrying the trigger label (the default), mirroring the Action's opt-in flow; 'all' reviews every pull request. * `all` - All pull requests * `label` - Labeled pull requests */
-  review_mode?: ReviewModeEnum | (string & {});
+  review_mode?: ReviewModeEnum | (string & {}) | undefined;
   /** Pull request label that triggers a review when review_mode is 'label'. Defaults to 'stamphog'. */
-  trigger_label?: string;
+  trigger_label?: string | undefined;
   /** When stamphog requests reviews from the code owners in the repository's owners.yaml: 'off' (the default) never; 'always' when a pull request opens ready for review or is marked ready; 'fallback' only when stamphog does not approve, where an approval requests only the owners of sensitive and new paths. * `off` - Off * `always` - Always * `fallback` - When stamphog does not approve */
-  routing_mode?: RoutingModeEnum | (string & {});
+  routing_mode?: RoutingModeEnum | (string & {}) | undefined;
   /** On fork pull requests, routing adds the mapped label instead of requesting a review from the team, so an outside author cannot notify it. Keys are owners.yaml team slugs such as 'team-devex', values are GitHub label names. A team with no entry gets a review request as usual. Sending the field replaces the whole map, and an empty object removes every label. */
-  routing_fork_labels?: CreateStamphogRepoConfigRequestRoutingForkLabelsMap;
+  routing_fork_labels?: CreateStamphogRepoConfigRequestRoutingForkLabelsMap | undefined;
 }
 /** On fork pull requests, routing adds the mapped label instead of requesting a review from the team, so an outside author cannot notify it. Keys are owners.yaml team slugs such as 'team-devex', values are GitHub label names. A team with no entry gets a review request as usual. */
 export type StamphogRepoConfigRoutingForkLabelsMap = { [key: string]: string | undefined };
 export interface StamphogRepoConfig {
   id: string;
   /** SCM provider this config talks to. Defaults to 'github'. */
-  provider?: string;
+  provider?: string | undefined;
   /** Repository full name, e.g. 'PostHog/posthog'. */
   repository: string;
   /** Whether stamphog actively reviews pull requests for this repo. */
@@ -64,11 +64,11 @@ export interface StamphogRepoConfig {
   /** Provider app installation ID that authorizes API calls for this repo. Set only by the verified sync_installation flow; ignored on direct writes. */
   installation_id: string;
   /** Whether merged PRs on this repo are captured for the daily Slack digest. Requires 'enabled', since the digest reports what stamphog approved. */
-  digest_enabled?: boolean;
+  digest_enabled?: boolean | undefined;
   /** When reviews run: 'label' reviews only pull requests carrying the trigger label (the default), mirroring the Action's opt-in flow; 'all' reviews every pull request. * `all` - All pull requests * `label` - Labeled pull requests */
   review_mode: ReviewModeEnum;
   /** Pull request label that triggers a review when review_mode is 'label'. Defaults to 'stamphog'. */
-  trigger_label?: string;
+  trigger_label?: string | undefined;
   /** When stamphog requests reviews from the code owners in the repository's owners.yaml: 'off' (the default) never; 'always' when a pull request opens ready for review or is marked ready; 'fallback' only when stamphog does not approve, where an approval requests only the owners of sensitive and new paths. * `off` - Off * `always` - Always * `fallback` - When stamphog does not approve */
   routing_mode: RoutingModeEnum;
   /** On fork pull requests, routing adds the mapped label instead of requesting a review from the team, so an outside author cannot notify it. Keys are owners.yaml team slugs such as 'team-devex', values are GitHub label names. A team with no entry gets a review request as usual. */
@@ -82,7 +82,7 @@ export interface CreateStamphogRepoConfigsSyncInstallationRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** GitHub App installation ID from the fresh-install Setup URL redirect. Optional: absent or blank means discover the caller's installations from the OAuth code instead (authorize-first flow). The id is not trusted on its own -- ownership is always proven via the code. */
-  installation_id?: string;
+  installation_id?: string | undefined;
   /** GitHub user-to-server OAuth code from the post-install redirect (present when the App has 'Request user authorization during installation' enabled). Exchanged server-side to prove the caller owns the installation before its repos are bound. */
   code: string;
   /** Signed state token minted by install_info and round-tripped through GitHub's install redirect. Binds the callback to the team and user that started the flow, so a stolen installation_id + code can't be replayed against another team's session. */
@@ -355,9 +355,9 @@ export interface GetStamphogRepoConfigsAvailableRepositoryRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Maximum number of repositories to return. Defaults to 50, at most 200. */
-  limit?: number;
+  limit?: number | undefined;
   /** Case-insensitive substring to match against the repository full name, e.g. 'posthog'. */
-  search?: string;
+  search?: string | undefined;
 }
 /** Repository full names the team can add, sorted by name and capped by limit. Only repositories a project member proved access to on GitHub are listed, and never one another project already holds under the same installation. */
 export type StamphogAvailableRepositoriesRepositoriesList = Array<string>;
@@ -434,15 +434,15 @@ export interface StamphogRoutingFile {
   /** The changed path. */
   path: string;
   /** The path before a rename. Null for any other change. */
-  previous_path?: string | null;
+  previous_path?: string | null | undefined;
   /** GitHub's file status, such as 'added', 'modified', 'removed' or 'renamed'. */
-  status?: string;
+  status?: string | undefined;
   /** Added lines. */
-  additions?: number;
+  additions?: number | undefined;
   /** Deleted lines. */
-  deletions?: number;
+  deletions?: number | undefined;
   /** Repo-relative path of the ownership file, read at the run's owners_sha, whose `owners` list names this owner for the file. Null when only an additions declaration made the owner a candidate (see the owner's `new_path` pins), or when the run is older than this field. */
-  owners_source?: string | null;
+  owners_source?: string | null | undefined;
 }
 /** Every changed file this owner owns, which is what made them a candidate. Patches are not kept. */
 export type StamphogRoutingRunOwnerDetailFilesList = Array<StamphogRoutingFile>;
@@ -460,11 +460,11 @@ export interface StamphogRoutingRunOwnerDetail {
   /** The owner as owners.yaml spells it: a team slug such as 'team-devex', or a GitHub login such as '@octocat'. */
   owner: string;
   /** The model's one-line reason to cut this owner. Also set when a guard kept the owner anyway. Blank when the model proposed no cut for them. */
-  model_reason?: string;
+  model_reason?: string | undefined;
   /** Changed lines in the files this owner owns. */
-  lines?: number;
+  lines?: number | undefined;
   /** Changed files this owner owns. */
-  file_count?: number;
+  file_count?: number | undefined;
 }
 /** The run's decision for every owner of the changed code, with the files each owner owns. */
 export type StamphogRoutingRunDetailOwnersList = Array<StamphogRoutingRunOwnerDetail>;
@@ -484,71 +484,71 @@ export interface StamphogRoutingRunDetail {
   /** 'full', or 'pinned' when a stamphog approval asked only the owners of sensitive and new paths. * `full` - Every owner * `pinned` - Pinned owners only */
   scope: RoutingScopeEnum;
   /** Whether the pull request came from a fork, which skips the model. */
-  fork?: boolean;
+  fork?: boolean | undefined;
   /** Why the cut step made no model call. Null when it made one. * `single_candidate` - Single candidate * `fork` - Fork * `nothing_cuttable` - Nothing cuttable * `no_answer` - No answer * `stamphog_approved` - Stamphog approved * `files_truncated` - Files truncated */
   llm_skipped: LlmSkipReasonEnum | null;
   /** The model the cut request reached. Blank when no request reached the gateway. */
-  model?: string;
+  model?: string | undefined;
   /** Whether GitHub listed fewer files than the pull request changes, so owners may be missing. */
-  files_truncated?: boolean;
+  files_truncated?: boolean | undefined;
   /** Whether the new-path lookup worked. When false, owners of new paths may not be pinned. */
-  additions_resolved?: boolean;
+  additions_resolved?: boolean | undefined;
   /** The default-branch commit whose owners.yaml files decided the owners. Blank when unknown. */
-  owners_sha?: string;
+  owners_sha?: string | undefined;
   /** The run's decision for every owner of the changed code, with the files each owner owns. */
   owners: StamphogRoutingRunDetailOwnersList;
   /** When the run made its requests. */
-  created_at?: string | null;
+  created_at?: string | null | undefined;
 }
 export interface ListStamphogDigestRunsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter by the Slack channel the digest was posted to, e.g. 'C012AB3CD'. */
-  slack_channel_id?: string;
+  slack_channel_id?: string | undefined;
 }
 export type PaginatedDigestRunListResultsList = Array<DigestRun>;
 export interface PaginatedDigestRunList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedDigestRunListResultsList;
 }
 export interface ListStamphogPullRequestsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** Filter by merge state: true for merged pull requests, false for unmerged. */
-  merged?: boolean;
+  merged?: boolean | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter by pull request number. */
-  pr_number?: number;
+  pr_number?: number | undefined;
 }
 export type PaginatedStamphogPullRequestListResultsList = Array<StamphogPullRequest>;
 export interface PaginatedStamphogPullRequestList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedStamphogPullRequestListResultsList;
 }
 export interface ListStamphogRepoConfigsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedStamphogRepoConfigListResultsList = Array<StamphogRepoConfig>;
 export interface PaginatedStamphogRepoConfigList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedStamphogRepoConfigListResultsList;
 }
 export type ListStamphogReviewRunsRequestTrigger = "all" | "label" | "manual" | "self_driving";
@@ -556,23 +556,23 @@ export interface ListStamphogReviewRunsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter by pull request number. */
-  pr_number?: number;
+  pr_number?: number | undefined;
   /** Filter by repository full name, e.g. 'PostHog/posthog'. */
-  repository?: string;
+  repository?: string | undefined;
   /** Filter by review run status. */
-  status?: string;
+  status?: string | undefined;
   /** Filter by what caused the run. Leave it unset to include runs from every trigger. 'all' is not a wildcard: it matches only runs in repos that review every pull request event. The other values: 'label' (the repo's trigger label opted the PR in), 'manual' (someone requested the review through the API or MCP), and 'self_driving' (stamphog reviewed a bot-authored PR from the inbox). */
-  trigger?: ListStamphogReviewRunsRequestTrigger | (string & {});
+  trigger?: ListStamphogReviewRunsRequestTrigger | (string & {}) | undefined;
 }
 export type PaginatedReviewRunListResultsList = Array<ReviewRun>;
 export interface PaginatedReviewRunList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedReviewRunListResultsList;
 }
 export type ListStamphogRoutingRunsRequestOutcome =
@@ -595,25 +595,25 @@ export interface ListStamphogRoutingRunsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Keep only runs created at or after this time (ISO 8601). */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Keep only runs created before this time (ISO 8601). */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Keep only runs on this head commit. Pass the full 40-character SHA. */
-  head_sha?: string;
+  head_sha?: string | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Keep only runs where an owner got this outcome. With `owner`, that owner must have it, so `owner=team-devex&outcome=cut` lists the runs that cut team-devex. * `requested` - Requested * `labeled` - Labeled * `refused` - Refused by GitHub * `cut` - Cut * `not_requested` - Not requested * `already_requested` - Already requested */
-  outcome?: ListStamphogRoutingRunsRequestOutcome | (string & {});
+  outcome?: ListStamphogRoutingRunsRequestOutcome | (string & {}) | undefined;
   /** Keep only runs that decided about this owner, spelled as in owners.yaml: a team slug such as 'team-devex', or a GitHub login such as '@octocat'. */
-  owner?: string;
+  owner?: string | undefined;
   /** Filter by pull request number. */
-  pr_number?: number;
+  pr_number?: number | undefined;
   /** Keep only runs where an owner was kept or cut for this reason. With `owner`, that owner must have it. * `sensitive` - Owns a sensitive path * `new_path` - Owns a new path * `largest_owner` - Has the largest part * `diff_not_seen` - Diff not shown to the model * `cut_skipped` - Cut step skipped * `model_kept` - Kept by the model * `model_cut` - Cut by the model * `stamphog_approved` - Stamphog approved */
-  reason?: ListStamphogRoutingRunsRequestReason | (string & {});
+  reason?: ListStamphogRoutingRunsRequestReason | (string & {}) | undefined;
   /** Filter by repository full name, e.g. 'PostHog/posthog'. */
-  repository?: string;
+  repository?: string | undefined;
 }
 /** The changed paths that pinned the owner, so no cut could remove them. */
 export type StamphogRoutingRunOwnerPinsList = Array<StamphogRoutingPin>;
@@ -629,11 +629,11 @@ export interface StamphogRoutingRunOwner {
   /** The owner as owners.yaml spells it: a team slug such as 'team-devex', or a GitHub login such as '@octocat'. */
   owner: string;
   /** The model's one-line reason to cut this owner. Also set when a guard kept the owner anyway. Blank when the model proposed no cut for them. */
-  model_reason?: string;
+  model_reason?: string | undefined;
   /** Changed lines in the files this owner owns. */
-  lines?: number;
+  lines?: number | undefined;
   /** Changed files this owner owns. */
-  file_count?: number;
+  file_count?: number | undefined;
 }
 /** The run's decision for every owner of the changed code. */
 export type StamphogRoutingRunOwnersList = Array<StamphogRoutingRunOwner>;
@@ -653,27 +653,27 @@ export interface StamphogRoutingRun {
   /** 'full', or 'pinned' when a stamphog approval asked only the owners of sensitive and new paths. * `full` - Every owner * `pinned` - Pinned owners only */
   scope: RoutingScopeEnum;
   /** Whether the pull request came from a fork, which skips the model. */
-  fork?: boolean;
+  fork?: boolean | undefined;
   /** Why the cut step made no model call. Null when it made one. * `single_candidate` - Single candidate * `fork` - Fork * `nothing_cuttable` - Nothing cuttable * `no_answer` - No answer * `stamphog_approved` - Stamphog approved * `files_truncated` - Files truncated */
   llm_skipped: LlmSkipReasonEnum | null;
   /** The model the cut request reached. Blank when no request reached the gateway. */
-  model?: string;
+  model?: string | undefined;
   /** Whether GitHub listed fewer files than the pull request changes, so owners may be missing. */
-  files_truncated?: boolean;
+  files_truncated?: boolean | undefined;
   /** Whether the new-path lookup worked. When false, owners of new paths may not be pinned. */
-  additions_resolved?: boolean;
+  additions_resolved?: boolean | undefined;
   /** The default-branch commit whose owners.yaml files decided the owners. Blank when unknown. */
-  owners_sha?: string;
+  owners_sha?: string | undefined;
   /** The run's decision for every owner of the changed code. */
   owners: StamphogRoutingRunOwnersList;
   /** When the run made its requests. */
-  created_at?: string | null;
+  created_at?: string | null | undefined;
 }
 export type PaginatedStamphogRoutingRunListResultsList = Array<StamphogRoutingRun>;
 export interface PaginatedStamphogRoutingRunList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedStamphogRoutingRunListResultsList;
 }
 export interface StamphogRepoConfigsAddRepositoryCreateRequest {
@@ -710,21 +710,21 @@ export interface UpdateStamphogRepoConfigRequest {
   project_id: string;
   id: string;
   /** SCM provider this config talks to. Defaults to 'github'. */
-  provider?: string;
+  provider?: string | undefined;
   /** Repository full name, e.g. 'PostHog/posthog'. */
   repository: string;
   /** Whether stamphog actively reviews pull requests for this repo. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Whether merged PRs on this repo are captured for the daily Slack digest. */
-  digest_enabled?: boolean;
+  digest_enabled?: boolean | undefined;
   /** When reviews run: 'label' reviews only pull requests carrying the trigger label (the default), mirroring the Action's opt-in flow; 'all' reviews every pull request. * `all` - All pull requests * `label` - Labeled pull requests */
-  review_mode?: ReviewModeEnum | (string & {});
+  review_mode?: ReviewModeEnum | (string & {}) | undefined;
   /** Pull request label that triggers a review when review_mode is 'label'. Defaults to 'stamphog'. */
-  trigger_label?: string;
+  trigger_label?: string | undefined;
   /** When stamphog requests reviews from the code owners in the repository's owners.yaml: 'off' (the default) never; 'always' when a pull request opens ready for review or is marked ready; 'fallback' only when stamphog does not approve, where an approval requests only the owners of sensitive and new paths. * `off` - Off * `always` - Always * `fallback` - When stamphog does not approve */
-  routing_mode?: RoutingModeEnum | (string & {});
+  routing_mode?: RoutingModeEnum | (string & {}) | undefined;
   /** On fork pull requests, routing adds the mapped label instead of requesting a review from the team, so an outside author cannot notify it. Keys are owners.yaml team slugs such as 'team-devex', values are GitHub label names. A team with no entry gets a review request as usual. Sending the field replaces the whole map, and an empty object removes every label. */
-  routing_fork_labels?: UpdateStamphogRepoConfigRequestRoutingForkLabelsMap;
+  routing_fork_labels?: UpdateStamphogRepoConfigRequestRoutingForkLabelsMap | undefined;
 }
 /** On fork pull requests, routing adds the mapped label instead of requesting a review from the team, so an outside author cannot notify it. Keys are owners.yaml team slugs such as 'team-devex', values are GitHub label names. A team with no entry gets a review request as usual. Sending the field replaces the whole map, and an empty object removes every label. */
 export type UpdateStamphogRepoConfigsPartialRequestRoutingForkLabelsMap = {
@@ -735,21 +735,21 @@ export interface UpdateStamphogRepoConfigsPartialRequest {
   project_id: string;
   id: string;
   /** SCM provider this config talks to. Defaults to 'github'. */
-  provider?: string;
+  provider?: string | undefined;
   /** Repository full name, e.g. 'PostHog/posthog'. */
-  repository?: string;
+  repository?: string | undefined;
   /** Whether stamphog actively reviews pull requests for this repo. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Whether merged PRs on this repo are captured for the daily Slack digest. */
-  digest_enabled?: boolean;
+  digest_enabled?: boolean | undefined;
   /** When reviews run: 'label' reviews only pull requests carrying the trigger label (the default), mirroring the Action's opt-in flow; 'all' reviews every pull request. * `all` - All pull requests * `label` - Labeled pull requests */
-  review_mode?: ReviewModeEnum | (string & {});
+  review_mode?: ReviewModeEnum | (string & {}) | undefined;
   /** Pull request label that triggers a review when review_mode is 'label'. Defaults to 'stamphog'. */
-  trigger_label?: string;
+  trigger_label?: string | undefined;
   /** When stamphog requests reviews from the code owners in the repository's owners.yaml: 'off' (the default) never; 'always' when a pull request opens ready for review or is marked ready; 'fallback' only when stamphog does not approve, where an approval requests only the owners of sensitive and new paths. * `off` - Off * `always` - Always * `fallback` - When stamphog does not approve */
-  routing_mode?: RoutingModeEnum | (string & {});
+  routing_mode?: RoutingModeEnum | (string & {}) | undefined;
   /** On fork pull requests, routing adds the mapped label instead of requesting a review from the team, so an outside author cannot notify it. Keys are owners.yaml team slugs such as 'team-devex', values are GitHub label names. A team with no entry gets a review request as usual. Sending the field replaces the whole map, and an empty object removes every label. */
-  routing_fork_labels?: UpdateStamphogRepoConfigsPartialRequestRoutingForkLabelsMap;
+  routing_fork_labels?: UpdateStamphogRepoConfigsPartialRequestRoutingForkLabelsMap | undefined;
 }
 export type CreateStamphogRepoConfigError = PosthogOpError;
 /** Per-repo stamphog settings -- enable/disable review, GitHub App installation, policy overrides. */

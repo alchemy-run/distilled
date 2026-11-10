@@ -86,113 +86,113 @@ export type StringList = Array<string>;
 /** The request message for language detection. */
 export interface DetectLanguageRequest {
   /** The input text upon which to perform language detection. Repeat this parameter to perform language detection on multiple text inputs. */
-  q?: StringList;
+  q?: StringList | undefined;
 }
 export interface DetectDetectionsRequest {
   /** OAuth bearer token. */
-  bearer_token?: string;
+  bearer_token?: string | undefined;
   /** Pretty-print response. */
-  pp?: boolean;
+  pp?: boolean | undefined;
   /** Request body */
-  body?: DetectLanguageRequest;
+  body?: DetectLanguageRequest | undefined;
 }
 export interface DetectionsResourceItem {
   /** A boolean to indicate is the language detection result reliable. */
-  isReliable?: boolean;
+  isReliable?: boolean | undefined;
   /** The language we detected. */
-  language?: string;
+  language?: string | undefined;
   /** The confidence of the detection result of this language. */
-  confidence?: number;
+  confidence?: number | undefined;
 }
 /** An array of languages which we detect for the given text The most likely language list first. */
 export type DetectionsResource = Array<DetectionsResourceItem>;
 export type DetectionsResourceList = Array<DetectionsResource>;
 export interface DetectionsListResponse {
   /** A detections contains detection results of several text */
-  detections?: DetectionsResourceList;
+  detections?: DetectionsResourceList | undefined;
 }
 export interface ListDetectionsRequest {
   /** OAuth bearer token. */
-  bearer_token?: string;
+  bearer_token?: string | undefined;
   /** Pretty-print response. */
-  pp?: boolean;
+  pp?: boolean | undefined;
   /** The input text upon which to perform language detection. Repeat this parameter to perform language detection on multiple text inputs. */
   q: StringList;
 }
 export interface ListLanguagesRequest {
   /** OAuth bearer token. */
-  bearer_token?: string;
+  bearer_token?: string | undefined;
   /** Pretty-print response. */
-  pp?: boolean;
+  pp?: boolean | undefined;
   /** The language to use to return localized, human readable names of supported languages. */
-  target?: string;
+  target?: string | undefined;
   /** The model type for which supported languages should be returned. */
-  model?: string;
+  model?: string | undefined;
 }
 export interface LanguagesResource {
   /** Human readable name of the language localized to the target language. */
-  name?: string;
+  name?: string | undefined;
   /** Supported language code, generally consisting of its ISO 639-1 identifier. (E.g. 'en', 'ja'). In certain cases, BCP-47 codes including language + region identifiers are returned (e.g. 'zh-TW' and 'zh-CH') */
-  language?: string;
+  language?: string | undefined;
 }
 export type LanguagesResourceList = Array<LanguagesResource>;
 export interface LanguagesListResponse {
   /** List of source/target languages supported by the translation API. If target parameter is unspecified, the list is sorted by the ASCII code point order of the language code. If target parameter is specified, the list is sorted by the collation order of the language name in the target language. */
-  languages?: LanguagesResourceList;
+  languages?: LanguagesResourceList | undefined;
 }
 export type ListTranslationsFormatEnum = "html" | "text";
 export interface ListTranslationsRequest {
   /** OAuth bearer token. */
-  bearer_token?: string;
+  bearer_token?: string | undefined;
   /** Pretty-print response. */
-  pp?: boolean;
+  pp?: boolean | undefined;
   /** The format of the source text, in either HTML (default) or plain-text. A value of "html" indicates HTML and a value of "text" indicates plain-text. */
-  format?: ListTranslationsFormatEnum | (string & {});
+  format?: ListTranslationsFormatEnum | (string & {}) | undefined;
   /** The customization id for translate */
-  cid?: StringList;
+  cid?: StringList | undefined;
   /** The language to use for translation of the input text, set to one of the language codes listed in Language Support. */
   target: string;
   /** The `model` type requested for this translation. Valid values are listed in public documentation. */
-  model?: string;
+  model?: string | undefined;
   /** The language of the source text, set to one of the language codes listed in Language Support. If the source language is not specified, the API will attempt to identify the source language automatically and return it within the response. */
-  source?: string;
+  source?: string | undefined;
   /** The input text to translate. Repeat this parameter to perform translation operations on multiple text inputs. */
   q: StringList;
 }
 export interface TranslationsResource {
   /** Text translated into the target language. */
-  translatedText?: string;
+  translatedText?: string | undefined;
   /** The `model` type used for this translation. Valid values are listed in public documentation. Can be different from requested `model`. Present only if specific model type was explicitly requested. */
-  model?: string;
+  model?: string | undefined;
   /** The source language of the initial request, detected automatically, if no source language was passed within the initial request. If the source language was passed, auto-detection of the language will not occur and this field will be empty. */
-  detectedSourceLanguage?: string;
+  detectedSourceLanguage?: string | undefined;
 }
 export type TranslationsResourceList = Array<TranslationsResource>;
 /** The main language translation response message. */
 export interface TranslationsListResponse {
   /** Translations contains list of translation results of given text */
-  translations?: TranslationsResourceList;
+  translations?: TranslationsResourceList | undefined;
 }
 /** The main translation request message for the Cloud Translation API. */
 export interface TranslateTextRequest {
   /** The format of the source text, in either HTML (default) or plain-text. A value of "html" indicates HTML and a value of "text" indicates plain-text. */
-  format?: string;
+  format?: string | undefined;
   /** The input text to translate. Repeat this parameter to perform translation operations on multiple text inputs. */
-  q?: StringList;
+  q?: StringList | undefined;
   /** The language to use for translation of the input text, set to one of the language codes listed in Language Support. */
-  target?: string;
+  target?: string | undefined;
   /** The `model` type requested for this translation. Valid values are listed in public documentation. */
-  model?: string;
+  model?: string | undefined;
   /** The language of the source text, set to one of the language codes listed in Language Support. If the source language is not specified, the API will attempt to identify the source language automatically and return it within the response. */
-  source?: string;
+  source?: string | undefined;
 }
 export interface TranslateTranslationsRequest {
   /** OAuth bearer token. */
-  bearer_token?: string;
+  bearer_token?: string | undefined;
   /** Pretty-print response. */
-  pp?: boolean;
+  pp?: boolean | undefined;
   /** Request body */
-  body?: TranslateTextRequest;
+  body?: TranslateTextRequest | undefined;
 }
 export type DetectDetectionsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Detects the language of text within a request. */

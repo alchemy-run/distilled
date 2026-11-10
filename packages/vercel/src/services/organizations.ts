@@ -70,12 +70,12 @@ export interface AddOrganizationTeamRequest {
   /** Whether to create a new team under the organization (\"create\") or link an existing one (\"link\"). */
   mode: AddOrganizationTeamRequestMode | (string & {});
   /** The ID of an existing team to add to the organization (link mode). */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The slug of an existing team to link, or the slug for a new team to create. */
-  slug?: string;
+  slug?: string | undefined;
   /** The display name for a new team. Required in create mode; rejected in link mode. */
-  name?: string;
-  billingPlan?: AddOrganizationTeamRequestBillingPlan | (string & {});
+  name?: string | undefined;
+  billingPlan?: AddOrganizationTeamRequestBillingPlan | (string & {}) | undefined;
 }
 /** The child team's billing profile within the organization. Optional: links created before this attribute existed have no stored value. */
 export type OrganizationTeamBillingPlan = "enterprise" | "platform";
@@ -84,7 +84,7 @@ export type OrganizationTeamDsyncMode = "organization" | "team";
 export type OrganizationTeamSsoMode = "organization" | "team";
 export interface OrganizationTeam {
   /** The child team's billing profile within the organization. Optional: links created before this attribute existed have no stored value. */
-  billingPlan?: OrganizationTeamBillingPlan;
+  billingPlan?: OrganizationTeamBillingPlan | undefined;
   createdAt: string;
   /** Whether the organization's Directory Sync manages the team's memberships. */
   dsyncMode: OrganizationTeamDsyncMode;
@@ -95,32 +95,32 @@ export interface OrganizationTeam {
 }
 export interface CreateOrganizationRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The desired name for the organization. Generated from the slug if not provided. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface Organization {
   avatar: string | null;
   createdAt: string;
   /** The organization's display name. Optional: organizations created before the name attribute existed have no stored value. New orgs always get one (provided or slug-derived) via the service layer. */
-  name?: string;
+  name?: string | undefined;
   organizationId: string;
   slug: string;
   teamCount: number;
   teamId: string;
   updatedAt: string;
   /** The authenticated user's role in the organization. Present on read endpoints when the user holds an organization role. */
-  userRole?: string;
+  userRole?: string | undefined;
 }
 export interface GetOrganizationRequest {
   /** The ID or slug of the organization to retrieve. */
   organizationId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface ListOrganizationsRequest {}
 export type ListOrganizationsResponseOrganizationsList = Array<Organization>;
@@ -131,9 +131,9 @@ export interface ListOrganizationTeamsRequest {
   /** The ID of the organization. */
   organizationId: string;
   /** Pagination cursor. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** When true, includes each team's member count in the response. */
-  includeMemberCount?: boolean;
+  includeMemberCount?: boolean | undefined;
 }
 /** Billing profile of the organization link: how this team settles within the organization. This is not the team's billing.plan or planIteration. Links with `enterprise` billing participate in organization-level billing and usage rollups. This field is optional for legacy links that have no stored profile. */
 export type OrganizationTeamListItemBillingPlan = "enterprise" | "platform";
@@ -145,13 +145,13 @@ export interface OrganizationTeamListItem {
   /** The ID of the file used as the Team's avatar, or `null` if none. */
   avatar: string | null;
   /** Billing profile of the organization link: how this team settles within the organization. This is not the team's billing.plan or planIteration. Links with `enterprise` billing participate in organization-level billing and usage rollups. This field is optional for legacy links that have no stored profile. */
-  billingPlan?: OrganizationTeamListItemBillingPlan;
+  billingPlan?: OrganizationTeamListItemBillingPlan | undefined;
   /** ISO timestamp of when the team was linked to the organization. */
   createdAt: string;
   /** Whether the organization's Directory Sync manages the team's memberships. */
   dsyncMode: OrganizationTeamListItemDsyncMode;
   /** Present only when the request sets `includeMemberCount=true`. Number of members on the Team, including pending memberships. Excludes email invitations that do not have a membership record. */
-  memberCount?: number;
+  memberCount?: number | undefined;
   /** The Team's display name, or `null` if none has been set. */
   name: string | null;
   /** The ID of the organization the team belongs to. */
@@ -166,7 +166,7 @@ export interface OrganizationTeamListItem {
 }
 export type ListOrganizationTeamsResponseTeamsList = Array<OrganizationTeamListItem>;
 export interface ListOrganizationTeamsResponse {
-  cursor?: string;
+  cursor?: string | undefined;
   teams: ListOrganizationTeamsResponseTeamsList;
 }
 export interface RemoveOrganizationTeamRequest {
@@ -183,11 +183,11 @@ export interface UpdateOrganizationRequest {
   /** The ID of the organization to update. */
   organizationId: string;
   /** The hash value of an uploaded image, or `null` to clear the organization avatar. Omit to leave it unchanged. */
-  avatar?: string | null;
+  avatar?: string | null | undefined;
   /** The new display name for the organization. */
-  name?: string;
+  name?: string | undefined;
   /** The new slug for the organization. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type AddOrganizationTeamError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
 /** Create or Add Team to Organization Create a new team under an organization, or add an existing team. `mode: "create"` creates a brand-new child team from `slug` + `name` -- a platform child by default, or an enterprise child (billed on the organization root's flex subscription) when `billingPlan: "enterprise"` is supplied. `mode: "link"` links an existing team identified by `teamId` or `slug`; the child's billing profile is derived from the target team's plan (enterprise team -> enterprise child, else platform), or explicitly supplied. Both modes respond with the resulting organization-team link. This endpoint is in private beta. Contact your Vercel account team for access. */

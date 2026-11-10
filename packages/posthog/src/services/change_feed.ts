@@ -34,13 +34,13 @@ export interface ListChangeFeedRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Start of the time window (inclusive), ISO 8601. Defaults to 24 hours before `date_to`. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** End of the time window (inclusive), ISO 8601. Defaults to now. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Return only these kinds of change. Omit to return every kind. Use `feature_flag` and `experiment` to see configuration edits without releases and annotations. */
-  kinds?: ListChangeFeedRequestKindsList;
+  kinds?: ListChangeFeedRequestKindsList | undefined;
   /** Maximum number of changes to return, newest first. Defaults to 100, at most 500. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** * `feature_flag` - Feature flag * `experiment` - Experiment * `release` - Release * `annotation` - Annotation */
 export type ChangeKindEnum = "feature_flag" | "experiment" | "release" | "annotation";

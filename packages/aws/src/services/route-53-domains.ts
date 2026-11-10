@@ -167,31 +167,31 @@ export interface AcceptDomainTransferFromAnotherAwsAccountRequest {
 }
 export type OperationId = string;
 export interface AcceptDomainTransferFromAnotherAwsAccountResponse {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export type DnssecPublicKey = string;
 export interface DnssecSigningAttributes {
-  Algorithm?: number;
-  Flags?: number;
-  PublicKey?: string;
+  Algorithm?: number | undefined;
+  Flags?: number | undefined;
+  PublicKey?: string | undefined;
 }
 export interface AssociateDelegationSignerToDomainRequest {
   DomainName: string;
   SigningAttributes: DnssecSigningAttributes;
 }
 export interface AssociateDelegationSignerToDomainResponse {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export interface CancelDomainTransferToAnotherAwsAccountRequest {
   DomainName: string;
 }
 export interface CancelDomainTransferToAnotherAwsAccountResponse {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export type LangCode = string;
 export interface CheckDomainAvailabilityRequest {
   DomainName: string;
-  IdnLangCode?: string;
+  IdnLangCode?: string | undefined;
 }
 export type DomainAvailability =
   | "AVAILABLE"
@@ -211,16 +211,16 @@ export type PriceType = "STANDARD" | "REGISTRY_PREMIUM" | (string & {});
 export interface PriceWithCurrency {
   Price: number;
   Currency: string;
-  PriceType?: PriceType;
+  PriceType?: PriceType | undefined;
 }
 export interface CheckDomainAvailabilityResponse {
-  Availability?: DomainAvailability;
-  Price?: PriceWithCurrency;
+  Availability?: DomainAvailability | undefined;
+  Price?: PriceWithCurrency | undefined;
 }
 export type DomainAuthCode = string | redacted.Redacted<string>;
 export interface CheckDomainTransferabilityRequest {
   DomainName: string;
-  AuthCode?: string | redacted.Redacted<string>;
+  AuthCode?: string | redacted.Redacted<string> | undefined;
 }
 export type Transferable =
   | "TRANSFERABLE"
@@ -232,19 +232,19 @@ export type Transferable =
   | "PENDING"
   | (string & {});
 export interface DomainTransferability {
-  Transferable?: Transferable;
+  Transferable?: Transferable | undefined;
 }
 export type Message = string;
 export interface CheckDomainTransferabilityResponse {
-  Transferability?: DomainTransferability;
-  Message?: string;
-  Price?: PriceWithCurrency;
+  Transferability?: DomainTransferability | undefined;
+  Message?: string | undefined;
+  Price?: PriceWithCurrency | undefined;
 }
 export interface DeleteDomainRequest {
   DomainName: string;
 }
 export interface DeleteDomainResponse {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export type TagKey = string;
 export type TagKeyList = string[];
@@ -261,14 +261,14 @@ export interface DisableDomainTransferLockRequest {
   DomainName: string;
 }
 export interface DisableDomainTransferLockResponse {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export interface DisassociateDelegationSignerFromDomainRequest {
   DomainName: string;
   Id: string;
 }
 export interface DisassociateDelegationSignerFromDomainResponse {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export interface EnableDomainAutoRenewRequest {
   DomainName: string;
@@ -278,15 +278,15 @@ export interface EnableDomainTransferLockRequest {
   DomainName: string;
 }
 export interface EnableDomainTransferLockResponse {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export interface GetContactReachabilityStatusRequest {
-  domainName?: string;
+  domainName?: string | undefined;
 }
 export type ReachabilityStatus = "PENDING" | "DONE" | "EXPIRED" | (string & {});
 export interface GetContactReachabilityStatusResponse {
-  domainName?: string;
-  status?: ReachabilityStatus;
+  domainName?: string | undefined;
+  status?: ReachabilityStatus | undefined;
 }
 export interface GetDomainDetailRequest {
   DomainName: string;
@@ -296,7 +296,7 @@ export type GlueIp = string;
 export type GlueIpList = string[];
 export interface Nameserver {
   Name: string;
-  GlueIps?: string[];
+  GlueIps?: string[] | undefined;
 }
 export type NameserverList = Nameserver[];
 export type ContactName = string | redacted.Redacted<string>;
@@ -609,20 +609,20 @@ export interface ExtraParam {
 }
 export type ExtraParamList = ExtraParam[];
 export interface ContactDetail {
-  FirstName?: string | redacted.Redacted<string>;
-  LastName?: string | redacted.Redacted<string>;
-  ContactType?: ContactType;
-  OrganizationName?: string | redacted.Redacted<string>;
-  AddressLine1?: string | redacted.Redacted<string>;
-  AddressLine2?: string | redacted.Redacted<string>;
-  City?: string | redacted.Redacted<string>;
-  State?: string | redacted.Redacted<string>;
-  CountryCode?: CountryCode;
-  ZipCode?: string | redacted.Redacted<string>;
-  PhoneNumber?: string | redacted.Redacted<string>;
-  Email?: string | redacted.Redacted<string>;
-  Fax?: string | redacted.Redacted<string>;
-  ExtraParams?: ExtraParam[];
+  FirstName?: string | redacted.Redacted<string> | undefined;
+  LastName?: string | redacted.Redacted<string> | undefined;
+  ContactType?: ContactType | undefined;
+  OrganizationName?: string | redacted.Redacted<string> | undefined;
+  AddressLine1?: string | redacted.Redacted<string> | undefined;
+  AddressLine2?: string | redacted.Redacted<string> | undefined;
+  City?: string | redacted.Redacted<string> | undefined;
+  State?: string | redacted.Redacted<string> | undefined;
+  CountryCode?: CountryCode | undefined;
+  ZipCode?: string | redacted.Redacted<string> | undefined;
+  PhoneNumber?: string | redacted.Redacted<string> | undefined;
+  Email?: string | redacted.Redacted<string> | undefined;
+  Fax?: string | redacted.Redacted<string> | undefined;
+  ExtraParams?: ExtraParam[] | undefined;
 }
 export type RegistrarName = string;
 export type RegistrarWhoIsServer = string;
@@ -633,70 +633,70 @@ export type DNSSec = string;
 export type DomainStatus = string;
 export type DomainStatusList = string[];
 export interface DnssecKey {
-  Algorithm?: number;
-  Flags?: number;
-  PublicKey?: string;
-  DigestType?: number;
-  Digest?: string;
-  KeyTag?: number;
-  Id?: string;
+  Algorithm?: number | undefined;
+  Flags?: number | undefined;
+  PublicKey?: string | undefined;
+  DigestType?: number | undefined;
+  Digest?: string | undefined;
+  KeyTag?: number | undefined;
+  Id?: string | undefined;
 }
 export type DnssecKeyList = DnssecKey[];
 export interface GetDomainDetailResponse {
-  DomainName?: string;
-  Nameservers?: Nameserver[];
-  AutoRenew?: boolean;
-  AdminContact?: ContactDetail;
-  RegistrantContact?: ContactDetail;
-  TechContact?: ContactDetail;
-  AdminPrivacy?: boolean;
-  RegistrantPrivacy?: boolean;
-  TechPrivacy?: boolean;
-  RegistrarName?: string;
-  WhoIsServer?: string;
-  RegistrarUrl?: string;
-  AbuseContactEmail?: string | redacted.Redacted<string>;
-  AbuseContactPhone?: string | redacted.Redacted<string>;
-  RegistryDomainId?: string;
-  CreationDate?: Date;
-  UpdatedDate?: Date;
-  ExpirationDate?: Date;
-  Reseller?: string;
-  DnsSec?: string;
-  StatusList?: string[];
-  DnssecKeys?: DnssecKey[];
-  BillingContact?: ContactDetail;
-  BillingPrivacy?: boolean;
+  DomainName?: string | undefined;
+  Nameservers?: Nameserver[] | undefined;
+  AutoRenew?: boolean | undefined;
+  AdminContact?: ContactDetail | undefined;
+  RegistrantContact?: ContactDetail | undefined;
+  TechContact?: ContactDetail | undefined;
+  AdminPrivacy?: boolean | undefined;
+  RegistrantPrivacy?: boolean | undefined;
+  TechPrivacy?: boolean | undefined;
+  RegistrarName?: string | undefined;
+  WhoIsServer?: string | undefined;
+  RegistrarUrl?: string | undefined;
+  AbuseContactEmail?: string | redacted.Redacted<string> | undefined;
+  AbuseContactPhone?: string | redacted.Redacted<string> | undefined;
+  RegistryDomainId?: string | undefined;
+  CreationDate?: Date | undefined;
+  UpdatedDate?: Date | undefined;
+  ExpirationDate?: Date | undefined;
+  Reseller?: string | undefined;
+  DnsSec?: string | undefined;
+  StatusList?: string[] | undefined;
+  DnssecKeys?: DnssecKey[] | undefined;
+  BillingContact?: ContactDetail | undefined;
+  BillingPrivacy?: boolean | undefined;
 }
 export interface GetDomainPricesRequest {
   DomainName: string;
 }
 export type DomainPriceName = string;
 export interface DomainPrice {
-  Name?: string;
-  RegistrationPrice?: PriceWithCurrency;
-  TransferPrice?: PriceWithCurrency;
-  RenewalPrice?: PriceWithCurrency;
-  ChangeOwnershipPrice?: PriceWithCurrency;
-  RestorationPrice?: PriceWithCurrency;
+  Name?: string | undefined;
+  RegistrationPrice?: PriceWithCurrency | undefined;
+  TransferPrice?: PriceWithCurrency | undefined;
+  RenewalPrice?: PriceWithCurrency | undefined;
+  ChangeOwnershipPrice?: PriceWithCurrency | undefined;
+  RestorationPrice?: PriceWithCurrency | undefined;
 }
 export interface GetDomainPricesResponse {
-  DomainPrice?: DomainPrice;
+  DomainPrice?: DomainPrice | undefined;
 }
 export interface GetDomainSuggestionsRequest {
   DomainName: string;
   SuggestionCount: number;
   OnlyAvailable: boolean;
-  OnlyStandardPrices?: boolean;
+  OnlyStandardPrices?: boolean | undefined;
 }
 export interface DomainSuggestion {
-  DomainName?: string;
-  Availability?: string;
-  Price?: PriceWithCurrency;
+  DomainName?: string | undefined;
+  Availability?: string | undefined;
+  Price?: PriceWithCurrency | undefined;
 }
 export type DomainSuggestionsList = DomainSuggestion[];
 export interface GetDomainSuggestionsResponse {
-  SuggestionsList?: DomainSuggestion[];
+  SuggestionsList?: DomainSuggestion[] | undefined;
 }
 export interface GetOperationDetailRequest {
   OperationId: string;
@@ -740,14 +740,14 @@ export type StatusFlag =
   | "PENDING_SUPPORT_CASE"
   | (string & {});
 export interface GetOperationDetailResponse {
-  OperationId?: string;
-  Status?: OperationStatus;
-  Message?: string;
-  DomainName?: string;
-  Type?: OperationType;
-  SubmittedDate?: Date;
-  LastUpdatedDate?: Date;
-  StatusFlag?: StatusFlag;
+  OperationId?: string | undefined;
+  Status?: OperationStatus | undefined;
+  Message?: string | undefined;
+  DomainName?: string | undefined;
+  Type?: OperationType | undefined;
+  SubmittedDate?: Date | undefined;
+  LastUpdatedDate?: Date | undefined;
+  StatusFlag?: StatusFlag | undefined;
 }
 export type ListDomainsAttributeName = "DomainName" | "Expiry" | (string & {});
 export type Operator = "LE" | "GE" | "BEGINS_WITH" | (string & {});
@@ -767,72 +767,72 @@ export interface SortCondition {
 export type PageMarker = string;
 export type PageMaxItems = number;
 export interface ListDomainsRequest {
-  FilterConditions?: FilterCondition[];
-  SortCondition?: SortCondition;
-  Marker?: string;
-  MaxItems?: number;
+  FilterConditions?: FilterCondition[] | undefined;
+  SortCondition?: SortCondition | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface DomainSummary {
-  DomainName?: string;
-  AutoRenew?: boolean;
-  TransferLock?: boolean;
-  Expiry?: Date;
+  DomainName?: string | undefined;
+  AutoRenew?: boolean | undefined;
+  TransferLock?: boolean | undefined;
+  Expiry?: Date | undefined;
 }
 export type DomainSummaryList = DomainSummary[];
 export interface ListDomainsResponse {
-  Domains?: DomainSummary[];
-  NextPageMarker?: string;
+  Domains?: DomainSummary[] | undefined;
+  NextPageMarker?: string | undefined;
 }
 export type OperationStatusList = OperationStatus[];
 export type OperationTypeList = OperationType[];
 export type ListOperationsSortAttributeName = "SubmittedDate" | (string & {});
 export interface ListOperationsRequest {
-  SubmittedSince?: Date;
-  Marker?: string;
-  MaxItems?: number;
-  Status?: OperationStatus[];
-  Type?: OperationType[];
-  SortBy?: ListOperationsSortAttributeName;
-  SortOrder?: SortOrder;
+  SubmittedSince?: Date | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
+  Status?: OperationStatus[] | undefined;
+  Type?: OperationType[] | undefined;
+  SortBy?: ListOperationsSortAttributeName | undefined;
+  SortOrder?: SortOrder | undefined;
 }
 export interface OperationSummary {
-  OperationId?: string;
-  Status?: OperationStatus;
-  Type?: OperationType;
-  SubmittedDate?: Date;
-  DomainName?: string;
-  Message?: string;
-  StatusFlag?: StatusFlag;
-  LastUpdatedDate?: Date;
+  OperationId?: string | undefined;
+  Status?: OperationStatus | undefined;
+  Type?: OperationType | undefined;
+  SubmittedDate?: Date | undefined;
+  DomainName?: string | undefined;
+  Message?: string | undefined;
+  StatusFlag?: StatusFlag | undefined;
+  LastUpdatedDate?: Date | undefined;
 }
 export type OperationSummaryList = OperationSummary[];
 export interface ListOperationsResponse {
-  Operations?: OperationSummary[];
-  NextPageMarker?: string;
+  Operations?: OperationSummary[] | undefined;
+  NextPageMarker?: string | undefined;
 }
 export type TldName = string;
 export type ListPricesPageMaxItems = number;
 export interface ListPricesRequest {
-  Tld?: string;
-  Marker?: string;
-  MaxItems?: number;
+  Tld?: string | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type DomainPriceList = DomainPrice[];
 export interface ListPricesResponse {
-  Prices?: DomainPrice[];
-  NextPageMarker?: string;
+  Prices?: DomainPrice[] | undefined;
+  NextPageMarker?: string | undefined;
 }
 export interface ListTagsForDomainRequest {
   DomainName: string;
 }
 export type TagValue = string;
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface ListTagsForDomainResponse {
-  TagList?: Tag[];
+  TagList?: Tag[] | undefined;
 }
 export type Label = string;
 export interface PushDomainRequest {
@@ -848,45 +848,45 @@ export interface Consent {
 }
 export interface RegisterDomainRequest {
   DomainName: string;
-  IdnLangCode?: string;
+  IdnLangCode?: string | undefined;
   DurationInYears: number;
-  AutoRenew?: boolean;
+  AutoRenew?: boolean | undefined;
   AdminContact: ContactDetail;
   RegistrantContact: ContactDetail;
   TechContact: ContactDetail;
-  PrivacyProtectAdminContact?: boolean;
-  PrivacyProtectRegistrantContact?: boolean;
-  PrivacyProtectTechContact?: boolean;
-  BillingContact?: ContactDetail;
-  PrivacyProtectBillingContact?: boolean;
-  Consent?: Consent;
+  PrivacyProtectAdminContact?: boolean | undefined;
+  PrivacyProtectRegistrantContact?: boolean | undefined;
+  PrivacyProtectTechContact?: boolean | undefined;
+  BillingContact?: ContactDetail | undefined;
+  PrivacyProtectBillingContact?: boolean | undefined;
+  Consent?: Consent | undefined;
 }
 export interface RegisterDomainResponse {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export interface RejectDomainTransferFromAnotherAwsAccountRequest {
   DomainName: string;
 }
 export interface RejectDomainTransferFromAnotherAwsAccountResponse {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export type CurrentExpiryYear = number;
 export interface RenewDomainRequest {
   DomainName: string;
-  DurationInYears?: number;
+  DurationInYears?: number | undefined;
   CurrentExpiryYear: number;
-  Consent?: Consent;
+  Consent?: Consent | undefined;
 }
 export interface RenewDomainResponse {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export interface ResendContactReachabilityEmailRequest {
-  domainName?: string;
+  domainName?: string | undefined;
 }
 export interface ResendContactReachabilityEmailResponse {
-  domainName?: string;
-  emailAddress?: string | redacted.Redacted<string>;
-  isAlreadyVerified?: boolean;
+  domainName?: string | undefined;
+  emailAddress?: string | redacted.Redacted<string> | undefined;
+  isAlreadyVerified?: boolean | undefined;
 }
 export interface ResendOperationAuthorizationRequest {
   OperationId: string;
@@ -894,36 +894,36 @@ export interface ResendOperationAuthorizationRequest {
 export interface ResendOperationAuthorizationResponse {}
 export interface RestoreDomainRequest {
   DomainName: string;
-  Consent?: Consent;
+  Consent?: Consent | undefined;
 }
 export interface RestoreDomainResponse {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export interface RetrieveDomainAuthCodeRequest {
   DomainName: string;
 }
 export interface RetrieveDomainAuthCodeResponse {
-  AuthCode?: string | redacted.Redacted<string>;
+  AuthCode?: string | redacted.Redacted<string> | undefined;
 }
 export interface TransferDomainRequest {
   DomainName: string;
-  IdnLangCode?: string;
-  DurationInYears?: number;
-  Nameservers?: Nameserver[];
-  AuthCode?: string | redacted.Redacted<string>;
-  AutoRenew?: boolean;
+  IdnLangCode?: string | undefined;
+  DurationInYears?: number | undefined;
+  Nameservers?: Nameserver[] | undefined;
+  AuthCode?: string | redacted.Redacted<string> | undefined;
+  AutoRenew?: boolean | undefined;
   AdminContact: ContactDetail;
   RegistrantContact: ContactDetail;
   TechContact: ContactDetail;
-  PrivacyProtectAdminContact?: boolean;
-  PrivacyProtectRegistrantContact?: boolean;
-  PrivacyProtectTechContact?: boolean;
-  BillingContact?: ContactDetail;
-  PrivacyProtectBillingContact?: boolean;
-  Consent?: Consent;
+  PrivacyProtectAdminContact?: boolean | undefined;
+  PrivacyProtectRegistrantContact?: boolean | undefined;
+  PrivacyProtectTechContact?: boolean | undefined;
+  BillingContact?: ContactDetail | undefined;
+  PrivacyProtectBillingContact?: boolean | undefined;
+  Consent?: Consent | undefined;
 }
 export interface TransferDomainResponse {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export type AccountId = string;
 export interface TransferDomainToAnotherAwsAccountRequest {
@@ -931,62 +931,62 @@ export interface TransferDomainToAnotherAwsAccountRequest {
   AccountId: string;
 }
 export interface TransferDomainToAnotherAwsAccountResponse {
-  OperationId?: string;
-  Password?: string | redacted.Redacted<string>;
+  OperationId?: string | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateDomainContactRequest {
   DomainName: string;
-  AdminContact?: ContactDetail;
-  RegistrantContact?: ContactDetail;
-  TechContact?: ContactDetail;
-  Consent?: Consent;
-  BillingContact?: ContactDetail;
+  AdminContact?: ContactDetail | undefined;
+  RegistrantContact?: ContactDetail | undefined;
+  TechContact?: ContactDetail | undefined;
+  Consent?: Consent | undefined;
+  BillingContact?: ContactDetail | undefined;
 }
 export interface UpdateDomainContactResponse {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export interface UpdateDomainContactPrivacyRequest {
   DomainName: string;
-  AdminPrivacy?: boolean;
-  RegistrantPrivacy?: boolean;
-  TechPrivacy?: boolean;
-  BillingPrivacy?: boolean;
+  AdminPrivacy?: boolean | undefined;
+  RegistrantPrivacy?: boolean | undefined;
+  TechPrivacy?: boolean | undefined;
+  BillingPrivacy?: boolean | undefined;
 }
 export interface UpdateDomainContactPrivacyResponse {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export type FIAuthKey = string | redacted.Redacted<string>;
 export interface UpdateDomainNameserversRequest {
   DomainName: string;
-  FIAuthKey?: string | redacted.Redacted<string>;
+  FIAuthKey?: string | redacted.Redacted<string> | undefined;
   Nameservers: Nameserver[];
 }
 export interface UpdateDomainNameserversResponse {
-  OperationId?: string;
+  OperationId?: string | undefined;
 }
 export interface UpdateTagsForDomainRequest {
   DomainName: string;
-  TagsToUpdate?: Tag[];
+  TagsToUpdate?: Tag[] | undefined;
 }
 export interface UpdateTagsForDomainResponse {}
 export interface ViewBillingRequest {
-  Start?: Date;
-  End?: Date;
-  Marker?: string;
-  MaxItems?: number;
+  Start?: Date | undefined;
+  End?: Date | undefined;
+  Marker?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export type InvoiceId = string;
 export interface BillingRecord {
-  DomainName?: string;
-  Operation?: OperationType;
-  InvoiceId?: string;
-  BillDate?: Date;
-  Price?: number;
+  DomainName?: string | undefined;
+  Operation?: OperationType | undefined;
+  InvoiceId?: string | undefined;
+  BillDate?: Date | undefined;
+  Price?: number | undefined;
 }
 export type BillingRecords = BillingRecord[];
 export interface ViewBillingResponse {
-  NextPageMarker?: string;
-  BillingRecords?: BillingRecord[];
+  NextPageMarker?: string | undefined;
+  BillingRecords?: BillingRecord[] | undefined;
 }
 export type RequestId = string;
 export type AcceptDomainTransferFromAnotherAwsAccountError =

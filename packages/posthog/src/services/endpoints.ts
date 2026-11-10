@@ -61,29 +61,32 @@ export interface CreateEndpointRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Unique URL-safe name. Must start with a letter, only letters/numbers/hyphens/underscores, max 128 chars. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** HogQL or insight query this endpoint executes. Changing this auto-creates a new version. */
-  query?: unknown;
+  query?: unknown | undefined;
   /** Human-readable description of what this endpoint returns. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** How fresh the data should be, in seconds. Must be one of: 900 (15 min), 1800 (30 min), 3600 (1 h), 21600 (6 h), 43200 (12 h), 86400 (24 h, default), 604800 (7 d). Controls cache TTL and materialization sync frequency. */
-  data_freshness_seconds?: number | null;
+  data_freshness_seconds?: number | null | undefined;
   /** Whether this endpoint is available for execution via the API. */
-  is_active?: boolean | null;
+  is_active?: boolean | null | undefined;
   /** Whether query results are materialized to S3. */
-  is_materialized?: boolean | null;
+  is_materialized?: boolean | null | undefined;
   /** Short ID of the insight this endpoint was derived from. */
-  derived_from_insight?: string | null;
+  derived_from_insight?: string | null | undefined;
   /** Target a specific version for updates (defaults to current version). */
-  version?: number | null;
+  version?: number | null | undefined;
   /** Per-column bucket overrides for range variable materialization. Keys are column names, values are bucket keys. */
-  bucket_overrides?: CreateEndpointRequestBucketOverridesMap | null;
+  bucket_overrides?: CreateEndpointRequestBucketOverridesMap | null | undefined;
   /** Set to true to soft-delete this endpoint. */
-  deleted?: boolean | null;
+  deleted?: boolean | null | undefined;
   /** List of tag names to associate with this endpoint. Replaces any existing tags. */
-  tags?: CreateEndpointRequestTagsList | null;
+  tags?: CreateEndpointRequestTagsList | null | undefined;
   /** Breakdown property names that may be omitted on /run. Omitted ones return data aggregated across all values of that breakdown. Defaults to [] -- every breakdown variable is required. */
-  optional_breakdown_properties?: CreateEndpointRequestOptionalBreakdownPropertiesList | null;
+  optional_breakdown_properties?:
+    | CreateEndpointRequestOptionalBreakdownPropertiesList
+    | null
+    | undefined;
 }
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
@@ -100,45 +103,45 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 /** Materialization status for an endpoint version. */
 export interface EndpointMaterialization {
   /** URL-safe endpoint name. */
-  name?: string;
+  name?: string | undefined;
   /** Whether materialization is enabled for this endpoint version. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Whether a successful materialization is available to serve. */
-  ready?: boolean;
+  ready?: boolean | undefined;
   /** Current materialization status (e.g. 'Completed', 'Running'). */
-  status?: string;
+  status?: string | undefined;
   /** Whether this endpoint query can be materialized. */
-  can_materialize?: boolean;
+  can_materialize?: boolean | undefined;
   /** Reason why materialization is not possible (only when can_materialize is false). */
-  reason?: string | null;
+  reason?: string | null | undefined;
   /** ISO 8601 timestamp of the last successful materialization. */
-  last_materialized_at?: string | null;
+  last_materialized_at?: string | null | undefined;
   /** Last materialization error message, if any. */
-  error?: string;
+  error?: string | undefined;
   /** UUID of the underlying saved query backing this materialization. Only populated when the version is materialized. */
-  saved_query_id?: string | null;
+  saved_query_id?: string | null | undefined;
 }
 /** Per-column bucket overrides for range variable materialization. */
 export type EndpointResponseBucketOverridesMap = { [key: string]: unknown | undefined };
 /** A column in the endpoint's query result. */
 export interface EndpointColumn {
   /** Column name from the query SELECT clause. */
-  name?: string;
+  name?: string | undefined;
   /** Serialized column type: integer, float, string, datetime, date, boolean, array, json, or unknown. */
-  type?: string;
+  type?: string | undefined;
 }
 /** Column names and types from the query's SELECT clause. */
 export type EndpointResponseColumnsList = Array<EndpointColumn>;
@@ -149,65 +152,65 @@ export type EndpointResponseOptionalBreakdownPropertiesList = Array<string>;
 /** Full endpoint representation returned by list/retrieve/create/update. */
 export interface EndpointResponse {
   /** Unique endpoint identifier (UUID). */
-  id?: string;
+  id?: string | undefined;
   /** URL-safe endpoint name, unique per team. */
-  name?: string;
+  name?: string | undefined;
   /** Human-readable description of the endpoint. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The HogQL or insight query definition (JSON object with 'kind' key). */
-  query?: unknown;
+  query?: unknown | undefined;
   /** Whether the endpoint can be executed via the API. */
-  is_active?: boolean;
+  is_active?: boolean | undefined;
   /** Effective data freshness, in seconds. Materialized endpoints use the node's refresh target, which can differ from the standard freshness choices. Other endpoints use the cache duration. */
-  data_freshness_seconds?: number;
+  data_freshness_seconds?: number | undefined;
   /** Relative API path to execute this endpoint (e.g. /api/projects/{team_id}/endpoints/{name}/run). */
-  endpoint_path?: string;
+  endpoint_path?: string | undefined;
   /** Absolute URL to execute this endpoint. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** Absolute URL to view this endpoint in the PostHog UI. */
-  ui_url?: string | null;
+  ui_url?: string | null | undefined;
   /** When the endpoint was created (ISO 8601). */
-  created_at?: string;
+  created_at?: string | undefined;
   /** When the endpoint was last updated (ISO 8601). */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** User who created the endpoint. */
-  created_by?: UserBasic | null;
+  created_by?: UserBasic | null | undefined;
   /** Whether the current version's results are pre-computed to S3. */
-  is_materialized?: boolean;
+  is_materialized?: boolean | undefined;
   /** Latest version number. */
-  current_version?: number;
+  current_version?: number | undefined;
   /** UUID of the current EndpointVersion row. */
-  current_version_id?: string | null;
+  current_version_id?: string | null | undefined;
   /** Total number of versions for this endpoint. */
-  versions_count?: number;
+  versions_count?: number | undefined;
   /** Short ID of the source insight, if derived from one. */
-  derived_from_insight?: string | null;
+  derived_from_insight?: string | null | undefined;
   /** When this endpoint was last executed via the API (ISO 8601), or null if never executed. */
-  last_executed_at?: string | null;
+  last_executed_at?: string | null | undefined;
   /** Materialization status and configuration for the current version. */
-  materialization?: EndpointMaterialization;
+  materialization?: EndpointMaterialization | undefined;
   /** Per-column bucket overrides for range variable materialization. */
-  bucket_overrides?: EndpointResponseBucketOverridesMap | null;
+  bucket_overrides?: EndpointResponseBucketOverridesMap | null | undefined;
   /** Column names and types from the query's SELECT clause. */
-  columns?: EndpointResponseColumnsList;
+  columns?: EndpointResponseColumnsList | undefined;
   /** Tag names associated with this endpoint. */
-  tags?: EndpointResponseTagsList;
+  tags?: EndpointResponseTagsList | undefined;
   /** Breakdown property names that may be omitted on /run. Omitted ones return data aggregated across all values of that breakdown. */
-  optional_breakdown_properties?: EndpointResponseOptionalBreakdownPropertiesList;
+  optional_breakdown_properties?: EndpointResponseOptionalBreakdownPropertiesList | undefined;
 }
 export type CreateEndpointsLastExecutionTimeRequestNamesList = Array<string>;
 export interface CreateEndpointsLastExecutionTimeRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  names?: CreateEndpointsLastExecutionTimeRequestNamesList;
+  names?: CreateEndpointsLastExecutionTimeRequestNamesList | undefined;
 }
 export type QueryStatusLabelsList = Array<string>;
 export interface ClickhouseQueryProgress {
-  active_cpu_time?: number;
-  bytes_read?: number;
-  estimated_rows_total?: number;
-  rows_read?: number;
-  time_elapsed?: number;
+  active_cpu_time?: number | undefined;
+  bytes_read?: number | undefined;
+  estimated_rows_total?: number | undefined;
+  rows_read?: number | undefined;
+  time_elapsed?: number | undefined;
 }
 export type QueryScanFixLocation =
   | "query"
@@ -220,15 +223,15 @@ export interface QueryScanWarning {
   /** Whether the person can change the query so it reads less and still answers the same question. Surfaces show the full advice and "Fix with AI" only when a finding is actionable. */
   actionable: boolean;
   /** True when the query reads this much on purpose, so reading less would change the answer. Absent means no. */
-  by_design?: boolean | null;
+  by_design?: boolean | null | undefined;
   /** A label for what in the query text kept the read wide, such as `in_or`. Only analytics and the assistant read it, and the labels can change. */
-  cause?: string | null;
+  cause?: string | null | undefined;
   /** The one fact the finding rests on. */
-  evidence?: string | null;
+  evidence?: string | null | undefined;
   /** What "Fix with AI" and the assistant are told to do. */
   fix: string;
   /** Where the change goes. Absent means the query itself. */
-  fix_location?: QueryScanFixLocation | null;
+  fix_location?: QueryScanFixLocation | null | undefined;
   kind: QueryScanFindingKind;
   /** Shown to the person: what happened and what to do. */
   message: string;
@@ -237,59 +240,59 @@ export interface QueryScanWarning {
 export type QueryScanAnalysisFindingsList = Array<QueryScanWarning>;
 export interface QueryScanAnalysis {
   /** The message the Fix with AI button sends to the assistant. Absent when no finding can be fixed in the query. */
-  assistant_prompt?: string | null;
+  assistant_prompt?: string | null | undefined;
   /** Every finding, fixable or not. Empty when the analysis found none. */
   findings: QueryScanAnalysisFindingsList;
   /** How much of all the project's events the query read, 0 to 1. */
-  project_share?: number | null;
+  project_share?: number | null | undefined;
   /** How much of the project's events in the query's date range the query read, 0 to 1. */
-  range_share?: number | null;
+  range_share?: number | null | undefined;
 }
 export interface QueryScanSummary {
   /** The stored analysis, put on the response when it is served. Absent while the analysis runs, and when none was requested. */
-  analysis?: QueryScanAnalysis | null;
+  analysis?: QueryScanAnalysis | null | undefined;
   /** True when the run asked for an analysis, or found one stored. While `analysis` is absent, poll `GET /query/scan/{cache_key}` for it. */
-  analysis_requested?: boolean | null;
+  analysis_requested?: boolean | null | undefined;
   /** ClickHouse time for the last fresh run, summed over its ClickHouse queries. */
   duration_ms: number;
   /** True when ClickHouse stopped the run instead of finishing it. */
-  killed?: boolean | null;
+  killed?: boolean | null | undefined;
   /** Rows ClickHouse read for the last fresh run, all tables included. */
   rows_read: number;
 }
 export interface QueryStatus {
-  budget_remaining_bytes?: number | null;
-  bytes_read?: number | null;
+  budget_remaining_bytes?: number | null | undefined;
+  bytes_read?: number | null | undefined;
   /** Cache key of the run that failed, so clients can ask for its query scan. */
-  cache_key?: string | null;
+  cache_key?: string | null | undefined;
   /** Whether the query is still running. Will be true if the query is complete, even if it errored. Either result or error will be set. */
-  complete?: boolean | null;
-  dashboard_id?: number | null;
+  complete?: boolean | null | undefined;
+  dashboard_id?: number | null | undefined;
   /** When did the query execution task finish (whether successfully or not). */
-  end_time?: string | null;
+  end_time?: string | null | undefined;
   /** If the query failed, this will be set to true. More information can be found in the error_message field. */
-  error?: boolean | null;
+  error?: boolean | null | undefined;
   /** Stable machine-readable code for the error, when known: the DRF exception code, the ClickHouse error name, the HogQL error code, or `unhandled_<exception class>` for a failure that no handler classified. */
-  error_code?: string | null;
-  error_message?: string | null;
-  expiration_time?: string | null;
-  id?: string;
-  insight_id?: number | null;
-  labels?: QueryStatusLabelsList | null;
+  error_code?: string | null | undefined;
+  error_message?: string | null | undefined;
+  expiration_time?: string | null | undefined;
+  id?: string | undefined;
+  insight_id?: number | null | undefined;
+  labels?: QueryStatusLabelsList | null | undefined;
   /** When was the query execution task picked up by a worker. */
-  pickup_time?: string | null;
+  pickup_time?: string | null | undefined;
   /** ONLY async queries use QueryStatus. */
-  query_async?: boolean;
-  query_progress?: ClickhouseQueryProgress | null;
-  query_scan?: QueryScanSummary | null;
-  results?: unknown;
+  query_async?: boolean | undefined;
+  query_progress?: ClickhouseQueryProgress | null | undefined;
+  query_scan?: QueryScanSummary | null | undefined;
+  results?: unknown | undefined;
   /** When was query execution task enqueued. */
-  start_time?: string | null;
-  task_id?: string | null;
-  team_id?: number;
+  start_time?: string | null | undefined;
+  task_id?: string | null | undefined;
+  team_id?: number | undefined;
 }
 export interface QueryStatusResponse {
-  query_status?: QueryStatus;
+  query_status?: QueryStatus | undefined;
 }
 /** Per-column bucket function overrides, e.g. {"timestamp": "hour"} */
 export type CreateEndpointsMaterializationPreviewRequestBucketOverridesMap = {
@@ -300,9 +303,12 @@ export interface CreateEndpointsMaterializationPreviewRequest {
   project_id: string;
   name: string;
   /** Endpoint version to preview. Defaults to the current version. */
-  version?: number;
+  version?: number | undefined;
   /** Per-column bucket function overrides, e.g. {"timestamp": "hour"} */
-  bucket_overrides?: CreateEndpointsMaterializationPreviewRequestBucketOverridesMap | null;
+  bucket_overrides?:
+    | CreateEndpointsMaterializationPreviewRequestBucketOverridesMap
+    | null
+    | undefined;
 }
 /** Query variables that filter on this column. */
 export type MaterializationPreviewRangePairVariablesList = Array<string>;
@@ -369,29 +375,29 @@ export type MultipleBreakdownType =
   | "data_warehouse"
   | "data_warehouse_person_property";
 export interface Breakdown {
-  group_type_index?: number | null;
-  histogram_bin_count?: number | null;
-  normalize_url?: boolean | null;
-  property?: BreakdownProperty;
-  type?: MultipleBreakdownType | (string & {}) | null;
+  group_type_index?: number | null | undefined;
+  histogram_bin_count?: number | null | undefined;
+  normalize_url?: boolean | null | undefined;
+  property?: BreakdownProperty | undefined;
+  type?: MultipleBreakdownType | (string & {}) | null | undefined;
 }
 export type BreakdownFilterBreakdownsList = Array<Breakdown>;
 export interface BreakdownFilter {
-  breakdown?: BreakdownFilterBreakdown | null;
-  breakdown_group_type_index?: number | null;
-  breakdown_hide_other_aggregation?: boolean | null;
-  breakdown_histogram_bin_count?: number | null;
-  breakdown_limit?: number | null;
-  breakdown_normalize_url?: boolean | null;
-  breakdown_path_cleaning?: boolean | null;
-  breakdown_type?: BreakdownType | (string & {}) | null;
-  breakdowns?: BreakdownFilterBreakdownsList | null;
+  breakdown?: BreakdownFilterBreakdown | null | undefined;
+  breakdown_group_type_index?: number | null | undefined;
+  breakdown_hide_other_aggregation?: boolean | null | undefined;
+  breakdown_histogram_bin_count?: number | null | undefined;
+  breakdown_limit?: number | null | undefined;
+  breakdown_normalize_url?: boolean | null | undefined;
+  breakdown_path_cleaning?: boolean | null | undefined;
+  breakdown_type?: BreakdownType | (string & {}) | null | undefined;
+  breakdowns?: BreakdownFilterBreakdownsList | null | undefined;
 }
 export interface CompareFilter {
   /** Whether to compare the current date range to a previous date range. */
-  compare?: boolean | null;
+  compare?: boolean | null | undefined;
   /** The date range to compare to. The value is a relative date. Examples of relative dates are: `-1y` for 1 year ago, `-14m` for 14 months ago, `-100w` for 100 weeks ago, `-14d` for 14 days ago, `-30h` for 30 hours ago. */
-  compare_to?: string | null;
+  compare_to?: string | null | undefined;
 }
 export type IntervalType =
   | "second"
@@ -407,14 +413,14 @@ export type MetricsAttributeScope = "resource" | "attribute" | "auto";
 export interface MetricsQueryFilter {
   key: string;
   op: MetricsFilterOp | (string & {});
-  scope?: MetricsAttributeScope | (string & {}) | null;
+  scope?: MetricsAttributeScope | (string & {}) | null | undefined;
   value: string;
 }
 export type DashboardFilterMetricFiltersList = Array<MetricsQueryFilter>;
 /** The selected values. Empty when `all` is true: All stands for every option of the variable. */
 export type MetricsDashboardVariableSelectionValuesList = Array<string>;
 export interface MetricsDashboardVariableSelection {
-  all?: boolean | null;
+  all?: boolean | null | undefined;
   /** The selected values. Empty when `all` is true: All stands for every option of the variable. */
   values: MetricsDashboardVariableSelectionValuesList;
 }
@@ -422,20 +428,20 @@ export type MetricsDashboardVariableCustomValuesList = Array<string>;
 export type MetricsDashboardVariableSource = "custom" | "promql" | "sql" | "textbox";
 export interface MetricsDashboardVariable {
   /** The text that All puts in a PromQL query. `.*` when it is empty. */
-  allValue?: string | null;
-  current?: MetricsDashboardVariableSelection | null;
+  allValue?: string | null | undefined;
+  current?: MetricsDashboardVariableSelection | null | undefined;
   /** The options when `source` is `custom`. */
-  customValues?: MetricsDashboardVariableCustomValuesList | null;
-  includeAll?: boolean | null;
+  customValues?: MetricsDashboardVariableCustomValuesList | null | undefined;
+  includeAll?: boolean | null | undefined;
   /** Shown in the dashboard filter bar. The name is shown when it is empty. */
-  label?: string | null;
-  multi?: boolean | null;
+  label?: string | null | undefined;
+  multi?: boolean | null | undefined;
   /** Letters, digits and underscores. Tiles refer to it as `$name`. */
   name: string;
   /** The options query when `source` is `promql` or `sql`. It can refer to other variables. PromQL supports `label_values(label)`, `label_values(selector, label)`, `label_names()`, `metrics(regex)` and `query_result(expr)`. SQL returns the options in its first column. */
-  query?: string | null;
+  query?: string | null | undefined;
   /** RE2 pattern that options must match. When it has a capture group, the option is the first group. */
-  regex?: string | null;
+  regex?: string | null | undefined;
   source: MetricsDashboardVariableSource | (string & {});
 }
 export type DashboardFilterMetricVariablesList = Array<MetricsDashboardVariable>;
@@ -487,12 +493,12 @@ export type EventPropertyFilterValue =
   | number
   | boolean;
 export interface EventPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {}) | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | null | undefined;
   /** Event properties */
-  type?: string;
-  value?: EventPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: EventPropertyFilterValue | null | undefined;
 }
 export type PersonPropertyFilterValueCase0Item = string | number | boolean;
 export type PersonPropertyFilterValueCase0List = Array<PersonPropertyFilterValueCase0Item>;
@@ -502,12 +508,12 @@ export type PersonPropertyFilterValue =
   | number
   | boolean;
 export interface PersonPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
   /** Person properties */
-  type?: string;
-  value?: PersonPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: PersonPropertyFilterValue | null | undefined;
 }
 export type PersonMetadataPropertyFilterValueCase0Item = string | number | boolean;
 export type PersonMetadataPropertyFilterValueCase0List =
@@ -519,11 +525,11 @@ export type PersonMetadataPropertyFilterValue =
   | boolean;
 export interface PersonMetadataPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
   /** Top-level columns on the persons table (e.g. created_at), not properties JSON */
-  type?: string;
-  value?: PersonMetadataPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: PersonMetadataPropertyFilterValue | null | undefined;
 }
 export type Key10 = "tag_name" | "text" | "href" | "selector";
 export type ElementPropertyFilterValueCase0Item = string | number | boolean;
@@ -534,11 +540,11 @@ export type ElementPropertyFilterValue =
   | number
   | boolean;
 export interface ElementPropertyFilter {
-  key?: Key10 | (string & {});
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: ElementPropertyFilterValue | null;
+  key?: Key10 | (string & {}) | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: ElementPropertyFilterValue | null | undefined;
 }
 export type EventMetadataPropertyFilterValueCase0Item = string | number | boolean;
 export type EventMetadataPropertyFilterValueCase0List =
@@ -549,11 +555,11 @@ export type EventMetadataPropertyFilterValue =
   | number
   | boolean;
 export interface EventMetadataPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: EventMetadataPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: EventMetadataPropertyFilterValue | null | undefined;
 }
 export type SessionPropertyFilterValueCase0Item = string | number | boolean;
 export type SessionPropertyFilterValueCase0List = Array<SessionPropertyFilterValueCase0Item>;
@@ -563,23 +569,23 @@ export type SessionPropertyFilterValue =
   | number
   | boolean;
 export interface SessionPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: SessionPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: SessionPropertyFilterValue | null | undefined;
 }
 export interface CohortPropertyFilter {
   /** Set by the feature flag API when the cohort is deleted or does not exist. */
-  cohort_deleted?: boolean | null;
+  cohort_deleted?: boolean | null | undefined;
   /** Set by the feature flag API when the cohort does not exist, so it cannot be restored. */
-  cohort_missing?: boolean | null;
-  cohort_name?: string | null;
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {}) | null;
-  type?: string;
-  value?: number;
+  cohort_missing?: boolean | null | undefined;
+  cohort_name?: string | null | undefined;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | null | undefined;
+  type?: string | undefined;
+  value?: number | undefined;
 }
 export type DurationType = "duration" | "active_seconds" | "inactive_seconds";
 export type RecordingPropertyFilterKey = DurationType | string;
@@ -591,11 +597,11 @@ export type RecordingPropertyFilterValue =
   | number
   | boolean;
 export interface RecordingPropertyFilter {
-  key?: RecordingPropertyFilterKey;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: RecordingPropertyFilterValue | null;
+  key?: RecordingPropertyFilterKey | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: RecordingPropertyFilterValue | null | undefined;
 }
 export type LogEntryPropertyFilterValueCase0Item = string | number | boolean;
 export type LogEntryPropertyFilterValueCase0List = Array<LogEntryPropertyFilterValueCase0Item>;
@@ -605,11 +611,11 @@ export type LogEntryPropertyFilterValue =
   | number
   | boolean;
 export interface LogEntryPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: LogEntryPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: LogEntryPropertyFilterValue | null | undefined;
 }
 export type GroupPropertyFilterGroupKeyNamesMap = { [key: string]: string | undefined };
 export type GroupPropertyFilterValueCase0Item = string | number | boolean;
@@ -620,13 +626,13 @@ export type GroupPropertyFilterValue =
   | number
   | boolean;
 export interface GroupPropertyFilter {
-  group_key_names?: GroupPropertyFilterGroupKeyNamesMap | null;
-  group_type_index?: number | null;
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: GroupPropertyFilterValue | null;
+  group_key_names?: GroupPropertyFilterGroupKeyNamesMap | null | undefined;
+  group_type_index?: number | null | undefined;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: GroupPropertyFilterValue | null | undefined;
 }
 export type FeaturePropertyFilterValueCase0Item = string | number | boolean;
 export type FeaturePropertyFilterValueCase0List = Array<FeaturePropertyFilterValueCase0Item>;
@@ -636,25 +642,25 @@ export type FeaturePropertyFilterValue =
   | number
   | boolean;
 export interface FeaturePropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
   /** Event property with "$feature/" prepended */
-  type?: string;
-  value?: FeaturePropertyFilterValue | null;
+  type?: string | undefined;
+  value?: FeaturePropertyFilterValue | null | undefined;
 }
 /** The value can be true, false, or a variant name */
 export type FlagPropertyFilterValue = boolean | string;
 export interface FlagPropertyFilter {
   /** The key should be the flag ID */
-  key?: string;
-  label?: string | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
   /** Only flag_evaluates_to operator is allowed for flag dependencies */
-  operator?: string;
+  operator?: string | undefined;
   /** Feature flag dependency */
-  type?: string;
+  type?: string | undefined;
   /** The value can be true, false, or a variant name */
-  value?: FlagPropertyFilterValue;
+  value?: FlagPropertyFilterValue | undefined;
 }
 export type HogQLPropertyFilterValueCase0Item = string | number | boolean;
 export type HogQLPropertyFilterValueCase0List = Array<HogQLPropertyFilterValueCase0Item>;
@@ -664,13 +670,13 @@ export type HogQLPropertyFilterValue =
   | number
   | boolean;
 export interface HogQLPropertyFilter {
-  key?: string;
-  label?: string | null;
-  type?: string;
-  value?: HogQLPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  type?: string | undefined;
+  value?: HogQLPropertyFilterValue | null | undefined;
 }
 export interface EmptyPropertyFilter {
-  type?: string;
+  type?: string | undefined;
 }
 export type DataWarehousePropertyFilterValueCase0Item = string | number | boolean;
 export type DataWarehousePropertyFilterValueCase0List =
@@ -681,11 +687,11 @@ export type DataWarehousePropertyFilterValue =
   | number
   | boolean;
 export interface DataWarehousePropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: DataWarehousePropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: DataWarehousePropertyFilterValue | null | undefined;
 }
 export type DataWarehousePersonPropertyFilterValueCase0Item = string | number | boolean;
 export type DataWarehousePersonPropertyFilterValueCase0List =
@@ -696,11 +702,11 @@ export type DataWarehousePersonPropertyFilterValue =
   | number
   | boolean;
 export interface DataWarehousePersonPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: DataWarehousePersonPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: DataWarehousePersonPropertyFilterValue | null | undefined;
 }
 export type ErrorTrackingIssueFilterValueCase0Item = string | number | boolean;
 export type ErrorTrackingIssueFilterValueCase0List = Array<ErrorTrackingIssueFilterValueCase0Item>;
@@ -710,22 +716,22 @@ export type ErrorTrackingIssueFilterValue =
   | number
   | boolean;
 export interface ErrorTrackingIssueFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: ErrorTrackingIssueFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: ErrorTrackingIssueFilterValue | null | undefined;
 }
 export type LogPropertyFilterType = "log" | "log_attribute" | "log_resource_attribute";
 export type LogPropertyFilterValueCase0Item = string | number | boolean;
 export type LogPropertyFilterValueCase0List = Array<LogPropertyFilterValueCase0Item>;
 export type LogPropertyFilterValue = LogPropertyFilterValueCase0List | string | number | boolean;
 export interface LogPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: LogPropertyFilterType | (string & {});
-  value?: LogPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: LogPropertyFilterType | (string & {}) | undefined;
+  value?: LogPropertyFilterValue | null | undefined;
 }
 export type MetricPropertyFilterValueCase0Item = string | number | boolean;
 export type MetricPropertyFilterValueCase0List = Array<MetricPropertyFilterValueCase0Item>;
@@ -736,21 +742,21 @@ export type MetricPropertyFilterValue =
   | boolean;
 export interface MetricPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
-  type?: string;
-  value?: MetricPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: MetricPropertyFilterValue | null | undefined;
 }
 export type SpanPropertyFilterType = "span" | "span_attribute" | "span_resource_attribute";
 export type SpanPropertyFilterValueCase0Item = string | number | boolean;
 export type SpanPropertyFilterValueCase0List = Array<SpanPropertyFilterValueCase0Item>;
 export type SpanPropertyFilterValue = SpanPropertyFilterValueCase0List | string | number | boolean;
 export interface SpanPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: SpanPropertyFilterType | (string & {});
-  value?: SpanPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: SpanPropertyFilterType | (string & {}) | undefined;
+  value?: SpanPropertyFilterValue | null | undefined;
 }
 export type RevenueAnalyticsPropertyFilterValueCase0Item = string | number | boolean;
 export type RevenueAnalyticsPropertyFilterValueCase0List =
@@ -761,11 +767,11 @@ export type RevenueAnalyticsPropertyFilterValue =
   | number
   | boolean;
 export interface RevenueAnalyticsPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: RevenueAnalyticsPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: RevenueAnalyticsPropertyFilterValue | null | undefined;
 }
 export type AccountCustomPropertyFilterValueCase0Item = string | number | boolean;
 export type AccountCustomPropertyFilterValueCase0List =
@@ -777,11 +783,11 @@ export type AccountCustomPropertyFilterValue =
   | boolean;
 export interface AccountCustomPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
   /** Customer analytics account custom property -- the key is the property definition id */
-  type?: string;
-  value?: AccountCustomPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: AccountCustomPropertyFilterValue | null | undefined;
 }
 export type WorkflowVariablePropertyFilterValueCase0Item = string | number | boolean;
 export type WorkflowVariablePropertyFilterValueCase0List =
@@ -792,11 +798,11 @@ export type WorkflowVariablePropertyFilterValue =
   | number
   | boolean;
 export interface WorkflowVariablePropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: WorkflowVariablePropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: WorkflowVariablePropertyFilterValue | null | undefined;
 }
 export type BehavioralPropertyFilterEventFiltersItem =
   | EventPropertyFilter
@@ -811,25 +817,25 @@ export type TimeUnitType = "day" | "week" | "month" | "year";
 export type InlineBehavioralType = "performed_event" | "performed_event_multiple";
 export interface BehavioralPropertyFilter {
   /** Extra property filters the matching events must satisfy. Deliberately excludes nested behavioral/cohort filters and groups */
-  event_filters?: BehavioralPropertyFilterEventFiltersList | null;
+  event_filters?: BehavioralPropertyFilterEventFiltersList | null | undefined;
   event_type: BehavioralEventSource | (string & {});
   /** Absolute or relative (e.g. -30d) lower date bound -- alternative to time_value/time_interval */
-  explicit_datetime?: string | null;
-  explicit_datetime_to?: string | null;
+  explicit_datetime?: string | null | undefined;
+  explicit_datetime_to?: string | null | undefined;
   /** Event name, or action id when event_type is 'actions' */
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   /** Match persons who did NOT satisfy the criterion. Not the same as a low count -- zero-occurrence persons never match count operators */
-  negation?: boolean | null;
+  negation?: boolean | null | undefined;
   /** Count comparison for performed_event_multiple, defaults to exact */
-  operator?: PropertyOperator | (string & {}) | null;
+  operator?: PropertyOperator | (string & {}) | null | undefined;
   /** Count threshold for performed_event_multiple */
-  operator_value?: number | null;
-  time_interval?: TimeUnitType | (string & {}) | null;
+  operator_value?: number | null | undefined;
+  time_interval?: TimeUnitType | (string & {}) | null | undefined;
   /** Relative time window size, paired with time_interval */
-  time_value?: number | null;
+  time_value?: number | null | undefined;
   /** Person performed (or didn't perform) an event in a time window. ClickHouse-only -- not evaluable by flags or CDP */
-  type?: string;
+  type?: string | undefined;
   value: InlineBehavioralType | (string & {});
 }
 export type DashboardFilterPropertiesItem =
@@ -859,20 +865,20 @@ export type DashboardFilterPropertiesItem =
   | BehavioralPropertyFilter;
 export type DashboardFilterPropertiesList = Array<DashboardFilterPropertiesItem>;
 export interface DashboardFilter {
-  breakdown_filter?: BreakdownFilter | null;
+  breakdown_filter?: BreakdownFilter | null | undefined;
   /** Period comparison forced onto every insight that supports one. Absent/null = inherit. */
-  compareFilter?: CompareFilter | null;
-  date_from?: string | null;
-  date_to?: string | null;
-  explicitDate?: boolean | null;
+  compareFilter?: CompareFilter | null | undefined;
+  date_from?: string | null | undefined;
+  date_to?: string | null | undefined;
+  explicitDate?: boolean | null | undefined;
   /** Tri-state test-account override. Null/absent = inherit; true = force on; false = force off. */
-  filterTestAccounts?: boolean | null;
+  filterTestAccounts?: boolean | null | undefined;
   /** Time granularity forced onto every insight that supports one. Absent/null = inherit. */
-  interval?: IntervalType | (string & {}) | null;
-  metricFilters?: DashboardFilterMetricFiltersList | null;
+  interval?: IntervalType | (string & {}) | null | undefined;
+  metricFilters?: DashboardFilterMetricFiltersList | null | undefined;
   /** Variables that metrics tiles refer to as `$name`. Other tiles ignore them. */
-  metricVariables?: DashboardFilterMetricVariablesList | null;
-  properties?: DashboardFilterPropertiesList | null;
+  metricVariables?: DashboardFilterMetricVariablesList | null | undefined;
+  properties?: DashboardFilterPropertiesList | null | undefined;
 }
 export type EndpointRefreshMode = "cache" | "force" | "direct";
 export type CreateEndpointsRunRequestVariablesMap = { [key: string]: unknown | undefined };
@@ -881,19 +887,19 @@ export interface CreateEndpointsRunRequest {
   project_id: string;
   name: string;
   /** Client provided query ID. Can be used to retrieve the status or cancel the query. */
-  client_query_id?: string | null;
+  client_query_id?: string | null | undefined;
   /** Whether to include debug information (such as the executed HogQL) in the response. */
-  debug?: boolean | null;
-  filters_override?: DashboardFilter | null;
+  debug?: boolean | null | undefined;
+  filters_override?: DashboardFilter | null | undefined;
   /** Maximum number of results to return. If not provided, returns all results. */
-  limit?: number | null;
+  limit?: number | null | undefined;
   /** Number of results to skip. Must be used together with limit. Only supported for HogQL endpoints. */
-  offset?: number | null;
-  refresh?: EndpointRefreshMode | (string & {}) | null;
+  offset?: number | null | undefined;
+  refresh?: EndpointRefreshMode | (string & {}) | null | undefined;
   /** Variables to parameterize the endpoint query. The key is the variable name and the value is the variable value. For HogQL endpoints: Keys must match a variable `code_name` defined in the query (referenced as `{variables.code_name}`). Example: `{"event_name": "$pageview"}` For non-materialized insight endpoints (e.g. TrendsQuery): - `date_from` and `date_to` are built-in variables that filter the date range. Example: `{"date_from": "2024-01-01", "date_to": "2024-01-31"}` For materialized insight endpoints: - Use the breakdown property name as the key to filter by breakdown value. Example: `{"$browser": "Chrome"}` - `date_from`/`date_to` are not supported on materialized insight endpoints. Unknown variable names will return a 400 error. */
-  variables?: CreateEndpointsRunRequestVariablesMap | null;
+  variables?: CreateEndpointsRunRequestVariablesMap | null | undefined;
   /** Specific endpoint version to execute. If not provided, the latest version is used. */
-  version?: number | null;
+  version?: number | null | undefined;
 }
 /** Query result rows. Each row is a list of values matching the columns order. */
 export type EndpointRunResponseResultsList = Array<unknown>;
@@ -902,17 +908,17 @@ export type EndpointRunResponseColumnsList = Array<string>;
 /** Response from executing an endpoint query. */
 export interface EndpointRunResponse {
   /** URL-safe endpoint name that was executed. */
-  name?: string;
+  name?: string | undefined;
   /** Unique identifier for this execution. Use it to find the matching entry in the endpoint's logs. */
-  execution_id?: string;
+  execution_id?: string | undefined;
   /** Query result rows. Each row is a list of values matching the columns order. */
-  results?: EndpointRunResponseResultsList;
+  results?: EndpointRunResponseResultsList | undefined;
   /** Column names from the query SELECT clause. */
-  columns?: EndpointRunResponseColumnsList;
+  columns?: EndpointRunResponseColumnsList | undefined;
   /** Whether more results are available beyond the limit. */
-  hasMore?: boolean;
+  hasMore?: boolean | undefined;
   /** Version number of the endpoint that was executed. */
-  endpoint_version?: number;
+  endpoint_version?: number | undefined;
 }
 export interface EndpointsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -925,7 +931,7 @@ export interface GetEndpointRequest {
   project_id: string;
   name: string;
   /** Endpoint version to act on. Defaults to the current version. */
-  version?: number;
+  version?: number | undefined;
 }
 /** Per-column bucket overrides for range variable materialization. */
 export type EndpointVersionResponseBucketOverridesMap = { [key: string]: unknown | undefined };
@@ -938,82 +944,84 @@ export type EndpointVersionResponseOptionalBreakdownPropertiesList = Array<strin
 /** Extended endpoint representation when viewing a specific version. */
 export interface EndpointVersionResponse {
   /** Unique endpoint identifier (UUID). */
-  id?: string;
+  id?: string | undefined;
   /** URL-safe endpoint name, unique per team. */
-  name?: string;
+  name?: string | undefined;
   /** Human-readable description of the endpoint. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The HogQL or insight query definition (JSON object with 'kind' key). */
-  query?: unknown;
+  query?: unknown | undefined;
   /** Whether the endpoint can be executed via the API. */
-  is_active?: boolean;
+  is_active?: boolean | undefined;
   /** Effective data freshness, in seconds. Materialized endpoints use the node's refresh target, which can differ from the standard freshness choices. Other endpoints use the cache duration. */
-  data_freshness_seconds?: number;
+  data_freshness_seconds?: number | undefined;
   /** Relative API path to execute this endpoint (e.g. /api/projects/{team_id}/endpoints/{name}/run). */
-  endpoint_path?: string;
+  endpoint_path?: string | undefined;
   /** Absolute URL to execute this endpoint. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** Absolute URL to view this endpoint in the PostHog UI. */
-  ui_url?: string | null;
+  ui_url?: string | null | undefined;
   /** When the endpoint was created (ISO 8601). */
-  created_at?: string;
+  created_at?: string | undefined;
   /** When the endpoint was last updated (ISO 8601). */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** User who created the endpoint. */
-  created_by?: UserBasic | null;
+  created_by?: UserBasic | null | undefined;
   /** Whether the current version's results are pre-computed to S3. */
-  is_materialized?: boolean;
+  is_materialized?: boolean | undefined;
   /** Latest version number. */
-  current_version?: number;
+  current_version?: number | undefined;
   /** UUID of the current EndpointVersion row. */
-  current_version_id?: string | null;
+  current_version_id?: string | null | undefined;
   /** Total number of versions for this endpoint. */
-  versions_count?: number;
+  versions_count?: number | undefined;
   /** Short ID of the source insight, if derived from one. */
-  derived_from_insight?: string | null;
+  derived_from_insight?: string | null | undefined;
   /** When this specific version was last executed via the API (ISO 8601), or null if it hasn't been executed. Per-version tracking is recent, so versions that predate it read null until their next run. */
-  last_executed_at?: string | null;
+  last_executed_at?: string | null | undefined;
   /** Materialization status and configuration for the current version. */
-  materialization?: EndpointMaterialization;
+  materialization?: EndpointMaterialization | undefined;
   /** Per-column bucket overrides for range variable materialization. */
-  bucket_overrides?: EndpointVersionResponseBucketOverridesMap | null;
+  bucket_overrides?: EndpointVersionResponseBucketOverridesMap | null | undefined;
   /** Column names and types from the query's SELECT clause. */
-  columns?: EndpointVersionResponseColumnsList;
+  columns?: EndpointVersionResponseColumnsList | undefined;
   /** Tag names associated with this endpoint. */
-  tags?: EndpointVersionResponseTagsList;
+  tags?: EndpointVersionResponseTagsList | undefined;
   /** Breakdown property names that may be omitted on /run. Omitted ones return data aggregated across all values of that breakdown. */
-  optional_breakdown_properties?: EndpointVersionResponseOptionalBreakdownPropertiesList;
+  optional_breakdown_properties?:
+    | EndpointVersionResponseOptionalBreakdownPropertiesList
+    | undefined;
   /** Version number. */
-  version?: number;
+  version?: number | undefined;
   /** Version unique identifier (UUID). */
-  version_id?: string;
+  version_id?: string | undefined;
   /** Whether the parent endpoint is active (distinct from version.is_active). */
-  endpoint_is_active?: boolean;
+  endpoint_is_active?: boolean | undefined;
   /** ISO 8601 timestamp when this version was created. */
-  version_created_at?: string;
+  version_created_at?: string | undefined;
   /** ISO 8601 timestamp when this version was last updated. */
-  version_updated_at?: string | null;
+  version_updated_at?: string | null | undefined;
   /** User who created this version. */
-  version_created_by?: UserBasic | null;
+  version_created_by?: UserBasic | null | undefined;
 }
 export interface GetEndpointsLogRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   name: string;
   /** Only return entries after this ISO 8601 timestamp. Defaults to 7 days ago; pass an explicit value to read further back. */
-  after?: string;
+  after?: string | undefined;
   /** Only return entries before this ISO 8601 timestamp. */
-  before?: string;
+  before?: string | undefined;
   /** Filter logs to a specific execution instance. */
-  instance_id?: string;
+  instance_id?: string | undefined;
   /** Comma-separated log levels to include, e.g. 'WARN,ERROR'. Valid levels: DEBUG, LOG, INFO, WARN, ERROR. */
-  level?: string;
+  level?: string | undefined;
   /** Maximum number of log entries to return (1-500, default 50). */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of log entries to skip before the first returned entry (default 0). */
-  offset?: number;
+  offset?: number | undefined;
   /** Case-insensitive substring search across log messages. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface GetEndpointsLogResponse {}
 export interface GetEndpointsMaterializationStatusRequest {
@@ -1021,14 +1029,14 @@ export interface GetEndpointsMaterializationStatusRequest {
   project_id: string;
   name: string;
   /** Endpoint version to act on. Defaults to the current version. */
-  version?: number;
+  version?: number | undefined;
 }
 export interface GetEndpointsOpenapiSpecRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   name: string;
   /** Endpoint version to act on. Defaults to the current version. */
-  version?: number;
+  version?: number | undefined;
 }
 export interface GetEndpointsOpenapiSpecResponse {}
 export interface GetEndpointsRunRequest {
@@ -1039,37 +1047,37 @@ export interface GetEndpointsRunRequest {
 export interface ListEndpointsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  created_by?: number;
-  is_active?: boolean;
+  created_by?: number | undefined;
+  is_active?: boolean | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedEndpointResponseListResultsList = Array<EndpointResponse>;
 export interface PaginatedEndpointResponseList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedEndpointResponseListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedEndpointResponseListResultsList | undefined;
 }
 export interface ListEndpointsVersionsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   name: string;
-  created_by?: number;
-  is_active?: boolean;
+  created_by?: number | undefined;
+  is_active?: boolean | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedEndpointVersionResponseListResultsList = Array<EndpointVersionResponse>;
 export interface PaginatedEndpointVersionResponseList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedEndpointVersionResponseListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedEndpointVersionResponseListResultsList | undefined;
 }
 /** Per-column bucket overrides for range variable materialization. Keys are column names, values are bucket keys. */
 export type UpdateEndpointRequestBucketOverridesMap = { [key: string]: unknown | undefined };
@@ -1082,27 +1090,30 @@ export interface UpdateEndpointRequest {
   project_id: string;
   name: string;
   /** HogQL or insight query this endpoint executes. Changing this auto-creates a new version. */
-  query?: unknown;
+  query?: unknown | undefined;
   /** Human-readable description of what this endpoint returns. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** How fresh the data should be, in seconds. Must be one of: 900 (15 min), 1800 (30 min), 3600 (1 h), 21600 (6 h), 43200 (12 h), 86400 (24 h, default), 604800 (7 d). Controls cache TTL and materialization sync frequency. */
-  data_freshness_seconds?: number | null;
+  data_freshness_seconds?: number | null | undefined;
   /** Whether this endpoint is available for execution via the API. */
-  is_active?: boolean | null;
+  is_active?: boolean | null | undefined;
   /** Whether query results are materialized to S3. */
-  is_materialized?: boolean | null;
+  is_materialized?: boolean | null | undefined;
   /** Short ID of the insight this endpoint was derived from. */
-  derived_from_insight?: string | null;
+  derived_from_insight?: string | null | undefined;
   /** Target a specific version for updates (defaults to current version). */
-  version?: number | null;
+  version?: number | null | undefined;
   /** Per-column bucket overrides for range variable materialization. Keys are column names, values are bucket keys. */
-  bucket_overrides?: UpdateEndpointRequestBucketOverridesMap | null;
+  bucket_overrides?: UpdateEndpointRequestBucketOverridesMap | null | undefined;
   /** Set to true to soft-delete this endpoint. */
-  deleted?: boolean | null;
+  deleted?: boolean | null | undefined;
   /** List of tag names to associate with this endpoint. Replaces any existing tags. */
-  tags?: UpdateEndpointRequestTagsList | null;
+  tags?: UpdateEndpointRequestTagsList | null | undefined;
   /** Breakdown property names that may be omitted on /run. Omitted ones return data aggregated across all values of that breakdown. Defaults to [] -- every breakdown variable is required. */
-  optional_breakdown_properties?: UpdateEndpointRequestOptionalBreakdownPropertiesList | null;
+  optional_breakdown_properties?:
+    | UpdateEndpointRequestOptionalBreakdownPropertiesList
+    | null
+    | undefined;
 }
 /** Per-column bucket overrides for range variable materialization. Keys are column names, values are bucket keys. */
 export type UpdateEndpointsPartialRequestBucketOverridesMap = {
@@ -1117,27 +1128,30 @@ export interface UpdateEndpointsPartialRequest {
   project_id: string;
   name: string;
   /** HogQL or insight query this endpoint executes. Changing this auto-creates a new version. */
-  query?: unknown;
+  query?: unknown | undefined;
   /** Human-readable description of what this endpoint returns. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** How fresh the data should be, in seconds. Must be one of: 900 (15 min), 1800 (30 min), 3600 (1 h), 21600 (6 h), 43200 (12 h), 86400 (24 h, default), 604800 (7 d). Controls cache TTL and materialization sync frequency. */
-  data_freshness_seconds?: number | null;
+  data_freshness_seconds?: number | null | undefined;
   /** Whether this endpoint is available for execution via the API. */
-  is_active?: boolean | null;
+  is_active?: boolean | null | undefined;
   /** Whether query results are materialized to S3. */
-  is_materialized?: boolean | null;
+  is_materialized?: boolean | null | undefined;
   /** Short ID of the insight this endpoint was derived from. */
-  derived_from_insight?: string | null;
+  derived_from_insight?: string | null | undefined;
   /** Target a specific version for updates (defaults to current version). */
-  version?: number | null;
+  version?: number | null | undefined;
   /** Per-column bucket overrides for range variable materialization. Keys are column names, values are bucket keys. */
-  bucket_overrides?: UpdateEndpointsPartialRequestBucketOverridesMap | null;
+  bucket_overrides?: UpdateEndpointsPartialRequestBucketOverridesMap | null | undefined;
   /** Set to true to soft-delete this endpoint. */
-  deleted?: boolean | null;
+  deleted?: boolean | null | undefined;
   /** List of tag names to associate with this endpoint. Replaces any existing tags. */
-  tags?: UpdateEndpointsPartialRequestTagsList | null;
+  tags?: UpdateEndpointsPartialRequestTagsList | null | undefined;
   /** Breakdown property names that may be omitted on /run. Omitted ones return data aggregated across all values of that breakdown. Defaults to [] -- every breakdown variable is required. */
-  optional_breakdown_properties?: UpdateEndpointsPartialRequestOptionalBreakdownPropertiesList | null;
+  optional_breakdown_properties?:
+    | UpdateEndpointsPartialRequestOptionalBreakdownPropertiesList
+    | null
+    | undefined;
 }
 export type CreateEndpointError = BadRequest | Forbidden | NotFound | PosthogOpError;
 /** Create a new endpoint. */

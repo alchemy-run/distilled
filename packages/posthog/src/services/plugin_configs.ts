@@ -66,39 +66,39 @@ export interface ListPluginConfigsLogsRequest {
   project_id: string;
   plugin_config_id: number;
   /** Only return entries after this ISO 8601 timestamp. */
-  after?: string;
+  after?: string | undefined;
   /** Only return entries before this ISO 8601 timestamp. */
-  before?: string;
+  before?: string | undefined;
   /** Maximum number of log entries to return (1-1000, default 100). */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Case-insensitive substring search across log messages. */
-  search?: string;
+  search?: string | undefined;
   /** Log types to include. Repeat the parameter to include more than one type. */
-  type_filter?: ListPluginConfigsLogsRequestTypeFilterList;
+  type_filter?: ListPluginConfigsLogsRequestTypeFilterList | undefined;
 }
 /** * `SYSTEM` - SYSTEM * `PLUGIN` - PLUGIN * `CONSOLE` - CONSOLE */
 export type PluginLogEntrySourceEnum = "SYSTEM" | "PLUGIN" | "CONSOLE";
 /** * `DEBUG` - Debug * `LOG` - Log * `INFO` - Info * `WARN` - Warn * `ERROR` - Error */
 export type PluginLogEntryTypeEnum = "DEBUG" | "LOG" | "INFO" | "WARN" | "ERROR";
 export interface PluginLogEntry {
-  id?: string;
-  team_id?: number;
-  plugin_id?: number;
-  plugin_config_id?: number;
-  timestamp?: string;
-  source?: PluginLogEntrySourceEnum;
-  type?: PluginLogEntryTypeEnum;
-  message?: string;
-  instance_id?: string;
+  id?: string | undefined;
+  team_id?: number | undefined;
+  plugin_id?: number | undefined;
+  plugin_config_id?: number | undefined;
+  timestamp?: string | undefined;
+  source?: PluginLogEntrySourceEnum | undefined;
+  type?: PluginLogEntryTypeEnum | undefined;
+  message?: string | undefined;
+  instance_id?: string | undefined;
 }
 export type PaginatedPluginLogEntryListResultsList = Array<PluginLogEntry>;
 export interface PaginatedPluginLogEntryList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedPluginLogEntryListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedPluginLogEntryListResultsList | undefined;
 }
 export type ListPluginConfigsLogsError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const listPluginConfigsLogs: API.OperationMethod<

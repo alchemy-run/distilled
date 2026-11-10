@@ -37,19 +37,19 @@ export type CreateAccountRequestPropertiesKnownEmailsList = Array<string>;
 /** Typed account properties: website_domain, external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link, metabase_link), and touchpoint matching lists: email_domains (the company's email domains) and known_emails (individual addresses pinned to the account). Defaults to an empty object. Unknown keys are rejected. User assignments live on account relationships, not here. */
 export interface CreateAccountRequestProperties {
   /** Primary company website hostname used for account identity and logo lookup. */
-  website_domain?: string | null;
+  website_domain?: string | null | undefined;
   /** Email domains owned by this account's company, used to match inbound touchpoints to the account. */
-  email_domains?: CreateAccountRequestPropertiesEmailDomainsList;
+  email_domains?: CreateAccountRequestPropertiesEmailDomainsList | undefined;
   /** Individual email addresses pinned to this account, matched before the domain fallback. */
-  known_emails?: CreateAccountRequestPropertiesKnownEmailsList;
-  stripe_customer_id?: string | null;
-  hubspot_deal_id?: string | null;
-  billing_id?: string | null;
-  sfdc_id?: string | null;
-  zendesk_id?: string | null;
-  slack_channel_id?: string | null;
-  usage_dashboard_link?: string | null;
-  metabase_link?: string | null;
+  known_emails?: CreateAccountRequestPropertiesKnownEmailsList | undefined;
+  stripe_customer_id?: string | null | undefined;
+  hubspot_deal_id?: string | null | undefined;
+  billing_id?: string | null | undefined;
+  sfdc_id?: string | null | undefined;
+  zendesk_id?: string | null | undefined;
+  slack_channel_id?: string | null | undefined;
+  usage_dashboard_link?: string | null | undefined;
+  metabase_link?: string | null | undefined;
 }
 /** Tag names attached to the account. Pass a list to replace existing tags. */
 export type CreateAccountRequestTagsList = Array<string>;
@@ -61,17 +61,17 @@ export interface CreateAccountRequest {
   /** Human-readable name of the account. */
   name: string;
   /** Identifier linking this account to its source customer -- the analytics group key (the customer's organization id), used to match billing and external records. Optional. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Typed account properties: website_domain, external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link, metabase_link), and touchpoint matching lists: email_domains (the company's email domains) and known_emails (individual addresses pinned to the account). Defaults to an empty object. Unknown keys are rejected. User assignments live on account relationships, not here. */
-  properties?: CreateAccountRequestProperties | null;
+  properties?: CreateAccountRequestProperties | null | undefined;
   /** Tag names attached to the account. Pass a list to replace existing tags. */
-  tags?: CreateAccountRequestTagsList;
+  tags?: CreateAccountRequestTagsList | undefined;
   /** How often to generate an AI summary of the account's bound Slack channel (daily, weekly, or monthly). Null means summaries are off. * `daily` - daily * `weekly` - weekly * `monthly` - monthly */
-  slack_summary_cadence?: SlackSummaryCadenceEnum | (string & {}) | null;
+  slack_summary_cadence?: SlackSummaryCadenceEnum | (string & {}) | null | undefined;
   /** When the account churned. Null means the account has not churned. */
-  churned_at?: string | null;
+  churned_at?: string | null | undefined;
   /** When the account was ignored, set by Track Rules or by hand. Null means the account is tracked. */
-  ignored_at?: string | null;
+  ignored_at?: string | null | undefined;
 }
 /** Email domains owned by this account's company, used to match inbound touchpoints to the account. */
 export type AccountPropertiesEmailDomainsList = Array<string>;
@@ -80,19 +80,19 @@ export type AccountPropertiesKnownEmailsList = Array<string>;
 /** Typed account properties: website_domain, external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link, metabase_link), and touchpoint matching lists: email_domains (the company's email domains) and known_emails (individual addresses pinned to the account). Defaults to an empty object. Unknown keys are rejected. User assignments live on account relationships, not here. */
 export interface AccountProperties {
   /** Primary company website hostname used for account identity and logo lookup. */
-  website_domain?: string | null;
+  website_domain?: string | null | undefined;
   /** Email domains owned by this account's company, used to match inbound touchpoints to the account. */
-  email_domains?: AccountPropertiesEmailDomainsList;
+  email_domains?: AccountPropertiesEmailDomainsList | undefined;
   /** Individual email addresses pinned to this account, matched before the domain fallback. */
-  known_emails?: AccountPropertiesKnownEmailsList;
-  stripe_customer_id?: string | null;
-  hubspot_deal_id?: string | null;
-  billing_id?: string | null;
-  sfdc_id?: string | null;
-  zendesk_id?: string | null;
-  slack_channel_id?: string | null;
-  usage_dashboard_link?: string | null;
-  metabase_link?: string | null;
+  known_emails?: AccountPropertiesKnownEmailsList | undefined;
+  stripe_customer_id?: string | null | undefined;
+  hubspot_deal_id?: string | null | undefined;
+  billing_id?: string | null | undefined;
+  sfdc_id?: string | null | undefined;
+  zendesk_id?: string | null | undefined;
+  slack_channel_id?: string | null | undefined;
+  usage_dashboard_link?: string | null | undefined;
+  metabase_link?: string | null | undefined;
 }
 /** Tag names attached to the account. Pass a list to replace existing tags. */
 export type AccountTagsList = Array<string>;
@@ -104,19 +104,19 @@ export interface Account {
   /** Human-readable name of the account. */
   name: string;
   /** Identifier linking this account to its source customer -- the analytics group key (the customer's organization id), used to match billing and external records. Optional. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Typed account properties: website_domain, external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link, metabase_link), and touchpoint matching lists: email_domains (the company's email domains) and known_emails (individual addresses pinned to the account). Defaults to an empty object. Unknown keys are rejected. User assignments live on account relationships, not here. */
-  properties?: AccountProperties | null;
+  properties?: AccountProperties | null | undefined;
   /** Tag names attached to the account. Pass a list to replace existing tags. */
-  tags?: AccountTagsList;
+  tags?: AccountTagsList | undefined;
   /** Short IDs of the internal notebooks linked to this account, used to persist investigations, call notes, and other free-form context. Empty list if no notebooks have been created for the account. */
   notebooks: AccountNotebooksList;
   /** How often to generate an AI summary of the account's bound Slack channel (daily, weekly, or monthly). Null means summaries are off. * `daily` - daily * `weekly` - weekly * `monthly` - monthly */
-  slack_summary_cadence?: SlackSummaryCadenceEnum | null;
+  slack_summary_cadence?: SlackSummaryCadenceEnum | null | undefined;
   /** When the account churned. Null means the account has not churned. */
-  churned_at?: string | null;
+  churned_at?: string | null | undefined;
   /** When the account was ignored, set by Track Rules or by hand. Null means the account is tracked. */
-  ignored_at?: string | null;
+  ignored_at?: string | null | undefined;
   created_at: string;
   created_by: number | null;
   updated_at: string | null;
@@ -150,29 +150,29 @@ export type MultipleBreakdownType =
   | "data_warehouse"
   | "data_warehouse_person_property";
 export interface Breakdown {
-  group_type_index?: number | null;
-  histogram_bin_count?: number | null;
-  normalize_url?: boolean | null;
+  group_type_index?: number | null | undefined;
+  histogram_bin_count?: number | null | undefined;
+  normalize_url?: boolean | null | undefined;
   property: BreakdownProperty;
-  type?: MultipleBreakdownType | (string & {}) | null;
+  type?: MultipleBreakdownType | (string & {}) | null | undefined;
 }
 export type BreakdownFilterBreakdownsList = Array<Breakdown>;
 export interface BreakdownFilter {
-  breakdown?: BreakdownFilterBreakdown | null;
-  breakdown_group_type_index?: number | null;
-  breakdown_hide_other_aggregation?: boolean | null;
-  breakdown_histogram_bin_count?: number | null;
-  breakdown_limit?: number | null;
-  breakdown_normalize_url?: boolean | null;
-  breakdown_path_cleaning?: boolean | null;
-  breakdown_type?: BreakdownType | (string & {}) | null;
-  breakdowns?: BreakdownFilterBreakdownsList | null;
+  breakdown?: BreakdownFilterBreakdown | null | undefined;
+  breakdown_group_type_index?: number | null | undefined;
+  breakdown_hide_other_aggregation?: boolean | null | undefined;
+  breakdown_histogram_bin_count?: number | null | undefined;
+  breakdown_limit?: number | null | undefined;
+  breakdown_normalize_url?: boolean | null | undefined;
+  breakdown_path_cleaning?: boolean | null | undefined;
+  breakdown_type?: BreakdownType | (string & {}) | null | undefined;
+  breakdowns?: BreakdownFilterBreakdownsList | null | undefined;
 }
 export interface CompareFilter {
   /** Whether to compare the current date range to a previous date range. */
-  compare?: boolean | null;
+  compare?: boolean | null | undefined;
   /** The date range to compare to. The value is a relative date. Examples of relative dates are: `-1y` for 1 year ago, `-14m` for 14 months ago, `-100w` for 100 weeks ago, `-14d` for 14 days ago, `-30h` for 30 hours ago. */
-  compare_to?: string | null;
+  compare_to?: string | null | undefined;
 }
 export type IntervalType =
   | "second"
@@ -188,14 +188,14 @@ export type MetricsAttributeScope = "resource" | "attribute" | "auto";
 export interface MetricsQueryFilter {
   key: string;
   op: MetricsFilterOp | (string & {});
-  scope?: MetricsAttributeScope | (string & {}) | null;
+  scope?: MetricsAttributeScope | (string & {}) | null | undefined;
   value: string;
 }
 export type DashboardFilterMetricFiltersList = Array<MetricsQueryFilter>;
 /** The selected values. Empty when `all` is true: All stands for every option of the variable. */
 export type MetricsDashboardVariableSelectionValuesList = Array<string>;
 export interface MetricsDashboardVariableSelection {
-  all?: boolean | null;
+  all?: boolean | null | undefined;
   /** The selected values. Empty when `all` is true: All stands for every option of the variable. */
   values: MetricsDashboardVariableSelectionValuesList;
 }
@@ -203,20 +203,20 @@ export type MetricsDashboardVariableCustomValuesList = Array<string>;
 export type MetricsDashboardVariableSource = "custom" | "promql" | "sql" | "textbox";
 export interface MetricsDashboardVariable {
   /** The text that All puts in a PromQL query. `.*` when it is empty. */
-  allValue?: string | null;
-  current?: MetricsDashboardVariableSelection | null;
+  allValue?: string | null | undefined;
+  current?: MetricsDashboardVariableSelection | null | undefined;
   /** The options when `source` is `custom`. */
-  customValues?: MetricsDashboardVariableCustomValuesList | null;
-  includeAll?: boolean | null;
+  customValues?: MetricsDashboardVariableCustomValuesList | null | undefined;
+  includeAll?: boolean | null | undefined;
   /** Shown in the dashboard filter bar. The name is shown when it is empty. */
-  label?: string | null;
-  multi?: boolean | null;
+  label?: string | null | undefined;
+  multi?: boolean | null | undefined;
   /** Letters, digits and underscores. Tiles refer to it as `$name`. */
   name: string;
   /** The options query when `source` is `promql` or `sql`. It can refer to other variables. PromQL supports `label_values(label)`, `label_values(selector, label)`, `label_names()`, `metrics(regex)` and `query_result(expr)`. SQL returns the options in its first column. */
-  query?: string | null;
+  query?: string | null | undefined;
   /** RE2 pattern that options must match. When it has a capture group, the option is the first group. */
-  regex?: string | null;
+  regex?: string | null | undefined;
   source: MetricsDashboardVariableSource | (string & {});
 }
 export type DashboardFilterMetricVariablesList = Array<MetricsDashboardVariable>;
@@ -269,11 +269,11 @@ export type EventPropertyFilterValue =
   | boolean;
 export interface EventPropertyFilter {
   key: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {}) | null;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | null | undefined;
   /** Event properties */
-  type?: string;
-  value?: EventPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: EventPropertyFilterValue | null | undefined;
 }
 export type PersonPropertyFilterValueCase0Item = string | number | boolean;
 export type PersonPropertyFilterValueCase0List = Array<PersonPropertyFilterValueCase0Item>;
@@ -284,11 +284,11 @@ export type PersonPropertyFilterValue =
   | boolean;
 export interface PersonPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
   /** Person properties */
-  type?: string;
-  value?: PersonPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: PersonPropertyFilterValue | null | undefined;
 }
 export type PersonMetadataPropertyFilterValueCase0Item = string | number | boolean;
 export type PersonMetadataPropertyFilterValueCase0List =
@@ -300,11 +300,11 @@ export type PersonMetadataPropertyFilterValue =
   | boolean;
 export interface PersonMetadataPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
   /** Top-level columns on the persons table (e.g. created_at), not properties JSON */
-  type?: string;
-  value?: PersonMetadataPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: PersonMetadataPropertyFilterValue | null | undefined;
 }
 export type Key10 = "tag_name" | "text" | "href" | "selector";
 export type ElementPropertyFilterValueCase0Item = string | number | boolean;
@@ -316,10 +316,10 @@ export type ElementPropertyFilterValue =
   | boolean;
 export interface ElementPropertyFilter {
   key: Key10 | (string & {});
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
-  type?: string;
-  value?: ElementPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: ElementPropertyFilterValue | null | undefined;
 }
 export type EventMetadataPropertyFilterValueCase0Item = string | number | boolean;
 export type EventMetadataPropertyFilterValueCase0List =
@@ -331,10 +331,10 @@ export type EventMetadataPropertyFilterValue =
   | boolean;
 export interface EventMetadataPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
-  type?: string;
-  value?: EventMetadataPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: EventMetadataPropertyFilterValue | null | undefined;
 }
 export type SessionPropertyFilterValueCase0Item = string | number | boolean;
 export type SessionPropertyFilterValueCase0List = Array<SessionPropertyFilterValueCase0Item>;
@@ -345,21 +345,21 @@ export type SessionPropertyFilterValue =
   | boolean;
 export interface SessionPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
-  type?: string;
-  value?: SessionPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: SessionPropertyFilterValue | null | undefined;
 }
 export interface CohortPropertyFilter {
   /** Set by the feature flag API when the cohort is deleted or does not exist. */
-  cohort_deleted?: boolean | null;
+  cohort_deleted?: boolean | null | undefined;
   /** Set by the feature flag API when the cohort does not exist, so it cannot be restored. */
-  cohort_missing?: boolean | null;
-  cohort_name?: string | null;
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {}) | null;
-  type?: string;
+  cohort_missing?: boolean | null | undefined;
+  cohort_name?: string | null | undefined;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | null | undefined;
+  type?: string | undefined;
   value: number;
 }
 export type DurationType = "duration" | "active_seconds" | "inactive_seconds";
@@ -373,10 +373,10 @@ export type RecordingPropertyFilterValue =
   | boolean;
 export interface RecordingPropertyFilter {
   key: RecordingPropertyFilterKey;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
-  type?: string;
-  value?: RecordingPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: RecordingPropertyFilterValue | null | undefined;
 }
 export type LogEntryPropertyFilterValueCase0Item = string | number | boolean;
 export type LogEntryPropertyFilterValueCase0List = Array<LogEntryPropertyFilterValueCase0Item>;
@@ -387,10 +387,10 @@ export type LogEntryPropertyFilterValue =
   | boolean;
 export interface LogEntryPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
-  type?: string;
-  value?: LogEntryPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: LogEntryPropertyFilterValue | null | undefined;
 }
 export type GroupPropertyFilterGroupKeyNamesMap = { [key: string]: string | undefined };
 export type GroupPropertyFilterValueCase0Item = string | number | boolean;
@@ -401,13 +401,13 @@ export type GroupPropertyFilterValue =
   | number
   | boolean;
 export interface GroupPropertyFilter {
-  group_key_names?: GroupPropertyFilterGroupKeyNamesMap | null;
-  group_type_index?: number | null;
+  group_key_names?: GroupPropertyFilterGroupKeyNamesMap | null | undefined;
+  group_type_index?: number | null | undefined;
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
-  type?: string;
-  value?: GroupPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: GroupPropertyFilterValue | null | undefined;
 }
 export type FeaturePropertyFilterValueCase0Item = string | number | boolean;
 export type FeaturePropertyFilterValueCase0List = Array<FeaturePropertyFilterValueCase0Item>;
@@ -418,22 +418,22 @@ export type FeaturePropertyFilterValue =
   | boolean;
 export interface FeaturePropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
   /** Event property with "$feature/" prepended */
-  type?: string;
-  value?: FeaturePropertyFilterValue | null;
+  type?: string | undefined;
+  value?: FeaturePropertyFilterValue | null | undefined;
 }
 /** The value can be true, false, or a variant name */
 export type FlagPropertyFilterValue = boolean | string;
 export interface FlagPropertyFilter {
   /** The key should be the flag ID */
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   /** Only flag_evaluates_to operator is allowed for flag dependencies */
-  operator?: string;
+  operator?: string | undefined;
   /** Feature flag dependency */
-  type?: string;
+  type?: string | undefined;
   /** The value can be true, false, or a variant name */
   value: FlagPropertyFilterValue;
 }
@@ -446,12 +446,12 @@ export type HogQLPropertyFilterValue =
   | boolean;
 export interface HogQLPropertyFilter {
   key: string;
-  label?: string | null;
-  type?: string;
-  value?: HogQLPropertyFilterValue | null;
+  label?: string | null | undefined;
+  type?: string | undefined;
+  value?: HogQLPropertyFilterValue | null | undefined;
 }
 export interface EmptyPropertyFilter {
-  type?: string;
+  type?: string | undefined;
 }
 export type DataWarehousePropertyFilterValueCase0Item = string | number | boolean;
 export type DataWarehousePropertyFilterValueCase0List =
@@ -463,10 +463,10 @@ export type DataWarehousePropertyFilterValue =
   | boolean;
 export interface DataWarehousePropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
-  type?: string;
-  value?: DataWarehousePropertyFilterValue | null;
+  type?: string | undefined;
+  value?: DataWarehousePropertyFilterValue | null | undefined;
 }
 export type DataWarehousePersonPropertyFilterValueCase0Item = string | number | boolean;
 export type DataWarehousePersonPropertyFilterValueCase0List =
@@ -478,10 +478,10 @@ export type DataWarehousePersonPropertyFilterValue =
   | boolean;
 export interface DataWarehousePersonPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
-  type?: string;
-  value?: DataWarehousePersonPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: DataWarehousePersonPropertyFilterValue | null | undefined;
 }
 export type ErrorTrackingIssueFilterValueCase0Item = string | number | boolean;
 export type ErrorTrackingIssueFilterValueCase0List = Array<ErrorTrackingIssueFilterValueCase0Item>;
@@ -492,10 +492,10 @@ export type ErrorTrackingIssueFilterValue =
   | boolean;
 export interface ErrorTrackingIssueFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
-  type?: string;
-  value?: ErrorTrackingIssueFilterValue | null;
+  type?: string | undefined;
+  value?: ErrorTrackingIssueFilterValue | null | undefined;
 }
 export type LogPropertyFilterType = "log" | "log_attribute" | "log_resource_attribute";
 export type LogPropertyFilterValueCase0Item = string | number | boolean;
@@ -503,10 +503,10 @@ export type LogPropertyFilterValueCase0List = Array<LogPropertyFilterValueCase0I
 export type LogPropertyFilterValue = LogPropertyFilterValueCase0List | string | number | boolean;
 export interface LogPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
   type: LogPropertyFilterType | (string & {});
-  value?: LogPropertyFilterValue | null;
+  value?: LogPropertyFilterValue | null | undefined;
 }
 export type MetricPropertyFilterValueCase0Item = string | number | boolean;
 export type MetricPropertyFilterValueCase0List = Array<MetricPropertyFilterValueCase0Item>;
@@ -517,10 +517,10 @@ export type MetricPropertyFilterValue =
   | boolean;
 export interface MetricPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
-  type?: string;
-  value?: MetricPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: MetricPropertyFilterValue | null | undefined;
 }
 export type SpanPropertyFilterType = "span" | "span_attribute" | "span_resource_attribute";
 export type SpanPropertyFilterValueCase0Item = string | number | boolean;
@@ -528,10 +528,10 @@ export type SpanPropertyFilterValueCase0List = Array<SpanPropertyFilterValueCase
 export type SpanPropertyFilterValue = SpanPropertyFilterValueCase0List | string | number | boolean;
 export interface SpanPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
   type: SpanPropertyFilterType | (string & {});
-  value?: SpanPropertyFilterValue | null;
+  value?: SpanPropertyFilterValue | null | undefined;
 }
 export type RevenueAnalyticsPropertyFilterValueCase0Item = string | number | boolean;
 export type RevenueAnalyticsPropertyFilterValueCase0List =
@@ -543,10 +543,10 @@ export type RevenueAnalyticsPropertyFilterValue =
   | boolean;
 export interface RevenueAnalyticsPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
-  type?: string;
-  value?: RevenueAnalyticsPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: RevenueAnalyticsPropertyFilterValue | null | undefined;
 }
 export type AccountCustomPropertyFilterValueCase0Item = string | number | boolean;
 export type AccountCustomPropertyFilterValueCase0List =
@@ -558,11 +558,11 @@ export type AccountCustomPropertyFilterValue =
   | boolean;
 export interface AccountCustomPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
   /** Customer analytics account custom property -- the key is the property definition id */
-  type?: string;
-  value?: AccountCustomPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: AccountCustomPropertyFilterValue | null | undefined;
 }
 export type WorkflowVariablePropertyFilterValueCase0Item = string | number | boolean;
 export type WorkflowVariablePropertyFilterValueCase0List =
@@ -574,10 +574,10 @@ export type WorkflowVariablePropertyFilterValue =
   | boolean;
 export interface WorkflowVariablePropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
-  type?: string;
-  value?: WorkflowVariablePropertyFilterValue | null;
+  type?: string | undefined;
+  value?: WorkflowVariablePropertyFilterValue | null | undefined;
 }
 export type BehavioralPropertyFilterEventFiltersItem =
   | EventPropertyFilter
@@ -592,25 +592,25 @@ export type TimeUnitType = "day" | "week" | "month" | "year";
 export type InlineBehavioralType = "performed_event" | "performed_event_multiple";
 export interface BehavioralPropertyFilter {
   /** Extra property filters the matching events must satisfy. Deliberately excludes nested behavioral/cohort filters and groups */
-  event_filters?: BehavioralPropertyFilterEventFiltersList | null;
+  event_filters?: BehavioralPropertyFilterEventFiltersList | null | undefined;
   event_type: BehavioralEventSource | (string & {});
   /** Absolute or relative (e.g. -30d) lower date bound -- alternative to time_value/time_interval */
-  explicit_datetime?: string | null;
-  explicit_datetime_to?: string | null;
+  explicit_datetime?: string | null | undefined;
+  explicit_datetime_to?: string | null | undefined;
   /** Event name, or action id when event_type is 'actions' */
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   /** Match persons who did NOT satisfy the criterion. Not the same as a low count -- zero-occurrence persons never match count operators */
-  negation?: boolean | null;
+  negation?: boolean | null | undefined;
   /** Count comparison for performed_event_multiple, defaults to exact */
-  operator?: PropertyOperator | (string & {}) | null;
+  operator?: PropertyOperator | (string & {}) | null | undefined;
   /** Count threshold for performed_event_multiple */
-  operator_value?: number | null;
-  time_interval?: TimeUnitType | (string & {}) | null;
+  operator_value?: number | null | undefined;
+  time_interval?: TimeUnitType | (string & {}) | null | undefined;
   /** Relative time window size, paired with time_interval */
-  time_value?: number | null;
+  time_value?: number | null | undefined;
   /** Person performed (or didn't perform) an event in a time window. ClickHouse-only -- not evaluable by flags or CDP */
-  type?: string;
+  type?: string | undefined;
   value: InlineBehavioralType | (string & {});
 }
 export type DashboardFilterPropertiesItem =
@@ -640,20 +640,20 @@ export type DashboardFilterPropertiesItem =
   | BehavioralPropertyFilter;
 export type DashboardFilterPropertiesList = Array<DashboardFilterPropertiesItem>;
 export interface DashboardFilter {
-  breakdown_filter?: BreakdownFilter | null;
+  breakdown_filter?: BreakdownFilter | null | undefined;
   /** Period comparison forced onto every insight that supports one. Absent/null = inherit. */
-  compareFilter?: CompareFilter | null;
-  date_from?: string | null;
-  date_to?: string | null;
-  explicitDate?: boolean | null;
+  compareFilter?: CompareFilter | null | undefined;
+  date_from?: string | null | undefined;
+  date_to?: string | null | undefined;
+  explicitDate?: boolean | null | undefined;
   /** Tri-state test-account override. Null/absent = inherit; true = force on; false = force off. */
-  filterTestAccounts?: boolean | null;
+  filterTestAccounts?: boolean | null | undefined;
   /** Time granularity forced onto every insight that supports one. Absent/null = inherit. */
-  interval?: IntervalType | (string & {}) | null;
-  metricFilters?: DashboardFilterMetricFiltersList | null;
+  interval?: IntervalType | (string & {}) | null | undefined;
+  metricFilters?: DashboardFilterMetricFiltersList | null | undefined;
   /** Variables that metrics tiles refer to as `$name`. Other tiles ignore them. */
-  metricVariables?: DashboardFilterMetricVariablesList | null;
-  properties?: DashboardFilterPropertiesList | null;
+  metricVariables?: DashboardFilterMetricVariablesList | null | undefined;
+  properties?: DashboardFilterPropertiesList | null | undefined;
 }
 export type LimitContext = "posthog_ai";
 export type AccountPersonsActorsQueryFixedPropertiesItem =
@@ -696,7 +696,7 @@ export interface CustomBotCondition {
 export type CustomBotRuleItemsList = Array<CustomBotCondition>;
 export interface CustomBotRule {
   /** Reported by `$virt_traffic_category`. Defaults to `custom`. */
-  category?: string | null;
+  category?: string | null | undefined;
   /** Whether every condition must match (AND) or any one of them (OR). */
   combiner: FilterLogicalOperator | (string & {});
   id: string;
@@ -728,7 +728,7 @@ export interface CustomChannelCondition {
   id: string;
   key: CustomChannelField | (string & {});
   op: CustomChannelOperator | (string & {});
-  value?: CustomChannelConditionValue | null;
+  value?: CustomChannelConditionValue | null | undefined;
 }
 export type CustomChannelRuleItemsList = Array<CustomChannelCondition>;
 export interface CustomChannelRule {
@@ -774,60 +774,70 @@ export type PropertyGroupsMode = "enabled" | "disabled" | "optimized";
 export type SessionTableVersion = "auto" | "v1" | "v2" | "v3";
 export type SessionsV2JoinMode = "string" | "uuid";
 export interface HogQLQueryModifiers {
-  bounceRateDurationSeconds?: number | null;
-  bounceRatePageViewMode?: BounceRatePageViewMode | (string & {}) | null;
-  convertToProjectTimezone?: boolean | null;
+  bounceRateDurationSeconds?: number | null | undefined;
+  bounceRatePageViewMode?: BounceRatePageViewMode | (string & {}) | null | undefined;
+  convertToProjectTimezone?: boolean | null | undefined;
   /** Do not treat a missing user agent as automation on cookieless events. Positive bot signals and custom project rules still apply. Resolved server-side; not intended to be set by clients. */
-  cookielessTrafficIsRegular?: boolean | null;
-  customBotDefinitions?: HogQLQueryModifiersCustomBotDefinitionsList | null;
-  customChannelTypeRules?: HogQLQueryModifiersCustomChannelTypeRulesList | null;
-  dataWarehouseEventsModifiers?: HogQLQueryModifiersDataWarehouseEventsModifiersList | null;
-  debug?: boolean | null;
+  cookielessTrafficIsRegular?: boolean | null | undefined;
+  customBotDefinitions?: HogQLQueryModifiersCustomBotDefinitionsList | null | undefined;
+  customChannelTypeRules?: HogQLQueryModifiersCustomChannelTypeRulesList | null | undefined;
+  dataWarehouseEventsModifiers?:
+    | HogQLQueryModifiersDataWarehouseEventsModifiersList
+    | null
+    | undefined;
+  debug?: boolean | null | undefined;
   /** If these are provided, the query will fail if these skip indexes are not used */
-  forceClickhouseDataSkippingIndexes?: HogQLQueryModifiersForceClickhouseDataSkippingIndexesList | null;
-  formatCsvAllowDoubleQuotes?: boolean | null;
-  inCohortVia?: InCohortVia | (string & {}) | null;
-  inlineCohortCalculation?: InlineCohortCalculation | (string & {}) | null;
-  materializationMode?: MaterializationMode | (string & {}) | null;
+  forceClickhouseDataSkippingIndexes?:
+    | HogQLQueryModifiersForceClickhouseDataSkippingIndexesList
+    | null
+    | undefined;
+  formatCsvAllowDoubleQuotes?: boolean | null | undefined;
+  inCohortVia?: InCohortVia | (string & {}) | null | undefined;
+  inlineCohortCalculation?: InlineCohortCalculation | (string & {}) | null | undefined;
+  materializationMode?: MaterializationMode | (string & {}) | null | undefined;
   /** Reuse eligible bounded event aggregates within one query execution. When unset, the server may enable it via the cloud feature flag. */
-  materializeRepeatedCTEs?: boolean | null;
-  materializedColumnsOptimizationMode?: MaterializedColumnsOptimizationMode | (string & {}) | null;
+  materializeRepeatedCTEs?: boolean | null | undefined;
+  materializedColumnsOptimizationMode?:
+    | MaterializedColumnsOptimizationMode
+    | (string & {})
+    | null
+    | undefined;
   /** Merge sibling aggregating LEFT JOINs over federated Postgres tables into one UNION ALL join, so their scans overlap */
-  mergeFederatedAggregateJoins?: boolean | null;
+  mergeFederatedAggregateJoins?: boolean | null | undefined;
   /** Replace negated person-property filters in the WHERE of an `events` query (such as `email not_icontains`) with `person_id NOT IN (SELECT id FROM persons WHERE <the filters fail>)`, so the query no longer joins every person. Applies only when every filtered person property has a materialized column, nothing else in the query reads that persons join, and the join would be a LEFT JOIN. */
-  negatedPersonFiltersNotIn?: boolean | null;
-  optimizeJoinedFilters?: boolean | null;
-  optimizeProjections?: boolean | null;
+  negatedPersonFiltersNotIn?: boolean | null | undefined;
+  optimizeJoinedFilters?: boolean | null | undefined;
+  optimizeProjections?: boolean | null | undefined;
   /** HogQL parser backend; absent -> `rust_py_with_cpp_shadow` (rust-py is primary, cpp runs as a sampled shadow). `*_shadow` modes return the primary result and sample-compare against the other parser, reporting divergences without failing the request. The `rust_py_*` modes drive the same hand-rolled Rust parser as `rust_*` but build `posthog.hogql.ast` dataclass instances directly via PyO3, skipping the JSON round-trip. */
-  parserMode?: ParserMode | (string & {}) | null;
+  parserMode?: ParserMode | (string & {}) | null | undefined;
   /** Push an `id IN (SELECT person_id FROM <left table> WHERE ...)` predicate into the joined persons subquery, so the latest-version lookup only reads persons that the outer query's left-table filters can reach. Applies only to a persons join from the query's own FROM table. */
-  personIdPushdown?: boolean | null;
-  personsArgMaxVersion?: PersonsArgMaxVersion | (string & {}) | null;
-  personsJoinMode?: PersonsJoinMode | (string & {}) | null;
-  personsOnEventsMode?: PersonsOnEventsMode | (string & {}) | null;
-  propertyGroupsMode?: PropertyGroupsMode | (string & {}) | null;
-  pushDownPredicates?: boolean | null;
-  s3TableUseInvalidColumns?: boolean | null;
+  personIdPushdown?: boolean | null | undefined;
+  personsArgMaxVersion?: PersonsArgMaxVersion | (string & {}) | null | undefined;
+  personsJoinMode?: PersonsJoinMode | (string & {}) | null | undefined;
+  personsOnEventsMode?: PersonsOnEventsMode | (string & {}) | null | undefined;
+  propertyGroupsMode?: PropertyGroupsMode | (string & {}) | null | undefined;
+  pushDownPredicates?: boolean | null | undefined;
+  s3TableUseInvalidColumns?: boolean | null | undefined;
   /** Push a `session_id_v7 IN (SELECT ... FROM events WHERE ...)` predicate into the raw_sessions subquery to limit aggregation to sessions that participate in the outer events filter. */
-  sessionIdPushdown?: boolean | null;
+  sessionIdPushdown?: boolean | null | undefined;
   /** Pre-filter raw_sessions aggregation by `session_id_v7 IN (cheap pre-aggregation that only materializes the columns referenced by the outer-WHERE session predicate)`. Useful when the breakdown/SELECT pulls in many session columns (e.g. `$channel_type`) but the filter only references one (e.g. `$entry_current_url`). */
-  sessionPropertyPreAggregation?: boolean | null;
-  sessionTableVersion?: SessionTableVersion | (string & {}) | null;
+  sessionPropertyPreAggregation?: boolean | null | undefined;
+  sessionTableVersion?: SessionTableVersion | (string & {}) | null | undefined;
   /** Padding, in minutes, on each side of the event time range when it filters the sessions table by session start. Defaults to 3 days. It can only narrow the range: values above the default are ignored. Lower it only for a query that keeps just the sessions that start inside its own time range. */
-  sessionTimestampBufferMinutes?: number | null;
-  sessionsV2JoinMode?: SessionsV2JoinMode | (string & {}) | null;
-  timings?: boolean | null;
+  sessionTimestampBufferMinutes?: number | null | undefined;
+  sessionsV2JoinMode?: SessionsV2JoinMode | (string & {}) | null | undefined;
+  timings?: boolean | null | undefined;
   /** Remove provably redundant casts and nullability wrappers (e.g. `toString(String)`, `assumeNotNull(non_nullable)`, dead `ifNull` fallbacks) using inferred expression types */
-  typeAwareCastSimplification?: boolean | null;
-  useMaterializedViews?: boolean | null;
+  typeAwareCastSimplification?: boolean | null | undefined;
+  useMaterializedViews?: boolean | null | undefined;
   /** Read events from the native JSON events table (`true`) or the legacy events table (`false`). When unset, a staff person's `ph_new_events_schema` cookie applies, then the project's listing in the `CLICKHOUSE_HOGQL_USE_NEW_EVENTS_SCHEMA_TEAMS` instance setting, then the `CLICKHOUSE_HOGQL_USE_NEW_EVENTS_SCHEMA` instance setting. This is an internal rollout switch, and the project settings API ignores it. */
-  useNewEventsSchema?: boolean | null;
-  usePreaggregatedIntermediateResults?: boolean | null;
+  useNewEventsSchema?: boolean | null | undefined;
+  usePreaggregatedIntermediateResults?: boolean | null | undefined;
   /** Try to automatically convert HogQL queries to use preaggregated tables at the AST level * */
-  usePreaggregatedTableTransforms?: boolean | null;
-  useWebAnalyticsPreAggregatedTables?: boolean | null;
+  usePreaggregatedTableTransforms?: boolean | null | undefined;
+  useWebAnalyticsPreAggregatedTables?: boolean | null | undefined;
   /** Serve filters on the stored session-entry attribution properties (`$channel_type`, `$entry_utm_*`, `$entry_referring_domain`) by recomputing the value from the session's first pageview. Resolved server-side; not intended to be set by clients. */
-  webAnalyticsFirstPageviewFilters?: boolean | null;
+  webAnalyticsFirstPageviewFilters?: boolean | null | undefined;
 }
 export type AccountPersonsActorsQueryOrderByList = Array<string>;
 export type AccountPersonsActorsQueryPropertiesCase0Item =
@@ -893,15 +903,15 @@ export interface QueryScanWarning {
   /** Whether the person can change the query so it reads less and still answers the same question. Surfaces show the full advice and "Fix with AI" only when a finding is actionable. */
   actionable: boolean;
   /** True when the query reads this much on purpose, so reading less would change the answer. Absent means no. */
-  by_design?: boolean | null;
+  by_design?: boolean | null | undefined;
   /** A label for what in the query text kept the read wide, such as `in_or`. Only analytics and the assistant read it, and the labels can change. */
-  cause?: string | null;
+  cause?: string | null | undefined;
   /** The one fact the finding rests on. */
-  evidence?: string | null;
+  evidence?: string | null | undefined;
   /** What "Fix with AI" and the assistant are told to do. */
   fix: string;
   /** Where the change goes. Absent means the query itself. */
-  fix_location?: QueryScanFixLocation | (string & {}) | null;
+  fix_location?: QueryScanFixLocation | (string & {}) | null | undefined;
   kind: QueryScanFindingKind | (string & {});
   /** Shown to the person: what happened and what to do. */
   message: string;
@@ -910,62 +920,62 @@ export interface QueryScanWarning {
 export type QueryScanAnalysisFindingsList = Array<QueryScanWarning>;
 export interface QueryScanAnalysis {
   /** The message the Fix with AI button sends to the assistant. Absent when no finding can be fixed in the query. */
-  assistant_prompt?: string | null;
+  assistant_prompt?: string | null | undefined;
   /** Every finding, fixable or not. Empty when the analysis found none. */
   findings: QueryScanAnalysisFindingsList;
   /** How much of all the project's events the query read, 0 to 1. */
-  project_share?: number | null;
+  project_share?: number | null | undefined;
   /** How much of the project's events in the query's date range the query read, 0 to 1. */
-  range_share?: number | null;
+  range_share?: number | null | undefined;
 }
 export interface QueryScanSummary {
   /** The stored analysis, put on the response when it is served. Absent while the analysis runs, and when none was requested. */
-  analysis?: QueryScanAnalysis | null;
+  analysis?: QueryScanAnalysis | null | undefined;
   /** True when the run asked for an analysis, or found one stored. While `analysis` is absent, poll `GET /query/scan/{cache_key}` for it. */
-  analysis_requested?: boolean | null;
+  analysis_requested?: boolean | null | undefined;
   /** ClickHouse time for the last fresh run, summed over its ClickHouse queries. */
   duration_ms: number;
   /** True when ClickHouse stopped the run instead of finishing it. */
-  killed?: boolean | null;
+  killed?: boolean | null | undefined;
   /** Rows ClickHouse read for the last fresh run, all tables included. */
   rows_read: number;
 }
 export interface QueryStatus {
-  budget_remaining_bytes?: number | null;
-  bytes_read?: number | null;
+  budget_remaining_bytes?: number | null | undefined;
+  bytes_read?: number | null | undefined;
   /** Cache key of the run that failed, so clients can ask for its query scan. */
-  cache_key?: string | null;
+  cache_key?: string | null | undefined;
   /** Whether the query is still running. Will be true if the query is complete, even if it errored. Either result or error will be set. */
-  complete?: boolean | null;
-  dashboard_id?: number | null;
+  complete?: boolean | null | undefined;
+  dashboard_id?: number | null | undefined;
   /** When did the query execution task finish (whether successfully or not). */
-  end_time?: string | null;
+  end_time?: string | null | undefined;
   /** If the query failed, this will be set to true. More information can be found in the error_message field. */
-  error?: boolean | null;
+  error?: boolean | null | undefined;
   /** Stable machine-readable code for the error, when known: the DRF exception code, the ClickHouse error name, the HogQL error code, or `unhandled_<exception class>` for a failure that no handler classified. */
-  error_code?: string | null;
-  error_message?: string | null;
-  expiration_time?: string | null;
+  error_code?: string | null | undefined;
+  error_message?: string | null | undefined;
+  expiration_time?: string | null | undefined;
   id: string;
-  insight_id?: number | null;
-  labels?: QueryStatusLabelsList | null;
+  insight_id?: number | null | undefined;
+  labels?: QueryStatusLabelsList | null | undefined;
   /** When was the query execution task picked up by a worker. */
-  pickup_time?: string | null;
+  pickup_time?: string | null | undefined;
   /** ONLY async queries use QueryStatus. */
-  query_async?: boolean;
-  query_progress?: ClickhouseQueryProgress | null;
-  query_scan?: QueryScanSummary | null;
-  results?: unknown;
+  query_async?: boolean | undefined;
+  query_progress?: ClickhouseQueryProgress | null | undefined;
+  query_scan?: QueryScanSummary | null | undefined;
+  results?: unknown | undefined;
   /** When was query execution task enqueued. */
-  start_time?: string | null;
-  task_id?: string | null;
+  start_time?: string | null | undefined;
+  task_id?: string | null | undefined;
   team_id: number;
 }
 export interface ResolvedDateRangeResponse {
   date_from: string;
   date_to: string;
   /** The earliest timestamp the query reads, when only its first interval depends on rows from before date_from. Lifecycle sets it to the start of the interval before the range. */
-  read_from?: string | null;
+  read_from?: string | null | undefined;
 }
 export type ActorsQueryResponseResultsItemList = Array<unknown>;
 export type ActorsQueryResponseResultsList = Array<ActorsQueryResponseResultsItemList>;
@@ -981,22 +991,22 @@ export interface DataWarehouseSourceUsage {
   /** ExternalDataSource id */
   id: string;
   /** Connector type of the source (e.g. Stripe, Postgres), if known */
-  source_type?: string | null;
+  source_type?: string | null | undefined;
   /** Warehouse table name that was referenced */
   table_name: string;
   /** Whether the query read a history table of this source */
-  uses_history_table?: boolean | null;
+  uses_history_table?: boolean | null | undefined;
 }
 export type ActorsQueryResponseUsedDataWarehouseSourcesList = Array<DataWarehouseSourceUsage>;
 export interface DataWarehouseSyncWarning {
   /** True when the last sync is still within the table's sync interval, so the data is current and the warning only says it will stop updating (a sync paused recently). False or absent when the data is out of date. */
-  data_is_current?: boolean | null;
+  data_is_current?: boolean | null | undefined;
   /** Human-readable warning shown to the user */
   message: string;
   /** Name of the ExternalDataSchema responsible for syncing the table */
   schema_name: string;
   /** ID of the ExternalDataSource, used to link to its management page. Null for self-managed tables. */
-  source_id?: string | null;
+  source_id?: string | null | undefined;
   /** Source type, e.g. "Stripe", "Hubspot" */
   source_type: string;
   /** Sync status that triggered the warning, e.g. "Failed", "Paused", "BillingLimitReached" */
@@ -1004,7 +1014,7 @@ export interface DataWarehouseSyncWarning {
   /** Name of the warehouse table the warning refers to */
   table_name: string;
   /** Tells warning kinds apart in the shared `warnings` list */
-  type?: string;
+  type?: string | undefined;
 }
 /** Resource types the user has access restrictions on, referenced by the query, e.g. ["insight", "dashboard"] */
 export type AccessControlFilterWarningResourcesList = Array<string>;
@@ -1014,13 +1024,13 @@ export interface AccessControlFilterWarning {
   /** Resource types the user has access restrictions on, referenced by the query, e.g. ["insight", "dashboard"] */
   resources: AccessControlFilterWarningResourcesList;
   /** Tells warning kinds apart in the shared `warnings` list */
-  type?: string;
+  type?: string | undefined;
 }
 export interface BreakdownNotAppliedWarning {
   /** Human-readable warning shown to the user */
   message: string;
   /** Tells warning kinds apart in the shared `warnings` list */
-  type?: string;
+  type?: string | undefined;
 }
 export type ActorsQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
@@ -1030,73 +1040,73 @@ export type ActorsQueryResponseWarningsList = Array<ActorsQueryResponseWarningsI
 export interface ActorsQueryResponse {
   columns: ActorsQueryResponseColumnsList;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
-  error?: string | null;
-  hasMore?: boolean | null;
+  error?: string | null | undefined;
+  hasMore?: boolean | null | undefined;
   /** Generated HogQL query. */
   hogql: string;
   limit: number;
-  missing_actors_count?: number | null;
+  missing_actors_count?: number | null | undefined;
   /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
+  modifiers?: HogQLQueryModifiers | null | undefined;
   offset: number;
   /** Query status indicates whether next to the provided data, a query is still running. */
-  query_status?: QueryStatus | null;
+  query_status?: QueryStatus | null | undefined;
   /** The resolved previous/comparison period date range, when comparing against another period */
-  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null | undefined;
   /** The date range used for the query */
-  resolved_date_range?: ResolvedDateRangeResponse | null;
+  resolved_date_range?: ResolvedDateRangeResponse | null | undefined;
   results: ActorsQueryResponseResultsList;
   /** Measured timings for different parts of the query generation process */
-  timings?: ActorsQueryResponseTimingsList | null;
-  types?: ActorsQueryResponseTypesList | null;
+  timings?: ActorsQueryResponseTimingsList | null | undefined;
+  types?: ActorsQueryResponseTypesList | null | undefined;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: ActorsQueryResponseUsedDataWarehouseSourcesList | null;
+  used_data_warehouse_sources?: ActorsQueryResponseUsedDataWarehouseSourcesList | null | undefined;
   /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
-  warnings?: ActorsQueryResponseWarningsList | null;
+  warnings?: ActorsQueryResponseWarningsList | null | undefined;
 }
 export type AccountPersonsActorsQuerySelectList = Array<string>;
 export interface QueryLogTags {
   /** Name of the query, preferably unique. For example web_analytics_vitals */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Short id of the saved Web analytics filter preset this query was run under, if any. */
-  presetId?: string | null;
+  presetId?: string | null | undefined;
   /** Product responsible for this query. Use string, there's no need to churn the Schema when we add a new product * */
-  productKey?: string | null;
+  productKey?: string | null | undefined;
   /** Scene where this query is shown in the UI. Use string, there's no need to churn the Schema when we add a new Scene * */
-  scene?: string | null;
+  scene?: string | null | undefined;
 }
 export interface AccountUsersQuery {
   /** ID of the account whose users to list. */
   accountId: string;
-  kind?: string;
+  kind?: string | undefined;
   /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  response?: ActorsQueryResponse | null;
-  tags?: QueryLogTags | null;
+  modifiers?: HogQLQueryModifiers | null | undefined;
+  response?: ActorsQueryResponse | null | undefined;
+  tags?: QueryLogTags | null | undefined;
   /** version of the node, used for schema migrations */
-  version?: number | null;
+  version?: number | null | undefined;
 }
 export interface AccountPersonsActorsQuery {
   /** Exclude persons matching the team's "internal and test account" filters. Only person-scoped filters (person properties, cohorts) are applied. Event-scoped test account filters have no meaning in a persons query and are ignored. */
-  filterTestAccounts?: boolean | null;
+  filterTestAccounts?: boolean | null | undefined;
   /** Currently only person filters supported. No filters for querying groups. See `filter_conditions()` in actor_strategies.py. */
-  fixedProperties?: AccountPersonsActorsQueryFixedPropertiesList | null;
-  kind?: string;
-  limit?: number | null;
+  fixedProperties?: AccountPersonsActorsQueryFixedPropertiesList | null | undefined;
+  kind?: string | undefined;
+  limit?: number | null | undefined;
   /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  offset?: number | null;
-  orderBy?: AccountPersonsActorsQueryOrderByList | null;
+  modifiers?: HogQLQueryModifiers | null | undefined;
+  offset?: number | null | undefined;
+  orderBy?: AccountPersonsActorsQueryOrderByList | null | undefined;
   /** Currently only person filters supported. No filters for querying groups. See `filter_conditions()` in actor_strategies.py. */
-  properties?: AccountPersonsActorsQueryProperties | null;
-  response?: ActorsQueryResponse | null;
-  search?: string | null;
-  select?: AccountPersonsActorsQuerySelectList | null;
+  properties?: AccountPersonsActorsQueryProperties | null | undefined;
+  response?: ActorsQueryResponse | null | undefined;
+  search?: string | null | undefined;
+  select?: AccountPersonsActorsQuerySelectList | null | undefined;
   /** Account membership source for the table. */
   source: AccountUsersQuery;
-  tags?: QueryLogTags | null;
+  tags?: QueryLogTags | null | undefined;
   /** version of the node, used for schema migrations */
-  version?: number | null;
+  version?: number | null | undefined;
 }
 export type CreateAccountsPersonsQueryRequestRefresh = "blocking" | "force_blocking";
 export type CreateAccountsPersonsQueryRequestVariablesOverrideValueMap = {
@@ -1109,19 +1119,19 @@ export interface CreateAccountsPersonsQueryRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
-  async?: boolean | null;
+  async?: boolean | null | undefined;
   /** Client provided query ID. Can be used to retrieve the status or cancel the query. */
-  client_query_id?: string | null;
-  filters_override?: DashboardFilter | null;
+  client_query_id?: string | null | undefined;
+  filters_override?: DashboardFilter | null | undefined;
   /** Limit context for the query. Only 'posthog_ai' is allowed as a client-provided value. */
-  limit_context?: LimitContext | (string & {}) | null;
+  limit_context?: LimitContext | (string & {}) | null | undefined;
   /** Name given to a query. It's used to identify the query in the UI. Up to 128 characters for a name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Account-user table query to run. */
   query: AccountPersonsActorsQuery;
   /** Read cached results or calculate synchronously. */
-  refresh?: CreateAccountsPersonsQueryRequestRefresh | (string & {}) | null;
-  variables_override?: CreateAccountsPersonsQueryRequestVariablesOverrideMap | null;
+  refresh?: CreateAccountsPersonsQueryRequestRefresh | (string & {}) | null | undefined;
+  variables_override?: CreateAccountsPersonsQueryRequestVariablesOverrideMap | null | undefined;
 }
 export interface CreateAccountsPresenceRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1155,19 +1165,19 @@ export interface GetAccountsPersonRequest {
   project_id: string;
   id: string;
   /** JSON array of person property filters with key, operator, value, and type="person". Filters use AND. */
-  filters?: string;
+  filters?: string | undefined;
   /** Maximum persons per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of matching persons to skip. */
-  offset?: number;
+  offset?: number | undefined;
   /** JSON array of selected person property keys. Example: ["email", "name"]. */
-  properties?: string;
+  properties?: string | undefined;
   /** Search name, email, person ID, or distinct ID. */
-  search?: string;
+  search?: string | undefined;
   /** Sort by id, display_name, account_first_seen, account_last_seen, or a selected property key. */
-  sort_column?: string;
+  sort_column?: string | undefined;
   /** Sort direction. Person ID breaks ties. * `asc` - Ascending * `desc` - Descending */
-  sort_direction?: GetAccountsPersonRequestSortDirection | (string & {});
+  sort_direction?: GetAccountsPersonRequestSortDirection | (string & {}) | undefined;
 }
 /** Current membership distinct IDs for person navigation, up to 101. */
 export type AccountPersonDistinctIdsList = Array<string>;
@@ -1216,29 +1226,29 @@ export interface ListAccountsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** When true, returns only accounts where no user actively holds any relationship. */
-  all_roles_unassigned?: boolean;
+  all_roles_unassigned?: boolean | undefined;
   /** When true, active and tracked accounts come before churned or ignored ones, and `ordering` applies within each group. Use with `include_churned` or `include_ignored`. */
-  inactive_last?: boolean;
+  inactive_last?: boolean | undefined;
   /** Include churned accounts. Churned accounts are hidden by default. */
-  include_churned?: boolean;
+  include_churned?: boolean | undefined;
   /** Include ignored accounts. Ignored accounts are hidden by default. */
-  include_ignored?: boolean;
+  include_ignored?: boolean | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Sort order. Defaults to '-created_at'. */
-  ordering?: ListAccountsRequestOrdering | (string & {});
+  ordering?: ListAccountsRequestOrdering | (string & {}) | undefined;
   /** Case-insensitive substring search across account name and external ID. A query holding an email address also matches accounts that list it as a known email, and a query holding a domain matches accounts that own that email domain. */
-  search?: string;
+  search?: string | undefined;
   /** JSON-encoded array of tag names to filter by, e.g. `["enterprise","priority"]`. Returns accounts that have any of the listed tags. Malformed values (not a JSON-encoded list of strings) return a 400. */
-  tags?: string;
+  tags?: string | undefined;
 }
 export type PaginatedAccountListResultsList = Array<Account>;
 export interface PaginatedAccountList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedAccountListResultsList;
 }
 export interface ListAccountsEmailThreadMessagesRequest {
@@ -1248,9 +1258,9 @@ export interface ListAccountsEmailThreadMessagesRequest {
   id: string;
   thread_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface AccountEmailThreadAddress {
   /** Name from the email header. */
@@ -1285,8 +1295,8 @@ export interface AccountEmailThreadMessage {
 export type PaginatedAccountEmailThreadMessageListResultsList = Array<AccountEmailThreadMessage>;
 export interface PaginatedAccountEmailThreadMessageList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedAccountEmailThreadMessageListResultsList;
 }
 export interface ListAccountsEmailThreadsRequest {
@@ -1295,9 +1305,9 @@ export interface ListAccountsEmailThreadsRequest {
   /** A UUID string identifying this account. */
   id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface ConversationMessageSender {
   /** Display name of the message sender. */
@@ -1354,8 +1364,8 @@ export interface AccountEmailThread {
 export type PaginatedAccountEmailThreadListResultsList = Array<AccountEmailThread>;
 export interface PaginatedAccountEmailThreadList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedAccountEmailThreadListResultsList;
 }
 export interface ListAccountsMeetingsRequest {
@@ -1364,11 +1374,11 @@ export interface ListAccountsMeetingsRequest {
   /** A UUID string identifying this account. */
   id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter meetings by title or attendee email/name. */
-  search?: string;
+  search?: string | undefined;
 }
 /** One attendee of a synced calendar meeting (read-only). */
 export interface MeetingParticipant {
@@ -1409,8 +1419,8 @@ export interface Meeting {
 export type PaginatedMeetingListResultsList = Array<Meeting>;
 export interface PaginatedMeetingList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedMeetingListResultsList;
 }
 /** Up to 100 account IDs to read presence for. */
@@ -1437,9 +1447,9 @@ export interface ListAccountsSummariesRequest {
   /** A UUID string identifying this account. */
   id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** Metadata for one message a channel summary covered -- never the message text. */
 export interface ChannelSummaryMessage {
@@ -1476,8 +1486,8 @@ export interface AccountChannelSummary {
 export type PaginatedAccountChannelSummaryListResultsList = Array<AccountChannelSummary>;
 export interface PaginatedAccountChannelSummaryList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedAccountChannelSummaryListResultsList;
 }
 export interface ListAccountsSupportTicketMessagesRequest {
@@ -1487,9 +1497,9 @@ export interface ListAccountsSupportTicketMessagesRequest {
   id: string;
   ticket_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface AccountSupportTicketMessage {
   /** UUID of the support ticket message. */
@@ -1509,8 +1519,8 @@ export type PaginatedAccountSupportTicketMessageListResultsList =
   Array<AccountSupportTicketMessage>;
 export interface PaginatedAccountSupportTicketMessageList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedAccountSupportTicketMessageListResultsList;
 }
 export interface ListAccountsSupportTicketsRequest {
@@ -1551,19 +1561,19 @@ export type UpdateAccountRequestPropertiesKnownEmailsList = Array<string>;
 /** Typed account properties: website_domain, external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link, metabase_link), and touchpoint matching lists: email_domains (the company's email domains) and known_emails (individual addresses pinned to the account). Defaults to an empty object. Unknown keys are rejected. User assignments live on account relationships, not here. */
 export interface UpdateAccountRequestProperties {
   /** Primary company website hostname used for account identity and logo lookup. */
-  website_domain?: string | null;
+  website_domain?: string | null | undefined;
   /** Email domains owned by this account's company, used to match inbound touchpoints to the account. */
-  email_domains?: UpdateAccountRequestPropertiesEmailDomainsList;
+  email_domains?: UpdateAccountRequestPropertiesEmailDomainsList | undefined;
   /** Individual email addresses pinned to this account, matched before the domain fallback. */
-  known_emails?: UpdateAccountRequestPropertiesKnownEmailsList;
-  stripe_customer_id?: string | null;
-  hubspot_deal_id?: string | null;
-  billing_id?: string | null;
-  sfdc_id?: string | null;
-  zendesk_id?: string | null;
-  slack_channel_id?: string | null;
-  usage_dashboard_link?: string | null;
-  metabase_link?: string | null;
+  known_emails?: UpdateAccountRequestPropertiesKnownEmailsList | undefined;
+  stripe_customer_id?: string | null | undefined;
+  hubspot_deal_id?: string | null | undefined;
+  billing_id?: string | null | undefined;
+  sfdc_id?: string | null | undefined;
+  zendesk_id?: string | null | undefined;
+  slack_channel_id?: string | null | undefined;
+  usage_dashboard_link?: string | null | undefined;
+  metabase_link?: string | null | undefined;
 }
 /** Tag names attached to the account. Pass a list to replace existing tags. */
 export type UpdateAccountRequestTagsList = Array<string>;
@@ -1575,17 +1585,17 @@ export interface UpdateAccountRequest {
   /** Human-readable name of the account. */
   name: string;
   /** Identifier linking this account to its source customer -- the analytics group key (the customer's organization id), used to match billing and external records. Optional. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Typed account properties: website_domain, external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link, metabase_link), and touchpoint matching lists: email_domains (the company's email domains) and known_emails (individual addresses pinned to the account). Defaults to an empty object. Unknown keys are rejected. User assignments live on account relationships, not here. */
-  properties?: UpdateAccountRequestProperties | null;
+  properties?: UpdateAccountRequestProperties | null | undefined;
   /** Tag names attached to the account. Pass a list to replace existing tags. */
-  tags?: UpdateAccountRequestTagsList;
+  tags?: UpdateAccountRequestTagsList | undefined;
   /** How often to generate an AI summary of the account's bound Slack channel (daily, weekly, or monthly). Null means summaries are off. * `daily` - daily * `weekly` - weekly * `monthly` - monthly */
-  slack_summary_cadence?: SlackSummaryCadenceEnum | (string & {}) | null;
+  slack_summary_cadence?: SlackSummaryCadenceEnum | (string & {}) | null | undefined;
   /** When the account churned. Null means the account has not churned. */
-  churned_at?: string | null;
+  churned_at?: string | null | undefined;
   /** When the account was ignored, set by Track Rules or by hand. Null means the account is tracked. */
-  ignored_at?: string | null;
+  ignored_at?: string | null | undefined;
 }
 /** Email domains owned by this account's company, used to match inbound touchpoints to the account. */
 export type UpdateAccountsPartialRequestPropertiesEmailDomainsList = Array<string>;
@@ -1594,19 +1604,19 @@ export type UpdateAccountsPartialRequestPropertiesKnownEmailsList = Array<string
 /** Typed account properties: website_domain, external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link, metabase_link), and touchpoint matching lists: email_domains (the company's email domains) and known_emails (individual addresses pinned to the account). Defaults to an empty object. Unknown keys are rejected. User assignments live on account relationships, not here. */
 export interface UpdateAccountsPartialRequestProperties {
   /** Primary company website hostname used for account identity and logo lookup. */
-  website_domain?: string | null;
+  website_domain?: string | null | undefined;
   /** Email domains owned by this account's company, used to match inbound touchpoints to the account. */
-  email_domains?: UpdateAccountsPartialRequestPropertiesEmailDomainsList;
+  email_domains?: UpdateAccountsPartialRequestPropertiesEmailDomainsList | undefined;
   /** Individual email addresses pinned to this account, matched before the domain fallback. */
-  known_emails?: UpdateAccountsPartialRequestPropertiesKnownEmailsList;
-  stripe_customer_id?: string | null;
-  hubspot_deal_id?: string | null;
-  billing_id?: string | null;
-  sfdc_id?: string | null;
-  zendesk_id?: string | null;
-  slack_channel_id?: string | null;
-  usage_dashboard_link?: string | null;
-  metabase_link?: string | null;
+  known_emails?: UpdateAccountsPartialRequestPropertiesKnownEmailsList | undefined;
+  stripe_customer_id?: string | null | undefined;
+  hubspot_deal_id?: string | null | undefined;
+  billing_id?: string | null | undefined;
+  sfdc_id?: string | null | undefined;
+  zendesk_id?: string | null | undefined;
+  slack_channel_id?: string | null | undefined;
+  usage_dashboard_link?: string | null | undefined;
+  metabase_link?: string | null | undefined;
 }
 /** Tag names attached to the account. Pass a list to replace existing tags. */
 export type UpdateAccountsPartialRequestTagsList = Array<string>;
@@ -1616,19 +1626,19 @@ export interface UpdateAccountsPartialRequest {
   /** A UUID string identifying this account. */
   id: string;
   /** Human-readable name of the account. */
-  name?: string;
+  name?: string | undefined;
   /** Identifier linking this account to its source customer -- the analytics group key (the customer's organization id), used to match billing and external records. Optional. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Typed account properties: website_domain, external system identifiers (stripe_customer_id, hubspot_deal_id, billing_id, sfdc_id, zendesk_id, slack_channel_id, usage_dashboard_link, metabase_link), and touchpoint matching lists: email_domains (the company's email domains) and known_emails (individual addresses pinned to the account). Defaults to an empty object. Unknown keys are rejected. User assignments live on account relationships, not here. */
-  properties?: UpdateAccountsPartialRequestProperties | null;
+  properties?: UpdateAccountsPartialRequestProperties | null | undefined;
   /** Tag names attached to the account. Pass a list to replace existing tags. */
-  tags?: UpdateAccountsPartialRequestTagsList;
+  tags?: UpdateAccountsPartialRequestTagsList | undefined;
   /** How often to generate an AI summary of the account's bound Slack channel (daily, weekly, or monthly). Null means summaries are off. * `daily` - daily * `weekly` - weekly * `monthly` - monthly */
-  slack_summary_cadence?: SlackSummaryCadenceEnum | (string & {}) | null;
+  slack_summary_cadence?: SlackSummaryCadenceEnum | (string & {}) | null | undefined;
   /** When the account churned. Null means the account has not churned. */
-  churned_at?: string | null;
+  churned_at?: string | null | undefined;
   /** When the account was ignored, set by Track Rules or by hand. Null means the account is tracked. */
-  ignored_at?: string | null;
+  ignored_at?: string | null | undefined;
 }
 export type AccountsDestroyError = PosthogOpError;
 export const accountsDestroy: API.OperationMethod<

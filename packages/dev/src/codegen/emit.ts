@@ -179,10 +179,10 @@ export interface InterfaceFieldOptions {
   readonly doc?: string;
 }
 
-/** Interface field line(s): optional doc comment + `  name?: Type;`. */
+/** Interface field line(s), including explicit undefined for optional schema members. */
 export const interfaceField = (o: InterfaceFieldOptions): string[] => [
   ...(o.doc ? [`  /** ${o.doc} */`] : []),
-  `  ${tsKey(o.name)}${o.optional ? "?" : ""}: ${o.type};`,
+  `  ${tsKey(o.name)}${o.optional ? "?" : ""}: ${o.type}${o.optional ? " | undefined" : ""};`,
 ];
 
 /** `export type <Op>Error = A | B | <CommonErrors>;` */

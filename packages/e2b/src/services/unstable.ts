@@ -33,7 +33,7 @@ export type BuildInfoNamesList = Array<string>;
 export type BuildStatus = "building" | "failed" | "success";
 export interface BuildInfo {
   /** Template names related to this build, if available. */
-  names?: BuildInfoNamesList | null;
+  names?: BuildInfoNamesList | null | undefined;
   /** Build creation timestamp in RFC3339 format. */
   createdAt: string;
   /** Build completion timestamp in RFC3339 format, if finished. */
@@ -45,13 +45,13 @@ export interface BuildInfo {
 export type ListUnstableBuildsRequestStatusesList = Array<BuildStatus | (string & {})>;
 export interface ListUnstableBuildsRequest {
   /** Optional filter by build identifier, template identifier, or template alias. */
-  build_id_or_template?: string;
+  build_id_or_template?: string | undefined;
   /** Comma-separated list of build statuses to include. */
-  statuses?: ListUnstableBuildsRequestStatusesList;
+  statuses?: ListUnstableBuildsRequestStatusesList | undefined;
   /** Maximum number of builds to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** Cursor returned by the previous list response in `created_at|build_id` format. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export interface ListedBuild {
   /** Identifier of the build. */
@@ -109,15 +109,15 @@ export type SearchTemplatesRequestSort =
   | "updated_at_asc";
 export interface SearchTemplatesRequest {
   /** Case-insensitive substring match on the template ID, its aliases and its names. */
-  search?: string;
+  search?: string | undefined;
   /** Sort column and direction. */
-  sort?: SearchTemplatesRequestSort | (string & {});
+  sort?: SearchTemplatesRequestSort | (string & {}) | undefined;
   /** Only list public (true) or only non-public (false) templates. */
-  public?: boolean;
+  public?: boolean | undefined;
   /** Maximum number of templates to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** Cursor returned by the previous page in `{sort}|{value}|{templateID}` format. Rejected if its sort does not match the request. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 /** Aliases of the template */
 export type TemplateAliasesList = Array<string>;
@@ -159,9 +159,9 @@ export interface Template {
   envdVersion: string;
   buildStatus: TemplateBuildStatus;
   /** Whether the template is one of the platform's default templates. A default template owned by another team carries zero or null usage fields (`spawnCount`, `buildCount`, `lastSpawnedAt`, `createdBy`). */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   /** Description of the template */
-  description?: string;
+  description?: string | undefined;
 }
 export type TemplateSearchResponseDataList = Array<Template>;
 export interface TemplateSearchResponse {

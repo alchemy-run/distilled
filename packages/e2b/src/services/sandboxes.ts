@@ -29,9 +29,9 @@ const TELEMETRY = {
 export interface ConnectSandboxRequest {
   sandboxID: string;
   /** Timeout in seconds from the current time after which the sandbox should expire */
-  timeout?: number;
+  timeout?: number | undefined;
   /** Defaults to true. When false and the sandbox is paused, resume from disk state only: the sandbox cold-boots fresh and any memory in the snapshot is ignored, never modified or deleted. Disk state has crash-recovery semantics -- writes not flushed before the pause may be lost. A no-op for snapshots that contain no memory. Rejected with an error in environments where this capability is not enabled, never silently downgraded to a memory restore. A snapshot taken while the sandbox guest agent was not responding (envdUnresponsiveAtPause) can only be resumed this way, and needs no enablement. */
-  memory?: boolean;
+  memory?: boolean | undefined;
 }
 export interface Sandbox {
   /** Identifier of the template from which is the sandbox created */
@@ -39,16 +39,16 @@ export interface Sandbox {
   /** Identifier of the sandbox */
   sandboxID: string;
   /** Alias of the template */
-  alias?: string;
+  alias?: string | undefined;
   /** Identifier of the client */
   clientID: string;
   envdVersion: string;
   /** Access token used for envd communication */
-  envdAccessToken?: string | Redacted.Redacted<string>;
+  envdAccessToken?: string | Redacted.Redacted<string> | undefined;
   /** Token required for accessing sandbox via proxy. */
-  trafficAccessToken?: string | Redacted.Redacted<string> | null;
+  trafficAccessToken?: string | Redacted.Redacted<string> | null | undefined;
   /** Base domain where the sandbox traffic is accessible */
-  domain?: string | null;
+  domain?: string | null | undefined;
 }
 /** Auto-resume configuration for paused sandboxes. */
 export interface SandboxAutoResumeConfig {
@@ -65,19 +65,19 @@ export interface SandboxEgressProxyTLSConfig {
   /** Connect to the proxy over TLS. When false, no other field in this object may be set. */
   enabled: boolean;
   /** Name to verify the proxy certificate against, and to send as SNI. Defaults to the host part of address. Set this only when the certificate does not match the address the proxy is reached at. */
-  serverName?: string;
+  serverName?: string | undefined;
   /** One or more PEM-encoded certificates to verify the proxy against, for a proxy fronted by a private CA. These replace the system trust store, which is what is used when this is omitted. The system trust store depends on the host the orchestrator runs on, so set this to get the same verification everywhere. */
-  caCert?: string;
+  caCert?: string | undefined;
 }
 /** SOCKS5 proxy for sandbox egress. Outbound TCP is tunneled through the proxy after allow/deny filtering; the sandbox is unaware. Domain-matched flows use remote DNS (ATYP=domain). */
 export interface SandboxEgressProxyConfig {
   /** SOCKS5 proxy address in host:port format (e.g. "proxy.example.com:1080"). */
   address: string;
   /** Optional SOCKS5 username (RFC 1929), max 255 bytes. */
-  username?: string;
+  username?: string | undefined;
   /** Optional SOCKS5 password (RFC 1929), max 255 bytes. */
-  password?: string | Redacted.Redacted<string>;
-  tls?: SandboxEgressProxyTLSConfig | null;
+  password?: string | Redacted.Redacted<string> | undefined;
+  tls?: SandboxEgressProxyTLSConfig | null | undefined;
 }
 /** Sandbox ports that serve HTTPS rather than plaintext HTTP. Affects how the proxy reaches the service inside the sandbox; the public URL is HTTPS either way. Certificates are not verified, so self-signed ones work. The envd port (49983) cannot be listed. */
 export type SandboxNetworkConfigHttpsPortsList = Array<number>;
@@ -86,11 +86,11 @@ export type SandboxNetworkTransformHeadersMap = { [key: string]: string | undefi
 /** Transformations applied to matching egress requests before forwarding. */
 export interface SandboxNetworkTransform {
   /** HTTP headers to inject or override in matching requests. An existing header with the same name is replaced. Values are plain strings; secret resolution happens client-side before sending to the API. */
-  headers?: SandboxNetworkTransformHeadersMap;
+  headers?: SandboxNetworkTransformHeadersMap | undefined;
 }
 /** Transform rule applied to egress requests matching a domain pattern. */
 export interface SandboxNetworkRule {
-  transform?: SandboxNetworkTransform;
+  transform?: SandboxNetworkTransform | undefined;
 }
 export type SandboxNetworkConfigRulesValueList = Array<SandboxNetworkRule>;
 /** Per-domain transform rules applied to matching outbound HTTPS requests. Keys may be exact DNS names (for example, "api.example.com") or a leading wildcard (for example, "*.example.com"), and are normalized to lowercase on write. Wildcards match subdomains at any depth but not the apex domain; a bare "*" is invalid. Exact rules take precedence, followed by the longest matching wildcard suffix, and matching rule sets are not merged. Broad wildcards such as "*.com" are allowed and may expose transformed credentials to every matching destination the sandbox contacts. Rules do not grant network access; configure allowOut separately to permit the destination. */
@@ -99,20 +99,20 @@ export type SandboxNetworkConfigRulesMap = {
 };
 export interface SandboxNetworkConfig {
   /** Whether sandbox URLs accept traffic without the sandbox's traffic access token. When omitted or null on create, the project's default applies, which is true unless the project changed it. */
-  allowPublicTraffic?: boolean | null;
+  allowPublicTraffic?: boolean | null | undefined;
   /** List of allowed destinations for egress traffic. Each entry can be a CIDR block (e.g. "8.8.8.8/32"), a bare IP address (e.g. "8.8.8.8"), or a domain name (e.g. "example.com", "*.example.com"). Allowed entries always take precedence over denied entries. When allowOut contains a domain, the servers in dnsServers (8.8.8.8 by default) are also allowed. */
-  allowOut?: SandboxNetworkConfigAllowOutList;
+  allowOut?: SandboxNetworkConfigAllowOutList | undefined;
   /** List of denied CIDR blocks or IP addresses for egress traffic. Domain names are not supported for deny rules. */
-  denyOut?: SandboxNetworkConfigDenyOutList;
+  denyOut?: SandboxNetworkConfigDenyOutList | undefined;
   /** DNS servers the sandbox can reach when allowOut contains a domain. Each entry must be an IPv4 address, and all traffic to it is allowed. Omit it to allow the default nameserver 8.8.8.8, or pass an empty list to allow none. This does not change the sandbox's /etc/resolv.conf. */
-  dnsServers?: SandboxNetworkConfigDnsServersList;
-  egressProxy?: SandboxEgressProxyConfig | null;
+  dnsServers?: SandboxNetworkConfigDnsServersList | undefined;
+  egressProxy?: SandboxEgressProxyConfig | null | undefined;
   /** Specify host mask which will be used for all sandbox requests */
-  maskRequestHost?: string;
+  maskRequestHost?: string | undefined;
   /** Sandbox ports that serve HTTPS rather than plaintext HTTP. Affects how the proxy reaches the service inside the sandbox; the public URL is HTTPS either way. Certificates are not verified, so self-signed ones work. The envd port (49983) cannot be listed. */
-  httpsPorts?: SandboxNetworkConfigHttpsPortsList;
+  httpsPorts?: SandboxNetworkConfigHttpsPortsList | undefined;
   /** Per-domain transform rules applied to matching outbound HTTPS requests. Keys may be exact DNS names (for example, "api.example.com") or a leading wildcard (for example, "*.example.com"), and are normalized to lowercase on write. Wildcards match subdomains at any depth but not the apex domain; a bare "*" is invalid. Exact rules take precedence, followed by the longest matching wildcard suffix, and matching rule sets are not merged. Broad wildcards such as "*.com" are allowed and may expose transformed credentials to every matching destination the sandbox contacts. Rules do not grant network access; configure allowOut separately to permit the destination. */
-  rules?: SandboxNetworkConfigRulesMap;
+  rules?: SandboxNetworkConfigRulesMap | undefined;
 }
 export type SandboxMetadata = { [key: string]: string | undefined };
 export type EnvVars = { [key: string]: string | undefined };
@@ -128,7 +128,7 @@ export interface SandboxIamToken {
 export type SandboxIamTokens = { [key: string]: SandboxIamToken | undefined };
 /** Sandbox workload identity configuration. A non-empty, valid tokens map enables workload identity for the sandbox. */
 export interface SandboxIam {
-  tokens?: SandboxIamTokens;
+  tokens?: SandboxIamTokens | undefined;
 }
 export interface SandboxVolumeMount {
   /** Name of the volume */
@@ -141,27 +141,27 @@ export interface CreateSandboxRequest {
   /** Identifier of the required template */
   templateID: string;
   /** Time to live for the sandbox in seconds. */
-  timeout?: number;
+  timeout?: number | undefined;
   /** Automatically pauses the sandbox after the timeout */
-  autoPause?: boolean;
+  autoPause?: boolean | undefined;
   /** Controls the snapshot kind taken when the sandbox auto-pauses on timeout (only relevant when autoPause is true). When false, the auto-pause drops the in-memory state and persists only the filesystem (a filesystem-only snapshot); resuming it cold-boots (reboots) the sandbox from disk. Such a snapshot cannot be auto-resumed by traffic and must be resumed explicitly, so it cannot be combined with autoResume. Defaults to true (full memory snapshot). */
-  autoPauseMemory?: boolean;
-  autoResume?: SandboxAutoResumeConfig;
+  autoPauseMemory?: boolean | undefined;
+  autoResume?: SandboxAutoResumeConfig | undefined;
   /** Allow sandbox to access the internet. When set to false, it behaves the same as specifying denyOut to 0.0.0.0/0 in the network config. */
-  allow_internet_access?: boolean;
-  network?: SandboxNetworkConfig;
-  metadata?: SandboxMetadata;
-  envVars?: EnvVars;
-  mcp?: Mcp | null;
-  iam?: SandboxIam;
-  volumeMounts?: CreateSandboxRequestVolumeMountsList;
+  allow_internet_access?: boolean | undefined;
+  network?: SandboxNetworkConfig | undefined;
+  metadata?: SandboxMetadata | undefined;
+  envVars?: EnvVars | undefined;
+  mcp?: Mcp | null | undefined;
+  iam?: SandboxIam | undefined;
+  volumeMounts?: CreateSandboxRequestVolumeMountsList | undefined;
 }
 export interface CreateSandboxSnapshotRequest {
   sandboxID: string;
   /** Optional name for the snapshot template. If a snapshot template with this name already exists, a new build will be assigned to the existing template instead of creating a new one. */
-  name?: string;
+  name?: string | undefined;
   /** Whether to capture a full memory snapshot. When false, only the filesystem is persisted: the snapshot is smaller and faster to take, and sandboxes created from it cold-boot (start fresh from disk) instead of restoring memory, so they begin without the source sandbox's running processes, in-memory state, and open connections. The source sandbox keeps running in both cases. Defaults to true. */
-  memory?: boolean;
+  memory?: boolean | undefined;
 }
 /** Full names of the snapshot template including team namespace and tag (e.g. team-slug/my-snapshot:v2) */
 export type SnapshotInfoNamesList = Array<string>;
@@ -178,22 +178,22 @@ export interface DeleteSandboxResponse {}
 export interface ForkSandboxRequest {
   sandboxID: string;
   /** Time to live for the new forked sandboxes in seconds. */
-  timeout?: number;
+  timeout?: number | undefined;
   /** Number of forked sandboxes to create. All forks boot from the same snapshot, so the snapshot is captured once regardless of count. Each fork succeeds or fails independently; the outcome of each is reported in its entry of the response list. */
-  count?: number;
+  count?: number | undefined;
 }
 export interface Error {
   /** Error code */
   code: number;
   /** Machine-readable semantic error code. Not a closed set; initial values: sandbox_capacity_unavailable, sandbox_placement_timeout, sandbox_no_compatible_node, sandbox_create_failed (a node could not create the sandbox this time; retry), sandbox_create_refused (a node refused the sandbox for a reason no retry changes, such as a vcpu count out of bounds in the stored build; a server error, since no request field reaches that check), internal_server_error, secret_limit_reached, idempotency_request_mismatch, idempotency_in_progress, idempotency_outcome_unknown, cluster_registration_invalid, cluster_registration_conflict, cluster_assignment_invalid, cluster_assignment_project_not_found, cluster_assignment_cluster_not_found, cluster_assignment_already_assigned, cluster_assignment_cluster_deleting, sandbox_snapshot_guest_agent_unresponsive (a plain resume of a snapshot taken while the sandbox guest agent was not responding; resume it with memory: false). */
-  error_code?: string;
+  error_code?: string | undefined;
   /** Error */
   message: string;
 }
 /** Result of one requested fork. Exactly one of sandbox or error is set: sandbox when the fork started successfully, error when it failed to start. */
 export interface SandboxForkResult {
-  sandbox?: Sandbox;
-  error?: Error;
+  sandbox?: Sandbox | undefined;
+  error?: Error | undefined;
 }
 export type ForkSandboxResponseBodyList = Array<SandboxForkResult>;
 export type ForkSandboxResponse = ForkSandboxResponseBodyList;
@@ -217,7 +217,7 @@ export interface SandboxDetail {
   /** Identifier of the template from which is the sandbox created */
   templateID: string;
   /** Alias of the template */
-  alias?: string;
+  alias?: string | undefined;
   /** Identifier of the sandbox */
   sandboxID: string;
   /** Identifier of the client */
@@ -227,48 +227,48 @@ export interface SandboxDetail {
   /** Time when the sandbox will expire */
   endAt: string;
   envdVersion: string;
-  envdUnresponsiveAtPause?: boolean;
+  envdUnresponsiveAtPause?: boolean | undefined;
   /** Access token used for envd communication */
-  envdAccessToken?: string | Redacted.Redacted<string>;
+  envdAccessToken?: string | Redacted.Redacted<string> | undefined;
   /** Whether internet access was explicitly enabled or disabled for the sandbox. Null means it was not explicitly set. */
-  allowInternetAccess?: boolean | null;
+  allowInternetAccess?: boolean | null | undefined;
   /** Base domain where the sandbox traffic is accessible */
-  domain?: string | null;
+  domain?: string | null | undefined;
   cpuCount: number;
   memoryMB: number;
   diskSizeMB: number;
-  metadata?: SandboxMetadata;
+  metadata?: SandboxMetadata | undefined;
   state: SandboxState;
-  network?: SandboxNetworkConfig;
-  lifecycle?: SandboxLifecycle;
-  pauseMode?: SandboxPauseMode;
-  volumeMounts?: SandboxDetailVolumeMountsList;
+  network?: SandboxNetworkConfig | undefined;
+  lifecycle?: SandboxLifecycle | undefined;
+  pauseMode?: SandboxPauseMode | undefined;
+  volumeMounts?: SandboxDetailVolumeMountsList | undefined;
 }
 export type ListSandboxesRequestStateList = Array<SandboxState | (string & {})>;
 /** Sort direction */
 export type OrderDirection = "asc" | "desc";
 export interface ListSandboxesRequest {
   /** Metadata query used to filter the sandboxes (e.g. "user=abc&app=prod"). Each key and values must be URL encoded. */
-  metadata?: string;
+  metadata?: string | undefined;
   /** Filter sandboxes by one or more states */
-  state?: ListSandboxesRequestStateList;
+  state?: ListSandboxesRequestStateList | undefined;
   /** Sort direction by sandbox start time. Defaults to desc (newest first). */
-  order?: OrderDirection | (string & {});
+  order?: OrderDirection | (string & {}) | undefined;
   /** Return sandboxes started at or after this timestamp. */
-  startedAfter?: string;
+  startedAfter?: string | undefined;
   /** Filter sandboxes by a template ID or alias. */
-  template?: string;
+  template?: string | undefined;
   /** Cursor to start the list from */
-  nextToken?: string;
+  nextToken?: string | undefined;
   /** Maximum number of items to return per page */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListedSandboxVolumeMountsList = Array<SandboxVolumeMount>;
 export interface ListedSandbox {
   /** Identifier of the template from which is the sandbox created */
   templateID: string;
   /** Alias of the template */
-  alias?: string;
+  alias?: string | undefined;
   /** Identifier of the sandbox */
   sandboxID: string;
   /** Identifier of the client */
@@ -280,16 +280,16 @@ export interface ListedSandbox {
   cpuCount: number;
   memoryMB: number;
   diskSizeMB: number;
-  metadata?: SandboxMetadata;
+  metadata?: SandboxMetadata | undefined;
   state: SandboxState;
   envdVersion: string;
-  envdUnresponsiveAtPause?: boolean;
-  volumeMounts?: ListedSandboxVolumeMountsList;
+  envdUnresponsiveAtPause?: boolean | undefined;
+  volumeMounts?: ListedSandboxVolumeMountsList | undefined;
 }
 export type ListSandboxesResponseBodyList = Array<ListedSandbox>;
 export interface ListSandboxesResponse {
   items: ListSandboxesResponseBodyList;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ListSandboxesMetricsRequestSandboxIdsList = Array<string>;
 export interface ListSandboxesMetricsRequest {
@@ -328,15 +328,15 @@ export type LogLevel = "debug" | "info" | "warn" | "error";
 export interface ListSandboxLogsRequest {
   sandboxID: string;
   /** Starting timestamp of the logs that should be returned in milliseconds */
-  cursor?: number;
+  cursor?: number | undefined;
   /** Maximum number of logs that should be returned */
-  limit?: number;
+  limit?: number | undefined;
   /** Direction of the logs that should be returned */
-  direction?: LogsDirection | (string & {});
+  direction?: LogsDirection | (string & {}) | undefined;
   /** Minimum log level to return. Logs below this level are excluded */
-  level?: LogLevel | (string & {});
+  level?: LogLevel | (string & {}) | undefined;
   /** Case-sensitive substring match on log message content */
-  search?: string;
+  search?: string | undefined;
 }
 export type SandboxLogEntryFieldsMap = { [key: string]: string | undefined };
 export interface SandboxLogEntry {
@@ -356,23 +356,23 @@ export interface SandboxLogsV2Response {
 export interface ListSandboxMetricsRequest {
   sandboxID: string;
   /** Unix timestamp for the start of the interval, in seconds, for which the metrics */
-  start?: number;
-  end?: number;
+  start?: number | undefined;
+  end?: number | undefined;
 }
 export type ListSandboxMetricsResponseBodyList = Array<SandboxMetric>;
 export type ListSandboxMetricsResponse = ListSandboxMetricsResponseBodyList;
 export interface PauseSandboxRequest {
   sandboxID: string;
   /** Whether to capture a full memory snapshot. When false, only the filesystem is persisted and resuming the sandbox cold-boots (reboots) it from disk, losing in-memory state, running processes, and open connections. Resume it with an explicit request (connect or resume); auto-resume, which can be triggered by arbitrary traffic, refuses such a sandbox. Defaults to true. */
-  memory?: boolean;
+  memory?: boolean | undefined;
   /** The pause checks that the sandbox guest agent answers before it takes the snapshot. By default an unresponsive agent is recorded on the snapshot and the pause proceeds; the sandbox then shows `envdUnresponsiveAtPause` and a later resume must ask for `memory: false`, since restoring that memory would bring the unresponsive agent back. With this true, the pause is instead refused with 503 while the agent does not answer, and the sandbox keeps running. A filesystem-only pause (`memory: false`) is always refused while the agent does not answer, whatever this says. */
-  requireHealthyGuest?: boolean;
+  requireHealthyGuest?: boolean | undefined;
 }
 export interface PauseSandboxResponse {}
 export interface RefreshSandboxRequest {
   sandboxID: string;
   /** Duration for which the sandbox should be kept alive in seconds */
-  duration?: number;
+  duration?: number | undefined;
 }
 export interface RefreshSandboxResponse {}
 export interface SetSandboxTimeoutRequest {
@@ -395,16 +395,16 @@ export type UpdateSandboxNetworkRequestRulesMap = {
 export interface UpdateSandboxNetworkRequest {
   sandboxID: string;
   /** List of allowed destinations for egress traffic. Each entry can be a CIDR block (e.g. "8.8.8.8/32"), a bare IP address (e.g. "8.8.8.8"), or a domain name (e.g. "example.com", "*.example.com"). Allowed entries always take precedence over denied entries. When allowOut contains a domain, the servers in dnsServers (8.8.8.8 by default) are also allowed. */
-  allowOut?: UpdateSandboxNetworkRequestAllowOutList;
+  allowOut?: UpdateSandboxNetworkRequestAllowOutList | undefined;
   /** List of denied CIDR blocks or IP addresses for egress traffic. Domain names are not supported for deny rules. */
-  denyOut?: UpdateSandboxNetworkRequestDenyOutList;
+  denyOut?: UpdateSandboxNetworkRequestDenyOutList | undefined;
   /** DNS servers the sandbox can reach when allowOut contains a domain. Each entry must be an IPv4 address, and all traffic to it is allowed. Omit it to reset to the default nameserver 8.8.8.8, or pass an empty list to allow none. This does not change the sandbox's /etc/resolv.conf. */
-  dnsServers?: UpdateSandboxNetworkRequestDnsServersList;
-  egressProxy?: SandboxEgressProxyConfig | null;
+  dnsServers?: UpdateSandboxNetworkRequestDnsServersList | undefined;
+  egressProxy?: SandboxEgressProxyConfig | null | undefined;
   /** Per-domain transform rules applied to matching outbound HTTPS requests. Replaces all existing rules when provided. Keys may be exact DNS names or a single leading wildcard (for example, "*.example.com"), and are normalized to lowercase on write. Wildcards match subdomains at any depth but not the apex domain; a bare "*" is invalid. Exact rules take precedence, followed by the longest matching wildcard suffix, and matching rule sets are not merged. Broad wildcards such as "*.com" are allowed and may expose transformed credentials to every matching destination the sandbox contacts. Rules do not grant network access; configure allowOut separately to permit the destination. */
-  rules?: UpdateSandboxNetworkRequestRulesMap;
+  rules?: UpdateSandboxNetworkRequestRulesMap | undefined;
   /** Allow sandbox to access the internet. When set to false, it behaves the same as specifying denyOut to 0.0.0.0/0 in the network config. */
-  allow_internet_access?: boolean;
+  allow_internet_access?: boolean | undefined;
 }
 export interface UpdateSandboxNetworkResponse {}
 export type ConnectSandboxError = E2BOpError;

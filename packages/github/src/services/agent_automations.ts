@@ -42,25 +42,28 @@ export interface CreateRepoAutomationRequestTriggersInterval {
   /** One or more schedules on which the Automation runs. */
   cadence: CreateRepoAutomationRequestTriggersIntervalCadenceList;
   /** UTC hour anchor (0 through 23) for daily and weekly schedules. Omitted daily and weekly values default to `0` (midnight UTC). */
-  hour_utc?: number;
+  hour_utc?: number | undefined;
   /** UTC weekday anchor for weekly schedules, where `0` is Sunday and `6` is Saturday. Omitted weekly values default to Monday (`1`). */
-  day_of_week?: number;
+  day_of_week?: number | undefined;
   /** UTC minute anchor for daily and weekly schedules. Omitted daily and weekly values default to `0`. Must be omitted whenever `cadence` includes `hourly`. */
-  minute_utc?: CreateRepoAutomationRequestTriggersIntervalMinuteUtc | (number & {});
+  minute_utc?: CreateRepoAutomationRequestTriggersIntervalMinuteUtc | (number & {}) | undefined;
   /** Has no effect: scheduled runs can change any resource in the repository, and an organization or repository policy requiring trigger-scoped writes does not apply to them. */
-  write_scope?: CreateRepoAutomationRequestTriggersIntervalWriteScope | (string & {});
+  write_scope?: CreateRepoAutomationRequestTriggersIntervalWriteScope | (string & {}) | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type CreateRepoAutomationRequestTriggersIssueOpenedWriteScope = "trigger" | "repository";
 export interface CreateRepoAutomationRequestTriggersIssueOpened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationRequestTriggersIssueOpenedWriteScope | (string & {});
+  write_scope?:
+    | CreateRepoAutomationRequestTriggersIssueOpenedWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Label names matched case-insensitively against the label added by the event. Omit or use an empty array to match every added label. */
 export type CreateRepoAutomationRequestTriggersIssueLabeledLabelsList = Array<string>;
@@ -68,13 +71,16 @@ export type CreateRepoAutomationRequestTriggersIssueLabeledLabelsList = Array<st
 export type CreateRepoAutomationRequestTriggersIssueLabeledWriteScope = "trigger" | "repository";
 export interface CreateRepoAutomationRequestTriggersIssueLabeled {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Label names matched case-insensitively against the label added by the event. Omit or use an empty array to match every added label. */
-  labels?: CreateRepoAutomationRequestTriggersIssueLabeledLabelsList;
+  labels?: CreateRepoAutomationRequestTriggersIssueLabeledLabelsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationRequestTriggersIssueLabeledWriteScope | (string & {});
+  write_scope?:
+    | CreateRepoAutomationRequestTriggersIssueLabeledWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Workflow names matched against the name in each workflow YAML file. */
 export type CreateRepoAutomationRequestTriggersWorkflowRunWorkflowsList = Array<string>;
@@ -91,11 +97,14 @@ export interface CreateRepoAutomationRequestTriggersWorkflowRun {
   /** Workflow conclusions to match. The current trigger supports failure. */
   conclusions: CreateRepoAutomationRequestTriggersWorkflowRunConclusionsList;
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationRequestTriggersWorkflowRunWriteScope | (string & {});
+  write_scope?:
+    | CreateRepoAutomationRequestTriggersWorkflowRunWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type CreateRepoAutomationRequestTriggersPullRequestOpenedPathsList = Array<string>;
@@ -105,13 +114,16 @@ export type CreateRepoAutomationRequestTriggersPullRequestOpenedWriteScope =
   | "repository";
 export interface CreateRepoAutomationRequestTriggersPullRequestOpened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationRequestTriggersPullRequestOpenedPathsList;
+  paths?: CreateRepoAutomationRequestTriggersPullRequestOpenedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationRequestTriggersPullRequestOpenedWriteScope | (string & {});
+  write_scope?:
+    | CreateRepoAutomationRequestTriggersPullRequestOpenedWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type CreateRepoAutomationRequestTriggersPullRequestSynchronizePathsList = Array<string>;
@@ -121,13 +133,16 @@ export type CreateRepoAutomationRequestTriggersPullRequestSynchronizeWriteScope 
   | "repository";
 export interface CreateRepoAutomationRequestTriggersPullRequestSynchronize {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationRequestTriggersPullRequestSynchronizePathsList;
+  paths?: CreateRepoAutomationRequestTriggersPullRequestSynchronizePathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationRequestTriggersPullRequestSynchronizeWriteScope | (string & {});
+  write_scope?:
+    | CreateRepoAutomationRequestTriggersPullRequestSynchronizeWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type CreateRepoAutomationRequestTriggersPullRequestMergedPathsList = Array<string>;
@@ -137,25 +152,31 @@ export type CreateRepoAutomationRequestTriggersPullRequestMergedWriteScope =
   | "repository";
 export interface CreateRepoAutomationRequestTriggersPullRequestMerged {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationRequestTriggersPullRequestMergedPathsList;
+  paths?: CreateRepoAutomationRequestTriggersPullRequestMergedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationRequestTriggersPullRequestMergedWriteScope | (string & {});
+  write_scope?:
+    | CreateRepoAutomationRequestTriggersPullRequestMergedWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type CreateRepoAutomationRequestTriggersIssueCommentWriteScope = "trigger" | "repository";
 export interface CreateRepoAutomationRequestTriggersIssueComment {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationRequestTriggersIssueCommentWriteScope | (string & {});
+  write_scope?:
+    | CreateRepoAutomationRequestTriggersIssueCommentWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 export type CreateRepoAutomationRequestTriggersPullRequestCommentCommentTypesItem =
   | "timeline_comment"
@@ -174,15 +195,18 @@ export interface CreateRepoAutomationRequestTriggersPullRequestComment {
   /** Pull request conversation and inline review comment types to match. */
   comment_types: CreateRepoAutomationRequestTriggersPullRequestCommentCommentTypesList;
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationRequestTriggersPullRequestCommentPathsList;
+  paths?: CreateRepoAutomationRequestTriggersPullRequestCommentPathsList | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationRequestTriggersPullRequestCommentWriteScope | (string & {});
+  write_scope?:
+    | CreateRepoAutomationRequestTriggersPullRequestCommentWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Discussion category names matched case-insensitively. */
 export type CreateRepoAutomationRequestTriggersDiscussionOpenedCategoriesList = Array<string>;
@@ -192,13 +216,16 @@ export type CreateRepoAutomationRequestTriggersDiscussionOpenedWriteScope =
   | "repository";
 export interface CreateRepoAutomationRequestTriggersDiscussionOpened {
   /** Discussion category names matched case-insensitively. */
-  categories?: CreateRepoAutomationRequestTriggersDiscussionOpenedCategoriesList;
+  categories?: CreateRepoAutomationRequestTriggersDiscussionOpenedCategoriesList | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationRequestTriggersDiscussionOpenedWriteScope | (string & {});
+  write_scope?:
+    | CreateRepoAutomationRequestTriggersDiscussionOpenedWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Discussion category names matched case-insensitively. */
 export type CreateRepoAutomationRequestTriggersDiscussionUpdatedCategoriesList = Array<string>;
@@ -208,13 +235,16 @@ export type CreateRepoAutomationRequestTriggersDiscussionUpdatedWriteScope =
   | "repository";
 export interface CreateRepoAutomationRequestTriggersDiscussionUpdated {
   /** Discussion category names matched case-insensitively. */
-  categories?: CreateRepoAutomationRequestTriggersDiscussionUpdatedCategoriesList;
+  categories?: CreateRepoAutomationRequestTriggersDiscussionUpdatedCategoriesList | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationRequestTriggersDiscussionUpdatedWriteScope | (string & {});
+  write_scope?:
+    | CreateRepoAutomationRequestTriggersDiscussionUpdatedWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 export type CreateRepoAutomationRequestTriggersDiscussionCommentCommentTypesItem =
   | "comment"
@@ -231,15 +261,18 @@ export type CreateRepoAutomationRequestTriggersDiscussionCommentWriteScope =
   | "repository";
 export interface CreateRepoAutomationRequestTriggersDiscussionComment {
   /** Top-level discussion comments and replies to match. Omit to match both. */
-  comment_types?: CreateRepoAutomationRequestTriggersDiscussionCommentCommentTypesList;
+  comment_types?: CreateRepoAutomationRequestTriggersDiscussionCommentCommentTypesList | undefined;
   /** Discussion category names matched case-insensitively. */
-  categories?: CreateRepoAutomationRequestTriggersDiscussionCommentCategoriesList;
+  categories?: CreateRepoAutomationRequestTriggersDiscussionCommentCategoriesList | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationRequestTriggersDiscussionCommentWriteScope | (string & {});
+  write_scope?:
+    | CreateRepoAutomationRequestTriggersDiscussionCommentWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Affected assignee logins matched case-insensitively. */
 export type CreateRepoAutomationRequestTriggersIssueAssignedAssigneesList = Array<string>;
@@ -247,13 +280,16 @@ export type CreateRepoAutomationRequestTriggersIssueAssignedAssigneesList = Arra
 export type CreateRepoAutomationRequestTriggersIssueAssignedWriteScope = "trigger" | "repository";
 export interface CreateRepoAutomationRequestTriggersIssueAssigned {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Affected assignee logins matched case-insensitively. */
-  assignees?: CreateRepoAutomationRequestTriggersIssueAssignedAssigneesList;
+  assignees?: CreateRepoAutomationRequestTriggersIssueAssignedAssigneesList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationRequestTriggersIssueAssignedWriteScope | (string & {});
+  write_scope?:
+    | CreateRepoAutomationRequestTriggersIssueAssignedWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type CreateRepoAutomationRequestTriggersPullRequestAssignedPathsList = Array<string>;
@@ -265,25 +301,31 @@ export type CreateRepoAutomationRequestTriggersPullRequestAssignedWriteScope =
   | "repository";
 export interface CreateRepoAutomationRequestTriggersPullRequestAssigned {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationRequestTriggersPullRequestAssignedPathsList;
+  paths?: CreateRepoAutomationRequestTriggersPullRequestAssignedPathsList | undefined;
   /** Affected assignee logins matched case-insensitively. */
-  assignees?: CreateRepoAutomationRequestTriggersPullRequestAssignedAssigneesList;
+  assignees?: CreateRepoAutomationRequestTriggersPullRequestAssignedAssigneesList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationRequestTriggersPullRequestAssignedWriteScope | (string & {});
+  write_scope?:
+    | CreateRepoAutomationRequestTriggersPullRequestAssignedWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type CreateRepoAutomationRequestTriggersSubIssueAddedWriteScope = "trigger" | "repository";
 export interface CreateRepoAutomationRequestTriggersSubIssueAdded {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationRequestTriggersSubIssueAddedWriteScope | (string & {});
+  write_scope?:
+    | CreateRepoAutomationRequestTriggersSubIssueAddedWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type CreateRepoAutomationRequestTriggersPullRequestReadyForReviewPathsList = Array<string>;
@@ -293,15 +335,16 @@ export type CreateRepoAutomationRequestTriggersPullRequestReadyForReviewWriteSco
   | "repository";
 export interface CreateRepoAutomationRequestTriggersPullRequestReadyForReview {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationRequestTriggersPullRequestReadyForReviewPathsList;
+  paths?: CreateRepoAutomationRequestTriggersPullRequestReadyForReviewPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
   write_scope?:
     | CreateRepoAutomationRequestTriggersPullRequestReadyForReviewWriteScope
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type CreateRepoAutomationRequestTriggersPullRequestLabeledPathsList = Array<string>;
@@ -313,15 +356,18 @@ export type CreateRepoAutomationRequestTriggersPullRequestLabeledWriteScope =
   | "repository";
 export interface CreateRepoAutomationRequestTriggersPullRequestLabeled {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationRequestTriggersPullRequestLabeledPathsList;
+  paths?: CreateRepoAutomationRequestTriggersPullRequestLabeledPathsList | undefined;
   /** Label names matched case-insensitively against the label added by the event. Omit or use an empty array to match every added label. */
-  labels?: CreateRepoAutomationRequestTriggersPullRequestLabeledLabelsList;
+  labels?: CreateRepoAutomationRequestTriggersPullRequestLabeledLabelsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationRequestTriggersPullRequestLabeledWriteScope | (string & {});
+  write_scope?:
+    | CreateRepoAutomationRequestTriggersPullRequestLabeledWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type CreateRepoAutomationRequestTriggersPullRequestMergeConflictPathsList = Array<string>;
@@ -331,15 +377,16 @@ export type CreateRepoAutomationRequestTriggersPullRequestMergeConflictWriteScop
   | "repository";
 export interface CreateRepoAutomationRequestTriggersPullRequestMergeConflict {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationRequestTriggersPullRequestMergeConflictPathsList;
+  paths?: CreateRepoAutomationRequestTriggersPullRequestMergeConflictPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
   write_scope?:
     | CreateRepoAutomationRequestTriggersPullRequestMergeConflictWriteScope
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type CreateRepoAutomationRequestTriggersPullRequestReviewSubmittedPathsList = Array<string>;
@@ -357,17 +404,18 @@ export type CreateRepoAutomationRequestTriggersPullRequestReviewSubmittedWriteSc
   | "repository";
 export interface CreateRepoAutomationRequestTriggersPullRequestReviewSubmitted {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationRequestTriggersPullRequestReviewSubmittedPathsList;
+  paths?: CreateRepoAutomationRequestTriggersPullRequestReviewSubmittedPathsList | undefined;
   /** Submitted review states to match. */
   states: CreateRepoAutomationRequestTriggersPullRequestReviewSubmittedStatesList;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
   write_scope?:
     | CreateRepoAutomationRequestTriggersPullRequestReviewSubmittedWriteScope
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type CreateRepoAutomationRequestTriggersPullRequestReviewRequestedPathsList = Array<string>;
@@ -377,35 +425,42 @@ export type CreateRepoAutomationRequestTriggersPullRequestReviewRequestedWriteSc
   | "repository";
 export interface CreateRepoAutomationRequestTriggersPullRequestReviewRequested {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationRequestTriggersPullRequestReviewRequestedPathsList;
+  paths?: CreateRepoAutomationRequestTriggersPullRequestReviewRequestedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
   write_scope?:
     | CreateRepoAutomationRequestTriggersPullRequestReviewRequestedWriteScope
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type CreateRepoAutomationRequestTriggersIssueClosedWriteScope = "trigger" | "repository";
 export interface CreateRepoAutomationRequestTriggersIssueClosed {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationRequestTriggersIssueClosedWriteScope | (string & {});
+  write_scope?:
+    | CreateRepoAutomationRequestTriggersIssueClosedWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type CreateRepoAutomationRequestTriggersIssueReopenedWriteScope = "trigger" | "repository";
 export interface CreateRepoAutomationRequestTriggersIssueReopened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationRequestTriggersIssueReopenedWriteScope | (string & {});
+  write_scope?:
+    | CreateRepoAutomationRequestTriggersIssueReopenedWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type CreateRepoAutomationRequestTriggersPullRequestClosedPathsList = Array<string>;
@@ -415,13 +470,16 @@ export type CreateRepoAutomationRequestTriggersPullRequestClosedWriteScope =
   | "repository";
 export interface CreateRepoAutomationRequestTriggersPullRequestClosed {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationRequestTriggersPullRequestClosedPathsList;
+  paths?: CreateRepoAutomationRequestTriggersPullRequestClosedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationRequestTriggersPullRequestClosedWriteScope | (string & {});
+  write_scope?:
+    | CreateRepoAutomationRequestTriggersPullRequestClosedWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type CreateRepoAutomationRequestTriggersPullRequestReopenedPathsList = Array<string>;
@@ -431,13 +489,16 @@ export type CreateRepoAutomationRequestTriggersPullRequestReopenedWriteScope =
   | "repository";
 export interface CreateRepoAutomationRequestTriggersPullRequestReopened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationRequestTriggersPullRequestReopenedPathsList;
+  paths?: CreateRepoAutomationRequestTriggersPullRequestReopenedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationRequestTriggersPullRequestReopenedWriteScope | (string & {});
+  write_scope?:
+    | CreateRepoAutomationRequestTriggersPullRequestReopenedWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type CreateRepoAutomationRequestTriggersPullRequestConvertedToDraftPathsList = Array<string>;
@@ -447,15 +508,16 @@ export type CreateRepoAutomationRequestTriggersPullRequestConvertedToDraftWriteS
   | "repository";
 export interface CreateRepoAutomationRequestTriggersPullRequestConvertedToDraft {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationRequestTriggersPullRequestConvertedToDraftPathsList;
+  paths?: CreateRepoAutomationRequestTriggersPullRequestConvertedToDraftPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
   write_scope?:
     | CreateRepoAutomationRequestTriggersPullRequestConvertedToDraftWriteScope
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type CreateRepoAutomationRequestTriggersPullRequestReviewDismissedPathsList = Array<string>;
@@ -465,15 +527,16 @@ export type CreateRepoAutomationRequestTriggersPullRequestReviewDismissedWriteSc
   | "repository";
 export interface CreateRepoAutomationRequestTriggersPullRequestReviewDismissed {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationRequestTriggersPullRequestReviewDismissedPathsList;
+  paths?: CreateRepoAutomationRequestTriggersPullRequestReviewDismissedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
   write_scope?:
     | CreateRepoAutomationRequestTriggersPullRequestReviewDismissedWriteScope
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type CreateRepoAutomationRequestTriggersPullRequestReviewThreadResolvedPathsList =
@@ -484,15 +547,16 @@ export type CreateRepoAutomationRequestTriggersPullRequestReviewThreadResolvedWr
   | "repository";
 export interface CreateRepoAutomationRequestTriggersPullRequestReviewThreadResolved {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationRequestTriggersPullRequestReviewThreadResolvedPathsList;
+  paths?: CreateRepoAutomationRequestTriggersPullRequestReviewThreadResolvedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
   write_scope?:
     | CreateRepoAutomationRequestTriggersPullRequestReviewThreadResolvedWriteScope
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type CreateRepoAutomationRequestTriggersPullRequestReviewThreadUnresolvedPathsList =
@@ -503,15 +567,16 @@ export type CreateRepoAutomationRequestTriggersPullRequestReviewThreadUnresolved
   | "repository";
 export interface CreateRepoAutomationRequestTriggersPullRequestReviewThreadUnresolved {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationRequestTriggersPullRequestReviewThreadUnresolvedPathsList;
+  paths?: CreateRepoAutomationRequestTriggersPullRequestReviewThreadUnresolvedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
   write_scope?:
     | CreateRepoAutomationRequestTriggersPullRequestReviewThreadUnresolvedWriteScope
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Upstream Automation IDs in the same repository. */
 export type CreateRepoAutomationRequestTriggersAutomationCompletedAutomationIdsList = Array<string>;
@@ -523,9 +588,12 @@ export interface CreateRepoAutomationRequestTriggersAutomationCompleted {
   /** Upstream Automation IDs in the same repository. */
   automation_ids: CreateRepoAutomationRequestTriggersAutomationCompletedAutomationIdsList;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationRequestTriggersAutomationCompletedWriteScope | (string & {});
+  write_scope?:
+    | CreateRepoAutomationRequestTriggersAutomationCompletedWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Upstream Automation IDs in the same repository. An Automation cannot list itself, and a user-owned Automation can only be listed by its creator's user-owned Automations. */
 export type CreateRepoAutomationRequestTriggersAutomationFailedAutomationIdsList = Array<string>;
@@ -545,11 +613,14 @@ export interface CreateRepoAutomationRequestTriggersAutomationFailed {
   /** Upstream Automation IDs in the same repository. An Automation cannot list itself, and a user-owned Automation can only be listed by its creator's user-owned Automations. */
   automation_ids: CreateRepoAutomationRequestTriggersAutomationFailedAutomationIdsList;
   /** Failure reasons to match. Omit to match only reported failures. */
-  reasons?: CreateRepoAutomationRequestTriggersAutomationFailedReasonsList;
+  reasons?: CreateRepoAutomationRequestTriggersAutomationFailedReasonsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationRequestTriggersAutomationFailedWriteScope | (string & {});
+  write_scope?:
+    | CreateRepoAutomationRequestTriggersAutomationFailedWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type CreateRepoAutomationRequestTriggersCodeScanningAlertWriteScope =
@@ -558,9 +629,12 @@ export type CreateRepoAutomationRequestTriggersCodeScanningAlertWriteScope =
 /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
 export interface CreateRepoAutomationRequestTriggersCodeScanningAlert {
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationRequestTriggersCodeScanningAlertWriteScope | (string & {});
+  write_scope?:
+    | CreateRepoAutomationRequestTriggersCodeScanningAlertWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type CreateRepoAutomationRequestTriggersSecretScanningAlertWriteScope =
@@ -569,57 +643,79 @@ export type CreateRepoAutomationRequestTriggersSecretScanningAlertWriteScope =
 /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
 export interface CreateRepoAutomationRequestTriggersSecretScanningAlert {
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationRequestTriggersSecretScanningAlertWriteScope | (string & {});
+  write_scope?:
+    | CreateRepoAutomationRequestTriggersSecretScanningAlertWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type CreateRepoAutomationRequestTriggersDependabotAlertWriteScope = "trigger" | "repository";
 /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
 export interface CreateRepoAutomationRequestTriggersDependabotAlert {
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationRequestTriggersDependabotAlertWriteScope | (string & {});
+  write_scope?:
+    | CreateRepoAutomationRequestTriggersDependabotAlertWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Trigger configuration for the automation. */
 export interface CreateRepoAutomationRequestTriggers {
-  interval?: CreateRepoAutomationRequestTriggersInterval;
-  issue_opened?: CreateRepoAutomationRequestTriggersIssueOpened;
-  issue_labeled?: CreateRepoAutomationRequestTriggersIssueLabeled;
-  workflow_run?: CreateRepoAutomationRequestTriggersWorkflowRun;
-  pull_request_opened?: CreateRepoAutomationRequestTriggersPullRequestOpened;
-  pull_request_synchronize?: CreateRepoAutomationRequestTriggersPullRequestSynchronize;
-  pull_request_merged?: CreateRepoAutomationRequestTriggersPullRequestMerged;
-  issue_comment?: CreateRepoAutomationRequestTriggersIssueComment;
-  pull_request_comment?: CreateRepoAutomationRequestTriggersPullRequestComment;
-  discussion_opened?: CreateRepoAutomationRequestTriggersDiscussionOpened;
-  discussion_updated?: CreateRepoAutomationRequestTriggersDiscussionUpdated;
-  discussion_comment?: CreateRepoAutomationRequestTriggersDiscussionComment;
-  issue_assigned?: CreateRepoAutomationRequestTriggersIssueAssigned;
-  pull_request_assigned?: CreateRepoAutomationRequestTriggersPullRequestAssigned;
-  sub_issue_added?: CreateRepoAutomationRequestTriggersSubIssueAdded;
-  pull_request_ready_for_review?: CreateRepoAutomationRequestTriggersPullRequestReadyForReview;
-  pull_request_labeled?: CreateRepoAutomationRequestTriggersPullRequestLabeled;
-  pull_request_merge_conflict?: CreateRepoAutomationRequestTriggersPullRequestMergeConflict;
-  pull_request_review_submitted?: CreateRepoAutomationRequestTriggersPullRequestReviewSubmitted;
-  pull_request_review_requested?: CreateRepoAutomationRequestTriggersPullRequestReviewRequested;
-  issue_closed?: CreateRepoAutomationRequestTriggersIssueClosed;
-  issue_reopened?: CreateRepoAutomationRequestTriggersIssueReopened;
-  pull_request_closed?: CreateRepoAutomationRequestTriggersPullRequestClosed;
-  pull_request_reopened?: CreateRepoAutomationRequestTriggersPullRequestReopened;
-  pull_request_converted_to_draft?: CreateRepoAutomationRequestTriggersPullRequestConvertedToDraft;
-  pull_request_review_dismissed?: CreateRepoAutomationRequestTriggersPullRequestReviewDismissed;
-  pull_request_review_thread_resolved?: CreateRepoAutomationRequestTriggersPullRequestReviewThreadResolved;
-  pull_request_review_thread_unresolved?: CreateRepoAutomationRequestTriggersPullRequestReviewThreadUnresolved;
-  automation_completed?: CreateRepoAutomationRequestTriggersAutomationCompleted;
-  automation_failed?: CreateRepoAutomationRequestTriggersAutomationFailed;
+  interval?: CreateRepoAutomationRequestTriggersInterval | undefined;
+  issue_opened?: CreateRepoAutomationRequestTriggersIssueOpened | undefined;
+  issue_labeled?: CreateRepoAutomationRequestTriggersIssueLabeled | undefined;
+  workflow_run?: CreateRepoAutomationRequestTriggersWorkflowRun | undefined;
+  pull_request_opened?: CreateRepoAutomationRequestTriggersPullRequestOpened | undefined;
+  pull_request_synchronize?: CreateRepoAutomationRequestTriggersPullRequestSynchronize | undefined;
+  pull_request_merged?: CreateRepoAutomationRequestTriggersPullRequestMerged | undefined;
+  issue_comment?: CreateRepoAutomationRequestTriggersIssueComment | undefined;
+  pull_request_comment?: CreateRepoAutomationRequestTriggersPullRequestComment | undefined;
+  discussion_opened?: CreateRepoAutomationRequestTriggersDiscussionOpened | undefined;
+  discussion_updated?: CreateRepoAutomationRequestTriggersDiscussionUpdated | undefined;
+  discussion_comment?: CreateRepoAutomationRequestTriggersDiscussionComment | undefined;
+  issue_assigned?: CreateRepoAutomationRequestTriggersIssueAssigned | undefined;
+  pull_request_assigned?: CreateRepoAutomationRequestTriggersPullRequestAssigned | undefined;
+  sub_issue_added?: CreateRepoAutomationRequestTriggersSubIssueAdded | undefined;
+  pull_request_ready_for_review?:
+    | CreateRepoAutomationRequestTriggersPullRequestReadyForReview
+    | undefined;
+  pull_request_labeled?: CreateRepoAutomationRequestTriggersPullRequestLabeled | undefined;
+  pull_request_merge_conflict?:
+    | CreateRepoAutomationRequestTriggersPullRequestMergeConflict
+    | undefined;
+  pull_request_review_submitted?:
+    | CreateRepoAutomationRequestTriggersPullRequestReviewSubmitted
+    | undefined;
+  pull_request_review_requested?:
+    | CreateRepoAutomationRequestTriggersPullRequestReviewRequested
+    | undefined;
+  issue_closed?: CreateRepoAutomationRequestTriggersIssueClosed | undefined;
+  issue_reopened?: CreateRepoAutomationRequestTriggersIssueReopened | undefined;
+  pull_request_closed?: CreateRepoAutomationRequestTriggersPullRequestClosed | undefined;
+  pull_request_reopened?: CreateRepoAutomationRequestTriggersPullRequestReopened | undefined;
+  pull_request_converted_to_draft?:
+    | CreateRepoAutomationRequestTriggersPullRequestConvertedToDraft
+    | undefined;
+  pull_request_review_dismissed?:
+    | CreateRepoAutomationRequestTriggersPullRequestReviewDismissed
+    | undefined;
+  pull_request_review_thread_resolved?:
+    | CreateRepoAutomationRequestTriggersPullRequestReviewThreadResolved
+    | undefined;
+  pull_request_review_thread_unresolved?:
+    | CreateRepoAutomationRequestTriggersPullRequestReviewThreadUnresolved
+    | undefined;
+  automation_completed?: CreateRepoAutomationRequestTriggersAutomationCompleted | undefined;
+  automation_failed?: CreateRepoAutomationRequestTriggersAutomationFailed | undefined;
   /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
-  code_scanning_alert?: CreateRepoAutomationRequestTriggersCodeScanningAlert;
+  code_scanning_alert?: CreateRepoAutomationRequestTriggersCodeScanningAlert | undefined;
   /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
-  secret_scanning_alert?: CreateRepoAutomationRequestTriggersSecretScanningAlert;
+  secret_scanning_alert?: CreateRepoAutomationRequestTriggersSecretScanningAlert | undefined;
   /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
-  dependabot_alert?: CreateRepoAutomationRequestTriggersDependabotAlert;
+  dependabot_alert?: CreateRepoAutomationRequestTriggersDependabotAlert | undefined;
 }
 export type CreateRepoAutomationRequestReasoningEffortCase1 =
   | "none"
@@ -644,23 +740,23 @@ export interface CreateRepoAutomationRequest {
   /** The name of the automation. */
   name: string;
   /** Trigger configuration for the automation. */
-  triggers?: CreateRepoAutomationRequestTriggers;
+  triggers?: CreateRepoAutomationRequestTriggers | undefined;
   /** The prompt for the automation. */
   prompt: string;
   /** The model to use for sessions triggered by this automation. Omit or leave empty to let the platform select the model. */
-  model?: string;
+  model?: string | undefined;
   /** The reasoning effort to use for sessions triggered by this automation. Omit or leave empty to use the model's default. */
-  reasoning_effort?: CreateRepoAutomationRequestReasoningEffort;
+  reasoning_effort?: CreateRepoAutomationRequestReasoningEffort | undefined;
   /** The tools available to the automation. */
-  tools?: CreateRepoAutomationRequestToolsList;
+  tools?: CreateRepoAutomationRequestToolsList | undefined;
   /** Whether the automation should be created enabled. Defaults to true when omitted. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The type of automation, fixed at creation. `personal` keeps it private to its creator and its runs act as that user. `shared` makes it belong to the repository, visible to anyone with read access to the repository and maintainable by anyone with write access to the repository, and its runs act as the Copilot app rather than as a person. `shared` is rejected when repository ownership is not available for the repository. Supported values: `personal`, `shared`. Defaults to `personal`. */
-  type?: CreateRepoAutomationRequestType | (string & {});
+  type?: CreateRepoAutomationRequestType | (string & {}) | undefined;
   /** When true, event-triggered runs require the event actor to have repo write permission, even when the org's allow_read_access_triggers policy is enabled. When policy validation is enabled, explicitly setting false returns 422 if effective organization or repository policy disallows read-access triggers. If omitted, defaults to false when policy permits read-access triggers, otherwise true. The actor requirement does not apply to interval-scheduled runs, which always run as the automation owner. */
-  require_actor_write_permission?: boolean;
+  require_actor_write_permission?: boolean | undefined;
   /** When true, runs of this automation build on the session history of its previous runs, and runs of the same automation are serialized. Not tracked in revision history. Defaults to false. */
-  continuous_history?: boolean;
+  continuous_history?: boolean | undefined;
 }
 /** The type of automation. `personal` keeps it private to its creator and its runs act as that user. `shared` makes it belong to the repository, visible to anyone with read access to the repository, and its runs act as the Copilot app rather than as a person. */
 export type CreateRepoAutomationResponseType = "personal" | "shared";
@@ -676,25 +772,25 @@ export interface CreateRepoAutomationResponseTriggersInterval {
   /** One or more schedules on which the Automation runs. */
   cadence: CreateRepoAutomationResponseTriggersIntervalCadenceList;
   /** UTC hour anchor (0 through 23) for daily and weekly schedules. Omitted daily and weekly values default to `0` (midnight UTC). */
-  hour_utc?: number;
+  hour_utc?: number | undefined;
   /** UTC weekday anchor for weekly schedules, where `0` is Sunday and `6` is Saturday. Omitted weekly values default to Monday (`1`). */
-  day_of_week?: number;
+  day_of_week?: number | undefined;
   /** UTC minute anchor for daily and weekly schedules. Omitted daily and weekly values default to `0`. Must be omitted whenever `cadence` includes `hourly`. */
-  minute_utc?: CreateRepoAutomationResponseTriggersIntervalMinuteUtc;
+  minute_utc?: CreateRepoAutomationResponseTriggersIntervalMinuteUtc | undefined;
   /** Has no effect: scheduled runs can change any resource in the repository, and an organization or repository policy requiring trigger-scoped writes does not apply to them. */
-  write_scope?: CreateRepoAutomationResponseTriggersIntervalWriteScope;
+  write_scope?: CreateRepoAutomationResponseTriggersIntervalWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type CreateRepoAutomationResponseTriggersIssueOpenedWriteScope = "trigger" | "repository";
 export interface CreateRepoAutomationResponseTriggersIssueOpened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersIssueOpenedWriteScope;
+  write_scope?: CreateRepoAutomationResponseTriggersIssueOpenedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Label names matched case-insensitively against the label added by the event. Omit or use an empty array to match every added label. */
 export type CreateRepoAutomationResponseTriggersIssueLabeledLabelsList = Array<string>;
@@ -702,13 +798,13 @@ export type CreateRepoAutomationResponseTriggersIssueLabeledLabelsList = Array<s
 export type CreateRepoAutomationResponseTriggersIssueLabeledWriteScope = "trigger" | "repository";
 export interface CreateRepoAutomationResponseTriggersIssueLabeled {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Label names matched case-insensitively against the label added by the event. Omit or use an empty array to match every added label. */
-  labels?: CreateRepoAutomationResponseTriggersIssueLabeledLabelsList;
+  labels?: CreateRepoAutomationResponseTriggersIssueLabeledLabelsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersIssueLabeledWriteScope;
+  write_scope?: CreateRepoAutomationResponseTriggersIssueLabeledWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Workflow names matched against the name in each workflow YAML file. */
 export type CreateRepoAutomationResponseTriggersWorkflowRunWorkflowsList = Array<string>;
@@ -724,11 +820,11 @@ export interface CreateRepoAutomationResponseTriggersWorkflowRun {
   /** Workflow conclusions to match. The current trigger supports failure. */
   conclusions: CreateRepoAutomationResponseTriggersWorkflowRunConclusionsList;
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersWorkflowRunWriteScope;
+  write_scope?: CreateRepoAutomationResponseTriggersWorkflowRunWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type CreateRepoAutomationResponseTriggersPullRequestOpenedPathsList = Array<string>;
@@ -738,13 +834,13 @@ export type CreateRepoAutomationResponseTriggersPullRequestOpenedWriteScope =
   | "repository";
 export interface CreateRepoAutomationResponseTriggersPullRequestOpened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationResponseTriggersPullRequestOpenedPathsList;
+  paths?: CreateRepoAutomationResponseTriggersPullRequestOpenedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersPullRequestOpenedWriteScope;
+  write_scope?: CreateRepoAutomationResponseTriggersPullRequestOpenedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type CreateRepoAutomationResponseTriggersPullRequestSynchronizePathsList = Array<string>;
@@ -754,13 +850,13 @@ export type CreateRepoAutomationResponseTriggersPullRequestSynchronizeWriteScope
   | "repository";
 export interface CreateRepoAutomationResponseTriggersPullRequestSynchronize {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationResponseTriggersPullRequestSynchronizePathsList;
+  paths?: CreateRepoAutomationResponseTriggersPullRequestSynchronizePathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersPullRequestSynchronizeWriteScope;
+  write_scope?: CreateRepoAutomationResponseTriggersPullRequestSynchronizeWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type CreateRepoAutomationResponseTriggersPullRequestMergedPathsList = Array<string>;
@@ -770,25 +866,25 @@ export type CreateRepoAutomationResponseTriggersPullRequestMergedWriteScope =
   | "repository";
 export interface CreateRepoAutomationResponseTriggersPullRequestMerged {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationResponseTriggersPullRequestMergedPathsList;
+  paths?: CreateRepoAutomationResponseTriggersPullRequestMergedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersPullRequestMergedWriteScope;
+  write_scope?: CreateRepoAutomationResponseTriggersPullRequestMergedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type CreateRepoAutomationResponseTriggersIssueCommentWriteScope = "trigger" | "repository";
 export interface CreateRepoAutomationResponseTriggersIssueComment {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersIssueCommentWriteScope;
+  write_scope?: CreateRepoAutomationResponseTriggersIssueCommentWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 export type CreateRepoAutomationResponseTriggersPullRequestCommentCommentTypesItem =
   | "timeline_comment"
@@ -806,15 +902,15 @@ export interface CreateRepoAutomationResponseTriggersPullRequestComment {
   /** Pull request conversation and inline review comment types to match. */
   comment_types: CreateRepoAutomationResponseTriggersPullRequestCommentCommentTypesList;
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationResponseTriggersPullRequestCommentPathsList;
+  paths?: CreateRepoAutomationResponseTriggersPullRequestCommentPathsList | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersPullRequestCommentWriteScope;
+  write_scope?: CreateRepoAutomationResponseTriggersPullRequestCommentWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Discussion category names matched case-insensitively. */
 export type CreateRepoAutomationResponseTriggersDiscussionOpenedCategoriesList = Array<string>;
@@ -824,13 +920,13 @@ export type CreateRepoAutomationResponseTriggersDiscussionOpenedWriteScope =
   | "repository";
 export interface CreateRepoAutomationResponseTriggersDiscussionOpened {
   /** Discussion category names matched case-insensitively. */
-  categories?: CreateRepoAutomationResponseTriggersDiscussionOpenedCategoriesList;
+  categories?: CreateRepoAutomationResponseTriggersDiscussionOpenedCategoriesList | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersDiscussionOpenedWriteScope;
+  write_scope?: CreateRepoAutomationResponseTriggersDiscussionOpenedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Discussion category names matched case-insensitively. */
 export type CreateRepoAutomationResponseTriggersDiscussionUpdatedCategoriesList = Array<string>;
@@ -840,13 +936,13 @@ export type CreateRepoAutomationResponseTriggersDiscussionUpdatedWriteScope =
   | "repository";
 export interface CreateRepoAutomationResponseTriggersDiscussionUpdated {
   /** Discussion category names matched case-insensitively. */
-  categories?: CreateRepoAutomationResponseTriggersDiscussionUpdatedCategoriesList;
+  categories?: CreateRepoAutomationResponseTriggersDiscussionUpdatedCategoriesList | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersDiscussionUpdatedWriteScope;
+  write_scope?: CreateRepoAutomationResponseTriggersDiscussionUpdatedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 export type CreateRepoAutomationResponseTriggersDiscussionCommentCommentTypesItem =
   | "comment"
@@ -862,15 +958,15 @@ export type CreateRepoAutomationResponseTriggersDiscussionCommentWriteScope =
   | "repository";
 export interface CreateRepoAutomationResponseTriggersDiscussionComment {
   /** Top-level discussion comments and replies to match. Omit to match both. */
-  comment_types?: CreateRepoAutomationResponseTriggersDiscussionCommentCommentTypesList;
+  comment_types?: CreateRepoAutomationResponseTriggersDiscussionCommentCommentTypesList | undefined;
   /** Discussion category names matched case-insensitively. */
-  categories?: CreateRepoAutomationResponseTriggersDiscussionCommentCategoriesList;
+  categories?: CreateRepoAutomationResponseTriggersDiscussionCommentCategoriesList | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersDiscussionCommentWriteScope;
+  write_scope?: CreateRepoAutomationResponseTriggersDiscussionCommentWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Affected assignee logins matched case-insensitively. */
 export type CreateRepoAutomationResponseTriggersIssueAssignedAssigneesList = Array<string>;
@@ -878,13 +974,13 @@ export type CreateRepoAutomationResponseTriggersIssueAssignedAssigneesList = Arr
 export type CreateRepoAutomationResponseTriggersIssueAssignedWriteScope = "trigger" | "repository";
 export interface CreateRepoAutomationResponseTriggersIssueAssigned {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Affected assignee logins matched case-insensitively. */
-  assignees?: CreateRepoAutomationResponseTriggersIssueAssignedAssigneesList;
+  assignees?: CreateRepoAutomationResponseTriggersIssueAssignedAssigneesList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersIssueAssignedWriteScope;
+  write_scope?: CreateRepoAutomationResponseTriggersIssueAssignedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type CreateRepoAutomationResponseTriggersPullRequestAssignedPathsList = Array<string>;
@@ -896,25 +992,25 @@ export type CreateRepoAutomationResponseTriggersPullRequestAssignedWriteScope =
   | "repository";
 export interface CreateRepoAutomationResponseTriggersPullRequestAssigned {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationResponseTriggersPullRequestAssignedPathsList;
+  paths?: CreateRepoAutomationResponseTriggersPullRequestAssignedPathsList | undefined;
   /** Affected assignee logins matched case-insensitively. */
-  assignees?: CreateRepoAutomationResponseTriggersPullRequestAssignedAssigneesList;
+  assignees?: CreateRepoAutomationResponseTriggersPullRequestAssignedAssigneesList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersPullRequestAssignedWriteScope;
+  write_scope?: CreateRepoAutomationResponseTriggersPullRequestAssignedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type CreateRepoAutomationResponseTriggersSubIssueAddedWriteScope = "trigger" | "repository";
 export interface CreateRepoAutomationResponseTriggersSubIssueAdded {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersSubIssueAddedWriteScope;
+  write_scope?: CreateRepoAutomationResponseTriggersSubIssueAddedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type CreateRepoAutomationResponseTriggersPullRequestReadyForReviewPathsList = Array<string>;
@@ -924,13 +1020,13 @@ export type CreateRepoAutomationResponseTriggersPullRequestReadyForReviewWriteSc
   | "repository";
 export interface CreateRepoAutomationResponseTriggersPullRequestReadyForReview {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationResponseTriggersPullRequestReadyForReviewPathsList;
+  paths?: CreateRepoAutomationResponseTriggersPullRequestReadyForReviewPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersPullRequestReadyForReviewWriteScope;
+  write_scope?: CreateRepoAutomationResponseTriggersPullRequestReadyForReviewWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type CreateRepoAutomationResponseTriggersPullRequestLabeledPathsList = Array<string>;
@@ -942,15 +1038,15 @@ export type CreateRepoAutomationResponseTriggersPullRequestLabeledWriteScope =
   | "repository";
 export interface CreateRepoAutomationResponseTriggersPullRequestLabeled {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationResponseTriggersPullRequestLabeledPathsList;
+  paths?: CreateRepoAutomationResponseTriggersPullRequestLabeledPathsList | undefined;
   /** Label names matched case-insensitively against the label added by the event. Omit or use an empty array to match every added label. */
-  labels?: CreateRepoAutomationResponseTriggersPullRequestLabeledLabelsList;
+  labels?: CreateRepoAutomationResponseTriggersPullRequestLabeledLabelsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersPullRequestLabeledWriteScope;
+  write_scope?: CreateRepoAutomationResponseTriggersPullRequestLabeledWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type CreateRepoAutomationResponseTriggersPullRequestMergeConflictPathsList = Array<string>;
@@ -960,13 +1056,13 @@ export type CreateRepoAutomationResponseTriggersPullRequestMergeConflictWriteSco
   | "repository";
 export interface CreateRepoAutomationResponseTriggersPullRequestMergeConflict {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationResponseTriggersPullRequestMergeConflictPathsList;
+  paths?: CreateRepoAutomationResponseTriggersPullRequestMergeConflictPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersPullRequestMergeConflictWriteScope;
+  write_scope?: CreateRepoAutomationResponseTriggersPullRequestMergeConflictWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type CreateRepoAutomationResponseTriggersPullRequestReviewSubmittedPathsList = Array<string>;
@@ -983,15 +1079,17 @@ export type CreateRepoAutomationResponseTriggersPullRequestReviewSubmittedWriteS
   | "repository";
 export interface CreateRepoAutomationResponseTriggersPullRequestReviewSubmitted {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationResponseTriggersPullRequestReviewSubmittedPathsList;
+  paths?: CreateRepoAutomationResponseTriggersPullRequestReviewSubmittedPathsList | undefined;
   /** Submitted review states to match. */
   states: CreateRepoAutomationResponseTriggersPullRequestReviewSubmittedStatesList;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersPullRequestReviewSubmittedWriteScope;
+  write_scope?:
+    | CreateRepoAutomationResponseTriggersPullRequestReviewSubmittedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type CreateRepoAutomationResponseTriggersPullRequestReviewRequestedPathsList = Array<string>;
@@ -1001,33 +1099,35 @@ export type CreateRepoAutomationResponseTriggersPullRequestReviewRequestedWriteS
   | "repository";
 export interface CreateRepoAutomationResponseTriggersPullRequestReviewRequested {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationResponseTriggersPullRequestReviewRequestedPathsList;
+  paths?: CreateRepoAutomationResponseTriggersPullRequestReviewRequestedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersPullRequestReviewRequestedWriteScope;
+  write_scope?:
+    | CreateRepoAutomationResponseTriggersPullRequestReviewRequestedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type CreateRepoAutomationResponseTriggersIssueClosedWriteScope = "trigger" | "repository";
 export interface CreateRepoAutomationResponseTriggersIssueClosed {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersIssueClosedWriteScope;
+  write_scope?: CreateRepoAutomationResponseTriggersIssueClosedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type CreateRepoAutomationResponseTriggersIssueReopenedWriteScope = "trigger" | "repository";
 export interface CreateRepoAutomationResponseTriggersIssueReopened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersIssueReopenedWriteScope;
+  write_scope?: CreateRepoAutomationResponseTriggersIssueReopenedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type CreateRepoAutomationResponseTriggersPullRequestClosedPathsList = Array<string>;
@@ -1037,13 +1137,13 @@ export type CreateRepoAutomationResponseTriggersPullRequestClosedWriteScope =
   | "repository";
 export interface CreateRepoAutomationResponseTriggersPullRequestClosed {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationResponseTriggersPullRequestClosedPathsList;
+  paths?: CreateRepoAutomationResponseTriggersPullRequestClosedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersPullRequestClosedWriteScope;
+  write_scope?: CreateRepoAutomationResponseTriggersPullRequestClosedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type CreateRepoAutomationResponseTriggersPullRequestReopenedPathsList = Array<string>;
@@ -1053,13 +1153,13 @@ export type CreateRepoAutomationResponseTriggersPullRequestReopenedWriteScope =
   | "repository";
 export interface CreateRepoAutomationResponseTriggersPullRequestReopened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationResponseTriggersPullRequestReopenedPathsList;
+  paths?: CreateRepoAutomationResponseTriggersPullRequestReopenedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersPullRequestReopenedWriteScope;
+  write_scope?: CreateRepoAutomationResponseTriggersPullRequestReopenedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type CreateRepoAutomationResponseTriggersPullRequestConvertedToDraftPathsList =
@@ -1070,13 +1170,15 @@ export type CreateRepoAutomationResponseTriggersPullRequestConvertedToDraftWrite
   | "repository";
 export interface CreateRepoAutomationResponseTriggersPullRequestConvertedToDraft {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationResponseTriggersPullRequestConvertedToDraftPathsList;
+  paths?: CreateRepoAutomationResponseTriggersPullRequestConvertedToDraftPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersPullRequestConvertedToDraftWriteScope;
+  write_scope?:
+    | CreateRepoAutomationResponseTriggersPullRequestConvertedToDraftWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type CreateRepoAutomationResponseTriggersPullRequestReviewDismissedPathsList = Array<string>;
@@ -1086,13 +1188,15 @@ export type CreateRepoAutomationResponseTriggersPullRequestReviewDismissedWriteS
   | "repository";
 export interface CreateRepoAutomationResponseTriggersPullRequestReviewDismissed {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationResponseTriggersPullRequestReviewDismissedPathsList;
+  paths?: CreateRepoAutomationResponseTriggersPullRequestReviewDismissedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersPullRequestReviewDismissedWriteScope;
+  write_scope?:
+    | CreateRepoAutomationResponseTriggersPullRequestReviewDismissedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type CreateRepoAutomationResponseTriggersPullRequestReviewThreadResolvedPathsList =
@@ -1103,13 +1207,15 @@ export type CreateRepoAutomationResponseTriggersPullRequestReviewThreadResolvedW
   | "repository";
 export interface CreateRepoAutomationResponseTriggersPullRequestReviewThreadResolved {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationResponseTriggersPullRequestReviewThreadResolvedPathsList;
+  paths?: CreateRepoAutomationResponseTriggersPullRequestReviewThreadResolvedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersPullRequestReviewThreadResolvedWriteScope;
+  write_scope?:
+    | CreateRepoAutomationResponseTriggersPullRequestReviewThreadResolvedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type CreateRepoAutomationResponseTriggersPullRequestReviewThreadUnresolvedPathsList =
@@ -1120,13 +1226,17 @@ export type CreateRepoAutomationResponseTriggersPullRequestReviewThreadUnresolve
   | "repository";
 export interface CreateRepoAutomationResponseTriggersPullRequestReviewThreadUnresolved {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: CreateRepoAutomationResponseTriggersPullRequestReviewThreadUnresolvedPathsList;
+  paths?:
+    | CreateRepoAutomationResponseTriggersPullRequestReviewThreadUnresolvedPathsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersPullRequestReviewThreadUnresolvedWriteScope;
+  write_scope?:
+    | CreateRepoAutomationResponseTriggersPullRequestReviewThreadUnresolvedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Upstream Automation IDs in the same repository. */
 export type CreateRepoAutomationResponseTriggersAutomationCompletedAutomationIdsList =
@@ -1139,9 +1249,9 @@ export interface CreateRepoAutomationResponseTriggersAutomationCompleted {
   /** Upstream Automation IDs in the same repository. */
   automation_ids: CreateRepoAutomationResponseTriggersAutomationCompletedAutomationIdsList;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersAutomationCompletedWriteScope;
+  write_scope?: CreateRepoAutomationResponseTriggersAutomationCompletedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Upstream Automation IDs in the same repository. An Automation cannot list itself, and a user-owned Automation can only be listed by its creator's user-owned Automations. */
 export type CreateRepoAutomationResponseTriggersAutomationFailedAutomationIdsList = Array<string>;
@@ -1160,11 +1270,11 @@ export interface CreateRepoAutomationResponseTriggersAutomationFailed {
   /** Upstream Automation IDs in the same repository. An Automation cannot list itself, and a user-owned Automation can only be listed by its creator's user-owned Automations. */
   automation_ids: CreateRepoAutomationResponseTriggersAutomationFailedAutomationIdsList;
   /** Failure reasons to match. Omit to match only reported failures. */
-  reasons?: CreateRepoAutomationResponseTriggersAutomationFailedReasonsList;
+  reasons?: CreateRepoAutomationResponseTriggersAutomationFailedReasonsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersAutomationFailedWriteScope;
+  write_scope?: CreateRepoAutomationResponseTriggersAutomationFailedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type CreateRepoAutomationResponseTriggersCodeScanningAlertWriteScope =
@@ -1173,9 +1283,9 @@ export type CreateRepoAutomationResponseTriggersCodeScanningAlertWriteScope =
 /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
 export interface CreateRepoAutomationResponseTriggersCodeScanningAlert {
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersCodeScanningAlertWriteScope;
+  write_scope?: CreateRepoAutomationResponseTriggersCodeScanningAlertWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type CreateRepoAutomationResponseTriggersSecretScanningAlertWriteScope =
@@ -1184,9 +1294,9 @@ export type CreateRepoAutomationResponseTriggersSecretScanningAlertWriteScope =
 /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
 export interface CreateRepoAutomationResponseTriggersSecretScanningAlert {
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersSecretScanningAlertWriteScope;
+  write_scope?: CreateRepoAutomationResponseTriggersSecretScanningAlertWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type CreateRepoAutomationResponseTriggersDependabotAlertWriteScope =
@@ -1195,55 +1305,71 @@ export type CreateRepoAutomationResponseTriggersDependabotAlertWriteScope =
 /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
 export interface CreateRepoAutomationResponseTriggersDependabotAlert {
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: CreateRepoAutomationResponseTriggersDependabotAlertWriteScope;
+  write_scope?: CreateRepoAutomationResponseTriggersDependabotAlertWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Trigger configuration for the automation. */
 export interface CreateRepoAutomationResponseTriggers {
-  interval?: CreateRepoAutomationResponseTriggersInterval;
-  issue_opened?: CreateRepoAutomationResponseTriggersIssueOpened;
-  issue_labeled?: CreateRepoAutomationResponseTriggersIssueLabeled;
-  workflow_run?: CreateRepoAutomationResponseTriggersWorkflowRun;
-  pull_request_opened?: CreateRepoAutomationResponseTriggersPullRequestOpened;
-  pull_request_synchronize?: CreateRepoAutomationResponseTriggersPullRequestSynchronize;
-  pull_request_merged?: CreateRepoAutomationResponseTriggersPullRequestMerged;
-  issue_comment?: CreateRepoAutomationResponseTriggersIssueComment;
-  pull_request_comment?: CreateRepoAutomationResponseTriggersPullRequestComment;
-  discussion_opened?: CreateRepoAutomationResponseTriggersDiscussionOpened;
-  discussion_updated?: CreateRepoAutomationResponseTriggersDiscussionUpdated;
-  discussion_comment?: CreateRepoAutomationResponseTriggersDiscussionComment;
-  issue_assigned?: CreateRepoAutomationResponseTriggersIssueAssigned;
-  pull_request_assigned?: CreateRepoAutomationResponseTriggersPullRequestAssigned;
-  sub_issue_added?: CreateRepoAutomationResponseTriggersSubIssueAdded;
-  pull_request_ready_for_review?: CreateRepoAutomationResponseTriggersPullRequestReadyForReview;
-  pull_request_labeled?: CreateRepoAutomationResponseTriggersPullRequestLabeled;
-  pull_request_merge_conflict?: CreateRepoAutomationResponseTriggersPullRequestMergeConflict;
-  pull_request_review_submitted?: CreateRepoAutomationResponseTriggersPullRequestReviewSubmitted;
-  pull_request_review_requested?: CreateRepoAutomationResponseTriggersPullRequestReviewRequested;
-  issue_closed?: CreateRepoAutomationResponseTriggersIssueClosed;
-  issue_reopened?: CreateRepoAutomationResponseTriggersIssueReopened;
-  pull_request_closed?: CreateRepoAutomationResponseTriggersPullRequestClosed;
-  pull_request_reopened?: CreateRepoAutomationResponseTriggersPullRequestReopened;
-  pull_request_converted_to_draft?: CreateRepoAutomationResponseTriggersPullRequestConvertedToDraft;
-  pull_request_review_dismissed?: CreateRepoAutomationResponseTriggersPullRequestReviewDismissed;
-  pull_request_review_thread_resolved?: CreateRepoAutomationResponseTriggersPullRequestReviewThreadResolved;
-  pull_request_review_thread_unresolved?: CreateRepoAutomationResponseTriggersPullRequestReviewThreadUnresolved;
-  automation_completed?: CreateRepoAutomationResponseTriggersAutomationCompleted;
-  automation_failed?: CreateRepoAutomationResponseTriggersAutomationFailed;
+  interval?: CreateRepoAutomationResponseTriggersInterval | undefined;
+  issue_opened?: CreateRepoAutomationResponseTriggersIssueOpened | undefined;
+  issue_labeled?: CreateRepoAutomationResponseTriggersIssueLabeled | undefined;
+  workflow_run?: CreateRepoAutomationResponseTriggersWorkflowRun | undefined;
+  pull_request_opened?: CreateRepoAutomationResponseTriggersPullRequestOpened | undefined;
+  pull_request_synchronize?: CreateRepoAutomationResponseTriggersPullRequestSynchronize | undefined;
+  pull_request_merged?: CreateRepoAutomationResponseTriggersPullRequestMerged | undefined;
+  issue_comment?: CreateRepoAutomationResponseTriggersIssueComment | undefined;
+  pull_request_comment?: CreateRepoAutomationResponseTriggersPullRequestComment | undefined;
+  discussion_opened?: CreateRepoAutomationResponseTriggersDiscussionOpened | undefined;
+  discussion_updated?: CreateRepoAutomationResponseTriggersDiscussionUpdated | undefined;
+  discussion_comment?: CreateRepoAutomationResponseTriggersDiscussionComment | undefined;
+  issue_assigned?: CreateRepoAutomationResponseTriggersIssueAssigned | undefined;
+  pull_request_assigned?: CreateRepoAutomationResponseTriggersPullRequestAssigned | undefined;
+  sub_issue_added?: CreateRepoAutomationResponseTriggersSubIssueAdded | undefined;
+  pull_request_ready_for_review?:
+    | CreateRepoAutomationResponseTriggersPullRequestReadyForReview
+    | undefined;
+  pull_request_labeled?: CreateRepoAutomationResponseTriggersPullRequestLabeled | undefined;
+  pull_request_merge_conflict?:
+    | CreateRepoAutomationResponseTriggersPullRequestMergeConflict
+    | undefined;
+  pull_request_review_submitted?:
+    | CreateRepoAutomationResponseTriggersPullRequestReviewSubmitted
+    | undefined;
+  pull_request_review_requested?:
+    | CreateRepoAutomationResponseTriggersPullRequestReviewRequested
+    | undefined;
+  issue_closed?: CreateRepoAutomationResponseTriggersIssueClosed | undefined;
+  issue_reopened?: CreateRepoAutomationResponseTriggersIssueReopened | undefined;
+  pull_request_closed?: CreateRepoAutomationResponseTriggersPullRequestClosed | undefined;
+  pull_request_reopened?: CreateRepoAutomationResponseTriggersPullRequestReopened | undefined;
+  pull_request_converted_to_draft?:
+    | CreateRepoAutomationResponseTriggersPullRequestConvertedToDraft
+    | undefined;
+  pull_request_review_dismissed?:
+    | CreateRepoAutomationResponseTriggersPullRequestReviewDismissed
+    | undefined;
+  pull_request_review_thread_resolved?:
+    | CreateRepoAutomationResponseTriggersPullRequestReviewThreadResolved
+    | undefined;
+  pull_request_review_thread_unresolved?:
+    | CreateRepoAutomationResponseTriggersPullRequestReviewThreadUnresolved
+    | undefined;
+  automation_completed?: CreateRepoAutomationResponseTriggersAutomationCompleted | undefined;
+  automation_failed?: CreateRepoAutomationResponseTriggersAutomationFailed | undefined;
   /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
-  code_scanning_alert?: CreateRepoAutomationResponseTriggersCodeScanningAlert;
+  code_scanning_alert?: CreateRepoAutomationResponseTriggersCodeScanningAlert | undefined;
   /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
-  secret_scanning_alert?: CreateRepoAutomationResponseTriggersSecretScanningAlert;
+  secret_scanning_alert?: CreateRepoAutomationResponseTriggersSecretScanningAlert | undefined;
   /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
-  dependabot_alert?: CreateRepoAutomationResponseTriggersDependabotAlert;
+  dependabot_alert?: CreateRepoAutomationResponseTriggersDependabotAlert | undefined;
 }
 /** The tools available to the automation. */
 export type CreateRepoAutomationResponseToolsList = Array<string>;
 /** A GitHub user */
 export interface CreateRepoAutomationResponseCreatedBy {
   /** The unique identifier of the user */
-  id?: number;
+  id?: number | undefined;
 }
 export interface CreateRepoAutomationResponse {
   /** The unique identifier of the automation. */
@@ -1251,23 +1377,23 @@ export interface CreateRepoAutomationResponse {
   /** The name of the automation. */
   name: string;
   /** Whether the automation is currently enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The type of automation. `personal` keeps it private to its creator and its runs act as that user. `shared` makes it belong to the repository, visible to anyone with read access to the repository, and its runs act as the Copilot app rather than as a person. */
-  type?: CreateRepoAutomationResponseType;
+  type?: CreateRepoAutomationResponseType | undefined;
   /** When true, event-triggered runs require the event actor to have repo write permission, even when the org's allow_read_access_triggers policy is enabled. Does not apply to interval-scheduled runs, which always run as the automation owner. */
-  require_actor_write_permission?: boolean;
+  require_actor_write_permission?: boolean | undefined;
   /** When true, runs of this automation build on the session history of its previous runs, and runs of the same automation are serialized. Not tracked in revision history. */
-  continuous_history?: boolean;
+  continuous_history?: boolean | undefined;
   /** Trigger configuration for the automation. */
-  triggers?: CreateRepoAutomationResponseTriggers;
+  triggers?: CreateRepoAutomationResponseTriggers | undefined;
   /** The prompt for the automation. */
   prompt: string;
   /** The tools available to the automation. */
-  tools?: CreateRepoAutomationResponseToolsList;
+  tools?: CreateRepoAutomationResponseToolsList | undefined;
   /** The model override for sessions triggered by this automation. Absent when the platform selects the model. */
-  model?: string;
+  model?: string | undefined;
   /** The reasoning effort override for sessions triggered by this automation. Absent when the model's default is used. */
-  reasoning_effort?: string;
+  reasoning_effort?: string | undefined;
   /** When the automation was created. */
   created_at: string;
   /** When the automation was last updated. */
@@ -1287,7 +1413,7 @@ export interface CreateRepoAutomationTaskRequest {
   /** The event to trigger. Only `manual` is supported. */
   event: CreateRepoAutomationTaskRequestEvent | (string & {});
   /** Additional context for this automation run, up to 10,000 characters. Supported only when `event` is `manual`. The context supplements the automation's configured instructions. */
-  context?: string;
+  context?: string | undefined;
 }
 export interface CreateRepoAutomationTaskResponse {}
 export interface DeleteRepoAutomationRequest {
@@ -1323,25 +1449,25 @@ export interface EditRepoAutomationRequestTriggersInterval {
   /** One or more schedules on which the Automation runs. */
   cadence: EditRepoAutomationRequestTriggersIntervalCadenceList;
   /** UTC hour anchor (0 through 23) for daily and weekly schedules. Omitted daily and weekly values default to `0` (midnight UTC). */
-  hour_utc?: number;
+  hour_utc?: number | undefined;
   /** UTC weekday anchor for weekly schedules, where `0` is Sunday and `6` is Saturday. Omitted weekly values default to Monday (`1`). */
-  day_of_week?: number;
+  day_of_week?: number | undefined;
   /** UTC minute anchor for daily and weekly schedules. Omitted daily and weekly values default to `0`. Must be omitted whenever `cadence` includes `hourly`. */
-  minute_utc?: EditRepoAutomationRequestTriggersIntervalMinuteUtc | (number & {});
+  minute_utc?: EditRepoAutomationRequestTriggersIntervalMinuteUtc | (number & {}) | undefined;
   /** Has no effect: scheduled runs can change any resource in the repository, and an organization or repository policy requiring trigger-scoped writes does not apply to them. */
-  write_scope?: EditRepoAutomationRequestTriggersIntervalWriteScope | (string & {});
+  write_scope?: EditRepoAutomationRequestTriggersIntervalWriteScope | (string & {}) | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type EditRepoAutomationRequestTriggersIssueOpenedWriteScope = "trigger" | "repository";
 export interface EditRepoAutomationRequestTriggersIssueOpened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationRequestTriggersIssueOpenedWriteScope | (string & {});
+  write_scope?: EditRepoAutomationRequestTriggersIssueOpenedWriteScope | (string & {}) | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Label names matched case-insensitively against the label added by the event. Omit or use an empty array to match every added label. */
 export type EditRepoAutomationRequestTriggersIssueLabeledLabelsList = Array<string>;
@@ -1349,13 +1475,13 @@ export type EditRepoAutomationRequestTriggersIssueLabeledLabelsList = Array<stri
 export type EditRepoAutomationRequestTriggersIssueLabeledWriteScope = "trigger" | "repository";
 export interface EditRepoAutomationRequestTriggersIssueLabeled {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Label names matched case-insensitively against the label added by the event. Omit or use an empty array to match every added label. */
-  labels?: EditRepoAutomationRequestTriggersIssueLabeledLabelsList;
+  labels?: EditRepoAutomationRequestTriggersIssueLabeledLabelsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationRequestTriggersIssueLabeledWriteScope | (string & {});
+  write_scope?: EditRepoAutomationRequestTriggersIssueLabeledWriteScope | (string & {}) | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Workflow names matched against the name in each workflow YAML file. */
 export type EditRepoAutomationRequestTriggersWorkflowRunWorkflowsList = Array<string>;
@@ -1372,11 +1498,11 @@ export interface EditRepoAutomationRequestTriggersWorkflowRun {
   /** Workflow conclusions to match. The current trigger supports failure. */
   conclusions: EditRepoAutomationRequestTriggersWorkflowRunConclusionsList;
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationRequestTriggersWorkflowRunWriteScope | (string & {});
+  write_scope?: EditRepoAutomationRequestTriggersWorkflowRunWriteScope | (string & {}) | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type EditRepoAutomationRequestTriggersPullRequestOpenedPathsList = Array<string>;
@@ -1384,13 +1510,16 @@ export type EditRepoAutomationRequestTriggersPullRequestOpenedPathsList = Array<
 export type EditRepoAutomationRequestTriggersPullRequestOpenedWriteScope = "trigger" | "repository";
 export interface EditRepoAutomationRequestTriggersPullRequestOpened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationRequestTriggersPullRequestOpenedPathsList;
+  paths?: EditRepoAutomationRequestTriggersPullRequestOpenedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationRequestTriggersPullRequestOpenedWriteScope | (string & {});
+  write_scope?:
+    | EditRepoAutomationRequestTriggersPullRequestOpenedWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type EditRepoAutomationRequestTriggersPullRequestSynchronizePathsList = Array<string>;
@@ -1400,13 +1529,16 @@ export type EditRepoAutomationRequestTriggersPullRequestSynchronizeWriteScope =
   | "repository";
 export interface EditRepoAutomationRequestTriggersPullRequestSynchronize {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationRequestTriggersPullRequestSynchronizePathsList;
+  paths?: EditRepoAutomationRequestTriggersPullRequestSynchronizePathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationRequestTriggersPullRequestSynchronizeWriteScope | (string & {});
+  write_scope?:
+    | EditRepoAutomationRequestTriggersPullRequestSynchronizeWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type EditRepoAutomationRequestTriggersPullRequestMergedPathsList = Array<string>;
@@ -1414,25 +1546,28 @@ export type EditRepoAutomationRequestTriggersPullRequestMergedPathsList = Array<
 export type EditRepoAutomationRequestTriggersPullRequestMergedWriteScope = "trigger" | "repository";
 export interface EditRepoAutomationRequestTriggersPullRequestMerged {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationRequestTriggersPullRequestMergedPathsList;
+  paths?: EditRepoAutomationRequestTriggersPullRequestMergedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationRequestTriggersPullRequestMergedWriteScope | (string & {});
+  write_scope?:
+    | EditRepoAutomationRequestTriggersPullRequestMergedWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type EditRepoAutomationRequestTriggersIssueCommentWriteScope = "trigger" | "repository";
 export interface EditRepoAutomationRequestTriggersIssueComment {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationRequestTriggersIssueCommentWriteScope | (string & {});
+  write_scope?: EditRepoAutomationRequestTriggersIssueCommentWriteScope | (string & {}) | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 export type EditRepoAutomationRequestTriggersPullRequestCommentCommentTypesItem =
   | "timeline_comment"
@@ -1451,15 +1586,18 @@ export interface EditRepoAutomationRequestTriggersPullRequestComment {
   /** Pull request conversation and inline review comment types to match. */
   comment_types: EditRepoAutomationRequestTriggersPullRequestCommentCommentTypesList;
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationRequestTriggersPullRequestCommentPathsList;
+  paths?: EditRepoAutomationRequestTriggersPullRequestCommentPathsList | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationRequestTriggersPullRequestCommentWriteScope | (string & {});
+  write_scope?:
+    | EditRepoAutomationRequestTriggersPullRequestCommentWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Discussion category names matched case-insensitively. */
 export type EditRepoAutomationRequestTriggersDiscussionOpenedCategoriesList = Array<string>;
@@ -1467,13 +1605,16 @@ export type EditRepoAutomationRequestTriggersDiscussionOpenedCategoriesList = Ar
 export type EditRepoAutomationRequestTriggersDiscussionOpenedWriteScope = "trigger" | "repository";
 export interface EditRepoAutomationRequestTriggersDiscussionOpened {
   /** Discussion category names matched case-insensitively. */
-  categories?: EditRepoAutomationRequestTriggersDiscussionOpenedCategoriesList;
+  categories?: EditRepoAutomationRequestTriggersDiscussionOpenedCategoriesList | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationRequestTriggersDiscussionOpenedWriteScope | (string & {});
+  write_scope?:
+    | EditRepoAutomationRequestTriggersDiscussionOpenedWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Discussion category names matched case-insensitively. */
 export type EditRepoAutomationRequestTriggersDiscussionUpdatedCategoriesList = Array<string>;
@@ -1481,13 +1622,16 @@ export type EditRepoAutomationRequestTriggersDiscussionUpdatedCategoriesList = A
 export type EditRepoAutomationRequestTriggersDiscussionUpdatedWriteScope = "trigger" | "repository";
 export interface EditRepoAutomationRequestTriggersDiscussionUpdated {
   /** Discussion category names matched case-insensitively. */
-  categories?: EditRepoAutomationRequestTriggersDiscussionUpdatedCategoriesList;
+  categories?: EditRepoAutomationRequestTriggersDiscussionUpdatedCategoriesList | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationRequestTriggersDiscussionUpdatedWriteScope | (string & {});
+  write_scope?:
+    | EditRepoAutomationRequestTriggersDiscussionUpdatedWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 export type EditRepoAutomationRequestTriggersDiscussionCommentCommentTypesItem =
   | "comment"
@@ -1502,15 +1646,18 @@ export type EditRepoAutomationRequestTriggersDiscussionCommentCategoriesList = A
 export type EditRepoAutomationRequestTriggersDiscussionCommentWriteScope = "trigger" | "repository";
 export interface EditRepoAutomationRequestTriggersDiscussionComment {
   /** Top-level discussion comments and replies to match. Omit to match both. */
-  comment_types?: EditRepoAutomationRequestTriggersDiscussionCommentCommentTypesList;
+  comment_types?: EditRepoAutomationRequestTriggersDiscussionCommentCommentTypesList | undefined;
   /** Discussion category names matched case-insensitively. */
-  categories?: EditRepoAutomationRequestTriggersDiscussionCommentCategoriesList;
+  categories?: EditRepoAutomationRequestTriggersDiscussionCommentCategoriesList | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationRequestTriggersDiscussionCommentWriteScope | (string & {});
+  write_scope?:
+    | EditRepoAutomationRequestTriggersDiscussionCommentWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Affected assignee logins matched case-insensitively. */
 export type EditRepoAutomationRequestTriggersIssueAssignedAssigneesList = Array<string>;
@@ -1518,13 +1665,16 @@ export type EditRepoAutomationRequestTriggersIssueAssignedAssigneesList = Array<
 export type EditRepoAutomationRequestTriggersIssueAssignedWriteScope = "trigger" | "repository";
 export interface EditRepoAutomationRequestTriggersIssueAssigned {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Affected assignee logins matched case-insensitively. */
-  assignees?: EditRepoAutomationRequestTriggersIssueAssignedAssigneesList;
+  assignees?: EditRepoAutomationRequestTriggersIssueAssignedAssigneesList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationRequestTriggersIssueAssignedWriteScope | (string & {});
+  write_scope?:
+    | EditRepoAutomationRequestTriggersIssueAssignedWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type EditRepoAutomationRequestTriggersPullRequestAssignedPathsList = Array<string>;
@@ -1536,25 +1686,31 @@ export type EditRepoAutomationRequestTriggersPullRequestAssignedWriteScope =
   | "repository";
 export interface EditRepoAutomationRequestTriggersPullRequestAssigned {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationRequestTriggersPullRequestAssignedPathsList;
+  paths?: EditRepoAutomationRequestTriggersPullRequestAssignedPathsList | undefined;
   /** Affected assignee logins matched case-insensitively. */
-  assignees?: EditRepoAutomationRequestTriggersPullRequestAssignedAssigneesList;
+  assignees?: EditRepoAutomationRequestTriggersPullRequestAssignedAssigneesList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationRequestTriggersPullRequestAssignedWriteScope | (string & {});
+  write_scope?:
+    | EditRepoAutomationRequestTriggersPullRequestAssignedWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type EditRepoAutomationRequestTriggersSubIssueAddedWriteScope = "trigger" | "repository";
 export interface EditRepoAutomationRequestTriggersSubIssueAdded {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationRequestTriggersSubIssueAddedWriteScope | (string & {});
+  write_scope?:
+    | EditRepoAutomationRequestTriggersSubIssueAddedWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type EditRepoAutomationRequestTriggersPullRequestReadyForReviewPathsList = Array<string>;
@@ -1564,15 +1720,16 @@ export type EditRepoAutomationRequestTriggersPullRequestReadyForReviewWriteScope
   | "repository";
 export interface EditRepoAutomationRequestTriggersPullRequestReadyForReview {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationRequestTriggersPullRequestReadyForReviewPathsList;
+  paths?: EditRepoAutomationRequestTriggersPullRequestReadyForReviewPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
   write_scope?:
     | EditRepoAutomationRequestTriggersPullRequestReadyForReviewWriteScope
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type EditRepoAutomationRequestTriggersPullRequestLabeledPathsList = Array<string>;
@@ -1584,15 +1741,18 @@ export type EditRepoAutomationRequestTriggersPullRequestLabeledWriteScope =
   | "repository";
 export interface EditRepoAutomationRequestTriggersPullRequestLabeled {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationRequestTriggersPullRequestLabeledPathsList;
+  paths?: EditRepoAutomationRequestTriggersPullRequestLabeledPathsList | undefined;
   /** Label names matched case-insensitively against the label added by the event. Omit or use an empty array to match every added label. */
-  labels?: EditRepoAutomationRequestTriggersPullRequestLabeledLabelsList;
+  labels?: EditRepoAutomationRequestTriggersPullRequestLabeledLabelsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationRequestTriggersPullRequestLabeledWriteScope | (string & {});
+  write_scope?:
+    | EditRepoAutomationRequestTriggersPullRequestLabeledWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type EditRepoAutomationRequestTriggersPullRequestMergeConflictPathsList = Array<string>;
@@ -1602,13 +1762,16 @@ export type EditRepoAutomationRequestTriggersPullRequestMergeConflictWriteScope 
   | "repository";
 export interface EditRepoAutomationRequestTriggersPullRequestMergeConflict {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationRequestTriggersPullRequestMergeConflictPathsList;
+  paths?: EditRepoAutomationRequestTriggersPullRequestMergeConflictPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationRequestTriggersPullRequestMergeConflictWriteScope | (string & {});
+  write_scope?:
+    | EditRepoAutomationRequestTriggersPullRequestMergeConflictWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type EditRepoAutomationRequestTriggersPullRequestReviewSubmittedPathsList = Array<string>;
@@ -1626,17 +1789,18 @@ export type EditRepoAutomationRequestTriggersPullRequestReviewSubmittedWriteScop
   | "repository";
 export interface EditRepoAutomationRequestTriggersPullRequestReviewSubmitted {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationRequestTriggersPullRequestReviewSubmittedPathsList;
+  paths?: EditRepoAutomationRequestTriggersPullRequestReviewSubmittedPathsList | undefined;
   /** Submitted review states to match. */
   states: EditRepoAutomationRequestTriggersPullRequestReviewSubmittedStatesList;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
   write_scope?:
     | EditRepoAutomationRequestTriggersPullRequestReviewSubmittedWriteScope
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type EditRepoAutomationRequestTriggersPullRequestReviewRequestedPathsList = Array<string>;
@@ -1646,35 +1810,39 @@ export type EditRepoAutomationRequestTriggersPullRequestReviewRequestedWriteScop
   | "repository";
 export interface EditRepoAutomationRequestTriggersPullRequestReviewRequested {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationRequestTriggersPullRequestReviewRequestedPathsList;
+  paths?: EditRepoAutomationRequestTriggersPullRequestReviewRequestedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
   write_scope?:
     | EditRepoAutomationRequestTriggersPullRequestReviewRequestedWriteScope
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type EditRepoAutomationRequestTriggersIssueClosedWriteScope = "trigger" | "repository";
 export interface EditRepoAutomationRequestTriggersIssueClosed {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationRequestTriggersIssueClosedWriteScope | (string & {});
+  write_scope?: EditRepoAutomationRequestTriggersIssueClosedWriteScope | (string & {}) | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type EditRepoAutomationRequestTriggersIssueReopenedWriteScope = "trigger" | "repository";
 export interface EditRepoAutomationRequestTriggersIssueReopened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationRequestTriggersIssueReopenedWriteScope | (string & {});
+  write_scope?:
+    | EditRepoAutomationRequestTriggersIssueReopenedWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type EditRepoAutomationRequestTriggersPullRequestClosedPathsList = Array<string>;
@@ -1682,13 +1850,16 @@ export type EditRepoAutomationRequestTriggersPullRequestClosedPathsList = Array<
 export type EditRepoAutomationRequestTriggersPullRequestClosedWriteScope = "trigger" | "repository";
 export interface EditRepoAutomationRequestTriggersPullRequestClosed {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationRequestTriggersPullRequestClosedPathsList;
+  paths?: EditRepoAutomationRequestTriggersPullRequestClosedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationRequestTriggersPullRequestClosedWriteScope | (string & {});
+  write_scope?:
+    | EditRepoAutomationRequestTriggersPullRequestClosedWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type EditRepoAutomationRequestTriggersPullRequestReopenedPathsList = Array<string>;
@@ -1698,13 +1869,16 @@ export type EditRepoAutomationRequestTriggersPullRequestReopenedWriteScope =
   | "repository";
 export interface EditRepoAutomationRequestTriggersPullRequestReopened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationRequestTriggersPullRequestReopenedPathsList;
+  paths?: EditRepoAutomationRequestTriggersPullRequestReopenedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationRequestTriggersPullRequestReopenedWriteScope | (string & {});
+  write_scope?:
+    | EditRepoAutomationRequestTriggersPullRequestReopenedWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type EditRepoAutomationRequestTriggersPullRequestConvertedToDraftPathsList = Array<string>;
@@ -1714,15 +1888,16 @@ export type EditRepoAutomationRequestTriggersPullRequestConvertedToDraftWriteSco
   | "repository";
 export interface EditRepoAutomationRequestTriggersPullRequestConvertedToDraft {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationRequestTriggersPullRequestConvertedToDraftPathsList;
+  paths?: EditRepoAutomationRequestTriggersPullRequestConvertedToDraftPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
   write_scope?:
     | EditRepoAutomationRequestTriggersPullRequestConvertedToDraftWriteScope
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type EditRepoAutomationRequestTriggersPullRequestReviewDismissedPathsList = Array<string>;
@@ -1732,15 +1907,16 @@ export type EditRepoAutomationRequestTriggersPullRequestReviewDismissedWriteScop
   | "repository";
 export interface EditRepoAutomationRequestTriggersPullRequestReviewDismissed {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationRequestTriggersPullRequestReviewDismissedPathsList;
+  paths?: EditRepoAutomationRequestTriggersPullRequestReviewDismissedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
   write_scope?:
     | EditRepoAutomationRequestTriggersPullRequestReviewDismissedWriteScope
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type EditRepoAutomationRequestTriggersPullRequestReviewThreadResolvedPathsList =
@@ -1751,15 +1927,16 @@ export type EditRepoAutomationRequestTriggersPullRequestReviewThreadResolvedWrit
   | "repository";
 export interface EditRepoAutomationRequestTriggersPullRequestReviewThreadResolved {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationRequestTriggersPullRequestReviewThreadResolvedPathsList;
+  paths?: EditRepoAutomationRequestTriggersPullRequestReviewThreadResolvedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
   write_scope?:
     | EditRepoAutomationRequestTriggersPullRequestReviewThreadResolvedWriteScope
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type EditRepoAutomationRequestTriggersPullRequestReviewThreadUnresolvedPathsList =
@@ -1770,15 +1947,16 @@ export type EditRepoAutomationRequestTriggersPullRequestReviewThreadUnresolvedWr
   | "repository";
 export interface EditRepoAutomationRequestTriggersPullRequestReviewThreadUnresolved {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationRequestTriggersPullRequestReviewThreadUnresolvedPathsList;
+  paths?: EditRepoAutomationRequestTriggersPullRequestReviewThreadUnresolvedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
   write_scope?:
     | EditRepoAutomationRequestTriggersPullRequestReviewThreadUnresolvedWriteScope
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Upstream Automation IDs in the same repository. */
 export type EditRepoAutomationRequestTriggersAutomationCompletedAutomationIdsList = Array<string>;
@@ -1790,9 +1968,12 @@ export interface EditRepoAutomationRequestTriggersAutomationCompleted {
   /** Upstream Automation IDs in the same repository. */
   automation_ids: EditRepoAutomationRequestTriggersAutomationCompletedAutomationIdsList;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationRequestTriggersAutomationCompletedWriteScope | (string & {});
+  write_scope?:
+    | EditRepoAutomationRequestTriggersAutomationCompletedWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Upstream Automation IDs in the same repository. An Automation cannot list itself, and a user-owned Automation can only be listed by its creator's user-owned Automations. */
 export type EditRepoAutomationRequestTriggersAutomationFailedAutomationIdsList = Array<string>;
@@ -1810,20 +1991,26 @@ export interface EditRepoAutomationRequestTriggersAutomationFailed {
   /** Upstream Automation IDs in the same repository. An Automation cannot list itself, and a user-owned Automation can only be listed by its creator's user-owned Automations. */
   automation_ids: EditRepoAutomationRequestTriggersAutomationFailedAutomationIdsList;
   /** Failure reasons to match. Omit to match only reported failures. */
-  reasons?: EditRepoAutomationRequestTriggersAutomationFailedReasonsList;
+  reasons?: EditRepoAutomationRequestTriggersAutomationFailedReasonsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationRequestTriggersAutomationFailedWriteScope | (string & {});
+  write_scope?:
+    | EditRepoAutomationRequestTriggersAutomationFailedWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type EditRepoAutomationRequestTriggersCodeScanningAlertWriteScope = "trigger" | "repository";
 /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
 export interface EditRepoAutomationRequestTriggersCodeScanningAlert {
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationRequestTriggersCodeScanningAlertWriteScope | (string & {});
+  write_scope?:
+    | EditRepoAutomationRequestTriggersCodeScanningAlertWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type EditRepoAutomationRequestTriggersSecretScanningAlertWriteScope =
@@ -1832,57 +2019,79 @@ export type EditRepoAutomationRequestTriggersSecretScanningAlertWriteScope =
 /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
 export interface EditRepoAutomationRequestTriggersSecretScanningAlert {
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationRequestTriggersSecretScanningAlertWriteScope | (string & {});
+  write_scope?:
+    | EditRepoAutomationRequestTriggersSecretScanningAlertWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type EditRepoAutomationRequestTriggersDependabotAlertWriteScope = "trigger" | "repository";
 /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
 export interface EditRepoAutomationRequestTriggersDependabotAlert {
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationRequestTriggersDependabotAlertWriteScope | (string & {});
+  write_scope?:
+    | EditRepoAutomationRequestTriggersDependabotAlertWriteScope
+    | (string & {})
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Trigger configuration for the automation. */
 export interface EditRepoAutomationRequestTriggers {
-  interval?: EditRepoAutomationRequestTriggersInterval;
-  issue_opened?: EditRepoAutomationRequestTriggersIssueOpened;
-  issue_labeled?: EditRepoAutomationRequestTriggersIssueLabeled;
-  workflow_run?: EditRepoAutomationRequestTriggersWorkflowRun;
-  pull_request_opened?: EditRepoAutomationRequestTriggersPullRequestOpened;
-  pull_request_synchronize?: EditRepoAutomationRequestTriggersPullRequestSynchronize;
-  pull_request_merged?: EditRepoAutomationRequestTriggersPullRequestMerged;
-  issue_comment?: EditRepoAutomationRequestTriggersIssueComment;
-  pull_request_comment?: EditRepoAutomationRequestTriggersPullRequestComment;
-  discussion_opened?: EditRepoAutomationRequestTriggersDiscussionOpened;
-  discussion_updated?: EditRepoAutomationRequestTriggersDiscussionUpdated;
-  discussion_comment?: EditRepoAutomationRequestTriggersDiscussionComment;
-  issue_assigned?: EditRepoAutomationRequestTriggersIssueAssigned;
-  pull_request_assigned?: EditRepoAutomationRequestTriggersPullRequestAssigned;
-  sub_issue_added?: EditRepoAutomationRequestTriggersSubIssueAdded;
-  pull_request_ready_for_review?: EditRepoAutomationRequestTriggersPullRequestReadyForReview;
-  pull_request_labeled?: EditRepoAutomationRequestTriggersPullRequestLabeled;
-  pull_request_merge_conflict?: EditRepoAutomationRequestTriggersPullRequestMergeConflict;
-  pull_request_review_submitted?: EditRepoAutomationRequestTriggersPullRequestReviewSubmitted;
-  pull_request_review_requested?: EditRepoAutomationRequestTriggersPullRequestReviewRequested;
-  issue_closed?: EditRepoAutomationRequestTriggersIssueClosed;
-  issue_reopened?: EditRepoAutomationRequestTriggersIssueReopened;
-  pull_request_closed?: EditRepoAutomationRequestTriggersPullRequestClosed;
-  pull_request_reopened?: EditRepoAutomationRequestTriggersPullRequestReopened;
-  pull_request_converted_to_draft?: EditRepoAutomationRequestTriggersPullRequestConvertedToDraft;
-  pull_request_review_dismissed?: EditRepoAutomationRequestTriggersPullRequestReviewDismissed;
-  pull_request_review_thread_resolved?: EditRepoAutomationRequestTriggersPullRequestReviewThreadResolved;
-  pull_request_review_thread_unresolved?: EditRepoAutomationRequestTriggersPullRequestReviewThreadUnresolved;
-  automation_completed?: EditRepoAutomationRequestTriggersAutomationCompleted;
-  automation_failed?: EditRepoAutomationRequestTriggersAutomationFailed;
+  interval?: EditRepoAutomationRequestTriggersInterval | undefined;
+  issue_opened?: EditRepoAutomationRequestTriggersIssueOpened | undefined;
+  issue_labeled?: EditRepoAutomationRequestTriggersIssueLabeled | undefined;
+  workflow_run?: EditRepoAutomationRequestTriggersWorkflowRun | undefined;
+  pull_request_opened?: EditRepoAutomationRequestTriggersPullRequestOpened | undefined;
+  pull_request_synchronize?: EditRepoAutomationRequestTriggersPullRequestSynchronize | undefined;
+  pull_request_merged?: EditRepoAutomationRequestTriggersPullRequestMerged | undefined;
+  issue_comment?: EditRepoAutomationRequestTriggersIssueComment | undefined;
+  pull_request_comment?: EditRepoAutomationRequestTriggersPullRequestComment | undefined;
+  discussion_opened?: EditRepoAutomationRequestTriggersDiscussionOpened | undefined;
+  discussion_updated?: EditRepoAutomationRequestTriggersDiscussionUpdated | undefined;
+  discussion_comment?: EditRepoAutomationRequestTriggersDiscussionComment | undefined;
+  issue_assigned?: EditRepoAutomationRequestTriggersIssueAssigned | undefined;
+  pull_request_assigned?: EditRepoAutomationRequestTriggersPullRequestAssigned | undefined;
+  sub_issue_added?: EditRepoAutomationRequestTriggersSubIssueAdded | undefined;
+  pull_request_ready_for_review?:
+    | EditRepoAutomationRequestTriggersPullRequestReadyForReview
+    | undefined;
+  pull_request_labeled?: EditRepoAutomationRequestTriggersPullRequestLabeled | undefined;
+  pull_request_merge_conflict?:
+    | EditRepoAutomationRequestTriggersPullRequestMergeConflict
+    | undefined;
+  pull_request_review_submitted?:
+    | EditRepoAutomationRequestTriggersPullRequestReviewSubmitted
+    | undefined;
+  pull_request_review_requested?:
+    | EditRepoAutomationRequestTriggersPullRequestReviewRequested
+    | undefined;
+  issue_closed?: EditRepoAutomationRequestTriggersIssueClosed | undefined;
+  issue_reopened?: EditRepoAutomationRequestTriggersIssueReopened | undefined;
+  pull_request_closed?: EditRepoAutomationRequestTriggersPullRequestClosed | undefined;
+  pull_request_reopened?: EditRepoAutomationRequestTriggersPullRequestReopened | undefined;
+  pull_request_converted_to_draft?:
+    | EditRepoAutomationRequestTriggersPullRequestConvertedToDraft
+    | undefined;
+  pull_request_review_dismissed?:
+    | EditRepoAutomationRequestTriggersPullRequestReviewDismissed
+    | undefined;
+  pull_request_review_thread_resolved?:
+    | EditRepoAutomationRequestTriggersPullRequestReviewThreadResolved
+    | undefined;
+  pull_request_review_thread_unresolved?:
+    | EditRepoAutomationRequestTriggersPullRequestReviewThreadUnresolved
+    | undefined;
+  automation_completed?: EditRepoAutomationRequestTriggersAutomationCompleted | undefined;
+  automation_failed?: EditRepoAutomationRequestTriggersAutomationFailed | undefined;
   /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
-  code_scanning_alert?: EditRepoAutomationRequestTriggersCodeScanningAlert;
+  code_scanning_alert?: EditRepoAutomationRequestTriggersCodeScanningAlert | undefined;
   /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
-  secret_scanning_alert?: EditRepoAutomationRequestTriggersSecretScanningAlert;
+  secret_scanning_alert?: EditRepoAutomationRequestTriggersSecretScanningAlert | undefined;
   /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
-  dependabot_alert?: EditRepoAutomationRequestTriggersDependabotAlert;
+  dependabot_alert?: EditRepoAutomationRequestTriggersDependabotAlert | undefined;
 }
 /** The tools available to the automation. Send an empty array to clear all tools. */
 export type EditRepoAutomationRequestToolsList = Array<string>;
@@ -1894,23 +2103,23 @@ export interface EditRepoAutomationRequest {
   /** The unique identifier of the automation. */
   automation_id: string;
   /** The name of the automation. */
-  name?: string;
+  name?: string | undefined;
   /** Set to true to enable, false to disable. Omit to leave unchanged. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** When true, event-triggered runs require the event actor to have repo write permission, even when the org's allow_read_access_triggers policy is enabled. When policy validation is enabled, explicitly setting false returns 422 if effective organization or repository policy disallows read-access triggers. The actor requirement does not apply to interval-scheduled runs, which always run as the automation owner. Omit to leave unchanged. */
-  require_actor_write_permission?: boolean;
+  require_actor_write_permission?: boolean | undefined;
   /** When true, runs of this automation build on the session history of its previous runs, and runs of the same automation are serialized. Not tracked in revision history. Omit to leave unchanged. */
-  continuous_history?: boolean;
+  continuous_history?: boolean | undefined;
   /** The model to use for sessions triggered by this automation. Omit to leave unchanged. Send an empty string to clear the override and let the platform select the model. */
-  model?: string;
+  model?: string | undefined;
   /** The reasoning effort to use for sessions triggered by this automation. Omit to leave unchanged. Send an empty string to clear the override and use the model's default. */
-  reasoning_effort?: EditRepoAutomationRequestReasoningEffort;
+  reasoning_effort?: EditRepoAutomationRequestReasoningEffort | undefined;
   /** Trigger configuration for the automation. */
-  triggers?: EditRepoAutomationRequestTriggers;
+  triggers?: EditRepoAutomationRequestTriggers | undefined;
   /** The prompt for the automation. */
-  prompt?: string;
+  prompt?: string | undefined;
   /** The tools available to the automation. Send an empty array to clear all tools. */
-  tools?: EditRepoAutomationRequestToolsList;
+  tools?: EditRepoAutomationRequestToolsList | undefined;
 }
 /** The type of automation. `personal` keeps it private to its creator and its runs act as that user. `shared` makes it belong to the repository, visible to anyone with read access to the repository, and its runs act as the Copilot app rather than as a person. */
 export type EditRepoAutomationResponseType = "personal" | "shared";
@@ -1926,25 +2135,25 @@ export interface EditRepoAutomationResponseTriggersInterval {
   /** One or more schedules on which the Automation runs. */
   cadence: EditRepoAutomationResponseTriggersIntervalCadenceList;
   /** UTC hour anchor (0 through 23) for daily and weekly schedules. Omitted daily and weekly values default to `0` (midnight UTC). */
-  hour_utc?: number;
+  hour_utc?: number | undefined;
   /** UTC weekday anchor for weekly schedules, where `0` is Sunday and `6` is Saturday. Omitted weekly values default to Monday (`1`). */
-  day_of_week?: number;
+  day_of_week?: number | undefined;
   /** UTC minute anchor for daily and weekly schedules. Omitted daily and weekly values default to `0`. Must be omitted whenever `cadence` includes `hourly`. */
-  minute_utc?: EditRepoAutomationResponseTriggersIntervalMinuteUtc;
+  minute_utc?: EditRepoAutomationResponseTriggersIntervalMinuteUtc | undefined;
   /** Has no effect: scheduled runs can change any resource in the repository, and an organization or repository policy requiring trigger-scoped writes does not apply to them. */
-  write_scope?: EditRepoAutomationResponseTriggersIntervalWriteScope;
+  write_scope?: EditRepoAutomationResponseTriggersIntervalWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type EditRepoAutomationResponseTriggersIssueOpenedWriteScope = "trigger" | "repository";
 export interface EditRepoAutomationResponseTriggersIssueOpened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersIssueOpenedWriteScope;
+  write_scope?: EditRepoAutomationResponseTriggersIssueOpenedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Label names matched case-insensitively against the label added by the event. Omit or use an empty array to match every added label. */
 export type EditRepoAutomationResponseTriggersIssueLabeledLabelsList = Array<string>;
@@ -1952,13 +2161,13 @@ export type EditRepoAutomationResponseTriggersIssueLabeledLabelsList = Array<str
 export type EditRepoAutomationResponseTriggersIssueLabeledWriteScope = "trigger" | "repository";
 export interface EditRepoAutomationResponseTriggersIssueLabeled {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Label names matched case-insensitively against the label added by the event. Omit or use an empty array to match every added label. */
-  labels?: EditRepoAutomationResponseTriggersIssueLabeledLabelsList;
+  labels?: EditRepoAutomationResponseTriggersIssueLabeledLabelsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersIssueLabeledWriteScope;
+  write_scope?: EditRepoAutomationResponseTriggersIssueLabeledWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Workflow names matched against the name in each workflow YAML file. */
 export type EditRepoAutomationResponseTriggersWorkflowRunWorkflowsList = Array<string>;
@@ -1974,11 +2183,11 @@ export interface EditRepoAutomationResponseTriggersWorkflowRun {
   /** Workflow conclusions to match. The current trigger supports failure. */
   conclusions: EditRepoAutomationResponseTriggersWorkflowRunConclusionsList;
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersWorkflowRunWriteScope;
+  write_scope?: EditRepoAutomationResponseTriggersWorkflowRunWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type EditRepoAutomationResponseTriggersPullRequestOpenedPathsList = Array<string>;
@@ -1988,13 +2197,13 @@ export type EditRepoAutomationResponseTriggersPullRequestOpenedWriteScope =
   | "repository";
 export interface EditRepoAutomationResponseTriggersPullRequestOpened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationResponseTriggersPullRequestOpenedPathsList;
+  paths?: EditRepoAutomationResponseTriggersPullRequestOpenedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersPullRequestOpenedWriteScope;
+  write_scope?: EditRepoAutomationResponseTriggersPullRequestOpenedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type EditRepoAutomationResponseTriggersPullRequestSynchronizePathsList = Array<string>;
@@ -2004,13 +2213,13 @@ export type EditRepoAutomationResponseTriggersPullRequestSynchronizeWriteScope =
   | "repository";
 export interface EditRepoAutomationResponseTriggersPullRequestSynchronize {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationResponseTriggersPullRequestSynchronizePathsList;
+  paths?: EditRepoAutomationResponseTriggersPullRequestSynchronizePathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersPullRequestSynchronizeWriteScope;
+  write_scope?: EditRepoAutomationResponseTriggersPullRequestSynchronizeWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type EditRepoAutomationResponseTriggersPullRequestMergedPathsList = Array<string>;
@@ -2020,25 +2229,25 @@ export type EditRepoAutomationResponseTriggersPullRequestMergedWriteScope =
   | "repository";
 export interface EditRepoAutomationResponseTriggersPullRequestMerged {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationResponseTriggersPullRequestMergedPathsList;
+  paths?: EditRepoAutomationResponseTriggersPullRequestMergedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersPullRequestMergedWriteScope;
+  write_scope?: EditRepoAutomationResponseTriggersPullRequestMergedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type EditRepoAutomationResponseTriggersIssueCommentWriteScope = "trigger" | "repository";
 export interface EditRepoAutomationResponseTriggersIssueComment {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersIssueCommentWriteScope;
+  write_scope?: EditRepoAutomationResponseTriggersIssueCommentWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 export type EditRepoAutomationResponseTriggersPullRequestCommentCommentTypesItem =
   | "timeline_comment"
@@ -2056,15 +2265,15 @@ export interface EditRepoAutomationResponseTriggersPullRequestComment {
   /** Pull request conversation and inline review comment types to match. */
   comment_types: EditRepoAutomationResponseTriggersPullRequestCommentCommentTypesList;
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationResponseTriggersPullRequestCommentPathsList;
+  paths?: EditRepoAutomationResponseTriggersPullRequestCommentPathsList | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersPullRequestCommentWriteScope;
+  write_scope?: EditRepoAutomationResponseTriggersPullRequestCommentWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Discussion category names matched case-insensitively. */
 export type EditRepoAutomationResponseTriggersDiscussionOpenedCategoriesList = Array<string>;
@@ -2072,13 +2281,13 @@ export type EditRepoAutomationResponseTriggersDiscussionOpenedCategoriesList = A
 export type EditRepoAutomationResponseTriggersDiscussionOpenedWriteScope = "trigger" | "repository";
 export interface EditRepoAutomationResponseTriggersDiscussionOpened {
   /** Discussion category names matched case-insensitively. */
-  categories?: EditRepoAutomationResponseTriggersDiscussionOpenedCategoriesList;
+  categories?: EditRepoAutomationResponseTriggersDiscussionOpenedCategoriesList | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersDiscussionOpenedWriteScope;
+  write_scope?: EditRepoAutomationResponseTriggersDiscussionOpenedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Discussion category names matched case-insensitively. */
 export type EditRepoAutomationResponseTriggersDiscussionUpdatedCategoriesList = Array<string>;
@@ -2088,13 +2297,13 @@ export type EditRepoAutomationResponseTriggersDiscussionUpdatedWriteScope =
   | "repository";
 export interface EditRepoAutomationResponseTriggersDiscussionUpdated {
   /** Discussion category names matched case-insensitively. */
-  categories?: EditRepoAutomationResponseTriggersDiscussionUpdatedCategoriesList;
+  categories?: EditRepoAutomationResponseTriggersDiscussionUpdatedCategoriesList | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersDiscussionUpdatedWriteScope;
+  write_scope?: EditRepoAutomationResponseTriggersDiscussionUpdatedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 export type EditRepoAutomationResponseTriggersDiscussionCommentCommentTypesItem =
   | "comment"
@@ -2110,15 +2319,15 @@ export type EditRepoAutomationResponseTriggersDiscussionCommentWriteScope =
   | "repository";
 export interface EditRepoAutomationResponseTriggersDiscussionComment {
   /** Top-level discussion comments and replies to match. Omit to match both. */
-  comment_types?: EditRepoAutomationResponseTriggersDiscussionCommentCommentTypesList;
+  comment_types?: EditRepoAutomationResponseTriggersDiscussionCommentCommentTypesList | undefined;
   /** Discussion category names matched case-insensitively. */
-  categories?: EditRepoAutomationResponseTriggersDiscussionCommentCategoriesList;
+  categories?: EditRepoAutomationResponseTriggersDiscussionCommentCategoriesList | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersDiscussionCommentWriteScope;
+  write_scope?: EditRepoAutomationResponseTriggersDiscussionCommentWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Affected assignee logins matched case-insensitively. */
 export type EditRepoAutomationResponseTriggersIssueAssignedAssigneesList = Array<string>;
@@ -2126,13 +2335,13 @@ export type EditRepoAutomationResponseTriggersIssueAssignedAssigneesList = Array
 export type EditRepoAutomationResponseTriggersIssueAssignedWriteScope = "trigger" | "repository";
 export interface EditRepoAutomationResponseTriggersIssueAssigned {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Affected assignee logins matched case-insensitively. */
-  assignees?: EditRepoAutomationResponseTriggersIssueAssignedAssigneesList;
+  assignees?: EditRepoAutomationResponseTriggersIssueAssignedAssigneesList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersIssueAssignedWriteScope;
+  write_scope?: EditRepoAutomationResponseTriggersIssueAssignedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type EditRepoAutomationResponseTriggersPullRequestAssignedPathsList = Array<string>;
@@ -2144,25 +2353,25 @@ export type EditRepoAutomationResponseTriggersPullRequestAssignedWriteScope =
   | "repository";
 export interface EditRepoAutomationResponseTriggersPullRequestAssigned {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationResponseTriggersPullRequestAssignedPathsList;
+  paths?: EditRepoAutomationResponseTriggersPullRequestAssignedPathsList | undefined;
   /** Affected assignee logins matched case-insensitively. */
-  assignees?: EditRepoAutomationResponseTriggersPullRequestAssignedAssigneesList;
+  assignees?: EditRepoAutomationResponseTriggersPullRequestAssignedAssigneesList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersPullRequestAssignedWriteScope;
+  write_scope?: EditRepoAutomationResponseTriggersPullRequestAssignedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type EditRepoAutomationResponseTriggersSubIssueAddedWriteScope = "trigger" | "repository";
 export interface EditRepoAutomationResponseTriggersSubIssueAdded {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersSubIssueAddedWriteScope;
+  write_scope?: EditRepoAutomationResponseTriggersSubIssueAddedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type EditRepoAutomationResponseTriggersPullRequestReadyForReviewPathsList = Array<string>;
@@ -2172,13 +2381,13 @@ export type EditRepoAutomationResponseTriggersPullRequestReadyForReviewWriteScop
   | "repository";
 export interface EditRepoAutomationResponseTriggersPullRequestReadyForReview {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationResponseTriggersPullRequestReadyForReviewPathsList;
+  paths?: EditRepoAutomationResponseTriggersPullRequestReadyForReviewPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersPullRequestReadyForReviewWriteScope;
+  write_scope?: EditRepoAutomationResponseTriggersPullRequestReadyForReviewWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type EditRepoAutomationResponseTriggersPullRequestLabeledPathsList = Array<string>;
@@ -2190,15 +2399,15 @@ export type EditRepoAutomationResponseTriggersPullRequestLabeledWriteScope =
   | "repository";
 export interface EditRepoAutomationResponseTriggersPullRequestLabeled {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationResponseTriggersPullRequestLabeledPathsList;
+  paths?: EditRepoAutomationResponseTriggersPullRequestLabeledPathsList | undefined;
   /** Label names matched case-insensitively against the label added by the event. Omit or use an empty array to match every added label. */
-  labels?: EditRepoAutomationResponseTriggersPullRequestLabeledLabelsList;
+  labels?: EditRepoAutomationResponseTriggersPullRequestLabeledLabelsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersPullRequestLabeledWriteScope;
+  write_scope?: EditRepoAutomationResponseTriggersPullRequestLabeledWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type EditRepoAutomationResponseTriggersPullRequestMergeConflictPathsList = Array<string>;
@@ -2208,13 +2417,13 @@ export type EditRepoAutomationResponseTriggersPullRequestMergeConflictWriteScope
   | "repository";
 export interface EditRepoAutomationResponseTriggersPullRequestMergeConflict {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationResponseTriggersPullRequestMergeConflictPathsList;
+  paths?: EditRepoAutomationResponseTriggersPullRequestMergeConflictPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersPullRequestMergeConflictWriteScope;
+  write_scope?: EditRepoAutomationResponseTriggersPullRequestMergeConflictWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type EditRepoAutomationResponseTriggersPullRequestReviewSubmittedPathsList = Array<string>;
@@ -2231,15 +2440,15 @@ export type EditRepoAutomationResponseTriggersPullRequestReviewSubmittedWriteSco
   | "repository";
 export interface EditRepoAutomationResponseTriggersPullRequestReviewSubmitted {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationResponseTriggersPullRequestReviewSubmittedPathsList;
+  paths?: EditRepoAutomationResponseTriggersPullRequestReviewSubmittedPathsList | undefined;
   /** Submitted review states to match. */
   states: EditRepoAutomationResponseTriggersPullRequestReviewSubmittedStatesList;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersPullRequestReviewSubmittedWriteScope;
+  write_scope?: EditRepoAutomationResponseTriggersPullRequestReviewSubmittedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type EditRepoAutomationResponseTriggersPullRequestReviewRequestedPathsList = Array<string>;
@@ -2249,33 +2458,33 @@ export type EditRepoAutomationResponseTriggersPullRequestReviewRequestedWriteSco
   | "repository";
 export interface EditRepoAutomationResponseTriggersPullRequestReviewRequested {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationResponseTriggersPullRequestReviewRequestedPathsList;
+  paths?: EditRepoAutomationResponseTriggersPullRequestReviewRequestedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersPullRequestReviewRequestedWriteScope;
+  write_scope?: EditRepoAutomationResponseTriggersPullRequestReviewRequestedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type EditRepoAutomationResponseTriggersIssueClosedWriteScope = "trigger" | "repository";
 export interface EditRepoAutomationResponseTriggersIssueClosed {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersIssueClosedWriteScope;
+  write_scope?: EditRepoAutomationResponseTriggersIssueClosedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type EditRepoAutomationResponseTriggersIssueReopenedWriteScope = "trigger" | "repository";
 export interface EditRepoAutomationResponseTriggersIssueReopened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersIssueReopenedWriteScope;
+  write_scope?: EditRepoAutomationResponseTriggersIssueReopenedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type EditRepoAutomationResponseTriggersPullRequestClosedPathsList = Array<string>;
@@ -2285,13 +2494,13 @@ export type EditRepoAutomationResponseTriggersPullRequestClosedWriteScope =
   | "repository";
 export interface EditRepoAutomationResponseTriggersPullRequestClosed {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationResponseTriggersPullRequestClosedPathsList;
+  paths?: EditRepoAutomationResponseTriggersPullRequestClosedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersPullRequestClosedWriteScope;
+  write_scope?: EditRepoAutomationResponseTriggersPullRequestClosedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type EditRepoAutomationResponseTriggersPullRequestReopenedPathsList = Array<string>;
@@ -2301,13 +2510,13 @@ export type EditRepoAutomationResponseTriggersPullRequestReopenedWriteScope =
   | "repository";
 export interface EditRepoAutomationResponseTriggersPullRequestReopened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationResponseTriggersPullRequestReopenedPathsList;
+  paths?: EditRepoAutomationResponseTriggersPullRequestReopenedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersPullRequestReopenedWriteScope;
+  write_scope?: EditRepoAutomationResponseTriggersPullRequestReopenedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type EditRepoAutomationResponseTriggersPullRequestConvertedToDraftPathsList = Array<string>;
@@ -2317,13 +2526,13 @@ export type EditRepoAutomationResponseTriggersPullRequestConvertedToDraftWriteSc
   | "repository";
 export interface EditRepoAutomationResponseTriggersPullRequestConvertedToDraft {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationResponseTriggersPullRequestConvertedToDraftPathsList;
+  paths?: EditRepoAutomationResponseTriggersPullRequestConvertedToDraftPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersPullRequestConvertedToDraftWriteScope;
+  write_scope?: EditRepoAutomationResponseTriggersPullRequestConvertedToDraftWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type EditRepoAutomationResponseTriggersPullRequestReviewDismissedPathsList = Array<string>;
@@ -2333,13 +2542,13 @@ export type EditRepoAutomationResponseTriggersPullRequestReviewDismissedWriteSco
   | "repository";
 export interface EditRepoAutomationResponseTriggersPullRequestReviewDismissed {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationResponseTriggersPullRequestReviewDismissedPathsList;
+  paths?: EditRepoAutomationResponseTriggersPullRequestReviewDismissedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersPullRequestReviewDismissedWriteScope;
+  write_scope?: EditRepoAutomationResponseTriggersPullRequestReviewDismissedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type EditRepoAutomationResponseTriggersPullRequestReviewThreadResolvedPathsList =
@@ -2350,13 +2559,15 @@ export type EditRepoAutomationResponseTriggersPullRequestReviewThreadResolvedWri
   | "repository";
 export interface EditRepoAutomationResponseTriggersPullRequestReviewThreadResolved {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationResponseTriggersPullRequestReviewThreadResolvedPathsList;
+  paths?: EditRepoAutomationResponseTriggersPullRequestReviewThreadResolvedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersPullRequestReviewThreadResolvedWriteScope;
+  write_scope?:
+    | EditRepoAutomationResponseTriggersPullRequestReviewThreadResolvedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type EditRepoAutomationResponseTriggersPullRequestReviewThreadUnresolvedPathsList =
@@ -2367,13 +2578,15 @@ export type EditRepoAutomationResponseTriggersPullRequestReviewThreadUnresolvedW
   | "repository";
 export interface EditRepoAutomationResponseTriggersPullRequestReviewThreadUnresolved {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: EditRepoAutomationResponseTriggersPullRequestReviewThreadUnresolvedPathsList;
+  paths?: EditRepoAutomationResponseTriggersPullRequestReviewThreadUnresolvedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersPullRequestReviewThreadUnresolvedWriteScope;
+  write_scope?:
+    | EditRepoAutomationResponseTriggersPullRequestReviewThreadUnresolvedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Upstream Automation IDs in the same repository. */
 export type EditRepoAutomationResponseTriggersAutomationCompletedAutomationIdsList = Array<string>;
@@ -2385,9 +2598,9 @@ export interface EditRepoAutomationResponseTriggersAutomationCompleted {
   /** Upstream Automation IDs in the same repository. */
   automation_ids: EditRepoAutomationResponseTriggersAutomationCompletedAutomationIdsList;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersAutomationCompletedWriteScope;
+  write_scope?: EditRepoAutomationResponseTriggersAutomationCompletedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Upstream Automation IDs in the same repository. An Automation cannot list itself, and a user-owned Automation can only be listed by its creator's user-owned Automations. */
 export type EditRepoAutomationResponseTriggersAutomationFailedAutomationIdsList = Array<string>;
@@ -2404,11 +2617,11 @@ export interface EditRepoAutomationResponseTriggersAutomationFailed {
   /** Upstream Automation IDs in the same repository. An Automation cannot list itself, and a user-owned Automation can only be listed by its creator's user-owned Automations. */
   automation_ids: EditRepoAutomationResponseTriggersAutomationFailedAutomationIdsList;
   /** Failure reasons to match. Omit to match only reported failures. */
-  reasons?: EditRepoAutomationResponseTriggersAutomationFailedReasonsList;
+  reasons?: EditRepoAutomationResponseTriggersAutomationFailedReasonsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersAutomationFailedWriteScope;
+  write_scope?: EditRepoAutomationResponseTriggersAutomationFailedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type EditRepoAutomationResponseTriggersCodeScanningAlertWriteScope =
@@ -2417,9 +2630,9 @@ export type EditRepoAutomationResponseTriggersCodeScanningAlertWriteScope =
 /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
 export interface EditRepoAutomationResponseTriggersCodeScanningAlert {
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersCodeScanningAlertWriteScope;
+  write_scope?: EditRepoAutomationResponseTriggersCodeScanningAlertWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type EditRepoAutomationResponseTriggersSecretScanningAlertWriteScope =
@@ -2428,57 +2641,73 @@ export type EditRepoAutomationResponseTriggersSecretScanningAlertWriteScope =
 /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
 export interface EditRepoAutomationResponseTriggersSecretScanningAlert {
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersSecretScanningAlertWriteScope;
+  write_scope?: EditRepoAutomationResponseTriggersSecretScanningAlertWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type EditRepoAutomationResponseTriggersDependabotAlertWriteScope = "trigger" | "repository";
 /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
 export interface EditRepoAutomationResponseTriggersDependabotAlert {
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: EditRepoAutomationResponseTriggersDependabotAlertWriteScope;
+  write_scope?: EditRepoAutomationResponseTriggersDependabotAlertWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Trigger configuration for the automation. */
 export interface EditRepoAutomationResponseTriggers {
-  interval?: EditRepoAutomationResponseTriggersInterval;
-  issue_opened?: EditRepoAutomationResponseTriggersIssueOpened;
-  issue_labeled?: EditRepoAutomationResponseTriggersIssueLabeled;
-  workflow_run?: EditRepoAutomationResponseTriggersWorkflowRun;
-  pull_request_opened?: EditRepoAutomationResponseTriggersPullRequestOpened;
-  pull_request_synchronize?: EditRepoAutomationResponseTriggersPullRequestSynchronize;
-  pull_request_merged?: EditRepoAutomationResponseTriggersPullRequestMerged;
-  issue_comment?: EditRepoAutomationResponseTriggersIssueComment;
-  pull_request_comment?: EditRepoAutomationResponseTriggersPullRequestComment;
-  discussion_opened?: EditRepoAutomationResponseTriggersDiscussionOpened;
-  discussion_updated?: EditRepoAutomationResponseTriggersDiscussionUpdated;
-  discussion_comment?: EditRepoAutomationResponseTriggersDiscussionComment;
-  issue_assigned?: EditRepoAutomationResponseTriggersIssueAssigned;
-  pull_request_assigned?: EditRepoAutomationResponseTriggersPullRequestAssigned;
-  sub_issue_added?: EditRepoAutomationResponseTriggersSubIssueAdded;
-  pull_request_ready_for_review?: EditRepoAutomationResponseTriggersPullRequestReadyForReview;
-  pull_request_labeled?: EditRepoAutomationResponseTriggersPullRequestLabeled;
-  pull_request_merge_conflict?: EditRepoAutomationResponseTriggersPullRequestMergeConflict;
-  pull_request_review_submitted?: EditRepoAutomationResponseTriggersPullRequestReviewSubmitted;
-  pull_request_review_requested?: EditRepoAutomationResponseTriggersPullRequestReviewRequested;
-  issue_closed?: EditRepoAutomationResponseTriggersIssueClosed;
-  issue_reopened?: EditRepoAutomationResponseTriggersIssueReopened;
-  pull_request_closed?: EditRepoAutomationResponseTriggersPullRequestClosed;
-  pull_request_reopened?: EditRepoAutomationResponseTriggersPullRequestReopened;
-  pull_request_converted_to_draft?: EditRepoAutomationResponseTriggersPullRequestConvertedToDraft;
-  pull_request_review_dismissed?: EditRepoAutomationResponseTriggersPullRequestReviewDismissed;
-  pull_request_review_thread_resolved?: EditRepoAutomationResponseTriggersPullRequestReviewThreadResolved;
-  pull_request_review_thread_unresolved?: EditRepoAutomationResponseTriggersPullRequestReviewThreadUnresolved;
-  automation_completed?: EditRepoAutomationResponseTriggersAutomationCompleted;
-  automation_failed?: EditRepoAutomationResponseTriggersAutomationFailed;
+  interval?: EditRepoAutomationResponseTriggersInterval | undefined;
+  issue_opened?: EditRepoAutomationResponseTriggersIssueOpened | undefined;
+  issue_labeled?: EditRepoAutomationResponseTriggersIssueLabeled | undefined;
+  workflow_run?: EditRepoAutomationResponseTriggersWorkflowRun | undefined;
+  pull_request_opened?: EditRepoAutomationResponseTriggersPullRequestOpened | undefined;
+  pull_request_synchronize?: EditRepoAutomationResponseTriggersPullRequestSynchronize | undefined;
+  pull_request_merged?: EditRepoAutomationResponseTriggersPullRequestMerged | undefined;
+  issue_comment?: EditRepoAutomationResponseTriggersIssueComment | undefined;
+  pull_request_comment?: EditRepoAutomationResponseTriggersPullRequestComment | undefined;
+  discussion_opened?: EditRepoAutomationResponseTriggersDiscussionOpened | undefined;
+  discussion_updated?: EditRepoAutomationResponseTriggersDiscussionUpdated | undefined;
+  discussion_comment?: EditRepoAutomationResponseTriggersDiscussionComment | undefined;
+  issue_assigned?: EditRepoAutomationResponseTriggersIssueAssigned | undefined;
+  pull_request_assigned?: EditRepoAutomationResponseTriggersPullRequestAssigned | undefined;
+  sub_issue_added?: EditRepoAutomationResponseTriggersSubIssueAdded | undefined;
+  pull_request_ready_for_review?:
+    | EditRepoAutomationResponseTriggersPullRequestReadyForReview
+    | undefined;
+  pull_request_labeled?: EditRepoAutomationResponseTriggersPullRequestLabeled | undefined;
+  pull_request_merge_conflict?:
+    | EditRepoAutomationResponseTriggersPullRequestMergeConflict
+    | undefined;
+  pull_request_review_submitted?:
+    | EditRepoAutomationResponseTriggersPullRequestReviewSubmitted
+    | undefined;
+  pull_request_review_requested?:
+    | EditRepoAutomationResponseTriggersPullRequestReviewRequested
+    | undefined;
+  issue_closed?: EditRepoAutomationResponseTriggersIssueClosed | undefined;
+  issue_reopened?: EditRepoAutomationResponseTriggersIssueReopened | undefined;
+  pull_request_closed?: EditRepoAutomationResponseTriggersPullRequestClosed | undefined;
+  pull_request_reopened?: EditRepoAutomationResponseTriggersPullRequestReopened | undefined;
+  pull_request_converted_to_draft?:
+    | EditRepoAutomationResponseTriggersPullRequestConvertedToDraft
+    | undefined;
+  pull_request_review_dismissed?:
+    | EditRepoAutomationResponseTriggersPullRequestReviewDismissed
+    | undefined;
+  pull_request_review_thread_resolved?:
+    | EditRepoAutomationResponseTriggersPullRequestReviewThreadResolved
+    | undefined;
+  pull_request_review_thread_unresolved?:
+    | EditRepoAutomationResponseTriggersPullRequestReviewThreadUnresolved
+    | undefined;
+  automation_completed?: EditRepoAutomationResponseTriggersAutomationCompleted | undefined;
+  automation_failed?: EditRepoAutomationResponseTriggersAutomationFailed | undefined;
   /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
-  code_scanning_alert?: EditRepoAutomationResponseTriggersCodeScanningAlert;
+  code_scanning_alert?: EditRepoAutomationResponseTriggersCodeScanningAlert | undefined;
   /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
-  secret_scanning_alert?: EditRepoAutomationResponseTriggersSecretScanningAlert;
+  secret_scanning_alert?: EditRepoAutomationResponseTriggersSecretScanningAlert | undefined;
   /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
-  dependabot_alert?: EditRepoAutomationResponseTriggersDependabotAlert;
+  dependabot_alert?: EditRepoAutomationResponseTriggersDependabotAlert | undefined;
 }
 /** The tools available to the automation. */
 export type EditRepoAutomationResponseToolsList = Array<string>;
@@ -2490,23 +2719,23 @@ export interface EditRepoAutomationResponse {
   /** The name of the automation. */
   name: string;
   /** Whether the automation is currently enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The type of automation. `personal` keeps it private to its creator and its runs act as that user. `shared` makes it belong to the repository, visible to anyone with read access to the repository, and its runs act as the Copilot app rather than as a person. */
-  type?: EditRepoAutomationResponseType;
+  type?: EditRepoAutomationResponseType | undefined;
   /** When true, event-triggered runs require the event actor to have repo write permission, even when the org's allow_read_access_triggers policy is enabled. Does not apply to interval-scheduled runs, which always run as the automation owner. */
-  require_actor_write_permission?: boolean;
+  require_actor_write_permission?: boolean | undefined;
   /** When true, runs of this automation build on the session history of its previous runs, and runs of the same automation are serialized. Not tracked in revision history. */
-  continuous_history?: boolean;
+  continuous_history?: boolean | undefined;
   /** Trigger configuration for the automation. */
-  triggers?: EditRepoAutomationResponseTriggers;
+  triggers?: EditRepoAutomationResponseTriggers | undefined;
   /** The prompt for the automation. */
   prompt: string;
   /** The tools available to the automation. */
-  tools?: EditRepoAutomationResponseToolsList;
+  tools?: EditRepoAutomationResponseToolsList | undefined;
   /** The model override for sessions triggered by this automation. Absent when the platform selects the model. */
-  model?: string;
+  model?: string | undefined;
   /** The reasoning effort override for sessions triggered by this automation. Absent when the model's default is used. */
-  reasoning_effort?: string;
+  reasoning_effort?: string | undefined;
   /** When the automation was created. */
   created_at: string;
   /** When the automation was last updated. */
@@ -2558,15 +2787,15 @@ export interface GetAutomationRevisionResponseSnapshotTriggersInterval {
   /** One or more schedules on which the Automation runs. */
   cadence: GetAutomationRevisionResponseSnapshotTriggersIntervalCadenceList;
   /** UTC hour anchor (0 through 23) for daily and weekly schedules. Omitted daily and weekly values default to `0` (midnight UTC). */
-  hour_utc?: number;
+  hour_utc?: number | undefined;
   /** UTC weekday anchor for weekly schedules, where `0` is Sunday and `6` is Saturday. Omitted weekly values default to Monday (`1`). */
-  day_of_week?: number;
+  day_of_week?: number | undefined;
   /** UTC minute anchor for daily and weekly schedules. Omitted daily and weekly values default to `0`. Must be omitted whenever `cadence` includes `hourly`. */
-  minute_utc?: GetAutomationRevisionResponseSnapshotTriggersIntervalMinuteUtc;
+  minute_utc?: GetAutomationRevisionResponseSnapshotTriggersIntervalMinuteUtc | undefined;
   /** Has no effect: scheduled runs can change any resource in the repository, and an organization or repository policy requiring trigger-scoped writes does not apply to them. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersIntervalWriteScope;
+  write_scope?: GetAutomationRevisionResponseSnapshotTriggersIntervalWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type GetAutomationRevisionResponseSnapshotTriggersIssueOpenedWriteScope =
@@ -2574,11 +2803,11 @@ export type GetAutomationRevisionResponseSnapshotTriggersIssueOpenedWriteScope =
   | "repository";
 export interface GetAutomationRevisionResponseSnapshotTriggersIssueOpened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersIssueOpenedWriteScope;
+  write_scope?: GetAutomationRevisionResponseSnapshotTriggersIssueOpenedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Label names matched case-insensitively against the label added by the event. Omit or use an empty array to match every added label. */
 export type GetAutomationRevisionResponseSnapshotTriggersIssueLabeledLabelsList = Array<string>;
@@ -2588,13 +2817,13 @@ export type GetAutomationRevisionResponseSnapshotTriggersIssueLabeledWriteScope 
   | "repository";
 export interface GetAutomationRevisionResponseSnapshotTriggersIssueLabeled {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Label names matched case-insensitively against the label added by the event. Omit or use an empty array to match every added label. */
-  labels?: GetAutomationRevisionResponseSnapshotTriggersIssueLabeledLabelsList;
+  labels?: GetAutomationRevisionResponseSnapshotTriggersIssueLabeledLabelsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersIssueLabeledWriteScope;
+  write_scope?: GetAutomationRevisionResponseSnapshotTriggersIssueLabeledWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Workflow names matched against the name in each workflow YAML file. */
 export type GetAutomationRevisionResponseSnapshotTriggersWorkflowRunWorkflowsList = Array<string>;
@@ -2612,11 +2841,11 @@ export interface GetAutomationRevisionResponseSnapshotTriggersWorkflowRun {
   /** Workflow conclusions to match. The current trigger supports failure. */
   conclusions: GetAutomationRevisionResponseSnapshotTriggersWorkflowRunConclusionsList;
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersWorkflowRunWriteScope;
+  write_scope?: GetAutomationRevisionResponseSnapshotTriggersWorkflowRunWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type GetAutomationRevisionResponseSnapshotTriggersPullRequestOpenedPathsList = Array<string>;
@@ -2626,13 +2855,15 @@ export type GetAutomationRevisionResponseSnapshotTriggersPullRequestOpenedWriteS
   | "repository";
 export interface GetAutomationRevisionResponseSnapshotTriggersPullRequestOpened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetAutomationRevisionResponseSnapshotTriggersPullRequestOpenedPathsList;
+  paths?: GetAutomationRevisionResponseSnapshotTriggersPullRequestOpenedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersPullRequestOpenedWriteScope;
+  write_scope?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestOpenedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type GetAutomationRevisionResponseSnapshotTriggersPullRequestSynchronizePathsList =
@@ -2643,13 +2874,15 @@ export type GetAutomationRevisionResponseSnapshotTriggersPullRequestSynchronizeW
   | "repository";
 export interface GetAutomationRevisionResponseSnapshotTriggersPullRequestSynchronize {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetAutomationRevisionResponseSnapshotTriggersPullRequestSynchronizePathsList;
+  paths?: GetAutomationRevisionResponseSnapshotTriggersPullRequestSynchronizePathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersPullRequestSynchronizeWriteScope;
+  write_scope?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestSynchronizeWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type GetAutomationRevisionResponseSnapshotTriggersPullRequestMergedPathsList = Array<string>;
@@ -2659,13 +2892,15 @@ export type GetAutomationRevisionResponseSnapshotTriggersPullRequestMergedWriteS
   | "repository";
 export interface GetAutomationRevisionResponseSnapshotTriggersPullRequestMerged {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetAutomationRevisionResponseSnapshotTriggersPullRequestMergedPathsList;
+  paths?: GetAutomationRevisionResponseSnapshotTriggersPullRequestMergedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersPullRequestMergedWriteScope;
+  write_scope?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestMergedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type GetAutomationRevisionResponseSnapshotTriggersIssueCommentWriteScope =
@@ -2673,13 +2908,13 @@ export type GetAutomationRevisionResponseSnapshotTriggersIssueCommentWriteScope 
   | "repository";
 export interface GetAutomationRevisionResponseSnapshotTriggersIssueComment {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersIssueCommentWriteScope;
+  write_scope?: GetAutomationRevisionResponseSnapshotTriggersIssueCommentWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 export type GetAutomationRevisionResponseSnapshotTriggersPullRequestCommentCommentTypesItem =
   | "timeline_comment"
@@ -2698,15 +2933,17 @@ export interface GetAutomationRevisionResponseSnapshotTriggersPullRequestComment
   /** Pull request conversation and inline review comment types to match. */
   comment_types: GetAutomationRevisionResponseSnapshotTriggersPullRequestCommentCommentTypesList;
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetAutomationRevisionResponseSnapshotTriggersPullRequestCommentPathsList;
+  paths?: GetAutomationRevisionResponseSnapshotTriggersPullRequestCommentPathsList | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersPullRequestCommentWriteScope;
+  write_scope?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestCommentWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Discussion category names matched case-insensitively. */
 export type GetAutomationRevisionResponseSnapshotTriggersDiscussionOpenedCategoriesList =
@@ -2717,13 +2954,15 @@ export type GetAutomationRevisionResponseSnapshotTriggersDiscussionOpenedWriteSc
   | "repository";
 export interface GetAutomationRevisionResponseSnapshotTriggersDiscussionOpened {
   /** Discussion category names matched case-insensitively. */
-  categories?: GetAutomationRevisionResponseSnapshotTriggersDiscussionOpenedCategoriesList;
+  categories?:
+    | GetAutomationRevisionResponseSnapshotTriggersDiscussionOpenedCategoriesList
+    | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersDiscussionOpenedWriteScope;
+  write_scope?: GetAutomationRevisionResponseSnapshotTriggersDiscussionOpenedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Discussion category names matched case-insensitively. */
 export type GetAutomationRevisionResponseSnapshotTriggersDiscussionUpdatedCategoriesList =
@@ -2734,13 +2973,17 @@ export type GetAutomationRevisionResponseSnapshotTriggersDiscussionUpdatedWriteS
   | "repository";
 export interface GetAutomationRevisionResponseSnapshotTriggersDiscussionUpdated {
   /** Discussion category names matched case-insensitively. */
-  categories?: GetAutomationRevisionResponseSnapshotTriggersDiscussionUpdatedCategoriesList;
+  categories?:
+    | GetAutomationRevisionResponseSnapshotTriggersDiscussionUpdatedCategoriesList
+    | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersDiscussionUpdatedWriteScope;
+  write_scope?:
+    | GetAutomationRevisionResponseSnapshotTriggersDiscussionUpdatedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 export type GetAutomationRevisionResponseSnapshotTriggersDiscussionCommentCommentTypesItem =
   | "comment"
@@ -2757,15 +3000,21 @@ export type GetAutomationRevisionResponseSnapshotTriggersDiscussionCommentWriteS
   | "repository";
 export interface GetAutomationRevisionResponseSnapshotTriggersDiscussionComment {
   /** Top-level discussion comments and replies to match. Omit to match both. */
-  comment_types?: GetAutomationRevisionResponseSnapshotTriggersDiscussionCommentCommentTypesList;
+  comment_types?:
+    | GetAutomationRevisionResponseSnapshotTriggersDiscussionCommentCommentTypesList
+    | undefined;
   /** Discussion category names matched case-insensitively. */
-  categories?: GetAutomationRevisionResponseSnapshotTriggersDiscussionCommentCategoriesList;
+  categories?:
+    | GetAutomationRevisionResponseSnapshotTriggersDiscussionCommentCategoriesList
+    | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersDiscussionCommentWriteScope;
+  write_scope?:
+    | GetAutomationRevisionResponseSnapshotTriggersDiscussionCommentWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Affected assignee logins matched case-insensitively. */
 export type GetAutomationRevisionResponseSnapshotTriggersIssueAssignedAssigneesList = Array<string>;
@@ -2775,13 +3024,13 @@ export type GetAutomationRevisionResponseSnapshotTriggersIssueAssignedWriteScope
   | "repository";
 export interface GetAutomationRevisionResponseSnapshotTriggersIssueAssigned {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Affected assignee logins matched case-insensitively. */
-  assignees?: GetAutomationRevisionResponseSnapshotTriggersIssueAssignedAssigneesList;
+  assignees?: GetAutomationRevisionResponseSnapshotTriggersIssueAssignedAssigneesList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersIssueAssignedWriteScope;
+  write_scope?: GetAutomationRevisionResponseSnapshotTriggersIssueAssignedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type GetAutomationRevisionResponseSnapshotTriggersPullRequestAssignedPathsList =
@@ -2795,15 +3044,19 @@ export type GetAutomationRevisionResponseSnapshotTriggersPullRequestAssignedWrit
   | "repository";
 export interface GetAutomationRevisionResponseSnapshotTriggersPullRequestAssigned {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetAutomationRevisionResponseSnapshotTriggersPullRequestAssignedPathsList;
+  paths?: GetAutomationRevisionResponseSnapshotTriggersPullRequestAssignedPathsList | undefined;
   /** Affected assignee logins matched case-insensitively. */
-  assignees?: GetAutomationRevisionResponseSnapshotTriggersPullRequestAssignedAssigneesList;
+  assignees?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestAssignedAssigneesList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersPullRequestAssignedWriteScope;
+  write_scope?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestAssignedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type GetAutomationRevisionResponseSnapshotTriggersSubIssueAddedWriteScope =
@@ -2811,11 +3064,11 @@ export type GetAutomationRevisionResponseSnapshotTriggersSubIssueAddedWriteScope
   | "repository";
 export interface GetAutomationRevisionResponseSnapshotTriggersSubIssueAdded {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersSubIssueAddedWriteScope;
+  write_scope?: GetAutomationRevisionResponseSnapshotTriggersSubIssueAddedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type GetAutomationRevisionResponseSnapshotTriggersPullRequestReadyForReviewPathsList =
@@ -2826,13 +3079,17 @@ export type GetAutomationRevisionResponseSnapshotTriggersPullRequestReadyForRevi
   | "repository";
 export interface GetAutomationRevisionResponseSnapshotTriggersPullRequestReadyForReview {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetAutomationRevisionResponseSnapshotTriggersPullRequestReadyForReviewPathsList;
+  paths?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestReadyForReviewPathsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersPullRequestReadyForReviewWriteScope;
+  write_scope?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestReadyForReviewWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type GetAutomationRevisionResponseSnapshotTriggersPullRequestLabeledPathsList =
@@ -2846,15 +3103,17 @@ export type GetAutomationRevisionResponseSnapshotTriggersPullRequestLabeledWrite
   | "repository";
 export interface GetAutomationRevisionResponseSnapshotTriggersPullRequestLabeled {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetAutomationRevisionResponseSnapshotTriggersPullRequestLabeledPathsList;
+  paths?: GetAutomationRevisionResponseSnapshotTriggersPullRequestLabeledPathsList | undefined;
   /** Label names matched case-insensitively against the label added by the event. Omit or use an empty array to match every added label. */
-  labels?: GetAutomationRevisionResponseSnapshotTriggersPullRequestLabeledLabelsList;
+  labels?: GetAutomationRevisionResponseSnapshotTriggersPullRequestLabeledLabelsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersPullRequestLabeledWriteScope;
+  write_scope?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestLabeledWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type GetAutomationRevisionResponseSnapshotTriggersPullRequestMergeConflictPathsList =
@@ -2865,13 +3124,17 @@ export type GetAutomationRevisionResponseSnapshotTriggersPullRequestMergeConflic
   | "repository";
 export interface GetAutomationRevisionResponseSnapshotTriggersPullRequestMergeConflict {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetAutomationRevisionResponseSnapshotTriggersPullRequestMergeConflictPathsList;
+  paths?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestMergeConflictPathsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersPullRequestMergeConflictWriteScope;
+  write_scope?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestMergeConflictWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewSubmittedPathsList =
@@ -2889,15 +3152,19 @@ export type GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewSubmit
   | "repository";
 export interface GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewSubmitted {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewSubmittedPathsList;
+  paths?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewSubmittedPathsList
+    | undefined;
   /** Submitted review states to match. */
   states: GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewSubmittedStatesList;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewSubmittedWriteScope;
+  write_scope?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewSubmittedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewRequestedPathsList =
@@ -2908,13 +3175,17 @@ export type GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewReques
   | "repository";
 export interface GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewRequested {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewRequestedPathsList;
+  paths?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewRequestedPathsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewRequestedWriteScope;
+  write_scope?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewRequestedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type GetAutomationRevisionResponseSnapshotTriggersIssueClosedWriteScope =
@@ -2922,11 +3193,11 @@ export type GetAutomationRevisionResponseSnapshotTriggersIssueClosedWriteScope =
   | "repository";
 export interface GetAutomationRevisionResponseSnapshotTriggersIssueClosed {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersIssueClosedWriteScope;
+  write_scope?: GetAutomationRevisionResponseSnapshotTriggersIssueClosedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type GetAutomationRevisionResponseSnapshotTriggersIssueReopenedWriteScope =
@@ -2934,11 +3205,11 @@ export type GetAutomationRevisionResponseSnapshotTriggersIssueReopenedWriteScope
   | "repository";
 export interface GetAutomationRevisionResponseSnapshotTriggersIssueReopened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersIssueReopenedWriteScope;
+  write_scope?: GetAutomationRevisionResponseSnapshotTriggersIssueReopenedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type GetAutomationRevisionResponseSnapshotTriggersPullRequestClosedPathsList = Array<string>;
@@ -2948,13 +3219,15 @@ export type GetAutomationRevisionResponseSnapshotTriggersPullRequestClosedWriteS
   | "repository";
 export interface GetAutomationRevisionResponseSnapshotTriggersPullRequestClosed {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetAutomationRevisionResponseSnapshotTriggersPullRequestClosedPathsList;
+  paths?: GetAutomationRevisionResponseSnapshotTriggersPullRequestClosedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersPullRequestClosedWriteScope;
+  write_scope?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestClosedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type GetAutomationRevisionResponseSnapshotTriggersPullRequestReopenedPathsList =
@@ -2965,13 +3238,15 @@ export type GetAutomationRevisionResponseSnapshotTriggersPullRequestReopenedWrit
   | "repository";
 export interface GetAutomationRevisionResponseSnapshotTriggersPullRequestReopened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetAutomationRevisionResponseSnapshotTriggersPullRequestReopenedPathsList;
+  paths?: GetAutomationRevisionResponseSnapshotTriggersPullRequestReopenedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersPullRequestReopenedWriteScope;
+  write_scope?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestReopenedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type GetAutomationRevisionResponseSnapshotTriggersPullRequestConvertedToDraftPathsList =
@@ -2982,13 +3257,17 @@ export type GetAutomationRevisionResponseSnapshotTriggersPullRequestConvertedToD
   | "repository";
 export interface GetAutomationRevisionResponseSnapshotTriggersPullRequestConvertedToDraft {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetAutomationRevisionResponseSnapshotTriggersPullRequestConvertedToDraftPathsList;
+  paths?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestConvertedToDraftPathsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersPullRequestConvertedToDraftWriteScope;
+  write_scope?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestConvertedToDraftWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewDismissedPathsList =
@@ -2999,13 +3278,17 @@ export type GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewDismis
   | "repository";
 export interface GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewDismissed {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewDismissedPathsList;
+  paths?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewDismissedPathsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewDismissedWriteScope;
+  write_scope?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewDismissedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewThreadResolvedPathsList =
@@ -3016,13 +3299,17 @@ export type GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewThread
   | "repository";
 export interface GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewThreadResolved {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewThreadResolvedPathsList;
+  paths?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewThreadResolvedPathsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewThreadResolvedWriteScope;
+  write_scope?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewThreadResolvedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewThreadUnresolvedPathsList =
@@ -3033,13 +3320,17 @@ export type GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewThread
   | "repository";
 export interface GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewThreadUnresolved {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewThreadUnresolvedPathsList;
+  paths?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewThreadUnresolvedPathsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewThreadUnresolvedWriteScope;
+  write_scope?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewThreadUnresolvedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Upstream Automation IDs in the same repository. */
 export type GetAutomationRevisionResponseSnapshotTriggersAutomationCompletedAutomationIdsList =
@@ -3052,9 +3343,11 @@ export interface GetAutomationRevisionResponseSnapshotTriggersAutomationComplete
   /** Upstream Automation IDs in the same repository. */
   automation_ids: GetAutomationRevisionResponseSnapshotTriggersAutomationCompletedAutomationIdsList;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersAutomationCompletedWriteScope;
+  write_scope?:
+    | GetAutomationRevisionResponseSnapshotTriggersAutomationCompletedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Upstream Automation IDs in the same repository. An Automation cannot list itself, and a user-owned Automation can only be listed by its creator's user-owned Automations. */
 export type GetAutomationRevisionResponseSnapshotTriggersAutomationFailedAutomationIdsList =
@@ -3074,11 +3367,11 @@ export interface GetAutomationRevisionResponseSnapshotTriggersAutomationFailed {
   /** Upstream Automation IDs in the same repository. An Automation cannot list itself, and a user-owned Automation can only be listed by its creator's user-owned Automations. */
   automation_ids: GetAutomationRevisionResponseSnapshotTriggersAutomationFailedAutomationIdsList;
   /** Failure reasons to match. Omit to match only reported failures. */
-  reasons?: GetAutomationRevisionResponseSnapshotTriggersAutomationFailedReasonsList;
+  reasons?: GetAutomationRevisionResponseSnapshotTriggersAutomationFailedReasonsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersAutomationFailedWriteScope;
+  write_scope?: GetAutomationRevisionResponseSnapshotTriggersAutomationFailedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type GetAutomationRevisionResponseSnapshotTriggersCodeScanningAlertWriteScope =
@@ -3087,9 +3380,11 @@ export type GetAutomationRevisionResponseSnapshotTriggersCodeScanningAlertWriteS
 /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
 export interface GetAutomationRevisionResponseSnapshotTriggersCodeScanningAlert {
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersCodeScanningAlertWriteScope;
+  write_scope?:
+    | GetAutomationRevisionResponseSnapshotTriggersCodeScanningAlertWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type GetAutomationRevisionResponseSnapshotTriggersSecretScanningAlertWriteScope =
@@ -3098,9 +3393,11 @@ export type GetAutomationRevisionResponseSnapshotTriggersSecretScanningAlertWrit
 /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
 export interface GetAutomationRevisionResponseSnapshotTriggersSecretScanningAlert {
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersSecretScanningAlertWriteScope;
+  write_scope?:
+    | GetAutomationRevisionResponseSnapshotTriggersSecretScanningAlertWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type GetAutomationRevisionResponseSnapshotTriggersDependabotAlertWriteScope =
@@ -3109,48 +3406,78 @@ export type GetAutomationRevisionResponseSnapshotTriggersDependabotAlertWriteSco
 /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
 export interface GetAutomationRevisionResponseSnapshotTriggersDependabotAlert {
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetAutomationRevisionResponseSnapshotTriggersDependabotAlertWriteScope;
+  write_scope?: GetAutomationRevisionResponseSnapshotTriggersDependabotAlertWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Trigger configuration for the automation. */
 export interface GetAutomationRevisionResponseSnapshotTriggers {
-  interval?: GetAutomationRevisionResponseSnapshotTriggersInterval;
-  issue_opened?: GetAutomationRevisionResponseSnapshotTriggersIssueOpened;
-  issue_labeled?: GetAutomationRevisionResponseSnapshotTriggersIssueLabeled;
-  workflow_run?: GetAutomationRevisionResponseSnapshotTriggersWorkflowRun;
-  pull_request_opened?: GetAutomationRevisionResponseSnapshotTriggersPullRequestOpened;
-  pull_request_synchronize?: GetAutomationRevisionResponseSnapshotTriggersPullRequestSynchronize;
-  pull_request_merged?: GetAutomationRevisionResponseSnapshotTriggersPullRequestMerged;
-  issue_comment?: GetAutomationRevisionResponseSnapshotTriggersIssueComment;
-  pull_request_comment?: GetAutomationRevisionResponseSnapshotTriggersPullRequestComment;
-  discussion_opened?: GetAutomationRevisionResponseSnapshotTriggersDiscussionOpened;
-  discussion_updated?: GetAutomationRevisionResponseSnapshotTriggersDiscussionUpdated;
-  discussion_comment?: GetAutomationRevisionResponseSnapshotTriggersDiscussionComment;
-  issue_assigned?: GetAutomationRevisionResponseSnapshotTriggersIssueAssigned;
-  pull_request_assigned?: GetAutomationRevisionResponseSnapshotTriggersPullRequestAssigned;
-  sub_issue_added?: GetAutomationRevisionResponseSnapshotTriggersSubIssueAdded;
-  pull_request_ready_for_review?: GetAutomationRevisionResponseSnapshotTriggersPullRequestReadyForReview;
-  pull_request_labeled?: GetAutomationRevisionResponseSnapshotTriggersPullRequestLabeled;
-  pull_request_merge_conflict?: GetAutomationRevisionResponseSnapshotTriggersPullRequestMergeConflict;
-  pull_request_review_submitted?: GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewSubmitted;
-  pull_request_review_requested?: GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewRequested;
-  issue_closed?: GetAutomationRevisionResponseSnapshotTriggersIssueClosed;
-  issue_reopened?: GetAutomationRevisionResponseSnapshotTriggersIssueReopened;
-  pull_request_closed?: GetAutomationRevisionResponseSnapshotTriggersPullRequestClosed;
-  pull_request_reopened?: GetAutomationRevisionResponseSnapshotTriggersPullRequestReopened;
-  pull_request_converted_to_draft?: GetAutomationRevisionResponseSnapshotTriggersPullRequestConvertedToDraft;
-  pull_request_review_dismissed?: GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewDismissed;
-  pull_request_review_thread_resolved?: GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewThreadResolved;
-  pull_request_review_thread_unresolved?: GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewThreadUnresolved;
-  automation_completed?: GetAutomationRevisionResponseSnapshotTriggersAutomationCompleted;
-  automation_failed?: GetAutomationRevisionResponseSnapshotTriggersAutomationFailed;
+  interval?: GetAutomationRevisionResponseSnapshotTriggersInterval | undefined;
+  issue_opened?: GetAutomationRevisionResponseSnapshotTriggersIssueOpened | undefined;
+  issue_labeled?: GetAutomationRevisionResponseSnapshotTriggersIssueLabeled | undefined;
+  workflow_run?: GetAutomationRevisionResponseSnapshotTriggersWorkflowRun | undefined;
+  pull_request_opened?: GetAutomationRevisionResponseSnapshotTriggersPullRequestOpened | undefined;
+  pull_request_synchronize?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestSynchronize
+    | undefined;
+  pull_request_merged?: GetAutomationRevisionResponseSnapshotTriggersPullRequestMerged | undefined;
+  issue_comment?: GetAutomationRevisionResponseSnapshotTriggersIssueComment | undefined;
+  pull_request_comment?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestComment
+    | undefined;
+  discussion_opened?: GetAutomationRevisionResponseSnapshotTriggersDiscussionOpened | undefined;
+  discussion_updated?: GetAutomationRevisionResponseSnapshotTriggersDiscussionUpdated | undefined;
+  discussion_comment?: GetAutomationRevisionResponseSnapshotTriggersDiscussionComment | undefined;
+  issue_assigned?: GetAutomationRevisionResponseSnapshotTriggersIssueAssigned | undefined;
+  pull_request_assigned?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestAssigned
+    | undefined;
+  sub_issue_added?: GetAutomationRevisionResponseSnapshotTriggersSubIssueAdded | undefined;
+  pull_request_ready_for_review?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestReadyForReview
+    | undefined;
+  pull_request_labeled?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestLabeled
+    | undefined;
+  pull_request_merge_conflict?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestMergeConflict
+    | undefined;
+  pull_request_review_submitted?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewSubmitted
+    | undefined;
+  pull_request_review_requested?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewRequested
+    | undefined;
+  issue_closed?: GetAutomationRevisionResponseSnapshotTriggersIssueClosed | undefined;
+  issue_reopened?: GetAutomationRevisionResponseSnapshotTriggersIssueReopened | undefined;
+  pull_request_closed?: GetAutomationRevisionResponseSnapshotTriggersPullRequestClosed | undefined;
+  pull_request_reopened?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestReopened
+    | undefined;
+  pull_request_converted_to_draft?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestConvertedToDraft
+    | undefined;
+  pull_request_review_dismissed?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewDismissed
+    | undefined;
+  pull_request_review_thread_resolved?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewThreadResolved
+    | undefined;
+  pull_request_review_thread_unresolved?:
+    | GetAutomationRevisionResponseSnapshotTriggersPullRequestReviewThreadUnresolved
+    | undefined;
+  automation_completed?:
+    | GetAutomationRevisionResponseSnapshotTriggersAutomationCompleted
+    | undefined;
+  automation_failed?: GetAutomationRevisionResponseSnapshotTriggersAutomationFailed | undefined;
   /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
-  code_scanning_alert?: GetAutomationRevisionResponseSnapshotTriggersCodeScanningAlert;
+  code_scanning_alert?: GetAutomationRevisionResponseSnapshotTriggersCodeScanningAlert | undefined;
   /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
-  secret_scanning_alert?: GetAutomationRevisionResponseSnapshotTriggersSecretScanningAlert;
+  secret_scanning_alert?:
+    | GetAutomationRevisionResponseSnapshotTriggersSecretScanningAlert
+    | undefined;
   /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
-  dependabot_alert?: GetAutomationRevisionResponseSnapshotTriggersDependabotAlert;
+  dependabot_alert?: GetAutomationRevisionResponseSnapshotTriggersDependabotAlert | undefined;
 }
 /** The tools available to the automation. */
 export type GetAutomationRevisionResponseSnapshotToolsList = Array<string>;
@@ -3163,21 +3490,21 @@ export interface GetAutomationRevisionResponseSnapshot {
   /** The name of the automation. */
   name: string;
   /** Whether the automation was enabled when this configuration was saved. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The type of automation. `personal` keeps it private to its creator and its runs act as that user. `shared` makes it belong to the repository, visible to anyone with read access to the repository, and its runs act as the Copilot app rather than as a person. */
-  type?: GetAutomationRevisionResponseSnapshotType;
+  type?: GetAutomationRevisionResponseSnapshotType | undefined;
   /** When true, event-triggered runs require the event actor to have repo write permission, even when the org's allow_read_access_triggers policy is enabled. Does not apply to interval-scheduled runs, which always run as the automation owner. */
-  require_actor_write_permission?: boolean;
+  require_actor_write_permission?: boolean | undefined;
   /** Trigger configuration for the automation. */
-  triggers?: GetAutomationRevisionResponseSnapshotTriggers;
+  triggers?: GetAutomationRevisionResponseSnapshotTriggers | undefined;
   /** The prompt for the automation. */
   prompt: string;
   /** The tools available to the automation. */
-  tools?: GetAutomationRevisionResponseSnapshotToolsList;
+  tools?: GetAutomationRevisionResponseSnapshotToolsList | undefined;
   /** The model override for sessions triggered by this automation. Absent when the platform selects the model. */
-  model?: string;
+  model?: string | undefined;
   /** The reasoning effort override for sessions triggered by this automation. Absent when the model's default is used. */
-  reasoning_effort?: string;
+  reasoning_effort?: string | undefined;
   /** When the automation was created. */
   created_at: string;
   /** When the automation was last updated. */
@@ -3195,17 +3522,17 @@ export interface GetAutomationRevisionResponse {
   /** The kind of change recorded by the revision. */
   change_type: GetAutomationRevisionResponseChangeType;
   /** The automation's original creator. Omitted when not recorded. */
-  creator?: CreateRepoAutomationResponseCreatedBy;
+  creator?: CreateRepoAutomationResponseCreatedBy | undefined;
   /** The person who made this change. Omitted for system changes and legacy records. */
-  editor?: CreateRepoAutomationResponseCreatedBy;
+  editor?: CreateRepoAutomationResponseCreatedBy | undefined;
   /** The kind of actor that made the change. */
-  editor_type?: GetAutomationRevisionResponseEditorType;
+  editor_type?: GetAutomationRevisionResponseEditorType | undefined;
   /** When the change was applied. */
   changed_at: string;
   /** The revision a rollback restored. Present only when `change_type` is `rolled_back`. */
-  restored_from_revision_id?: string;
+  restored_from_revision_id?: string | undefined;
   /** The automation's public detail representation after the change, including its enabled state at configuration-save time, not its current lifecycle state. Legacy deleted revisions are identified by `change_type`. */
-  snapshot?: GetAutomationRevisionResponseSnapshot;
+  snapshot?: GetAutomationRevisionResponseSnapshot | undefined;
 }
 export interface GetRepoAutomationRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -3229,25 +3556,25 @@ export interface GetRepoAutomationResponseTriggersInterval {
   /** One or more schedules on which the Automation runs. */
   cadence: GetRepoAutomationResponseTriggersIntervalCadenceList;
   /** UTC hour anchor (0 through 23) for daily and weekly schedules. Omitted daily and weekly values default to `0` (midnight UTC). */
-  hour_utc?: number;
+  hour_utc?: number | undefined;
   /** UTC weekday anchor for weekly schedules, where `0` is Sunday and `6` is Saturday. Omitted weekly values default to Monday (`1`). */
-  day_of_week?: number;
+  day_of_week?: number | undefined;
   /** UTC minute anchor for daily and weekly schedules. Omitted daily and weekly values default to `0`. Must be omitted whenever `cadence` includes `hourly`. */
-  minute_utc?: GetRepoAutomationResponseTriggersIntervalMinuteUtc;
+  minute_utc?: GetRepoAutomationResponseTriggersIntervalMinuteUtc | undefined;
   /** Has no effect: scheduled runs can change any resource in the repository, and an organization or repository policy requiring trigger-scoped writes does not apply to them. */
-  write_scope?: GetRepoAutomationResponseTriggersIntervalWriteScope;
+  write_scope?: GetRepoAutomationResponseTriggersIntervalWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type GetRepoAutomationResponseTriggersIssueOpenedWriteScope = "trigger" | "repository";
 export interface GetRepoAutomationResponseTriggersIssueOpened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersIssueOpenedWriteScope;
+  write_scope?: GetRepoAutomationResponseTriggersIssueOpenedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Label names matched case-insensitively against the label added by the event. Omit or use an empty array to match every added label. */
 export type GetRepoAutomationResponseTriggersIssueLabeledLabelsList = Array<string>;
@@ -3255,13 +3582,13 @@ export type GetRepoAutomationResponseTriggersIssueLabeledLabelsList = Array<stri
 export type GetRepoAutomationResponseTriggersIssueLabeledWriteScope = "trigger" | "repository";
 export interface GetRepoAutomationResponseTriggersIssueLabeled {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Label names matched case-insensitively against the label added by the event. Omit or use an empty array to match every added label. */
-  labels?: GetRepoAutomationResponseTriggersIssueLabeledLabelsList;
+  labels?: GetRepoAutomationResponseTriggersIssueLabeledLabelsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersIssueLabeledWriteScope;
+  write_scope?: GetRepoAutomationResponseTriggersIssueLabeledWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Workflow names matched against the name in each workflow YAML file. */
 export type GetRepoAutomationResponseTriggersWorkflowRunWorkflowsList = Array<string>;
@@ -3277,11 +3604,11 @@ export interface GetRepoAutomationResponseTriggersWorkflowRun {
   /** Workflow conclusions to match. The current trigger supports failure. */
   conclusions: GetRepoAutomationResponseTriggersWorkflowRunConclusionsList;
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersWorkflowRunWriteScope;
+  write_scope?: GetRepoAutomationResponseTriggersWorkflowRunWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type GetRepoAutomationResponseTriggersPullRequestOpenedPathsList = Array<string>;
@@ -3289,13 +3616,13 @@ export type GetRepoAutomationResponseTriggersPullRequestOpenedPathsList = Array<
 export type GetRepoAutomationResponseTriggersPullRequestOpenedWriteScope = "trigger" | "repository";
 export interface GetRepoAutomationResponseTriggersPullRequestOpened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetRepoAutomationResponseTriggersPullRequestOpenedPathsList;
+  paths?: GetRepoAutomationResponseTriggersPullRequestOpenedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersPullRequestOpenedWriteScope;
+  write_scope?: GetRepoAutomationResponseTriggersPullRequestOpenedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type GetRepoAutomationResponseTriggersPullRequestSynchronizePathsList = Array<string>;
@@ -3305,13 +3632,13 @@ export type GetRepoAutomationResponseTriggersPullRequestSynchronizeWriteScope =
   | "repository";
 export interface GetRepoAutomationResponseTriggersPullRequestSynchronize {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetRepoAutomationResponseTriggersPullRequestSynchronizePathsList;
+  paths?: GetRepoAutomationResponseTriggersPullRequestSynchronizePathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersPullRequestSynchronizeWriteScope;
+  write_scope?: GetRepoAutomationResponseTriggersPullRequestSynchronizeWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type GetRepoAutomationResponseTriggersPullRequestMergedPathsList = Array<string>;
@@ -3319,25 +3646,25 @@ export type GetRepoAutomationResponseTriggersPullRequestMergedPathsList = Array<
 export type GetRepoAutomationResponseTriggersPullRequestMergedWriteScope = "trigger" | "repository";
 export interface GetRepoAutomationResponseTriggersPullRequestMerged {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetRepoAutomationResponseTriggersPullRequestMergedPathsList;
+  paths?: GetRepoAutomationResponseTriggersPullRequestMergedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersPullRequestMergedWriteScope;
+  write_scope?: GetRepoAutomationResponseTriggersPullRequestMergedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type GetRepoAutomationResponseTriggersIssueCommentWriteScope = "trigger" | "repository";
 export interface GetRepoAutomationResponseTriggersIssueComment {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersIssueCommentWriteScope;
+  write_scope?: GetRepoAutomationResponseTriggersIssueCommentWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 export type GetRepoAutomationResponseTriggersPullRequestCommentCommentTypesItem =
   | "timeline_comment"
@@ -3355,15 +3682,15 @@ export interface GetRepoAutomationResponseTriggersPullRequestComment {
   /** Pull request conversation and inline review comment types to match. */
   comment_types: GetRepoAutomationResponseTriggersPullRequestCommentCommentTypesList;
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetRepoAutomationResponseTriggersPullRequestCommentPathsList;
+  paths?: GetRepoAutomationResponseTriggersPullRequestCommentPathsList | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersPullRequestCommentWriteScope;
+  write_scope?: GetRepoAutomationResponseTriggersPullRequestCommentWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Discussion category names matched case-insensitively. */
 export type GetRepoAutomationResponseTriggersDiscussionOpenedCategoriesList = Array<string>;
@@ -3371,13 +3698,13 @@ export type GetRepoAutomationResponseTriggersDiscussionOpenedCategoriesList = Ar
 export type GetRepoAutomationResponseTriggersDiscussionOpenedWriteScope = "trigger" | "repository";
 export interface GetRepoAutomationResponseTriggersDiscussionOpened {
   /** Discussion category names matched case-insensitively. */
-  categories?: GetRepoAutomationResponseTriggersDiscussionOpenedCategoriesList;
+  categories?: GetRepoAutomationResponseTriggersDiscussionOpenedCategoriesList | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersDiscussionOpenedWriteScope;
+  write_scope?: GetRepoAutomationResponseTriggersDiscussionOpenedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Discussion category names matched case-insensitively. */
 export type GetRepoAutomationResponseTriggersDiscussionUpdatedCategoriesList = Array<string>;
@@ -3385,13 +3712,13 @@ export type GetRepoAutomationResponseTriggersDiscussionUpdatedCategoriesList = A
 export type GetRepoAutomationResponseTriggersDiscussionUpdatedWriteScope = "trigger" | "repository";
 export interface GetRepoAutomationResponseTriggersDiscussionUpdated {
   /** Discussion category names matched case-insensitively. */
-  categories?: GetRepoAutomationResponseTriggersDiscussionUpdatedCategoriesList;
+  categories?: GetRepoAutomationResponseTriggersDiscussionUpdatedCategoriesList | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersDiscussionUpdatedWriteScope;
+  write_scope?: GetRepoAutomationResponseTriggersDiscussionUpdatedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 export type GetRepoAutomationResponseTriggersDiscussionCommentCommentTypesItem =
   | "comment"
@@ -3405,15 +3732,15 @@ export type GetRepoAutomationResponseTriggersDiscussionCommentCategoriesList = A
 export type GetRepoAutomationResponseTriggersDiscussionCommentWriteScope = "trigger" | "repository";
 export interface GetRepoAutomationResponseTriggersDiscussionComment {
   /** Top-level discussion comments and replies to match. Omit to match both. */
-  comment_types?: GetRepoAutomationResponseTriggersDiscussionCommentCommentTypesList;
+  comment_types?: GetRepoAutomationResponseTriggersDiscussionCommentCommentTypesList | undefined;
   /** Discussion category names matched case-insensitively. */
-  categories?: GetRepoAutomationResponseTriggersDiscussionCommentCategoriesList;
+  categories?: GetRepoAutomationResponseTriggersDiscussionCommentCategoriesList | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersDiscussionCommentWriteScope;
+  write_scope?: GetRepoAutomationResponseTriggersDiscussionCommentWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Affected assignee logins matched case-insensitively. */
 export type GetRepoAutomationResponseTriggersIssueAssignedAssigneesList = Array<string>;
@@ -3421,13 +3748,13 @@ export type GetRepoAutomationResponseTriggersIssueAssignedAssigneesList = Array<
 export type GetRepoAutomationResponseTriggersIssueAssignedWriteScope = "trigger" | "repository";
 export interface GetRepoAutomationResponseTriggersIssueAssigned {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Affected assignee logins matched case-insensitively. */
-  assignees?: GetRepoAutomationResponseTriggersIssueAssignedAssigneesList;
+  assignees?: GetRepoAutomationResponseTriggersIssueAssignedAssigneesList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersIssueAssignedWriteScope;
+  write_scope?: GetRepoAutomationResponseTriggersIssueAssignedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type GetRepoAutomationResponseTriggersPullRequestAssignedPathsList = Array<string>;
@@ -3439,25 +3766,25 @@ export type GetRepoAutomationResponseTriggersPullRequestAssignedWriteScope =
   | "repository";
 export interface GetRepoAutomationResponseTriggersPullRequestAssigned {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetRepoAutomationResponseTriggersPullRequestAssignedPathsList;
+  paths?: GetRepoAutomationResponseTriggersPullRequestAssignedPathsList | undefined;
   /** Affected assignee logins matched case-insensitively. */
-  assignees?: GetRepoAutomationResponseTriggersPullRequestAssignedAssigneesList;
+  assignees?: GetRepoAutomationResponseTriggersPullRequestAssignedAssigneesList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersPullRequestAssignedWriteScope;
+  write_scope?: GetRepoAutomationResponseTriggersPullRequestAssignedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type GetRepoAutomationResponseTriggersSubIssueAddedWriteScope = "trigger" | "repository";
 export interface GetRepoAutomationResponseTriggersSubIssueAdded {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersSubIssueAddedWriteScope;
+  write_scope?: GetRepoAutomationResponseTriggersSubIssueAddedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type GetRepoAutomationResponseTriggersPullRequestReadyForReviewPathsList = Array<string>;
@@ -3467,13 +3794,13 @@ export type GetRepoAutomationResponseTriggersPullRequestReadyForReviewWriteScope
   | "repository";
 export interface GetRepoAutomationResponseTriggersPullRequestReadyForReview {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetRepoAutomationResponseTriggersPullRequestReadyForReviewPathsList;
+  paths?: GetRepoAutomationResponseTriggersPullRequestReadyForReviewPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersPullRequestReadyForReviewWriteScope;
+  write_scope?: GetRepoAutomationResponseTriggersPullRequestReadyForReviewWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type GetRepoAutomationResponseTriggersPullRequestLabeledPathsList = Array<string>;
@@ -3485,15 +3812,15 @@ export type GetRepoAutomationResponseTriggersPullRequestLabeledWriteScope =
   | "repository";
 export interface GetRepoAutomationResponseTriggersPullRequestLabeled {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetRepoAutomationResponseTriggersPullRequestLabeledPathsList;
+  paths?: GetRepoAutomationResponseTriggersPullRequestLabeledPathsList | undefined;
   /** Label names matched case-insensitively against the label added by the event. Omit or use an empty array to match every added label. */
-  labels?: GetRepoAutomationResponseTriggersPullRequestLabeledLabelsList;
+  labels?: GetRepoAutomationResponseTriggersPullRequestLabeledLabelsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersPullRequestLabeledWriteScope;
+  write_scope?: GetRepoAutomationResponseTriggersPullRequestLabeledWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type GetRepoAutomationResponseTriggersPullRequestMergeConflictPathsList = Array<string>;
@@ -3503,13 +3830,13 @@ export type GetRepoAutomationResponseTriggersPullRequestMergeConflictWriteScope 
   | "repository";
 export interface GetRepoAutomationResponseTriggersPullRequestMergeConflict {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetRepoAutomationResponseTriggersPullRequestMergeConflictPathsList;
+  paths?: GetRepoAutomationResponseTriggersPullRequestMergeConflictPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersPullRequestMergeConflictWriteScope;
+  write_scope?: GetRepoAutomationResponseTriggersPullRequestMergeConflictWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type GetRepoAutomationResponseTriggersPullRequestReviewSubmittedPathsList = Array<string>;
@@ -3526,15 +3853,15 @@ export type GetRepoAutomationResponseTriggersPullRequestReviewSubmittedWriteScop
   | "repository";
 export interface GetRepoAutomationResponseTriggersPullRequestReviewSubmitted {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetRepoAutomationResponseTriggersPullRequestReviewSubmittedPathsList;
+  paths?: GetRepoAutomationResponseTriggersPullRequestReviewSubmittedPathsList | undefined;
   /** Submitted review states to match. */
   states: GetRepoAutomationResponseTriggersPullRequestReviewSubmittedStatesList;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersPullRequestReviewSubmittedWriteScope;
+  write_scope?: GetRepoAutomationResponseTriggersPullRequestReviewSubmittedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type GetRepoAutomationResponseTriggersPullRequestReviewRequestedPathsList = Array<string>;
@@ -3544,33 +3871,33 @@ export type GetRepoAutomationResponseTriggersPullRequestReviewRequestedWriteScop
   | "repository";
 export interface GetRepoAutomationResponseTriggersPullRequestReviewRequested {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetRepoAutomationResponseTriggersPullRequestReviewRequestedPathsList;
+  paths?: GetRepoAutomationResponseTriggersPullRequestReviewRequestedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersPullRequestReviewRequestedWriteScope;
+  write_scope?: GetRepoAutomationResponseTriggersPullRequestReviewRequestedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type GetRepoAutomationResponseTriggersIssueClosedWriteScope = "trigger" | "repository";
 export interface GetRepoAutomationResponseTriggersIssueClosed {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersIssueClosedWriteScope;
+  write_scope?: GetRepoAutomationResponseTriggersIssueClosedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type GetRepoAutomationResponseTriggersIssueReopenedWriteScope = "trigger" | "repository";
 export interface GetRepoAutomationResponseTriggersIssueReopened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersIssueReopenedWriteScope;
+  write_scope?: GetRepoAutomationResponseTriggersIssueReopenedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type GetRepoAutomationResponseTriggersPullRequestClosedPathsList = Array<string>;
@@ -3578,13 +3905,13 @@ export type GetRepoAutomationResponseTriggersPullRequestClosedPathsList = Array<
 export type GetRepoAutomationResponseTriggersPullRequestClosedWriteScope = "trigger" | "repository";
 export interface GetRepoAutomationResponseTriggersPullRequestClosed {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetRepoAutomationResponseTriggersPullRequestClosedPathsList;
+  paths?: GetRepoAutomationResponseTriggersPullRequestClosedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersPullRequestClosedWriteScope;
+  write_scope?: GetRepoAutomationResponseTriggersPullRequestClosedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type GetRepoAutomationResponseTriggersPullRequestReopenedPathsList = Array<string>;
@@ -3594,13 +3921,13 @@ export type GetRepoAutomationResponseTriggersPullRequestReopenedWriteScope =
   | "repository";
 export interface GetRepoAutomationResponseTriggersPullRequestReopened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetRepoAutomationResponseTriggersPullRequestReopenedPathsList;
+  paths?: GetRepoAutomationResponseTriggersPullRequestReopenedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersPullRequestReopenedWriteScope;
+  write_scope?: GetRepoAutomationResponseTriggersPullRequestReopenedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type GetRepoAutomationResponseTriggersPullRequestConvertedToDraftPathsList = Array<string>;
@@ -3610,13 +3937,13 @@ export type GetRepoAutomationResponseTriggersPullRequestConvertedToDraftWriteSco
   | "repository";
 export interface GetRepoAutomationResponseTriggersPullRequestConvertedToDraft {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetRepoAutomationResponseTriggersPullRequestConvertedToDraftPathsList;
+  paths?: GetRepoAutomationResponseTriggersPullRequestConvertedToDraftPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersPullRequestConvertedToDraftWriteScope;
+  write_scope?: GetRepoAutomationResponseTriggersPullRequestConvertedToDraftWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type GetRepoAutomationResponseTriggersPullRequestReviewDismissedPathsList = Array<string>;
@@ -3626,13 +3953,13 @@ export type GetRepoAutomationResponseTriggersPullRequestReviewDismissedWriteScop
   | "repository";
 export interface GetRepoAutomationResponseTriggersPullRequestReviewDismissed {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetRepoAutomationResponseTriggersPullRequestReviewDismissedPathsList;
+  paths?: GetRepoAutomationResponseTriggersPullRequestReviewDismissedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersPullRequestReviewDismissedWriteScope;
+  write_scope?: GetRepoAutomationResponseTriggersPullRequestReviewDismissedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type GetRepoAutomationResponseTriggersPullRequestReviewThreadResolvedPathsList =
@@ -3643,13 +3970,15 @@ export type GetRepoAutomationResponseTriggersPullRequestReviewThreadResolvedWrit
   | "repository";
 export interface GetRepoAutomationResponseTriggersPullRequestReviewThreadResolved {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetRepoAutomationResponseTriggersPullRequestReviewThreadResolvedPathsList;
+  paths?: GetRepoAutomationResponseTriggersPullRequestReviewThreadResolvedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersPullRequestReviewThreadResolvedWriteScope;
+  write_scope?:
+    | GetRepoAutomationResponseTriggersPullRequestReviewThreadResolvedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type GetRepoAutomationResponseTriggersPullRequestReviewThreadUnresolvedPathsList =
@@ -3660,13 +3989,15 @@ export type GetRepoAutomationResponseTriggersPullRequestReviewThreadUnresolvedWr
   | "repository";
 export interface GetRepoAutomationResponseTriggersPullRequestReviewThreadUnresolved {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: GetRepoAutomationResponseTriggersPullRequestReviewThreadUnresolvedPathsList;
+  paths?: GetRepoAutomationResponseTriggersPullRequestReviewThreadUnresolvedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersPullRequestReviewThreadUnresolvedWriteScope;
+  write_scope?:
+    | GetRepoAutomationResponseTriggersPullRequestReviewThreadUnresolvedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Upstream Automation IDs in the same repository. */
 export type GetRepoAutomationResponseTriggersAutomationCompletedAutomationIdsList = Array<string>;
@@ -3678,9 +4009,9 @@ export interface GetRepoAutomationResponseTriggersAutomationCompleted {
   /** Upstream Automation IDs in the same repository. */
   automation_ids: GetRepoAutomationResponseTriggersAutomationCompletedAutomationIdsList;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersAutomationCompletedWriteScope;
+  write_scope?: GetRepoAutomationResponseTriggersAutomationCompletedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Upstream Automation IDs in the same repository. An Automation cannot list itself, and a user-owned Automation can only be listed by its creator's user-owned Automations. */
 export type GetRepoAutomationResponseTriggersAutomationFailedAutomationIdsList = Array<string>;
@@ -3697,20 +4028,20 @@ export interface GetRepoAutomationResponseTriggersAutomationFailed {
   /** Upstream Automation IDs in the same repository. An Automation cannot list itself, and a user-owned Automation can only be listed by its creator's user-owned Automations. */
   automation_ids: GetRepoAutomationResponseTriggersAutomationFailedAutomationIdsList;
   /** Failure reasons to match. Omit to match only reported failures. */
-  reasons?: GetRepoAutomationResponseTriggersAutomationFailedReasonsList;
+  reasons?: GetRepoAutomationResponseTriggersAutomationFailedReasonsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersAutomationFailedWriteScope;
+  write_scope?: GetRepoAutomationResponseTriggersAutomationFailedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type GetRepoAutomationResponseTriggersCodeScanningAlertWriteScope = "trigger" | "repository";
 /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
 export interface GetRepoAutomationResponseTriggersCodeScanningAlert {
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersCodeScanningAlertWriteScope;
+  write_scope?: GetRepoAutomationResponseTriggersCodeScanningAlertWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type GetRepoAutomationResponseTriggersSecretScanningAlertWriteScope =
@@ -3719,57 +4050,73 @@ export type GetRepoAutomationResponseTriggersSecretScanningAlertWriteScope =
 /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
 export interface GetRepoAutomationResponseTriggersSecretScanningAlert {
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersSecretScanningAlertWriteScope;
+  write_scope?: GetRepoAutomationResponseTriggersSecretScanningAlertWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type GetRepoAutomationResponseTriggersDependabotAlertWriteScope = "trigger" | "repository";
 /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
 export interface GetRepoAutomationResponseTriggersDependabotAlert {
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: GetRepoAutomationResponseTriggersDependabotAlertWriteScope;
+  write_scope?: GetRepoAutomationResponseTriggersDependabotAlertWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Trigger configuration for the automation. */
 export interface GetRepoAutomationResponseTriggers {
-  interval?: GetRepoAutomationResponseTriggersInterval;
-  issue_opened?: GetRepoAutomationResponseTriggersIssueOpened;
-  issue_labeled?: GetRepoAutomationResponseTriggersIssueLabeled;
-  workflow_run?: GetRepoAutomationResponseTriggersWorkflowRun;
-  pull_request_opened?: GetRepoAutomationResponseTriggersPullRequestOpened;
-  pull_request_synchronize?: GetRepoAutomationResponseTriggersPullRequestSynchronize;
-  pull_request_merged?: GetRepoAutomationResponseTriggersPullRequestMerged;
-  issue_comment?: GetRepoAutomationResponseTriggersIssueComment;
-  pull_request_comment?: GetRepoAutomationResponseTriggersPullRequestComment;
-  discussion_opened?: GetRepoAutomationResponseTriggersDiscussionOpened;
-  discussion_updated?: GetRepoAutomationResponseTriggersDiscussionUpdated;
-  discussion_comment?: GetRepoAutomationResponseTriggersDiscussionComment;
-  issue_assigned?: GetRepoAutomationResponseTriggersIssueAssigned;
-  pull_request_assigned?: GetRepoAutomationResponseTriggersPullRequestAssigned;
-  sub_issue_added?: GetRepoAutomationResponseTriggersSubIssueAdded;
-  pull_request_ready_for_review?: GetRepoAutomationResponseTriggersPullRequestReadyForReview;
-  pull_request_labeled?: GetRepoAutomationResponseTriggersPullRequestLabeled;
-  pull_request_merge_conflict?: GetRepoAutomationResponseTriggersPullRequestMergeConflict;
-  pull_request_review_submitted?: GetRepoAutomationResponseTriggersPullRequestReviewSubmitted;
-  pull_request_review_requested?: GetRepoAutomationResponseTriggersPullRequestReviewRequested;
-  issue_closed?: GetRepoAutomationResponseTriggersIssueClosed;
-  issue_reopened?: GetRepoAutomationResponseTriggersIssueReopened;
-  pull_request_closed?: GetRepoAutomationResponseTriggersPullRequestClosed;
-  pull_request_reopened?: GetRepoAutomationResponseTriggersPullRequestReopened;
-  pull_request_converted_to_draft?: GetRepoAutomationResponseTriggersPullRequestConvertedToDraft;
-  pull_request_review_dismissed?: GetRepoAutomationResponseTriggersPullRequestReviewDismissed;
-  pull_request_review_thread_resolved?: GetRepoAutomationResponseTriggersPullRequestReviewThreadResolved;
-  pull_request_review_thread_unresolved?: GetRepoAutomationResponseTriggersPullRequestReviewThreadUnresolved;
-  automation_completed?: GetRepoAutomationResponseTriggersAutomationCompleted;
-  automation_failed?: GetRepoAutomationResponseTriggersAutomationFailed;
+  interval?: GetRepoAutomationResponseTriggersInterval | undefined;
+  issue_opened?: GetRepoAutomationResponseTriggersIssueOpened | undefined;
+  issue_labeled?: GetRepoAutomationResponseTriggersIssueLabeled | undefined;
+  workflow_run?: GetRepoAutomationResponseTriggersWorkflowRun | undefined;
+  pull_request_opened?: GetRepoAutomationResponseTriggersPullRequestOpened | undefined;
+  pull_request_synchronize?: GetRepoAutomationResponseTriggersPullRequestSynchronize | undefined;
+  pull_request_merged?: GetRepoAutomationResponseTriggersPullRequestMerged | undefined;
+  issue_comment?: GetRepoAutomationResponseTriggersIssueComment | undefined;
+  pull_request_comment?: GetRepoAutomationResponseTriggersPullRequestComment | undefined;
+  discussion_opened?: GetRepoAutomationResponseTriggersDiscussionOpened | undefined;
+  discussion_updated?: GetRepoAutomationResponseTriggersDiscussionUpdated | undefined;
+  discussion_comment?: GetRepoAutomationResponseTriggersDiscussionComment | undefined;
+  issue_assigned?: GetRepoAutomationResponseTriggersIssueAssigned | undefined;
+  pull_request_assigned?: GetRepoAutomationResponseTriggersPullRequestAssigned | undefined;
+  sub_issue_added?: GetRepoAutomationResponseTriggersSubIssueAdded | undefined;
+  pull_request_ready_for_review?:
+    | GetRepoAutomationResponseTriggersPullRequestReadyForReview
+    | undefined;
+  pull_request_labeled?: GetRepoAutomationResponseTriggersPullRequestLabeled | undefined;
+  pull_request_merge_conflict?:
+    | GetRepoAutomationResponseTriggersPullRequestMergeConflict
+    | undefined;
+  pull_request_review_submitted?:
+    | GetRepoAutomationResponseTriggersPullRequestReviewSubmitted
+    | undefined;
+  pull_request_review_requested?:
+    | GetRepoAutomationResponseTriggersPullRequestReviewRequested
+    | undefined;
+  issue_closed?: GetRepoAutomationResponseTriggersIssueClosed | undefined;
+  issue_reopened?: GetRepoAutomationResponseTriggersIssueReopened | undefined;
+  pull_request_closed?: GetRepoAutomationResponseTriggersPullRequestClosed | undefined;
+  pull_request_reopened?: GetRepoAutomationResponseTriggersPullRequestReopened | undefined;
+  pull_request_converted_to_draft?:
+    | GetRepoAutomationResponseTriggersPullRequestConvertedToDraft
+    | undefined;
+  pull_request_review_dismissed?:
+    | GetRepoAutomationResponseTriggersPullRequestReviewDismissed
+    | undefined;
+  pull_request_review_thread_resolved?:
+    | GetRepoAutomationResponseTriggersPullRequestReviewThreadResolved
+    | undefined;
+  pull_request_review_thread_unresolved?:
+    | GetRepoAutomationResponseTriggersPullRequestReviewThreadUnresolved
+    | undefined;
+  automation_completed?: GetRepoAutomationResponseTriggersAutomationCompleted | undefined;
+  automation_failed?: GetRepoAutomationResponseTriggersAutomationFailed | undefined;
   /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
-  code_scanning_alert?: GetRepoAutomationResponseTriggersCodeScanningAlert;
+  code_scanning_alert?: GetRepoAutomationResponseTriggersCodeScanningAlert | undefined;
   /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
-  secret_scanning_alert?: GetRepoAutomationResponseTriggersSecretScanningAlert;
+  secret_scanning_alert?: GetRepoAutomationResponseTriggersSecretScanningAlert | undefined;
   /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
-  dependabot_alert?: GetRepoAutomationResponseTriggersDependabotAlert;
+  dependabot_alert?: GetRepoAutomationResponseTriggersDependabotAlert | undefined;
 }
 /** The tools available to the automation. */
 export type GetRepoAutomationResponseToolsList = Array<string>;
@@ -3781,23 +4128,23 @@ export interface GetRepoAutomationResponse {
   /** The name of the automation. */
   name: string;
   /** Whether the automation is currently enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The type of automation. `personal` keeps it private to its creator and its runs act as that user. `shared` makes it belong to the repository, visible to anyone with read access to the repository, and its runs act as the Copilot app rather than as a person. */
-  type?: GetRepoAutomationResponseType;
+  type?: GetRepoAutomationResponseType | undefined;
   /** When true, event-triggered runs require the event actor to have repo write permission, even when the org's allow_read_access_triggers policy is enabled. Does not apply to interval-scheduled runs, which always run as the automation owner. */
-  require_actor_write_permission?: boolean;
+  require_actor_write_permission?: boolean | undefined;
   /** When true, runs of this automation build on the session history of its previous runs, and runs of the same automation are serialized. Not tracked in revision history. */
-  continuous_history?: boolean;
+  continuous_history?: boolean | undefined;
   /** Trigger configuration for the automation. */
-  triggers?: GetRepoAutomationResponseTriggers;
+  triggers?: GetRepoAutomationResponseTriggers | undefined;
   /** The prompt for the automation. */
   prompt: string;
   /** The tools available to the automation. */
-  tools?: GetRepoAutomationResponseToolsList;
+  tools?: GetRepoAutomationResponseToolsList | undefined;
   /** The model override for sessions triggered by this automation. Absent when the platform selects the model. */
-  model?: string;
+  model?: string | undefined;
   /** The reasoning effort override for sessions triggered by this automation. Absent when the model's default is used. */
-  reasoning_effort?: string;
+  reasoning_effort?: string | undefined;
   /** When the automation was created. */
   created_at: string;
   /** When the automation was last updated. */
@@ -3813,9 +4160,9 @@ export interface ListAutomationRevisionsRequest {
   /** The unique identifier of the automation. */
   automation_id: string;
   /** Opaque cursor identifying where to continue reading revision history, taken from the `next` link of a previous response. Omit to start from the most recent revision. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The number of results per page (max 100). */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The kind of change recorded by the revision. */
 export type ListAutomationRevisionsResponseRevisionsItemChangeType =
@@ -3857,15 +4204,19 @@ export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersInt
   /** One or more schedules on which the Automation runs. */
   cadence: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIntervalCadenceList;
   /** UTC hour anchor (0 through 23) for daily and weekly schedules. Omitted daily and weekly values default to `0` (midnight UTC). */
-  hour_utc?: number;
+  hour_utc?: number | undefined;
   /** UTC weekday anchor for weekly schedules, where `0` is Sunday and `6` is Saturday. Omitted weekly values default to Monday (`1`). */
-  day_of_week?: number;
+  day_of_week?: number | undefined;
   /** UTC minute anchor for daily and weekly schedules. Omitted daily and weekly values default to `0`. Must be omitted whenever `cadence` includes `hourly`. */
-  minute_utc?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIntervalMinuteUtc;
+  minute_utc?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIntervalMinuteUtc
+    | undefined;
   /** Has no effect: scheduled runs can change any resource in the repository, and an organization or repository policy requiring trigger-scoped writes does not apply to them. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIntervalWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIntervalWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueOpenedWriteScope =
@@ -3873,11 +4224,13 @@ export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueOpe
   | "repository";
 export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueOpened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueOpenedWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueOpenedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Label names matched case-insensitively against the label added by the event. Omit or use an empty array to match every added label. */
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueLabeledLabelsList =
@@ -3888,13 +4241,17 @@ export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueLab
   | "repository";
 export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueLabeled {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Label names matched case-insensitively against the label added by the event. Omit or use an empty array to match every added label. */
-  labels?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueLabeledLabelsList;
+  labels?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueLabeledLabelsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueLabeledWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueLabeledWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Workflow names matched against the name in each workflow YAML file. */
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersWorkflowRunWorkflowsList =
@@ -3914,11 +4271,13 @@ export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersWor
   /** Workflow conclusions to match. The current trigger supports failure. */
   conclusions: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersWorkflowRunConclusionsList;
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersWorkflowRunWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersWorkflowRunWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestOpenedPathsList =
@@ -3929,13 +4288,17 @@ export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequ
   | "repository";
 export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestOpened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestOpenedPathsList;
+  paths?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestOpenedPathsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestOpenedWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestOpenedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestSynchronizePathsList =
@@ -3946,13 +4309,17 @@ export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequ
   | "repository";
 export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestSynchronize {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestSynchronizePathsList;
+  paths?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestSynchronizePathsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestSynchronizeWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestSynchronizeWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestMergedPathsList =
@@ -3963,13 +4330,17 @@ export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequ
   | "repository";
 export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestMerged {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestMergedPathsList;
+  paths?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestMergedPathsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestMergedWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestMergedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueCommentWriteScope =
@@ -3977,13 +4348,15 @@ export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueCom
   | "repository";
 export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueComment {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueCommentWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueCommentWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestCommentCommentTypesItem =
   | "timeline_comment"
@@ -4002,15 +4375,19 @@ export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPul
   /** Pull request conversation and inline review comment types to match. */
   comment_types: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestCommentCommentTypesList;
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestCommentPathsList;
+  paths?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestCommentPathsList
+    | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestCommentWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestCommentWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Discussion category names matched case-insensitively. */
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDiscussionOpenedCategoriesList =
@@ -4021,13 +4398,17 @@ export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDiscussi
   | "repository";
 export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDiscussionOpened {
   /** Discussion category names matched case-insensitively. */
-  categories?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDiscussionOpenedCategoriesList;
+  categories?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDiscussionOpenedCategoriesList
+    | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDiscussionOpenedWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDiscussionOpenedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Discussion category names matched case-insensitively. */
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDiscussionUpdatedCategoriesList =
@@ -4038,13 +4419,17 @@ export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDiscussi
   | "repository";
 export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDiscussionUpdated {
   /** Discussion category names matched case-insensitively. */
-  categories?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDiscussionUpdatedCategoriesList;
+  categories?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDiscussionUpdatedCategoriesList
+    | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDiscussionUpdatedWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDiscussionUpdatedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDiscussionCommentCommentTypesItem =
   | "comment"
@@ -4061,15 +4446,21 @@ export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDiscussi
   | "repository";
 export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDiscussionComment {
   /** Top-level discussion comments and replies to match. Omit to match both. */
-  comment_types?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDiscussionCommentCommentTypesList;
+  comment_types?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDiscussionCommentCommentTypesList
+    | undefined;
   /** Discussion category names matched case-insensitively. */
-  categories?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDiscussionCommentCategoriesList;
+  categories?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDiscussionCommentCategoriesList
+    | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDiscussionCommentWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDiscussionCommentWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Affected assignee logins matched case-insensitively. */
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueAssignedAssigneesList =
@@ -4080,13 +4471,17 @@ export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueAss
   | "repository";
 export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueAssigned {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Affected assignee logins matched case-insensitively. */
-  assignees?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueAssignedAssigneesList;
+  assignees?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueAssignedAssigneesList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueAssignedWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueAssignedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestAssignedPathsList =
@@ -4100,15 +4495,21 @@ export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequ
   | "repository";
 export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestAssigned {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestAssignedPathsList;
+  paths?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestAssignedPathsList
+    | undefined;
   /** Affected assignee logins matched case-insensitively. */
-  assignees?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestAssignedAssigneesList;
+  assignees?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestAssignedAssigneesList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestAssignedWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestAssignedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersSubIssueAddedWriteScope =
@@ -4116,11 +4517,13 @@ export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersSubIssue
   | "repository";
 export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersSubIssueAdded {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersSubIssueAddedWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersSubIssueAddedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReadyForReviewPathsList =
@@ -4131,13 +4534,17 @@ export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequ
   | "repository";
 export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReadyForReview {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReadyForReviewPathsList;
+  paths?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReadyForReviewPathsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReadyForReviewWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReadyForReviewWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestLabeledPathsList =
@@ -4151,15 +4558,21 @@ export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequ
   | "repository";
 export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestLabeled {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestLabeledPathsList;
+  paths?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestLabeledPathsList
+    | undefined;
   /** Label names matched case-insensitively against the label added by the event. Omit or use an empty array to match every added label. */
-  labels?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestLabeledLabelsList;
+  labels?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestLabeledLabelsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestLabeledWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestLabeledWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestMergeConflictPathsList =
@@ -4170,13 +4583,17 @@ export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequ
   | "repository";
 export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestMergeConflict {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestMergeConflictPathsList;
+  paths?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestMergeConflictPathsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestMergeConflictWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestMergeConflictWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewSubmittedPathsList =
@@ -4194,15 +4611,19 @@ export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequ
   | "repository";
 export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewSubmitted {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewSubmittedPathsList;
+  paths?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewSubmittedPathsList
+    | undefined;
   /** Submitted review states to match. */
   states: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewSubmittedStatesList;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewSubmittedWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewSubmittedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewRequestedPathsList =
@@ -4213,13 +4634,17 @@ export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequ
   | "repository";
 export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewRequested {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewRequestedPathsList;
+  paths?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewRequestedPathsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewRequestedWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewRequestedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueClosedWriteScope =
@@ -4227,11 +4652,13 @@ export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueClo
   | "repository";
 export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueClosed {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueClosedWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueClosedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueReopenedWriteScope =
@@ -4239,11 +4666,13 @@ export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueReo
   | "repository";
 export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueReopened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueReopenedWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueReopenedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestClosedPathsList =
@@ -4254,13 +4683,17 @@ export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequ
   | "repository";
 export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestClosed {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestClosedPathsList;
+  paths?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestClosedPathsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestClosedWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestClosedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReopenedPathsList =
@@ -4271,13 +4704,17 @@ export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequ
   | "repository";
 export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReopened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReopenedPathsList;
+  paths?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReopenedPathsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReopenedWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReopenedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestConvertedToDraftPathsList =
@@ -4288,13 +4725,17 @@ export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequ
   | "repository";
 export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestConvertedToDraft {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestConvertedToDraftPathsList;
+  paths?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestConvertedToDraftPathsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestConvertedToDraftWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestConvertedToDraftWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewDismissedPathsList =
@@ -4305,13 +4746,17 @@ export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequ
   | "repository";
 export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewDismissed {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewDismissedPathsList;
+  paths?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewDismissedPathsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewDismissedWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewDismissedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewThreadResolvedPathsList =
@@ -4322,13 +4767,17 @@ export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequ
   | "repository";
 export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewThreadResolved {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewThreadResolvedPathsList;
+  paths?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewThreadResolvedPathsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewThreadResolvedWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewThreadResolvedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewThreadUnresolvedPathsList =
@@ -4339,13 +4788,17 @@ export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequ
   | "repository";
 export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewThreadUnresolved {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewThreadUnresolvedPathsList;
+  paths?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewThreadUnresolvedPathsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewThreadUnresolvedWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewThreadUnresolvedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Upstream Automation IDs in the same repository. */
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersAutomationCompletedAutomationIdsList =
@@ -4358,9 +4811,11 @@ export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersAut
   /** Upstream Automation IDs in the same repository. */
   automation_ids: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersAutomationCompletedAutomationIdsList;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersAutomationCompletedWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersAutomationCompletedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Upstream Automation IDs in the same repository. An Automation cannot list itself, and a user-owned Automation can only be listed by its creator's user-owned Automations. */
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersAutomationFailedAutomationIdsList =
@@ -4380,11 +4835,15 @@ export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersAut
   /** Upstream Automation IDs in the same repository. An Automation cannot list itself, and a user-owned Automation can only be listed by its creator's user-owned Automations. */
   automation_ids: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersAutomationFailedAutomationIdsList;
   /** Failure reasons to match. Omit to match only reported failures. */
-  reasons?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersAutomationFailedReasonsList;
+  reasons?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersAutomationFailedReasonsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersAutomationFailedWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersAutomationFailedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersCodeScanningAlertWriteScope =
@@ -4393,9 +4852,11 @@ export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersCodeScan
 /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
 export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersCodeScanningAlert {
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersCodeScanningAlertWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersCodeScanningAlertWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersSecretScanningAlertWriteScope =
@@ -4404,9 +4865,11 @@ export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersSecretSc
 /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
 export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersSecretScanningAlert {
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersSecretScanningAlertWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersSecretScanningAlertWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDependabotAlertWriteScope =
@@ -4415,48 +4878,114 @@ export type ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDependab
 /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
 export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDependabotAlert {
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDependabotAlertWriteScope;
+  write_scope?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDependabotAlertWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Trigger configuration for the automation. */
 export interface ListAutomationRevisionsResponseRevisionsItemSnapshotTriggers {
-  interval?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersInterval;
-  issue_opened?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueOpened;
-  issue_labeled?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueLabeled;
-  workflow_run?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersWorkflowRun;
-  pull_request_opened?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestOpened;
-  pull_request_synchronize?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestSynchronize;
-  pull_request_merged?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestMerged;
-  issue_comment?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueComment;
-  pull_request_comment?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestComment;
-  discussion_opened?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDiscussionOpened;
-  discussion_updated?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDiscussionUpdated;
-  discussion_comment?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDiscussionComment;
-  issue_assigned?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueAssigned;
-  pull_request_assigned?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestAssigned;
-  sub_issue_added?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersSubIssueAdded;
-  pull_request_ready_for_review?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReadyForReview;
-  pull_request_labeled?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestLabeled;
-  pull_request_merge_conflict?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestMergeConflict;
-  pull_request_review_submitted?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewSubmitted;
-  pull_request_review_requested?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewRequested;
-  issue_closed?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueClosed;
-  issue_reopened?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueReopened;
-  pull_request_closed?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestClosed;
-  pull_request_reopened?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReopened;
-  pull_request_converted_to_draft?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestConvertedToDraft;
-  pull_request_review_dismissed?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewDismissed;
-  pull_request_review_thread_resolved?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewThreadResolved;
-  pull_request_review_thread_unresolved?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewThreadUnresolved;
-  automation_completed?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersAutomationCompleted;
-  automation_failed?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersAutomationFailed;
+  interval?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersInterval | undefined;
+  issue_opened?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueOpened
+    | undefined;
+  issue_labeled?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueLabeled
+    | undefined;
+  workflow_run?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersWorkflowRun
+    | undefined;
+  pull_request_opened?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestOpened
+    | undefined;
+  pull_request_synchronize?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestSynchronize
+    | undefined;
+  pull_request_merged?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestMerged
+    | undefined;
+  issue_comment?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueComment
+    | undefined;
+  pull_request_comment?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestComment
+    | undefined;
+  discussion_opened?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDiscussionOpened
+    | undefined;
+  discussion_updated?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDiscussionUpdated
+    | undefined;
+  discussion_comment?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDiscussionComment
+    | undefined;
+  issue_assigned?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueAssigned
+    | undefined;
+  pull_request_assigned?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestAssigned
+    | undefined;
+  sub_issue_added?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersSubIssueAdded
+    | undefined;
+  pull_request_ready_for_review?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReadyForReview
+    | undefined;
+  pull_request_labeled?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestLabeled
+    | undefined;
+  pull_request_merge_conflict?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestMergeConflict
+    | undefined;
+  pull_request_review_submitted?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewSubmitted
+    | undefined;
+  pull_request_review_requested?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewRequested
+    | undefined;
+  issue_closed?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueClosed
+    | undefined;
+  issue_reopened?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersIssueReopened
+    | undefined;
+  pull_request_closed?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestClosed
+    | undefined;
+  pull_request_reopened?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReopened
+    | undefined;
+  pull_request_converted_to_draft?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestConvertedToDraft
+    | undefined;
+  pull_request_review_dismissed?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewDismissed
+    | undefined;
+  pull_request_review_thread_resolved?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewThreadResolved
+    | undefined;
+  pull_request_review_thread_unresolved?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersPullRequestReviewThreadUnresolved
+    | undefined;
+  automation_completed?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersAutomationCompleted
+    | undefined;
+  automation_failed?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersAutomationFailed
+    | undefined;
   /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
-  code_scanning_alert?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersCodeScanningAlert;
+  code_scanning_alert?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersCodeScanningAlert
+    | undefined;
   /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
-  secret_scanning_alert?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersSecretScanningAlert;
+  secret_scanning_alert?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersSecretScanningAlert
+    | undefined;
   /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
-  dependabot_alert?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDependabotAlert;
+  dependabot_alert?:
+    | ListAutomationRevisionsResponseRevisionsItemSnapshotTriggersDependabotAlert
+    | undefined;
 }
 /** The tools available to the automation. */
 export type ListAutomationRevisionsResponseRevisionsItemSnapshotToolsList = Array<string>;
@@ -4470,21 +4999,21 @@ export interface ListAutomationRevisionsResponseRevisionsItemSnapshot {
   /** The name of the automation. */
   name: string;
   /** Whether the automation was enabled when this configuration was saved. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The type of automation. `personal` keeps it private to its creator and its runs act as that user. `shared` makes it belong to the repository, visible to anyone with read access to the repository, and its runs act as the Copilot app rather than as a person. */
-  type?: ListAutomationRevisionsResponseRevisionsItemSnapshotType;
+  type?: ListAutomationRevisionsResponseRevisionsItemSnapshotType | undefined;
   /** When true, event-triggered runs require the event actor to have repo write permission, even when the org's allow_read_access_triggers policy is enabled. Does not apply to interval-scheduled runs, which always run as the automation owner. */
-  require_actor_write_permission?: boolean;
+  require_actor_write_permission?: boolean | undefined;
   /** Trigger configuration for the automation. */
-  triggers?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggers;
+  triggers?: ListAutomationRevisionsResponseRevisionsItemSnapshotTriggers | undefined;
   /** The prompt for the automation. */
   prompt: string;
   /** The tools available to the automation. */
-  tools?: ListAutomationRevisionsResponseRevisionsItemSnapshotToolsList;
+  tools?: ListAutomationRevisionsResponseRevisionsItemSnapshotToolsList | undefined;
   /** The model override for sessions triggered by this automation. Absent when the platform selects the model. */
-  model?: string;
+  model?: string | undefined;
   /** The reasoning effort override for sessions triggered by this automation. Absent when the model's default is used. */
-  reasoning_effort?: string;
+  reasoning_effort?: string | undefined;
   /** When the automation was created. */
   created_at: string;
   /** When the automation was last updated. */
@@ -4503,17 +5032,17 @@ export interface ListAutomationRevisionsResponseRevisionsItem {
   /** The kind of change recorded by the revision. */
   change_type: ListAutomationRevisionsResponseRevisionsItemChangeType;
   /** The automation's original creator. Omitted when not recorded. */
-  creator?: CreateRepoAutomationResponseCreatedBy;
+  creator?: CreateRepoAutomationResponseCreatedBy | undefined;
   /** The person who made this change. Omitted for system changes and legacy records. */
-  editor?: CreateRepoAutomationResponseCreatedBy;
+  editor?: CreateRepoAutomationResponseCreatedBy | undefined;
   /** The kind of actor that made the change. */
-  editor_type?: ListAutomationRevisionsResponseRevisionsItemEditorType;
+  editor_type?: ListAutomationRevisionsResponseRevisionsItemEditorType | undefined;
   /** When the change was applied. */
   changed_at: string;
   /** The revision a rollback restored. Present only when `change_type` is `rolled_back`. */
-  restored_from_revision_id?: string;
+  restored_from_revision_id?: string | undefined;
   /** The automation's public detail representation after the change, including its enabled state at configuration-save time, not its current lifecycle state. Legacy deleted revisions are identified by `change_type`. */
-  snapshot?: ListAutomationRevisionsResponseRevisionsItemSnapshot;
+  snapshot?: ListAutomationRevisionsResponseRevisionsItemSnapshot | undefined;
 }
 /** Revisions ordered by revision number descending. */
 export type ListAutomationRevisionsResponseRevisionsList =
@@ -4525,11 +5054,11 @@ export interface ListAutomationRevisionsResponse {
 export type ListAutomationsRequestType = "personal" | "shared";
 export interface ListAutomationsRequest {
   /** The page number of the results to fetch. */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page (max 100). */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Filter automations by type. `personal` returns automations owned by their creator, `shared` returns automations owned by the repository. Omit to return both. */
-  type?: ListAutomationsRequestType | (string & {});
+  type?: ListAutomationsRequestType | (string & {}) | undefined;
 }
 /** The tools available to the automation. Omitted when no tools are configured. */
 export type ListAutomationsResponseBodyItemToolsList = Array<string>;
@@ -4559,25 +5088,25 @@ export interface ListAutomationsResponseBodyItemTriggersInterval {
   /** One or more schedules on which the Automation runs. */
   cadence: ListAutomationsResponseBodyItemTriggersIntervalCadenceList;
   /** UTC hour anchor (0 through 23) for daily and weekly schedules. Omitted daily and weekly values default to `0` (midnight UTC). */
-  hour_utc?: number;
+  hour_utc?: number | undefined;
   /** UTC weekday anchor for weekly schedules, where `0` is Sunday and `6` is Saturday. Omitted weekly values default to Monday (`1`). */
-  day_of_week?: number;
+  day_of_week?: number | undefined;
   /** UTC minute anchor for daily and weekly schedules. Omitted daily and weekly values default to `0`. Must be omitted whenever `cadence` includes `hourly`. */
-  minute_utc?: ListAutomationsResponseBodyItemTriggersIntervalMinuteUtc;
+  minute_utc?: ListAutomationsResponseBodyItemTriggersIntervalMinuteUtc | undefined;
   /** Has no effect: scheduled runs can change any resource in the repository, and an organization or repository policy requiring trigger-scoped writes does not apply to them. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersIntervalWriteScope;
+  write_scope?: ListAutomationsResponseBodyItemTriggersIntervalWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type ListAutomationsResponseBodyItemTriggersIssueOpenedWriteScope = "trigger" | "repository";
 export interface ListAutomationsResponseBodyItemTriggersIssueOpened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersIssueOpenedWriteScope;
+  write_scope?: ListAutomationsResponseBodyItemTriggersIssueOpenedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Label names matched case-insensitively against the label added by the event. Omit or use an empty array to match every added label. */
 export type ListAutomationsResponseBodyItemTriggersIssueLabeledLabelsList = Array<string>;
@@ -4587,13 +5116,13 @@ export type ListAutomationsResponseBodyItemTriggersIssueLabeledWriteScope =
   | "repository";
 export interface ListAutomationsResponseBodyItemTriggersIssueLabeled {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Label names matched case-insensitively against the label added by the event. Omit or use an empty array to match every added label. */
-  labels?: ListAutomationsResponseBodyItemTriggersIssueLabeledLabelsList;
+  labels?: ListAutomationsResponseBodyItemTriggersIssueLabeledLabelsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersIssueLabeledWriteScope;
+  write_scope?: ListAutomationsResponseBodyItemTriggersIssueLabeledWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Workflow names matched against the name in each workflow YAML file. */
 export type ListAutomationsResponseBodyItemTriggersWorkflowRunWorkflowsList = Array<string>;
@@ -4609,11 +5138,11 @@ export interface ListAutomationsResponseBodyItemTriggersWorkflowRun {
   /** Workflow conclusions to match. The current trigger supports failure. */
   conclusions: ListAutomationsResponseBodyItemTriggersWorkflowRunConclusionsList;
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersWorkflowRunWriteScope;
+  write_scope?: ListAutomationsResponseBodyItemTriggersWorkflowRunWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListAutomationsResponseBodyItemTriggersPullRequestOpenedPathsList = Array<string>;
@@ -4623,13 +5152,13 @@ export type ListAutomationsResponseBodyItemTriggersPullRequestOpenedWriteScope =
   | "repository";
 export interface ListAutomationsResponseBodyItemTriggersPullRequestOpened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationsResponseBodyItemTriggersPullRequestOpenedPathsList;
+  paths?: ListAutomationsResponseBodyItemTriggersPullRequestOpenedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersPullRequestOpenedWriteScope;
+  write_scope?: ListAutomationsResponseBodyItemTriggersPullRequestOpenedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListAutomationsResponseBodyItemTriggersPullRequestSynchronizePathsList = Array<string>;
@@ -4639,13 +5168,13 @@ export type ListAutomationsResponseBodyItemTriggersPullRequestSynchronizeWriteSc
   | "repository";
 export interface ListAutomationsResponseBodyItemTriggersPullRequestSynchronize {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationsResponseBodyItemTriggersPullRequestSynchronizePathsList;
+  paths?: ListAutomationsResponseBodyItemTriggersPullRequestSynchronizePathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersPullRequestSynchronizeWriteScope;
+  write_scope?: ListAutomationsResponseBodyItemTriggersPullRequestSynchronizeWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListAutomationsResponseBodyItemTriggersPullRequestMergedPathsList = Array<string>;
@@ -4655,13 +5184,13 @@ export type ListAutomationsResponseBodyItemTriggersPullRequestMergedWriteScope =
   | "repository";
 export interface ListAutomationsResponseBodyItemTriggersPullRequestMerged {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationsResponseBodyItemTriggersPullRequestMergedPathsList;
+  paths?: ListAutomationsResponseBodyItemTriggersPullRequestMergedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersPullRequestMergedWriteScope;
+  write_scope?: ListAutomationsResponseBodyItemTriggersPullRequestMergedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type ListAutomationsResponseBodyItemTriggersIssueCommentWriteScope =
@@ -4669,13 +5198,13 @@ export type ListAutomationsResponseBodyItemTriggersIssueCommentWriteScope =
   | "repository";
 export interface ListAutomationsResponseBodyItemTriggersIssueComment {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersIssueCommentWriteScope;
+  write_scope?: ListAutomationsResponseBodyItemTriggersIssueCommentWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 export type ListAutomationsResponseBodyItemTriggersPullRequestCommentCommentTypesItem =
   | "timeline_comment"
@@ -4693,15 +5222,15 @@ export interface ListAutomationsResponseBodyItemTriggersPullRequestComment {
   /** Pull request conversation and inline review comment types to match. */
   comment_types: ListAutomationsResponseBodyItemTriggersPullRequestCommentCommentTypesList;
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationsResponseBodyItemTriggersPullRequestCommentPathsList;
+  paths?: ListAutomationsResponseBodyItemTriggersPullRequestCommentPathsList | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersPullRequestCommentWriteScope;
+  write_scope?: ListAutomationsResponseBodyItemTriggersPullRequestCommentWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Discussion category names matched case-insensitively. */
 export type ListAutomationsResponseBodyItemTriggersDiscussionOpenedCategoriesList = Array<string>;
@@ -4711,13 +5240,13 @@ export type ListAutomationsResponseBodyItemTriggersDiscussionOpenedWriteScope =
   | "repository";
 export interface ListAutomationsResponseBodyItemTriggersDiscussionOpened {
   /** Discussion category names matched case-insensitively. */
-  categories?: ListAutomationsResponseBodyItemTriggersDiscussionOpenedCategoriesList;
+  categories?: ListAutomationsResponseBodyItemTriggersDiscussionOpenedCategoriesList | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersDiscussionOpenedWriteScope;
+  write_scope?: ListAutomationsResponseBodyItemTriggersDiscussionOpenedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Discussion category names matched case-insensitively. */
 export type ListAutomationsResponseBodyItemTriggersDiscussionUpdatedCategoriesList = Array<string>;
@@ -4727,13 +5256,13 @@ export type ListAutomationsResponseBodyItemTriggersDiscussionUpdatedWriteScope =
   | "repository";
 export interface ListAutomationsResponseBodyItemTriggersDiscussionUpdated {
   /** Discussion category names matched case-insensitively. */
-  categories?: ListAutomationsResponseBodyItemTriggersDiscussionUpdatedCategoriesList;
+  categories?: ListAutomationsResponseBodyItemTriggersDiscussionUpdatedCategoriesList | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersDiscussionUpdatedWriteScope;
+  write_scope?: ListAutomationsResponseBodyItemTriggersDiscussionUpdatedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 export type ListAutomationsResponseBodyItemTriggersDiscussionCommentCommentTypesItem =
   | "comment"
@@ -4749,15 +5278,17 @@ export type ListAutomationsResponseBodyItemTriggersDiscussionCommentWriteScope =
   | "repository";
 export interface ListAutomationsResponseBodyItemTriggersDiscussionComment {
   /** Top-level discussion comments and replies to match. Omit to match both. */
-  comment_types?: ListAutomationsResponseBodyItemTriggersDiscussionCommentCommentTypesList;
+  comment_types?:
+    | ListAutomationsResponseBodyItemTriggersDiscussionCommentCommentTypesList
+    | undefined;
   /** Discussion category names matched case-insensitively. */
-  categories?: ListAutomationsResponseBodyItemTriggersDiscussionCommentCategoriesList;
+  categories?: ListAutomationsResponseBodyItemTriggersDiscussionCommentCategoriesList | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersDiscussionCommentWriteScope;
+  write_scope?: ListAutomationsResponseBodyItemTriggersDiscussionCommentWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Affected assignee logins matched case-insensitively. */
 export type ListAutomationsResponseBodyItemTriggersIssueAssignedAssigneesList = Array<string>;
@@ -4767,13 +5298,13 @@ export type ListAutomationsResponseBodyItemTriggersIssueAssignedWriteScope =
   | "repository";
 export interface ListAutomationsResponseBodyItemTriggersIssueAssigned {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Affected assignee logins matched case-insensitively. */
-  assignees?: ListAutomationsResponseBodyItemTriggersIssueAssignedAssigneesList;
+  assignees?: ListAutomationsResponseBodyItemTriggersIssueAssignedAssigneesList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersIssueAssignedWriteScope;
+  write_scope?: ListAutomationsResponseBodyItemTriggersIssueAssignedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListAutomationsResponseBodyItemTriggersPullRequestAssignedPathsList = Array<string>;
@@ -4785,15 +5316,15 @@ export type ListAutomationsResponseBodyItemTriggersPullRequestAssignedWriteScope
   | "repository";
 export interface ListAutomationsResponseBodyItemTriggersPullRequestAssigned {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationsResponseBodyItemTriggersPullRequestAssignedPathsList;
+  paths?: ListAutomationsResponseBodyItemTriggersPullRequestAssignedPathsList | undefined;
   /** Affected assignee logins matched case-insensitively. */
-  assignees?: ListAutomationsResponseBodyItemTriggersPullRequestAssignedAssigneesList;
+  assignees?: ListAutomationsResponseBodyItemTriggersPullRequestAssignedAssigneesList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersPullRequestAssignedWriteScope;
+  write_scope?: ListAutomationsResponseBodyItemTriggersPullRequestAssignedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type ListAutomationsResponseBodyItemTriggersSubIssueAddedWriteScope =
@@ -4801,11 +5332,11 @@ export type ListAutomationsResponseBodyItemTriggersSubIssueAddedWriteScope =
   | "repository";
 export interface ListAutomationsResponseBodyItemTriggersSubIssueAdded {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersSubIssueAddedWriteScope;
+  write_scope?: ListAutomationsResponseBodyItemTriggersSubIssueAddedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListAutomationsResponseBodyItemTriggersPullRequestReadyForReviewPathsList =
@@ -4816,13 +5347,15 @@ export type ListAutomationsResponseBodyItemTriggersPullRequestReadyForReviewWrit
   | "repository";
 export interface ListAutomationsResponseBodyItemTriggersPullRequestReadyForReview {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationsResponseBodyItemTriggersPullRequestReadyForReviewPathsList;
+  paths?: ListAutomationsResponseBodyItemTriggersPullRequestReadyForReviewPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersPullRequestReadyForReviewWriteScope;
+  write_scope?:
+    | ListAutomationsResponseBodyItemTriggersPullRequestReadyForReviewWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListAutomationsResponseBodyItemTriggersPullRequestLabeledPathsList = Array<string>;
@@ -4834,15 +5367,15 @@ export type ListAutomationsResponseBodyItemTriggersPullRequestLabeledWriteScope 
   | "repository";
 export interface ListAutomationsResponseBodyItemTriggersPullRequestLabeled {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationsResponseBodyItemTriggersPullRequestLabeledPathsList;
+  paths?: ListAutomationsResponseBodyItemTriggersPullRequestLabeledPathsList | undefined;
   /** Label names matched case-insensitively against the label added by the event. Omit or use an empty array to match every added label. */
-  labels?: ListAutomationsResponseBodyItemTriggersPullRequestLabeledLabelsList;
+  labels?: ListAutomationsResponseBodyItemTriggersPullRequestLabeledLabelsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersPullRequestLabeledWriteScope;
+  write_scope?: ListAutomationsResponseBodyItemTriggersPullRequestLabeledWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListAutomationsResponseBodyItemTriggersPullRequestMergeConflictPathsList =
@@ -4853,13 +5386,15 @@ export type ListAutomationsResponseBodyItemTriggersPullRequestMergeConflictWrite
   | "repository";
 export interface ListAutomationsResponseBodyItemTriggersPullRequestMergeConflict {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationsResponseBodyItemTriggersPullRequestMergeConflictPathsList;
+  paths?: ListAutomationsResponseBodyItemTriggersPullRequestMergeConflictPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersPullRequestMergeConflictWriteScope;
+  write_scope?:
+    | ListAutomationsResponseBodyItemTriggersPullRequestMergeConflictWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListAutomationsResponseBodyItemTriggersPullRequestReviewSubmittedPathsList =
@@ -4877,15 +5412,17 @@ export type ListAutomationsResponseBodyItemTriggersPullRequestReviewSubmittedWri
   | "repository";
 export interface ListAutomationsResponseBodyItemTriggersPullRequestReviewSubmitted {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationsResponseBodyItemTriggersPullRequestReviewSubmittedPathsList;
+  paths?: ListAutomationsResponseBodyItemTriggersPullRequestReviewSubmittedPathsList | undefined;
   /** Submitted review states to match. */
   states: ListAutomationsResponseBodyItemTriggersPullRequestReviewSubmittedStatesList;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersPullRequestReviewSubmittedWriteScope;
+  write_scope?:
+    | ListAutomationsResponseBodyItemTriggersPullRequestReviewSubmittedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListAutomationsResponseBodyItemTriggersPullRequestReviewRequestedPathsList =
@@ -4896,23 +5433,25 @@ export type ListAutomationsResponseBodyItemTriggersPullRequestReviewRequestedWri
   | "repository";
 export interface ListAutomationsResponseBodyItemTriggersPullRequestReviewRequested {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationsResponseBodyItemTriggersPullRequestReviewRequestedPathsList;
+  paths?: ListAutomationsResponseBodyItemTriggersPullRequestReviewRequestedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersPullRequestReviewRequestedWriteScope;
+  write_scope?:
+    | ListAutomationsResponseBodyItemTriggersPullRequestReviewRequestedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type ListAutomationsResponseBodyItemTriggersIssueClosedWriteScope = "trigger" | "repository";
 export interface ListAutomationsResponseBodyItemTriggersIssueClosed {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersIssueClosedWriteScope;
+  write_scope?: ListAutomationsResponseBodyItemTriggersIssueClosedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type ListAutomationsResponseBodyItemTriggersIssueReopenedWriteScope =
@@ -4920,11 +5459,11 @@ export type ListAutomationsResponseBodyItemTriggersIssueReopenedWriteScope =
   | "repository";
 export interface ListAutomationsResponseBodyItemTriggersIssueReopened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersIssueReopenedWriteScope;
+  write_scope?: ListAutomationsResponseBodyItemTriggersIssueReopenedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListAutomationsResponseBodyItemTriggersPullRequestClosedPathsList = Array<string>;
@@ -4934,13 +5473,13 @@ export type ListAutomationsResponseBodyItemTriggersPullRequestClosedWriteScope =
   | "repository";
 export interface ListAutomationsResponseBodyItemTriggersPullRequestClosed {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationsResponseBodyItemTriggersPullRequestClosedPathsList;
+  paths?: ListAutomationsResponseBodyItemTriggersPullRequestClosedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersPullRequestClosedWriteScope;
+  write_scope?: ListAutomationsResponseBodyItemTriggersPullRequestClosedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListAutomationsResponseBodyItemTriggersPullRequestReopenedPathsList = Array<string>;
@@ -4950,13 +5489,13 @@ export type ListAutomationsResponseBodyItemTriggersPullRequestReopenedWriteScope
   | "repository";
 export interface ListAutomationsResponseBodyItemTriggersPullRequestReopened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationsResponseBodyItemTriggersPullRequestReopenedPathsList;
+  paths?: ListAutomationsResponseBodyItemTriggersPullRequestReopenedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersPullRequestReopenedWriteScope;
+  write_scope?: ListAutomationsResponseBodyItemTriggersPullRequestReopenedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListAutomationsResponseBodyItemTriggersPullRequestConvertedToDraftPathsList =
@@ -4967,13 +5506,15 @@ export type ListAutomationsResponseBodyItemTriggersPullRequestConvertedToDraftWr
   | "repository";
 export interface ListAutomationsResponseBodyItemTriggersPullRequestConvertedToDraft {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationsResponseBodyItemTriggersPullRequestConvertedToDraftPathsList;
+  paths?: ListAutomationsResponseBodyItemTriggersPullRequestConvertedToDraftPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersPullRequestConvertedToDraftWriteScope;
+  write_scope?:
+    | ListAutomationsResponseBodyItemTriggersPullRequestConvertedToDraftWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListAutomationsResponseBodyItemTriggersPullRequestReviewDismissedPathsList =
@@ -4984,13 +5525,15 @@ export type ListAutomationsResponseBodyItemTriggersPullRequestReviewDismissedWri
   | "repository";
 export interface ListAutomationsResponseBodyItemTriggersPullRequestReviewDismissed {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationsResponseBodyItemTriggersPullRequestReviewDismissedPathsList;
+  paths?: ListAutomationsResponseBodyItemTriggersPullRequestReviewDismissedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersPullRequestReviewDismissedWriteScope;
+  write_scope?:
+    | ListAutomationsResponseBodyItemTriggersPullRequestReviewDismissedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListAutomationsResponseBodyItemTriggersPullRequestReviewThreadResolvedPathsList =
@@ -5001,13 +5544,17 @@ export type ListAutomationsResponseBodyItemTriggersPullRequestReviewThreadResolv
   | "repository";
 export interface ListAutomationsResponseBodyItemTriggersPullRequestReviewThreadResolved {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationsResponseBodyItemTriggersPullRequestReviewThreadResolvedPathsList;
+  paths?:
+    | ListAutomationsResponseBodyItemTriggersPullRequestReviewThreadResolvedPathsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersPullRequestReviewThreadResolvedWriteScope;
+  write_scope?:
+    | ListAutomationsResponseBodyItemTriggersPullRequestReviewThreadResolvedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListAutomationsResponseBodyItemTriggersPullRequestReviewThreadUnresolvedPathsList =
@@ -5018,13 +5565,17 @@ export type ListAutomationsResponseBodyItemTriggersPullRequestReviewThreadUnreso
   | "repository";
 export interface ListAutomationsResponseBodyItemTriggersPullRequestReviewThreadUnresolved {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListAutomationsResponseBodyItemTriggersPullRequestReviewThreadUnresolvedPathsList;
+  paths?:
+    | ListAutomationsResponseBodyItemTriggersPullRequestReviewThreadUnresolvedPathsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersPullRequestReviewThreadUnresolvedWriteScope;
+  write_scope?:
+    | ListAutomationsResponseBodyItemTriggersPullRequestReviewThreadUnresolvedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Upstream Automation IDs in the same repository. */
 export type ListAutomationsResponseBodyItemTriggersAutomationCompletedAutomationIdsList =
@@ -5037,9 +5588,9 @@ export interface ListAutomationsResponseBodyItemTriggersAutomationCompleted {
   /** Upstream Automation IDs in the same repository. */
   automation_ids: ListAutomationsResponseBodyItemTriggersAutomationCompletedAutomationIdsList;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersAutomationCompletedWriteScope;
+  write_scope?: ListAutomationsResponseBodyItemTriggersAutomationCompletedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Upstream Automation IDs in the same repository. An Automation cannot list itself, and a user-owned Automation can only be listed by its creator's user-owned Automations. */
 export type ListAutomationsResponseBodyItemTriggersAutomationFailedAutomationIdsList =
@@ -5059,11 +5610,11 @@ export interface ListAutomationsResponseBodyItemTriggersAutomationFailed {
   /** Upstream Automation IDs in the same repository. An Automation cannot list itself, and a user-owned Automation can only be listed by its creator's user-owned Automations. */
   automation_ids: ListAutomationsResponseBodyItemTriggersAutomationFailedAutomationIdsList;
   /** Failure reasons to match. Omit to match only reported failures. */
-  reasons?: ListAutomationsResponseBodyItemTriggersAutomationFailedReasonsList;
+  reasons?: ListAutomationsResponseBodyItemTriggersAutomationFailedReasonsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersAutomationFailedWriteScope;
+  write_scope?: ListAutomationsResponseBodyItemTriggersAutomationFailedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type ListAutomationsResponseBodyItemTriggersCodeScanningAlertWriteScope =
@@ -5072,9 +5623,9 @@ export type ListAutomationsResponseBodyItemTriggersCodeScanningAlertWriteScope =
 /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
 export interface ListAutomationsResponseBodyItemTriggersCodeScanningAlert {
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersCodeScanningAlertWriteScope;
+  write_scope?: ListAutomationsResponseBodyItemTriggersCodeScanningAlertWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type ListAutomationsResponseBodyItemTriggersSecretScanningAlertWriteScope =
@@ -5083,9 +5634,9 @@ export type ListAutomationsResponseBodyItemTriggersSecretScanningAlertWriteScope
 /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
 export interface ListAutomationsResponseBodyItemTriggersSecretScanningAlert {
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersSecretScanningAlertWriteScope;
+  write_scope?: ListAutomationsResponseBodyItemTriggersSecretScanningAlertWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type ListAutomationsResponseBodyItemTriggersDependabotAlertWriteScope =
@@ -5094,55 +5645,73 @@ export type ListAutomationsResponseBodyItemTriggersDependabotAlertWriteScope =
 /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
 export interface ListAutomationsResponseBodyItemTriggersDependabotAlert {
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListAutomationsResponseBodyItemTriggersDependabotAlertWriteScope;
+  write_scope?: ListAutomationsResponseBodyItemTriggersDependabotAlertWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Trigger configuration for the automation. */
 export interface ListAutomationsResponseBodyItemTriggers {
-  interval?: ListAutomationsResponseBodyItemTriggersInterval;
-  issue_opened?: ListAutomationsResponseBodyItemTriggersIssueOpened;
-  issue_labeled?: ListAutomationsResponseBodyItemTriggersIssueLabeled;
-  workflow_run?: ListAutomationsResponseBodyItemTriggersWorkflowRun;
-  pull_request_opened?: ListAutomationsResponseBodyItemTriggersPullRequestOpened;
-  pull_request_synchronize?: ListAutomationsResponseBodyItemTriggersPullRequestSynchronize;
-  pull_request_merged?: ListAutomationsResponseBodyItemTriggersPullRequestMerged;
-  issue_comment?: ListAutomationsResponseBodyItemTriggersIssueComment;
-  pull_request_comment?: ListAutomationsResponseBodyItemTriggersPullRequestComment;
-  discussion_opened?: ListAutomationsResponseBodyItemTriggersDiscussionOpened;
-  discussion_updated?: ListAutomationsResponseBodyItemTriggersDiscussionUpdated;
-  discussion_comment?: ListAutomationsResponseBodyItemTriggersDiscussionComment;
-  issue_assigned?: ListAutomationsResponseBodyItemTriggersIssueAssigned;
-  pull_request_assigned?: ListAutomationsResponseBodyItemTriggersPullRequestAssigned;
-  sub_issue_added?: ListAutomationsResponseBodyItemTriggersSubIssueAdded;
-  pull_request_ready_for_review?: ListAutomationsResponseBodyItemTriggersPullRequestReadyForReview;
-  pull_request_labeled?: ListAutomationsResponseBodyItemTriggersPullRequestLabeled;
-  pull_request_merge_conflict?: ListAutomationsResponseBodyItemTriggersPullRequestMergeConflict;
-  pull_request_review_submitted?: ListAutomationsResponseBodyItemTriggersPullRequestReviewSubmitted;
-  pull_request_review_requested?: ListAutomationsResponseBodyItemTriggersPullRequestReviewRequested;
-  issue_closed?: ListAutomationsResponseBodyItemTriggersIssueClosed;
-  issue_reopened?: ListAutomationsResponseBodyItemTriggersIssueReopened;
-  pull_request_closed?: ListAutomationsResponseBodyItemTriggersPullRequestClosed;
-  pull_request_reopened?: ListAutomationsResponseBodyItemTriggersPullRequestReopened;
-  pull_request_converted_to_draft?: ListAutomationsResponseBodyItemTriggersPullRequestConvertedToDraft;
-  pull_request_review_dismissed?: ListAutomationsResponseBodyItemTriggersPullRequestReviewDismissed;
-  pull_request_review_thread_resolved?: ListAutomationsResponseBodyItemTriggersPullRequestReviewThreadResolved;
-  pull_request_review_thread_unresolved?: ListAutomationsResponseBodyItemTriggersPullRequestReviewThreadUnresolved;
-  automation_completed?: ListAutomationsResponseBodyItemTriggersAutomationCompleted;
-  automation_failed?: ListAutomationsResponseBodyItemTriggersAutomationFailed;
+  interval?: ListAutomationsResponseBodyItemTriggersInterval | undefined;
+  issue_opened?: ListAutomationsResponseBodyItemTriggersIssueOpened | undefined;
+  issue_labeled?: ListAutomationsResponseBodyItemTriggersIssueLabeled | undefined;
+  workflow_run?: ListAutomationsResponseBodyItemTriggersWorkflowRun | undefined;
+  pull_request_opened?: ListAutomationsResponseBodyItemTriggersPullRequestOpened | undefined;
+  pull_request_synchronize?:
+    | ListAutomationsResponseBodyItemTriggersPullRequestSynchronize
+    | undefined;
+  pull_request_merged?: ListAutomationsResponseBodyItemTriggersPullRequestMerged | undefined;
+  issue_comment?: ListAutomationsResponseBodyItemTriggersIssueComment | undefined;
+  pull_request_comment?: ListAutomationsResponseBodyItemTriggersPullRequestComment | undefined;
+  discussion_opened?: ListAutomationsResponseBodyItemTriggersDiscussionOpened | undefined;
+  discussion_updated?: ListAutomationsResponseBodyItemTriggersDiscussionUpdated | undefined;
+  discussion_comment?: ListAutomationsResponseBodyItemTriggersDiscussionComment | undefined;
+  issue_assigned?: ListAutomationsResponseBodyItemTriggersIssueAssigned | undefined;
+  pull_request_assigned?: ListAutomationsResponseBodyItemTriggersPullRequestAssigned | undefined;
+  sub_issue_added?: ListAutomationsResponseBodyItemTriggersSubIssueAdded | undefined;
+  pull_request_ready_for_review?:
+    | ListAutomationsResponseBodyItemTriggersPullRequestReadyForReview
+    | undefined;
+  pull_request_labeled?: ListAutomationsResponseBodyItemTriggersPullRequestLabeled | undefined;
+  pull_request_merge_conflict?:
+    | ListAutomationsResponseBodyItemTriggersPullRequestMergeConflict
+    | undefined;
+  pull_request_review_submitted?:
+    | ListAutomationsResponseBodyItemTriggersPullRequestReviewSubmitted
+    | undefined;
+  pull_request_review_requested?:
+    | ListAutomationsResponseBodyItemTriggersPullRequestReviewRequested
+    | undefined;
+  issue_closed?: ListAutomationsResponseBodyItemTriggersIssueClosed | undefined;
+  issue_reopened?: ListAutomationsResponseBodyItemTriggersIssueReopened | undefined;
+  pull_request_closed?: ListAutomationsResponseBodyItemTriggersPullRequestClosed | undefined;
+  pull_request_reopened?: ListAutomationsResponseBodyItemTriggersPullRequestReopened | undefined;
+  pull_request_converted_to_draft?:
+    | ListAutomationsResponseBodyItemTriggersPullRequestConvertedToDraft
+    | undefined;
+  pull_request_review_dismissed?:
+    | ListAutomationsResponseBodyItemTriggersPullRequestReviewDismissed
+    | undefined;
+  pull_request_review_thread_resolved?:
+    | ListAutomationsResponseBodyItemTriggersPullRequestReviewThreadResolved
+    | undefined;
+  pull_request_review_thread_unresolved?:
+    | ListAutomationsResponseBodyItemTriggersPullRequestReviewThreadUnresolved
+    | undefined;
+  automation_completed?: ListAutomationsResponseBodyItemTriggersAutomationCompleted | undefined;
+  automation_failed?: ListAutomationsResponseBodyItemTriggersAutomationFailed | undefined;
   /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
-  code_scanning_alert?: ListAutomationsResponseBodyItemTriggersCodeScanningAlert;
+  code_scanning_alert?: ListAutomationsResponseBodyItemTriggersCodeScanningAlert | undefined;
   /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
-  secret_scanning_alert?: ListAutomationsResponseBodyItemTriggersSecretScanningAlert;
+  secret_scanning_alert?: ListAutomationsResponseBodyItemTriggersSecretScanningAlert | undefined;
   /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
-  dependabot_alert?: ListAutomationsResponseBodyItemTriggersDependabotAlert;
+  dependabot_alert?: ListAutomationsResponseBodyItemTriggersDependabotAlert | undefined;
 }
 /** A GitHub user */
 export type ListAutomationsResponseBodyItemCreatedBy = CreateRepoAutomationResponseCreatedBy;
 /** A summary representation of an automation including repository identity (used in cross-repository list responses). */
 export interface ListAutomationsResponseBodyItem {
   /** The tools available to the automation. Omitted when no tools are configured. */
-  tools?: ListAutomationsResponseBodyItemToolsList;
+  tools?: ListAutomationsResponseBodyItemToolsList | undefined;
   /** The unique identifier of the automation. */
   id: string;
   /** Repository identity for an automation in cross-repository list responses. */
@@ -5150,17 +5719,17 @@ export interface ListAutomationsResponseBodyItem {
   /** The name of the automation. */
   name: string;
   /** Whether the automation is currently enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The type of automation. `personal` keeps it private to its creator and its runs act as that user. `shared` makes it belong to the repository, visible to anyone with read access to the repository, and its runs act as the Copilot app rather than as a person. */
-  type?: ListAutomationsResponseBodyItemType;
+  type?: ListAutomationsResponseBodyItemType | undefined;
   /** When true, event-triggered runs require the event actor to have repo write permission, even when the org's allow_read_access_triggers policy is enabled. Does not apply to interval-scheduled runs, which always run as the automation owner. */
-  require_actor_write_permission?: boolean;
+  require_actor_write_permission?: boolean | undefined;
   /** The model override for sessions triggered by this automation. Absent when the platform selects the model. */
-  model?: string;
+  model?: string | undefined;
   /** The reasoning effort override for sessions triggered by this automation. Absent when the model's default is used. */
-  reasoning_effort?: string;
+  reasoning_effort?: string | undefined;
   /** Trigger configuration for the automation. */
-  triggers?: ListAutomationsResponseBodyItemTriggers;
+  triggers?: ListAutomationsResponseBodyItemTriggers | undefined;
   /** When the automation was created. */
   created_at: string;
   /** When the automation was last updated. */
@@ -5187,7 +5756,7 @@ export interface ListAvailableRepoAutomationToolsResponseToolGroupsItemToolsItem
   /** A short description of what the tool does. */
   description: string;
   /** The tool's behavior level. `read` tools only retrieve data. `write` tools can change data. This is not a GitHub token permission. */
-  scope?: ListAvailableRepoAutomationToolsResponseToolGroupsItemToolsItemScope;
+  scope?: ListAvailableRepoAutomationToolsResponseToolGroupsItemToolsItemScope | undefined;
 }
 /** The tools currently available in this group. */
 export type ListAvailableRepoAutomationToolsResponseToolGroupsItemToolsList =
@@ -5243,9 +5812,11 @@ export type ListAvailableRepoAutomationTriggersResponseBodyItemFieldsItemSchemaC
 export interface ListAvailableRepoAutomationTriggersResponseBodyItemFieldsItemSchemaCase0 {
   type: ListAvailableRepoAutomationTriggersResponseBodyItemFieldsItemSchemaCase0Type;
   /** The allowed string values. */
-  enum?: ListAvailableRepoAutomationTriggersResponseBodyItemFieldsItemSchemaCase0EnumList;
+  enum?:
+    | ListAvailableRepoAutomationTriggersResponseBodyItemFieldsItemSchemaCase0EnumList
+    | undefined;
   /** The minimum accepted string length. */
-  minLength?: number;
+  minLength?: number | undefined;
 }
 export type ListAvailableRepoAutomationTriggersResponseBodyItemFieldsItemSchemaCase1Type = "array";
 export type ListAvailableRepoAutomationTriggersResponseBodyItemFieldsItemSchemaCase1ItemsType =
@@ -5256,19 +5827,21 @@ export type ListAvailableRepoAutomationTriggersResponseBodyItemFieldsItemSchemaC
 export interface ListAvailableRepoAutomationTriggersResponseBodyItemFieldsItemSchemaCase1Items {
   type: ListAvailableRepoAutomationTriggersResponseBodyItemFieldsItemSchemaCase1ItemsType;
   /** The allowed string item values. */
-  enum?: ListAvailableRepoAutomationTriggersResponseBodyItemFieldsItemSchemaCase1ItemsEnumList;
+  enum?:
+    | ListAvailableRepoAutomationTriggersResponseBodyItemFieldsItemSchemaCase1ItemsEnumList
+    | undefined;
   /** The minimum accepted string item length. */
-  minLength?: number;
+  minLength?: number | undefined;
 }
 export interface ListAvailableRepoAutomationTriggersResponseBodyItemFieldsItemSchemaCase1 {
   type: ListAvailableRepoAutomationTriggersResponseBodyItemFieldsItemSchemaCase1Type;
   items: ListAvailableRepoAutomationTriggersResponseBodyItemFieldsItemSchemaCase1Items;
   /** The minimum accepted number of array items. */
-  minItems?: number;
+  minItems?: number | undefined;
   /** The maximum accepted number of array items. */
-  maxItems?: number;
+  maxItems?: number | undefined;
   /** Whether duplicate array items are rejected. */
-  uniqueItems?: boolean;
+  uniqueItems?: boolean | undefined;
 }
 export type ListAvailableRepoAutomationTriggersResponseBodyItemFieldsItemSchemaCase2Type =
   "integer";
@@ -5278,11 +5851,13 @@ export type ListAvailableRepoAutomationTriggersResponseBodyItemFieldsItemSchemaC
 export interface ListAvailableRepoAutomationTriggersResponseBodyItemFieldsItemSchemaCase2 {
   type: ListAvailableRepoAutomationTriggersResponseBodyItemFieldsItemSchemaCase2Type;
   /** The allowed integer values. */
-  enum?: ListAvailableRepoAutomationTriggersResponseBodyItemFieldsItemSchemaCase2EnumList;
+  enum?:
+    | ListAvailableRepoAutomationTriggersResponseBodyItemFieldsItemSchemaCase2EnumList
+    | undefined;
   /** The minimum accepted integer value. */
-  minimum?: number;
+  minimum?: number | undefined;
   /** The maximum accepted integer value. */
-  maximum?: number;
+  maximum?: number | undefined;
 }
 /** A JSON Schema fragment describing the expected structure of the field value. */
 export type ListAvailableRepoAutomationTriggersResponseBodyItemFieldsItemSchema =
@@ -5298,7 +5873,7 @@ export interface ListAvailableRepoAutomationTriggersResponseBodyItemFieldsItem {
   /** Whether the field must be provided. */
   required: boolean;
   /** The human-readable description of the field. */
-  description?: string;
+  description?: string | undefined;
   /** A JSON Schema fragment describing the expected structure of the field value. */
   schema: ListAvailableRepoAutomationTriggersResponseBodyItemFieldsItemSchema;
 }
@@ -5327,11 +5902,11 @@ export interface ListRepoAutomationsRequest {
   /** The name of the repository. The name is not case sensitive. */
   repo: string;
   /** The page number of the results to fetch. */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page (max 100). */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Filter automations by type. `personal` returns automations owned by their creator, `shared` returns automations owned by the repository. Omit to return both. */
-  type?: ListRepoAutomationsRequestType | (string & {});
+  type?: ListRepoAutomationsRequestType | (string & {}) | undefined;
 }
 /** The tools available to the automation. Omitted when no tools are configured. */
 export type ListRepoAutomationsResponseAutomationsItemToolsList = Array<string>;
@@ -5354,15 +5929,15 @@ export interface ListRepoAutomationsResponseAutomationsItemTriggersInterval {
   /** One or more schedules on which the Automation runs. */
   cadence: ListRepoAutomationsResponseAutomationsItemTriggersIntervalCadenceList;
   /** UTC hour anchor (0 through 23) for daily and weekly schedules. Omitted daily and weekly values default to `0` (midnight UTC). */
-  hour_utc?: number;
+  hour_utc?: number | undefined;
   /** UTC weekday anchor for weekly schedules, where `0` is Sunday and `6` is Saturday. Omitted weekly values default to Monday (`1`). */
-  day_of_week?: number;
+  day_of_week?: number | undefined;
   /** UTC minute anchor for daily and weekly schedules. Omitted daily and weekly values default to `0`. Must be omitted whenever `cadence` includes `hourly`. */
-  minute_utc?: ListRepoAutomationsResponseAutomationsItemTriggersIntervalMinuteUtc;
+  minute_utc?: ListRepoAutomationsResponseAutomationsItemTriggersIntervalMinuteUtc | undefined;
   /** Has no effect: scheduled runs can change any resource in the repository, and an organization or repository policy requiring trigger-scoped writes does not apply to them. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersIntervalWriteScope;
+  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersIntervalWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type ListRepoAutomationsResponseAutomationsItemTriggersIssueOpenedWriteScope =
@@ -5370,11 +5945,11 @@ export type ListRepoAutomationsResponseAutomationsItemTriggersIssueOpenedWriteSc
   | "repository";
 export interface ListRepoAutomationsResponseAutomationsItemTriggersIssueOpened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersIssueOpenedWriteScope;
+  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersIssueOpenedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Label names matched case-insensitively against the label added by the event. Omit or use an empty array to match every added label. */
 export type ListRepoAutomationsResponseAutomationsItemTriggersIssueLabeledLabelsList =
@@ -5385,13 +5960,15 @@ export type ListRepoAutomationsResponseAutomationsItemTriggersIssueLabeledWriteS
   | "repository";
 export interface ListRepoAutomationsResponseAutomationsItemTriggersIssueLabeled {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Label names matched case-insensitively against the label added by the event. Omit or use an empty array to match every added label. */
-  labels?: ListRepoAutomationsResponseAutomationsItemTriggersIssueLabeledLabelsList;
+  labels?: ListRepoAutomationsResponseAutomationsItemTriggersIssueLabeledLabelsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersIssueLabeledWriteScope;
+  write_scope?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersIssueLabeledWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Workflow names matched against the name in each workflow YAML file. */
 export type ListRepoAutomationsResponseAutomationsItemTriggersWorkflowRunWorkflowsList =
@@ -5411,11 +5988,11 @@ export interface ListRepoAutomationsResponseAutomationsItemTriggersWorkflowRun {
   /** Workflow conclusions to match. The current trigger supports failure. */
   conclusions: ListRepoAutomationsResponseAutomationsItemTriggersWorkflowRunConclusionsList;
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersWorkflowRunWriteScope;
+  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersWorkflowRunWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListRepoAutomationsResponseAutomationsItemTriggersPullRequestOpenedPathsList =
@@ -5426,13 +6003,15 @@ export type ListRepoAutomationsResponseAutomationsItemTriggersPullRequestOpenedW
   | "repository";
 export interface ListRepoAutomationsResponseAutomationsItemTriggersPullRequestOpened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestOpenedPathsList;
+  paths?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestOpenedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestOpenedWriteScope;
+  write_scope?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestOpenedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListRepoAutomationsResponseAutomationsItemTriggersPullRequestSynchronizePathsList =
@@ -5443,13 +6022,17 @@ export type ListRepoAutomationsResponseAutomationsItemTriggersPullRequestSynchro
   | "repository";
 export interface ListRepoAutomationsResponseAutomationsItemTriggersPullRequestSynchronize {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestSynchronizePathsList;
+  paths?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestSynchronizePathsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestSynchronizeWriteScope;
+  write_scope?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestSynchronizeWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListRepoAutomationsResponseAutomationsItemTriggersPullRequestMergedPathsList =
@@ -5460,13 +6043,15 @@ export type ListRepoAutomationsResponseAutomationsItemTriggersPullRequestMergedW
   | "repository";
 export interface ListRepoAutomationsResponseAutomationsItemTriggersPullRequestMerged {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestMergedPathsList;
+  paths?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestMergedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestMergedWriteScope;
+  write_scope?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestMergedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type ListRepoAutomationsResponseAutomationsItemTriggersIssueCommentWriteScope =
@@ -5474,13 +6059,15 @@ export type ListRepoAutomationsResponseAutomationsItemTriggersIssueCommentWriteS
   | "repository";
 export interface ListRepoAutomationsResponseAutomationsItemTriggersIssueComment {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersIssueCommentWriteScope;
+  write_scope?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersIssueCommentWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 export type ListRepoAutomationsResponseAutomationsItemTriggersPullRequestCommentCommentTypesItem =
   | "timeline_comment"
@@ -5499,15 +6086,17 @@ export interface ListRepoAutomationsResponseAutomationsItemTriggersPullRequestCo
   /** Pull request conversation and inline review comment types to match. */
   comment_types: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestCommentCommentTypesList;
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestCommentPathsList;
+  paths?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestCommentPathsList | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestCommentWriteScope;
+  write_scope?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestCommentWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Discussion category names matched case-insensitively. */
 export type ListRepoAutomationsResponseAutomationsItemTriggersDiscussionOpenedCategoriesList =
@@ -5518,13 +6107,17 @@ export type ListRepoAutomationsResponseAutomationsItemTriggersDiscussionOpenedWr
   | "repository";
 export interface ListRepoAutomationsResponseAutomationsItemTriggersDiscussionOpened {
   /** Discussion category names matched case-insensitively. */
-  categories?: ListRepoAutomationsResponseAutomationsItemTriggersDiscussionOpenedCategoriesList;
+  categories?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersDiscussionOpenedCategoriesList
+    | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersDiscussionOpenedWriteScope;
+  write_scope?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersDiscussionOpenedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Discussion category names matched case-insensitively. */
 export type ListRepoAutomationsResponseAutomationsItemTriggersDiscussionUpdatedCategoriesList =
@@ -5535,13 +6128,17 @@ export type ListRepoAutomationsResponseAutomationsItemTriggersDiscussionUpdatedW
   | "repository";
 export interface ListRepoAutomationsResponseAutomationsItemTriggersDiscussionUpdated {
   /** Discussion category names matched case-insensitively. */
-  categories?: ListRepoAutomationsResponseAutomationsItemTriggersDiscussionUpdatedCategoriesList;
+  categories?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersDiscussionUpdatedCategoriesList
+    | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersDiscussionUpdatedWriteScope;
+  write_scope?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersDiscussionUpdatedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 export type ListRepoAutomationsResponseAutomationsItemTriggersDiscussionCommentCommentTypesItem =
   | "comment"
@@ -5558,15 +6155,21 @@ export type ListRepoAutomationsResponseAutomationsItemTriggersDiscussionCommentW
   | "repository";
 export interface ListRepoAutomationsResponseAutomationsItemTriggersDiscussionComment {
   /** Top-level discussion comments and replies to match. Omit to match both. */
-  comment_types?: ListRepoAutomationsResponseAutomationsItemTriggersDiscussionCommentCommentTypesList;
+  comment_types?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersDiscussionCommentCommentTypesList
+    | undefined;
   /** Discussion category names matched case-insensitively. */
-  categories?: ListRepoAutomationsResponseAutomationsItemTriggersDiscussionCommentCategoriesList;
+  categories?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersDiscussionCommentCategoriesList
+    | undefined;
   /** A case-insensitive substring matched against the event body. */
-  body_substring?: string;
+  body_substring?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersDiscussionCommentWriteScope;
+  write_scope?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersDiscussionCommentWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Affected assignee logins matched case-insensitively. */
 export type ListRepoAutomationsResponseAutomationsItemTriggersIssueAssignedAssigneesList =
@@ -5577,13 +6180,17 @@ export type ListRepoAutomationsResponseAutomationsItemTriggersIssueAssignedWrite
   | "repository";
 export interface ListRepoAutomationsResponseAutomationsItemTriggersIssueAssigned {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Affected assignee logins matched case-insensitively. */
-  assignees?: ListRepoAutomationsResponseAutomationsItemTriggersIssueAssignedAssigneesList;
+  assignees?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersIssueAssignedAssigneesList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersIssueAssignedWriteScope;
+  write_scope?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersIssueAssignedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListRepoAutomationsResponseAutomationsItemTriggersPullRequestAssignedPathsList =
@@ -5597,15 +6204,21 @@ export type ListRepoAutomationsResponseAutomationsItemTriggersPullRequestAssigne
   | "repository";
 export interface ListRepoAutomationsResponseAutomationsItemTriggersPullRequestAssigned {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestAssignedPathsList;
+  paths?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestAssignedPathsList
+    | undefined;
   /** Affected assignee logins matched case-insensitively. */
-  assignees?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestAssignedAssigneesList;
+  assignees?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestAssignedAssigneesList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestAssignedWriteScope;
+  write_scope?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestAssignedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type ListRepoAutomationsResponseAutomationsItemTriggersSubIssueAddedWriteScope =
@@ -5613,11 +6226,13 @@ export type ListRepoAutomationsResponseAutomationsItemTriggersSubIssueAddedWrite
   | "repository";
 export interface ListRepoAutomationsResponseAutomationsItemTriggersSubIssueAdded {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersSubIssueAddedWriteScope;
+  write_scope?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersSubIssueAddedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReadyForReviewPathsList =
@@ -5628,13 +6243,17 @@ export type ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReadyFo
   | "repository";
 export interface ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReadyForReview {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReadyForReviewPathsList;
+  paths?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReadyForReviewPathsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReadyForReviewWriteScope;
+  write_scope?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReadyForReviewWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListRepoAutomationsResponseAutomationsItemTriggersPullRequestLabeledPathsList =
@@ -5648,15 +6267,19 @@ export type ListRepoAutomationsResponseAutomationsItemTriggersPullRequestLabeled
   | "repository";
 export interface ListRepoAutomationsResponseAutomationsItemTriggersPullRequestLabeled {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestLabeledPathsList;
+  paths?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestLabeledPathsList | undefined;
   /** Label names matched case-insensitively against the label added by the event. Omit or use an empty array to match every added label. */
-  labels?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestLabeledLabelsList;
+  labels?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestLabeledLabelsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestLabeledWriteScope;
+  write_scope?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestLabeledWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListRepoAutomationsResponseAutomationsItemTriggersPullRequestMergeConflictPathsList =
@@ -5667,13 +6290,17 @@ export type ListRepoAutomationsResponseAutomationsItemTriggersPullRequestMergeCo
   | "repository";
 export interface ListRepoAutomationsResponseAutomationsItemTriggersPullRequestMergeConflict {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestMergeConflictPathsList;
+  paths?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestMergeConflictPathsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestMergeConflictWriteScope;
+  write_scope?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestMergeConflictWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewSubmittedPathsList =
@@ -5691,15 +6318,19 @@ export type ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewS
   | "repository";
 export interface ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewSubmitted {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewSubmittedPathsList;
+  paths?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewSubmittedPathsList
+    | undefined;
   /** Submitted review states to match. */
   states: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewSubmittedStatesList;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewSubmittedWriteScope;
+  write_scope?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewSubmittedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewRequestedPathsList =
@@ -5710,13 +6341,17 @@ export type ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewR
   | "repository";
 export interface ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewRequested {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewRequestedPathsList;
+  paths?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewRequestedPathsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewRequestedWriteScope;
+  write_scope?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewRequestedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type ListRepoAutomationsResponseAutomationsItemTriggersIssueClosedWriteScope =
@@ -5724,11 +6359,11 @@ export type ListRepoAutomationsResponseAutomationsItemTriggersIssueClosedWriteSc
   | "repository";
 export interface ListRepoAutomationsResponseAutomationsItemTriggersIssueClosed {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersIssueClosedWriteScope;
+  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersIssueClosedWriteScope | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type ListRepoAutomationsResponseAutomationsItemTriggersIssueReopenedWriteScope =
@@ -5736,11 +6371,13 @@ export type ListRepoAutomationsResponseAutomationsItemTriggersIssueReopenedWrite
   | "repository";
 export interface ListRepoAutomationsResponseAutomationsItemTriggersIssueReopened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersIssueReopenedWriteScope;
+  write_scope?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersIssueReopenedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListRepoAutomationsResponseAutomationsItemTriggersPullRequestClosedPathsList =
@@ -5751,13 +6388,15 @@ export type ListRepoAutomationsResponseAutomationsItemTriggersPullRequestClosedW
   | "repository";
 export interface ListRepoAutomationsResponseAutomationsItemTriggersPullRequestClosed {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestClosedPathsList;
+  paths?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestClosedPathsList | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestClosedWriteScope;
+  write_scope?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestClosedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReopenedPathsList =
@@ -5768,13 +6407,17 @@ export type ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReopene
   | "repository";
 export interface ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReopened {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReopenedPathsList;
+  paths?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReopenedPathsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReopenedWriteScope;
+  write_scope?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReopenedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListRepoAutomationsResponseAutomationsItemTriggersPullRequestConvertedToDraftPathsList =
@@ -5785,13 +6428,17 @@ export type ListRepoAutomationsResponseAutomationsItemTriggersPullRequestConvert
   | "repository";
 export interface ListRepoAutomationsResponseAutomationsItemTriggersPullRequestConvertedToDraft {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestConvertedToDraftPathsList;
+  paths?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestConvertedToDraftPathsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestConvertedToDraftWriteScope;
+  write_scope?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestConvertedToDraftWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewDismissedPathsList =
@@ -5802,13 +6449,17 @@ export type ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewD
   | "repository";
 export interface ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewDismissed {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewDismissedPathsList;
+  paths?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewDismissedPathsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewDismissedWriteScope;
+  write_scope?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewDismissedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewThreadResolvedPathsList =
@@ -5819,13 +6470,17 @@ export type ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewT
   | "repository";
 export interface ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewThreadResolved {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewThreadResolvedPathsList;
+  paths?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewThreadResolvedPathsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewThreadResolvedWriteScope;
+  write_scope?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewThreadResolvedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Gitignore-style changed-file path globs. */
 export type ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewThreadUnresolvedPathsList =
@@ -5836,13 +6491,17 @@ export type ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewT
   | "repository";
 export interface ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewThreadUnresolved {
   /** A GitHub issue or pull request search query. */
-  query?: string;
+  query?: string | undefined;
   /** Gitignore-style changed-file path globs. */
-  paths?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewThreadUnresolvedPathsList;
+  paths?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewThreadUnresolvedPathsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewThreadUnresolvedWriteScope;
+  write_scope?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewThreadUnresolvedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Upstream Automation IDs in the same repository. */
 export type ListRepoAutomationsResponseAutomationsItemTriggersAutomationCompletedAutomationIdsList =
@@ -5855,9 +6514,11 @@ export interface ListRepoAutomationsResponseAutomationsItemTriggersAutomationCom
   /** Upstream Automation IDs in the same repository. */
   automation_ids: ListRepoAutomationsResponseAutomationsItemTriggersAutomationCompletedAutomationIdsList;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersAutomationCompletedWriteScope;
+  write_scope?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersAutomationCompletedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Upstream Automation IDs in the same repository. An Automation cannot list itself, and a user-owned Automation can only be listed by its creator's user-owned Automations. */
 export type ListRepoAutomationsResponseAutomationsItemTriggersAutomationFailedAutomationIdsList =
@@ -5877,11 +6538,15 @@ export interface ListRepoAutomationsResponseAutomationsItemTriggersAutomationFai
   /** Upstream Automation IDs in the same repository. An Automation cannot list itself, and a user-owned Automation can only be listed by its creator's user-owned Automations. */
   automation_ids: ListRepoAutomationsResponseAutomationsItemTriggersAutomationFailedAutomationIdsList;
   /** Failure reasons to match. Omit to match only reported failures. */
-  reasons?: ListRepoAutomationsResponseAutomationsItemTriggersAutomationFailedReasonsList;
+  reasons?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersAutomationFailedReasonsList
+    | undefined;
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersAutomationFailedWriteScope;
+  write_scope?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersAutomationFailedWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type ListRepoAutomationsResponseAutomationsItemTriggersCodeScanningAlertWriteScope =
@@ -5890,9 +6555,11 @@ export type ListRepoAutomationsResponseAutomationsItemTriggersCodeScanningAlertW
 /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
 export interface ListRepoAutomationsResponseAutomationsItemTriggersCodeScanningAlert {
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersCodeScanningAlertWriteScope;
+  write_scope?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersCodeScanningAlertWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type ListRepoAutomationsResponseAutomationsItemTriggersSecretScanningAlertWriteScope =
@@ -5901,9 +6568,11 @@ export type ListRepoAutomationsResponseAutomationsItemTriggersSecretScanningAler
 /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
 export interface ListRepoAutomationsResponseAutomationsItemTriggersSecretScanningAlert {
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersSecretScanningAlertWriteScope;
+  write_scope?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersSecretScanningAlertWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
 export type ListRepoAutomationsResponseAutomationsItemTriggersDependabotAlertWriteScope =
@@ -5912,48 +6581,96 @@ export type ListRepoAutomationsResponseAutomationsItemTriggersDependabotAlertWri
 /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
 export interface ListRepoAutomationsResponseAutomationsItemTriggersDependabotAlert {
   /** Sets the write scope for this trigger's runs. Omit to inherit the automation's effective scope (default `trigger`). Organization or repository policy may restrict the effective scope to `trigger`. Explicitly setting `repository` on create or edit returns 422 when policy validation is enabled and that policy applies. */
-  write_scope?: ListRepoAutomationsResponseAutomationsItemTriggersDependabotAlertWriteScope;
+  write_scope?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersDependabotAlertWriteScope
+    | undefined;
   /** When true, events Copilot creates, including from other automations and Copilot sessions, can start this automation through this trigger. Defaults to false. The Copilot coding agent app cannot turn it on: creating a trigger with true, or changing it from false to true, returns 422. */
-  allow_copilot_triggers?: boolean;
+  allow_copilot_triggers?: boolean | undefined;
 }
 /** Trigger configuration for the automation. */
 export interface ListRepoAutomationsResponseAutomationsItemTriggers {
-  interval?: ListRepoAutomationsResponseAutomationsItemTriggersInterval;
-  issue_opened?: ListRepoAutomationsResponseAutomationsItemTriggersIssueOpened;
-  issue_labeled?: ListRepoAutomationsResponseAutomationsItemTriggersIssueLabeled;
-  workflow_run?: ListRepoAutomationsResponseAutomationsItemTriggersWorkflowRun;
-  pull_request_opened?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestOpened;
-  pull_request_synchronize?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestSynchronize;
-  pull_request_merged?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestMerged;
-  issue_comment?: ListRepoAutomationsResponseAutomationsItemTriggersIssueComment;
-  pull_request_comment?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestComment;
-  discussion_opened?: ListRepoAutomationsResponseAutomationsItemTriggersDiscussionOpened;
-  discussion_updated?: ListRepoAutomationsResponseAutomationsItemTriggersDiscussionUpdated;
-  discussion_comment?: ListRepoAutomationsResponseAutomationsItemTriggersDiscussionComment;
-  issue_assigned?: ListRepoAutomationsResponseAutomationsItemTriggersIssueAssigned;
-  pull_request_assigned?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestAssigned;
-  sub_issue_added?: ListRepoAutomationsResponseAutomationsItemTriggersSubIssueAdded;
-  pull_request_ready_for_review?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReadyForReview;
-  pull_request_labeled?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestLabeled;
-  pull_request_merge_conflict?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestMergeConflict;
-  pull_request_review_submitted?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewSubmitted;
-  pull_request_review_requested?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewRequested;
-  issue_closed?: ListRepoAutomationsResponseAutomationsItemTriggersIssueClosed;
-  issue_reopened?: ListRepoAutomationsResponseAutomationsItemTriggersIssueReopened;
-  pull_request_closed?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestClosed;
-  pull_request_reopened?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReopened;
-  pull_request_converted_to_draft?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestConvertedToDraft;
-  pull_request_review_dismissed?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewDismissed;
-  pull_request_review_thread_resolved?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewThreadResolved;
-  pull_request_review_thread_unresolved?: ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewThreadUnresolved;
-  automation_completed?: ListRepoAutomationsResponseAutomationsItemTriggersAutomationCompleted;
-  automation_failed?: ListRepoAutomationsResponseAutomationsItemTriggersAutomationFailed;
+  interval?: ListRepoAutomationsResponseAutomationsItemTriggersInterval | undefined;
+  issue_opened?: ListRepoAutomationsResponseAutomationsItemTriggersIssueOpened | undefined;
+  issue_labeled?: ListRepoAutomationsResponseAutomationsItemTriggersIssueLabeled | undefined;
+  workflow_run?: ListRepoAutomationsResponseAutomationsItemTriggersWorkflowRun | undefined;
+  pull_request_opened?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestOpened
+    | undefined;
+  pull_request_synchronize?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestSynchronize
+    | undefined;
+  pull_request_merged?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestMerged
+    | undefined;
+  issue_comment?: ListRepoAutomationsResponseAutomationsItemTriggersIssueComment | undefined;
+  pull_request_comment?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestComment
+    | undefined;
+  discussion_opened?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersDiscussionOpened
+    | undefined;
+  discussion_updated?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersDiscussionUpdated
+    | undefined;
+  discussion_comment?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersDiscussionComment
+    | undefined;
+  issue_assigned?: ListRepoAutomationsResponseAutomationsItemTriggersIssueAssigned | undefined;
+  pull_request_assigned?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestAssigned
+    | undefined;
+  sub_issue_added?: ListRepoAutomationsResponseAutomationsItemTriggersSubIssueAdded | undefined;
+  pull_request_ready_for_review?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReadyForReview
+    | undefined;
+  pull_request_labeled?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestLabeled
+    | undefined;
+  pull_request_merge_conflict?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestMergeConflict
+    | undefined;
+  pull_request_review_submitted?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewSubmitted
+    | undefined;
+  pull_request_review_requested?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewRequested
+    | undefined;
+  issue_closed?: ListRepoAutomationsResponseAutomationsItemTriggersIssueClosed | undefined;
+  issue_reopened?: ListRepoAutomationsResponseAutomationsItemTriggersIssueReopened | undefined;
+  pull_request_closed?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestClosed
+    | undefined;
+  pull_request_reopened?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReopened
+    | undefined;
+  pull_request_converted_to_draft?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestConvertedToDraft
+    | undefined;
+  pull_request_review_dismissed?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewDismissed
+    | undefined;
+  pull_request_review_thread_resolved?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewThreadResolved
+    | undefined;
+  pull_request_review_thread_unresolved?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersPullRequestReviewThreadUnresolved
+    | undefined;
+  automation_completed?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersAutomationCompleted
+    | undefined;
+  automation_failed?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersAutomationFailed
+    | undefined;
   /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
-  code_scanning_alert?: ListRepoAutomationsResponseAutomationsItemTriggersCodeScanningAlert;
+  code_scanning_alert?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersCodeScanningAlert
+    | undefined;
   /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
-  secret_scanning_alert?: ListRepoAutomationsResponseAutomationsItemTriggersSecretScanningAlert;
+  secret_scanning_alert?:
+    | ListRepoAutomationsResponseAutomationsItemTriggersSecretScanningAlert
+    | undefined;
   /** Runs on the default branch when a security alert of this kind is created in the repository. These are system events without an issue, pull request, or human actor, and cannot be run manually. */
-  dependabot_alert?: ListRepoAutomationsResponseAutomationsItemTriggersDependabotAlert;
+  dependabot_alert?: ListRepoAutomationsResponseAutomationsItemTriggersDependabotAlert | undefined;
 }
 /** A GitHub user */
 export type ListRepoAutomationsResponseAutomationsItemCreatedBy =
@@ -5961,23 +6678,23 @@ export type ListRepoAutomationsResponseAutomationsItemCreatedBy =
 /** A summary representation of an automation (used in list responses). */
 export interface ListRepoAutomationsResponseAutomationsItem {
   /** The tools available to the automation. Omitted when no tools are configured. */
-  tools?: ListRepoAutomationsResponseAutomationsItemToolsList;
+  tools?: ListRepoAutomationsResponseAutomationsItemToolsList | undefined;
   /** The unique identifier of the automation. */
   id: string;
   /** The name of the automation. */
   name: string;
   /** Whether the automation is currently enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The type of automation. `personal` keeps it private to its creator and its runs act as that user. `shared` makes it belong to the repository, visible to anyone with read access to the repository, and its runs act as the Copilot app rather than as a person. */
-  type?: ListRepoAutomationsResponseAutomationsItemType;
+  type?: ListRepoAutomationsResponseAutomationsItemType | undefined;
   /** When true, event-triggered runs require the event actor to have repo write permission, even when the org's allow_read_access_triggers policy is enabled. Does not apply to interval-scheduled runs, which always run as the automation owner. */
-  require_actor_write_permission?: boolean;
+  require_actor_write_permission?: boolean | undefined;
   /** The model override for sessions triggered by this automation. Absent when the platform selects the model. */
-  model?: string;
+  model?: string | undefined;
   /** The reasoning effort override for sessions triggered by this automation. Absent when the model's default is used. */
-  reasoning_effort?: string;
+  reasoning_effort?: string | undefined;
   /** Trigger configuration for the automation. */
-  triggers?: ListRepoAutomationsResponseAutomationsItemTriggers;
+  triggers?: ListRepoAutomationsResponseAutomationsItemTriggers | undefined;
   /** When the automation was created. */
   created_at: string;
   /** When the automation was last updated. */
@@ -6004,17 +6721,17 @@ export interface ListRepoAutomationTasksRequest {
   /** The unique identifier of the automation. */
   automation_id: string;
   /** The number of results per page (max 100). */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The page number of the results to fetch. */
-  page?: number;
+  page?: number | undefined;
   /** The field to sort results by. Can be `updated_at` or `created_at`. */
-  sort?: ListRepoAutomationTasksRequestSort | (string & {});
+  sort?: ListRepoAutomationTasksRequestSort | (string & {}) | undefined;
   /** The direction to sort results. Can be `asc` or `desc`. */
-  direction?: ListRepoAutomationTasksRequestDirection | (string & {});
+  direction?: ListRepoAutomationTasksRequestDirection | (string & {}) | undefined;
   /** Comma-separated list of task states to filter by. Can be any combination of: `queued`, `in_progress`, `completed`, `failed`, `idle`, `waiting_for_user`, `timed_out`, `cancelled`. */
-  state?: string;
+  state?: string | undefined;
   /** Filter by archived status. When `true`, returns only archived tasks. When `false` or omitted, returns only non-archived tasks. Defaults to `false`. */
-  is_archived?: boolean;
+  is_archived?: boolean | undefined;
 }
 export interface ListRepoAutomationTasksResponseTasksItemClientsItem {
   /** Server-resolved integration identity for the client product. */
@@ -6042,7 +6759,7 @@ export type ListRepoAutomationTasksResponseTasksItemOwner = CreateRepoAutomation
 /** The repository this task belongs to */
 export interface ListRepoAutomationTasksResponseTasksItemRepository {
   /** The unique identifier of the repository */
-  id?: number;
+  id?: number | undefined;
 }
 /** Current state of the task, derived from its most recent session */
 export type ListRepoAutomationTasksResponseTasksItemState =
@@ -6063,7 +6780,7 @@ export interface ListRepoAutomationTasksResponseTasksItemArtifactsItemDataCase0 
   /** GitHub resource ID */
   id: number;
   /** GraphQL global ID */
-  global_id?: string;
+  global_id?: string | undefined;
 }
 /** A Git branch reference */
 export interface ListRepoAutomationTasksResponseTasksItemArtifactsItemDataCase1 {
@@ -6091,43 +6808,43 @@ export type ListRepoAutomationTasksResponseTasksItemArtifactsList =
 /** Custom agent metadata associated with this task */
 export interface ListRepoAutomationTasksResponseTasksItemCustomAgent {
   /** The custom agent's filename without the extension - for example, `performance-optimizer` for a `.github/agents/performance-optimizer.agent.md` custom agent. */
-  id?: string;
+  id?: string | undefined;
 }
 export interface ListRepoAutomationTasksResponseTasksItem {
   /** Unique task identifier */
   id: string;
   /** API URL for this task */
-  url?: string;
+  url?: string | undefined;
   /** Web URL for this task */
-  html_url?: string;
+  html_url?: string | undefined;
   /** Human-readable name derived from the task prompt */
-  name?: string;
+  name?: string | undefined;
   /** Known client products that created or participated in this task, independent of its executing agents. Omitted when no client identity is known. */
-  clients?: ListRepoAutomationTasksResponseTasksItemClientsList;
+  clients?: ListRepoAutomationTasksResponseTasksItemClientsList | undefined;
   /** The entity who created this task */
-  creator?: CreateRepoAutomationResponseCreatedBy;
+  creator?: CreateRepoAutomationResponseCreatedBy | undefined;
   /** Type of the task creator */
-  creator_type?: ListRepoAutomationTasksResponseTasksItemCreatorType;
+  creator_type?: ListRepoAutomationTasksResponseTasksItemCreatorType | undefined;
   /** User objects of collaborators on this task */
-  user_collaborators?: ListRepoAutomationTasksResponseTasksItemUserCollaboratorsList;
+  user_collaborators?: ListRepoAutomationTasksResponseTasksItemUserCollaboratorsList | undefined;
   /** The owner of the repository */
-  owner?: CreateRepoAutomationResponseCreatedBy;
+  owner?: CreateRepoAutomationResponseCreatedBy | undefined;
   /** The repository this task belongs to */
-  repository?: ListRepoAutomationTasksResponseTasksItemRepository;
+  repository?: ListRepoAutomationTasksResponseTasksItemRepository | undefined;
   /** Current state of the task, derived from its most recent session */
   state: ListRepoAutomationTasksResponseTasksItemState;
   /** Number of sessions in this task */
-  session_count?: number;
+  session_count?: number | undefined;
   /** Resources created by this task (PRs, branches, etc.) */
-  artifacts?: ListRepoAutomationTasksResponseTasksItemArtifactsList;
+  artifacts?: ListRepoAutomationTasksResponseTasksItemArtifactsList | undefined;
   /** Timestamp when the task was archived, null if not archived */
-  archived_at?: string | null;
+  archived_at?: string | null | undefined;
   /** Timestamp of the most recent update */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Timestamp when the task was created */
   created_at: string;
   /** Custom agent metadata associated with this task */
-  custom_agent?: ListRepoAutomationTasksResponseTasksItemCustomAgent;
+  custom_agent?: ListRepoAutomationTasksResponseTasksItemCustomAgent | undefined;
 }
 /** Tasks created by the automation. */
 export type ListRepoAutomationTasksResponseTasksList =

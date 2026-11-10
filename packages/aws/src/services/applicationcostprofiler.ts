@@ -129,7 +129,7 @@ export interface DeleteReportDefinitionRequest {
   reportId: string;
 }
 export interface DeleteReportDefinitionResult {
-  reportId?: string;
+  reportId?: string | undefined;
 }
 export interface GetReportDefinitionRequest {
   reportId: string;
@@ -162,7 +162,7 @@ export type S3BucketRegion =
 export interface SourceS3Location {
   bucket: string;
   key: string;
-  region?: S3BucketRegion;
+  region?: S3BucketRegion | undefined;
 }
 export interface ImportApplicationUsageRequest {
   sourceS3Location: SourceS3Location;
@@ -173,22 +173,22 @@ export interface ImportApplicationUsageResult {
 }
 export type Token = string;
 export interface ListReportDefinitionsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ReportDefinition {
-  reportId?: string;
-  reportDescription?: string;
-  reportFrequency?: ReportFrequency;
-  format?: Format;
-  destinationS3Location?: S3Location;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
+  reportId?: string | undefined;
+  reportDescription?: string | undefined;
+  reportFrequency?: ReportFrequency | undefined;
+  format?: Format | undefined;
+  destinationS3Location?: S3Location | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
 export type ReportDefinitionList = ReportDefinition[];
 export interface ListReportDefinitionsResult {
-  reportDefinitions?: ReportDefinition[];
-  nextToken?: string;
+  reportDefinitions?: ReportDefinition[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface PutReportDefinitionRequest {
   reportId: string;
@@ -198,7 +198,7 @@ export interface PutReportDefinitionRequest {
   destinationS3Location: S3Location;
 }
 export interface PutReportDefinitionResult {
-  reportId?: string;
+  reportId?: string | undefined;
 }
 export interface UpdateReportDefinitionRequest {
   reportId: string;
@@ -208,7 +208,7 @@ export interface UpdateReportDefinitionRequest {
   destinationS3Location: S3Location;
 }
 export interface UpdateReportDefinitionResult {
-  reportId?: string;
+  reportId?: string | undefined;
 }
 export type ErrorMessage = string;
 export type DeleteReportDefinitionError =

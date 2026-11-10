@@ -101,7 +101,7 @@ export type EntitlementsGetResponseCustomEntitlementsItemAllocationOrganizations
   "";
 export interface EntitlementsGetResponseCustomEntitlementsItemAllocationOrganizationsAPINullAllocation {
   type: EntitlementsGetResponseCustomEntitlementsItemAllocationOrganizationsAPINullAllocationType;
-  value?: unknown | null;
+  value?: unknown | null | undefined;
 }
 export type EntitlementsGetResponseCustomEntitlementsItemAllocation =
   | EntitlementsGetResponseCustomEntitlementsItemAllocationOrganizationsAPIMaxCountAllocation
@@ -139,19 +139,19 @@ export interface GetTenantRequest {
   tenantId: string;
 }
 export interface GetResponseTenantContacts {
-  email?: string | null;
-  website?: string | null;
+  email?: string | null | undefined;
+  website?: string | null | undefined;
 }
 export type GetResponseTenantLabelsList = Array<string>;
 export interface GetResponseTenantMetadataDnsNsPool {
-  primary?: string | null;
-  secondary?: string | null;
+  primary?: string | null | undefined;
+  secondary?: string | null | undefined;
 }
 export interface GetResponseTenantMetadataDns {
   nsPool: GetResponseTenantMetadataDnsNsPool;
 }
 export interface GetResponseTenantMetadata {
-  dns?: GetResponseTenantMetadataDns | null;
+  dns?: GetResponseTenantMetadataDns | null | undefined;
 }
 export type GetResponseTenantUnitsItemUnitMembershipsList = Array<unknown>;
 export interface GetResponseTenantUnitsItem {
@@ -175,43 +175,43 @@ export interface GetTenantResponse {
   tenantTag: string;
   tenantType: string;
   tenantUnits: GetResponseTenantUnitsList;
-  customerId?: string | null;
+  customerId?: string | null | undefined;
 }
 export interface AccountsListRequestAccountPubname {
   /** (case-insensitive) Filter the list of accounts to where the account_pubname contains a particular string. */
-  contains?: string;
+  contains?: string | undefined;
   /** (case-insensitive) Filter the list of accounts to where the account_pubname ends with a particular string. */
-  endsWith?: string;
+  endsWith?: string | undefined;
   /** (case-insensitive) Filter the list of accounts to where the account_pubname starts with a particular string. */
-  startsWith?: string;
+  startsWith?: string | undefined;
 }
 export type AccountsListRequestDirection = "asc" | "desc";
 export interface AccountsListRequestName {
   /** (case-insensitive) Filter the list of accounts to where the name contains a particular string. */
-  contains?: string;
+  contains?: string | undefined;
   /** (case-insensitive) Filter the list of accounts to where the name ends with a particular string. */
-  endsWith?: string;
+  endsWith?: string | undefined;
   /** (case-insensitive) Filter the list of accounts to where the name starts with a particular string. */
-  startsWith?: string;
+  startsWith?: string | undefined;
 }
 export type AccountsListRequestOrderBy = "account_name";
 export type AccountsListRequestStatus = "active" | "deleted";
 export interface ListAccountsRequest {
   tenantId: string;
-  accountPubname?: AccountsListRequestAccountPubname;
+  accountPubname?: AccountsListRequestAccountPubname | undefined;
   /** Sort direction for the order_by field. Valid values: `asc`, `desc`. Defaults to `asc` when order_by is specified. */
-  direction?: AccountsListRequestDirection | (string & {});
+  direction?: AccountsListRequestDirection | (string & {}) | undefined;
   /** Whether to calculate and return the exact `result_info.total_size` for cursor pagination. Defaults to true. When false, `total_size` is omitted. */
-  includeTotal?: boolean;
-  name?: AccountsListRequestName;
+  includeTotal?: boolean | undefined;
+  name?: AccountsListRequestName | undefined;
   /** Field to order results by. Currently supported values: `account_name`. */
-  orderBy?: AccountsListRequestOrderBy | (string & {});
+  orderBy?: AccountsListRequestOrderBy | (string & {}) | undefined;
   /** The amount of items to return. Defaults to 10. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** An opaque token returned from the last list response that when provided will retrieve the next page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Filter accounts by lifecycle status. Defaults to `active`. */
-  status?: AccountsListRequestStatus | (string & {});
+  status?: AccountsListRequestStatus | (string & {}) | undefined;
 }
 export type AccountsListResultItemAccountType = "standard" | "enterprise";
 export interface AccountsListResultItemSettings {
@@ -232,7 +232,7 @@ export interface ListAccountsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccountsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListAccountTypesRequest {
   tenantId: string;
@@ -242,7 +242,7 @@ export interface ListAccountTypesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AccountTypesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListMembershipsRequest {
   tenantId: string;
@@ -257,7 +257,7 @@ export interface ListMembershipsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: MembershipsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type GetEntitlementError = CloudflareOpError;
 /** Retrieves the innate and custom entitlement allocations available to this tenant. */

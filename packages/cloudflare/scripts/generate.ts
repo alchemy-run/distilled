@@ -143,7 +143,7 @@ const makeCfSpec = (
         tsName: "resultInfo",
         interfaceLines: [
           `  /** Pagination info from the envelope's \`result_info\`. */`,
-          `  resultInfo?: ResultInfo | null;`,
+          `  resultInfo?: ResultInfo | null | undefined;`,
         ],
         structLine: `  "resultInfo": S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),`,
         imports: ["ResultInfo"],

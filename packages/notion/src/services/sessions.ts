@@ -28,7 +28,7 @@ const TELEMETRY = {
 export interface CancelSessionRequest {
   session_id: string;
   /** A session event identifying the turn to cancel. If omitted, cancels the current nonterminal turn. */
-  event_id?: string;
+  event_id?: string | undefined;
 }
 /** One of: `queued`, `in_progress`, `requires_action`, `completed`, `failed`, `canceled`, `terminated` */
 export type CancelSessionResponseStatus =
@@ -70,8 +70,8 @@ export interface CancelSessionResponse {
   status: CancelSessionResponseStatus;
   created_at: string;
   updated_at: string;
-  required_actions?: CancelSessionResponseRequiredActionsList;
-  error?: CancelSessionResponseError;
+  required_actions?: CancelSessionResponseRequiredActionsList | undefined;
+  error?: CancelSessionResponseError | undefined;
 }
 export interface GetSessionRequest {
   session_id: string;
@@ -142,17 +142,17 @@ export interface GetSessionResponse {
   created_by: GetSessionResponseCreatedBy;
   agent_version: GetSessionResponseAgentVersion | null;
   models: GetSessionResponseModels;
-  required_actions?: GetSessionResponseRequiredActionsList;
-  error?: CancelSessionResponseError;
-  trigger_type?: string;
-  type_labels?: GetSessionResponseTypeLabelsList | null;
-  chat_user_emails?: GetSessionResponseChatUserEmailsList | null;
-  tool_types?: GetSessionResponseToolTypesList | null;
-  tool_call_count?: number | null;
+  required_actions?: GetSessionResponseRequiredActionsList | undefined;
+  error?: CancelSessionResponseError | undefined;
+  trigger_type?: string | undefined;
+  type_labels?: GetSessionResponseTypeLabelsList | null | undefined;
+  chat_user_emails?: GetSessionResponseChatUserEmailsList | null | undefined;
+  tool_types?: GetSessionResponseToolTypesList | null | undefined;
+  tool_call_count?: number | null | undefined;
   /** Premium AI credits this session consumed. Reported with at most two decimal places, rounded down. */
-  credits_used?: number | null;
-  runs_completed?: number | null;
-  message_count?: number | null;
+  credits_used?: number | null | undefined;
+  runs_completed?: number | null | undefined;
+  message_count?: number | null | undefined;
 }
 export type QuerySessionEventsRequestFilterCase0Property = "id";
 export interface QuerySessionEventsRequestFilterCase0String {
@@ -181,8 +181,8 @@ export type QuerySessionEventsRequestFilterCase1EventTypeInList = Array<
   QuerySessionEventsRequestFilterCase1EventTypeInItem | (string & {})
 >;
 export interface QuerySessionEventsRequestFilterCase1EventType {
-  equals?: QuerySessionEventsRequestFilterCase1EventTypeEquals | (string & {});
-  in?: QuerySessionEventsRequestFilterCase1EventTypeInList;
+  equals?: QuerySessionEventsRequestFilterCase1EventTypeEquals | (string & {}) | undefined;
+  in?: QuerySessionEventsRequestFilterCase1EventTypeInList | undefined;
 }
 export interface QuerySessionEventsRequestFilterCase1 {
   property: QuerySessionEventsRequestFilterCase1Property;
@@ -190,10 +190,10 @@ export interface QuerySessionEventsRequestFilterCase1 {
 }
 export type QuerySessionEventsRequestFilterCase2Property = "sequence";
 export interface QuerySessionEventsRequestFilterCase2Number {
-  greater_than?: number;
-  greater_than_or_equal_to?: number;
-  less_than?: number;
-  less_than_or_equal_to?: number;
+  greater_than?: number | undefined;
+  greater_than_or_equal_to?: number | undefined;
+  less_than?: number | undefined;
+  less_than_or_equal_to?: number | undefined;
 }
 export interface QuerySessionEventsRequestFilterCase2 {
   property: QuerySessionEventsRequestFilterCase2Property;
@@ -201,11 +201,11 @@ export interface QuerySessionEventsRequestFilterCase2 {
 }
 export type QuerySessionEventsRequestFilterCase3Property = "created_at";
 export interface QuerySessionEventsRequestFilterCase3Timestamp {
-  equals?: string;
-  before?: string;
-  after?: string;
-  on_or_before?: string;
-  on_or_after?: string;
+  equals?: string | undefined;
+  before?: string | undefined;
+  after?: string | undefined;
+  on_or_before?: string | undefined;
+  on_or_after?: string | undefined;
 }
 export interface QuerySessionEventsRequestFilterCase3 {
   property: QuerySessionEventsRequestFilterCase3Property;
@@ -237,8 +237,11 @@ export type QuerySessionEventsRequestFilterCase4AndItemCase1EventTypeInList = Ar
   QuerySessionEventsRequestFilterCase4AndItemCase1EventTypeInItem | (string & {})
 >;
 export interface QuerySessionEventsRequestFilterCase4AndItemCase1EventType {
-  equals?: QuerySessionEventsRequestFilterCase4AndItemCase1EventTypeEquals | (string & {});
-  in?: QuerySessionEventsRequestFilterCase4AndItemCase1EventTypeInList;
+  equals?:
+    | QuerySessionEventsRequestFilterCase4AndItemCase1EventTypeEquals
+    | (string & {})
+    | undefined;
+  in?: QuerySessionEventsRequestFilterCase4AndItemCase1EventTypeInList | undefined;
 }
 export interface QuerySessionEventsRequestFilterCase4AndItemCase1 {
   property: QuerySessionEventsRequestFilterCase4AndItemCase1Property;
@@ -286,8 +289,9 @@ export type QuerySessionEventsRequestFilterCase4AndItemCase4AndItemCase1EventTyp
 export interface QuerySessionEventsRequestFilterCase4AndItemCase4AndItemCase1EventType {
   equals?:
     | QuerySessionEventsRequestFilterCase4AndItemCase4AndItemCase1EventTypeEquals
-    | (string & {});
-  in?: QuerySessionEventsRequestFilterCase4AndItemCase4AndItemCase1EventTypeInList;
+    | (string & {})
+    | undefined;
+  in?: QuerySessionEventsRequestFilterCase4AndItemCase4AndItemCase1EventTypeInList | undefined;
 }
 export interface QuerySessionEventsRequestFilterCase4AndItemCase4AndItemCase1 {
   property: QuerySessionEventsRequestFilterCase4AndItemCase4AndItemCase1Property;
@@ -338,8 +342,11 @@ export type QuerySessionEventsRequestFilterCase4AndItemCase4AndItemCase4AndItemC
 export interface QuerySessionEventsRequestFilterCase4AndItemCase4AndItemCase4AndItemCase1EventType {
   equals?:
     | QuerySessionEventsRequestFilterCase4AndItemCase4AndItemCase4AndItemCase1EventTypeEquals
-    | (string & {});
-  in?: QuerySessionEventsRequestFilterCase4AndItemCase4AndItemCase4AndItemCase1EventTypeInList;
+    | (string & {})
+    | undefined;
+  in?:
+    | QuerySessionEventsRequestFilterCase4AndItemCase4AndItemCase4AndItemCase1EventTypeInList
+    | undefined;
 }
 export interface QuerySessionEventsRequestFilterCase4AndItemCase4AndItemCase4AndItemCase1 {
   property: QuerySessionEventsRequestFilterCase4AndItemCase4AndItemCase4AndItemCase1Property;
@@ -402,8 +409,11 @@ export type QuerySessionEventsRequestFilterCase4AndItemCase4AndItemCase5OrItemCa
 export interface QuerySessionEventsRequestFilterCase4AndItemCase4AndItemCase5OrItemCase1EventType {
   equals?:
     | QuerySessionEventsRequestFilterCase4AndItemCase4AndItemCase5OrItemCase1EventTypeEquals
-    | (string & {});
-  in?: QuerySessionEventsRequestFilterCase4AndItemCase4AndItemCase5OrItemCase1EventTypeInList;
+    | (string & {})
+    | undefined;
+  in?:
+    | QuerySessionEventsRequestFilterCase4AndItemCase4AndItemCase5OrItemCase1EventTypeInList
+    | undefined;
 }
 export interface QuerySessionEventsRequestFilterCase4AndItemCase4AndItemCase5OrItemCase1 {
   property: QuerySessionEventsRequestFilterCase4AndItemCase4AndItemCase5OrItemCase1Property;
@@ -475,8 +485,9 @@ export type QuerySessionEventsRequestFilterCase4AndItemCase5OrItemCase1EventType
 export interface QuerySessionEventsRequestFilterCase4AndItemCase5OrItemCase1EventType {
   equals?:
     | QuerySessionEventsRequestFilterCase4AndItemCase5OrItemCase1EventTypeEquals
-    | (string & {});
-  in?: QuerySessionEventsRequestFilterCase4AndItemCase5OrItemCase1EventTypeInList;
+    | (string & {})
+    | undefined;
+  in?: QuerySessionEventsRequestFilterCase4AndItemCase5OrItemCase1EventTypeInList | undefined;
 }
 export interface QuerySessionEventsRequestFilterCase4AndItemCase5OrItemCase1 {
   property: QuerySessionEventsRequestFilterCase4AndItemCase5OrItemCase1Property;
@@ -527,8 +538,11 @@ export type QuerySessionEventsRequestFilterCase4AndItemCase5OrItemCase4AndItemCa
 export interface QuerySessionEventsRequestFilterCase4AndItemCase5OrItemCase4AndItemCase1EventType {
   equals?:
     | QuerySessionEventsRequestFilterCase4AndItemCase5OrItemCase4AndItemCase1EventTypeEquals
-    | (string & {});
-  in?: QuerySessionEventsRequestFilterCase4AndItemCase5OrItemCase4AndItemCase1EventTypeInList;
+    | (string & {})
+    | undefined;
+  in?:
+    | QuerySessionEventsRequestFilterCase4AndItemCase5OrItemCase4AndItemCase1EventTypeInList
+    | undefined;
 }
 export interface QuerySessionEventsRequestFilterCase4AndItemCase5OrItemCase4AndItemCase1 {
   property: QuerySessionEventsRequestFilterCase4AndItemCase5OrItemCase4AndItemCase1Property;
@@ -590,8 +604,11 @@ export type QuerySessionEventsRequestFilterCase4AndItemCase5OrItemCase5OrItemCas
 export interface QuerySessionEventsRequestFilterCase4AndItemCase5OrItemCase5OrItemCase1EventType {
   equals?:
     | QuerySessionEventsRequestFilterCase4AndItemCase5OrItemCase5OrItemCase1EventTypeEquals
-    | (string & {});
-  in?: QuerySessionEventsRequestFilterCase4AndItemCase5OrItemCase5OrItemCase1EventTypeInList;
+    | (string & {})
+    | undefined;
+  in?:
+    | QuerySessionEventsRequestFilterCase4AndItemCase5OrItemCase5OrItemCase1EventTypeInList
+    | undefined;
 }
 export interface QuerySessionEventsRequestFilterCase4AndItemCase5OrItemCase5OrItemCase1 {
   property: QuerySessionEventsRequestFilterCase4AndItemCase5OrItemCase5OrItemCase1Property;
@@ -673,8 +690,11 @@ export type QuerySessionEventsRequestFilterCase5OrItemCase1EventTypeInList = Arr
   QuerySessionEventsRequestFilterCase5OrItemCase1EventTypeInItem | (string & {})
 >;
 export interface QuerySessionEventsRequestFilterCase5OrItemCase1EventType {
-  equals?: QuerySessionEventsRequestFilterCase5OrItemCase1EventTypeEquals | (string & {});
-  in?: QuerySessionEventsRequestFilterCase5OrItemCase1EventTypeInList;
+  equals?:
+    | QuerySessionEventsRequestFilterCase5OrItemCase1EventTypeEquals
+    | (string & {})
+    | undefined;
+  in?: QuerySessionEventsRequestFilterCase5OrItemCase1EventTypeInList | undefined;
 }
 export interface QuerySessionEventsRequestFilterCase5OrItemCase1 {
   property: QuerySessionEventsRequestFilterCase5OrItemCase1Property;
@@ -722,8 +742,9 @@ export type QuerySessionEventsRequestFilterCase5OrItemCase4AndItemCase1EventType
 export interface QuerySessionEventsRequestFilterCase5OrItemCase4AndItemCase1EventType {
   equals?:
     | QuerySessionEventsRequestFilterCase5OrItemCase4AndItemCase1EventTypeEquals
-    | (string & {});
-  in?: QuerySessionEventsRequestFilterCase5OrItemCase4AndItemCase1EventTypeInList;
+    | (string & {})
+    | undefined;
+  in?: QuerySessionEventsRequestFilterCase5OrItemCase4AndItemCase1EventTypeInList | undefined;
 }
 export interface QuerySessionEventsRequestFilterCase5OrItemCase4AndItemCase1 {
   property: QuerySessionEventsRequestFilterCase5OrItemCase4AndItemCase1Property;
@@ -774,8 +795,11 @@ export type QuerySessionEventsRequestFilterCase5OrItemCase4AndItemCase4AndItemCa
 export interface QuerySessionEventsRequestFilterCase5OrItemCase4AndItemCase4AndItemCase1EventType {
   equals?:
     | QuerySessionEventsRequestFilterCase5OrItemCase4AndItemCase4AndItemCase1EventTypeEquals
-    | (string & {});
-  in?: QuerySessionEventsRequestFilterCase5OrItemCase4AndItemCase4AndItemCase1EventTypeInList;
+    | (string & {})
+    | undefined;
+  in?:
+    | QuerySessionEventsRequestFilterCase5OrItemCase4AndItemCase4AndItemCase1EventTypeInList
+    | undefined;
 }
 export interface QuerySessionEventsRequestFilterCase5OrItemCase4AndItemCase4AndItemCase1 {
   property: QuerySessionEventsRequestFilterCase5OrItemCase4AndItemCase4AndItemCase1Property;
@@ -837,8 +861,11 @@ export type QuerySessionEventsRequestFilterCase5OrItemCase4AndItemCase5OrItemCas
 export interface QuerySessionEventsRequestFilterCase5OrItemCase4AndItemCase5OrItemCase1EventType {
   equals?:
     | QuerySessionEventsRequestFilterCase5OrItemCase4AndItemCase5OrItemCase1EventTypeEquals
-    | (string & {});
-  in?: QuerySessionEventsRequestFilterCase5OrItemCase4AndItemCase5OrItemCase1EventTypeInList;
+    | (string & {})
+    | undefined;
+  in?:
+    | QuerySessionEventsRequestFilterCase5OrItemCase4AndItemCase5OrItemCase1EventTypeInList
+    | undefined;
 }
 export interface QuerySessionEventsRequestFilterCase5OrItemCase4AndItemCase5OrItemCase1 {
   property: QuerySessionEventsRequestFilterCase5OrItemCase4AndItemCase5OrItemCase1Property;
@@ -910,8 +937,9 @@ export type QuerySessionEventsRequestFilterCase5OrItemCase5OrItemCase1EventTypeI
 export interface QuerySessionEventsRequestFilterCase5OrItemCase5OrItemCase1EventType {
   equals?:
     | QuerySessionEventsRequestFilterCase5OrItemCase5OrItemCase1EventTypeEquals
-    | (string & {});
-  in?: QuerySessionEventsRequestFilterCase5OrItemCase5OrItemCase1EventTypeInList;
+    | (string & {})
+    | undefined;
+  in?: QuerySessionEventsRequestFilterCase5OrItemCase5OrItemCase1EventTypeInList | undefined;
 }
 export interface QuerySessionEventsRequestFilterCase5OrItemCase5OrItemCase1 {
   property: QuerySessionEventsRequestFilterCase5OrItemCase5OrItemCase1Property;
@@ -961,8 +989,11 @@ export type QuerySessionEventsRequestFilterCase5OrItemCase5OrItemCase4AndItemCas
 export interface QuerySessionEventsRequestFilterCase5OrItemCase5OrItemCase4AndItemCase1EventType {
   equals?:
     | QuerySessionEventsRequestFilterCase5OrItemCase5OrItemCase4AndItemCase1EventTypeEquals
-    | (string & {});
-  in?: QuerySessionEventsRequestFilterCase5OrItemCase5OrItemCase4AndItemCase1EventTypeInList;
+    | (string & {})
+    | undefined;
+  in?:
+    | QuerySessionEventsRequestFilterCase5OrItemCase5OrItemCase4AndItemCase1EventTypeInList
+    | undefined;
 }
 export interface QuerySessionEventsRequestFilterCase5OrItemCase5OrItemCase4AndItemCase1 {
   property: QuerySessionEventsRequestFilterCase5OrItemCase5OrItemCase4AndItemCase1Property;
@@ -1024,8 +1055,11 @@ export type QuerySessionEventsRequestFilterCase5OrItemCase5OrItemCase5OrItemCase
 export interface QuerySessionEventsRequestFilterCase5OrItemCase5OrItemCase5OrItemCase1EventType {
   equals?:
     | QuerySessionEventsRequestFilterCase5OrItemCase5OrItemCase5OrItemCase1EventTypeEquals
-    | (string & {});
-  in?: QuerySessionEventsRequestFilterCase5OrItemCase5OrItemCase5OrItemCase1EventTypeInList;
+    | (string & {})
+    | undefined;
+  in?:
+    | QuerySessionEventsRequestFilterCase5OrItemCase5OrItemCase5OrItemCase1EventTypeInList
+    | undefined;
 }
 export interface QuerySessionEventsRequestFilterCase5OrItemCase5OrItemCase5OrItemCase1 {
   property: QuerySessionEventsRequestFilterCase5OrItemCase5OrItemCase5OrItemCase1Property;
@@ -1104,13 +1138,13 @@ export type QuerySessionEventsRequestSortsList = Array<QuerySessionEventsRequest
 export interface QuerySessionEventsRequest {
   session_id: string;
   /** A session event property filter, or an and/or compound filter nested up to three levels deep. */
-  filter?: QuerySessionEventsRequestFilter;
+  filter?: QuerySessionEventsRequestFilter | undefined;
   /** Ordered sort precedence. Defaults to sequence ascending. */
-  sorts?: QuerySessionEventsRequestSortsList;
+  sorts?: QuerySessionEventsRequestSortsList | undefined;
   /** The continuation cursor returned by the previous page. */
-  start_cursor?: string;
+  start_cursor?: string | undefined;
   /** The number of events to return. Maximum: 100. */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export interface QuerySessionEventsResponseResultsItemCase0ContentItemCase0 {
   /** Always `text` */
@@ -1123,7 +1157,7 @@ export interface QuerySessionEventsResponseResultsItemCase0ContentItemCase1 {
   name: string;
   content_type: string;
   url: string;
-  expiry_time?: string;
+  expiry_time?: string | undefined;
 }
 export type QuerySessionEventsResponseResultsItemCase0ContentItem =
   | QuerySessionEventsResponseResultsItemCase0ContentItemCase0
@@ -1261,8 +1295,8 @@ export interface QuerySessionEventsResponseResultsItemCase5 {
   type: string;
   /** One of: `requires_action`, `completed`, `failed`, `canceled`, `terminated` */
   status: QuerySessionEventsResponseResultsItemCase5Status;
-  required_actions?: QuerySessionEventsResponseResultsItemCase5RequiredActionsList;
-  error?: CancelSessionResponseError;
+  required_actions?: QuerySessionEventsResponseResultsItemCase5RequiredActionsList | undefined;
+  error?: CancelSessionResponseError | undefined;
 }
 export type QuerySessionEventsResponseResultsItem =
   | QuerySessionEventsResponseResultsItemCase0
@@ -1331,9 +1365,9 @@ export type SessionStatusFilterStatusInList = Array<
 /** A session status comparison. */
 export interface SessionStatusFilterStatus {
   /** Return sessions with this status. */
-  equals?: SessionStatusFilterStatusEquals | (string & {});
+  equals?: SessionStatusFilterStatusEquals | (string & {}) | undefined;
   /** Return sessions with any of these statuses. */
-  in?: SessionStatusFilterStatusInList;
+  in?: SessionStatusFilterStatusInList | undefined;
 }
 export interface SessionStatusFilter {
   /** Filter sessions by status. */
@@ -1346,13 +1380,13 @@ export type SessionTimestampFilterProperty = "created_at" | "updated_at";
 /** A timestamp range. */
 export interface SessionTimestampFilterTimestamp {
   /** Return sessions before this time. */
-  before?: string;
+  before?: string | undefined;
   /** Return sessions after this time. */
-  after?: string;
+  after?: string | undefined;
   /** Return sessions at or before this time. */
-  on_or_before?: string;
+  on_or_before?: string | undefined;
   /** Return sessions at or after this time. */
-  on_or_after?: string;
+  on_or_after?: string | undefined;
 }
 export interface SessionTimestampFilter {
   /** The session timestamp to compare. */
@@ -1423,15 +1457,15 @@ export interface QuerySessionsRequestSortsItem {
 export type QuerySessionsRequestSortsList = Array<QuerySessionsRequestSortsItem>;
 export interface QuerySessionsRequest {
   /** A case-insensitive substring search over session titles. */
-  query?: string;
+  query?: string | undefined;
   /** A session property filter, or an and/or compound filter nested up to two levels deep. */
-  filter?: QuerySessionsRequestFilter;
+  filter?: QuerySessionsRequestFilter | undefined;
   /** Ordered sort precedence. Defaults to updated_at descending. */
-  sorts?: QuerySessionsRequestSortsList;
+  sorts?: QuerySessionsRequestSortsList | undefined;
   /** The continuation cursor returned by the previous page. */
-  start_cursor?: string;
+  start_cursor?: string | undefined;
   /** The number of sessions to return. Maximum: 100. */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 /** One of: `queued`, `in_progress`, `requires_action`, `completed`, `failed`, `canceled`, `terminated` */
 export type QuerySessionsResponseResultsItemStatus =
@@ -1493,17 +1527,17 @@ export interface QuerySessionsResponseResultsItem {
   models: QuerySessionsResponseResultsItemModels;
   created_at: string;
   updated_at: string;
-  required_actions?: QuerySessionsResponseResultsItemRequiredActionsList;
-  error?: CancelSessionResponseError;
-  trigger_type?: string;
-  type_labels?: QuerySessionsResponseResultsItemTypeLabelsList | null;
-  chat_user_emails?: QuerySessionsResponseResultsItemChatUserEmailsList | null;
-  tool_types?: QuerySessionsResponseResultsItemToolTypesList | null;
-  tool_call_count?: number | null;
+  required_actions?: QuerySessionsResponseResultsItemRequiredActionsList | undefined;
+  error?: CancelSessionResponseError | undefined;
+  trigger_type?: string | undefined;
+  type_labels?: QuerySessionsResponseResultsItemTypeLabelsList | null | undefined;
+  chat_user_emails?: QuerySessionsResponseResultsItemChatUserEmailsList | null | undefined;
+  tool_types?: QuerySessionsResponseResultsItemToolTypesList | null | undefined;
+  tool_call_count?: number | null | undefined;
   /** Premium AI credits this session consumed. Reported with at most two decimal places, rounded down. */
-  credits_used?: number | null;
-  runs_completed?: number | null;
-  message_count?: number | null;
+  credits_used?: number | null | undefined;
+  runs_completed?: number | null | undefined;
+  message_count?: number | null | undefined;
 }
 /** Sessions found in this bounded scan. Access filtering can leave this array empty while has_more is true. */
 export type QuerySessionsResponseResultsList = Array<QuerySessionsResponseResultsItem>;
@@ -1526,8 +1560,8 @@ export interface UpdateSessionRequestBodyCase0AttachmentsItemFileUpload {
 export interface UpdateSessionRequestBodyCase0AttachmentsItem {
   file_upload: UpdateSessionRequestBodyCase0AttachmentsItemFileUpload;
   /** Always `file_upload` */
-  type?: string;
-  name?: string;
+  type?: string | undefined;
+  name?: string | undefined;
 }
 export type UpdateSessionRequestBodyCase0AttachmentsList =
   Array<UpdateSessionRequestBodyCase0AttachmentsItem>;
@@ -1535,12 +1569,12 @@ export type UpdateSessionRequestBodyCase0MetadataMap = { [key: string]: string |
 export interface UpdateSessionRequestBodyCase0 {
   message: string;
   /** The agent to start a session with: a custom agent ID, or `notion_ai` for the personal agent with a personal access token. Required when `session_id` is omitted. */
-  agent_id?: string;
+  agent_id?: string | undefined;
   /** An existing session to send this message to. Omit it to start a new session. */
-  session_id?: string;
-  attachments?: UpdateSessionRequestBodyCase0AttachmentsList;
-  metadata?: UpdateSessionRequestBodyCase0MetadataMap;
-  prompt_context?: string;
+  session_id?: string | undefined;
+  attachments?: UpdateSessionRequestBodyCase0AttachmentsList | undefined;
+  metadata?: UpdateSessionRequestBodyCase0MetadataMap | undefined;
+  prompt_context?: string | undefined;
 }
 /** One of: `approve`, `reject` */
 export type UpdateSessionRequestBodyCase1ActionsItemOptionId = "approve" | "reject";
@@ -1555,7 +1589,7 @@ export type UpdateSessionRequestBodyCase1MetadataMap = { [key: string]: string |
 export interface UpdateSessionRequestBodyCase1 {
   session_id: string;
   actions: UpdateSessionRequestBodyCase1ActionsList;
-  metadata?: UpdateSessionRequestBodyCase1MetadataMap;
+  metadata?: UpdateSessionRequestBodyCase1MetadataMap | undefined;
 }
 export interface UpdateSessionRequestBodyCase2 {
   session_id: string;
@@ -1605,8 +1639,8 @@ export interface UpdateSessionResponse {
   status: UpdateSessionResponseStatus;
   created_at: string;
   updated_at: string;
-  required_actions?: UpdateSessionResponseRequiredActionsList;
-  error?: CancelSessionResponseError;
+  required_actions?: UpdateSessionResponseRequiredActionsList | undefined;
+  error?: CancelSessionResponseError | undefined;
 }
 export type CancelSessionError = NotionOpError;
 /** Cancel a session */

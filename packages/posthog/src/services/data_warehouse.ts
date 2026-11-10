@@ -67,7 +67,7 @@ export interface CreateDataWarehouseHoglakeCredentialsRequest {
   /** read lists and reads tables; write can also commit to them. * `read` - Read * `write` - Read & write */
   scope: HoglakeCredentialScopeEnum | (string & {});
   /** Lifetime in seconds, from one hour to a year. Defaults to 90 days. */
-  ttl_seconds?: number;
+  ttl_seconds?: number | undefined;
 }
 export interface HoglakeCredentialIssued {
   /** The OAuth client_id, hlc_... */
@@ -78,7 +78,7 @@ export interface HoglakeCredentialIssued {
   scope: string;
   expires_at: string;
   /** org or team */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** The projects this credential reaches, each one you can see. Its tokens get your current access on each, so losing a project's access takes it out of the next token. */
 export type CreateDataWarehouseMyHoglakeCredentialsRequestTeamIdsList = Array<number>;
@@ -90,7 +90,7 @@ export interface CreateDataWarehouseMyHoglakeCredentialsRequest {
   /** read lists and reads tables; write can also commit to them. * `read` - Read * `write` - Read & write */
   scope: HoglakeCredentialScopeEnum | (string & {});
   /** Lifetime in seconds, from one hour to a year. Defaults to 90 days. */
-  ttl_seconds?: number;
+  ttl_seconds?: number | undefined;
   /** The projects this credential reaches, each one you can see. Its tokens get your current access on each, so losing a project's access takes it out of the next token. */
   team_ids: CreateDataWarehouseMyHoglakeCredentialsRequestTeamIdsList;
 }
@@ -153,9 +153,9 @@ export interface DeleteDataWarehouseOrgDestroyRequest {
 }
 export interface DeleteWarehouseOrgResponse {
   /** Deletion lifecycle message from the provisioner */
-  status?: string;
+  status?: string | undefined;
   /** duckgres org identifier (the PostHog organization id) */
-  org?: string;
+  org?: string | undefined;
 }
 export interface GetDataWarehouseCheckDatabaseNameRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -185,15 +185,15 @@ export interface GetDataWarehouseCompletedActivityRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Only include runs created within this many days of now. Defaults to 30. */
-  cutoff_days?: number;
+  cutoff_days?: number | undefined;
   /** Which runs to return: 'import' for warehouse source syncs, 'model' for materialized view runs, 'all' for both. Defaults to 'all'. * `all` - all * `import` - import * `model` - model */
-  kind?: GetDataWarehouseCompletedActivityRequestKind | (string & {});
+  kind?: GetDataWarehouseCompletedActivityRequestKind | (string & {}) | undefined;
   /** Max rows to return. Capped at 50 server-side. Defaults to 20. */
-  limit?: number;
+  limit?: number | undefined;
   /** Rows to skip, for pagination. Defaults to 0. */
-  offset?: number;
+  offset?: number | undefined;
   /** Which outcome to return: 'completed', 'failed', or 'all' for every run that finished either way. Defaults to 'completed'. Running jobs come from `running_activity` instead. * `completed` - completed * `failed` - failed * `all` - all */
-  outcome?: GetDataWarehouseCompletedActivityRequestOutcome | (string & {});
+  outcome?: GetDataWarehouseCompletedActivityRequestOutcome | (string & {}) | undefined;
 }
 export interface PipelineActivityRow {
   /** Run id. */
@@ -217,7 +217,7 @@ export interface PipelineActivityRow {
   /** Where a materialized view came from. Null for syncs. */
   origin: string | null;
   /** Id of the source the run belongs to, for linking to it. Null for model runs. */
-  source_id?: string | null;
+  source_id?: string | null | undefined;
 }
 /** Runs, newest first. */
 export type PipelineActivityResponseResultsList = Array<PipelineActivityRow>;
@@ -241,9 +241,9 @@ export interface DataHealthIssue {
   /** What kind of thing is unhealthy. One of: materialized_view, external_data_sync, source, destination, transformation. */
   type: string;
   /** Source type for a sync issue, for example 'Stripe'. */
-  source_type?: string | null;
+  source_type?: string | null | undefined;
   /** How a sync issue's table is kept up to date, for example 'incremental' or 'webhook'. A webhook table is pushed to rather than pulled on a schedule. Null for other types. */
-  sync_type?: string | null;
+  sync_type?: string | null | undefined;
   /** Why it is unhealthy. One of: failed, disabled, degraded, billing_limit. */
   status: string;
   /** The error, where one was recorded. */
@@ -288,29 +288,29 @@ export interface HoglakeCredential {
   /** read or write */
   scope: string;
   /** org: reaches the whole catalog. team: a member's personal credential, limited to the projects in team_ids that its owner can still see. */
-  kind?: string;
+  kind?: string | undefined;
   /** A personal credential's owner */
-  owner_user_uuid?: string;
+  owner_user_uuid?: string | undefined;
   /** The owner's email, while they are a member */
-  owner_email?: string;
+  owner_email?: string | undefined;
   /** The owner's name, while they are a member */
-  owner_name?: string;
+  owner_name?: string | undefined;
   /** A personal credential's projects */
-  team_ids?: HoglakeCredentialTeamIdsList;
+  team_ids?: HoglakeCredentialTeamIdsList | undefined;
   created_at: string;
   last_rotated_at: string;
   expires_at: string;
   /** Set once revoked */
-  revoked_at?: string | null;
+  revoked_at?: string | null | undefined;
 }
 export type HoglakeCredentialListResponseHoglakeCredentialsList = Array<HoglakeCredential>;
 export interface HoglakeConnect {
   /** The hoglake catalog (warehouse) these credentials reach */
   catalog: string;
   /** Hoglake's public REST catalog URL */
-  hoglake_url?: string;
+  hoglake_url?: string | undefined;
   /** OAuth token endpoint (client_credentials grant) */
-  token_url?: string;
+  token_url?: string | undefined;
 }
 export interface HoglakeCredentialListResponse {
   hoglake_credentials: HoglakeCredentialListResponseHoglakeCredentialsList;
@@ -321,7 +321,7 @@ export interface GetDataWarehouseJobStatRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Window the counts should cover, in days. One of 1, 7 or 30. Defaults to 7. * `1` - 1 * `7` - 7 * `30` - 30 */
-  days?: GetDataWarehouseJobStatRequestDays | (number & {});
+  days?: GetDataWarehouseJobStatRequestDays | (number & {}) | undefined;
 }
 export interface JobCounts {
   /** Runs that finished inside the window. */
@@ -499,7 +499,7 @@ export interface ManagedWarehouseMonitoringWorker {
   /** UTC timestamp of the worker's latest heartbeat. */
   last_heartbeat_at: string;
   /** Sanitized live session assigned to the worker, when one exists. */
-  session?: ManagedWarehouseMonitoringWorkerSession | null;
+  session?: ManagedWarehouseMonitoringWorkerSession | null | undefined;
 }
 /** Current non-terminal workers with tenant-safe runtime details. */
 export type ManagedWarehouseMonitoringSnapshotResponseWorkersList =
@@ -552,7 +552,10 @@ export interface GetDataWarehouseManagedWarehouseMonitoringTimeseriesRequest {
   /** Allow-listed managed warehouse metric to retrieve. * `query_rate` - query_rate * `error_ratio` - error_ratio * `duration_p50` - duration_p50 * `duration_p95` - duration_p95 * `sessions_active` - sessions_active * `acquire_p95` - acquire_p95 * `acquire_by_source` - acquire_by_source * `storage_bytes` - storage_bytes * `worker_crash_rate` - worker_crash_rate */
   metric: GetDataWarehouseManagedWarehouseMonitoringTimeseriesRequestMetric | (string & {});
   /** Trailing time window to retrieve. Defaults to 24h. * `1h` - 1h * `6h` - 6h * `24h` - 24h * `7d` - 7d * `30d` - 30d */
-  window?: GetDataWarehouseManagedWarehouseMonitoringTimeseriesRequestWindow | (string & {});
+  window?:
+    | GetDataWarehouseManagedWarehouseMonitoringTimeseriesRequestWindow
+    | (string & {})
+    | undefined;
 }
 /** Allow-listed labels distinguishing this series, such as query outcome or acquisition source. */
 export type ManagedWarehouseMonitoringSeriesLabelsMap = { [key: string]: string | undefined };
@@ -743,7 +746,10 @@ export interface GetDataWarehouseManagedWarehouseTrinoMonitoringTimeseriesReques
   /** Allow-listed Trino metric to retrieve. * `queries_in_flight` - queries_in_flight * `query_rate` - query_rate * `error_ratio` - error_ratio * `duration_p50` - duration_p50 * `duration_p95` - duration_p95 * `queue_time_p95` - queue_time_p95 * `scanned_bytes_rate` - scanned_bytes_rate * `cpu_seconds_rate` - cpu_seconds_rate * `storage_bytes` - storage_bytes */
   metric: GetDataWarehouseManagedWarehouseTrinoMonitoringTimeseriesRequestMetric | (string & {});
   /** Trailing time window to retrieve. Defaults to 24h. * `1h` - 1h * `6h` - 6h * `24h` - 24h * `7d` - 7d * `30d` - 30d */
-  window?: GetDataWarehouseManagedWarehouseTrinoMonitoringTimeseriesRequestWindow | (string & {});
+  window?:
+    | GetDataWarehouseManagedWarehouseTrinoMonitoringTimeseriesRequestWindow
+    | (string & {})
+    | undefined;
 }
 export interface GetDataWarehouseMyHoglakeCredentialsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -774,13 +780,13 @@ export interface GetDataWarehouseRunningActivityRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Only include runs created within this many days of now. Defaults to 30. */
-  cutoff_days?: number;
+  cutoff_days?: number | undefined;
   /** Which runs to return: 'import' for warehouse source syncs, 'model' for materialized view runs, 'all' for both. Defaults to 'all'. * `all` - all * `import` - import * `model` - model */
-  kind?: GetDataWarehouseRunningActivityRequestKind | (string & {});
+  kind?: GetDataWarehouseRunningActivityRequestKind | (string & {}) | undefined;
   /** Max rows to return. Capped at 50 server-side. Defaults to 20. */
-  limit?: number;
+  limit?: number | undefined;
   /** Rows to skip, for pagination. Defaults to 0. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface GetDataWarehouseTotalRowsStatRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -878,9 +884,9 @@ export interface WarehouseStatusResponse {
   /** When provisioning failed */
   failed_at: string | null;
   /** Postgres connection target. Null for organizations on the Trino Data ops variant. */
-  connection?: WarehouseConnection | null;
+  connection?: WarehouseConnection | null | undefined;
   /** Trino status for organizations on the Trino Data ops variant, once the warehouse is ready. Null otherwise. */
-  trino?: WarehouseTrinoStatus | null;
+  trino?: WarehouseTrinoStatus | null | undefined;
   /** Whether this project already has a warehouse backfill configured. When true, its table name is fixed and the enable form should not be shown. */
   has_backfill: boolean;
   /** This project's per-environment table suffix (events_<suffix>). Null when the project still writes to the shared tables. */
@@ -894,7 +900,7 @@ export interface UpdateDataWarehouseDataQualityGatePartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** When true, a materialization whose error-severity checks fail is not published; the previous version keeps serving and downstream models are skipped. */
-  gate_materialization_on_checks?: boolean;
+  gate_materialization_on_checks?: boolean | undefined;
 }
 export type CreateDataWarehouseDeprovisionError = PosthogOpError;
 /** Start deprovisioning the organization's managed warehouse. Restricted to organization admins. */

@@ -100,37 +100,37 @@ export class NotFound
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Gmailpostmastertools_Date {
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
+  year?: number | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
+  month?: number | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
+  day?: number | undefined;
 }
 /** A single date range defined by a start and end date. */
 export interface DateRange {
   /** Required. The inclusive start date of the date range. */
-  start?: Gmailpostmastertools_Date;
+  start?: Gmailpostmastertools_Date | undefined;
   /** Required. The inclusive end date of the date range. */
-  end?: Gmailpostmastertools_Date;
+  end?: Gmailpostmastertools_Date | undefined;
 }
 export type DateRangeList = Array<DateRange>;
 /** A set of date ranges. */
 export interface DateRanges {
   /** Required. The list of date ranges for which to retrieve data. */
-  dateRanges?: DateRangeList;
+  dateRanges?: DateRangeList | undefined;
 }
 export type Gmailpostmastertools_DateList = Array<Gmailpostmastertools_Date>;
 /** A set of specific dates. */
 export interface DateList {
   /** Required. The list of specific dates for which to retrieve data. */
-  dates?: Gmailpostmastertools_DateList;
+  dates?: Gmailpostmastertools_DateList | undefined;
 }
 /** The date ranges or specific dates for which you want to retrieve data. */
 export interface TimeQuery {
   /** A list of date ranges. */
-  dateRanges?: DateRanges;
+  dateRanges?: DateRanges | undefined;
   /** A list of specific dates. */
-  dateList?: DateList;
+  dateList?: DateList | undefined;
 }
 export type BaseMetricStandardMetricEnum =
   | "STANDARD_METRIC_UNSPECIFIED"
@@ -145,16 +145,16 @@ export type BaseMetricStandardMetricEnum =
 /** Specifies the base metric to query, which can be a predefined standard metric or a user-defined custom metric (if supported in the future). */
 export interface BaseMetric {
   /** A predefined standard metric. */
-  standardMetric?: BaseMetricStandardMetricEnum | (string & {});
+  standardMetric?: BaseMetricStandardMetricEnum | (string & {}) | undefined;
 }
 /** Defines a specific metric to query, including a user-defined name, the base metric type, and optional filters. */
 export interface MetricDefinition {
   /** Required. The underlying metric to query. */
-  baseMetric?: BaseMetric;
+  baseMetric?: BaseMetric | undefined;
   /** Required. The user-defined name for this metric. This name will be used as the key for this metric's value in the response. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Optional filters to apply to the metric. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type MetricDefinitionList = Array<MetricDefinition>;
 export type QueryDomainStatsRequestAggregationGranularityEnum =
@@ -164,98 +164,101 @@ export type QueryDomainStatsRequestAggregationGranularityEnum =
 /** Request message for QueryDomainStats. */
 export interface QueryDomainStatsRequest {
   /** Required. The time range or specific dates for which to retrieve the metrics. */
-  timeQuery?: TimeQuery;
+  timeQuery?: TimeQuery | undefined;
   /** Required. The specific metrics to query. You can define a custom name for each metric, which will be used in the response. */
-  metricDefinitions?: MetricDefinitionList;
+  metricDefinitions?: MetricDefinitionList | undefined;
   /** Optional. The maximum number of DomainStats resources to return in the response. The server may return fewer than this value. If unspecified, a default value of 10 will be used. The maximum value is 200. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The granularity at which to aggregate the statistics. If unspecified, defaults to DAILY. */
-  aggregationGranularity?: QueryDomainStatsRequestAggregationGranularityEnum | (string & {});
+  aggregationGranularity?:
+    | QueryDomainStatsRequestAggregationGranularityEnum
+    | (string & {})
+    | undefined;
   /** Required. The parent resource name where the stats are queried. Format: domains/{domain} */
-  parent?: string;
+  parent?: string | undefined;
   /** Optional. The next_page_token value returned from a previous List request, if any. If the aggregation granularity is DAILY, the page token will be the encoded date + "/" + metric name. If the aggregation granularity is OVERALL, the page token will be the encoded metric name. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type QueryDomainStatsRequestList = Array<QueryDomainStatsRequest>;
 /** Request message for BatchQueryDomainStats. */
 export interface BatchQueryDomainStatsRequest {
   /** Required. A list of individual query requests. Each request can be for a different domain. A maximum of 100 requests can be included in a single batch. */
-  requests?: QueryDomainStatsRequestList;
+  requests?: QueryDomainStatsRequestList | undefined;
 }
 export interface BatchQueryDomainStatsRequest_ {
   /** Request body */
-  body?: BatchQueryDomainStatsRequest;
+  body?: BatchQueryDomainStatsRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
 }
 export type StringList_ = Array<string>;
 /** Represents a list of strings. */
 export interface StringList {
   /** The string values. */
-  values?: StringList_;
+  values?: StringList_ | undefined;
 }
 /** The actual value of a statistic. */
 export interface StatisticValue {
   /** Float value. */
-  floatValue?: number;
+  floatValue?: number | undefined;
   /** Integer value. */
-  intValue?: string;
+  intValue?: string | undefined;
   /** String value. */
-  stringValue?: string;
+  stringValue?: string | undefined;
   /** Double value. */
-  doubleValue?: number;
+  doubleValue?: number | undefined;
   /** List of string values. */
-  stringList?: StringList;
+  stringList?: StringList | undefined;
 }
 /** Email statistics for a domain for a specified time period or date. */
 export interface DomainStat {
   /** The user-defined name from MetricDefinition.name in the request, used to correlate this result with the requested metric. */
-  metric?: string;
+  metric?: string | undefined;
   /** The value of the corresponding metric. */
-  value?: StatisticValue;
+  value?: StatisticValue | undefined;
   /** Optional. The specific date for these stats, if granularity is DAILY. This field is populated if the QueryDomainStatsRequest specified a DAILY aggregation granularity. */
-  date?: Gmailpostmastertools_Date;
+  date?: Gmailpostmastertools_Date | undefined;
   /** Output only. The resource name of the DomainStat resource. Format: domains/{domain}/domainStats/{domain_stat} The `{domain_stat}` segment is an opaque, server-generated ID. We recommend using the `metric` field to identify queried metrics instead of parsing the name. */
-  name?: string;
+  name?: string | undefined;
 }
 export type DomainStatList = Array<DomainStat>;
 /** Response message for QueryDomainStats. */
 export interface QueryDomainStatsResponse {
   /** The list of domain statistics. Each DomainStat object contains the value for a metric requested in the QueryDomainStatsRequest. */
-  domainStats?: DomainStatList;
+  domainStats?: DomainStatList | undefined;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 /** Represents the result of a single QueryDomainStatsRequest within a batch. */
 export interface BatchQueryDomainStatsResult {
   /** The error status if the individual query failed. */
-  error?: Status;
+  error?: Status | undefined;
   /** The successful response for the individual query. */
-  response?: QueryDomainStatsResponse;
+  response?: QueryDomainStatsResponse | undefined;
 }
 export type BatchQueryDomainStatsResultList = Array<BatchQueryDomainStatsResult>;
 /** Response message for BatchQueryDomainStats. */
 export interface BatchQueryDomainStatsResponse {
   /** A list of responses, one for each query in the BatchQueryDomainStatsRequest. The order of responses will correspond to the order of requests. */
-  results?: BatchQueryDomainStatsResultList;
+  results?: BatchQueryDomainStatsResultList | undefined;
 }
 /** [Developer Preview](https://developers.google.com/workspace/preview): Request message for CreateDomain. */
 export interface CreateDomainRequest {
   /** Required. The domain to add. e.g., "example.com" */
-  domainId?: string;
+  domainId?: string | undefined;
 }
 export interface CreateDomainsRequest {
   /** Request body */
-  body?: CreateDomainRequest;
+  body?: CreateDomainRequest | undefined;
 }
 export type DomainPermissionEnum = "PERMISSION_UNSPECIFIED" | "READER" | "ADMIN" | "OWNER" | "NONE";
 export type DomainVerificationStateEnum =
@@ -265,15 +268,15 @@ export type DomainVerificationStateEnum =
 /** Information about a domain registered by the user. */
 export interface Domain {
   /** Output only. User's permission of this domain. */
-  permission?: DomainPermissionEnum;
+  permission?: DomainPermissionEnum | undefined;
   /** Identifier. The resource name of the domain. Format: `domains/{domain_name}`, where domain_name is the fully qualified domain name (i.e., mymail.mydomain.com). */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Information about a user's verification history and properties for the domain. */
-  verificationState?: DomainVerificationStateEnum;
+  verificationState?: DomainVerificationStateEnum | undefined;
   /** The timestamp at which the domain was last verified by the user. */
-  lastVerifyTime?: string;
+  lastVerifyTime?: string | undefined;
   /** Output only. Immutable. The timestamp at which the domain was added to the user's account. */
-  createTime?: string;
+  createTime?: string | undefined;
 }
 export type CreateUserRequestPermissionEnum =
   | "PERMISSION_UNSPECIFIED"
@@ -284,29 +287,29 @@ export type CreateUserRequestPermissionEnum =
 /** [Developer Preview](https://developers.google.com/workspace/preview): Request message for CreateUser. */
 export interface CreateUserRequest {
   /** Optional. Specifies the permission level to give the user for the specified domain. If not specified, the default value for this field is READER. */
-  permission?: CreateUserRequestPermissionEnum | (string & {});
+  permission?: CreateUserRequestPermissionEnum | (string & {}) | undefined;
   /** Required. The user to create. */
-  userId?: string;
+  userId?: string | undefined;
 }
 export interface CreateDomainsUsersRequest {
   /** Required. The parent resource where this user will be created. Format: domains/{domain} */
   parent: string;
   /** Request body */
-  body?: CreateUserRequest;
+  body?: CreateUserRequest | undefined;
 }
 export type UserPermissionEnum = "PERMISSION_UNSPECIFIED" | "READER" | "ADMIN" | "OWNER" | "NONE";
 /** [Developer Preview](https://developers.google.com/workspace/preview): Information about a user's access to a domain. */
 export interface User {
   /** Identifier. The resource name of the user. Format: users/{user} Note: {user} is the user's email address. */
-  name?: string;
+  name?: string | undefined;
   /** The permission level that the user has for the specified domain. */
-  permission?: UserPermissionEnum | (string & {});
+  permission?: UserPermissionEnum | (string & {}) | undefined;
   /** The user's email address. */
-  user?: string;
+  user?: string | undefined;
   /** Output only. The user that added the current user. */
-  accessGranter?: string;
+  accessGranter?: string | undefined;
   /** Output only. The time the user was granted access. */
-  createTime?: string;
+  createTime?: string | undefined;
 }
 export interface DeleteDomainsRequest {
   /** Required. The domain to delete. */
@@ -335,14 +338,14 @@ export type ComplianceStatusStatusEnum = "STATE_UNSPECIFIED" | "COMPLIANT" | "NE
 /** The status of a sender compliance requirement. */
 export interface ComplianceStatus {
   /** Output only. The compliance status. */
-  status?: ComplianceStatusStatusEnum;
+  status?: ComplianceStatusStatusEnum | undefined;
 }
 /** [Developer Preview](https://developers.google.com/workspace/preview): Verdict of domain deliverability status. */
 export interface DeliverabilityStatusVerdict {
   /** Output only. The specific reason for the compliance verdict. */
-  reason?: DeliverabilityStatusVerdictReasonEnum;
+  reason?: DeliverabilityStatusVerdictReasonEnum | undefined;
   /** Output only. The compliance state. */
-  state?: ComplianceStatus;
+  state?: ComplianceStatus | undefined;
 }
 export type OneClickUnsubscribeVerdictReasonEnum =
   | "REASON_UNSPECIFIED"
@@ -352,9 +355,9 @@ export type OneClickUnsubscribeVerdictReasonEnum =
 /** Compliance verdict for whether a sender meets the one-click unsubscribe compliance requirement. */
 export interface OneClickUnsubscribeVerdict {
   /** The specific reason for the compliance verdict. Must be empty if the status is compliant. */
-  reason?: OneClickUnsubscribeVerdictReasonEnum;
+  reason?: OneClickUnsubscribeVerdictReasonEnum | undefined;
   /** The compliance status. */
-  status?: ComplianceStatus;
+  status?: ComplianceStatus | undefined;
 }
 export type HonorUnsubscribeVerdictReasonEnum =
   | "REASON_UNSPECIFIED"
@@ -364,9 +367,9 @@ export type HonorUnsubscribeVerdictReasonEnum =
 /** Compliance verdict for whether a sender meets the unsubscribe honoring compliance requirement. */
 export interface HonorUnsubscribeVerdict {
   /** The specific reason for the compliance verdict. Must be empty if the status is compliant. */
-  reason?: HonorUnsubscribeVerdictReasonEnum;
+  reason?: HonorUnsubscribeVerdictReasonEnum | undefined;
   /** The compliance status. */
-  status?: ComplianceStatus;
+  status?: ComplianceStatus | undefined;
 }
 export type ComplianceRowDataRequirementEnum =
   | "COMPLIANCE_REQUIREMENT_UNSPECIFIED"
@@ -384,32 +387,32 @@ export type ComplianceRowDataRequirementEnum =
 /** Data for a single row of the compliance status table. */
 export interface ComplianceRowData {
   /** The compliance status for the requirement. */
-  status?: ComplianceStatus;
+  status?: ComplianceStatus | undefined;
   /** The compliance requirement. */
-  requirement?: ComplianceRowDataRequirementEnum;
+  requirement?: ComplianceRowDataRequirementEnum | undefined;
 }
 export type ComplianceRowDataList = Array<ComplianceRowData>;
 /** Compliance data for a given domain. */
 export interface DomainComplianceData {
   /** Output only. Deliverability status verdict. */
-  deliverabilityStatusVerdict?: DeliverabilityStatusVerdict;
+  deliverabilityStatusVerdict?: DeliverabilityStatusVerdict | undefined;
   /** One-click unsubscribe compliance verdict. */
-  oneClickUnsubscribeVerdict?: OneClickUnsubscribeVerdict;
+  oneClickUnsubscribeVerdict?: OneClickUnsubscribeVerdict | undefined;
   /** Unsubscribe honoring compliance verdict. */
-  honorUnsubscribeVerdict?: HonorUnsubscribeVerdict;
+  honorUnsubscribeVerdict?: HonorUnsubscribeVerdict | undefined;
   /** Data for each of the rows of the table. Each message contains all the data that backs a single row. */
-  rowData?: ComplianceRowDataList;
+  rowData?: ComplianceRowDataList | undefined;
   /** Domain that this data is for. */
-  domainId?: string;
+  domainId?: string | undefined;
 }
 /** Compliance status for a domain. */
 export interface DomainComplianceStatus {
   /** Compliance data calculated specifically for the subdomain in `name`. This field is only populated if the domain in `name` is a subdomain that differs from its registrable domain (e.g., `sub.example.com`), and if compliance data is available for that specific subdomain. */
-  subdomainComplianceData?: DomainComplianceData;
+  subdomainComplianceData?: DomainComplianceData | undefined;
   /** Identifier. The resource name of the domain's compliance status. Format: `domains/{domain_id}/complianceStatus`. */
-  name?: string;
+  name?: string | undefined;
   /** Compliance data for the registrable domain part of the domain in `name`. For example, if `name` is `domains/example.com/complianceStatus`, this field contains compliance data for `example.com`. */
-  complianceData?: DomainComplianceData;
+  complianceData?: DomainComplianceData | undefined;
 }
 export interface GetDomainsRequest {
   /** Required. The resource name of the domain. Format: `domains/{domain_name}`, where domain_name is the fully qualified domain name (i.e., mymail.mydomain.com). */
@@ -427,7 +430,10 @@ export interface GetVerificationTokenDomainsRequest {
   /** Required. The resource name of the verification token to retrieve. Format: `domains/{domain}/verificationToken` */
   name: string;
   /** Required. The verification method used. Must be specified, i.e. TXT or CNAME. */
-  verificationMethod?: GetVerificationTokenDomainsVerificationMethodEnum | (string & {});
+  verificationMethod?:
+    | GetVerificationTokenDomainsVerificationMethodEnum
+    | (string & {})
+    | undefined;
 }
 export type DomainVerificationTokenVerificationMethodEnum =
   | "DOMAIN_VERIFICATION_METHOD_UNSPECIFIED"
@@ -436,31 +442,31 @@ export type DomainVerificationTokenVerificationMethodEnum =
 /** [Developer Preview](https://developers.google.com/workspace/preview): The DNS token a user can use to verify ownership of a domain. */
 export interface DomainVerificationToken {
   /** The verification method used. */
-  verificationMethod?: DomainVerificationTokenVerificationMethodEnum;
+  verificationMethod?: DomainVerificationTokenVerificationMethodEnum | undefined;
   /** Identifier. The resource name of the domain verification token. Format: domains/{domain}/verificationToken */
-  name?: string;
+  name?: string | undefined;
   /** The verification token. */
-  token?: string;
+  token?: string | undefined;
 }
 export interface ListDomainsRequest {
   /** Optional. Requested page size. Server may return fewer domains than requested. If unspecified, the default value for this field is 10. The maximum value for this field is 200. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The next_page_token value returned from a previous List request, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type DomainList = Array<Domain>;
 /** Response message for ListDomains. */
 export interface ListDomainsResponse {
   /** The domains that have been registered by the user. */
-  domains?: DomainList;
+  domains?: DomainList | undefined;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListDomainsUsersRequest {
   /** Optional. Requested page size. Server may return fewer users than requested. If unspecified, the default value for this field is 10. The maximum value for this field is 200. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The next_page_token value returned from a previous List request, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent resource name for which to list users. Format: `domains/{domain}` */
   parent: string;
 }
@@ -468,23 +474,23 @@ export type UserList = Array<User>;
 /** [Developer Preview](https://developers.google.com/workspace/preview): Response message for ListUsers. */
 export interface ListUsersResponse {
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The users that have access to the domain. */
-  users?: UserList;
+  users?: UserList | undefined;
 }
 export interface PatchDomainsUsersRequest {
   /** Identifier. The resource name of the user. Format: users/{user} Note: {user} is the user's email address. */
   name: string;
   /** The list of fields to update. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: User;
+  body?: User | undefined;
 }
 export interface QueryDomainsDomainStatsRequest {
   /** Required. The parent resource name where the stats are queried. Format: domains/{domain} */
   parent: string;
   /** Request body */
-  body?: QueryDomainStatsRequest;
+  body?: QueryDomainStatsRequest | undefined;
 }
 export type VerifyDomainRequestVerificationMethodEnum =
   | "DOMAIN_VERIFICATION_METHOD_UNSPECIFIED"
@@ -493,13 +499,13 @@ export type VerifyDomainRequestVerificationMethodEnum =
 /** [Developer Preview](https://developers.google.com/workspace/preview): Request message for VerifyDomain. */
 export interface VerifyDomainRequest {
   /** Required. The verification method used. Must be specified, i.e. TXT or CNAME. */
-  verificationMethod?: VerifyDomainRequestVerificationMethodEnum | (string & {});
+  verificationMethod?: VerifyDomainRequestVerificationMethodEnum | (string & {}) | undefined;
 }
 export interface VerifyDomainsRequest {
   /** Required. The domain to verify. */
   name: string;
   /** Request body */
-  body?: VerifyDomainRequest;
+  body?: VerifyDomainRequest | undefined;
 }
 /** [Developer Preview](https://developers.google.com/workspace/preview): Response message for VerifyDomain. */
 export interface VerifyDomainResponse {}

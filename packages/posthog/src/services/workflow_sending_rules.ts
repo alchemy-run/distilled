@@ -33,31 +33,31 @@ export interface WorkflowSendingRulesOutput {
   /** The project these sending rules belong to. */
   project_id: number;
   /** The most marketing messages one person gets in the window, across all workflows and broadcasts. Set it together with marketing_frequency_cap_window_days, or set both to null to turn the cap off. Transactional messages are never capped. The recommended cap is 1 message every 2 days. */
-  marketing_frequency_cap_max_messages?: number | null;
+  marketing_frequency_cap_max_messages?: number | null | undefined;
   /** The length of the rolling frequency cap window, in days. Set it together with marketing_frequency_cap_max_messages, or set both to null to turn the cap off. */
-  marketing_frequency_cap_window_days?: number | null;
+  marketing_frequency_cap_window_days?: number | null | undefined;
   /** How many hours a marketing message over the frequency cap waits for a free slot before it is skipped. Null skips it right away. A held message sends as soon as one of the person's earlier messages leaves the window. */
-  marketing_frequency_cap_hold_hours?: number | null;
+  marketing_frequency_cap_hold_hours?: number | null | undefined;
   /** Whether tracking opens and clicks on marketing email needs the recipient's consent. 'off' follows each email step's own setting, 'opt_out' tracks unless the recipient objected, and 'opt_in' tracks only recipients who consented. Transactional email is never affected. * `off` - Off * `opt_out` - Opt Out * `opt_in` - Opt In */
-  email_tracking_consent_mode?: EmailTrackingConsentModeEnum;
+  email_tracking_consent_mode?: EmailTrackingConsentModeEnum | undefined;
   /** Capture email sends, opens, clicks and bounces as PostHog events, so they can be used in insights and funnels. These events count toward the project's event usage. */
-  capture_workflows_engagement_events?: boolean;
+  capture_workflows_engagement_events?: boolean | undefined;
 }
 export interface UpdateWorkflowSendingRulesPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Optional. The project_id from the rules being changed. The update is rejected when it does not match the current project, so a change never lands in a project the user did not look at. */
-  expected_project_id?: number;
+  expected_project_id?: number | undefined;
   /** The most marketing messages one person gets in the window, across all workflows and broadcasts. Set it together with marketing_frequency_cap_window_days, or set both to null to turn the cap off. Transactional messages are never capped. The recommended cap is 1 message every 2 days. */
-  marketing_frequency_cap_max_messages?: number | null;
+  marketing_frequency_cap_max_messages?: number | null | undefined;
   /** The length of the rolling frequency cap window, in days. Set it together with marketing_frequency_cap_max_messages, or set both to null to turn the cap off. */
-  marketing_frequency_cap_window_days?: number | null;
+  marketing_frequency_cap_window_days?: number | null | undefined;
   /** How many hours a marketing message over the frequency cap waits for a free slot before it is skipped. Null skips it right away. A held message sends as soon as one of the person's earlier messages leaves the window. */
-  marketing_frequency_cap_hold_hours?: number | null;
+  marketing_frequency_cap_hold_hours?: number | null | undefined;
   /** Whether tracking opens and clicks on marketing email needs the recipient's consent. 'off' follows each email step's own setting, 'opt_out' tracks unless the recipient objected, and 'opt_in' tracks only recipients who consented. Transactional email is never affected. * `off` - Off * `opt_out` - Opt Out * `opt_in` - Opt In */
-  email_tracking_consent_mode?: EmailTrackingConsentModeEnum | (string & {});
+  email_tracking_consent_mode?: EmailTrackingConsentModeEnum | (string & {}) | undefined;
   /** Capture email sends, opens, clicks and bounces as PostHog events, so they can be used in insights and funnels. These events count toward the project's event usage. */
-  capture_workflows_engagement_events?: boolean;
+  capture_workflows_engagement_events?: boolean | undefined;
 }
 export type GetWorkflowSendingRuleError = PosthogOpError;
 /** The project-wide rules every workflow and broadcast follows when it sends a message. */

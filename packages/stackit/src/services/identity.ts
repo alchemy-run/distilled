@@ -65,7 +65,7 @@ export interface CreateGroupRequest {
   /** Organization ID (UUID) */
   organizationId: string;
   /** A description of the group's purpose. */
-  description?: string;
+  description?: string | undefined;
   /** The display name of the group. Must start and end with a lowercase letter, German umlaut (ä, ü, ö, ß), or number, and can only contain lowercase letters, umlauts, numbers, hyphens, and underscores. */
   displayName: string;
 }
@@ -73,11 +73,11 @@ export interface CreateGroupRequest {
 export type Origin = "STACKIT" | "SCIM";
 /** Response object for group creation. */
 export interface CreateGroupResponse {
-  createdAt?: string;
-  description?: string;
-  displayName?: string;
-  id?: string;
-  origin?: Origin;
+  createdAt?: string | undefined;
+  description?: string | undefined;
+  displayName?: string | undefined;
+  id?: string | undefined;
+  origin?: Origin | undefined;
 }
 export interface DeleteGroupRequest {
   /** Organization ID (UUID) */
@@ -85,7 +85,7 @@ export interface DeleteGroupRequest {
   /** Group ID (UUID) */
   groupId: string;
   /** Automatically detach all relations before deleting */
-  removeAssignments?: boolean;
+  removeAssignments?: boolean | undefined;
 }
 export interface DeleteGroupResponse {}
 export interface GetGroupRequest {
@@ -95,12 +95,12 @@ export interface GetGroupRequest {
   groupId: string;
 }
 export interface GetGroupResponse {
-  createdAt?: string;
-  description?: string;
-  displayName?: string;
-  id?: string;
-  isTopLevel?: boolean;
-  origin?: Origin;
+  createdAt?: string | undefined;
+  description?: string | undefined;
+  displayName?: string | undefined;
+  id?: string | undefined;
+  isTopLevel?: boolean | undefined;
+  origin?: Origin | undefined;
 }
 export interface GetUserRequest {
   /** Organization ID (UUID) */
@@ -109,11 +109,11 @@ export interface GetUserRequest {
   userId: string;
 }
 export interface GetUserResponse {
-  createdAt?: string;
-  displayName?: string;
-  email?: string;
-  id?: string;
-  origin?: Origin;
+  createdAt?: string | undefined;
+  displayName?: string | undefined;
+  email?: string | undefined;
+  id?: string | undefined;
+  origin?: Origin | undefined;
 }
 export interface ListGroupMembersRequest {
   /** Organization ID (UUID) */
@@ -123,45 +123,45 @@ export interface ListGroupMembersRequest {
 }
 export type MemberType = "user" | "group" | "service_account";
 export interface MemberResponse {
-  id?: string;
-  type?: MemberType;
+  id?: string | undefined;
+  type?: MemberType | undefined;
 }
 export type MembersResponseMembersList = Array<MemberResponse>;
 /** Response object for group updates. */
 export interface MembersResponse {
-  id?: string;
-  members?: MembersResponseMembersList;
+  id?: string | undefined;
+  members?: MembersResponseMembersList | undefined;
 }
 export type ListGroupsRequestOrder = "asc" | "desc";
 export interface ListGroupsRequest {
   /** Organization ID (UUID) */
   organizationId: string;
-  displayName?: string;
-  order?: ListGroupsRequestOrder | (string & {});
-  page?: number;
-  pageSize?: number;
-  sortBy?: string;
+  displayName?: string | undefined;
+  order?: ListGroupsRequestOrder | (string & {}) | undefined;
+  page?: number | undefined;
+  pageSize?: number | undefined;
+  sortBy?: string | undefined;
 }
 export type ListGroupResponseGroupsList = Array<GetGroupResponse>;
 export interface ListGroupResponse {
-  groups?: ListGroupResponseGroupsList;
-  total?: number;
+  groups?: ListGroupResponseGroupsList | undefined;
+  total?: number | undefined;
 }
 export type ListUsersRequestOrder = "asc" | "desc";
 export type ListUsersRequestSortBy = "displayName";
 export interface ListUsersRequest {
   /** Organization ID (UUID) */
   organizationId: string;
-  displayName?: string;
-  order?: ListUsersRequestOrder | (string & {});
-  page?: number;
-  pageSize?: number;
-  sortBy?: ListUsersRequestSortBy | (string & {});
+  displayName?: string | undefined;
+  order?: ListUsersRequestOrder | (string & {}) | undefined;
+  page?: number | undefined;
+  pageSize?: number | undefined;
+  sortBy?: ListUsersRequestSortBy | (string & {}) | undefined;
 }
 export type ListUserResponseUsersList = Array<GetUserResponse>;
 export interface ListUserResponse {
-  total?: number;
-  users?: ListUserResponseUsersList;
+  total?: number | undefined;
+  users?: ListUserResponseUsersList | undefined;
 }
 export interface UpdateGroupRequest {
   /** Organization ID (UUID) */
@@ -173,11 +173,11 @@ export interface UpdateGroupRequest {
 }
 /** Response object for group updates. */
 export interface UpdateGroupResponse {
-  createdAt?: string;
-  description?: string;
-  displayName?: string;
-  id?: string;
-  updatedAt?: string;
+  createdAt?: string | undefined;
+  description?: string | undefined;
+  displayName?: string | undefined;
+  id?: string | undefined;
+  updatedAt?: string | undefined;
 }
 export type UpdateMemberRequestType = "user" | "group" | "service_account";
 export interface UpdateMemberRequest {

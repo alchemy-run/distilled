@@ -46,9 +46,9 @@ export interface AttachContainerRequest {
 /** The information for the output stream from container attach. */
 export interface ContainerAttachResponse {
   /** The uri for the output stream from the attach. */
-  webSocketUri?: string;
+  webSocketUri?: string | undefined;
   /** The password to the output stream from the attach. Send as an Authorization header value when connecting to the websocketUri. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 /** The container group SKU. */
 export type ContainerGroupSku = "NotSpecified" | "Standard" | "Dedicated" | "Confidential";
@@ -61,7 +61,7 @@ export interface EncryptionProperties {
   /** The encryption key version. */
   keyVersion: string;
   /** The keyvault managed identity. */
-  identity?: string;
+  identity?: string | undefined;
 }
 /** The commands to execute within the container instance in exec form. */
 export type ContainerPropertiesInputCommandList = Array<string>;
@@ -70,7 +70,7 @@ export type ContainerNetworkProtocol = "TCP" | "UDP";
 /** The port exposed on the container instance. */
 export interface ContainerPort {
   /** The protocol associated with the port. */
-  protocol?: ContainerNetworkProtocol | (string & {});
+  protocol?: ContainerNetworkProtocol | (string & {}) | undefined;
   /** The port number exposed within the container group. */
   port: number;
 }
@@ -81,11 +81,11 @@ export interface EnvironmentVariable {
   /** The name of the environment variable. */
   name: string;
   /** The value of the environment variable. */
-  value?: string;
+  value?: string | undefined;
   /** The value of the secure environment variable. */
-  secureValue?: string;
+  secureValue?: string | undefined;
   /** The reference of the secure environment variable. */
-  secureValueReference?: string;
+  secureValueReference?: string | undefined;
 }
 /** The environment variables to set in the container instance. */
 export type ContainerPropertiesInputEnvironmentVariablesList = Array<EnvironmentVariable>;
@@ -105,23 +105,23 @@ export interface ResourceRequests {
   /** The CPU request of this container instance. */
   cpu: number;
   /** The GPU request of this container instance. */
-  gpu?: GpuResource;
+  gpu?: GpuResource | undefined;
 }
 /** The resource limits. */
 export interface ResourceLimits {
   /** The memory limit in GB of this container instance. */
-  memoryInGB?: number;
+  memoryInGB?: number | undefined;
   /** The CPU limit of this container instance. */
-  cpu?: number;
+  cpu?: number | undefined;
   /** The GPU limit of this container instance. */
-  gpu?: GpuResource;
+  gpu?: GpuResource | undefined;
 }
 /** The resource requirements. */
 export interface ResourceRequirements {
   /** The resource requests of this container instance. */
   requests: ResourceRequests;
   /** The resource limits of this container instance. */
-  limits?: ResourceLimits;
+  limits?: ResourceLimits | undefined;
 }
 /** The properties of the volume mount. */
 export interface VolumeMount {
@@ -130,7 +130,7 @@ export interface VolumeMount {
   /** The path within the container where the volume should be mounted. Must not contain colon (:). */
   mountPath: string;
   /** The flag indicating whether the volume mount is read-only. */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
 }
 /** The volume mounts available to the container instance. */
 export type ContainerPropertiesInputVolumeMountsList = Array<VolumeMount>;
@@ -139,46 +139,46 @@ export type ContainerExecCommandList = Array<string>;
 /** The container execution command, for liveness or readiness probe */
 export interface ContainerExec {
   /** The commands to execute within the container. */
-  command?: ContainerExecCommandList;
+  command?: ContainerExecCommandList | undefined;
 }
 /** The scheme. */
 export type Scheme = "http" | "https";
 /** The HTTP header. */
 export interface HttpHeader {
   /** The header name. */
-  name?: string;
+  name?: string | undefined;
   /** The header value. */
-  value?: string;
+  value?: string | undefined;
 }
 /** The HTTP headers. */
 export type ContainerHttpGetHttpHeadersList = Array<HttpHeader>;
 /** The container Http Get settings, for liveness or readiness probe */
 export interface ContainerHttpGet {
   /** The path to probe. */
-  path?: string;
+  path?: string | undefined;
   /** The port number to probe. */
   port: number;
   /** The scheme. */
-  scheme?: Scheme | (string & {});
+  scheme?: Scheme | (string & {}) | undefined;
   /** The HTTP headers. */
-  httpHeaders?: ContainerHttpGetHttpHeadersList;
+  httpHeaders?: ContainerHttpGetHttpHeadersList | undefined;
 }
 /** The container probe, for liveness or readiness */
 export interface ContainerProbe {
   /** The execution command to probe */
-  exec?: ContainerExec;
+  exec?: ContainerExec | undefined;
   /** The Http Get settings to probe */
-  httpGet?: ContainerHttpGet;
+  httpGet?: ContainerHttpGet | undefined;
   /** The initial delay seconds. */
-  initialDelaySeconds?: number;
+  initialDelaySeconds?: number | undefined;
   /** The period seconds. */
-  periodSeconds?: number;
+  periodSeconds?: number | undefined;
   /** The failure threshold. */
-  failureThreshold?: number;
+  failureThreshold?: number | undefined;
   /** The success threshold. */
-  successThreshold?: number;
+  successThreshold?: number | undefined;
   /** The timeout seconds. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
 }
 /** The capabilities to add to the container. */
 export type SecurityContextCapabilitiesDefinitionAddList = Array<string>;
@@ -187,54 +187,54 @@ export type SecurityContextCapabilitiesDefinitionDropList = Array<string>;
 /** The capabilities to add or drop from a container. */
 export interface SecurityContextCapabilitiesDefinition {
   /** The capabilities to add to the container. */
-  add?: SecurityContextCapabilitiesDefinitionAddList;
+  add?: SecurityContextCapabilitiesDefinitionAddList | undefined;
   /** The capabilities to drop from the container. */
-  drop?: SecurityContextCapabilitiesDefinitionDropList;
+  drop?: SecurityContextCapabilitiesDefinitionDropList | undefined;
 }
 /** The security context for the container. */
 export interface SecurityContextDefinition {
   /** The flag to determine if the container permissions is elevated to Privileged. */
-  privileged?: boolean;
+  privileged?: boolean | undefined;
   /** A boolean value indicating whether the init process can elevate its privileges */
-  allowPrivilegeEscalation?: boolean;
+  allowPrivilegeEscalation?: boolean | undefined;
   /** The capabilities to add or drop from a container. */
-  capabilities?: SecurityContextCapabilitiesDefinition;
+  capabilities?: SecurityContextCapabilitiesDefinition | undefined;
   /** Sets the User GID for the container. */
-  runAsGroup?: number;
+  runAsGroup?: number | undefined;
   /** Sets the User UID for the container. */
-  runAsUser?: number;
+  runAsUser?: number | undefined;
   /** a base64 encoded string containing the contents of the JSON in the seccomp profile */
-  seccompProfile?: string;
+  seccompProfile?: string | undefined;
 }
 /** The key value pairs dictionary in the config map. */
 export type ConfigMapKeyValuePairsMap = { [key: string]: string | undefined };
 /** The container config map. */
 export interface ConfigMap {
   /** The key value pairs dictionary in the config map. */
-  keyValuePairs?: ConfigMapKeyValuePairsMap;
+  keyValuePairs?: ConfigMapKeyValuePairsMap | undefined;
 }
 /** The container instance properties. */
 export interface ContainerPropertiesInput {
   /** The name of the image used to create the container instance. */
-  image?: string;
+  image?: string | undefined;
   /** The commands to execute within the container instance in exec form. */
-  command?: ContainerPropertiesInputCommandList;
+  command?: ContainerPropertiesInputCommandList | undefined;
   /** The exposed ports on the container instance. */
-  ports?: ContainerPropertiesInputPortsList;
+  ports?: ContainerPropertiesInputPortsList | undefined;
   /** The environment variables to set in the container instance. */
-  environmentVariables?: ContainerPropertiesInputEnvironmentVariablesList;
+  environmentVariables?: ContainerPropertiesInputEnvironmentVariablesList | undefined;
   /** The resource requirements of the container instance. */
-  resources?: ResourceRequirements;
+  resources?: ResourceRequirements | undefined;
   /** The volume mounts available to the container instance. */
-  volumeMounts?: ContainerPropertiesInputVolumeMountsList;
+  volumeMounts?: ContainerPropertiesInputVolumeMountsList | undefined;
   /** The liveness probe. */
-  livenessProbe?: ContainerProbe;
+  livenessProbe?: ContainerProbe | undefined;
   /** The readiness probe. */
-  readinessProbe?: ContainerProbe;
+  readinessProbe?: ContainerProbe | undefined;
   /** The container security properties. */
-  securityContext?: SecurityContextDefinition;
+  securityContext?: SecurityContextDefinition | undefined;
   /** The config map. */
-  configMap?: ConfigMap;
+  configMap?: ConfigMap | undefined;
 }
 /** A container instance. */
 export interface ContainerInput {
@@ -255,15 +255,15 @@ export type InitContainerPropertiesDefinitionInputVolumeMountsList = Array<Volum
 /** The init container definition properties. */
 export interface InitContainerPropertiesDefinitionInput {
   /** The image of the init container. */
-  image?: string;
+  image?: string | undefined;
   /** The command to execute within the init container in exec form. */
-  command?: InitContainerPropertiesDefinitionInputCommandList;
+  command?: InitContainerPropertiesDefinitionInputCommandList | undefined;
   /** The environment variables to set in the init container. */
-  environmentVariables?: InitContainerPropertiesDefinitionInputEnvironmentVariablesList;
+  environmentVariables?: InitContainerPropertiesDefinitionInputEnvironmentVariablesList | undefined;
   /** The volume mounts available to the init container. */
-  volumeMounts?: InitContainerPropertiesDefinitionInputVolumeMountsList;
+  volumeMounts?: InitContainerPropertiesDefinitionInputVolumeMountsList | undefined;
   /** The container security properties. */
-  securityContext?: SecurityContextDefinition;
+  securityContext?: SecurityContextDefinition | undefined;
 }
 /** The init container definition. */
 export interface InitContainerDefinitionInput {
@@ -282,16 +282,16 @@ export interface DeploymentExtensionSpecProperties {
   /** Version of the extension being used. */
   version: string;
   /** Settings for the extension. */
-  settings?: unknown;
+  settings?: unknown | undefined;
   /** Protected settings for the extension. */
-  protectedSettings?: unknown;
+  protectedSettings?: unknown | undefined;
 }
 /** Extension sidecars to be added to the deployment. */
 export interface DeploymentExtensionSpec {
   /** Name of the extension. */
   name: string;
   /** Extension specific properties */
-  properties?: DeploymentExtensionSpecProperties;
+  properties?: DeploymentExtensionSpecProperties | undefined;
 }
 /** extensions used by virtual kubelet */
 export type ContainerGroupProfilePropertiesInputExtensionsList = Array<DeploymentExtensionSpec>;
@@ -300,15 +300,15 @@ export interface ImageRegistryCredential {
   /** The Docker image registry server without a protocol such as "http" and "https". */
   server: string;
   /** The username for the private registry. */
-  username?: string;
+  username?: string | undefined;
   /** The password for the private registry. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** The reference for the private registry password. */
-  passwordReference?: string | Redacted.Redacted<string>;
+  passwordReference?: string | Redacted.Redacted<string> | undefined;
   /** The identity for the private registry. */
-  identity?: string;
+  identity?: string | undefined;
   /** The identity URL for the private registry. */
-  identityUrl?: string;
+  identityUrl?: string | undefined;
 }
 /** The image registry credentials by which the container group is created from. */
 export type ContainerGroupProfilePropertiesInputImageRegistryCredentialsList =
@@ -320,7 +320,7 @@ export type ContainerGroupNetworkProtocol = "TCP" | "UDP";
 /** The port exposed on the container group. */
 export interface Port {
   /** The protocol associated with the port. */
-  protocol?: ContainerGroupNetworkProtocol | (string & {});
+  protocol?: ContainerGroupNetworkProtocol | (string & {}) | undefined;
   /** The port number. */
   port: number;
 }
@@ -342,13 +342,14 @@ export interface IpAddressInput {
   /** Specifies if the IP is exposed to the public internet or private VNET. */
   type: ContainerGroupIpAddressType | (string & {});
   /** The IP exposed to the public internet. */
-  ip?: string;
+  ip?: string | undefined;
   /** The Dns name label for the IP. */
-  dnsNameLabel?: string;
+  dnsNameLabel?: string | undefined;
   /** The value representing the security enum. The 'Unsecure' value is the default value if not selected and means the object's domain name label is not secured against subdomain takeover. The 'TenantReuse' value is the default value if selected and means the object's domain name label can be reused within the same tenant. The 'SubscriptionReuse' value means the object's domain name label can be reused within the same subscription. The 'ResourceGroupReuse' value means the object's domain name label can be reused within the same resource group. The 'NoReuse' value means the object's domain name label cannot be reused within the same resource group, subscription, or tenant. */
   autoGeneratedDomainNameLabelScope?:
     | IpAddressInputAutoGeneratedDomainNameLabelScope
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** The operating system type required by the containers in the container group. */
 export type OperatingSystemTypes = "Windows" | "Linux";
@@ -357,15 +358,15 @@ export interface AzureFileVolume {
   /** The name of the Azure File share to be mounted as a volume. */
   shareName: string;
   /** The flag indicating whether the Azure File shared mounted as a volume is read-only. */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** The name of the storage account that contains the Azure File share. */
   storageAccountName: string;
   /** The storage account access key used to access the Azure File share. */
-  storageAccountKey?: string;
+  storageAccountKey?: string | undefined;
   /** The reference to the storage account access key used to access the Azure File share. */
-  storageAccountKeyReference?: string;
+  storageAccountKeyReference?: string | undefined;
   /** The client id of the user-assigned managed identity that has access to the Azure File share. */
-  userManagedIdentityClientId?: string;
+  userManagedIdentityClientId?: string | undefined;
 }
 /** Defines files for a secret volume. Dictionary keys are file names and values are Base64-encoded secret data used as file contents. The values are sensitive, and the service does not return the contents of this property in GET responses. */
 export type VolumeSecretMap = { [key: string]: string | undefined };
@@ -374,26 +375,26 @@ export type VolumeSecretReferenceMap = { [key: string]: string | undefined };
 /** Represents a volume that is populated with the contents of a git repository */
 export interface GitRepoVolume {
   /** Target directory name. Must not contain or start with '..'. If '.' is supplied, the volume directory will be the git repository. Otherwise, if specified, the volume will contain the git repository in the subdirectory with the given name. */
-  directory?: string;
+  directory?: string | undefined;
   /** Repository URL */
   repository: string;
   /** Commit hash for the specified revision. */
-  revision?: string;
+  revision?: string | undefined;
 }
 /** The properties of the volume. */
 export interface Volume {
   /** The name of the volume. */
   name: string;
   /** The Azure File volume. */
-  azureFile?: AzureFileVolume;
+  azureFile?: AzureFileVolume | undefined;
   /** The empty directory volume. */
-  emptyDir?: unknown;
+  emptyDir?: unknown | undefined;
   /** Defines files for a secret volume. Dictionary keys are file names and values are Base64-encoded secret data used as file contents. The values are sensitive, and the service does not return the contents of this property in GET responses. */
-  secret?: VolumeSecretMap;
+  secret?: VolumeSecretMap | undefined;
   /** Defines files for a secret reference volume. Dictionary keys are file names and values identify entries in the container group's secretReferences collection. This property contains reference names rather than secret values. */
-  secretReference?: VolumeSecretReferenceMap;
+  secretReference?: VolumeSecretReferenceMap | undefined;
   /** The git repo volume. */
-  gitRepo?: GitRepoVolume;
+  gitRepo?: GitRepoVolume | undefined;
 }
 /** The list of volumes that can be mounted by containers in this container group. */
 export type ContainerGroupProfilePropertiesInputVolumesList = Array<Volume>;
@@ -408,60 +409,62 @@ export interface LogAnalytics {
   /** The workspace key for log analytics */
   workspaceKey: string;
   /** The log type to be used. */
-  logType?: LogAnalyticsLogType | (string & {});
+  logType?: LogAnalyticsLogType | (string & {}) | undefined;
   /** Metadata for log analytics. */
-  metadata?: LogAnalyticsMetadataMap;
+  metadata?: LogAnalyticsMetadataMap | undefined;
   /** The workspace resource id for log analytics */
-  workspaceResourceId?: string;
+  workspaceResourceId?: string | undefined;
 }
 /** Container group diagnostic information. */
 export interface ContainerGroupDiagnostics {
   /** Container group log analytics information. */
-  logAnalytics?: LogAnalytics;
+  logAnalytics?: LogAnalytics | undefined;
 }
 /** The priority of the container group. */
 export type ContainerGroupPriority = "Regular" | "Spot";
 /** The properties for confidential container group */
 export interface ConfidentialComputeProperties {
   /** The base64 encoded confidential compute enforcement policy */
-  ccePolicy?: string;
+  ccePolicy?: string | undefined;
 }
 /** The container group profile properties */
 export interface ContainerGroupProfilePropertiesInput {
   /** The SKU for a container group. */
-  sku?: ContainerGroupSku | (string & {});
+  sku?: ContainerGroupSku | (string & {}) | undefined;
   /** The encryption properties for a container group. */
-  encryptionProperties?: EncryptionProperties;
+  encryptionProperties?: EncryptionProperties | undefined;
   /** The containers within the container group. */
   containers: ContainerGroupProfilePropertiesInputContainersList;
   /** The init containers for a container group. */
-  initContainers?: ContainerGroupProfilePropertiesInputInitContainersList;
+  initContainers?: ContainerGroupProfilePropertiesInputInitContainersList | undefined;
   /** extensions used by virtual kubelet */
-  extensions?: ContainerGroupProfilePropertiesInputExtensionsList;
+  extensions?: ContainerGroupProfilePropertiesInputExtensionsList | undefined;
   /** The image registry credentials by which the container group is created from. */
-  imageRegistryCredentials?: ContainerGroupProfilePropertiesInputImageRegistryCredentialsList;
+  imageRegistryCredentials?:
+    | ContainerGroupProfilePropertiesInputImageRegistryCredentialsList
+    | undefined;
   /** Restart policy for all containers within the container group. - `Always` Always restart - `OnFailure` Restart on failure - `Never` Never restart */
-  restartPolicy?: ContainerGroupRestartPolicy | (string & {});
+  restartPolicy?: ContainerGroupRestartPolicy | (string & {}) | undefined;
   /** Shutdown grace period for containers in a container group. */
-  shutdownGracePeriod?: string;
+  shutdownGracePeriod?: string | undefined;
   /** The IP address type of the container group. */
-  ipAddress?: IpAddressInput;
+  ipAddress?: IpAddressInput | undefined;
   /** Post completion time to live for containers of a CG */
-  timeToLive?: string;
+  timeToLive?: string | undefined;
   /** The operating system type required by the containers in the container group. */
   osType: OperatingSystemTypes | (string & {});
   /** The list of volumes that can be mounted by containers in this container group. */
-  volumes?: ContainerGroupProfilePropertiesInputVolumesList;
+  volumes?: ContainerGroupProfilePropertiesInputVolumesList | undefined;
   /** The diagnostic information for a container group. */
-  diagnostics?: ContainerGroupDiagnostics;
+  diagnostics?: ContainerGroupDiagnostics | undefined;
   /** The priority of the container group. */
-  priority?: ContainerGroupPriority | (string & {});
+  priority?: ContainerGroupPriority | (string & {}) | undefined;
   /** The properties for confidential container group */
-  confidentialComputeProperties?: ConfidentialComputeProperties;
+  confidentialComputeProperties?: ConfidentialComputeProperties | undefined;
   /** The container security properties. */
-  securityContext?: SecurityContextDefinition;
+  securityContext?: SecurityContextDefinition | undefined;
   /** Gets or sets Krypton use property. */
-  useKrypton?: boolean;
+  useKrypton?: boolean | undefined;
 }
 /** Resource tags. */
 export type CGProfileCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -475,13 +478,13 @@ export interface CGProfileCreateOrUpdateRequest {
   /** ContainerGroupProfile name. */
   containerGroupProfileName: string;
   /** The container group profile properties */
-  properties?: ContainerGroupProfilePropertiesInput;
+  properties?: ContainerGroupProfilePropertiesInput | undefined;
   /** Resource tags. */
-  tags?: CGProfileCreateOrUpdateRequestTagsMap;
+  tags?: CGProfileCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The availability zones. */
-  zones?: CGProfileCreateOrUpdateRequestZonesList;
+  zones?: CGProfileCreateOrUpdateRequestZonesList | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -490,17 +493,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The commands to execute within the container instance in exec form. */
 export type ContainerPropertiesCommandList = Array<string>;
@@ -511,70 +514,70 @@ export type ContainerPropertiesEnvironmentVariablesList = Array<EnvironmentVaria
 /** The container instance state. */
 export interface ContainerState {
   /** The state of the container instance. */
-  state?: string;
+  state?: string | undefined;
   /** The date-time when the container instance state started. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The container instance exit codes correspond to those from the `docker run` command. */
-  exitCode?: number;
+  exitCode?: number | undefined;
   /** The date-time when the container instance state finished. */
-  finishTime?: string;
+  finishTime?: string | undefined;
   /** The human-readable status of the container instance state. */
-  detailStatus?: string;
+  detailStatus?: string | undefined;
 }
 /** A container group or container instance event. */
 export interface Event {
   /** The count of the event. */
-  count?: number;
+  count?: number | undefined;
   /** The date-time of the earliest logged event. */
-  firstTimestamp?: string;
+  firstTimestamp?: string | undefined;
   /** The date-time of the latest logged event. */
-  lastTimestamp?: string;
+  lastTimestamp?: string | undefined;
   /** The event name. */
-  name?: string;
+  name?: string | undefined;
   /** The event message. */
-  message?: string;
+  message?: string | undefined;
   /** The event type. */
-  type?: string;
+  type?: string | undefined;
 }
 /** The events of the container instance. */
 export type ContainerPropertiesInstanceViewEventsList = Array<Event>;
 /** The instance view of the container instance. Only valid in response. */
 export interface ContainerPropertiesInstanceView {
   /** The number of times that the container instance has been restarted. */
-  restartCount?: number;
+  restartCount?: number | undefined;
   /** Current container instance state. */
-  currentState?: ContainerState;
+  currentState?: ContainerState | undefined;
   /** Previous container instance state. */
-  previousState?: ContainerState;
+  previousState?: ContainerState | undefined;
   /** The events of the container instance. */
-  events?: ContainerPropertiesInstanceViewEventsList;
+  events?: ContainerPropertiesInstanceViewEventsList | undefined;
 }
 /** The volume mounts available to the container instance. */
 export type ContainerPropertiesVolumeMountsList = Array<VolumeMount>;
 /** The container instance properties. */
 export interface ContainerProperties {
   /** The name of the image used to create the container instance. */
-  image?: string;
+  image?: string | undefined;
   /** The commands to execute within the container instance in exec form. */
-  command?: ContainerPropertiesCommandList;
+  command?: ContainerPropertiesCommandList | undefined;
   /** The exposed ports on the container instance. */
-  ports?: ContainerPropertiesPortsList;
+  ports?: ContainerPropertiesPortsList | undefined;
   /** The environment variables to set in the container instance. */
-  environmentVariables?: ContainerPropertiesEnvironmentVariablesList;
+  environmentVariables?: ContainerPropertiesEnvironmentVariablesList | undefined;
   /** The instance view of the container instance. Only valid in response. */
-  instanceView?: ContainerPropertiesInstanceView;
+  instanceView?: ContainerPropertiesInstanceView | undefined;
   /** The resource requirements of the container instance. */
-  resources?: ResourceRequirements;
+  resources?: ResourceRequirements | undefined;
   /** The volume mounts available to the container instance. */
-  volumeMounts?: ContainerPropertiesVolumeMountsList;
+  volumeMounts?: ContainerPropertiesVolumeMountsList | undefined;
   /** The liveness probe. */
-  livenessProbe?: ContainerProbe;
+  livenessProbe?: ContainerProbe | undefined;
   /** The readiness probe. */
-  readinessProbe?: ContainerProbe;
+  readinessProbe?: ContainerProbe | undefined;
   /** The container security properties. */
-  securityContext?: SecurityContextDefinition;
+  securityContext?: SecurityContextDefinition | undefined;
   /** The config map. */
-  configMap?: ConfigMap;
+  configMap?: ConfigMap | undefined;
 }
 /** A container instance. */
 export interface Container {
@@ -594,30 +597,30 @@ export type InitContainerPropertiesDefinitionInstanceViewEventsList = Array<Even
 /** The instance view of the init container. Only valid in response. */
 export interface InitContainerPropertiesDefinitionInstanceView {
   /** The number of times that the init container has been restarted. */
-  restartCount?: number;
+  restartCount?: number | undefined;
   /** The current state of the init container. */
-  currentState?: ContainerState;
+  currentState?: ContainerState | undefined;
   /** The previous state of the init container. */
-  previousState?: ContainerState;
+  previousState?: ContainerState | undefined;
   /** The events of the init container. */
-  events?: InitContainerPropertiesDefinitionInstanceViewEventsList;
+  events?: InitContainerPropertiesDefinitionInstanceViewEventsList | undefined;
 }
 /** The volume mounts available to the init container. */
 export type InitContainerPropertiesDefinitionVolumeMountsList = Array<VolumeMount>;
 /** The init container definition properties. */
 export interface InitContainerPropertiesDefinition {
   /** The image of the init container. */
-  image?: string;
+  image?: string | undefined;
   /** The command to execute within the init container in exec form. */
-  command?: InitContainerPropertiesDefinitionCommandList;
+  command?: InitContainerPropertiesDefinitionCommandList | undefined;
   /** The environment variables to set in the init container. */
-  environmentVariables?: InitContainerPropertiesDefinitionEnvironmentVariablesList;
+  environmentVariables?: InitContainerPropertiesDefinitionEnvironmentVariablesList | undefined;
   /** The instance view of the init container. Only valid in response. */
-  instanceView?: InitContainerPropertiesDefinitionInstanceView;
+  instanceView?: InitContainerPropertiesDefinitionInstanceView | undefined;
   /** The volume mounts available to the init container. */
-  volumeMounts?: InitContainerPropertiesDefinitionVolumeMountsList;
+  volumeMounts?: InitContainerPropertiesDefinitionVolumeMountsList | undefined;
   /** The container security properties. */
-  securityContext?: SecurityContextDefinition;
+  securityContext?: SecurityContextDefinition | undefined;
 }
 /** The init container definition. */
 export interface InitContainerDefinition {
@@ -649,13 +652,13 @@ export interface IpAddress {
   /** Specifies if the IP is exposed to the public internet or private VNET. */
   type: ContainerGroupIpAddressType;
   /** The IP exposed to the public internet. */
-  ip?: string;
+  ip?: string | undefined;
   /** The Dns name label for the IP. */
-  dnsNameLabel?: string;
+  dnsNameLabel?: string | undefined;
   /** The value representing the security enum. The 'Unsecure' value is the default value if not selected and means the object's domain name label is not secured against subdomain takeover. The 'TenantReuse' value is the default value if selected and means the object's domain name label can be reused within the same tenant. The 'SubscriptionReuse' value means the object's domain name label can be reused within the same subscription. The 'ResourceGroupReuse' value means the object's domain name label can be reused within the same resource group. The 'NoReuse' value means the object's domain name label cannot be reused within the same resource group, subscription, or tenant. */
-  autoGeneratedDomainNameLabelScope?: IpAddressAutoGeneratedDomainNameLabelScope;
+  autoGeneratedDomainNameLabelScope?: IpAddressAutoGeneratedDomainNameLabelScope | undefined;
   /** The FQDN for the IP. */
-  fqdn?: string;
+  fqdn?: string | undefined;
 }
 /** The list of volumes that can be mounted by containers in this container group. */
 export type ContainerGroupProfilePropertiesVolumesList = Array<Volume>;
@@ -664,43 +667,45 @@ export type ContainerGroupProfilePropertiesRegisteredRevisionsList = Array<numbe
 /** The container group profile properties */
 export interface ContainerGroupProfileProperties {
   /** The SKU for a container group. */
-  sku?: ContainerGroupSku;
+  sku?: ContainerGroupSku | undefined;
   /** The encryption properties for a container group. */
-  encryptionProperties?: EncryptionProperties;
+  encryptionProperties?: EncryptionProperties | undefined;
   /** The containers within the container group. */
   containers: ContainerGroupProfilePropertiesContainersList;
   /** The init containers for a container group. */
-  initContainers?: ContainerGroupProfilePropertiesInitContainersList;
+  initContainers?: ContainerGroupProfilePropertiesInitContainersList | undefined;
   /** extensions used by virtual kubelet */
-  extensions?: ContainerGroupProfilePropertiesExtensionsList;
+  extensions?: ContainerGroupProfilePropertiesExtensionsList | undefined;
   /** The image registry credentials by which the container group is created from. */
-  imageRegistryCredentials?: ContainerGroupProfilePropertiesImageRegistryCredentialsList;
+  imageRegistryCredentials?:
+    | ContainerGroupProfilePropertiesImageRegistryCredentialsList
+    | undefined;
   /** Restart policy for all containers within the container group. - `Always` Always restart - `OnFailure` Restart on failure - `Never` Never restart */
-  restartPolicy?: ContainerGroupRestartPolicy;
+  restartPolicy?: ContainerGroupRestartPolicy | undefined;
   /** Shutdown grace period for containers in a container group. */
-  shutdownGracePeriod?: string;
+  shutdownGracePeriod?: string | undefined;
   /** The IP address type of the container group. */
-  ipAddress?: IpAddress;
+  ipAddress?: IpAddress | undefined;
   /** Post completion time to live for containers of a CG */
-  timeToLive?: string;
+  timeToLive?: string | undefined;
   /** The operating system type required by the containers in the container group. */
   osType: OperatingSystemTypes;
   /** The list of volumes that can be mounted by containers in this container group. */
-  volumes?: ContainerGroupProfilePropertiesVolumesList;
+  volumes?: ContainerGroupProfilePropertiesVolumesList | undefined;
   /** The diagnostic information for a container group. */
-  diagnostics?: ContainerGroupDiagnostics;
+  diagnostics?: ContainerGroupDiagnostics | undefined;
   /** The priority of the container group. */
-  priority?: ContainerGroupPriority;
+  priority?: ContainerGroupPriority | undefined;
   /** The properties for confidential container group */
-  confidentialComputeProperties?: ConfidentialComputeProperties;
+  confidentialComputeProperties?: ConfidentialComputeProperties | undefined;
   /** The container security properties. */
-  securityContext?: SecurityContextDefinition;
+  securityContext?: SecurityContextDefinition | undefined;
   /** Container group profile current revision number */
-  revision?: number;
+  revision?: number | undefined;
   /** Registered revisions are calculated at request time based off the records in the table logs. */
-  registeredRevisions?: ContainerGroupProfilePropertiesRegisteredRevisionsList;
+  registeredRevisions?: ContainerGroupProfilePropertiesRegisteredRevisionsList | undefined;
   /** Gets or sets Krypton use property. */
-  useKrypton?: boolean;
+  useKrypton?: boolean | undefined;
 }
 /** Resource tags. */
 export type CGProfileCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -708,21 +713,21 @@ export type CGProfileCreateOrUpdateResponseTagsMap = { [key: string]: string | u
 export type CGProfileCreateOrUpdateResponseZonesList = Array<string>;
 export interface CGProfileCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The container group profile properties */
-  properties?: ContainerGroupProfileProperties;
+  properties?: ContainerGroupProfileProperties | undefined;
   /** Resource tags. */
-  tags?: CGProfileCreateOrUpdateResponseTagsMap;
+  tags?: CGProfileCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The availability zones. */
-  zones?: CGProfileCreateOrUpdateResponseZonesList;
+  zones?: CGProfileCreateOrUpdateResponseZonesList | undefined;
 }
 export interface ConnectSandboxGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -760,9 +765,9 @@ export type ContainerGroupIdentityInputUserAssignedIdentitiesMap = {
 /** Identity for the container group. */
 export interface ContainerGroupIdentityInput {
   /** The type of identity used for the container group. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the container group. */
-  type?: ResourceIdentityType | (string & {});
+  type?: ResourceIdentityType | (string & {}) | undefined;
   /** The list of user identities associated with the container group. */
-  userAssignedIdentities?: ContainerGroupIdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ContainerGroupIdentityInputUserAssignedIdentitiesMap | undefined;
 }
 /** A secret reference */
 export interface SecretReference {
@@ -787,7 +792,7 @@ export interface ContainerGroupSubnetId {
   /** Resource ID of virtual network and subnet. */
   id: string;
   /** Friendly name for the subnet. */
-  name?: string;
+  name?: string | undefined;
 }
 /** The subnet resource IDs for a container group. */
 export type ContainerGroupPropertiesPropertiesInputSubnetIdsList = Array<ContainerGroupSubnetId>;
@@ -798,9 +803,9 @@ export interface DnsConfiguration {
   /** The DNS servers for the container group. */
   nameServers: DnsConfigurationNameServersList;
   /** The DNS search domains for hostname lookup in the container group. */
-  searchDomains?: string;
+  searchDomains?: string | undefined;
   /** The DNS options for the container group. */
-  options?: string;
+  options?: string | undefined;
 }
 /** The init containers for a container group. */
 export type ContainerGroupPropertiesPropertiesInputInitContainersList =
@@ -812,73 +817,75 @@ export type IdentityAccessLevel = "All" | "System" | "User";
 /** The access control for an identity */
 export interface IdentityAccessControl {
   /** The access level of the identity. */
-  access?: IdentityAccessLevel | (string & {});
+  access?: IdentityAccessLevel | (string & {}) | undefined;
   /** An identity. */
-  identity?: string;
+  identity?: string | undefined;
 }
 /** The access control levels for each identity. */
 export type IdentityAclsAclsList = Array<IdentityAccessControl>;
 /** The access control levels of the identities. */
 export interface IdentityAcls {
   /** The default access level. */
-  defaultAccess?: IdentityAccessLevel | (string & {});
+  defaultAccess?: IdentityAccessLevel | (string & {}) | undefined;
   /** The access control levels for each identity. */
-  acls?: IdentityAclsAclsList;
+  acls?: IdentityAclsAclsList | undefined;
 }
 /** The container group profile reference. */
 export interface ContainerGroupProfileReferenceDefinition {
   /** The container group profile reference id.This will be an ARM resource id in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroupProfiles/{containerGroupProfileName}'. */
-  id?: string;
+  id?: string | undefined;
   /** The container group profile reference revision. */
-  revision?: number;
+  revision?: number | undefined;
 }
 /** The standby pool profile reference. */
 export interface StandbyPoolProfileDefinition {
   /** The standby pool profile reference id.This will be an ARM resource id in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StandbyPool/standbyContainerGroupPools/{standbyPoolName}'. */
-  id?: string;
+  id?: string | undefined;
   /** The flag to determine whether ACI should fail the create request if the container group can not be obtained from standby pool. */
-  failContainerGroupCreateOnReuseFailure?: boolean;
+  failContainerGroupCreateOnReuseFailure?: boolean | undefined;
 }
 /** The container group properties */
 export interface ContainerGroupPropertiesPropertiesInput {
   /** The secret references that will be referenced within the container group. */
-  secretReferences?: ContainerGroupPropertiesPropertiesInputSecretReferencesList;
+  secretReferences?: ContainerGroupPropertiesPropertiesInputSecretReferencesList | undefined;
   /** The containers within the container group. */
   containers: ContainerGroupPropertiesPropertiesInputContainersList;
   /** The image registry credentials by which the container group is created from. */
-  imageRegistryCredentials?: ContainerGroupPropertiesPropertiesInputImageRegistryCredentialsList;
+  imageRegistryCredentials?:
+    | ContainerGroupPropertiesPropertiesInputImageRegistryCredentialsList
+    | undefined;
   /** Restart policy for all containers within the container group. - `Always` Always restart - `OnFailure` Restart on failure - `Never` Never restart */
-  restartPolicy?: ContainerGroupRestartPolicy | (string & {});
+  restartPolicy?: ContainerGroupRestartPolicy | (string & {}) | undefined;
   /** The IP address type of the container group. */
-  ipAddress?: IpAddressInput;
+  ipAddress?: IpAddressInput | undefined;
   /** The operating system type required by the containers in the container group. */
-  osType?: OperatingSystemTypes | (string & {});
+  osType?: OperatingSystemTypes | (string & {}) | undefined;
   /** The list of volumes that can be mounted by containers in this container group. */
-  volumes?: ContainerGroupPropertiesPropertiesInputVolumesList;
+  volumes?: ContainerGroupPropertiesPropertiesInputVolumesList | undefined;
   /** The diagnostic information for a container group. */
-  diagnostics?: ContainerGroupDiagnostics;
+  diagnostics?: ContainerGroupDiagnostics | undefined;
   /** The subnet resource IDs for a container group. */
-  subnetIds?: ContainerGroupPropertiesPropertiesInputSubnetIdsList;
+  subnetIds?: ContainerGroupPropertiesPropertiesInputSubnetIdsList | undefined;
   /** The DNS config information for a container group. */
-  dnsConfig?: DnsConfiguration;
+  dnsConfig?: DnsConfiguration | undefined;
   /** The SKU for a container group. */
-  sku?: ContainerGroupSku | (string & {});
+  sku?: ContainerGroupSku | (string & {}) | undefined;
   /** The encryption properties for a container group. */
-  encryptionProperties?: EncryptionProperties;
+  encryptionProperties?: EncryptionProperties | undefined;
   /** The init containers for a container group. */
-  initContainers?: ContainerGroupPropertiesPropertiesInputInitContainersList;
+  initContainers?: ContainerGroupPropertiesPropertiesInputInitContainersList | undefined;
   /** extensions used by virtual kubelet */
-  extensions?: ContainerGroupPropertiesPropertiesInputExtensionsList;
+  extensions?: ContainerGroupPropertiesPropertiesInputExtensionsList | undefined;
   /** The properties for confidential container group */
-  confidentialComputeProperties?: ConfidentialComputeProperties;
+  confidentialComputeProperties?: ConfidentialComputeProperties | undefined;
   /** The priority of the container group. */
-  priority?: ContainerGroupPriority | (string & {});
+  priority?: ContainerGroupPriority | (string & {}) | undefined;
   /** The access control levels of the identities. */
-  identityAcls?: IdentityAcls;
+  identityAcls?: IdentityAcls | undefined;
   /** The reference container group profile properties. */
-  containerGroupProfile?: ContainerGroupProfileReferenceDefinition;
+  containerGroupProfile?: ContainerGroupProfileReferenceDefinition | undefined;
   /** The reference standby pool profile properties. */
-  standbyPoolProfile?: StandbyPoolProfileDefinition;
+  standbyPoolProfile?: StandbyPoolProfileDefinition | undefined;
 }
 export interface ContainerGroupsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -888,13 +895,13 @@ export interface ContainerGroupsCreateOrUpdateRequest {
   /** The name of the container group. */
   containerGroupName: string;
   /** The resource location of the container group. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: ContainerGroupsCreateOrUpdateRequestTagsMap;
+  tags?: ContainerGroupsCreateOrUpdateRequestTagsMap | undefined;
   /** The availability zones. */
-  zones?: ContainerGroupsCreateOrUpdateRequestZonesList;
+  zones?: ContainerGroupsCreateOrUpdateRequestZonesList | undefined;
   /** The identity of the container group, if configured. */
-  identity?: ContainerGroupIdentityInput;
+  identity?: ContainerGroupIdentityInput | undefined;
   /** The container group properties */
   properties: ContainerGroupPropertiesPropertiesInput;
 }
@@ -905,9 +912,9 @@ export type ContainerGroupsCreateOrUpdateResponseZonesList = Array<string>;
 /** The list of user identities associated with the container group. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export interface UserAssignedIdentities {
   /** The principal id of user assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client id of user assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The list of user identities associated with the container group. */
 export type ContainerGroupIdentityUserAssignedIdentitiesMap = {
@@ -916,13 +923,13 @@ export type ContainerGroupIdentityUserAssignedIdentitiesMap = {
 /** Identity for the container group. */
 export interface ContainerGroupIdentity {
   /** The principal id of the container group identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant id associated with the container group. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The type of identity used for the container group. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the container group. */
-  type?: ResourceIdentityType;
+  type?: ResourceIdentityType | undefined;
   /** The list of user identities associated with the container group. */
-  userAssignedIdentities?: ContainerGroupIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ContainerGroupIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** The secret references that will be referenced within the container group. */
 export type ContainerGroupPropertiesPropertiesSecretReferencesList = Array<SecretReference>;
@@ -938,9 +945,9 @@ export type ContainerGroupPropertiesPropertiesInstanceViewEventsList = Array<Eve
 /** The instance view of the container group. Only valid in response. */
 export interface ContainerGroupPropertiesPropertiesInstanceView {
   /** The events of this container group. */
-  events?: ContainerGroupPropertiesPropertiesInstanceViewEventsList;
+  events?: ContainerGroupPropertiesPropertiesInstanceViewEventsList | undefined;
   /** The state of the container group. Only valid in response. */
-  state?: string;
+  state?: string | undefined;
 }
 /** The subnet resource IDs for a container group. */
 export type ContainerGroupPropertiesPropertiesSubnetIdsList = Array<ContainerGroupSubnetId>;
@@ -951,73 +958,75 @@ export type ContainerGroupPropertiesPropertiesExtensionsList = Array<DeploymentE
 /** The container group properties */
 export interface ContainerGroupPropertiesProperties {
   /** The provisioning state of the container group. This only appears in the response. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The secret references that will be referenced within the container group. */
-  secretReferences?: ContainerGroupPropertiesPropertiesSecretReferencesList;
+  secretReferences?: ContainerGroupPropertiesPropertiesSecretReferencesList | undefined;
   /** The containers within the container group. */
   containers: ContainerGroupPropertiesPropertiesContainersList;
   /** The image registry credentials by which the container group is created from. */
-  imageRegistryCredentials?: ContainerGroupPropertiesPropertiesImageRegistryCredentialsList;
+  imageRegistryCredentials?:
+    | ContainerGroupPropertiesPropertiesImageRegistryCredentialsList
+    | undefined;
   /** Restart policy for all containers within the container group. - `Always` Always restart - `OnFailure` Restart on failure - `Never` Never restart */
-  restartPolicy?: ContainerGroupRestartPolicy;
+  restartPolicy?: ContainerGroupRestartPolicy | undefined;
   /** The IP address type of the container group. */
-  ipAddress?: IpAddress;
+  ipAddress?: IpAddress | undefined;
   /** The operating system type required by the containers in the container group. */
-  osType?: OperatingSystemTypes;
+  osType?: OperatingSystemTypes | undefined;
   /** The list of volumes that can be mounted by containers in this container group. */
-  volumes?: ContainerGroupPropertiesPropertiesVolumesList;
+  volumes?: ContainerGroupPropertiesPropertiesVolumesList | undefined;
   /** The instance view of the container group. Only valid in response. */
-  instanceView?: ContainerGroupPropertiesPropertiesInstanceView;
+  instanceView?: ContainerGroupPropertiesPropertiesInstanceView | undefined;
   /** The diagnostic information for a container group. */
-  diagnostics?: ContainerGroupDiagnostics;
+  diagnostics?: ContainerGroupDiagnostics | undefined;
   /** The subnet resource IDs for a container group. */
-  subnetIds?: ContainerGroupPropertiesPropertiesSubnetIdsList;
+  subnetIds?: ContainerGroupPropertiesPropertiesSubnetIdsList | undefined;
   /** The DNS config information for a container group. */
-  dnsConfig?: DnsConfiguration;
+  dnsConfig?: DnsConfiguration | undefined;
   /** The SKU for a container group. */
-  sku?: ContainerGroupSku;
+  sku?: ContainerGroupSku | undefined;
   /** The encryption properties for a container group. */
-  encryptionProperties?: EncryptionProperties;
+  encryptionProperties?: EncryptionProperties | undefined;
   /** The init containers for a container group. */
-  initContainers?: ContainerGroupPropertiesPropertiesInitContainersList;
+  initContainers?: ContainerGroupPropertiesPropertiesInitContainersList | undefined;
   /** extensions used by virtual kubelet */
-  extensions?: ContainerGroupPropertiesPropertiesExtensionsList;
+  extensions?: ContainerGroupPropertiesPropertiesExtensionsList | undefined;
   /** The properties for confidential container group */
-  confidentialComputeProperties?: ConfidentialComputeProperties;
+  confidentialComputeProperties?: ConfidentialComputeProperties | undefined;
   /** The priority of the container group. */
-  priority?: ContainerGroupPriority;
+  priority?: ContainerGroupPriority | undefined;
   /** The access control levels of the identities. */
-  identityAcls?: IdentityAcls;
+  identityAcls?: IdentityAcls | undefined;
   /** The reference container group profile properties. */
-  containerGroupProfile?: ContainerGroupProfileReferenceDefinition;
+  containerGroupProfile?: ContainerGroupProfileReferenceDefinition | undefined;
   /** The reference standby pool profile properties. */
-  standbyPoolProfile?: StandbyPoolProfileDefinition;
+  standbyPoolProfile?: StandbyPoolProfileDefinition | undefined;
   /** The flag to determine whether the container group is created from standby pool. */
-  isCreatedFromStandbyPool?: boolean;
+  isCreatedFromStandbyPool?: boolean | undefined;
 }
 export interface ContainerGroupsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource location of the container group. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: ContainerGroupsCreateOrUpdateResponseTagsMap;
+  tags?: ContainerGroupsCreateOrUpdateResponseTagsMap | undefined;
   /** The availability zones. */
-  zones?: ContainerGroupsCreateOrUpdateResponseZonesList;
+  zones?: ContainerGroupsCreateOrUpdateResponseZonesList | undefined;
   /** The identity of the container group, if configured. */
-  identity?: ContainerGroupIdentity;
+  identity?: ContainerGroupIdentity | undefined;
   /** The container group properties */
   properties: ContainerGroupPropertiesProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteCGProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1042,27 +1051,27 @@ export type DeleteContainerGroupResponseTagsMap = { [key: string]: string | unde
 export type DeleteContainerGroupResponseZonesList = Array<string>;
 export interface DeleteContainerGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource location of the container group. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: DeleteContainerGroupResponseTagsMap;
+  tags?: DeleteContainerGroupResponseTagsMap | undefined;
   /** The availability zones. */
-  zones?: DeleteContainerGroupResponseZonesList;
+  zones?: DeleteContainerGroupResponseZonesList | undefined;
   /** The identity of the container group, if configured. */
-  identity?: ContainerGroupIdentity;
+  identity?: ContainerGroupIdentity | undefined;
   /** The container group properties */
   properties: ContainerGroupPropertiesProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteNGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1074,10 +1083,10 @@ export interface DeleteNGroupRequest {
 }
 export interface DeleteNGroupResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
-  location?: string;
+  azureAsyncOperation?: string | undefined;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSandboxGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1089,9 +1098,9 @@ export interface DeleteSandboxGroupRequest {
 }
 export interface DeleteSandboxGroupResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSubnetServiceAssociationLinkRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1105,16 +1114,16 @@ export interface DeleteSubnetServiceAssociationLinkRequest {
 }
 export interface DeleteSubnetServiceAssociationLinkResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The size of the terminal. */
 export interface ContainerExecRequestTerminalSize {
   /** The row size of the terminal */
-  rows?: number;
+  rows?: number | undefined;
   /** The column size of the terminal */
-  cols?: number;
+  cols?: number | undefined;
 }
 export interface ExecuteContainerCommandRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1126,16 +1135,16 @@ export interface ExecuteContainerCommandRequest {
   /** The name of the container instance. */
   containerName: string;
   /** The command to be executed. */
-  command?: string;
+  command?: string | undefined;
   /** The size of the terminal. */
-  terminalSize?: ContainerExecRequestTerminalSize;
+  terminalSize?: ContainerExecRequestTerminalSize | undefined;
 }
 /** The information for the container exec command. */
 export interface ContainerExecResponse {
   /** The uri for the exec websocket. */
-  webSocketUri?: string;
+  webSocketUri?: string | undefined;
   /** The password to start the exec command. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 export interface GetCGProfileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1151,21 +1160,21 @@ export type GetCGProfileResponseTagsMap = { [key: string]: string | undefined };
 export type GetCGProfileResponseZonesList = Array<string>;
 export interface GetCGProfileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The container group profile properties */
-  properties?: ContainerGroupProfileProperties;
+  properties?: ContainerGroupProfileProperties | undefined;
   /** Resource tags. */
-  tags?: GetCGProfileResponseTagsMap;
+  tags?: GetCGProfileResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The availability zones. */
-  zones?: GetCGProfileResponseZonesList;
+  zones?: GetCGProfileResponseZonesList | undefined;
 }
 export interface GetCGProfileByRevisionNumberRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1183,21 +1192,21 @@ export type GetCGProfileByRevisionNumberResponseTagsMap = { [key: string]: strin
 export type GetCGProfileByRevisionNumberResponseZonesList = Array<string>;
 export interface GetCGProfileByRevisionNumberResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The container group profile properties */
-  properties?: ContainerGroupProfileProperties;
+  properties?: ContainerGroupProfileProperties | undefined;
   /** Resource tags. */
-  tags?: GetCGProfileByRevisionNumberResponseTagsMap;
+  tags?: GetCGProfileByRevisionNumberResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The availability zones. */
-  zones?: GetCGProfileByRevisionNumberResponseZonesList;
+  zones?: GetCGProfileByRevisionNumberResponseZonesList | undefined;
 }
 export interface GetContainerGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1213,21 +1222,21 @@ export type GetContainerGroupResponseTagsMap = { [key: string]: string | undefin
 export type GetContainerGroupResponseZonesList = Array<string>;
 export interface GetContainerGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource location of the container group. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: GetContainerGroupResponseTagsMap;
+  tags?: GetContainerGroupResponseTagsMap | undefined;
   /** The availability zones. */
-  zones?: GetContainerGroupResponseZonesList;
+  zones?: GetContainerGroupResponseZonesList | undefined;
   /** The identity of the container group, if configured. */
-  identity?: ContainerGroupIdentity;
+  identity?: ContainerGroupIdentity | undefined;
   /** The container group properties */
   properties: ContainerGroupPropertiesProperties;
 }
@@ -1253,62 +1262,62 @@ export interface GetNGroupRequest {
 }
 export interface ElasticProfileContainerGroupNamingPolicyGuidNamingPolicy {
   /** The prefix can be used when there are tooling limitations (e.g. on the Azure portal where CGs from multiple NGroups exist in the same RG). The prefix with the suffixed resource name must still follow Azure resource naming guidelines. */
-  prefix?: string;
+  prefix?: string | undefined;
 }
 /** Container Groups are named on a generic guid based naming scheme/policy. Customer can modify naming policy to add prefix to CG names during scale out operation. */
 export interface ElasticProfileContainerGroupNamingPolicy {
-  guidNamingPolicy?: ElasticProfileContainerGroupNamingPolicyGuidNamingPolicy;
+  guidNamingPolicy?: ElasticProfileContainerGroupNamingPolicyGuidNamingPolicy | undefined;
 }
 /** Describes the elastic profile of the NGroup */
 export interface ElasticProfile {
-  desiredCount?: number;
+  desiredCount?: number | undefined;
   /** Flag that indicates whether desiredCount should be maintained when customer deletes SPECIFIC container groups (CGs) from the NGroups. In this case, new CGs will be created by NGroup to compensate for the specific deleted ones. */
-  maintainDesiredCount?: boolean;
+  maintainDesiredCount?: boolean | undefined;
   /** Container Groups are named on a generic guid based naming scheme/policy. Customer can modify naming policy to add prefix to CG names during scale out operation. */
-  containerGroupNamingPolicy?: ElasticProfileContainerGroupNamingPolicy;
+  containerGroupNamingPolicy?: ElasticProfileContainerGroupNamingPolicy | undefined;
 }
 /** Provides options w.r.t allocation and management w.r.t certain placement policies. These utilize capabilities provided by the underlying Azure infrastructure. They are typically used for high availability scenarios. E.g., distributing CGs across fault domains. */
 export interface PlacementProfile {
   /** The number of fault domains to be used to spread CGs in the NGroups resource. This can only be specified during NGroup creation and is immutable after that. */
-  faultDomainCount?: number;
+  faultDomainCount?: number | undefined;
 }
 /** The API entity reference. */
 export interface ApiEntityReference {
   /** The ARM resource id in the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/... */
-  id?: string;
+  id?: string | undefined;
 }
 /** NGroups load balancer backend address pool */
 export interface LoadBalancerBackendAddressPool {
   /** The Load Balancer backend address pool ARM resource Id. */
-  resource?: string;
+  resource?: string | undefined;
 }
 /** List of Load Balancer Backend Address Pools. */
 export type LoadBalancerBackendAddressPoolsList = Array<LoadBalancerBackendAddressPool>;
 /** LoadBalancer the CG profile will use to interact with CGs in a backend pool */
 export interface LoadBalancer {
   /** List of Load Balancer Backend Address Pools. */
-  backendAddressPools?: LoadBalancerBackendAddressPoolsList;
+  backendAddressPools?: LoadBalancerBackendAddressPoolsList | undefined;
 }
 /** NGroups application gateway backend address pool */
 export interface ApplicationGatewayBackendAddressPool {
   /** The application gateway backend address pool ARM resource Id. */
-  resource?: string;
+  resource?: string | undefined;
 }
 /** List of Application Gateway Backend Address Pools. */
 export type ApplicationGatewayBackendAddressPoolsList = Array<ApplicationGatewayBackendAddressPool>;
 /** Application Gateway the CG profile will use to interact with CGs in a backend pool */
 export interface ApplicationGateway {
   /** The Application Gateway ARM resource Id. */
-  resource?: string;
+  resource?: string | undefined;
   /** List of Application Gateway Backend Address Pools. */
-  backendAddressPools?: ApplicationGatewayBackendAddressPoolsList;
+  backendAddressPools?: ApplicationGatewayBackendAddressPoolsList | undefined;
 }
 /** A network profile for network settings of a ContainerGroupProfile. Used to manage load balancer and application gateway backend pools, specifically updating the IP addresses of CGs within the backend pool. */
 export interface NetworkProfile {
   /** LoadBalancer the CG profile will use to interact with CGs in a backend pool */
-  loadBalancer?: LoadBalancer;
+  loadBalancer?: LoadBalancer | undefined;
   /** Application Gateway the CG profile will use to interact with CGs in a backend pool */
-  applicationGateway?: ApplicationGateway;
+  applicationGateway?: ApplicationGateway | undefined;
 }
 /** Specifies how Container Groups can access the Azure file share i.e. all CG will share same Azure file share or going to have exclusive file share. */
 export type AzureFileShareAccessType = "Shared" | "Exclusive";
@@ -1320,21 +1329,21 @@ export type FileSharePropertiesShareAccessTier =
   | "TransactionOptimized";
 export interface FileShareProperties {
   /** Specifies how Container Groups can access the Azure file share i.e. all CG will share same Azure file share or going to have exclusive file share. */
-  shareAccessType?: AzureFileShareAccessType | (string & {});
+  shareAccessType?: AzureFileShareAccessType | (string & {}) | undefined;
   /** Access tier for specific share. GpV2 account can choose between TransactionOptimized (default), Hot, and Cool. FileStorage account can choose Premium. Learn more at: https://learn.microsoft.com/en-us/rest/api/storagerp/file-shares/create?tabs=HTTP#shareaccesstier */
-  shareAccessTier?: FileSharePropertiesShareAccessTier | (string & {});
+  shareAccessTier?: FileSharePropertiesShareAccessTier | (string & {}) | undefined;
 }
 /** File shares that can be mounted on container groups. */
 export interface FileShare {
-  name?: string;
-  resourceGroupName?: string;
-  storageAccountName?: string;
-  properties?: FileShareProperties;
+  name?: string | undefined;
+  resourceGroupName?: string | undefined;
+  storageAccountName?: string | undefined;
+  properties?: FileShareProperties | undefined;
 }
 export type StorageProfileFileSharesList = Array<FileShare>;
 /** Storage profile for storage related settings of a container group profile. */
 export interface StorageProfile {
-  fileShares?: StorageProfileFileSharesList;
+  fileShares?: StorageProfileFileSharesList | undefined;
 }
 /** Contains information about Virtual Network Subnet ARM Resource */
 export type NGroupContainerGroupPropertiesSubnetIdsList = Array<ContainerGroupSubnetId>;
@@ -1343,45 +1352,45 @@ export interface NGroupCGPropertyVolume {
   /** The name of the volume. */
   name: string;
   /** The Azure File volume. */
-  azureFile?: AzureFileVolume;
+  azureFile?: AzureFileVolume | undefined;
 }
 /** Contains information about the volumes that can be mounted by Containers in the Container Groups. */
 export type NGroupContainerGroupPropertiesVolumesList = Array<NGroupCGPropertyVolume>;
 export type NGroupCGPropertyContainerPropertiesVolumeMountsList = Array<VolumeMount>;
 /** container properties */
 export interface NGroupCGPropertyContainerProperties {
-  volumeMounts?: NGroupCGPropertyContainerPropertiesVolumeMountsList;
+  volumeMounts?: NGroupCGPropertyContainerPropertiesVolumeMountsList | undefined;
 }
 /** Container properties that can be provided with NGroups object. */
 export interface NGroupCGPropertyContainer {
   /** container name */
-  name?: string;
+  name?: string | undefined;
   /** container properties */
-  properties?: NGroupCGPropertyContainerProperties;
+  properties?: NGroupCGPropertyContainerProperties | undefined;
 }
 /** Contains information about Container which can be set while creating or updating the NGroups. */
 export type NGroupContainerGroupPropertiesContainersList = Array<NGroupCGPropertyContainer>;
 /** Container Group properties which can be set while creating or updating the NGroups. */
 export interface NGroupContainerGroupProperties {
   /** Contains information about Virtual Network Subnet ARM Resource */
-  subnetIds?: NGroupContainerGroupPropertiesSubnetIdsList;
+  subnetIds?: NGroupContainerGroupPropertiesSubnetIdsList | undefined;
   /** Contains information about the volumes that can be mounted by Containers in the Container Groups. */
-  volumes?: NGroupContainerGroupPropertiesVolumesList;
+  volumes?: NGroupContainerGroupPropertiesVolumesList | undefined;
   /** Contains information about Container which can be set while creating or updating the NGroups. */
-  containers?: NGroupContainerGroupPropertiesContainersList;
+  containers?: NGroupContainerGroupPropertiesContainersList | undefined;
 }
 /** The object that contains a reference to a Container Group Profile and it's other related properties. */
 export interface ContainerGroupProfileStub {
   /** A reference to the container group profile ARM resource hosted in ACI RP. */
-  resource?: ApiEntityReference;
+  resource?: ApiEntityReference | undefined;
   /** The revision of the CG profile is an optional property. If customer does not to provide a revision then NGroups will pickup the latest revision of CGProfile. */
-  revision?: number;
+  revision?: number | undefined;
   /** A network profile for network settings of a ContainerGroupProfile. */
-  networkProfile?: NetworkProfile;
+  networkProfile?: NetworkProfile | undefined;
   /** Storage profile for storage related settings of a container group profile. */
-  storageProfile?: StorageProfile;
+  storageProfile?: StorageProfile | undefined;
   /** Container Group properties which can be set while creating or updating the NGroups. */
-  containerGroupProperties?: NGroupContainerGroupProperties;
+  containerGroupProperties?: NGroupContainerGroupProperties | undefined;
 }
 /** The Container Group Profiles that could be used in the NGroups resource. */
 export type NGroupPropertiesContainerGroupProfilesList = Array<ContainerGroupProfileStub>;
@@ -1398,32 +1407,32 @@ export type NGroupUpdateMode = "Manual" | "Rolling";
 /** This profile allows the customers to customize the rolling update. */
 export interface UpdateProfileRollingUpdateProfile {
   /** Maximum percentage of total Container Groups which can be updated simultaneously by rolling update in one batch. */
-  maxBatchPercent?: number;
+  maxBatchPercent?: number | undefined;
   /** Maximum percentage of the updated Container Groups which can be in unhealthy state after each batch is updated. */
-  maxUnhealthyPercent?: number;
+  maxUnhealthyPercent?: number | undefined;
   /** The wait time between batches after completing the one batch of the rolling update and starting the next batch. The time duration should be specified in ISO 8601 format for duration. */
-  pauseTimeBetweenBatches?: string;
+  pauseTimeBetweenBatches?: string | undefined;
   /** Default is false. If set to true, the CGs will be updated in-place instead of creating new CG and deleting old ones. */
-  inPlaceUpdate?: boolean;
+  inPlaceUpdate?: boolean | undefined;
 }
 /** Used by the customer to specify the way to update the Container Groups in NGroup. */
 export interface UpdateProfile {
-  updateMode?: NGroupUpdateMode | (string & {});
+  updateMode?: NGroupUpdateMode | (string & {}) | undefined;
   /** This profile allows the customers to customize the rolling update. */
-  rollingUpdateProfile?: UpdateProfileRollingUpdateProfile;
+  rollingUpdateProfile?: UpdateProfileRollingUpdateProfile | undefined;
 }
 /** Describes the properties of the NGroups resource. */
 export interface NGroupProperties {
   /** The elastic profile. */
-  elasticProfile?: ElasticProfile;
+  elasticProfile?: ElasticProfile | undefined;
   /** Provides options w.r.t allocation and management w.r.t certain placement policies. These utilize capabilities provided by the underlying Azure infrastructure. They are typically used for high availability scenarios. E.g., distributing CGs across fault domains. */
-  placementProfile?: PlacementProfile;
+  placementProfile?: PlacementProfile | undefined;
   /** The Container Group Profiles that could be used in the NGroups resource. */
-  containerGroupProfiles?: NGroupPropertiesContainerGroupProfilesList;
+  containerGroupProfiles?: NGroupPropertiesContainerGroupProfilesList | undefined;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: NGroupProvisioningState | (string & {});
+  provisioningState?: NGroupProvisioningState | (string & {}) | undefined;
   /** Used by the customer to specify the way to update the Container Groups in NGroup. */
-  updateProfile?: UpdateProfile;
+  updateProfile?: UpdateProfile | undefined;
 }
 /** Resource tags. */
 export type GetNGroupResponseTagsMap = { [key: string]: string | undefined };
@@ -1436,33 +1445,33 @@ export type NGroupIdentityUserAssignedIdentitiesMap = {
 /** Identity for the NGroup. */
 export interface NGroupIdentity {
   /** The principal id of the NGroup identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant id associated with the NGroup. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The type of identity used for the NGroup. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the NGroup. */
-  type?: ResourceIdentityType;
+  type?: ResourceIdentityType | undefined;
   /** The list of user identities associated with the NGroup. */
-  userAssignedIdentities?: NGroupIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: NGroupIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface GetNGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Describes the properties of the NGroups resource. */
-  properties?: NGroupProperties;
+  properties?: NGroupProperties | undefined;
   /** Resource tags. */
-  tags?: GetNGroupResponseTagsMap;
+  tags?: GetNGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The availability zones. */
-  zones?: GetNGroupResponseZonesList;
+  zones?: GetNGroupResponseZonesList | undefined;
   /** The identity of the NGroup, if configured. */
-  identity?: NGroupIdentity;
+  identity?: NGroupIdentity | undefined;
 }
 export interface GetSandboxGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1492,16 +1501,16 @@ export type SandboxGroupNetworkProfileSubnetsList = Array<SubnetReference>;
 /** The network profile for a SandboxGroup. */
 export interface SandboxGroupNetworkProfile {
   /** The list of subnets associated with the SandboxGroup. */
-  subnets?: SandboxGroupNetworkProfileSubnetsList;
+  subnets?: SandboxGroupNetworkProfileSubnetsList | undefined;
 }
 /** Properties of a SandboxGroup. */
 export interface SandboxGroupProperties {
   /** The status of the last operation. */
-  provisioningState?: SandboxGroupProvisioningState;
+  provisioningState?: SandboxGroupProvisioningState | undefined;
   /** The network profile of the SandboxGroup. */
-  networkProfile?: SandboxGroupNetworkProfile;
+  networkProfile?: SandboxGroupNetworkProfile | undefined;
   /** The ARM resource ID of the management resource group associated with this SandboxGroup. */
-  managementResourceGroupId?: string;
+  managementResourceGroupId?: string | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -1512,29 +1521,29 @@ export type ManagedServiceIdentityType =
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetSandboxGroupResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 export interface GetSandboxGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSandboxGroupResponseTagsMap;
+  tags?: GetSandboxGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SandboxGroupProperties;
+  properties?: SandboxGroupProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetSandboxGroupResponseIdentity;
+  identity?: GetSandboxGroupResponseIdentity | undefined;
 }
 export interface ListCGProfileAllRevisionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1551,21 +1560,21 @@ export type ContainerGroupProfileZonesList = Array<string>;
 /** A container group profile object */
 export interface ContainerGroupProfile {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The container group profile properties */
-  properties?: ContainerGroupProfileProperties;
+  properties?: ContainerGroupProfileProperties | undefined;
   /** Resource tags. */
-  tags?: ContainerGroupProfileTagsMap;
+  tags?: ContainerGroupProfileTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The availability zones. */
-  zones?: ContainerGroupProfileZonesList;
+  zones?: ContainerGroupProfileZonesList | undefined;
 }
 /** The ContainerGroupProfile items on this page */
 export type ContainerGroupProfileListResultValueList = Array<ContainerGroupProfile>;
@@ -1574,7 +1583,7 @@ export interface ContainerGroupProfileListResult {
   /** The ContainerGroupProfile items on this page */
   value: ContainerGroupProfileListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCGProfileByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1633,64 +1642,66 @@ export type ListResultContainerGroupPropertiesPropertiesExtensionsList =
 /** The container group properties */
 export interface ListResultContainerGroupPropertiesProperties {
   /** The provisioning state of the container group. This only appears in the response. */
-  provisioningState?: ContainerGroupProvisioningState;
+  provisioningState?: ContainerGroupProvisioningState | undefined;
   /** The secret references that will be referenced within the container group. */
-  secretReferences?: ListResultContainerGroupPropertiesPropertiesSecretReferencesList;
+  secretReferences?: ListResultContainerGroupPropertiesPropertiesSecretReferencesList | undefined;
   /** The containers within the container group. */
   containers: ListResultContainerGroupPropertiesPropertiesContainersList;
   /** The image registry credentials by which the container group is created from. */
-  imageRegistryCredentials?: ListResultContainerGroupPropertiesPropertiesImageRegistryCredentialsList;
+  imageRegistryCredentials?:
+    | ListResultContainerGroupPropertiesPropertiesImageRegistryCredentialsList
+    | undefined;
   /** Restart policy for all containers within the container group. - `Always` Always restart - `OnFailure` Restart on failure - `Never` Never restart */
-  restartPolicy?: ContainerGroupRestartPolicy;
+  restartPolicy?: ContainerGroupRestartPolicy | undefined;
   /** The IP address type of the container group. */
-  ipAddress?: IpAddress;
+  ipAddress?: IpAddress | undefined;
   /** The operating system type required by the containers in the container group. */
   osType: OperatingSystemTypes;
   /** The list of volumes that can be mounted by containers in this container group. */
-  volumes?: ListResultContainerGroupPropertiesPropertiesVolumesList;
+  volumes?: ListResultContainerGroupPropertiesPropertiesVolumesList | undefined;
   /** The diagnostic information for a container group. */
-  diagnostics?: ContainerGroupDiagnostics;
+  diagnostics?: ContainerGroupDiagnostics | undefined;
   /** The subnet resource IDs for a container group. */
-  subnetIds?: ListResultContainerGroupPropertiesPropertiesSubnetIdsList;
+  subnetIds?: ListResultContainerGroupPropertiesPropertiesSubnetIdsList | undefined;
   /** The DNS config information for a container group. */
-  dnsConfig?: DnsConfiguration;
+  dnsConfig?: DnsConfiguration | undefined;
   /** The SKU for a container group. */
-  sku?: ContainerGroupSku;
+  sku?: ContainerGroupSku | undefined;
   /** The encryption properties for a container group. */
-  encryptionProperties?: EncryptionProperties;
+  encryptionProperties?: EncryptionProperties | undefined;
   /** The init containers for a container group. */
-  initContainers?: ListResultContainerGroupPropertiesPropertiesInitContainersList;
+  initContainers?: ListResultContainerGroupPropertiesPropertiesInitContainersList | undefined;
   /** extensions used by virtual kubelet */
-  extensions?: ListResultContainerGroupPropertiesPropertiesExtensionsList;
+  extensions?: ListResultContainerGroupPropertiesPropertiesExtensionsList | undefined;
   /** The properties for confidential container group */
-  confidentialComputeProperties?: ConfidentialComputeProperties;
+  confidentialComputeProperties?: ConfidentialComputeProperties | undefined;
   /** The priority of the container group. */
-  priority?: ContainerGroupPriority;
+  priority?: ContainerGroupPriority | undefined;
   /** The access control levels of the identities. */
-  identityAcls?: IdentityAcls;
+  identityAcls?: IdentityAcls | undefined;
   /** The reference container group profile properties. */
-  containerGroupProfile?: ContainerGroupProfileReferenceDefinition;
+  containerGroupProfile?: ContainerGroupProfileReferenceDefinition | undefined;
   /** The reference standby pool profile properties. */
-  standbyPoolProfile?: StandbyPoolProfileDefinition;
+  standbyPoolProfile?: StandbyPoolProfileDefinition | undefined;
   /** The flag to determine whether the container group is created from standby pool. */
-  isCreatedFromStandbyPool?: boolean;
+  isCreatedFromStandbyPool?: boolean | undefined;
 }
 /** A container group part of the list result. */
 export interface ListResultContainerGroup {
   /** The resource id. */
-  id?: string;
+  id?: string | undefined;
   /** The resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: ListResultContainerGroupTagsMap;
+  tags?: ListResultContainerGroupTagsMap | undefined;
   /** The zones for the container group. */
-  zones?: ListResultContainerGroupZonesList;
+  zones?: ListResultContainerGroupZonesList | undefined;
   /** The identity of the container group, if configured. */
-  identity?: ContainerGroupIdentity;
+  identity?: ContainerGroupIdentity | undefined;
   /** The container group properties */
   properties: ListResultContainerGroupPropertiesProperties;
 }
@@ -1701,7 +1712,7 @@ export interface ContainerGroupListResult {
   /** The ListResultContainerGroup items on this page */
   value: ContainerGroupListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListContainerGroupsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1717,14 +1728,14 @@ export interface ListContainerLogsRequest {
   /** The name of the container instance. */
   containerName: string;
   /** The number of lines to show from the tail of the container instance log. If not provided, all available logs are shown up to 4mb. */
-  tail?: number;
+  tail?: number | undefined;
   /** If true, adds a timestamp at the beginning of every line of log output. If not provided, defaults to false. */
-  timestamps?: boolean;
+  timestamps?: boolean | undefined;
 }
 /** The logs. */
 export interface Logs {
   /** The content of the log. */
-  content?: string;
+  content?: string | undefined;
 }
 export interface ListLocationCachedImagesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1744,9 +1755,9 @@ export type CachedImagesListResultValueList = Array<CachedImages>;
 /** The response containing cached images. */
 export interface CachedImagesListResult {
   /** The cached images. */
-  value?: CachedImagesListResultValueList;
+  value?: CachedImagesListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListLocationCapabilitiesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1757,35 +1768,35 @@ export interface ListLocationCapabilitiesRequest {
 /** The supported capabilities. */
 export interface CapabilitiesCapabilities {
   /** The maximum allowed memory request in GB. */
-  maxMemoryInGB?: number;
+  maxMemoryInGB?: number | undefined;
   /** The maximum allowed CPU request in cores. */
-  maxCpu?: number;
+  maxCpu?: number | undefined;
   /** The maximum allowed GPU count. */
-  maxGpuCount?: number;
+  maxGpuCount?: number | undefined;
 }
 /** The regional capabilities. */
 export interface Capabilities {
   /** The resource type that this capability describes. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The OS type that this capability describes. */
-  osType?: string;
+  osType?: string | undefined;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The ip address type that this capability describes. */
-  ipAddressType?: string;
+  ipAddressType?: string | undefined;
   /** The GPU sku that this capability describes. */
-  gpu?: string;
+  gpu?: string | undefined;
   /** The supported capabilities. */
-  capabilities?: CapabilitiesCapabilities;
+  capabilities?: CapabilitiesCapabilities | undefined;
 }
 /** The list of capabilities. */
 export type CapabilitiesListResultValueList = Array<Capabilities>;
 /** The response containing list of capabilities. */
 export interface CapabilitiesListResult {
   /** The list of capabilities. */
-  value?: CapabilitiesListResultValueList;
+  value?: CapabilitiesListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListLocationUsageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1796,31 +1807,31 @@ export interface ListLocationUsageRequest {
 /** The name object of the resource */
 export interface UsageName {
   /** The name of the resource */
-  value?: string;
+  value?: string | undefined;
   /** The localized name of the resource */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
 }
 /** A single usage result */
 export interface Usage {
   /** Id of the usage result */
-  id?: string;
+  id?: string | undefined;
   /** Unit of the usage result */
-  unit?: string;
+  unit?: string | undefined;
   /** The current usage of the resource */
-  currentValue?: number;
+  currentValue?: number | undefined;
   /** The maximum permitted usage of the resource. */
-  limit?: number;
+  limit?: number | undefined;
   /** The name object of the resource */
-  name?: UsageName;
+  name?: UsageName | undefined;
 }
 /** The usage data. */
 export type UsageListResultValueList = Array<Usage>;
 /** The response containing the usage data */
 export interface UsageListResult {
   /** The usage data. */
-  value?: UsageListResultValueList;
+  value?: UsageListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNGroupByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1835,23 +1846,23 @@ export type NGroupZonesList = Array<string>;
 /** Describes the NGroups resource. */
 export interface NGroup {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Describes the properties of the NGroups resource. */
-  properties?: NGroupProperties;
+  properties?: NGroupProperties | undefined;
   /** Resource tags. */
-  tags?: NGroupTagsMap;
+  tags?: NGroupTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The availability zones. */
-  zones?: NGroupZonesList;
+  zones?: NGroupZonesList | undefined;
   /** The identity of the NGroup, if configured. */
-  identity?: NGroupIdentity;
+  identity?: NGroupIdentity | undefined;
 }
 /** The NGroup items on this page */
 export type NGroupsListResultValueList = Array<NGroup>;
@@ -1860,7 +1871,7 @@ export interface NGroupsListResult {
   /** The NGroup items on this page */
   value: NGroupsListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNGroupsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1870,13 +1881,13 @@ export interface ListOperationsRequest {}
 /** The display information of the operation. */
 export interface OperationDisplay {
   /** The name of the provider of the operation. */
-  provider?: string;
+  provider?: string | undefined;
   /** The name of the resource type of the operation. */
-  resource?: string;
+  resource?: string | undefined;
   /** The friendly name of the operation. */
-  operation?: string;
+  operation?: string | undefined;
   /** The description of the operation. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation. */
 export type ContainerInstanceOperationsOrigin = "User" | "System";
@@ -1887,9 +1898,9 @@ export interface Operation {
   /** The display information of the operation. */
   display: OperationDisplay;
   /** The additional properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** The intended executor of the operation. */
-  origin?: ContainerInstanceOperationsOrigin;
+  origin?: ContainerInstanceOperationsOrigin | undefined;
 }
 /** The Operation items on this page */
 export type OperationListResultValueList = Array<Operation>;
@@ -1898,7 +1909,7 @@ export interface OperationListResult {
   /** The Operation items on this page */
   value: OperationListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSandboxGroupByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1913,21 +1924,21 @@ export type SandboxGroupIdentity = GetSandboxGroupResponseIdentity;
 /** A SandboxGroup tracked resource. */
 export interface SandboxGroup {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SandboxGroupTagsMap;
+  tags?: SandboxGroupTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SandboxGroupProperties;
+  properties?: SandboxGroupProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetSandboxGroupResponseIdentity;
+  identity?: GetSandboxGroupResponseIdentity | undefined;
 }
 /** The SandboxGroup items on this page */
 export type SandboxGroupListResultValueList = Array<SandboxGroup>;
@@ -1936,7 +1947,7 @@ export interface SandboxGroupListResult {
   /** The SandboxGroup items on this page */
   value: SandboxGroupListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSandboxGroupBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1953,9 +1964,9 @@ export type NGroupIdentityInputUserAssignedIdentitiesMap = {
 /** Identity for the NGroup. */
 export interface NGroupIdentityInput {
   /** The type of identity used for the NGroup. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the NGroup. */
-  type?: ResourceIdentityType | (string & {});
+  type?: ResourceIdentityType | (string & {}) | undefined;
   /** The list of user identities associated with the NGroup. */
-  userAssignedIdentities?: NGroupIdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: NGroupIdentityInputUserAssignedIdentitiesMap | undefined;
 }
 export interface NGroupsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1965,15 +1976,15 @@ export interface NGroupsCreateOrUpdateRequest {
   /** The NGroups name. */
   ngroupsName: string;
   /** Describes the properties of the NGroups resource. */
-  properties?: NGroupProperties;
+  properties?: NGroupProperties | undefined;
   /** Resource tags. */
-  tags?: NGroupsCreateOrUpdateRequestTagsMap;
+  tags?: NGroupsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The availability zones. */
-  zones?: NGroupsCreateOrUpdateRequestZonesList;
+  zones?: NGroupsCreateOrUpdateRequestZonesList | undefined;
   /** The identity of the NGroup, if configured. */
-  identity?: NGroupIdentityInput;
+  identity?: NGroupIdentityInput | undefined;
 }
 /** Resource tags. */
 export type NGroupsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -1981,26 +1992,26 @@ export type NGroupsCreateOrUpdateResponseTagsMap = { [key: string]: string | und
 export type NGroupsCreateOrUpdateResponseZonesList = Array<string>;
 export interface NGroupsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Describes the properties of the NGroups resource. */
-  properties?: NGroupProperties;
+  properties?: NGroupProperties | undefined;
   /** Resource tags. */
-  tags?: NGroupsCreateOrUpdateResponseTagsMap;
+  tags?: NGroupsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The availability zones. */
-  zones?: NGroupsCreateOrUpdateResponseZonesList;
+  zones?: NGroupsCreateOrUpdateResponseZonesList | undefined;
   /** The identity of the NGroup, if configured. */
-  identity?: NGroupIdentity;
-  azureAsyncOperation?: string;
+  identity?: NGroupIdentity | undefined;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RestartContainerGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2012,9 +2023,9 @@ export interface RestartContainerGroupRequest {
 }
 export interface RestartContainerGroupResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RestartNGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2026,22 +2037,22 @@ export interface RestartNGroupRequest {
 }
 export interface RestartNGroupResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
-  location?: string;
+  azureAsyncOperation?: string | undefined;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type SandboxGroupsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** Properties of a SandboxGroup. */
 export interface SandboxGroupPropertiesInput {
   /** The network profile of the SandboxGroup. */
-  networkProfile?: SandboxGroupNetworkProfile;
+  networkProfile?: SandboxGroupNetworkProfile | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface SandboxGroupsCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | undefined;
 }
 export interface SandboxGroupsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2051,13 +2062,13 @@ export interface SandboxGroupsCreateOrUpdateRequest {
   /** The name of the SandboxGroup. */
   sandboxGroupName: string;
   /** Resource tags. */
-  tags?: SandboxGroupsCreateOrUpdateRequestTagsMap;
+  tags?: SandboxGroupsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SandboxGroupPropertiesInput;
+  properties?: SandboxGroupPropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: SandboxGroupsCreateOrUpdateRequestIdentity;
+  identity?: SandboxGroupsCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type SandboxGroupsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -2065,25 +2076,25 @@ export type SandboxGroupsCreateOrUpdateResponseTagsMap = { [key: string]: string
 export type SandboxGroupsCreateOrUpdateResponseIdentity = GetSandboxGroupResponseIdentity;
 export interface SandboxGroupsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SandboxGroupsCreateOrUpdateResponseTagsMap;
+  tags?: SandboxGroupsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SandboxGroupProperties;
+  properties?: SandboxGroupProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetSandboxGroupResponseIdentity;
+  identity?: GetSandboxGroupResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StartContainerGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2095,9 +2106,9 @@ export interface StartContainerGroupRequest {
 }
 export interface StartContainerGroupResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StartNGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2109,10 +2120,10 @@ export interface StartNGroupRequest {
 }
 export interface StartNGroupResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
-  location?: string;
+  azureAsyncOperation?: string | undefined;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StopContainerGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2142,7 +2153,7 @@ export interface UpdateCGProfileRequest {
   /** ContainerGroupProfile name. */
   containerGroupProfileName: string;
   /** Resource tags. */
-  tags?: UpdateCGProfileRequestTagsMap;
+  tags?: UpdateCGProfileRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateCGProfileResponseTagsMap = { [key: string]: string | undefined };
@@ -2150,21 +2161,21 @@ export type UpdateCGProfileResponseTagsMap = { [key: string]: string | undefined
 export type UpdateCGProfileResponseZonesList = Array<string>;
 export interface UpdateCGProfileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The container group profile properties */
-  properties?: ContainerGroupProfileProperties;
+  properties?: ContainerGroupProfileProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateCGProfileResponseTagsMap;
+  tags?: UpdateCGProfileResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The availability zones. */
-  zones?: UpdateCGProfileResponseZonesList;
+  zones?: UpdateCGProfileResponseZonesList | undefined;
 }
 /** The resource tags. */
 export type UpdateContainerGroupRequestTagsMap = { [key: string]: string | undefined };
@@ -2178,11 +2189,11 @@ export interface UpdateContainerGroupRequest {
   /** The name of the container group. */
   containerGroupName: string;
   /** The resource location. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: UpdateContainerGroupRequestTagsMap;
+  tags?: UpdateContainerGroupRequestTagsMap | undefined;
   /** The zones for the container group. */
-  zones?: UpdateContainerGroupRequestZonesList;
+  zones?: UpdateContainerGroupRequestZonesList | undefined;
 }
 /** The resource tags. */
 export type UpdateContainerGroupResponseTagsMap = { [key: string]: string | undefined };
@@ -2190,21 +2201,21 @@ export type UpdateContainerGroupResponseTagsMap = { [key: string]: string | unde
 export type UpdateContainerGroupResponseZonesList = Array<string>;
 export interface UpdateContainerGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource location of the container group. */
-  location?: string;
+  location?: string | undefined;
   /** The resource tags. */
-  tags?: UpdateContainerGroupResponseTagsMap;
+  tags?: UpdateContainerGroupResponseTagsMap | undefined;
   /** The availability zones. */
-  zones?: UpdateContainerGroupResponseZonesList;
+  zones?: UpdateContainerGroupResponseZonesList | undefined;
   /** The identity of the container group, if configured. */
-  identity?: ContainerGroupIdentity;
+  identity?: ContainerGroupIdentity | undefined;
   /** The container group properties */
   properties: ContainerGroupPropertiesProperties;
 }
@@ -2220,13 +2231,13 @@ export interface UpdateNGroupRequest {
   /** The NGroups name. */
   ngroupsName: string;
   /** Describes the properties of the NGroups resource. */
-  properties?: NGroupProperties;
+  properties?: NGroupProperties | undefined;
   /** The identity of the NGroup, if configured. */
-  identity?: NGroupIdentityInput;
+  identity?: NGroupIdentityInput | undefined;
   /** The resource tags. */
-  tags?: UpdateNGroupRequestTagsMap;
+  tags?: UpdateNGroupRequestTagsMap | undefined;
   /** The zones for the NGroup. */
-  zones?: UpdateNGroupRequestZonesList;
+  zones?: UpdateNGroupRequestZonesList | undefined;
 }
 /** Resource tags. */
 export type UpdateNGroupResponseTagsMap = { [key: string]: string | undefined };
@@ -2234,27 +2245,27 @@ export type UpdateNGroupResponseTagsMap = { [key: string]: string | undefined };
 export type UpdateNGroupResponseZonesList = Array<string>;
 export interface UpdateNGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Describes the properties of the NGroups resource. */
-  properties?: NGroupProperties;
+  properties?: NGroupProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateNGroupResponseTagsMap;
+  tags?: UpdateNGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** The availability zones. */
-  zones?: UpdateNGroupResponseZonesList;
+  zones?: UpdateNGroupResponseZonesList | undefined;
   /** The identity of the NGroup, if configured. */
-  identity?: NGroupIdentity;
-  azureAsyncOperation?: string;
-  locationHeader?: string;
+  identity?: NGroupIdentity | undefined;
+  azureAsyncOperation?: string | undefined;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateSandboxGroupRequestTagsMap = { [key: string]: string | undefined };
@@ -2268,9 +2279,9 @@ export interface UpdateSandboxGroupRequest {
   /** The name of the SandboxGroup. */
   sandboxGroupName: string;
   /** Resource tags. */
-  tags?: UpdateSandboxGroupRequestTagsMap;
+  tags?: UpdateSandboxGroupRequestTagsMap | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: SandboxGroupsCreateOrUpdateRequestIdentity;
+  identity?: SandboxGroupsCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type UpdateSandboxGroupResponseTagsMap = { [key: string]: string | undefined };
@@ -2278,25 +2289,25 @@ export type UpdateSandboxGroupResponseTagsMap = { [key: string]: string | undefi
 export type UpdateSandboxGroupResponseIdentity = GetSandboxGroupResponseIdentity;
 export interface UpdateSandboxGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSandboxGroupResponseTagsMap;
+  tags?: UpdateSandboxGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SandboxGroupProperties;
+  properties?: SandboxGroupProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetSandboxGroupResponseIdentity;
+  identity?: GetSandboxGroupResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type AttachContainerError = AzureOpError;
 /** Attach to the output of a specific container instance. Attach to the output stream of a specific container instance in a specified resource group and container group. */

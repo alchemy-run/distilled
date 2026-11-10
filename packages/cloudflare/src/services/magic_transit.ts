@@ -471,31 +471,34 @@ export class SiteWanNotFound
 export interface BulkPutCfInterconnectsRequest {
   /** Identifier */
   accountId: string;
-  xMagicNewHcTarget?: boolean;
+  xMagicNewHcTarget?: boolean | undefined;
 }
 export type CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemBgpExtraPrefixesList =
   Array<string>;
 export interface CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemBgp {
   /** Deprecated. Use customer_asn. */
-  asNo?: number | null;
+  asNo?: number | null | undefined;
   /** Read-only for v1.5; derived from interface_address. */
-  cloudflareEndpoint?: string | null;
+  cloudflareEndpoint?: string | null | undefined;
   /** ASN used on the customer end of the BGP session. */
-  customerAsn?: number | null;
+  customerAsn?: number | null | undefined;
   /** Read-only for v1.5; derived from interface_address. */
-  customerEndpoint?: string | null;
+  customerEndpoint?: string | null | undefined;
   /** ID of the BGP filter profile applied to routes advertised to the customer. */
-  exportFilterId?: string | null;
+  exportFilterId?: string | null | undefined;
   /** IPv4 prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table. Each entry must be a network address in CIDR notation with no host bits set (for example `192.0.2.0/24`, not `192.0.2.1/24`) and must not repeat another entry. */
-  extraPrefixes?: CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemBgpExtraPrefixesList | null;
+  extraPrefixes?:
+    | CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemBgpExtraPrefixesList
+    | null
+    | undefined;
   /** ID of the BGP filter profile applied to routes received from the customer. */
-  importFilterId?: string | null;
+  importFilterId?: string | null | undefined;
   /** MD5 key to use for session authentication. */
-  md5Key?: string | null;
+  md5Key?: string | null | undefined;
 }
 export interface CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemGre {
   /** The IP address assigned to the Cloudflare side of the GRE tunnel created as part of the Interconnect. */
-  cloudflareEndpoint?: string | null;
+  cloudflareEndpoint?: string | null | undefined;
 }
 export type CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemHealthCheckDirection =
   | "unidirectional"
@@ -506,9 +509,9 @@ export type CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemHealthChec
   | "high";
 export interface CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemHealthCheckTargetMagicHealthCheckTarget {
   /** The effective health check target. If 'saved' is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests. */
-  effective?: string | null;
+  effective?: string | null | undefined;
   /** The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used. */
-  saved?: string | null;
+  saved?: string | null | undefined;
 }
 export type CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemHealthCheckTarget =
   | string
@@ -518,72 +521,93 @@ export type CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemHealthChec
   | "request";
 export interface CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemHealthCheck {
   /** The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the interconnect and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the interconnect. */
-  direction?: CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemHealthCheckDirection | null;
+  direction?:
+    | CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemHealthCheckDirection
+    | null
+    | undefined;
   /** Determines whether to run healthchecks for a tunnel. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** How frequent the health check is run. The default value is `mid`. */
-  rate?: CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemHealthCheckRate | null;
+  rate?:
+    | CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemHealthCheckRate
+    | null
+    | undefined;
   /** The source IPv4 address used for bidirectional health checks. Supported only for version 1.5 interconnects. It is required when `direction` is `bidirectional` and must be omitted (and is cleared) when `direction` is `unidirectional`. The address must be within RFC1918 space, the approved link-local range 169.254.240.0/20, or the Cloudflare reserved range 198.41.199.224/27. */
-  source?: string | null;
+  source?: string | null | undefined;
   /** The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false. */
-  target?: CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemHealthCheckTarget | null;
+  target?:
+    | CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemHealthCheckTarget
+    | null
+    | undefined;
   /** The type of healthcheck to run, reply or request. The default value is `reply`. */
-  type?: CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemHealthCheckType | null;
+  type?:
+    | CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemHealthCheckType
+    | null
+    | undefined;
 }
 export interface CfInterconnectsBulkUpdateResponseModifiedInterconnectsItem {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected. */
-  automaticReturnRouting?: boolean | null;
-  bgp?: CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemBgp | null;
+  automaticReturnRouting?: boolean | null | undefined;
+  bgp?: CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemBgp | null | undefined;
   /** The name of the interconnect. The name cannot share a name with other tunnels. */
-  coloName?: string | null;
+  coloName?: string | null | undefined;
   /** The date and time the tunnel was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** An optional description of the interconnect. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Omitted in responses for version 1.5 interconnects. */
-  gre?: CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemGre | null;
-  healthCheck?: CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemHealthCheck | null;
+  gre?: CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemGre | null | undefined;
+  healthCheck?:
+    | CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemHealthCheck
+    | null
+    | undefined;
   /** The IPv4 interface address for the interconnect. For MPLS Interconnects, use a /30 or /31 prefix. For GRE Interconnects, a /30 or /31 prefix may be used. Version 1.5 interconnects require a /31 prefix and may also use a prefix from the account's authorized prefixes; otherwise, select the subnet from RFC 1918 or the approved link-local ranges. */
-  interfaceAddress?: string | null;
+  interfaceAddress?: string | null | undefined;
   /** A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127 */
-  interfaceAddress6?: string | null;
+  interfaceAddress6?: string | null | undefined;
   /** The date and time the tunnel was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The Maximum Transmission Unit (MTU) in bytes for the interconnect. The minimum value is 576. */
-  mtu?: number | null;
+  mtu?: number | null | undefined;
   /** The name of the interconnect. The name cannot share a name with other tunnels. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Immutable interconnect version configured at creation time. One of: */
-  version?: string | null;
+  version?: string | null | undefined;
   /** An identifier that correlates this interconnect with the corresponding V2 CNI interconnect resource. */
-  virtualPortReservationId?: string | null;
+  virtualPortReservationId?: string | null | undefined;
 }
 export type CfInterconnectsBulkUpdateResponseModifiedInterconnectsList =
   Array<CfInterconnectsBulkUpdateResponseModifiedInterconnectsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface BulkPutCfInterconnectsResponse {
-  modified?: boolean | null;
-  modifiedInterconnects?: CfInterconnectsBulkUpdateResponseModifiedInterconnectsList | null;
+  modified?: boolean | null | undefined;
+  modifiedInterconnects?:
+    | CfInterconnectsBulkUpdateResponseModifiedInterconnectsList
+    | null
+    | undefined;
 }
 export interface BulkPutGreTunnelsRequest {
   /** Identifier */
   accountId: string;
-  xMagicNewHcTarget?: boolean;
+  xMagicNewHcTarget?: boolean | undefined;
 }
 export type GreTunnelsBulkUpdateResponseModifiedGreTunnelsItemBgpExtraPrefixesList = Array<string>;
 export interface GreTunnelsBulkUpdateResponseModifiedGreTunnelsItemBgp {
   /** ASN used on the customer end of the BGP session */
   customerAsn: number;
   /** ID of the BGP filter profile applied to routes advertised to the customer. */
-  exportFilterId?: string | null;
+  exportFilterId?: string | null | undefined;
   /** Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table. Each entry must be a network address in CIDR notation with no host bits set (for example `192.0.2.0/24`, not `192.0.2.1/24`) and must not repeat another entry. IPv6 prefixes are accepted only when the tunnel has an `interface_address6`. */
-  extraPrefixes?: GreTunnelsBulkUpdateResponseModifiedGreTunnelsItemBgpExtraPrefixesList | null;
+  extraPrefixes?:
+    | GreTunnelsBulkUpdateResponseModifiedGreTunnelsItemBgpExtraPrefixesList
+    | null
+    | undefined;
   /** ID of the BGP filter profile applied to routes received from the customer. */
-  importFilterId?: string | null;
+  importFilterId?: string | null | undefined;
   /** MD5 key to use for session authentication. */
-  md5Key?: string | null;
+  md5Key?: string | null | undefined;
 }
 export type GreTunnelsBulkUpdateResponseModifiedGreTunnelsItemBgpStatusState =
   | "BGP_DOWN"
@@ -593,11 +617,11 @@ export interface GreTunnelsBulkUpdateResponseModifiedGreTunnelsItemBgpStatus {
   state: GreTunnelsBulkUpdateResponseModifiedGreTunnelsItemBgpStatusState;
   tcpEstablished: boolean;
   updatedAt: string;
-  bgpState?: string | null;
-  cfSpeakerIp?: string | null;
-  cfSpeakerPort?: number | null;
-  customerSpeakerIp?: string | null;
-  customerSpeakerPort?: number | null;
+  bgpState?: string | null | undefined;
+  cfSpeakerIp?: string | null | undefined;
+  cfSpeakerPort?: number | null | undefined;
+  customerSpeakerIp?: string | null | undefined;
+  customerSpeakerPort?: number | null | undefined;
 }
 export type GreTunnelsBulkUpdateResponseModifiedGreTunnelsItemHealthCheckDirection =
   | "unidirectional"
@@ -614,15 +638,18 @@ export type GreTunnelsBulkUpdateResponseModifiedGreTunnelsItemHealthCheckTarget 
 export type GreTunnelsBulkUpdateResponseModifiedGreTunnelsItemHealthCheckType = "reply" | "request";
 export interface GreTunnelsBulkUpdateResponseModifiedGreTunnelsItemHealthCheck {
   /** The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel. */
-  direction?: GreTunnelsBulkUpdateResponseModifiedGreTunnelsItemHealthCheckDirection | null;
+  direction?:
+    | GreTunnelsBulkUpdateResponseModifiedGreTunnelsItemHealthCheckDirection
+    | null
+    | undefined;
   /** Determines whether to run healthchecks for a tunnel. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** How frequent the health check is run. The default value is `mid`. */
-  rate?: GreTunnelsBulkUpdateResponseModifiedGreTunnelsItemHealthCheckRate | null;
+  rate?: GreTunnelsBulkUpdateResponseModifiedGreTunnelsItemHealthCheckRate | null | undefined;
   /** The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false. */
-  target?: GreTunnelsBulkUpdateResponseModifiedGreTunnelsItemHealthCheckTarget | null;
+  target?: GreTunnelsBulkUpdateResponseModifiedGreTunnelsItemHealthCheckTarget | null | undefined;
   /** The type of healthcheck to run, reply or request. The default value is `reply`. */
-  type?: GreTunnelsBulkUpdateResponseModifiedGreTunnelsItemHealthCheckType | null;
+  type?: GreTunnelsBulkUpdateResponseModifiedGreTunnelsItemHealthCheckType | null | undefined;
 }
 export interface GreTunnelsBulkUpdateResponseModifiedGreTunnelsItem {
   /** Identifier */
@@ -636,34 +663,34 @@ export interface GreTunnelsBulkUpdateResponseModifiedGreTunnelsItem {
   /** The name of the tunnel. The name cannot contain spaces or special characters, must be 15 characters or less, and cannot share a name with another GRE tunnel. */
   name: string;
   /** True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected. */
-  automaticReturnRouting?: boolean | null;
-  bgp?: GreTunnelsBulkUpdateResponseModifiedGreTunnelsItemBgp | null;
-  bgpStatus?: GreTunnelsBulkUpdateResponseModifiedGreTunnelsItemBgpStatus | null;
+  automaticReturnRouting?: boolean | null | undefined;
+  bgp?: GreTunnelsBulkUpdateResponseModifiedGreTunnelsItemBgp | null | undefined;
+  bgpStatus?: GreTunnelsBulkUpdateResponseModifiedGreTunnelsItemBgpStatus | null | undefined;
   /** The date and time the tunnel was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** An optional description of the GRE tunnel. */
-  description?: string | null;
-  healthCheck?: GreTunnelsBulkUpdateResponseModifiedGreTunnelsItemHealthCheck | null;
+  description?: string | null | undefined;
+  healthCheck?: GreTunnelsBulkUpdateResponseModifiedGreTunnelsItemHealthCheck | null | undefined;
   /** A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127 */
-  interfaceAddress6?: string | null;
+  interfaceAddress6?: string | null | undefined;
   /** The date and time the tunnel was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Maximum Transmission Unit (MTU) in bytes for the GRE tunnel. The minimum value is 576. */
-  mtu?: number | null;
+  mtu?: number | null | undefined;
   /** Time To Live (TTL) in number of hops of the GRE tunnel. */
-  ttl?: number | null;
+  ttl?: number | null | undefined;
 }
 export type GreTunnelsBulkUpdateResponseModifiedGreTunnelsList =
   Array<GreTunnelsBulkUpdateResponseModifiedGreTunnelsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface BulkPutGreTunnelsResponse {
-  modified?: boolean | null;
-  modifiedGreTunnels?: GreTunnelsBulkUpdateResponseModifiedGreTunnelsList | null;
+  modified?: boolean | null | undefined;
+  modifiedGreTunnels?: GreTunnelsBulkUpdateResponseModifiedGreTunnelsList | null | undefined;
 }
 export interface BulkPutIpsecTunnelsRequest {
   /** Identifier */
   accountId: string;
-  xMagicNewHcTarget?: boolean;
+  xMagicNewHcTarget?: boolean | undefined;
 }
 export type IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemBgpExtraPrefixesList =
   Array<string>;
@@ -671,13 +698,16 @@ export interface IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemBgp {
   /** ASN used on the customer end of the BGP session */
   customerAsn: number;
   /** ID of the BGP filter profile applied to routes advertised to the customer. */
-  exportFilterId?: string | null;
+  exportFilterId?: string | null | undefined;
   /** Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table. Each entry must be a network address in CIDR notation with no host bits set (for example `192.0.2.0/24`, not `192.0.2.1/24`) and must not repeat another entry. IPv6 prefixes are accepted only when the tunnel has an `interface_address6`. */
-  extraPrefixes?: IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemBgpExtraPrefixesList | null;
+  extraPrefixes?:
+    | IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemBgpExtraPrefixesList
+    | null
+    | undefined;
   /** ID of the BGP filter profile applied to routes received from the customer. */
-  importFilterId?: string | null;
+  importFilterId?: string | null | undefined;
   /** MD5 key to use for session authentication. */
-  md5Key?: string | null;
+  md5Key?: string | null | undefined;
 }
 export type IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemBgpStatusState =
   | "BGP_DOWN"
@@ -687,15 +717,15 @@ export interface IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemBgpStatus
   state: IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemBgpStatusState;
   tcpEstablished: boolean;
   updatedAt: string;
-  bgpState?: string | null;
-  cfSpeakerIp?: string | null;
-  cfSpeakerPort?: number | null;
-  customerSpeakerIp?: string | null;
-  customerSpeakerPort?: number | null;
+  bgpState?: string | null | undefined;
+  cfSpeakerIp?: string | null | undefined;
+  cfSpeakerPort?: number | null | undefined;
+  customerSpeakerIp?: string | null | undefined;
+  customerSpeakerPort?: number | null | undefined;
 }
 export interface IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemCustomRemoteIdentities {
   /** A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The generated IKE IDs can still be used even if this custom value is specified. */
-  fqdnId?: string | null;
+  fqdnId?: string | null | undefined;
 }
 export type IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemHealthCheckDirection =
   | "unidirectional"
@@ -714,19 +744,25 @@ export type IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemHealthCheckTyp
   | "request";
 export interface IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemHealthCheck {
   /** The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel. */
-  direction?: IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemHealthCheckDirection | null;
+  direction?:
+    | IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemHealthCheckDirection
+    | null
+    | undefined;
   /** Determines whether to run healthchecks for a tunnel. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** How frequent the health check is run. The default value is `mid`. */
-  rate?: IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemHealthCheckRate | null;
+  rate?: IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemHealthCheckRate | null | undefined;
   /** The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false. */
-  target?: IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemHealthCheckTarget | null;
+  target?:
+    | IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemHealthCheckTarget
+    | null
+    | undefined;
   /** The type of healthcheck to run, reply or request. The default value is `reply`. */
-  type?: IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemHealthCheckType | null;
+  type?: IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemHealthCheckType | null | undefined;
 }
 export interface IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemPskMetadata {
   /** The date and time the tunnel was last modified. */
-  lastGeneratedOn?: string | null;
+  lastGeneratedOn?: string | null | undefined;
 }
 export interface IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItem {
   /** Identifier */
@@ -738,42 +774,51 @@ export interface IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItem {
   /** The name of the IPsec tunnel. The name cannot share a name with other tunnels. */
   name: string;
   /** When `true`, the tunnel can use a null-cipher (`ENCR_NULL`) in the ESP tunnel (Phase 2). */
-  allowNullCipher?: boolean | null;
+  allowNullCipher?: boolean | null | undefined;
   /** True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected. */
-  automaticReturnRouting?: boolean | null;
-  bgp?: IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemBgp | null;
-  bgpStatus?: IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemBgpStatus | null;
+  automaticReturnRouting?: boolean | null | undefined;
+  bgp?: IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemBgp | null | undefined;
+  bgpStatus?: IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemBgpStatus | null | undefined;
   /** The date and time the tunnel was created. */
-  createdOn?: string | null;
-  customRemoteIdentities?: IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemCustomRemoteIdentities | null;
+  createdOn?: string | null | undefined;
+  customRemoteIdentities?:
+    | IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemCustomRemoteIdentities
+    | null
+    | undefined;
   /** The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work. */
-  customerEndpoint?: string | null;
+  customerEndpoint?: string | null | undefined;
   /** An optional description forthe IPsec tunnel. */
-  description?: string | null;
-  healthCheck?: IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemHealthCheck | null;
+  description?: string | null | undefined;
+  healthCheck?:
+    | IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemHealthCheck
+    | null
+    | undefined;
   /** A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127 */
-  interfaceAddress6?: string | null;
+  interfaceAddress6?: string | null | undefined;
   /** The date and time the tunnel was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The PSK metadata that includes when the PSK was generated. */
-  pskMetadata?: IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemPskMetadata | null;
+  pskMetadata?:
+    | IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemPskMetadata
+    | null
+    | undefined;
   /** If `true`, then IPsec replay protection will be supported in the Cloudflare-to-customer direction. */
-  replayProtection?: boolean | null;
+  replayProtection?: boolean | null | undefined;
 }
 export type IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsList =
   Array<IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface BulkPutIpsecTunnelsResponse {
-  modified?: boolean | null;
-  modifiedIpsecTunnels?: IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsList | null;
+  modified?: boolean | null | undefined;
+  modifiedIpsecTunnels?: IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsList | null | undefined;
 }
 export type RoutesBulkUpdateRequestRoutesItemScopeColoNamesList = Array<string>;
 export type RoutesBulkUpdateRequestRoutesItemScopeColoRegionsList = Array<string>;
 export interface RoutesBulkUpdateRequestRoutesItemScope {
   /** List of colo names for the ECMP scope. */
-  coloNames?: RoutesBulkUpdateRequestRoutesItemScopeColoNamesList;
+  coloNames?: RoutesBulkUpdateRequestRoutesItemScopeColoNamesList | undefined;
   /** List of colo regions for the ECMP scope. */
-  coloRegions?: RoutesBulkUpdateRequestRoutesItemScopeColoRegionsList;
+  coloRegions?: RoutesBulkUpdateRequestRoutesItemScopeColoRegionsList | undefined;
 }
 export interface RoutesBulkUpdateRequestRoutesItem {
   /** Identifier */
@@ -785,11 +830,11 @@ export interface RoutesBulkUpdateRequestRoutesItem {
   /** Priority of the static route. */
   priority: number;
   /** An optional human provided description of the static route. */
-  description?: string;
+  description?: string | undefined;
   /** Used only for ECMP routes. */
-  scope?: RoutesBulkUpdateRequestRoutesItemScope;
+  scope?: RoutesBulkUpdateRequestRoutesItemScope | undefined;
   /** Optional weight of the ECMP scope - if provided. */
-  weight?: number;
+  weight?: number | undefined;
 }
 export type RoutesBulkUpdateRequestRoutesList = Array<RoutesBulkUpdateRequestRoutesItem>;
 export interface BulkPutRoutesRequest {
@@ -801,9 +846,9 @@ export type RoutesBulkUpdateResponseModifiedRoutesItemScopeColoNamesList = Array
 export type RoutesBulkUpdateResponseModifiedRoutesItemScopeColoRegionsList = Array<string>;
 export interface RoutesBulkUpdateResponseModifiedRoutesItemScope {
   /** List of colo names for the ECMP scope. */
-  coloNames?: RoutesBulkUpdateResponseModifiedRoutesItemScopeColoNamesList | null;
+  coloNames?: RoutesBulkUpdateResponseModifiedRoutesItemScopeColoNamesList | null | undefined;
   /** List of colo regions for the ECMP scope. */
-  coloRegions?: RoutesBulkUpdateResponseModifiedRoutesItemScopeColoRegionsList | null;
+  coloRegions?: RoutesBulkUpdateResponseModifiedRoutesItemScopeColoRegionsList | null | undefined;
 }
 export interface RoutesBulkUpdateResponseModifiedRoutesItem {
   /** Identifier */
@@ -815,22 +860,22 @@ export interface RoutesBulkUpdateResponseModifiedRoutesItem {
   /** Priority of the static route. */
   priority: number;
   /** When the route was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** An optional human provided description of the static route. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** When the route was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Used only for ECMP routes. */
-  scope?: RoutesBulkUpdateResponseModifiedRoutesItemScope | null;
+  scope?: RoutesBulkUpdateResponseModifiedRoutesItemScope | null | undefined;
   /** Optional weight of the ECMP scope - if provided. */
-  weight?: number | null;
+  weight?: number | null | undefined;
 }
 export type RoutesBulkUpdateResponseModifiedRoutesList =
   Array<RoutesBulkUpdateResponseModifiedRoutesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface BulkPutRoutesResponse {
-  modified?: boolean | null;
-  modifiedRoutes?: RoutesBulkUpdateResponseModifiedRoutesList | null;
+  modified?: boolean | null | undefined;
+  modifiedRoutes?: RoutesBulkUpdateResponseModifiedRoutesList | null | undefined;
 }
 export type AppsCreateRequestHostnamesList = Array<string>;
 export type AppsCreateRequestIpSubnetsList = Array<string>;
@@ -843,11 +888,11 @@ export interface CreateAppRequest {
   /** Category of the app. */
   type: string;
   /** FQDNs to associate with traffic decisions. */
-  hostnames?: AppsCreateRequestHostnamesList;
+  hostnames?: AppsCreateRequestHostnamesList | undefined;
   /** IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported) */
-  ipSubnets?: AppsCreateRequestIpSubnetsList;
+  ipSubnets?: AppsCreateRequestIpSubnetsList | undefined;
   /** IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported) */
-  sourceSubnets?: AppsCreateRequestSourceSubnetsList;
+  sourceSubnets?: AppsCreateRequestSourceSubnetsList | undefined;
 }
 export type AppsCreateResponseHostnamesList = Array<string>;
 export type AppsCreateResponseIpSubnetsList = Array<string>;
@@ -857,15 +902,15 @@ export interface CreateAppResponse {
   /** Magic account app ID. */
   accountAppId: string;
   /** FQDNs to associate with traffic decisions. */
-  hostnames?: AppsCreateResponseHostnamesList | null;
+  hostnames?: AppsCreateResponseHostnamesList | null | undefined;
   /** IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported) */
-  ipSubnets?: AppsCreateResponseIpSubnetsList | null;
+  ipSubnets?: AppsCreateResponseIpSubnetsList | null | undefined;
   /** Display name for the app. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported) */
-  sourceSubnets?: AppsCreateResponseSourceSubnetsList | null;
+  sourceSubnets?: AppsCreateResponseSourceSubnetsList | null | undefined;
   /** Category of the app. */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 export type CreateBgpFilterProfileRequestMatchAction = "allow" | "deny";
 export type CreateBgpFilterProfileRequestTargetsList = Array<string>;
@@ -879,7 +924,7 @@ export interface CreateBgpFilterProfileRequest {
   /** List of CIDR prefixes. Each entry may carry an optional suffix that specifies which prefix lengths to match relative to the prefix length N: '{X,Y}' matches prefix lengths in the inclusive range [X, Y] where N <= X <= Y <= max (max is 32 for IPv4, 128 for IPv6), '{X}' matches exactly length X (equivalent to {X,X}), '+' is shorthand for {N, max} (the prefix and all more-specific subnets, including at length N itself; valid even when N is the maximum length). Omit the suffix to match the prefix exactly at length N. */
   targets: CreateBgpFilterProfileRequestTargetsList;
   /** Description of the filter profile */
-  description?: string;
+  description?: string | undefined;
 }
 export type CreateBgpFilterProfileResponseMatchAction = "allow" | "deny";
 export type CreateBgpFilterProfileResponseTargetsList = Array<string>;
@@ -895,27 +940,27 @@ export interface CreateBgpFilterProfileResponse {
   name: string;
   /** List of CIDR prefixes. Each entry may carry an optional suffix that specifies which prefix lengths to match relative to the prefix length N: '{X,Y}' matches prefix lengths in the inclusive range [X, Y] where N &lt;= X &lt;= Y &lt;= max (max is 32 for IPv4, 128 for IPv6), '{X}' matches exactly length X (equivalent to {X,X}), '+' is shorthand for {N, max} (the prefix and all more-specific subnets, including at length N itself; valid even when N is the maximum length). Omit the suffix to match the prefix exactly at length N. */
   targets: CreateBgpFilterProfileResponseTargetsList;
-  createdOn?: string | null;
-  modifiedOn?: string | null;
+  createdOn?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
 }
 export interface Cf1SitesCreateRequestBodyItemLocation {
   /** Latitude of the CF1 Site. */
-  lat?: number;
+  lat?: number | undefined;
   /** Longitude of the CF1 Site. */
-  long?: number;
+  long?: number | undefined;
   /** Name of nearest town, city, or village. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface Cf1SitesCreateRequestBodyItem {
   /** A human-provided name describing the CF1 Site that should be unique within the account. */
   name: string;
   /** Identifier */
-  id?: string;
-  createdOn?: string;
+  id?: string | undefined;
+  createdOn?: string | undefined;
   /** A human-provided description of the CF1 Site. */
-  description?: string;
-  location?: Cf1SitesCreateRequestBodyItemLocation;
-  modifiedOn?: string;
+  description?: string | undefined;
+  location?: Cf1SitesCreateRequestBodyItemLocation | undefined;
+  modifiedOn?: string | undefined;
 }
 export type Cf1SitesCreateRequestBodyList = Array<Cf1SitesCreateRequestBodyItem>;
 export interface CreateCf1SiteRequest {
@@ -925,29 +970,29 @@ export interface CreateCf1SiteRequest {
 }
 export interface Cf1SitesCreateResultItemLocation {
   /** Latitude of the CF1 Site. */
-  lat?: number | null;
+  lat?: number | null | undefined;
   /** Longitude of the CF1 Site. */
-  long?: number | null;
+  long?: number | null | undefined;
   /** Name of nearest town, city, or village. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export interface Cf1SitesCreateResultItem {
   /** A human-provided name describing the CF1 Site that should be unique within the account. */
   name: string;
   /** Identifier */
-  id?: string | null;
-  createdOn?: string | null;
+  id?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** A human-provided description of the CF1 Site. */
-  description?: string | null;
-  location?: Cf1SitesCreateResultItemLocation | null;
-  modifiedOn?: string | null;
+  description?: string | null | undefined;
+  location?: Cf1SitesCreateResultItemLocation | null | undefined;
+  modifiedOn?: string | null | undefined;
 }
 export type Cf1SitesCreateResultList = Array<Cf1SitesCreateResultItem>;
 export interface CreateCf1SiteResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: Cf1SitesCreateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type Cf1SitesRampsCreateRequestBodyItemType =
   | "gre"
@@ -977,7 +1022,7 @@ export type Cf1SitesRampsCreateResultItemType =
   | "ipsec";
 export interface Cf1SitesRampsCreateResultItemGre {
   /** URL reference to the source network resource that this ramp is managed by. */
-  managedBy?: string | null;
+  managedBy?: string | null | undefined;
 }
 export type Cf1SitesRampsCreateResultItemGreInterconnect = Cf1SitesRampsCreateResultItemGre;
 export type Cf1SitesRampsCreateResultItemIpsec = Cf1SitesRampsCreateResultItemGre;
@@ -993,25 +1038,25 @@ export interface Cf1SitesRampsCreateResultItem {
   /** The type of network connection (ramp) linking a CF1 Site to Cloudflare's network. */
   type: Cf1SitesRampsCreateResultItemType;
   /** A human-provided description of the ramp. */
-  description?: string | null;
-  gre?: Cf1SitesRampsCreateResultItemGre | null;
-  greInterconnect?: Cf1SitesRampsCreateResultItemGre | null;
-  ipsec?: Cf1SitesRampsCreateResultItemGre | null;
-  mconn?: Cf1SitesRampsCreateResultItemGre | null;
-  mplsInterconnect?: Cf1SitesRampsCreateResultItemGre | null;
+  description?: string | null | undefined;
+  gre?: Cf1SitesRampsCreateResultItemGre | null | undefined;
+  greInterconnect?: Cf1SitesRampsCreateResultItemGre | null | undefined;
+  ipsec?: Cf1SitesRampsCreateResultItemGre | null | undefined;
+  mconn?: Cf1SitesRampsCreateResultItemGre | null | undefined;
+  mplsInterconnect?: Cf1SitesRampsCreateResultItemGre | null | undefined;
 }
 export type Cf1SitesRampsCreateResultList = Array<Cf1SitesRampsCreateResultItem>;
 export interface CreateCf1SiteRampResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: Cf1SitesRampsCreateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ConnectorsCreateRequestDevice {
-  id?: string;
+  id?: string | undefined;
   /** When true, create and provision a new licence key for the connector. */
-  provisionLicense?: boolean;
-  serialNumber?: string;
+  provisionLicense?: boolean | undefined;
+  serialNumber?: string | undefined;
 }
 export type ConnectorsCreateRequestInterruptWindowDaysOfWeekItem =
   | "Sunday"
@@ -1029,15 +1074,15 @@ export interface CreateConnectorRequest {
   accountId: string;
   /** Exactly one of id, serial_number, or provision_license must be provided. */
   device: ConnectorsCreateRequestDevice;
-  activated?: boolean;
+  activated?: boolean | undefined;
   /** Allowed days of the week for upgrades. Default is all days. */
-  interruptWindowDaysOfWeek?: ConnectorsCreateRequestInterruptWindowDaysOfWeekList;
-  interruptWindowDurationHours?: number;
+  interruptWindowDaysOfWeek?: ConnectorsCreateRequestInterruptWindowDaysOfWeekList | undefined;
+  interruptWindowDurationHours?: number | undefined;
   /** List of dates (YYYY-MM-DD) when upgrades are blocked. */
-  interruptWindowEmbargoDates?: ConnectorsCreateRequestInterruptWindowEmbargoDatesList;
-  interruptWindowHourOfDay?: number;
-  notes?: string;
-  timezone?: string;
+  interruptWindowEmbargoDates?: ConnectorsCreateRequestInterruptWindowEmbargoDatesList | undefined;
+  interruptWindowHourOfDay?: number | undefined;
+  notes?: string | undefined;
+  timezone?: string | undefined;
 }
 export type ConnectorsCreateResponseInterruptWindowDaysOfWeekItem =
   | "Sunday"
@@ -1053,8 +1098,8 @@ export type ConnectorsCreateResponseInterruptWindowEmbargoDatesList = Array<stri
 export type ConnectorsCreateResponseDeviceType = "MANAGED" | "LICENSED";
 export interface ConnectorsCreateResponseDevice {
   id: string;
-  serialNumber?: string | null;
-  type?: ConnectorsCreateResponseDeviceType | null;
+  serialNumber?: string | null | undefined;
+  type?: ConnectorsCreateResponseDeviceType | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateConnectorResponse {
@@ -1069,58 +1114,58 @@ export interface CreateConnectorResponse {
   lastUpdated: string;
   notes: string;
   timezone: string;
-  device?: ConnectorsCreateResponseDevice | null;
-  lastHeartbeat?: string | null;
-  lastSeenVersion?: string | null;
-  licenseKey?: string | null;
+  device?: ConnectorsCreateResponseDevice | null | undefined;
+  lastHeartbeat?: string | null | undefined;
+  lastSeenVersion?: string | null | undefined;
+  licenseKey?: string | null | undefined;
 }
 export interface CreateConnectorsInterruptRequestReboot {
   /** Purge connector state. */
-  purge?: boolean;
+  purge?: boolean | undefined;
 }
 export type CreateConnectorsInterruptRequestRestart = CreateConnectorsInterruptRequestReboot;
 export type CreateConnectorsInterruptRequestShutdown = CreateConnectorsInterruptRequestReboot;
 export interface CreateConnectorsInterruptRequest {
   accountId: string;
   connectorId: string;
-  reboot?: CreateConnectorsInterruptRequestReboot;
-  restart?: CreateConnectorsInterruptRequestReboot;
-  shutdown?: CreateConnectorsInterruptRequestReboot;
+  reboot?: CreateConnectorsInterruptRequestReboot | undefined;
+  restart?: CreateConnectorsInterruptRequestReboot | undefined;
+  shutdown?: CreateConnectorsInterruptRequestReboot | undefined;
 }
 export interface CreateConnectorsInterruptResponseReboot {
   /** Purge connector state. */
-  purge?: boolean | null;
+  purge?: boolean | null | undefined;
 }
 export type CreateConnectorsInterruptResponseRestart = CreateConnectorsInterruptResponseReboot;
 export type CreateConnectorsInterruptResponseShutdown = CreateConnectorsInterruptResponseReboot;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateConnectorsInterruptResponse {
   submittedAt: string;
-  reboot?: CreateConnectorsInterruptResponseReboot | null;
-  restart?: CreateConnectorsInterruptResponseReboot | null;
-  shutdown?: CreateConnectorsInterruptResponseReboot | null;
-  triggeredAt?: string | null;
+  reboot?: CreateConnectorsInterruptResponseReboot | null | undefined;
+  restart?: CreateConnectorsInterruptResponseReboot | null | undefined;
+  shutdown?: CreateConnectorsInterruptResponseReboot | null | undefined;
+  triggeredAt?: string | null | undefined;
 }
 export type GreTunnelsCreateRequestBgpExtraPrefixesList = Array<string>;
 export interface GreTunnelsCreateRequestBgp {
   /** ASN used on the customer end of the BGP session */
   customerAsn: number;
   /** ID of the BGP filter profile applied to routes advertised to the customer. */
-  exportFilterId?: string;
+  exportFilterId?: string | undefined;
   /** Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table. Each entry must be a network address in CIDR notation with no host bits set (for example `192.0.2.0/24`, not `192.0.2.1/24`) and must not repeat another entry. IPv6 prefixes are accepted only when the tunnel has an `interface_address6`. */
-  extraPrefixes?: GreTunnelsCreateRequestBgpExtraPrefixesList;
+  extraPrefixes?: GreTunnelsCreateRequestBgpExtraPrefixesList | undefined;
   /** ID of the BGP filter profile applied to routes received from the customer. */
-  importFilterId?: string;
+  importFilterId?: string | undefined;
   /** MD5 key to use for session authentication. */
-  md5Key?: string;
+  md5Key?: string | undefined;
 }
 export type GreTunnelsCreateRequestHealthCheckDirection = "unidirectional" | "bidirectional";
 export type GreTunnelsCreateRequestHealthCheckRate = "low" | "mid" | "high";
 export interface GreTunnelsCreateRequestHealthCheckTargetMagicHealthCheckTarget {
   /** The effective health check target. If 'saved' is empty, then this field will be populated with the calculated default value on GET requests. Ignored in POST, PUT, and PATCH requests. */
-  effective?: string;
+  effective?: string | undefined;
   /** The saved health check target. Setting the value to the empty string indicates that the calculated default value will be used. */
-  saved?: string;
+  saved?: string | undefined;
 }
 export type GreTunnelsCreateRequestHealthCheckTarget =
   | string
@@ -1128,15 +1173,15 @@ export type GreTunnelsCreateRequestHealthCheckTarget =
 export type GreTunnelsCreateRequestHealthCheckType = "reply" | "request";
 export interface GreTunnelsCreateRequestHealthCheck {
   /** The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel. */
-  direction?: GreTunnelsCreateRequestHealthCheckDirection | (string & {});
+  direction?: GreTunnelsCreateRequestHealthCheckDirection | (string & {}) | undefined;
   /** Determines whether to run healthchecks for a tunnel. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** How frequent the health check is run. The default value is `mid`. */
-  rate?: GreTunnelsCreateRequestHealthCheckRate | (string & {});
+  rate?: GreTunnelsCreateRequestHealthCheckRate | (string & {}) | undefined;
   /** The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false. */
-  target?: GreTunnelsCreateRequestHealthCheckTarget;
+  target?: GreTunnelsCreateRequestHealthCheckTarget | undefined;
   /** The type of healthcheck to run, reply or request. The default value is `reply`. */
-  type?: GreTunnelsCreateRequestHealthCheckType | (string & {});
+  type?: GreTunnelsCreateRequestHealthCheckType | (string & {}) | undefined;
 }
 export interface CreateGreTunnelRequest {
   /** Identifier */
@@ -1150,42 +1195,42 @@ export interface CreateGreTunnelRequest {
   /** The name of the tunnel. The name cannot contain spaces or special characters, must be 15 characters or less, and cannot share a name with another GRE tunnel. */
   name: string;
   /** True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected. */
-  automaticReturnRouting?: boolean;
-  bgp?: GreTunnelsCreateRequestBgp;
+  automaticReturnRouting?: boolean | undefined;
+  bgp?: GreTunnelsCreateRequestBgp | undefined;
   /** An optional description of the GRE tunnel. */
-  description?: string;
-  healthCheck?: GreTunnelsCreateRequestHealthCheck;
+  description?: string | undefined;
+  healthCheck?: GreTunnelsCreateRequestHealthCheck | undefined;
   /** A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127 */
-  interfaceAddress6?: string;
+  interfaceAddress6?: string | undefined;
   /** Maximum Transmission Unit (MTU) in bytes for the GRE tunnel. The minimum value is 576. */
-  mtu?: number;
+  mtu?: number | undefined;
   /** Time To Live (TTL) in number of hops of the GRE tunnel. */
-  ttl?: number;
-  xMagicNewHcTarget?: boolean;
+  ttl?: number | undefined;
+  xMagicNewHcTarget?: boolean | undefined;
 }
 export type GreTunnelsCreateResponseBgpExtraPrefixesList = Array<string>;
 export interface GreTunnelsCreateResponseBgp {
   /** ASN used on the customer end of the BGP session */
   customerAsn: number;
   /** ID of the BGP filter profile applied to routes advertised to the customer. */
-  exportFilterId?: string | null;
+  exportFilterId?: string | null | undefined;
   /** Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table. Each entry must be a network address in CIDR notation with no host bits set (for example `192.0.2.0/24`, not `192.0.2.1/24`) and must not repeat another entry. IPv6 prefixes are accepted only when the tunnel has an `interface_address6`. */
-  extraPrefixes?: GreTunnelsCreateResponseBgpExtraPrefixesList | null;
+  extraPrefixes?: GreTunnelsCreateResponseBgpExtraPrefixesList | null | undefined;
   /** ID of the BGP filter profile applied to routes received from the customer. */
-  importFilterId?: string | null;
+  importFilterId?: string | null | undefined;
   /** MD5 key to use for session authentication. */
-  md5Key?: string | null;
+  md5Key?: string | null | undefined;
 }
 export type GreTunnelsCreateResponseBgpStatusState = "BGP_DOWN" | "BGP_UP" | "BGP_ESTABLISHING";
 export interface GreTunnelsCreateResponseBgpStatus {
   state: GreTunnelsCreateResponseBgpStatusState;
   tcpEstablished: boolean;
   updatedAt: string;
-  bgpState?: string | null;
-  cfSpeakerIp?: string | null;
-  cfSpeakerPort?: number | null;
-  customerSpeakerIp?: string | null;
-  customerSpeakerPort?: number | null;
+  bgpState?: string | null | undefined;
+  cfSpeakerIp?: string | null | undefined;
+  cfSpeakerPort?: number | null | undefined;
+  customerSpeakerIp?: string | null | undefined;
+  customerSpeakerPort?: number | null | undefined;
 }
 export type GreTunnelsCreateResponseHealthCheckDirection = "unidirectional" | "bidirectional";
 export type GreTunnelsCreateResponseHealthCheckRate = "low" | "mid" | "high";
@@ -1197,15 +1242,15 @@ export type GreTunnelsCreateResponseHealthCheckTarget =
 export type GreTunnelsCreateResponseHealthCheckType = "reply" | "request";
 export interface GreTunnelsCreateResponseHealthCheck {
   /** The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel. */
-  direction?: GreTunnelsCreateResponseHealthCheckDirection | null;
+  direction?: GreTunnelsCreateResponseHealthCheckDirection | null | undefined;
   /** Determines whether to run healthchecks for a tunnel. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** How frequent the health check is run. The default value is `mid`. */
-  rate?: GreTunnelsCreateResponseHealthCheckRate | null;
+  rate?: GreTunnelsCreateResponseHealthCheckRate | null | undefined;
   /** The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false. */
-  target?: GreTunnelsCreateResponseHealthCheckTarget | null;
+  target?: GreTunnelsCreateResponseHealthCheckTarget | null | undefined;
   /** The type of healthcheck to run, reply or request. The default value is `reply`. */
-  type?: GreTunnelsCreateResponseHealthCheckType | null;
+  type?: GreTunnelsCreateResponseHealthCheckType | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateGreTunnelResponse {
@@ -1220,39 +1265,39 @@ export interface CreateGreTunnelResponse {
   /** The name of the tunnel. The name cannot contain spaces or special characters, must be 15 characters or less, and cannot share a name with another GRE tunnel. */
   name: string;
   /** True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected. */
-  automaticReturnRouting?: boolean | null;
-  bgp?: GreTunnelsCreateResponseBgp | null;
-  bgpStatus?: GreTunnelsCreateResponseBgpStatus | null;
+  automaticReturnRouting?: boolean | null | undefined;
+  bgp?: GreTunnelsCreateResponseBgp | null | undefined;
+  bgpStatus?: GreTunnelsCreateResponseBgpStatus | null | undefined;
   /** The date and time the tunnel was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** An optional description of the GRE tunnel. */
-  description?: string | null;
-  healthCheck?: GreTunnelsCreateResponseHealthCheck | null;
+  description?: string | null | undefined;
+  healthCheck?: GreTunnelsCreateResponseHealthCheck | null | undefined;
   /** A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127 */
-  interfaceAddress6?: string | null;
+  interfaceAddress6?: string | null | undefined;
   /** The date and time the tunnel was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Maximum Transmission Unit (MTU) in bytes for the GRE tunnel. The minimum value is 576. */
-  mtu?: number | null;
+  mtu?: number | null | undefined;
   /** Time To Live (TTL) in number of hops of the GRE tunnel. */
-  ttl?: number | null;
+  ttl?: number | null | undefined;
 }
 export type IpsecTunnelsCreateRequestBgpExtraPrefixesList = Array<string>;
 export interface IpsecTunnelsCreateRequestBgp {
   /** ASN used on the customer end of the BGP session */
   customerAsn: number;
   /** ID of the BGP filter profile applied to routes advertised to the customer. */
-  exportFilterId?: string;
+  exportFilterId?: string | undefined;
   /** Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table. Each entry must be a network address in CIDR notation with no host bits set (for example `192.0.2.0/24`, not `192.0.2.1/24`) and must not repeat another entry. IPv6 prefixes are accepted only when the tunnel has an `interface_address6`. */
-  extraPrefixes?: IpsecTunnelsCreateRequestBgpExtraPrefixesList;
+  extraPrefixes?: IpsecTunnelsCreateRequestBgpExtraPrefixesList | undefined;
   /** ID of the BGP filter profile applied to routes received from the customer. */
-  importFilterId?: string;
+  importFilterId?: string | undefined;
   /** MD5 key to use for session authentication. */
-  md5Key?: string;
+  md5Key?: string | undefined;
 }
 export interface IpsecTunnelsCreateRequestCustomRemoteIdentities {
   /** A custom IKE ID of type FQDN that may be used to identity the IPsec tunnel. The generated IKE IDs can still be used even if this custom value is specified. */
-  fqdnId?: string;
+  fqdnId?: string | undefined;
 }
 export type IpsecTunnelsCreateRequestHealthCheckDirection = "unidirectional" | "bidirectional";
 export type IpsecTunnelsCreateRequestHealthCheckRate = "low" | "mid" | "high";
@@ -1264,15 +1309,15 @@ export type IpsecTunnelsCreateRequestHealthCheckTarget =
 export type IpsecTunnelsCreateRequestHealthCheckType = "reply" | "request";
 export interface IpsecTunnelsCreateRequestHealthCheck {
   /** The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel. */
-  direction?: IpsecTunnelsCreateRequestHealthCheckDirection | (string & {});
+  direction?: IpsecTunnelsCreateRequestHealthCheckDirection | (string & {}) | undefined;
   /** Determines whether to run healthchecks for a tunnel. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** How frequent the health check is run. The default value is `mid`. */
-  rate?: IpsecTunnelsCreateRequestHealthCheckRate | (string & {});
+  rate?: IpsecTunnelsCreateRequestHealthCheckRate | (string & {}) | undefined;
   /** The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false. */
-  target?: IpsecTunnelsCreateRequestHealthCheckTarget;
+  target?: IpsecTunnelsCreateRequestHealthCheckTarget | undefined;
   /** The type of healthcheck to run, reply or request. The default value is `reply`. */
-  type?: IpsecTunnelsCreateRequestHealthCheckType | (string & {});
+  type?: IpsecTunnelsCreateRequestHealthCheckType | (string & {}) | undefined;
 }
 export interface CreateIpsecTunnelRequest {
   /** Identifier */
@@ -1284,45 +1329,45 @@ export interface CreateIpsecTunnelRequest {
   /** The name of the IPsec tunnel. The name cannot share a name with other tunnels. */
   name: string;
   /** True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected. */
-  automaticReturnRouting?: boolean;
-  bgp?: IpsecTunnelsCreateRequestBgp;
-  customRemoteIdentities?: IpsecTunnelsCreateRequestCustomRemoteIdentities;
+  automaticReturnRouting?: boolean | undefined;
+  bgp?: IpsecTunnelsCreateRequestBgp | undefined;
+  customRemoteIdentities?: IpsecTunnelsCreateRequestCustomRemoteIdentities | undefined;
   /** The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work. */
-  customerEndpoint?: string;
+  customerEndpoint?: string | undefined;
   /** An optional description forthe IPsec tunnel. */
-  description?: string;
-  healthCheck?: IpsecTunnelsCreateRequestHealthCheck;
+  description?: string | undefined;
+  healthCheck?: IpsecTunnelsCreateRequestHealthCheck | undefined;
   /** A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127 */
-  interfaceAddress6?: string;
+  interfaceAddress6?: string | undefined;
   /** A randomly generated or provided string for use in the IPsec tunnel. */
-  psk?: string;
+  psk?: string | undefined;
   /** If `true`, then IPsec replay protection will be supported in the Cloudflare-to-customer direction. */
-  replayProtection?: boolean;
-  xMagicNewHcTarget?: boolean;
+  replayProtection?: boolean | undefined;
+  xMagicNewHcTarget?: boolean | undefined;
 }
 export type IpsecTunnelsCreateResponseBgpExtraPrefixesList = Array<string>;
 export interface IpsecTunnelsCreateResponseBgp {
   /** ASN used on the customer end of the BGP session */
   customerAsn: number;
   /** ID of the BGP filter profile applied to routes advertised to the customer. */
-  exportFilterId?: string | null;
+  exportFilterId?: string | null | undefined;
   /** Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table. Each entry must be a network address in CIDR notation with no host bits set (for example `192.0.2.0/24`, not `192.0.2.1/24`) and must not repeat another entry. IPv6 prefixes are accepted only when the tunnel has an `interface_address6`. */
-  extraPrefixes?: IpsecTunnelsCreateResponseBgpExtraPrefixesList | null;
+  extraPrefixes?: IpsecTunnelsCreateResponseBgpExtraPrefixesList | null | undefined;
   /** ID of the BGP filter profile applied to routes received from the customer. */
-  importFilterId?: string | null;
+  importFilterId?: string | null | undefined;
   /** MD5 key to use for session authentication. */
-  md5Key?: string | null;
+  md5Key?: string | null | undefined;
 }
 export type IpsecTunnelsCreateResponseBgpStatusState = "BGP_DOWN" | "BGP_UP" | "BGP_ESTABLISHING";
 export interface IpsecTunnelsCreateResponseBgpStatus {
   state: IpsecTunnelsCreateResponseBgpStatusState;
   tcpEstablished: boolean;
   updatedAt: string;
-  bgpState?: string | null;
-  cfSpeakerIp?: string | null;
-  cfSpeakerPort?: number | null;
-  customerSpeakerIp?: string | null;
-  customerSpeakerPort?: number | null;
+  bgpState?: string | null | undefined;
+  cfSpeakerIp?: string | null | undefined;
+  cfSpeakerPort?: number | null | undefined;
+  customerSpeakerIp?: string | null | undefined;
+  customerSpeakerPort?: number | null | undefined;
 }
 export type IpsecTunnelsCreateResponseCustomRemoteIdentities =
   IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemCustomRemoteIdentities;
@@ -1336,15 +1381,15 @@ export type IpsecTunnelsCreateResponseHealthCheckTarget =
 export type IpsecTunnelsCreateResponseHealthCheckType = "reply" | "request";
 export interface IpsecTunnelsCreateResponseHealthCheck {
   /** The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel. */
-  direction?: IpsecTunnelsCreateResponseHealthCheckDirection | null;
+  direction?: IpsecTunnelsCreateResponseHealthCheckDirection | null | undefined;
   /** Determines whether to run healthchecks for a tunnel. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** How frequent the health check is run. The default value is `mid`. */
-  rate?: IpsecTunnelsCreateResponseHealthCheckRate | null;
+  rate?: IpsecTunnelsCreateResponseHealthCheckRate | null | undefined;
   /** The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false. */
-  target?: IpsecTunnelsCreateResponseHealthCheckTarget | null;
+  target?: IpsecTunnelsCreateResponseHealthCheckTarget | null | undefined;
   /** The type of healthcheck to run, reply or request. The default value is `reply`. */
-  type?: IpsecTunnelsCreateResponseHealthCheckType | null;
+  type?: IpsecTunnelsCreateResponseHealthCheckType | null | undefined;
 }
 export type IpsecTunnelsCreateResponsePskMetadata =
   IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemPskMetadata;
@@ -1359,47 +1404,53 @@ export interface CreateIpsecTunnelResponse {
   /** The name of the IPsec tunnel. The name cannot share a name with other tunnels. */
   name: string;
   /** When `true`, the tunnel can use a null-cipher (`ENCR_NULL`) in the ESP tunnel (Phase 2). */
-  allowNullCipher?: boolean | null;
+  allowNullCipher?: boolean | null | undefined;
   /** True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected. */
-  automaticReturnRouting?: boolean | null;
-  bgp?: IpsecTunnelsCreateResponseBgp | null;
-  bgpStatus?: IpsecTunnelsCreateResponseBgpStatus | null;
+  automaticReturnRouting?: boolean | null | undefined;
+  bgp?: IpsecTunnelsCreateResponseBgp | null | undefined;
+  bgpStatus?: IpsecTunnelsCreateResponseBgpStatus | null | undefined;
   /** The date and time the tunnel was created. */
-  createdOn?: string | null;
-  customRemoteIdentities?: IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemCustomRemoteIdentities | null;
+  createdOn?: string | null | undefined;
+  customRemoteIdentities?:
+    | IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemCustomRemoteIdentities
+    | null
+    | undefined;
   /** The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work. */
-  customerEndpoint?: string | null;
+  customerEndpoint?: string | null | undefined;
   /** An optional description forthe IPsec tunnel. */
-  description?: string | null;
-  healthCheck?: IpsecTunnelsCreateResponseHealthCheck | null;
+  description?: string | null | undefined;
+  healthCheck?: IpsecTunnelsCreateResponseHealthCheck | null | undefined;
   /** A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127 */
-  interfaceAddress6?: string | null;
+  interfaceAddress6?: string | null | undefined;
   /** The date and time the tunnel was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The PSK metadata that includes when the PSK was generated. */
-  pskMetadata?: IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemPskMetadata | null;
+  pskMetadata?:
+    | IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemPskMetadata
+    | null
+    | undefined;
   /** If `true`, then IPsec replay protection will be supported in the Cloudflare-to-customer direction. */
-  replayProtection?: boolean | null;
+  replayProtection?: boolean | null | undefined;
 }
 export type PcapsCreateRequestSystem = "magic-transit";
 export type PcapsCreateRequestType = "simple" | "full";
 export interface PcapsCreateRequestFilterV1 {
   /** The destination IP address of the packet. */
-  destinationAddress?: string;
+  destinationAddress?: string | undefined;
   /** The destination port of the packet. */
-  destinationPort?: number;
+  destinationPort?: number | undefined;
   /** The protocol number of the packet. */
-  protocol?: number;
+  protocol?: number | undefined;
   /** The source IP address of the packet. */
-  sourceAddress?: string;
+  sourceAddress?: string | undefined;
   /** The source port of the packet. */
-  sourcePort?: number;
+  sourcePort?: number | undefined;
 }
 export interface CreatePcapRequest {
   /** Identifier. */
   accountId: string;
   /** The limit of packets contained in a packet capture. */
-  packetLimit?: number;
+  packetLimit?: number | undefined;
   /** The system used to collect packet captures. */
   system: PcapsCreateRequestSystem | (string & {});
   /** The packet capture duration in seconds. */
@@ -1407,27 +1458,27 @@ export interface CreatePcapRequest {
   /** The type of packet capture. `Simple` captures sampled packets, and `full` captures entire payloads and non-sampled packets. */
   type: PcapsCreateRequestType | (string & {});
   /** The packet capture filter. When this field is empty, all packets are captured. */
-  filterV1?: PcapsCreateRequestFilterV1;
+  filterV1?: PcapsCreateRequestFilterV1 | undefined;
   /** The RFC 3339 offset timestamp from which to query backwards for packets. Must be within the last 24h. When this field is empty, defaults to time of request. */
-  offsetTime?: string;
+  offsetTime?: string | undefined;
   /** The name of the data center used for the packet capture. This can be a specific colo (ord02) or a multi-colo name (ORD). This field only applies to `full` packet captures. */
-  coloName?: string;
+  coloName?: string | undefined;
   /** The full URI for the bucket. This field only applies to `full` packet captures. */
-  destinationConf?: string;
+  destinationConf?: string | undefined;
   /** The maximum number of bytes to capture. This field only applies to `full` packet captures. */
-  byteLimit?: number;
+  byteLimit?: number | undefined;
 }
 export interface PcapsCreateResultPCAPFilterV1 {
   /** The destination IP address of the packet. */
-  destinationAddress?: string | null;
+  destinationAddress?: string | null | undefined;
   /** The destination port of the packet. */
-  destinationPort?: number | null;
+  destinationPort?: number | null | undefined;
   /** The protocol number of the packet. */
-  protocol?: number | null;
+  protocol?: number | null | undefined;
   /** The source IP address of the packet. */
-  sourceAddress?: string | null;
+  sourceAddress?: string | null | undefined;
   /** The source port of the packet. */
-  sourcePort?: number | null;
+  sourcePort?: number | null | undefined;
 }
 export type PcapsCreateResultPCAPStatus =
   | "unknown"
@@ -1442,21 +1493,21 @@ export type PcapsCreateResultPCAPSystem = "magic-transit";
 export type PcapsCreateResultPCAPType = "simple" | "full";
 export interface PcapsCreateResultPCAP {
   /** The ID for the packet capture. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The packet capture filter. When this field is empty, all packets are captured. */
-  filterV1?: PcapsCreateResultPCAPFilterV1 | null;
+  filterV1?: PcapsCreateResultPCAPFilterV1 | null | undefined;
   /** The RFC 3339 offset timestamp from which to query backwards for packets. Must be within the last 24h. When this field is empty, defaults to time of request. */
-  offsetTime?: string | null;
+  offsetTime?: string | null | undefined;
   /** The status of the packet capture request. */
-  status?: PcapsCreateResultPCAPStatus | null;
+  status?: PcapsCreateResultPCAPStatus | null | undefined;
   /** The RFC 3339 timestamp when the packet capture was created. */
-  submitted?: string | null;
+  submitted?: string | null | undefined;
   /** The system used to collect packet captures. */
-  system?: PcapsCreateResultPCAPSystem | null;
+  system?: PcapsCreateResultPCAPSystem | null | undefined;
   /** The packet capture duration in seconds. */
-  timeLimit?: number | null;
+  timeLimit?: number | null | undefined;
   /** The type of packet capture. `Simple` captures sampled packets, and `full` captures entire payloads and non-sampled packets. */
-  type?: PcapsCreateResultPCAPType | null;
+  type?: PcapsCreateResultPCAPType | null | undefined;
 }
 export type PcapsCreateResultMagicVisibilityPCAPsPCAPsResponseFullFilterV1 =
   PcapsCreateResultPCAPFilterV1;
@@ -1473,31 +1524,31 @@ export type PcapsCreateResultMagicVisibilityPCAPsPCAPsResponseFullSystem = "magi
 export type PcapsCreateResultMagicVisibilityPCAPsPCAPsResponseFullType = "simple" | "full";
 export interface PcapsCreateResultMagicVisibilityPCAPsPCAPsResponseFull {
   /** The ID for the packet capture. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The maximum number of bytes to capture. This field only applies to `full` packet captures. */
-  byteLimit?: number | null;
+  byteLimit?: number | null | undefined;
   /** The name of the data center used for the packet capture. This can be a specific colo (ord02) or a multi-colo name (ORD). This field only applies to `full` packet captures. */
-  coloName?: string | null;
+  coloName?: string | null | undefined;
   /** The full URI for the bucket. This field only applies to `full` packet captures. */
-  destinationConf?: string | null;
+  destinationConf?: string | null | undefined;
   /** An error message that describes why the packet capture failed. This field only applies to `full` packet captures. */
-  errorMessage?: string | null;
+  errorMessage?: string | null | undefined;
   /** The packet capture filter. When this field is empty, all packets are captured. */
-  filterV1?: PcapsCreateResultPCAPFilterV1 | null;
+  filterV1?: PcapsCreateResultPCAPFilterV1 | null | undefined;
   /** The number of packets captured. */
-  packetsCaptured?: number | null;
+  packetsCaptured?: number | null | undefined;
   /** The status of the packet capture request. */
-  status?: PcapsCreateResultMagicVisibilityPCAPsPCAPsResponseFullStatus | null;
+  status?: PcapsCreateResultMagicVisibilityPCAPsPCAPsResponseFullStatus | null | undefined;
   /** The RFC 3339 timestamp when stopping the packet capture was requested. This field only applies to `full` packet captures. */
-  stopRequested?: string | null;
+  stopRequested?: string | null | undefined;
   /** The RFC 3339 timestamp when the packet capture was created. */
-  submitted?: string | null;
+  submitted?: string | null | undefined;
   /** The system used to collect packet captures. */
-  system?: PcapsCreateResultMagicVisibilityPCAPsPCAPsResponseFullSystem | null;
+  system?: PcapsCreateResultMagicVisibilityPCAPsPCAPsResponseFullSystem | null | undefined;
   /** The packet capture duration in seconds. */
-  timeLimit?: number | null;
+  timeLimit?: number | null | undefined;
   /** The type of packet capture. `Simple` captures sampled packets, and `full` captures entire payloads and non-sampled packets. */
-  type?: PcapsCreateResultMagicVisibilityPCAPsPCAPsResponseFullType | null;
+  type?: PcapsCreateResultMagicVisibilityPCAPsPCAPsResponseFullType | null | undefined;
 }
 export type PcapsCreateResult =
   | PcapsCreateResultPCAP
@@ -1523,15 +1574,15 @@ export interface CreatePcapOwnershipResponse {
   /** The RFC 3339 timestamp when the bucket was added to packet captures API. */
   submitted: string;
   /** The RFC 3339 timestamp when the bucket was validated. */
-  validated?: string | null;
+  validated?: string | null | undefined;
 }
 export type RoutesCreateRequestScopeColoNamesList = Array<string>;
 export type RoutesCreateRequestScopeColoRegionsList = Array<string>;
 export interface RoutesCreateRequestScope {
   /** List of colo names for the ECMP scope. */
-  coloNames?: RoutesCreateRequestScopeColoNamesList;
+  coloNames?: RoutesCreateRequestScopeColoNamesList | undefined;
   /** List of colo regions for the ECMP scope. */
-  coloRegions?: RoutesCreateRequestScopeColoRegionsList;
+  coloRegions?: RoutesCreateRequestScopeColoRegionsList | undefined;
 }
 export interface CreateRouteRequest {
   /** Identifier */
@@ -1543,19 +1594,19 @@ export interface CreateRouteRequest {
   /** Priority of the static route. */
   priority: number;
   /** An optional human provided description of the static route. */
-  description?: string;
+  description?: string | undefined;
   /** Used only for ECMP routes. */
-  scope?: RoutesCreateRequestScope;
+  scope?: RoutesCreateRequestScope | undefined;
   /** Optional weight of the ECMP scope - if provided. */
-  weight?: number;
+  weight?: number | undefined;
 }
 export type RoutesCreateResponseScopeColoNamesList = Array<string>;
 export type RoutesCreateResponseScopeColoRegionsList = Array<string>;
 export interface RoutesCreateResponseScope {
   /** List of colo names for the ECMP scope. */
-  coloNames?: RoutesCreateResponseScopeColoNamesList | null;
+  coloNames?: RoutesCreateResponseScopeColoNamesList | null | undefined;
   /** List of colo regions for the ECMP scope. */
-  coloRegions?: RoutesCreateResponseScopeColoRegionsList | null;
+  coloRegions?: RoutesCreateResponseScopeColoRegionsList | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateRouteResponse {
@@ -1568,21 +1619,21 @@ export interface CreateRouteResponse {
   /** Priority of the static route. */
   priority: number;
   /** When the route was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** An optional human provided description of the static route. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** When the route was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Used only for ECMP routes. */
-  scope?: RoutesCreateResponseScope | null;
+  scope?: RoutesCreateResponseScope | null | undefined;
   /** Optional weight of the ECMP scope - if provided. */
-  weight?: number | null;
+  weight?: number | null | undefined;
 }
 export interface SitesCreateRequestLocation {
   /** Latitude */
-  lat?: string;
+  lat?: string | undefined;
   /** Longitude */
-  lon?: string;
+  lon?: string | undefined;
 }
 export interface CreateSiteRequest {
   /** Identifier */
@@ -1590,36 +1641,36 @@ export interface CreateSiteRequest {
   /** The name of the site. */
   name: string;
   /** Magic Connector identifier tag. */
-  connectorId?: string;
-  description?: string;
+  connectorId?: string | undefined;
+  description?: string | undefined;
   /** Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode. */
-  haMode?: boolean;
+  haMode?: boolean | undefined;
   /** Location of site in latitude and longitude. */
-  location?: SitesCreateRequestLocation;
+  location?: SitesCreateRequestLocation | undefined;
   /** Magic Connector identifier tag. Used when high availability mode is on. */
-  secondaryConnectorId?: string;
+  secondaryConnectorId?: string | undefined;
 }
 export interface SitesCreateResponseLocation {
   /** Latitude */
-  lat?: string | null;
+  lat?: string | null | undefined;
   /** Longitude */
-  lon?: string | null;
+  lon?: string | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateSiteResponse {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Magic Connector identifier tag. */
-  connectorId?: string | null;
-  description?: string | null;
+  connectorId?: string | null | undefined;
+  description?: string | null | undefined;
   /** Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode. */
-  haMode?: boolean | null;
+  haMode?: boolean | null | undefined;
   /** Location of site in latitude and longitude. */
-  location?: SitesCreateResponseLocation | null;
+  location?: SitesCreateResponseLocation | null | undefined;
   /** The name of the site. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Magic Connector identifier tag. Used when high availability mode is on. */
-  secondaryConnectorId?: string | null;
+  secondaryConnectorId?: string | null | undefined;
 }
 export type SitesAclsCreateRequestLan1PortRangesList = Array<string>;
 export type SitesAclsCreateRequestLan1PortsList = Array<number>;
@@ -1628,13 +1679,13 @@ export interface SitesAclsCreateRequestLan1 {
   /** The identifier for the LAN you want to create an ACL policy with. */
   lanId: string;
   /** The name of the LAN based on the provided lan_id. */
-  lanName?: string;
+  lanName?: string | undefined;
   /** Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed. */
-  portRanges?: SitesAclsCreateRequestLan1PortRangesList;
+  portRanges?: SitesAclsCreateRequestLan1PortRangesList | undefined;
   /** Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed. */
-  ports?: SitesAclsCreateRequestLan1PortsList;
+  ports?: SitesAclsCreateRequestLan1PortsList | undefined;
   /** Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed. */
-  subnets?: SitesAclsCreateRequestLan1SubnetsList;
+  subnets?: SitesAclsCreateRequestLan1SubnetsList | undefined;
 }
 export type SitesAclsCreateRequestLan2PortRangesList = Array<string>;
 export type SitesAclsCreateRequestLan2PortsList = Array<number>;
@@ -1643,13 +1694,13 @@ export interface SitesAclsCreateRequestLan2 {
   /** The identifier for the LAN you want to create an ACL policy with. */
   lanId: string;
   /** The name of the LAN based on the provided lan_id. */
-  lanName?: string;
+  lanName?: string | undefined;
   /** Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed. */
-  portRanges?: SitesAclsCreateRequestLan2PortRangesList;
+  portRanges?: SitesAclsCreateRequestLan2PortRangesList | undefined;
   /** Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed. */
-  ports?: SitesAclsCreateRequestLan2PortsList;
+  ports?: SitesAclsCreateRequestLan2PortsList | undefined;
   /** Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed. */
-  subnets?: SitesAclsCreateRequestLan2SubnetsList;
+  subnets?: SitesAclsCreateRequestLan2SubnetsList | undefined;
 }
 export type SitesAclsCreateRequestProtocolsItem = "tcp" | "udp" | "icmp";
 export type SitesAclsCreateRequestProtocolsList = Array<
@@ -1665,12 +1716,12 @@ export interface CreateSiteAclRequest {
   /** The name of the ACL. */
   name: string;
   /** Description for the ACL. */
-  description?: string;
+  description?: string | undefined;
   /** The desired forwarding action for this ACL policy. If set to "false", the policy will forward traffic to Cloudflare. If set to "true", the policy will forward traffic locally on the Magic Connector. If not included in request, will default to false. */
-  forwardLocally?: boolean;
-  protocols?: SitesAclsCreateRequestProtocolsList;
+  forwardLocally?: boolean | undefined;
+  protocols?: SitesAclsCreateRequestProtocolsList | undefined;
   /** The desired traffic direction for this ACL policy. If set to "false", the policy will allow bidirectional traffic. If set to "true", the policy will only allow traffic in one direction. If not included in request, will default to false. */
-  unidirectional?: boolean;
+  unidirectional?: boolean | undefined;
 }
 export type SitesAclsCreateResponseLan1PortRangesList = Array<string>;
 export type SitesAclsCreateResponseLan1PortsList = Array<number>;
@@ -1679,13 +1730,13 @@ export interface SitesAclsCreateResponseLan1 {
   /** The identifier for the LAN you want to create an ACL policy with. */
   lanId: string;
   /** The name of the LAN based on the provided lan_id. */
-  lanName?: string | null;
+  lanName?: string | null | undefined;
   /** Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed. */
-  portRanges?: SitesAclsCreateResponseLan1PortRangesList | null;
+  portRanges?: SitesAclsCreateResponseLan1PortRangesList | null | undefined;
   /** Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed. */
-  ports?: SitesAclsCreateResponseLan1PortsList | null;
+  ports?: SitesAclsCreateResponseLan1PortsList | null | undefined;
   /** Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed. */
-  subnets?: SitesAclsCreateResponseLan1SubnetsList | null;
+  subnets?: SitesAclsCreateResponseLan1SubnetsList | null | undefined;
 }
 export type SitesAclsCreateResponseLan2PortRangesList = Array<string>;
 export type SitesAclsCreateResponseLan2PortsList = Array<number>;
@@ -1694,35 +1745,35 @@ export interface SitesAclsCreateResponseLan2 {
   /** The identifier for the LAN you want to create an ACL policy with. */
   lanId: string;
   /** The name of the LAN based on the provided lan_id. */
-  lanName?: string | null;
+  lanName?: string | null | undefined;
   /** Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed. */
-  portRanges?: SitesAclsCreateResponseLan2PortRangesList | null;
+  portRanges?: SitesAclsCreateResponseLan2PortRangesList | null | undefined;
   /** Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed. */
-  ports?: SitesAclsCreateResponseLan2PortsList | null;
+  ports?: SitesAclsCreateResponseLan2PortsList | null | undefined;
   /** Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed. */
-  subnets?: SitesAclsCreateResponseLan2SubnetsList | null;
+  subnets?: SitesAclsCreateResponseLan2SubnetsList | null | undefined;
 }
 export type SitesAclsCreateResponseProtocolsItem = "tcp" | "udp" | "icmp";
 export type SitesAclsCreateResponseProtocolsList = Array<SitesAclsCreateResponseProtocolsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateSiteAclResponse {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Description for the ACL. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The desired forwarding action for this ACL policy. If set to "false", the policy will forward traffic to Cloudflare. If set to "true", the policy will forward traffic locally on the Magic Connector. If not included in request, will default to false. */
-  forwardLocally?: boolean | null;
-  lan_1?: SitesAclsCreateResponseLan1 | null;
-  lan_2?: SitesAclsCreateResponseLan2 | null;
+  forwardLocally?: boolean | null | undefined;
+  lan_1?: SitesAclsCreateResponseLan1 | null | undefined;
+  lan_2?: SitesAclsCreateResponseLan2 | null | undefined;
   /** The name of the ACL. */
-  name?: string | null;
-  protocols?: SitesAclsCreateResponseProtocolsList | null;
+  name?: string | null | undefined;
+  protocols?: SitesAclsCreateResponseProtocolsList | null | undefined;
   /** The desired traffic direction for this ACL policy. If set to "false", the policy will allow bidirectional traffic. If set to "true", the policy will only allow traffic in one direction. If not included in request, will default to false. */
-  unidirectional?: boolean | null;
+  unidirectional?: boolean | null | undefined;
 }
 export interface SitesLansCreateRequestNat {
   /** A valid CIDR notation representing an IP range. */
-  staticPrefix?: string;
+  staticPrefix?: string | undefined;
 }
 export interface SitesLansCreateRequestRemoteSubnetsItem {
   /** A valid CIDR notation representing an IP range. */
@@ -1738,14 +1789,14 @@ export interface SitesLansCreateRequestRoutedSubnetsItem {
   nextHop: string;
   /** A valid CIDR notation representing an IP range. */
   prefix: string;
-  nat?: SitesLansCreateRequestNat;
+  nat?: SitesLansCreateRequestNat | undefined;
 }
 export type SitesLansCreateRequestRoutedSubnetsList =
   Array<SitesLansCreateRequestRoutedSubnetsItem>;
 export type SitesLansCreateRequestStaticAddressingDhcpRelayServerAddressesList = Array<string>;
 export interface SitesLansCreateRequestStaticAddressingDhcpRelay {
   /** List of DHCP server IPs. */
-  serverAddresses?: SitesLansCreateRequestStaticAddressingDhcpRelayServerAddressesList;
+  serverAddresses?: SitesLansCreateRequestStaticAddressingDhcpRelayServerAddressesList | undefined;
 }
 export type SitesLansCreateRequestStaticAddressingDhcpServerDhcpOptionsItemType =
   | "text"
@@ -1770,52 +1821,52 @@ export type SitesLansCreateRequestStaticAddressingDhcpServerReservationsMap = {
 };
 export interface SitesLansCreateRequestStaticAddressingDhcpServer {
   /** Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled. */
-  dhcpOptions?: SitesLansCreateRequestStaticAddressingDhcpServerDhcpOptionsList;
+  dhcpOptions?: SitesLansCreateRequestStaticAddressingDhcpServerDhcpOptionsList | undefined;
   /** A valid IPv4 address. */
-  dhcpPoolEnd?: string;
+  dhcpPoolEnd?: string | undefined;
   /** A valid IPv4 address. */
-  dhcpPoolStart?: string;
+  dhcpPoolStart?: string | undefined;
   /** A valid IPv4 address. */
-  dnsServer?: string;
-  dnsServers?: SitesLansCreateRequestStaticAddressingDhcpServerDnsServersList;
+  dnsServer?: string | undefined;
+  dnsServers?: SitesLansCreateRequestStaticAddressingDhcpServerDnsServersList | undefined;
   /** Mapping of MAC addresses to IP addresses */
-  reservations?: SitesLansCreateRequestStaticAddressingDhcpServerReservationsMap;
+  reservations?: SitesLansCreateRequestStaticAddressingDhcpServerReservationsMap | undefined;
 }
 export interface SitesLansCreateRequestStaticAddressing {
   /** A valid CIDR notation representing an IP range. */
   address: string;
-  dhcpRelay?: SitesLansCreateRequestStaticAddressingDhcpRelay;
-  dhcpServer?: SitesLansCreateRequestStaticAddressingDhcpServer;
+  dhcpRelay?: SitesLansCreateRequestStaticAddressingDhcpRelay | undefined;
+  dhcpServer?: SitesLansCreateRequestStaticAddressingDhcpServer | undefined;
   /** A valid CIDR notation representing an IP range. */
-  secondaryAddress?: string;
+  secondaryAddress?: string | undefined;
   /** A valid CIDR notation representing an IP range. */
-  virtualAddress?: string;
+  virtualAddress?: string | undefined;
 }
 export interface CreateSiteLanRequest {
   /** Identifier */
   accountId: string;
   /** Identifier */
   siteId: string;
-  bondId?: number;
+  bondId?: number | undefined;
   /** mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link. */
-  haLink?: boolean;
+  haLink?: boolean | undefined;
   /** mark true to use this LAN for source-based breakout traffic */
-  isBreakout?: boolean;
+  isBreakout?: boolean | undefined;
   /** mark true to use this LAN for source-based prioritized traffic */
-  isPrioritized?: boolean;
-  name?: string;
-  nat?: SitesLansCreateRequestNat;
-  physport?: number;
-  remoteSubnets?: SitesLansCreateRequestRemoteSubnetsList;
-  routedSubnets?: SitesLansCreateRequestRoutedSubnetsList;
+  isPrioritized?: boolean | undefined;
+  name?: string | undefined;
+  nat?: SitesLansCreateRequestNat | undefined;
+  physport?: number | undefined;
+  remoteSubnets?: SitesLansCreateRequestRemoteSubnetsList | undefined;
+  routedSubnets?: SitesLansCreateRequestRoutedSubnetsList | undefined;
   /** If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address. */
-  staticAddressing?: SitesLansCreateRequestStaticAddressing;
+  staticAddressing?: SitesLansCreateRequestStaticAddressing | undefined;
   /** VLAN ID. Use zero for untagged. */
-  vlanTag?: number;
+  vlanTag?: number | undefined;
 }
 export interface SitesLansCreateResultItemNat {
   /** A valid CIDR notation representing an IP range. */
-  staticPrefix?: string | null;
+  staticPrefix?: string | null | undefined;
 }
 export type SitesLansCreateResultItemRemoteSubnetsItem = SitesLansCreateRequestRemoteSubnetsItem;
 export type SitesLansCreateResultItemRemoteSubnetsList =
@@ -1826,14 +1877,17 @@ export interface SitesLansCreateResultItemRoutedSubnetsItem {
   nextHop: string;
   /** A valid CIDR notation representing an IP range. */
   prefix: string;
-  nat?: SitesLansCreateResultItemNat | null;
+  nat?: SitesLansCreateResultItemNat | null | undefined;
 }
 export type SitesLansCreateResultItemRoutedSubnetsList =
   Array<SitesLansCreateResultItemRoutedSubnetsItem>;
 export type SitesLansCreateResultItemStaticAddressingDhcpRelayServerAddressesList = Array<string>;
 export interface SitesLansCreateResultItemStaticAddressingDhcpRelay {
   /** List of DHCP server IPs. */
-  serverAddresses?: SitesLansCreateResultItemStaticAddressingDhcpRelayServerAddressesList | null;
+  serverAddresses?:
+    | SitesLansCreateResultItemStaticAddressingDhcpRelayServerAddressesList
+    | null
+    | undefined;
 }
 export type SitesLansCreateResultItemStaticAddressingDhcpServerDhcpOptionsItemType =
   | "text"
@@ -1858,55 +1912,61 @@ export type SitesLansCreateResultItemStaticAddressingDhcpServerReservationsMap =
 };
 export interface SitesLansCreateResultItemStaticAddressingDhcpServer {
   /** Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled. */
-  dhcpOptions?: SitesLansCreateResultItemStaticAddressingDhcpServerDhcpOptionsList | null;
+  dhcpOptions?:
+    | SitesLansCreateResultItemStaticAddressingDhcpServerDhcpOptionsList
+    | null
+    | undefined;
   /** A valid IPv4 address. */
-  dhcpPoolEnd?: string | null;
+  dhcpPoolEnd?: string | null | undefined;
   /** A valid IPv4 address. */
-  dhcpPoolStart?: string | null;
+  dhcpPoolStart?: string | null | undefined;
   /** A valid IPv4 address. */
-  dnsServer?: string | null;
-  dnsServers?: SitesLansCreateResultItemStaticAddressingDhcpServerDnsServersList | null;
+  dnsServer?: string | null | undefined;
+  dnsServers?: SitesLansCreateResultItemStaticAddressingDhcpServerDnsServersList | null | undefined;
   /** Mapping of MAC addresses to IP addresses */
-  reservations?: SitesLansCreateResultItemStaticAddressingDhcpServerReservationsMap | null;
+  reservations?:
+    | SitesLansCreateResultItemStaticAddressingDhcpServerReservationsMap
+    | null
+    | undefined;
 }
 export interface SitesLansCreateResultItemStaticAddressing {
   /** A valid CIDR notation representing an IP range. */
   address: string;
-  dhcpRelay?: SitesLansCreateResultItemStaticAddressingDhcpRelay | null;
-  dhcpServer?: SitesLansCreateResultItemStaticAddressingDhcpServer | null;
+  dhcpRelay?: SitesLansCreateResultItemStaticAddressingDhcpRelay | null | undefined;
+  dhcpServer?: SitesLansCreateResultItemStaticAddressingDhcpServer | null | undefined;
   /** A valid CIDR notation representing an IP range. */
-  secondaryAddress?: string | null;
+  secondaryAddress?: string | null | undefined;
   /** A valid CIDR notation representing an IP range. */
-  virtualAddress?: string | null;
+  virtualAddress?: string | null | undefined;
 }
 export interface SitesLansCreateResultItem {
   /** Identifier */
-  id?: string | null;
-  bondId?: number | null;
+  id?: string | null | undefined;
+  bondId?: number | null | undefined;
   /** mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link. */
-  haLink?: boolean | null;
+  haLink?: boolean | null | undefined;
   /** mark true to use this LAN for source-based breakout traffic */
-  isBreakout?: boolean | null;
+  isBreakout?: boolean | null | undefined;
   /** mark true to use this LAN for source-based prioritized traffic */
-  isPrioritized?: boolean | null;
-  name?: string | null;
-  nat?: SitesLansCreateResultItemNat | null;
-  physport?: number | null;
-  remoteSubnets?: SitesLansCreateResultItemRemoteSubnetsList | null;
-  routedSubnets?: SitesLansCreateResultItemRoutedSubnetsList | null;
+  isPrioritized?: boolean | null | undefined;
+  name?: string | null | undefined;
+  nat?: SitesLansCreateResultItemNat | null | undefined;
+  physport?: number | null | undefined;
+  remoteSubnets?: SitesLansCreateResultItemRemoteSubnetsList | null | undefined;
+  routedSubnets?: SitesLansCreateResultItemRoutedSubnetsList | null | undefined;
   /** Identifier */
-  siteId?: string | null;
+  siteId?: string | null | undefined;
   /** If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address. */
-  staticAddressing?: SitesLansCreateResultItemStaticAddressing | null;
+  staticAddressing?: SitesLansCreateResultItemStaticAddressing | null | undefined;
   /** VLAN ID. Use zero for untagged. */
-  vlanTag?: number | null;
+  vlanTag?: number | null | undefined;
 }
 export type SitesLansCreateResultList = Array<SitesLansCreateResultItem>;
 export interface CreateSiteLanResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SitesLansCreateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type CreateSitesAppConfigurationRequestPreferredWansList = Array<string>;
 export interface CreateSitesAppConfigurationRequest {
@@ -1915,45 +1975,45 @@ export interface CreateSitesAppConfigurationRequest {
   /** Identifier */
   siteId: string;
   /** Magic account app ID. */
-  accountAppId?: string;
+  accountAppId?: string | undefined;
   /** Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior. */
-  breakout?: boolean;
+  breakout?: boolean | undefined;
   /** WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true). */
-  preferredWans?: CreateSitesAppConfigurationRequestPreferredWansList;
+  preferredWans?: CreateSitesAppConfigurationRequestPreferredWansList | undefined;
   /** Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported) */
-  priority?: number;
+  priority?: number | undefined;
   /** Managed app ID. */
-  managedAppId?: string;
+  managedAppId?: string | undefined;
 }
 export type CreateSitesAppConfigurationResultAccountAppPreferredWansList = Array<string>;
 export interface CreateSitesAppConfigurationResultAccountApp {
   /** Magic account app ID. */
   accountAppId: string;
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior. */
-  breakout?: boolean | null;
+  breakout?: boolean | null | undefined;
   /** WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true). */
-  preferredWans?: CreateSitesAppConfigurationResultAccountAppPreferredWansList | null;
+  preferredWans?: CreateSitesAppConfigurationResultAccountAppPreferredWansList | null | undefined;
   /** Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported) */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Identifier */
-  siteId?: string | null;
+  siteId?: string | null | undefined;
 }
 export type CreateSitesAppConfigurationResultManagedAppPreferredWansList = Array<string>;
 export interface CreateSitesAppConfigurationResultManagedApp {
   /** Managed app ID. */
   managedAppId: string;
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior. */
-  breakout?: boolean | null;
+  breakout?: boolean | null | undefined;
   /** WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true). */
-  preferredWans?: CreateSitesAppConfigurationResultManagedAppPreferredWansList | null;
+  preferredWans?: CreateSitesAppConfigurationResultManagedAppPreferredWansList | null | undefined;
   /** Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported) */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Identifier */
-  siteId?: string | null;
+  siteId?: string | null | undefined;
 }
 export type CreateSitesAppConfigurationResult =
   | CreateSitesAppConfigurationResultAccountApp
@@ -1966,9 +2026,9 @@ export interface SitesWansCreateRequestStaticAddressing {
   /** A valid IPv4 address. */
   gatewayAddress: string;
   /** A valid CIDR notation representing an IP range. */
-  secondaryAddress?: string;
+  secondaryAddress?: string | undefined;
   /** Gateway address for the secondary connector of a high availability site. */
-  secondaryGatewayAddress?: string;
+  secondaryGatewayAddress?: string | undefined;
 }
 export interface CreateSiteWanRequest {
   /** Identifier */
@@ -1977,18 +2037,18 @@ export interface CreateSiteWanRequest {
   siteId: string;
   physport: number;
   /** Magic WAN health check rate for tunnels created on this link. The default value is `mid`. */
-  healthCheckRate?: SitesWansCreateRequestHealthCheckRate | (string & {});
-  loadBalanceInnerFlows?: boolean;
-  name?: string;
-  priority?: number;
+  healthCheckRate?: SitesWansCreateRequestHealthCheckRate | (string & {}) | undefined;
+  loadBalanceInnerFlows?: boolean | undefined;
+  name?: string | undefined;
+  priority?: number | undefined;
   /** Provisioned download rate of the WAN circuit in kilobits per second. */
-  provisionedDownloadKbps?: number;
+  provisionedDownloadKbps?: number | undefined;
   /** Provisioned upload rate of the WAN circuit in kilobits per second. */
-  provisionedUploadKbps?: number;
+  provisionedUploadKbps?: number | undefined;
   /** Static addressing configuration for a WAN. Omit to use DHCP. Submit secondary_address when the site is in high availability mode. */
-  staticAddressing?: SitesWansCreateRequestStaticAddressing;
+  staticAddressing?: SitesWansCreateRequestStaticAddressing | undefined;
   /** VLAN ID. Use zero for untagged. */
-  vlanTag?: number;
+  vlanTag?: number | undefined;
 }
 export type SitesWansCreateResultItemHealthCheckRate = "low" | "mid" | "high";
 export interface SitesWansCreateResultItemStaticAddressing {
@@ -1997,37 +2057,37 @@ export interface SitesWansCreateResultItemStaticAddressing {
   /** A valid IPv4 address. */
   gatewayAddress: string;
   /** A valid CIDR notation representing an IP range. */
-  secondaryAddress?: string | null;
+  secondaryAddress?: string | null | undefined;
   /** Gateway address for the secondary connector of a high availability site. */
-  secondaryGatewayAddress?: string | null;
+  secondaryGatewayAddress?: string | null | undefined;
 }
 export interface SitesWansCreateResultItem {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Magic WAN health check rate for tunnels created on this link. The default value is `mid`. */
-  healthCheckRate?: SitesWansCreateResultItemHealthCheckRate | null;
-  loadBalanceInnerFlows?: boolean | null;
-  name?: string | null;
-  physport?: number | null;
+  healthCheckRate?: SitesWansCreateResultItemHealthCheckRate | null | undefined;
+  loadBalanceInnerFlows?: boolean | null | undefined;
+  name?: string | null | undefined;
+  physport?: number | null | undefined;
   /** Priority of WAN for traffic loadbalancing. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Provisioned download rate of the WAN circuit in kilobits per second. */
-  provisionedDownloadKbps?: number | null;
+  provisionedDownloadKbps?: number | null | undefined;
   /** Provisioned upload rate of the WAN circuit in kilobits per second. */
-  provisionedUploadKbps?: number | null;
+  provisionedUploadKbps?: number | null | undefined;
   /** Identifier */
-  siteId?: string | null;
+  siteId?: string | null | undefined;
   /** (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode. */
-  staticAddressing?: SitesWansCreateResultItemStaticAddressing | null;
+  staticAddressing?: SitesWansCreateResultItemStaticAddressing | null | undefined;
   /** VLAN ID. Use zero for untagged. */
-  vlanTag?: number | null;
+  vlanTag?: number | null | undefined;
 }
 export type SitesWansCreateResultList = Array<SitesWansCreateResultItem>;
 export interface CreateSiteWanResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SitesWansCreateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface DeleteAppRequest {
   /** Identifier */
@@ -2043,15 +2103,15 @@ export interface DeleteAppResponse {
   /** Magic account app ID. */
   accountAppId: string;
   /** FQDNs to associate with traffic decisions. */
-  hostnames?: AppsDeleteResponseHostnamesList | null;
+  hostnames?: AppsDeleteResponseHostnamesList | null | undefined;
   /** IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported) */
-  ipSubnets?: AppsDeleteResponseIpSubnetsList | null;
+  ipSubnets?: AppsDeleteResponseIpSubnetsList | null | undefined;
   /** Display name for the app. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported) */
-  sourceSubnets?: AppsDeleteResponseSourceSubnetsList | null;
+  sourceSubnets?: AppsDeleteResponseSourceSubnetsList | null | undefined;
   /** Category of the app. */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 export interface DeleteBgpFilterProfileRequest {
   /** Identifier */
@@ -2073,8 +2133,8 @@ export interface DeleteBgpFilterProfileResponse {
   name: string;
   /** List of CIDR prefixes. Each entry may carry an optional suffix that specifies which prefix lengths to match relative to the prefix length N: '{X,Y}' matches prefix lengths in the inclusive range [X, Y] where N &lt;= X &lt;= Y &lt;= max (max is 32 for IPv4, 128 for IPv6), '{X}' matches exactly length X (equivalent to {X,X}), '+' is shorthand for {N, max} (the prefix and all more-specific subnets, including at length N itself; valid even when N is the maximum length). Omit the suffix to match the prefix exactly at length N. */
   targets: DeleteBgpFilterProfileResponseTargetsList;
-  createdOn?: string | null;
-  modifiedOn?: string | null;
+  createdOn?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
 }
 export interface DeleteCf1SiteRequest {
   /** Identifier */
@@ -2088,12 +2148,12 @@ export interface DeleteCf1SiteResponse {
   /** A human-provided name describing the CF1 Site that should be unique within the account. */
   name: string;
   /** Identifier */
-  id?: string | null;
-  createdOn?: string | null;
+  id?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** A human-provided description of the CF1 Site. */
-  description?: string | null;
-  location?: Cf1SitesCreateResultItemLocation | null;
-  modifiedOn?: string | null;
+  description?: string | null | undefined;
+  location?: Cf1SitesCreateResultItemLocation | null | undefined;
+  modifiedOn?: string | null | undefined;
 }
 export interface DeleteCf1SiteRampRequest {
   /** Identifier */
@@ -2125,12 +2185,12 @@ export interface DeleteCf1SiteRampResponse {
   /** The type of network connection (ramp) linking a CF1 Site to Cloudflare's network. */
   type: Cf1SitesRampsDeleteResponseType;
   /** A human-provided description of the ramp. */
-  description?: string | null;
-  gre?: Cf1SitesRampsCreateResultItemGre | null;
-  greInterconnect?: Cf1SitesRampsCreateResultItemGre | null;
-  ipsec?: Cf1SitesRampsCreateResultItemGre | null;
-  mconn?: Cf1SitesRampsCreateResultItemGre | null;
-  mplsInterconnect?: Cf1SitesRampsCreateResultItemGre | null;
+  description?: string | null | undefined;
+  gre?: Cf1SitesRampsCreateResultItemGre | null | undefined;
+  greInterconnect?: Cf1SitesRampsCreateResultItemGre | null | undefined;
+  ipsec?: Cf1SitesRampsCreateResultItemGre | null | undefined;
+  mconn?: Cf1SitesRampsCreateResultItemGre | null | undefined;
+  mplsInterconnect?: Cf1SitesRampsCreateResultItemGre | null | undefined;
 }
 export interface DeleteConnectorRequest {
   accountId: string;
@@ -2150,8 +2210,8 @@ export type ConnectorsDeleteResponseInterruptWindowEmbargoDatesList = Array<stri
 export type ConnectorsDeleteResponseDeviceType = "MANAGED" | "LICENSED";
 export interface ConnectorsDeleteResponseDevice {
   id: string;
-  serialNumber?: string | null;
-  type?: ConnectorsDeleteResponseDeviceType | null;
+  serialNumber?: string | null | undefined;
+  type?: ConnectorsDeleteResponseDeviceType | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteConnectorResponse {
@@ -2166,30 +2226,30 @@ export interface DeleteConnectorResponse {
   lastUpdated: string;
   notes: string;
   timezone: string;
-  device?: ConnectorsDeleteResponseDevice | null;
-  lastHeartbeat?: string | null;
-  lastSeenVersion?: string | null;
-  licenseKey?: string | null;
+  device?: ConnectorsDeleteResponseDevice | null | undefined;
+  lastHeartbeat?: string | null | undefined;
+  lastSeenVersion?: string | null | undefined;
+  licenseKey?: string | null | undefined;
 }
 export interface DeleteGreTunnelRequest {
   /** Identifier */
   accountId: string;
   /** Identifier */
   greTunnelId: string;
-  xMagicNewHcTarget?: boolean;
+  xMagicNewHcTarget?: boolean | undefined;
 }
 export type GreTunnelsDeleteResponseDeletedGreTunnelBgpExtraPrefixesList = Array<string>;
 export interface GreTunnelsDeleteResponseDeletedGreTunnelBgp {
   /** ASN used on the customer end of the BGP session */
   customerAsn: number;
   /** ID of the BGP filter profile applied to routes advertised to the customer. */
-  exportFilterId?: string | null;
+  exportFilterId?: string | null | undefined;
   /** Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table. Each entry must be a network address in CIDR notation with no host bits set (for example `192.0.2.0/24`, not `192.0.2.1/24`) and must not repeat another entry. IPv6 prefixes are accepted only when the tunnel has an `interface_address6`. */
-  extraPrefixes?: GreTunnelsDeleteResponseDeletedGreTunnelBgpExtraPrefixesList | null;
+  extraPrefixes?: GreTunnelsDeleteResponseDeletedGreTunnelBgpExtraPrefixesList | null | undefined;
   /** ID of the BGP filter profile applied to routes received from the customer. */
-  importFilterId?: string | null;
+  importFilterId?: string | null | undefined;
   /** MD5 key to use for session authentication. */
-  md5Key?: string | null;
+  md5Key?: string | null | undefined;
 }
 export type GreTunnelsDeleteResponseDeletedGreTunnelBgpStatusState =
   | "BGP_DOWN"
@@ -2199,11 +2259,11 @@ export interface GreTunnelsDeleteResponseDeletedGreTunnelBgpStatus {
   state: GreTunnelsDeleteResponseDeletedGreTunnelBgpStatusState;
   tcpEstablished: boolean;
   updatedAt: string;
-  bgpState?: string | null;
-  cfSpeakerIp?: string | null;
-  cfSpeakerPort?: number | null;
-  customerSpeakerIp?: string | null;
-  customerSpeakerPort?: number | null;
+  bgpState?: string | null | undefined;
+  cfSpeakerIp?: string | null | undefined;
+  cfSpeakerPort?: number | null | undefined;
+  customerSpeakerIp?: string | null | undefined;
+  customerSpeakerPort?: number | null | undefined;
 }
 export type GreTunnelsDeleteResponseDeletedGreTunnelHealthCheckDirection =
   | "unidirectional"
@@ -2217,15 +2277,15 @@ export type GreTunnelsDeleteResponseDeletedGreTunnelHealthCheckTarget =
 export type GreTunnelsDeleteResponseDeletedGreTunnelHealthCheckType = "reply" | "request";
 export interface GreTunnelsDeleteResponseDeletedGreTunnelHealthCheck {
   /** The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel. */
-  direction?: GreTunnelsDeleteResponseDeletedGreTunnelHealthCheckDirection | null;
+  direction?: GreTunnelsDeleteResponseDeletedGreTunnelHealthCheckDirection | null | undefined;
   /** Determines whether to run healthchecks for a tunnel. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** How frequent the health check is run. The default value is `mid`. */
-  rate?: GreTunnelsDeleteResponseDeletedGreTunnelHealthCheckRate | null;
+  rate?: GreTunnelsDeleteResponseDeletedGreTunnelHealthCheckRate | null | undefined;
   /** The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false. */
-  target?: GreTunnelsDeleteResponseDeletedGreTunnelHealthCheckTarget | null;
+  target?: GreTunnelsDeleteResponseDeletedGreTunnelHealthCheckTarget | null | undefined;
   /** The type of healthcheck to run, reply or request. The default value is `reply`. */
-  type?: GreTunnelsDeleteResponseDeletedGreTunnelHealthCheckType | null;
+  type?: GreTunnelsDeleteResponseDeletedGreTunnelHealthCheckType | null | undefined;
 }
 export interface GreTunnelsDeleteResponseDeletedGreTunnel {
   /** Identifier */
@@ -2239,47 +2299,50 @@ export interface GreTunnelsDeleteResponseDeletedGreTunnel {
   /** The name of the tunnel. The name cannot contain spaces or special characters, must be 15 characters or less, and cannot share a name with another GRE tunnel. */
   name: string;
   /** True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected. */
-  automaticReturnRouting?: boolean | null;
-  bgp?: GreTunnelsDeleteResponseDeletedGreTunnelBgp | null;
-  bgpStatus?: GreTunnelsDeleteResponseDeletedGreTunnelBgpStatus | null;
+  automaticReturnRouting?: boolean | null | undefined;
+  bgp?: GreTunnelsDeleteResponseDeletedGreTunnelBgp | null | undefined;
+  bgpStatus?: GreTunnelsDeleteResponseDeletedGreTunnelBgpStatus | null | undefined;
   /** The date and time the tunnel was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** An optional description of the GRE tunnel. */
-  description?: string | null;
-  healthCheck?: GreTunnelsDeleteResponseDeletedGreTunnelHealthCheck | null;
+  description?: string | null | undefined;
+  healthCheck?: GreTunnelsDeleteResponseDeletedGreTunnelHealthCheck | null | undefined;
   /** A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127 */
-  interfaceAddress6?: string | null;
+  interfaceAddress6?: string | null | undefined;
   /** The date and time the tunnel was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Maximum Transmission Unit (MTU) in bytes for the GRE tunnel. The minimum value is 576. */
-  mtu?: number | null;
+  mtu?: number | null | undefined;
   /** Time To Live (TTL) in number of hops of the GRE tunnel. */
-  ttl?: number | null;
+  ttl?: number | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteGreTunnelResponse {
-  deleted?: boolean | null;
-  deletedGreTunnel?: GreTunnelsDeleteResponseDeletedGreTunnel | null;
+  deleted?: boolean | null | undefined;
+  deletedGreTunnel?: GreTunnelsDeleteResponseDeletedGreTunnel | null | undefined;
 }
 export interface DeleteIpsecTunnelRequest {
   /** Identifier */
   accountId: string;
   /** Identifier */
   ipsecTunnelId: string;
-  xMagicNewHcTarget?: boolean;
+  xMagicNewHcTarget?: boolean | undefined;
 }
 export type IpsecTunnelsDeleteResponseDeletedIpsecTunnelBgpExtraPrefixesList = Array<string>;
 export interface IpsecTunnelsDeleteResponseDeletedIpsecTunnelBgp {
   /** ASN used on the customer end of the BGP session */
   customerAsn: number;
   /** ID of the BGP filter profile applied to routes advertised to the customer. */
-  exportFilterId?: string | null;
+  exportFilterId?: string | null | undefined;
   /** Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table. Each entry must be a network address in CIDR notation with no host bits set (for example `192.0.2.0/24`, not `192.0.2.1/24`) and must not repeat another entry. IPv6 prefixes are accepted only when the tunnel has an `interface_address6`. */
-  extraPrefixes?: IpsecTunnelsDeleteResponseDeletedIpsecTunnelBgpExtraPrefixesList | null;
+  extraPrefixes?:
+    | IpsecTunnelsDeleteResponseDeletedIpsecTunnelBgpExtraPrefixesList
+    | null
+    | undefined;
   /** ID of the BGP filter profile applied to routes received from the customer. */
-  importFilterId?: string | null;
+  importFilterId?: string | null | undefined;
   /** MD5 key to use for session authentication. */
-  md5Key?: string | null;
+  md5Key?: string | null | undefined;
 }
 export type IpsecTunnelsDeleteResponseDeletedIpsecTunnelBgpStatusState =
   | "BGP_DOWN"
@@ -2289,11 +2352,11 @@ export interface IpsecTunnelsDeleteResponseDeletedIpsecTunnelBgpStatus {
   state: IpsecTunnelsDeleteResponseDeletedIpsecTunnelBgpStatusState;
   tcpEstablished: boolean;
   updatedAt: string;
-  bgpState?: string | null;
-  cfSpeakerIp?: string | null;
-  cfSpeakerPort?: number | null;
-  customerSpeakerIp?: string | null;
-  customerSpeakerPort?: number | null;
+  bgpState?: string | null | undefined;
+  cfSpeakerIp?: string | null | undefined;
+  cfSpeakerPort?: number | null | undefined;
+  customerSpeakerIp?: string | null | undefined;
+  customerSpeakerPort?: number | null | undefined;
 }
 export type IpsecTunnelsDeleteResponseDeletedIpsecTunnelCustomRemoteIdentities =
   IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemCustomRemoteIdentities;
@@ -2309,15 +2372,15 @@ export type IpsecTunnelsDeleteResponseDeletedIpsecTunnelHealthCheckTarget =
 export type IpsecTunnelsDeleteResponseDeletedIpsecTunnelHealthCheckType = "reply" | "request";
 export interface IpsecTunnelsDeleteResponseDeletedIpsecTunnelHealthCheck {
   /** The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel. */
-  direction?: IpsecTunnelsDeleteResponseDeletedIpsecTunnelHealthCheckDirection | null;
+  direction?: IpsecTunnelsDeleteResponseDeletedIpsecTunnelHealthCheckDirection | null | undefined;
   /** Determines whether to run healthchecks for a tunnel. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** How frequent the health check is run. The default value is `mid`. */
-  rate?: IpsecTunnelsDeleteResponseDeletedIpsecTunnelHealthCheckRate | null;
+  rate?: IpsecTunnelsDeleteResponseDeletedIpsecTunnelHealthCheckRate | null | undefined;
   /** The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false. */
-  target?: IpsecTunnelsDeleteResponseDeletedIpsecTunnelHealthCheckTarget | null;
+  target?: IpsecTunnelsDeleteResponseDeletedIpsecTunnelHealthCheckTarget | null | undefined;
   /** The type of healthcheck to run, reply or request. The default value is `reply`. */
-  type?: IpsecTunnelsDeleteResponseDeletedIpsecTunnelHealthCheckType | null;
+  type?: IpsecTunnelsDeleteResponseDeletedIpsecTunnelHealthCheckType | null | undefined;
 }
 export type IpsecTunnelsDeleteResponseDeletedIpsecTunnelPskMetadata =
   IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemPskMetadata;
@@ -2331,32 +2394,38 @@ export interface IpsecTunnelsDeleteResponseDeletedIpsecTunnel {
   /** The name of the IPsec tunnel. The name cannot share a name with other tunnels. */
   name: string;
   /** When `true`, the tunnel can use a null-cipher (`ENCR_NULL`) in the ESP tunnel (Phase 2). */
-  allowNullCipher?: boolean | null;
+  allowNullCipher?: boolean | null | undefined;
   /** True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected. */
-  automaticReturnRouting?: boolean | null;
-  bgp?: IpsecTunnelsDeleteResponseDeletedIpsecTunnelBgp | null;
-  bgpStatus?: IpsecTunnelsDeleteResponseDeletedIpsecTunnelBgpStatus | null;
+  automaticReturnRouting?: boolean | null | undefined;
+  bgp?: IpsecTunnelsDeleteResponseDeletedIpsecTunnelBgp | null | undefined;
+  bgpStatus?: IpsecTunnelsDeleteResponseDeletedIpsecTunnelBgpStatus | null | undefined;
   /** The date and time the tunnel was created. */
-  createdOn?: string | null;
-  customRemoteIdentities?: IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemCustomRemoteIdentities | null;
+  createdOn?: string | null | undefined;
+  customRemoteIdentities?:
+    | IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemCustomRemoteIdentities
+    | null
+    | undefined;
   /** The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work. */
-  customerEndpoint?: string | null;
+  customerEndpoint?: string | null | undefined;
   /** An optional description forthe IPsec tunnel. */
-  description?: string | null;
-  healthCheck?: IpsecTunnelsDeleteResponseDeletedIpsecTunnelHealthCheck | null;
+  description?: string | null | undefined;
+  healthCheck?: IpsecTunnelsDeleteResponseDeletedIpsecTunnelHealthCheck | null | undefined;
   /** A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127 */
-  interfaceAddress6?: string | null;
+  interfaceAddress6?: string | null | undefined;
   /** The date and time the tunnel was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The PSK metadata that includes when the PSK was generated. */
-  pskMetadata?: IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemPskMetadata | null;
+  pskMetadata?:
+    | IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemPskMetadata
+    | null
+    | undefined;
   /** If `true`, then IPsec replay protection will be supported in the Cloudflare-to-customer direction. */
-  replayProtection?: boolean | null;
+  replayProtection?: boolean | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteIpsecTunnelResponse {
-  deleted?: boolean | null;
-  deletedIpsecTunnel?: IpsecTunnelsDeleteResponseDeletedIpsecTunnel | null;
+  deleted?: boolean | null | undefined;
+  deletedIpsecTunnel?: IpsecTunnelsDeleteResponseDeletedIpsecTunnel | null | undefined;
 }
 export interface DeletePcapOwnershipRequest {
   /** Identifier. */
@@ -2375,9 +2444,9 @@ export type RoutesDeleteResponseDeletedRouteScopeColoNamesList = Array<string>;
 export type RoutesDeleteResponseDeletedRouteScopeColoRegionsList = Array<string>;
 export interface RoutesDeleteResponseDeletedRouteScope {
   /** List of colo names for the ECMP scope. */
-  coloNames?: RoutesDeleteResponseDeletedRouteScopeColoNamesList | null;
+  coloNames?: RoutesDeleteResponseDeletedRouteScopeColoNamesList | null | undefined;
   /** List of colo regions for the ECMP scope. */
-  coloRegions?: RoutesDeleteResponseDeletedRouteScopeColoRegionsList | null;
+  coloRegions?: RoutesDeleteResponseDeletedRouteScopeColoRegionsList | null | undefined;
 }
 export interface RoutesDeleteResponseDeletedRoute {
   /** Identifier */
@@ -2389,20 +2458,20 @@ export interface RoutesDeleteResponseDeletedRoute {
   /** Priority of the static route. */
   priority: number;
   /** When the route was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** An optional human provided description of the static route. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** When the route was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Used only for ECMP routes. */
-  scope?: RoutesDeleteResponseDeletedRouteScope | null;
+  scope?: RoutesDeleteResponseDeletedRouteScope | null | undefined;
   /** Optional weight of the ECMP scope - if provided. */
-  weight?: number | null;
+  weight?: number | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteRouteResponse {
-  deleted?: boolean | null;
-  deletedRoute?: RoutesDeleteResponseDeletedRoute | null;
+  deleted?: boolean | null | undefined;
+  deletedRoute?: RoutesDeleteResponseDeletedRoute | null | undefined;
 }
 export interface DeleteSiteRequest {
   /** Identifier */
@@ -2414,18 +2483,18 @@ export type SitesDeleteResponseLocation = SitesCreateResponseLocation;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteSiteResponse {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Magic Connector identifier tag. */
-  connectorId?: string | null;
-  description?: string | null;
+  connectorId?: string | null | undefined;
+  description?: string | null | undefined;
   /** Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode. */
-  haMode?: boolean | null;
+  haMode?: boolean | null | undefined;
   /** Location of site in latitude and longitude. */
-  location?: SitesCreateResponseLocation | null;
+  location?: SitesCreateResponseLocation | null | undefined;
   /** The name of the site. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Magic Connector identifier tag. Used when high availability mode is on. */
-  secondaryConnectorId?: string | null;
+  secondaryConnectorId?: string | null | undefined;
 }
 export interface DeleteSiteAclRequest {
   /** Identifier */
@@ -2442,13 +2511,13 @@ export interface SitesAclsDeleteResponseLan1 {
   /** The identifier for the LAN you want to create an ACL policy with. */
   lanId: string;
   /** The name of the LAN based on the provided lan_id. */
-  lanName?: string | null;
+  lanName?: string | null | undefined;
   /** Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed. */
-  portRanges?: SitesAclsDeleteResponseLan1PortRangesList | null;
+  portRanges?: SitesAclsDeleteResponseLan1PortRangesList | null | undefined;
   /** Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed. */
-  ports?: SitesAclsDeleteResponseLan1PortsList | null;
+  ports?: SitesAclsDeleteResponseLan1PortsList | null | undefined;
   /** Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed. */
-  subnets?: SitesAclsDeleteResponseLan1SubnetsList | null;
+  subnets?: SitesAclsDeleteResponseLan1SubnetsList | null | undefined;
 }
 export type SitesAclsDeleteResponseLan2PortRangesList = Array<string>;
 export type SitesAclsDeleteResponseLan2PortsList = Array<number>;
@@ -2457,31 +2526,31 @@ export interface SitesAclsDeleteResponseLan2 {
   /** The identifier for the LAN you want to create an ACL policy with. */
   lanId: string;
   /** The name of the LAN based on the provided lan_id. */
-  lanName?: string | null;
+  lanName?: string | null | undefined;
   /** Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed. */
-  portRanges?: SitesAclsDeleteResponseLan2PortRangesList | null;
+  portRanges?: SitesAclsDeleteResponseLan2PortRangesList | null | undefined;
   /** Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed. */
-  ports?: SitesAclsDeleteResponseLan2PortsList | null;
+  ports?: SitesAclsDeleteResponseLan2PortsList | null | undefined;
   /** Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed. */
-  subnets?: SitesAclsDeleteResponseLan2SubnetsList | null;
+  subnets?: SitesAclsDeleteResponseLan2SubnetsList | null | undefined;
 }
 export type SitesAclsDeleteResponseProtocolsItem = "tcp" | "udp" | "icmp";
 export type SitesAclsDeleteResponseProtocolsList = Array<SitesAclsDeleteResponseProtocolsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteSiteAclResponse {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Description for the ACL. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The desired forwarding action for this ACL policy. If set to "false", the policy will forward traffic to Cloudflare. If set to "true", the policy will forward traffic locally on the Magic Connector. If not included in request, will default to false. */
-  forwardLocally?: boolean | null;
-  lan_1?: SitesAclsDeleteResponseLan1 | null;
-  lan_2?: SitesAclsDeleteResponseLan2 | null;
+  forwardLocally?: boolean | null | undefined;
+  lan_1?: SitesAclsDeleteResponseLan1 | null | undefined;
+  lan_2?: SitesAclsDeleteResponseLan2 | null | undefined;
   /** The name of the ACL. */
-  name?: string | null;
-  protocols?: SitesAclsDeleteResponseProtocolsList | null;
+  name?: string | null | undefined;
+  protocols?: SitesAclsDeleteResponseProtocolsList | null | undefined;
   /** The desired traffic direction for this ACL policy. If set to "false", the policy will allow bidirectional traffic. If set to "true", the policy will only allow traffic in one direction. If not included in request, will default to false. */
-  unidirectional?: boolean | null;
+  unidirectional?: boolean | null | undefined;
 }
 export interface DeleteSiteLanRequest {
   /** Identifier */
@@ -2502,7 +2571,10 @@ export type SitesLansDeleteResponseRoutedSubnetsList =
 export type SitesLansDeleteResponseStaticAddressingDhcpRelayServerAddressesList = Array<string>;
 export interface SitesLansDeleteResponseStaticAddressingDhcpRelay {
   /** List of DHCP server IPs. */
-  serverAddresses?: SitesLansDeleteResponseStaticAddressingDhcpRelayServerAddressesList | null;
+  serverAddresses?:
+    | SitesLansDeleteResponseStaticAddressingDhcpRelayServerAddressesList
+    | null
+    | undefined;
 }
 export type SitesLansDeleteResponseStaticAddressingDhcpServerDhcpOptionsItemType =
   | "text"
@@ -2527,49 +2599,52 @@ export type SitesLansDeleteResponseStaticAddressingDhcpServerReservationsMap = {
 };
 export interface SitesLansDeleteResponseStaticAddressingDhcpServer {
   /** Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled. */
-  dhcpOptions?: SitesLansDeleteResponseStaticAddressingDhcpServerDhcpOptionsList | null;
+  dhcpOptions?: SitesLansDeleteResponseStaticAddressingDhcpServerDhcpOptionsList | null | undefined;
   /** A valid IPv4 address. */
-  dhcpPoolEnd?: string | null;
+  dhcpPoolEnd?: string | null | undefined;
   /** A valid IPv4 address. */
-  dhcpPoolStart?: string | null;
+  dhcpPoolStart?: string | null | undefined;
   /** A valid IPv4 address. */
-  dnsServer?: string | null;
-  dnsServers?: SitesLansDeleteResponseStaticAddressingDhcpServerDnsServersList | null;
+  dnsServer?: string | null | undefined;
+  dnsServers?: SitesLansDeleteResponseStaticAddressingDhcpServerDnsServersList | null | undefined;
   /** Mapping of MAC addresses to IP addresses */
-  reservations?: SitesLansDeleteResponseStaticAddressingDhcpServerReservationsMap | null;
+  reservations?:
+    | SitesLansDeleteResponseStaticAddressingDhcpServerReservationsMap
+    | null
+    | undefined;
 }
 export interface SitesLansDeleteResponseStaticAddressing {
   /** A valid CIDR notation representing an IP range. */
   address: string;
-  dhcpRelay?: SitesLansDeleteResponseStaticAddressingDhcpRelay | null;
-  dhcpServer?: SitesLansDeleteResponseStaticAddressingDhcpServer | null;
+  dhcpRelay?: SitesLansDeleteResponseStaticAddressingDhcpRelay | null | undefined;
+  dhcpServer?: SitesLansDeleteResponseStaticAddressingDhcpServer | null | undefined;
   /** A valid CIDR notation representing an IP range. */
-  secondaryAddress?: string | null;
+  secondaryAddress?: string | null | undefined;
   /** A valid CIDR notation representing an IP range. */
-  virtualAddress?: string | null;
+  virtualAddress?: string | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteSiteLanResponse {
   /** Identifier */
-  id?: string | null;
-  bondId?: number | null;
+  id?: string | null | undefined;
+  bondId?: number | null | undefined;
   /** mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link. */
-  haLink?: boolean | null;
+  haLink?: boolean | null | undefined;
   /** mark true to use this LAN for source-based breakout traffic */
-  isBreakout?: boolean | null;
+  isBreakout?: boolean | null | undefined;
   /** mark true to use this LAN for source-based prioritized traffic */
-  isPrioritized?: boolean | null;
-  name?: string | null;
-  nat?: SitesLansCreateResultItemNat | null;
-  physport?: number | null;
-  remoteSubnets?: SitesLansDeleteResponseRemoteSubnetsList | null;
-  routedSubnets?: SitesLansDeleteResponseRoutedSubnetsList | null;
+  isPrioritized?: boolean | null | undefined;
+  name?: string | null | undefined;
+  nat?: SitesLansCreateResultItemNat | null | undefined;
+  physport?: number | null | undefined;
+  remoteSubnets?: SitesLansDeleteResponseRemoteSubnetsList | null | undefined;
+  routedSubnets?: SitesLansDeleteResponseRoutedSubnetsList | null | undefined;
   /** Identifier */
-  siteId?: string | null;
+  siteId?: string | null | undefined;
   /** If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address. */
-  staticAddressing?: SitesLansDeleteResponseStaticAddressing | null;
+  staticAddressing?: SitesLansDeleteResponseStaticAddressing | null | undefined;
   /** VLAN ID. Use zero for untagged. */
-  vlanTag?: number | null;
+  vlanTag?: number | null | undefined;
 }
 export interface DeleteSitesAppConfigurationRequest {
   /** Identifier */
@@ -2584,30 +2659,30 @@ export interface DeleteSitesAppConfigurationResultAccountApp {
   /** Magic account app ID. */
   accountAppId: string;
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior. */
-  breakout?: boolean | null;
+  breakout?: boolean | null | undefined;
   /** WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true). */
-  preferredWans?: DeleteSitesAppConfigurationResultAccountAppPreferredWansList | null;
+  preferredWans?: DeleteSitesAppConfigurationResultAccountAppPreferredWansList | null | undefined;
   /** Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported) */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Identifier */
-  siteId?: string | null;
+  siteId?: string | null | undefined;
 }
 export type DeleteSitesAppConfigurationResultManagedAppPreferredWansList = Array<string>;
 export interface DeleteSitesAppConfigurationResultManagedApp {
   /** Managed app ID. */
   managedAppId: string;
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior. */
-  breakout?: boolean | null;
+  breakout?: boolean | null | undefined;
   /** WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true). */
-  preferredWans?: DeleteSitesAppConfigurationResultManagedAppPreferredWansList | null;
+  preferredWans?: DeleteSitesAppConfigurationResultManagedAppPreferredWansList | null | undefined;
   /** Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported) */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Identifier */
-  siteId?: string | null;
+  siteId?: string | null | undefined;
 }
 export type DeleteSitesAppConfigurationResult =
   | DeleteSitesAppConfigurationResultAccountApp
@@ -2626,24 +2701,24 @@ export type SitesWansDeleteResponseStaticAddressing = SitesWansCreateResultItemS
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteSiteWanResponse {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Magic WAN health check rate for tunnels created on this link. The default value is `mid`. */
-  healthCheckRate?: SitesWansDeleteResponseHealthCheckRate | null;
-  loadBalanceInnerFlows?: boolean | null;
-  name?: string | null;
-  physport?: number | null;
+  healthCheckRate?: SitesWansDeleteResponseHealthCheckRate | null | undefined;
+  loadBalanceInnerFlows?: boolean | null | undefined;
+  name?: string | null | undefined;
+  physport?: number | null | undefined;
   /** Priority of WAN for traffic loadbalancing. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Provisioned download rate of the WAN circuit in kilobits per second. */
-  provisionedDownloadKbps?: number | null;
+  provisionedDownloadKbps?: number | null | undefined;
   /** Provisioned upload rate of the WAN circuit in kilobits per second. */
-  provisionedUploadKbps?: number | null;
+  provisionedUploadKbps?: number | null | undefined;
   /** Identifier */
-  siteId?: string | null;
+  siteId?: string | null | undefined;
   /** (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode. */
-  staticAddressing?: SitesWansCreateResultItemStaticAddressing | null;
+  staticAddressing?: SitesWansCreateResultItemStaticAddressing | null | undefined;
   /** VLAN ID. Use zero for untagged. */
-  vlanTag?: number | null;
+  vlanTag?: number | null | undefined;
 }
 export type EditSitesAppConfigurationRequestPreferredWansList = Array<string>;
 export interface EditSitesAppConfigurationRequest {
@@ -2654,45 +2729,45 @@ export interface EditSitesAppConfigurationRequest {
   /** Identifier */
   appConfigId: string;
   /** Magic account app ID. */
-  accountAppId?: string;
+  accountAppId?: string | undefined;
   /** Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior. */
-  breakout?: boolean;
+  breakout?: boolean | undefined;
   /** Managed app ID. */
-  managedAppId?: string;
+  managedAppId?: string | undefined;
   /** WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true). */
-  preferredWans?: EditSitesAppConfigurationRequestPreferredWansList;
+  preferredWans?: EditSitesAppConfigurationRequestPreferredWansList | undefined;
   /** Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported) */
-  priority?: number;
+  priority?: number | undefined;
 }
 export type EditSitesAppConfigurationResultAccountAppPreferredWansList = Array<string>;
 export interface EditSitesAppConfigurationResultAccountApp {
   /** Magic account app ID. */
   accountAppId: string;
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior. */
-  breakout?: boolean | null;
+  breakout?: boolean | null | undefined;
   /** WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true). */
-  preferredWans?: EditSitesAppConfigurationResultAccountAppPreferredWansList | null;
+  preferredWans?: EditSitesAppConfigurationResultAccountAppPreferredWansList | null | undefined;
   /** Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported) */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Identifier */
-  siteId?: string | null;
+  siteId?: string | null | undefined;
 }
 export type EditSitesAppConfigurationResultManagedAppPreferredWansList = Array<string>;
 export interface EditSitesAppConfigurationResultManagedApp {
   /** Managed app ID. */
   managedAppId: string;
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior. */
-  breakout?: boolean | null;
+  breakout?: boolean | null | undefined;
   /** WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true). */
-  preferredWans?: EditSitesAppConfigurationResultManagedAppPreferredWansList | null;
+  preferredWans?: EditSitesAppConfigurationResultManagedAppPreferredWansList | null | undefined;
   /** Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported) */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Identifier */
-  siteId?: string | null;
+  siteId?: string | null | undefined;
 }
 export type EditSitesAppConfigurationResult =
   | EditSitesAppConfigurationResultAccountApp
@@ -2706,9 +2781,9 @@ export type RoutesEmptyResponseDeletedRoutesItemScopeColoNamesList = Array<strin
 export type RoutesEmptyResponseDeletedRoutesItemScopeColoRegionsList = Array<string>;
 export interface RoutesEmptyResponseDeletedRoutesItemScope {
   /** List of colo names for the ECMP scope. */
-  coloNames?: RoutesEmptyResponseDeletedRoutesItemScopeColoNamesList | null;
+  coloNames?: RoutesEmptyResponseDeletedRoutesItemScopeColoNamesList | null | undefined;
   /** List of colo regions for the ECMP scope. */
-  coloRegions?: RoutesEmptyResponseDeletedRoutesItemScopeColoRegionsList | null;
+  coloRegions?: RoutesEmptyResponseDeletedRoutesItemScopeColoRegionsList | null | undefined;
 }
 export interface RoutesEmptyResponseDeletedRoutesItem {
   /** Identifier */
@@ -2720,21 +2795,21 @@ export interface RoutesEmptyResponseDeletedRoutesItem {
   /** Priority of the static route. */
   priority: number;
   /** When the route was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** An optional human provided description of the static route. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** When the route was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Used only for ECMP routes. */
-  scope?: RoutesEmptyResponseDeletedRoutesItemScope | null;
+  scope?: RoutesEmptyResponseDeletedRoutesItemScope | null | undefined;
   /** Optional weight of the ECMP scope - if provided. */
-  weight?: number | null;
+  weight?: number | null | undefined;
 }
 export type RoutesEmptyResponseDeletedRoutesList = Array<RoutesEmptyResponseDeletedRoutesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface EmptyRouteResponse {
-  deleted?: boolean | null;
-  deletedRoutes?: RoutesEmptyResponseDeletedRoutesList | null;
+  deleted?: boolean | null | undefined;
+  deletedRoutes?: RoutesEmptyResponseDeletedRoutesList | null | undefined;
 }
 export interface GetBgpFilterProfileRequest {
   /** Identifier */
@@ -2756,8 +2831,8 @@ export interface GetBgpFilterProfileResponse {
   name: string;
   /** List of CIDR prefixes. Each entry may carry an optional suffix that specifies which prefix lengths to match relative to the prefix length N: '{X,Y}' matches prefix lengths in the inclusive range [X, Y] where N &lt;= X &lt;= Y &lt;= max (max is 32 for IPv4, 128 for IPv6), '{X}' matches exactly length X (equivalent to {X,X}), '+' is shorthand for {N, max} (the prefix and all more-specific subnets, including at length N itself; valid even when N is the maximum length). Omit the suffix to match the prefix exactly at length N. */
   targets: GetBgpFilterProfileResponseTargetsList;
-  createdOn?: string | null;
-  modifiedOn?: string | null;
+  createdOn?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
 }
 export interface GetCf1SiteRequest {
   /** Identifier */
@@ -2771,12 +2846,12 @@ export interface GetCf1SiteResponse {
   /** A human-provided name describing the CF1 Site that should be unique within the account. */
   name: string;
   /** Identifier */
-  id?: string | null;
-  createdOn?: string | null;
+  id?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** A human-provided description of the CF1 Site. */
-  description?: string | null;
-  location?: Cf1SitesCreateResultItemLocation | null;
-  modifiedOn?: string | null;
+  description?: string | null | undefined;
+  location?: Cf1SitesCreateResultItemLocation | null | undefined;
+  modifiedOn?: string | null | undefined;
 }
 export interface GetCf1SiteRampRequest {
   /** Identifier */
@@ -2808,38 +2883,38 @@ export interface GetCf1SiteRampResponse {
   /** The type of network connection (ramp) linking a CF1 Site to Cloudflare's network. */
   type: Cf1SitesRampsGetResponseType;
   /** A human-provided description of the ramp. */
-  description?: string | null;
-  gre?: Cf1SitesRampsCreateResultItemGre | null;
-  greInterconnect?: Cf1SitesRampsCreateResultItemGre | null;
-  ipsec?: Cf1SitesRampsCreateResultItemGre | null;
-  mconn?: Cf1SitesRampsCreateResultItemGre | null;
-  mplsInterconnect?: Cf1SitesRampsCreateResultItemGre | null;
+  description?: string | null | undefined;
+  gre?: Cf1SitesRampsCreateResultItemGre | null | undefined;
+  greInterconnect?: Cf1SitesRampsCreateResultItemGre | null | undefined;
+  ipsec?: Cf1SitesRampsCreateResultItemGre | null | undefined;
+  mconn?: Cf1SitesRampsCreateResultItemGre | null | undefined;
+  mplsInterconnect?: Cf1SitesRampsCreateResultItemGre | null | undefined;
 }
 export interface GetCfInterconnectRequest {
   /** Identifier */
   accountId: string;
   /** Identifier */
   cfInterconnectId: string;
-  xMagicNewHcTarget?: boolean;
+  xMagicNewHcTarget?: boolean | undefined;
 }
 export type CfInterconnectsGetResponseInterconnectBgpExtraPrefixesList = Array<string>;
 export interface CfInterconnectsGetResponseInterconnectBgp {
   /** Deprecated. Use customer_asn. */
-  asNo?: number | null;
+  asNo?: number | null | undefined;
   /** Read-only for v1.5; derived from interface_address. */
-  cloudflareEndpoint?: string | null;
+  cloudflareEndpoint?: string | null | undefined;
   /** ASN used on the customer end of the BGP session. */
-  customerAsn?: number | null;
+  customerAsn?: number | null | undefined;
   /** Read-only for v1.5; derived from interface_address. */
-  customerEndpoint?: string | null;
+  customerEndpoint?: string | null | undefined;
   /** ID of the BGP filter profile applied to routes advertised to the customer. */
-  exportFilterId?: string | null;
+  exportFilterId?: string | null | undefined;
   /** IPv4 prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table. Each entry must be a network address in CIDR notation with no host bits set (for example `192.0.2.0/24`, not `192.0.2.1/24`) and must not repeat another entry. */
-  extraPrefixes?: CfInterconnectsGetResponseInterconnectBgpExtraPrefixesList | null;
+  extraPrefixes?: CfInterconnectsGetResponseInterconnectBgpExtraPrefixesList | null | undefined;
   /** ID of the BGP filter profile applied to routes received from the customer. */
-  importFilterId?: string | null;
+  importFilterId?: string | null | undefined;
   /** MD5 key to use for session authentication. */
-  md5Key?: string | null;
+  md5Key?: string | null | undefined;
 }
 export type CfInterconnectsGetResponseInterconnectGre =
   CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemGre;
@@ -2855,51 +2930,51 @@ export type CfInterconnectsGetResponseInterconnectHealthCheckTarget =
 export type CfInterconnectsGetResponseInterconnectHealthCheckType = "reply" | "request";
 export interface CfInterconnectsGetResponseInterconnectHealthCheck {
   /** The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the interconnect and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the interconnect. */
-  direction?: CfInterconnectsGetResponseInterconnectHealthCheckDirection | null;
+  direction?: CfInterconnectsGetResponseInterconnectHealthCheckDirection | null | undefined;
   /** Determines whether to run healthchecks for a tunnel. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** How frequent the health check is run. The default value is `mid`. */
-  rate?: CfInterconnectsGetResponseInterconnectHealthCheckRate | null;
+  rate?: CfInterconnectsGetResponseInterconnectHealthCheckRate | null | undefined;
   /** The source IPv4 address used for bidirectional health checks. Supported only for version 1.5 interconnects. It is required when `direction` is `bidirectional` and must be omitted (and is cleared) when `direction` is `unidirectional`. The address must be within RFC1918 space, the approved link-local range 169.254.240.0/20, or the Cloudflare reserved range 198.41.199.224/27. */
-  source?: string | null;
+  source?: string | null | undefined;
   /** The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false. */
-  target?: CfInterconnectsGetResponseInterconnectHealthCheckTarget | null;
+  target?: CfInterconnectsGetResponseInterconnectHealthCheckTarget | null | undefined;
   /** The type of healthcheck to run, reply or request. The default value is `reply`. */
-  type?: CfInterconnectsGetResponseInterconnectHealthCheckType | null;
+  type?: CfInterconnectsGetResponseInterconnectHealthCheckType | null | undefined;
 }
 export interface CfInterconnectsGetResponseInterconnect {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected. */
-  automaticReturnRouting?: boolean | null;
-  bgp?: CfInterconnectsGetResponseInterconnectBgp | null;
+  automaticReturnRouting?: boolean | null | undefined;
+  bgp?: CfInterconnectsGetResponseInterconnectBgp | null | undefined;
   /** The name of the interconnect. The name cannot share a name with other tunnels. */
-  coloName?: string | null;
+  coloName?: string | null | undefined;
   /** The date and time the tunnel was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** An optional description of the interconnect. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Omitted in responses for version 1.5 interconnects. */
-  gre?: CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemGre | null;
-  healthCheck?: CfInterconnectsGetResponseInterconnectHealthCheck | null;
+  gre?: CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemGre | null | undefined;
+  healthCheck?: CfInterconnectsGetResponseInterconnectHealthCheck | null | undefined;
   /** The IPv4 interface address for the interconnect. For MPLS Interconnects, use a /30 or /31 prefix. For GRE Interconnects, a /30 or /31 prefix may be used. Version 1.5 interconnects require a /31 prefix and may also use a prefix from the account's authorized prefixes; otherwise, select the subnet from RFC 1918 or the approved link-local ranges. */
-  interfaceAddress?: string | null;
+  interfaceAddress?: string | null | undefined;
   /** A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127 */
-  interfaceAddress6?: string | null;
+  interfaceAddress6?: string | null | undefined;
   /** The date and time the tunnel was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The Maximum Transmission Unit (MTU) in bytes for the interconnect. The minimum value is 576. */
-  mtu?: number | null;
+  mtu?: number | null | undefined;
   /** The name of the interconnect. The name cannot share a name with other tunnels. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Immutable interconnect version configured at creation time. One of: */
-  version?: string | null;
+  version?: string | null | undefined;
   /** An identifier that correlates this interconnect with the corresponding V2 CNI interconnect resource. */
-  virtualPortReservationId?: string | null;
+  virtualPortReservationId?: string | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetCfInterconnectResponse {
-  interconnect?: CfInterconnectsGetResponseInterconnect | null;
+  interconnect?: CfInterconnectsGetResponseInterconnect | null | undefined;
 }
 export interface GetConnectorRequest {
   accountId: string;
@@ -2919,8 +2994,8 @@ export type ConnectorsGetResponseInterruptWindowEmbargoDatesList = Array<string>
 export type ConnectorsGetResponseDeviceType = "MANAGED" | "LICENSED";
 export interface ConnectorsGetResponseDevice {
   id: string;
-  serialNumber?: string | null;
-  type?: ConnectorsGetResponseDeviceType | null;
+  serialNumber?: string | null | undefined;
+  type?: ConnectorsGetResponseDeviceType | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetConnectorResponse {
@@ -2935,10 +3010,10 @@ export interface GetConnectorResponse {
   lastUpdated: string;
   notes: string;
   timezone: string;
-  device?: ConnectorsGetResponseDevice | null;
-  lastHeartbeat?: string | null;
-  lastSeenVersion?: string | null;
-  licenseKey?: string | null;
+  device?: ConnectorsGetResponseDevice | null | undefined;
+  lastHeartbeat?: string | null | undefined;
+  lastSeenVersion?: string | null | undefined;
+  licenseKey?: string | null | undefined;
 }
 export interface GetConnectorEventRequest {
   /** Account identifier */
@@ -2990,7 +3065,7 @@ export interface GetConnectorEventResponse {
   /** Time the Event was recorded (seconds since the Unix epoch) */
   t: number;
   /** Version */
-  v?: string | null;
+  v?: string | null | undefined;
 }
 export interface GetConnectorSnapshotRequest {
   /** Account identifier */
@@ -3052,17 +3127,17 @@ export interface ConnectorsSnapshotsGetResponseDisksItem {
   /** Writes merged */
   writesMerged: number;
   /** Discards completed successfully */
-  discards?: number | null;
+  discards?: number | null | undefined;
   /** Discards merged */
-  discardsMerged?: number | null;
+  discardsMerged?: number | null | undefined;
   /** Flushes completed successfully */
-  flushes?: number | null;
+  flushes?: number | null | undefined;
   /** Sectors discarded */
-  sectorsDiscarded?: number | null;
+  sectorsDiscarded?: number | null | undefined;
   /** Time spent discarding (milliseconds) */
-  timeDiscardingMs?: number | null;
+  timeDiscardingMs?: number | null | undefined;
   /** Time spent flushing (milliseconds) */
-  timeFlushingMs?: number | null;
+  timeFlushingMs?: number | null | undefined;
 }
 export type ConnectorsSnapshotsGetResponseDisksList =
   Array<ConnectorsSnapshotsGetResponseDisksItem>;
@@ -3080,12 +3155,12 @@ export interface ConnectorsSnapshotsGetResponseInterfacesItem {
   /** UP/DOWN state of the network interface */
   operstate: string;
   /** Comma-separated list of reasons for health score */
-  healthReason?: string | null;
+  healthReason?: string | null | undefined;
   /** Aggregate health score (0-100) */
-  healthScore?: number | null;
-  ipAddresses?: ConnectorsSnapshotsGetResponseInterfacesItemIpAddressesList | null;
+  healthScore?: number | null | undefined;
+  ipAddresses?: ConnectorsSnapshotsGetResponseInterfacesItemIpAddressesList | null | undefined;
   /** Speed of the network interface (bits per second) */
-  speed?: number | null;
+  speed?: number | null | undefined;
 }
 export type ConnectorsSnapshotsGetResponseInterfacesList =
   Array<ConnectorsSnapshotsGetResponseInterfacesItem>;
@@ -3099,17 +3174,17 @@ export interface ConnectorsSnapshotsGetResponseMountsItem {
   /** Name of the disk mount */
   name: string;
   /** Available disk size (bytes) */
-  availableBytes?: number | null;
+  availableBytes?: number | null | undefined;
   /** Available inodes on filesystem */
-  availableInodes?: number | null;
+  availableInodes?: number | null | undefined;
   /** Determines whether the disk is read-only */
-  isReadOnly?: boolean | null;
+  isReadOnly?: boolean | null | undefined;
   /** Determines whether the disk is removable */
-  isRemovable?: boolean | null;
+  isRemovable?: boolean | null | undefined;
   /** Total disk size (bytes) */
-  totalBytes?: number | null;
+  totalBytes?: number | null | undefined;
   /** Total inodes on filesystem */
-  totalInodes?: number | null;
+  totalInodes?: number | null | undefined;
 }
 export type ConnectorsSnapshotsGetResponseMountsList =
   Array<ConnectorsSnapshotsGetResponseMountsItem>;
@@ -3161,9 +3236,9 @@ export interface ConnectorsSnapshotsGetResponseRoutesItem {
   /** Route metric; lower metrics are preferred */
   metric: number;
   /** Gateway address for the next hop */
-  gateway?: string | null;
+  gateway?: string | null | undefined;
   /** Relative weight within an equal-cost route */
-  weight?: number | null;
+  weight?: number | null | undefined;
 }
 export type ConnectorsSnapshotsGetResponseRoutesList =
   Array<ConnectorsSnapshotsGetResponseRoutesItem>;
@@ -3171,11 +3246,11 @@ export interface ConnectorsSnapshotsGetResponseThermalsItem {
   /** Sensor identifier for the component */
   label: string;
   /** Critical failure temperature of the component (degrees Celsius) */
-  criticalCelcius?: number | null;
+  criticalCelcius?: number | null | undefined;
   /** Current temperature of the component (degrees Celsius) */
-  currentCelcius?: number | null;
+  currentCelcius?: number | null | undefined;
   /** Maximum temperature of the component (degrees Celsius) */
-  maxCelcius?: number | null;
+  maxCelcius?: number | null | undefined;
 }
 export type ConnectorsSnapshotsGetResponseThermalsList =
   Array<ConnectorsSnapshotsGetResponseThermalsItem>;
@@ -3189,21 +3264,21 @@ export interface ConnectorsSnapshotsGetResponseTunnelsItem {
   /** Tunnel identifier */
   tunnelId: string;
   /** Tunnel round-trip latency variation in milliseconds */
-  jitterMs?: number | null;
+  jitterMs?: number | null | undefined;
   /** 50th percentile tunnel round-trip latency in milliseconds */
-  latencyMs?: number | null;
+  latencyMs?: number | null | undefined;
   /** Public socket address returned by the NAT detector */
-  natdResult?: string | null;
+  natdResult?: string | null | undefined;
   /** Numeric NAT detector state (0 = detected, 1 = missing result, 2 = stale result) */
-  natdState?: number | null;
+  natdState?: number | null | undefined;
   /** Target socket address probed by the NAT detector, using the detector source port */
-  natdTarget?: string | null;
+  natdTarget?: string | null | undefined;
   /** MTU as measured between the two ends of the tunnel */
-  probedMtu?: number | null;
+  probedMtu?: number | null | undefined;
   /** Number of recent healthy pings for this tunnel */
-  recentHealthyPings?: number | null;
+  recentHealthyPings?: number | null | undefined;
   /** Number of recent unhealthy pings for this tunnel */
-  recentUnhealthyPings?: number | null;
+  recentUnhealthyPings?: number | null | undefined;
 }
 export type ConnectorsSnapshotsGetResponseTunnelsList =
   Array<ConnectorsSnapshotsGetResponseTunnelsItem>;
@@ -3221,355 +3296,355 @@ export interface GetConnectorSnapshotResponse {
   t: number;
   /** Version */
   v: string;
-  bonds?: ConnectorsSnapshotsGetResponseBondsList | null;
+  bonds?: ConnectorsSnapshotsGetResponseBondsList | null | undefined;
   /** Count of processors/cores */
-  cpuCount?: number | null;
+  cpuCount?: number | null | undefined;
   /** Percentage of time over a 10 second window that tasks were stalled */
-  cpu_pressure_10s?: number | null;
+  cpu_pressure_10s?: number | null | undefined;
   /** Percentage of time over a 5 minute window that tasks were stalled */
-  cpu_pressure_300s?: number | null;
+  cpu_pressure_300s?: number | null | undefined;
   /** Percentage of time over a 1 minute window that tasks were stalled */
-  cpu_pressure_60s?: number | null;
+  cpu_pressure_60s?: number | null | undefined;
   /** Total stall time (microseconds) */
-  cpuPressureTotalUs?: number | null;
+  cpuPressureTotalUs?: number | null | undefined;
   /** Time spent running a virtual CPU or guest OS (milliseconds) */
-  cpuTimeGuestMs?: number | null;
+  cpuTimeGuestMs?: number | null | undefined;
   /** Time spent running a niced guest (milliseconds) */
-  cpuTimeGuestNiceMs?: number | null;
+  cpuTimeGuestNiceMs?: number | null | undefined;
   /** Time spent in idle state (milliseconds) */
-  cpuTimeIdleMs?: number | null;
+  cpuTimeIdleMs?: number | null | undefined;
   /** Time spent wait for I/O to complete (milliseconds) */
-  cpuTimeIowaitMs?: number | null;
+  cpuTimeIowaitMs?: number | null | undefined;
   /** Time spent servicing interrupts (milliseconds) */
-  cpuTimeIrqMs?: number | null;
+  cpuTimeIrqMs?: number | null | undefined;
   /** Time spent in low-priority user mode (milliseconds) */
-  cpuTimeNiceMs?: number | null;
+  cpuTimeNiceMs?: number | null | undefined;
   /** Time spent servicing softirqs (milliseconds) */
-  cpuTimeSoftirqMs?: number | null;
+  cpuTimeSoftirqMs?: number | null | undefined;
   /** Time stolen (milliseconds) */
-  cpuTimeStealMs?: number | null;
+  cpuTimeStealMs?: number | null | undefined;
   /** Time spent in system mode (milliseconds) */
-  cpuTimeSystemMs?: number | null;
+  cpuTimeSystemMs?: number | null | undefined;
   /** Time spent in user mode (milliseconds) */
-  cpuTimeUserMs?: number | null;
+  cpuTimeUserMs?: number | null | undefined;
   /** Number of network operations applied during state transition */
-  delta?: number | null;
-  dhcpLeases?: ConnectorsSnapshotsGetResponseDhcpLeasesList | null;
-  disks?: ConnectorsSnapshotsGetResponseDisksList | null;
+  delta?: number | null | undefined;
+  dhcpLeases?: ConnectorsSnapshotsGetResponseDhcpLeasesList | null | undefined;
+  disks?: ConnectorsSnapshotsGetResponseDisksList | null | undefined;
   /** Simulated number of network operations applied during state transition */
-  epsilon?: number | null;
+  epsilon?: number | null | undefined;
   /** Name of high availability state */
-  haState?: string | null;
+  haState?: string | null | undefined;
   /** Numeric value associated with high availability state (0 = disabled, 1 = active, 2 = standby, 3 = stopped, 4 = fault) */
-  haValue?: number | null;
-  interfaces?: ConnectorsSnapshotsGetResponseInterfacesList | null;
+  haValue?: number | null | undefined;
+  interfaces?: ConnectorsSnapshotsGetResponseInterfacesList | null | undefined;
   /** Percentage of time over a 10 second window that all tasks were stalled */
-  io_pressure_full_10s?: number | null;
+  io_pressure_full_10s?: number | null | undefined;
   /** Percentage of time over a 5 minute window that all tasks were stalled */
-  io_pressure_full_300s?: number | null;
+  io_pressure_full_300s?: number | null | undefined;
   /** Percentage of time over a 1 minute window that all tasks were stalled */
-  io_pressure_full_60s?: number | null;
+  io_pressure_full_60s?: number | null | undefined;
   /** Total stall time (microseconds) */
-  ioPressureFullTotalUs?: number | null;
+  ioPressureFullTotalUs?: number | null | undefined;
   /** Percentage of time over a 10 second window that some tasks were stalled */
-  io_pressure_some_10s?: number | null;
+  io_pressure_some_10s?: number | null | undefined;
   /** Percentage of time over a 3 minute window that some tasks were stalled */
-  io_pressure_some_300s?: number | null;
+  io_pressure_some_300s?: number | null | undefined;
   /** Percentage of time over a 1 minute window that some tasks were stalled */
-  io_pressure_some_60s?: number | null;
+  io_pressure_some_60s?: number | null | undefined;
   /** Total stall time (microseconds) */
-  ioPressureSomeTotalUs?: number | null;
+  ioPressureSomeTotalUs?: number | null | undefined;
   /** Boot time (seconds since Unix epoch) */
-  kernelBtime?: number | null;
+  kernelBtime?: number | null | undefined;
   /** Number of context switches that the system underwent */
-  kernelCtxt?: number | null;
+  kernelCtxt?: number | null | undefined;
   /** Number of forks since boot */
-  kernelProcesses?: number | null;
+  kernelProcesses?: number | null | undefined;
   /** Number of processes blocked waiting for I/O */
-  kernelProcessesBlocked?: number | null;
+  kernelProcessesBlocked?: number | null | undefined;
   /** Number of processes in runnable state */
-  kernelProcessesRunning?: number | null;
+  kernelProcessesRunning?: number | null | undefined;
   /** The fifteen-minute load average */
-  load_average_15m?: number | null;
+  load_average_15m?: number | null | undefined;
   /** The one-minute load average */
-  load_average_1m?: number | null;
+  load_average_1m?: number | null | undefined;
   /** The five-minute load average */
-  load_average_5m?: number | null;
+  load_average_5m?: number | null | undefined;
   /** Number of currently runnable kernel scheduling entities */
-  loadAverageCur?: number | null;
+  loadAverageCur?: number | null | undefined;
   /** Number of kernel scheduling entities that currently exist on the system */
-  loadAverageMax?: number | null;
+  loadAverageMax?: number | null | undefined;
   /** Memory that has been used more recently */
-  memoryActiveBytes?: number | null;
+  memoryActiveBytes?: number | null | undefined;
   /** Non-file backed huge pages mapped into user-space page tables */
-  memoryAnonHugepagesBytes?: number | null;
+  memoryAnonHugepagesBytes?: number | null | undefined;
   /** Non-file backed pages mapped into user-space page tables */
-  memoryAnonPagesBytes?: number | null;
+  memoryAnonPagesBytes?: number | null | undefined;
   /** Estimate of how much memory is available for starting new applications */
-  memoryAvailableBytes?: number | null;
+  memoryAvailableBytes?: number | null | undefined;
   /** Memory used for block device bounce buffers */
-  memoryBounceBytes?: number | null;
+  memoryBounceBytes?: number | null | undefined;
   /** Relatively temporary storage for raw disk blocks */
-  memoryBuffersBytes?: number | null;
+  memoryBuffersBytes?: number | null | undefined;
   /** In-memory cache for files read from the disk */
-  memoryCachedBytes?: number | null;
+  memoryCachedBytes?: number | null | undefined;
   /** Free CMA (Contiguous Memory Allocator) pages */
-  memoryCmaFreeBytes?: number | null;
+  memoryCmaFreeBytes?: number | null | undefined;
   /** Total CMA (Contiguous Memory Allocator) pages */
-  memoryCmaTotalBytes?: number | null;
+  memoryCmaTotalBytes?: number | null | undefined;
   /** Total amount of memory currently available to be allocated on the system */
-  memoryCommitLimitBytes?: number | null;
+  memoryCommitLimitBytes?: number | null | undefined;
   /** Amount of memory presently allocated on the system */
-  memoryCommittedAsBytes?: number | null;
+  memoryCommittedAsBytes?: number | null | undefined;
   /** Memory which is waiting to get written back to the disk */
-  memoryDirtyBytes?: number | null;
+  memoryDirtyBytes?: number | null | undefined;
   /** The sum of LowFree and HighFree */
-  memoryFreeBytes?: number | null;
+  memoryFreeBytes?: number | null | undefined;
   /** Amount of free highmem */
-  memoryHighFreeBytes?: number | null;
+  memoryHighFreeBytes?: number | null | undefined;
   /** Total amount of highmem */
-  memoryHighTotalBytes?: number | null;
+  memoryHighTotalBytes?: number | null | undefined;
   /** The number of huge pages in the pool that are not yet allocated */
-  memoryHugepagesFree?: number | null;
+  memoryHugepagesFree?: number | null | undefined;
   /** Number of huge pages for which a commitment has been made, but no allocation has yet been made */
-  memoryHugepagesRsvd?: number | null;
+  memoryHugepagesRsvd?: number | null | undefined;
   /** Number of huge pages in the pool above the threshold */
-  memoryHugepagesSurp?: number | null;
+  memoryHugepagesSurp?: number | null | undefined;
   /** The size of the pool of huge pages */
-  memoryHugepagesTotal?: number | null;
+  memoryHugepagesTotal?: number | null | undefined;
   /** The size of huge pages */
-  memoryHugepagesizeBytes?: number | null;
+  memoryHugepagesizeBytes?: number | null | undefined;
   /** Memory which has been less recently used */
-  memoryInactiveBytes?: number | null;
+  memoryInactiveBytes?: number | null | undefined;
   /** Kernel allocations that the kernel will attempt to reclaim under memory pressure */
-  memoryKReclaimableBytes?: number | null;
+  memoryKReclaimableBytes?: number | null | undefined;
   /** Amount of memory allocated to kernel stacks */
-  memoryKernelStackBytes?: number | null;
+  memoryKernelStackBytes?: number | null | undefined;
   /** Amount of free lowmem */
-  memoryLowFreeBytes?: number | null;
+  memoryLowFreeBytes?: number | null | undefined;
   /** Total amount of lowmem */
-  memoryLowTotalBytes?: number | null;
+  memoryLowTotalBytes?: number | null | undefined;
   /** Files which have been mapped into memory */
-  memoryMappedBytes?: number | null;
+  memoryMappedBytes?: number | null | undefined;
   /** Amount of memory dedicated to the lowest level of page tables */
-  memoryPageTablesBytes?: number | null;
+  memoryPageTablesBytes?: number | null | undefined;
   /** Memory allocated to the per-cpu alloctor used to back per-cpu allocations */
-  memoryPerCpuBytes?: number | null;
+  memoryPerCpuBytes?: number | null | undefined;
   /** Percentage of time over a 10 second window that all tasks were stalled */
-  memory_pressure_full_10s?: number | null;
+  memory_pressure_full_10s?: number | null | undefined;
   /** Percentage of time over a 5 minute window that all tasks were stalled */
-  memory_pressure_full_300s?: number | null;
+  memory_pressure_full_300s?: number | null | undefined;
   /** Percentage of time over a 1 minute window that all tasks were stalled */
-  memory_pressure_full_60s?: number | null;
+  memory_pressure_full_60s?: number | null | undefined;
   /** Total stall time (microseconds) */
-  memoryPressureFullTotalUs?: number | null;
+  memoryPressureFullTotalUs?: number | null | undefined;
   /** Percentage of time over a 10 second window that some tasks were stalled */
-  memory_pressure_some_10s?: number | null;
+  memory_pressure_some_10s?: number | null | undefined;
   /** Percentage of time over a 5 minute window that some tasks were stalled */
-  memory_pressure_some_300s?: number | null;
+  memory_pressure_some_300s?: number | null | undefined;
   /** Percentage of time over a 1 minute window that some tasks were stalled */
-  memory_pressure_some_60s?: number | null;
+  memory_pressure_some_60s?: number | null | undefined;
   /** Total stall time (microseconds) */
-  memoryPressureSomeTotalUs?: number | null;
+  memoryPressureSomeTotalUs?: number | null | undefined;
   /** Part of slab that can be reclaimed on memory pressure */
-  memorySReclaimableBytes?: number | null;
+  memorySReclaimableBytes?: number | null | undefined;
   /** Part of slab that cannot be reclaimed on memory pressure */
-  memorySUnreclaimBytes?: number | null;
+  memorySUnreclaimBytes?: number | null | undefined;
   /** Amount of memory dedicated to the lowest level of page tables */
-  memorySecondaryPageTablesBytes?: number | null;
+  memorySecondaryPageTablesBytes?: number | null | undefined;
   /** Amount of memory consumed by tmpfs */
-  memoryShmemBytes?: number | null;
+  memoryShmemBytes?: number | null | undefined;
   /** Memory used by shmem and tmpfs, allocated with huge pages */
-  memoryShmemHugepagesBytes?: number | null;
+  memoryShmemHugepagesBytes?: number | null | undefined;
   /** Shared memory mapped into user space with huge pages */
-  memoryShmemPmdMappedBytes?: number | null;
+  memoryShmemPmdMappedBytes?: number | null | undefined;
   /** In-kernel data structures cache */
-  memorySlabBytes?: number | null;
+  memorySlabBytes?: number | null | undefined;
   /** Memory swapped out and back in while still in swap file */
-  memorySwapCachedBytes?: number | null;
+  memorySwapCachedBytes?: number | null | undefined;
   /** Amount of swap space that is currently unused */
-  memorySwapFreeBytes?: number | null;
+  memorySwapFreeBytes?: number | null | undefined;
   /** Total amount of swap space available */
-  memorySwapTotalBytes?: number | null;
+  memorySwapTotalBytes?: number | null | undefined;
   /** Total usable RAM */
-  memoryTotalBytes?: number | null;
+  memoryTotalBytes?: number | null | undefined;
   /** Largest contiguous block of vmalloc area which is free */
-  memoryVmallocChunkBytes?: number | null;
+  memoryVmallocChunkBytes?: number | null | undefined;
   /** Total size of vmalloc memory area */
-  memoryVmallocTotalBytes?: number | null;
+  memoryVmallocTotalBytes?: number | null | undefined;
   /** Amount of vmalloc area which is used */
-  memoryVmallocUsedBytes?: number | null;
+  memoryVmallocUsedBytes?: number | null | undefined;
   /** Memory which is actively being written back to the disk */
-  memoryWritebackBytes?: number | null;
+  memoryWritebackBytes?: number | null | undefined;
   /** Memory used by FUSE for temporary writeback buffers */
-  memoryWritebackTmpBytes?: number | null;
+  memoryWritebackTmpBytes?: number | null | undefined;
   /** Memory consumed by the zswap backend, compressed */
-  memoryZSwapBytes?: number | null;
+  memoryZSwapBytes?: number | null | undefined;
   /** Amount of anonymous memory stored in zswap, uncompressed */
-  memoryZSwappedBytes?: number | null;
-  mounts?: ConnectorsSnapshotsGetResponseMountsList | null;
-  netdevs?: ConnectorsSnapshotsGetResponseNetdevsList | null;
+  memoryZSwappedBytes?: number | null | undefined;
+  mounts?: ConnectorsSnapshotsGetResponseMountsList | null | undefined;
+  netdevs?: ConnectorsSnapshotsGetResponseNetdevsList | null | undefined;
   /** Platform identifier */
-  platform?: string | null;
-  routes?: ConnectorsSnapshotsGetResponseRoutesList | null;
+  platform?: string | null | undefined;
+  routes?: ConnectorsSnapshotsGetResponseRoutesList | null | undefined;
   /** Site identifier */
-  siteId?: string | null;
+  siteId?: string | null | undefined;
   /** Number of ICMP Address Mask Reply messages received */
-  snmpIcmpInAddrMaskReps?: number | null;
+  snmpIcmpInAddrMaskReps?: number | null | undefined;
   /** Number of ICMP Address Mask Request messages received */
-  snmpIcmpInAddrMasks?: number | null;
+  snmpIcmpInAddrMasks?: number | null | undefined;
   /** Number of ICMP messages received with bad checksums */
-  snmpIcmpInCsumErrors?: number | null;
+  snmpIcmpInCsumErrors?: number | null | undefined;
   /** Number of ICMP Destination Unreachable messages received */
-  snmpIcmpInDestUnreachs?: number | null;
+  snmpIcmpInDestUnreachs?: number | null | undefined;
   /** Number of ICMP Echo Reply messages received */
-  snmpIcmpInEchoReps?: number | null;
+  snmpIcmpInEchoReps?: number | null | undefined;
   /** Number of ICMP Echo (request) messages received */
-  snmpIcmpInEchos?: number | null;
+  snmpIcmpInEchos?: number | null | undefined;
   /** Number of ICMP messages received with ICMP-specific errors */
-  snmpIcmpInErrors?: number | null;
+  snmpIcmpInErrors?: number | null | undefined;
   /** Number of ICMP messages received */
-  snmpIcmpInMsgs?: number | null;
+  snmpIcmpInMsgs?: number | null | undefined;
   /** Number of ICMP Parameter Problem messages received */
-  snmpIcmpInParmProbs?: number | null;
+  snmpIcmpInParmProbs?: number | null | undefined;
   /** Number of ICMP Redirect messages received */
-  snmpIcmpInRedirects?: number | null;
+  snmpIcmpInRedirects?: number | null | undefined;
   /** Number of ICMP Source Quench messages received */
-  snmpIcmpInSrcQuenchs?: number | null;
+  snmpIcmpInSrcQuenchs?: number | null | undefined;
   /** Number of ICMP Time Exceeded messages received */
-  snmpIcmpInTimeExcds?: number | null;
+  snmpIcmpInTimeExcds?: number | null | undefined;
   /** Number of ICMP Address Mask Request messages received */
-  snmpIcmpInTimestampReps?: number | null;
+  snmpIcmpInTimestampReps?: number | null | undefined;
   /** Number of ICMP Timestamp (request) messages received */
-  snmpIcmpInTimestamps?: number | null;
+  snmpIcmpInTimestamps?: number | null | undefined;
   /** Number of ICMP Address Mask Reply messages sent */
-  snmpIcmpOutAddrMaskReps?: number | null;
+  snmpIcmpOutAddrMaskReps?: number | null | undefined;
   /** Number of ICMP Address Mask Request messages sent */
-  snmpIcmpOutAddrMasks?: number | null;
+  snmpIcmpOutAddrMasks?: number | null | undefined;
   /** Number of ICMP Destination Unreachable messages sent */
-  snmpIcmpOutDestUnreachs?: number | null;
+  snmpIcmpOutDestUnreachs?: number | null | undefined;
   /** Number of ICMP Echo Reply messages sent */
-  snmpIcmpOutEchoReps?: number | null;
+  snmpIcmpOutEchoReps?: number | null | undefined;
   /** Number of ICMP Echo (request) messages sent */
-  snmpIcmpOutEchos?: number | null;
+  snmpIcmpOutEchos?: number | null | undefined;
   /** Number of ICMP messages which this entity did not send due to ICMP-specific errors */
-  snmpIcmpOutErrors?: number | null;
+  snmpIcmpOutErrors?: number | null | undefined;
   /** Number of ICMP messages attempted to send */
-  snmpIcmpOutMsgs?: number | null;
+  snmpIcmpOutMsgs?: number | null | undefined;
   /** Number of ICMP Parameter Problem messages sent */
-  snmpIcmpOutParmProbs?: number | null;
+  snmpIcmpOutParmProbs?: number | null | undefined;
   /** Number of ICMP Redirect messages sent */
-  snmpIcmpOutRedirects?: number | null;
+  snmpIcmpOutRedirects?: number | null | undefined;
   /** Number of ICMP Source Quench messages sent */
-  snmpIcmpOutSrcQuenchs?: number | null;
+  snmpIcmpOutSrcQuenchs?: number | null | undefined;
   /** Number of ICMP Time Exceeded messages sent */
-  snmpIcmpOutTimeExcds?: number | null;
+  snmpIcmpOutTimeExcds?: number | null | undefined;
   /** Number of ICMP Timestamp Reply messages sent */
-  snmpIcmpOutTimestampReps?: number | null;
+  snmpIcmpOutTimestampReps?: number | null | undefined;
   /** Number of ICMP Timestamp (request) messages sent */
-  snmpIcmpOutTimestamps?: number | null;
+  snmpIcmpOutTimestamps?: number | null | undefined;
   /** Default value of the Time-To-Live field of the IP header */
-  snmpIpDefaultTtl?: number | null;
+  snmpIpDefaultTtl?: number | null | undefined;
   /** Number of datagrams forwarded to their final destination */
-  snmpIpForwDatagrams?: number | null;
+  snmpIpForwDatagrams?: number | null | undefined;
   /** Set when acting as an IP gateway */
-  snmpIpForwardingEnabled?: boolean | null;
+  snmpIpForwardingEnabled?: boolean | null | undefined;
   /** Number of datagrams generated by fragmentation */
-  snmpIpFragCreates?: number | null;
+  snmpIpFragCreates?: number | null | undefined;
   /** Number of datagrams discarded because fragmentation failed */
-  snmpIpFragFails?: number | null;
+  snmpIpFragFails?: number | null | undefined;
   /** Number of datagrams successfully fragmented */
-  snmpIpFragOks?: number | null;
+  snmpIpFragOks?: number | null | undefined;
   /** Number of input datagrams discarded due to errors in the IP address */
-  snmpIpInAddrErrors?: number | null;
+  snmpIpInAddrErrors?: number | null | undefined;
   /** Number of input datagrams successfully delivered to IP user-protocols */
-  snmpIpInDelivers?: number | null;
+  snmpIpInDelivers?: number | null | undefined;
   /** Number of input datagrams otherwise discarded */
-  snmpIpInDiscards?: number | null;
+  snmpIpInDiscards?: number | null | undefined;
   /** Number of input datagrams discarded due to errors in the IP header */
-  snmpIpInHdrErrors?: number | null;
+  snmpIpInHdrErrors?: number | null | undefined;
   /** Number of input datagrams received from interfaces */
-  snmpIpInReceives?: number | null;
+  snmpIpInReceives?: number | null | undefined;
   /** Number of input datagrams discarded due unknown or unsupported protocol */
-  snmpIpInUnknownProtos?: number | null;
+  snmpIpInUnknownProtos?: number | null | undefined;
   /** Number of output datagrams otherwise discarded */
-  snmpIpOutDiscards?: number | null;
+  snmpIpOutDiscards?: number | null | undefined;
   /** Number of output datagrams discarded because no route matched */
-  snmpIpOutNoRoutes?: number | null;
+  snmpIpOutNoRoutes?: number | null | undefined;
   /** Number of datagrams supplied for transmission */
-  snmpIpOutRequests?: number | null;
+  snmpIpOutRequests?: number | null | undefined;
   /** Number of failures detected by the reassembly algorithm */
-  snmpIpReasmFails?: number | null;
+  snmpIpReasmFails?: number | null | undefined;
   /** Number of datagrams successfully reassembled */
-  snmpIpReasmOks?: number | null;
+  snmpIpReasmOks?: number | null | undefined;
   /** Number of fragments received which needed to be reassembled */
-  snmpIpReasmReqds?: number | null;
+  snmpIpReasmReqds?: number | null | undefined;
   /** Number of seconds fragments are held while awaiting reassembly */
-  snmpIpReasmTimeout?: number | null;
+  snmpIpReasmTimeout?: number | null | undefined;
   /** Number of times TCP transitions to SYN-SENT from CLOSED */
-  snmpTcpActiveOpens?: number | null;
+  snmpTcpActiveOpens?: number | null | undefined;
   /** Number of times TCP transitions to CLOSED from SYN-SENT or SYN-RCVD, plus transitions to LISTEN from SYN-RCVD */
-  snmpTcpAttemptFails?: number | null;
+  snmpTcpAttemptFails?: number | null | undefined;
   /** Number of TCP connections in ESTABLISHED or CLOSE-WAIT */
-  snmpTcpCurrEstab?: number | null;
+  snmpTcpCurrEstab?: number | null | undefined;
   /** Number of times TCP transitions to CLOSED from ESTABLISHED or CLOSE-WAIT */
-  snmpTcpEstabResets?: number | null;
+  snmpTcpEstabResets?: number | null | undefined;
   /** Number of TCP segments received with checksum errors */
-  snmpTcpInCsumErrors?: number | null;
+  snmpTcpInCsumErrors?: number | null | undefined;
   /** Number of TCP segments received in error */
-  snmpTcpInErrs?: number | null;
+  snmpTcpInErrs?: number | null | undefined;
   /** Number of TCP segments received */
-  snmpTcpInSegs?: number | null;
+  snmpTcpInSegs?: number | null | undefined;
   /** Limit on the total number of TCP connections */
-  snmpTcpMaxConn?: number | null;
+  snmpTcpMaxConn?: number | null | undefined;
   /** Number of TCP segments sent with RST flag */
-  snmpTcpOutRsts?: number | null;
+  snmpTcpOutRsts?: number | null | undefined;
   /** Number of TCP segments sent */
-  snmpTcpOutSegs?: number | null;
+  snmpTcpOutSegs?: number | null | undefined;
   /** Number of times TCP transitions to SYN-RCVD from LISTEN */
-  snmpTcpPassiveOpens?: number | null;
+  snmpTcpPassiveOpens?: number | null | undefined;
   /** Number of TCP segments retransmitted */
-  snmpTcpRetransSegs?: number | null;
+  snmpTcpRetransSegs?: number | null | undefined;
   /** Maximum value permitted by a TCP implementation for the retransmission timeout (milliseconds) */
-  snmpTcpRtoMax?: number | null;
+  snmpTcpRtoMax?: number | null | undefined;
   /** Minimum value permitted by a TCP implementation for the retransmission timeout (milliseconds) */
-  snmpTcpRtoMin?: number | null;
+  snmpTcpRtoMin?: number | null | undefined;
   /** Number of UDP datagrams delivered to UDP applications */
-  snmpUdpInDatagrams?: number | null;
+  snmpUdpInDatagrams?: number | null | undefined;
   /** Number of UDP datagrams failed to be delivered for reasons other than lack of application at the destination port */
-  snmpUdpInErrors?: number | null;
+  snmpUdpInErrors?: number | null | undefined;
   /** Number of UDP datagrams received for which there was not application at the destination port */
-  snmpUdpNoPorts?: number | null;
+  snmpUdpNoPorts?: number | null | undefined;
   /** Number of UDP datagrams sent */
-  snmpUdpOutDatagrams?: number | null;
+  snmpUdpOutDatagrams?: number | null | undefined;
   /** Boottime of the system (seconds since the Unix epoch) */
-  systemBootTimeS?: number | null;
-  thermals?: ConnectorsSnapshotsGetResponseThermalsList | null;
-  tunnels?: ConnectorsSnapshotsGetResponseTunnelsList | null;
+  systemBootTimeS?: number | null | undefined;
+  thermals?: ConnectorsSnapshotsGetResponseThermalsList | null | undefined;
+  tunnels?: ConnectorsSnapshotsGetResponseTunnelsList | null | undefined;
   /** Sum of how much time each core has spent idle */
-  uptimeIdleMs?: number | null;
+  uptimeIdleMs?: number | null | undefined;
   /** Uptime of the system, including time spent in suspend */
-  uptimeTotalMs?: number | null;
+  uptimeTotalMs?: number | null | undefined;
 }
 export interface GetGreTunnelRequest {
   /** Identifier */
   accountId: string;
   /** Identifier */
   greTunnelId: string;
-  xMagicNewHcTarget?: boolean;
+  xMagicNewHcTarget?: boolean | undefined;
 }
 export type GreTunnelsGetResponseGreTunnelBgpExtraPrefixesList = Array<string>;
 export interface GreTunnelsGetResponseGreTunnelBgp {
   /** ASN used on the customer end of the BGP session */
   customerAsn: number;
   /** ID of the BGP filter profile applied to routes advertised to the customer. */
-  exportFilterId?: string | null;
+  exportFilterId?: string | null | undefined;
   /** Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table. Each entry must be a network address in CIDR notation with no host bits set (for example `192.0.2.0/24`, not `192.0.2.1/24`) and must not repeat another entry. IPv6 prefixes are accepted only when the tunnel has an `interface_address6`. */
-  extraPrefixes?: GreTunnelsGetResponseGreTunnelBgpExtraPrefixesList | null;
+  extraPrefixes?: GreTunnelsGetResponseGreTunnelBgpExtraPrefixesList | null | undefined;
   /** ID of the BGP filter profile applied to routes received from the customer. */
-  importFilterId?: string | null;
+  importFilterId?: string | null | undefined;
   /** MD5 key to use for session authentication. */
-  md5Key?: string | null;
+  md5Key?: string | null | undefined;
 }
 export type GreTunnelsGetResponseGreTunnelBgpStatusState =
   | "BGP_DOWN"
@@ -3579,11 +3654,11 @@ export interface GreTunnelsGetResponseGreTunnelBgpStatus {
   state: GreTunnelsGetResponseGreTunnelBgpStatusState;
   tcpEstablished: boolean;
   updatedAt: string;
-  bgpState?: string | null;
-  cfSpeakerIp?: string | null;
-  cfSpeakerPort?: number | null;
-  customerSpeakerIp?: string | null;
-  customerSpeakerPort?: number | null;
+  bgpState?: string | null | undefined;
+  cfSpeakerIp?: string | null | undefined;
+  cfSpeakerPort?: number | null | undefined;
+  customerSpeakerIp?: string | null | undefined;
+  customerSpeakerPort?: number | null | undefined;
 }
 export type GreTunnelsGetResponseGreTunnelHealthCheckDirection = "unidirectional" | "bidirectional";
 export type GreTunnelsGetResponseGreTunnelHealthCheckRate = "low" | "mid" | "high";
@@ -3595,15 +3670,15 @@ export type GreTunnelsGetResponseGreTunnelHealthCheckTarget =
 export type GreTunnelsGetResponseGreTunnelHealthCheckType = "reply" | "request";
 export interface GreTunnelsGetResponseGreTunnelHealthCheck {
   /** The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel. */
-  direction?: GreTunnelsGetResponseGreTunnelHealthCheckDirection | null;
+  direction?: GreTunnelsGetResponseGreTunnelHealthCheckDirection | null | undefined;
   /** Determines whether to run healthchecks for a tunnel. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** How frequent the health check is run. The default value is `mid`. */
-  rate?: GreTunnelsGetResponseGreTunnelHealthCheckRate | null;
+  rate?: GreTunnelsGetResponseGreTunnelHealthCheckRate | null | undefined;
   /** The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false. */
-  target?: GreTunnelsGetResponseGreTunnelHealthCheckTarget | null;
+  target?: GreTunnelsGetResponseGreTunnelHealthCheckTarget | null | undefined;
   /** The type of healthcheck to run, reply or request. The default value is `reply`. */
-  type?: GreTunnelsGetResponseGreTunnelHealthCheckType | null;
+  type?: GreTunnelsGetResponseGreTunnelHealthCheckType | null | undefined;
 }
 export interface GreTunnelsGetResponseGreTunnel {
   /** Identifier */
@@ -3617,46 +3692,46 @@ export interface GreTunnelsGetResponseGreTunnel {
   /** The name of the tunnel. The name cannot contain spaces or special characters, must be 15 characters or less, and cannot share a name with another GRE tunnel. */
   name: string;
   /** True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected. */
-  automaticReturnRouting?: boolean | null;
-  bgp?: GreTunnelsGetResponseGreTunnelBgp | null;
-  bgpStatus?: GreTunnelsGetResponseGreTunnelBgpStatus | null;
+  automaticReturnRouting?: boolean | null | undefined;
+  bgp?: GreTunnelsGetResponseGreTunnelBgp | null | undefined;
+  bgpStatus?: GreTunnelsGetResponseGreTunnelBgpStatus | null | undefined;
   /** The date and time the tunnel was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** An optional description of the GRE tunnel. */
-  description?: string | null;
-  healthCheck?: GreTunnelsGetResponseGreTunnelHealthCheck | null;
+  description?: string | null | undefined;
+  healthCheck?: GreTunnelsGetResponseGreTunnelHealthCheck | null | undefined;
   /** A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127 */
-  interfaceAddress6?: string | null;
+  interfaceAddress6?: string | null | undefined;
   /** The date and time the tunnel was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Maximum Transmission Unit (MTU) in bytes for the GRE tunnel. The minimum value is 576. */
-  mtu?: number | null;
+  mtu?: number | null | undefined;
   /** Time To Live (TTL) in number of hops of the GRE tunnel. */
-  ttl?: number | null;
+  ttl?: number | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetGreTunnelResponse {
-  greTunnel?: GreTunnelsGetResponseGreTunnel | null;
+  greTunnel?: GreTunnelsGetResponseGreTunnel | null | undefined;
 }
 export interface GetIpsecTunnelRequest {
   /** Identifier */
   accountId: string;
   /** Identifier */
   ipsecTunnelId: string;
-  xMagicNewHcTarget?: boolean;
+  xMagicNewHcTarget?: boolean | undefined;
 }
 export type IpsecTunnelsGetResponseIpsecTunnelBgpExtraPrefixesList = Array<string>;
 export interface IpsecTunnelsGetResponseIpsecTunnelBgp {
   /** ASN used on the customer end of the BGP session */
   customerAsn: number;
   /** ID of the BGP filter profile applied to routes advertised to the customer. */
-  exportFilterId?: string | null;
+  exportFilterId?: string | null | undefined;
   /** Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table. Each entry must be a network address in CIDR notation with no host bits set (for example `192.0.2.0/24`, not `192.0.2.1/24`) and must not repeat another entry. IPv6 prefixes are accepted only when the tunnel has an `interface_address6`. */
-  extraPrefixes?: IpsecTunnelsGetResponseIpsecTunnelBgpExtraPrefixesList | null;
+  extraPrefixes?: IpsecTunnelsGetResponseIpsecTunnelBgpExtraPrefixesList | null | undefined;
   /** ID of the BGP filter profile applied to routes received from the customer. */
-  importFilterId?: string | null;
+  importFilterId?: string | null | undefined;
   /** MD5 key to use for session authentication. */
-  md5Key?: string | null;
+  md5Key?: string | null | undefined;
 }
 export type IpsecTunnelsGetResponseIpsecTunnelBgpStatusState =
   | "BGP_DOWN"
@@ -3666,11 +3741,11 @@ export interface IpsecTunnelsGetResponseIpsecTunnelBgpStatus {
   state: IpsecTunnelsGetResponseIpsecTunnelBgpStatusState;
   tcpEstablished: boolean;
   updatedAt: string;
-  bgpState?: string | null;
-  cfSpeakerIp?: string | null;
-  cfSpeakerPort?: number | null;
-  customerSpeakerIp?: string | null;
-  customerSpeakerPort?: number | null;
+  bgpState?: string | null | undefined;
+  cfSpeakerIp?: string | null | undefined;
+  cfSpeakerPort?: number | null | undefined;
+  customerSpeakerIp?: string | null | undefined;
+  customerSpeakerPort?: number | null | undefined;
 }
 export type IpsecTunnelsGetResponseIpsecTunnelCustomRemoteIdentities =
   IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemCustomRemoteIdentities;
@@ -3686,15 +3761,15 @@ export type IpsecTunnelsGetResponseIpsecTunnelHealthCheckTarget =
 export type IpsecTunnelsGetResponseIpsecTunnelHealthCheckType = "reply" | "request";
 export interface IpsecTunnelsGetResponseIpsecTunnelHealthCheck {
   /** The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel. */
-  direction?: IpsecTunnelsGetResponseIpsecTunnelHealthCheckDirection | null;
+  direction?: IpsecTunnelsGetResponseIpsecTunnelHealthCheckDirection | null | undefined;
   /** Determines whether to run healthchecks for a tunnel. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** How frequent the health check is run. The default value is `mid`. */
-  rate?: IpsecTunnelsGetResponseIpsecTunnelHealthCheckRate | null;
+  rate?: IpsecTunnelsGetResponseIpsecTunnelHealthCheckRate | null | undefined;
   /** The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false. */
-  target?: IpsecTunnelsGetResponseIpsecTunnelHealthCheckTarget | null;
+  target?: IpsecTunnelsGetResponseIpsecTunnelHealthCheckTarget | null | undefined;
   /** The type of healthcheck to run, reply or request. The default value is `reply`. */
-  type?: IpsecTunnelsGetResponseIpsecTunnelHealthCheckType | null;
+  type?: IpsecTunnelsGetResponseIpsecTunnelHealthCheckType | null | undefined;
 }
 export type IpsecTunnelsGetResponseIpsecTunnelPskMetadata =
   IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemPskMetadata;
@@ -3708,31 +3783,37 @@ export interface IpsecTunnelsGetResponseIpsecTunnel {
   /** The name of the IPsec tunnel. The name cannot share a name with other tunnels. */
   name: string;
   /** When `true`, the tunnel can use a null-cipher (`ENCR_NULL`) in the ESP tunnel (Phase 2). */
-  allowNullCipher?: boolean | null;
+  allowNullCipher?: boolean | null | undefined;
   /** True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected. */
-  automaticReturnRouting?: boolean | null;
-  bgp?: IpsecTunnelsGetResponseIpsecTunnelBgp | null;
-  bgpStatus?: IpsecTunnelsGetResponseIpsecTunnelBgpStatus | null;
+  automaticReturnRouting?: boolean | null | undefined;
+  bgp?: IpsecTunnelsGetResponseIpsecTunnelBgp | null | undefined;
+  bgpStatus?: IpsecTunnelsGetResponseIpsecTunnelBgpStatus | null | undefined;
   /** The date and time the tunnel was created. */
-  createdOn?: string | null;
-  customRemoteIdentities?: IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemCustomRemoteIdentities | null;
+  createdOn?: string | null | undefined;
+  customRemoteIdentities?:
+    | IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemCustomRemoteIdentities
+    | null
+    | undefined;
   /** The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work. */
-  customerEndpoint?: string | null;
+  customerEndpoint?: string | null | undefined;
   /** An optional description forthe IPsec tunnel. */
-  description?: string | null;
-  healthCheck?: IpsecTunnelsGetResponseIpsecTunnelHealthCheck | null;
+  description?: string | null | undefined;
+  healthCheck?: IpsecTunnelsGetResponseIpsecTunnelHealthCheck | null | undefined;
   /** A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127 */
-  interfaceAddress6?: string | null;
+  interfaceAddress6?: string | null | undefined;
   /** The date and time the tunnel was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The PSK metadata that includes when the PSK was generated. */
-  pskMetadata?: IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemPskMetadata | null;
+  pskMetadata?:
+    | IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemPskMetadata
+    | null
+    | undefined;
   /** If `true`, then IPsec replay protection will be supported in the Cloudflare-to-customer direction. */
-  replayProtection?: boolean | null;
+  replayProtection?: boolean | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetIpsecTunnelResponse {
-  ipsecTunnel?: IpsecTunnelsGetResponseIpsecTunnel | null;
+  ipsecTunnel?: IpsecTunnelsGetResponseIpsecTunnel | null | undefined;
 }
 export interface GetPcapRequest {
   /** Identifier. */
@@ -3754,21 +3835,21 @@ export type PcapsGetResultPCAPSystem = "magic-transit";
 export type PcapsGetResultPCAPType = "simple" | "full";
 export interface PcapsGetResultPCAP {
   /** The ID for the packet capture. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The packet capture filter. When this field is empty, all packets are captured. */
-  filterV1?: PcapsCreateResultPCAPFilterV1 | null;
+  filterV1?: PcapsCreateResultPCAPFilterV1 | null | undefined;
   /** The RFC 3339 offset timestamp from which to query backwards for packets. Must be within the last 24h. When this field is empty, defaults to time of request. */
-  offsetTime?: string | null;
+  offsetTime?: string | null | undefined;
   /** The status of the packet capture request. */
-  status?: PcapsGetResultPCAPStatus | null;
+  status?: PcapsGetResultPCAPStatus | null | undefined;
   /** The RFC 3339 timestamp when the packet capture was created. */
-  submitted?: string | null;
+  submitted?: string | null | undefined;
   /** The system used to collect packet captures. */
-  system?: PcapsGetResultPCAPSystem | null;
+  system?: PcapsGetResultPCAPSystem | null | undefined;
   /** The packet capture duration in seconds. */
-  timeLimit?: number | null;
+  timeLimit?: number | null | undefined;
   /** The type of packet capture. `Simple` captures sampled packets, and `full` captures entire payloads and non-sampled packets. */
-  type?: PcapsGetResultPCAPType | null;
+  type?: PcapsGetResultPCAPType | null | undefined;
 }
 export type PcapsGetResultMagicVisibilityPCAPsPCAPsResponseFullFilterV1 =
   PcapsCreateResultPCAPFilterV1;
@@ -3785,31 +3866,31 @@ export type PcapsGetResultMagicVisibilityPCAPsPCAPsResponseFullSystem = "magic-t
 export type PcapsGetResultMagicVisibilityPCAPsPCAPsResponseFullType = "simple" | "full";
 export interface PcapsGetResultMagicVisibilityPCAPsPCAPsResponseFull {
   /** The ID for the packet capture. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The maximum number of bytes to capture. This field only applies to `full` packet captures. */
-  byteLimit?: number | null;
+  byteLimit?: number | null | undefined;
   /** The name of the data center used for the packet capture. This can be a specific colo (ord02) or a multi-colo name (ORD). This field only applies to `full` packet captures. */
-  coloName?: string | null;
+  coloName?: string | null | undefined;
   /** The full URI for the bucket. This field only applies to `full` packet captures. */
-  destinationConf?: string | null;
+  destinationConf?: string | null | undefined;
   /** An error message that describes why the packet capture failed. This field only applies to `full` packet captures. */
-  errorMessage?: string | null;
+  errorMessage?: string | null | undefined;
   /** The packet capture filter. When this field is empty, all packets are captured. */
-  filterV1?: PcapsCreateResultPCAPFilterV1 | null;
+  filterV1?: PcapsCreateResultPCAPFilterV1 | null | undefined;
   /** The number of packets captured. */
-  packetsCaptured?: number | null;
+  packetsCaptured?: number | null | undefined;
   /** The status of the packet capture request. */
-  status?: PcapsGetResultMagicVisibilityPCAPsPCAPsResponseFullStatus | null;
+  status?: PcapsGetResultMagicVisibilityPCAPsPCAPsResponseFullStatus | null | undefined;
   /** The RFC 3339 timestamp when stopping the packet capture was requested. This field only applies to `full` packet captures. */
-  stopRequested?: string | null;
+  stopRequested?: string | null | undefined;
   /** The RFC 3339 timestamp when the packet capture was created. */
-  submitted?: string | null;
+  submitted?: string | null | undefined;
   /** The system used to collect packet captures. */
-  system?: PcapsGetResultMagicVisibilityPCAPsPCAPsResponseFullSystem | null;
+  system?: PcapsGetResultMagicVisibilityPCAPsPCAPsResponseFullSystem | null | undefined;
   /** The packet capture duration in seconds. */
-  timeLimit?: number | null;
+  timeLimit?: number | null | undefined;
   /** The type of packet capture. `Simple` captures sampled packets, and `full` captures entire payloads and non-sampled packets. */
-  type?: PcapsGetResultMagicVisibilityPCAPsPCAPsResponseFullType | null;
+  type?: PcapsGetResultMagicVisibilityPCAPsPCAPsResponseFullType | null | undefined;
 }
 export type PcapsGetResult =
   | PcapsGetResultPCAP
@@ -3839,14 +3920,14 @@ export interface PcapsOwnershipGetResultItem {
   /** The RFC 3339 timestamp when the bucket was added to packet captures API. */
   submitted: string;
   /** The RFC 3339 timestamp when the bucket was validated. */
-  validated?: string | null;
+  validated?: string | null | undefined;
 }
 export type PcapsOwnershipGetResultList = Array<PcapsOwnershipGetResultItem>;
 export interface GetPcapOwnershipResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: PcapsOwnershipGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetRouteRequest {
   /** Identifier */
@@ -3858,9 +3939,9 @@ export type RoutesGetResponseRouteScopeColoNamesList = Array<string>;
 export type RoutesGetResponseRouteScopeColoRegionsList = Array<string>;
 export interface RoutesGetResponseRouteScope {
   /** List of colo names for the ECMP scope. */
-  coloNames?: RoutesGetResponseRouteScopeColoNamesList | null;
+  coloNames?: RoutesGetResponseRouteScopeColoNamesList | null | undefined;
   /** List of colo regions for the ECMP scope. */
-  coloRegions?: RoutesGetResponseRouteScopeColoRegionsList | null;
+  coloRegions?: RoutesGetResponseRouteScopeColoRegionsList | null | undefined;
 }
 export interface RoutesGetResponseRoute {
   /** Identifier */
@@ -3872,43 +3953,43 @@ export interface RoutesGetResponseRoute {
   /** Priority of the static route. */
   priority: number;
   /** When the route was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** An optional human provided description of the static route. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** When the route was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Used only for ECMP routes. */
-  scope?: RoutesGetResponseRouteScope | null;
+  scope?: RoutesGetResponseRouteScope | null | undefined;
   /** Optional weight of the ECMP scope - if provided. */
-  weight?: number | null;
+  weight?: number | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetRouteResponse {
-  route?: RoutesGetResponseRoute | null;
+  route?: RoutesGetResponseRoute | null | undefined;
 }
 export interface GetSiteRequest {
   /** Identifier */
   accountId: string;
   /** Identifier */
   siteId: string;
-  xMagicNewHcTarget?: boolean;
+  xMagicNewHcTarget?: boolean | undefined;
 }
 export type SitesGetResponseLocation = SitesCreateResponseLocation;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSiteResponse {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Magic Connector identifier tag. */
-  connectorId?: string | null;
-  description?: string | null;
+  connectorId?: string | null | undefined;
+  description?: string | null | undefined;
   /** Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode. */
-  haMode?: boolean | null;
+  haMode?: boolean | null | undefined;
   /** Location of site in latitude and longitude. */
-  location?: SitesCreateResponseLocation | null;
+  location?: SitesCreateResponseLocation | null | undefined;
   /** The name of the site. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Magic Connector identifier tag. Used when high availability mode is on. */
-  secondaryConnectorId?: string | null;
+  secondaryConnectorId?: string | null | undefined;
 }
 export interface GetSiteAclRequest {
   /** Identifier */
@@ -3925,13 +4006,13 @@ export interface SitesAclsGetResponseLan1 {
   /** The identifier for the LAN you want to create an ACL policy with. */
   lanId: string;
   /** The name of the LAN based on the provided lan_id. */
-  lanName?: string | null;
+  lanName?: string | null | undefined;
   /** Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed. */
-  portRanges?: SitesAclsGetResponseLan1PortRangesList | null;
+  portRanges?: SitesAclsGetResponseLan1PortRangesList | null | undefined;
   /** Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed. */
-  ports?: SitesAclsGetResponseLan1PortsList | null;
+  ports?: SitesAclsGetResponseLan1PortsList | null | undefined;
   /** Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed. */
-  subnets?: SitesAclsGetResponseLan1SubnetsList | null;
+  subnets?: SitesAclsGetResponseLan1SubnetsList | null | undefined;
 }
 export type SitesAclsGetResponseLan2PortRangesList = Array<string>;
 export type SitesAclsGetResponseLan2PortsList = Array<number>;
@@ -3940,31 +4021,31 @@ export interface SitesAclsGetResponseLan2 {
   /** The identifier for the LAN you want to create an ACL policy with. */
   lanId: string;
   /** The name of the LAN based on the provided lan_id. */
-  lanName?: string | null;
+  lanName?: string | null | undefined;
   /** Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed. */
-  portRanges?: SitesAclsGetResponseLan2PortRangesList | null;
+  portRanges?: SitesAclsGetResponseLan2PortRangesList | null | undefined;
   /** Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed. */
-  ports?: SitesAclsGetResponseLan2PortsList | null;
+  ports?: SitesAclsGetResponseLan2PortsList | null | undefined;
   /** Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed. */
-  subnets?: SitesAclsGetResponseLan2SubnetsList | null;
+  subnets?: SitesAclsGetResponseLan2SubnetsList | null | undefined;
 }
 export type SitesAclsGetResponseProtocolsItem = "tcp" | "udp" | "icmp";
 export type SitesAclsGetResponseProtocolsList = Array<SitesAclsGetResponseProtocolsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSiteAclResponse {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Description for the ACL. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The desired forwarding action for this ACL policy. If set to "false", the policy will forward traffic to Cloudflare. If set to "true", the policy will forward traffic locally on the Magic Connector. If not included in request, will default to false. */
-  forwardLocally?: boolean | null;
-  lan_1?: SitesAclsGetResponseLan1 | null;
-  lan_2?: SitesAclsGetResponseLan2 | null;
+  forwardLocally?: boolean | null | undefined;
+  lan_1?: SitesAclsGetResponseLan1 | null | undefined;
+  lan_2?: SitesAclsGetResponseLan2 | null | undefined;
   /** The name of the ACL. */
-  name?: string | null;
-  protocols?: SitesAclsGetResponseProtocolsList | null;
+  name?: string | null | undefined;
+  protocols?: SitesAclsGetResponseProtocolsList | null | undefined;
   /** The desired traffic direction for this ACL policy. If set to "false", the policy will allow bidirectional traffic. If set to "true", the policy will only allow traffic in one direction. If not included in request, will default to false. */
-  unidirectional?: boolean | null;
+  unidirectional?: boolean | null | undefined;
 }
 export interface GetSiteLanRequest {
   /** Identifier */
@@ -3984,7 +4065,10 @@ export type SitesLansGetResponseRoutedSubnetsList =
 export type SitesLansGetResponseStaticAddressingDhcpRelayServerAddressesList = Array<string>;
 export interface SitesLansGetResponseStaticAddressingDhcpRelay {
   /** List of DHCP server IPs. */
-  serverAddresses?: SitesLansGetResponseStaticAddressingDhcpRelayServerAddressesList | null;
+  serverAddresses?:
+    | SitesLansGetResponseStaticAddressingDhcpRelayServerAddressesList
+    | null
+    | undefined;
 }
 export type SitesLansGetResponseStaticAddressingDhcpServerDhcpOptionsItemType =
   | "text"
@@ -4009,49 +4093,49 @@ export type SitesLansGetResponseStaticAddressingDhcpServerReservationsMap = {
 };
 export interface SitesLansGetResponseStaticAddressingDhcpServer {
   /** Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled. */
-  dhcpOptions?: SitesLansGetResponseStaticAddressingDhcpServerDhcpOptionsList | null;
+  dhcpOptions?: SitesLansGetResponseStaticAddressingDhcpServerDhcpOptionsList | null | undefined;
   /** A valid IPv4 address. */
-  dhcpPoolEnd?: string | null;
+  dhcpPoolEnd?: string | null | undefined;
   /** A valid IPv4 address. */
-  dhcpPoolStart?: string | null;
+  dhcpPoolStart?: string | null | undefined;
   /** A valid IPv4 address. */
-  dnsServer?: string | null;
-  dnsServers?: SitesLansGetResponseStaticAddressingDhcpServerDnsServersList | null;
+  dnsServer?: string | null | undefined;
+  dnsServers?: SitesLansGetResponseStaticAddressingDhcpServerDnsServersList | null | undefined;
   /** Mapping of MAC addresses to IP addresses */
-  reservations?: SitesLansGetResponseStaticAddressingDhcpServerReservationsMap | null;
+  reservations?: SitesLansGetResponseStaticAddressingDhcpServerReservationsMap | null | undefined;
 }
 export interface SitesLansGetResponseStaticAddressing {
   /** A valid CIDR notation representing an IP range. */
   address: string;
-  dhcpRelay?: SitesLansGetResponseStaticAddressingDhcpRelay | null;
-  dhcpServer?: SitesLansGetResponseStaticAddressingDhcpServer | null;
+  dhcpRelay?: SitesLansGetResponseStaticAddressingDhcpRelay | null | undefined;
+  dhcpServer?: SitesLansGetResponseStaticAddressingDhcpServer | null | undefined;
   /** A valid CIDR notation representing an IP range. */
-  secondaryAddress?: string | null;
+  secondaryAddress?: string | null | undefined;
   /** A valid CIDR notation representing an IP range. */
-  virtualAddress?: string | null;
+  virtualAddress?: string | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSiteLanResponse {
   /** Identifier */
-  id?: string | null;
-  bondId?: number | null;
+  id?: string | null | undefined;
+  bondId?: number | null | undefined;
   /** mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link. */
-  haLink?: boolean | null;
+  haLink?: boolean | null | undefined;
   /** mark true to use this LAN for source-based breakout traffic */
-  isBreakout?: boolean | null;
+  isBreakout?: boolean | null | undefined;
   /** mark true to use this LAN for source-based prioritized traffic */
-  isPrioritized?: boolean | null;
-  name?: string | null;
-  nat?: SitesLansCreateResultItemNat | null;
-  physport?: number | null;
-  remoteSubnets?: SitesLansGetResponseRemoteSubnetsList | null;
-  routedSubnets?: SitesLansGetResponseRoutedSubnetsList | null;
+  isPrioritized?: boolean | null | undefined;
+  name?: string | null | undefined;
+  nat?: SitesLansCreateResultItemNat | null | undefined;
+  physport?: number | null | undefined;
+  remoteSubnets?: SitesLansGetResponseRemoteSubnetsList | null | undefined;
+  routedSubnets?: SitesLansGetResponseRoutedSubnetsList | null | undefined;
   /** Identifier */
-  siteId?: string | null;
+  siteId?: string | null | undefined;
   /** If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address. */
-  staticAddressing?: SitesLansGetResponseStaticAddressing | null;
+  staticAddressing?: SitesLansGetResponseStaticAddressing | null | undefined;
   /** VLAN ID. Use zero for untagged. */
-  vlanTag?: number | null;
+  vlanTag?: number | null | undefined;
 }
 export interface GetSiteWanRequest {
   /** Identifier */
@@ -4066,24 +4150,24 @@ export type SitesWansGetResponseStaticAddressing = SitesWansCreateResultItemStat
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSiteWanResponse {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Magic WAN health check rate for tunnels created on this link. The default value is `mid`. */
-  healthCheckRate?: SitesWansGetResponseHealthCheckRate | null;
-  loadBalanceInnerFlows?: boolean | null;
-  name?: string | null;
-  physport?: number | null;
+  healthCheckRate?: SitesWansGetResponseHealthCheckRate | null | undefined;
+  loadBalanceInnerFlows?: boolean | null | undefined;
+  name?: string | null | undefined;
+  physport?: number | null | undefined;
   /** Priority of WAN for traffic loadbalancing. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Provisioned download rate of the WAN circuit in kilobits per second. */
-  provisionedDownloadKbps?: number | null;
+  provisionedDownloadKbps?: number | null | undefined;
   /** Provisioned upload rate of the WAN circuit in kilobits per second. */
-  provisionedUploadKbps?: number | null;
+  provisionedUploadKbps?: number | null | undefined;
   /** Identifier */
-  siteId?: string | null;
+  siteId?: string | null | undefined;
   /** (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode. */
-  staticAddressing?: SitesWansCreateResultItemStaticAddressing | null;
+  staticAddressing?: SitesWansCreateResultItemStaticAddressing | null | undefined;
   /** VLAN ID. Use zero for untagged. */
-  vlanTag?: number | null;
+  vlanTag?: number | null | undefined;
 }
 export interface ListAppsRequest {
   /** Identifier */
@@ -4096,15 +4180,15 @@ export interface AppsListResultItemMagicAccountApp {
   /** Magic account app ID. */
   accountAppId: string;
   /** FQDNs to associate with traffic decisions. */
-  hostnames?: AppsListResultItemMagicAccountAppHostnamesList | null;
+  hostnames?: AppsListResultItemMagicAccountAppHostnamesList | null | undefined;
   /** IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported) */
-  ipSubnets?: AppsListResultItemMagicAccountAppIpSubnetsList | null;
+  ipSubnets?: AppsListResultItemMagicAccountAppIpSubnetsList | null | undefined;
   /** Display name for the app. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported) */
-  sourceSubnets?: AppsListResultItemMagicAccountAppSourceSubnetsList | null;
+  sourceSubnets?: AppsListResultItemMagicAccountAppSourceSubnetsList | null | undefined;
   /** Category of the app. */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 export type AppsListResultItemMagicManagedAppHostnamesList = Array<string>;
 export type AppsListResultItemMagicManagedAppIpSubnetsList = Array<string>;
@@ -4113,15 +4197,15 @@ export interface AppsListResultItemMagicManagedApp {
   /** Managed app ID. */
   managedAppId: string;
   /** FQDNs to associate with traffic decisions. */
-  hostnames?: AppsListResultItemMagicManagedAppHostnamesList | null;
+  hostnames?: AppsListResultItemMagicManagedAppHostnamesList | null | undefined;
   /** IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported) */
-  ipSubnets?: AppsListResultItemMagicManagedAppIpSubnetsList | null;
+  ipSubnets?: AppsListResultItemMagicManagedAppIpSubnetsList | null | undefined;
   /** Display name for the app. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported) */
-  sourceSubnets?: AppsListResultItemMagicManagedAppSourceSubnetsList | null;
+  sourceSubnets?: AppsListResultItemMagicManagedAppSourceSubnetsList | null | undefined;
   /** Category of the app. */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 export type AppsListResultItem =
   | AppsListResultItemMagicAccountApp
@@ -4131,7 +4215,7 @@ export interface ListAppsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AppsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListBgpFilterProfilesRequest {
   /** Identifier */
@@ -4150,8 +4234,8 @@ export interface ListBgpFilterProfilesResultItem {
   name: string;
   /** List of CIDR prefixes. Each entry may carry an optional suffix that specifies which prefix lengths to match relative to the prefix length N: '{X,Y}' matches prefix lengths in the inclusive range [X, Y] where N &lt;= X &lt;= Y &lt;= max (max is 32 for IPv4, 128 for IPv6), '{X}' matches exactly length X (equivalent to {X,X}), '+' is shorthand for {N, max} (the prefix and all more-specific subnets, including at length N itself; valid even when N is the maximum length). Omit the suffix to match the prefix exactly at length N. */
   targets: ListBgpFilterProfilesResultItemTargetsList;
-  createdOn?: string | null;
-  modifiedOn?: string | null;
+  createdOn?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
 }
 export type ListBgpFilterProfilesResultList = Array<ListBgpFilterProfilesResultItem>;
 export type ListBgpFilterProfilesResponse = ListBgpFilterProfilesResultList;
@@ -4182,19 +4266,19 @@ export interface Cf1SitesRampsListResultItem {
   /** The type of network connection (ramp) linking a CF1 Site to Cloudflare's network. */
   type: Cf1SitesRampsListResultItemType;
   /** A human-provided description of the ramp. */
-  description?: string | null;
-  gre?: Cf1SitesRampsCreateResultItemGre | null;
-  greInterconnect?: Cf1SitesRampsCreateResultItemGre | null;
-  ipsec?: Cf1SitesRampsCreateResultItemGre | null;
-  mconn?: Cf1SitesRampsCreateResultItemGre | null;
-  mplsInterconnect?: Cf1SitesRampsCreateResultItemGre | null;
+  description?: string | null | undefined;
+  gre?: Cf1SitesRampsCreateResultItemGre | null | undefined;
+  greInterconnect?: Cf1SitesRampsCreateResultItemGre | null | undefined;
+  ipsec?: Cf1SitesRampsCreateResultItemGre | null | undefined;
+  mconn?: Cf1SitesRampsCreateResultItemGre | null | undefined;
+  mplsInterconnect?: Cf1SitesRampsCreateResultItemGre | null | undefined;
 }
 export type Cf1SitesRampsListResultList = Array<Cf1SitesRampsListResultItem>;
 export interface ListCf1SiteRampsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: Cf1SitesRampsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListCf1SitesRequest {
   /** Identifier */
@@ -4207,31 +4291,34 @@ export interface ListCf1SitesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: Cf1SitesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListCfInterconnectsRequest {
   /** Identifier */
   accountId: string;
-  xMagicNewHcTarget?: boolean;
+  xMagicNewHcTarget?: boolean | undefined;
 }
 export type CfInterconnectsListResponseInterconnectsItemBgpExtraPrefixesList = Array<string>;
 export interface CfInterconnectsListResponseInterconnectsItemBgp {
   /** Deprecated. Use customer_asn. */
-  asNo?: number | null;
+  asNo?: number | null | undefined;
   /** Read-only for v1.5; derived from interface_address. */
-  cloudflareEndpoint?: string | null;
+  cloudflareEndpoint?: string | null | undefined;
   /** ASN used on the customer end of the BGP session. */
-  customerAsn?: number | null;
+  customerAsn?: number | null | undefined;
   /** Read-only for v1.5; derived from interface_address. */
-  customerEndpoint?: string | null;
+  customerEndpoint?: string | null | undefined;
   /** ID of the BGP filter profile applied to routes advertised to the customer. */
-  exportFilterId?: string | null;
+  exportFilterId?: string | null | undefined;
   /** IPv4 prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table. Each entry must be a network address in CIDR notation with no host bits set (for example `192.0.2.0/24`, not `192.0.2.1/24`) and must not repeat another entry. */
-  extraPrefixes?: CfInterconnectsListResponseInterconnectsItemBgpExtraPrefixesList | null;
+  extraPrefixes?:
+    | CfInterconnectsListResponseInterconnectsItemBgpExtraPrefixesList
+    | null
+    | undefined;
   /** ID of the BGP filter profile applied to routes received from the customer. */
-  importFilterId?: string | null;
+  importFilterId?: string | null | undefined;
   /** MD5 key to use for session authentication. */
-  md5Key?: string | null;
+  md5Key?: string | null | undefined;
 }
 export type CfInterconnectsListResponseInterconnectsItemGre =
   CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemGre;
@@ -4247,53 +4334,53 @@ export type CfInterconnectsListResponseInterconnectsItemHealthCheckTarget =
 export type CfInterconnectsListResponseInterconnectsItemHealthCheckType = "reply" | "request";
 export interface CfInterconnectsListResponseInterconnectsItemHealthCheck {
   /** The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the interconnect and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the interconnect. */
-  direction?: CfInterconnectsListResponseInterconnectsItemHealthCheckDirection | null;
+  direction?: CfInterconnectsListResponseInterconnectsItemHealthCheckDirection | null | undefined;
   /** Determines whether to run healthchecks for a tunnel. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** How frequent the health check is run. The default value is `mid`. */
-  rate?: CfInterconnectsListResponseInterconnectsItemHealthCheckRate | null;
+  rate?: CfInterconnectsListResponseInterconnectsItemHealthCheckRate | null | undefined;
   /** The source IPv4 address used for bidirectional health checks. Supported only for version 1.5 interconnects. It is required when `direction` is `bidirectional` and must be omitted (and is cleared) when `direction` is `unidirectional`. The address must be within RFC1918 space, the approved link-local range 169.254.240.0/20, or the Cloudflare reserved range 198.41.199.224/27. */
-  source?: string | null;
+  source?: string | null | undefined;
   /** The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false. */
-  target?: CfInterconnectsListResponseInterconnectsItemHealthCheckTarget | null;
+  target?: CfInterconnectsListResponseInterconnectsItemHealthCheckTarget | null | undefined;
   /** The type of healthcheck to run, reply or request. The default value is `reply`. */
-  type?: CfInterconnectsListResponseInterconnectsItemHealthCheckType | null;
+  type?: CfInterconnectsListResponseInterconnectsItemHealthCheckType | null | undefined;
 }
 export interface CfInterconnectsListResponseInterconnectsItem {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected. */
-  automaticReturnRouting?: boolean | null;
-  bgp?: CfInterconnectsListResponseInterconnectsItemBgp | null;
+  automaticReturnRouting?: boolean | null | undefined;
+  bgp?: CfInterconnectsListResponseInterconnectsItemBgp | null | undefined;
   /** The name of the interconnect. The name cannot share a name with other tunnels. */
-  coloName?: string | null;
+  coloName?: string | null | undefined;
   /** The date and time the tunnel was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** An optional description of the interconnect. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Omitted in responses for version 1.5 interconnects. */
-  gre?: CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemGre | null;
-  healthCheck?: CfInterconnectsListResponseInterconnectsItemHealthCheck | null;
+  gre?: CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemGre | null | undefined;
+  healthCheck?: CfInterconnectsListResponseInterconnectsItemHealthCheck | null | undefined;
   /** The IPv4 interface address for the interconnect. For MPLS Interconnects, use a /30 or /31 prefix. For GRE Interconnects, a /30 or /31 prefix may be used. Version 1.5 interconnects require a /31 prefix and may also use a prefix from the account's authorized prefixes; otherwise, select the subnet from RFC 1918 or the approved link-local ranges. */
-  interfaceAddress?: string | null;
+  interfaceAddress?: string | null | undefined;
   /** A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127 */
-  interfaceAddress6?: string | null;
+  interfaceAddress6?: string | null | undefined;
   /** The date and time the tunnel was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The Maximum Transmission Unit (MTU) in bytes for the interconnect. The minimum value is 576. */
-  mtu?: number | null;
+  mtu?: number | null | undefined;
   /** The name of the interconnect. The name cannot share a name with other tunnels. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Immutable interconnect version configured at creation time. One of: */
-  version?: string | null;
+  version?: string | null | undefined;
   /** An identifier that correlates this interconnect with the corresponding V2 CNI interconnect resource. */
-  virtualPortReservationId?: string | null;
+  virtualPortReservationId?: string | null | undefined;
 }
 export type CfInterconnectsListResponseInterconnectsList =
   Array<CfInterconnectsListResponseInterconnectsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ListCfInterconnectsResponse {
-  interconnects?: CfInterconnectsListResponseInterconnectsList | null;
+  interconnects?: CfInterconnectsListResponseInterconnectsList | null | undefined;
 }
 export interface ListConnectorEventLatestsRequest {
   /** Account identifier */
@@ -4342,7 +4429,7 @@ export interface ConnectorsEventsLatestListResponseItemsItem {
   /** Time the Event was recorded (seconds since the Unix epoch) */
   t: number;
   /** Version */
-  v?: string | null;
+  v?: string | null | undefined;
 }
 export type ConnectorsEventsLatestListResponseItemsList =
   Array<ConnectorsEventsLatestListResponseItemsItem>;
@@ -4357,10 +4444,10 @@ export interface ListConnectorEventsRequest {
   connectorId: string;
   from: number;
   to: number;
-  cursor?: string;
+  cursor?: string | undefined;
   /** Filter by event kind */
-  k?: string;
-  limit?: number;
+  k?: string | undefined;
+  limit?: number | undefined;
 }
 export interface ConnectorsEventsListResponseItemsItem {
   /** Time the Event was collected (seconds since the Unix epoch) */
@@ -4377,13 +4464,13 @@ export type ConnectorsEventsListResponseItemsList = Array<ConnectorsEventsListRe
 export interface ListConnectorEventsResponse {
   count: number;
   items: ConnectorsEventsListResponseItemsList;
-  cursor?: string | null;
+  cursor?: string | null | undefined;
 }
 export type ConnectorsListRequestDeviceType = "MANAGED" | "LICENSED";
 export interface ListConnectorsRequest {
   accountId: string;
   /** Filter connectors by device type. */
-  deviceType?: ConnectorsListRequestDeviceType | (string & {});
+  deviceType?: ConnectorsListRequestDeviceType | (string & {}) | undefined;
 }
 export type ConnectorsListResultItemInterruptWindowDaysOfWeekItem =
   | "Sunday"
@@ -4399,8 +4486,8 @@ export type ConnectorsListResultItemInterruptWindowEmbargoDatesList = Array<stri
 export type ConnectorsListResultItemDeviceType = "MANAGED" | "LICENSED";
 export interface ConnectorsListResultItemDevice {
   id: string;
-  serialNumber?: string | null;
-  type?: ConnectorsListResultItemDeviceType | null;
+  serialNumber?: string | null | undefined;
+  type?: ConnectorsListResultItemDeviceType | null | undefined;
 }
 export interface ConnectorsListResultItem {
   id: string;
@@ -4414,17 +4501,17 @@ export interface ConnectorsListResultItem {
   lastUpdated: string;
   notes: string;
   timezone: string;
-  device?: ConnectorsListResultItemDevice | null;
-  lastHeartbeat?: string | null;
-  lastSeenVersion?: string | null;
-  licenseKey?: string | null;
+  device?: ConnectorsListResultItemDevice | null | undefined;
+  lastHeartbeat?: string | null | undefined;
+  lastSeenVersion?: string | null | undefined;
+  licenseKey?: string | null | undefined;
 }
 export type ConnectorsListResultList = Array<ConnectorsListResultItem>;
 export interface ListConnectorsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ConnectorsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListConnectorsInterruptsRequest {
   accountId: string;
@@ -4435,10 +4522,10 @@ export type ListConnectorsInterruptsResultItemRestart = CreateConnectorsInterrup
 export type ListConnectorsInterruptsResultItemShutdown = CreateConnectorsInterruptResponseReboot;
 export interface ListConnectorsInterruptsResultItem {
   submittedAt: string;
-  reboot?: CreateConnectorsInterruptResponseReboot | null;
-  restart?: CreateConnectorsInterruptResponseReboot | null;
-  shutdown?: CreateConnectorsInterruptResponseReboot | null;
-  triggeredAt?: string | null;
+  reboot?: CreateConnectorsInterruptResponseReboot | null | undefined;
+  restart?: CreateConnectorsInterruptResponseReboot | null | undefined;
+  shutdown?: CreateConnectorsInterruptResponseReboot | null | undefined;
+  triggeredAt?: string | null | undefined;
 }
 export type ListConnectorsInterruptsResultList = Array<ListConnectorsInterruptsResultItem>;
 export type ListConnectorsInterruptsResponse = ListConnectorsInterruptsResultList;
@@ -4469,12 +4556,15 @@ export interface ConnectorsSnapshotsLatestListResponseItemsItemInterfacesItem {
   /** UP/DOWN state of the network interface */
   operstate: string;
   /** Comma-separated list of reasons for health score */
-  healthReason?: string | null;
+  healthReason?: string | null | undefined;
   /** Aggregate health score (0-100) */
-  healthScore?: number | null;
-  ipAddresses?: ConnectorsSnapshotsLatestListResponseItemsItemInterfacesItemIpAddressesList | null;
+  healthScore?: number | null | undefined;
+  ipAddresses?:
+    | ConnectorsSnapshotsLatestListResponseItemsItemInterfacesItemIpAddressesList
+    | null
+    | undefined;
   /** Speed of the network interface (bits per second) */
-  speed?: number | null;
+  speed?: number | null | undefined;
 }
 export type ConnectorsSnapshotsLatestListResponseItemsItemInterfacesList =
   Array<ConnectorsSnapshotsLatestListResponseItemsItemInterfacesItem>;
@@ -4511,335 +4601,335 @@ export interface ConnectorsSnapshotsLatestListResponseItemsItem {
   t: number;
   /** Version */
   v: string;
-  bonds?: ConnectorsSnapshotsLatestListResponseItemsItemBondsList | null;
+  bonds?: ConnectorsSnapshotsLatestListResponseItemsItemBondsList | null | undefined;
   /** Count of processors/cores */
-  cpuCount?: number | null;
+  cpuCount?: number | null | undefined;
   /** Percentage of time over a 10 second window that tasks were stalled */
-  cpu_pressure_10s?: number | null;
+  cpu_pressure_10s?: number | null | undefined;
   /** Percentage of time over a 5 minute window that tasks were stalled */
-  cpu_pressure_300s?: number | null;
+  cpu_pressure_300s?: number | null | undefined;
   /** Percentage of time over a 1 minute window that tasks were stalled */
-  cpu_pressure_60s?: number | null;
+  cpu_pressure_60s?: number | null | undefined;
   /** Total stall time (microseconds) */
-  cpuPressureTotalUs?: number | null;
+  cpuPressureTotalUs?: number | null | undefined;
   /** Time spent running a virtual CPU or guest OS (milliseconds) */
-  cpuTimeGuestMs?: number | null;
+  cpuTimeGuestMs?: number | null | undefined;
   /** Time spent running a niced guest (milliseconds) */
-  cpuTimeGuestNiceMs?: number | null;
+  cpuTimeGuestNiceMs?: number | null | undefined;
   /** Time spent in idle state (milliseconds) */
-  cpuTimeIdleMs?: number | null;
+  cpuTimeIdleMs?: number | null | undefined;
   /** Time spent wait for I/O to complete (milliseconds) */
-  cpuTimeIowaitMs?: number | null;
+  cpuTimeIowaitMs?: number | null | undefined;
   /** Time spent servicing interrupts (milliseconds) */
-  cpuTimeIrqMs?: number | null;
+  cpuTimeIrqMs?: number | null | undefined;
   /** Time spent in low-priority user mode (milliseconds) */
-  cpuTimeNiceMs?: number | null;
+  cpuTimeNiceMs?: number | null | undefined;
   /** Time spent servicing softirqs (milliseconds) */
-  cpuTimeSoftirqMs?: number | null;
+  cpuTimeSoftirqMs?: number | null | undefined;
   /** Time stolen (milliseconds) */
-  cpuTimeStealMs?: number | null;
+  cpuTimeStealMs?: number | null | undefined;
   /** Time spent in system mode (milliseconds) */
-  cpuTimeSystemMs?: number | null;
+  cpuTimeSystemMs?: number | null | undefined;
   /** Time spent in user mode (milliseconds) */
-  cpuTimeUserMs?: number | null;
+  cpuTimeUserMs?: number | null | undefined;
   /** Number of network operations applied during state transition */
-  delta?: number | null;
-  dhcpLeases?: ConnectorsSnapshotsLatestListResponseItemsItemDhcpLeasesList | null;
-  disks?: ConnectorsSnapshotsLatestListResponseItemsItemDisksList | null;
+  delta?: number | null | undefined;
+  dhcpLeases?: ConnectorsSnapshotsLatestListResponseItemsItemDhcpLeasesList | null | undefined;
+  disks?: ConnectorsSnapshotsLatestListResponseItemsItemDisksList | null | undefined;
   /** Simulated number of network operations applied during state transition */
-  epsilon?: number | null;
+  epsilon?: number | null | undefined;
   /** Name of high availability state */
-  haState?: string | null;
+  haState?: string | null | undefined;
   /** Numeric value associated with high availability state (0 = disabled, 1 = active, 2 = standby, 3 = stopped, 4 = fault) */
-  haValue?: number | null;
-  interfaces?: ConnectorsSnapshotsLatestListResponseItemsItemInterfacesList | null;
+  haValue?: number | null | undefined;
+  interfaces?: ConnectorsSnapshotsLatestListResponseItemsItemInterfacesList | null | undefined;
   /** Percentage of time over a 10 second window that all tasks were stalled */
-  io_pressure_full_10s?: number | null;
+  io_pressure_full_10s?: number | null | undefined;
   /** Percentage of time over a 5 minute window that all tasks were stalled */
-  io_pressure_full_300s?: number | null;
+  io_pressure_full_300s?: number | null | undefined;
   /** Percentage of time over a 1 minute window that all tasks were stalled */
-  io_pressure_full_60s?: number | null;
+  io_pressure_full_60s?: number | null | undefined;
   /** Total stall time (microseconds) */
-  ioPressureFullTotalUs?: number | null;
+  ioPressureFullTotalUs?: number | null | undefined;
   /** Percentage of time over a 10 second window that some tasks were stalled */
-  io_pressure_some_10s?: number | null;
+  io_pressure_some_10s?: number | null | undefined;
   /** Percentage of time over a 3 minute window that some tasks were stalled */
-  io_pressure_some_300s?: number | null;
+  io_pressure_some_300s?: number | null | undefined;
   /** Percentage of time over a 1 minute window that some tasks were stalled */
-  io_pressure_some_60s?: number | null;
+  io_pressure_some_60s?: number | null | undefined;
   /** Total stall time (microseconds) */
-  ioPressureSomeTotalUs?: number | null;
+  ioPressureSomeTotalUs?: number | null | undefined;
   /** Boot time (seconds since Unix epoch) */
-  kernelBtime?: number | null;
+  kernelBtime?: number | null | undefined;
   /** Number of context switches that the system underwent */
-  kernelCtxt?: number | null;
+  kernelCtxt?: number | null | undefined;
   /** Number of forks since boot */
-  kernelProcesses?: number | null;
+  kernelProcesses?: number | null | undefined;
   /** Number of processes blocked waiting for I/O */
-  kernelProcessesBlocked?: number | null;
+  kernelProcessesBlocked?: number | null | undefined;
   /** Number of processes in runnable state */
-  kernelProcessesRunning?: number | null;
+  kernelProcessesRunning?: number | null | undefined;
   /** The fifteen-minute load average */
-  load_average_15m?: number | null;
+  load_average_15m?: number | null | undefined;
   /** The one-minute load average */
-  load_average_1m?: number | null;
+  load_average_1m?: number | null | undefined;
   /** The five-minute load average */
-  load_average_5m?: number | null;
+  load_average_5m?: number | null | undefined;
   /** Number of currently runnable kernel scheduling entities */
-  loadAverageCur?: number | null;
+  loadAverageCur?: number | null | undefined;
   /** Number of kernel scheduling entities that currently exist on the system */
-  loadAverageMax?: number | null;
+  loadAverageMax?: number | null | undefined;
   /** Memory that has been used more recently */
-  memoryActiveBytes?: number | null;
+  memoryActiveBytes?: number | null | undefined;
   /** Non-file backed huge pages mapped into user-space page tables */
-  memoryAnonHugepagesBytes?: number | null;
+  memoryAnonHugepagesBytes?: number | null | undefined;
   /** Non-file backed pages mapped into user-space page tables */
-  memoryAnonPagesBytes?: number | null;
+  memoryAnonPagesBytes?: number | null | undefined;
   /** Estimate of how much memory is available for starting new applications */
-  memoryAvailableBytes?: number | null;
+  memoryAvailableBytes?: number | null | undefined;
   /** Memory used for block device bounce buffers */
-  memoryBounceBytes?: number | null;
+  memoryBounceBytes?: number | null | undefined;
   /** Relatively temporary storage for raw disk blocks */
-  memoryBuffersBytes?: number | null;
+  memoryBuffersBytes?: number | null | undefined;
   /** In-memory cache for files read from the disk */
-  memoryCachedBytes?: number | null;
+  memoryCachedBytes?: number | null | undefined;
   /** Free CMA (Contiguous Memory Allocator) pages */
-  memoryCmaFreeBytes?: number | null;
+  memoryCmaFreeBytes?: number | null | undefined;
   /** Total CMA (Contiguous Memory Allocator) pages */
-  memoryCmaTotalBytes?: number | null;
+  memoryCmaTotalBytes?: number | null | undefined;
   /** Total amount of memory currently available to be allocated on the system */
-  memoryCommitLimitBytes?: number | null;
+  memoryCommitLimitBytes?: number | null | undefined;
   /** Amount of memory presently allocated on the system */
-  memoryCommittedAsBytes?: number | null;
+  memoryCommittedAsBytes?: number | null | undefined;
   /** Memory which is waiting to get written back to the disk */
-  memoryDirtyBytes?: number | null;
+  memoryDirtyBytes?: number | null | undefined;
   /** The sum of LowFree and HighFree */
-  memoryFreeBytes?: number | null;
+  memoryFreeBytes?: number | null | undefined;
   /** Amount of free highmem */
-  memoryHighFreeBytes?: number | null;
+  memoryHighFreeBytes?: number | null | undefined;
   /** Total amount of highmem */
-  memoryHighTotalBytes?: number | null;
+  memoryHighTotalBytes?: number | null | undefined;
   /** The number of huge pages in the pool that are not yet allocated */
-  memoryHugepagesFree?: number | null;
+  memoryHugepagesFree?: number | null | undefined;
   /** Number of huge pages for which a commitment has been made, but no allocation has yet been made */
-  memoryHugepagesRsvd?: number | null;
+  memoryHugepagesRsvd?: number | null | undefined;
   /** Number of huge pages in the pool above the threshold */
-  memoryHugepagesSurp?: number | null;
+  memoryHugepagesSurp?: number | null | undefined;
   /** The size of the pool of huge pages */
-  memoryHugepagesTotal?: number | null;
+  memoryHugepagesTotal?: number | null | undefined;
   /** The size of huge pages */
-  memoryHugepagesizeBytes?: number | null;
+  memoryHugepagesizeBytes?: number | null | undefined;
   /** Memory which has been less recently used */
-  memoryInactiveBytes?: number | null;
+  memoryInactiveBytes?: number | null | undefined;
   /** Kernel allocations that the kernel will attempt to reclaim under memory pressure */
-  memoryKReclaimableBytes?: number | null;
+  memoryKReclaimableBytes?: number | null | undefined;
   /** Amount of memory allocated to kernel stacks */
-  memoryKernelStackBytes?: number | null;
+  memoryKernelStackBytes?: number | null | undefined;
   /** Amount of free lowmem */
-  memoryLowFreeBytes?: number | null;
+  memoryLowFreeBytes?: number | null | undefined;
   /** Total amount of lowmem */
-  memoryLowTotalBytes?: number | null;
+  memoryLowTotalBytes?: number | null | undefined;
   /** Files which have been mapped into memory */
-  memoryMappedBytes?: number | null;
+  memoryMappedBytes?: number | null | undefined;
   /** Amount of memory dedicated to the lowest level of page tables */
-  memoryPageTablesBytes?: number | null;
+  memoryPageTablesBytes?: number | null | undefined;
   /** Memory allocated to the per-cpu alloctor used to back per-cpu allocations */
-  memoryPerCpuBytes?: number | null;
+  memoryPerCpuBytes?: number | null | undefined;
   /** Percentage of time over a 10 second window that all tasks were stalled */
-  memory_pressure_full_10s?: number | null;
+  memory_pressure_full_10s?: number | null | undefined;
   /** Percentage of time over a 5 minute window that all tasks were stalled */
-  memory_pressure_full_300s?: number | null;
+  memory_pressure_full_300s?: number | null | undefined;
   /** Percentage of time over a 1 minute window that all tasks were stalled */
-  memory_pressure_full_60s?: number | null;
+  memory_pressure_full_60s?: number | null | undefined;
   /** Total stall time (microseconds) */
-  memoryPressureFullTotalUs?: number | null;
+  memoryPressureFullTotalUs?: number | null | undefined;
   /** Percentage of time over a 10 second window that some tasks were stalled */
-  memory_pressure_some_10s?: number | null;
+  memory_pressure_some_10s?: number | null | undefined;
   /** Percentage of time over a 5 minute window that some tasks were stalled */
-  memory_pressure_some_300s?: number | null;
+  memory_pressure_some_300s?: number | null | undefined;
   /** Percentage of time over a 1 minute window that some tasks were stalled */
-  memory_pressure_some_60s?: number | null;
+  memory_pressure_some_60s?: number | null | undefined;
   /** Total stall time (microseconds) */
-  memoryPressureSomeTotalUs?: number | null;
+  memoryPressureSomeTotalUs?: number | null | undefined;
   /** Part of slab that can be reclaimed on memory pressure */
-  memorySReclaimableBytes?: number | null;
+  memorySReclaimableBytes?: number | null | undefined;
   /** Part of slab that cannot be reclaimed on memory pressure */
-  memorySUnreclaimBytes?: number | null;
+  memorySUnreclaimBytes?: number | null | undefined;
   /** Amount of memory dedicated to the lowest level of page tables */
-  memorySecondaryPageTablesBytes?: number | null;
+  memorySecondaryPageTablesBytes?: number | null | undefined;
   /** Amount of memory consumed by tmpfs */
-  memoryShmemBytes?: number | null;
+  memoryShmemBytes?: number | null | undefined;
   /** Memory used by shmem and tmpfs, allocated with huge pages */
-  memoryShmemHugepagesBytes?: number | null;
+  memoryShmemHugepagesBytes?: number | null | undefined;
   /** Shared memory mapped into user space with huge pages */
-  memoryShmemPmdMappedBytes?: number | null;
+  memoryShmemPmdMappedBytes?: number | null | undefined;
   /** In-kernel data structures cache */
-  memorySlabBytes?: number | null;
+  memorySlabBytes?: number | null | undefined;
   /** Memory swapped out and back in while still in swap file */
-  memorySwapCachedBytes?: number | null;
+  memorySwapCachedBytes?: number | null | undefined;
   /** Amount of swap space that is currently unused */
-  memorySwapFreeBytes?: number | null;
+  memorySwapFreeBytes?: number | null | undefined;
   /** Total amount of swap space available */
-  memorySwapTotalBytes?: number | null;
+  memorySwapTotalBytes?: number | null | undefined;
   /** Total usable RAM */
-  memoryTotalBytes?: number | null;
+  memoryTotalBytes?: number | null | undefined;
   /** Largest contiguous block of vmalloc area which is free */
-  memoryVmallocChunkBytes?: number | null;
+  memoryVmallocChunkBytes?: number | null | undefined;
   /** Total size of vmalloc memory area */
-  memoryVmallocTotalBytes?: number | null;
+  memoryVmallocTotalBytes?: number | null | undefined;
   /** Amount of vmalloc area which is used */
-  memoryVmallocUsedBytes?: number | null;
+  memoryVmallocUsedBytes?: number | null | undefined;
   /** Memory which is actively being written back to the disk */
-  memoryWritebackBytes?: number | null;
+  memoryWritebackBytes?: number | null | undefined;
   /** Memory used by FUSE for temporary writeback buffers */
-  memoryWritebackTmpBytes?: number | null;
+  memoryWritebackTmpBytes?: number | null | undefined;
   /** Memory consumed by the zswap backend, compressed */
-  memoryZSwapBytes?: number | null;
+  memoryZSwapBytes?: number | null | undefined;
   /** Amount of anonymous memory stored in zswap, uncompressed */
-  memoryZSwappedBytes?: number | null;
-  mounts?: ConnectorsSnapshotsLatestListResponseItemsItemMountsList | null;
-  netdevs?: ConnectorsSnapshotsLatestListResponseItemsItemNetdevsList | null;
+  memoryZSwappedBytes?: number | null | undefined;
+  mounts?: ConnectorsSnapshotsLatestListResponseItemsItemMountsList | null | undefined;
+  netdevs?: ConnectorsSnapshotsLatestListResponseItemsItemNetdevsList | null | undefined;
   /** Platform identifier */
-  platform?: string | null;
-  routes?: ConnectorsSnapshotsLatestListResponseItemsItemRoutesList | null;
+  platform?: string | null | undefined;
+  routes?: ConnectorsSnapshotsLatestListResponseItemsItemRoutesList | null | undefined;
   /** Site identifier */
-  siteId?: string | null;
+  siteId?: string | null | undefined;
   /** Number of ICMP Address Mask Reply messages received */
-  snmpIcmpInAddrMaskReps?: number | null;
+  snmpIcmpInAddrMaskReps?: number | null | undefined;
   /** Number of ICMP Address Mask Request messages received */
-  snmpIcmpInAddrMasks?: number | null;
+  snmpIcmpInAddrMasks?: number | null | undefined;
   /** Number of ICMP messages received with bad checksums */
-  snmpIcmpInCsumErrors?: number | null;
+  snmpIcmpInCsumErrors?: number | null | undefined;
   /** Number of ICMP Destination Unreachable messages received */
-  snmpIcmpInDestUnreachs?: number | null;
+  snmpIcmpInDestUnreachs?: number | null | undefined;
   /** Number of ICMP Echo Reply messages received */
-  snmpIcmpInEchoReps?: number | null;
+  snmpIcmpInEchoReps?: number | null | undefined;
   /** Number of ICMP Echo (request) messages received */
-  snmpIcmpInEchos?: number | null;
+  snmpIcmpInEchos?: number | null | undefined;
   /** Number of ICMP messages received with ICMP-specific errors */
-  snmpIcmpInErrors?: number | null;
+  snmpIcmpInErrors?: number | null | undefined;
   /** Number of ICMP messages received */
-  snmpIcmpInMsgs?: number | null;
+  snmpIcmpInMsgs?: number | null | undefined;
   /** Number of ICMP Parameter Problem messages received */
-  snmpIcmpInParmProbs?: number | null;
+  snmpIcmpInParmProbs?: number | null | undefined;
   /** Number of ICMP Redirect messages received */
-  snmpIcmpInRedirects?: number | null;
+  snmpIcmpInRedirects?: number | null | undefined;
   /** Number of ICMP Source Quench messages received */
-  snmpIcmpInSrcQuenchs?: number | null;
+  snmpIcmpInSrcQuenchs?: number | null | undefined;
   /** Number of ICMP Time Exceeded messages received */
-  snmpIcmpInTimeExcds?: number | null;
+  snmpIcmpInTimeExcds?: number | null | undefined;
   /** Number of ICMP Address Mask Request messages received */
-  snmpIcmpInTimestampReps?: number | null;
+  snmpIcmpInTimestampReps?: number | null | undefined;
   /** Number of ICMP Timestamp (request) messages received */
-  snmpIcmpInTimestamps?: number | null;
+  snmpIcmpInTimestamps?: number | null | undefined;
   /** Number of ICMP Address Mask Reply messages sent */
-  snmpIcmpOutAddrMaskReps?: number | null;
+  snmpIcmpOutAddrMaskReps?: number | null | undefined;
   /** Number of ICMP Address Mask Request messages sent */
-  snmpIcmpOutAddrMasks?: number | null;
+  snmpIcmpOutAddrMasks?: number | null | undefined;
   /** Number of ICMP Destination Unreachable messages sent */
-  snmpIcmpOutDestUnreachs?: number | null;
+  snmpIcmpOutDestUnreachs?: number | null | undefined;
   /** Number of ICMP Echo Reply messages sent */
-  snmpIcmpOutEchoReps?: number | null;
+  snmpIcmpOutEchoReps?: number | null | undefined;
   /** Number of ICMP Echo (request) messages sent */
-  snmpIcmpOutEchos?: number | null;
+  snmpIcmpOutEchos?: number | null | undefined;
   /** Number of ICMP messages which this entity did not send due to ICMP-specific errors */
-  snmpIcmpOutErrors?: number | null;
+  snmpIcmpOutErrors?: number | null | undefined;
   /** Number of ICMP messages attempted to send */
-  snmpIcmpOutMsgs?: number | null;
+  snmpIcmpOutMsgs?: number | null | undefined;
   /** Number of ICMP Parameter Problem messages sent */
-  snmpIcmpOutParmProbs?: number | null;
+  snmpIcmpOutParmProbs?: number | null | undefined;
   /** Number of ICMP Redirect messages sent */
-  snmpIcmpOutRedirects?: number | null;
+  snmpIcmpOutRedirects?: number | null | undefined;
   /** Number of ICMP Source Quench messages sent */
-  snmpIcmpOutSrcQuenchs?: number | null;
+  snmpIcmpOutSrcQuenchs?: number | null | undefined;
   /** Number of ICMP Time Exceeded messages sent */
-  snmpIcmpOutTimeExcds?: number | null;
+  snmpIcmpOutTimeExcds?: number | null | undefined;
   /** Number of ICMP Timestamp Reply messages sent */
-  snmpIcmpOutTimestampReps?: number | null;
+  snmpIcmpOutTimestampReps?: number | null | undefined;
   /** Number of ICMP Timestamp (request) messages sent */
-  snmpIcmpOutTimestamps?: number | null;
+  snmpIcmpOutTimestamps?: number | null | undefined;
   /** Default value of the Time-To-Live field of the IP header */
-  snmpIpDefaultTtl?: number | null;
+  snmpIpDefaultTtl?: number | null | undefined;
   /** Number of datagrams forwarded to their final destination */
-  snmpIpForwDatagrams?: number | null;
+  snmpIpForwDatagrams?: number | null | undefined;
   /** Set when acting as an IP gateway */
-  snmpIpForwardingEnabled?: boolean | null;
+  snmpIpForwardingEnabled?: boolean | null | undefined;
   /** Number of datagrams generated by fragmentation */
-  snmpIpFragCreates?: number | null;
+  snmpIpFragCreates?: number | null | undefined;
   /** Number of datagrams discarded because fragmentation failed */
-  snmpIpFragFails?: number | null;
+  snmpIpFragFails?: number | null | undefined;
   /** Number of datagrams successfully fragmented */
-  snmpIpFragOks?: number | null;
+  snmpIpFragOks?: number | null | undefined;
   /** Number of input datagrams discarded due to errors in the IP address */
-  snmpIpInAddrErrors?: number | null;
+  snmpIpInAddrErrors?: number | null | undefined;
   /** Number of input datagrams successfully delivered to IP user-protocols */
-  snmpIpInDelivers?: number | null;
+  snmpIpInDelivers?: number | null | undefined;
   /** Number of input datagrams otherwise discarded */
-  snmpIpInDiscards?: number | null;
+  snmpIpInDiscards?: number | null | undefined;
   /** Number of input datagrams discarded due to errors in the IP header */
-  snmpIpInHdrErrors?: number | null;
+  snmpIpInHdrErrors?: number | null | undefined;
   /** Number of input datagrams received from interfaces */
-  snmpIpInReceives?: number | null;
+  snmpIpInReceives?: number | null | undefined;
   /** Number of input datagrams discarded due unknown or unsupported protocol */
-  snmpIpInUnknownProtos?: number | null;
+  snmpIpInUnknownProtos?: number | null | undefined;
   /** Number of output datagrams otherwise discarded */
-  snmpIpOutDiscards?: number | null;
+  snmpIpOutDiscards?: number | null | undefined;
   /** Number of output datagrams discarded because no route matched */
-  snmpIpOutNoRoutes?: number | null;
+  snmpIpOutNoRoutes?: number | null | undefined;
   /** Number of datagrams supplied for transmission */
-  snmpIpOutRequests?: number | null;
+  snmpIpOutRequests?: number | null | undefined;
   /** Number of failures detected by the reassembly algorithm */
-  snmpIpReasmFails?: number | null;
+  snmpIpReasmFails?: number | null | undefined;
   /** Number of datagrams successfully reassembled */
-  snmpIpReasmOks?: number | null;
+  snmpIpReasmOks?: number | null | undefined;
   /** Number of fragments received which needed to be reassembled */
-  snmpIpReasmReqds?: number | null;
+  snmpIpReasmReqds?: number | null | undefined;
   /** Number of seconds fragments are held while awaiting reassembly */
-  snmpIpReasmTimeout?: number | null;
+  snmpIpReasmTimeout?: number | null | undefined;
   /** Number of times TCP transitions to SYN-SENT from CLOSED */
-  snmpTcpActiveOpens?: number | null;
+  snmpTcpActiveOpens?: number | null | undefined;
   /** Number of times TCP transitions to CLOSED from SYN-SENT or SYN-RCVD, plus transitions to LISTEN from SYN-RCVD */
-  snmpTcpAttemptFails?: number | null;
+  snmpTcpAttemptFails?: number | null | undefined;
   /** Number of TCP connections in ESTABLISHED or CLOSE-WAIT */
-  snmpTcpCurrEstab?: number | null;
+  snmpTcpCurrEstab?: number | null | undefined;
   /** Number of times TCP transitions to CLOSED from ESTABLISHED or CLOSE-WAIT */
-  snmpTcpEstabResets?: number | null;
+  snmpTcpEstabResets?: number | null | undefined;
   /** Number of TCP segments received with checksum errors */
-  snmpTcpInCsumErrors?: number | null;
+  snmpTcpInCsumErrors?: number | null | undefined;
   /** Number of TCP segments received in error */
-  snmpTcpInErrs?: number | null;
+  snmpTcpInErrs?: number | null | undefined;
   /** Number of TCP segments received */
-  snmpTcpInSegs?: number | null;
+  snmpTcpInSegs?: number | null | undefined;
   /** Limit on the total number of TCP connections */
-  snmpTcpMaxConn?: number | null;
+  snmpTcpMaxConn?: number | null | undefined;
   /** Number of TCP segments sent with RST flag */
-  snmpTcpOutRsts?: number | null;
+  snmpTcpOutRsts?: number | null | undefined;
   /** Number of TCP segments sent */
-  snmpTcpOutSegs?: number | null;
+  snmpTcpOutSegs?: number | null | undefined;
   /** Number of times TCP transitions to SYN-RCVD from LISTEN */
-  snmpTcpPassiveOpens?: number | null;
+  snmpTcpPassiveOpens?: number | null | undefined;
   /** Number of TCP segments retransmitted */
-  snmpTcpRetransSegs?: number | null;
+  snmpTcpRetransSegs?: number | null | undefined;
   /** Maximum value permitted by a TCP implementation for the retransmission timeout (milliseconds) */
-  snmpTcpRtoMax?: number | null;
+  snmpTcpRtoMax?: number | null | undefined;
   /** Minimum value permitted by a TCP implementation for the retransmission timeout (milliseconds) */
-  snmpTcpRtoMin?: number | null;
+  snmpTcpRtoMin?: number | null | undefined;
   /** Number of UDP datagrams delivered to UDP applications */
-  snmpUdpInDatagrams?: number | null;
+  snmpUdpInDatagrams?: number | null | undefined;
   /** Number of UDP datagrams failed to be delivered for reasons other than lack of application at the destination port */
-  snmpUdpInErrors?: number | null;
+  snmpUdpInErrors?: number | null | undefined;
   /** Number of UDP datagrams received for which there was not application at the destination port */
-  snmpUdpNoPorts?: number | null;
+  snmpUdpNoPorts?: number | null | undefined;
   /** Number of UDP datagrams sent */
-  snmpUdpOutDatagrams?: number | null;
+  snmpUdpOutDatagrams?: number | null | undefined;
   /** Boottime of the system (seconds since the Unix epoch) */
-  systemBootTimeS?: number | null;
-  thermals?: ConnectorsSnapshotsLatestListResponseItemsItemThermalsList | null;
-  tunnels?: ConnectorsSnapshotsLatestListResponseItemsItemTunnelsList | null;
+  systemBootTimeS?: number | null | undefined;
+  thermals?: ConnectorsSnapshotsLatestListResponseItemsItemThermalsList | null | undefined;
+  tunnels?: ConnectorsSnapshotsLatestListResponseItemsItemTunnelsList | null | undefined;
   /** Sum of how much time each core has spent idle */
-  uptimeIdleMs?: number | null;
+  uptimeIdleMs?: number | null | undefined;
   /** Uptime of the system, including time spent in suspend */
-  uptimeTotalMs?: number | null;
+  uptimeTotalMs?: number | null | undefined;
 }
 export type ConnectorsSnapshotsLatestListResponseItemsList =
   Array<ConnectorsSnapshotsLatestListResponseItemsItem>;
@@ -4854,8 +4944,8 @@ export interface ListConnectorSnapshotsRequest {
   connectorId: string;
   from: number;
   to: number;
-  cursor?: string;
-  limit?: number;
+  cursor?: string | undefined;
+  limit?: number | undefined;
 }
 export interface ConnectorsSnapshotsListResponseItemsItem {
   /** Time the Snapshot was collected (seconds since the Unix epoch) */
@@ -4869,25 +4959,25 @@ export type ConnectorsSnapshotsListResponseItemsList =
 export interface ListConnectorSnapshotsResponse {
   count: number;
   items: ConnectorsSnapshotsListResponseItemsList;
-  cursor?: string | null;
+  cursor?: string | null | undefined;
 }
 export interface ListGreTunnelsRequest {
   /** Identifier */
   accountId: string;
-  xMagicNewHcTarget?: boolean;
+  xMagicNewHcTarget?: boolean | undefined;
 }
 export type GreTunnelsListResponseGreTunnelsItemBgpExtraPrefixesList = Array<string>;
 export interface GreTunnelsListResponseGreTunnelsItemBgp {
   /** ASN used on the customer end of the BGP session */
   customerAsn: number;
   /** ID of the BGP filter profile applied to routes advertised to the customer. */
-  exportFilterId?: string | null;
+  exportFilterId?: string | null | undefined;
   /** Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table. Each entry must be a network address in CIDR notation with no host bits set (for example `192.0.2.0/24`, not `192.0.2.1/24`) and must not repeat another entry. IPv6 prefixes are accepted only when the tunnel has an `interface_address6`. */
-  extraPrefixes?: GreTunnelsListResponseGreTunnelsItemBgpExtraPrefixesList | null;
+  extraPrefixes?: GreTunnelsListResponseGreTunnelsItemBgpExtraPrefixesList | null | undefined;
   /** ID of the BGP filter profile applied to routes received from the customer. */
-  importFilterId?: string | null;
+  importFilterId?: string | null | undefined;
   /** MD5 key to use for session authentication. */
-  md5Key?: string | null;
+  md5Key?: string | null | undefined;
 }
 export type GreTunnelsListResponseGreTunnelsItemBgpStatusState =
   | "BGP_DOWN"
@@ -4897,11 +4987,11 @@ export interface GreTunnelsListResponseGreTunnelsItemBgpStatus {
   state: GreTunnelsListResponseGreTunnelsItemBgpStatusState;
   tcpEstablished: boolean;
   updatedAt: string;
-  bgpState?: string | null;
-  cfSpeakerIp?: string | null;
-  cfSpeakerPort?: number | null;
-  customerSpeakerIp?: string | null;
-  customerSpeakerPort?: number | null;
+  bgpState?: string | null | undefined;
+  cfSpeakerIp?: string | null | undefined;
+  cfSpeakerPort?: number | null | undefined;
+  customerSpeakerIp?: string | null | undefined;
+  customerSpeakerPort?: number | null | undefined;
 }
 export type GreTunnelsListResponseGreTunnelsItemHealthCheckDirection =
   | "unidirectional"
@@ -4915,15 +5005,15 @@ export type GreTunnelsListResponseGreTunnelsItemHealthCheckTarget =
 export type GreTunnelsListResponseGreTunnelsItemHealthCheckType = "reply" | "request";
 export interface GreTunnelsListResponseGreTunnelsItemHealthCheck {
   /** The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel. */
-  direction?: GreTunnelsListResponseGreTunnelsItemHealthCheckDirection | null;
+  direction?: GreTunnelsListResponseGreTunnelsItemHealthCheckDirection | null | undefined;
   /** Determines whether to run healthchecks for a tunnel. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** How frequent the health check is run. The default value is `mid`. */
-  rate?: GreTunnelsListResponseGreTunnelsItemHealthCheckRate | null;
+  rate?: GreTunnelsListResponseGreTunnelsItemHealthCheckRate | null | undefined;
   /** The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false. */
-  target?: GreTunnelsListResponseGreTunnelsItemHealthCheckTarget | null;
+  target?: GreTunnelsListResponseGreTunnelsItemHealthCheckTarget | null | undefined;
   /** The type of healthcheck to run, reply or request. The default value is `reply`. */
-  type?: GreTunnelsListResponseGreTunnelsItemHealthCheckType | null;
+  type?: GreTunnelsListResponseGreTunnelsItemHealthCheckType | null | undefined;
 }
 export interface GreTunnelsListResponseGreTunnelsItem {
   /** Identifier */
@@ -4937,45 +5027,45 @@ export interface GreTunnelsListResponseGreTunnelsItem {
   /** The name of the tunnel. The name cannot contain spaces or special characters, must be 15 characters or less, and cannot share a name with another GRE tunnel. */
   name: string;
   /** True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected. */
-  automaticReturnRouting?: boolean | null;
-  bgp?: GreTunnelsListResponseGreTunnelsItemBgp | null;
-  bgpStatus?: GreTunnelsListResponseGreTunnelsItemBgpStatus | null;
+  automaticReturnRouting?: boolean | null | undefined;
+  bgp?: GreTunnelsListResponseGreTunnelsItemBgp | null | undefined;
+  bgpStatus?: GreTunnelsListResponseGreTunnelsItemBgpStatus | null | undefined;
   /** The date and time the tunnel was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** An optional description of the GRE tunnel. */
-  description?: string | null;
-  healthCheck?: GreTunnelsListResponseGreTunnelsItemHealthCheck | null;
+  description?: string | null | undefined;
+  healthCheck?: GreTunnelsListResponseGreTunnelsItemHealthCheck | null | undefined;
   /** A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127 */
-  interfaceAddress6?: string | null;
+  interfaceAddress6?: string | null | undefined;
   /** The date and time the tunnel was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Maximum Transmission Unit (MTU) in bytes for the GRE tunnel. The minimum value is 576. */
-  mtu?: number | null;
+  mtu?: number | null | undefined;
   /** Time To Live (TTL) in number of hops of the GRE tunnel. */
-  ttl?: number | null;
+  ttl?: number | null | undefined;
 }
 export type GreTunnelsListResponseGreTunnelsList = Array<GreTunnelsListResponseGreTunnelsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ListGreTunnelsResponse {
-  greTunnels?: GreTunnelsListResponseGreTunnelsList | null;
+  greTunnels?: GreTunnelsListResponseGreTunnelsList | null | undefined;
 }
 export interface ListIpsecTunnelsRequest {
   /** Identifier */
   accountId: string;
-  xMagicNewHcTarget?: boolean;
+  xMagicNewHcTarget?: boolean | undefined;
 }
 export type IpsecTunnelsListResponseIpsecTunnelsItemBgpExtraPrefixesList = Array<string>;
 export interface IpsecTunnelsListResponseIpsecTunnelsItemBgp {
   /** ASN used on the customer end of the BGP session */
   customerAsn: number;
   /** ID of the BGP filter profile applied to routes advertised to the customer. */
-  exportFilterId?: string | null;
+  exportFilterId?: string | null | undefined;
   /** Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table. Each entry must be a network address in CIDR notation with no host bits set (for example `192.0.2.0/24`, not `192.0.2.1/24`) and must not repeat another entry. IPv6 prefixes are accepted only when the tunnel has an `interface_address6`. */
-  extraPrefixes?: IpsecTunnelsListResponseIpsecTunnelsItemBgpExtraPrefixesList | null;
+  extraPrefixes?: IpsecTunnelsListResponseIpsecTunnelsItemBgpExtraPrefixesList | null | undefined;
   /** ID of the BGP filter profile applied to routes received from the customer. */
-  importFilterId?: string | null;
+  importFilterId?: string | null | undefined;
   /** MD5 key to use for session authentication. */
-  md5Key?: string | null;
+  md5Key?: string | null | undefined;
 }
 export type IpsecTunnelsListResponseIpsecTunnelsItemBgpStatusState =
   | "BGP_DOWN"
@@ -4985,11 +5075,11 @@ export interface IpsecTunnelsListResponseIpsecTunnelsItemBgpStatus {
   state: IpsecTunnelsListResponseIpsecTunnelsItemBgpStatusState;
   tcpEstablished: boolean;
   updatedAt: string;
-  bgpState?: string | null;
-  cfSpeakerIp?: string | null;
-  cfSpeakerPort?: number | null;
-  customerSpeakerIp?: string | null;
-  customerSpeakerPort?: number | null;
+  bgpState?: string | null | undefined;
+  cfSpeakerIp?: string | null | undefined;
+  cfSpeakerPort?: number | null | undefined;
+  customerSpeakerIp?: string | null | undefined;
+  customerSpeakerPort?: number | null | undefined;
 }
 export type IpsecTunnelsListResponseIpsecTunnelsItemCustomRemoteIdentities =
   IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemCustomRemoteIdentities;
@@ -5005,15 +5095,15 @@ export type IpsecTunnelsListResponseIpsecTunnelsItemHealthCheckTarget =
 export type IpsecTunnelsListResponseIpsecTunnelsItemHealthCheckType = "reply" | "request";
 export interface IpsecTunnelsListResponseIpsecTunnelsItemHealthCheck {
   /** The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel. */
-  direction?: IpsecTunnelsListResponseIpsecTunnelsItemHealthCheckDirection | null;
+  direction?: IpsecTunnelsListResponseIpsecTunnelsItemHealthCheckDirection | null | undefined;
   /** Determines whether to run healthchecks for a tunnel. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** How frequent the health check is run. The default value is `mid`. */
-  rate?: IpsecTunnelsListResponseIpsecTunnelsItemHealthCheckRate | null;
+  rate?: IpsecTunnelsListResponseIpsecTunnelsItemHealthCheckRate | null | undefined;
   /** The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false. */
-  target?: IpsecTunnelsListResponseIpsecTunnelsItemHealthCheckTarget | null;
+  target?: IpsecTunnelsListResponseIpsecTunnelsItemHealthCheckTarget | null | undefined;
   /** The type of healthcheck to run, reply or request. The default value is `reply`. */
-  type?: IpsecTunnelsListResponseIpsecTunnelsItemHealthCheckType | null;
+  type?: IpsecTunnelsListResponseIpsecTunnelsItemHealthCheckType | null | undefined;
 }
 export type IpsecTunnelsListResponseIpsecTunnelsItemPskMetadata =
   IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemPskMetadata;
@@ -5027,33 +5117,39 @@ export interface IpsecTunnelsListResponseIpsecTunnelsItem {
   /** The name of the IPsec tunnel. The name cannot share a name with other tunnels. */
   name: string;
   /** When `true`, the tunnel can use a null-cipher (`ENCR_NULL`) in the ESP tunnel (Phase 2). */
-  allowNullCipher?: boolean | null;
+  allowNullCipher?: boolean | null | undefined;
   /** True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected. */
-  automaticReturnRouting?: boolean | null;
-  bgp?: IpsecTunnelsListResponseIpsecTunnelsItemBgp | null;
-  bgpStatus?: IpsecTunnelsListResponseIpsecTunnelsItemBgpStatus | null;
+  automaticReturnRouting?: boolean | null | undefined;
+  bgp?: IpsecTunnelsListResponseIpsecTunnelsItemBgp | null | undefined;
+  bgpStatus?: IpsecTunnelsListResponseIpsecTunnelsItemBgpStatus | null | undefined;
   /** The date and time the tunnel was created. */
-  createdOn?: string | null;
-  customRemoteIdentities?: IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemCustomRemoteIdentities | null;
+  createdOn?: string | null | undefined;
+  customRemoteIdentities?:
+    | IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemCustomRemoteIdentities
+    | null
+    | undefined;
   /** The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work. */
-  customerEndpoint?: string | null;
+  customerEndpoint?: string | null | undefined;
   /** An optional description forthe IPsec tunnel. */
-  description?: string | null;
-  healthCheck?: IpsecTunnelsListResponseIpsecTunnelsItemHealthCheck | null;
+  description?: string | null | undefined;
+  healthCheck?: IpsecTunnelsListResponseIpsecTunnelsItemHealthCheck | null | undefined;
   /** A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127 */
-  interfaceAddress6?: string | null;
+  interfaceAddress6?: string | null | undefined;
   /** The date and time the tunnel was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The PSK metadata that includes when the PSK was generated. */
-  pskMetadata?: IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemPskMetadata | null;
+  pskMetadata?:
+    | IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemPskMetadata
+    | null
+    | undefined;
   /** If `true`, then IPsec replay protection will be supported in the Cloudflare-to-customer direction. */
-  replayProtection?: boolean | null;
+  replayProtection?: boolean | null | undefined;
 }
 export type IpsecTunnelsListResponseIpsecTunnelsList =
   Array<IpsecTunnelsListResponseIpsecTunnelsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ListIpsecTunnelsResponse {
-  ipsecTunnels?: IpsecTunnelsListResponseIpsecTunnelsList | null;
+  ipsecTunnels?: IpsecTunnelsListResponseIpsecTunnelsList | null | undefined;
 }
 export interface ListPcapsRequest {
   /** Identifier. */
@@ -5073,21 +5169,21 @@ export type PcapsListResultItemPCAPSystem = "magic-transit";
 export type PcapsListResultItemPCAPType = "simple" | "full";
 export interface PcapsListResultItemPCAP {
   /** The ID for the packet capture. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The packet capture filter. When this field is empty, all packets are captured. */
-  filterV1?: PcapsCreateResultPCAPFilterV1 | null;
+  filterV1?: PcapsCreateResultPCAPFilterV1 | null | undefined;
   /** The RFC 3339 offset timestamp from which to query backwards for packets. Must be within the last 24h. When this field is empty, defaults to time of request. */
-  offsetTime?: string | null;
+  offsetTime?: string | null | undefined;
   /** The status of the packet capture request. */
-  status?: PcapsListResultItemPCAPStatus | null;
+  status?: PcapsListResultItemPCAPStatus | null | undefined;
   /** The RFC 3339 timestamp when the packet capture was created. */
-  submitted?: string | null;
+  submitted?: string | null | undefined;
   /** The system used to collect packet captures. */
-  system?: PcapsListResultItemPCAPSystem | null;
+  system?: PcapsListResultItemPCAPSystem | null | undefined;
   /** The packet capture duration in seconds. */
-  timeLimit?: number | null;
+  timeLimit?: number | null | undefined;
   /** The type of packet capture. `Simple` captures sampled packets, and `full` captures entire payloads and non-sampled packets. */
-  type?: PcapsListResultItemPCAPType | null;
+  type?: PcapsListResultItemPCAPType | null | undefined;
 }
 export type PcapsListResultItemMagicVisibilityPCAPsPCAPsResponseFullFilterV1 =
   PcapsCreateResultPCAPFilterV1;
@@ -5104,31 +5200,31 @@ export type PcapsListResultItemMagicVisibilityPCAPsPCAPsResponseFullSystem = "ma
 export type PcapsListResultItemMagicVisibilityPCAPsPCAPsResponseFullType = "simple" | "full";
 export interface PcapsListResultItemMagicVisibilityPCAPsPCAPsResponseFull {
   /** The ID for the packet capture. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The maximum number of bytes to capture. This field only applies to `full` packet captures. */
-  byteLimit?: number | null;
+  byteLimit?: number | null | undefined;
   /** The name of the data center used for the packet capture. This can be a specific colo (ord02) or a multi-colo name (ORD). This field only applies to `full` packet captures. */
-  coloName?: string | null;
+  coloName?: string | null | undefined;
   /** The full URI for the bucket. This field only applies to `full` packet captures. */
-  destinationConf?: string | null;
+  destinationConf?: string | null | undefined;
   /** An error message that describes why the packet capture failed. This field only applies to `full` packet captures. */
-  errorMessage?: string | null;
+  errorMessage?: string | null | undefined;
   /** The packet capture filter. When this field is empty, all packets are captured. */
-  filterV1?: PcapsCreateResultPCAPFilterV1 | null;
+  filterV1?: PcapsCreateResultPCAPFilterV1 | null | undefined;
   /** The number of packets captured. */
-  packetsCaptured?: number | null;
+  packetsCaptured?: number | null | undefined;
   /** The status of the packet capture request. */
-  status?: PcapsListResultItemMagicVisibilityPCAPsPCAPsResponseFullStatus | null;
+  status?: PcapsListResultItemMagicVisibilityPCAPsPCAPsResponseFullStatus | null | undefined;
   /** The RFC 3339 timestamp when stopping the packet capture was requested. This field only applies to `full` packet captures. */
-  stopRequested?: string | null;
+  stopRequested?: string | null | undefined;
   /** The RFC 3339 timestamp when the packet capture was created. */
-  submitted?: string | null;
+  submitted?: string | null | undefined;
   /** The system used to collect packet captures. */
-  system?: PcapsListResultItemMagicVisibilityPCAPsPCAPsResponseFullSystem | null;
+  system?: PcapsListResultItemMagicVisibilityPCAPsPCAPsResponseFullSystem | null | undefined;
   /** The packet capture duration in seconds. */
-  timeLimit?: number | null;
+  timeLimit?: number | null | undefined;
   /** The type of packet capture. `Simple` captures sampled packets, and `full` captures entire payloads and non-sampled packets. */
-  type?: PcapsListResultItemMagicVisibilityPCAPsPCAPsResponseFullType | null;
+  type?: PcapsListResultItemMagicVisibilityPCAPsPCAPsResponseFullType | null | undefined;
 }
 export type PcapsListResultItem =
   | PcapsListResultItemPCAP
@@ -5138,7 +5234,7 @@ export interface ListPcapsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: PcapsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListRoutesRequest {
   /** Identifier */
@@ -5148,9 +5244,9 @@ export type RoutesListResponseRoutesItemScopeColoNamesList = Array<string>;
 export type RoutesListResponseRoutesItemScopeColoRegionsList = Array<string>;
 export interface RoutesListResponseRoutesItemScope {
   /** List of colo names for the ECMP scope. */
-  coloNames?: RoutesListResponseRoutesItemScopeColoNamesList | null;
+  coloNames?: RoutesListResponseRoutesItemScopeColoNamesList | null | undefined;
   /** List of colo regions for the ECMP scope. */
-  coloRegions?: RoutesListResponseRoutesItemScopeColoRegionsList | null;
+  coloRegions?: RoutesListResponseRoutesItemScopeColoRegionsList | null | undefined;
 }
 export interface RoutesListResponseRoutesItem {
   /** Identifier */
@@ -5162,20 +5258,20 @@ export interface RoutesListResponseRoutesItem {
   /** Priority of the static route. */
   priority: number;
   /** When the route was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** An optional human provided description of the static route. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** When the route was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Used only for ECMP routes. */
-  scope?: RoutesListResponseRoutesItemScope | null;
+  scope?: RoutesListResponseRoutesItemScope | null | undefined;
   /** Optional weight of the ECMP scope - if provided. */
-  weight?: number | null;
+  weight?: number | null | undefined;
 }
 export type RoutesListResponseRoutesList = Array<RoutesListResponseRoutesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ListRoutesResponse {
-  routes?: RoutesListResponseRoutesList | null;
+  routes?: RoutesListResponseRoutesList | null | undefined;
 }
 export interface ListSiteAclsRequest {
   /** Identifier */
@@ -5190,13 +5286,13 @@ export interface SitesAclsListResultItemLan1 {
   /** The identifier for the LAN you want to create an ACL policy with. */
   lanId: string;
   /** The name of the LAN based on the provided lan_id. */
-  lanName?: string | null;
+  lanName?: string | null | undefined;
   /** Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed. */
-  portRanges?: SitesAclsListResultItemLan1PortRangesList | null;
+  portRanges?: SitesAclsListResultItemLan1PortRangesList | null | undefined;
   /** Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed. */
-  ports?: SitesAclsListResultItemLan1PortsList | null;
+  ports?: SitesAclsListResultItemLan1PortsList | null | undefined;
   /** Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed. */
-  subnets?: SitesAclsListResultItemLan1SubnetsList | null;
+  subnets?: SitesAclsListResultItemLan1SubnetsList | null | undefined;
 }
 export type SitesAclsListResultItemLan2PortRangesList = Array<string>;
 export type SitesAclsListResultItemLan2PortsList = Array<number>;
@@ -5205,37 +5301,37 @@ export interface SitesAclsListResultItemLan2 {
   /** The identifier for the LAN you want to create an ACL policy with. */
   lanId: string;
   /** The name of the LAN based on the provided lan_id. */
-  lanName?: string | null;
+  lanName?: string | null | undefined;
   /** Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed. */
-  portRanges?: SitesAclsListResultItemLan2PortRangesList | null;
+  portRanges?: SitesAclsListResultItemLan2PortRangesList | null | undefined;
   /** Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed. */
-  ports?: SitesAclsListResultItemLan2PortsList | null;
+  ports?: SitesAclsListResultItemLan2PortsList | null | undefined;
   /** Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed. */
-  subnets?: SitesAclsListResultItemLan2SubnetsList | null;
+  subnets?: SitesAclsListResultItemLan2SubnetsList | null | undefined;
 }
 export type SitesAclsListResultItemProtocolsItem = "tcp" | "udp" | "icmp";
 export type SitesAclsListResultItemProtocolsList = Array<SitesAclsListResultItemProtocolsItem>;
 export interface SitesAclsListResultItem {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Description for the ACL. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The desired forwarding action for this ACL policy. If set to "false", the policy will forward traffic to Cloudflare. If set to "true", the policy will forward traffic locally on the Magic Connector. If not included in request, will default to false. */
-  forwardLocally?: boolean | null;
-  lan_1?: SitesAclsListResultItemLan1 | null;
-  lan_2?: SitesAclsListResultItemLan2 | null;
+  forwardLocally?: boolean | null | undefined;
+  lan_1?: SitesAclsListResultItemLan1 | null | undefined;
+  lan_2?: SitesAclsListResultItemLan2 | null | undefined;
   /** The name of the ACL. */
-  name?: string | null;
-  protocols?: SitesAclsListResultItemProtocolsList | null;
+  name?: string | null | undefined;
+  protocols?: SitesAclsListResultItemProtocolsList | null | undefined;
   /** The desired traffic direction for this ACL policy. If set to "false", the policy will allow bidirectional traffic. If set to "true", the policy will only allow traffic in one direction. If not included in request, will default to false. */
-  unidirectional?: boolean | null;
+  unidirectional?: boolean | null | undefined;
 }
 export type SitesAclsListResultList = Array<SitesAclsListResultItem>;
 export interface ListSiteAclsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SitesAclsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListSiteLansRequest {
   /** Identifier */
@@ -5254,7 +5350,10 @@ export type SitesLansListResultItemRoutedSubnetsList =
 export type SitesLansListResultItemStaticAddressingDhcpRelayServerAddressesList = Array<string>;
 export interface SitesLansListResultItemStaticAddressingDhcpRelay {
   /** List of DHCP server IPs. */
-  serverAddresses?: SitesLansListResultItemStaticAddressingDhcpRelayServerAddressesList | null;
+  serverAddresses?:
+    | SitesLansListResultItemStaticAddressingDhcpRelayServerAddressesList
+    | null
+    | undefined;
 }
 export type SitesLansListResultItemStaticAddressingDhcpServerDhcpOptionsItemType =
   | "text"
@@ -5279,84 +5378,87 @@ export type SitesLansListResultItemStaticAddressingDhcpServerReservationsMap = {
 };
 export interface SitesLansListResultItemStaticAddressingDhcpServer {
   /** Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled. */
-  dhcpOptions?: SitesLansListResultItemStaticAddressingDhcpServerDhcpOptionsList | null;
+  dhcpOptions?: SitesLansListResultItemStaticAddressingDhcpServerDhcpOptionsList | null | undefined;
   /** A valid IPv4 address. */
-  dhcpPoolEnd?: string | null;
+  dhcpPoolEnd?: string | null | undefined;
   /** A valid IPv4 address. */
-  dhcpPoolStart?: string | null;
+  dhcpPoolStart?: string | null | undefined;
   /** A valid IPv4 address. */
-  dnsServer?: string | null;
-  dnsServers?: SitesLansListResultItemStaticAddressingDhcpServerDnsServersList | null;
+  dnsServer?: string | null | undefined;
+  dnsServers?: SitesLansListResultItemStaticAddressingDhcpServerDnsServersList | null | undefined;
   /** Mapping of MAC addresses to IP addresses */
-  reservations?: SitesLansListResultItemStaticAddressingDhcpServerReservationsMap | null;
+  reservations?:
+    | SitesLansListResultItemStaticAddressingDhcpServerReservationsMap
+    | null
+    | undefined;
 }
 export interface SitesLansListResultItemStaticAddressing {
   /** A valid CIDR notation representing an IP range. */
   address: string;
-  dhcpRelay?: SitesLansListResultItemStaticAddressingDhcpRelay | null;
-  dhcpServer?: SitesLansListResultItemStaticAddressingDhcpServer | null;
+  dhcpRelay?: SitesLansListResultItemStaticAddressingDhcpRelay | null | undefined;
+  dhcpServer?: SitesLansListResultItemStaticAddressingDhcpServer | null | undefined;
   /** A valid CIDR notation representing an IP range. */
-  secondaryAddress?: string | null;
+  secondaryAddress?: string | null | undefined;
   /** A valid CIDR notation representing an IP range. */
-  virtualAddress?: string | null;
+  virtualAddress?: string | null | undefined;
 }
 export interface SitesLansListResultItem {
   /** Identifier */
-  id?: string | null;
-  bondId?: number | null;
+  id?: string | null | undefined;
+  bondId?: number | null | undefined;
   /** mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link. */
-  haLink?: boolean | null;
+  haLink?: boolean | null | undefined;
   /** mark true to use this LAN for source-based breakout traffic */
-  isBreakout?: boolean | null;
+  isBreakout?: boolean | null | undefined;
   /** mark true to use this LAN for source-based prioritized traffic */
-  isPrioritized?: boolean | null;
-  name?: string | null;
-  nat?: SitesLansCreateResultItemNat | null;
-  physport?: number | null;
-  remoteSubnets?: SitesLansListResultItemRemoteSubnetsList | null;
-  routedSubnets?: SitesLansListResultItemRoutedSubnetsList | null;
+  isPrioritized?: boolean | null | undefined;
+  name?: string | null | undefined;
+  nat?: SitesLansCreateResultItemNat | null | undefined;
+  physport?: number | null | undefined;
+  remoteSubnets?: SitesLansListResultItemRemoteSubnetsList | null | undefined;
+  routedSubnets?: SitesLansListResultItemRoutedSubnetsList | null | undefined;
   /** Identifier */
-  siteId?: string | null;
+  siteId?: string | null | undefined;
   /** If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address. */
-  staticAddressing?: SitesLansListResultItemStaticAddressing | null;
+  staticAddressing?: SitesLansListResultItemStaticAddressing | null | undefined;
   /** VLAN ID. Use zero for untagged. */
-  vlanTag?: number | null;
+  vlanTag?: number | null | undefined;
 }
 export type SitesLansListResultList = Array<SitesLansListResultItem>;
 export interface ListSiteLansResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SitesLansListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListSitesRequest {
   /** Identifier */
   accountId: string;
   /** Identifier */
-  connectorid?: string;
+  connectorid?: string | undefined;
 }
 export type SitesListResultItemLocation = SitesCreateResponseLocation;
 export interface SitesListResultItem {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Magic Connector identifier tag. */
-  connectorId?: string | null;
-  description?: string | null;
+  connectorId?: string | null | undefined;
+  description?: string | null | undefined;
   /** Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode. */
-  haMode?: boolean | null;
+  haMode?: boolean | null | undefined;
   /** Location of site in latitude and longitude. */
-  location?: SitesCreateResponseLocation | null;
+  location?: SitesCreateResponseLocation | null | undefined;
   /** The name of the site. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Magic Connector identifier tag. Used when high availability mode is on. */
-  secondaryConnectorId?: string | null;
+  secondaryConnectorId?: string | null | undefined;
 }
 export type SitesListResultList = Array<SitesListResultItem>;
 export interface ListSitesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SitesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListSitesAppConfigurationRequest {
   /** Identifier */
@@ -5369,30 +5471,30 @@ export interface ListSitesAppConfigurationResultItemAccountApp {
   /** Magic account app ID. */
   accountAppId: string;
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior. */
-  breakout?: boolean | null;
+  breakout?: boolean | null | undefined;
   /** WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true). */
-  preferredWans?: ListSitesAppConfigurationResultItemAccountAppPreferredWansList | null;
+  preferredWans?: ListSitesAppConfigurationResultItemAccountAppPreferredWansList | null | undefined;
   /** Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported) */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Identifier */
-  siteId?: string | null;
+  siteId?: string | null | undefined;
 }
 export type ListSitesAppConfigurationResultItemManagedAppPreferredWansList = Array<string>;
 export interface ListSitesAppConfigurationResultItemManagedApp {
   /** Managed app ID. */
   managedAppId: string;
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior. */
-  breakout?: boolean | null;
+  breakout?: boolean | null | undefined;
   /** WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true). */
-  preferredWans?: ListSitesAppConfigurationResultItemManagedAppPreferredWansList | null;
+  preferredWans?: ListSitesAppConfigurationResultItemManagedAppPreferredWansList | null | undefined;
   /** Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported) */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Identifier */
-  siteId?: string | null;
+  siteId?: string | null | undefined;
 }
 export type ListSitesAppConfigurationResultItem =
   | ListSitesAppConfigurationResultItemAccountApp
@@ -5409,31 +5511,31 @@ export type SitesWansListResultItemHealthCheckRate = "low" | "mid" | "high";
 export type SitesWansListResultItemStaticAddressing = SitesWansCreateResultItemStaticAddressing;
 export interface SitesWansListResultItem {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Magic WAN health check rate for tunnels created on this link. The default value is `mid`. */
-  healthCheckRate?: SitesWansListResultItemHealthCheckRate | null;
-  loadBalanceInnerFlows?: boolean | null;
-  name?: string | null;
-  physport?: number | null;
+  healthCheckRate?: SitesWansListResultItemHealthCheckRate | null | undefined;
+  loadBalanceInnerFlows?: boolean | null | undefined;
+  name?: string | null | undefined;
+  physport?: number | null | undefined;
   /** Priority of WAN for traffic loadbalancing. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Provisioned download rate of the WAN circuit in kilobits per second. */
-  provisionedDownloadKbps?: number | null;
+  provisionedDownloadKbps?: number | null | undefined;
   /** Provisioned upload rate of the WAN circuit in kilobits per second. */
-  provisionedUploadKbps?: number | null;
+  provisionedUploadKbps?: number | null | undefined;
   /** Identifier */
-  siteId?: string | null;
+  siteId?: string | null | undefined;
   /** (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode. */
-  staticAddressing?: SitesWansCreateResultItemStaticAddressing | null;
+  staticAddressing?: SitesWansCreateResultItemStaticAddressing | null | undefined;
   /** VLAN ID. Use zero for untagged. */
-  vlanTag?: number | null;
+  vlanTag?: number | null | undefined;
 }
 export type SitesWansListResultList = Array<SitesWansListResultItem>;
 export interface ListSiteWansResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SitesWansListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type AppsEditRequestHostnamesList = Array<string>;
 export type AppsEditRequestIpSubnetsList = Array<string>;
@@ -5444,15 +5546,15 @@ export interface PatchAppRequest {
   /** Identifier */
   accountAppId: string;
   /** FQDNs to associate with traffic decisions. */
-  hostnames?: AppsEditRequestHostnamesList;
+  hostnames?: AppsEditRequestHostnamesList | undefined;
   /** IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported) */
-  ipSubnets?: AppsEditRequestIpSubnetsList;
+  ipSubnets?: AppsEditRequestIpSubnetsList | undefined;
   /** Display name for the app. */
-  name?: string;
+  name?: string | undefined;
   /** IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported) */
-  sourceSubnets?: AppsEditRequestSourceSubnetsList;
+  sourceSubnets?: AppsEditRequestSourceSubnetsList | undefined;
   /** Category of the app. */
-  type?: string;
+  type?: string | undefined;
 }
 export type AppsEditResponseHostnamesList = Array<string>;
 export type AppsEditResponseIpSubnetsList = Array<string>;
@@ -5462,15 +5564,15 @@ export interface PatchAppResponse {
   /** Magic account app ID. */
   accountAppId: string;
   /** FQDNs to associate with traffic decisions. */
-  hostnames?: AppsEditResponseHostnamesList | null;
+  hostnames?: AppsEditResponseHostnamesList | null | undefined;
   /** IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported) */
-  ipSubnets?: AppsEditResponseIpSubnetsList | null;
+  ipSubnets?: AppsEditResponseIpSubnetsList | null | undefined;
   /** Display name for the app. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported) */
-  sourceSubnets?: AppsEditResponseSourceSubnetsList | null;
+  sourceSubnets?: AppsEditResponseSourceSubnetsList | null | undefined;
   /** Category of the app. */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 export type Cf1SitesUpdateRequestLocation = Cf1SitesCreateRequestBodyItemLocation;
 export interface PatchCf1SiteRequest {
@@ -5479,10 +5581,10 @@ export interface PatchCf1SiteRequest {
   /** Identifier */
   cf1SiteId: string;
   /** A human-provided description of the CF1 Site. */
-  description?: string;
-  location?: Cf1SitesCreateRequestBodyItemLocation;
+  description?: string | undefined;
+  location?: Cf1SitesCreateRequestBodyItemLocation | undefined;
   /** A human-provided name describing the CF1 Site that should be unique within the account. */
-  name?: string;
+  name?: string | undefined;
 }
 export type Cf1SitesUpdateResponseLocation = Cf1SitesCreateResultItemLocation;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -5490,12 +5592,12 @@ export interface PatchCf1SiteResponse {
   /** A human-provided name describing the CF1 Site that should be unique within the account. */
   name: string;
   /** Identifier */
-  id?: string | null;
-  createdOn?: string | null;
+  id?: string | null | undefined;
+  createdOn?: string | null | undefined;
   /** A human-provided description of the CF1 Site. */
-  description?: string | null;
-  location?: Cf1SitesCreateResultItemLocation | null;
-  modifiedOn?: string | null;
+  description?: string | null | undefined;
+  location?: Cf1SitesCreateResultItemLocation | null | undefined;
+  modifiedOn?: string | null | undefined;
 }
 export type ConnectorsEditRequestInterruptWindowDaysOfWeekItem =
   | "Sunday"
@@ -5512,17 +5614,17 @@ export type ConnectorsEditRequestInterruptWindowEmbargoDatesList = Array<string>
 export interface PatchConnectorRequest {
   accountId: string;
   connectorId: string;
-  activated?: boolean;
+  activated?: boolean | undefined;
   /** Allowed days of the week for upgrades. Default is all days. */
-  interruptWindowDaysOfWeek?: ConnectorsEditRequestInterruptWindowDaysOfWeekList;
-  interruptWindowDurationHours?: number;
+  interruptWindowDaysOfWeek?: ConnectorsEditRequestInterruptWindowDaysOfWeekList | undefined;
+  interruptWindowDurationHours?: number | undefined;
   /** List of dates (YYYY-MM-DD) when upgrades are blocked. */
-  interruptWindowEmbargoDates?: ConnectorsEditRequestInterruptWindowEmbargoDatesList;
-  interruptWindowHourOfDay?: number;
-  notes?: string;
+  interruptWindowEmbargoDates?: ConnectorsEditRequestInterruptWindowEmbargoDatesList | undefined;
+  interruptWindowHourOfDay?: number | undefined;
+  notes?: string | undefined;
   /** When true, regenerate license key for the connector. */
-  provisionLicense?: boolean;
-  timezone?: string;
+  provisionLicense?: boolean | undefined;
+  timezone?: string | undefined;
 }
 export type ConnectorsEditResponseInterruptWindowDaysOfWeekItem =
   | "Sunday"
@@ -5538,8 +5640,8 @@ export type ConnectorsEditResponseInterruptWindowEmbargoDatesList = Array<string
 export type ConnectorsEditResponseDeviceType = "MANAGED" | "LICENSED";
 export interface ConnectorsEditResponseDevice {
   id: string;
-  serialNumber?: string | null;
-  type?: ConnectorsEditResponseDeviceType | null;
+  serialNumber?: string | null | undefined;
+  type?: ConnectorsEditResponseDeviceType | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchConnectorResponse {
@@ -5554,10 +5656,10 @@ export interface PatchConnectorResponse {
   lastUpdated: string;
   notes: string;
   timezone: string;
-  device?: ConnectorsEditResponseDevice | null;
-  lastHeartbeat?: string | null;
-  lastSeenVersion?: string | null;
-  licenseKey?: string | null;
+  device?: ConnectorsEditResponseDevice | null | undefined;
+  lastHeartbeat?: string | null | undefined;
+  lastSeenVersion?: string | null | undefined;
+  licenseKey?: string | null | undefined;
 }
 export type SitesEditRequestLocation = SitesCreateRequestLocation;
 export interface PatchSiteRequest {
@@ -5566,33 +5668,33 @@ export interface PatchSiteRequest {
   /** Identifier */
   siteId: string;
   /** Magic Connector identifier tag. */
-  connectorId?: string;
-  description?: string;
+  connectorId?: string | undefined;
+  description?: string | undefined;
   /** Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode. */
-  haMode?: boolean;
+  haMode?: boolean | undefined;
   /** Location of site in latitude and longitude. */
-  location?: SitesCreateRequestLocation;
+  location?: SitesCreateRequestLocation | undefined;
   /** The name of the site. */
-  name?: string;
+  name?: string | undefined;
   /** Magic Connector identifier tag. Used when high availability mode is on. */
-  secondaryConnectorId?: string;
+  secondaryConnectorId?: string | undefined;
 }
 export type SitesEditResponseLocation = SitesCreateResponseLocation;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchSiteResponse {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Magic Connector identifier tag. */
-  connectorId?: string | null;
-  description?: string | null;
+  connectorId?: string | null | undefined;
+  description?: string | null | undefined;
   /** Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode. */
-  haMode?: boolean | null;
+  haMode?: boolean | null | undefined;
   /** Location of site in latitude and longitude. */
-  location?: SitesCreateResponseLocation | null;
+  location?: SitesCreateResponseLocation | null | undefined;
   /** The name of the site. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Magic Connector identifier tag. Used when high availability mode is on. */
-  secondaryConnectorId?: string | null;
+  secondaryConnectorId?: string | null | undefined;
 }
 export type SitesAclsEditRequestLan1PortRangesList = Array<string>;
 export type SitesAclsEditRequestLan1PortsList = Array<number>;
@@ -5601,13 +5703,13 @@ export interface SitesAclsEditRequestLan1 {
   /** The identifier for the LAN you want to create an ACL policy with. */
   lanId: string;
   /** The name of the LAN based on the provided lan_id. */
-  lanName?: string;
+  lanName?: string | undefined;
   /** Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed. */
-  portRanges?: SitesAclsEditRequestLan1PortRangesList;
+  portRanges?: SitesAclsEditRequestLan1PortRangesList | undefined;
   /** Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed. */
-  ports?: SitesAclsEditRequestLan1PortsList;
+  ports?: SitesAclsEditRequestLan1PortsList | undefined;
   /** Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed. */
-  subnets?: SitesAclsEditRequestLan1SubnetsList;
+  subnets?: SitesAclsEditRequestLan1SubnetsList | undefined;
 }
 export type SitesAclsEditRequestLan2PortRangesList = Array<string>;
 export type SitesAclsEditRequestLan2PortsList = Array<number>;
@@ -5616,13 +5718,13 @@ export interface SitesAclsEditRequestLan2 {
   /** The identifier for the LAN you want to create an ACL policy with. */
   lanId: string;
   /** The name of the LAN based on the provided lan_id. */
-  lanName?: string;
+  lanName?: string | undefined;
   /** Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed. */
-  portRanges?: SitesAclsEditRequestLan2PortRangesList;
+  portRanges?: SitesAclsEditRequestLan2PortRangesList | undefined;
   /** Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed. */
-  ports?: SitesAclsEditRequestLan2PortsList;
+  ports?: SitesAclsEditRequestLan2PortsList | undefined;
   /** Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed. */
-  subnets?: SitesAclsEditRequestLan2SubnetsList;
+  subnets?: SitesAclsEditRequestLan2SubnetsList | undefined;
 }
 export type SitesAclsEditRequestProtocolsItem = "tcp" | "udp" | "icmp";
 export type SitesAclsEditRequestProtocolsList = Array<
@@ -5636,16 +5738,16 @@ export interface PatchSiteAclRequest {
   /** Identifier */
   aclId: string;
   /** Description for the ACL. */
-  description?: string;
+  description?: string | undefined;
   /** The desired forwarding action for this ACL policy. If set to "false", the policy will forward traffic to Cloudflare. If set to "true", the policy will forward traffic locally on the Magic Connector. If not included in request, will default to false. */
-  forwardLocally?: boolean;
-  lan_1?: SitesAclsEditRequestLan1;
-  lan_2?: SitesAclsEditRequestLan2;
+  forwardLocally?: boolean | undefined;
+  lan_1?: SitesAclsEditRequestLan1 | undefined;
+  lan_2?: SitesAclsEditRequestLan2 | undefined;
   /** The name of the ACL. */
-  name?: string;
-  protocols?: SitesAclsEditRequestProtocolsList;
+  name?: string | undefined;
+  protocols?: SitesAclsEditRequestProtocolsList | undefined;
   /** The desired traffic direction for this ACL policy. If set to "false", the policy will allow bidirectional traffic. If set to "true", the policy will only allow traffic in one direction. If not included in request, will default to false. */
-  unidirectional?: boolean;
+  unidirectional?: boolean | undefined;
 }
 export type SitesAclsEditResponseLan1PortRangesList = Array<string>;
 export type SitesAclsEditResponseLan1PortsList = Array<number>;
@@ -5654,13 +5756,13 @@ export interface SitesAclsEditResponseLan1 {
   /** The identifier for the LAN you want to create an ACL policy with. */
   lanId: string;
   /** The name of the LAN based on the provided lan_id. */
-  lanName?: string | null;
+  lanName?: string | null | undefined;
   /** Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed. */
-  portRanges?: SitesAclsEditResponseLan1PortRangesList | null;
+  portRanges?: SitesAclsEditResponseLan1PortRangesList | null | undefined;
   /** Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed. */
-  ports?: SitesAclsEditResponseLan1PortsList | null;
+  ports?: SitesAclsEditResponseLan1PortsList | null | undefined;
   /** Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed. */
-  subnets?: SitesAclsEditResponseLan1SubnetsList | null;
+  subnets?: SitesAclsEditResponseLan1SubnetsList | null | undefined;
 }
 export type SitesAclsEditResponseLan2PortRangesList = Array<string>;
 export type SitesAclsEditResponseLan2PortsList = Array<number>;
@@ -5669,31 +5771,31 @@ export interface SitesAclsEditResponseLan2 {
   /** The identifier for the LAN you want to create an ACL policy with. */
   lanId: string;
   /** The name of the LAN based on the provided lan_id. */
-  lanName?: string | null;
+  lanName?: string | null | undefined;
   /** Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed. */
-  portRanges?: SitesAclsEditResponseLan2PortRangesList | null;
+  portRanges?: SitesAclsEditResponseLan2PortRangesList | null | undefined;
   /** Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed. */
-  ports?: SitesAclsEditResponseLan2PortsList | null;
+  ports?: SitesAclsEditResponseLan2PortsList | null | undefined;
   /** Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed. */
-  subnets?: SitesAclsEditResponseLan2SubnetsList | null;
+  subnets?: SitesAclsEditResponseLan2SubnetsList | null | undefined;
 }
 export type SitesAclsEditResponseProtocolsItem = "tcp" | "udp" | "icmp";
 export type SitesAclsEditResponseProtocolsList = Array<SitesAclsEditResponseProtocolsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchSiteAclResponse {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Description for the ACL. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The desired forwarding action for this ACL policy. If set to "false", the policy will forward traffic to Cloudflare. If set to "true", the policy will forward traffic locally on the Magic Connector. If not included in request, will default to false. */
-  forwardLocally?: boolean | null;
-  lan_1?: SitesAclsEditResponseLan1 | null;
-  lan_2?: SitesAclsEditResponseLan2 | null;
+  forwardLocally?: boolean | null | undefined;
+  lan_1?: SitesAclsEditResponseLan1 | null | undefined;
+  lan_2?: SitesAclsEditResponseLan2 | null | undefined;
   /** The name of the ACL. */
-  name?: string | null;
-  protocols?: SitesAclsEditResponseProtocolsList | null;
+  name?: string | null | undefined;
+  protocols?: SitesAclsEditResponseProtocolsList | null | undefined;
   /** The desired traffic direction for this ACL policy. If set to "false", the policy will allow bidirectional traffic. If set to "true", the policy will only allow traffic in one direction. If not included in request, will default to false. */
-  unidirectional?: boolean | null;
+  unidirectional?: boolean | null | undefined;
 }
 export type SitesLansEditRequestNat = SitesLansCreateRequestNat;
 export type SitesLansEditRequestRemoteSubnetsItem = SitesLansCreateRequestRemoteSubnetsItem;
@@ -5704,7 +5806,7 @@ export type SitesLansEditRequestRoutedSubnetsList = Array<SitesLansCreateRequest
 export type SitesLansEditRequestStaticAddressingDhcpRelayServerAddressesList = Array<string>;
 export interface SitesLansEditRequestStaticAddressingDhcpRelay {
   /** List of DHCP server IPs. */
-  serverAddresses?: SitesLansEditRequestStaticAddressingDhcpRelayServerAddressesList;
+  serverAddresses?: SitesLansEditRequestStaticAddressingDhcpRelayServerAddressesList | undefined;
 }
 export type SitesLansEditRequestStaticAddressingDhcpServerDhcpOptionsItemType =
   | "text"
@@ -5729,26 +5831,26 @@ export type SitesLansEditRequestStaticAddressingDhcpServerReservationsMap = {
 };
 export interface SitesLansEditRequestStaticAddressingDhcpServer {
   /** Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled. */
-  dhcpOptions?: SitesLansEditRequestStaticAddressingDhcpServerDhcpOptionsList;
+  dhcpOptions?: SitesLansEditRequestStaticAddressingDhcpServerDhcpOptionsList | undefined;
   /** A valid IPv4 address. */
-  dhcpPoolEnd?: string;
+  dhcpPoolEnd?: string | undefined;
   /** A valid IPv4 address. */
-  dhcpPoolStart?: string;
+  dhcpPoolStart?: string | undefined;
   /** A valid IPv4 address. */
-  dnsServer?: string;
-  dnsServers?: SitesLansEditRequestStaticAddressingDhcpServerDnsServersList;
+  dnsServer?: string | undefined;
+  dnsServers?: SitesLansEditRequestStaticAddressingDhcpServerDnsServersList | undefined;
   /** Mapping of MAC addresses to IP addresses */
-  reservations?: SitesLansEditRequestStaticAddressingDhcpServerReservationsMap;
+  reservations?: SitesLansEditRequestStaticAddressingDhcpServerReservationsMap | undefined;
 }
 export interface SitesLansEditRequestStaticAddressing {
   /** A valid CIDR notation representing an IP range. */
   address: string;
-  dhcpRelay?: SitesLansEditRequestStaticAddressingDhcpRelay;
-  dhcpServer?: SitesLansEditRequestStaticAddressingDhcpServer;
+  dhcpRelay?: SitesLansEditRequestStaticAddressingDhcpRelay | undefined;
+  dhcpServer?: SitesLansEditRequestStaticAddressingDhcpServer | undefined;
   /** A valid CIDR notation representing an IP range. */
-  secondaryAddress?: string;
+  secondaryAddress?: string | undefined;
   /** A valid CIDR notation representing an IP range. */
-  virtualAddress?: string;
+  virtualAddress?: string | undefined;
 }
 export interface PatchSiteLanRequest {
   /** Identifier */
@@ -5757,22 +5859,22 @@ export interface PatchSiteLanRequest {
   siteId: string;
   /** Identifier */
   lanId: string;
-  bondId?: number;
+  bondId?: number | undefined;
   /** mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link. */
-  haLink?: boolean;
+  haLink?: boolean | undefined;
   /** mark true to use this LAN for source-based breakout traffic */
-  isBreakout?: boolean;
+  isBreakout?: boolean | undefined;
   /** mark true to use this LAN for source-based prioritized traffic */
-  isPrioritized?: boolean;
-  name?: string;
-  nat?: SitesLansCreateRequestNat;
-  physport?: number;
-  remoteSubnets?: SitesLansEditRequestRemoteSubnetsList;
-  routedSubnets?: SitesLansEditRequestRoutedSubnetsList;
+  isPrioritized?: boolean | undefined;
+  name?: string | undefined;
+  nat?: SitesLansCreateRequestNat | undefined;
+  physport?: number | undefined;
+  remoteSubnets?: SitesLansEditRequestRemoteSubnetsList | undefined;
+  routedSubnets?: SitesLansEditRequestRoutedSubnetsList | undefined;
   /** If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address. */
-  staticAddressing?: SitesLansEditRequestStaticAddressing;
+  staticAddressing?: SitesLansEditRequestStaticAddressing | undefined;
   /** VLAN ID. Use zero for untagged. */
-  vlanTag?: number;
+  vlanTag?: number | undefined;
 }
 export type SitesLansEditResponseNat = SitesLansCreateResultItemNat;
 export type SitesLansEditResponseRemoteSubnetsItem = SitesLansCreateRequestRemoteSubnetsItem;
@@ -5784,7 +5886,10 @@ export type SitesLansEditResponseRoutedSubnetsList =
 export type SitesLansEditResponseStaticAddressingDhcpRelayServerAddressesList = Array<string>;
 export interface SitesLansEditResponseStaticAddressingDhcpRelay {
   /** List of DHCP server IPs. */
-  serverAddresses?: SitesLansEditResponseStaticAddressingDhcpRelayServerAddressesList | null;
+  serverAddresses?:
+    | SitesLansEditResponseStaticAddressingDhcpRelayServerAddressesList
+    | null
+    | undefined;
 }
 export type SitesLansEditResponseStaticAddressingDhcpServerDhcpOptionsItemType =
   | "text"
@@ -5809,60 +5914,60 @@ export type SitesLansEditResponseStaticAddressingDhcpServerReservationsMap = {
 };
 export interface SitesLansEditResponseStaticAddressingDhcpServer {
   /** Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled. */
-  dhcpOptions?: SitesLansEditResponseStaticAddressingDhcpServerDhcpOptionsList | null;
+  dhcpOptions?: SitesLansEditResponseStaticAddressingDhcpServerDhcpOptionsList | null | undefined;
   /** A valid IPv4 address. */
-  dhcpPoolEnd?: string | null;
+  dhcpPoolEnd?: string | null | undefined;
   /** A valid IPv4 address. */
-  dhcpPoolStart?: string | null;
+  dhcpPoolStart?: string | null | undefined;
   /** A valid IPv4 address. */
-  dnsServer?: string | null;
-  dnsServers?: SitesLansEditResponseStaticAddressingDhcpServerDnsServersList | null;
+  dnsServer?: string | null | undefined;
+  dnsServers?: SitesLansEditResponseStaticAddressingDhcpServerDnsServersList | null | undefined;
   /** Mapping of MAC addresses to IP addresses */
-  reservations?: SitesLansEditResponseStaticAddressingDhcpServerReservationsMap | null;
+  reservations?: SitesLansEditResponseStaticAddressingDhcpServerReservationsMap | null | undefined;
 }
 export interface SitesLansEditResponseStaticAddressing {
   /** A valid CIDR notation representing an IP range. */
   address: string;
-  dhcpRelay?: SitesLansEditResponseStaticAddressingDhcpRelay | null;
-  dhcpServer?: SitesLansEditResponseStaticAddressingDhcpServer | null;
+  dhcpRelay?: SitesLansEditResponseStaticAddressingDhcpRelay | null | undefined;
+  dhcpServer?: SitesLansEditResponseStaticAddressingDhcpServer | null | undefined;
   /** A valid CIDR notation representing an IP range. */
-  secondaryAddress?: string | null;
+  secondaryAddress?: string | null | undefined;
   /** A valid CIDR notation representing an IP range. */
-  virtualAddress?: string | null;
+  virtualAddress?: string | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchSiteLanResponse {
   /** Identifier */
-  id?: string | null;
-  bondId?: number | null;
+  id?: string | null | undefined;
+  bondId?: number | null | undefined;
   /** mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link. */
-  haLink?: boolean | null;
+  haLink?: boolean | null | undefined;
   /** mark true to use this LAN for source-based breakout traffic */
-  isBreakout?: boolean | null;
+  isBreakout?: boolean | null | undefined;
   /** mark true to use this LAN for source-based prioritized traffic */
-  isPrioritized?: boolean | null;
-  name?: string | null;
-  nat?: SitesLansCreateResultItemNat | null;
-  physport?: number | null;
-  remoteSubnets?: SitesLansEditResponseRemoteSubnetsList | null;
-  routedSubnets?: SitesLansEditResponseRoutedSubnetsList | null;
+  isPrioritized?: boolean | null | undefined;
+  name?: string | null | undefined;
+  nat?: SitesLansCreateResultItemNat | null | undefined;
+  physport?: number | null | undefined;
+  remoteSubnets?: SitesLansEditResponseRemoteSubnetsList | null | undefined;
+  routedSubnets?: SitesLansEditResponseRoutedSubnetsList | null | undefined;
   /** Identifier */
-  siteId?: string | null;
+  siteId?: string | null | undefined;
   /** If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address. */
-  staticAddressing?: SitesLansEditResponseStaticAddressing | null;
+  staticAddressing?: SitesLansEditResponseStaticAddressing | null | undefined;
   /** VLAN ID. Use zero for untagged. */
-  vlanTag?: number | null;
+  vlanTag?: number | null | undefined;
 }
 export type SitesWansEditRequestHealthCheckRate = "low" | "mid" | "high";
 export interface SitesWansEditRequestStaticAddressing {
   /** A valid CIDR notation representing an IP range. */
-  address?: string;
+  address?: string | undefined;
   /** A valid IPv4 address. */
-  gatewayAddress?: string;
+  gatewayAddress?: string | undefined;
   /** A valid CIDR notation representing an IP range. */
-  secondaryAddress?: string;
+  secondaryAddress?: string | undefined;
   /** Gateway address for the secondary connector of a high availability site. Set to null to remove it. */
-  secondaryGatewayAddress?: string;
+  secondaryGatewayAddress?: string | undefined;
 }
 export interface PatchSiteWanRequest {
   /** Identifier */
@@ -5872,43 +5977,43 @@ export interface PatchSiteWanRequest {
   /** Identifier */
   wanId: string;
   /** Magic WAN health check rate for tunnels created on this link. */
-  healthCheckRate?: SitesWansEditRequestHealthCheckRate | (string & {});
-  loadBalanceInnerFlows?: boolean;
-  name?: string;
-  physport?: number;
-  priority?: number;
+  healthCheckRate?: SitesWansEditRequestHealthCheckRate | (string & {}) | undefined;
+  loadBalanceInnerFlows?: boolean | undefined;
+  name?: string | undefined;
+  physport?: number | undefined;
+  priority?: number | undefined;
   /** Provisioned download rate of the WAN circuit in kilobits per second. Set to null to remove it. */
-  provisionedDownloadKbps?: number;
+  provisionedDownloadKbps?: number | undefined;
   /** Provisioned upload rate of the WAN circuit in kilobits per second. Set to null to remove it. */
-  provisionedUploadKbps?: number;
+  provisionedUploadKbps?: number | undefined;
   /** Static addressing configuration. PATCH updates only the fields provided, and PUT replaces the configuration. */
-  staticAddressing?: SitesWansEditRequestStaticAddressing;
+  staticAddressing?: SitesWansEditRequestStaticAddressing | undefined;
   /** VLAN ID. Use zero for untagged. */
-  vlanTag?: number;
+  vlanTag?: number | undefined;
 }
 export type SitesWansEditResponseHealthCheckRate = "low" | "mid" | "high";
 export type SitesWansEditResponseStaticAddressing = SitesWansCreateResultItemStaticAddressing;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchSiteWanResponse {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Magic WAN health check rate for tunnels created on this link. The default value is `mid`. */
-  healthCheckRate?: SitesWansEditResponseHealthCheckRate | null;
-  loadBalanceInnerFlows?: boolean | null;
-  name?: string | null;
-  physport?: number | null;
+  healthCheckRate?: SitesWansEditResponseHealthCheckRate | null | undefined;
+  loadBalanceInnerFlows?: boolean | null | undefined;
+  name?: string | null | undefined;
+  physport?: number | null | undefined;
   /** Priority of WAN for traffic loadbalancing. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Provisioned download rate of the WAN circuit in kilobits per second. */
-  provisionedDownloadKbps?: number | null;
+  provisionedDownloadKbps?: number | null | undefined;
   /** Provisioned upload rate of the WAN circuit in kilobits per second. */
-  provisionedUploadKbps?: number | null;
+  provisionedUploadKbps?: number | null | undefined;
   /** Identifier */
-  siteId?: string | null;
+  siteId?: string | null | undefined;
   /** (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode. */
-  staticAddressing?: SitesWansCreateResultItemStaticAddressing | null;
+  staticAddressing?: SitesWansCreateResultItemStaticAddressing | null | undefined;
   /** VLAN ID. Use zero for untagged. */
-  vlanTag?: number | null;
+  vlanTag?: number | null | undefined;
 }
 export interface PskGenerateIpsecTunnelRequest {
   /** Identifier */
@@ -5921,11 +6026,14 @@ export type IpsecTunnelsPskGenerateResponsePskMetadata =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PskGenerateIpsecTunnelResponse {
   /** Identifier */
-  ipsecTunnelId?: string | null;
+  ipsecTunnelId?: string | null | undefined;
   /** A randomly generated or provided string for use in the IPsec tunnel. */
-  psk?: string | null;
+  psk?: string | null | undefined;
   /** The PSK metadata that includes when the PSK was generated. */
-  pskMetadata?: IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemPskMetadata | null;
+  pskMetadata?:
+    | IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemPskMetadata
+    | null
+    | undefined;
 }
 export interface IpsecTunnelsPskSetRequestPsksItem {
   /** The ID of the IPsec tunnel. */
@@ -5938,7 +6046,7 @@ export interface PskSetIpsecTunnelRequest {
   /** Identifier */
   accountId: string;
   /** If `true`, only run validation without persisting changes. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** List of tunnel ID and PSK pairs. */
   psks: IpsecTunnelsPskSetRequestPsksList;
 }
@@ -5961,32 +6069,32 @@ export type IpsecTunnelsPskSetResponseUnappliedPsksMap = { [key: string]: string
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PskSetIpsecTunnelResponse {
   /** Map of tunnel IDs to successfully applied PSK details. */
-  successfullyAppliedPsks?: IpsecTunnelsPskSetResponseSuccessfullyAppliedPsksMap | null;
+  successfullyAppliedPsks?: IpsecTunnelsPskSetResponseSuccessfullyAppliedPsksMap | null | undefined;
   /** Map of tunnel IDs to failure reasons for PSKs that could not be applied. */
-  unappliedPsks?: IpsecTunnelsPskSetResponseUnappliedPsksMap | null;
+  unappliedPsks?: IpsecTunnelsPskSetResponseUnappliedPsksMap | null | undefined;
 }
 export type CfInterconnectsUpdateRequestBgpExtraPrefixesList = Array<string>;
 export interface CfInterconnectsUpdateRequestBgp {
   /** Deprecated. Use customer_asn. */
-  asNo?: number;
+  asNo?: number | undefined;
   /** Read-only for v1.5; derived from interface_address. */
-  cloudflareEndpoint?: string;
+  cloudflareEndpoint?: string | undefined;
   /** ASN used on the customer end of the BGP session. */
-  customerAsn?: number;
+  customerAsn?: number | undefined;
   /** Read-only for v1.5; derived from interface_address. */
-  customerEndpoint?: string;
+  customerEndpoint?: string | undefined;
   /** ID of the BGP filter profile applied to routes advertised to the customer. */
-  exportFilterId?: string;
+  exportFilterId?: string | undefined;
   /** IPv4 prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table. Each entry must be a network address in CIDR notation with no host bits set (for example `192.0.2.0/24`, not `192.0.2.1/24`) and must not repeat another entry. */
-  extraPrefixes?: CfInterconnectsUpdateRequestBgpExtraPrefixesList;
+  extraPrefixes?: CfInterconnectsUpdateRequestBgpExtraPrefixesList | undefined;
   /** ID of the BGP filter profile applied to routes received from the customer. */
-  importFilterId?: string;
+  importFilterId?: string | undefined;
   /** MD5 key to use for session authentication. */
-  md5Key?: string;
+  md5Key?: string | undefined;
 }
 export interface CfInterconnectsUpdateRequestGre {
   /** The IP address assigned to the Cloudflare side of the GRE tunnel created as part of the Interconnect. */
-  cloudflareEndpoint?: string;
+  cloudflareEndpoint?: string | undefined;
 }
 export type CfInterconnectsUpdateRequestHealthCheckDirection = "unidirectional" | "bidirectional";
 export type CfInterconnectsUpdateRequestHealthCheckRate = "low" | "mid" | "high";
@@ -5998,17 +6106,17 @@ export type CfInterconnectsUpdateRequestHealthCheckTarget =
 export type CfInterconnectsUpdateRequestHealthCheckType = "reply" | "request";
 export interface CfInterconnectsUpdateRequestHealthCheck {
   /** The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the interconnect and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the interconnect. */
-  direction?: CfInterconnectsUpdateRequestHealthCheckDirection | (string & {});
+  direction?: CfInterconnectsUpdateRequestHealthCheckDirection | (string & {}) | undefined;
   /** Determines whether to run healthchecks for a tunnel. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** How frequent the health check is run. The default value is `mid`. */
-  rate?: CfInterconnectsUpdateRequestHealthCheckRate | (string & {});
+  rate?: CfInterconnectsUpdateRequestHealthCheckRate | (string & {}) | undefined;
   /** The source IPv4 address used for bidirectional health checks. Supported only for version 1.5 interconnects. It is required when `direction` is `bidirectional` and must be omitted (and is cleared) when `direction` is `unidirectional`. The address must be within RFC1918 space, the approved link-local range 169.254.240.0/20, or the Cloudflare reserved range 198.41.199.224/27. */
-  source?: string;
+  source?: string | undefined;
   /** The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false. */
-  target?: CfInterconnectsUpdateRequestHealthCheckTarget;
+  target?: CfInterconnectsUpdateRequestHealthCheckTarget | undefined;
   /** The type of healthcheck to run, reply or request. The default value is `reply`. */
-  type?: CfInterconnectsUpdateRequestHealthCheckType | (string & {});
+  type?: CfInterconnectsUpdateRequestHealthCheckType | (string & {}) | undefined;
 }
 export interface PutCfInterconnectRequest {
   /** Identifier */
@@ -6016,41 +6124,44 @@ export interface PutCfInterconnectRequest {
   /** Identifier */
   cfInterconnectId: string;
   /** True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected. */
-  automaticReturnRouting?: boolean;
-  bgp?: CfInterconnectsUpdateRequestBgp;
+  automaticReturnRouting?: boolean | undefined;
+  bgp?: CfInterconnectsUpdateRequestBgp | undefined;
   /** An optional description of the interconnect. */
-  description?: string;
+  description?: string | undefined;
   /** Not configurable for version 1.5 interconnects; supplying it returns an error. */
-  gre?: CfInterconnectsUpdateRequestGre;
-  healthCheck?: CfInterconnectsUpdateRequestHealthCheck;
+  gre?: CfInterconnectsUpdateRequestGre | undefined;
+  healthCheck?: CfInterconnectsUpdateRequestHealthCheck | undefined;
   /** The IPv4 interface address for the interconnect. For MPLS Interconnects, use a /30 or /31 prefix. For GRE Interconnects, a /30 or /31 prefix may be used. Version 1.5 interconnects require a /31 prefix and may also use a prefix from the account's authorized prefixes; otherwise, select the subnet from RFC 1918 or the approved link-local ranges. */
-  interfaceAddress?: string;
+  interfaceAddress?: string | undefined;
   /** A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127 */
-  interfaceAddress6?: string;
+  interfaceAddress6?: string | undefined;
   /** The Maximum Transmission Unit (MTU) in bytes for the interconnect. The minimum value is 576. */
-  mtu?: number;
+  mtu?: number | undefined;
   /** The name of the interconnect. The name cannot share a name with other tunnels. */
-  name?: string;
-  xMagicNewHcTarget?: boolean;
+  name?: string | undefined;
+  xMagicNewHcTarget?: boolean | undefined;
 }
 export type CfInterconnectsUpdateResponseModifiedInterconnectBgpExtraPrefixesList = Array<string>;
 export interface CfInterconnectsUpdateResponseModifiedInterconnectBgp {
   /** Deprecated. Use customer_asn. */
-  asNo?: number | null;
+  asNo?: number | null | undefined;
   /** Read-only for v1.5; derived from interface_address. */
-  cloudflareEndpoint?: string | null;
+  cloudflareEndpoint?: string | null | undefined;
   /** ASN used on the customer end of the BGP session. */
-  customerAsn?: number | null;
+  customerAsn?: number | null | undefined;
   /** Read-only for v1.5; derived from interface_address. */
-  customerEndpoint?: string | null;
+  customerEndpoint?: string | null | undefined;
   /** ID of the BGP filter profile applied to routes advertised to the customer. */
-  exportFilterId?: string | null;
+  exportFilterId?: string | null | undefined;
   /** IPv4 prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table. Each entry must be a network address in CIDR notation with no host bits set (for example `192.0.2.0/24`, not `192.0.2.1/24`) and must not repeat another entry. */
-  extraPrefixes?: CfInterconnectsUpdateResponseModifiedInterconnectBgpExtraPrefixesList | null;
+  extraPrefixes?:
+    | CfInterconnectsUpdateResponseModifiedInterconnectBgpExtraPrefixesList
+    | null
+    | undefined;
   /** ID of the BGP filter profile applied to routes received from the customer. */
-  importFilterId?: string | null;
+  importFilterId?: string | null | undefined;
   /** MD5 key to use for session authentication. */
-  md5Key?: string | null;
+  md5Key?: string | null | undefined;
 }
 export type CfInterconnectsUpdateResponseModifiedInterconnectGre =
   CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemGre;
@@ -6069,52 +6180,55 @@ export type CfInterconnectsUpdateResponseModifiedInterconnectHealthCheckTarget =
 export type CfInterconnectsUpdateResponseModifiedInterconnectHealthCheckType = "reply" | "request";
 export interface CfInterconnectsUpdateResponseModifiedInterconnectHealthCheck {
   /** The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the interconnect and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the interconnect. */
-  direction?: CfInterconnectsUpdateResponseModifiedInterconnectHealthCheckDirection | null;
+  direction?:
+    | CfInterconnectsUpdateResponseModifiedInterconnectHealthCheckDirection
+    | null
+    | undefined;
   /** Determines whether to run healthchecks for a tunnel. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** How frequent the health check is run. The default value is `mid`. */
-  rate?: CfInterconnectsUpdateResponseModifiedInterconnectHealthCheckRate | null;
+  rate?: CfInterconnectsUpdateResponseModifiedInterconnectHealthCheckRate | null | undefined;
   /** The source IPv4 address used for bidirectional health checks. Supported only for version 1.5 interconnects. It is required when `direction` is `bidirectional` and must be omitted (and is cleared) when `direction` is `unidirectional`. The address must be within RFC1918 space, the approved link-local range 169.254.240.0/20, or the Cloudflare reserved range 198.41.199.224/27. */
-  source?: string | null;
+  source?: string | null | undefined;
   /** The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false. */
-  target?: CfInterconnectsUpdateResponseModifiedInterconnectHealthCheckTarget | null;
+  target?: CfInterconnectsUpdateResponseModifiedInterconnectHealthCheckTarget | null | undefined;
   /** The type of healthcheck to run, reply or request. The default value is `reply`. */
-  type?: CfInterconnectsUpdateResponseModifiedInterconnectHealthCheckType | null;
+  type?: CfInterconnectsUpdateResponseModifiedInterconnectHealthCheckType | null | undefined;
 }
 export interface CfInterconnectsUpdateResponseModifiedInterconnect {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected. */
-  automaticReturnRouting?: boolean | null;
-  bgp?: CfInterconnectsUpdateResponseModifiedInterconnectBgp | null;
+  automaticReturnRouting?: boolean | null | undefined;
+  bgp?: CfInterconnectsUpdateResponseModifiedInterconnectBgp | null | undefined;
   /** The name of the interconnect. The name cannot share a name with other tunnels. */
-  coloName?: string | null;
+  coloName?: string | null | undefined;
   /** The date and time the tunnel was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** An optional description of the interconnect. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Omitted in responses for version 1.5 interconnects. */
-  gre?: CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemGre | null;
-  healthCheck?: CfInterconnectsUpdateResponseModifiedInterconnectHealthCheck | null;
+  gre?: CfInterconnectsBulkUpdateResponseModifiedInterconnectsItemGre | null | undefined;
+  healthCheck?: CfInterconnectsUpdateResponseModifiedInterconnectHealthCheck | null | undefined;
   /** The IPv4 interface address for the interconnect. For MPLS Interconnects, use a /30 or /31 prefix. For GRE Interconnects, a /30 or /31 prefix may be used. Version 1.5 interconnects require a /31 prefix and may also use a prefix from the account's authorized prefixes; otherwise, select the subnet from RFC 1918 or the approved link-local ranges. */
-  interfaceAddress?: string | null;
+  interfaceAddress?: string | null | undefined;
   /** A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127 */
-  interfaceAddress6?: string | null;
+  interfaceAddress6?: string | null | undefined;
   /** The date and time the tunnel was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The Maximum Transmission Unit (MTU) in bytes for the interconnect. The minimum value is 576. */
-  mtu?: number | null;
+  mtu?: number | null | undefined;
   /** The name of the interconnect. The name cannot share a name with other tunnels. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Immutable interconnect version configured at creation time. One of: */
-  version?: string | null;
+  version?: string | null | undefined;
   /** An identifier that correlates this interconnect with the corresponding V2 CNI interconnect resource. */
-  virtualPortReservationId?: string | null;
+  virtualPortReservationId?: string | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutCfInterconnectResponse {
-  modified?: boolean | null;
-  modifiedInterconnect?: CfInterconnectsUpdateResponseModifiedInterconnect | null;
+  modified?: boolean | null | undefined;
+  modifiedInterconnect?: CfInterconnectsUpdateResponseModifiedInterconnect | null | undefined;
 }
 export interface StopPcapRequest {
   /** Identifier. */
@@ -6132,15 +6246,15 @@ export interface UpdateAppRequest {
   /** Identifier */
   accountAppId: string;
   /** FQDNs to associate with traffic decisions. */
-  hostnames?: AppsUpdateRequestHostnamesList;
+  hostnames?: AppsUpdateRequestHostnamesList | undefined;
   /** IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported) */
-  ipSubnets?: AppsUpdateRequestIpSubnetsList;
+  ipSubnets?: AppsUpdateRequestIpSubnetsList | undefined;
   /** Display name for the app. */
-  name?: string;
+  name?: string | undefined;
   /** IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported) */
-  sourceSubnets?: AppsUpdateRequestSourceSubnetsList;
+  sourceSubnets?: AppsUpdateRequestSourceSubnetsList | undefined;
   /** Category of the app. */
-  type?: string;
+  type?: string | undefined;
 }
 export type AppsUpdateResponseHostnamesList = Array<string>;
 export type AppsUpdateResponseIpSubnetsList = Array<string>;
@@ -6150,15 +6264,15 @@ export interface UpdateAppResponse {
   /** Magic account app ID. */
   accountAppId: string;
   /** FQDNs to associate with traffic decisions. */
-  hostnames?: AppsUpdateResponseHostnamesList | null;
+  hostnames?: AppsUpdateResponseHostnamesList | null | undefined;
   /** IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported) */
-  ipSubnets?: AppsUpdateResponseIpSubnetsList | null;
+  ipSubnets?: AppsUpdateResponseIpSubnetsList | null | undefined;
   /** Display name for the app. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** IPv4 CIDRs to associate with traffic decisions. (IPv6 CIDRs are currently unsupported) */
-  sourceSubnets?: AppsUpdateResponseSourceSubnetsList | null;
+  sourceSubnets?: AppsUpdateResponseSourceSubnetsList | null | undefined;
   /** Category of the app. */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 export type UpdateBgpFilterProfileRequestMatchAction = "allow" | "deny";
 export type UpdateBgpFilterProfileRequestTargetsList = Array<string>;
@@ -6168,13 +6282,13 @@ export interface UpdateBgpFilterProfileRequest {
   /** Identifier */
   profileId: string;
   /** Description of the filter profile */
-  description?: string;
+  description?: string | undefined;
   /** Action to take when a route matches one of the targets in this profile */
-  matchAction?: UpdateBgpFilterProfileRequestMatchAction | (string & {});
+  matchAction?: UpdateBgpFilterProfileRequestMatchAction | (string & {}) | undefined;
   /** Friendly name for the filter profile */
-  name?: string;
+  name?: string | undefined;
   /** List of CIDR prefixes. Each entry may carry an optional suffix that specifies which prefix lengths to match relative to the prefix length N: '{X,Y}' matches prefix lengths in the inclusive range [X, Y] where N <= X <= Y <= max (max is 32 for IPv4, 128 for IPv6), '{X}' matches exactly length X (equivalent to {X,X}), '+' is shorthand for {N, max} (the prefix and all more-specific subnets, including at length N itself; valid even when N is the maximum length). Omit the suffix to match the prefix exactly at length N. */
-  targets?: UpdateBgpFilterProfileRequestTargetsList;
+  targets?: UpdateBgpFilterProfileRequestTargetsList | undefined;
 }
 export type UpdateBgpFilterProfileResponseMatchAction = "allow" | "deny";
 export type UpdateBgpFilterProfileResponseTargetsList = Array<string>;
@@ -6190,8 +6304,8 @@ export interface UpdateBgpFilterProfileResponse {
   name: string;
   /** List of CIDR prefixes. Each entry may carry an optional suffix that specifies which prefix lengths to match relative to the prefix length N: '{X,Y}' matches prefix lengths in the inclusive range [X, Y] where N &lt;= X &lt;= Y &lt;= max (max is 32 for IPv4, 128 for IPv6), '{X}' matches exactly length X (equivalent to {X,X}), '+' is shorthand for {N, max} (the prefix and all more-specific subnets, including at length N itself; valid even when N is the maximum length). Omit the suffix to match the prefix exactly at length N. */
   targets: UpdateBgpFilterProfileResponseTargetsList;
-  createdOn?: string | null;
-  modifiedOn?: string | null;
+  createdOn?: string | null | undefined;
+  modifiedOn?: string | null | undefined;
 }
 export type ConnectorsUpdateRequestInterruptWindowDaysOfWeekItem =
   | "Sunday"
@@ -6208,17 +6322,17 @@ export type ConnectorsUpdateRequestInterruptWindowEmbargoDatesList = Array<strin
 export interface UpdateConnectorRequest {
   accountId: string;
   connectorId: string;
-  activated?: boolean;
+  activated?: boolean | undefined;
   /** Allowed days of the week for upgrades. Default is all days. */
-  interruptWindowDaysOfWeek?: ConnectorsUpdateRequestInterruptWindowDaysOfWeekList;
-  interruptWindowDurationHours?: number;
+  interruptWindowDaysOfWeek?: ConnectorsUpdateRequestInterruptWindowDaysOfWeekList | undefined;
+  interruptWindowDurationHours?: number | undefined;
   /** List of dates (YYYY-MM-DD) when upgrades are blocked. */
-  interruptWindowEmbargoDates?: ConnectorsUpdateRequestInterruptWindowEmbargoDatesList;
-  interruptWindowHourOfDay?: number;
-  notes?: string;
+  interruptWindowEmbargoDates?: ConnectorsUpdateRequestInterruptWindowEmbargoDatesList | undefined;
+  interruptWindowHourOfDay?: number | undefined;
+  notes?: string | undefined;
   /** When true, regenerate license key for the connector. */
-  provisionLicense?: boolean;
-  timezone?: string;
+  provisionLicense?: boolean | undefined;
+  timezone?: string | undefined;
 }
 export type ConnectorsUpdateResponseInterruptWindowDaysOfWeekItem =
   | "Sunday"
@@ -6234,8 +6348,8 @@ export type ConnectorsUpdateResponseInterruptWindowEmbargoDatesList = Array<stri
 export type ConnectorsUpdateResponseDeviceType = "MANAGED" | "LICENSED";
 export interface ConnectorsUpdateResponseDevice {
   id: string;
-  serialNumber?: string | null;
-  type?: ConnectorsUpdateResponseDeviceType | null;
+  serialNumber?: string | null | undefined;
+  type?: ConnectorsUpdateResponseDeviceType | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateConnectorResponse {
@@ -6250,10 +6364,10 @@ export interface UpdateConnectorResponse {
   lastUpdated: string;
   notes: string;
   timezone: string;
-  device?: ConnectorsUpdateResponseDevice | null;
-  lastHeartbeat?: string | null;
-  lastSeenVersion?: string | null;
-  licenseKey?: string | null;
+  device?: ConnectorsUpdateResponseDevice | null | undefined;
+  lastHeartbeat?: string | null | undefined;
+  lastSeenVersion?: string | null | undefined;
+  licenseKey?: string | null | undefined;
 }
 export type GreTunnelsUpdateRequestHealthCheckDirection = "unidirectional" | "bidirectional";
 export type GreTunnelsUpdateRequestHealthCheckRate = "low" | "mid" | "high";
@@ -6265,15 +6379,15 @@ export type GreTunnelsUpdateRequestHealthCheckTarget =
 export type GreTunnelsUpdateRequestHealthCheckType = "reply" | "request";
 export interface GreTunnelsUpdateRequestHealthCheck {
   /** The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel. */
-  direction?: GreTunnelsUpdateRequestHealthCheckDirection | (string & {});
+  direction?: GreTunnelsUpdateRequestHealthCheckDirection | (string & {}) | undefined;
   /** Determines whether to run healthchecks for a tunnel. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** How frequent the health check is run. The default value is `mid`. */
-  rate?: GreTunnelsUpdateRequestHealthCheckRate | (string & {});
+  rate?: GreTunnelsUpdateRequestHealthCheckRate | (string & {}) | undefined;
   /** The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false. */
-  target?: GreTunnelsUpdateRequestHealthCheckTarget;
+  target?: GreTunnelsUpdateRequestHealthCheckTarget | undefined;
   /** The type of healthcheck to run, reply or request. The default value is `reply`. */
-  type?: GreTunnelsUpdateRequestHealthCheckType | (string & {});
+  type?: GreTunnelsUpdateRequestHealthCheckType | (string & {}) | undefined;
 }
 export interface UpdateGreTunnelRequest {
   /** Identifier */
@@ -6289,30 +6403,30 @@ export interface UpdateGreTunnelRequest {
   /** The name of the tunnel. The name cannot contain spaces or special characters, must be 15 characters or less, and cannot share a name with another GRE tunnel. */
   name: string;
   /** True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected. */
-  automaticReturnRouting?: boolean;
+  automaticReturnRouting?: boolean | undefined;
   /** An optional description of the GRE tunnel. */
-  description?: string;
-  healthCheck?: GreTunnelsUpdateRequestHealthCheck;
+  description?: string | undefined;
+  healthCheck?: GreTunnelsUpdateRequestHealthCheck | undefined;
   /** A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127 */
-  interfaceAddress6?: string;
+  interfaceAddress6?: string | undefined;
   /** Maximum Transmission Unit (MTU) in bytes for the GRE tunnel. The minimum value is 576. */
-  mtu?: number;
+  mtu?: number | undefined;
   /** Time To Live (TTL) in number of hops of the GRE tunnel. */
-  ttl?: number;
-  xMagicNewHcTarget?: boolean;
+  ttl?: number | undefined;
+  xMagicNewHcTarget?: boolean | undefined;
 }
 export type GreTunnelsUpdateResponseModifiedGreTunnelBgpExtraPrefixesList = Array<string>;
 export interface GreTunnelsUpdateResponseModifiedGreTunnelBgp {
   /** ASN used on the customer end of the BGP session */
   customerAsn: number;
   /** ID of the BGP filter profile applied to routes advertised to the customer. */
-  exportFilterId?: string | null;
+  exportFilterId?: string | null | undefined;
   /** Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table. Each entry must be a network address in CIDR notation with no host bits set (for example `192.0.2.0/24`, not `192.0.2.1/24`) and must not repeat another entry. IPv6 prefixes are accepted only when the tunnel has an `interface_address6`. */
-  extraPrefixes?: GreTunnelsUpdateResponseModifiedGreTunnelBgpExtraPrefixesList | null;
+  extraPrefixes?: GreTunnelsUpdateResponseModifiedGreTunnelBgpExtraPrefixesList | null | undefined;
   /** ID of the BGP filter profile applied to routes received from the customer. */
-  importFilterId?: string | null;
+  importFilterId?: string | null | undefined;
   /** MD5 key to use for session authentication. */
-  md5Key?: string | null;
+  md5Key?: string | null | undefined;
 }
 export type GreTunnelsUpdateResponseModifiedGreTunnelBgpStatusState =
   | "BGP_DOWN"
@@ -6322,11 +6436,11 @@ export interface GreTunnelsUpdateResponseModifiedGreTunnelBgpStatus {
   state: GreTunnelsUpdateResponseModifiedGreTunnelBgpStatusState;
   tcpEstablished: boolean;
   updatedAt: string;
-  bgpState?: string | null;
-  cfSpeakerIp?: string | null;
-  cfSpeakerPort?: number | null;
-  customerSpeakerIp?: string | null;
-  customerSpeakerPort?: number | null;
+  bgpState?: string | null | undefined;
+  cfSpeakerIp?: string | null | undefined;
+  cfSpeakerPort?: number | null | undefined;
+  customerSpeakerIp?: string | null | undefined;
+  customerSpeakerPort?: number | null | undefined;
 }
 export type GreTunnelsUpdateResponseModifiedGreTunnelHealthCheckDirection =
   | "unidirectional"
@@ -6340,15 +6454,15 @@ export type GreTunnelsUpdateResponseModifiedGreTunnelHealthCheckTarget =
 export type GreTunnelsUpdateResponseModifiedGreTunnelHealthCheckType = "reply" | "request";
 export interface GreTunnelsUpdateResponseModifiedGreTunnelHealthCheck {
   /** The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel. */
-  direction?: GreTunnelsUpdateResponseModifiedGreTunnelHealthCheckDirection | null;
+  direction?: GreTunnelsUpdateResponseModifiedGreTunnelHealthCheckDirection | null | undefined;
   /** Determines whether to run healthchecks for a tunnel. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** How frequent the health check is run. The default value is `mid`. */
-  rate?: GreTunnelsUpdateResponseModifiedGreTunnelHealthCheckRate | null;
+  rate?: GreTunnelsUpdateResponseModifiedGreTunnelHealthCheckRate | null | undefined;
   /** The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false. */
-  target?: GreTunnelsUpdateResponseModifiedGreTunnelHealthCheckTarget | null;
+  target?: GreTunnelsUpdateResponseModifiedGreTunnelHealthCheckTarget | null | undefined;
   /** The type of healthcheck to run, reply or request. The default value is `reply`. */
-  type?: GreTunnelsUpdateResponseModifiedGreTunnelHealthCheckType | null;
+  type?: GreTunnelsUpdateResponseModifiedGreTunnelHealthCheckType | null | undefined;
 }
 export interface GreTunnelsUpdateResponseModifiedGreTunnel {
   /** Identifier */
@@ -6362,40 +6476,40 @@ export interface GreTunnelsUpdateResponseModifiedGreTunnel {
   /** The name of the tunnel. The name cannot contain spaces or special characters, must be 15 characters or less, and cannot share a name with another GRE tunnel. */
   name: string;
   /** True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected. */
-  automaticReturnRouting?: boolean | null;
-  bgp?: GreTunnelsUpdateResponseModifiedGreTunnelBgp | null;
-  bgpStatus?: GreTunnelsUpdateResponseModifiedGreTunnelBgpStatus | null;
+  automaticReturnRouting?: boolean | null | undefined;
+  bgp?: GreTunnelsUpdateResponseModifiedGreTunnelBgp | null | undefined;
+  bgpStatus?: GreTunnelsUpdateResponseModifiedGreTunnelBgpStatus | null | undefined;
   /** The date and time the tunnel was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** An optional description of the GRE tunnel. */
-  description?: string | null;
-  healthCheck?: GreTunnelsUpdateResponseModifiedGreTunnelHealthCheck | null;
+  description?: string | null | undefined;
+  healthCheck?: GreTunnelsUpdateResponseModifiedGreTunnelHealthCheck | null | undefined;
   /** A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127 */
-  interfaceAddress6?: string | null;
+  interfaceAddress6?: string | null | undefined;
   /** The date and time the tunnel was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Maximum Transmission Unit (MTU) in bytes for the GRE tunnel. The minimum value is 576. */
-  mtu?: number | null;
+  mtu?: number | null | undefined;
   /** Time To Live (TTL) in number of hops of the GRE tunnel. */
-  ttl?: number | null;
+  ttl?: number | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateGreTunnelResponse {
-  modified?: boolean | null;
-  modifiedGreTunnel?: GreTunnelsUpdateResponseModifiedGreTunnel | null;
+  modified?: boolean | null | undefined;
+  modifiedGreTunnel?: GreTunnelsUpdateResponseModifiedGreTunnel | null | undefined;
 }
 export type IpsecTunnelsUpdateRequestBgpExtraPrefixesList = Array<string>;
 export interface IpsecTunnelsUpdateRequestBgp {
   /** ASN used on the customer end of the BGP session */
   customerAsn: number;
   /** ID of the BGP filter profile applied to routes advertised to the customer. */
-  exportFilterId?: string;
+  exportFilterId?: string | undefined;
   /** Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table. Each entry must be a network address in CIDR notation with no host bits set (for example `192.0.2.0/24`, not `192.0.2.1/24`) and must not repeat another entry. IPv6 prefixes are accepted only when the tunnel has an `interface_address6`. */
-  extraPrefixes?: IpsecTunnelsUpdateRequestBgpExtraPrefixesList;
+  extraPrefixes?: IpsecTunnelsUpdateRequestBgpExtraPrefixesList | undefined;
   /** ID of the BGP filter profile applied to routes received from the customer. */
-  importFilterId?: string;
+  importFilterId?: string | undefined;
   /** MD5 key to use for session authentication. */
-  md5Key?: string;
+  md5Key?: string | undefined;
 }
 export type IpsecTunnelsUpdateRequestCustomRemoteIdentities =
   IpsecTunnelsCreateRequestCustomRemoteIdentities;
@@ -6409,15 +6523,15 @@ export type IpsecTunnelsUpdateRequestHealthCheckTarget =
 export type IpsecTunnelsUpdateRequestHealthCheckType = "reply" | "request";
 export interface IpsecTunnelsUpdateRequestHealthCheck {
   /** The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel. */
-  direction?: IpsecTunnelsUpdateRequestHealthCheckDirection | (string & {});
+  direction?: IpsecTunnelsUpdateRequestHealthCheckDirection | (string & {}) | undefined;
   /** Determines whether to run healthchecks for a tunnel. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** How frequent the health check is run. The default value is `mid`. */
-  rate?: IpsecTunnelsUpdateRequestHealthCheckRate | (string & {});
+  rate?: IpsecTunnelsUpdateRequestHealthCheckRate | (string & {}) | undefined;
   /** The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false. */
-  target?: IpsecTunnelsUpdateRequestHealthCheckTarget;
+  target?: IpsecTunnelsUpdateRequestHealthCheckTarget | undefined;
   /** The type of healthcheck to run, reply or request. The default value is `reply`. */
-  type?: IpsecTunnelsUpdateRequestHealthCheckType | (string & {});
+  type?: IpsecTunnelsUpdateRequestHealthCheckType | (string & {}) | undefined;
 }
 export interface UpdateIpsecTunnelRequest {
   /** Identifier */
@@ -6431,34 +6545,37 @@ export interface UpdateIpsecTunnelRequest {
   /** The name of the IPsec tunnel. The name cannot share a name with other tunnels. */
   name: string;
   /** True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected. */
-  automaticReturnRouting?: boolean;
-  bgp?: IpsecTunnelsUpdateRequestBgp;
-  customRemoteIdentities?: IpsecTunnelsCreateRequestCustomRemoteIdentities;
+  automaticReturnRouting?: boolean | undefined;
+  bgp?: IpsecTunnelsUpdateRequestBgp | undefined;
+  customRemoteIdentities?: IpsecTunnelsCreateRequestCustomRemoteIdentities | undefined;
   /** The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work. */
-  customerEndpoint?: string;
+  customerEndpoint?: string | undefined;
   /** An optional description forthe IPsec tunnel. */
-  description?: string;
-  healthCheck?: IpsecTunnelsUpdateRequestHealthCheck;
+  description?: string | undefined;
+  healthCheck?: IpsecTunnelsUpdateRequestHealthCheck | undefined;
   /** A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127 */
-  interfaceAddress6?: string;
+  interfaceAddress6?: string | undefined;
   /** A randomly generated or provided string for use in the IPsec tunnel. */
-  psk?: string;
+  psk?: string | undefined;
   /** If `true`, then IPsec replay protection will be supported in the Cloudflare-to-customer direction. */
-  replayProtection?: boolean;
-  xMagicNewHcTarget?: boolean;
+  replayProtection?: boolean | undefined;
+  xMagicNewHcTarget?: boolean | undefined;
 }
 export type IpsecTunnelsUpdateResponseModifiedIpsecTunnelBgpExtraPrefixesList = Array<string>;
 export interface IpsecTunnelsUpdateResponseModifiedIpsecTunnelBgp {
   /** ASN used on the customer end of the BGP session */
   customerAsn: number;
   /** ID of the BGP filter profile applied to routes advertised to the customer. */
-  exportFilterId?: string | null;
+  exportFilterId?: string | null | undefined;
   /** Prefixes in this list will be advertised to the customer device, in addition to the routes in the Magic routing table. Each entry must be a network address in CIDR notation with no host bits set (for example `192.0.2.0/24`, not `192.0.2.1/24`) and must not repeat another entry. IPv6 prefixes are accepted only when the tunnel has an `interface_address6`. */
-  extraPrefixes?: IpsecTunnelsUpdateResponseModifiedIpsecTunnelBgpExtraPrefixesList | null;
+  extraPrefixes?:
+    | IpsecTunnelsUpdateResponseModifiedIpsecTunnelBgpExtraPrefixesList
+    | null
+    | undefined;
   /** ID of the BGP filter profile applied to routes received from the customer. */
-  importFilterId?: string | null;
+  importFilterId?: string | null | undefined;
   /** MD5 key to use for session authentication. */
-  md5Key?: string | null;
+  md5Key?: string | null | undefined;
 }
 export type IpsecTunnelsUpdateResponseModifiedIpsecTunnelBgpStatusState =
   | "BGP_DOWN"
@@ -6468,11 +6585,11 @@ export interface IpsecTunnelsUpdateResponseModifiedIpsecTunnelBgpStatus {
   state: IpsecTunnelsUpdateResponseModifiedIpsecTunnelBgpStatusState;
   tcpEstablished: boolean;
   updatedAt: string;
-  bgpState?: string | null;
-  cfSpeakerIp?: string | null;
-  cfSpeakerPort?: number | null;
-  customerSpeakerIp?: string | null;
-  customerSpeakerPort?: number | null;
+  bgpState?: string | null | undefined;
+  cfSpeakerIp?: string | null | undefined;
+  cfSpeakerPort?: number | null | undefined;
+  customerSpeakerIp?: string | null | undefined;
+  customerSpeakerPort?: number | null | undefined;
 }
 export type IpsecTunnelsUpdateResponseModifiedIpsecTunnelCustomRemoteIdentities =
   IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemCustomRemoteIdentities;
@@ -6488,15 +6605,15 @@ export type IpsecTunnelsUpdateResponseModifiedIpsecTunnelHealthCheckTarget =
 export type IpsecTunnelsUpdateResponseModifiedIpsecTunnelHealthCheckType = "reply" | "request";
 export interface IpsecTunnelsUpdateResponseModifiedIpsecTunnelHealthCheck {
   /** The direction of the flow of the healthcheck. Either unidirectional, where the probe comes to you via the tunnel and the result comes back to Cloudflare via the open Internet, or bidirectional where both the probe and result come and go via the tunnel. */
-  direction?: IpsecTunnelsUpdateResponseModifiedIpsecTunnelHealthCheckDirection | null;
+  direction?: IpsecTunnelsUpdateResponseModifiedIpsecTunnelHealthCheckDirection | null | undefined;
   /** Determines whether to run healthchecks for a tunnel. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** How frequent the health check is run. The default value is `mid`. */
-  rate?: IpsecTunnelsUpdateResponseModifiedIpsecTunnelHealthCheckRate | null;
+  rate?: IpsecTunnelsUpdateResponseModifiedIpsecTunnelHealthCheckRate | null | undefined;
   /** The destination address in a request type health check. After the healthcheck is decapsulated at the customer end of the tunnel, the ICMP echo will be forwarded to this address. This field defaults to `customer_gre_endpoint address`. This field is ignored for bidirectional healthchecks as the interface_address (not assigned to the Cloudflare side of the tunnel) is used as the target. Must be in object form if the x-magic-new-hc-target header is set to true and string form if x-magic-new-hc-target is absent or set to false. */
-  target?: IpsecTunnelsUpdateResponseModifiedIpsecTunnelHealthCheckTarget | null;
+  target?: IpsecTunnelsUpdateResponseModifiedIpsecTunnelHealthCheckTarget | null | undefined;
   /** The type of healthcheck to run, reply or request. The default value is `reply`. */
-  type?: IpsecTunnelsUpdateResponseModifiedIpsecTunnelHealthCheckType | null;
+  type?: IpsecTunnelsUpdateResponseModifiedIpsecTunnelHealthCheckType | null | undefined;
 }
 export type IpsecTunnelsUpdateResponseModifiedIpsecTunnelPskMetadata =
   IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemPskMetadata;
@@ -6510,40 +6627,46 @@ export interface IpsecTunnelsUpdateResponseModifiedIpsecTunnel {
   /** The name of the IPsec tunnel. The name cannot share a name with other tunnels. */
   name: string;
   /** When `true`, the tunnel can use a null-cipher (`ENCR_NULL`) in the ESP tunnel (Phase 2). */
-  allowNullCipher?: boolean | null;
+  allowNullCipher?: boolean | null | undefined;
   /** True if automatic stateful return routing should be enabled for a tunnel, false otherwise. Requires the `coupler_integration` account flag to be enabled; requests setting this to `true` without that flag will be rejected. */
-  automaticReturnRouting?: boolean | null;
-  bgp?: IpsecTunnelsUpdateResponseModifiedIpsecTunnelBgp | null;
-  bgpStatus?: IpsecTunnelsUpdateResponseModifiedIpsecTunnelBgpStatus | null;
+  automaticReturnRouting?: boolean | null | undefined;
+  bgp?: IpsecTunnelsUpdateResponseModifiedIpsecTunnelBgp | null | undefined;
+  bgpStatus?: IpsecTunnelsUpdateResponseModifiedIpsecTunnelBgpStatus | null | undefined;
   /** The date and time the tunnel was created. */
-  createdOn?: string | null;
-  customRemoteIdentities?: IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemCustomRemoteIdentities | null;
+  createdOn?: string | null | undefined;
+  customRemoteIdentities?:
+    | IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemCustomRemoteIdentities
+    | null
+    | undefined;
   /** The IP address assigned to the customer side of the IPsec tunnel. Not required, but must be set for proactive traceroutes to work. */
-  customerEndpoint?: string | null;
+  customerEndpoint?: string | null | undefined;
   /** An optional description forthe IPsec tunnel. */
-  description?: string | null;
-  healthCheck?: IpsecTunnelsUpdateResponseModifiedIpsecTunnelHealthCheck | null;
+  description?: string | null | undefined;
+  healthCheck?: IpsecTunnelsUpdateResponseModifiedIpsecTunnelHealthCheck | null | undefined;
   /** A 127 bit IPV6 prefix from within the virtual_subnet6 prefix space with the address being the first IP of the subnet and not same as the address of virtual_subnet6. Eg if virtual_subnet6 is 2606:54c1:7:0:a9fe:12d2::/127 , interface_address6 could be 2606:54c1:7:0:a9fe:12d2:1:200/127 */
-  interfaceAddress6?: string | null;
+  interfaceAddress6?: string | null | undefined;
   /** The date and time the tunnel was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The PSK metadata that includes when the PSK was generated. */
-  pskMetadata?: IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemPskMetadata | null;
+  pskMetadata?:
+    | IpsecTunnelsBulkUpdateResponseModifiedIpsecTunnelsItemPskMetadata
+    | null
+    | undefined;
   /** If `true`, then IPsec replay protection will be supported in the Cloudflare-to-customer direction. */
-  replayProtection?: boolean | null;
+  replayProtection?: boolean | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateIpsecTunnelResponse {
-  modified?: boolean | null;
-  modifiedIpsecTunnel?: IpsecTunnelsUpdateResponseModifiedIpsecTunnel | null;
+  modified?: boolean | null | undefined;
+  modifiedIpsecTunnel?: IpsecTunnelsUpdateResponseModifiedIpsecTunnel | null | undefined;
 }
 export type RoutesUpdateRequestScopeColoNamesList = Array<string>;
 export type RoutesUpdateRequestScopeColoRegionsList = Array<string>;
 export interface RoutesUpdateRequestScope {
   /** List of colo names for the ECMP scope. */
-  coloNames?: RoutesUpdateRequestScopeColoNamesList;
+  coloNames?: RoutesUpdateRequestScopeColoNamesList | undefined;
   /** List of colo regions for the ECMP scope. */
-  coloRegions?: RoutesUpdateRequestScopeColoRegionsList;
+  coloRegions?: RoutesUpdateRequestScopeColoRegionsList | undefined;
 }
 export interface UpdateRouteRequest {
   /** Identifier */
@@ -6557,19 +6680,19 @@ export interface UpdateRouteRequest {
   /** Priority of the static route. */
   priority: number;
   /** An optional human provided description of the static route. */
-  description?: string;
+  description?: string | undefined;
   /** Used only for ECMP routes. */
-  scope?: RoutesUpdateRequestScope;
+  scope?: RoutesUpdateRequestScope | undefined;
   /** Optional weight of the ECMP scope - if provided. */
-  weight?: number;
+  weight?: number | undefined;
 }
 export type RoutesUpdateResponseModifiedRouteScopeColoNamesList = Array<string>;
 export type RoutesUpdateResponseModifiedRouteScopeColoRegionsList = Array<string>;
 export interface RoutesUpdateResponseModifiedRouteScope {
   /** List of colo names for the ECMP scope. */
-  coloNames?: RoutesUpdateResponseModifiedRouteScopeColoNamesList | null;
+  coloNames?: RoutesUpdateResponseModifiedRouteScopeColoNamesList | null | undefined;
   /** List of colo regions for the ECMP scope. */
-  coloRegions?: RoutesUpdateResponseModifiedRouteScopeColoRegionsList | null;
+  coloRegions?: RoutesUpdateResponseModifiedRouteScopeColoRegionsList | null | undefined;
 }
 export interface RoutesUpdateResponseModifiedRoute {
   /** Identifier */
@@ -6581,20 +6704,20 @@ export interface RoutesUpdateResponseModifiedRoute {
   /** Priority of the static route. */
   priority: number;
   /** When the route was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** An optional human provided description of the static route. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** When the route was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** Used only for ECMP routes. */
-  scope?: RoutesUpdateResponseModifiedRouteScope | null;
+  scope?: RoutesUpdateResponseModifiedRouteScope | null | undefined;
   /** Optional weight of the ECMP scope - if provided. */
-  weight?: number | null;
+  weight?: number | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateRouteResponse {
-  modified?: boolean | null;
-  modifiedRoute?: RoutesUpdateResponseModifiedRoute | null;
+  modified?: boolean | null | undefined;
+  modifiedRoute?: RoutesUpdateResponseModifiedRoute | null | undefined;
 }
 export type SitesUpdateRequestLocation = SitesCreateRequestLocation;
 export interface UpdateSiteRequest {
@@ -6603,33 +6726,33 @@ export interface UpdateSiteRequest {
   /** Identifier */
   siteId: string;
   /** Magic Connector identifier tag. */
-  connectorId?: string;
-  description?: string;
+  connectorId?: string | undefined;
+  description?: string | undefined;
   /** Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode. */
-  haMode?: boolean;
+  haMode?: boolean | undefined;
   /** Location of site in latitude and longitude. */
-  location?: SitesCreateRequestLocation;
+  location?: SitesCreateRequestLocation | undefined;
   /** The name of the site. */
-  name?: string;
+  name?: string | undefined;
   /** Magic Connector identifier tag. Used when high availability mode is on. */
-  secondaryConnectorId?: string;
+  secondaryConnectorId?: string | undefined;
 }
 export type SitesUpdateResponseLocation = SitesCreateResponseLocation;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateSiteResponse {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Magic Connector identifier tag. */
-  connectorId?: string | null;
-  description?: string | null;
+  connectorId?: string | null | undefined;
+  description?: string | null | undefined;
   /** Site high availability mode. If set to true, the site can have two connectors and runs in high availability mode. */
-  haMode?: boolean | null;
+  haMode?: boolean | null | undefined;
   /** Location of site in latitude and longitude. */
-  location?: SitesCreateResponseLocation | null;
+  location?: SitesCreateResponseLocation | null | undefined;
   /** The name of the site. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Magic Connector identifier tag. Used when high availability mode is on. */
-  secondaryConnectorId?: string | null;
+  secondaryConnectorId?: string | null | undefined;
 }
 export type SitesAclsUpdateRequestLan1PortRangesList = Array<string>;
 export type SitesAclsUpdateRequestLan1PortsList = Array<number>;
@@ -6638,13 +6761,13 @@ export interface SitesAclsUpdateRequestLan1 {
   /** The identifier for the LAN you want to create an ACL policy with. */
   lanId: string;
   /** The name of the LAN based on the provided lan_id. */
-  lanName?: string;
+  lanName?: string | undefined;
   /** Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed. */
-  portRanges?: SitesAclsUpdateRequestLan1PortRangesList;
+  portRanges?: SitesAclsUpdateRequestLan1PortRangesList | undefined;
   /** Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed. */
-  ports?: SitesAclsUpdateRequestLan1PortsList;
+  ports?: SitesAclsUpdateRequestLan1PortsList | undefined;
   /** Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed. */
-  subnets?: SitesAclsUpdateRequestLan1SubnetsList;
+  subnets?: SitesAclsUpdateRequestLan1SubnetsList | undefined;
 }
 export type SitesAclsUpdateRequestLan2PortRangesList = Array<string>;
 export type SitesAclsUpdateRequestLan2PortsList = Array<number>;
@@ -6653,13 +6776,13 @@ export interface SitesAclsUpdateRequestLan2 {
   /** The identifier for the LAN you want to create an ACL policy with. */
   lanId: string;
   /** The name of the LAN based on the provided lan_id. */
-  lanName?: string;
+  lanName?: string | undefined;
   /** Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed. */
-  portRanges?: SitesAclsUpdateRequestLan2PortRangesList;
+  portRanges?: SitesAclsUpdateRequestLan2PortRangesList | undefined;
   /** Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed. */
-  ports?: SitesAclsUpdateRequestLan2PortsList;
+  ports?: SitesAclsUpdateRequestLan2PortsList | undefined;
   /** Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed. */
-  subnets?: SitesAclsUpdateRequestLan2SubnetsList;
+  subnets?: SitesAclsUpdateRequestLan2SubnetsList | undefined;
 }
 export type SitesAclsUpdateRequestProtocolsItem = "tcp" | "udp" | "icmp";
 export type SitesAclsUpdateRequestProtocolsList = Array<
@@ -6673,16 +6796,16 @@ export interface UpdateSiteAclRequest {
   /** Identifier */
   aclId: string;
   /** Description for the ACL. */
-  description?: string;
+  description?: string | undefined;
   /** The desired forwarding action for this ACL policy. If set to "false", the policy will forward traffic to Cloudflare. If set to "true", the policy will forward traffic locally on the Magic Connector. If not included in request, will default to false. */
-  forwardLocally?: boolean;
-  lan_1?: SitesAclsUpdateRequestLan1;
-  lan_2?: SitesAclsUpdateRequestLan2;
+  forwardLocally?: boolean | undefined;
+  lan_1?: SitesAclsUpdateRequestLan1 | undefined;
+  lan_2?: SitesAclsUpdateRequestLan2 | undefined;
   /** The name of the ACL. */
-  name?: string;
-  protocols?: SitesAclsUpdateRequestProtocolsList;
+  name?: string | undefined;
+  protocols?: SitesAclsUpdateRequestProtocolsList | undefined;
   /** The desired traffic direction for this ACL policy. If set to "false", the policy will allow bidirectional traffic. If set to "true", the policy will only allow traffic in one direction. If not included in request, will default to false. */
-  unidirectional?: boolean;
+  unidirectional?: boolean | undefined;
 }
 export type SitesAclsUpdateResponseLan1PortRangesList = Array<string>;
 export type SitesAclsUpdateResponseLan1PortsList = Array<number>;
@@ -6691,13 +6814,13 @@ export interface SitesAclsUpdateResponseLan1 {
   /** The identifier for the LAN you want to create an ACL policy with. */
   lanId: string;
   /** The name of the LAN based on the provided lan_id. */
-  lanName?: string | null;
+  lanName?: string | null | undefined;
   /** Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed. */
-  portRanges?: SitesAclsUpdateResponseLan1PortRangesList | null;
+  portRanges?: SitesAclsUpdateResponseLan1PortRangesList | null | undefined;
   /** Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed. */
-  ports?: SitesAclsUpdateResponseLan1PortsList | null;
+  ports?: SitesAclsUpdateResponseLan1PortsList | null | undefined;
   /** Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed. */
-  subnets?: SitesAclsUpdateResponseLan1SubnetsList | null;
+  subnets?: SitesAclsUpdateResponseLan1SubnetsList | null | undefined;
 }
 export type SitesAclsUpdateResponseLan2PortRangesList = Array<string>;
 export type SitesAclsUpdateResponseLan2PortsList = Array<number>;
@@ -6706,31 +6829,31 @@ export interface SitesAclsUpdateResponseLan2 {
   /** The identifier for the LAN you want to create an ACL policy with. */
   lanId: string;
   /** The name of the LAN based on the provided lan_id. */
-  lanName?: string | null;
+  lanName?: string | null | undefined;
   /** Array of port ranges on the provided LAN that will be included in the ACL. If no ports or port rangess are provided, communication on any port on this LAN is allowed. */
-  portRanges?: SitesAclsUpdateResponseLan2PortRangesList | null;
+  portRanges?: SitesAclsUpdateResponseLan2PortRangesList | null | undefined;
   /** Array of ports on the provided LAN that will be included in the ACL. If no ports or port ranges are provided, communication on any port on this LAN is allowed. */
-  ports?: SitesAclsUpdateResponseLan2PortsList | null;
+  ports?: SitesAclsUpdateResponseLan2PortsList | null | undefined;
   /** Array of subnet IPs within the LAN that will be included in the ACL. If no subnets are provided, communication on any subnets on this LAN are allowed. */
-  subnets?: SitesAclsUpdateResponseLan2SubnetsList | null;
+  subnets?: SitesAclsUpdateResponseLan2SubnetsList | null | undefined;
 }
 export type SitesAclsUpdateResponseProtocolsItem = "tcp" | "udp" | "icmp";
 export type SitesAclsUpdateResponseProtocolsList = Array<SitesAclsUpdateResponseProtocolsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateSiteAclResponse {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Description for the ACL. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The desired forwarding action for this ACL policy. If set to "false", the policy will forward traffic to Cloudflare. If set to "true", the policy will forward traffic locally on the Magic Connector. If not included in request, will default to false. */
-  forwardLocally?: boolean | null;
-  lan_1?: SitesAclsUpdateResponseLan1 | null;
-  lan_2?: SitesAclsUpdateResponseLan2 | null;
+  forwardLocally?: boolean | null | undefined;
+  lan_1?: SitesAclsUpdateResponseLan1 | null | undefined;
+  lan_2?: SitesAclsUpdateResponseLan2 | null | undefined;
   /** The name of the ACL. */
-  name?: string | null;
-  protocols?: SitesAclsUpdateResponseProtocolsList | null;
+  name?: string | null | undefined;
+  protocols?: SitesAclsUpdateResponseProtocolsList | null | undefined;
   /** The desired traffic direction for this ACL policy. If set to "false", the policy will allow bidirectional traffic. If set to "true", the policy will only allow traffic in one direction. If not included in request, will default to false. */
-  unidirectional?: boolean | null;
+  unidirectional?: boolean | null | undefined;
 }
 export type SitesLansUpdateRequestNat = SitesLansCreateRequestNat;
 export type SitesLansUpdateRequestRemoteSubnetsItem = SitesLansCreateRequestRemoteSubnetsItem;
@@ -6743,7 +6866,7 @@ export type SitesLansUpdateRequestRoutedSubnetsList =
 export type SitesLansUpdateRequestStaticAddressingDhcpRelayServerAddressesList = Array<string>;
 export interface SitesLansUpdateRequestStaticAddressingDhcpRelay {
   /** List of DHCP server IPs. */
-  serverAddresses?: SitesLansUpdateRequestStaticAddressingDhcpRelayServerAddressesList;
+  serverAddresses?: SitesLansUpdateRequestStaticAddressingDhcpRelayServerAddressesList | undefined;
 }
 export type SitesLansUpdateRequestStaticAddressingDhcpServerDhcpOptionsItemType =
   | "text"
@@ -6768,26 +6891,26 @@ export type SitesLansUpdateRequestStaticAddressingDhcpServerReservationsMap = {
 };
 export interface SitesLansUpdateRequestStaticAddressingDhcpServer {
   /** Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled. */
-  dhcpOptions?: SitesLansUpdateRequestStaticAddressingDhcpServerDhcpOptionsList;
+  dhcpOptions?: SitesLansUpdateRequestStaticAddressingDhcpServerDhcpOptionsList | undefined;
   /** A valid IPv4 address. */
-  dhcpPoolEnd?: string;
+  dhcpPoolEnd?: string | undefined;
   /** A valid IPv4 address. */
-  dhcpPoolStart?: string;
+  dhcpPoolStart?: string | undefined;
   /** A valid IPv4 address. */
-  dnsServer?: string;
-  dnsServers?: SitesLansUpdateRequestStaticAddressingDhcpServerDnsServersList;
+  dnsServer?: string | undefined;
+  dnsServers?: SitesLansUpdateRequestStaticAddressingDhcpServerDnsServersList | undefined;
   /** Mapping of MAC addresses to IP addresses */
-  reservations?: SitesLansUpdateRequestStaticAddressingDhcpServerReservationsMap;
+  reservations?: SitesLansUpdateRequestStaticAddressingDhcpServerReservationsMap | undefined;
 }
 export interface SitesLansUpdateRequestStaticAddressing {
   /** A valid CIDR notation representing an IP range. */
   address: string;
-  dhcpRelay?: SitesLansUpdateRequestStaticAddressingDhcpRelay;
-  dhcpServer?: SitesLansUpdateRequestStaticAddressingDhcpServer;
+  dhcpRelay?: SitesLansUpdateRequestStaticAddressingDhcpRelay | undefined;
+  dhcpServer?: SitesLansUpdateRequestStaticAddressingDhcpServer | undefined;
   /** A valid CIDR notation representing an IP range. */
-  secondaryAddress?: string;
+  secondaryAddress?: string | undefined;
   /** A valid CIDR notation representing an IP range. */
-  virtualAddress?: string;
+  virtualAddress?: string | undefined;
 }
 export interface UpdateSiteLanRequest {
   /** Identifier */
@@ -6796,22 +6919,22 @@ export interface UpdateSiteLanRequest {
   siteId: string;
   /** Identifier */
   lanId: string;
-  bondId?: number;
+  bondId?: number | undefined;
   /** mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link. */
-  haLink?: boolean;
+  haLink?: boolean | undefined;
   /** mark true to use this LAN for source-based breakout traffic */
-  isBreakout?: boolean;
+  isBreakout?: boolean | undefined;
   /** mark true to use this LAN for source-based prioritized traffic */
-  isPrioritized?: boolean;
-  name?: string;
-  nat?: SitesLansCreateRequestNat;
-  physport?: number;
-  remoteSubnets?: SitesLansUpdateRequestRemoteSubnetsList;
-  routedSubnets?: SitesLansUpdateRequestRoutedSubnetsList;
+  isPrioritized?: boolean | undefined;
+  name?: string | undefined;
+  nat?: SitesLansCreateRequestNat | undefined;
+  physport?: number | undefined;
+  remoteSubnets?: SitesLansUpdateRequestRemoteSubnetsList | undefined;
+  routedSubnets?: SitesLansUpdateRequestRoutedSubnetsList | undefined;
   /** If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address. */
-  staticAddressing?: SitesLansUpdateRequestStaticAddressing;
+  staticAddressing?: SitesLansUpdateRequestStaticAddressing | undefined;
   /** VLAN ID. Use zero for untagged. */
-  vlanTag?: number;
+  vlanTag?: number | undefined;
 }
 export type SitesLansUpdateResponseNat = SitesLansCreateResultItemNat;
 export type SitesLansUpdateResponseRemoteSubnetsItem = SitesLansCreateRequestRemoteSubnetsItem;
@@ -6824,7 +6947,10 @@ export type SitesLansUpdateResponseRoutedSubnetsList =
 export type SitesLansUpdateResponseStaticAddressingDhcpRelayServerAddressesList = Array<string>;
 export interface SitesLansUpdateResponseStaticAddressingDhcpRelay {
   /** List of DHCP server IPs. */
-  serverAddresses?: SitesLansUpdateResponseStaticAddressingDhcpRelayServerAddressesList | null;
+  serverAddresses?:
+    | SitesLansUpdateResponseStaticAddressingDhcpRelayServerAddressesList
+    | null
+    | undefined;
 }
 export type SitesLansUpdateResponseStaticAddressingDhcpServerDhcpOptionsItemType =
   | "text"
@@ -6849,49 +6975,52 @@ export type SitesLansUpdateResponseStaticAddressingDhcpServerReservationsMap = {
 };
 export interface SitesLansUpdateResponseStaticAddressingDhcpServer {
   /** Optional list of custom DHCP options to include in DHCP responses. Only valid when DHCP server is enabled. */
-  dhcpOptions?: SitesLansUpdateResponseStaticAddressingDhcpServerDhcpOptionsList | null;
+  dhcpOptions?: SitesLansUpdateResponseStaticAddressingDhcpServerDhcpOptionsList | null | undefined;
   /** A valid IPv4 address. */
-  dhcpPoolEnd?: string | null;
+  dhcpPoolEnd?: string | null | undefined;
   /** A valid IPv4 address. */
-  dhcpPoolStart?: string | null;
+  dhcpPoolStart?: string | null | undefined;
   /** A valid IPv4 address. */
-  dnsServer?: string | null;
-  dnsServers?: SitesLansUpdateResponseStaticAddressingDhcpServerDnsServersList | null;
+  dnsServer?: string | null | undefined;
+  dnsServers?: SitesLansUpdateResponseStaticAddressingDhcpServerDnsServersList | null | undefined;
   /** Mapping of MAC addresses to IP addresses */
-  reservations?: SitesLansUpdateResponseStaticAddressingDhcpServerReservationsMap | null;
+  reservations?:
+    | SitesLansUpdateResponseStaticAddressingDhcpServerReservationsMap
+    | null
+    | undefined;
 }
 export interface SitesLansUpdateResponseStaticAddressing {
   /** A valid CIDR notation representing an IP range. */
   address: string;
-  dhcpRelay?: SitesLansUpdateResponseStaticAddressingDhcpRelay | null;
-  dhcpServer?: SitesLansUpdateResponseStaticAddressingDhcpServer | null;
+  dhcpRelay?: SitesLansUpdateResponseStaticAddressingDhcpRelay | null | undefined;
+  dhcpServer?: SitesLansUpdateResponseStaticAddressingDhcpServer | null | undefined;
   /** A valid CIDR notation representing an IP range. */
-  secondaryAddress?: string | null;
+  secondaryAddress?: string | null | undefined;
   /** A valid CIDR notation representing an IP range. */
-  virtualAddress?: string | null;
+  virtualAddress?: string | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateSiteLanResponse {
   /** Identifier */
-  id?: string | null;
-  bondId?: number | null;
+  id?: string | null | undefined;
+  bondId?: number | null | undefined;
   /** mark true to use this LAN for HA probing. only works for site with HA turned on. only one LAN can be set as the ha_link. */
-  haLink?: boolean | null;
+  haLink?: boolean | null | undefined;
   /** mark true to use this LAN for source-based breakout traffic */
-  isBreakout?: boolean | null;
+  isBreakout?: boolean | null | undefined;
   /** mark true to use this LAN for source-based prioritized traffic */
-  isPrioritized?: boolean | null;
-  name?: string | null;
-  nat?: SitesLansCreateResultItemNat | null;
-  physport?: number | null;
-  remoteSubnets?: SitesLansUpdateResponseRemoteSubnetsList | null;
-  routedSubnets?: SitesLansUpdateResponseRoutedSubnetsList | null;
+  isPrioritized?: boolean | null | undefined;
+  name?: string | null | undefined;
+  nat?: SitesLansCreateResultItemNat | null | undefined;
+  physport?: number | null | undefined;
+  remoteSubnets?: SitesLansUpdateResponseRemoteSubnetsList | null | undefined;
+  routedSubnets?: SitesLansUpdateResponseRoutedSubnetsList | null | undefined;
   /** Identifier */
-  siteId?: string | null;
+  siteId?: string | null | undefined;
   /** If the site is not configured in high availability mode, this configuration is optional (if omitted, use DHCP). However, if in high availability mode, static_address is required along with secondary and virtual address. */
-  staticAddressing?: SitesLansUpdateResponseStaticAddressing | null;
+  staticAddressing?: SitesLansUpdateResponseStaticAddressing | null | undefined;
   /** VLAN ID. Use zero for untagged. */
-  vlanTag?: number | null;
+  vlanTag?: number | null | undefined;
 }
 export type UpdateSitesAppConfigurationRequestPreferredWansList = Array<string>;
 export interface UpdateSitesAppConfigurationRequest {
@@ -6902,45 +7031,45 @@ export interface UpdateSitesAppConfigurationRequest {
   /** Identifier */
   appConfigId: string;
   /** Magic account app ID. */
-  accountAppId?: string;
+  accountAppId?: string | undefined;
   /** Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior. */
-  breakout?: boolean;
+  breakout?: boolean | undefined;
   /** Managed app ID. */
-  managedAppId?: string;
+  managedAppId?: string | undefined;
   /** WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true). */
-  preferredWans?: UpdateSitesAppConfigurationRequestPreferredWansList;
+  preferredWans?: UpdateSitesAppConfigurationRequestPreferredWansList | undefined;
   /** Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported) */
-  priority?: number;
+  priority?: number | undefined;
 }
 export type UpdateSitesAppConfigurationResultAccountAppPreferredWansList = Array<string>;
 export interface UpdateSitesAppConfigurationResultAccountApp {
   /** Magic account app ID. */
   accountAppId: string;
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior. */
-  breakout?: boolean | null;
+  breakout?: boolean | null | undefined;
   /** WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true). */
-  preferredWans?: UpdateSitesAppConfigurationResultAccountAppPreferredWansList | null;
+  preferredWans?: UpdateSitesAppConfigurationResultAccountAppPreferredWansList | null | undefined;
   /** Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported) */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Identifier */
-  siteId?: string | null;
+  siteId?: string | null | undefined;
 }
 export type UpdateSitesAppConfigurationResultManagedAppPreferredWansList = Array<string>;
 export interface UpdateSitesAppConfigurationResultManagedApp {
   /** Managed app ID. */
   managedAppId: string;
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Whether to breakout traffic to the app's endpoints directly. Null preserves default behavior. */
-  breakout?: boolean | null;
+  breakout?: boolean | null | undefined;
   /** WAN interfaces to prefer over default WANs, highest-priority first. Can only be specified for breakout rules (breakout must be true). */
-  preferredWans?: UpdateSitesAppConfigurationResultManagedAppPreferredWansList | null;
+  preferredWans?: UpdateSitesAppConfigurationResultManagedAppPreferredWansList | null | undefined;
   /** Priority of traffic. 0 is default, anything greater is prioritized. (Currently only 0 and 1 are supported) */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Identifier */
-  siteId?: string | null;
+  siteId?: string | null | undefined;
 }
 export type UpdateSitesAppConfigurationResult =
   | UpdateSitesAppConfigurationResultAccountApp
@@ -6956,43 +7085,43 @@ export interface UpdateSiteWanRequest {
   /** Identifier */
   wanId: string;
   /** Magic WAN health check rate for tunnels created on this link. */
-  healthCheckRate?: SitesWansUpdateRequestHealthCheckRate | (string & {});
-  loadBalanceInnerFlows?: boolean;
-  name?: string;
-  physport?: number;
-  priority?: number;
+  healthCheckRate?: SitesWansUpdateRequestHealthCheckRate | (string & {}) | undefined;
+  loadBalanceInnerFlows?: boolean | undefined;
+  name?: string | undefined;
+  physport?: number | undefined;
+  priority?: number | undefined;
   /** Provisioned download rate of the WAN circuit in kilobits per second. Set to null to remove it. */
-  provisionedDownloadKbps?: number;
+  provisionedDownloadKbps?: number | undefined;
   /** Provisioned upload rate of the WAN circuit in kilobits per second. Set to null to remove it. */
-  provisionedUploadKbps?: number;
+  provisionedUploadKbps?: number | undefined;
   /** Static addressing configuration. PATCH updates only the fields provided, and PUT replaces the configuration. */
-  staticAddressing?: SitesWansEditRequestStaticAddressing;
+  staticAddressing?: SitesWansEditRequestStaticAddressing | undefined;
   /** VLAN ID. Use zero for untagged. */
-  vlanTag?: number;
+  vlanTag?: number | undefined;
 }
 export type SitesWansUpdateResponseHealthCheckRate = "low" | "mid" | "high";
 export type SitesWansUpdateResponseStaticAddressing = SitesWansCreateResultItemStaticAddressing;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateSiteWanResponse {
   /** Identifier */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Magic WAN health check rate for tunnels created on this link. The default value is `mid`. */
-  healthCheckRate?: SitesWansUpdateResponseHealthCheckRate | null;
-  loadBalanceInnerFlows?: boolean | null;
-  name?: string | null;
-  physport?: number | null;
+  healthCheckRate?: SitesWansUpdateResponseHealthCheckRate | null | undefined;
+  loadBalanceInnerFlows?: boolean | null | undefined;
+  name?: string | null | undefined;
+  physport?: number | null | undefined;
   /** Priority of WAN for traffic loadbalancing. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Provisioned download rate of the WAN circuit in kilobits per second. */
-  provisionedDownloadKbps?: number | null;
+  provisionedDownloadKbps?: number | null | undefined;
   /** Provisioned upload rate of the WAN circuit in kilobits per second. */
-  provisionedUploadKbps?: number | null;
+  provisionedUploadKbps?: number | null | undefined;
   /** Identifier */
-  siteId?: string | null;
+  siteId?: string | null | undefined;
   /** (optional) if omitted, use DHCP. Submit secondary_address when site is in high availability mode. */
-  staticAddressing?: SitesWansCreateResultItemStaticAddressing | null;
+  staticAddressing?: SitesWansCreateResultItemStaticAddressing | null | undefined;
   /** VLAN ID. Use zero for untagged. */
-  vlanTag?: number | null;
+  vlanTag?: number | null | undefined;
 }
 export interface ValidatePcapOwnershipRequest {
   /** Identifier. */
@@ -7016,7 +7145,7 @@ export interface ValidatePcapOwnershipResponse {
   /** The RFC 3339 timestamp when the bucket was added to packet captures API. */
   submitted: string;
   /** The RFC 3339 timestamp when the bucket was validated. */
-  validated?: string | null;
+  validated?: string | null | undefined;
 }
 export type BulkPutCfInterconnectsError = CloudflareOpError;
 /** Updates multiple interconnects associated with an account. Use `?validate_only=true` as an optional query parameter to only run validation without persisting changes. */

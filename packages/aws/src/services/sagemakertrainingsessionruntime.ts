@@ -143,33 +143,37 @@ export interface ModelInput {
 export type StopSequenceList = string[];
 export interface SamplingParams {
   maxTokens: number;
-  temperature?: number;
-  topK?: number;
-  topP?: number;
-  seed?: number;
-  stop?: string[];
+  temperature?: number | undefined;
+  topK?: number | undefined;
+  topP?: number | undefined;
+  seed?: number | undefined;
+  stop?: string[] | undefined;
 }
 export interface SampleConfig {
   prompt: ModelInput;
   numSamples: number;
   samplingParams: SamplingParams;
-  includePromptLogprobs?: boolean;
-  topkPromptLogprobs?: number;
-  modelPackageArn?: string;
+  includePromptLogprobs?: boolean | undefined;
+  topkPromptLogprobs?: number | undefined;
+  modelPackageArn?: string | undefined;
 }
 export interface ComputeLogprobsConfig {
   prompt: ModelInput;
-  modelPackageArn?: string;
+  modelPackageArn?: string | undefined;
 }
 export interface LoadWeightsForSamplingConfig {
   modelPackageArn: string;
 }
 export type SampleOperationConfig =
-  | { sample: SampleConfig; computeLogprobs?: never; loadWeightsForSampling?: never }
-  | { sample?: never; computeLogprobs: ComputeLogprobsConfig; loadWeightsForSampling?: never }
+  | { sample: SampleConfig; computeLogprobs?: undefined; loadWeightsForSampling?: undefined }
   | {
-      sample?: never;
-      computeLogprobs?: never;
+      sample?: undefined;
+      computeLogprobs: ComputeLogprobsConfig;
+      loadWeightsForSampling?: undefined;
+    }
+  | {
+      sample?: undefined;
+      computeLogprobs?: undefined;
       loadWeightsForSampling: LoadWeightsForSamplingConfig;
     };
 export interface ExecuteSamplingOperationInput {
@@ -186,42 +190,42 @@ export type LossFnName = "cross_entropy" | "importance_sampling" | "ppo" | "cisp
 export interface TensorData {
   data: any;
   dtype: string;
-  shape?: number[];
+  shape?: number[] | undefined;
 }
 export type TensorDataMap = { [key: string]: TensorData | undefined };
 export interface Datum {
   modelInput: ModelInput;
-  lossFnInputs?: { [key: string]: TensorData | undefined };
+  lossFnInputs?: { [key: string]: TensorData | undefined } | undefined;
 }
 export type DatumList = Datum[];
 export interface ForwardConfig {
   lossFnName: LossFnName;
   datumList: Datum[];
-  lossFnConfig?: any;
+  lossFnConfig?: any | undefined;
 }
 export interface ForwardBackwardConfig {
   lossFnName: LossFnName;
   datumList: Datum[];
-  lossFnConfig?: any;
+  lossFnConfig?: any | undefined;
 }
 export interface AdamParamsConfig {
   learningRate: number;
-  beta1?: number;
-  beta2?: number;
-  eps?: number;
-  weightDecay?: number;
-  gradClipNorm?: number;
-  loraPlusLrRatio?: number;
+  beta1?: number | undefined;
+  beta2?: number | undefined;
+  eps?: number | undefined;
+  weightDecay?: number | undefined;
+  gradClipNorm?: number | undefined;
+  loraPlusLrRatio?: number | undefined;
 }
 export interface OptimizerStepConfig {
   adamParamsConfig: AdamParamsConfig;
 }
 export interface SaveWeightsConfig {
-  mergeWeights?: boolean;
-  description?: string;
+  mergeWeights?: boolean | undefined;
+  description?: string | undefined;
 }
 export interface SaveStateConfig {
-  description?: string;
+  description?: string | undefined;
 }
 export interface LoadStateConfig {
   modelPackageArn: string;
@@ -230,56 +234,56 @@ export interface LoadStateConfig {
 export type OperationConfig =
   | {
       forward: ForwardConfig;
-      forwardBackward?: never;
-      optimizerStep?: never;
-      saveWeights?: never;
-      saveState?: never;
-      loadState?: never;
+      forwardBackward?: undefined;
+      optimizerStep?: undefined;
+      saveWeights?: undefined;
+      saveState?: undefined;
+      loadState?: undefined;
     }
   | {
-      forward?: never;
+      forward?: undefined;
       forwardBackward: ForwardBackwardConfig;
-      optimizerStep?: never;
-      saveWeights?: never;
-      saveState?: never;
-      loadState?: never;
+      optimizerStep?: undefined;
+      saveWeights?: undefined;
+      saveState?: undefined;
+      loadState?: undefined;
     }
   | {
-      forward?: never;
-      forwardBackward?: never;
+      forward?: undefined;
+      forwardBackward?: undefined;
       optimizerStep: OptimizerStepConfig;
-      saveWeights?: never;
-      saveState?: never;
-      loadState?: never;
+      saveWeights?: undefined;
+      saveState?: undefined;
+      loadState?: undefined;
     }
   | {
-      forward?: never;
-      forwardBackward?: never;
-      optimizerStep?: never;
+      forward?: undefined;
+      forwardBackward?: undefined;
+      optimizerStep?: undefined;
       saveWeights: SaveWeightsConfig;
-      saveState?: never;
-      loadState?: never;
+      saveState?: undefined;
+      loadState?: undefined;
     }
   | {
-      forward?: never;
-      forwardBackward?: never;
-      optimizerStep?: never;
-      saveWeights?: never;
+      forward?: undefined;
+      forwardBackward?: undefined;
+      optimizerStep?: undefined;
+      saveWeights?: undefined;
       saveState: SaveStateConfig;
-      loadState?: never;
+      loadState?: undefined;
     }
   | {
-      forward?: never;
-      forwardBackward?: never;
-      optimizerStep?: never;
-      saveWeights?: never;
-      saveState?: never;
+      forward?: undefined;
+      forwardBackward?: undefined;
+      optimizerStep?: undefined;
+      saveWeights?: undefined;
+      saveState?: undefined;
       loadState: LoadStateConfig;
     };
 export interface ExecuteTrainingOperationInput {
   trainingSessionName: string;
   sequenceNumber: number;
-  clientToken?: string;
+  clientToken?: string | undefined;
   operationConfig: OperationConfig;
 }
 export interface ExecuteTrainingOperationOutput {
@@ -305,8 +309,8 @@ export interface SampleTokenUsage {
 export interface SampledSequence {
   stopReason: StopReason;
   tokens: number[];
-  logprobs?: number[];
-  tokenUsage?: SampleTokenUsage;
+  logprobs?: number[] | undefined;
+  tokenUsage?: SampleTokenUsage | undefined;
 }
 export type SampledSequenceList = SampledSequence[];
 export interface TokenLogprob {
@@ -317,25 +321,29 @@ export type TokenLogprobList = TokenLogprob[];
 export type TopkPromptLogprobsList = TokenLogprob[][];
 export interface SampleResponse {
   sequences: SampledSequence[];
-  promptLogprobs?: number[];
-  topkPromptLogprobs?: TokenLogprob[][];
+  promptLogprobs?: number[] | undefined;
+  topkPromptLogprobs?: TokenLogprob[][] | undefined;
 }
 export interface ComputeLogprobsResult {
   logprobs: number[];
 }
 export interface LoadWeightsForSamplingResult {}
 export type SampleOperationResult =
-  | { sample: SampleResponse; computeLogprobs?: never; loadWeightsForSampling?: never }
-  | { sample?: never; computeLogprobs: ComputeLogprobsResult; loadWeightsForSampling?: never }
+  | { sample: SampleResponse; computeLogprobs?: undefined; loadWeightsForSampling?: undefined }
   | {
-      sample?: never;
-      computeLogprobs?: never;
+      sample?: undefined;
+      computeLogprobs: ComputeLogprobsResult;
+      loadWeightsForSampling?: undefined;
+    }
+  | {
+      sample?: undefined;
+      computeLogprobs?: undefined;
       loadWeightsForSampling: LoadWeightsForSamplingResult;
     };
 export interface GetSamplingOperationResultOutput {
   status: RequestStatus;
-  operationResult?: SampleOperationResult;
-  errorDetails?: string;
+  operationResult?: SampleOperationResult | undefined;
+  errorDetails?: string | undefined;
 }
 export interface GetTrainingOperationResultInput {
   trainingSessionName: string;
@@ -344,25 +352,25 @@ export interface GetTrainingOperationResultInput {
 export type TensorDataMapList = { [key: string]: TensorData | undefined }[];
 export type MetricsMap = { [key: string]: number | undefined };
 export interface TrainingTokenUsage {
-  trainingTokens?: number;
+  trainingTokens?: number | undefined;
 }
 export interface ForwardResult {
-  lossFnOutputType?: string;
-  lossFnOutputs?: { [key: string]: TensorData | undefined }[];
-  metrics?: { [key: string]: number | undefined };
-  tokenUsage?: TrainingTokenUsage;
+  lossFnOutputType?: string | undefined;
+  lossFnOutputs?: { [key: string]: TensorData | undefined }[] | undefined;
+  metrics?: { [key: string]: number | undefined } | undefined;
+  tokenUsage?: TrainingTokenUsage | undefined;
 }
 export interface ForwardBackwardResult {
-  lossFnOutputType?: string;
-  lossFnOutputs?: { [key: string]: TensorData | undefined }[];
-  metrics?: { [key: string]: number | undefined };
-  tokenUsage?: TrainingTokenUsage;
+  lossFnOutputType?: string | undefined;
+  lossFnOutputs?: { [key: string]: TensorData | undefined }[] | undefined;
+  metrics?: { [key: string]: number | undefined } | undefined;
+  tokenUsage?: TrainingTokenUsage | undefined;
 }
 export interface OptimizerStepResult {
-  metrics?: { [key: string]: number | undefined };
+  metrics?: { [key: string]: number | undefined } | undefined;
 }
 export interface SaveWeightsResult {
-  modelPackageArn?: string;
+  modelPackageArn?: string | undefined;
 }
 export interface SaveStateResult {
   modelPackageArn: string;
@@ -371,78 +379,78 @@ export interface LoadStateResult {}
 export type OperationResult =
   | {
       forward: ForwardResult;
-      forwardBackward?: never;
-      optimizerStep?: never;
-      saveWeights?: never;
-      saveState?: never;
-      loadState?: never;
+      forwardBackward?: undefined;
+      optimizerStep?: undefined;
+      saveWeights?: undefined;
+      saveState?: undefined;
+      loadState?: undefined;
     }
   | {
-      forward?: never;
+      forward?: undefined;
       forwardBackward: ForwardBackwardResult;
-      optimizerStep?: never;
-      saveWeights?: never;
-      saveState?: never;
-      loadState?: never;
+      optimizerStep?: undefined;
+      saveWeights?: undefined;
+      saveState?: undefined;
+      loadState?: undefined;
     }
   | {
-      forward?: never;
-      forwardBackward?: never;
+      forward?: undefined;
+      forwardBackward?: undefined;
       optimizerStep: OptimizerStepResult;
-      saveWeights?: never;
-      saveState?: never;
-      loadState?: never;
+      saveWeights?: undefined;
+      saveState?: undefined;
+      loadState?: undefined;
     }
   | {
-      forward?: never;
-      forwardBackward?: never;
-      optimizerStep?: never;
+      forward?: undefined;
+      forwardBackward?: undefined;
+      optimizerStep?: undefined;
       saveWeights: SaveWeightsResult;
-      saveState?: never;
-      loadState?: never;
+      saveState?: undefined;
+      loadState?: undefined;
     }
   | {
-      forward?: never;
-      forwardBackward?: never;
-      optimizerStep?: never;
-      saveWeights?: never;
+      forward?: undefined;
+      forwardBackward?: undefined;
+      optimizerStep?: undefined;
+      saveWeights?: undefined;
       saveState: SaveStateResult;
-      loadState?: never;
+      loadState?: undefined;
     }
   | {
-      forward?: never;
-      forwardBackward?: never;
-      optimizerStep?: never;
-      saveWeights?: never;
-      saveState?: never;
+      forward?: undefined;
+      forwardBackward?: undefined;
+      optimizerStep?: undefined;
+      saveWeights?: undefined;
+      saveState?: undefined;
       loadState: LoadStateResult;
     };
 export interface GetTrainingOperationResultOutput {
   status: RequestStatus;
-  operationResult?: OperationResult;
-  errorDetails?: string;
-  tokenUsage?: TrainingTokenUsage;
+  operationResult?: OperationResult | undefined;
+  errorDetails?: string | undefined;
+  tokenUsage?: TrainingTokenUsage | undefined;
 }
 export interface SampleTrainingSessionInput {
   trainingSessionName: string;
-  contentType?: string;
-  accept?: string;
-  modelPackageArn?: string;
-  body?: T.StreamingInputBody;
+  contentType?: string | undefined;
+  accept?: string | undefined;
+  modelPackageArn?: string | undefined;
+  body?: T.StreamingInputBody | undefined;
 }
 export interface SampleTrainingSessionOutput {
-  contentType?: string;
+  contentType?: string | undefined;
   body: T.StreamingOutputBody;
 }
 export interface SampleTrainingSessionWithResponseStreamInput {
   trainingSessionName: string;
-  contentType?: string;
-  accept?: string;
-  modelPackageArn?: string;
-  body?: T.StreamingInputBody;
+  contentType?: string | undefined;
+  accept?: string | undefined;
+  modelPackageArn?: string | undefined;
+  body?: T.StreamingInputBody | undefined;
 }
 export interface SampleTrainingSessionWithResponseStreamOutput {
-  contentType?: string;
+  contentType?: string | undefined;
   body: T.StreamingOutputBody;
 }
 export type ExecuteSamplingOperationError =

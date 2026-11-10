@@ -86,577 +86,577 @@ export type StringMap = { [key: string]: string | undefined };
 export type StringList = Array<string>;
 export interface PermissionPermissionDetailsItem {
   /** Output only. The primary role for this user. While new values may be added in the future, the following are currently possible: * `organizer` * `fileOrganizer` * `writer` * `reader` */
-  role?: string;
+  role?: string | undefined;
   /** Output only. Additional roles for this user. Only `commenter` is currently possible, though more may be supported in the future. */
-  additionalRoles?: StringList;
+  additionalRoles?: StringList | undefined;
   /** Output only. The permission type for this user. While new values may be added in future, the following are currently possible: * `file` * `member` */
-  permissionType?: string;
+  permissionType?: string | undefined;
   /** Output only. Whether this permission is inherited. This field is always populated. */
-  inherited?: boolean;
+  inherited?: boolean | undefined;
   /** Output only. The ID of the item from which this permission is inherited. This is only populated for items in shared drives. */
-  inheritedFrom?: string;
+  inheritedFrom?: string | undefined;
 }
 export type PermissionPermissionDetailsItemList = Array<PermissionPermissionDetailsItem>;
 export interface PermissionTeamDrivePermissionDetailsItem {
   /** Output only. Deprecated: Use `permissionDetails/additionalRoles` instead. */
-  additionalRoles?: StringList;
+  additionalRoles?: StringList | undefined;
   /** Output only. Deprecated: Use `permissionDetails/inherited` instead. */
-  inherited?: boolean;
+  inherited?: boolean | undefined;
   /** Output only. Deprecated: Use `permissionDetails/role` instead. */
-  role?: string;
+  role?: string | undefined;
   /** Output only. Deprecated: Use `permissionDetails/permissionType` instead. */
-  teamDrivePermissionType?: string;
+  teamDrivePermissionType?: string | undefined;
   /** Output only. Deprecated: Use `permissionDetails/inheritedFrom` instead. */
-  inheritedFrom?: string;
+  inheritedFrom?: string | undefined;
 }
 export type PermissionTeamDrivePermissionDetailsItemList =
   Array<PermissionTeamDrivePermissionDetailsItem>;
 /** A permission for a file. A permission grants a user, group, domain, or the world access to a file or a folder hierarchy. Some resource methods (such as `permissions.update`) require a `permissionId`. Use the `permissions.list` method to retrieve the ID for a file, folder, or shared drive. */
 export interface Permission {
   /** Indicates the view for this permission. Only populated for permissions that belong to a view. published and metadata are the only supported values. - published: The permission's role is published_reader. - metadata: The item is only visible to the metadata view because the item has limited access and the scope has at least read access to the parent. Note: The metadata view is currently only supported on folders. */
-  view?: string;
+  view?: string | undefined;
   /** Whether the account associated with this permission is a pending owner. Only populated for `user` type permissions for files that are not in a shared drive. */
-  pendingOwner?: boolean;
+  pendingOwner?: boolean | undefined;
   /** Output only. The ETag of the permission. */
-  etag?: string;
+  etag?: string | undefined;
   /** When true, only organizers, owners, and users with permissions added directly on the item can access it. */
-  inheritedPermissionsDisabled?: boolean;
+  inheritedPermissionsDisabled?: boolean | undefined;
   /** Output only. Details of whether the permissions on this item are inherited or directly on this item. */
-  permissionDetails?: PermissionPermissionDetailsItemList;
+  permissionDetails?: PermissionPermissionDetailsItemList | undefined;
   /** The time at which this permission will expire (RFC 3339 date-time). Expiration dates have the following restrictions: - They can only be set on user and group permissions - The date must be in the future - The date cannot be more than a year in the future - The date can only be set on drive.permissions.update or drive.permissions.patch requests */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Output only. Whether the account associated with this permission has been deleted. This field only pertains to user and group permissions. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Output only. The name for this permission. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. A link back to this permission. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** Output only. Deprecated. */
-  authKey?: string;
+  authKey?: string | undefined;
   /** Additional roles for this user. Only `commenter` is currently allowed, though more may be supported in the future. */
-  additionalRoles?: StringList;
+  additionalRoles?: StringList | undefined;
   /** Output only. This is always `drive#permission`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The account type. Allowed values are: * `user` * `group` * `domain` * `anyone` */
-  type?: string;
+  type?: string | undefined;
   /** The primary role for this user. While new values may be supported in the future, the following are currently allowed: * `owner` * `organizer` * `fileOrganizer` * `writer` * `reader` */
-  role?: string;
+  role?: string | undefined;
   /** Whether the link is required for this permission. */
-  withLink?: boolean;
+  withLink?: boolean | undefined;
   /** Output only. A link to the profile photo, if available. */
-  photoLink?: string;
+  photoLink?: string | undefined;
   /** Output only. The domain name of the entity this permission refers to. This is an output-only field which is present when the permission type is `user`, `group` or `domain`. */
-  domain?: string;
+  domain?: string | undefined;
   /** Output only. The email address of the user or group this permission refers to. This is an output-only field which is present when the permission type is `user` or `group`. */
-  emailAddress?: string;
+  emailAddress?: string | undefined;
   /** Output only. Deprecated: Use `permissionDetails` instead. */
-  teamDrivePermissionDetails?: PermissionTeamDrivePermissionDetailsItemList;
+  teamDrivePermissionDetails?: PermissionTeamDrivePermissionDetailsItemList | undefined;
   /** The ID of the user this permission refers to, and identical to the `permissionId` in the About and Files resources. When making a `drive.permissions.insert` request, exactly one of the `id` or `value` fields must be specified unless the permission type is `anyone`, in which case both `id` and `value` are ignored. */
-  id?: string;
+  id?: string | undefined;
   /** The email address or domain name for the entity. This is used during inserts and is not populated in responses. When making a `drive.permissions.insert` request, exactly one of the `id` or `value` fields must be specified unless the permission type is `anyone`, in which case both `id` and `value` are ignored. */
-  value?: string;
+  value?: string | undefined;
 }
 export interface FileVideoMediaMetadata {
   /** Output only. The width of the video in pixels. */
-  width?: number;
+  width?: number | undefined;
   /** Output only. The duration of the video in milliseconds. */
-  durationMillis?: string;
+  durationMillis?: string | undefined;
   /** Output only. The height of the video in pixels. */
-  height?: number;
+  height?: number | undefined;
 }
 export interface FileImageMediaMetadataLocation {
   /** Output only. The altitude stored in the image. */
-  altitude?: number;
+  altitude?: number | undefined;
   /** Output only. The latitude stored in the image. */
-  latitude?: number;
+  latitude?: number | undefined;
   /** Output only. The longitude stored in the image. */
-  longitude?: number;
+  longitude?: number | undefined;
 }
 export interface FileImageMediaMetadata {
   /** Output only. The aperture used to create the photo (f-number). */
-  aperture?: number;
+  aperture?: number | undefined;
   /** Output only. The lens used to create the photo. */
-  lens?: string;
+  lens?: string | undefined;
   /** Output only. The number of clockwise 90 degree rotations applied from the image's original orientation. */
-  rotation?: number;
+  rotation?: number | undefined;
   /** Output only. The exposure mode used to create the photo. */
-  exposureMode?: string;
+  exposureMode?: string | undefined;
   /** Output only. The height of the image in pixels. */
-  height?: number;
+  height?: number | undefined;
   /** Output only. The length of the exposure, in seconds. */
-  exposureTime?: number;
+  exposureTime?: number | undefined;
   /** Output only. The color space of the photo. */
-  colorSpace?: string;
+  colorSpace?: string | undefined;
   /** Output only. The smallest f-number of the lens at the focal length used to create the photo (APEX value). */
-  maxApertureValue?: number;
+  maxApertureValue?: number | undefined;
   /** Output only. The model of the camera used to create the photo. */
-  cameraModel?: string;
+  cameraModel?: string | undefined;
   /** Output only. The white balance mode used to create the photo. */
-  whiteBalance?: string;
+  whiteBalance?: string | undefined;
   /** Output only. Geographic location information stored in the image. */
-  location?: FileImageMediaMetadataLocation;
+  location?: FileImageMediaMetadataLocation | undefined;
   /** Output only. The make of the camera used to create the photo. */
-  cameraMake?: string;
+  cameraMake?: string | undefined;
   /** Output only. The width of the image in pixels. */
-  width?: number;
+  width?: number | undefined;
   /** Output only. The type of sensor used to create the photo. */
-  sensor?: string;
+  sensor?: string | undefined;
   /** Output only. The ISO speed used to create the photo. */
-  isoSpeed?: number;
+  isoSpeed?: number | undefined;
   /** Output only. The focal length used to create the photo, in millimeters. */
-  focalLength?: number;
+  focalLength?: number | undefined;
   /** Output only. Whether a flash was used to create the photo. */
-  flashUsed?: boolean;
+  flashUsed?: boolean | undefined;
   /** Output only. The exposure bias of the photo (APEX value). */
-  exposureBias?: number;
+  exposureBias?: number | undefined;
   /** Output only. The distance to the subject of the photo, in meters. */
-  subjectDistance?: number;
+  subjectDistance?: number | undefined;
   /** Output only. The metering mode used to create the photo. */
-  meteringMode?: string;
+  meteringMode?: string | undefined;
   /** Output only. The date and time the photo was taken (EXIF format timestamp). */
-  date?: string;
+  date?: string | undefined;
 }
 export interface FileCapabilities {
   /** Output only. Whether the current user can move children of this folder within this drive. This is false when the item is not a folder. Note that a request to move the child may still fail depending on the current user's access to the child and to the destination folder. */
-  canMoveChildrenWithinDrive?: boolean;
+  canMoveChildrenWithinDrive?: boolean | undefined;
   /** Output only. Whether the current user can add or modify content restrictions which are owner restricted. */
-  canModifyOwnerContentRestriction?: boolean;
+  canModifyOwnerContentRestriction?: boolean | undefined;
   /** Output only. Whether the current user can add or modify content restrictions on the file which are editor restricted. */
-  canModifyEditorContentRestriction?: boolean;
+  canModifyEditorContentRestriction?: boolean | undefined;
   /** Output only. Whether the current user can copy this file. For an item in a shared drive, whether the current user can copy non-folder descendants of this item, or this item itself if it is not a folder. */
-  canCopy?: boolean;
+  canCopy?: boolean | undefined;
   /** Output only. Whether the current user can modify the sharing settings for this file. */
-  canShare?: boolean;
+  canShare?: boolean | undefined;
   /** Output only. Whether the current user can delete this file. */
-  canDelete?: boolean;
+  canDelete?: boolean | undefined;
   /** Output only. Whether the current user can change the securityUpdateEnabled field on link share metadata. */
-  canChangeSecurityUpdateEnabled?: boolean;
+  canChangeSecurityUpdateEnabled?: boolean | undefined;
   /** Output only. Deprecated. */
-  canChangeRestrictedDownload?: boolean;
+  canChangeRestrictedDownload?: boolean | undefined;
   /** Output only. Whether the current user can trash children of this folder. This is false when the item is not a folder. Only populated for items in shared drives. */
-  canTrashChildren?: boolean;
+  canTrashChildren?: boolean | undefined;
   /** Output only. Deprecated: Use `canReadDrive` instead. */
-  canReadTeamDrive?: boolean;
+  canReadTeamDrive?: boolean | undefined;
   /** Output only. Whether the current user can edit this file. Other factors may limit the type of changes a user can make to a file. For example, see `canChangeCopyRequiresWriterPermission` or `canModifyContent`. */
-  canEdit?: boolean;
+  canEdit?: boolean | undefined;
   /** Output only. Whether the current user can add a folder from another drive (different shared drive or My Drive) to this folder. This is false when the item is not a folder. Only populated for items in shared drives. */
-  canAddFolderFromAnotherDrive?: boolean;
+  canAddFolderFromAnotherDrive?: boolean | undefined;
   /** Output only. Whether the current user can download this file. */
-  canDownload?: boolean;
+  canDownload?: boolean | undefined;
   /** Output only. Whether a user can re-enable inherited permissions. */
-  canEnableInheritedPermissions?: boolean;
+  canEnableInheritedPermissions?: boolean | undefined;
   /** Output only. Whether the current user can add a parent for the item without removing an existing parent in the same request. Not populated for shared drive files. */
-  canAddMyDriveParent?: boolean;
+  canAddMyDriveParent?: boolean | undefined;
   /** Output only. Whether the current user can delete children of this folder. This is false when the item is not a folder. Only populated for items in shared drives. */
-  canDeleteChildren?: boolean;
+  canDeleteChildren?: boolean | undefined;
   /** Output only. Deprecated: Use `canMoveItemOutOfDrive` instead. */
-  canMoveItemIntoTeamDrive?: boolean;
+  canMoveItemIntoTeamDrive?: boolean | undefined;
   /** Output only. Whether the current user can modify the labels on the file. */
-  canModifyLabels?: boolean;
+  canModifyLabels?: boolean | undefined;
   /** Output only. Whether there is a content restriction on the file that can be removed by the current user. */
-  canRemoveContentRestriction?: boolean;
+  canRemoveContentRestriction?: boolean | undefined;
   /** Deprecated: Output only. Use one of `canModifyEditorContentRestriction`, `canModifyOwnerContentRestriction` or `canRemoveContentRestriction`. */
-  canModifyContentRestriction?: boolean;
+  canModifyContentRestriction?: boolean | undefined;
   /** Output only. Whether the current user can read the labels on the file. */
-  canReadLabels?: boolean;
+  canReadLabels?: boolean | undefined;
   /** Output only. Whether the current user can remove a parent from the item without adding another parent in the same request. Not populated for shared drive files. */
-  canRemoveMyDriveParent?: boolean;
+  canRemoveMyDriveParent?: boolean | undefined;
   /** Output only. Whether the current user can list the children of this folder. This is always false when the item is not a folder. */
-  canListChildren?: boolean;
+  canListChildren?: boolean | undefined;
   /** Output only. Deprecated: Use `canMoveItemOutOfDrive` instead. */
-  canMoveItemOutOfTeamDrive?: boolean;
+  canMoveItemOutOfTeamDrive?: boolean | undefined;
   /** Output only. Whether the current user can read the shared drive to which this file belongs. Only populated for items in shared drives. */
-  canReadDrive?: boolean;
+  canReadDrive?: boolean | undefined;
   /** Output only. Deprecated: Use `canMoveChildrenWithinDrive` instead. */
-  canMoveChildrenWithinTeamDrive?: boolean;
+  canMoveChildrenWithinTeamDrive?: boolean | undefined;
   /** Output only. Whether the current user can modify the content of this file. */
-  canModifyContent?: boolean;
+  canModifyContent?: boolean | undefined;
   /** Output only. Whether a user can disable inherited permissions. */
-  canDisableInheritedPermissions?: boolean;
+  canDisableInheritedPermissions?: boolean | undefined;
   /** Output only. Whether the current user can add children to this folder. This is always false when the item is not a folder. */
-  canAddChildren?: boolean;
+  canAddChildren?: boolean | undefined;
   /** Output only. Deprecated: Use `canMoveItemWithinDrive` instead. */
-  canMoveItemWithinTeamDrive?: boolean;
+  canMoveItemWithinTeamDrive?: boolean | undefined;
   /** Output only. Whether the current user can remove children from this folder. This is always false when the item is not a folder. For a folder in a shared drive, use `canDeleteChildren` or `canTrashChildren` instead. */
-  canRemoveChildren?: boolean;
+  canRemoveChildren?: boolean | undefined;
   /** Output only. Deprecated: Use `canMoveItemWithinDrive` or `canMoveItemOutOfDrive` instead. */
-  canMoveTeamDriveItem?: boolean;
+  canMoveTeamDriveItem?: boolean | undefined;
   /** Output only. Whether the current user can restore this file from trash. */
-  canUntrash?: boolean;
+  canUntrash?: boolean | undefined;
   /** Output only. Deprecated: Use `canMoveChildrenOutOfDrive` instead. */
-  canMoveChildrenOutOfTeamDrive?: boolean;
+  canMoveChildrenOutOfTeamDrive?: boolean | undefined;
   /** Output only. Whether the current user can read the revisions resource of this file. For a shared drive item, whether revisions of non-folder descendants of this item, or this item itself if it is not a folder, can be read. */
-  canReadRevisions?: boolean;
+  canReadRevisions?: boolean | undefined;
   /** Output only. Whether the current user can comment on this file. */
-  canComment?: boolean;
+  canComment?: boolean | undefined;
   /** Output only. Whether the current user can rename this file. */
-  canRename?: boolean;
+  canRename?: boolean | undefined;
   /** Output only. Whether the current user can move this file to trash. */
-  canTrash?: boolean;
+  canTrash?: boolean | undefined;
   /** Output only. Whether the current user is the pending owner of the file. Not populated for shared drive files. */
-  canAcceptOwnership?: boolean;
+  canAcceptOwnership?: boolean | undefined;
   /** Output only. Whether the current user can move this item within this drive. Note that a request to change the parent of the item may still fail depending on the new parent that is being added and the parent that is being removed. */
-  canMoveItemWithinDrive?: boolean;
+  canMoveItemWithinDrive?: boolean | undefined;
   /** Output only. Whether the current user can change the `copyRequiresWriterPermission` restriction of this file. */
-  canChangeCopyRequiresWriterPermission?: boolean;
+  canChangeCopyRequiresWriterPermission?: boolean | undefined;
   /** Output only. Whether the current user can move this item outside of this drive by changing its parent. Note that a request to change the parent of the item may still fail depending on the new parent that is being added. */
-  canMoveItemOutOfDrive?: boolean;
+  canMoveItemOutOfDrive?: boolean | undefined;
   /** Output only. Whether the current user can move children of this folder outside of the shared drive. This is false when the item is not a folder. Only populated for items in shared drives. */
-  canMoveChildrenOutOfDrive?: boolean;
+  canMoveChildrenOutOfDrive?: boolean | undefined;
 }
 export interface UserPicture {
   /** Output only. A URL that points to a profile picture of this user. */
-  url?: string;
+  url?: string | undefined;
 }
 /** Information about a Drive user. */
 export interface User {
   /** Output only. Whether this user is the same as the authenticated user for whom the request was made. */
-  isAuthenticatedUser?: boolean;
+  isAuthenticatedUser?: boolean | undefined;
   /** Output only. The email address of the user. This may not be present in certain contexts if the user has not made their email address visible to the requester. */
-  emailAddress?: string;
+  emailAddress?: string | undefined;
   /** Output only. The user's ID as visible in Permission resources. */
-  permissionId?: string;
+  permissionId?: string | undefined;
   /** Output only. The user's profile picture. */
-  picture?: UserPicture;
+  picture?: UserPicture | undefined;
   /** Output only. Identifies what kind of resource this is. Value: the fixed string `drive#user`. */
-  kind?: string;
+  kind?: string | undefined;
   /** Output only. A plain text displayable name for this user. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** A reference to a file's parent. A file can only have one parent folder; specifying multiple parents isn't supported. Some resource methods (such as `parents.get`) require a `parentId`. Use the `parents.list` method to retrieve the ID for a parent. */
 export interface ParentReference {
   /** Output only. A link to the parent. */
-  parentLink?: string;
+  parentLink?: string | undefined;
   /** Output only. A link back to this reference. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** Output only. Whether or not the parent is the root folder. */
-  isRoot?: boolean;
+  isRoot?: boolean | undefined;
   /** Output only. This is always `drive#parentReference`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The ID of the parent. */
-  id?: string;
+  id?: string | undefined;
 }
 export type ParentReferenceList = Array<ParentReference>;
 export interface FileLabels {
   /** Whether this file has been viewed by this user. */
-  viewed?: boolean;
+  viewed?: boolean | undefined;
   /** Output only. Whether the file has been modified by this user. */
-  modified?: boolean;
+  modified?: boolean | undefined;
   /** Whether this file has been trashed. This label applies to all users accessing the file; however, only owners are allowed to see and untrash files. */
-  trashed?: boolean;
+  trashed?: boolean | undefined;
   /** Output only. Deprecated: Use `copyRequiresWriterPermission` instead. */
-  restricted?: boolean;
+  restricted?: boolean | undefined;
   /** Output only. Deprecated. */
-  hidden?: boolean;
+  hidden?: boolean | undefined;
   /** Whether this file is starred by the user. */
-  starred?: boolean;
+  starred?: boolean | undefined;
 }
 /** A restriction for accessing the content of the file. */
 export interface ContentRestriction {
   /** Whether the content of the file is read-only. If a file is read-only, a new revision of the file may not be added, comments may not be added or modified, and the title of the file may not be modified. */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** Reason for why the content of the file is restricted. This is only mutable on requests that also set `readOnly=true`. */
-  reason?: string;
+  reason?: string | undefined;
   /** Whether the content restriction can only be modified or removed by a user who owns the file. For files in shared drives, any user with `organizer` capabilities can modify or remove this content restriction. */
-  ownerRestricted?: boolean;
+  ownerRestricted?: boolean | undefined;
   /** Output only. The user who set the content restriction. Only populated if `readOnly` is true. */
-  restrictingUser?: User;
+  restrictingUser?: User | undefined;
   /** Output only. The type of the content restriction. Currently the only possible value is `globalContentRestriction`. */
-  type?: string;
+  type?: string | undefined;
   /** The time at which the content restriction was set (formatted RFC 3339 timestamp). Only populated if readOnly is true. */
-  restrictionDate?: string;
+  restrictionDate?: string | undefined;
   /** Output only. Whether the content restriction was applied by the system, for example due to an esignature. Users cannot modify or remove system restricted content restrictions. */
-  systemRestricted?: boolean;
+  systemRestricted?: boolean | undefined;
 }
 export type ContentRestrictionList = Array<ContentRestriction>;
 export interface FileShortcutDetails {
   /** Output only. The MIME type of the file that this shortcut points to. The value of this field is a snapshot of the target's MIME type, captured when the shortcut is created. */
-  targetMimeType?: string;
+  targetMimeType?: string | undefined;
   /** Output only. The ResourceKey for the target file. */
-  targetResourceKey?: string;
+  targetResourceKey?: string | undefined;
   /** The ID of the file that this shortcut points to. Can only be set on `files.insert` requests. */
-  targetId?: string;
+  targetId?: string | undefined;
 }
 export interface FileLinkShareMetadata {
   /** Output only. Whether the security update is enabled for this file. */
-  securityUpdateEnabled?: boolean;
+  securityUpdateEnabled?: boolean | undefined;
   /** Output only. Whether the file is eligible for security update. */
-  securityUpdateEligible?: boolean;
+  securityUpdateEligible?: boolean | undefined;
 }
 export type PermissionList_ = Array<Permission>;
 export interface FileIndexableText {
   /** The text to be indexed for this file. */
-  text?: string;
+  text?: string | undefined;
 }
 export type UserList = Array<User>;
 /** Representation of field, which is a typed key-value pair. */
 export interface LabelField {
   /** Only present if valueType is dateString. RFC 3339 formatted date: YYYY-MM-DD. */
-  dateString?: StringList;
+  dateString?: StringList | undefined;
   /** Only present if `valueType` is `integer`. */
-  integer?: StringList;
+  integer?: StringList | undefined;
   /** The identifier of this label field. */
-  id?: string;
+  id?: string | undefined;
   /** Only present if `valueType` is `text`. */
-  text?: StringList;
+  text?: StringList | undefined;
   /** The field type. While new values may be supported in the future, the following are currently allowed: * `dateString` * `integer` * `selection` * `text` * `user` */
-  valueType?: string;
+  valueType?: string | undefined;
   /** This is always `drive#labelField`. */
-  kind?: string;
+  kind?: string | undefined;
   /** Only present if `valueType` is `selection` */
-  selection?: StringList;
+  selection?: StringList | undefined;
   /** Only present if `valueType` is `user`. */
-  user?: UserList;
+  user?: UserList | undefined;
 }
 export type LabelFieldMap = { [key: string]: LabelField | undefined };
 /** Representation of a label and label fields. */
 export interface Label {
   /** This is always `drive#label` */
-  kind?: string;
+  kind?: string | undefined;
   /** The revision ID of the label. */
-  revisionId?: string;
+  revisionId?: string | undefined;
   /** A map of the fields on the label, keyed by the field's ID. */
-  fields?: LabelFieldMap;
+  fields?: LabelFieldMap | undefined;
   /** The ID of the label. */
-  id?: string;
+  id?: string | undefined;
 }
 export type LabelList_ = Array<Label>;
 export interface FileLabelInfo {
   /** Output only. The set of labels on the file as requested by the label IDs in the `includeLabels` parameter. By default, no labels are returned. */
-  labels?: LabelList_;
+  labels?: LabelList_ | undefined;
 }
 export interface FileThumbnail {
   /** The MIME type of the thumbnail. */
-  mimeType?: string;
+  mimeType?: string | undefined;
   /** The URL-safe Base64 encoded bytes of the thumbnail image. It should conform to RFC 4648 section 5. */
-  image?: string;
+  image?: string | undefined;
 }
 /** A key-value pair attached to a file that is either public or private to an application. The following limits apply to file properties: * Maximum of 100 properties total per file * Maximum of 30 private properties per app * Maximum of 30 public properties * Maximum of 124 bytes size limit on (key + value) string in UTF-8 encoding for a single property Some resource methods (such as `properties.update`) require a `propertyKey`. Use the `properties.list` method to retrieve the key for a property. */
 export interface Property {
   /** Output only. ETag of the property. */
-  etag?: string;
+  etag?: string | undefined;
   /** The value of this property. */
-  value?: string;
+  value?: string | undefined;
   /** Output only. The link back to this property. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** The visibility of this property. Allowed values are PRIVATE (default) and PUBLIC. Private properties can only be retrieved using an authenticated request. An authenticated request uses an access token obtained with a OAuth 2 client ID. You cannot use an API key to retrieve private properties. */
-  visibility?: string;
+  visibility?: string | undefined;
   /** The key of this property. */
-  key?: string;
+  key?: string | undefined;
   /** Output only. This is always `drive#property`. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type PropertyList_ = Array<Property>;
 /** Representation of the CSE DecryptionMetadata. */
 export interface DecryptionMetadata {
   /** Key format for the unwrapped key. Must be `tinkAesGcmKey`. */
-  keyFormat?: string;
+  keyFormat?: string | undefined;
   /** The ID of the KACLS (Key ACL Service) used to encrypt the file. */
-  kaclsId?: string;
+  kaclsId?: string | undefined;
   /** Chunk size used if content was encrypted with the AES 256 GCM Cipher. Possible values are: - default - small */
-  aes256GcmChunkSize?: string;
+  aes256GcmChunkSize?: string | undefined;
   /** The URL-safe Base64 encoded HMAC-SHA256 digest of the resource metadata with its DEK (Data Encryption Key); see https://developers.google.com/workspace/cse/reference */
-  encryptionResourceKeyHash?: string;
+  encryptionResourceKeyHash?: string | undefined;
   /** The URL-safe Base64 encoded wrapped key used to encrypt the contents of the file. */
-  wrappedKey?: string;
+  wrappedKey?: string | undefined;
   /** The name of the KACLS (Key ACL Service) used to encrypt the file. */
-  kaclsName?: string;
+  kaclsName?: string | undefined;
   /** The signed JSON Web Token (JWT) which can be used to authorize the requesting user with the Key ACL Service (KACLS). The JWT asserts that the requesting user has at least read permissions on the file. */
-  jwt?: string;
+  jwt?: string | undefined;
 }
 /** Details about the client-side encryption applied to the file. */
 export interface ClientEncryptionDetails {
   /** The encryption state of the file. The values expected here are: - encrypted - unencrypted */
-  encryptionState?: string;
+  encryptionState?: string | undefined;
   /** The metadata used for client-side operations. */
-  decryptionMetadata?: DecryptionMetadata;
+  decryptionMetadata?: DecryptionMetadata | undefined;
 }
 /** The metadata for a file. Some resource methods (such as `files.update`) require a `fileId`. Use the `files.list` method to retrieve the ID for a file. */
 export interface File {
   /** Whether writers can share the document with other users. Not populated for items in shared drives. */
-  writersCanShare?: boolean;
+  writersCanShare?: boolean | undefined;
   /** Output only. Deprecated: Use `capabilities/canCopy` instead. */
-  copyable?: boolean;
+  copyable?: boolean | undefined;
   /** Output only. A link only available on public folders for viewing their static web assets (HTML, CSS, JS, etc) via Google Drive's Website Hosting. */
-  webViewLink?: string;
+  webViewLink?: string | undefined;
   /** Output only. A map of the id of each of the user's apps to a link to open this file with that app. Only populated when the drive.apps.readonly scope is used. */
-  openWithLinks?: StringMap;
+  openWithLinks?: StringMap | undefined;
   /** Output only. The full file extension; extracted from the title. May contain multiple concatenated extensions, such as "tar.gz". Removing an extension from the title does not clear this field; however, changing the extension on the title does update this field. This field is only populated for files with content stored in Google Drive; it is not populated for Docs Editors or shortcut files. */
-  fullFileExtension?: string;
+  fullFileExtension?: string | undefined;
   /** Output only. The permissions for the authenticated user on this file. */
-  userPermission?: Permission;
+  userPermission?: Permission | undefined;
   /** Output only. A link to open this file with the user's default app for this file. Only populated when the drive.apps.readonly scope is used. */
-  defaultOpenWithLink?: string;
+  defaultOpenWithLink?: string | undefined;
   /** Output only. List of permission IDs for users with access to this file. */
-  permissionIds?: StringList;
+  permissionIds?: StringList | undefined;
   /** Output only. Whether this file has been explicitly trashed, as opposed to recursively trashed. */
-  explicitlyTrashed?: boolean;
+  explicitlyTrashed?: boolean | undefined;
   /** Output only. A short-lived link to the file's thumbnail, if available. Typically lasts on the order of hours. Not intended for direct usage on web applications due to [Cross-Origin Resource Sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS), consider using a proxy server. Only populated when the requesting app can access the file's content. If the file isn't shared publicly, the URL returned in `Files.thumbnailLink` must be fetched using a credentialed request. */
-  thumbnailLink?: string;
+  thumbnailLink?: string | undefined;
   /** Output only. Metadata about video media. This will only be present for video types. */
-  videoMediaMetadata?: FileVideoMediaMetadata;
+  videoMediaMetadata?: FileVideoMediaMetadata | undefined;
   /** Output only. Links for exporting Docs Editors files to specific formats. */
-  exportLinks?: StringMap;
+  exportLinks?: StringMap | undefined;
   /** Output only. Name(s) of the owner(s) of this file. Not populated for items in shared drives. */
-  ownerNames?: StringList;
+  ownerNames?: StringList | undefined;
   /** The time that the item was trashed (formatted RFC 3339 timestamp). Only populated for items in shared drives. */
-  trashedDate?: string;
+  trashedDate?: string | undefined;
   /** Output only. Metadata about image media. This will only be present for image types, and its contents will depend on what can be parsed from the image content. */
-  imageMediaMetadata?: FileImageMediaMetadata;
+  imageMediaMetadata?: FileImageMediaMetadata | undefined;
   /** Output only. Capabilities the current user has on this file. Each capability corresponds to a fine-grained action that a user may take. */
-  capabilities?: FileCapabilities;
+  capabilities?: FileCapabilities | undefined;
   /** Output only. The last user to modify this file. This field is only populated when the last modification was performed by a signed-in user. */
-  lastModifyingUser?: User;
+  lastModifyingUser?: User | undefined;
   /** Output only. User that shared the item with the current user, if available. */
-  sharingUser?: User;
+  sharingUser?: User | undefined;
   /** Output only. Whether this file is in the Application Data folder. */
-  appDataContents?: boolean;
+  appDataContents?: boolean | undefined;
   /** Output only. The ID of the file's head revision. This field is only populated for files with content stored in Google Drive; it is not populated for Docs Editors or shortcut files. */
-  headRevisionId?: string;
+  headRevisionId?: string | undefined;
   /** Output only. The SHA256 checksum associated with this file, if available. This field is only populated for files with content stored in Google Drive; it is not populated for Docs Editors or shortcut files. */
-  sha256Checksum?: string;
+  sha256Checksum?: string | undefined;
   /** Output only. Whether the file is owned by the current user. Not populated for items in shared drives. */
-  ownedByMe?: boolean;
+  ownedByMe?: boolean | undefined;
   /** Output only. A link for opening the file in a relevant Google editor or viewer. */
-  alternateLink?: string;
+  alternateLink?: string | undefined;
   /** Deprecated. */
-  markedViewedByMeDate?: string;
+  markedViewedByMeDate?: string | undefined;
   /** The ID of the parent folder containing the file. A file can only have one parent folder; specifying multiple parents isn't supported. If not specified as part of an insert request, the file is placed directly in the user's My Drive folder. If not specified as part of a copy request, the file inherits any discoverable parent of the source file. Update requests must use the `addParents` and `removeParents` parameters to modify the parents list. */
-  parents?: ParentReferenceList;
+  parents?: ParentReferenceList | undefined;
   /** Output only. Short lived download URL for the file. This field is only populated for files with content stored in Google Drive; it is not populated for Google Docs or shortcut files. */
-  downloadUrl?: string;
+  downloadUrl?: string | undefined;
   /** Output only. A monotonically increasing version number for the file. This reflects every change made to the file on the server, even those not visible to the requesting user. */
-  version?: string;
+  version?: string | undefined;
   /** A group of labels for the file. */
-  labels?: FileLabels;
+  labels?: FileLabels | undefined;
   /** Restrictions for accessing the content of the file. Only populated if such a restriction exists. */
-  contentRestrictions?: ContentRestrictionList;
+  contentRestrictions?: ContentRestrictionList | undefined;
   /** Output only. ETag of the file. */
-  etag?: string;
+  etag?: string | undefined;
   /** The ID of the file. */
-  id?: string;
+  id?: string | undefined;
   /** Shortcut file details. Only populated for shortcut files, which have the mimeType field set to `application/vnd.google-apps.shortcut`. Can only be set on `files.insert` requests. */
-  shortcutDetails?: FileShortcutDetails;
+  shortcutDetails?: FileShortcutDetails | undefined;
   /** Output only. Deprecated: Use `capabilities/canShare` instead. */
-  shareable?: boolean;
+  shareable?: boolean | undefined;
   /** Output only. Whether the file has been shared. Not populated for items in shared drives. */
-  shared?: boolean;
+  shared?: boolean | undefined;
   /** Output only. The final component of `fullFileExtension` with trailing text that does not appear to be part of the extension removed. This field is only populated for files with content stored in Google Drive; it is not populated for Docs Editors or shortcut files. */
-  fileExtension?: string;
+  fileExtension?: string | undefined;
   /** Contains details about the link URLs that clients are using to refer to this item. */
-  linkShareMetadata?: FileLinkShareMetadata;
+  linkShareMetadata?: FileLinkShareMetadata | undefined;
   /** Output only. The list of permissions for users with access to this file. Not populated for items in shared drives. */
-  permissions?: PermissionList_;
+  permissions?: PermissionList_ | undefined;
   /** Indexable text attributes for the file (can only be written) */
-  indexableText?: FileIndexableText;
+  indexableText?: FileIndexableText | undefined;
   /** The MIME type of the file. This is only mutable on update when uploading new content. This field can be left blank, and the mimetype will be determined from the uploaded content's MIME type. */
-  mimeType?: string;
+  mimeType?: string | undefined;
   /** Output only. An overview of the labels on the file. */
-  labelInfo?: FileLabelInfo;
+  labelInfo?: FileLabelInfo | undefined;
   /** Output only. ID of the shared drive the file resides in. Only populated for items in shared drives. */
-  driveId?: string;
+  driveId?: string | undefined;
   /** Output only. The thumbnail version for use in thumbnail cache invalidation. */
-  thumbnailVersion?: string;
+  thumbnailVersion?: string | undefined;
   /** Output only. The type of file. This is always `drive#file`. */
-  kind?: string;
+  kind?: string | undefined;
   /** Last time this file was viewed by the user (formatted RFC 3339 timestamp). */
-  lastViewedByMeDate?: string;
+  lastViewedByMeDate?: string | undefined;
   /** Create time for this file (formatted RFC 3339 timestamp). */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** Output only. A key needed to access the item via a shared link. */
-  resourceKey?: string;
+  resourceKey?: string | undefined;
   /** Output only. Whether there are permissions directly on this file. This field is only populated for items in shared drives. */
-  hasAugmentedPermissions?: boolean;
+  hasAugmentedPermissions?: boolean | undefined;
   /** A thumbnail for the file. This will only be used if a standard thumbnail cannot be generated. */
-  thumbnail?: FileThumbnail;
+  thumbnail?: FileThumbnail | undefined;
   /** Output only. Deprecated: Use `capabilities/canComment` instead. */
-  canComment?: boolean;
+  canComment?: boolean | undefined;
   /** Output only. A link to the file's icon. */
-  iconLink?: string;
+  iconLink?: string | undefined;
   /** Whether this file has inherited permissions disabled. Inherited permissions are enabled by default. */
-  inheritedPermissionsDisabled?: boolean;
+  inheritedPermissionsDisabled?: boolean | undefined;
   /** Output only. Whether the file was created or opened by the requesting app. */
-  isAppAuthorized?: boolean;
+  isAppAuthorized?: boolean | undefined;
   /** Output only. The number of quota bytes used by this file. */
-  quotaBytesUsed?: string;
+  quotaBytesUsed?: string | undefined;
   /** Last time this file was modified by anyone (formatted RFC 3339 timestamp). This is only mutable on update when the setModifiedDate parameter is set. */
-  modifiedDate?: string;
+  modifiedDate?: string | undefined;
   /** Time at which this file was shared with the user (formatted RFC 3339 timestamp). */
-  sharedWithMeDate?: string;
+  sharedWithMeDate?: string | undefined;
   /** Output only. Deprecated: Use `capabilities/canReadRevisions` instead. */
-  canReadRevisions?: boolean;
+  canReadRevisions?: boolean | undefined;
   /** Output only. An MD5 checksum for the content of this file. This field is only populated for files with content stored in Google Drive; it is not populated for Docs Editors or shortcut files. */
-  md5Checksum?: string;
+  md5Checksum?: string | undefined;
   /** Output only. The SHA1 checksum associated with this file, if available. This field is only populated for files with content stored in Google Drive; it is not populated for Docs Editors or shortcut files. */
-  sha1Checksum?: string;
+  sha1Checksum?: string | undefined;
   /** Output only. A link for embedding the file. */
-  embedLink?: string;
+  embedLink?: string | undefined;
   /** Output only. A link back to this file. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** Output only. A link for downloading the content of the file in a browser using cookie based authentication. In cases where the content is shared publicly, the content can be downloaded without any credentials. */
-  webContentLink?: string;
+  webContentLink?: string | undefined;
   /** Output only. The list of spaces which contain the file. Supported values are `drive`, `appDataFolder` and `photos`. */
-  spaces?: StringList;
+  spaces?: StringList | undefined;
   /** Last time this file was modified by the user (formatted RFC 3339 timestamp). Note that setting modifiedDate will also update the modifiedByMe date for the user which set the date. */
-  modifiedByMeDate?: string;
+  modifiedByMeDate?: string | undefined;
   /** The original filename of the uploaded content if available, or else the original value of the `title` field. This is only available for files with binary content in Google Drive. */
-  originalFilename?: string;
+  originalFilename?: string | undefined;
   /** The list of properties. */
-  properties?: PropertyList_;
+  properties?: PropertyList_ | undefined;
   /** Output only. Deprecated: Use `capabilities/canEdit` instead. */
-  editable?: boolean;
+  editable?: boolean | undefined;
   /** Output only. Deprecated: Use `driveId` instead. */
-  teamDriveId?: string;
+  teamDriveId?: string | undefined;
   /** Output only. The owner of this file. Only certain legacy files may have more than one owner. This field isn't populated for items in shared drives. */
-  owners?: UserList;
+  owners?: UserList | undefined;
   /** Client Side Encryption related details. Contains details about the encryption state of the file and details regarding the encryption mechanism that clients need to use when decrypting the contents of this item. This will only be present on files and not on folders or shortcuts. */
-  clientEncryptionDetails?: ClientEncryptionDetails;
+  clientEncryptionDetails?: ClientEncryptionDetails | undefined;
   /** The title of this file. Note that for immutable items such as the top level folders of shared drives, My Drive root folder, and Application Data folder the title is constant. */
-  title?: string;
+  title?: string | undefined;
   /** Folder color as an RGB hex string if the file is a folder or a shortcut to a folder. The list of supported colors is available in the folderColorPalette field of the About resource. If an unsupported color is specified, it will be changed to the closest color in the palette. */
-  folderColorRgb?: string;
+  folderColorRgb?: string | undefined;
   /** A short description of the file. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Size in bytes of blobs and first party editor files. Won't be populated for files that have no size, like shortcuts and folders. */
-  fileSize?: string;
+  fileSize?: string | undefined;
   /** Output only. If the file has been explicitly trashed, the user who trashed it. Only populated for items in shared drives. */
-  trashingUser?: User;
+  trashingUser?: User | undefined;
   /** Output only. Name of the last user to modify this file. */
-  lastModifyingUserName?: string;
+  lastModifyingUserName?: string | undefined;
   /** Output only. Whether this file has a thumbnail. This does not indicate whether the requesting app has access to the thumbnail. To check access, look for the presence of the thumbnailLink field. */
-  hasThumbnail?: boolean;
+  hasThumbnail?: boolean | undefined;
   /** Whether the options to copy, print, or download this file, should be disabled for readers and commenters. */
-  copyRequiresWriterPermission?: boolean;
+  copyRequiresWriterPermission?: boolean | undefined;
 }
 export interface CopyFilesRequest {
   /** The ID of the file to copy. */
   fileId: string;
   /** Whether to pin the head revision of the new copy. A file can have a maximum of 200 pinned revisions. */
-  pinned?: boolean;
+  pinned?: boolean | undefined;
   /** Whether to attempt OCR on .jpg, .png, .gif, or .pdf uploads. */
-  ocr?: boolean;
+  ocr?: boolean | undefined;
   /** Whether the requesting application supports both My Drives and shared drives. */
-  supportsAllDrives?: boolean;
+  supportsAllDrives?: boolean | undefined;
   /** If `ocr` is true, hints at the language to use. Valid values are BCP 47 codes. */
-  ocrLanguage?: string;
+  ocrLanguage?: string | undefined;
   /** The timed text track name. */
-  timedTextTrackName?: string;
+  timedTextTrackName?: string | undefined;
   /** Deprecated: Copying files into multiple folders is no longer supported. Use shortcuts instead. */
-  enforceSingleParent?: boolean;
+  enforceSingleParent?: boolean | undefined;
   /** Whether to convert this file to the corresponding Docs Editors format. */
-  convert?: boolean;
+  convert?: boolean | undefined;
   /** Deprecated: Use `supportsAllDrives` instead. */
-  supportsTeamDrives?: boolean;
+  supportsTeamDrives?: boolean | undefined;
   /** The visibility of the new file. Permissions are still inherited from parent folders. This parameter is only relevant when the source is not a Google Doc file and when `convert=false`. */
-  visibility?: CopyFilesVisibilityEnum | (string & {});
+  visibility?: CopyFilesVisibilityEnum | (string & {}) | undefined;
   /** A comma-separated list of IDs of labels to include in the `labelInfo` part of the response. */
-  includeLabels?: string;
+  includeLabels?: string | undefined;
   /** Specifies which additional view's permissions to include in the response. Only `published` is supported. */
-  includePermissionsForView?: string;
+  includePermissionsForView?: string | undefined;
   /** The language of the timed text. */
-  timedTextLanguage?: string;
+  timedTextLanguage?: string | undefined;
   /** Request body */
-  body?: File;
+  body?: File | undefined;
 }
 export interface DeleteChildrenRequest {
   /** The ID of the folder. */
@@ -664,7 +664,7 @@ export interface DeleteChildrenRequest {
   /** The ID of the child. */
   childId: string;
   /** Deprecated: If an item is not in a shared drive and its last parent is removed, the item is placed under its owner's root. */
-  enforceSingleParent?: boolean;
+  enforceSingleParent?: boolean | undefined;
 }
 export interface DeleteChildrenResponse {}
 export interface DeleteCommentsRequest {
@@ -676,29 +676,29 @@ export interface DeleteCommentsRequest {
 export interface DeleteCommentsResponse {}
 export interface DeleteDrivesRequest {
   /** Issue the request as a domain administrator; if set to true, then the requester will be granted access if they are an administrator of the domain to which the shared drive belongs. */
-  useDomainAdminAccess?: boolean;
+  useDomainAdminAccess?: boolean | undefined;
   /** The ID of the shared drive. */
   driveId: string;
   /** Whether any items inside the shared drive should also be deleted. This option is only supported when `useDomainAdminAccess` is also set to `true`. */
-  allowItemDeletion?: boolean;
+  allowItemDeletion?: boolean | undefined;
 }
 export interface DeleteDrivesResponse {}
 export interface DeleteFilesRequest {
   /** The ID of the file to delete. */
   fileId: string;
   /** Whether the requesting application supports both My Drives and shared drives. */
-  supportsAllDrives?: boolean;
+  supportsAllDrives?: boolean | undefined;
   /** Deprecated: Use `supportsAllDrives` instead. */
-  supportsTeamDrives?: boolean;
+  supportsTeamDrives?: boolean | undefined;
   /** Deprecated: If an item is not in a shared drive and its last parent is deleted but the item itself is not, the item is placed under its owner's root. */
-  enforceSingleParent?: boolean;
+  enforceSingleParent?: boolean | undefined;
 }
 export interface DeleteFilesResponse {}
 export interface DeleteParentsRequest {
   /** The ID of the file. */
   fileId: string;
   /** Deprecated: If an item is not in a shared drive and its last parent is removed, the item is placed under its owner's root. */
-  enforceSingleParent?: boolean;
+  enforceSingleParent?: boolean | undefined;
   /** The ID of the parent. */
   parentId: string;
 }
@@ -707,20 +707,20 @@ export interface DeletePermissionsRequest {
   /** The ID for the permission. */
   permissionId: string;
   /** Issue the request as a domain administrator; if set to true, then the requester will be granted access if the file ID parameter refers to a shared drive and the requester is an administrator of the domain to which the shared drive belongs. */
-  useDomainAdminAccess?: boolean;
+  useDomainAdminAccess?: boolean | undefined;
   /** Whether the requesting application supports both My Drives and shared drives. */
-  supportsAllDrives?: boolean;
+  supportsAllDrives?: boolean | undefined;
   /** The ID for the file or shared drive. */
   fileId: string;
   /** Deprecated: All requests use the expansive access rules. */
-  enforceExpansiveAccess?: boolean;
+  enforceExpansiveAccess?: boolean | undefined;
   /** Deprecated: Use `supportsAllDrives` instead. */
-  supportsTeamDrives?: boolean;
+  supportsTeamDrives?: boolean | undefined;
 }
 export interface DeletePermissionsResponse {}
 export interface DeletePropertiesRequest {
   /** The visibility of the property. */
-  visibility?: string;
+  visibility?: string | undefined;
   /** The ID of the file. */
   fileId: string;
   /** The key of the property. */
@@ -750,9 +750,9 @@ export interface DeleteTeamdrivesRequest {
 export interface DeleteTeamdrivesResponse {}
 export interface EmptyTrashFilesRequest {
   /** Deprecated: If an item is not in a shared drive and its last parent is deleted but the item itself is not, the item is placed under its owner's root. */
-  enforceSingleParent?: boolean;
+  enforceSingleParent?: boolean | undefined;
   /** If set, empties the trash of the provided shared drive. */
-  driveId?: string;
+  driveId?: string | undefined;
 }
 export interface EmptyTrashFilesResponse {}
 export interface ExportFilesRequest {
@@ -764,174 +764,174 @@ export interface ExportFilesRequest {
 export interface ExportFilesResponse {}
 export interface GenerateCseTokenFilesRequest {
   /** The ID of the file for which the JWT should be generated. If not provided, an id will be generated. */
-  fileId?: string;
+  fileId?: string | undefined;
   /** The ID of the expected parent of the file. Used when generating a JWT for a new CSE file. If specified, the parent will be fetched, and if the parent is a shared drive item, the shared drive's policy will be used to determine the KACLS that should be used. It is invalid to specify both file_id and parent in a single request. */
-  parent?: string;
+  parent?: string | undefined;
 }
 /** JWT and associated metadata used to generate CSE files. */
 export interface GenerateCseTokenResponse {
   /** Output only. Identifies what kind of resource this is. Value: the fixed string `"drive#generateCseTokenResponse"`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The current Key ACL Service (KACLS) ID associated with the JWT. */
-  currentKaclsId?: string;
+  currentKaclsId?: string | undefined;
   /** The signed JSON Web Token (JWT) for the file. */
-  jwt?: string;
+  jwt?: string | undefined;
   /** Name of the KACLs that the returned KACLs ID points to. */
-  currentKaclsName?: string;
+  currentKaclsName?: string | undefined;
   /** The fileId for which the JWT was generated. */
-  fileId?: string;
+  fileId?: string | undefined;
 }
 export interface GenerateIdsFilesRequest {
   /** Maximum number of IDs to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** The space in which the IDs can be used to create new files. Supported values are `drive` and `appDataFolder`. (Default: `drive`) */
-  space?: string;
+  space?: string | undefined;
   /** The type of items which the IDs can be used for. Supported values are `files` and `shortcuts`. Note that `shortcuts` are only supported in the `drive` `space`. (Default: `files`) */
-  type?: string;
+  type?: string | undefined;
 }
 /** A list of generated IDs which can be provided in insert requests */
 export interface GeneratedIds {
   /** This is always `drive#generatedIds` */
-  kind?: string;
+  kind?: string | undefined;
   /** The type of file that can be created with these IDs. */
-  space?: string;
+  space?: string | undefined;
   /** The IDs generated for the requesting user in the specified space. */
-  ids?: StringList;
+  ids?: StringList | undefined;
 }
 export interface GetAboutRequest {
   /** Whether to count changes outside the My Drive hierarchy. When set to false, changes to files such as those in the Application Data folder or shared files which have not been added to My Drive will be omitted from the `maxChangeIdCount`. */
-  includeSubscribed?: boolean;
+  includeSubscribed?: boolean | undefined;
   /** Change ID to start counting from when calculating number of remaining change IDs */
-  startChangeId?: string;
+  startChangeId?: string | undefined;
   /** Maximum number of remaining change IDs to count */
-  maxChangeIdCount?: string;
+  maxChangeIdCount?: string | undefined;
 }
 export interface AboutExportFormatsItem {
   /** The possible content types to convert to. */
-  targets?: StringList;
+  targets?: StringList | undefined;
   /** The content type to convert from. */
-  source?: string;
+  source?: string | undefined;
 }
 export type AboutExportFormatsItemList = Array<AboutExportFormatsItem>;
 export interface AboutDriveThemesItem {
   /** The ID of the theme. */
-  id?: string;
+  id?: string | undefined;
   /** A link to this theme's background image. */
-  backgroundImageLink?: string;
+  backgroundImageLink?: string | undefined;
   /** The color of this theme as an RGB hex string. */
-  colorRgb?: string;
+  colorRgb?: string | undefined;
 }
 export type AboutDriveThemesItemList = Array<AboutDriveThemesItem>;
 export interface AboutMaxUploadSizesItem {
   /** The file type. */
-  type?: string;
+  type?: string | undefined;
   /** The max upload size for this type. */
-  size?: string;
+  size?: string | undefined;
 }
 export type AboutMaxUploadSizesItemList = Array<AboutMaxUploadSizesItem>;
 export interface AboutImportFormatsItem {
   /** The imported file's content type to convert from. */
-  source?: string;
+  source?: string | undefined;
   /** The possible content types to convert to. */
-  targets?: StringList;
+  targets?: StringList | undefined;
 }
 export type AboutImportFormatsItemList = Array<AboutImportFormatsItem>;
 export interface AboutAdditionalRoleInfoItemRoleSetsItem {
   /** The supported additional roles with the primary role. */
-  additionalRoles?: StringList;
+  additionalRoles?: StringList | undefined;
   /** A primary permission role. */
-  primaryRole?: string;
+  primaryRole?: string | undefined;
 }
 export type AboutAdditionalRoleInfoItemRoleSetsItemList =
   Array<AboutAdditionalRoleInfoItemRoleSetsItem>;
 export interface AboutAdditionalRoleInfoItem {
   /** The content type that this additional role info applies to. */
-  type?: string;
+  type?: string | undefined;
   /** The supported additional roles per primary role. */
-  roleSets?: AboutAdditionalRoleInfoItemRoleSetsItemList;
+  roleSets?: AboutAdditionalRoleInfoItemRoleSetsItemList | undefined;
 }
 export type AboutAdditionalRoleInfoItemList = Array<AboutAdditionalRoleInfoItem>;
 export interface AboutFeaturesItem {
   /** The request limit rate for this feature, in queries per second. */
-  featureRate?: number;
+  featureRate?: number | undefined;
   /** The name of the feature. */
-  featureName?: string;
+  featureName?: string | undefined;
 }
 export type AboutFeaturesItemList = Array<AboutFeaturesItem>;
 export interface AboutTeamDriveThemesItem {
   /** Deprecated: Use `driveThemes/backgroundImageLink` instead. */
-  backgroundImageLink?: string;
+  backgroundImageLink?: string | undefined;
   /** Deprecated: Use `driveThemes/id` instead. */
-  id?: string;
+  id?: string | undefined;
   /** Deprecated: Use `driveThemes/colorRgb` instead. */
-  colorRgb?: string;
+  colorRgb?: string | undefined;
 }
 export type AboutTeamDriveThemesItemList = Array<AboutTeamDriveThemesItem>;
 export interface AboutQuotaBytesByServiceItem {
   /** The service's name, e.g. DRIVE, GMAIL, or PHOTOS. */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** The storage quota bytes used by the service. */
-  bytesUsed?: string;
+  bytesUsed?: string | undefined;
 }
 export type AboutQuotaBytesByServiceItemList = Array<AboutQuotaBytesByServiceItem>;
 /** An item with user information and settings. */
 export interface About {
   /** The allowable export formats. */
-  exportFormats?: AboutExportFormatsItemList;
+  exportFormats?: AboutExportFormatsItemList | undefined;
   /** A list of themes that are supported for shared drives. */
-  driveThemes?: AboutDriveThemesItemList;
+  driveThemes?: AboutDriveThemesItemList | undefined;
   /** Deprecated: Use `canCreateDrives` instead. */
-  canCreateTeamDrives?: boolean;
+  canCreateTeamDrives?: boolean | undefined;
   /** The total number of quota bytes. This is only relevant when quotaType is LIMITED. */
-  quotaBytesTotal?: string;
+  quotaBytesTotal?: string | undefined;
   /** The current user's ID as visible in the permissions collection. */
-  permissionId?: string;
+  permissionId?: string | undefined;
   /** The user's language or locale code, as defined by BCP 47, with some extensions from Unicode's LDML format (http://www.unicode.org/reports/tr35/). */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** List of max upload sizes for each file type. The most specific type takes precedence. */
-  maxUploadSizes?: AboutMaxUploadSizesItemList;
+  maxUploadSizes?: AboutMaxUploadSizesItemList | undefined;
   /** The ETag of the item. */
-  etag?: string;
+  etag?: string | undefined;
   /** The allowable import formats. */
-  importFormats?: AboutImportFormatsItemList;
+  importFormats?: AboutImportFormatsItemList | undefined;
   /** Information about supported additional roles per file type. The most specific type takes precedence. */
-  additionalRoleInfo?: AboutAdditionalRoleInfoItemList;
+  additionalRoleInfo?: AboutAdditionalRoleInfoItemList | undefined;
   /** The largest change id. */
-  largestChangeId?: string;
+  largestChangeId?: string | undefined;
   /** The number of quota bytes used by Google Drive. */
-  quotaBytesUsed?: string;
+  quotaBytesUsed?: string | undefined;
   /** Whether the user can create shared drives. */
-  canCreateDrives?: boolean;
+  canCreateDrives?: boolean | undefined;
   /** The name of the current user. */
-  name?: string;
+  name?: string | undefined;
   /** The type of the user's storage quota. Possible values are: * `LIMITED` * `UNLIMITED` */
-  quotaType?: string;
+  quotaType?: string | undefined;
   /** The number of quota bytes used by trashed items. */
-  quotaBytesUsedInTrash?: string;
+  quotaBytesUsedInTrash?: string | undefined;
   /** A boolean indicating whether the authenticated app is installed by the authenticated user. */
-  isCurrentAppInstalled?: boolean;
+  isCurrentAppInstalled?: boolean | undefined;
   /** A link back to this item. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** List of additional features enabled on this account. */
-  features?: AboutFeaturesItemList;
+  features?: AboutFeaturesItemList | undefined;
   /** The number of quota bytes used by all Google apps (Drive, Picasa, etc.). */
-  quotaBytesUsedAggregate?: string;
+  quotaBytesUsedAggregate?: string | undefined;
   /** Deprecated: Use `driveThemes` instead. */
-  teamDriveThemes?: AboutTeamDriveThemesItemList;
+  teamDriveThemes?: AboutTeamDriveThemesItemList | undefined;
   /** The palette of allowable folder colors as RGB hex strings. */
-  folderColorPalette?: StringList;
+  folderColorPalette?: StringList | undefined;
   /** Deprecated: Does not granularly represent allowlisted domains or Trust Rules. The domain sharing policy for the current user. Possible values are: * `allowed` * `allowedWithWarning` * `incomingOnly` * `disallowed` Note that if the user is enrolled in Trust Rules, `disallowed` will always be returned. If sharing is restricted to allowlisted domains, either `incomingOnly` or `allowedWithWarning` will be returned, depending on whether receiving files from outside the allowlisted domains is permitted. */
-  domainSharingPolicy?: string;
+  domainSharingPolicy?: string | undefined;
   /** The number of remaining change ids, limited to no more than 2500. */
-  remainingChangeIds?: string;
+  remainingChangeIds?: string | undefined;
   /** The authenticated user. */
-  user?: User;
+  user?: User | undefined;
   /** The amount of storage quota used by different Google services. */
-  quotaBytesByService?: AboutQuotaBytesByServiceItemList;
+  quotaBytesByService?: AboutQuotaBytesByServiceItemList | undefined;
   /** The id of the root folder. */
-  rootFolderId?: string;
+  rootFolderId?: string | undefined;
   /** This is always `drive#about`. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface GetAppsRequest {
   /** The ID of the app. */
@@ -939,286 +939,286 @@ export interface GetAppsRequest {
 }
 export interface AppIconsItem {
   /** Category of the icon. Allowed values are: * `application` - icon for the application * `document` - icon for a file associated with the app * `documentShared` - icon for a shared file associated with the app */
-  category?: string;
+  category?: string | undefined;
   /** URL for the icon. */
-  iconUrl?: string;
+  iconUrl?: string | undefined;
   /** Size of the icon. Represented as the maximum of the width and height. */
-  size?: number;
+  size?: number | undefined;
 }
 export type AppIconsItemList = Array<AppIconsItem>;
 /** The apps resource provides a list of the apps that a user has installed, with information about each app's supported MIME types, file extensions, and other details. Some resource methods (such as `apps.get`) require an `appId`. Use the `apps.list` method to retrieve the ID for an installed application. */
 export interface App {
   /** Whether the app is selected as the default handler for the types it supports. */
-  useByDefault?: boolean;
+  useByDefault?: boolean | undefined;
   /** A link to the product listing for this app. */
-  productUrl?: string;
+  productUrl?: string | undefined;
   /** Whether the app is installed. */
-  installed?: boolean;
+  installed?: boolean | undefined;
   /** Whether this app supports importing from Docs Editors. */
-  supportsImport?: boolean;
+  supportsImport?: boolean | undefined;
   /** Whether this app supports creating new objects. */
-  supportsCreate?: boolean;
+  supportsCreate?: boolean | undefined;
   /** Whether this app supports opening more than one file. */
-  supportsMultiOpen?: boolean;
+  supportsMultiOpen?: boolean | undefined;
   /** The ID of the app. */
-  id?: string;
+  id?: string | undefined;
   /** The various icons for the app. */
-  icons?: AppIconsItemList;
+  icons?: AppIconsItemList | undefined;
   /** The template url for opening files with this app. The template will contain `{ids}` and/or `{exportIds}` to be replaced by the actual file ids. See Open Files for the full documentation. */
-  openUrlTemplate?: string;
+  openUrlTemplate?: string | undefined;
   /** A short description of the app. */
-  shortDescription?: string;
+  shortDescription?: string | undefined;
   /** The type of object this app creates (e.g. Chart). If empty, the app name should be used instead. */
-  objectType?: string;
+  objectType?: string | undefined;
   /** A long description of the app. */
-  longDescription?: string;
+  longDescription?: string | undefined;
   /** The template url to create a new file with this app in a given folder. The template will contain {folderId} to be replaced by the folder to create the new file in. */
-  createInFolderTemplate?: string;
+  createInFolderTemplate?: string | undefined;
   /** Whether the app has drive-wide scope. An app with drive-wide scope can access all files in the user's drive. */
-  hasDriveWideScope?: boolean;
+  hasDriveWideScope?: boolean | undefined;
   /** This is always `drive#app`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The list of primary mime types. */
-  primaryMimeTypes?: StringList;
+  primaryMimeTypes?: StringList | undefined;
   /** Whether the app is authorized to access data on the user's Drive. */
-  authorized?: boolean;
+  authorized?: boolean | undefined;
   /** Whether this app supports creating new files when offline. */
-  supportsOfflineCreate?: boolean;
+  supportsOfflineCreate?: boolean | undefined;
   /** The list of primary file extensions. */
-  primaryFileExtensions?: StringList;
+  primaryFileExtensions?: StringList | undefined;
   /** The name of the app. */
-  name?: string;
+  name?: string | undefined;
   /** The list of secondary mime types. */
-  secondaryMimeTypes?: StringList;
+  secondaryMimeTypes?: StringList | undefined;
   /** The list of secondary file extensions. */
-  secondaryFileExtensions?: StringList;
+  secondaryFileExtensions?: StringList | undefined;
   /** The ID of the product listing for this app. */
-  productId?: string;
+  productId?: string | undefined;
   /** The url to create a new file with this app. */
-  createUrl?: string;
+  createUrl?: string | undefined;
 }
 export interface GetChangesRequest {
   /** Deprecated: Use `supportsAllDrives` instead. */
-  supportsTeamDrives?: boolean;
+  supportsTeamDrives?: boolean | undefined;
   /** Deprecated: Use `driveId` instead. */
-  teamDriveId?: string;
+  teamDriveId?: string | undefined;
   /** The shared drive from which the change will be returned. */
-  driveId?: string;
+  driveId?: string | undefined;
   /** Whether the requesting application supports both My Drives and shared drives. */
-  supportsAllDrives?: boolean;
+  supportsAllDrives?: boolean | undefined;
   /** The ID of the change. */
   changeId: string;
 }
 export interface TeamDriveCapabilities {
   /** Whether the current user can change the `teamMembersOnly` restriction of this Team Drive. */
-  canChangeTeamMembersOnlyRestriction?: boolean;
+  canChangeTeamMembersOnlyRestriction?: boolean | undefined;
   /** Whether the current user can change the background of this Team Drive. */
-  canChangeTeamDriveBackground?: boolean;
+  canChangeTeamDriveBackground?: boolean | undefined;
   /** Whether the current user can edit files in this Team Drive */
-  canEdit?: boolean;
+  canEdit?: boolean | undefined;
   /** Whether the current user can rename this Team Drive. */
-  canRenameTeamDrive?: boolean;
+  canRenameTeamDrive?: boolean | undefined;
   /** Whether the current user can download files in this Team Drive. */
-  canDownload?: boolean;
+  canDownload?: boolean | undefined;
   /** Whether the current user can add members to this Team Drive or remove them or change their role. */
-  canManageMembers?: boolean;
+  canManageMembers?: boolean | undefined;
   /** Whether the current user can change the `sharingFoldersRequiresOrganizerPermission` restriction of this Team Drive. */
-  canChangeSharingFoldersRequiresOrganizerPermissionRestriction?: boolean;
+  canChangeSharingFoldersRequiresOrganizerPermissionRestriction?: boolean | undefined;
   /** Whether the current user can rename files or folders in this Team Drive. */
-  canRename?: boolean;
+  canRename?: boolean | undefined;
   /** Whether the current user can add children to folders in this Team Drive. */
-  canAddChildren?: boolean;
+  canAddChildren?: boolean | undefined;
   /** Whether the current user can delete children from folders in this Team Drive. */
-  canDeleteChildren?: boolean;
+  canDeleteChildren?: boolean | undefined;
   /** Whether the current user can change the `domainUsersOnly` restriction of this Team Drive. */
-  canChangeDomainUsersOnlyRestriction?: boolean;
+  canChangeDomainUsersOnlyRestriction?: boolean | undefined;
   /** Whether the current user can list the children of folders in this Team Drive. */
-  canListChildren?: boolean;
+  canListChildren?: boolean | undefined;
   /** Whether the current user can comment on files in this Team Drive. */
-  canComment?: boolean;
+  canComment?: boolean | undefined;
   /** Whether the current user can change the `copyRequiresWriterPermission` restriction of this Team Drive. */
-  canChangeCopyRequiresWriterPermissionRestriction?: boolean;
+  canChangeCopyRequiresWriterPermissionRestriction?: boolean | undefined;
   /** Whether the current user can copy files in this Team Drive. */
-  canCopy?: boolean;
+  canCopy?: boolean | undefined;
   /** Whether the current user can delete this Team Drive. Attempting to delete the Team Drive may still fail if there are untrashed items inside the Team Drive. */
-  canDeleteTeamDrive?: boolean;
+  canDeleteTeamDrive?: boolean | undefined;
   /** Whether the current user can trash children from folders in this Team Drive. */
-  canTrashChildren?: boolean;
+  canTrashChildren?: boolean | undefined;
   /** Whether the current user can share files or folders in this Team Drive. */
-  canShare?: boolean;
+  canShare?: boolean | undefined;
   /** Whether the current user can read the revisions resource of files in this Team Drive. */
-  canReadRevisions?: boolean;
+  canReadRevisions?: boolean | undefined;
   /** Whether the current user can reset the Team Drive restrictions to defaults. */
-  canResetTeamDriveRestrictions?: boolean;
+  canResetTeamDriveRestrictions?: boolean | undefined;
   /** Deprecated: Use `canDeleteChildren` or `canTrashChildren` instead. */
-  canRemoveChildren?: boolean;
+  canRemoveChildren?: boolean | undefined;
 }
 export interface TeamDriveRestrictions {
   /** Whether access to items inside this Team Drive is restricted to members of this Team Drive. */
-  teamMembersOnly?: boolean;
+  teamMembersOnly?: boolean | undefined;
   /** Whether access to this Team Drive and items inside this Team Drive is restricted to users of the domain to which this Team Drive belongs. This restriction may be overridden by other sharing policies controlled outside of this Team Drive. */
-  domainUsersOnly?: boolean;
+  domainUsersOnly?: boolean | undefined;
   /** If true, only users with the organizer role can share folders. If false, users with either the organizer role or the file organizer role can share folders. */
-  sharingFoldersRequiresOrganizerPermission?: boolean;
+  sharingFoldersRequiresOrganizerPermission?: boolean | undefined;
   /** Whether the options to copy, print, or download files inside this Team Drive, should be disabled for readers and commenters. When this restriction is set to `true`, it will override the similarly named field to `true` for any file inside this Team Drive. */
-  copyRequiresWriterPermission?: boolean;
+  copyRequiresWriterPermission?: boolean | undefined;
   /** Whether administrative privileges on this Team Drive are required to modify restrictions. */
-  adminManagedRestrictions?: boolean;
+  adminManagedRestrictions?: boolean | undefined;
 }
 export interface TeamDriveBackgroundImageFile {
   /** The Y coordinate of the upper left corner of the cropping area in the background image. This is a value in the closed range of 0 to 1. This value represents the vertical distance from the top side of the entire image to the top side of the cropping area divided by the height of the entire image. */
-  yCoordinate?: number;
+  yCoordinate?: number | undefined;
   /** The width of the cropped image in the closed range of 0 to 1. This value represents the width of the cropped image divided by the width of the entire image. The height is computed by applying a width to height aspect ratio of 80 to 9. The resulting image must be at least 1280 pixels wide and 144 pixels high. */
-  width?: number;
+  width?: number | undefined;
   /** The X coordinate of the upper left corner of the cropping area in the background image. This is a value in the closed range of 0 to 1. This value represents the horizontal distance from the left side of the entire image to the left side of the cropping area divided by the width of the entire image. */
-  xCoordinate?: number;
+  xCoordinate?: number | undefined;
   /** The ID of an image file in Drive to use for the background image. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Deprecated: Use the `drive` collection instead. */
 export interface TeamDrive {
   /** Capabilities the current user has on this Team Drive. */
-  capabilities?: TeamDriveCapabilities;
+  capabilities?: TeamDriveCapabilities | undefined;
   /** A set of restrictions that apply to this Team Drive or items inside this Team Drive. */
-  restrictions?: TeamDriveRestrictions;
+  restrictions?: TeamDriveRestrictions | undefined;
   /** The time at which the Team Drive was created (RFC 3339 date-time). */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The ID of this Team Drive which is also the ID of the top level folder of this Team Drive. */
-  id?: string;
+  id?: string | undefined;
   /** A short-lived link to this Team Drive's background image. */
-  backgroundImageLink?: string;
+  backgroundImageLink?: string | undefined;
   /** This is always `drive#teamDrive` */
-  kind?: string;
+  kind?: string | undefined;
   /** The color of this Team Drive as an RGB hex string. It can only be set on a `drive.teamdrives.update` request that does not set `themeId`. */
-  colorRgb?: string;
+  colorRgb?: string | undefined;
   /** An image file and cropping parameters from which a background image for this Team Drive is set. This is a write only field; it can only be set on `drive.teamdrives.update` requests that don't set `themeId`. When specified, all fields of the `backgroundImageFile` must be set. */
-  backgroundImageFile?: TeamDriveBackgroundImageFile;
+  backgroundImageFile?: TeamDriveBackgroundImageFile | undefined;
   /** The ID of the theme from which the background image and color will be set. The set of possible `teamDriveThemes` can be retrieved from a `drive.about.get` response. When not specified on a `drive.teamdrives.insert` request, a random theme is chosen from which the background image and color are set. This is a write-only field; it can only be set on requests that don't set `colorRgb` or `backgroundImageFile`. */
-  themeId?: string;
+  themeId?: string | undefined;
   /** The name of this Team Drive. */
-  name?: string;
+  name?: string | undefined;
   /** The organizational unit of this shared drive. This field is only populated on `drives.list` responses when the `useDomainAdminAccess` parameter is set to `true`. */
-  orgUnitId?: string;
+  orgUnitId?: string | undefined;
 }
 export interface DriveBackgroundImageFile {
   /** The Y coordinate of the upper left corner of the cropping area in the background image. This is a value in the closed range of 0 to 1. This value represents the vertical distance from the top side of the entire image to the top side of the cropping area divided by the height of the entire image. */
-  yCoordinate?: number;
+  yCoordinate?: number | undefined;
   /** The ID of an image file in Google Drive to use for the background image. */
-  id?: string;
+  id?: string | undefined;
   /** The X coordinate of the upper left corner of the cropping area in the background image. This is a value in the closed range of 0 to 1. This value represents the horizontal distance from the left side of the entire image to the left side of the cropping area divided by the width of the entire image. */
-  xCoordinate?: number;
+  xCoordinate?: number | undefined;
   /** The width of the cropped image in the closed range of 0 to 1. This value represents the width of the cropped image divided by the width of the entire image. The height is computed by applying a width to height aspect ratio of 80 to 9. The resulting image must be at least 1280 pixels wide and 144 pixels high. */
-  width?: number;
+  width?: number | undefined;
 }
 export interface DriveCapabilities {
   /** Output only. Whether the current user can edit files in this shared drive */
-  canEdit?: boolean;
+  canEdit?: boolean | undefined;
   /** Output only. Whether the current user can change the `domainUsersOnly` restriction of this shared drive. */
-  canChangeDomainUsersOnlyRestriction?: boolean;
+  canChangeDomainUsersOnlyRestriction?: boolean | undefined;
   /** Output only. Whether the current user can trash children from folders in this shared drive. */
-  canTrashChildren?: boolean;
+  canTrashChildren?: boolean | undefined;
   /** Output only. Whether the current user can change the `sharingFoldersRequiresOrganizerPermission` restriction of this shared drive. */
-  canChangeSharingFoldersRequiresOrganizerPermissionRestriction?: boolean;
+  canChangeSharingFoldersRequiresOrganizerPermissionRestriction?: boolean | undefined;
   /** Output only. Whether the current user can read the revisions resource of files in this shared drive. */
-  canReadRevisions?: boolean;
+  canReadRevisions?: boolean | undefined;
   /** Output only. Whether the current user can list the children of folders in this shared drive. */
-  canListChildren?: boolean;
+  canListChildren?: boolean | undefined;
   /** Output only. Whether the current user can rename files or folders in this shared drive. */
-  canRename?: boolean;
+  canRename?: boolean | undefined;
   /** Output only. Whether the current user can share files or folders in this shared drive. */
-  canShare?: boolean;
+  canShare?: boolean | undefined;
   /** Output only. Whether the current user can copy files in this shared drive. */
-  canCopy?: boolean;
+  canCopy?: boolean | undefined;
   /** Output only. Whether the current user can reset the shared drive restrictions to defaults. */
-  canResetDriveRestrictions?: boolean;
+  canResetDriveRestrictions?: boolean | undefined;
   /** Output only. Whether the current user can add members to this shared drive or remove them or change their role. */
-  canManageMembers?: boolean;
+  canManageMembers?: boolean | undefined;
   /** Output only. Whether the current user can delete this shared drive. Attempting to delete the shared drive may still fail if there are untrashed items inside the shared drive. */
-  canDeleteDrive?: boolean;
+  canDeleteDrive?: boolean | undefined;
   /** Output only. Whether the current user can comment on files in this shared drive. */
-  canComment?: boolean;
+  canComment?: boolean | undefined;
   /** Output only. Whether the current user can download files in this shared drive. */
-  canDownload?: boolean;
+  canDownload?: boolean | undefined;
   /** Output only. Whether the current user can change the `copyRequiresWriterPermission` restriction of this shared drive. */
-  canChangeCopyRequiresWriterPermissionRestriction?: boolean;
+  canChangeCopyRequiresWriterPermissionRestriction?: boolean | undefined;
   /** Output only. Whether the current user can change the background of this shared drive. */
-  canChangeDriveBackground?: boolean;
+  canChangeDriveBackground?: boolean | undefined;
   /** Output only. Whether the current user can add children to folders in this shared drive. */
-  canAddChildren?: boolean;
+  canAddChildren?: boolean | undefined;
   /** Output only. Whether the current user can delete children from folders in this shared drive. */
-  canDeleteChildren?: boolean;
+  canDeleteChildren?: boolean | undefined;
   /** Output only. Whether the current user can change the `driveMembersOnly` restriction of this shared drive. */
-  canChangeDriveMembersOnlyRestriction?: boolean;
+  canChangeDriveMembersOnlyRestriction?: boolean | undefined;
   /** Output only. Whether the current user can rename this shared drive. */
-  canRenameDrive?: boolean;
+  canRenameDrive?: boolean | undefined;
 }
 export interface DriveRestrictions {
   /** If true, only users with the organizer role can share folders. If false, users with either the organizer role or the file organizer role can share folders. */
-  sharingFoldersRequiresOrganizerPermission?: boolean;
+  sharingFoldersRequiresOrganizerPermission?: boolean | undefined;
   /** Whether administrative privileges on this shared drive are required to modify restrictions. */
-  adminManagedRestrictions?: boolean;
+  adminManagedRestrictions?: boolean | undefined;
   /** Whether the options to copy, print, or download files inside this shared drive, should be disabled for readers and commenters. When this restriction is set to `true`, it will override the similarly named field to `true` for any file inside this shared drive. */
-  copyRequiresWriterPermission?: boolean;
+  copyRequiresWriterPermission?: boolean | undefined;
   /** Whether access to this shared drive and items inside this shared drive is restricted to users of the domain to which this shared drive belongs. This restriction may be overridden by other sharing policies controlled outside of this shared drive. */
-  domainUsersOnly?: boolean;
+  domainUsersOnly?: boolean | undefined;
   /** Whether access to items inside this shared drive is restricted to its members. */
-  driveMembersOnly?: boolean;
+  driveMembersOnly?: boolean | undefined;
 }
 /** Representation of a shared drive. Some resource methods (such as `drives.update`) require a `driveId`. Use the `drives.list` method to retrieve the ID for a shared drive. */
 export interface Drive {
   /** The time at which the shared drive was created (RFC 3339 date-time). */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The color of this shared drive as an RGB hex string. It can only be set on a `drive.drives.update` request that does not set `themeId`. */
-  colorRgb?: string;
+  colorRgb?: string | undefined;
   /** An image file and cropping parameters from which a background image for this shared drive is set. This is a write only field; it can only be set on `drive.drives.update` requests that don't set `themeId`. When specified, all fields of the `backgroundImageFile` must be set. */
-  backgroundImageFile?: DriveBackgroundImageFile;
+  backgroundImageFile?: DriveBackgroundImageFile | undefined;
   /** Output only. The ID of this shared drive which is also the ID of the top level folder of this shared drive. */
-  id?: string;
+  id?: string | undefined;
   /** The ID of the theme from which the background image and color will be set. The set of possible `driveThemes` can be retrieved from a `drive.about.get` response. When not specified on a `drive.drives.insert` request, a random theme is chosen from which the background image and color are set. This is a write-only field; it can only be set on requests that don't set `colorRgb` or `backgroundImageFile`. */
-  themeId?: string;
+  themeId?: string | undefined;
   /** Whether the shared drive is hidden from default view. */
-  hidden?: boolean;
+  hidden?: boolean | undefined;
   /** Output only. Capabilities the current user has on this shared drive. */
-  capabilities?: DriveCapabilities;
+  capabilities?: DriveCapabilities | undefined;
   /** A set of restrictions that apply to this shared drive or items inside this shared drive. */
-  restrictions?: DriveRestrictions;
+  restrictions?: DriveRestrictions | undefined;
   /** The name of this shared drive. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The organizational unit of this shared drive. This field is only populated on `drives.list` responses when the `useDomainAdminAccess` parameter is set to `true`. */
-  orgUnitId?: string;
+  orgUnitId?: string | undefined;
   /** Output only. This is always `drive#drive` */
-  kind?: string;
+  kind?: string | undefined;
   /** Output only. A short-lived link to this shared drive's background image. */
-  backgroundImageLink?: string;
+  backgroundImageLink?: string | undefined;
 }
 /** Representation of a change to a file or shared drive. */
 export interface Change {
   /** The ID of the file associated with this change. */
-  fileId?: string;
+  fileId?: string | undefined;
   /** Deprecated: Use `driveId` instead. */
-  teamDriveId?: string;
+  teamDriveId?: string | undefined;
   /** The ID of the change. */
-  id?: string;
+  id?: string | undefined;
   /** Deprecated: Use `drive` instead. */
-  teamDrive?: TeamDrive;
+  teamDrive?: TeamDrive | undefined;
   /** Whether the file or shared drive has been removed from this list of changes, for example by deletion or loss of access. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** The type of the change. Possible values are `file` and `drive`. */
-  changeType?: string;
+  changeType?: string | undefined;
   /** The updated state of the shared drive. Present if the changeType is drive, the user is still a member of the shared drive, and the shared drive has not been deleted. */
-  drive?: Drive;
+  drive?: Drive | undefined;
   /** This is always `drive#change`. */
-  kind?: string;
+  kind?: string | undefined;
   /** Deprecated: Use `changeType` instead. */
-  type?: string;
+  type?: string | undefined;
   /** A link back to this change. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** The ID of the shared drive associated with this change. */
-  driveId?: string;
+  driveId?: string | undefined;
   /** The time of this modification. */
-  modificationDate?: string;
+  modificationDate?: string | undefined;
   /** The updated state of the file. Present if the type is file and the file has not been removed from this list of changes. */
-  file?: File;
+  file?: File | undefined;
 }
 export interface GetChildrenRequest {
   /** The ID of the folder. */
@@ -1229,17 +1229,17 @@ export interface GetChildrenRequest {
 /** A reference to a folder's child. Some resource methods (such as `children.get`) require a `childId`. Use the `children.list` method to retrieve the ID of the child. */
 export interface ChildReference {
   /** Output only. A link back to this reference. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** Output only. This is always `drive#childReference`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The ID of the child. */
-  id?: string;
+  id?: string | undefined;
   /** Output only. A link to the child. */
-  childLink?: string;
+  childLink?: string | undefined;
 }
 export interface GetCommentsRequest {
   /** If set, this will succeed when retrieving a deleted comment, and will include any deleted replies. */
-  includeDeleted?: boolean;
+  includeDeleted?: boolean | undefined;
   /** The ID of the file. */
   fileId: string;
   /** The ID of the comment. */
@@ -1247,91 +1247,91 @@ export interface GetCommentsRequest {
 }
 export interface CommentContext {
   /** The MIME type of the context snippet. */
-  type?: string;
+  type?: string | undefined;
   /** Data representation of the segment of the file being commented on. In the case of a text file for example, this would be the actual text that the comment is about. */
-  value?: string;
+  value?: string | undefined;
 }
 /** A reply to a comment on a file in Google Drive. */
 export interface CommentReply {
   /** HTML formatted content for this reply. */
-  htmlContent?: string;
+  htmlContent?: string | undefined;
   /** The user who wrote this reply. */
-  author?: User;
+  author?: User | undefined;
   /** The action this reply performed to the parent comment. When creating a new reply this is the action to be perform tSo the parent comment. Possible values are: * `resolve` - To resolve a comment. * `reopen` - To reopen (un-resolve) a comment. */
-  verb?: string;
+  verb?: string | undefined;
   /** The date when this reply was first created. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** Whether this reply has been deleted. If a reply has been deleted the content will be cleared and this will only represent a reply that once existed. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** The ID of the reply. */
-  replyId?: string;
+  replyId?: string | undefined;
   /** The date when this reply was last modified. */
-  modifiedDate?: string;
+  modifiedDate?: string | undefined;
   /** This is always drive#commentReply. */
-  kind?: string;
+  kind?: string | undefined;
   /** The plain text content used to create this reply. This is not HTML safe and should only be used as a starting point to make edits to a reply's content. This field is required on inserts if no verb is specified (resolve/reopen). */
-  content?: string;
+  content?: string | undefined;
 }
 export type CommentReplyList_ = Array<CommentReply>;
 /** A comment on a file in Google Drive. */
 export interface Comment {
   /** The date when this comment was first created. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** The status of this comment. Status can be changed by posting a reply to a comment with the desired status. Possible values are: * `open` - The comment is still open. * `resolved` - The comment has been resolved by one of its replies. */
-  status?: string;
+  status?: string | undefined;
   /** This is always drive#comment. */
-  kind?: string;
+  kind?: string | undefined;
   /** HTML formatted content for this comment. */
-  htmlContent?: string;
+  htmlContent?: string | undefined;
   /** The title of the file which this comment is addressing. */
-  fileTitle?: string;
+  fileTitle?: string | undefined;
   /** Context of a file which is being commented on. */
-  context?: CommentContext;
+  context?: CommentContext | undefined;
   /** The date when this comment or any of its replies were last modified. */
-  modifiedDate?: string;
+  modifiedDate?: string | undefined;
   /** A link back to this comment. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** Replies to this post. */
-  replies?: CommentReplyList_;
+  replies?: CommentReplyList_ | undefined;
   /** The user who wrote this comment. */
-  author?: User;
+  author?: User | undefined;
   /** Whether this comment has been deleted. If a comment has been deleted the content will be cleared and this will only represent a comment that once existed. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** A region of the document represented as a JSON string. For details on defining anchor properties, refer to [Manage comments and replies](https://developers.google.com/workspace/drive/api/v3/manage-comments). */
-  anchor?: string;
+  anchor?: string | undefined;
   /** The file which this comment is addressing. */
-  fileId?: string;
+  fileId?: string | undefined;
   /** The ID of the comment. */
-  commentId?: string;
+  commentId?: string | undefined;
   /** The plain text content used to create this comment. This is not HTML safe and should only be used as a starting point to make edits to a comment's content. */
-  content?: string;
+  content?: string | undefined;
 }
 export interface GetDrivesRequest {
   /** The ID of the shared drive. */
   driveId: string;
   /** Issue the request as a domain administrator; if set to true, then the requester will be granted access if they are an administrator of the domain to which the shared drive belongs. */
-  useDomainAdminAccess?: boolean;
+  useDomainAdminAccess?: boolean | undefined;
 }
 export type GetFilesProjectionEnum = "BASIC" | "FULL";
 export interface GetFilesRequest {
   /** Deprecated: Use `supportsAllDrives` instead. */
-  supportsTeamDrives?: boolean;
+  supportsTeamDrives?: boolean | undefined;
   /** Whether the requesting application supports both My Drives and shared drives. */
-  supportsAllDrives?: boolean;
+  supportsAllDrives?: boolean | undefined;
   /** Deprecated: This parameter has no function. */
-  projection?: GetFilesProjectionEnum | (string & {});
+  projection?: GetFilesProjectionEnum | (string & {}) | undefined;
   /** Specifies which additional view's permissions to include in the response. Only `published` is supported. */
-  includePermissionsForView?: string;
+  includePermissionsForView?: string | undefined;
   /** A comma-separated list of IDs of labels to include in the `labelInfo` part of the response. */
-  includeLabels?: string;
+  includeLabels?: string | undefined;
   /** The ID for the file in question. */
   fileId: string;
   /** Deprecated: Use `files.update` with `modifiedDateBehavior=noChange, updateViewedDate=true` and an empty request body. */
-  updateViewedDate?: boolean;
+  updateViewedDate?: boolean | undefined;
   /** Whether the user is acknowledging the risk of downloading known malware or other abusive files. This is only applicable when the `alt` parameter is set to `media` and the user is the owner of the file or an organizer of the shared drive in which the file resides. */
-  acknowledgeAbuse?: boolean;
+  acknowledgeAbuse?: boolean | undefined;
   /** Specifies the Revision ID that should be downloaded. Ignored unless alt=media is specified. */
-  revisionId?: string;
+  revisionId?: string | undefined;
 }
 export interface GetIdForEmailPermissionsRequest {
   /** The email address for which to return a permission ID */
@@ -1340,9 +1340,9 @@ export interface GetIdForEmailPermissionsRequest {
 /** An ID for a user or group as seen in Permission items. */
 export interface PermissionId {
   /** This is always `drive#permissionId`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The permission ID. */
-  id?: string;
+  id?: string | undefined;
 }
 export interface GetParentsRequest {
   /** The ID of the parent. */
@@ -1356,15 +1356,15 @@ export interface GetPermissionsRequest {
   /** The ID for the permission. */
   permissionId: string;
   /** Whether the requesting application supports both My Drives and shared drives. */
-  supportsAllDrives?: boolean;
+  supportsAllDrives?: boolean | undefined;
   /** Issue the request as a domain administrator; if set to true, then the requester will be granted access if the file ID parameter refers to a shared drive and the requester is an administrator of the domain to which the shared drive belongs. */
-  useDomainAdminAccess?: boolean;
+  useDomainAdminAccess?: boolean | undefined;
   /** Deprecated: Use `supportsAllDrives` instead. */
-  supportsTeamDrives?: boolean;
+  supportsTeamDrives?: boolean | undefined;
 }
 export interface GetPropertiesRequest {
   /** The visibility of the property. */
-  visibility?: string;
+  visibility?: string | undefined;
   /** The ID of the file. */
   fileId: string;
   /** The key of the property. */
@@ -1374,7 +1374,7 @@ export interface GetRepliesRequest {
   /** The ID of the file. */
   fileId: string;
   /** If set, this will succeed when retrieving a deleted reply. */
-  includeDeleted?: boolean;
+  includeDeleted?: boolean | undefined;
   /** The ID of the comment. */
   commentId: string;
   /** The ID of the reply. */
@@ -1389,61 +1389,61 @@ export interface GetRevisionsRequest {
 /** A revision of a file. Some resource methods (such as `revisions.update`) require a `revisionId`. Use the `revisions.list` method to retrieve the ID for a revision. */
 export interface Revision {
   /** Whether this revision is published. This is only populated and can only be modified for Docs Editors files. */
-  published?: boolean;
+  published?: boolean | undefined;
   /** Whether this revision is pinned to prevent automatic purging. If not set, the revision is automatically purged 30 days after newer content is uploaded. This field can only be modified on files with content stored in Drive, excluding Docs Editors files. Revisions can also be pinned when they are created through the drive.files.insert/update/copy by using the pinned query parameter. Pinned revisions are stored indefinitely using additional storage quota, up to a maximum of 200 revisions. */
-  pinned?: boolean;
+  pinned?: boolean | undefined;
   /** Output only. This is always `drive#revision`. */
-  kind?: string;
+  kind?: string | undefined;
   /** Output only. Links for exporting Docs Editors files to specific formats. */
-  exportLinks?: StringMap;
+  exportLinks?: StringMap | undefined;
   /** Whether subsequent revisions will be automatically republished. This is only populated and can only be modified for Docs Editors files. */
-  publishAuto?: boolean;
+  publishAuto?: boolean | undefined;
   /** Output only. The size of the revision in bytes. This will only be populated on files with content stored in Drive. */
-  fileSize?: string;
+  fileSize?: string | undefined;
   /** Output only. Short term download URL for the file. This will only be populated on files with content stored in Drive. */
-  downloadUrl?: string;
+  downloadUrl?: string | undefined;
   /** Whether this revision is published outside the domain. This is only populated and can only be modified for Docs Editors files. */
-  publishedOutsideDomain?: boolean;
+  publishedOutsideDomain?: boolean | undefined;
   /** Output only. The ID of the revision. */
-  id?: string;
+  id?: string | undefined;
   /** Output only. The ETag of the revision. */
-  etag?: string;
+  etag?: string | undefined;
   /** Output only. The last user to modify this revision. This field is only populated when the last modification was performed by a signed-in user. */
-  lastModifyingUser?: User;
+  lastModifyingUser?: User | undefined;
   /** Output only. An MD5 checksum for the content of this revision. This will only be populated on files with content stored in Drive. */
-  md5Checksum?: string;
+  md5Checksum?: string | undefined;
   /** Output only. Name of the last user to modify this revision. */
-  lastModifyingUserName?: string;
+  lastModifyingUserName?: string | undefined;
   /** Output only. A link to the published revision. This is only populated for Docs Editors files. */
-  publishedLink?: string;
+  publishedLink?: string | undefined;
   /** Output only. The original filename when this revision was created. This will only be populated on files with content stored in Drive. */
-  originalFilename?: string;
+  originalFilename?: string | undefined;
   /** Last time this revision was modified (formatted RFC 3339 timestamp). */
-  modifiedDate?: string;
+  modifiedDate?: string | undefined;
   /** Output only. A link back to this revision. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** Output only. The MIME type of the revision. */
-  mimeType?: string;
+  mimeType?: string | undefined;
 }
 export interface GetStartPageTokenChangesRequest {
   /** Deprecated: Use `driveId` instead. */
-  teamDriveId?: string;
+  teamDriveId?: string | undefined;
   /** The ID of the shared drive for which the starting pageToken for listing future changes from that shared drive will be returned. */
-  driveId?: string;
+  driveId?: string | undefined;
   /** Whether the requesting application supports both My Drives and shared drives. */
-  supportsAllDrives?: boolean;
+  supportsAllDrives?: boolean | undefined;
   /** Deprecated: Use `supportsAllDrives` instead. */
-  supportsTeamDrives?: boolean;
+  supportsTeamDrives?: boolean | undefined;
 }
 export interface StartPageToken {
   /** Identifies what kind of resource this is. Value: the fixed string `"drive#startPageToken"`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The starting page token for listing changes. */
-  startPageToken?: string;
+  startPageToken?: string | undefined;
 }
 export interface GetTeamdrivesRequest {
   /** Issue the request as a domain administrator; if set to true, then the requester will be granted access if they are an administrator of the domain to which the Team Drive belongs. */
-  useDomainAdminAccess?: boolean;
+  useDomainAdminAccess?: boolean | undefined;
   /** The ID of the Team Drive */
   teamDriveId: string;
 }
@@ -1455,96 +1455,96 @@ export interface InsertChildrenRequest {
   /** The ID of the folder. */
   folderId: string;
   /** Deprecated: Use `supportsAllDrives` instead. */
-  supportsTeamDrives?: boolean;
+  supportsTeamDrives?: boolean | undefined;
   /** Deprecated: Adding files to multiple folders is no longer supported. Use `shortcuts` instead. */
-  enforceSingleParent?: boolean;
+  enforceSingleParent?: boolean | undefined;
   /** Whether the requesting application supports both My Drives and shared drives. */
-  supportsAllDrives?: boolean;
+  supportsAllDrives?: boolean | undefined;
   /** Request body */
-  body?: ChildReference;
+  body?: ChildReference | undefined;
 }
 export interface InsertCommentsRequest {
   /** The ID of the file. */
   fileId: string;
   /** Request body */
-  body?: Comment;
+  body?: Comment | undefined;
 }
 export interface InsertDrivesRequest {
   /** Required. An ID, such as a random UUID, which uniquely identifies this user's request for idempotent creation of a shared drive. A repeated request by the same user and with the same request ID will avoid creating duplicates by attempting to create the same shared drive. If the shared drive already exists a 409 error will be returned. */
   requestId: string;
   /** Request body */
-  body?: Drive;
+  body?: Drive | undefined;
 }
 export type InsertFilesVisibilityEnum = "DEFAULT" | "PRIVATE";
 export interface InsertFilesRequest {
   /** Whether to attempt OCR on .jpg, .png, .gif, or .pdf uploads. */
-  ocr?: boolean;
+  ocr?: boolean | undefined;
   /** The timed text track name. */
-  timedTextTrackName?: string;
+  timedTextTrackName?: string | undefined;
   /** Whether the requesting application supports both My Drives and shared drives. */
-  supportsAllDrives?: boolean;
+  supportsAllDrives?: boolean | undefined;
   /** Whether to use the content as indexable text. */
-  useContentAsIndexableText?: boolean;
+  useContentAsIndexableText?: boolean | undefined;
   /** Deprecated: Use `supportsAllDrives` instead. */
-  supportsTeamDrives?: boolean;
+  supportsTeamDrives?: boolean | undefined;
   /** Whether to convert this file to the corresponding Docs Editors format. */
-  convert?: boolean;
+  convert?: boolean | undefined;
   /** Whether to pin the head revision of the uploaded file. A file can have a maximum of 200 pinned revisions. */
-  pinned?: boolean;
+  pinned?: boolean | undefined;
   /** The visibility of the new file. Permissions are still inherited from parent folders. This parameter is only relevant when `convert=false`. */
-  visibility?: InsertFilesVisibilityEnum | (string & {});
+  visibility?: InsertFilesVisibilityEnum | (string & {}) | undefined;
   /** A comma-separated list of IDs of labels to include in the `labelInfo` part of the response. */
-  includeLabels?: string;
+  includeLabels?: string | undefined;
   /** If ocr is true, hints at the language to use. Valid values are BCP 47 codes. */
-  ocrLanguage?: string;
+  ocrLanguage?: string | undefined;
   /** The language of the timed text. */
-  timedTextLanguage?: string;
+  timedTextLanguage?: string | undefined;
   /** Deprecated: Creating files in multiple folders is no longer supported. */
-  enforceSingleParent?: boolean;
+  enforceSingleParent?: boolean | undefined;
   /** Specifies which additional view's permissions to include in the response. Only `published` is supported. */
-  includePermissionsForView?: string;
+  includePermissionsForView?: string | undefined;
   /** Request body */
-  body?: File;
+  body?: File | undefined;
 }
 export interface InsertParentsRequest {
   /** The ID of the file. */
   fileId: string;
   /** Whether the requesting application supports both My Drives and shared drives. */
-  supportsAllDrives?: boolean;
+  supportsAllDrives?: boolean | undefined;
   /** Deprecated: Use `supportsAllDrives` instead. */
-  supportsTeamDrives?: boolean;
+  supportsTeamDrives?: boolean | undefined;
   /** Deprecated: Adding files to multiple folders is no longer supported. Use `shortcuts` instead. */
-  enforceSingleParent?: boolean;
+  enforceSingleParent?: boolean | undefined;
   /** Request body */
-  body?: ParentReference;
+  body?: ParentReference | undefined;
 }
 export interface InsertPermissionsRequest {
   /** A plain text custom message to include in notification emails. */
-  emailMessage?: string;
+  emailMessage?: string | undefined;
   /** Deprecated: All requests use the expansive access rules. */
-  enforceExpansiveAccess?: boolean;
+  enforceExpansiveAccess?: boolean | undefined;
   /** Deprecated: Use `supportsAllDrives` instead. */
-  supportsTeamDrives?: boolean;
+  supportsTeamDrives?: boolean | undefined;
   /** This parameter will only take effect if the item is not in a shared drive and the request is attempting to transfer the ownership of the item. If set to `true`, the item will be moved to the new owner's My Drive root folder and all prior parents removed. If set to `false`, parents are not changed. */
-  moveToNewOwnersRoot?: boolean;
+  moveToNewOwnersRoot?: boolean | undefined;
   /** Whether the requesting application supports both My Drives and shared drives. */
-  supportsAllDrives?: boolean;
+  supportsAllDrives?: boolean | undefined;
   /** Issue the request as a domain administrator; if set to true, then the requester will be granted access if the file ID parameter refers to a shared drive and the requester is an administrator of the domain to which the shared drive belongs. */
-  useDomainAdminAccess?: boolean;
+  useDomainAdminAccess?: boolean | undefined;
   /** The ID for the file or shared drive. */
   fileId: string;
   /** Deprecated: See `moveToNewOwnersRoot` for details. */
-  enforceSingleParent?: boolean;
+  enforceSingleParent?: boolean | undefined;
   /** Whether to send notification emails when sharing to users or groups. This parameter is ignored and an email is sent if the `role` is `owner`. */
-  sendNotificationEmails?: boolean;
+  sendNotificationEmails?: boolean | undefined;
   /** Request body */
-  body?: Permission;
+  body?: Permission | undefined;
 }
 export interface InsertPropertiesRequest {
   /** The ID of the file. */
   fileId: string;
   /** Request body */
-  body?: Property;
+  body?: Property | undefined;
 }
 export interface InsertRepliesRequest {
   /** The ID of the file. */
@@ -1552,113 +1552,113 @@ export interface InsertRepliesRequest {
   /** The ID of the comment. */
   commentId: string;
   /** Request body */
-  body?: CommentReply;
+  body?: CommentReply | undefined;
 }
 export interface InsertTeamdrivesRequest {
   /** Required. An ID, such as a random UUID, which uniquely identifies this user's request for idempotent creation of a Team Drive. A repeated request by the same user and with the same request ID will avoid creating duplicates by attempting to create the same Team Drive. If the Team Drive already exists a 409 error will be returned. */
   requestId: string;
   /** Request body */
-  body?: TeamDrive;
+  body?: TeamDrive | undefined;
 }
 export interface ListAppsRequest {
   /** A comma-separated list of MIME types for open with filtering. All apps within the given app query scope which can open any of the given MIME types will be included in the response. If `appFilterExtensions` are provided as well, the result is a union of the two resulting app lists. */
-  appFilterMimeTypes?: string;
+  appFilterMimeTypes?: string | undefined;
   /** A language or locale code, as defined by BCP 47, with some extensions from Unicode's LDML format (http://www.unicode.org/reports/tr35/). */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** A comma-separated list of file extensions for open with filtering. All apps within the given app query scope which can open any of the given file extensions will be included in the response. If `appFilterMimeTypes` are provided as well, the result is a union of the two resulting app lists. */
-  appFilterExtensions?: string;
+  appFilterExtensions?: string | undefined;
 }
 export type AppList_ = Array<App>;
 /** A list of third-party applications which the user has installed or given access to Google Drive. */
 export interface AppList {
   /** List of app IDs that the user has specified to use by default. The list is in reverse-priority order (lowest to highest). */
-  defaultAppIds?: StringList;
+  defaultAppIds?: StringList | undefined;
   /** The ETag of the list. */
-  etag?: string;
+  etag?: string | undefined;
   /** A link back to this list. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** This is always `drive#appList`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The list of apps. */
-  items?: AppList_;
+  items?: AppList_ | undefined;
 }
 export interface ListChangesRequest {
   /** A comma-separated list of spaces to query. Supported values are `drive`, `appDataFolder` and `photos`. */
-  spaces?: string;
+  spaces?: string | undefined;
   /** Deprecated: Use `includeItemsFromAllDrives` instead. */
-  includeTeamDriveItems?: boolean;
+  includeTeamDriveItems?: boolean | undefined;
   /** A comma-separated list of IDs of labels to include in the `labelInfo` part of the response. */
-  includeLabels?: string;
+  includeLabels?: string | undefined;
   /** Specifies which additional view's permissions to include in the response. Only `published` is supported. */
-  includePermissionsForView?: string;
+  includePermissionsForView?: string | undefined;
   /** Deprecated: Use `pageToken` instead. */
-  startChangeId?: string;
+  startChangeId?: string | undefined;
   /** Whether the requesting application supports both My Drives and shared drives. */
-  supportsAllDrives?: boolean;
+  supportsAllDrives?: boolean | undefined;
   /** Maximum number of changes to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** The shared drive from which changes will be returned. If specified the change IDs will be reflective of the shared drive; use the combined drive ID and change ID as an identifier. */
-  driveId?: string;
+  driveId?: string | undefined;
   /** Deprecated: Use `driveId` instead. */
-  teamDriveId?: string;
+  teamDriveId?: string | undefined;
   /** Whether to include changes indicating that items have been removed from the list of changes, for example by deletion or loss of access. */
-  includeDeleted?: boolean;
+  includeDeleted?: boolean | undefined;
   /** Deprecated: Use `supportsAllDrives` instead. */
-  supportsTeamDrives?: boolean;
+  supportsTeamDrives?: boolean | undefined;
   /** Whether both My Drive and shared drive items should be included in results. */
-  includeItemsFromAllDrives?: boolean;
+  includeItemsFromAllDrives?: boolean | undefined;
   /** Whether changes should include the file resource if the file is still accessible by the user at the time of the request, even when a file was removed from the list of changes and there will be no further change entries for this file. */
-  includeCorpusRemovals?: boolean;
+  includeCorpusRemovals?: boolean | undefined;
   /** Whether to include changes outside the My Drive hierarchy in the result. When set to false, changes to files such as those in the Application Data folder or shared files which have not been added to My Drive will be omitted from the result. */
-  includeSubscribed?: boolean;
+  includeSubscribed?: boolean | undefined;
   /** The token for continuing a previous list request on the next page. This should be set to the value of `nextPageToken` from the previous response or to the response from the getStartPageToken method. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ChangeList_ = Array<Change>;
 /** A list of changes for a user. */
 export interface ChangeList {
   /** The page token for the next page of changes. This will be absent if the end of the changes list has been reached. If the token is rejected for any reason, it should be discarded, and pagination should be restarted from the first page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The current largest change ID. */
-  largestChangeId?: string;
+  largestChangeId?: string | undefined;
   /** The starting page token for future changes. This will be present only if the end of the current changes list has been reached. */
-  newStartPageToken?: string;
+  newStartPageToken?: string | undefined;
   /** The ETag of the list. */
-  etag?: string;
+  etag?: string | undefined;
   /** A link to the next page of changes. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of changes. If nextPageToken is populated, then this list may be incomplete and an additional page of results should be fetched. */
   items: ChangeList_;
   /** This is always `drive#changeList`. */
-  kind?: string;
+  kind?: string | undefined;
   /** A link back to this list. */
-  selfLink?: string;
+  selfLink?: string | undefined;
 }
 export interface ListChildrenRequest {
   /** Maximum number of children to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Query string for searching children. */
-  q?: string;
+  q?: string | undefined;
   /** The ID of the folder. */
   folderId: string;
   /** Page token for children. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** A comma-separated list of sort keys. Valid keys are `createdDate`, `folder`, `lastViewedByMeDate`, `modifiedByMeDate`, `modifiedDate`, `quotaBytesUsed`, `recency`, `sharedWithMeDate`, `starred`, and `title`. Each key sorts ascending by default, but may be reversed with the `desc` modifier. Example usage: ?orderBy=folder,modifiedDate desc,title. Please note that there is a current limitation for users with approximately one million files in which the requested sort order is ignored. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type ChildReferenceList = Array<ChildReference>;
 /** A list of children of a file. */
 export interface ChildList {
   /** A link back to this list. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** The page token for the next page of children. This will be absent if the end of the children list has been reached. If the token is rejected for any reason, it should be discarded, and pagination should be restarted from the first page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** This is always `drive#childList`. */
-  kind?: string;
+  kind?: string | undefined;
   /** A link to the next page of children. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The ETag of the list. */
-  etag?: string;
+  etag?: string | undefined;
   /** The list of children. If nextPageToken is populated, then this list may be incomplete and an additional page of results should be fetched. */
   items: ChildReferenceList;
 }
@@ -1666,45 +1666,45 @@ export interface ListCommentsRequest {
   /** The ID of the file. */
   fileId: string;
   /** The maximum number of discussions to include in the response, used for paging. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** The continuation token, used to page through large result sets. To get the next page of results, set this parameter to the value of "nextPageToken" from the previous response. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Only discussions that were updated after this timestamp will be returned. Formatted as an RFC 3339 timestamp. */
-  updatedMin?: string;
+  updatedMin?: string | undefined;
   /** If set, all comments and replies, including deleted comments and replies (with content stripped) will be returned. */
-  includeDeleted?: boolean;
+  includeDeleted?: boolean | undefined;
 }
 export type CommentList_ = Array<Comment>;
 /** A list of comments on a file in Google Drive. */
 export interface CommentList {
   /** The page token for the next page of comments. This will be absent if the end of the comments list has been reached. If the token is rejected for any reason, it should be discarded, and pagination should be restarted from the first page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A link back to this list. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** This is always drive#commentList. */
-  kind?: string;
+  kind?: string | undefined;
   /** A link to the next page of comments. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of comments. If nextPageToken is populated, then this list may be incomplete and an additional page of results should be fetched. */
   items: CommentList_;
 }
 export interface ListDrivesRequest {
   /** Issue the request as a domain administrator; if set to true, then all shared drives of the domain in which the requester is an administrator are returned. */
-  useDomainAdminAccess?: boolean;
+  useDomainAdminAccess?: boolean | undefined;
   /** Page token for shared drives. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of shared drives to return per page. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Query string for searching shared drives. */
-  q?: string;
+  q?: string | undefined;
 }
 export type DriveList_ = Array<Drive>;
 /** A list of shared drives. */
 export interface DriveList {
   /** The page token for the next page of shared drives. This will be absent if the end of the list has been reached. If the token is rejected for any reason, it should be discarded, and pagination should be restarted from the first page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** This is always `drive#driveList` */
-  kind?: string;
+  kind?: string | undefined;
   /** The list of shared drives. If nextPageToken is populated, then this list may be incomplete and an additional page of results should be fetched. */
   items: DriveList_;
 }
@@ -1712,61 +1712,61 @@ export type ListFilesCorpusEnum = "DEFAULT" | "DOMAIN";
 export type ListFilesProjectionEnum = "BASIC" | "FULL";
 export interface ListFilesRequest {
   /** Page token for files. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Whether both My Drive and shared drive items should be included in results. */
-  includeItemsFromAllDrives?: boolean;
+  includeItemsFromAllDrives?: boolean | undefined;
   /** Deprecated: Use `supportsAllDrives` instead. */
-  supportsTeamDrives?: boolean;
+  supportsTeamDrives?: boolean | undefined;
   /** A comma-separated list of IDs of labels to include in the `labelInfo` part of the response. */
-  includeLabels?: string;
+  includeLabels?: string | undefined;
   /** A comma-separated list of sort keys. Valid keys are: * `createdDate`: When the file was created. * `folder`: The folder ID. This field is sorted using alphabetical ordering. * `lastViewedByMeDate`: The last time the file was viewed by the user. * `modifiedByMeDate`: The last time the file was modified by the user. * `modifiedDate`: The last time the file was modified by anyone. * `quotaBytesUsed`: The number of storage quota bytes used by the file. * `recency`: The most recent timestamp from the file's date-time fields. * `sharedWithMeDate`: When the file was shared with the user, if applicable. * `starred`: Whether the user has starred the file. * `title`: The title of the file. This field is sorted using alphabetical ordering, so 1, 12, 2, 22. * `title_natural`: The title of the file. This field is sorted using natural sort ordering, so 1, 2, 12, 22. Each key sorts ascending by default, but can be reversed with the 'desc' modifier. Example usage: `?orderBy=folder,modifiedDate desc,title`. Note that there's a current limitation for users with approximately one million files in which the requested sort order is ignored. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Deprecated: Use `includeItemsFromAllDrives` instead. */
-  includeTeamDriveItems?: boolean;
+  includeTeamDriveItems?: boolean | undefined;
   /** ID of the shared drive to search. */
-  driveId?: string;
+  driveId?: string | undefined;
   /** Deprecated: The body of items (files/documents) to which the query applies. Use `corpora` instead. */
-  corpus?: ListFilesCorpusEnum | (string & {});
+  corpus?: ListFilesCorpusEnum | (string & {}) | undefined;
   /** Specifies which additional view's permissions to include in the response. Only `published` is supported. */
-  includePermissionsForView?: string;
+  includePermissionsForView?: string | undefined;
   /** Deprecated: Use `driveId` instead. */
-  teamDriveId?: string;
+  teamDriveId?: string | undefined;
   /** Deprecated: This parameter has no function. */
-  projection?: ListFilesProjectionEnum | (string & {});
+  projection?: ListFilesProjectionEnum | (string & {}) | undefined;
   /** Query string for searching files. */
-  q?: string;
+  q?: string | undefined;
   /** The maximum number of files to return per page. Partial or empty result pages are possible even before the end of the files list has been reached. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Bodies of items (files/documents) to which the query applies. Supported bodies are `default`, `domain`, `drive` and `allDrives`. Prefer `default` or `drive` to `allDrives` for efficiency. */
-  corpora?: string;
+  corpora?: string | undefined;
   /** Whether the requesting application supports both My Drives and shared drives. */
-  supportsAllDrives?: boolean;
+  supportsAllDrives?: boolean | undefined;
   /** A comma-separated list of spaces to query. Supported values are `drive`, and `appDataFolder`. */
-  spaces?: string;
+  spaces?: string | undefined;
 }
 export type FileList_ = Array<File>;
 /** A list of files. */
 export interface FileList {
   /** The ETag of the list. */
-  etag?: string;
+  etag?: string | undefined;
   /** The page token for the next page of files. This will be absent if the end of the files list has been reached. If the token is rejected for any reason, it should be discarded, and pagination should be restarted from the first page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of files. If nextPageToken is populated, then this list may be incomplete and an additional page of results should be fetched. */
   items: FileList_;
   /** This is always `drive#fileList`. */
-  kind?: string;
+  kind?: string | undefined;
   /** A link to the next page of files. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Whether the search process was incomplete. If true, then some search results may be missing, since all documents were not searched. This may occur when searching multiple drives with the "allDrives" corpora, but all corpora could not be searched. When this happens, it is suggested that clients narrow their query by choosing a different corpus such as "default" or "drive". */
-  incompleteSearch?: boolean;
+  incompleteSearch?: boolean | undefined;
   /** A link back to this list. */
-  selfLink?: string;
+  selfLink?: string | undefined;
 }
 export interface ListLabelsFilesRequest {
   /** The token for continuing a previous list request on the next page. This should be set to the value of `nextPageToken` from the previous response. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of labels to return per page. When not set, defaults to 100. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** The ID for the file. */
   fileId: string;
 }
@@ -1775,9 +1775,9 @@ export interface LabelList {
   /** The list of labels. */
   items: LabelList_;
   /** The page token for the next page of labels. This field will be absent if the end of the list has been reached. If the token is rejected for any reason, it should be discarded, and pagination should be restarted from the first page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** This is always `drive#labelList` */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface ListParentsRequest {
   /** The ID of the file. */
@@ -1786,42 +1786,42 @@ export interface ListParentsRequest {
 /** A list of a file's parents. */
 export interface ParentList {
   /** The list of parents. */
-  items?: ParentReferenceList;
+  items?: ParentReferenceList | undefined;
   /** A link back to this list. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** This is always `drive#parentList`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The ETag of the list. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface ListPermissionsRequest {
   /** Whether the requesting application supports both My Drives and shared drives. */
-  supportsAllDrives?: boolean;
+  supportsAllDrives?: boolean | undefined;
   /** Issue the request as a domain administrator; if set to true, then the requester will be granted access if the file ID parameter refers to a shared drive and the requester is an administrator of the domain to which the shared drive belongs. */
-  useDomainAdminAccess?: boolean;
+  useDomainAdminAccess?: boolean | undefined;
   /** The token for continuing a previous list request on the next page. This should be set to the value of `nextPageToken` from the previous response. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Specifies which additional view's permissions to include in the response. Only `published` is supported. */
-  includePermissionsForView?: string;
+  includePermissionsForView?: string | undefined;
   /** The ID for the file or shared drive. */
   fileId: string;
   /** Deprecated: Use `supportsAllDrives` instead. */
-  supportsTeamDrives?: boolean;
+  supportsTeamDrives?: boolean | undefined;
   /** The maximum number of permissions to return per page. When not set for files in a shared drive, at most 100 results will be returned. When not set for files that are not in a shared drive, the entire list will be returned. */
-  maxResults?: number;
+  maxResults?: number | undefined;
 }
 /** A list of permissions associated with a file. */
 export interface PermissionList {
   /** A link back to this list. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** The ETag of the list. */
-  etag?: string;
+  etag?: string | undefined;
   /** The page token for the next page of permissions. This field will be absent if the end of the permissions list has been reached. If the token is rejected for any reason, it should be discarded, and pagination should be restarted from the first page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of permissions. */
   items: PermissionList_;
   /** This is always `drive#permissionList`. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface ListPropertiesRequest {
   /** The ID of the file. */
@@ -1830,44 +1830,44 @@ export interface ListPropertiesRequest {
 /** A collection of properties, key-value pairs that are either public or private to an application. */
 export interface PropertyList {
   /** The list of properties. */
-  items?: PropertyList_;
+  items?: PropertyList_ | undefined;
   /** This is always `drive#propertyList`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The ETag of the list. */
-  etag?: string;
+  etag?: string | undefined;
   /** The link back to this list. */
-  selfLink?: string;
+  selfLink?: string | undefined;
 }
 export interface ListRepliesRequest {
   /** If set, all replies, including deleted replies (with content stripped) will be returned. */
-  includeDeleted?: boolean;
+  includeDeleted?: boolean | undefined;
   /** The maximum number of replies to include in the response, used for paging. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** The ID of the comment. */
   commentId: string;
   /** The continuation token, used to page through large result sets. To get the next page of results, set this parameter to the value of "nextPageToken" from the previous response. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The ID of the file. */
   fileId: string;
 }
 /** A list of replies to a comment on a file in Google Drive. */
 export interface CommentReplyList {
   /** The page token for the next page of replies. This will be absent if the end of the replies list has been reached. If the token is rejected for any reason, it should be discarded, and pagination should be restarted from the first page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A link to the next page of replies. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** This is always `drive#commentReplyList`. */
-  kind?: string;
+  kind?: string | undefined;
   /** A link back to this list. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** The list of replies. If nextPageToken is populated, then this list may be incomplete and an additional page of results should be fetched. */
   items: CommentReplyList_;
 }
 export interface ListRevisionsRequest {
   /** Page token for revisions. To get the next page of results, set this parameter to the value of "nextPageToken" from the previous response. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of revisions to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** The ID of the file. */
   fileId: string;
 }
@@ -1875,25 +1875,25 @@ export type RevisionList_ = Array<Revision>;
 /** A list of revisions of a file. */
 export interface RevisionList {
   /** A link back to this list. */
-  selfLink?: string;
+  selfLink?: string | undefined;
   /** The ETag of the list. */
-  etag?: string;
+  etag?: string | undefined;
   /** The list of revisions. If nextPageToken is populated, then this list may be incomplete and an additional page of results should be fetched. */
   items: RevisionList_;
   /** This is always `drive#revisionList`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The page token for the next page of revisions. This field will be absent if the end of the revisions list has been reached. If the token is rejected for any reason, it should be discarded and pagination should be restarted from the first page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListTeamdrivesRequest {
   /** Issue the request as a domain administrator; if set to true, then all Team Drives of the domain in which the requester is an administrator are returned. */
-  useDomainAdminAccess?: boolean;
+  useDomainAdminAccess?: boolean | undefined;
   /** Page token for Team Drives. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Query string for searching Team Drives. */
-  q?: string;
+  q?: string | undefined;
   /** Maximum number of Team Drives to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
 }
 export type TeamDriveList_ = Array<TeamDrive>;
 /** A list of Team Drives. */
@@ -1901,61 +1901,61 @@ export interface TeamDriveList {
   /** The list of Team Drives. */
   items: TeamDriveList_;
   /** This is always `drive#teamDriveList` */
-  kind?: string;
+  kind?: string | undefined;
   /** The page token for the next page of Team Drives. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 /** A modification to a label's field. */
 export interface LabelFieldModification {
   /** Replaces a `selection` field with these new values. */
-  setSelectionValues?: StringList;
+  setSelectionValues?: StringList | undefined;
   /** Replaces the value of an `integer` field with these new values. */
-  setIntegerValues?: StringList;
+  setIntegerValues?: StringList | undefined;
   /** Replaces the value of a dateString Field with these new values. The string must be in the RFC 3339 full-date format: YYYY-MM-DD. */
-  setDateValues?: StringList;
+  setDateValues?: StringList | undefined;
   /** Sets the value of a `text` field. */
-  setTextValues?: StringList;
+  setTextValues?: StringList | undefined;
   /** The ID of the field to be modified. */
-  fieldId?: string;
+  fieldId?: string | undefined;
   /** This is always `drive#labelFieldModification`. */
-  kind?: string;
+  kind?: string | undefined;
   /** Replaces a `user` field with these new values. The values must be valid email addresses. */
-  setUserValues?: StringList;
+  setUserValues?: StringList | undefined;
   /** Unsets the values for this field. */
-  unsetValues?: boolean;
+  unsetValues?: boolean | undefined;
 }
 export type LabelFieldModificationList = Array<LabelFieldModification>;
 /** A modification to a label on a file. A LabelModification can be used to apply a label to a file, update an existing label on a file, or remove a label from a file. */
 export interface LabelModification {
   /** The ID of the label to modify. */
-  labelId?: string;
+  labelId?: string | undefined;
   /** If true, the label will be removed from the file. */
-  removeLabel?: boolean;
+  removeLabel?: boolean | undefined;
   /** The list of modifications to this label's fields. */
-  fieldModifications?: LabelFieldModificationList;
+  fieldModifications?: LabelFieldModificationList | undefined;
   /** This is always `drive#labelModification`. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type LabelModificationList = Array<LabelModification>;
 /** A request to modify the set of labels on a file. This request may contain many modifications that will either all succeed or all fail atomically. */
 export interface ModifyLabelsRequest {
   /** This is always `drive#modifyLabelsRequest`. */
-  kind?: string;
+  kind?: string | undefined;
   /** The list of modifications to apply to the labels on the file. */
-  labelModifications?: LabelModificationList;
+  labelModifications?: LabelModificationList | undefined;
 }
 export interface ModifyLabelsFilesRequest {
   /** The ID of the file to which the labels belong. */
   fileId: string;
   /** Request body */
-  body?: ModifyLabelsRequest;
+  body?: ModifyLabelsRequest | undefined;
 }
 /** Response to a ModifyLabels request. This contains only those labels which were added or updated by the request. */
 export interface ModifyLabelsResponse {
   /** This is always `drive#modifyLabelsResponse` */
-  kind?: string;
+  kind?: string | undefined;
   /** The list of labels which were added or updated by the request. */
-  modifiedLabels?: LabelList_;
+  modifiedLabels?: LabelList_ | undefined;
 }
 export interface PatchCommentsRequest {
   /** The ID of the comment. */
@@ -1963,7 +1963,7 @@ export interface PatchCommentsRequest {
   /** The ID of the file. */
   fileId: string;
   /** Request body */
-  body?: Comment;
+  body?: Comment | undefined;
 }
 export type PatchFilesModifiedDateBehaviorEnum =
   | "fromBody"
@@ -1974,75 +1974,75 @@ export type PatchFilesModifiedDateBehaviorEnum =
   | "nowIfNeeded";
 export interface PatchFilesRequest {
   /** Whether to update the view date after successfully updating the file. */
-  updateViewedDate?: boolean;
+  updateViewedDate?: boolean | undefined;
   /** A comma-separated list of IDs of labels to include in the `labelInfo` part of the response. */
-  includeLabels?: string;
+  includeLabels?: string | undefined;
   /** Whether the requesting application supports both My Drives and shared drives. */
-  supportsAllDrives?: boolean;
+  supportsAllDrives?: boolean | undefined;
   /** Deprecated: This parameter has no function. */
-  convert?: boolean;
+  convert?: boolean | undefined;
   /** Deprecated: Use `supportsAllDrives` instead. */
-  supportsTeamDrives?: boolean;
+  supportsTeamDrives?: boolean | undefined;
   /** Whether to set the modified date using the value supplied in the request body. Setting this field to `true` is equivalent to `modifiedDateBehavior=fromBodyOrNow`, and `false` is equivalent to `modifiedDateBehavior=now`. To prevent any changes to the modified date set `modifiedDateBehavior=noChange`. */
-  setModifiedDate?: boolean;
+  setModifiedDate?: boolean | undefined;
   /** Whether to pin the new revision. A file can have a maximum of 200 pinned revisions. Note that this field is ignored if there is no payload in the request. */
-  pinned?: boolean;
+  pinned?: boolean | undefined;
   /** Deprecated: Adding files to multiple folders is no longer supported. Use `shortcuts` instead. */
-  enforceSingleParent?: boolean;
+  enforceSingleParent?: boolean | undefined;
   /** Specifies which additional view's permissions to include in the response. Only `published` is supported. */
-  includePermissionsForView?: string;
+  includePermissionsForView?: string | undefined;
   /** The ID of the file to update. */
   fileId: string;
   /** If ocr is true, hints at the language to use. Valid values are BCP 47 codes. */
-  ocrLanguage?: string;
+  ocrLanguage?: string | undefined;
   /** Determines the behavior in which `modifiedDate` is updated. This overrides `setModifiedDate`. */
-  modifiedDateBehavior?: PatchFilesModifiedDateBehaviorEnum | (string & {});
+  modifiedDateBehavior?: PatchFilesModifiedDateBehaviorEnum | (string & {}) | undefined;
   /** Whether a blob upload should create a new revision. If false, the blob data in the current head revision is replaced. If true or not set, a new blob is created as head revision, and previous unpinned revisions are preserved for a short period of time. Pinned revisions are stored indefinitely, using additional storage quota, up to a maximum of 200 revisions. For details on how revisions are retained, see the [Drive Help Center](https://support.google.com/drive/answer/2409045). Note that this field is ignored if there is no payload in the request. */
-  newRevision?: boolean;
+  newRevision?: boolean | undefined;
   /** Comma-separated list of parent IDs to remove. */
-  removeParents?: string;
+  removeParents?: string | undefined;
   /** Comma-separated list of parent IDs to add. */
-  addParents?: string;
+  addParents?: string | undefined;
   /** Whether to use the content as indexable text. */
-  useContentAsIndexableText?: boolean;
+  useContentAsIndexableText?: boolean | undefined;
   /** Whether to attempt OCR on .jpg, .png, .gif, or .pdf uploads. */
-  ocr?: boolean;
+  ocr?: boolean | undefined;
   /** The timed text track name. */
-  timedTextTrackName?: string;
+  timedTextTrackName?: string | undefined;
   /** The language of the timed text. */
-  timedTextLanguage?: string;
+  timedTextLanguage?: string | undefined;
   /** Request body */
-  body?: File;
+  body?: File | undefined;
 }
 export interface PatchPermissionsRequest {
   /** Whether changing a role to `owner` downgrades the current owners to writers. Does nothing if the specified role is not `owner`. */
-  transferOwnership?: boolean;
+  transferOwnership?: boolean | undefined;
   /** The ID for the file or shared drive. */
   fileId: string;
   /** Deprecated: All requests use the expansive access rules. */
-  enforceExpansiveAccess?: boolean;
+  enforceExpansiveAccess?: boolean | undefined;
   /** Issue the request as a domain administrator; if set to true, then the requester will be granted access if the file ID parameter refers to a shared drive and the requester is an administrator of the domain to which the shared drive belongs. */
-  useDomainAdminAccess?: boolean;
+  useDomainAdminAccess?: boolean | undefined;
   /** The ID for the permission. */
   permissionId: string;
   /** Whether the requesting application supports both My Drives and shared drives. */
-  supportsAllDrives?: boolean;
+  supportsAllDrives?: boolean | undefined;
   /** Whether to remove the expiration date. */
-  removeExpiration?: boolean;
+  removeExpiration?: boolean | undefined;
   /** Deprecated: Use `supportsAllDrives` instead. */
-  supportsTeamDrives?: boolean;
+  supportsTeamDrives?: boolean | undefined;
   /** Request body */
-  body?: Permission;
+  body?: Permission | undefined;
 }
 export interface PatchPropertiesRequest {
   /** The visibility of the property. Allowed values are PRIVATE and PUBLIC. (Default: PRIVATE) */
-  visibility?: string;
+  visibility?: string | undefined;
   /** The key of the property. */
   propertyKey: string;
   /** The ID of the file. */
   fileId: string;
   /** Request body */
-  body?: Property;
+  body?: Property | undefined;
 }
 export interface PatchRepliesRequest {
   /** The ID of the reply. */
@@ -2052,7 +2052,7 @@ export interface PatchRepliesRequest {
   /** The ID of the file. */
   fileId: string;
   /** Request body */
-  body?: CommentReply;
+  body?: CommentReply | undefined;
 }
 export interface PatchRevisionsRequest {
   /** The ID for the file. */
@@ -2060,59 +2060,59 @@ export interface PatchRevisionsRequest {
   /** The ID for the revision. */
   revisionId: string;
   /** Request body */
-  body?: Revision;
+  body?: Revision | undefined;
 }
 /** A notification channel used to watch for resource changes. */
 export interface Channel {
   /** An opaque ID that identifies the resource being watched on this channel. Stable across different API versions. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** A UUID or similar unique string that identifies this channel. */
-  id?: string;
+  id?: string | undefined;
   /** A version-specific identifier for the watched resource. */
-  resourceUri?: string;
+  resourceUri?: string | undefined;
   /** Additional parameters controlling delivery channel behavior. Optional. */
-  params?: StringMap;
+  params?: StringMap | undefined;
   /** The address where notifications are delivered for this channel. */
-  address?: string;
+  address?: string | undefined;
   /** An arbitrary string delivered to the target address with each notification delivered over this channel. Optional. */
-  token?: string;
+  token?: string | undefined;
   /** Date and time of notification channel expiration, expressed as a Unix timestamp, in milliseconds. Optional. */
-  expiration?: string;
+  expiration?: string | undefined;
   /** The type of delivery mechanism used for this channel. Valid values are "web_hook" or "webhook". */
-  type?: string;
+  type?: string | undefined;
   /** A Boolean value to indicate whether payload is wanted. Optional. */
-  payload?: boolean;
+  payload?: boolean | undefined;
   /** Identifies this as a notification channel used to watch for changes to a resource, which is `api#channel`. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface StopChannelsRequest {
   /** Request body */
-  body?: Channel;
+  body?: Channel | undefined;
 }
 export interface StopChannelsResponse {}
 export interface TouchFilesRequest {
   /** The ID of the file to update. */
   fileId: string;
   /** Specifies which additional view's permissions to include in the response. Only `published` is supported. */
-  includePermissionsForView?: string;
+  includePermissionsForView?: string | undefined;
   /** Whether the requesting application supports both My Drives and shared drives. */
-  supportsAllDrives?: boolean;
+  supportsAllDrives?: boolean | undefined;
   /** Deprecated: Use `supportsAllDrives` instead. */
-  supportsTeamDrives?: boolean;
+  supportsTeamDrives?: boolean | undefined;
   /** A comma-separated list of IDs of labels to include in the `labelInfo` part of the response. */
-  includeLabels?: string;
+  includeLabels?: string | undefined;
 }
 export interface TrashFilesRequest {
   /** Deprecated: Use `supportsAllDrives` instead. */
-  supportsTeamDrives?: boolean;
+  supportsTeamDrives?: boolean | undefined;
   /** Whether the requesting application supports both My Drives and shared drives. */
-  supportsAllDrives?: boolean;
+  supportsAllDrives?: boolean | undefined;
   /** Specifies which additional view's permissions to include in the response. Only `published` is supported. */
-  includePermissionsForView?: string;
+  includePermissionsForView?: string | undefined;
   /** The ID of the file to trash. */
   fileId: string;
   /** A comma-separated list of IDs of labels to include in the `labelInfo` part of the response. */
-  includeLabels?: string;
+  includeLabels?: string | undefined;
 }
 export interface UnhideDrivesRequest {
   /** The ID of the shared drive. */
@@ -2120,15 +2120,15 @@ export interface UnhideDrivesRequest {
 }
 export interface UntrashFilesRequest {
   /** Whether the requesting application supports both My Drives and shared drives. */
-  supportsAllDrives?: boolean;
+  supportsAllDrives?: boolean | undefined;
   /** Specifies which additional view's permissions to include in the response. Only `published` is supported. */
-  includePermissionsForView?: string;
+  includePermissionsForView?: string | undefined;
   /** The ID of the file to untrash. */
   fileId: string;
   /** Deprecated: Use `supportsAllDrives` instead. */
-  supportsTeamDrives?: boolean;
+  supportsTeamDrives?: boolean | undefined;
   /** A comma-separated list of IDs of labels to include in the `labelInfo` part of the response. */
-  includeLabels?: string;
+  includeLabels?: string | undefined;
 }
 export interface UpdateCommentsRequest {
   /** The ID of the comment. */
@@ -2136,15 +2136,15 @@ export interface UpdateCommentsRequest {
   /** The ID of the file. */
   fileId: string;
   /** Request body */
-  body?: Comment;
+  body?: Comment | undefined;
 }
 export interface UpdateDrivesRequest {
   /** Issue the request as a domain administrator; if set to true, then the requester will be granted access if they are an administrator of the domain to which the shared drive belongs. */
-  useDomainAdminAccess?: boolean;
+  useDomainAdminAccess?: boolean | undefined;
   /** The ID of the shared drive. */
   driveId: string;
   /** Request body */
-  body?: Drive;
+  body?: Drive | undefined;
 }
 export type UpdateFilesModifiedDateBehaviorEnum =
   | "fromBody"
@@ -2155,75 +2155,75 @@ export type UpdateFilesModifiedDateBehaviorEnum =
   | "nowIfNeeded";
 export interface UpdateFilesRequest {
   /** Deprecated: This parameter has no function. */
-  convert?: boolean;
+  convert?: boolean | undefined;
   /** Deprecated: Adding files to multiple folders is no longer supported. Use `shortcuts` instead. */
-  enforceSingleParent?: boolean;
+  enforceSingleParent?: boolean | undefined;
   /** Whether the requesting application supports both My Drives and shared drives. */
-  supportsAllDrives?: boolean;
+  supportsAllDrives?: boolean | undefined;
   /** Whether to set the modified date using the value supplied in the request body. Setting this field to `true` is equivalent to `modifiedDateBehavior=fromBodyOrNow`, and `false` is equivalent to `modifiedDateBehavior=now`. To prevent any changes to the modified date set `modifiedDateBehavior=noChange`. */
-  setModifiedDate?: boolean;
+  setModifiedDate?: boolean | undefined;
   /** Whether to attempt OCR on .jpg, .png, .gif, or .pdf uploads. */
-  ocr?: boolean;
+  ocr?: boolean | undefined;
   /** Whether to use the content as indexable text. */
-  useContentAsIndexableText?: boolean;
+  useContentAsIndexableText?: boolean | undefined;
   /** The timed text track name. */
-  timedTextTrackName?: string;
+  timedTextTrackName?: string | undefined;
   /** Determines the behavior in which `modifiedDate` is updated. This overrides `setModifiedDate`. */
-  modifiedDateBehavior?: UpdateFilesModifiedDateBehaviorEnum | (string & {});
+  modifiedDateBehavior?: UpdateFilesModifiedDateBehaviorEnum | (string & {}) | undefined;
   /** Whether to update the view date after successfully updating the file. */
-  updateViewedDate?: boolean;
+  updateViewedDate?: boolean | undefined;
   /** Comma-separated list of parent IDs to remove. */
-  removeParents?: string;
+  removeParents?: string | undefined;
   /** Whether a blob upload should create a new revision. If false, the blob data in the current head revision is replaced. If true or not set, a new blob is created as head revision, and previous unpinned revisions are preserved for a short period of time. Pinned revisions are stored indefinitely, using additional storage quota, up to a maximum of 200 revisions. For details on how revisions are retained, see the [Drive Help Center](https://support.google.com/drive/answer/2409045). */
-  newRevision?: boolean;
+  newRevision?: boolean | undefined;
   /** Whether to pin the new revision. A file can have a maximum of 200 pinned revisions. */
-  pinned?: boolean;
+  pinned?: boolean | undefined;
   /** The ID of the file to update. */
   fileId: string;
   /** Specifies which additional view's permissions to include in the response. Only `published` is supported. */
-  includePermissionsForView?: string;
+  includePermissionsForView?: string | undefined;
   /** If ocr is true, hints at the language to use. Valid values are BCP 47 codes. */
-  ocrLanguage?: string;
+  ocrLanguage?: string | undefined;
   /** A comma-separated list of IDs of labels to include in the `labelInfo` part of the response. */
-  includeLabels?: string;
+  includeLabels?: string | undefined;
   /** Deprecated: Use `supportsAllDrives` instead. */
-  supportsTeamDrives?: boolean;
+  supportsTeamDrives?: boolean | undefined;
   /** The language of the timed text. */
-  timedTextLanguage?: string;
+  timedTextLanguage?: string | undefined;
   /** Comma-separated list of parent IDs to add. */
-  addParents?: string;
+  addParents?: string | undefined;
   /** Request body */
-  body?: File;
+  body?: File | undefined;
 }
 export interface UpdatePermissionsRequest {
   /** Whether changing a role to `owner` downgrades the current owners to writers. Does nothing if the specified role is not `owner`. */
-  transferOwnership?: boolean;
+  transferOwnership?: boolean | undefined;
   /** The ID for the file or shared drive. */
   fileId: string;
   /** Deprecated: Use `supportsAllDrives` instead. */
-  supportsTeamDrives?: boolean;
+  supportsTeamDrives?: boolean | undefined;
   /** The ID for the permission. */
   permissionId: string;
   /** Issue the request as a domain administrator; if set to true, then the requester will be granted access if the file ID parameter refers to a shared drive and the requester is an administrator of the domain to which the shared drive belongs. */
-  useDomainAdminAccess?: boolean;
+  useDomainAdminAccess?: boolean | undefined;
   /** Whether the requesting application supports both My Drives and shared drives. */
-  supportsAllDrives?: boolean;
+  supportsAllDrives?: boolean | undefined;
   /** Deprecated: All requests use the expansive access rules. */
-  enforceExpansiveAccess?: boolean;
+  enforceExpansiveAccess?: boolean | undefined;
   /** Whether to remove the expiration date. */
-  removeExpiration?: boolean;
+  removeExpiration?: boolean | undefined;
   /** Request body */
-  body?: Permission;
+  body?: Permission | undefined;
 }
 export interface UpdatePropertiesRequest {
   /** The key of the property. */
   propertyKey: string;
   /** The visibility of the property. Allowed values are PRIVATE and PUBLIC. (Default: PRIVATE) */
-  visibility?: string;
+  visibility?: string | undefined;
   /** The ID of the file. */
   fileId: string;
   /** Request body */
-  body?: Property;
+  body?: Property | undefined;
 }
 export interface UpdateRepliesRequest {
   /** The ID of the reply. */
@@ -2233,7 +2233,7 @@ export interface UpdateRepliesRequest {
   /** The ID of the comment. */
   commentId: string;
   /** Request body */
-  body?: CommentReply;
+  body?: CommentReply | undefined;
 }
 export interface UpdateRevisionsRequest {
   /** The ID for the file. */
@@ -2241,72 +2241,72 @@ export interface UpdateRevisionsRequest {
   /** The ID for the revision. */
   revisionId: string;
   /** Request body */
-  body?: Revision;
+  body?: Revision | undefined;
 }
 export interface UpdateTeamdrivesRequest {
   /** The ID of the Team Drive */
   teamDriveId: string;
   /** Issue the request as a domain administrator; if set to true, then the requester will be granted access if they are an administrator of the domain to which the Team Drive belongs. */
-  useDomainAdminAccess?: boolean;
+  useDomainAdminAccess?: boolean | undefined;
   /** Request body */
-  body?: TeamDrive;
+  body?: TeamDrive | undefined;
 }
 export interface WatchChangesRequest {
   /** Maximum number of changes to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** The shared drive from which changes will be returned. If specified the change IDs will be reflective of the shared drive; use the combined drive ID and change ID as an identifier. */
-  driveId?: string;
+  driveId?: string | undefined;
   /** Whether both My Drive and shared drive items should be included in results. */
-  includeItemsFromAllDrives?: boolean;
+  includeItemsFromAllDrives?: boolean | undefined;
   /** Whether to include changes outside the My Drive hierarchy in the result. When set to false, changes to files such as those in the Application Data folder or shared files which have not been added to My Drive will be omitted from the result. */
-  includeSubscribed?: boolean;
+  includeSubscribed?: boolean | undefined;
   /** Deprecated: Use `includeItemsFromAllDrives` instead. */
-  includeTeamDriveItems?: boolean;
+  includeTeamDriveItems?: boolean | undefined;
   /** Specifies which additional view's permissions to include in the response. Only `published` is supported. */
-  includePermissionsForView?: string;
+  includePermissionsForView?: string | undefined;
   /** Whether changes should include the file resource if the file is still accessible by the user at the time of the request, even when a file was removed from the list of changes and there will be no further change entries for this file. */
-  includeCorpusRemovals?: boolean;
+  includeCorpusRemovals?: boolean | undefined;
   /** A comma-separated list of spaces to query. Supported values are `drive`, `appDataFolder` and `photos`. */
-  spaces?: string;
+  spaces?: string | undefined;
   /** Whether to include changes indicating that items have been removed from the list of changes, for example by deletion or loss of access. */
-  includeDeleted?: boolean;
+  includeDeleted?: boolean | undefined;
   /** Deprecated: Use `driveId` instead. */
-  teamDriveId?: string;
+  teamDriveId?: string | undefined;
   /** A comma-separated list of IDs of labels to include in the `labelInfo` part of the response. */
-  includeLabels?: string;
+  includeLabels?: string | undefined;
   /** Deprecated: Use `supportsAllDrives` instead. */
-  supportsTeamDrives?: boolean;
+  supportsTeamDrives?: boolean | undefined;
   /** Deprecated: Use `pageToken` instead. */
-  startChangeId?: string;
+  startChangeId?: string | undefined;
   /** Whether the requesting application supports both My Drives and shared drives. */
-  supportsAllDrives?: boolean;
+  supportsAllDrives?: boolean | undefined;
   /** The token for continuing a previous list request on the next page. This should be set to the value of `nextPageToken` from the previous response or to the response from the getStartPageToken method. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Request body */
-  body?: Channel;
+  body?: Channel | undefined;
 }
 export type WatchFilesProjectionEnum = "BASIC" | "FULL";
 export interface WatchFilesRequest {
   /** Specifies the Revision ID that should be downloaded. Ignored unless alt=media is specified. */
-  revisionId?: string;
+  revisionId?: string | undefined;
   /** A comma-separated list of IDs of labels to include in the `labelInfo` part of the response. */
-  includeLabels?: string;
+  includeLabels?: string | undefined;
   /** The ID for the file in question. */
   fileId: string;
   /** Whether the user is acknowledging the risk of downloading known malware or other abusive files. This is only applicable when the `alt` parameter is set to `media` and the user is the owner of the file or an organizer of the shared drive in which the file resides. */
-  acknowledgeAbuse?: boolean;
+  acknowledgeAbuse?: boolean | undefined;
   /** Deprecated: Use files.update with modifiedDateBehavior=noChange, updateViewedDate=true and an empty request body. */
-  updateViewedDate?: boolean;
+  updateViewedDate?: boolean | undefined;
   /** Specifies which additional view's permissions to include in the response. Only `published` is supported. */
-  includePermissionsForView?: string;
+  includePermissionsForView?: string | undefined;
   /** Whether the requesting application supports both My Drives and shared drives. */
-  supportsAllDrives?: boolean;
+  supportsAllDrives?: boolean | undefined;
   /** Deprecated: This parameter has no function. */
-  projection?: WatchFilesProjectionEnum | (string & {});
+  projection?: WatchFilesProjectionEnum | (string & {}) | undefined;
   /** Deprecated: Use `supportsAllDrives` instead. */
-  supportsTeamDrives?: boolean;
+  supportsTeamDrives?: boolean | undefined;
   /** Request body */
-  body?: Channel;
+  body?: Channel | undefined;
 }
 export type CopyFilesError = NotFound | Forbidden | BadRequest | Conflict | GoogleWorkspaceOpError;
 /** Creates a copy of the specified file. */

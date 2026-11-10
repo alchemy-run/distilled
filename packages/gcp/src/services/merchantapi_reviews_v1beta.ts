@@ -114,11 +114,11 @@ export interface GetAccountsMerchantReviewsRequest {
 /** A message that represents custom attributes. Exactly one of `value` or `group_values` must not be empty. */
 export interface CustomAttribute {
   /** The name of the attribute. */
-  name?: string;
+  name?: string | undefined;
   /** Subattributes within this attribute group. If `group_values` is not empty, `value` must be empty. */
-  groupValues?: CustomAttributeList;
+  groupValues?: CustomAttributeList | undefined;
   /** The value of the attribute. If `value` is not empty, `group_values` must be empty. */
-  value?: string;
+  value?: string | undefined;
 }
 export type CustomAttributeList = Array<CustomAttribute>;
 export type MerchantReviewDestinationStatusReportingContextEnum =
@@ -146,7 +146,10 @@ export type MerchantReviewDestinationStatusReportingContextEnum =
 /** The destination status of the merchant review status. */
 export interface MerchantReviewDestinationStatus {
   /** Output only. The name of the reporting context. */
-  reportingContext?: MerchantReviewDestinationStatusReportingContextEnum | (string & {});
+  reportingContext?:
+    | MerchantReviewDestinationStatusReportingContextEnum
+    | (string & {})
+    | undefined;
 }
 export type MerchantReviewDestinationStatusList = Array<MerchantReviewDestinationStatus>;
 export type MerchantReviewItemLevelIssueSeverityEnum =
@@ -178,33 +181,33 @@ export type MerchantReviewItemLevelIssueReportingContextEnum =
 /** The ItemLevelIssue of the merchant review status. */
 export interface MerchantReviewItemLevelIssue {
   /** Output only. A short issue description in English. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. The URL of a web page to help with resolving this issue. */
-  documentation?: string;
+  documentation?: string | undefined;
   /** Output only. How this issue affects serving of the merchant review. */
-  severity?: MerchantReviewItemLevelIssueSeverityEnum | (string & {});
+  severity?: MerchantReviewItemLevelIssueSeverityEnum | (string & {}) | undefined;
   /** Output only. The error code of the issue. */
-  code?: string;
+  code?: string | undefined;
   /** Output only. The attribute's name, if the issue is caused by a single attribute. */
-  attribute?: string;
+  attribute?: string | undefined;
   /** Output only. The reporting context the issue applies to. */
-  reportingContext?: MerchantReviewItemLevelIssueReportingContextEnum | (string & {});
+  reportingContext?: MerchantReviewItemLevelIssueReportingContextEnum | (string & {}) | undefined;
   /** Output only. Whether the issue can be resolved by the merchant. */
-  resolution?: string;
+  resolution?: string | undefined;
   /** Output only. A detailed issue description in English. */
-  detail?: string;
+  detail?: string | undefined;
 }
 export type MerchantReviewItemLevelIssueList = Array<MerchantReviewItemLevelIssue>;
 /** The status of a merchant review, data validation issues, that is, information about a merchant review computed asynchronously. */
 export interface MerchantReviewStatus {
   /** Output only. The intended destinations for the merchant review. */
-  destinationStatuses?: MerchantReviewDestinationStatusList;
+  destinationStatuses?: MerchantReviewDestinationStatusList | undefined;
   /** Output only. A list of all issues associated with the merchant review. */
-  itemLevelIssues?: MerchantReviewItemLevelIssueList;
+  itemLevelIssues?: MerchantReviewItemLevelIssueList | undefined;
   /** Output only. Date on which the item has been created, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Date on which the item has been last updated, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. */
-  lastUpdateTime?: string;
+  lastUpdateTime?: string | undefined;
 }
 export type MerchantReviewAttributesCollectionMethodEnum =
   | "COLLECTION_METHOD_UNSPECIFIED"
@@ -214,52 +217,52 @@ export type MerchantReviewAttributesCollectionMethodEnum =
 /** Attributes. */
 export interface MerchantReviewAttributes {
   /** Optional. Display name of the review author. */
-  reviewerUsername?: string;
+  reviewerUsername?: string | undefined;
   /** Optional. The language of the review defined by BCP-47 language code. */
-  reviewLanguage?: string;
+  reviewLanguage?: string | undefined;
   /** Optional. The minimum possible number for the rating. This should be the worst possible rating and should not be a value for no rating. */
-  minRating?: string;
+  minRating?: string | undefined;
   /** Optional. The reviewer's overall rating of the merchant. */
-  rating?: number;
+  rating?: number | undefined;
   /** Optional. A permanent, unique identifier for the author of the review in the publisher's system. */
-  reviewerId?: string;
+  reviewerId?: string | undefined;
   /** Optional. Human-readable display name for the merchant. */
-  merchantDisplayName?: string;
+  merchantDisplayName?: string | undefined;
   /** Optional. The country where the reviewer made the order defined by ISO 3166-1 Alpha-2 Country Code. */
-  reviewCountry?: string;
+  reviewCountry?: string | undefined;
   /** Optional. Set to true if the reviewer should remain anonymous. */
-  isAnonymous?: boolean;
+  isAnonymous?: boolean | undefined;
   /** Optional. The method used to collect the review. */
-  collectionMethod?: MerchantReviewAttributesCollectionMethodEnum | (string & {});
+  collectionMethod?: MerchantReviewAttributesCollectionMethodEnum | (string & {}) | undefined;
   /** Optional. The maximum possible number for the rating. The value of the max rating must be greater than the value of the min rating. */
-  maxRating?: string;
+  maxRating?: string | undefined;
   /** Optional. URL to the landing page that hosts the reviews for this merchant. Do not use a redirect URL. */
-  merchantRatingLink?: string;
+  merchantRatingLink?: string | undefined;
   /** Required. The timestamp indicating when the review was written. */
-  reviewTime?: string;
+  reviewTime?: string | undefined;
   /** Required. This should be any freeform text provided by the user and should not be truncated. If multiple responses to different questions are provided, all responses should be included, with the minimal context for the responses to make sense. Context should not be provided if questions were left unanswered. */
-  content?: string;
+  content?: string | undefined;
   /** Optional. URL to the merchant's main website. Do not use a redirect URL for this value. In other words, the value should point directly to the merchant's site. */
-  merchantLink?: string;
+  merchantLink?: string | undefined;
   /** Optional. The title of the review. */
-  title?: string;
+  title?: string | undefined;
   /** Required. Must be unique and stable across all requests. In other words, if a request today and another 90 days ago refer to the same merchant, they must have the same id. */
-  merchantId?: string;
+  merchantId?: string | undefined;
 }
 /** A review for a merchant. For more information, see [Introduction to Merchant Review Feeds](https://developers.google.com/merchant-review-feeds) */
 export interface MerchantReview {
   /** Optional. A list of custom (merchant-provided) attributes. It can also be used for submitting any attribute of the data specification in its generic form (for example, `{ "name": "size type", "value": "regular" }`). This is useful for submitting attributes not explicitly exposed by the API, such as experimental attributes. Maximum allowed number of characters for each custom attribute is 10240 (represents sum of characters for name and value). Maximum 2500 custom attributes can be set per product, with total size of 102.4kB. Underscores in custom attribute names are replaced by spaces upon insertion. */
-  customAttributes?: CustomAttributeList;
+  customAttributes?: CustomAttributeList | undefined;
   /** Required. The user provided merchant review ID to uniquely identify the merchant review. */
-  merchantReviewId?: string;
+  merchantReviewId?: string | undefined;
   /** Output only. The status of a merchant review, data validation issues, that is, information about a merchant review computed asynchronously. */
-  merchantReviewStatus?: MerchantReviewStatus;
+  merchantReviewStatus?: MerchantReviewStatus | undefined;
   /** Identifier. The name of the merchant review. Format: `"{merchantreview.name=accounts/{account}/merchantReviews/{merchantReview}}"` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The primary data source of the merchant review. */
-  dataSource?: string;
+  dataSource?: string | undefined;
   /** Optional. A list of merchant review attributes. */
-  merchantReviewAttributes?: MerchantReviewAttributes;
+  merchantReviewAttributes?: MerchantReviewAttributes | undefined;
 }
 export interface GetAccountsProductReviewsRequest {
   /** Required. The ID of the merchant review. Format: accounts/{account}/productReviews/{productReview} */
@@ -270,9 +273,9 @@ export type ReviewLinkTypeEnum = "TYPE_UNSPECIFIED" | "SINGLETON" | "GROUP";
 /** The URI of the review landing page. */
 export interface ReviewLink {
   /** Optional. Type of the review URI. */
-  type?: ReviewLinkTypeEnum | (string & {});
+  type?: ReviewLinkTypeEnum | (string & {}) | undefined;
   /** Optional. The URI of the review landing page. For example: `http://www.example.com/review_5.html`. */
-  link?: string;
+  link?: string | undefined;
 }
 export type ProductReviewAttributesCollectionMethodEnum =
   | "COLLECTION_METHOD_UNSPECIFIED"
@@ -281,67 +284,67 @@ export type ProductReviewAttributesCollectionMethodEnum =
 /** Attributes. */
 export interface ProductReviewAttributes {
   /** Optional. The content of the review. If empty, the content might still get populated from pros and cons. */
-  content?: string;
+  content?: string | undefined;
   /** Optional. The name of the reviewer of the product review. */
-  reviewerUsername?: string;
+  reviewerUsername?: string | undefined;
   /** Optional. The maximum possible number for the rating. The value of the max rating must be greater than the value of the min attribute. */
-  maxRating?: string;
+  maxRating?: string | undefined;
   /** Optional. Indicates whether the reviewer's purchase is verified. */
-  isVerifiedPurchase?: boolean;
+  isVerifiedPurchase?: boolean | undefined;
   /** Optional. The URI of the product. This URI can have the same value as the `review_link` element, if the review URI and the product URI are the same. */
-  productLinks?: StringList;
+  productLinks?: StringList | undefined;
   /** Optional. The URI of the review landing page. */
-  reviewLink?: ReviewLink;
+  reviewLink?: ReviewLink | undefined;
   /** Optional. Contains the disadvantages based on the opinion of the reviewer. Omit boilerplate text like "con:" unless it was written by the reviewer. */
-  cons?: StringList;
+  cons?: StringList | undefined;
   /** Optional. Indicates whether the review is marked as spam in the publisher's system. */
-  isSpam?: boolean;
+  isSpam?: boolean | undefined;
   /** Optional. Contains MPNs (manufacturer part numbers) associated with a product. */
-  mpns?: StringList;
+  mpns?: StringList | undefined;
   /** Optional. The name of the publisher of the product reviews. The information about the publisher, which may be a retailer, manufacturer, reviews service company, or any entity that publishes product reviews. */
-  publisherName?: string;
+  publisherName?: string | undefined;
   /** Optional. Contains the ratings associated with the review. The minimum possible number for the rating. This should be the worst possible rating and should not be a value for no rating. */
-  minRating?: string;
+  minRating?: string | undefined;
   /** Optional. The name of the subclient of the product reviews. The subclient is an identifier of the product review source. It should be equivalent to the directory provided in the file data source path. */
-  subclientName?: string;
+  subclientName?: string | undefined;
   /** Optional. The country of the review defined by ISO 3166-1 Alpha-2 Country Code. */
-  reviewCountry?: string;
+  reviewCountry?: string | undefined;
   /** Optional. The author of the product review. A permanent, unique identifier for the author of the review in the publisher's system. */
-  reviewerId?: string;
+  reviewerId?: string | undefined;
   /** Optional. Contains brand names associated with a product. */
-  brands?: StringList;
+  brands?: StringList | undefined;
   /** Optional. The name of the aggregator of the product reviews. A publisher may use a reviews aggregator to manage reviews and provide the feeds. This element indicates the use of an aggregator and contains information about the aggregator. */
-  aggregatorName?: string;
+  aggregatorName?: string | undefined;
   /** Optional. Contains the advantages based on the opinion of the reviewer. Omit boilerplate text like "pro:" unless it was written by the reviewer. */
-  pros?: StringList;
+  pros?: StringList | undefined;
   /** Optional. The reviewer's overall rating of the product. */
-  rating?: number;
+  rating?: number | undefined;
   /** Optional. A URI to an image of the reviewed product created by the review author. The URI does not have to end with an image file extension. */
-  reviewerImageLinks?: StringList;
+  reviewerImageLinks?: StringList | undefined;
   /** Optional. Indicates whether the review is incentivized. */
-  isIncentivizedReview?: boolean;
+  isIncentivizedReview?: boolean | undefined;
   /** Optional. A permanent, unique identifier for the transaction associated with the review in the publisher's system. This ID can be used to indicate that multiple reviews are associated with the same transaction. */
-  transactionId?: string;
+  transactionId?: string | undefined;
   /** Optional. The language of the review defined by BCP-47 language code. */
-  reviewLanguage?: string;
+  reviewLanguage?: string | undefined;
   /** Optional. The title of the review. */
-  title?: string;
+  title?: string | undefined;
   /** Optional. Contains GTINs (global trade item numbers) associated with a product. Sub-types of GTINs (e.g. UPC, EAN, ISBN, JAN) are supported. */
-  gtins?: StringList;
+  gtins?: StringList | undefined;
   /** Optional. The method used to collect the review. */
-  collectionMethod?: ProductReviewAttributesCollectionMethodEnum | (string & {});
+  collectionMethod?: ProductReviewAttributesCollectionMethodEnum | (string & {}) | undefined;
   /** Required. The timestamp indicating when the review was written. */
-  reviewTime?: string;
+  reviewTime?: string | undefined;
   /** Optional. Set to true if the reviewer should remain anonymous. */
-  reviewerIsAnonymous?: boolean;
+  reviewerIsAnonymous?: boolean | undefined;
   /** Optional. A link to the company favicon of the publisher. The image dimensions should be favicon size: 16x16 pixels. The image format should be GIF, JPG or PNG. */
-  publisherFavicon?: string;
+  publisherFavicon?: string | undefined;
   /** Optional. Contains ASINs (Amazon Standard Identification Numbers) associated with a product. */
-  asins?: StringList;
+  asins?: StringList | undefined;
   /** Optional. Descriptive name of a product. */
-  productNames?: StringList;
+  productNames?: StringList | undefined;
   /** Optional. Contains SKUs (stock keeping units) associated with a product. Often this matches the product Offer Id in the product feed. */
-  skus?: StringList;
+  skus?: StringList | undefined;
 }
 export type ProductReviewItemLevelIssueSeverityEnum =
   | "SEVERITY_UNSPECIFIED"
@@ -372,21 +375,21 @@ export type ProductReviewItemLevelIssueReportingContextEnum =
 /** The ItemLevelIssue of the product review status. */
 export interface ProductReviewItemLevelIssue {
   /** Output only. A detailed issue description in English. */
-  detail?: string;
+  detail?: string | undefined;
   /** Output only. Whether the issue can be resolved by the merchant. */
-  resolution?: string;
+  resolution?: string | undefined;
   /** Output only. How this issue affects serving of the product review. */
-  severity?: ProductReviewItemLevelIssueSeverityEnum | (string & {});
+  severity?: ProductReviewItemLevelIssueSeverityEnum | (string & {}) | undefined;
   /** Output only. A short issue description in English. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. The reporting context the issue applies to. */
-  reportingContext?: ProductReviewItemLevelIssueReportingContextEnum | (string & {});
+  reportingContext?: ProductReviewItemLevelIssueReportingContextEnum | (string & {}) | undefined;
   /** Output only. The attribute's name, if the issue is caused by a single attribute. */
-  attribute?: string;
+  attribute?: string | undefined;
   /** Output only. The error code of the issue. */
-  code?: string;
+  code?: string | undefined;
   /** Output only. The URL of a web page to help with resolving this issue. */
-  documentation?: string;
+  documentation?: string | undefined;
 }
 export type ProductReviewItemLevelIssueList = Array<ProductReviewItemLevelIssue>;
 export type ProductReviewDestinationStatusReportingContextEnum =
@@ -414,82 +417,82 @@ export type ProductReviewDestinationStatusReportingContextEnum =
 /** The destination status of the product review status. */
 export interface ProductReviewDestinationStatus {
   /** Output only. The name of the reporting context. */
-  reportingContext?: ProductReviewDestinationStatusReportingContextEnum | (string & {});
+  reportingContext?: ProductReviewDestinationStatusReportingContextEnum | (string & {}) | undefined;
 }
 export type ProductReviewDestinationStatusList = Array<ProductReviewDestinationStatus>;
 /** Product review status. */
 export interface ProductReviewStatus {
   /** Output only. A list of all issues associated with the product review. */
-  itemLevelIssues?: ProductReviewItemLevelIssueList;
+  itemLevelIssues?: ProductReviewItemLevelIssueList | undefined;
   /** Output only. Date on which the item has been last updated, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. */
-  lastUpdateTime?: string;
+  lastUpdateTime?: string | undefined;
   /** Output only. The intended destinations for the product review. */
-  destinationStatuses?: ProductReviewDestinationStatusList;
+  destinationStatuses?: ProductReviewDestinationStatusList | undefined;
   /** Output only. Date on which the item has been created, in [ISO 8601](http://en.wikipedia.org/wiki/ISO_8601) format. */
-  createTime?: string;
+  createTime?: string | undefined;
 }
 /** A review for a product. For more information, see [Introduction to Product Review Feeds](https://developers.google.com/product-review-feeds) */
 export interface ProductReview {
   /** Optional. A list of custom (merchant-provided) attributes. */
-  customAttributes?: CustomAttributeList;
+  customAttributes?: CustomAttributeList | undefined;
   /** Optional. A list of product review attributes. */
-  productReviewAttributes?: ProductReviewAttributes;
+  productReviewAttributes?: ProductReviewAttributes | undefined;
   /** Required. The permanent, unique identifier for the product review in the publisher's system. */
-  productReviewId?: string;
+  productReviewId?: string | undefined;
   /** Output only. The status of a product review, data validation issues, that is, information about a product review computed asynchronously. */
-  productReviewStatus?: ProductReviewStatus;
+  productReviewStatus?: ProductReviewStatus | undefined;
   /** Output only. The primary data source of the product review. */
-  dataSource?: string;
+  dataSource?: string | undefined;
   /** Identifier. The name of the product review. Format: `"{productreview.name=accounts/{account}/productReviews/{productReview}}"` */
-  name?: string;
+  name?: string | undefined;
 }
 export interface InsertAccountsMerchantReviewsRequest {
   /** Required. The account where the merchant review will be inserted. Format: accounts/{account} */
   parent: string;
   /** Required. The data source of the [merchantreview](https://support.google.com/merchants/answer/7045996?sjid=5253581244217581976-EU) Format: `accounts/{account}/dataSources/{datasource}`. */
-  dataSource?: string;
+  dataSource?: string | undefined;
   /** Request body */
-  body?: MerchantReview;
+  body?: MerchantReview | undefined;
 }
 export interface InsertAccountsProductReviewsRequest {
   /** Required. Format: `accounts/{account}/dataSources/{datasource}`. */
-  dataSource?: string;
+  dataSource?: string | undefined;
   /** Required. The account where the product review will be inserted. Format: accounts/{account} */
   parent: string;
   /** Request body */
-  body?: ProductReview;
+  body?: ProductReview | undefined;
 }
 export interface ListAccountsMerchantReviewsRequest {
   /** Required. The account to list merchant reviews for. Format: accounts/{account} */
   parent: string;
   /** Optional. The maximum number of merchant reviews to return. The service can return fewer than this value. The maximum value is 1000; values above 1000 are coerced to 1000. If unspecified, the maximum number of reviews is returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListMerchantReviews` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListMerchantReviews` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type MerchantReviewList = Array<MerchantReview>;
 /** Response message for the `ListMerchantsReview` method. */
 export interface ListMerchantReviewsResponse {
   /** The merchant review. */
-  merchantReviews?: MerchantReviewList;
+  merchantReviews?: MerchantReviewList | undefined;
   /** The token to retrieve the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListAccountsProductReviewsRequest {
   /** Required. The account to list product reviews for. Format: accounts/{account} */
   parent: string;
   /** Optional. The maximum number of products to return. The service may return fewer than this value. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListProductReviews` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListProductReviews` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ProductReviewList = Array<ProductReview>;
 /** response message for the ListProductReviews method. */
 export interface ListProductReviewsResponse {
   /** The product review. */
-  productReviews?: ProductReviewList;
+  productReviews?: ProductReviewList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type DeleteAccountsMerchantReviewsError =
   | NotFound

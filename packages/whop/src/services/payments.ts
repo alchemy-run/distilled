@@ -66,7 +66,7 @@ export interface CapturePaymentRequest {
   /** The unique identifier of the payment. */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface AccountSummary {
   /** Account ID, prefixed `biz_`. */
@@ -202,23 +202,23 @@ export interface Money {
 }
 export interface PaymentVoucher {
   /** Exactly what the buyer must pay, in the charged currency. */
-  amount?: Money;
+  amount?: Money | undefined;
   /** The barcode's contents, when the voucher carries one -- render it in the symbology named by `barcode_format`. */
-  barcode?: string;
+  barcode?: string | undefined;
   /** The symbology `barcode` is encoded in, such as `CODE_128`. */
-  barcode_format?: string;
+  barcode_format?: string | undefined;
   /** Who the payment is made out to. */
-  company_name?: string;
+  company_name?: string | undefined;
   /** A hosted page with the complete, printable instructions. If you would rather not render the details yourself, send the buyer here. */
-  document_url?: string;
+  document_url?: string | undefined;
   /** When the voucher stops being payable, as an ISO 8601 timestamp. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** URL of that network's logo. */
-  provider_logo?: string;
+  provider_logo?: string | undefined;
   /** The network the buyer pays at, such as OXXO. */
-  provider_name?: string;
+  provider_name?: string | undefined;
   /** The voucher's number -- what the buyer reads out or types at the counter to pay. */
-  reference?: string;
+  reference?: string | undefined;
 }
 export interface PaymentVoucherInstructions {
   /** Always `voucher`: a code the buyer pays in person, at a convenience store or bank counter. */
@@ -230,17 +230,17 @@ export interface PaymentVoucherInstructions {
 export type PaymentQrInstructionsKind = "qr";
 export interface PaymentQr {
   /** Exactly what the buyer must pay, in the charged currency. */
-  amount?: Money;
+  amount?: Money | undefined;
   /** A hosted page with the complete, printable instructions. If you would rather not render the details yourself, send the buyer here. */
-  document_url?: string;
+  document_url?: string | undefined;
   /** When the code stops being payable, as an ISO 8601 timestamp. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** An account key the buyer can pay to directly (Colombia's Bre-B llave), for apps that take a key instead of a scan. */
-  key?: string;
+  key?: string | undefined;
   /** The QR code's contents, ready to render as a scannable image -- `qr_format` says how it is encoded. */
-  qr_code?: string;
+  qr_code?: string | undefined;
   /** How `qr_code` is encoded. */
-  qr_format?: string;
+  qr_format?: string | undefined;
 }
 export interface PaymentQrInstructions {
   /** Always `qr`: a code the buyer scans with their banking app. */
@@ -250,43 +250,43 @@ export interface PaymentQrInstructions {
 }
 export interface PaymentBankTransfer {
   /** The account to send to, in the local scheme's format -- `account_number_label` says what to call it. */
-  account_number?: string;
+  account_number?: string | undefined;
   /** What to call `account_number` when showing it, in the local scheme's own terms -- `CLABE` in Mexico, for example. */
-  account_number_label?: string;
+  account_number_label?: string | undefined;
   /** Exactly what the buyer must send, in the charged currency. */
-  amount?: Money;
+  amount?: Money | undefined;
   /** The kind of account receiving the transfer, such as a checking account, in the local system's own vocabulary. */
-  bank_account_type?: string;
+  bank_account_type?: string | undefined;
   /** The receiving bank's address. */
-  bank_address?: string;
+  bank_address?: string | undefined;
   /** The receiving branch, where the local system routes by branch. */
-  bank_branch?: string;
+  bank_branch?: string | undefined;
   /** The code that identifies the receiving bank -- its code in the local clearing system, or its SWIFT/BIC on a transfer that crosses borders. */
-  bank_code?: string;
+  bank_code?: string | undefined;
   /** What to call `bank_code` when showing it, in the scheme's own terms -- `SWIFT / BIC` on an international wire, for example. */
-  bank_code_label?: string;
+  bank_code_label?: string | undefined;
   /** The receiving bank's name. */
-  bank_name?: string;
+  bank_name?: string | undefined;
   /** The account holder's tax or identity document number, where the local system needs it to send. */
-  beneficiary_document?: string;
+  beneficiary_document?: string | undefined;
   /** What kind of document `beneficiary_document` is, in the local system's own vocabulary. */
-  beneficiary_document_type?: string;
+  beneficiary_document_type?: string | undefined;
   /** Who the account belongs to -- the name the buyer's bank may ask them to confirm. */
-  beneficiary_name?: string;
+  beneficiary_name?: string | undefined;
   /** A hosted page with the complete, printable instructions. If you would rather not render the details yourself, send the buyer here. */
-  document_url?: string;
+  document_url?: string | undefined;
   /** When these details stop being payable, as an ISO 8601 timestamp. */
-  expires_at?: string;
+  expires_at?: string | undefined;
   /** The rail's own step-by-step payment text, when it supplies one. */
-  instructions?: string;
+  instructions?: string | undefined;
   /** The reference the buyer must attach to the transfer so it can be matched to this payment. */
-  reference?: string;
+  reference?: string | undefined;
   /** The receiving bank's routing number for US transfers. */
-  routing_number?: string;
+  routing_number?: string | undefined;
   /** A second account number, where the rail publishes the same destination in more than one format. */
-  secondary_account_number?: string;
+  secondary_account_number?: string | undefined;
   /** What to call `secondary_account_number` when showing it. */
-  secondary_account_number_label?: string;
+  secondary_account_number_label?: string | undefined;
 }
 /** Always `bank_transfer`: account details the buyer sends money to from their own bank. */
 export type PaymentBankTransferInstructionsKind = "bank_transfer";
@@ -375,7 +375,7 @@ export interface CreatePaymentRequestLineItemsItem {
   /** An existing plan to charge for, prefixed `plan_`. Each plan may appear once -- use `quantity` for multiple units. */
   plan_id: string;
   /** How many units of the plan to purchase. Defaults to 1; more than 1 requires the plan to allow multiple quantities. */
-  quantity?: number | null;
+  quantity?: number | null | undefined;
 }
 /** What the buyer is purchasing. One entry charges that plan; several entries form a cart, which requires every plan to be a compatible plan from this account in the same currency. */
 export type CreatePaymentRequestLineItemsList = Array<CreatePaymentRequestLineItemsItem>;
@@ -486,118 +486,119 @@ export type CreatePaymentRequestPlanProductVisibility =
 /** Find or create a product by external identifier. Mutually exclusive with product_id. */
 export interface CreatePaymentRequestPlanProduct {
   /** Whether to collect a shipping address at checkout. */
-  collect_shipping_address?: boolean | null;
+  collect_shipping_address?: boolean | null | undefined;
   /** Custom card statement descriptor for the product, starting with WHOP*. */
-  custom_statement_descriptor?: string | null;
+  custom_statement_descriptor?: string | null | undefined;
   /** Product description. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Your unique identifier for the product. */
   external_identifier: string;
   /** Percentage of revenue paid to global affiliates. */
-  global_affiliate_percentage?: number | null;
+  global_affiliate_percentage?: number | null | undefined;
   /** Global affiliate program status. */
   global_affiliate_status?:
     | CreatePaymentRequestPlanProductGlobalAffiliateStatus
     | (string & {})
-    | null;
+    | null
+    | undefined;
   /** Product headline. */
-  headline?: string | null;
+  headline?: string | null | undefined;
   /** Product tax code identifier. */
-  product_tax_code_id?: string | null;
+  product_tax_code_id?: string | null | undefined;
   /** Where to redirect the buyer after purchase. */
-  redirect_purchase_url?: string | null;
+  redirect_purchase_url?: string | null | undefined;
   /** Product route. */
-  route?: string | null;
+  route?: string | null | undefined;
   /** Product title. */
   title: string;
   /** Product visibility. Defaults to hidden. */
-  visibility?: CreatePaymentRequestPlanProductVisibility | (string & {});
+  visibility?: CreatePaymentRequestPlanProductVisibility | (string & {}) | undefined;
 }
 /** Whether the plan is visible to customers. */
 export type CreatePaymentRequestPlanVisibility = "visible" | "hidden" | "archived" | "quick_link";
 /** Find or create a plan for this payment. Mutually exclusive with `plan_id` and `line_items`. Creating a plan requires plan:create; creating or updating a product requires the corresponding product permission. */
 export interface CreatePaymentRequestPlan {
   /** Application fee collected by the platform in the plan currency (5.00 means $5.00 for USD). Must be positive and below the initial price for one-time plans or renewal price for recurring plans. Paid to the parent account alongside other processing fees; collection is capped to remaining proceeds. Applies to subsequent payments on recurring plans. Only valid for connected accounts with a parent account. */
-  application_fee_amount?: number | null;
+  application_fee_amount?: number | null | undefined;
   /** Recurring billing interval in days. */
-  billing_period?: number | null;
+  billing_period?: number | null | undefined;
   /** Currency code for the plan prices. */
   currency: CreatePaymentRequestPlanCurrency | (string & {});
   /** Plan description. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Days until access expires. */
-  expiration_days?: number | null;
+  expiration_days?: number | null | undefined;
   /** Create a new plan instead of reusing a matching plan. */
-  force_create_new_plan?: boolean | null;
+  force_create_new_plan?: boolean | null | undefined;
   /** Additional amount charged on the first purchase, in the plan currency. For recurring plans without a trial, the first charge includes this amount plus renewal_price. */
-  initial_price?: number | null;
+  initial_price?: number | null | undefined;
   /** Internal notes for the account. */
-  internal_notes?: string | null;
+  internal_notes?: string | null | undefined;
   /** Billing model for the plan. */
-  plan_type?: CreatePaymentRequestPlanPlanType | (string & {}) | null;
+  plan_type?: CreatePaymentRequestPlanPlanType | (string & {}) | null | undefined;
   /** Find or create a product by external identifier. Mutually exclusive with product_id. */
-  product?: CreatePaymentRequestPlanProduct | null;
+  product?: CreatePaymentRequestPlanProduct | null | undefined;
   /** Existing product ID belonging to the account, prefixed `prod_`. Mutually exclusive with `product`. */
-  product_id?: string | null;
+  product_id?: string | null | undefined;
   /** Recurring price in the plan currency. */
-  renewal_price?: number | null;
+  renewal_price?: number | null | undefined;
   /** Plan title. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Free trial days before renewal. */
-  trial_period_days?: number | null;
+  trial_period_days?: number | null | undefined;
   /** Whether the plan is visible to customers. */
-  visibility?: CreatePaymentRequestPlanVisibility | (string & {}) | null;
+  visibility?: CreatePaymentRequestPlanVisibility | (string & {}) | null | undefined;
 }
 /** Where physical goods ship, returned on the payment as `shipping_address`. Only the keys you supply are kept; omit it for digital goods. */
 export interface CreatePaymentRequestShippingAddress {
   /** City name. */
-  city?: string | null;
+  city?: string | null | undefined;
   /** ISO 3166-1 alpha-2 country code, such as `US`. */
-  country?: string | null;
+  country?: string | null | undefined;
   /** First line of the street address. */
-  line1?: string | null;
+  line1?: string | null | undefined;
   /** Second line of the street address. */
-  line2?: string | null;
+  line2?: string | null | undefined;
   /** The recipient's full name, as it should appear on the shipping label. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Postal or ZIP code. */
-  postal_code?: string | null;
+  postal_code?: string | null | undefined;
   /** State, province, or region code, such as `CA`. */
-  state?: string | null;
+  state?: string | null | undefined;
 }
 export interface CreatePaymentRequest {
   /** The account to charge for, prefixed `biz_`. */
   account_id: string;
   /** Minutes after authorization at which Whop captures the hold automatically unless it has been voided. Requires `capture: false`. Between 5 and 5760 (4 days). */
-  auto_capture_after_minutes?: number | null;
+  auto_capture_after_minutes?: number | null | undefined;
   /** Whether to capture a card payment immediately. Defaults to true. Pass false to place an authorization hold that must be captured in full within five days via the capture endpoint, or automatically after `auto_capture_after_minutes`. */
-  capture?: boolean | null;
+  capture?: boolean | null | undefined;
   /** A confirmation token describing a payment method the buyer just supplied. Provide this instead of `member_id` and `payment_method_id`; the buyer is resolved from the token's billing email, or from `email`. The buyer may still have a step to complete -- poll the payment's status for what to do next. */
-  confirmation_token?: string | null;
+  confirmation_token?: string | null | undefined;
   /** Overrides the buyer email carried on the confirmation token, resolving or creating the user the payment belongs to. Ignored unless `confirmation_token` is provided, and when the token was created by a signed-in buyer. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** What the buyer is purchasing. One entry charges that plan; several entries form a cart, which requires every plan to be a compatible plan from this account in the same currency. */
-  line_items?: CreatePaymentRequestLineItemsList;
+  line_items?: CreatePaymentRequestLineItemsList | undefined;
   /** The member to charge, prefixed `mber_`. Required with `payment_method_id` unless `confirmation_token` is provided. */
-  member_id?: string | null;
+  member_id?: string | null | undefined;
   /** Custom metadata to attach to the payment. */
-  metadata?: CreatePaymentRequestMetadataMap | null;
+  metadata?: CreatePaymentRequestMetadataMap | null | undefined;
   /** The stored payment method to charge, prefixed `payt_`. It must belong to the member. Required unless `confirmation_token` is provided. */
-  payment_method_id?: string | null;
+  payment_method_id?: string | null | undefined;
   /** Find or create a plan for this payment. Mutually exclusive with `plan_id` and `line_items`. Creating a plan requires plan:create; creating or updating a product requires the corresponding product permission. */
-  plan?: CreatePaymentRequestPlan;
+  plan?: CreatePaymentRequestPlan | undefined;
   /** The plan to charge for, prefixed `plan_`. It must belong to the account. Mutually exclusive with `plan` and `line_items`. */
-  plan_id?: string;
+  plan_id?: string | undefined;
   /** An active promo code to apply, prefixed `promo_`. It must belong to the account and be valid for the plan. */
-  promo_code_id?: string | null;
+  promo_code_id?: string | null | undefined;
   /** Where the buyer continues after completing an off-site step. An absolute https URL without credentials, at most 2,048 characters. Ignored unless `confirmation_token` is provided. */
-  return_url?: string | null;
+  return_url?: string | null | undefined;
   /** Where physical goods ship, returned on the payment as `shipping_address`. Only the keys you supply are kept; omit it for digital goods. */
-  shipping_address?: CreatePaymentRequestShippingAddress | null;
+  shipping_address?: CreatePaymentRequestShippingAddress | null | undefined;
   /** Overrides the text on the buyer's card statement for this payment only. Takes precedence over the product's and account's custom descriptors, and changes neither. Must start with `WHOP*` unless the business processes as the merchant of record. For businesses processing as the merchant of record, omit the `WHOP*` prefix; the descriptor appears as provided. Must be 5-22 characters, contain at least one letter, and use only Latin letters, numbers, spaces, underscores, hyphens, or asterisks. */
-  statement_descriptor?: string | null;
+  statement_descriptor?: string | null | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface PaymentAddress {
   /** The city. */
@@ -1302,41 +1303,41 @@ export type ListPaymentsRequestOrder = "created_at" | "paid_at";
 export type ListPaymentsRequestDirection = "asc" | "desc";
 export interface ListPaymentsRequest {
   /** Only payments charged by this account, prefixed `biz_`. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Only payments in this lifecycle state. */
-  status?: ListPaymentsRequestStatus | (string & {});
+  status?: ListPaymentsRequestStatus | (string & {}) | undefined;
   /** Only payments charged for this reason. */
-  billing_reason?: ListPaymentsRequestBillingReason | (string & {});
+  billing_reason?: ListPaymentsRequestBillingReason | (string & {}) | undefined;
   /** Only payments presented in this three-letter currency, such as `usd`. */
-  currency?: string;
+  currency?: string | undefined;
   /** Only payments made by this buyer, prefixed `user_`. Payments are listed for the accounts the caller manages, so `me` is not accepted; list the caller's own purchases with `GET /memberships?user_id=me`. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Search payments by user ID, membership ID, user email, name, or username. Email filtering requires the member:email:read permission. */
-  query?: string;
+  query?: string | undefined;
   /** Only payments made by this member, prefixed `mber_`. */
-  member_id?: string;
+  member_id?: string | undefined;
   /** Only payments billed under this membership, prefixed `mem_`. */
-  membership_id?: string;
+  membership_id?: string | undefined;
   /** Only payments for this product, prefixed `prod_`. */
-  product_id?: string;
+  product_id?: string | undefined;
   /** Only payments priced by this plan, prefixed `plan_`. */
-  plan_id?: string;
+  plan_id?: string | undefined;
   /** Only payments created before this ISO 8601 timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Only payments created after this ISO 8601 timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** The field to sort by. */
-  order?: ListPaymentsRequestOrder | (string & {});
+  order?: ListPaymentsRequestOrder | (string & {}) | undefined;
   /** The sort direction. */
-  direction?: ListPaymentsRequestDirection | (string & {});
+  direction?: ListPaymentsRequestDirection | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 export type ListPaymentsResponseDataList = Array<Payment>;
 export type ListPaymentsResponsePageInfo = ListPaymentFeesResponsePageInfo;
@@ -1348,21 +1349,21 @@ export interface RefundPaymentRequest {
   /** The payment to refund, prefixed `pay_`. */
   id: string;
   /** The amount to refund, stated in this payment's `currency` like every other amount on it. When the buyer was billed in a different currency, it is converted at the payment's own exchange rate before the refund is issued. An amount that covers everything still refundable refunds the rest of the payment -- omit it to refund the rest without having to work out what that is. */
-  partial_amount?: number | null;
+  partial_amount?: number | null | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface ResumePaymentRequest {
   /** The unique identifier of the payment. */
   payment_id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface RetryPaymentRequest {
   /** The payment to retry, prefixed `pay_`. */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface UpdateReturnUrlPaymentRequest {
   /** The unique identifier of the payment. */
@@ -1374,7 +1375,7 @@ export interface VoidPaymentRequest {
   /** The payment to void, prefixed `pay_`. */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export type CapturePaymentError = Forbidden | NotFound | Conflict | WhopOpError;
 /** Capture payment Captures the full amount of a card payment created with `capture: false`. The payment must still be in `requires_capture` before `capture_expires_at`. Partial capture, multiple captures, capturing more than the authorized amount, and tips are not supported. */

@@ -89,7 +89,7 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -102,7 +102,7 @@ export type StringList = Array<string>;
 /** Looker instance Admin settings fields. */
 export interface AdminSettings {
   /** Optional. Email domain allowlist for the instance. */
-  allowedEmailDomains?: StringList;
+  allowedEmailDomains?: StringList | undefined;
 }
 export type MaintenanceWindowDayOfWeekEnum =
   | "DAY_OF_WEEK_UNSPECIFIED"
@@ -116,54 +116,54 @@ export type MaintenanceWindowDayOfWeekEnum =
 /** Represents a time of day. The date and time zone are either not significant or are specified elsewhere. An API may choose to allow leap seconds. Related types are google.type.Date and `google.protobuf.Timestamp`. */
 export interface TimeOfDay {
   /** Seconds of a minute. Must be greater than or equal to 0 and typically must be less than or equal to 59. An API may allow the value 60 if it allows leap-seconds. */
-  seconds?: number;
+  seconds?: number | undefined;
   /** Hours of a day in 24 hour format. Must be greater than or equal to 0 and typically must be less than or equal to 23. An API may choose to allow the value "24:00:00" for scenarios like business closing time. */
-  hours?: number;
+  hours?: number | undefined;
   /** Fractions of seconds, in nanoseconds. Must be greater than or equal to 0 and less than or equal to 999,999,999. */
-  nanos?: number;
+  nanos?: number | undefined;
   /** Minutes of an hour. Must be greater than or equal to 0 and less than or equal to 59. */
-  minutes?: number;
+  minutes?: number | undefined;
 }
 /** Specifies the recurring maintenance window. */
 export interface MaintenanceWindow {
   /** Required. Day of the week for this MaintenanceWindow (in UTC). */
-  dayOfWeek?: MaintenanceWindowDayOfWeekEnum | (string & {});
+  dayOfWeek?: MaintenanceWindowDayOfWeekEnum | (string & {}) | undefined;
   /** Required. Time in UTC when the period starts. Maintenance will be scheduled within 60 minutes. */
-  startTime?: TimeOfDay;
+  startTime?: TimeOfDay | undefined;
 }
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Looker_Date {
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
+  month?: number | undefined;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
+  year?: number | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
+  day?: number | undefined;
 }
 /** Specifies the maintenance denial period. */
 export interface DenyMaintenancePeriod {
   /** Required. Start date of the deny maintenance period. */
-  startDate?: Looker_Date;
+  startDate?: Looker_Date | undefined;
   /** Required. Time in UTC when the period starts and ends. */
-  time?: TimeOfDay;
+  time?: TimeOfDay | undefined;
   /** Required. End date of the deny maintenance period. */
-  endDate?: Looker_Date;
+  endDate?: Looker_Date | undefined;
 }
 /** Auth type for the Looker instance. */
 export interface AuthType {
   /** Optional. Whether Workforce auth is enabled on the Looker instance. */
-  workforceAuthEnabled?: boolean;
+  workforceAuthEnabled?: boolean | undefined;
   /** Optional. Whether google auth is enabled on the Looker instance. */
-  googleAuthEnabled?: boolean;
+  googleAuthEnabled?: boolean | undefined;
 }
 /** Looker instance OAuth login settings. */
 export interface OAuthConfig {
   /** Optional. Whether to use the shared OAuth client. Instances specifying this field do not need to provide client_id and client_secret. */
-  sharedOauthClientEnabled?: boolean;
+  sharedOauthClientEnabled?: boolean | undefined;
   /** Input only. Client secret from an external OAuth application. This is an input-only field, and thus will not be set in any responses. */
-  clientSecret?: string;
+  clientSecret?: string | undefined;
   /** Input only. Client ID from an external OAuth application. This is an input-only field, and thus will not be set in any responses. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 export type InstancePlatformEditionEnum =
   | "PLATFORM_EDITION_UNSPECIFIED"
@@ -186,37 +186,37 @@ export type InstanceSoftDeleteReasonEnum =
 /** Ingress IP allowlist rule. */
 export interface IngressIpAllowlistRule {
   /** Optional. Description for the IP range. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. The IP range to allow ingress traffic from. */
-  ipRange?: string;
+  ipRange?: string | undefined;
 }
 export type IngressIpAllowlistRuleList = Array<IngressIpAllowlistRule>;
 /** Ingress IP allowlist configuration. */
 export interface IngressIpAllowlistConfig {
   /** Optional. Whether ingress IP allowlist functionality is enabled on the Looker instance. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Optional. List of IP range rules to allow ingress traffic. */
-  allowlistRules?: IngressIpAllowlistRuleList;
+  allowlistRules?: IngressIpAllowlistRuleList | undefined;
   /** Optional. Whether google service connections are enabled for the instance. */
-  googleServicesEnabled?: boolean;
+  googleServicesEnabled?: boolean | undefined;
 }
 /** Configuration for periodic export. */
 export interface PeriodicExportConfig {
   /** Required. Time in UTC to start the periodic export job. */
-  startTime?: TimeOfDay;
+  startTime?: TimeOfDay | undefined;
   /** Required. Name of the CMEK key in KMS. Format: projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key} */
-  kmsKey?: string;
+  kmsKey?: string | undefined;
   /** Required. Cloud Storage bucket URI for periodic export. Format: gs://{bucket_name} */
-  gcsUri?: string;
+  gcsUri?: string | undefined;
 }
 /** Controlled egress configuration. */
 export interface ControlledEgressConfig {
   /** Optional. Whether marketplace is enabled. */
-  marketplaceEnabled?: boolean;
+  marketplaceEnabled?: boolean | undefined;
   /** Optional. List of fully qualified domain names to be added to the allowlist for outbound traffic. */
-  egressFqdns?: StringList;
+  egressFqdns?: StringList | undefined;
   /** Output only. The list of IP addresses used by Secure Web Proxy for outbound traffic. */
-  webProxyIps?: StringList;
+  webProxyIps?: StringList | undefined;
 }
 export type InstanceClassTypeEnum = "CLASS_TYPE_UNSPECIFIED" | "R1" | "P1";
 export type ServiceAttachmentConnectionStatusEnum =
@@ -229,25 +229,25 @@ export type ServiceAttachmentConnectionStatusEnum =
 /** Service attachment configuration. */
 export interface ServiceAttachment {
   /** Optional. List of fully qualified domain names that will be used in the private DNS record created for the service attachment. */
-  localFqdns?: StringList;
+  localFqdns?: StringList | undefined;
   /** Output only. Reason the service attachment creation failed. This value will only be populated if the service attachment encounters an issue during provisioning. */
-  failureReason?: string;
+  failureReason?: string | undefined;
   /** Required. URI of the service attachment to connect to. Format: projects/{project}/regions/{region}/serviceAttachments/{service_attachment} */
-  targetServiceAttachmentUri?: string;
+  targetServiceAttachmentUri?: string | undefined;
   /** Output only. Connection status. */
-  connectionStatus?: ServiceAttachmentConnectionStatusEnum | (string & {});
+  connectionStatus?: ServiceAttachmentConnectionStatusEnum | (string & {}) | undefined;
   /** Optional. Fully qualified domain name that will be used in the private DNS record created for the service attachment. */
-  localFqdn?: string;
+  localFqdn?: string | undefined;
 }
 export type ServiceAttachmentList = Array<ServiceAttachment>;
 /** Information for Private Service Connect (PSC) setup for a Looker instance. */
 export interface PscConfig {
   /** Output only. URI of the Looker service attachment. */
-  lookerServiceAttachmentUri?: string;
+  lookerServiceAttachmentUri?: string | undefined;
   /** Optional. List of VPCs that are allowed ingress into looker. Format: projects/{project}/global/networks/{network} */
-  allowedVpcs?: StringList;
+  allowedVpcs?: StringList | undefined;
   /** Optional. List of egress service attachment configurations. */
-  serviceAttachments?: ServiceAttachmentList;
+  serviceAttachments?: ServiceAttachmentList | undefined;
 }
 export type InstanceStateEnum =
   | "STATE_UNSPECIFIED"
@@ -270,152 +270,152 @@ export type CustomDomainStateEnum =
 /** Custom domain information. */
 export interface CustomDomain {
   /** Optional. Domain name. */
-  domain?: string;
+  domain?: string | undefined;
   /** Output only. Domain state. */
-  state?: CustomDomainStateEnum | (string & {});
+  state?: CustomDomainStateEnum | (string & {}) | undefined;
 }
 /** Metadata about users for a Looker instance. */
 export interface UserMetadata {
   /** Optional. The number of additional viewer users the instance owner has purchased. */
-  additionalViewerUserCount?: number;
+  additionalViewerUserCount?: number | undefined;
   /** Optional. The number of additional standard users the instance owner has purchased. */
-  additionalStandardUserCount?: number;
+  additionalStandardUserCount?: number | undefined;
   /** Optional. The number of additional developer users the instance owner has purchased. */
-  additionalDeveloperUserCount?: number;
+  additionalDeveloperUserCount?: number | undefined;
 }
 export type EncryptionConfigKmsKeyStateEnum = "KMS_KEY_STATE_UNSPECIFIED" | "VALID" | "REVOKED";
 /** Encryption configuration (i.e. CMEK). */
 export interface EncryptionConfig {
   /** Optional. Immutable. Name of the CMEK key in KMS (input parameter). */
-  kmsKeyName?: string;
+  kmsKeyName?: string | undefined;
   /** Output only. Full name and version of the CMEK key currently in use to encrypt Looker data. Format: `projects/{project}/locations/{location}/keyRings/{ring}/cryptoKeys/{key}/cryptoKeyVersions/{version}`. Empty if CMEK is not configured in this instance. */
-  kmsKeyNameVersion?: string;
+  kmsKeyNameVersion?: string | undefined;
   /** Output only. Status of the CMEK key. */
-  kmsKeyState?: EncryptionConfigKmsKeyStateEnum | (string & {});
+  kmsKeyState?: EncryptionConfigKmsKeyStateEnum | (string & {}) | undefined;
 }
 /** Published upcoming future maintenance schedule. */
 export interface MaintenanceSchedule {
   /** The scheduled end time for the maintenance. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The scheduled start time for the maintenance. */
-  startTime?: string;
+  startTime?: string | undefined;
 }
 /** A Looker instance. */
 export interface Instance {
   /** Optional. Whether private IP is enabled on the Looker instance. */
-  privateIpEnabled?: boolean;
+  privateIpEnabled?: boolean | undefined;
   /** Optional. Indicates whether catalog integration is disabled for the Looker instance. */
-  catalogIntegrationOptOut?: boolean;
+  catalogIntegrationOptOut?: boolean | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** Optional. The selected release channel for the instance. */
-  releaseChannel?: InstanceReleaseChannelEnum | (string & {});
+  releaseChannel?: InstanceReleaseChannelEnum | (string & {}) | undefined;
   /** Optional. Whether to use Private Service Connect (PSC) for private IP connectivity. If true, neither `public_ip_enabled` nor `private_ip_enabled` can be true. */
-  pscEnabled?: boolean;
+  pscEnabled?: boolean | undefined;
   /** Optional. Looker Instance Admin settings. */
-  adminSettings?: AdminSettings;
+  adminSettings?: AdminSettings | undefined;
   /** Optional. Maintenance window for this instance. */
-  maintenanceWindow?: MaintenanceWindow;
+  maintenanceWindow?: MaintenanceWindow | undefined;
   /** Optional. Name of a reserved IP address range within the Instance.consumer_network, to be used for private services access connection. May or may not be specified in a create request. */
-  reservedRange?: string;
+  reservedRange?: string | undefined;
   /** Optional. Maintenance denial period for this instance. */
-  denyMaintenancePeriod?: DenyMaintenancePeriod;
+  denyMaintenancePeriod?: DenyMaintenancePeriod | undefined;
   /** Optional. Whether controlled egress is enabled on the Looker instance. */
-  controlledEgressEnabled?: boolean;
+  controlledEgressEnabled?: boolean | undefined;
   /** Optional. Auth type for the Looker instance. */
-  authType?: AuthType;
+  authType?: AuthType | undefined;
   /** Output only. Last computed maintenance denial period for this instance. */
-  lastDenyMaintenancePeriod?: DenyMaintenancePeriod;
+  lastDenyMaintenancePeriod?: DenyMaintenancePeriod | undefined;
   /** Output only. Public Ingress IP (IPv4). */
-  ingressPublicIp?: string;
+  ingressPublicIp?: string | undefined;
   /** Optional. Looker instance OAuth login settings. */
-  oauthConfig?: OAuthConfig;
+  oauthConfig?: OAuthConfig | undefined;
   /** Optional. Platform edition. Marked as OPTIONAL for backward compatibility, though it is required during instance creation. */
-  platformEdition?: InstancePlatformEditionEnum | (string & {});
+  platformEdition?: InstancePlatformEditionEnum | (string & {}) | undefined;
   /** Output only. The time when the Looker instance was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. Public Egress IP (IPv4). */
-  egressPublicIp?: string;
+  egressPublicIp?: string | undefined;
   /** Output only. The reason for the instance being in a soft-deleted state. */
-  softDeleteReason?: InstanceSoftDeleteReasonEnum | (string & {});
+  softDeleteReason?: InstanceSoftDeleteReasonEnum | (string & {}) | undefined;
   /** Optional. Whether FIPS is enabled on the Looker instance. */
-  fipsEnabled?: boolean;
+  fipsEnabled?: boolean | undefined;
   /** Optional. Ingress IP allowlist configuration for the Looker instance. */
-  ingressIpAllowlistConfig?: IngressIpAllowlistConfig;
+  ingressIpAllowlistConfig?: IngressIpAllowlistConfig | undefined;
   /** Optional. Configuration for periodic export. */
-  periodicExportConfig?: PeriodicExportConfig;
+  periodicExportConfig?: PeriodicExportConfig | undefined;
   /** Optional. Network name in the consumer project. Format: `projects/{project}/global/networks/{network}`. Note that the consumer network may be in a different GCP project than the consumer project that is hosting the Looker Instance. */
-  consumerNetwork?: string;
+  consumerNetwork?: string | undefined;
   /** Output only. Private Ingress IP (IPv4). */
-  ingressPrivateIp?: string;
+  ingressPrivateIp?: string | undefined;
   /** Optional. Controlled egress configuration. */
-  controlledEgressConfig?: ControlledEgressConfig;
+  controlledEgressConfig?: ControlledEgressConfig | undefined;
   /** Output only. The time when the Looker instance provisioning was first requested. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. Linked Google Cloud Project Number for Looker Studio Pro. */
-  linkedLspProjectNumber?: string;
+  linkedLspProjectNumber?: string | undefined;
   /** Output only. Format: `projects/{project}/locations/{location}/instances/{instance}`. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The Looker version that the instance is using. */
-  lookerVersion?: string;
+  lookerVersion?: string | undefined;
   /** Output only. The time when the Looker instance was suspended (soft deleted). */
-  suspendedTime?: string;
+  suspendedTime?: string | undefined;
   /** Optional. Storage class of the instance. */
-  classType?: InstanceClassTypeEnum | (string & {});
+  classType?: InstanceClassTypeEnum | (string & {}) | undefined;
   /** Optional. PSC configuration. Used when `psc_enabled` is true. */
-  pscConfig?: PscConfig;
+  pscConfig?: PscConfig | undefined;
   /** Output only. The state of the instance. */
-  state?: InstanceStateEnum | (string & {});
+  state?: InstanceStateEnum | (string & {}) | undefined;
   /** Optional. Whether public IP is enabled on the Looker instance. */
-  publicIpEnabled?: boolean;
+  publicIpEnabled?: boolean | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean;
+  satisfiesPzi?: boolean | undefined;
   /** Output only. Looker instance URI which can be used to access the Looker Instance UI. */
-  lookerUri?: string;
+  lookerUri?: string | undefined;
   /** Optional. Whether Gemini feature is enabled on the Looker instance or not. */
-  geminiEnabled?: boolean;
+  geminiEnabled?: boolean | undefined;
   /** Optional. Custom domain configuration for the instance. */
-  customDomain?: CustomDomain;
+  customDomain?: CustomDomain | undefined;
   /** Optional. User metadata. */
-  userMetadata?: UserMetadata;
+  userMetadata?: UserMetadata | undefined;
   /** Optional. Accelerated security patch enabled for the instance. */
-  acceleratedSecurityPatchEnabled?: boolean;
+  acceleratedSecurityPatchEnabled?: boolean | undefined;
   /** Optional. Encryption configuration (CMEK). Only set if CMEK has been enabled on the instance. */
-  encryptionConfig?: EncryptionConfig;
+  encryptionConfig?: EncryptionConfig | undefined;
   /** Output only. Maintenance schedule for this instance. */
-  maintenanceSchedule?: MaintenanceSchedule;
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
 }
 export interface CreateProjectsLocationsInstancesRequest {
   /** Required. Format: `projects/{project}/locations/{location}`. */
   parent: string;
   /** Required. The unique instance identifier. Must contain only lowercase letters, numbers, or hyphens, with the first character a letter and the last a letter or a number. 63 characters maximum. */
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** Request body */
-  body?: Instance;
+  body?: Instance | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
 }
 export type InstanceBackupStateEnum =
   | "STATE_UNSPECIFIED"
@@ -426,27 +426,27 @@ export type InstanceBackupStateEnum =
 /** The details of a backup resource. */
 export interface InstanceBackup {
   /** Output only. The time when the backup will be deleted. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** Output only. The time when the backup was started. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Current status of the CMEK encryption */
-  encryptionConfig?: EncryptionConfig;
+  encryptionConfig?: EncryptionConfig | undefined;
   /** Output only. The current state of the backup. */
-  state?: InstanceBackupStateEnum | (string & {});
+  state?: InstanceBackupStateEnum | (string & {}) | undefined;
   /** Immutable. The relative resource name of the backup, in the following form: `projects/{project_number}/locations/{location_id}/instances/{instance_id}/backups/{backup}` */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsInstancesBackupsRequest {
   /** Required. Format: projects/{project}/locations/{location}/instances/{instance} */
   parent: string;
   /** Request body */
-  body?: InstanceBackup;
+  body?: InstanceBackup | undefined;
 }
 export interface DeleteProjectsLocationsInstancesRequest {
   /** Required. Format: `projects/{project}/locations/{location}/instances/{instance}`. */
   name: string;
   /** Whether to force cascading delete. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsInstancesBackupsRequest {
   /** Required. Format: projects/{project}/locations/{location}/instances/{instance}/backups/{backup} */
@@ -459,20 +459,20 @@ export interface DeleteProjectsLocationsOperationsRequest {
 /** Configuration for Encryption - e.g. CMEK. */
 export interface ExportEncryptionConfig {
   /** Required. Name of the CMEK key in KMS. */
-  kmsKeyName?: string;
+  kmsKeyName?: string | undefined;
 }
 /** Request options for exporting data of an Instance. */
 export interface ExportInstanceRequest {
   /** Required. Encryption configuration (CMEK). For CMEK enabled instances it should be same as looker CMEK. */
-  encryptionConfig?: ExportEncryptionConfig;
+  encryptionConfig?: ExportEncryptionConfig | undefined;
   /** The path to the folder in Google Cloud Storage where the export will be stored. The URI is in the form `gs://bucketName/folderName`. */
-  gcsUri?: string;
+  gcsUri?: string | undefined;
 }
 export interface ExportProjectsLocationsInstancesRequest {
   /** Required. Format: `projects/{project}/locations/{location}/instances/{instance}`. */
   name: string;
   /** Request body */
-  body?: ExportInstanceRequest;
+  body?: ExportInstanceRequest | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -482,15 +482,15 @@ export type StringMap = { [key: string]: string | undefined };
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
 }
 export interface GetProjectsLocationsInstancesRequest {
   /** Required. Format: `projects/{project}/locations/{location}/instances/{instance}`. */
@@ -507,103 +507,103 @@ export interface GetProjectsLocationsOperationsRequest {
 /** Requestion options for importing looker data to an Instance */
 export interface ImportInstanceRequest {
   /** Path to the import folder in Google Cloud Storage, in the form `gs://bucketName/folderName`. */
-  gcsUri?: string;
+  gcsUri?: string | undefined;
 }
 export interface ImportProjectsLocationsInstancesRequest {
   /** Required. Format: `projects/{project}/locations/{location}/instances/{instance}`. */
   name: string;
   /** Request body */
-  body?: ImportInstanceRequest;
+  body?: ImportInstanceRequest | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
 }
 export interface ListProjectsLocationsInstancesRequest {
   /** Optional. Whether to include deleted instances in the response. */
-  showDeleted?: boolean;
+  showDeleted?: boolean | undefined;
   /** The maximum number of instances to return. If unspecified at most 256 will be returned. The maximum possible value is 2048. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Format: `projects/{project}/locations/{location}`. */
   parent: string;
   /** A page token received from a previous ListInstancesRequest. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type InstanceList = Array<Instance>;
 /** Response from ListInstances. */
 export interface ListInstancesResponse {
   /** The list of instances matching the request filters, up to the requested `pageSize`. */
-  instances?: InstanceList;
+  instances?: InstanceList | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** If provided, a page token that can look up the next `pageSize` results. If empty, the results list is exhausted. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsInstancesBackupsRequest {
   /** Required. Format: projects/{project}/locations/{location}/instances/{instance}. */
   parent: string;
   /** A page token received from a previous ListInstances request. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of instances to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Sort results. Default order is "create_time desc". Other supported fields are "state" and "expire_time". https://google.aip.dev/132#ordering */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type InstanceBackupList = Array<InstanceBackup>;
 /** Response from listing Looker instance backups. */
 export interface ListInstanceBackupsResponse {
   /** The list of instances matching the request filters, up to the requested `page_size`. */
-  instanceBackups?: InstanceBackupList;
+  instanceBackups?: InstanceBackupList | undefined;
   /** If provided, a page token that can look up the next `page_size` results. If empty, the results list is exhausted. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
 }
 export interface PatchProjectsLocationsInstancesRequest {
   /** Required. Field mask used to specify the fields to be overwritten in the Instance resource by the update. The fields specified in the mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Output only. Format: `projects/{project}/locations/{location}/instances/{instance}`. */
   name: string;
   /** Request body */
-  body?: Instance;
+  body?: Instance | undefined;
 }
 /** Request options for restarting an instance. */
 export type RestartInstanceRequest = CancelOperationRequest;
@@ -611,18 +611,18 @@ export interface RestartProjectsLocationsInstancesRequest {
   /** Required. Format: `projects/{project}/locations/{location}/instances/{instance}`. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** Request options for restoring an instance */
 export interface RestoreInstanceRequest {
   /** Required. Backup being used to restore the instance Format: projects/{project}/locations/{location}/instances/{instance}/backups/{backup} */
-  backup?: string;
+  backup?: string | undefined;
 }
 export interface RestoreProjectsLocationsInstancesRequest {
   /** Required. Instance being restored Format: projects/{project}/locations/{location}/instances/{instance} */
   name: string;
   /** Request body */
-  body?: RestoreInstanceRequest;
+  body?: RestoreInstanceRequest | undefined;
 }
 /** Request options for undeleting an instance. */
 export type UndeleteInstanceRequest = CancelOperationRequest;
@@ -630,7 +630,7 @@ export interface UndeleteProjectsLocationsInstancesRequest {
   /** Required. Format: projects/{project}/locations/{location}/instances/{instance} */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound

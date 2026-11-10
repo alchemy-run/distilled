@@ -68,25 +68,25 @@ export interface CloneZoneRequest {
   /** zone id */
   zoneId: string;
   /** Adjust record set content and replace the dns name of the original zone with the new dns name of the cloned zone */
-  adjustRecords?: boolean;
+  adjustRecords?: boolean | undefined;
   /** New Description for the cloned zone. Leave empty to use the same description as the original zone */
-  description?: string;
+  description?: string | undefined;
   /** DnsName is the dns name of the zone to clone */
   dnsName: string;
   /** New Name for the cloned zone. Leave empty to use the same name as the original zone */
-  name?: string;
+  name?: string | undefined;
 }
 export type DomainObservabilityExtensionState = "CREATING" | "CREATE_SUCCEEDED" | "ERROR";
 export interface DomainObservabilityExtension {
   observabilityInstanceId: string;
-  state?: DomainObservabilityExtensionState | (string & {});
+  state?: DomainObservabilityExtensionState | (string & {}) | undefined;
 }
 export interface DomainExtensions {
-  observabilityExtension?: DomainObservabilityExtension;
+  observabilityExtension?: DomainObservabilityExtension | undefined;
 }
 export interface Label {
   key: string;
-  value?: string;
+  value?: string | undefined;
 }
 export type ZoneLabelsList = Array<Label>;
 /** labels for the zone */
@@ -112,9 +112,9 @@ export type ZoneVisibility = "public";
 export interface Zone {
   /** access control list */
   acl: string;
-  active?: boolean;
+  active?: boolean | undefined;
   /** contact email from soa record */
-  contactEmail?: string;
+  contactEmail?: string | undefined;
   /** when zone creation finished */
   creationFinished: string;
   /** when zone creation started */
@@ -122,31 +122,31 @@ export interface Zone {
   /** default time to live */
   defaultTTL: number;
   /** description of the zone */
-  description?: string;
+  description?: string | undefined;
   /** zone name */
   dnsName: string;
   /** Error shows error in case create/update/delete failed */
-  error?: string;
+  error?: string | undefined;
   /** expire time */
   expireTime: number;
-  extensions?: DomainExtensions;
+  extensions?: DomainExtensions | undefined;
   /** zone id */
   id: string;
   /** if the zone is a reverse zone or not */
-  isReverseZone?: boolean;
-  labels?: ZoneLabelsList;
+  isReverseZone?: boolean | undefined;
+  labels?: ZoneLabelsList | undefined;
   /** labels for the zone */
-  labelsMap?: ZoneLabelsMapMap;
+  labelsMap?: ZoneLabelsMapMap | undefined;
   /** user given name */
   name: string;
   /** negative caching */
   negativeCache: number;
   /** primary name server for secondary zone */
-  primaries?: ZonePrimariesList;
+  primaries?: ZonePrimariesList | undefined;
   /** primary name server. FQDN */
   primaryNameServer: string;
   /** record count how many records are in the zone */
-  recordCount?: number;
+  recordCount?: number | undefined;
   /** refresh time */
   refreshTime: number;
   /** retry time */
@@ -166,7 +166,7 @@ export interface Zone {
 }
 /** ResponseZone for user info. */
 export interface ZoneResponse {
-  message?: string;
+  message?: string | undefined;
   zone: Zone;
 }
 export interface CreateMoveCodeRequest {
@@ -175,7 +175,7 @@ export interface CreateMoveCodeRequest {
   /** zone id */
   zoneId: string;
   /** TTL is the duration for which the move code is valid, represented as seconds. Min: 1, Max: 2592000 (30 days). */
-  ttl?: number;
+  ttl?: number | undefined;
 }
 export interface MoveCodeResponse {
   /** code to move the zone. It is one time shown so better keep it. */
@@ -183,7 +183,7 @@ export interface MoveCodeResponse {
   /** when the code expires */
   expiresAt: string;
   /** human readable message */
-  message?: string;
+  message?: string | undefined;
 }
 /** RecordPost for rr set info. */
 export interface RecordPayload {
@@ -225,13 +225,13 @@ export interface CreateRecordSetRequest {
   /** zone id */
   zoneId: string;
   /** user comment */
-  comment?: string;
+  comment?: string | undefined;
   /** name of the record which should be a valid domain according to rfc1035 Section 2.3.4. For APEX records (same as zone name), the zone name itself has to be put in here. */
   name: string;
   /** records */
   records: CreateRecordSetRequestRecordsList;
   /** time to live. If nothing provided we will set the zone ttl. */
-  ttl?: number;
+  ttl?: number | undefined;
   /** record set type */
   type: CreateRecordSetRequestType | (string & {});
 }
@@ -285,15 +285,15 @@ export type RecordSetType =
 /** RRSet. */
 export interface RecordSet {
   /** if the record set is active or not */
-  active?: boolean;
+  active?: boolean | undefined;
   /** comment */
-  comment?: string;
+  comment?: string | undefined;
   /** when record set creation finished */
   creationFinished: string;
   /** when record set creation started */
   creationStarted: string;
   /** Error shows error in case create/update/delete failed */
-  error?: string;
+  error?: string | undefined;
   /** rr set id */
   id: string;
   /** name of the record which should be a valid domain according to rfc1035 Section 2.3.4. For APEX records (same as zone name), the zone name itself has to be put in here. */
@@ -313,14 +313,14 @@ export interface RecordSet {
 }
 /** ResponseRRSet for rr set info. */
 export interface RecordSetResponse {
-  message?: string;
+  message?: string | undefined;
   rrset: RecordSet;
 }
 export interface ZoneObservabilityExtension {
   observabilityInstanceId: string;
 }
 export interface ZoneExtensions {
-  observabilityExtension?: ZoneObservabilityExtension;
+  observabilityExtension?: ZoneObservabilityExtension | undefined;
 }
 /** labels for the zone - max 64 items. Keys: 1-314 chars (up to 250 prefix, 1 for slash, 1-63 the actual key). Values: 0-63 chars. */
 export type CreateZoneRequestLabelsMapMap = { [key: string]: string | undefined };
@@ -332,35 +332,35 @@ export interface CreateZoneRequest {
   /** project id */
   projectId: string;
   /** the access control list (note: this field currently has no effect and does not enforce any access restrictions on the DNS zone) */
-  acl?: string;
+  acl?: string | undefined;
   /** contact e-mail for the zone */
-  contactEmail?: string;
+  contactEmail?: string | undefined;
   /** default time to live */
-  defaultTTL?: number;
+  defaultTTL?: number | undefined;
   /** description of the zone */
-  description?: string;
+  description?: string | undefined;
   /** zone name */
   dnsName: string;
   /** expire time */
-  expireTime?: number;
+  expireTime?: number | undefined;
   /** optional extensions */
-  extensions?: ZoneExtensions;
+  extensions?: ZoneExtensions | undefined;
   /** if the zone is a reverse zone or not */
-  isReverseZone?: boolean;
+  isReverseZone?: boolean | undefined;
   /** labels for the zone - max 64 items. Keys: 1-314 chars (up to 250 prefix, 1 for slash, 1-63 the actual key). Values: 0-63 chars. */
-  labelsMap?: CreateZoneRequestLabelsMapMap;
+  labelsMap?: CreateZoneRequestLabelsMapMap | undefined;
   /** user given name */
   name: string;
   /** negative caching */
-  negativeCache?: number;
+  negativeCache?: number | undefined;
   /** primary name server for secondary zone */
-  primaries?: CreateZoneRequestPrimariesList;
+  primaries?: CreateZoneRequestPrimariesList | undefined;
   /** refresh time */
-  refreshTime?: number;
+  refreshTime?: number | undefined;
   /** retry time */
-  retryTime?: number;
+  retryTime?: number | undefined;
   /** zone type */
-  type?: CreateZoneRequestType | (string & {});
+  type?: CreateZoneRequestType | (string & {}) | undefined;
 }
 export interface DeleteMoveCodeRequest {
   /** project id */
@@ -369,7 +369,7 @@ export interface DeleteMoveCodeRequest {
   zoneId: string;
 }
 export interface Message {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteRecordSetRequest {
   /** project id */
@@ -391,20 +391,20 @@ export interface ExportRecordSetsRequest {
   projectId: string;
   /** zone id */
   zoneId: string;
-  exportAsFQDN?: boolean;
-  format?: ExportRecordSetsRequestFormat | (string & {});
+  exportAsFQDN?: boolean | undefined;
+  format?: ExportRecordSetsRequestFormat | (string & {}) | undefined;
 }
 export type RecordDataExchangeContentList = Array<string>;
 export interface RecordDataExchange {
-  comment?: string;
-  content?: RecordDataExchangeContentList;
-  name?: string;
-  ttl?: number;
-  type?: string;
+  comment?: string | undefined;
+  content?: RecordDataExchangeContentList | undefined;
+  name?: string | undefined;
+  ttl?: number | undefined;
+  type?: string | undefined;
 }
 export type ZoneDataExchangeRrSetsList = Array<RecordDataExchange>;
 export interface ZoneDataExchange {
-  rrSets?: ZoneDataExchangeRrSetsList;
+  rrSets?: ZoneDataExchangeRrSetsList | undefined;
 }
 export type FlushDomainRequestType =
   | "A"
@@ -432,10 +432,10 @@ export type FlushDomainRequestType =
   | "HTTPS";
 export interface FlushDomainRequest {
   domain: string;
-  type?: FlushDomainRequestType | (string & {});
+  type?: FlushDomainRequestType | (string & {}) | undefined;
 }
 export interface FlushDomainResponse {
-  message?: string;
+  message?: string | undefined;
 }
 export interface GetRecordSetRequest {
   /** project id */
@@ -461,11 +461,11 @@ export type ImportRecordSetsRequestFormat = "json" | "csv" | "bind";
 export type ImportRecordSetsRequestImportType = "restore" | "delete" | "update" | "upsert";
 export type ZoneModelsImportRecordModelContentList = Array<string>;
 export interface ZoneModelsImportRecordModel {
-  comment?: string;
-  content?: ZoneModelsImportRecordModelContentList;
-  name?: string;
-  ttl?: number;
-  type?: string;
+  comment?: string | undefined;
+  content?: ZoneModelsImportRecordModelContentList | undefined;
+  name?: string | undefined;
+  ttl?: number | undefined;
+  type?: string | undefined;
 }
 export type ImportRecordSetsRequestRrSetsList = Array<ZoneModelsImportRecordModel>;
 export interface ImportRecordSetsRequest {
@@ -474,23 +474,23 @@ export interface ImportRecordSetsRequest {
   /** zone id */
   zoneId: string;
   /** format of the data to import */
-  format?: ImportRecordSetsRequestFormat | (string & {});
+  format?: ImportRecordSetsRequestFormat | (string & {}) | undefined;
   /** type of the zone import */
-  importType?: ImportRecordSetsRequestImportType | (string & {});
-  rrSets?: ImportRecordSetsRequestRrSetsList;
+  importType?: ImportRecordSetsRequestImportType | (string & {}) | undefined;
+  rrSets?: ImportRecordSetsRequestRrSetsList | undefined;
 }
 /** ImportSummary is the summary of the import. */
 export interface ImportSummary {
-  createdRRSets?: number;
-  createdRecords?: number;
-  deletedRRSets?: number;
-  deletedRecords?: number;
-  updatedRRSets?: number;
-  updatedRecords?: number;
+  createdRRSets?: number | undefined;
+  createdRecords?: number | undefined;
+  deletedRRSets?: number | undefined;
+  deletedRecords?: number | undefined;
+  updatedRRSets?: number | undefined;
+  updatedRecords?: number | undefined;
 }
 /** ImportSummaryResponse is the response of the import. */
 export interface ImportRecordSetsResponse {
-  message?: string;
+  message?: string | undefined;
   summary: ImportSummary;
 }
 export type ListRecordSetsRequestTypeEq =
@@ -553,75 +553,81 @@ export interface ListRecordSetsRequest {
   /** zone id */
   zoneId: string;
   /** page */
-  page?: number;
+  page?: number | undefined;
   /** page size */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** filter name equal */
-  name_eq_?: string;
+  name_eq_?: string | undefined;
   /** filter name like */
-  name_like_?: string;
+  name_like_?: string | undefined;
   /** filter type */
-  type_eq_?: ListRecordSetsRequestTypeEq | (string & {});
+  type_eq_?: ListRecordSetsRequestTypeEq | (string & {}) | undefined;
   /** filter state (DELETE_SUCCEEDED is excluded by default) */
-  state_eq_?: ListRecordSetsRequestStateEq | (string & {});
+  state_eq_?: ListRecordSetsRequestStateEq | (string & {}) | undefined;
   /** filter state */
-  state_neq_?: ListRecordSetsRequestStateNeq | (string & {});
+  state_neq_?: ListRecordSetsRequestStateNeq | (string & {}) | undefined;
   /** filter active equal */
-  active_eq_?: boolean;
+  active_eq_?: boolean | undefined;
   /** filter creation started greater with utc timestamp */
-  creationStarted_gt_?: string;
+  creationStarted_gt_?: string | undefined;
   /** filter creation started lesser with utc timestamp */
-  creationStarted_lt_?: string;
+  creationStarted_lt_?: string | undefined;
   /** filter creation started greater equal with utc timestamp */
-  creationStarted_gte_?: string;
+  creationStarted_gte_?: string | undefined;
   /** filter creation started lesser equal with utc timestamp */
-  creationStarted_lte_?: string;
+  creationStarted_lte_?: string | undefined;
   /** filter creation finished greater with utc timestamp */
-  creationFinished_gt_?: string;
+  creationFinished_gt_?: string | undefined;
   /** filter creation finished lesser with utc timestamp */
-  creationFinished_lt_?: string;
+  creationFinished_lt_?: string | undefined;
   /** filter creation finished greater equal with utc timestamp */
-  creationFinished_gte_?: string;
+  creationFinished_gte_?: string | undefined;
   /** filter creation finished lesser equal with utc timestamp */
-  creationFinished_lte_?: string;
+  creationFinished_lte_?: string | undefined;
   /** filter update started greater with utc timestamp */
-  updateStarted_gt_?: string;
+  updateStarted_gt_?: string | undefined;
   /** filter update started lesser with utc timestamp */
-  updateStarted_lt_?: string;
+  updateStarted_lt_?: string | undefined;
   /** filter update started greater equal with utc timestamp */
-  updateStarted_gte_?: string;
+  updateStarted_gte_?: string | undefined;
   /** filter update started lesser equal with utc timestamp */
-  updateStarted_lte_?: string;
+  updateStarted_lte_?: string | undefined;
   /** filter update finished greater with utc timestamp */
-  updateFinished_gt_?: string;
+  updateFinished_gt_?: string | undefined;
   /** filter update finished lesser with utc timestamp */
-  updateFinished_lt_?: string;
+  updateFinished_lt_?: string | undefined;
   /** filter update finished greater equal with utc timestamp */
-  updateFinished_gte_?: string;
+  updateFinished_gte_?: string | undefined;
   /** filter update finished lesser equal with utc timestamp */
-  updateFinished_lte_?: string;
+  updateFinished_lte_?: string | undefined;
   /** order by name */
-  orderBy_name_?: ListRecordSetsRequestOrderByName | (string & {});
+  orderBy_name_?: ListRecordSetsRequestOrderByName | (string & {}) | undefined;
   /** order by creationStarted */
-  orderBy_creationStarted_?: ListRecordSetsRequestOrderByCreationStarted | (string & {});
+  orderBy_creationStarted_?:
+    | ListRecordSetsRequestOrderByCreationStarted
+    | (string & {})
+    | undefined;
   /** order by creationFinished */
-  orderBy_creationFinished_?: ListRecordSetsRequestOrderByCreationFinished | (string & {});
+  orderBy_creationFinished_?:
+    | ListRecordSetsRequestOrderByCreationFinished
+    | (string & {})
+    | undefined;
   /** order by updateStarted */
-  orderBy_updateStarted_?: ListRecordSetsRequestOrderByUpdateStarted | (string & {});
+  orderBy_updateStarted_?: ListRecordSetsRequestOrderByUpdateStarted | (string & {}) | undefined;
   /** order by updateFinished */
-  orderBy_updateFinished_?: ListRecordSetsRequestOrderByUpdateFinished | (string & {});
+  orderBy_updateFinished_?: ListRecordSetsRequestOrderByUpdateFinished | (string & {}) | undefined;
   /** order by type */
-  orderBy_type_?: ListRecordSetsRequestOrderByType | (string & {});
+  orderBy_type_?: ListRecordSetsRequestOrderByType | (string & {}) | undefined;
   /** order by state */
-  orderBy_state_?: ListRecordSetsRequestOrderByState | (string & {});
+  orderBy_state_?: ListRecordSetsRequestOrderByState | (string & {}) | undefined;
   /** order by record count */
-  orderBy_recordCount_?: ListRecordSetsRequestOrderByRecordCount | (string & {});
+  orderBy_recordCount_?: ListRecordSetsRequestOrderByRecordCount | (string & {}) | undefined;
 }
 export type ListRecordSetsResponseRrSetsList = Array<RecordSet>;
 /** ResponseRRSetAll. */
 export interface ListRecordSetsResponse {
   itemsPerPage: number;
-  message?: string;
+  message?: string | undefined;
   rrSets: ListRecordSetsResponseRrSetsList;
   totalItems: number;
   totalPages: number;
@@ -662,99 +668,99 @@ export interface ListZonesRequest {
   /** project id */
   projectId: string;
   /** page */
-  page?: number;
+  page?: number | undefined;
   /** page size */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** filter dns name equal */
-  dnsName_eq_?: string;
+  dnsName_eq_?: string | undefined;
   /** filter dns name like */
-  dnsName_like_?: string;
+  dnsName_like_?: string | undefined;
   /** filter type */
-  type_eq_?: ListZonesRequestTypeEq | (string & {});
+  type_eq_?: ListZonesRequestTypeEq | (string & {}) | undefined;
   /** filter name equal */
-  name_eq_?: string;
+  name_eq_?: string | undefined;
   /** filter name not equal */
-  name_neq_?: string;
+  name_neq_?: string | undefined;
   /** filter name like */
-  name_like_?: string;
+  name_like_?: string | undefined;
   /** filter description equal */
-  description_eq_?: string;
+  description_eq_?: string | undefined;
   /** filter description not equal */
-  description_neq_?: string;
+  description_neq_?: string | undefined;
   /** filter description like */
-  description_like_?: string;
+  description_like_?: string | undefined;
   /** filter state (DELETE_SUCCEEDED is excluded by default) */
-  state_eq_?: ListZonesRequestStateEq | (string & {});
+  state_eq_?: ListZonesRequestStateEq | (string & {}) | undefined;
   /** filter state */
-  state_neq_?: ListZonesRequestStateNeq | (string & {});
+  state_neq_?: ListZonesRequestStateNeq | (string & {}) | undefined;
   /** filter primary name server equal */
-  primaryNameServer_eq_?: string;
+  primaryNameServer_eq_?: string | undefined;
   /** filter primary name server like */
-  primaryNameServer_like_?: string;
+  primaryNameServer_like_?: string | undefined;
   /** filter reverse zone equal */
-  isReverseZone_eq_?: boolean;
+  isReverseZone_eq_?: boolean | undefined;
   /** filter active equal */
-  active_eq_?: boolean;
+  active_eq_?: boolean | undefined;
   /** filter creation started greater with utc timestamp */
-  creationStarted_gt_?: string;
+  creationStarted_gt_?: string | undefined;
   /** filter creation started lesser with utc timestamp */
-  creationStarted_lt_?: string;
+  creationStarted_lt_?: string | undefined;
   /** filter creation started greater equal with utc timestamp */
-  creationStarted_gte_?: string;
+  creationStarted_gte_?: string | undefined;
   /** filter creation started lesser equal with utc timestamp */
-  creationStarted_lte_?: string;
+  creationStarted_lte_?: string | undefined;
   /** filter creation finished greater with utc timestamp */
-  creationFinished_gt_?: string;
+  creationFinished_gt_?: string | undefined;
   /** filter creation finished lesser with utc timestamp */
-  creationFinished_lt_?: string;
+  creationFinished_lt_?: string | undefined;
   /** filter creation finished greater equal with utc timestamp */
-  creationFinished_gte_?: string;
+  creationFinished_gte_?: string | undefined;
   /** filter creation finished lesser equal with utc timestamp */
-  creationFinished_lte_?: string;
+  creationFinished_lte_?: string | undefined;
   /** filter update started greater with utc timestamp */
-  updateStarted_gt_?: string;
+  updateStarted_gt_?: string | undefined;
   /** filter update started lesser with utc timestamp */
-  updateStarted_lt_?: string;
+  updateStarted_lt_?: string | undefined;
   /** filter update started greater equal with utc timestamp */
-  updateStarted_gte_?: string;
+  updateStarted_gte_?: string | undefined;
   /** filter update started lesser equal with utc timestamp */
-  updateStarted_lte_?: string;
+  updateStarted_lte_?: string | undefined;
   /** filter update finished greater with utc timestamp */
-  updateFinished_gt_?: string;
+  updateFinished_gt_?: string | undefined;
   /** filter update finished lesser with utc timestamp */
-  updateFinished_lt_?: string;
+  updateFinished_lt_?: string | undefined;
   /** filter update finished greater equal with utc timestamp */
-  updateFinished_gte_?: string;
+  updateFinished_gte_?: string | undefined;
   /** filter update finished lesser equal with utc timestamp */
-  updateFinished_lte_?: string;
+  updateFinished_lte_?: string | undefined;
   /** filter zones according to the zone label keys. */
-  labelKey_eq_?: ListZonesRequestLabelKeyEqList;
+  labelKey_eq_?: ListZonesRequestLabelKeyEqList | undefined;
   /** filter zones according to the zone label values. */
-  labelValue_eq_?: ListZonesRequestLabelValueEqList;
+  labelValue_eq_?: ListZonesRequestLabelValueEqList | undefined;
   /** order by dns name */
-  orderBy_dnsName_?: ListZonesRequestOrderByDnsName | (string & {});
+  orderBy_dnsName_?: ListZonesRequestOrderByDnsName | (string & {}) | undefined;
   /** order by name */
-  orderBy_name_?: ListZonesRequestOrderByName | (string & {});
+  orderBy_name_?: ListZonesRequestOrderByName | (string & {}) | undefined;
   /** order by record count */
-  orderBy_recordCount_?: ListZonesRequestOrderByRecordCount | (string & {});
+  orderBy_recordCount_?: ListZonesRequestOrderByRecordCount | (string & {}) | undefined;
   /** order by type */
-  orderBy_type_?: ListZonesRequestOrderByType | (string & {});
+  orderBy_type_?: ListZonesRequestOrderByType | (string & {}) | undefined;
   /** order by description */
-  orderBy_description_?: ListZonesRequestOrderByDescription | (string & {});
+  orderBy_description_?: ListZonesRequestOrderByDescription | (string & {}) | undefined;
   /** order by creationStarted */
-  orderBy_creationStarted_?: ListZonesRequestOrderByCreationStarted | (string & {});
+  orderBy_creationStarted_?: ListZonesRequestOrderByCreationStarted | (string & {}) | undefined;
   /** order by creationFinished */
-  orderBy_creationFinished_?: ListZonesRequestOrderByCreationFinished | (string & {});
+  orderBy_creationFinished_?: ListZonesRequestOrderByCreationFinished | (string & {}) | undefined;
   /** order by updateStarted */
-  orderBy_updateStarted_?: ListZonesRequestOrderByUpdateStarted | (string & {});
+  orderBy_updateStarted_?: ListZonesRequestOrderByUpdateStarted | (string & {}) | undefined;
   /** order by updateFinished */
-  orderBy_updateFinished_?: ListZonesRequestOrderByUpdateFinished | (string & {});
+  orderBy_updateFinished_?: ListZonesRequestOrderByUpdateFinished | (string & {}) | undefined;
 }
 export type ListZonesResponseZonesList = Array<Zone>;
 /** ResponseZoneAll for filtered zones. */
 export interface ListZonesResponse {
   itemsPerPage: number;
-  message?: string;
+  message?: string | undefined;
   totalItems: number;
   totalPages: number;
   zones: ListZonesResponseZonesList;
@@ -791,15 +797,15 @@ export type LookupDomainRequestRecordType =
 export type LookupDomainRequestType = "all" | "one";
 export interface LookupDomainRequest {
   /** Address is the domain name to look up */
-  address?: string;
+  address?: string | undefined;
   /** IncludeRawResponse indicates whether to include the raw DNS response in the result */
-  includeRawResponse?: boolean;
+  includeRawResponse?: boolean | undefined;
   /** RecordType specifies the DNS record type to query (A, AAAA, MX, etc.) If omitted, defaults to ANY records */
-  recordType?: LookupDomainRequestRecordType | (string & {});
+  recordType?: LookupDomainRequestRecordType | (string & {}) | undefined;
   /** Region optionally specifies a STACKIT region to scope the DNS lookup */
-  region?: string;
+  region?: string | undefined;
   /** Type specifies whether to query all configured resolvers or just one "one" - query a single resolver chosen by round-robin (default) "all" - query all configured resolvers */
-  type?: LookupDomainRequestType | (string & {});
+  type?: LookupDomainRequestType | (string & {}) | undefined;
 }
 /** Type is the DNS record type (A, AAAA, MX, etc.) */
 export type LookupRecordType =
@@ -830,28 +836,28 @@ export type LookupRecordType =
   | "HTTPS";
 export interface LookupRecord {
   /** Data contains the record-specific data (e.g., IP address for A records) */
-  data?: string;
+  data?: string | undefined;
   /** Name is the domain name to which this record applies */
-  name?: string;
+  name?: string | undefined;
   /** TTL (Time To Live) is the duration in seconds that the record may be cached */
-  ttl?: number;
+  ttl?: number | undefined;
   /** Type is the DNS record type (A, AAAA, MX, etc.) */
-  type?: LookupRecordType;
+  type?: LookupRecordType | undefined;
 }
 /** Records contains the DNS records returned by the lookup */
 export type LookupResultRecordsList = Array<LookupRecord>;
 export interface LookupResult {
   /** RawResponse contains the raw DNS response in a human-readable format (only included when requested) */
-  rawResponse?: string;
+  rawResponse?: string | undefined;
   /** Records contains the DNS records returned by the lookup */
-  records?: LookupResultRecordsList;
+  records?: LookupResultRecordsList | undefined;
   /** ResolverIP is the IP address of the DNS resolver used for the query */
-  resolverIP?: string;
+  resolverIP?: string | undefined;
 }
 export type LookupDomainResponseStateList = Array<LookupResult>;
 export interface LookupDomainResponse {
-  message?: string;
-  state?: LookupDomainResponseStateList;
+  message?: string | undefined;
+  state?: LookupDomainResponseStateList | undefined;
 }
 export interface MoveZoneRequest {
   /** project id */
@@ -885,13 +891,13 @@ export interface PartialUpdateRecordSetRequest {
   /** record set id */
   rrSetId: string;
   /** user comment */
-  comment?: string;
+  comment?: string | undefined;
   /** rfc1035 Section 2.3.4 */
-  name?: string;
+  name?: string | undefined;
   /** records */
-  records?: PartialUpdateRecordSetRequestRecordsList;
+  records?: PartialUpdateRecordSetRequestRecordsList | undefined;
   /** time to live */
-  ttl?: number;
+  ttl?: number | undefined;
 }
 /** labels for the zone - max 64 items. Keys: 1-314 chars (up to 250 prefix, 1 for slash, 1-63 the actual key). Values: 0-63 chars. */
 export type PartialUpdateZoneRequestLabelsMapMap = { [key: string]: string | undefined };
@@ -903,29 +909,29 @@ export interface PartialUpdateZoneRequest {
   /** zone id */
   zoneId: string;
   /** the access control list (note: this field currently has no effect and does not enforce any access restrictions on the DNS zone) */
-  acl?: string;
+  acl?: string | undefined;
   /** contact e-mail for the zone */
-  contactEmail?: string;
+  contactEmail?: string | undefined;
   /** default time to live */
-  defaultTTL?: number;
+  defaultTTL?: number | undefined;
   /** description of the zone */
-  description?: string;
+  description?: string | undefined;
   /** expire time */
-  expireTime?: number;
+  expireTime?: number | undefined;
   /** optional extensions */
-  extensions?: DomainExtensions;
+  extensions?: DomainExtensions | undefined;
   /** labels for the zone - max 64 items. Keys: 1-314 chars (up to 250 prefix, 1 for slash, 1-63 the actual key). Values: 0-63 chars. */
-  labelsMap?: PartialUpdateZoneRequestLabelsMapMap;
+  labelsMap?: PartialUpdateZoneRequestLabelsMapMap | undefined;
   /** user given name */
-  name?: string;
+  name?: string | undefined;
   /** negative caching */
-  negativeCache?: number;
+  negativeCache?: number | undefined;
   /** primary name server for secondary zone */
-  primaries?: PartialUpdateZoneRequestPrimariesList;
+  primaries?: PartialUpdateZoneRequestPrimariesList | undefined;
   /** refresh time */
-  refreshTime?: number;
+  refreshTime?: number | undefined;
   /** retry time */
-  retryTime?: number;
+  retryTime?: number | undefined;
 }
 export interface RestoreRecordSetRequest {
   /** project id */

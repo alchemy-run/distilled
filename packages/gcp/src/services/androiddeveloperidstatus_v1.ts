@@ -61,7 +61,7 @@ export interface CheckPackagesPackageRegistrationStatusRequest {
   /** Required. The name of the package registration status resource. Format: packages/{package}/packageRegistrationStatus `{package}` must follow the specific format: The fully-qualified Android package name with dots ('.') replaced by hyphens ('-') (e.g., `com-example-app` instead of `com.example.app`). */
   name: string;
   /** Optional. The SHA-256 fingerprint of the public certificate represented as a 64-character lowercase hexadecimal string without any colons or separators (e.g., `d6ac89ed1d0a805aad4b087d06d5f41645b814480b133fbc867ef7498d069e06`). */
-  certificateFingerprint?: string;
+  certificateFingerprint?: string | undefined;
 }
 export type PackageRegistrationStatusStateEnum =
   | "REGISTRATION_STATE_UNSPECIFIED"
@@ -71,11 +71,11 @@ export type PackageRegistrationStatusStateEnum =
 /** Resource message PackageRegistrationStatus. */
 export interface PackageRegistrationStatus {
   /** Identifier. The name of the package registration status resource. Format: packages/{package}/packageRegistrationStatus `{package}` must follow the specific format: The fully-qualified Android package name with dots ('.') replaced by hyphens ('-') (e.g., `com-example-app` instead of `com.example.app`). */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The SHA-256 fingerprint of the public certificate represented as a 64-character lowercase hexadecimal string without any colons or separators (e.g., `d6ac89ed1d0a805aad4b087d06d5f41645b814480b133fbc867ef7498d069e06`). */
-  certificateFingerprint?: string;
+  certificateFingerprint?: string | undefined;
   /** Output only. Registration state of the package, or pair. */
-  state?: PackageRegistrationStatusStateEnum;
+  state?: PackageRegistrationStatusStateEnum | undefined;
 }
 export type CheckPackagesPackageRegistrationStatusError = NotFound | Forbidden | GcpOpError;
 /** Retrieves the Android Developer ID registration status for a given package. */

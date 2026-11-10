@@ -61,22 +61,22 @@ export interface CloneInstanceRequest {
   region: CloneInstanceRequestRegion | (string & {});
   /** instance id */
   instanceId: string;
-  timestamp?: string;
+  timestamp?: string | undefined;
 }
 export interface CloneInstanceResponse {
-  instanceId?: string;
+  instanceId?: string | undefined;
 }
 export type CreateInstanceRequestRegion = "eu01" | "eu02";
 export type ACLItemsList = Array<string>;
 export interface ACL {
-  items?: ACLItemsList;
+  items?: ACLItemsList | undefined;
 }
 /** Labels field is not certain/clear */
 export type CreateInstanceRequestLabelsMap = { [key: string]: string | undefined };
 export type CreateInstanceRequestOptionsMap = { [key: string]: string | undefined };
 export interface Storage {
-  class?: string;
-  size?: number;
+  class?: string | undefined;
+  size?: number | undefined;
 }
 export interface CreateInstanceRequest {
   /** project id */
@@ -88,7 +88,7 @@ export interface CreateInstanceRequest {
   backupSchedule: string;
   flavorId: string;
   /** Labels field is not certain/clear */
-  labels?: CreateInstanceRequestLabelsMap;
+  labels?: CreateInstanceRequestLabelsMap | undefined;
   name: string;
   options: CreateInstanceRequestOptionsMap;
   replicas: number;
@@ -96,7 +96,7 @@ export interface CreateInstanceRequest {
   version: string;
 }
 export interface CreateInstanceResponse {
-  id?: string;
+  id?: string | undefined;
 }
 export type CreateUserRequestRegion = "eu01" | "eu02";
 /** The roles defined for a user. Currently only one role in the list is supported, therefore only the first role from this list is used. The *roles* attribute can contain the following values: 'read', 'readWrite', 'readAnyDatabase', 'readWriteAnyDatabase', 'stackitAdmin'. **The 'readAnyDatabase', 'readWriteAnyDatabase' and 'stackitAdmin' roles will always be created in the admin database.** */
@@ -111,23 +111,23 @@ export interface CreateUserRequest {
   database: string;
   /** The roles defined for a user. Currently only one role in the list is supported, therefore only the first role from this list is used. The *roles* attribute can contain the following values: 'read', 'readWrite', 'readAnyDatabase', 'readWriteAnyDatabase', 'stackitAdmin'. **The 'readAnyDatabase', 'readWriteAnyDatabase' and 'stackitAdmin' roles will always be created in the admin database.** */
   roles: CreateUserRequestRolesList;
-  username?: string;
+  username?: string | undefined;
 }
 /** The roles defined for a user. Currently only one role in the list is supported, therefore only the first role from this list is used. The *roles* attribute can contain the following values: 'read', 'readWrite', 'readAnyDatabase', 'readWriteAnyDatabase', 'stackitAdmin'. **The 'readAnyDatabase', 'readWriteAnyDatabase' and 'stackitAdmin' roles will always be created in the admin database.** */
 export type UserRolesList = Array<string>;
 export interface User {
-  database?: string;
-  host?: string;
-  id?: string;
-  password?: string | Redacted.Redacted<string>;
-  port?: number;
+  database?: string | undefined;
+  host?: string | undefined;
+  id?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  port?: number | undefined;
   /** The roles defined for a user. Currently only one role in the list is supported, therefore only the first role from this list is used. The *roles* attribute can contain the following values: 'read', 'readWrite', 'readAnyDatabase', 'readWriteAnyDatabase', 'stackitAdmin'. **The 'readAnyDatabase', 'readWriteAnyDatabase' and 'stackitAdmin' roles will always be created in the admin database.** */
-  roles?: UserRolesList;
-  uri?: string;
-  username?: string;
+  roles?: UserRolesList | undefined;
+  uri?: string | undefined;
+  username?: string | undefined;
 }
 export interface CreateUserResponse {
-  item?: User;
+  item?: User | undefined;
 }
 export type DeleteInstanceRequestRegion = "eu01" | "eu02";
 export interface DeleteInstanceRequest {
@@ -165,17 +165,17 @@ export interface GetBackupRequest {
 export type BackupLabelsList = Array<string>;
 export type BackupOptionsMap = { [key: string]: string | undefined };
 export interface Backup {
-  endTime?: string;
-  error?: string;
-  id?: string;
-  labels?: BackupLabelsList;
-  name?: string;
-  options?: BackupOptionsMap;
-  size?: number;
-  startTime?: string;
+  endTime?: string | undefined;
+  error?: string | undefined;
+  id?: string | undefined;
+  labels?: BackupLabelsList | undefined;
+  name?: string | undefined;
+  options?: BackupOptionsMap | undefined;
+  size?: number | undefined;
+  startTime?: string | undefined;
 }
 export interface GetBackupResponse {
-  item?: Backup;
+  item?: Backup | undefined;
 }
 export type GetInstanceRequestRegion = "eu01" | "eu02";
 export interface GetInstanceRequest {
@@ -187,29 +187,29 @@ export interface GetInstanceRequest {
   instanceId: string;
 }
 export interface Flavor {
-  cpu?: number;
-  description?: string;
-  id?: string;
-  memory?: number;
+  cpu?: number | undefined;
+  description?: string | undefined;
+  id?: string | undefined;
+  memory?: number | undefined;
 }
 export type InstanceOptionsMap = { [key: string]: string | undefined };
 /** The current status of the instance. */
 export type InstanceStatus = "READY" | "PENDING" | "PROCESSING" | "FAILED" | "UNKNOWN";
 export interface Instance {
-  acl?: ACL;
-  backupSchedule?: string;
-  flavor?: Flavor;
-  id?: string;
-  name?: string;
-  options?: InstanceOptionsMap;
-  replicas?: number;
+  acl?: ACL | undefined;
+  backupSchedule?: string | undefined;
+  flavor?: Flavor | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  options?: InstanceOptionsMap | undefined;
+  replicas?: number | undefined;
   /** The current status of the instance. */
-  status?: InstanceStatus;
-  storage?: Storage;
-  version?: string;
+  status?: InstanceStatus | undefined;
+  storage?: Storage | undefined;
+  version?: string | undefined;
 }
 export interface InstanceResponse {
-  item?: Instance;
+  item?: Instance | undefined;
 }
 export type GetUserRequestRegion = "eu01" | "eu02";
 export interface GetUserRequest {
@@ -225,16 +225,16 @@ export interface GetUserRequest {
 /** The roles defined for a user. The *roles* attribute can contain the following values: 'read', 'readWrite', 'readAnyDatabase', 'readWriteAnyDatabase', 'stackitAdmin'. **The 'readAnyDatabase', 'readWriteAnyDatabase' and 'stackitAdmin' roles will always be created in the admin database.** */
 export type InstanceResponseUserRolesList = Array<string>;
 export interface InstanceResponseUser {
-  database?: string;
-  host?: string;
-  id?: string;
-  port?: number;
+  database?: string | undefined;
+  host?: string | undefined;
+  id?: string | undefined;
+  port?: number | undefined;
   /** The roles defined for a user. The *roles* attribute can contain the following values: 'read', 'readWrite', 'readAnyDatabase', 'readWriteAnyDatabase', 'stackitAdmin'. **The 'readAnyDatabase', 'readWriteAnyDatabase' and 'stackitAdmin' roles will always be created in the admin database.** */
-  roles?: InstanceResponseUserRolesList;
-  username?: string;
+  roles?: InstanceResponseUserRolesList | undefined;
+  username?: string | undefined;
 }
 export interface GetUserResponse {
-  item?: InstanceResponseUser;
+  item?: InstanceResponseUser | undefined;
 }
 export type ListAdvisorSlowQueriesRequestRegion = "eu01" | "eu02";
 export interface ListAdvisorSlowQueriesRequest {
@@ -247,15 +247,15 @@ export interface ListAdvisorSlowQueriesRequest {
 }
 export interface SlowQuery {
   /** The raw log line pertaining to the slow query. */
-  line?: string;
+  line?: string | undefined;
   /** The namespace in which the slow query ran. */
-  namespace?: string;
+  namespace?: string | undefined;
 }
 /** A list of documents with information about slow queries as detected by the Performance Advisor. */
 export type HandlersInstancesSlowQueriesResponseSlowQueriesList = Array<SlowQuery>;
 export interface HandlersInstancesSlowQueriesResponse {
   /** A list of documents with information about slow queries as detected by the Performance Advisor. */
-  slowQueries?: HandlersInstancesSlowQueriesResponseSlowQueriesList;
+  slowQueries?: HandlersInstancesSlowQueriesResponseSlowQueriesList | undefined;
 }
 export type ListBackupsRequestRegion = "eu01" | "eu02";
 export interface ListBackupsRequest {
@@ -268,8 +268,8 @@ export interface ListBackupsRequest {
 }
 export type ListBackupsResponseItemsList = Array<Backup>;
 export interface ListBackupsResponse {
-  count?: number;
-  items?: ListBackupsResponseItemsList;
+  count?: number | undefined;
+  items?: ListBackupsResponseItemsList | undefined;
 }
 export type ListFlavorsRequestRegion = "eu01" | "eu02";
 export interface ListFlavorsRequest {
@@ -280,15 +280,15 @@ export interface ListFlavorsRequest {
 }
 export type InstanceFlavorCategoriesList = Array<string>;
 export interface InstanceFlavor {
-  categories?: InstanceFlavorCategoriesList;
-  cpu?: number;
-  description?: string;
-  id?: string;
-  memory?: number;
+  categories?: InstanceFlavorCategoriesList | undefined;
+  cpu?: number | undefined;
+  description?: string | undefined;
+  id?: string | undefined;
+  memory?: number | undefined;
 }
 export type ListFlavorsResponseFlavorsList = Array<InstanceFlavor>;
 export interface ListFlavorsResponse {
-  flavors?: ListFlavorsResponseFlavorsList;
+  flavors?: ListFlavorsResponseFlavorsList | undefined;
 }
 export type ListInstancesRequestRegion = "eu01" | "eu02";
 export interface ListInstancesRequest {
@@ -302,15 +302,15 @@ export interface ListInstancesRequest {
 /** The current status of the instance. */
 export type InstanceListInstanceStatus = "READY" | "PENDING" | "PROCESSING" | "FAILED" | "UNKNOWN";
 export interface InstanceListInstance {
-  id?: string;
-  name?: string;
+  id?: string | undefined;
+  name?: string | undefined;
   /** The current status of the instance. */
-  status?: InstanceListInstanceStatus;
+  status?: InstanceListInstanceStatus | undefined;
 }
 export type ListInstancesResponseItemsList = Array<InstanceListInstance>;
 export interface ListInstancesResponse {
-  count?: number;
-  items?: ListInstancesResponseItemsList;
+  count?: number | undefined;
+  items?: ListInstancesResponseItemsList | undefined;
 }
 export type ListMetricsRequestRegion = "eu01" | "eu02";
 export interface ListMetricsRequest {
@@ -325,30 +325,30 @@ export interface ListMetricsRequest {
   /** granularity */
   granularity: string;
   /** period */
-  period?: string;
+  period?: string | undefined;
   /** period start */
-  start?: string;
+  start?: string | undefined;
   /** period end */
-  end?: string;
+  end?: string | undefined;
 }
 export interface DataPoint {
-  timestamp?: string;
-  value?: number;
+  timestamp?: string | undefined;
+  value?: number | undefined;
 }
 export type HostMetricDatapointsList = Array<DataPoint>;
 export interface HostMetric {
-  datapoints?: HostMetricDatapointsList;
-  name?: string;
-  units?: string;
+  datapoints?: HostMetricDatapointsList | undefined;
+  name?: string | undefined;
+  units?: string | undefined;
 }
 export type HostHostMetricsList = Array<HostMetric>;
 export interface Host {
-  hostMetrics?: HostHostMetricsList;
-  id?: string;
+  hostMetrics?: HostHostMetricsList | undefined;
+  id?: string | undefined;
 }
 export type ListMetricsResponseHostsList = Array<Host>;
 export interface ListMetricsResponse {
-  hosts?: ListMetricsResponseHostsList;
+  hosts?: ListMetricsResponseHostsList | undefined;
 }
 export type ListRestoreJobsRequestRegion = "eu01" | "eu02";
 export interface ListRestoreJobsRequest {
@@ -360,15 +360,15 @@ export interface ListRestoreJobsRequest {
   instanceId: string;
 }
 export interface RestoreInstanceStatus {
-  backupID?: string;
-  date?: string;
-  id?: string;
-  instanceId?: string;
-  status?: string;
+  backupID?: string | undefined;
+  date?: string | undefined;
+  id?: string | undefined;
+  instanceId?: string | undefined;
+  status?: string | undefined;
 }
 export type ListRestoreJobsResponseItemsList = Array<RestoreInstanceStatus>;
 export interface ListRestoreJobsResponse {
-  items?: ListRestoreJobsResponseItemsList;
+  items?: ListRestoreJobsResponseItemsList | undefined;
 }
 export type ListStoragesRequestRegion = "eu01" | "eu02";
 export interface ListStoragesRequest {
@@ -381,12 +381,12 @@ export interface ListStoragesRequest {
 }
 export type ListStoragesResponseStorageClassesList = Array<string>;
 export interface StorageRange {
-  max?: number;
-  min?: number;
+  max?: number | undefined;
+  min?: number | undefined;
 }
 export interface ListStoragesResponse {
-  storageClasses?: ListStoragesResponseStorageClassesList;
-  storageRange?: StorageRange;
+  storageClasses?: ListStoragesResponseStorageClassesList | undefined;
+  storageRange?: StorageRange | undefined;
 }
 export type ListSuggestedIndexesRequestRegion = "eu01" | "eu02";
 export interface ListSuggestedIndexesRequest {
@@ -401,37 +401,37 @@ export interface ListSuggestedIndexesRequest {
 export type MongodbatlasOperationPredicatesList = Array<unknown>;
 export interface MongodbatlasStats {
   /** Duration in milliseconds of the query. */
-  ms?: number;
+  ms?: number | undefined;
   /** Number of results returned by the query. */
-  nReturned?: number;
+  nReturned?: number | undefined;
   /** Number of documents read by the query. */
-  nScanned?: number;
+  nScanned?: number | undefined;
   /** Query timestamp, in seconds since epoch. */
-  ts?: number;
+  ts?: number | undefined;
 }
 export interface MongodbatlasOperation {
   /** Documents containing the search criteria used by the query. */
-  predicates?: MongodbatlasOperationPredicatesList;
+  predicates?: MongodbatlasOperationPredicatesList | undefined;
   /** Raw log line produced by the query. */
-  raw?: string;
+  raw?: string | undefined;
   /** Query statistics. */
-  stats?: MongodbatlasStats;
+  stats?: MongodbatlasStats | undefined;
 }
 /** It represents documents with specific information and log lines for individual queries. */
 export type ShapeOperationsList = Array<MongodbatlasOperation>;
 export interface Shape {
   /** Average duration in milliseconds for the queries examined that match this shape. */
-  avgMs?: number;
+  avgMs?: number | undefined;
   /** Number of queries examined that match this shape. */
-  count?: number;
+  count?: number | undefined;
   /** Unique id for this shape. Exists only for the duration of the API request. */
-  id?: string;
+  id?: string | undefined;
   /** Average number of documents read for every document returned by the query. */
-  inefficiencyScore?: number;
+  inefficiencyScore?: number | undefined;
   /** The namespace in which the slow query ran. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** It represents documents with specific information and log lines for individual queries. */
-  operations?: ShapeOperationsList;
+  operations?: ShapeOperationsList | undefined;
 }
 /** Documents with information about the query shapes that are served by the suggested indexes. */
 export type HandlersInstancesSuggestedIndexesResponseShapesList = Array<Shape>;
@@ -442,23 +442,23 @@ export type SuggestedIndexIndexItemMap = { [key: string]: number | undefined };
 export type SuggestedIndexIndexList = Array<SuggestedIndexIndexItemMap>;
 export interface SuggestedIndex {
   /** Unique id for this suggested index. */
-  id?: string;
+  id?: string | undefined;
   /** List of unique identifiers which correspond the query shapes in this response which pertain to this suggested index. */
-  impact?: SuggestedIndexImpactList;
+  impact?: SuggestedIndexImpactList | undefined;
   /** Array of documents that specifies a key in the index and its sort order, ascending or descending. */
-  index?: SuggestedIndexIndexList;
+  index?: SuggestedIndexIndexList | undefined;
   /** Namespace of the suggested index. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Estimated percentage performance improvement that the suggested index would provide. */
-  weight?: number;
+  weight?: number | undefined;
 }
 /** Documents with information about the indexes suggested by the Performance Advisor. */
 export type HandlersInstancesSuggestedIndexesResponseSuggestedIndexesList = Array<SuggestedIndex>;
 export interface HandlersInstancesSuggestedIndexesResponse {
   /** Documents with information about the query shapes that are served by the suggested indexes. */
-  shapes?: HandlersInstancesSuggestedIndexesResponseShapesList;
+  shapes?: HandlersInstancesSuggestedIndexesResponseShapesList | undefined;
   /** Documents with information about the indexes suggested by the Performance Advisor. */
-  suggestedIndexes?: HandlersInstancesSuggestedIndexesResponseSuggestedIndexesList;
+  suggestedIndexes?: HandlersInstancesSuggestedIndexesResponseSuggestedIndexesList | undefined;
 }
 export type ListUsersRequestRegion = "eu01" | "eu02";
 export interface ListUsersRequest {
@@ -470,13 +470,13 @@ export interface ListUsersRequest {
   instanceId: string;
 }
 export interface ListUser {
-  id?: string;
-  username?: string;
+  id?: string | undefined;
+  username?: string | undefined;
 }
 export type ListUsersResponseItemsList = Array<ListUser>;
 export interface ListUsersResponse {
-  count?: number;
-  items?: ListUsersResponseItemsList;
+  count?: number | undefined;
+  items?: ListUsersResponseItemsList | undefined;
 }
 export type ListVersionsRequestRegion = "eu01" | "eu02";
 export interface ListVersionsRequest {
@@ -487,7 +487,7 @@ export interface ListVersionsRequest {
 }
 export type ListVersionsResponseVersionsList = Array<string>;
 export interface ListVersionsResponse {
-  versions?: ListVersionsResponseVersionsList;
+  versions?: ListVersionsResponseVersionsList | undefined;
 }
 export type PartialUpdateInstanceRequestRegion = "eu01" | "eu02";
 /** Labels field is not certain/clear */
@@ -495,8 +495,8 @@ export type PartialUpdateInstanceRequestLabelsMap = { [key: string]: string | un
 export type PartialUpdateInstanceRequestOptionsMap = { [key: string]: string | undefined };
 export interface StorageUpdate {
   /** DEPRECATED: Starting November 2026, the API will reject requests that attempt to modify the storage class. */
-  class?: string;
-  size?: number;
+  class?: string | undefined;
+  size?: number | undefined;
 }
 export interface PartialUpdateInstanceRequest {
   /** project id */
@@ -505,19 +505,19 @@ export interface PartialUpdateInstanceRequest {
   region: PartialUpdateInstanceRequestRegion | (string & {});
   /** instance id */
   instanceId: string;
-  acl?: ACL;
-  backupSchedule?: string;
-  flavorId?: string;
+  acl?: ACL | undefined;
+  backupSchedule?: string | undefined;
+  flavorId?: string | undefined;
   /** Labels field is not certain/clear */
-  labels?: PartialUpdateInstanceRequestLabelsMap;
-  name?: string;
-  options?: PartialUpdateInstanceRequestOptionsMap;
-  replicas?: number;
-  storage?: StorageUpdate;
-  version?: string;
+  labels?: PartialUpdateInstanceRequestLabelsMap | undefined;
+  name?: string | undefined;
+  options?: PartialUpdateInstanceRequestOptionsMap | undefined;
+  replicas?: number | undefined;
+  storage?: StorageUpdate | undefined;
+  version?: string | undefined;
 }
 export interface UpdateInstanceResponse {
-  item?: Instance;
+  item?: Instance | undefined;
 }
 export type PartialUpdateUserRequestRegion = "eu01" | "eu02";
 /** The roles defined for a user. Currently only one role in the list is supported, therefore only the first role from this list is used. The *roles* attribute can contain the following values: 'read', 'readWrite', 'readAnyDatabase', 'readWriteAnyDatabase', 'stackitAdmin'. **The 'readAnyDatabase', 'readWriteAnyDatabase' and 'stackitAdmin' roles will always be created in the admin database.** */
@@ -531,9 +531,9 @@ export interface PartialUpdateUserRequest {
   instanceId: string;
   /** user id */
   userId: string;
-  database?: string;
+  database?: string | undefined;
   /** The roles defined for a user. Currently only one role in the list is supported, therefore only the first role from this list is used. The *roles* attribute can contain the following values: 'read', 'readWrite', 'readAnyDatabase', 'readWriteAnyDatabase', 'stackitAdmin'. **The 'readAnyDatabase', 'readWriteAnyDatabase' and 'stackitAdmin' roles will always be created in the admin database.** */
-  roles?: PartialUpdateUserRequestRolesList;
+  roles?: PartialUpdateUserRequestRolesList | undefined;
 }
 export interface PartialUpdateUserResponse {}
 export type ResetUserRequestRegion = "eu01" | "eu02";
@@ -558,7 +558,7 @@ export interface RestoreInstanceRequest {
   backupId: string;
 }
 export interface RestoreInstanceResponse {
-  item?: RestoreInstanceStatus;
+  item?: RestoreInstanceStatus | undefined;
 }
 export type UpdateBackupScheduleRequestRegion = "eu01" | "eu02";
 export interface UpdateBackupScheduleRequest {
@@ -568,20 +568,20 @@ export interface UpdateBackupScheduleRequest {
   region: UpdateBackupScheduleRequestRegion | (string & {});
   /** instance id */
   instanceId: string;
-  backupSchedule?: string;
-  dailySnapshotRetentionDays?: number;
-  monthlySnapshotRetentionMonths?: number;
-  pointInTimeWindowHours?: number;
-  snapshotRetentionDays?: number;
-  weeklySnapshotRetentionWeeks?: number;
+  backupSchedule?: string | undefined;
+  dailySnapshotRetentionDays?: number | undefined;
+  monthlySnapshotRetentionMonths?: number | undefined;
+  pointInTimeWindowHours?: number | undefined;
+  snapshotRetentionDays?: number | undefined;
+  weeklySnapshotRetentionWeeks?: number | undefined;
 }
 export interface BackupSchedule {
-  backupSchedule?: string;
-  dailySnapshotRetentionDays?: number;
-  monthlySnapshotRetentionMonths?: number;
-  pointInTimeWindowHours?: number;
-  snapshotRetentionDays?: number;
-  weeklySnapshotRetentionWeeks?: number;
+  backupSchedule?: string | undefined;
+  dailySnapshotRetentionDays?: number | undefined;
+  monthlySnapshotRetentionMonths?: number | undefined;
+  pointInTimeWindowHours?: number | undefined;
+  snapshotRetentionDays?: number | undefined;
+  weeklySnapshotRetentionWeeks?: number | undefined;
 }
 export type UpdateInstanceRequestRegion = "eu01" | "eu02";
 /** Labels field is not certain/clear */
@@ -598,7 +598,7 @@ export interface UpdateInstanceRequest {
   backupSchedule: string;
   flavorId: string;
   /** Labels field is not certain/clear */
-  labels?: UpdateInstanceRequestLabelsMap;
+  labels?: UpdateInstanceRequestLabelsMap | undefined;
   name: string;
   options: UpdateInstanceRequestOptionsMap;
   replicas: number;

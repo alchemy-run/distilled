@@ -274,21 +274,21 @@ export interface ListActivityLogRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** The pagination cursor value. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Filter by the ID of the affected resource. */
-  item_id?: string;
+  item_id?: string | undefined;
   /** Sort by when the entry was created. Defaults to newest first. Use created_at for oldest first when polling for new entries, so a saved cursor picks up where the last request stopped. * `-created_at` - -created_at * `created_at` - created_at */
-  ordering?: ListActivityLogRequestOrdering | (string & {});
+  ordering?: ListActivityLogRequestOrdering | (string & {}) | undefined;
   /** Page number for pagination. When provided, uses page-based pagination ordered by most recent first. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page (default: 100, max: 1000). */
-  page_size?: number;
+  page_size?: number | undefined;
   /** Filter by a single activity scope, e.g. "FeatureFlag", "Insight", "Dashboard", "Experiment". * `Cohort` - Cohort * `CrossProjectDashboard` - CrossProjectDashboard * `DevGatewayToken` - DevGatewayToken * `FeatureFlag` - FeatureFlag * `Person` - Person * `Group` - Group * `Insight` - Insight * `Plugin` - Plugin * `PluginConfig` - PluginConfig * `HogFunction` - HogFunction * `HogFlow` - HogFlow * `DataManagement` - DataManagement * `EventDefinition` - EventDefinition * `PropertyDefinition` - PropertyDefinition * `Notebook` - Notebook * `GeneratedWidget` - GeneratedWidget * `Canvas` - Canvas * `Endpoint` - Endpoint * `EndpointVersion` - EndpointVersion * `Dashboard` - Dashboard * `Replay` - Replay * `Experiment` - Experiment * `ExperimentHoldout` - ExperimentHoldout * `ExperimentSavedMetric` - ExperimentSavedMetric * `Survey` - Survey * `EarlyAccessFeature` - EarlyAccessFeature * `SessionRecordingPlaylist` - SessionRecordingPlaylist * `ReplayScanner` - ReplayScanner * `ReplayObservation` - ReplayObservation * `VisionAlertConfiguration` - VisionAlertConfiguration * `Comment` - Comment * `Team` - Team * `Project` - Project * `ErrorTrackingIssue` - ErrorTrackingIssue * `DataWarehouseExpression` - DataWarehouseExpression * `DataWarehouseSavedQuery` - DataWarehouseSavedQuery * `LegalDocument` - LegalDocument * `Organization` - Organization * `OrganizationDomain` - OrganizationDomain * `OrganizationIPRestrictions` - OrganizationIPRestrictions * `IdentityProviderConfig` - IdentityProviderConfig * `OrganizationMembership` - OrganizationMembership * `Role` - Role * `UserGroup` - UserGroup * `BatchExport` - BatchExport * `BatchImport` - BatchImport * `ExportedAsset` - ExportedAsset * `Integration` - Integration * `Annotation` - Annotation * `Tag` - Tag * `TaggedItem` - TaggedItem * `Subscription` - Subscription * `PersonalAPIKey` - PersonalAPIKey * `ProjectSecretAPIKey` - ProjectSecretAPIKey * `OAuthApplication` - OAuthApplication * `WorkloadTrustPolicy` - WorkloadTrustPolicy * `WorkloadTrustPolicyRequest` - WorkloadTrustPolicyRequest * `User` - User * `Action` - Action * `AccountView` - AccountView * `AlertConfiguration` - AlertConfiguration * `Threshold` - Threshold * `AlertSubscription` - AlertSubscription * `ExternalDataSource` - ExternalDataSource * `ExternalDataSchema` - ExternalDataSchema * `Evaluation` - Evaluation * `EvaluationDirectory` - EvaluationDirectory * `LLMPrompt` - LLMPrompt * `LLMPromptLabel` - LLMPromptLabel * `LLMSkill` - LLMSkill * `LLMTrace` - LLMTrace * `AIGatewayCredit` - AIGatewayCredit * `WebAnalyticsFilterPreset` - WebAnalyticsFilterPreset * `CustomerProfileConfig` - CustomerProfileConfig * `Log` - Log * `LogsAlertConfiguration` - LogsAlertConfiguration * `PlatformAlertConfiguration` - PlatformAlertConfiguration * `LogsExclusionRule` - LogsExclusionRule * `LogsRetentionRule` - LogsRetentionRule * `TracesRetentionRule` - TracesRetentionRule * `DashboardWidget` - DashboardWidget * `ProductTour` - ProductTour * `Ticket` - Ticket * `TicketMacro` - TicketMacro * `KnowledgeSource` - KnowledgeSource * `KnowledgeLibrary` - KnowledgeLibrary * `InstanceSetting` - InstanceSetting * `SignalReport` - SignalReport * `SignalScoutConfig` - SignalScoutConfig * `SignalSourceConfig` - SignalSourceConfig * `SignalTeamConfig` - SignalTeamConfig * `StreamlitApp` - StreamlitApp * `Metric` - Metric * `TableCertification` - TableCertification * `DataQualityCheck` - DataQualityCheck * `DataQualityCheckSchedule` - DataQualityCheckSchedule * `WarehouseSuggestion` - WarehouseSuggestion * `AccessControl` - AccessControl * `DataWarehouseTable` - DataWarehouseTable * `DataWarehouseJoin` - DataWarehouseJoin * `Billing` - Billing * `Loop` - Loop * `StamphogRepoConfig` - StamphogRepoConfig * `ReviewRepository` - ReviewRepository * `ReviewProjectSettings` - ReviewProjectSettings * `ReviewInstallationClaim` - ReviewInstallationClaim */
-  scope?: ListActivityLogRequestScope | (string & {});
+  scope?: ListActivityLogRequestScope | (string & {}) | undefined;
   /** Filter by multiple activity scopes, comma-separated. Values must be valid ActivityScope enum values. E.g. "FeatureFlag,Insight". */
-  scopes?: ListActivityLogRequestScopesList;
+  scopes?: ListActivityLogRequestScopesList | undefined;
   /** Filter by user UUID who performed the action. */
-  user?: string;
+  user?: string | undefined;
 }
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
@@ -305,15 +305,15 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 /** * `session` - session * `personal_api_key` - personal_api_key * `oauth` - oauth * `project_secret_key` - project_secret_key * `team_secret_token` - team_secret_token * `id_jag` - id_jag * `oidc_workload` - oidc_workload * `internal_jwt` - internal_jwt * `service_jwt` - service_jwt * `internal_api_secret` - internal_api_secret * `scim` - scim * `vercel` - vercel * `partner` - partner * `sharing_access_token` - sharing_access_token * `sharing_password` - sharing_password * `widget_token` - widget_token * `billing_service` - billing_service * `gateway_agent` - gateway_agent * `export_renderer` - export_renderer * `webhook` - webhook * `cross_region_signature` - cross_region_signature * `unattributed` - unattributed */
 export type ActivityLogCredentialTypeEnum =
@@ -340,32 +340,32 @@ export type ActivityLogCredentialTypeEnum =
   | "cross_region_signature"
   | "unattributed";
 export interface ActivityLog {
-  id?: string;
-  user?: UserBasic | null;
+  id?: string | undefined;
+  user?: UserBasic | null | undefined;
   /** is the date of this log item newer than the user's bookmark */
-  unread?: boolean;
-  team_id?: number | null;
-  organization_id?: string | null;
-  was_impersonated?: boolean | null;
-  is_system?: boolean | null;
-  client?: string | null;
-  ip_address?: string | null;
+  unread?: boolean | undefined;
+  team_id?: number | null | undefined;
+  organization_id?: string | null | undefined;
+  was_impersonated?: boolean | null | undefined;
+  is_system?: boolean | null | undefined;
+  client?: string | null | undefined;
+  ip_address?: string | null | undefined;
   /** Kind of credential that authenticated the request that made the change. 'unattributed' means the request recorded no credential. Null for changes made outside a request, such as background jobs, and for entries recorded before PostHog stored the credential. * `session` - session * `personal_api_key` - personal_api_key * `oauth` - oauth * `project_secret_key` - project_secret_key * `team_secret_token` - team_secret_token * `id_jag` - id_jag * `oidc_workload` - oidc_workload * `internal_jwt` - internal_jwt * `service_jwt` - service_jwt * `internal_api_secret` - internal_api_secret * `scim` - scim * `vercel` - vercel * `partner` - partner * `sharing_access_token` - sharing_access_token * `sharing_password` - sharing_password * `widget_token` - widget_token * `billing_service` - billing_service * `gateway_agent` - gateway_agent * `export_renderer` - export_renderer * `webhook` - webhook * `cross_region_signature` - cross_region_signature * `unattributed` - unattributed */
   credential_type: ActivityLogCredentialTypeEnum | null;
   /** Id of the credential that authenticated the change: the login session id for 'session', or the key id for 'personal_api_key' and 'project_secret_key'. Null for every other credential type and for impersonated changes. */
   credential_id: string | null;
-  activity?: string;
-  item_id?: string | null;
-  scope?: string;
-  detail?: unknown;
-  created_at?: string;
+  activity?: string | undefined;
+  item_id?: string | null | undefined;
+  scope?: string | undefined;
+  detail?: unknown | undefined;
+  created_at?: string | undefined;
 }
 export type PaginatedActivityLogListResultsList = Array<ActivityLog>;
 export interface PaginatedActivityLogList {
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedActivityLogListResultsList;
-  count?: number;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedActivityLogListResultsList | undefined;
+  count?: number | undefined;
 }
 export type ListActivityLogError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const listActivityLog: API.OperationMethod<

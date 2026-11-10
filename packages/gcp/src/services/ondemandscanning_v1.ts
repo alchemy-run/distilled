@@ -85,83 +85,83 @@ export class NotFound
 
 export type StringList = Array<string>;
 export interface PackageVersion {
-  name?: string;
+  name?: string | undefined;
   /** The licenses associated with this package. Note that this has to go on the PackageVersion level, because we can have cases with images with the same source having different licences. E.g. in Alpine, musl and musl-utils both have the same origin musl, but have different sets of licenses. */
-  licenses?: StringList;
-  version?: string;
+  licenses?: StringList | undefined;
+  version?: string | undefined;
 }
 export interface BinarySourceInfo {
   /** The binary package. This is significant when the source is different than the binary itself. Historically if they've differed, we've stored the name of the source and its version in the package/version fields, but we should also store the binary package info, as that's what's actually installed. */
-  binaryVersion?: PackageVersion;
+  binaryVersion?: PackageVersion | undefined;
   /** The source package. Similar to the above, this is significant when the source is different than the binary itself. Since the top-level package/version fields are based on an if/else, we need a separate field for both binary and source if we want to know definitively where the data is coming from. */
-  sourceVersion?: PackageVersion;
+  sourceVersion?: PackageVersion | undefined;
 }
 export type BinarySourceInfoList = Array<BinarySourceInfo>;
 /** BaseImage describes a base image of a container image. */
 export interface BaseImage {
   /** The name of the base image. */
-  name?: string;
+  name?: string | undefined;
   /** The number of layers that the base image is composed of. */
-  layerCount?: number;
+  layerCount?: number | undefined;
   /** The registry in which the base image is from. */
-  registry?: string;
+  registry?: string | undefined;
   /** The repository name in which the base image is from. */
-  repository?: string;
+  repository?: string | undefined;
 }
 export type BaseImageList = Array<BaseImage>;
 /** An attribute attached to a layer by a plugin. */
 export interface LayerAttribute {
   /** The name of the plugin that generated this attribute. */
-  plugin?: string;
+  plugin?: string | undefined;
   /** The value of the attribute, with a meaning defined by the plugin. */
-  value?: string;
+  value?: string | undefined;
 }
 export type LayerAttributeList = Array<LayerAttribute>;
 /** Details about the layer a package was found in. */
 export interface LayerDetails {
   /** The index of the layer in the container image. */
-  index?: number;
+  index?: number | undefined;
   /** The base images the layer is found within. */
-  baseImages?: BaseImageList;
+  baseImages?: BaseImageList | undefined;
   /** The layer chain ID (sha256 hash) of the layer in the container image. https://github.com/opencontainers/image-spec/blob/main/config.md#layer-chainid */
-  chainId?: string;
+  chainId?: string | undefined;
   /** Attributes attached to this layer by plugins. */
-  attributes?: LayerAttributeList;
+  attributes?: LayerAttributeList | undefined;
   /** The layer build command that was used to build the layer. This may not be found in all layers depending on how the container image is built. */
-  command?: string;
+  command?: string | undefined;
   /** The diff ID (sha256 hash) of the layer in the container image. */
-  diffId?: string;
+  diffId?: string | undefined;
 }
 /** Indicates the location at which a package was found. */
 export interface FileLocation {
   /** Line number in the file where the package is found. Applies only to source repository scanning. Note: this field is marked as `optional` in other corresponding protos, but in edition 2023, the "optional" keyword is redundant. */
-  lineNumber?: number;
-  layerDetails?: LayerDetails;
+  lineNumber?: number | undefined;
+  layerDetails?: LayerDetails | undefined;
   /** For jars that are contained inside .war files, this filepath can indicate the path to war file combined with the path to jar file. */
-  filePath?: string;
+  filePath?: string | undefined;
 }
 export type FileLocationList = Array<FileLocation>;
 /** Indicates a language package available between this package and the customer's resource artifact. */
 export interface LanguagePackageDependency {
-  package?: string;
-  version?: string;
+  package?: string | undefined;
+  version?: string | undefined;
 }
 export type LanguagePackageDependencyList = Array<LanguagePackageDependency>;
 export type IngestionSourceSourceEnum = "SOURCE_UNSPECIFIED" | "DOCKER_IMAGE" | "SBOM_ATTACHMENT";
 /** Indicates where an extracted package originates from. */
 export interface IngestionSource {
   /** The attachment URI that this package was extracted from. */
-  attachmentUri?: string;
+  attachmentUri?: string | undefined;
   /** The resource URL of the resource that was scanned to find this package. */
-  resourceUrl?: string;
-  source?: IngestionSourceSourceEnum | (string & {});
+  resourceUrl?: string | undefined;
+  source?: IngestionSourceSourceEnum | (string & {}) | undefined;
 }
 export type IngestionSourceList = Array<IngestionSource>;
 export interface Maintainer {
-  email?: string;
-  url?: string;
-  name?: string;
-  kind?: string;
+  email?: string | undefined;
+  url?: string | undefined;
+  name?: string | undefined;
+  kind?: string | undefined;
 }
 export type PackageDataPackageTypeEnum =
   | "PACKAGE_TYPE_UNSPECIFIED"
@@ -178,82 +178,82 @@ export type PackageDataPackageTypeEnum =
   | "SWIFT";
 export interface PackageData {
   /** Deprecated: Top-level licenses is not persisted in the legacy Packages table. Licenses are captured in BinarySourceInfo or PackagesV2. */
-  licenses?: StringList;
+  licenses?: StringList | undefined;
   /** A bundle containing the binary and source information. */
-  binarySourceInfo?: BinarySourceInfoList;
-  unused?: string;
+  binarySourceInfo?: BinarySourceInfoList | undefined;
+  unused?: string | undefined;
   /** The version of the package being analysed */
-  version?: string;
+  version?: string | undefined;
   /** Deprecated: Layer details are captured per file location in FileLocation.layer_details. Top-level layer details is not persisted. */
-  layerDetails?: LayerDetails;
+  layerDetails?: LayerDetails | undefined;
   /** The package being analysed for vulnerabilities */
-  package?: string;
+  package?: string | undefined;
   /** The version of the OS Used to generate the cpe_uri for OS packages */
-  osVersion?: string;
+  osVersion?: string | undefined;
   /** HashDigest stores the SHA512 hash digest of the jar file if the package is of type Maven. This field will be unset for non Maven packages. */
-  hashDigest?: string;
+  hashDigest?: string | undefined;
   /** The cpe_uri in [cpe format] (https://cpe.mitre.org/specification/) in which the vulnerability may manifest. Examples include distro or storage location for vulnerable jar. */
-  cpeUri?: string;
+  cpeUri?: string | undefined;
   /** The path to the jar file / go binary file. */
-  fileLocation?: FileLocationList;
+  fileLocation?: FileLocationList | undefined;
   /** The dependency chain between this package and the user's artifact. List in order from the customer's package under review first, to the current package last. Inclusive of the original package and the current package. */
-  dependencyChain?: LanguagePackageDependencyList;
+  dependencyChain?: LanguagePackageDependencyList | undefined;
   /** The list of sources that were scanned to find this package. This can be a Docker image, an SBOM attachment, or both, for example. */
-  ingestionSources?: IngestionSourceList;
+  ingestionSources?: IngestionSourceList | undefined;
   /** The maintainer of the package. */
-  maintainer?: Maintainer;
+  maintainer?: Maintainer | undefined;
   /** The OS affected by a vulnerability Used to generate the cpe_uri for OS packages */
-  os?: string;
+  os?: string | undefined;
   /** DEPRECATED */
-  binaryVersion?: PackageVersion;
+  binaryVersion?: PackageVersion | undefined;
   /** The type of package: os, maven, go, etc. */
-  packageType?: PackageDataPackageTypeEnum | (string & {});
+  packageType?: PackageDataPackageTypeEnum | (string & {}) | undefined;
   /** The architecture of the package. */
-  architecture?: string;
+  architecture?: string | undefined;
   /** CVEs that this package is no longer vulnerable to */
-  patchedCve?: StringList;
+  patchedCve?: StringList | undefined;
   /** DEPRECATED */
-  sourceVersion?: PackageVersion;
+  sourceVersion?: PackageVersion | undefined;
 }
 export type PackageDataList = Array<PackageData>;
 /** AnalyzePackagesRequest is the request to analyze a list of packages and create Vulnerability Occurrences for it. */
 export interface AnalyzePackagesRequestV1 {
   /** [DEPRECATED] Whether to include OSV data in the scan. For backwards compatibility reasons, this field can be neither removed nor renamed. */
-  includeOsvData?: boolean;
+  includeOsvData?: boolean | undefined;
   /** Required. The resource URI of the container image being scanned. */
-  resourceUri?: string;
+  resourceUri?: string | undefined;
   /** The packages to analyze. */
-  packages?: PackageDataList;
+  packages?: PackageDataList | undefined;
 }
 export interface AnalyzePackagesProjectsLocationsScansRequest {
   /** Required. The parent of the resource for which analysis is requested. Format: projects/[project_name]/locations/[location] */
   parent: string;
   /** Request body */
-  body?: AnalyzePackagesRequestV1;
+  body?: AnalyzePackagesRequestV1 | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
 }
 export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
@@ -271,31 +271,31 @@ export interface GetProjectsLocationsOperationsRequest {
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsScansVulnerabilitiesRequest {
   /** The page token, resulting from a previous call to ListVulnerabilities. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The number of vulnerabilities to retrieve. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent of the collection of Vulnerabilities being requested. Format: projects/[project_name]/locations/[location]/scans/[scan_id] */
   parent: string;
 }
@@ -307,22 +307,22 @@ export type MalwareScanResultScanStatusEnum =
 /** Result of Malware scan. */
 export interface MalwareScanResult {
   /** Verdict of the scan. */
-  verdict?: MalwareScanResultVerdictEnum;
+  verdict?: MalwareScanResultVerdictEnum | undefined;
   /** Status of the scan. */
-  scanStatus?: MalwareScanResultScanStatusEnum;
+  scanStatus?: MalwareScanResultScanStatusEnum | undefined;
 }
 /** Token usage associated with an AI scan. */
 export interface TokenUsage {
   /** Cache matched tokens for implicit cache. */
-  cacheCount?: string;
+  cacheCount?: string | undefined;
   /** Tokens in the user request. */
-  promptCount?: string;
+  promptCount?: string | undefined;
   /** Prompt tokens for using tools. */
-  toolUsePromptCount?: string;
+  toolUsePromptCount?: string | undefined;
   /** Tokens in the model response. */
-  candidateCount?: string;
+  candidateCount?: string | undefined;
   /** Tokens in the thinking output. */
-  thinkingCount?: string;
+  thinkingCount?: string | undefined;
 }
 export type MaliciousContentLLMResultMaxSeverityEnum = "SEVERITY_UNSPECIFIED" | "CRITICAL" | "HIGH";
 export type MaliciousContentLLMResultScanStatusEnum =
@@ -332,13 +332,13 @@ export type MaliciousContentLLMResultScanStatusEnum =
 /** Result of Malicious Content LLM scan. */
 export interface MaliciousContentLLMResult {
   /** Telemetry metrics tracking token usage for the AI scan. */
-  tokenUsage?: TokenUsage;
+  tokenUsage?: TokenUsage | undefined;
   /** Tracks max severity found. */
-  maxSeverity?: MaliciousContentLLMResultMaxSeverityEnum;
+  maxSeverity?: MaliciousContentLLMResultMaxSeverityEnum | undefined;
   /** Status of the scan. */
-  scanStatus?: MaliciousContentLLMResultScanStatusEnum;
+  scanStatus?: MaliciousContentLLMResultScanStatusEnum | undefined;
   /** The base name of the model that performed the scan. */
-  modelId?: string;
+  modelId?: string | undefined;
 }
 export type MaliciousContentStaticResultMaxSeverityEnum =
   | "SEVERITY_UNSPECIFIED"
@@ -351,9 +351,9 @@ export type MaliciousContentStaticResultScanStatusEnum =
 /** Result of Malicious Content Static scan. */
 export interface MaliciousContentStaticResult {
   /** Tracks max severity found. */
-  maxSeverity?: MaliciousContentStaticResultMaxSeverityEnum;
+  maxSeverity?: MaliciousContentStaticResultMaxSeverityEnum | undefined;
   /** Status of the scan. */
-  scanStatus?: MaliciousContentStaticResultScanStatusEnum;
+  scanStatus?: MaliciousContentStaticResultScanStatusEnum | undefined;
 }
 export type WorkspacePolicyResultVerdictEnum = "VERDICT_UNSPECIFIED" | "PASSED" | "FAILED";
 export type WorkspacePolicyResultScanStatusEnum =
@@ -363,19 +363,19 @@ export type WorkspacePolicyResultScanStatusEnum =
 /** Result of Workspace Policy scan. */
 export interface WorkspacePolicyResult {
   /** Verdict of the scan. */
-  verdict?: WorkspacePolicyResultVerdictEnum;
+  verdict?: WorkspacePolicyResultVerdictEnum | undefined;
   /** Status of the scan. */
-  scanStatus?: WorkspacePolicyResultScanStatusEnum;
+  scanStatus?: WorkspacePolicyResultScanStatusEnum | undefined;
 }
 export interface PerScannerVerdict {
   /** Malware scan result. */
-  malwareScan?: MalwareScanResult;
+  malwareScan?: MalwareScanResult | undefined;
   /** Malicious Content LLM scan result. */
-  maliciousContentLlmResult?: MaliciousContentLLMResult;
+  maliciousContentLlmResult?: MaliciousContentLLMResult | undefined;
   /** Malicious Content Static scan result. */
-  maliciousContentStaticResult?: MaliciousContentStaticResult;
+  maliciousContentStaticResult?: MaliciousContentStaticResult | undefined;
   /** Workspace Policy scan result. */
-  workspacePolicy?: WorkspacePolicyResult;
+  workspacePolicy?: WorkspacePolicyResult | undefined;
 }
 export type AISkillAnalysisOccurrenceMaxSeverityEnum = "SEVERITY_UNSPECIFIED" | "CRITICAL" | "HIGH";
 export type FindingScannerEnum =
@@ -387,61 +387,61 @@ export type FindingScannerEnum =
 /** Location details with file path and line number. */
 export interface FindingLocation {
   /** Line number (1-based), or 0 if whole File / unknown. */
-  lineNumber?: string;
+  lineNumber?: string | undefined;
   /** Relative path of the file containing the finding. */
-  filePath?: string;
+  filePath?: string | undefined;
 }
 export type FindingSeverityEnum = "SEVERITY_UNSPECIFIED" | "CRITICAL" | "HIGH";
 /** Finding provides details for a single finding within an AISkillAnalysisOccurrence. */
 export interface Finding {
   /** Scanner determines which engine (e.g. static, llm) emitted the finding. */
-  scanner?: FindingScannerEnum;
+  scanner?: FindingScannerEnum | undefined;
   /** Description of the finding category. */
-  details?: string;
+  details?: string | undefined;
   /** Location (path and line) where the finding was detected. */
-  location?: FindingLocation;
+  location?: FindingLocation | undefined;
   /** Severity of the finding. */
-  severity?: FindingSeverityEnum;
+  severity?: FindingSeverityEnum | undefined;
   /** Category of the finding. */
-  category?: string;
+  category?: string | undefined;
 }
 export type FindingList = Array<Finding>;
 /** AISkillAnalysisOccurrence provides the results of an AI-based skill analysis. */
 export interface AISkillAnalysisOccurrence {
   /** Per scanner verdict. */
-  perScannerVerdict?: PerScannerVerdict;
+  perScannerVerdict?: PerScannerVerdict | undefined;
   /** Maximum severity found among findings. Per scanner verdict details. */
-  maxSeverity?: AISkillAnalysisOccurrenceMaxSeverityEnum;
+  maxSeverity?: AISkillAnalysisOccurrenceMaxSeverityEnum | undefined;
   /** Name of the skill that produced this analysis. */
-  skillName?: string;
+  skillName?: string | undefined;
   /** Findings produced by the analysis. */
-  findings?: FindingList;
+  findings?: FindingList | undefined;
 }
 /** Details about files that caused a compliance check to fail. display_command is a single command that can be used to display a list of non compliant files. When there is no such command, we can also iterate a list of non compliant file using 'path'. */
 export interface NonCompliantFile {
   /** Explains why a file is non compliant for a CIS check. */
-  reason?: string;
+  reason?: string | undefined;
   /** Empty if `display_command` is set. */
-  path?: string;
+  path?: string | undefined;
   /** Command to display the non-compliant files. */
-  displayCommand?: string;
+  displayCommand?: string | undefined;
 }
 export type NonCompliantFileList = Array<NonCompliantFile>;
 /** Describes the CIS benchmark version that is applicable to a given OS and os version. */
 export interface ComplianceVersion {
   /** The CPE URI (https://cpe.mitre.org/specification/) this benchmark is applicable to. */
-  cpeUri?: string;
+  cpeUri?: string | undefined;
   /** The version of the benchmark. This is set to the version of the OS-specific CIS document the benchmark is defined in. */
-  version?: string;
+  version?: string | undefined;
   /** The name of the document that defines this benchmark, e.g. "CIS Container-Optimized OS". */
-  benchmarkDocument?: string;
+  benchmarkDocument?: string | undefined;
 }
 /** An indication that the compliance checks in the associated ComplianceNote were not satisfied for particular resources or a specified reason. */
 export interface ComplianceOccurrence {
-  nonCompliantFiles?: NonCompliantFileList;
+  nonCompliantFiles?: NonCompliantFileList | undefined;
   /** The OS and config version the benchmark was run on. */
-  version?: ComplianceVersion;
-  nonComplianceReason?: string;
+  version?: ComplianceVersion | undefined;
+  nonComplianceReason?: string | undefined;
 }
 export type VulnerabilityOccurrenceSeverityEnum =
   | "SEVERITY_UNSPECIFIED"
@@ -460,16 +460,16 @@ export type JustificationJustificationTypeEnum =
 /** Justification provides the justification when the state of the assessment if NOT_AFFECTED. */
 export interface Justification {
   /** The justification type for this vulnerability. */
-  justificationType?: JustificationJustificationTypeEnum;
+  justificationType?: JustificationJustificationTypeEnum | undefined;
   /** Additional details on why this justification was chosen. */
-  details?: string;
+  details?: string | undefined;
 }
 /** Metadata for any related URL information. */
 export interface RelatedUrl {
   /** Specific URL associated with the resource. */
-  url?: string;
+  url?: string | undefined;
   /** Label to describe usage of the URL. */
-  label?: string;
+  label?: string | undefined;
 }
 export type RemediationRemediationTypeEnum =
   | "REMEDIATION_TYPE_UNSPECIFIED"
@@ -481,11 +481,11 @@ export type RemediationRemediationTypeEnum =
 /** Specifies details on how to handle (and presumably, fix) a vulnerability. */
 export interface Remediation {
   /** Contains the URL where to obtain the remediation. */
-  remediationUri?: RelatedUrl;
+  remediationUri?: RelatedUrl | undefined;
   /** Contains a comprehensive human-readable discussion of the remediation. */
-  details?: string;
+  details?: string | undefined;
   /** The type of remediation that can be applied. */
-  remediationType?: RemediationRemediationTypeEnum;
+  remediationType?: RemediationRemediationTypeEnum | undefined;
 }
 export type RemediationList = Array<Remediation>;
 export type VexAssessmentStateEnum =
@@ -498,21 +498,21 @@ export type RelatedUrlList = Array<RelatedUrl>;
 /** VexAssessment provides all publisher provided Vex information that is related to this vulnerability. */
 export interface VexAssessment {
   /** Holds the MITRE standard Common Vulnerabilities and Exposures (CVE) tracking number for the vulnerability. Deprecated: Use vulnerability_id instead to denote CVEs. */
-  cve?: string;
+  cve?: string | undefined;
   /** The VulnerabilityAssessment note from which this VexAssessment was generated. This will be of the form: `projects/[PROJECT_ID]/notes/[NOTE_ID]`. */
-  noteName?: string;
+  noteName?: string | undefined;
   /** The vulnerability identifier for this Assessment. Will hold one of common identifiers e.g. CVE, GHSA etc. */
-  vulnerabilityId?: string;
+  vulnerabilityId?: string | undefined;
   /** Justification provides the justification when the state of the assessment if NOT_AFFECTED. */
-  justification?: Justification;
+  justification?: Justification | undefined;
   /** Specifies details on how to handle (and presumably, fix) a vulnerability. */
-  remediations?: RemediationList;
+  remediations?: RemediationList | undefined;
   /** Provides the state of this Vulnerability assessment. */
-  state?: VexAssessmentStateEnum;
+  state?: VexAssessmentStateEnum | undefined;
   /** Holds a list of references associated with this vulnerability item and assessment. */
-  relatedUris?: RelatedUrlList;
+  relatedUris?: RelatedUrlList | undefined;
   /** Contains information about the impact of this vulnerability, this will change with time. */
-  impacts?: StringList;
+  impacts?: StringList | undefined;
 }
 export type PackageIssueEffectiveSeverityEnum =
   | "SEVERITY_UNSPECIFIED"
@@ -525,17 +525,17 @@ export type VersionKindEnum = "VERSION_KIND_UNSPECIFIED" | "NORMAL" | "MINIMUM" 
 /** Version contains structured information about the version of a package. */
 export interface Version {
   /** Required. Distinguishes between sentinel MIN/MAX versions and normal versions. */
-  kind?: VersionKindEnum;
+  kind?: VersionKindEnum | undefined;
   /** Whether this version is specifying part of an inclusive range. Grafeas does not have the capability to specify version ranges; instead we have fields that specify start version and end versions. At times this is insufficient - we also need to specify whether the version is included in the range or is excluded from the range. This boolean is expected to be set to true when the version is included in a range. */
-  inclusive?: boolean;
+  inclusive?: boolean | undefined;
   /** Required only when version kind is NORMAL. The main part of the version name. */
-  name?: string;
+  name?: string | undefined;
   /** The iteration of the package build from the above version. */
-  revision?: string;
+  revision?: string | undefined;
   /** Human readable version string. This string is of the form :- and is only set when kind is NORMAL. */
-  fullName?: string;
+  fullName?: string | undefined;
   /** Used to correct mistakes in the version numbering scheme. */
-  epoch?: number;
+  epoch?: number | undefined;
 }
 /** LayerAttribute represents a single attribute (such as a tag) that applies to a layer, along with the plugin that generated it. */
 export type GrafeasV1LayerAttribute = LayerAttribute;
@@ -543,38 +543,38 @@ export type GrafeasV1LayerAttributeList = Array<LayerAttribute>;
 /** BaseImage describes a base image of a container image. */
 export interface GrafeasV1BaseImage {
   /** The number of layers that the base image is composed of. */
-  layerCount?: number;
+  layerCount?: number | undefined;
   /** The name of the base image. */
-  name?: string;
+  name?: string | undefined;
   /** The repository name in which the base image is from. */
-  repository?: string;
+  repository?: string | undefined;
   /** The registry in which the base image is from. */
-  registry?: string;
+  registry?: string | undefined;
 }
 export type GrafeasV1BaseImageList = Array<GrafeasV1BaseImage>;
 /** Details about the layer a package was found in. */
 export interface GrafeasV1LayerDetails {
   /** Attributes that apply to the layer, such as buildpacks metadata. */
-  attributes?: GrafeasV1LayerAttributeList;
+  attributes?: GrafeasV1LayerAttributeList | undefined;
   /** The layer build command that was used to build the layer. This may not be found in all layers depending on how the container image is built. */
-  command?: string;
+  command?: string | undefined;
   /** The index of the layer in the container image. */
-  index?: number;
+  index?: number | undefined;
   /** The base images the layer is found within. */
-  baseImages?: GrafeasV1BaseImageList;
+  baseImages?: GrafeasV1BaseImageList | undefined;
   /** The layer chain ID (sha256 hash) of the layer in the container image. https://github.com/opencontainers/image-spec/blob/main/config.md#layer-chainid */
-  chainId?: string;
+  chainId?: string | undefined;
   /** The diff ID (typically a sha256 hash) of the layer in the container image. */
-  diffId?: string;
+  diffId?: string | undefined;
 }
 /** Indicates the location at which a package was found. */
 export interface GrafeasV1FileLocation {
   /** Each package found in a file should have its own layer metadata (that is, information from the origin layer of the package). */
-  layerDetails?: GrafeasV1LayerDetails;
+  layerDetails?: GrafeasV1LayerDetails | undefined;
   /** Line number in the file where the package was found. Optional field that only applies to source repository scanning. */
-  lineNumber?: number;
+  lineNumber?: number | undefined;
   /** For jars that are contained inside .war files, this filepath can indicate the path to war file combined with the path to jar file. */
-  filePath?: string;
+  filePath?: string | undefined;
 }
 export type GrafeasV1FileLocationList = Array<GrafeasV1FileLocation>;
 export type ExploitabilitySignalVexJustificationEnum =
@@ -593,13 +593,13 @@ export type ExploitabilitySignalVexStatusEnum =
 /** A single exploitability signal from a specific source (e.g., an upstream advisory, a customer VEX document, or an internal build analysis). */
 export interface ExploitabilitySignal {
   /** Identifier of the signal source. */
-  source?: string;
+  source?: string | undefined;
   /** Justification for why the vulnerability is not exploitable. */
-  vexJustification?: ExploitabilitySignalVexJustificationEnum;
+  vexJustification?: ExploitabilitySignalVexJustificationEnum | undefined;
   /** The VEX status asserted by this signal. */
-  vexStatus?: ExploitabilitySignalVexStatusEnum;
+  vexStatus?: ExploitabilitySignalVexStatusEnum | undefined;
   /** Human-readable explanation of this signal. */
-  rationale?: string;
+  rationale?: string | undefined;
 }
 export type ExploitabilitySignalList = Array<ExploitabilitySignal>;
 export type ExploitabilitySummaryVexStatusEnum =
@@ -611,58 +611,58 @@ export type ExploitabilitySummaryVexStatusEnum =
 /** Rollup summary of exploitability across signals. */
 export interface ExploitabilitySummary {
   /** The rolled-up VEX status. Usually, this should result in an AFFECTED or NOT_AFFECTED vex status. */
-  vexStatus?: ExploitabilitySummaryVexStatusEnum;
+  vexStatus?: ExploitabilitySummaryVexStatusEnum | undefined;
   /** Human-readable explanation of the summary. */
-  rationale?: string;
+  rationale?: string | undefined;
 }
 /** Exploitability information for a vulnerability. This data can be used across multiple sources, including, but not limited to a top-level vulnerability, a package occurrence, or a package file location. */
 export interface Exploitability {
   /** Individual exploitability signals from various sources. */
-  signals?: ExploitabilitySignalList;
+  signals?: ExploitabilitySignalList | undefined;
   /** Rollup summary of the exploitability signals. */
-  summary?: ExploitabilitySummary;
+  summary?: ExploitabilitySummary | undefined;
 }
 /** A detail for a distro and package this vulnerability occurrence was found in and its associated fix (if one is available). */
 export interface PackageIssue {
   /** Required. The [CPE URI](https://cpe.mitre.org/specification/) this vulnerability was found in. */
-  affectedCpeUri?: string;
+  affectedCpeUri?: string | undefined;
   /** The [CPE URI](https://cpe.mitre.org/specification/) this vulnerability was fixed in. It is possible for this to be different from the affected_cpe_uri. */
-  fixedCpeUri?: string;
+  fixedCpeUri?: string | undefined;
   /** The package this vulnerability was fixed in. It is possible for this to be different from the affected_package. */
-  fixedPackage?: string;
+  fixedPackage?: string | undefined;
   /** Output only. The distro or language system assigned severity for this vulnerability when that is available and note provider assigned severity when it is not available. */
-  effectiveSeverity?: PackageIssueEffectiveSeverityEnum;
+  effectiveSeverity?: PackageIssueEffectiveSeverityEnum | undefined;
   /** Output only. Whether a fix is available for this package. */
-  fixAvailable?: boolean;
+  fixAvailable?: boolean | undefined;
   /** Required. The version of the package this vulnerability was fixed in. Setting this to VersionKind.MAXIMUM means no fix is yet available. */
-  fixedVersion?: Version;
+  fixedVersion?: Version | undefined;
   /** Required. The version of the package that is installed on the resource affected by this vulnerability. */
-  affectedVersion?: Version;
+  affectedVersion?: Version | undefined;
   /** The location at which this package was found. */
-  fileLocation?: GrafeasV1FileLocationList;
+  fileLocation?: GrafeasV1FileLocationList | undefined;
   /** Output only. Exploitability signals and summary for this package issue. */
-  exploitability?: Exploitability;
+  exploitability?: Exploitability | undefined;
   /** The type of package (e.g. OS, MAVEN, GO). */
-  packageType?: string;
+  packageType?: string | undefined;
   /** Required. The package this vulnerability was found in. */
-  affectedPackage?: string;
+  affectedPackage?: string | undefined;
 }
 export type PackageIssueList = Array<PackageIssue>;
 export interface ExploitPredictionScoringSystem {
   /** The EPSS score representing the probability [0-1] of exploitation in the wild in the next 30 days */
-  score?: number;
+  score?: number | undefined;
   /** The percentile of the current score, the proportion of all scored vulnerabilities with the same or a lower EPSS score */
-  percentile?: number;
+  percentile?: number | undefined;
 }
 export interface CISAKnownExploitedVulnerabilities {
   /** Whether the vulnerability is known to have been leveraged as part of a ransomware campaign. */
-  knownRansomwareCampaignUse?: string;
+  knownRansomwareCampaignUse?: string | undefined;
 }
 export interface Risk {
   /** The Exploit Prediction Scoring System (EPSS) estimates the likelihood (probability) that a software vulnerability will be exploited in the wild. */
-  epss?: ExploitPredictionScoringSystem;
+  epss?: ExploitPredictionScoringSystem | undefined;
   /** CISA maintains the authoritative source of vulnerabilities that have been exploited in the wild. */
-  cisaKev?: CISAKnownExploitedVulnerabilities;
+  cisaKev?: CISAKnownExploitedVulnerabilities | undefined;
 }
 export type CVSSVulnerableSystemIntegrityImpactEnum =
   | "IMPACT_UNSPECIFIED"
@@ -768,43 +768,43 @@ export type CVSSPrivilegesRequiredEnum =
 /** Common Vulnerability Scoring System. For details, see https://www.first.org/cvss/specification-document This is a message we will try to use for storing various versions of CVSS rather than making a separate proto for storing a specific version. */
 export interface CVSS {
   /** Vulnerable System Integrity Impact (VI). Defined in CVSS v4. */
-  vulnerableSystemIntegrityImpact?: CVSSVulnerableSystemIntegrityImpactEnum;
-  exploitabilityScore?: number;
+  vulnerableSystemIntegrityImpact?: CVSSVulnerableSystemIntegrityImpactEnum | undefined;
+  exploitabilityScore?: number | undefined;
   /** Vulnerable System Availability Impact (VA). Defined in CVSS v4. */
-  vulnerableSystemAvailabilityImpact?: CVSSVulnerableSystemAvailabilityImpactEnum;
+  vulnerableSystemAvailabilityImpact?: CVSSVulnerableSystemAvailabilityImpactEnum | undefined;
   /** Attack Complexity (AC). Defined in CVSS v2, v3, v4. */
-  attackComplexity?: CVSSAttackComplexityEnum;
+  attackComplexity?: CVSSAttackComplexityEnum | undefined;
   /** Subsequent System Integrity Impact (SI). Defined in CVSS v4. */
-  subsequentSystemIntegrityImpact?: CVSSSubsequentSystemIntegrityImpactEnum;
+  subsequentSystemIntegrityImpact?: CVSSSubsequentSystemIntegrityImpactEnum | undefined;
   /** Attack Vector (AV). Defined in CVSS v2, v3, v4. */
-  attackVector?: CVSSAttackVectorEnum;
+  attackVector?: CVSSAttackVectorEnum | undefined;
   /** User Interaction (UI). Defined in CVSS v3, v4. */
-  userInteraction?: CVSSUserInteractionEnum;
+  userInteraction?: CVSSUserInteractionEnum | undefined;
   /** Authentication (Au). Defined in CVSS v2. */
-  authentication?: CVSSAuthenticationEnum;
+  authentication?: CVSSAuthenticationEnum | undefined;
   /** Confidentiality Impact (C). Defined in CVSS v2, v3. */
-  confidentialityImpact?: CVSSConfidentialityImpactEnum;
+  confidentialityImpact?: CVSSConfidentialityImpactEnum | undefined;
   /** Integrity Impact (I). Defined in CVSS v2, v3. */
-  integrityImpact?: CVSSIntegrityImpactEnum;
+  integrityImpact?: CVSSIntegrityImpactEnum | undefined;
   /** Subsequent System Confidentiality Impact (SC). Defined in CVSS v4. */
-  subsequentSystemConfidentialityImpact?: CVSSSubsequentSystemConfidentialityImpactEnum;
+  subsequentSystemConfidentialityImpact?: CVSSSubsequentSystemConfidentialityImpactEnum | undefined;
   /** Availability Impact (A). Defined in CVSS v2, v3. */
-  availabilityImpact?: CVSSAvailabilityImpactEnum;
+  availabilityImpact?: CVSSAvailabilityImpactEnum | undefined;
   /** Exploit Maturity (E). Defined in CVSS v4. */
-  exploitMaturity?: CVSSExploitMaturityEnum;
+  exploitMaturity?: CVSSExploitMaturityEnum | undefined;
   /** Vulnerable System Confidentiality Impact (VC). Defined in CVSS v4. */
-  vulnerableSystemConfidentialityImpact?: CVSSVulnerableSystemConfidentialityImpactEnum;
+  vulnerableSystemConfidentialityImpact?: CVSSVulnerableSystemConfidentialityImpactEnum | undefined;
   /** The base score is a function of the base metric scores. */
-  baseScore?: number;
+  baseScore?: number | undefined;
   /** Attack Requirements (AT). Defined in CVSS v4. */
-  attackRequirements?: CVSSAttackRequirementsEnum;
+  attackRequirements?: CVSSAttackRequirementsEnum | undefined;
   /** Subsequent System Availability Impact (SA). Defined in CVSS v4. */
-  subsequentSystemAvailabilityImpact?: CVSSSubsequentSystemAvailabilityImpactEnum;
+  subsequentSystemAvailabilityImpact?: CVSSSubsequentSystemAvailabilityImpactEnum | undefined;
   /** Scope (S). Defined in CVSS v3. */
-  scope?: CVSSScopeEnum;
+  scope?: CVSSScopeEnum | undefined;
   /** Privileges Required (PR). Defined in CVSS v3, v4. */
-  privilegesRequired?: CVSSPrivilegesRequiredEnum;
-  impactScore?: number;
+  privilegesRequired?: CVSSPrivilegesRequiredEnum | undefined;
+  impactScore?: number | undefined;
 }
 export type VulnerabilityOccurrenceEffectiveSeverityEnum =
   | "SEVERITY_UNSPECIFIED"
@@ -821,38 +821,38 @@ export type VulnerabilityOccurrenceCvssVersionEnum =
 /** An occurrence of a severity vulnerability on a resource. */
 export interface VulnerabilityOccurrence {
   /** Output only. The note provider assigned severity of this vulnerability. */
-  severity?: VulnerabilityOccurrenceSeverityEnum;
-  vexAssessment?: VexAssessment;
+  severity?: VulnerabilityOccurrenceSeverityEnum | undefined;
+  vexAssessment?: VexAssessment | undefined;
   /** The type of package; whether native or non native (e.g., ruby gems, node.js packages, etc.). */
-  type?: string;
+  type?: string | undefined;
   /** Required. The set of affected locations and their fixes (if available) within the associated resource. */
-  packageIssue?: PackageIssueList;
+  packageIssue?: PackageIssueList | undefined;
   /** Risk information about the vulnerability, such as CISA, EPSS, etc. */
-  risk?: Risk;
+  risk?: Risk | undefined;
   /** The cvss v2 score for the vulnerability. */
-  cvssV2?: CVSS;
+  cvssV2?: CVSS | undefined;
   /** The cvss v3 score for the vulnerability. */
-  cvssv3?: CVSS;
+  cvssv3?: CVSS | undefined;
   /** Output only. Whether at least one of the affected packages has a fix available. */
-  fixAvailable?: boolean;
+  fixAvailable?: boolean | undefined;
   /** Output only. The CVSS score of this vulnerability. CVSS score is on a scale of 0 - 10 where 0 indicates low severity and 10 indicates high severity. */
-  cvssScore?: number;
+  cvssScore?: number | undefined;
   /** The distro assigned severity for this vulnerability when it is available, otherwise this is the note provider assigned severity. When there are multiple PackageIssues for this vulnerability, they can have different effective severities because some might be provided by the distro while others are provided by the language ecosystem for a language pack. For this reason, it is advised to use the effective severity on the PackageIssue level. In the case where multiple PackageIssues have differing effective severities, this field should be the highest severity for any of the PackageIssues. */
-  effectiveSeverity?: VulnerabilityOccurrenceEffectiveSeverityEnum;
+  effectiveSeverity?: VulnerabilityOccurrenceEffectiveSeverityEnum | undefined;
   /** Output only. Rollup of exploitability across all PackageIssues in this occurrence. */
-  exploitability?: Exploitability;
+  exploitability?: Exploitability | undefined;
   /** Occurrence-specific extra details about the vulnerability. */
-  extraDetails?: string;
+  extraDetails?: string | undefined;
   /** The cvss v4 score for the vulnerability. */
-  cvssV4?: CVSS;
+  cvssV4?: CVSS | undefined;
   /** Output only. A detailed description of this vulnerability. */
-  longDescription?: string;
+  longDescription?: string | undefined;
   /** Output only. CVSS version used to populate cvss_score and severity. */
-  cvssVersion?: VulnerabilityOccurrenceCvssVersionEnum;
+  cvssVersion?: VulnerabilityOccurrenceCvssVersionEnum | undefined;
   /** Output only. URLs related to this vulnerability. */
-  relatedUrls?: RelatedUrlList;
+  relatedUrls?: RelatedUrlList | undefined;
   /** Output only. A one sentence description of this vulnerability. */
-  shortDescription?: string;
+  shortDescription?: string | undefined;
 }
 export type DiscoveryOccurrenceContinuousAnalysisEnum =
   | "CONTINUOUS_ANALYSIS_UNSPECIFIED"
@@ -860,8 +860,8 @@ export type DiscoveryOccurrenceContinuousAnalysisEnum =
   | "INACTIVE";
 export type StringMap = { [key: string]: string | undefined };
 export interface File {
-  name?: string;
-  digest?: StringMap;
+  name?: string | undefined;
+  digest?: StringMap | undefined;
 }
 export type FileList = Array<File>;
 export type StatusList = Array<Status>;
@@ -877,410 +877,410 @@ export type SBOMStatusSbomStateEnum = "SBOM_STATE_UNSPECIFIED" | "PENDING" | "CO
 /** The status of an SBOM generation. */
 export interface SBOMStatus {
   /** If there was an error generating an SBOM, this will indicate what that error was. */
-  error?: string;
+  error?: string | undefined;
   /** The progress of the SBOM generation. */
-  sbomState?: SBOMStatusSbomStateEnum;
+  sbomState?: SBOMStatusSbomStateEnum | undefined;
 }
 /** Indicates which analysis completed successfully. Multiple types of analysis can be performed on a single resource. */
 export interface AnalysisCompleted {
-  analysisType?: StringList;
+  analysisType?: StringList | undefined;
 }
 /** Provides information about the analysis status of a discovered resource. */
 export interface DiscoveryOccurrence {
   /** The last time vulnerability scan results changed. */
-  lastVulnerabilityUpdateTime?: string;
+  lastVulnerabilityUpdateTime?: string | undefined;
   /** The last time this resource was scanned. */
-  lastScanTime?: string;
+  lastScanTime?: string | undefined;
   /** Output only. The time occurrences related to this discovery occurrence were archived. */
-  archiveTime?: string;
+  archiveTime?: string | undefined;
   /** Whether the resource is continuously analyzed. */
-  continuousAnalysis?: DiscoveryOccurrenceContinuousAnalysisEnum;
+  continuousAnalysis?: DiscoveryOccurrenceContinuousAnalysisEnum | undefined;
   /** The CPE of the resource being scanned. */
-  cpe?: string;
+  cpe?: string | undefined;
   /** Files that make up the resource described by the occurrence. */
-  files?: FileList;
+  files?: FileList | undefined;
   /** Indicates any errors encountered during analysis of a resource. There could be 0 or more of these errors. */
-  analysisError?: StatusList;
+  analysisError?: StatusList | undefined;
   /** When an error is encountered this will contain a LocalizedMessage under details to show to the user. The LocalizedMessage is output only and populated by the API. */
-  analysisStatusError?: Status;
+  analysisStatusError?: Status | undefined;
   /** The status of discovery for the resource. */
-  analysisStatus?: DiscoveryOccurrenceAnalysisStatusEnum;
+  analysisStatus?: DiscoveryOccurrenceAnalysisStatusEnum | undefined;
   /** The status of an SBOM generation. */
-  sbomStatus?: SBOMStatus;
-  analysisCompleted?: AnalysisCompleted;
+  sbomStatus?: SBOMStatus | undefined;
+  analysisCompleted?: AnalysisCompleted | undefined;
 }
 export type DeploymentOccurrencePlatformEnum = "PLATFORM_UNSPECIFIED" | "GKE" | "FLEX" | "CUSTOM";
 /** The period during which some deployable was active in a runtime. */
 export interface DeploymentOccurrence {
   /** Configuration used to create this deployment. */
-  config?: string;
+  config?: string | undefined;
   /** Platform hosting this deployment. */
-  platform?: DeploymentOccurrencePlatformEnum;
+  platform?: DeploymentOccurrencePlatformEnum | undefined;
   /** Output only. Resource URI for the artifact being deployed taken from the deployable field with the same name. */
-  resourceUri?: StringList;
+  resourceUri?: StringList | undefined;
   /** End of the lifetime of this deployment. */
-  undeployTime?: string;
+  undeployTime?: string | undefined;
   /** Identity of the user that triggered this deployment. */
-  userEmail?: string;
+  userEmail?: string | undefined;
   /** Address of the runtime element hosting this deployment. */
-  address?: string;
+  address?: string | undefined;
   /** Required. Beginning of the lifetime of this deployment. */
-  deployTime?: string;
+  deployTime?: string | undefined;
 }
 /** A set of properties that uniquely identify a given Docker image. */
 export interface Fingerprint {
   /** Output only. The name of the image's v2 blobs computed via: [bottom] := v2_blobbottom := sha256(v2_blob[N] + " " + v2_name[N+1]) Only the name of the final blob is kept. */
-  v2Name?: string;
+  v2Name?: string | undefined;
   /** Required. The layer ID of the final layer in the Docker image's v1 representation. */
-  v1Name?: string;
+  v1Name?: string | undefined;
   /** Required. The ordered list of v2 blobs that represent a given image. */
-  v2Blob?: StringList;
+  v2Blob?: StringList | undefined;
 }
 /** Layer holds metadata specific to a layer of a Docker image. */
 export interface Layer {
   /** Required. The recovered Dockerfile directive used to construct this layer. See https://docs.docker.com/engine/reference/builder/ for more information. */
-  directive?: string;
+  directive?: string | undefined;
   /** The recovered arguments to the Dockerfile directive. */
-  arguments?: string;
+  arguments?: string | undefined;
 }
 export type LayerList = Array<Layer>;
 /** Details of the derived image portion of the DockerImage relationship. This image would be produced from a Dockerfile with FROM . */
 export interface ImageOccurrence {
   /** Output only. This contains the base image URL for the derived image occurrence. */
-  baseResourceUrl?: string;
+  baseResourceUrl?: string | undefined;
   /** Required. The fingerprint of the derived image. */
-  fingerprint?: Fingerprint;
+  fingerprint?: Fingerprint | undefined;
   /** This contains layer-specific metadata, if populated it has length "distance" and is ordered with [distance] being the layer immediately following the base image and [1] being the final layer. */
-  layerInfo?: LayerList;
+  layerInfo?: LayerList | undefined;
   /** Output only. The number of layers by which this image differs from the associated image basis. */
-  distance?: number;
+  distance?: number | undefined;
 }
 /** The category to which the update belongs. */
 export interface Category {
   /** The identifier of the category. */
-  categoryId?: string;
+  categoryId?: string | undefined;
   /** The localized name of the category. */
-  name?: string;
+  name?: string | undefined;
 }
 export type CategoryList = Array<Category>;
 /** The unique identifier of the update. */
 export interface Identity {
   /** The revision number of the update. */
-  revision?: number;
+  revision?: number | undefined;
   /** The revision independent identifier of the update. */
-  updateId?: string;
+  updateId?: string | undefined;
 }
 /** Windows Update represents the metadata about the update for the Windows operating system. The fields in this message come from the Windows Update API documented at https://docs.microsoft.com/en-us/windows/win32/api/wuapi/nn-wuapi-iupdate. */
 export interface WindowsUpdate {
   /** The localized description of the update. */
-  description?: string;
+  description?: string | undefined;
   /** The list of categories to which the update belongs. */
-  categories?: CategoryList;
+  categories?: CategoryList | undefined;
   /** Required - The unique identifier for the update. */
-  identity?: Identity;
+  identity?: Identity | undefined;
   /** The localized title of the update. */
-  title?: string;
+  title?: string | undefined;
   /** The hyperlink to the support information for the update. */
-  supportUrl?: string;
+  supportUrl?: string | undefined;
   /** The last published timestamp of the update. */
-  lastPublishedTimestamp?: string;
+  lastPublishedTimestamp?: string | undefined;
   /** The Microsoft Knowledge Base article IDs that are associated with the update. */
-  kbArticleIds?: StringList;
+  kbArticleIds?: StringList | undefined;
 }
 /** The Upgrade Distribution represents metadata about the Upgrade for each operating system (CPE). Some distributions have additional metadata around updates, classifying them into various categories and severities. */
 export interface UpgradeDistribution {
   /** The severity as specified by the upstream operating system. */
-  severity?: string;
+  severity?: string | undefined;
   /** Required - The specific operating system this metadata applies to. See https://cpe.mitre.org/specification/. */
-  cpeUri?: string;
+  cpeUri?: string | undefined;
   /** The cve tied to this Upgrade. */
-  cve?: StringList;
+  cve?: StringList | undefined;
   /** The operating system classification of this Upgrade, as specified by the upstream operating system upgrade feed. For Windows the classification is one of the category_ids listed at https://docs.microsoft.com/en-us/previous-versions/windows/desktop/ff357803(v=vs.85) */
-  classification?: string;
+  classification?: string | undefined;
 }
 /** An Upgrade Occurrence represents that a specific resource_url could install a specific upgrade. This presence is supplied via local sources (i.e. it is present in the mirror and the running system has noticed its availability). For Windows, both distribution and windows_update contain information for the Windows update. */
 export interface UpgradeOccurrence {
   /** Required for non-Windows OS. The version of the package in a machine + human readable form. */
-  parsedVersion?: Version;
+  parsedVersion?: Version | undefined;
   /** Required for Windows OS. Represents the metadata about the Windows update. */
-  windowsUpdate?: WindowsUpdate;
+  windowsUpdate?: WindowsUpdate | undefined;
   /** Required for non-Windows OS. The package this Upgrade is for. */
-  package?: string;
+  package?: string | undefined;
   /** Metadata about the upgrade for available for the specific operating system for the resource_url. This allows efficient filtering, as well as making it easier to use the occurrence. */
-  distribution?: UpgradeDistribution;
+  distribution?: UpgradeDistribution | undefined;
 }
 export interface EnvelopeSignature {
-  keyid?: string;
-  sig?: string;
+  keyid?: string | undefined;
+  sig?: string | undefined;
 }
 export type EnvelopeSignatureList = Array<EnvelopeSignature>;
 /** MUST match https://github.com/secure-systems-lab/dsse/blob/master/envelope.proto. An authenticated message of arbitrary type. */
 export interface Envelope {
-  payloadType?: string;
-  payload?: string;
-  signatures?: EnvelopeSignatureList;
+  payloadType?: string | undefined;
+  payload?: string | undefined;
+  signatures?: EnvelopeSignatureList | undefined;
 }
 /** An occurrence of a particular package installation found within a system's filesystem. E.g., glibc was found in `/var/lib/dpkg/status`. */
 export interface Location {
   /** Deprecated. The CPE URI in [CPE format](https://cpe.mitre.org/specification/) */
-  cpeUri?: string;
+  cpeUri?: string | undefined;
   /** The path from which we gathered that this package/version is installed. */
-  path?: string;
+  path?: string | undefined;
   /** Deprecated. The version installed at this location. */
-  version?: Version;
+  version?: Version | undefined;
 }
 export type LocationList = Array<Location>;
 /** License information. */
 export interface License {
   /** Often a single license can be used to represent the licensing terms. Sometimes it is necessary to include a choice of one or more licenses or some combination of license identifiers. Examples: "LGPL-2.1-only OR MIT", "LGPL-2.1-only AND MIT", "GPL-2.0-or-later WITH Bison-exception-2.2". */
-  expression?: string;
+  expression?: string | undefined;
   /** Comments */
-  comments?: string;
+  comments?: string | undefined;
 }
 export type PackageOccurrenceArchitectureEnum = "ARCHITECTURE_UNSPECIFIED" | "X86" | "X64";
 /** Details on how a particular software package was installed on a system. */
 export interface PackageOccurrence {
   /** Output only. The type of package; whether native or non native (e.g., ruby gems, node.js packages, etc.). */
-  packageType?: string;
+  packageType?: string | undefined;
   /** Output only. The cpe_uri in [CPE format](https://cpe.mitre.org/specification/) denoting the package manager version distributing a package. The cpe_uri will be blank for language packages. */
-  cpeUri?: string;
+  cpeUri?: string | undefined;
   /** All of the places within the filesystem versions of this package have been found. */
-  location?: LocationList;
+  location?: LocationList | undefined;
   /** Licenses that have been declared by the authors of the package. */
-  license?: License;
+  license?: License | undefined;
   /** Output only. The version of the package. */
-  version?: Version;
+  version?: Version | undefined;
   /** Required. Output only. The name of the installed package. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The CPU architecture for which packages in this distribution channel were built. Architecture will be blank for language packages. */
-  architecture?: PackageOccurrenceArchitectureEnum;
+  architecture?: PackageOccurrenceArchitectureEnum | undefined;
 }
 export interface Subject {
   /** `"": ""` Algorithms can be e.g. sha256, sha512 See https://github.com/in-toto/attestation/blob/main/spec/field_types.md#DigestSet */
-  digest?: StringMap;
-  name?: string;
+  digest?: StringMap | undefined;
+  name?: string | undefined;
 }
 export type SubjectList = Array<Subject>;
 /** A predicate which describes the SBOM being referenced. */
 export interface SbomReferenceIntotoPredicate {
   /** The location of the SBOM. */
-  location?: string;
+  location?: string | undefined;
   /** The mime type of the SBOM. */
-  mimeType?: string;
+  mimeType?: string | undefined;
   /** The person or system referring this predicate to the consumer. */
-  referrerId?: string;
+  referrerId?: string | undefined;
   /** A map of algorithm to digest of the contents of the SBOM. */
-  digest?: StringMap;
+  digest?: StringMap | undefined;
 }
 /** The actual payload that contains the SBOM Reference data. The payload follows the intoto statement specification. See https://github.com/in-toto/attestation/blob/main/spec/v1.0/statement.md for more details. */
 export interface SbomReferenceIntotoPayload {
   /** Set of software artifacts that the attestation applies to. Each element represents a single software artifact. */
-  subject?: SubjectList;
+  subject?: SubjectList | undefined;
   /** URI identifying the type of the Predicate. */
-  predicateType?: string;
+  predicateType?: string | undefined;
   /** Additional parameters of the Predicate. Includes the actual data about the SBOM. */
-  predicate?: SbomReferenceIntotoPredicate;
+  predicate?: SbomReferenceIntotoPredicate | undefined;
   /** Identifier for the schema of the Statement. */
-  _type?: string;
+  _type?: string | undefined;
 }
 /** The occurrence representing an SBOM reference as applied to a specific resource. The occurrence follows the DSSE specification. See https://github.com/secure-systems-lab/dsse/blob/master/envelope.md for more details. */
 export interface SBOMReferenceOccurrence {
   /** The signatures over the payload. */
-  signatures?: EnvelopeSignatureList;
+  signatures?: EnvelopeSignatureList | undefined;
   /** The actual payload that contains the SBOM reference data. */
-  payload?: SbomReferenceIntotoPayload;
+  payload?: SbomReferenceIntotoPayload | undefined;
   /** The kind of payload that SbomReferenceIntotoPayload takes. Since it's in the intoto format, this value is expected to be 'application/vnd.in-toto+json'. */
-  payloadType?: string;
+  payloadType?: string | undefined;
 }
 /** The collection of artifacts that influenced the build including sources, dependencies, build tools, base images, and so on. */
 export interface GrafeasV1SlsaProvenanceZeroTwoSlsaMaterial {
-  digest?: StringMap;
-  uri?: string;
+  digest?: StringMap | undefined;
+  uri?: string | undefined;
 }
 export type GrafeasV1SlsaProvenanceZeroTwoSlsaMaterialList =
   Array<GrafeasV1SlsaProvenanceZeroTwoSlsaMaterial>;
 /** Identifies the entity that executed the recipe, which is trusted to have correctly performed the operation and populated this provenance. */
 export interface GrafeasV1SlsaProvenanceZeroTwoSlsaBuilder {
-  id?: string;
+  id?: string | undefined;
 }
 /** Indicates that the builder claims certain fields in this message to be complete. */
 export interface GrafeasV1SlsaProvenanceZeroTwoSlsaCompleteness {
-  parameters?: boolean;
-  materials?: boolean;
-  environment?: boolean;
+  parameters?: boolean | undefined;
+  materials?: boolean | undefined;
+  environment?: boolean | undefined;
 }
 /** Other properties of the build. */
 export interface GrafeasV1SlsaProvenanceZeroTwoSlsaMetadata {
-  buildInvocationId?: string;
-  buildFinishedOn?: string;
-  completeness?: GrafeasV1SlsaProvenanceZeroTwoSlsaCompleteness;
-  buildStartedOn?: string;
-  reproducible?: boolean;
+  buildInvocationId?: string | undefined;
+  buildFinishedOn?: string | undefined;
+  completeness?: GrafeasV1SlsaProvenanceZeroTwoSlsaCompleteness | undefined;
+  buildStartedOn?: string | undefined;
+  reproducible?: boolean | undefined;
 }
 /** Describes where the config file that kicked off the build came from. This is effectively a pointer to the source where buildConfig came from. */
 export interface GrafeasV1SlsaProvenanceZeroTwoSlsaConfigSource {
-  digest?: StringMap;
-  entryPoint?: string;
-  uri?: string;
+  digest?: StringMap | undefined;
+  entryPoint?: string | undefined;
+  uri?: string | undefined;
 }
 /** Identifies the event that kicked off the build. */
 export interface GrafeasV1SlsaProvenanceZeroTwoSlsaInvocation {
-  configSource?: GrafeasV1SlsaProvenanceZeroTwoSlsaConfigSource;
-  environment?: DocumentMap;
-  parameters?: DocumentMap;
+  configSource?: GrafeasV1SlsaProvenanceZeroTwoSlsaConfigSource | undefined;
+  environment?: DocumentMap | undefined;
+  parameters?: DocumentMap | undefined;
 }
 /** See full explanation of fields at slsa.dev/provenance/v0.2. */
 export interface SlsaProvenanceZeroTwo {
-  buildConfig?: DocumentMap;
-  materials?: GrafeasV1SlsaProvenanceZeroTwoSlsaMaterialList;
-  builder?: GrafeasV1SlsaProvenanceZeroTwoSlsaBuilder;
-  metadata?: GrafeasV1SlsaProvenanceZeroTwoSlsaMetadata;
-  buildType?: string;
-  invocation?: GrafeasV1SlsaProvenanceZeroTwoSlsaInvocation;
+  buildConfig?: DocumentMap | undefined;
+  materials?: GrafeasV1SlsaProvenanceZeroTwoSlsaMaterialList | undefined;
+  builder?: GrafeasV1SlsaProvenanceZeroTwoSlsaBuilder | undefined;
+  metadata?: GrafeasV1SlsaProvenanceZeroTwoSlsaMetadata | undefined;
+  buildType?: string | undefined;
+  invocation?: GrafeasV1SlsaProvenanceZeroTwoSlsaInvocation | undefined;
 }
 export interface Material {
-  uri?: string;
-  digest?: StringMap;
+  uri?: string | undefined;
+  digest?: StringMap | undefined;
 }
 export type MaterialList = Array<Material>;
 /** Indicates that the builder claims certain fields in this message to be complete. */
 export interface SlsaCompleteness {
   /** If true, the builder claims that recipe.environment is claimed to be complete. */
-  environment?: boolean;
+  environment?: boolean | undefined;
   /** If true, the builder claims that recipe.arguments is complete, meaning that all external inputs are properly captured in the recipe. */
-  arguments?: boolean;
+  arguments?: boolean | undefined;
   /** If true, the builder claims that materials are complete, usually through some controls to prevent network access. Sometimes called "hermetic". */
-  materials?: boolean;
+  materials?: boolean | undefined;
 }
 /** Other properties of the build. */
 export interface SlsaMetadata {
   /** Identifies the particular build invocation, which can be useful for finding associated logs or other ad-hoc analysis. The value SHOULD be globally unique, per in-toto Provenance spec. */
-  buildInvocationId?: string;
+  buildInvocationId?: string | undefined;
   /** Indicates that the builder claims certain fields in this message to be complete. */
-  completeness?: SlsaCompleteness;
+  completeness?: SlsaCompleteness | undefined;
   /** The timestamp of when the build completed. */
-  buildFinishedOn?: string;
+  buildFinishedOn?: string | undefined;
   /** The timestamp of when the build started. */
-  buildStartedOn?: string;
+  buildStartedOn?: string | undefined;
   /** If true, the builder claims that running the recipe on materials will produce bit-for-bit identical output. */
-  reproducible?: boolean;
+  reproducible?: boolean | undefined;
 }
 /** Steps taken to build the artifact. For a TaskRun, typically each container corresponds to one step in the recipe. */
 export interface SlsaRecipe {
   /** Collection of all external inputs that influenced the build on top of recipe.definedInMaterial and recipe.entryPoint. For example, if the recipe type were "make", then this might be the flags passed to make aside from the target, which is captured in recipe.entryPoint. Depending on the recipe Type, the structure may be different. */
-  arguments?: DocumentMap;
+  arguments?: DocumentMap | undefined;
   /** URI indicating what type of recipe was performed. It determines the meaning of recipe.entryPoint, recipe.arguments, recipe.environment, and materials. */
-  type?: string;
+  type?: string | undefined;
   /** String identifying the entry point into the build. This is often a path to a configuration file and/or a target label within that file. The syntax and meaning are defined by recipe.type. For example, if the recipe type were "make", then this would reference the directory in which to run make as well as which target to use. */
-  entryPoint?: string;
+  entryPoint?: string | undefined;
   /** Index in materials containing the recipe steps that are not implied by recipe.type. For example, if the recipe type were "make", then this would point to the source containing the Makefile, not the make program itself. Set to -1 if the recipe doesn't come from a material, as zero is default unset value for int64. */
-  definedInMaterial?: string;
+  definedInMaterial?: string | undefined;
   /** Any other builder-controlled inputs necessary for correctly evaluating the recipe. Usually only needed for reproducing the build but not evaluated as part of policy. Depending on the recipe Type, the structure may be different. */
-  environment?: DocumentMap;
+  environment?: DocumentMap | undefined;
 }
 export type SlsaBuilder = GrafeasV1SlsaProvenanceZeroTwoSlsaBuilder;
 export interface SlsaProvenance {
   /** The collection of artifacts that influenced the build including sources, dependencies, build tools, base images, and so on. This is considered to be incomplete unless metadata.completeness.materials is true. Unset or null is equivalent to empty. */
-  materials?: MaterialList;
-  metadata?: SlsaMetadata;
+  materials?: MaterialList | undefined;
+  metadata?: SlsaMetadata | undefined;
   /** Identifies the configuration used for the build. When combined with materials, this SHOULD fully describe the build, such that re-running this recipe results in bit-for-bit identical output (if the build is reproducible). required */
-  recipe?: SlsaRecipe;
+  recipe?: SlsaRecipe | undefined;
   /** required */
-  builder?: GrafeasV1SlsaProvenanceZeroTwoSlsaBuilder;
+  builder?: GrafeasV1SlsaProvenanceZeroTwoSlsaBuilder | undefined;
 }
 /** Steps taken to build the artifact. For a TaskRun, typically each container corresponds to one step in the recipe. */
 export interface Recipe {
   /** URI indicating what type of recipe was performed. It determines the meaning of recipe.entryPoint, recipe.arguments, recipe.environment, and materials. */
-  type?: string;
+  type?: string | undefined;
   /** Any other builder-controlled inputs necessary for correctly evaluating the recipe. Usually only needed for reproducing the build but not evaluated as part of policy. Since the environment field can greatly vary in structure, depending on the builder and recipe type, this is of form "Any". */
-  environment?: DocumentMapList;
+  environment?: DocumentMapList | undefined;
   /** Index in materials containing the recipe steps that are not implied by recipe.type. For example, if the recipe type were "make", then this would point to the source containing the Makefile, not the make program itself. Set to -1 if the recipe doesn't come from a material, as zero is default unset value for int64. */
-  definedInMaterial?: string;
+  definedInMaterial?: string | undefined;
   /** Collection of all external inputs that influenced the build on top of recipe.definedInMaterial and recipe.entryPoint. For example, if the recipe type were "make", then this might be the flags passed to make aside from the target, which is captured in recipe.entryPoint. Since the arguments field can greatly vary in structure, depending on the builder and recipe type, this is of form "Any". */
-  arguments?: DocumentMapList;
+  arguments?: DocumentMapList | undefined;
   /** String identifying the entry point into the build. This is often a path to a configuration file and/or a target label within that file. The syntax and meaning are defined by recipe.type. For example, if the recipe type were "make", then this would reference the directory in which to run make as well as which target to use. */
-  entryPoint?: string;
+  entryPoint?: string | undefined;
 }
 /** Indicates that the builder claims certain fields in this message to be complete. */
 export interface Completeness {
   /** If true, the builder claims that materials are complete, usually through some controls to prevent network access. Sometimes called "hermetic". */
-  materials?: boolean;
+  materials?: boolean | undefined;
   /** If true, the builder claims that recipe.arguments is complete, meaning that all external inputs are properly captured in the recipe. */
-  arguments?: boolean;
+  arguments?: boolean | undefined;
   /** If true, the builder claims that recipe.environment is claimed to be complete. */
-  environment?: boolean;
+  environment?: boolean | undefined;
 }
 /** Other properties of the build. */
 export interface Metadata {
   /** Identifies the particular build invocation, which can be useful for finding associated logs or other ad-hoc analysis. The value SHOULD be globally unique, per in-toto Provenance spec. */
-  buildInvocationId?: string;
+  buildInvocationId?: string | undefined;
   /** Indicates that the builder claims certain fields in this message to be complete. */
-  completeness?: Completeness;
+  completeness?: Completeness | undefined;
   /** The timestamp of when the build completed. */
-  buildFinishedOn?: string;
+  buildFinishedOn?: string | undefined;
   /** If true, the builder claims that running the recipe on materials will produce bit-for-bit identical output. */
-  reproducible?: boolean;
+  reproducible?: boolean | undefined;
   /** The timestamp of when the build started. */
-  buildStartedOn?: string;
+  buildStartedOn?: string | undefined;
 }
 export type BuilderConfig = GrafeasV1SlsaProvenanceZeroTwoSlsaBuilder;
 export interface InTotoProvenance {
   /** The collection of artifacts that influenced the build including sources, dependencies, build tools, base images, and so on. This is considered to be incomplete unless metadata.completeness.materials is true. Unset or null is equivalent to empty. */
-  materials?: StringList;
+  materials?: StringList | undefined;
   /** Identifies the configuration used for the build. When combined with materials, this SHOULD fully describe the build, such that re-running this recipe results in bit-for-bit identical output (if the build is reproducible). required */
-  recipe?: Recipe;
-  metadata?: Metadata;
+  recipe?: Recipe | undefined;
+  metadata?: Metadata | undefined;
   /** required */
-  builderConfig?: GrafeasV1SlsaProvenanceZeroTwoSlsaBuilder;
+  builderConfig?: GrafeasV1SlsaProvenanceZeroTwoSlsaBuilder | undefined;
 }
 /** Spec defined at https://github.com/in-toto/attestation/tree/main/spec#statement The serialized InTotoStatement will be stored as Envelope.payload. Envelope.payloadType is always "application/vnd.in-toto+json". */
 export interface InTotoStatement {
   /** Always `https://in-toto.io/Statement/v0.1`. */
-  _type?: string;
+  _type?: string | undefined;
   /** `https://slsa.dev/provenance/v0.1` for SlsaProvenance. */
-  predicateType?: string;
-  slsaProvenanceZeroTwo?: SlsaProvenanceZeroTwo;
-  subject?: SubjectList;
-  slsaProvenance?: SlsaProvenance;
-  provenance?: InTotoProvenance;
+  predicateType?: string | undefined;
+  slsaProvenanceZeroTwo?: SlsaProvenanceZeroTwo | undefined;
+  subject?: SubjectList | undefined;
+  slsaProvenance?: SlsaProvenance | undefined;
+  provenance?: InTotoProvenance | undefined;
 }
 /** Deprecated. Prefer to use a regular Occurrence, and populate the Envelope at the top level of the Occurrence. */
 export interface DSSEAttestationOccurrence {
-  statement?: InTotoStatement;
+  statement?: InTotoStatement | undefined;
   /** If doing something security critical, make sure to verify the signatures in this metadata. */
-  envelope?: Envelope;
+  envelope?: Envelope | undefined;
 }
 export interface Jwt {
   /** The compact encoding of a JWS, which is always three base64 encoded strings joined by periods. For details, see: https://tools.ietf.org/html/rfc7515.html#section-3.1 */
-  compactJwt?: string;
+  compactJwt?: string | undefined;
 }
 export type JwtList = Array<Jwt>;
 /** Verifiers (e.g. Kritis implementations) MUST verify signatures with respect to the trust anchors defined in policy (e.g. a Kritis policy). Typically this means that the verifier has been configured with a map from `public_key_id` to public key material (and any required parameters, e.g. signing algorithm). In particular, verification implementations MUST NOT treat the signature `public_key_id` as anything more than a key lookup hint. The `public_key_id` DOES NOT validate or authenticate a public key; it only provides a mechanism for quickly selecting a public key ALREADY CONFIGURED on the verifier through a trusted channel. Verification implementations MUST reject signatures in any of the following circumstances: * The `public_key_id` is not recognized by the verifier. * The public key that `public_key_id` refers to does not verify the signature with respect to the payload. The `signature` contents SHOULD NOT be "attached" (where the payload is included with the serialized `signature` bytes). Verifiers MUST ignore any "attached" payload and only verify signatures with respect to explicitly provided payload (e.g. a `payload` field on the proto message that holds this Signature, or the canonical serialization of the proto message that holds this signature). */
 export interface Signature {
   /** The identifier for the public key that verifies this signature. * The `public_key_id` is required. * The `public_key_id` SHOULD be an RFC3986 conformant URI. * When possible, the `public_key_id` SHOULD be an immutable reference, such as a cryptographic digest. Examples of valid `public_key_id`s: OpenPGP V4 public key fingerprint: * "openpgp4fpr:74FAF3B861BDA0870C7B6DEF607E48D2A663AEEA" See https://www.iana.org/assignments/uri-schemes/prov/openpgp4fpr for more details on this scheme. RFC6920 digest-named SubjectPublicKeyInfo (digest of the DER serialization): * "ni:///sha-256;cD9o9Cq6LG3jD0iKXqEi_vdjJGecm_iXkbqVoScViaU" * "nih:///sha-256;703f68f42aba2c6de30f488a5ea122fef76324679c9bf89791ba95a1271589a5" */
-  publicKeyId?: string;
+  publicKeyId?: string | undefined;
   /** The content of the signature, an opaque bytestring. The payload that this signature verifies MUST be unambiguously provided with the Signature during verification. A wrapper message might provide the payload explicitly. Alternatively, a message might have a canonical serialization that can always be unambiguously computed to derive the payload. */
-  signature?: string;
+  signature?: string | undefined;
 }
 export type SignatureList = Array<Signature>;
 /** Occurrence that represents a single "attestation". The authenticity of an attestation can be verified using the attached signature. If the verifier trusts the public key of the signer, then verifying the signature is sufficient to establish trust. In this circumstance, the authority to which this attestation is attached is primarily useful for lookup (how to find this attestation if you already know the authority and artifact to be verified) and intent (for which authority this attestation was intended to sign. */
 export interface AttestationOccurrence {
   /** One or more JWTs encoding a self-contained attestation. Each JWT encodes the payload that it verifies within the JWT itself. Verifier implementation SHOULD ignore the `serialized_payload` field when verifying these JWTs. If only JWTs are present on this AttestationOccurrence, then the `serialized_payload` SHOULD be left empty. Each JWT SHOULD encode a claim specific to the `resource_uri` of this Occurrence, but this is not validated by Grafeas metadata API implementations. The JWT itself is opaque to Grafeas. */
-  jwts?: JwtList;
+  jwts?: JwtList | undefined;
   /** Required. The serialized payload that is verified by one or more `signatures`. */
-  serializedPayload?: string;
+  serializedPayload?: string | undefined;
   /** One or more signatures over `serialized_payload`. Verifier implementations should consider this attestation message verified if at least one `signature` verifies `serialized_payload`. See `Signature` in common.proto for more details on signature structure and verification. */
-  signatures?: SignatureList;
+  signatures?: SignatureList | undefined;
 }
 export type SecretStatusStatusEnum = "STATUS_UNSPECIFIED" | "UNKNOWN" | "VALID" | "INVALID";
 /** The status of the secret with a timestamp. */
 export interface SecretStatus {
   /** Optional. The status of the secret. */
-  status?: SecretStatusStatusEnum;
+  status?: SecretStatusStatusEnum | undefined;
   /** Optional. The time the secret status was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. Optional message about the status code. */
-  message?: string;
+  message?: string | undefined;
 }
 export type SecretStatusList = Array<SecretStatus>;
 export type SecretOccurrenceKindEnum =
@@ -1310,17 +1310,17 @@ export type SecretOccurrenceKindEnum =
 /** The location of the secret. */
 export interface SecretLocation {
   /** The secret is found from a file. */
-  fileLocation?: GrafeasV1FileLocation;
+  fileLocation?: GrafeasV1FileLocation | undefined;
 }
 export type SecretLocationList = Array<SecretLocation>;
 /** The occurrence provides details of a secret. */
 export interface SecretOccurrence {
   /** Optional. Status of the secret. */
-  statuses?: SecretStatusList;
+  statuses?: SecretStatusList | undefined;
   /** Required. Type of secret. */
-  kind?: SecretOccurrenceKindEnum;
+  kind?: SecretOccurrenceKindEnum | undefined;
   /** Optional. Locations where the secret is detected. */
-  locations?: SecretLocationList;
+  locations?: SecretLocationList | undefined;
 }
 export type OccurrenceKindEnum =
   | "NOTE_KIND_UNSPECIFIED"
@@ -1342,257 +1342,257 @@ export type AliasContextKindEnum = "KIND_UNSPECIFIED" | "FIXED" | "MOVABLE" | "O
 /** An alias to a repo revision. */
 export interface AliasContext {
   /** The alias kind. */
-  kind?: AliasContextKindEnum;
+  kind?: AliasContextKindEnum | undefined;
   /** The alias name. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Selects a repo using a Google Cloud Platform project ID (e.g., winged-cargo-31) and a repo name within that project. */
 export interface ProjectRepoId {
   /** The name of the repo. Leave empty for the default repo. */
-  repoName?: string;
+  repoName?: string | undefined;
   /** The ID of the project. */
-  projectId?: string;
+  projectId?: string | undefined;
 }
 /** A unique identifier for a Cloud Repo. */
 export interface RepoId {
   /** A combination of a project ID and a repo name. */
-  projectRepoId?: ProjectRepoId;
+  projectRepoId?: ProjectRepoId | undefined;
   /** A server-assigned, globally unique identifier. */
-  uid?: string;
+  uid?: string | undefined;
 }
 /** A CloudRepoSourceContext denotes a particular revision in a Google Cloud Source Repo. */
 export interface CloudRepoSourceContext {
   /** An alias, which may be a branch or tag. */
-  aliasContext?: AliasContext;
+  aliasContext?: AliasContext | undefined;
   /** A revision ID. */
-  revisionId?: string;
+  revisionId?: string | undefined;
   /** The ID of the repo. */
-  repoId?: RepoId;
+  repoId?: RepoId | undefined;
 }
 /** A GitSourceContext denotes a particular revision in a third party Git repository (e.g., GitHub). */
 export interface GitSourceContext {
   /** Git repository URL. */
-  url?: string;
+  url?: string | undefined;
   /** Git commit hash. */
-  revisionId?: string;
+  revisionId?: string | undefined;
 }
 /** A SourceContext referring to a Gerrit project. */
 export interface GerritSourceContext {
   /** A revision (commit) ID. */
-  revisionId?: string;
+  revisionId?: string | undefined;
   /** An alias, which may be a branch or tag. */
-  aliasContext?: AliasContext;
+  aliasContext?: AliasContext | undefined;
   /** The full project name within the host. Projects may be nested, so "project/subproject" is a valid project name. The "repo name" is the hostURI/project. */
-  gerritProject?: string;
+  gerritProject?: string | undefined;
   /** The URI of a running Gerrit instance. */
-  hostUri?: string;
+  hostUri?: string | undefined;
 }
 /** A SourceContext is a reference to a tree of files. A SourceContext together with a path point to a unique revision of a single file or directory. */
 export interface SourceContext {
   /** Labels with user defined metadata. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** A SourceContext referring to a revision in a Google Cloud Source Repo. */
-  cloudRepo?: CloudRepoSourceContext;
+  cloudRepo?: CloudRepoSourceContext | undefined;
   /** A SourceContext referring to any third party Git repo (e.g., GitHub). */
-  git?: GitSourceContext;
+  git?: GitSourceContext | undefined;
   /** A SourceContext referring to a Gerrit project. */
-  gerrit?: GerritSourceContext;
+  gerrit?: GerritSourceContext | undefined;
 }
 export type SourceContextList = Array<SourceContext>;
 /** Container message for hash values. */
 export interface Hash {
   /** Required. The type of hash that was performed, e.g. "SHA-256". */
-  type?: string;
+  type?: string | undefined;
   /** Required. The hash value. */
-  value?: string;
+  value?: string | undefined;
 }
 export type HashList = Array<Hash>;
 /** Container message for hashes of byte content of files, used in source messages to verify integrity of source input to the build. */
 export interface FileHashes {
   /** Required. Collection of file hashes. */
-  fileHash?: HashList;
+  fileHash?: HashList | undefined;
 }
 export type FileHashesMap = { [key: string]: FileHashes | undefined };
 /** Source describes the location of the source used for the build. */
 export interface Source {
   /** If provided, some of the source code used for the build may be found in these locations, in the case where the source repository had multiple remotes or submodules. This list will not include the context specified in the context field. */
-  additionalContexts?: SourceContextList;
+  additionalContexts?: SourceContextList | undefined;
   /** If provided, the source code used for the build came from this location. */
-  context?: SourceContext;
+  context?: SourceContext | undefined;
   /** Hash(es) of the build source, which can be used to verify that the original source integrity was maintained in the build. The keys to this map are file paths used as build source and the values contain the hash values for those files. If the build source came in a single package such as a gzipped tarfile (.tar.gz), the FileHash will be for the single path to that file. */
-  fileHashes?: FileHashesMap;
+  fileHashes?: FileHashesMap | undefined;
   /** If provided, the input binary artifacts for the build came from this location. */
-  artifactStorageSourceUri?: string;
+  artifactStorageSourceUri?: string | undefined;
 }
 /** Command describes a step performed as part of the build pipeline. */
 export interface Command {
   /** Environment variables set before running this command. */
-  env?: StringList;
+  env?: StringList | undefined;
   /** Working directory (relative to project source root) used when running this command. */
-  dir?: string;
+  dir?: string | undefined;
   /** The ID(s) of the command(s) that this command depends on. */
-  waitFor?: StringList;
+  waitFor?: StringList | undefined;
   /** Required. Name of the command, as presented on the command line, or if the command is packaged as a Docker container, as presented to `docker pull`. */
-  name?: string;
+  name?: string | undefined;
   /** Optional unique identifier for this command, used in wait_for to reference this command as a dependency. */
-  id?: string;
+  id?: string | undefined;
   /** Command-line arguments used when executing this command. */
-  args?: StringList;
+  args?: StringList | undefined;
 }
 export type CommandList = Array<Command>;
 /** Artifact describes a build product. */
 export interface Artifact {
   /** Hash or checksum value of a binary, or Docker Registry 2.0 digest of a container. */
-  checksum?: string;
+  checksum?: string | undefined;
   /** Related artifact names. This may be the path to a binary or jar file, or in the case of a container build, the name used to push the container image to Google Container Registry, as presented to `docker push`. Note that a single Artifact ID can have multiple names, for example if two tags are applied to one image. */
-  names?: StringList;
+  names?: StringList | undefined;
   /** Artifact ID, if any; for container images, this will be a URL by digest like `gcr.io/projectID/imagename@sha256:123456`. */
-  id?: string;
+  id?: string | undefined;
 }
 export type ArtifactList = Array<Artifact>;
 /** Provenance of a build. Contains all information needed to verify the full details about the build from source to completion. */
 export interface BuildProvenance {
   /** Time at which the build was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Time at which execution of the build was finished. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Special options applied to this build. This is a catch-all field where build providers can enter any desired additional details. */
-  buildOptions?: StringMap;
+  buildOptions?: StringMap | undefined;
   /** ID of the project. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Details of the Source input to the build. */
-  sourceProvenance?: Source;
+  sourceProvenance?: Source | undefined;
   /** Commands requested by the build. */
-  commands?: CommandList;
+  commands?: CommandList | undefined;
   /** E-mail address of the user who initiated this build. Note that this was the user's e-mail address at the time the build was initiated; this address may not represent the same end-user for all time. */
-  creator?: string;
+  creator?: string | undefined;
   /** Version string of the builder at the time this build was executed. */
-  builderVersion?: string;
+  builderVersion?: string | undefined;
   /** Time at which execution of the build was started. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Required. Unique identifier of the build. */
-  id?: string;
+  id?: string | undefined;
   /** Trigger identifier if the build was triggered automatically; empty if not. */
-  triggerId?: string;
+  triggerId?: string | undefined;
   /** URI where any logs for this provenance were written. */
-  logsUri?: string;
+  logsUri?: string | undefined;
   /** Output of the build. */
-  builtArtifacts?: ArtifactList;
+  builtArtifacts?: ArtifactList | undefined;
 }
 export interface BuildMetadata {
-  startedOn?: string;
-  finishedOn?: string;
-  invocationId?: string;
+  startedOn?: string | undefined;
+  finishedOn?: string | undefined;
+  invocationId?: string | undefined;
 }
 export interface ResourceDescriptor {
-  content?: string;
-  downloadLocation?: string;
-  digest?: StringMap;
-  name?: string;
-  mediaType?: string;
-  uri?: string;
-  annotations?: DocumentMap;
+  content?: string | undefined;
+  downloadLocation?: string | undefined;
+  digest?: StringMap | undefined;
+  name?: string | undefined;
+  mediaType?: string | undefined;
+  uri?: string | undefined;
+  annotations?: DocumentMap | undefined;
 }
 export type ResourceDescriptorList = Array<ResourceDescriptor>;
 export interface ProvenanceBuilder {
-  version?: StringMap;
-  builderDependencies?: ResourceDescriptorList;
-  id?: string;
+  version?: StringMap | undefined;
+  builderDependencies?: ResourceDescriptorList | undefined;
+  id?: string | undefined;
 }
 export interface RunDetails {
-  metadata?: BuildMetadata;
-  byproducts?: ResourceDescriptorList;
-  builder?: ProvenanceBuilder;
+  metadata?: BuildMetadata | undefined;
+  byproducts?: ResourceDescriptorList | undefined;
+  builder?: ProvenanceBuilder | undefined;
 }
 export interface BuildDefinition {
-  buildType?: string;
-  externalParameters?: DocumentMap;
-  resolvedDependencies?: ResourceDescriptorList;
-  internalParameters?: DocumentMap;
+  buildType?: string | undefined;
+  externalParameters?: DocumentMap | undefined;
+  resolvedDependencies?: ResourceDescriptorList | undefined;
+  internalParameters?: DocumentMap | undefined;
 }
 /** Keep in sync with schema at https://github.com/slsa-framework/slsa/blob/main/docs/provenance/schema/v1/provenance.proto Builder renamed to ProvenanceBuilder because of Java conflicts. */
 export interface SlsaProvenanceV1 {
-  runDetails?: RunDetails;
-  buildDefinition?: BuildDefinition;
+  runDetails?: RunDetails | undefined;
+  buildDefinition?: BuildDefinition | undefined;
 }
 export interface InTotoSlsaProvenanceV1 {
   /** InToto spec defined at https://github.com/in-toto/attestation/tree/main/spec#statement */
-  _type?: string;
-  subject?: SubjectList;
-  predicate?: SlsaProvenanceV1;
-  predicateType?: string;
+  _type?: string | undefined;
+  subject?: SubjectList | undefined;
+  predicate?: SlsaProvenanceV1 | undefined;
+  predicateType?: string | undefined;
 }
 /** Details of a build occurrence. */
 export interface BuildOccurrence {
   /** The actual provenance for the build. */
-  provenance?: BuildProvenance;
+  provenance?: BuildProvenance | undefined;
   /** Deprecated. See InTotoStatement for the replacement. In-toto Provenance representation as defined in spec. */
-  intotoProvenance?: InTotoProvenance;
+  intotoProvenance?: InTotoProvenance | undefined;
   /** In-Toto Slsa Provenance V1 represents a slsa provenance meeting the slsa spec, wrapped in an in-toto statement. This allows for direct jsonification of a to-spec in-toto slsa statement with a to-spec slsa provenance. */
-  inTotoSlsaProvenanceV1?: InTotoSlsaProvenanceV1;
+  inTotoSlsaProvenanceV1?: InTotoSlsaProvenanceV1 | undefined;
   /** Serialized JSON representation of the provenance, used in generating the build signature in the corresponding build note. After verifying the signature, `provenance_bytes` can be unmarshalled and compared to the provenance to confirm that it is unchanged. A base64-encoded string representation of the provenance bytes is used for the signature in order to interoperate with openssl which expects this format for signature verification. The serialized form is captured both to avoid ambiguity in how the provenance is marshalled to json as well to prevent incompatibilities with future changes. */
-  provenanceBytes?: string;
+  provenanceBytes?: string | undefined;
   /** In-toto Statement representation as defined in spec. The intoto_statement can contain any type of provenance. The serialized payload of the statement can be stored and signed in the Occurrence's envelope. */
-  intotoStatement?: InTotoStatement;
+  intotoStatement?: InTotoStatement | undefined;
 }
 /** An instance of an analysis type that has been found on a resource. */
 export interface Occurrence {
   /** Describes an AI skill analysis. */
-  aiSkillAnalysis?: AISkillAnalysisOccurrence;
+  aiSkillAnalysis?: AISkillAnalysisOccurrence | undefined;
   /** Describes a compliance violation on a linked resource. */
-  compliance?: ComplianceOccurrence;
+  compliance?: ComplianceOccurrence | undefined;
   /** The time this advisory was published by the source. */
-  advisoryPublishTime?: string;
+  advisoryPublishTime?: string | undefined;
   /** Required. Immutable. The analysis note associated with this occurrence, in the form of `projects/[PROVIDER_ID]/notes/[NOTE_ID]`. This field can be used as a filter in list requests. */
-  noteName?: string;
+  noteName?: string | undefined;
   /** Describes a security vulnerability. */
-  vulnerability?: VulnerabilityOccurrence;
+  vulnerability?: VulnerabilityOccurrence | undefined;
   /** Output only. The time this occurrence was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Describes when a resource was discovered. */
-  discovery?: DiscoveryOccurrence;
+  discovery?: DiscoveryOccurrence | undefined;
   /** Required. Immutable. A URI that represents the resource for which the occurrence applies. For example, `https://gcr.io/project/image@sha256:123abc` for a Docker image. */
-  resourceUri?: string;
+  resourceUri?: string | undefined;
   /** Describes the deployment of an artifact on a runtime. */
-  deployment?: DeploymentOccurrence;
+  deployment?: DeploymentOccurrence | undefined;
   /** A description of actions that can be taken to remedy the note. */
-  remediation?: string;
+  remediation?: string | undefined;
   /** Describes how this resource derives from the basis in the associated note. */
-  image?: ImageOccurrence;
+  image?: ImageOccurrence | undefined;
   /** Describes an available package upgrade on the linked resource. */
-  upgrade?: UpgradeOccurrence;
+  upgrade?: UpgradeOccurrence | undefined;
   /** https://github.com/secure-systems-lab/dsse */
-  envelope?: Envelope;
+  envelope?: Envelope | undefined;
   /** Output only. The time this occurrence was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Describes the installation of a package on the linked resource. */
-  package?: PackageOccurrence;
+  package?: PackageOccurrence | undefined;
   /** Describes a specific SBOM reference occurrences. */
-  sbomReference?: SBOMReferenceOccurrence;
+  sbomReference?: SBOMReferenceOccurrence | undefined;
   /** Describes an attestation of an artifact using dsse. */
-  dsseAttestation?: DSSEAttestationOccurrence;
+  dsseAttestation?: DSSEAttestationOccurrence | undefined;
   /** Describes an attestation of an artifact. */
-  attestation?: AttestationOccurrence;
+  attestation?: AttestationOccurrence | undefined;
   /** Describes a secret. */
-  secret?: SecretOccurrence;
+  secret?: SecretOccurrence | undefined;
   /** Output only. This explicitly denotes which of the occurrence details are specified. This field can be used as a filter in list requests. */
-  kind?: OccurrenceKindEnum;
+  kind?: OccurrenceKindEnum | undefined;
   /** Describes a verifiable build. */
-  build?: BuildOccurrence;
+  build?: BuildOccurrence | undefined;
   /** Output only. The name of the occurrence in the form of `projects/[PROJECT_ID]/occurrences/[OCCURRENCE_ID]`. */
-  name?: string;
+  name?: string | undefined;
 }
 export type OccurrenceList = Array<Occurrence>;
 /** ListVulnerabilitiesResponse contains a single page of vulnerabilities resulting from a scan. */
 export interface ListVulnerabilitiesResponseV1 {
   /** A page token that can be used in a subsequent call to ListVulnerabilities to continue retrieving results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of Vulnerability Occurrences resulting from a scan. */
-  occurrences?: OccurrenceList;
+  occurrences?: OccurrenceList | undefined;
 }
 export interface WaitProjectsLocationsOperationsRequest {
   /** The maximum duration to wait before timing out. If left blank, the wait will be at most the time permitted by the underlying HTTP/RPC protocol. If RPC context deadline is also specified, the shorter one will be used. */
-  timeout?: string;
+  timeout?: string | undefined;
   /** The name of the operation resource to wait on. */
   name: string;
 }

@@ -93,28 +93,28 @@ export interface ListDataModelingJobsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Include jobs finished at or after this time. */
-  after?: string;
+  after?: string | undefined;
   /** Include jobs from every materialization engine. Defaults to ClickHouse jobs only. */
-  all_engines?: boolean;
+  all_engines?: boolean | undefined;
   /** Include jobs finished before this time. */
-  before?: string;
+  before?: string | undefined;
   /** * `clickhouse` - ClickHouse * `duckgres` - Duckgres * `managed_warehouse` - Managed warehouse */
-  engine?: ListDataModelingJobsRequestEngine | (string & {});
+  engine?: ListDataModelingJobsRequestEngine | (string & {}) | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
-  saved_query_id?: string;
+  offset?: number | undefined;
+  saved_query_id?: string | undefined;
   /** Comma-separated materialized view IDs. */
-  saved_query_ids?: ListDataModelingJobsRequestSavedQueryIdsList;
+  saved_query_ids?: ListDataModelingJobsRequestSavedQueryIdsList | undefined;
   /** * `Cancelled` - Cancelled * `Completed` - Completed * `Failed` - Failed * `Running` - Running * `Skipped` - Skipped */
-  status?: ListDataModelingJobsRequestStatus | (string & {});
+  status?: ListDataModelingJobsRequestStatus | (string & {}) | undefined;
 }
 export type PaginatedDataModelingJobListResultsList = Array<DataModelingJob>;
 export interface PaginatedDataModelingJobList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedDataModelingJobListResultsList;
 }
 export type GetDataModelingJobError = PosthogOpError;

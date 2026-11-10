@@ -33,9 +33,9 @@ const TELEMETRY = {
 export type CreateOrganizationBudgetRequestBudgetAlertingAlertRecipientsList = Array<string>;
 export interface CreateOrganizationBudgetRequestBudgetAlerting {
   /** Whether alerts are enabled for this budget. Rejected for user-scope as alerting is always disabled for them. */
-  will_alert?: boolean;
+  will_alert?: boolean | undefined;
   /** Array of user login names who will receive alerts. Rejected for user-scope as alerting is always disabled for them. */
-  alert_recipients?: CreateOrganizationBudgetRequestBudgetAlertingAlertRecipientsList;
+  alert_recipients?: CreateOrganizationBudgetRequestBudgetAlertingAlertRecipientsList | undefined;
 }
 /** The scope of the budget for this organization. - `organization`: Apply the budget to the organization. - `repository`: Apply the budget to a specific repository in the organization. - `multi_user_customer`: Apply a universal budget to all users in the organization. - `user`: Apply the budget to a single user in the organization. `user` and `multi_user_customer` scopes are only supported when `budget_product_sku` is `ai_credits` or `premium_requests`. */
 export type CreateOrganizationBudgetRequestBudgetScope =
@@ -55,22 +55,22 @@ export interface CreateOrganizationBudgetRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The budget amount in whole dollars. For license-based products, this represents the number of licenses. */
-  budget_amount?: number;
+  budget_amount?: number | undefined;
   /** Whether to prevent additional spending once the budget is exceeded. For `user` and `multi_user_customer` scopes, this must be `true`. */
-  prevent_further_usage?: boolean;
-  budget_alerting?: CreateOrganizationBudgetRequestBudgetAlerting;
+  prevent_further_usage?: boolean | undefined;
+  budget_alerting?: CreateOrganizationBudgetRequestBudgetAlerting | undefined;
   /** The scope of the budget for this organization. - `organization`: Apply the budget to the organization. - `repository`: Apply the budget to a specific repository in the organization. - `multi_user_customer`: Apply a universal budget to all users in the organization. - `user`: Apply the budget to a single user in the organization. `user` and `multi_user_customer` scopes are only supported when `budget_product_sku` is `ai_credits` or `premium_requests`. */
-  budget_scope?: CreateOrganizationBudgetRequestBudgetScope | (string & {});
+  budget_scope?: CreateOrganizationBudgetRequestBudgetScope | (string & {}) | undefined;
   /** The entity to apply the budget to. The expected value depends on `budget_scope`. - `repository`: The repository name, or `owner/repo`. - `organization`, `multi_user_customer`, and `user`: Not used. For `user`, set the `user` field instead. */
-  budget_entity_name?: string;
+  budget_entity_name?: string | undefined;
   /** The type of pricing model used by the budget. Determines how `budget_product_sku` is interpreted. - `BundlePricing`: Covers all AI credit SKUs. Set `budget_product_sku` to `ai_credits`. - `ProductPricing`: Covers all SKUs that belong to a product. Set `budget_product_sku` to a product such as `actions` or `packages`. - `SkuPricing`: Covers a single, specific SKU. Set `budget_product_sku` to a SKU such as `actions_linux`. */
-  budget_type?: CreateOrganizationBudgetRequestBudgetType;
+  budget_type?: CreateOrganizationBudgetRequestBudgetType | undefined;
   /** A single product or SKU that will be covered in the budget */
-  budget_product_sku?: string;
+  budget_product_sku?: string | undefined;
   /** The username of the user for `user` scope budgets. This field is required when `budget_scope` is `user`. */
-  user?: string;
+  user?: string | undefined;
   /** The date the budget will expire in `YYYY-MM-DD` format. Only dates in the future are accepted. If not provided, the budget will not expire. Only supported for budgets with `budget_scope` of `user` */
-  expires_at?: string;
+  expires_at?: string | undefined;
 }
 /** The type of scope for the budget */
 export type CreateBudgetBudgetBudgetScope =
@@ -91,28 +91,28 @@ export type CreateBudgetBudgetBudgetType =
 export type CreateBudgetBudgetBudgetAlertingAlertRecipientsList = Array<string>;
 export interface CreateBudgetBudgetBudgetAlerting {
   /** Whether alerts are enabled for this budget. Rejected for user-scope as alerting is always disabled for them. */
-  will_alert?: boolean;
+  will_alert?: boolean | undefined;
   /** Array of user login names who will receive alerts. Rejected for user-scope as alerting is always disabled for them. */
-  alert_recipients?: CreateBudgetBudgetBudgetAlertingAlertRecipientsList;
+  alert_recipients?: CreateBudgetBudgetBudgetAlertingAlertRecipientsList | undefined;
 }
 export interface CreateBudgetBudget {
   /** ID of the budget. */
-  id?: string;
+  id?: string | undefined;
   /** The type of scope for the budget */
-  budget_scope?: CreateBudgetBudgetBudgetScope;
+  budget_scope?: CreateBudgetBudgetBudgetScope | undefined;
   /** The name of the entity to apply the budget to */
-  budget_entity_name?: string;
+  budget_entity_name?: string | undefined;
   /** The budget amount in whole dollars. For license-based products, this represents the number of licenses. */
-  budget_amount?: number;
+  budget_amount?: number | undefined;
   /** Whether to prevent additional spending once the budget is exceeded */
-  prevent_further_usage?: boolean;
+  prevent_further_usage?: boolean | undefined;
   /** A single product or sku to apply the budget to. */
-  budget_product_sku?: string;
+  budget_product_sku?: string | undefined;
   /** The type of pricing for the budget */
-  budget_type?: CreateBudgetBudgetBudgetType;
-  budget_alerting?: CreateBudgetBudgetBudgetAlerting;
+  budget_type?: CreateBudgetBudgetBudgetType | undefined;
+  budget_alerting?: CreateBudgetBudgetBudgetAlerting | undefined;
   /** The date the budget will expire in `YYYY-MM-DD` format. Only dates in the future are accepted. If not provided, the budget will not expire. Only supported for budgets with `budget_scope` of `user` */
-  expires_at?: string;
+  expires_at?: string | undefined;
 }
 export interface CreateBudget {
   /** A message indicating the result of the create operation */
@@ -142,13 +142,13 @@ export interface GetAllBudgetsOrgRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The page number of the results to fetch. */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page (max 100). */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Filter budgets by scope type. - `organization`: Budgets scoped to the organization. - `repository`: Budgets scoped to a repository. - `multi_user_customer`: Universal budgets that apply to all users in the organization. - `user`: Budgets scoped to an individual user. */
-  scope?: GetAllBudgetsOrgRequestScope | (string & {});
+  scope?: GetAllBudgetsOrgRequestScope | (string & {}) | undefined;
   /** Filter consumed amount details for budgets by the specified user login. */
-  user?: string;
+  user?: string | undefined;
 }
 export type BudgetBudgetTypeCase0 = "SkuPricing";
 export type BudgetBudgetTypeCase1 = "ProductPricing";
@@ -183,16 +183,16 @@ export interface Budget {
   /** The scope of the budget */
   budget_scope: BudgetBudgetScope;
   /** The name of the entity for the budget (enterprise does not require a name). */
-  budget_entity_name?: string;
+  budget_entity_name?: string | undefined;
   /** The user login when the budget is scoped to a single user (`user` scope). */
-  user?: string;
+  user?: string | undefined;
   /** The amount consumed for a user-scoped budget, or for a multi-user budget when filtering by user. */
-  consumed_amount?: number;
+  consumed_amount?: number | undefined;
   /** A single product or sku to apply the budget to. */
   budget_product_sku: string;
   budget_alerting: BudgetBudgetAlerting;
   /** The date the budget will expire in `YYYY-MM-DD` format. Only dates in the future are accepted. If not provided, the budget will not expire. Only supported for budgets with `budget_scope` of `user` */
-  expires_at?: string;
+  expires_at?: string | undefined;
 }
 /** Array of budget objects for the enterprise */
 export type GetAllBudgetsBudgetsList = Array<Budget>;
@@ -209,13 +209,13 @@ export interface GetAllBudgets {
   /** Array of budget objects for the enterprise */
   budgets: GetAllBudgetsBudgetsList;
   /** User login included when the response is scoped with the `user` query parameter. */
-  user?: string;
+  user?: string | undefined;
   /** Effective user-level budget details returned when the response is scoped with the `user` query parameter. */
-  effective_budget?: GetAllBudgetsEffectiveBudget;
+  effective_budget?: GetAllBudgetsEffectiveBudget | undefined;
   /** Indicates if there are more pages of results available */
-  has_next_page?: boolean;
+  has_next_page?: boolean | undefined;
   /** Total number of budgets matching the query */
-  total_count?: number;
+  total_count?: number | undefined;
 }
 export interface GetBudgetOrgRequest {
   /** The organization name. The name is not case sensitive. */
@@ -240,9 +240,9 @@ export type GetBudgetBudgetType = GetBudgetBudgetTypeCase0 | GetBudgetBudgetType
 export type GetBudgetBudgetAlertingAlertRecipientsList = Array<string>;
 export interface GetBudgetBudgetAlerting {
   /** Whether alerts are enabled for this budget. Present but not applicable for user-scope as alerting is always disabled for them. */
-  will_alert?: boolean;
+  will_alert?: boolean | undefined;
   /** Array of user login names who will receive alerts. Present but not applicable for user-scope as alerting is always disabled for them. */
-  alert_recipients?: GetBudgetBudgetAlertingAlertRecipientsList;
+  alert_recipients?: GetBudgetBudgetAlertingAlertRecipientsList | undefined;
 }
 export interface GetBudget {
   /** ID of the budget. */
@@ -252,7 +252,7 @@ export interface GetBudget {
   /** The name of the entity to apply the budget to */
   budget_entity_name: string;
   /** The user login when the budget is scoped to a single user (`user` scope). */
-  user?: string;
+  user?: string | undefined;
   /** The budget amount in whole dollars. For license-based products, this represents the number of licenses. */
   budget_amount: number;
   /** Whether to prevent additional spending once the budget is exceeded */
@@ -263,31 +263,31 @@ export interface GetBudget {
   budget_type: GetBudgetBudgetType;
   budget_alerting: GetBudgetBudgetAlerting;
   /** The current usage amount counted toward the budget. How usage is calculated may vary by budget type. */
-  consumed_amount?: number;
+  consumed_amount?: number | undefined;
 }
 export interface GetGithubBillingAiCreditUsageReportOrgRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** If specified, only return results for a single year. The value of `year` is an integer with four digits representing a year. For example, `2025`. Default value is the current year. */
-  year?: number;
+  year?: number | undefined;
   /** If specified, only return results for a single month. The value of `month` is an integer between `1` and `12`. Default value is the current month. If no year is specified the default `year` is used. */
-  month?: number;
+  month?: number | undefined;
   /** If specified, only return results for a single day. The value of `day` is an integer between `1` and `31`. If no `year` or `month` is specified, the default `year` and `month` are used. */
-  day?: number;
+  day?: number | undefined;
   /** The user name to query usage for. The name is not case sensitive. */
-  user?: string;
+  user?: string | undefined;
   /** The model name to query usage for. The name is not case sensitive. */
-  model?: string;
+  model?: string | undefined;
   /** The product name to query usage for. The name is not case sensitive. */
-  product?: string;
+  product?: string | undefined;
 }
 export interface BillingAiCreditUsageReportOrgTimePeriod {
   /** The year for the usage report. */
   year: number;
   /** The month for the usage report. */
-  month?: number;
+  month?: number | undefined;
   /** The day for the usage report. */
-  day?: number;
+  day?: number | undefined;
 }
 export interface BillingAiCreditUsageReportOrgUsageItemsItem {
   /** Product name. */
@@ -320,26 +320,26 @@ export interface BillingAiCreditUsageReportOrg {
   /** The unique identifier of the organization. */
   organization: string;
   /** The name of the user for the usage report. */
-  user?: string;
+  user?: string | undefined;
   /** The product for the usage report. */
-  product?: string;
+  product?: string | undefined;
   /** The model for the usage report. */
-  model?: string;
+  model?: string | undefined;
   usageItems: BillingAiCreditUsageReportOrgUsageItemsList;
 }
 export interface GetGithubBillingAiCreditUsageReportUserRequest {
   /** The handle for the GitHub user account. */
   username: string;
   /** If specified, only return results for a single year. The value of `year` is an integer with four digits representing a year. For example, `2025`. Default value is the current year. */
-  year?: number;
+  year?: number | undefined;
   /** If specified, only return results for a single month. The value of `month` is an integer between `1` and `12`. Default value is the current month. If no year is specified the default `year` is used. */
-  month?: number;
+  month?: number | undefined;
   /** If specified, only return results for a single day. The value of `day` is an integer between `1` and `31`. If no `year` or `month` is specified, the default `year` and `month` are used. */
-  day?: number;
+  day?: number | undefined;
   /** The model name to query usage for. The name is not case sensitive. */
-  model?: string;
+  model?: string | undefined;
   /** The product name to query usage for. The name is not case sensitive. */
-  product?: string;
+  product?: string | undefined;
 }
 export type BillingAiCreditUsageReportUserTimePeriod = BillingAiCreditUsageReportOrgTimePeriod;
 export type BillingAiCreditUsageReportUserUsageItemsItem =
@@ -351,26 +351,26 @@ export interface BillingAiCreditUsageReportUser {
   /** The unique identifier of the user. */
   user: string;
   /** The product for the usage report. */
-  product?: string;
+  product?: string | undefined;
   /** The model for the usage report. */
-  model?: string;
+  model?: string | undefined;
   usageItems: BillingAiCreditUsageReportUserUsageItemsList;
 }
 export interface GetGithubBillingPremiumRequestUsageReportOrgRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** If specified, only return results for a single year. The value of `year` is an integer with four digits representing a year. For example, `2025`. Default value is the current year. */
-  year?: number;
+  year?: number | undefined;
   /** If specified, only return results for a single month. The value of `month` is an integer between `1` and `12`. Default value is the current month. If no year is specified the default `year` is used. */
-  month?: number;
+  month?: number | undefined;
   /** If specified, only return results for a single day. The value of `day` is an integer between `1` and `31`. If no `year` or `month` is specified, the default `year` and `month` are used. */
-  day?: number;
+  day?: number | undefined;
   /** The user name to query usage for. The name is not case sensitive. */
-  user?: string;
+  user?: string | undefined;
   /** The model name to query usage for. The name is not case sensitive. */
-  model?: string;
+  model?: string | undefined;
   /** The product name to query usage for. The name is not case sensitive. */
-  product?: string;
+  product?: string | undefined;
 }
 export type BillingPremiumRequestUsageReportOrgTimePeriod = BillingAiCreditUsageReportOrgTimePeriod;
 export type BillingPremiumRequestUsageReportOrgUsageItemsItem =
@@ -382,26 +382,26 @@ export interface BillingPremiumRequestUsageReportOrg {
   /** The unique identifier of the organization. */
   organization: string;
   /** The name of the user for the usage report. */
-  user?: string;
+  user?: string | undefined;
   /** The product for the usage report. */
-  product?: string;
+  product?: string | undefined;
   /** The model for the usage report. */
-  model?: string;
+  model?: string | undefined;
   usageItems: BillingPremiumRequestUsageReportOrgUsageItemsList;
 }
 export interface GetGithubBillingPremiumRequestUsageReportUserRequest {
   /** The handle for the GitHub user account. */
   username: string;
   /** If specified, only return results for a single year. The value of `year` is an integer with four digits representing a year. For example, `2025`. Default value is the current year. */
-  year?: number;
+  year?: number | undefined;
   /** If specified, only return results for a single month. The value of `month` is an integer between `1` and `12`. Default value is the current month. If no year is specified the default `year` is used. */
-  month?: number;
+  month?: number | undefined;
   /** If specified, only return results for a single day. The value of `day` is an integer between `1` and `31`. If no `year` or `month` is specified, the default `year` and `month` are used. */
-  day?: number;
+  day?: number | undefined;
   /** The model name to query usage for. The name is not case sensitive. */
-  model?: string;
+  model?: string | undefined;
   /** The product name to query usage for. The name is not case sensitive. */
-  product?: string;
+  product?: string | undefined;
 }
 export type BillingPremiumRequestUsageReportUserTimePeriod =
   BillingAiCreditUsageReportOrgTimePeriod;
@@ -414,20 +414,20 @@ export interface BillingPremiumRequestUsageReportUser {
   /** The unique identifier of the user. */
   user: string;
   /** The product for the usage report. */
-  product?: string;
+  product?: string | undefined;
   /** The model for the usage report. */
-  model?: string;
+  model?: string | undefined;
   usageItems: BillingPremiumRequestUsageReportUserUsageItemsList;
 }
 export interface GetGithubBillingUsageReportOrgRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** If specified, only return results for a single year. The value of `year` is an integer with four digits representing a year. For example, `2025`. Default value is the current year. */
-  year?: number;
+  year?: number | undefined;
   /** If specified, only return results for a single month. The value of `month` is an integer between `1` and `12`. If no year is specified the default `year` is used. */
-  month?: number;
+  month?: number | undefined;
   /** If specified, only return results for a single day. The value of `day` is an integer between `1` and `31`. If no `year` or `month` is specified, the default `year` and `month` are used. */
-  day?: number;
+  day?: number | undefined;
 }
 export interface BillingUsageReportUsageItemsItem {
   /** Date of the usage line item. */
@@ -451,21 +451,21 @@ export interface BillingUsageReportUsageItemsItem {
   /** Name of the organization. */
   organizationName: string;
   /** Name of the repository. */
-  repositoryName?: string;
+  repositoryName?: string | undefined;
 }
 export type BillingUsageReportUsageItemsList = Array<BillingUsageReportUsageItemsItem>;
 export interface BillingUsageReport {
-  usageItems?: BillingUsageReportUsageItemsList;
+  usageItems?: BillingUsageReportUsageItemsList | undefined;
 }
 export interface GetGithubBillingUsageReportUserRequest {
   /** The handle for the GitHub user account. */
   username: string;
   /** If specified, only return results for a single year. The value of `year` is an integer with four digits representing a year. For example, `2025`. Default value is the current year. */
-  year?: number;
+  year?: number | undefined;
   /** If specified, only return results for a single month. The value of `month` is an integer between `1` and `12`. If no year is specified the default `year` is used. */
-  month?: number;
+  month?: number | undefined;
   /** If specified, only return results for a single day. The value of `day` is an integer between `1` and `31`. If no `year` or `month` is specified, the default `year` and `month` are used. */
-  day?: number;
+  day?: number | undefined;
 }
 export interface BillingUsageReportUserUsageItemsItem {
   /** Date of the usage line item. */
@@ -487,27 +487,27 @@ export interface BillingUsageReportUserUsageItemsItem {
   /** Net amount of the usage line item. */
   netAmount: number;
   /** Name of the repository. */
-  repositoryName?: string;
+  repositoryName?: string | undefined;
 }
 export type BillingUsageReportUserUsageItemsList = Array<BillingUsageReportUserUsageItemsItem>;
 export interface BillingUsageReportUser {
-  usageItems?: BillingUsageReportUserUsageItemsList;
+  usageItems?: BillingUsageReportUserUsageItemsList | undefined;
 }
 export interface GetGithubBillingUsageSummaryReportOrgRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** If specified, only return results for a single year. The value of `year` is an integer with four digits representing a year. For example, `2025`. Default value is the current year. */
-  year?: number;
+  year?: number | undefined;
   /** If specified, only return results for a single month. The value of `month` is an integer between `1` and `12`. Default value is the current month. If no year is specified the default `year` is used. */
-  month?: number;
+  month?: number | undefined;
   /** If specified, only return results for a single day. The value of `day` is an integer between `1` and `31`. If no `year` or `month` is specified, the default `year` and `month` are used. */
-  day?: number;
+  day?: number | undefined;
   /** The repository name to query for usage in the format owner/repository. */
-  repository?: string;
+  repository?: string | undefined;
   /** The product name to query usage for. The name is not case sensitive. */
-  product?: string;
+  product?: string | undefined;
   /** The SKU to query for usage. */
-  sku?: string;
+  sku?: string | undefined;
 }
 export type BillingUsageSummaryReportOrgTimePeriod = BillingAiCreditUsageReportOrgTimePeriod;
 export interface BillingUsageSummaryReportOrgUsageItemsItem {
@@ -539,28 +539,28 @@ export interface BillingUsageSummaryReportOrg {
   /** The unique identifier of the organization. */
   organization: string;
   /** The name of the repository for the usage report. */
-  repository?: string;
+  repository?: string | undefined;
   /** The product for the usage report. */
-  product?: string;
+  product?: string | undefined;
   /** The SKU for the usage report. */
-  sku?: string;
+  sku?: string | undefined;
   usageItems: BillingUsageSummaryReportOrgUsageItemsList;
 }
 export interface GetGithubBillingUsageSummaryReportUserRequest {
   /** The handle for the GitHub user account. */
   username: string;
   /** If specified, only return results for a single year. The value of `year` is an integer with four digits representing a year. For example, `2025`. Default value is the current year. */
-  year?: number;
+  year?: number | undefined;
   /** If specified, only return results for a single month. The value of `month` is an integer between `1` and `12`. Default value is the current month. If no year is specified the default `year` is used. */
-  month?: number;
+  month?: number | undefined;
   /** If specified, only return results for a single day. The value of `day` is an integer between `1` and `31`. If no `year` or `month` is specified, the default `year` and `month` are used. */
-  day?: number;
+  day?: number | undefined;
   /** The repository name to query for usage in the format owner/repository. */
-  repository?: string;
+  repository?: string | undefined;
   /** The product name to query usage for. The name is not case sensitive. */
-  product?: string;
+  product?: string | undefined;
   /** The SKU to query for usage. */
-  sku?: string;
+  sku?: string | undefined;
 }
 export type BillingUsageSummaryReportUserTimePeriod = BillingAiCreditUsageReportOrgTimePeriod;
 export type BillingUsageSummaryReportUserUsageItemsItem =
@@ -572,20 +572,20 @@ export interface BillingUsageSummaryReportUser {
   /** The unique identifier of the user. */
   user: string;
   /** The name of the repository for the usage report. */
-  repository?: string;
+  repository?: string | undefined;
   /** The product for the usage report. */
-  product?: string;
+  product?: string | undefined;
   /** The SKU for the usage report. */
-  sku?: string;
+  sku?: string | undefined;
   usageItems: BillingUsageSummaryReportUserUsageItemsList;
 }
 /** Array of user login names who will receive alerts. Ignored for user-scopes as alerting is always disabled for them. */
 export type UpdateBudgetOrgRequestBudgetAlertingAlertRecipientsList = Array<string>;
 export interface UpdateBudgetOrgRequestBudgetAlerting {
   /** Whether alerts are enabled for this budget. Ignored for user-scopes as alerting is always disabled for them. */
-  will_alert?: boolean;
+  will_alert?: boolean | undefined;
   /** Array of user login names who will receive alerts. Ignored for user-scopes as alerting is always disabled for them. */
-  alert_recipients?: UpdateBudgetOrgRequestBudgetAlertingAlertRecipientsList;
+  alert_recipients?: UpdateBudgetOrgRequestBudgetAlertingAlertRecipientsList | undefined;
 }
 export type UpdateBudgetOrgRequestExpiresAtCase1 = 0;
 /** The date the budget will expire in `YYYY-MM-DD` format. Only dates in the future are accepted. If not set, the budget will not expire. Setting to `null` or `0` will remove the expiration date from a budget if set. Only supported for existing user-scoped budgets. */
@@ -596,12 +596,12 @@ export interface UpdateBudgetOrgRequest {
   /** The ID corresponding to the budget. */
   budget_id: string;
   /** The budget amount in whole dollars. For license-based products, this represents the number of licenses. */
-  budget_amount?: number;
+  budget_amount?: number | undefined;
   /** Whether to prevent additional spending once the budget is exceeded. For budgets with `user` or `multi_user_customer` scope, this must remain `true`. */
-  prevent_further_usage?: boolean;
-  budget_alerting?: UpdateBudgetOrgRequestBudgetAlerting;
+  prevent_further_usage?: boolean | undefined;
+  budget_alerting?: UpdateBudgetOrgRequestBudgetAlerting | undefined;
   /** The date the budget will expire in `YYYY-MM-DD` format. Only dates in the future are accepted. If not set, the budget will not expire. Setting to `null` or `0` will remove the expiration date from a budget if set. Only supported for existing user-scoped budgets. */
-  expires_at?: UpdateBudgetOrgRequestExpiresAt;
+  expires_at?: UpdateBudgetOrgRequestExpiresAt | undefined;
 }
 /** The type of scope for the budget */
 export type UpdateBudgetBudgetBudgetScope =
@@ -622,32 +622,32 @@ export type UpdateBudgetBudgetBudgetType =
 export type UpdateBudgetBudgetBudgetAlertingAlertRecipientsList = Array<string>;
 export interface UpdateBudgetBudgetBudgetAlerting {
   /** Whether alerts are enabled for this budget. Ignored for user-scope as alerting is always disabled for them. */
-  will_alert?: boolean;
+  will_alert?: boolean | undefined;
   /** Array of user login names who will receive alerts. Ignored for user-scope as alerting is always disabled for them. */
-  alert_recipients?: UpdateBudgetBudgetBudgetAlertingAlertRecipientsList;
+  alert_recipients?: UpdateBudgetBudgetBudgetAlertingAlertRecipientsList | undefined;
 }
 export interface UpdateBudgetBudget {
   /** ID of the budget. */
-  id?: string;
+  id?: string | undefined;
   /** The type of scope for the budget */
-  budget_scope?: UpdateBudgetBudgetBudgetScope;
+  budget_scope?: UpdateBudgetBudgetBudgetScope | undefined;
   /** The name of the entity to apply the budget to */
-  budget_entity_name?: string;
+  budget_entity_name?: string | undefined;
   /** The user login when the budget is scoped to a single user (`user` scope). */
-  user?: string;
+  user?: string | undefined;
   /** The consumed amount for the specified user within the budget. Only included for `user`-scoped budgets. */
-  consumed_amount?: number;
+  consumed_amount?: number | undefined;
   /** The budget amount in whole dollars. For license-based products, this represents the number of licenses. */
-  budget_amount?: number;
+  budget_amount?: number | undefined;
   /** Whether to prevent additional spending once the budget is exceeded */
-  prevent_further_usage?: boolean;
+  prevent_further_usage?: boolean | undefined;
   /** A single product or sku to apply the budget to. */
-  budget_product_sku?: string;
+  budget_product_sku?: string | undefined;
   /** The type of pricing for the budget */
-  budget_type?: UpdateBudgetBudgetBudgetType;
-  budget_alerting?: UpdateBudgetBudgetBudgetAlerting;
+  budget_type?: UpdateBudgetBudgetBudgetType | undefined;
+  budget_alerting?: UpdateBudgetBudgetBudgetAlerting | undefined;
   /** The date the budget will expire in `YYYY-MM-DD` format. Only dates in the future are accepted. If not provided, the budget will not expire. Only supported for budgets with `budget_scope` of `user` */
-  expires_at?: string;
+  expires_at?: string | undefined;
 }
 export interface UpdateBudget {
   /** A message indicating the result of the update operation */

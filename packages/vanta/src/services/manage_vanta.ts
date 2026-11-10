@@ -86,7 +86,7 @@ export interface RiskScenarioAccountMapping {
   /** The Vanta connection ID, returned as connections[].connectionId by GET /v1/integrations. */
   accountId: string;
   /** The provider's subunit identifier for an organization connection, such as an AWS account ID. Omit for standalone connections. */
-  subunitId?: string;
+  subunitId?: string | undefined;
 }
 /** Accounts to link. Repeated account selections in this request are deduplicated. */
 export type AddAccountMappingsRequestAccountsToLinkList = Array<RiskScenarioAccountMapping>;
@@ -135,7 +135,7 @@ export interface Control {
   /** The control's owner. */
   owner: Owner | null;
   /** The control's GDPR role, if the control is a GDPR control. */
-  role?: string | null;
+  role?: string | null | undefined;
   /** The control's custom field values, if control custom fields is included in your Vanta instance. */
   customFields: ControlCustomFieldsList;
   /** When the control was created. Returns null for Vanta library controls. */
@@ -143,7 +143,7 @@ export interface Control {
   /** When the control was last modified. Returns null for Vanta library controls. */
   modificationDate: string | null;
   /** How the control is implemented. */
-  implementationDetails?: string | null;
+  implementationDetails?: string | null | undefined;
 }
 /** IDs of the categories to add the control to. This cannot be empty. */
 export type AddControlToTrustCenterRequestCategoryIdsList = Array<string>;
@@ -600,9 +600,9 @@ export interface Vendor {
   /** The task tracker procurement request associated with this vendor (if linked). */
   linkedTaskTrackerTaskProcurementRequest: VendorLinkedTaskTrackerTaskProcurementRequest | null;
   /** A product, service, or subsidiary you use from a vendor. Each engagement belongs to one parent vendor, has its own risk score and assessments, and cannot have engagements of its own. Returned engagements are sorted by name. Empty when there are none. */
-  engagements?: VendorEngagementsList;
+  engagements?: VendorEngagementsList | undefined;
   /** The parent vendor of this engagement, or null when there is no accessible parent. */
-  parentVendor?: VendorRelationshipSummary | null;
+  parentVendor?: VendorRelationshipSummary | null | undefined;
 }
 export interface AddDocumentToControlRequest {
   controlId: string;
@@ -929,7 +929,7 @@ export interface Person {
   /** The person's tasks summary, which aggregates their current status across all of their relevant tasks. */
   tasksSummary: PersonTasksSummary;
   /** Program scopes this person belongs to and the caller can view, when enabled and loaded. */
-  programScopeIds?: PersonProgramScopeIdsList;
+  programScopeIds?: PersonProgramScopeIdsList | undefined;
 }
 export type CustomerTrustProductContextIdWritable =
   | "EXTERNAL_TRUST_CENTER"
@@ -1064,13 +1064,13 @@ export interface AddTrustCenterViewerRequest {
   /** Whether to require an NDA for the viewer. */
   isNdaRequired: boolean;
   /** The date access should expire for this viewer. If a date isn't provided, access will not expire. */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Identifiers for the resources that this viewer should have access to. If this field is omitted, the viewer will have access to all resources on the Trust Center. */
-  resourceIds?: AddTrustCenterViewerRequestResourceIdsList;
+  resourceIds?: AddTrustCenterViewerRequestResourceIdsList | undefined;
   /** Access level for the viewer. */
   accessLevel: ViewerAccessLevel | (string & {});
   /** ID of a Customer Trust Account to associate with this viewer. */
-  customerTrustAccountId?: string;
+  customerTrustAccountId?: string | undefined;
 }
 /** IDs for the resources this viewer has access to. If null, the viewer has access to all resources on the Trust Center. */
 export type TrustCenterViewerResourceIdsList = Array<string>;
@@ -1169,7 +1169,7 @@ export interface AddVendorFindingMappingsResponse {}
 export interface ApproveQuestionnaireRequest {
   questionnaireId: string;
   /** Optional message describing the reason for approval. */
-  statusChangeMessage?: string;
+  statusChangeMessage?: string | undefined;
 }
 export type CustomerTrustQuestionnaireType = "SPREADSHEET" | "WEBSITE" | "DOCUMENT";
 export type QuestionnaireStatus =
@@ -1232,23 +1232,23 @@ export type CustomerTrustQuestionnaireTagAndCategoryIdsList = Array<TagInput>;
 export interface CustomerTrustQuestionnaire {
   id: string;
   displayName: string;
-  url?: string;
+  url?: string | undefined;
   type: CustomerTrustQuestionnaireType;
   status: QuestionnaireStatus;
   /** The status change history log for the questionnaire. Entries are ordered by the most recent status change first. */
   statusLog: CustomerTrustQuestionnaireStatusLogList;
   /** The owner assignment in actor form (User or Team). */
-  ownerAssignment?: ActorAssignment;
+  ownerAssignment?: ActorAssignment | undefined;
   /** The approver assignment in actor form (User or Team). */
-  approverAssignment?: ActorAssignment;
-  customerTrustAccountId?: string;
-  dueDate?: string;
-  metadata?: CustomerTrustQuestionnaireMetadataList;
+  approverAssignment?: ActorAssignment | undefined;
+  customerTrustAccountId?: string | undefined;
+  dueDate?: string | undefined;
+  metadata?: CustomerTrustQuestionnaireMetadataList | undefined;
   /** Tags assigned to this questionnaire. Each entry contains a categoryId and tagId. */
   tagAndCategoryIds: CustomerTrustQuestionnaireTagAndCategoryIdsList;
   createdDate: string;
   updatedDate: string;
-  completedDate?: string;
+  completedDate?: string | undefined;
 }
 /** Identifiers for the resources that this viewer should have access to. If this field is omitted, the viewer will have access to all resources that they requested. */
 export type ApproveTrustCenterAccessRequestRequestResourceIdsList = Array<string>;
@@ -1256,13 +1256,13 @@ export interface ApproveTrustCenterAccessRequestRequest {
   slugId: string;
   accessRequestId: string;
   /** The date access should expire for this viewer. If a date isn't provided, access will not expire. */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Whether to require an NDA for the viewer. Defaults to true. */
-  isNdaRequired?: boolean;
+  isNdaRequired?: boolean | undefined;
   /** Identifiers for the resources that this viewer should have access to. If this field is omitted, the viewer will have access to all resources that they requested. */
-  resourceIds?: ApproveTrustCenterAccessRequestRequestResourceIdsList;
+  resourceIds?: ApproveTrustCenterAccessRequestRequestResourceIdsList | undefined;
   /** Approved access level of the viewer. If this field is omitted, the viewer will have the access level they requested. */
-  accessLevel?: ViewerAccessLevel | (string & {});
+  accessLevel?: ViewerAccessLevel | (string & {}) | undefined;
 }
 export interface ApproveTrustCenterAccessRequestResponse {}
 /** IDs of the controls to tag. Maximum 100. */
@@ -1351,7 +1351,7 @@ export interface RiskScenario {
   /** This describes an actual or potential risk to your organization's people, processes, technology, data, and facilities. Document actual issues or likely scenarios based on your specific environment or a potential vulnerability. Naming note: in the UI, `description` is labelled "Title" and `detailedDescription` is labelled "Description". The field names are preserved for backwards compatibility with the public REST API and existing data. */
   description: string;
   /** Optional long-form description providing extended context for the risk scenario. Maximum 10000 characters. Naming note: in the UI, `description` is labelled "Title" and `detailedDescription` is labelled "Description". The field names are preserved for backwards compatibility with the public REST API and existing data. */
-  detailedDescription?: string | null;
+  detailedDescription?: string | null | undefined;
   /** If set to true this risk can only be seen by its owner or users with Admin, RiskSensitiveManage or RiskSensitiveView permissions. */
   isSensitive: boolean | null;
   /** Represents the probability of an incident occurring due to this risk or vulnerability, expressed as a numerical score. Defaults to a range of 1-5, where higher values indicate greater likelihood. The range can be customized in the Risk Management settings. A value of `null` indicates that no score has been assigned. */
@@ -1395,7 +1395,7 @@ export interface ClearLeaveForPersonRequest {
 export interface CompleteQuestionnaireRequest {
   questionnaireId: string;
   /** Whether to sync approved answers to the answer library. Defaults to true. Ignored for non-English SPREADSHEET/DOCUMENT questionnaires. */
-  shouldSyncApprovedToAnswerLibrary?: boolean;
+  shouldSyncApprovedToAnswerLibrary?: boolean | undefined;
 }
 /** The type of actor. Currently only "User" is supported. */
 export type AnswerLibraryActorAssignmentInputType = "User";
@@ -1413,11 +1413,11 @@ export interface CreateAnswerLibraryEntryRequest {
   /** The answer text. */
   answer: string;
   /** The actor to assign as owner. Currently only type "User" is supported. */
-  ownerAssignment?: AnswerLibraryActorAssignmentInput;
+  ownerAssignment?: AnswerLibraryActorAssignmentInput | undefined;
   /** The expiration date in ISO 8601 format. */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Tags to associate with the entry. Discover valid `categoryId` and `tagId` values via `GET /v1/customer-trust/tag-categories` (to list categories) and `GET /v1/customer-trust/tag-categories/{tagCategoryId}` (to list tags within a category). */
-  tags?: CreateAnswerLibraryEntryRequestTagsList;
+  tags?: CreateAnswerLibraryEntryRequestTagsList | undefined;
 }
 export type KnowledgeBaseAnswerLibraryEntryOutputExpirationStatus = "CURRENT" | "EXPIRED";
 export type AnswerLibraryActorAssignmentType = "User" | "Team";
@@ -1507,9 +1507,9 @@ export interface CreateComplianceFrameworkRequest {
   /** Display name of the framework. */
   name: string;
   /** Compliance standard to associate with this framework. */
-  standard?: CreateComplianceFrameworkRequestStandard | (string & {}) | null;
+  standard?: CreateComplianceFrameworkRequestStandard | (string & {}) | null | undefined;
   /** Description of the framework. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface TrustCenterComplianceFramework {
   /** Unique identifier for the framework. */
@@ -1621,11 +1621,11 @@ export interface CreateCustomControlRequest {
   /** The control's category. */
   domain: ControlDomain | (string & {});
   /** The framework sections that the control maps to. */
-  sections?: CreateCustomControlRequestSectionsList | null;
+  sections?: CreateCustomControlRequestSectionsList | null | undefined;
   /** The GDPR role of the control, which specifies whether the data is being "collected" or "processed". This field should only be included for controls that are to be mapped to the GDPR framework. */
-  role?: GdprRole | (string & {}) | null;
+  role?: GdprRole | (string & {}) | null | undefined;
   /** The control's values for custom fields. */
-  customFields?: CreateCustomControlRequestCustomFieldsList;
+  customFields?: CreateCustomControlRequestCustomFieldsList | undefined;
 }
 export interface CustomerTrustAccountNDADetailsInput {
   /** Whether NDA requirement should be bypassed for access requests matching this account */
@@ -1649,9 +1649,9 @@ export interface CustomerTrustAccountAccessConfigInput {
   /** Whether access requests matching this account's email domain should be auto-approved */
   autoApprovalEnabled: boolean;
   /** How to grant resource access for auto-approved requests. Must be specified if autoApprovalEnabled is true */
-  grantAccessOption?: CustomerTrustAccountGrantAccessOption | (string & {}) | null;
+  grantAccessOption?: CustomerTrustAccountGrantAccessOption | (string & {}) | null | undefined;
   /** Tags to assign to this account, grouped by category. */
-  tagsByCategory?: CustomerTrustAccountAccessConfigInputTagsByCategoryList;
+  tagsByCategory?: CustomerTrustAccountAccessConfigInputTagsByCategoryList | undefined;
 }
 export type CreateCustomerTrustAccountRequestCustomFieldsList = Array<CustomField>;
 export interface CustomerTrustAccountRevenueOverrideInput {
@@ -1668,13 +1668,13 @@ export type CreateCustomerTrustAccountRequestTagsByCategoryList = Array<TagsByCa
 export interface CreateCustomerTrustAccountRequest {
   name: string;
   emailDomain: string;
-  ndaDetails?: CustomerTrustAccountNDADetailsInput;
-  accessConfig?: CustomerTrustAccountAccessConfigInput;
-  customFields?: CreateCustomerTrustAccountRequestCustomFieldsList;
+  ndaDetails?: CustomerTrustAccountNDADetailsInput | undefined;
+  accessConfig?: CustomerTrustAccountAccessConfigInput | undefined;
+  customFields?: CreateCustomerTrustAccountRequestCustomFieldsList | undefined;
   /** Manual revenue overrides for configured currency fields. Omitted fields are unchanged. */
-  revenueOverrides?: CreateCustomerTrustAccountRequestRevenueOverridesList;
+  revenueOverrides?: CreateCustomerTrustAccountRequestRevenueOverridesList | undefined;
   /** Tags to assign to this account, grouped by category */
-  tagsByCategory?: CreateCustomerTrustAccountRequestTagsByCategoryList;
+  tagsByCategory?: CreateCustomerTrustAccountRequestTagsByCategoryList | undefined;
 }
 export type CustomerTrustAccountNdaStatus = "SIGNED" | "NOT_REQUIRED" | "INCOMPLETE";
 export interface CustomerTrustAccountNDADetails {
@@ -1747,7 +1747,7 @@ export interface CreateCustomOffboardingRequirementInput {
   /** Display title for the requirement. */
   title: string;
   /** Instructions for completing the requirement. Omit for none. */
-  instructions?: string | null;
+  instructions?: string | null | undefined;
 }
 export type CreateCustomOnboardingRequirementInputRequirementType = "ONBOARDING";
 export type CustomRequirementOwnerType = "ADMIN" | "EMPLOYEE";
@@ -1756,13 +1756,13 @@ export interface CreateCustomOnboardingRequirementInput {
   /** Display title for the requirement. */
   title: string;
   /** Instructions for completing the requirement. Omit for none. */
-  instructions?: string | null;
+  instructions?: string | null | undefined;
   /** Who completes the requirement. */
   ownerType: CustomRequirementOwnerType | (string & {});
   /** Label for the requirement's text input. Omit for none. */
-  textInputLabel?: string | null;
+  textInputLabel?: string | null | undefined;
   /** Label for the requirement's file input. Omit for none. */
-  fileInputLabel?: string | null;
+  fileInputLabel?: string | null | undefined;
 }
 export type CreateCustomRequirementInput =
   | CreateCustomOffboardingRequirementInput
@@ -1822,21 +1822,21 @@ export interface CreateDocumentResourceRequest {
   /** Title of the document resource. */
   title: string;
   /** Description of the document resource. */
-  description?: string;
+  description?: string | undefined;
   /** Owner to assign as a JSON string: {"type":"User","id":"<id>"}. */
-  ownerAssignment?: string;
+  ownerAssignment?: string | undefined;
   /** Customer visibility on the Trust Center: PRIVATE | SHAREABLE | REQUEST_ACCESS | PUBLIC. */
-  customerVisibility?: string;
+  customerVisibility?: string | undefined;
   /** Trust Center download permission: VIEW_ONLY | VIEW_AND_DOWNLOAD. */
-  downloadPermission?: string;
+  downloadPermission?: string | undefined;
   /** Whether to use this resource for Questionnaire Automation answer generation ("true" / "false"). */
-  isUsedInQuestionnaires?: string;
+  isUsedInQuestionnaires?: string | undefined;
   /** Expiration date in ISO 8601. */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Tags as a JSON array: [{"categoryId":"<id>","tagId":"<id>"}]. */
-  tags?: string;
+  tags?: string | undefined;
   /** Trust Center category id to associate this resource with. Only applied when `customerVisibility` is `REQUEST_ACCESS` or `PUBLIC`; other visibilities don't place the resource on the Trust Center, so the category is ignored. Pass an unknown id to fall back to uncategorized. */
-  categoryId?: string;
+  categoryId?: string | undefined;
 }
 export type KnowledgeBaseDocumentResourceOutputType = "FILE";
 export type KnowledgeBaseDocumentResourceOutputCustomerVisibility =
@@ -1880,36 +1880,36 @@ export interface CreateFileQuestionnaireRequest {
   /** Display name for the questionnaire. */
   displayName: string;
   /** Owner to assign, as a JSON string: {"type": "User" | "Team", "id": "<id>"}. */
-  ownerAssignment?: string;
+  ownerAssignment?: string | undefined;
   /** Approver to assign, as a JSON string: {"type": "User" | "Team", "id": "<id>"}. */
-  approverAssignment?: string;
+  approverAssignment?: string | undefined;
   /** Description of the questionnaire. */
-  description?: string;
+  description?: string | undefined;
   /** URL of the company associated with this questionnaire. */
-  companyUrl?: string;
+  companyUrl?: string | undefined;
   /** Due date for questionnaire completion. */
-  dueDate?: string;
+  dueDate?: string | undefined;
   /** ID of the customer trust account to associate with this questionnaire. */
-  customerTrustAccountId?: string;
+  customerTrustAccountId?: string | undefined;
   /** Comma-separated category IDs for which to include untagged entities. */
-  includeUntaggedEntitiesForCategoryIds?: string;
+  includeUntaggedEntitiesForCategoryIds?: string | undefined;
   /** Custom key-value pairs, as a JSON string array: [{"key": "<key>", "value": "<value>"}]. Keys and values may contain alphanumeric characters, hyphens, underscores, and periods. */
-  metadata?: string;
+  metadata?: string | undefined;
   /** Tags to assign, as a JSON string array: [{"categoryId": "<id>", "tagId": "<id>"}]. Replaces all existing tags. */
-  tagAndCategoryIds?: string;
+  tagAndCategoryIds?: string | undefined;
 }
 export interface CreateFrameworkControlsExportRequest {
   /** ID of an enabled Vanta or custom framework, for example soc2. */
   frameworkId: string;
   /** Include tests and documents with their PASS/FAIL outcomes. Defaults to false. */
-  includeEvidenceStatus?: boolean;
+  includeEvidenceStatus?: boolean | undefined;
 }
 export interface CreateFrameworkControlsExportResponse {}
 export interface CreateGroupRequest {
   /** Email address of the group's point of contact. Must be an active administrator. */
-  pointOfContactEmail?: string | null;
+  pointOfContactEmail?: string | null | undefined;
   /** Description of the group. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Display name for the group. Must not duplicate an existing group's name. */
   name: string;
 }
@@ -1943,9 +1943,9 @@ export interface CreateLinkForDocumentRequest {
   /** The link's title. */
   title: string;
   /** The link's description. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The link's effective date. */
-  effectiveDate?: string | null;
+  effectiveDate?: string | null | undefined;
 }
 export interface UploadedLink {
   /** The link's unique ID */
@@ -1980,37 +1980,37 @@ export interface CreateRiskScenarioRequest {
   /** This describes an actual or potential risk to your organization's people, processes, technology, data, and facilities. Document actual issues or likely scenarios based on your specific environment or a potential vulnerability. */
   description: string;
   /** Optional long-form description providing extended context for the risk scenario. Maximum 10000 characters. */
-  detailedDescription?: string;
+  detailedDescription?: string | undefined;
   /** The unique ID of the risk. Used to reference and update existing risks. We will auto-generate one if one isn't specified. */
-  riskId?: string;
+  riskId?: string | undefined;
   /** If set to true this risk can only be seen by its owner or users with Admin, RiskSensitiveManage or RiskSensitiveView permissions. */
-  isSensitive?: boolean;
+  isSensitive?: boolean | undefined;
   /** Represents the probability of an incident occurring due to this risk or vulnerability, expressed as a numerical score. Defaults to a range of 1-5, where higher values indicate greater likelihood. The range can be customized in the Risk Management settings. */
-  likelihood?: number;
+  likelihood?: number | undefined;
   /** Represents the potential severity of harm to your organization's operations if this risk is exploited, expressed as a numerical score. Defaults to a range of 1-5, where higher values indicate greater impact. The range can be customized in the Risk Management settings. */
-  impact?: number;
+  impact?: number | undefined;
   /** Represents the adjusted probability of this risk being exploited or affecting operations after implementing risk treatments, such as controls or mitigations. Expressed as a numerical score, defaulting to a range of 1-5. The range can be customized in the Risk Management settings. */
-  residualLikelihood?: number;
+  residualLikelihood?: number | undefined;
   /** Represents the adjusted severity of harm to your organization's operations if this risk is exploited after implementing risk treatments, such as controls or mitigations. Expressed as a numerical score, defaulting to a range of 1-5. The range can be customized in the Risk Management settings. */
-  residualImpact?: number;
+  residualImpact?: number | undefined;
   /** The list of categories this risk scenario belongs to. Each element in the list will become a new custom category if it doesn't match an existing one. You can reference the current category options in the Risk Management settings and/or enter new values. */
-  categories?: CreateRiskScenarioRequestCategoriesList;
+  categories?: CreateRiskScenarioRequestCategoriesList | undefined;
   /** Enter a list of the following for the type of risk documented: - Confidentiality: Risk to data stores, customer/sensitive information, etc. - Integrity: Risk to accuracy or integrity of system settings and/or data - Availability: Risk to normal service operations and critical system functionality */
-  ciaCategories?: CreateRiskScenarioRequestCiaCategoriesList;
+  ciaCategories?: CreateRiskScenarioRequestCiaCategoriesList | undefined;
   /** Indicate how your leadership team wants to address an identified risk. Please note: not all risks need to be addressed immediately (or at all). Your Risk Treatment decision will depend on multiple factors, such as your organization's risk tolerance and the value of the asset that the risk is associated with. The options are: - Mitigate: Identify controls to put in place or tasks to be done that will reduce the risk score. - Transfer: Move risk outside of your organization's set of responsibilities e.g. get cyber liability insurance. - Avoid: Stop doing the activity which is causing the risk to your organization and its assets. - Accept: Decide to live with the risk and take no further actions. - Accept: decide to live with the risk; this may be because it is highly unlikely, has a low financial or operational impact, or the cost and effort to treat the risk far exceeds the value of the asset */
-  treatment?: Treatment | (string & {});
+  treatment?: Treatment | (string & {}) | undefined;
   /** The person responsible for tracking and mitigating this risk scenario. This should be the email address of a valid Vanta user. */
-  owner?: string;
+  owner?: string | undefined;
   /** Additional context about the risk scenario and why it has specific impact and likelihood scores. */
-  note?: string;
+  note?: string | undefined;
   /** Name of the risk register to associate with this scenario. This field must be set if the organization has multiple registers. */
-  riskRegister?: string;
+  riskRegister?: string | undefined;
   /** The list of custom attributes. You can reference existing custom attributes in the Risk Management settings and/or create new ones. The format is: - {label: "field-name", value: "string-representation"} for text, date, number and currency fields - {label: "field-name", value: ["option1", "option2"]} for picklist fields If the organization doesn't have custom fields, a non-empty list is rejected and an empty list is ignored. */
-  customFields?: CreateRiskScenarioRequestCustomFieldsList;
+  customFields?: CreateRiskScenarioRequestCustomFieldsList | undefined;
   /** The type of risk scenario to create. - "Risk Scenario": Standard risk scenario (default) - "Enterprise Risk": Enterprise-level risk (requires Enterprise Risk Management SKU) Enterprise risks cannot be associated with a risk register. Defaults to "Risk Scenario" if not specified. */
-  type?: RiskScenarioType | (string & {});
+  type?: RiskScenarioType | (string & {}) | undefined;
   /** The date this risk was identified. Matches the "Identified Date" field in the Vanta UI. Defaults to the scenario's creation time if omitted. */
-  identificationDate?: string;
+  identificationDate?: string | undefined;
 }
 export type RiskScenarioControlType = "EXISTING" | "TREATMENT_PLAN";
 export interface CreateRiskScenarioControlRequest {
@@ -2018,7 +2018,7 @@ export interface CreateRiskScenarioControlRequest {
   /** Control to associate with the risk scenario. Accepts Vanta control shorthands (e.g. `"A.12.2.1"`), custom-control shorthand names, or object IDs. */
   controlId: string;
   /** `TREATMENT_PLAN` for a control that is part of the risk's treatment plan. Omit (or pass `"EXISTING"`) to associate the control without a treatment-plan designation -- the default "existing control" relationship. */
-  controlType?: RiskScenarioControlType | (string & {});
+  controlType?: RiskScenarioControlType | (string & {}) | undefined;
 }
 /** A control's association with a risk scenario. The relationship identity is `(riskScenarioId, controlId)`; `controlType` is mutable state on that relationship. A given control can have at most one association per risk scenario. */
 export interface RiskScenarioControl {
@@ -2138,11 +2138,11 @@ export interface CustomRequirementsRequired {
 }
 export type CustomRequirements = RequirementNotApplied | CustomRequirementsRequired;
 export interface OnboardingRequirementsInput {
-  policyAcceptance?: PolicyAcceptanceRequirement;
-  backgroundCheck?: BackgroundCheckRequirement;
-  securityTraining?: SecurityTrainingRequirementInput;
-  deviceMonitoring?: DeviceMonitoringRequirement;
-  custom?: CustomRequirements;
+  policyAcceptance?: PolicyAcceptanceRequirement | undefined;
+  backgroundCheck?: BackgroundCheckRequirement | undefined;
+  securityTraining?: SecurityTrainingRequirementInput | undefined;
+  deviceMonitoring?: DeviceMonitoringRequirement | undefined;
+  custom?: CustomRequirements | undefined;
 }
 export interface DeactivateAllAccounts {
   deactivateAll: boolean;
@@ -2159,20 +2159,20 @@ export interface AccountDeactivationRequired {
 }
 export type AccountDeactivationRequirement = RequirementNotApplied | AccountDeactivationRequired;
 export interface OffboardingRequirementsInput {
-  accountDeactivation?: AccountDeactivationRequirement;
-  custom?: CustomRequirements;
+  accountDeactivation?: AccountDeactivationRequirement | undefined;
+  custom?: CustomRequirements | undefined;
 }
 export interface CreateTaskRequirementSetRequest {
   /** Display name for the set. */
   name: string;
   /** Description of the set. Omit for none. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether groups other than the one that owns this set may also apply it. */
   isReusable: boolean;
   /** Onboarding requirements to apply. Omitted requirements default to not required. */
-  onboarding?: OnboardingRequirementsInput;
+  onboarding?: OnboardingRequirementsInput | undefined;
   /** Offboarding requirements to apply. Omitted requirements default to not required. */
-  offboarding?: OffboardingRequirementsInput;
+  offboarding?: OffboardingRequirementsInput | undefined;
   /** Group to assign the new set to. Replaces the group's current set; if that set was private to the group, it is deleted. */
   groupId: string;
 }
@@ -2222,7 +2222,7 @@ export interface CreateTrustCenterFaqRequest {
   /** The FAQ answer. */
   answer: string;
   /** The category to place this FAQ in. Pass null to move to uncategorized. Omit to leave unchanged (on update) or default to uncategorized (on create). */
-  categoryId?: string | null;
+  categoryId?: string | null | undefined;
 }
 export interface TrustCenterFaq {
   /** Unique identifier for the Trust Center FAQ. */
@@ -2242,7 +2242,7 @@ export interface CreateTrustCenterResourceRequest {
   /** Boolean determining whether the document is publicly available. */
   isPublic: string;
   /** Description of the uploaded document. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface TrustCenterResource {
   /** Unique identifier for the document. */
@@ -2267,13 +2267,13 @@ export interface CreateTrustCenterSubprocessorRequest {
   /** Name of the subprocessor. */
   name: string;
   /** URL of the subprocessor. */
-  url?: string;
+  url?: string | undefined;
   /** Description of the subprocessor. */
-  description?: string;
+  description?: string | undefined;
   /** Where this subprocessor is deployed. */
-  location?: string;
+  location?: string | undefined;
   /** The purpose that the subprocessor serves. */
-  purpose?: string;
+  purpose?: string | undefined;
 }
 export interface CreateTrustCenterSubprocessorResponse {
   /** Unique identifier for the subprocessor. */
@@ -2294,9 +2294,9 @@ export interface CreateTrustCenterSubscriberRequest {
   /** Email of the subscriber. */
   email: string;
   /** Optional: Link subscriber to a customer trust account by ID. */
-  customerTrustAccountId?: string;
+  customerTrustAccountId?: string | undefined;
   /** When true, the subscriber is created as already verified and no verification email is sent. Defaults to false. */
-  shouldSkipEmailVerification?: boolean;
+  shouldSkipEmailVerification?: boolean | undefined;
 }
 export interface SubscriberGroup {
   /** Unique identifier for the group. */
@@ -2366,13 +2366,13 @@ export interface CreateTrustCenterUpdateRequest {
   /** Category of the update. */
   category: UpdateCategory | (string & {});
   /** Visibility type of the update. */
-  visibilityType?: UpdateVisibilityType | (string & {});
+  visibilityType?: UpdateVisibilityType | (string & {}) | undefined;
   /** Additional one-off email addresses to notify. These are always sent regardless of `notificationTarget`. */
-  notifiedEmails?: CreateTrustCenterUpdateRequestNotifiedEmailsList;
+  notifiedEmails?: CreateTrustCenterUpdateRequestNotifiedEmailsList | undefined;
   /** Controls which Trust Center subscribers are notified. - `ALL`: notifies all active subscribers - `GROUPS`: notifies only subscribers in the specified `subscriberGroupIds` - `NONE`: no subscribers are notified Note: `notifiedEmails` are always sent regardless of this value. */
-  notificationTarget?: UpdateNotificationTarget | (string & {});
+  notificationTarget?: UpdateNotificationTarget | (string & {}) | undefined;
   /** IDs of subscriber groups to notify. Required when `notificationTarget` is `GROUPS`. */
-  subscriberGroupIds?: CreateTrustCenterUpdateRequestSubscriberGroupIdsList;
+  subscriberGroupIds?: CreateTrustCenterUpdateRequestSubscriberGroupIdsList | undefined;
 }
 /** Emails to notify about the update. */
 export type TrustCenterUpdateAPIResponseNotifiedEmailsList = Array<string>;
@@ -2392,20 +2392,20 @@ export interface TrustCenterUpdateAPIResponse {
   /** Visibility type of the update. */
   visibilityType: UpdateVisibilityType;
   /** Emails to notify about the update. */
-  notifiedEmails?: TrustCenterUpdateAPIResponseNotifiedEmailsList;
+  notifiedEmails?: TrustCenterUpdateAPIResponseNotifiedEmailsList | undefined;
 }
 /** The authentication details about the vendor. */
 export interface CreateVendorRequestAuthDetails {
   /** Minimum number for chacters required for passwords for this vendor. */
-  passwordMinimumLength?: number;
+  passwordMinimumLength?: number | undefined;
   /** Whether or not the vendor requires passwords to have a symbol. */
-  passwordRequiresSymbol?: boolean;
+  passwordRequiresSymbol?: boolean | undefined;
   /** Whether or not the vendor requires passwords to have a number. */
-  passwordRequiresNumber?: boolean;
+  passwordRequiresNumber?: boolean | undefined;
   /** Whether or not the vendor requires password multi factor authentication. */
-  passwordMFA?: boolean;
+  passwordMFA?: boolean | undefined;
   /** The authentication method the vendor uses. */
-  method?: VendorAuthenticationMethod | (string & {});
+  method?: VendorAuthenticationMethod | (string & {}) | undefined;
 }
 /** The custom fields for the vendor. For more information on how to set custom fields via the API, visit https://developer.vanta.com/docs/guides/use-custom-fields-with-vendors */
 export type CreateVendorRequestCustomFieldsList = Array<CustomField>;
@@ -2418,59 +2418,59 @@ export interface VendorFrameworkScope {
   /** The scope type: - ALL: Vendor applies to all frameworks - PARTIAL: Vendor applies to specific frameworks (requires frameworkIds) - NONE: Vendor excluded from all frameworks */
   scopeType: VendorFrameworkScopeScopeType | (string & {});
   /** Framework IDs the vendor applies to. Required when scopeType is PARTIAL. */
-  frameworkIds?: VendorFrameworkScopeFrameworkIdsList;
+  frameworkIds?: VendorFrameworkScopeFrameworkIdsList | undefined;
 }
 export interface CreateVendorRequest {
   /** Display name of the vendor. */
   name: string;
   /** The url of the vendor's website. */
-  websiteUrl?: string;
+  websiteUrl?: string | undefined;
   /** Name of the external account manager for this vendor. */
-  accountManagerName?: string;
+  accountManagerName?: string | undefined;
   /** Email of the external account manager for this vendor. */
-  accountManagerEmail?: string;
+  accountManagerEmail?: string | undefined;
   /** The Vanta user ID of the security owner of this vendor. */
-  securityOwnerUserId?: string;
+  securityOwnerUserId?: string | undefined;
   /** Services provided by the vendor. */
-  servicesProvided?: string;
+  servicesProvided?: string | undefined;
   /** Miscellaneous notes about the vendor */
-  additionalNotes?: string;
+  additionalNotes?: string | undefined;
   /** The Vanta user ID of the business owner of this vendor. */
-  businessOwnerUserId?: string;
+  businessOwnerUserId?: string | undefined;
   /** When the contract with the vendor is up for renewal. */
-  contractStartDate?: string;
+  contractStartDate?: string | undefined;
   /** When the contract with the vendor is up for renewal. */
-  contractRenewalDate?: string;
+  contractRenewalDate?: string | undefined;
   /** When the contract with the vendor was terminated. */
-  contractTerminationDate?: string;
+  contractTerminationDate?: string | undefined;
   /** Whether or not auditors can view this vendor. */
-  isVisibleToAuditors?: boolean;
+  isVisibleToAuditors?: boolean | undefined;
   /** The authentication details about the vendor. */
-  authDetails?: CreateVendorRequestAuthDetails;
+  authDetails?: CreateVendorRequestAuthDetails | undefined;
   /** The current status of the vendor. */
-  status?: VendorStatus | (string & {});
+  status?: VendorStatus | (string & {}) | undefined;
   /** The vendor's category. Cannot be combined with `categoryId`. */
-  category?: string;
+  category?: string | undefined;
   /** The ID of the vendor's category. Pass null for no category, or omit to let Vanta pick one. Cannot be combined with `category`. */
-  categoryId?: string | null;
+  categoryId?: string | null | undefined;
   /** The inherent risk level of the vendor. */
-  inherentRiskLevel?: VendorRiskLevel | (string & {});
+  inherentRiskLevel?: VendorRiskLevel | (string & {}) | undefined;
   /** The residual risk level of the vendor. */
-  residualRiskLevel?: VendorRiskLevel | (string & {});
+  residualRiskLevel?: VendorRiskLevel | (string & {}) | undefined;
   /** The vendor's headquarters. */
-  vendorHeadquarters?: CountryCode | (string & {});
+  vendorHeadquarters?: CountryCode | (string & {}) | undefined;
   /** The contract amount for the vendor. */
-  contractAmount?: VendorContractAmount;
+  contractAmount?: VendorContractAmount | undefined;
   /** The custom fields for the vendor. For more information on how to set custom fields via the API, visit https://developer.vanta.com/docs/guides/use-custom-fields-with-vendors */
-  customFields?: CreateVendorRequestCustomFieldsList;
+  customFields?: CreateVendorRequestCustomFieldsList | undefined;
   /** Framework scoping configuration for this vendor. Determines which compliance frameworks the vendor applies to. */
-  frameworkScope?: VendorFrameworkScope;
+  frameworkScope?: VendorFrameworkScope | undefined;
 }
 export interface CreateVendorCategoryRequest {
   /** Display label, unique ignoring case. */
   label: string;
   /** Description of the category. */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export interface VendorCategory2 {
   /** Unique identifier for the vendor category. */
@@ -2489,9 +2489,9 @@ export type FindingRemediationState = "OPEN" | "CLOSED";
 /** Remediation information about the finding. Will only be populated if riskStatus is set to "REMEDIATE". */
 export interface CreateVendorFindingRequestRemediation {
   /** The state of the remediation. */
-  state?: FindingRemediationState | (string & {});
+  state?: FindingRemediationState | (string & {}) | undefined;
   /** A string containing the information needed to properly remediate the finding. */
-  requirementNotes?: string;
+  requirementNotes?: string | undefined;
 }
 export interface CreateVendorFindingRequest {
   vendorId: string;
@@ -2500,11 +2500,11 @@ export interface CreateVendorFindingRequest {
   /** The risk status of the finding. */
   riskStatus: FindingRiskStatus | (string & {});
   /** Remediation information about the finding. Will only be populated if riskStatus is set to "REMEDIATE". */
-  remediation?: CreateVendorFindingRequestRemediation;
+  remediation?: CreateVendorFindingRequestRemediation | undefined;
   /** Unique identifier for a security review. */
-  securityReviewId?: string;
+  securityReviewId?: string | undefined;
   /** Unique identifier for a document. */
-  documentId?: string;
+  documentId?: string | undefined;
 }
 /** Remediation information about the finding. Will only be populated if riskStatus is set to "REMEDIATE". */
 export interface VendorFindingRemediation {
@@ -2547,21 +2547,21 @@ export interface CreateWebpageResourceRequest {
   /** The URL of the webpage. */
   url: string;
   /** A description for the webpage resource. */
-  description?: string;
+  description?: string | undefined;
   /** The actor to assign as owner. Currently only type "User" is supported. */
-  ownerAssignment?: KnowledgeBaseResourceActorAssignmentInput;
+  ownerAssignment?: KnowledgeBaseResourceActorAssignmentInput | undefined;
   /** Customer visibility on the Trust Center. Webpage resources accept only PRIVATE or PUBLIC; REQUEST_ACCESS and SHAREABLE return an InvalidInputError. */
-  customerVisibility?: KnowledgeBaseCustomerVisibility | (string & {});
+  customerVisibility?: KnowledgeBaseCustomerVisibility | (string & {}) | undefined;
   /** Whether to scan sub-pages one level deep alongside the primary URL. */
-  includeSubPages?: boolean;
+  includeSubPages?: boolean | undefined;
   /** Whether the resource should be used for question-answering in Questionnaire Automation. */
-  isUsedInQuestionnaires?: boolean;
+  isUsedInQuestionnaires?: boolean | undefined;
   /** Expiration date in ISO 8601 format. */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Tags to associate with the resource. */
-  tags?: CreateWebpageResourceRequestTagsList;
+  tags?: CreateWebpageResourceRequestTagsList | undefined;
   /** Trust Center category id to associate this resource with. Pass `null` to keep the resource uncategorized. Only valid when `customerVisibility` is PUBLIC; other combinations and unknown ids return an InvalidInputError. */
-  categoryId?: string | null;
+  categoryId?: string | null | undefined;
 }
 export type KnowledgeBaseWebpageResourceOutputType = "URL";
 export type KnowledgeBaseWebpageResourceOutputCustomerVisibility =
@@ -2610,23 +2610,25 @@ export interface CreateWebsiteQuestionnaireRequest {
   /** The portal URL to create the questionnaire from. */
   url: string;
   /** Actor to assign as the owner (user or team). */
-  ownerAssignment?: ActorAssignmentInput;
+  ownerAssignment?: ActorAssignmentInput | undefined;
   /** Actor to assign as the approver (user or team). */
-  approverAssignment?: ActorAssignmentInput;
+  approverAssignment?: ActorAssignmentInput | undefined;
   /** URL of the company associated with this questionnaire. */
-  companyUrl?: string;
+  companyUrl?: string | undefined;
   /** ID of the customer trust account to associate with this questionnaire. */
-  customerTrustAccountId?: string;
+  customerTrustAccountId?: string | undefined;
   /** Description of the questionnaire. */
-  description?: string;
+  description?: string | undefined;
   /** Due date for questionnaire completion (ISO 8601). */
-  dueDate?: string;
+  dueDate?: string | undefined;
   /** Custom key-value pairs. Keys and values may contain alphanumeric characters, hyphens, underscores, and periods. Maximum 30 entries. */
-  metadata?: CreateWebsiteQuestionnaireRequestMetadataList;
+  metadata?: CreateWebsiteQuestionnaireRequestMetadataList | undefined;
   /** Category IDs for which to include untagged entities. */
-  includeUntaggedEntitiesForCategoryIds?: CreateWebsiteQuestionnaireRequestIncludeUntaggedEntitiesForCategoryIdsList;
+  includeUntaggedEntitiesForCategoryIds?:
+    | CreateWebsiteQuestionnaireRequestIncludeUntaggedEntitiesForCategoryIdsList
+    | undefined;
   /** Tags to assign to the questionnaire. Each entry must include a categoryId and tagId. Replaces all existing tags. */
-  tagAndCategoryIds?: CreateWebsiteQuestionnaireRequestTagAndCategoryIdsList;
+  tagAndCategoryIds?: CreateWebsiteQuestionnaireRequestTagAndCategoryIdsList | undefined;
 }
 export interface DeactivateTestEntityRequest {
   testId: string;
@@ -2634,14 +2636,14 @@ export interface DeactivateTestEntityRequest {
   /** Reason for deactivating the entity. */
   deactivateReason: string;
   /** Date until which the entity should be deactivated. If not provided, the entity will be deactivated indefinitely. */
-  deactivateUntilDate?: string;
+  deactivateUntilDate?: string | undefined;
 }
 export interface DeactivateTestEntityResponse {}
 export interface VulnerabilityDeactivateRequest {
   /** ID of the vulnerability to deactivate. */
   id: string;
   /** Date until which the vulnerability should be deactivated. */
-  deactivateUntilDate?: string;
+  deactivateUntilDate?: string | undefined;
   /** Reason for deactivating the vulnerability. */
   deactivateReason: string;
   /** Determines whether or not vulnerabilities should reactivate when they become fixable. */
@@ -2795,9 +2797,9 @@ export interface DenyTrustCenterAccessRequestRequest {
   slugId: string;
   accessRequestId: string;
   /** Reason for denying the access request. */
-  reason?: string;
+  reason?: string | undefined;
   /** Whether to email the requester to notify them that their request was denied. The email includes the reason when one is provided. Defaults to false. */
-  sendEmail?: boolean;
+  sendEmail?: boolean | undefined;
 }
 export interface DenyTrustCenterAccessRequestResponse {}
 export interface EvaluateDocumentRequest {
@@ -2879,12 +2881,12 @@ export type GetAssessmentsByVendorIdRequestStatusMatchesAnyList = Array<
 >;
 export interface GetAssessmentsByVendorIdRequest {
   vendorId: string;
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
   /** Filter assessments to any of the given assessment type IDs */
-  typeIdMatchesAny?: GetAssessmentsByVendorIdRequestTypeIdMatchesAnyList;
+  typeIdMatchesAny?: GetAssessmentsByVendorIdRequestTypeIdMatchesAnyList | undefined;
   /** Filter assessments to any of the given statuses */
-  statusMatchesAny?: GetAssessmentsByVendorIdRequestStatusMatchesAnyList;
+  statusMatchesAny?: GetAssessmentsByVendorIdRequestStatusMatchesAnyList | undefined;
 }
 /** An object containing information about the decision of the assessment. */
 export type VendorAssessmentWithQuestionnaireDecision = VendorAssessmentDecision;
@@ -2928,7 +2930,7 @@ export interface VendorAssessmentWithQuestionnaire {
   assessmentType: AssessmentType;
   /** The owner of this assessment, if assigned. */
   owner: AssessmentOwner | null;
-  questionnaire?: VendorAssessmentQuestionnaire | null;
+  questionnaire?: VendorAssessmentQuestionnaire | null | undefined;
 }
 export type PaginatedResponseVendorAssessmentWithQuestionnaireResultsDataList =
   Array<VendorAssessmentWithQuestionnaire>;
@@ -3049,7 +3051,7 @@ export interface ControlDetail {
   /** The control's owner. */
   owner: Owner | null;
   /** The control's GDPR role, if the control is a GDPR control. */
-  role?: string | null;
+  role?: string | null | undefined;
   /** The control's custom field values, if control custom fields is included in your Vanta instance. */
   customFields: ControlDetailCustomFieldsList;
   /** When the control was created. Returns null for Vanta library controls. */
@@ -3057,7 +3059,7 @@ export interface ControlDetail {
   /** When the control was last modified. Returns null for Vanta library controls. */
   modificationDate: string | null;
   /** How the control is implemented. */
-  implementationDetails?: string | null;
+  implementationDetails?: string | null | undefined;
   /** The number of passing documents that are linked to the control. */
   numDocumentsPassing: number;
   /** The total number of documents that are linked to the control. */
@@ -3131,13 +3133,13 @@ export type GetFrameworkRequestVariantsList = Array<string>;
 export interface GetFrameworkRequest {
   frameworkId: string;
   /** Whether to include lifecycle status. Defaults to true. */
-  includeStatus?: boolean;
+  includeStatus?: boolean | undefined;
   /** Whether to include the flat requirements list. Defaults to false. */
-  includeRequirements?: boolean;
+  includeRequirements?: boolean | undefined;
   /** Used with includeRequirements. MY_PROGRAM (default) returns requirements as mapped in your program; CATALOG returns the framework's published requirements. Custom frameworks always use MY_PROGRAM. Both require the framework to be in your program. */
-  requirementsScope?: GetFrameworkRequestRequirementsScope | (string & {});
+  requirementsScope?: GetFrameworkRequestRequirementsScope | (string & {}) | undefined;
   /** Catalog variant IDs to resolve CATALOG requirements against. Defaults to the framework's published defaults. Ignored for MY_PROGRAM, which uses your program's variants. */
-  variants?: GetFrameworkRequestVariantsList;
+  variants?: GetFrameworkRequestVariantsList | undefined;
 }
 /** The framework's lifecycle status. Null means it has no lifecycle status. Omitted when includeStatus is false or status information is unavailable. */
 export type FrameworkDetailStatus = "ACTIVE" | "DRAFT" | "SNOOZED" | "ARCHIVED" | "NEW_UPGRADE";
@@ -3224,7 +3226,7 @@ export interface FrameworkDetail {
   /** The framework's description. */
   description: string;
   /** The framework's lifecycle status. Null means it has no lifecycle status. Omitted when includeStatus is false or status information is unavailable. */
-  status?: FrameworkDetailStatus | null;
+  status?: FrameworkDetailStatus | null | undefined;
   /** The number of completed controls in the framework. */
   numControlsCompleted: number;
   /** The total number of controls in the framework. */
@@ -3240,9 +3242,9 @@ export interface FrameworkDetail {
   /** The famework's list of requirement categories. */
   requirementCategories: FrameworkDetailRequirementCategoriesList;
   /** The assessment tiers your program is on, such as HITRUST i1. Omitted for frameworks without tiers. */
-  activeVariants?: FrameworkDetailActiveVariantsList;
+  activeVariants?: FrameworkDetailActiveVariantsList | undefined;
   /** The framework's requirements as a flat list that preserves their hierarchy. Omitted when requirements are unavailable. */
-  requirements?: FrameworkRequirements;
+  requirements?: FrameworkRequirements | undefined;
 }
 export interface GetFrameworkControlsExportRequest {
   /** Export UUID returned by createFrameworkControlsExport. */
@@ -3330,7 +3332,7 @@ export type SourceType =
   | "OTHER";
 export interface Source {
   sourceType: SourceType;
-  sourceId?: string;
+  sourceId?: string | undefined;
 }
 export type ClosedReason = "RESOLVED" | "DUPLICATE" | "ACCEPTED" | "OTHER";
 export interface ClosedMetadata {
@@ -3583,15 +3585,15 @@ export interface CustomerTrustExportStatusResponse {
   /** ISO 8601 timestamp indicating when the export was requested. */
   requestedAt: string;
   /** ISO 8601 timestamp indicating when the export completed successfully. Only present when `status` is `"completed"`. */
-  completedAt?: string;
+  completedAt?: string | undefined;
   /** Pre-signed URL for downloading the exported file. Valid for 24 hours from the time of this response. Only present when `status` is `"completed"`. */
-  downloadUrl?: string;
+  downloadUrl?: string | undefined;
   /** ISO 8601 timestamp indicating when the download URL expires. After this time, request a new export. Only present when `status` is `"completed"`. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** ISO 8601 timestamp indicating when the export failed. Only present when `status` is `"failed"`. */
-  failedAt?: string;
+  failedAt?: string | undefined;
   /** Human-readable description of why the export failed. Only present when `status` is `"failed"`. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 export interface GetQuestionnaireResponseRequest {
   questionnaireId: string;
@@ -3638,53 +3640,53 @@ export type JSONSchema7AnyOfList = Array<JSONSchema7Definition>;
 export type JSONSchema7OneOfList = Array<JSONSchema7Definition>;
 export type JSONSchema7DefinitionsMap = { [key: string]: JSONSchema7Definition | undefined };
 export interface JSONSchema7 {
-  _id?: string;
-  _ref?: string;
-  _schema?: string;
-  _comment?: string;
-  _defs?: JSONSchema7DefsMap;
-  type?: JSONSchema7Type;
-  enum?: JSONSchema7EnumList;
-  const?: JSONSchema7Type2 | null;
-  multipleOf?: number;
-  maximum?: number;
-  exclusiveMaximum?: number;
-  minimum?: number;
-  exclusiveMinimum?: number;
-  maxLength?: number;
-  minLength?: number;
-  pattern?: string;
-  items?: JSONSchema7Items;
-  additionalItems?: JSONSchema7Definition;
-  maxItems?: number;
-  minItems?: number;
-  uniqueItems?: boolean;
-  contains?: JSONSchema7Definition;
-  maxProperties?: number;
-  minProperties?: number;
-  required?: JSONSchema7RequiredList;
-  properties?: JSONSchema7PropertiesMap;
-  patternProperties?: JSONSchema7PatternPropertiesMap;
-  additionalProperties?: JSONSchema7Definition;
-  dependencies?: JSONSchema7DependenciesMap;
-  propertyNames?: JSONSchema7Definition;
-  if?: JSONSchema7Definition;
-  then?: JSONSchema7Definition;
-  else?: JSONSchema7Definition;
-  allOf?: JSONSchema7AllOfList;
-  anyOf?: JSONSchema7AnyOfList;
-  oneOf?: JSONSchema7OneOfList;
-  not?: JSONSchema7Definition;
-  format?: string;
-  contentMediaType?: string;
-  contentEncoding?: string;
-  definitions?: JSONSchema7DefinitionsMap;
-  title?: string;
-  description?: string;
-  default?: JSONSchema7Type2 | null;
-  readOnly?: boolean;
-  writeOnly?: boolean;
-  examples?: JSONSchema7Type2 | null;
+  _id?: string | undefined;
+  _ref?: string | undefined;
+  _schema?: string | undefined;
+  _comment?: string | undefined;
+  _defs?: JSONSchema7DefsMap | undefined;
+  type?: JSONSchema7Type | undefined;
+  enum?: JSONSchema7EnumList | undefined;
+  const?: JSONSchema7Type2 | null | undefined;
+  multipleOf?: number | undefined;
+  maximum?: number | undefined;
+  exclusiveMaximum?: number | undefined;
+  minimum?: number | undefined;
+  exclusiveMinimum?: number | undefined;
+  maxLength?: number | undefined;
+  minLength?: number | undefined;
+  pattern?: string | undefined;
+  items?: JSONSchema7Items | undefined;
+  additionalItems?: JSONSchema7Definition | undefined;
+  maxItems?: number | undefined;
+  minItems?: number | undefined;
+  uniqueItems?: boolean | undefined;
+  contains?: JSONSchema7Definition | undefined;
+  maxProperties?: number | undefined;
+  minProperties?: number | undefined;
+  required?: JSONSchema7RequiredList | undefined;
+  properties?: JSONSchema7PropertiesMap | undefined;
+  patternProperties?: JSONSchema7PatternPropertiesMap | undefined;
+  additionalProperties?: JSONSchema7Definition | undefined;
+  dependencies?: JSONSchema7DependenciesMap | undefined;
+  propertyNames?: JSONSchema7Definition | undefined;
+  if?: JSONSchema7Definition | undefined;
+  then?: JSONSchema7Definition | undefined;
+  else?: JSONSchema7Definition | undefined;
+  allOf?: JSONSchema7AllOfList | undefined;
+  anyOf?: JSONSchema7AnyOfList | undefined;
+  oneOf?: JSONSchema7OneOfList | undefined;
+  not?: JSONSchema7Definition | undefined;
+  format?: string | undefined;
+  contentMediaType?: string | undefined;
+  contentEncoding?: string | undefined;
+  definitions?: JSONSchema7DefinitionsMap | undefined;
+  title?: string | undefined;
+  description?: string | undefined;
+  default?: JSONSchema7Type2 | null | undefined;
+  readOnly?: boolean | undefined;
+  writeOnly?: boolean | undefined;
+  examples?: JSONSchema7Type2 | null | undefined;
 }
 export type AnswerPartValueCase3List = Array<string>;
 /** Valid runtime value types for an answer part. Array values are restricted to string items to match `ArrayFieldSchema.items` (which is narrowed to `StringFieldSchema` only). */
@@ -3692,8 +3694,8 @@ export type AnswerPartValue = string | number | boolean | AnswerPartValueCase3Li
 /** Construct a type with a set of properties K of type T */
 export type RecordStringAnswerPartValue = { [key: string]: AnswerPartValue | null | undefined };
 export interface QuestionnaireResponseWithoutViewerPermissionsAttachedEvidenceItemUploadedDocument {
-  slugId?: string;
-  filename?: string;
+  slugId?: string | undefined;
+  filename?: string | undefined;
   id: string;
 }
 export interface QuestionnaireResponseWithoutViewerPermissionsAttachedEvidenceItem {
@@ -3707,29 +3709,29 @@ export interface QuestionnaireResponseWithoutViewerPermissions {
   /** The unique identifier for the questionnaire response */
   id: string;
   /** The questionnaire section this response belongs to, if any. Null for standalone questions or legacy responses without a section. */
-  sectionId?: string | null;
+  sectionId?: string | null | undefined;
   /** Sequence label for ordering responses within a questionnaire */
-  sequenceLabel?: string;
+  sequenceLabel?: string | undefined;
   /** The actual question text */
   question: string;
   /** The user who last edited the question/answer */
-  editedBy?: CustomerTrustUser | null;
+  editedBy?: CustomerTrustUser | null | undefined;
   /** The user who approved the current answer */
-  approvedBy?: CustomerTrustUser | null;
+  approvedBy?: CustomerTrustUser | null | undefined;
   /** Indicates whether the answer is currently being worked on by AI. */
   isPendingAnswerGeneration: boolean;
   /** Where the current answer has came from - AI: generated by Vanta AI - Manual: written in by a user - Original questionnaire: included in the original import - Answer library: the answer was found in a matching question in the knowledge center - Resource: the answer was found in a matching excerpt from a document in the knowledge center */
-  originType?: QuestionnaireResponseOriginType;
+  originType?: QuestionnaireResponseOriginType | undefined;
   /** JSON Schema describing the expected answer format for this question. Prefer `answerPartsSchema` + `answerPartsValues` -- those mirror the apps/web GraphQL surface and let clients render against the canonical composite schema. */
-  answerSchema?: string;
+  answerSchema?: string | undefined;
   /** Composite JSONSchema7 built from the response's stored answer parts (via `toCompositeSchema`). Mirrors the GraphQL `answerPartsSchema` field. Absent when the response has no stored parts -- clients fall back to the legacy `answerSchema` field. */
-  answerPartsSchema?: JSONSchema7;
+  answerPartsSchema?: JSONSchema7 | undefined;
   /** Flat map of part-id -> current value (via `toAnswerPartsValues`). Same key set as `answerPartsSchema.properties`, which each question defines for itself. Absent when the response has no stored parts. */
-  answerPartsValues?: RecordStringAnswerPartValue;
+  answerPartsValues?: RecordStringAnswerPartValue | undefined;
   /** Evidence documents attached to support this questionnaire response */
-  attachedEvidence?: QuestionnaireResponseWithoutViewerPermissionsAttachedEvidenceList;
+  attachedEvidence?: QuestionnaireResponseWithoutViewerPermissionsAttachedEvidenceList | undefined;
   /** Id of the QAutoGeneratedAnswerLog that produced the current generated answer on this response, if any. The browser extension API exposes the log body and citations at `GET /questionnaires/{questionnaireId}/responses/{responseId}/generated-answer-log`. */
-  generatedAnswerLogId?: string;
+  generatedAnswerLogId?: string | undefined;
   /** The response's owner, or null when no owner is assigned. Resolved from the object-role grant rather than the response document's legacy `ownerUserId`, which the object-role registry leaves unset for Team owners. */
   ownerAssignment: ActorAssignment | null;
 }
@@ -3777,7 +3779,7 @@ export interface Resource {
   /** When Vanta first ingested the Resource. */
   creationDate: string;
   /** When the resource was deleted/removed from the integration, if applicable. This field is only present when the resource has been deleted. */
-  deletedDate?: string | null;
+  deletedDate?: string | null | undefined;
 }
 export interface CloudInfrastructure {
   responseType: ResourceResponseType;
@@ -3798,7 +3800,7 @@ export interface CloudInfrastructure {
   /** When Vanta first ingested the Resource. */
   creationDate: string;
   /** When the resource was deleted/removed from the integration, if applicable. This field is only present when the resource has been deleted. */
-  deletedDate?: string | null;
+  deletedDate?: string | null | undefined;
   /** Name of the account associated with the Resource */
   account: string;
   /** Region in which the Resource is located */
@@ -3823,7 +3825,7 @@ export interface ContainerRepository {
   /** When Vanta first ingested the Resource. */
   creationDate: string;
   /** When the resource was deleted/removed from the integration, if applicable. This field is only present when the resource has been deleted. */
-  deletedDate?: string | null;
+  deletedDate?: string | null | undefined;
   /** Name of the account associated with the Resource */
   account: string;
   /** Region in which the Resource is located */
@@ -3850,7 +3852,7 @@ export interface Database {
   /** When Vanta first ingested the Resource. */
   creationDate: string;
   /** When the resource was deleted/removed from the integration, if applicable. This field is only present when the resource has been deleted. */
-  deletedDate?: string | null;
+  deletedDate?: string | null | undefined;
   /** Name of the account associated with the Database */
   account: string;
   /** Whether backups are enabled for the Database */
@@ -3881,7 +3883,7 @@ export interface Device {
   /** When Vanta first ingested the Resource. */
   creationDate: string;
   /** When the resource was deleted/removed from the integration, if applicable. This field is only present when the resource has been deleted. */
-  deletedDate?: string | null;
+  deletedDate?: string | null | undefined;
   /** Name of the operating system */
   operatingSystemName: string;
   /** Whether the Device is encrypted */
@@ -3910,7 +3912,7 @@ export interface PaaS {
   /** When Vanta first ingested the Resource. */
   creationDate: string;
   /** When the resource was deleted/removed from the integration, if applicable. This field is only present when the resource has been deleted. */
-  deletedDate?: string | null;
+  deletedDate?: string | null | undefined;
   /** Whether the PaaS contains Ephi */
   containsEphi: boolean | null;
   /** Whether the PaaS contains user data */
@@ -3935,7 +3937,7 @@ export interface Queue {
   /** When Vanta first ingested the Resource. */
   creationDate: string;
   /** When the resource was deleted/removed from the integration, if applicable. This field is only present when the resource has been deleted. */
-  deletedDate?: string | null;
+  deletedDate?: string | null | undefined;
   /** Name of the account associated with the Resource */
   account: string;
   /** Region in which the Resource is located */
@@ -3964,7 +3966,7 @@ export interface StorageBucket {
   /** When Vanta first ingested the Resource. */
   creationDate: string;
   /** When the resource was deleted/removed from the integration, if applicable. This field is only present when the resource has been deleted. */
-  deletedDate?: string | null;
+  deletedDate?: string | null | undefined;
   /** Name of the account associated with the Resource */
   account: string;
   /** Region in which the Resource is located */
@@ -4001,7 +4003,7 @@ export interface Account {
   /** When Vanta first ingested the Resource. */
   creationDate: string;
   /** When the resource was deleted/removed from the integration, if applicable. This field is only present when the resource has been deleted. */
-  deletedDate?: string | null;
+  deletedDate?: string | null | undefined;
   /** Name associated with the Account */
   accountName: string;
   /** Any role(s) assigned to the Account */
@@ -4044,7 +4046,7 @@ export interface AwsAccount {
   /** When Vanta first ingested the Resource. */
   creationDate: string;
   /** When the resource was deleted/removed from the integration, if applicable. This field is only present when the resource has been deleted. */
-  deletedDate?: string | null;
+  deletedDate?: string | null | undefined;
   /** Name associated with the Account */
   accountName: string;
   /** Any role(s) assigned to the Account */
@@ -4081,7 +4083,7 @@ export interface OrganizationSubunit {
   /** When Vanta first ingested the Resource. */
   creationDate: string;
   /** When the resource was deleted/removed from the integration, if applicable. This field is only present when the resource has been deleted. */
-  deletedDate?: string | null;
+  deletedDate?: string | null | undefined;
   /** Account ID corresponding to the subunit. Could be null if the subunit is not an account, e.g. a subscription */
   accountId: string | null;
 }
@@ -4104,7 +4106,7 @@ export interface GetResourceKindDetailsRequest {
   /** Unique identifier of the integration resource kind. */
   resourceKind: string;
   /** Unique identifier of the integration connection. */
-  connectionId?: string;
+  connectionId?: string | undefined;
 }
 export interface ResourceKindDetails {
   /** The unique identifier for the Integration that ingests this resource. */
@@ -4132,8 +4134,8 @@ export interface GetRiskScenarioRequest {
 export interface GetSecurityReviewDocumentsRequest {
   vendorId: string;
   securityReviewId: string;
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 export type UploadedDocumentUploadedByType = "USER" | "APPLICATION";
 /** The actor who uploaded this document. It could be a user or an app. */
@@ -4212,8 +4214,8 @@ export interface SecurityReview {
 }
 export interface GetSecurityReviewsByVendorIdRequest {
   vendorId: string;
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 export type PaginatedResponseSecurityReviewResultsDataList = Array<SecurityReview>;
 export interface PaginatedResponseSecurityReviewResults {
@@ -4272,9 +4274,9 @@ export type EntityStatus = "FAILING" | "DEACTIVATED";
 export interface GetTestEntitiesRequest {
   testId: string;
   /** The status of the test entities. Defaults to FAILING. Possible values: FAILING, DEACTIVATED */
-  entityStatus?: EntityStatus | (string & {});
-  pageSize?: number;
-  pageCursor?: string;
+  entityStatus?: EntityStatus | (string & {}) | undefined;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 export interface TestResourceEntity {
   /** The identifier for the entity. */
@@ -4782,7 +4784,7 @@ export interface Vulnerability {
   /** External URL for the vulnerability. */
   externalURL: string;
   /** Scanning tool that detected the vulnerability */
-  scanSource?: string;
+  scanSource?: string | undefined;
   /** Metadata for the deactivation of the vulnerability. */
   deactivateMetadata: VulnerabilityDeactivateMetadata | null;
   /** Package version that remediates the vulnerability when reported by the scanner. Null when unknown or not applicable. */
@@ -4920,54 +4922,54 @@ export type IssueSortField =
 /** `"asc"` for ascending, `"desc"` for descending. */
 export type OrderDirection = "asc" | "desc";
 export interface ListRequest {
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
   /** Full-text search across issue title and description. */
-  search?: string;
+  search?: string | undefined;
   /** Filter to issues matching any of the provided readable issue IDs. */
-  readableIssueIdMatchesAny?: ListRequestReadableIssueIdMatchesAnyList;
+  readableIssueIdMatchesAny?: ListRequestReadableIssueIdMatchesAnyList | undefined;
   /** Filter to issues matching any of the provided statuses. */
-  statusMatchesAny?: ListRequestStatusMatchesAnyList;
+  statusMatchesAny?: ListRequestStatusMatchesAnyList | undefined;
   /** Filter to issues matching any of the provided severities. */
-  severityMatchesAny?: ListRequestSeverityMatchesAnyList;
+  severityMatchesAny?: ListRequestSeverityMatchesAnyList | undefined;
   /** Filter to issues matching any of the provided sources. */
-  sourceMatchesAny?: ListRequestSourceMatchesAnyList;
+  sourceMatchesAny?: ListRequestSourceMatchesAnyList | undefined;
   /** Filter to issues matching any of the provided types. */
-  typeMatchesAny?: ListRequestTypeMatchesAnyList;
+  typeMatchesAny?: ListRequestTypeMatchesAnyList | undefined;
   /** Filter to issues owned by any of the provided owner IDs. */
-  ownerIdMatchesAny?: ListRequestOwnerIdMatchesAnyList;
+  ownerIdMatchesAny?: ListRequestOwnerIdMatchesAnyList | undefined;
   /** Filter to issues matching any of the provided templates. */
-  templateMatchesAny?: ListRequestTemplateMatchesAnyList;
+  templateMatchesAny?: ListRequestTemplateMatchesAnyList | undefined;
   /** Filter to issues closed for any of the provided reasons. Only applies to issues with a CLOSED status. */
-  closeReasonMatchesAny?: ListRequestCloseReasonMatchesAnyList;
+  closeReasonMatchesAny?: ListRequestCloseReasonMatchesAnyList | undefined;
   /** Filter to issues closed on or after this date. */
-  closedAfterDate?: string;
+  closedAfterDate?: string | undefined;
   /** Filter to issues closed on or before this date. */
-  closedBeforeDate?: string;
+  closedBeforeDate?: string | undefined;
   /** Include issues without a due date. This is functionally a no-op if dueBeforeDate or dueAfterDate are not provided. */
-  includeIssuesWithoutDueDate?: boolean;
+  includeIssuesWithoutDueDate?: boolean | undefined;
   /** Only include issues without a due date. This filter cannot be used in conjunction with dueBeforeDate or dueAfterDate. */
-  includeOnlyIssuesWithoutDueDate?: boolean;
+  includeOnlyIssuesWithoutDueDate?: boolean | undefined;
   /** Filter to issues with a due date on or after this date. */
-  dueAfterDate?: string;
+  dueAfterDate?: string | undefined;
   /** Filter to issues with a due date on or before this date. */
-  dueBeforeDate?: string;
+  dueBeforeDate?: string | undefined;
   /** Filter to issues detected on or after this date. */
-  detectedAfterDate?: string;
+  detectedAfterDate?: string | undefined;
   /** Filter to issues detected on or before this date. */
-  detectedBeforeDate?: string;
+  detectedBeforeDate?: string | undefined;
   /** Filter to issues created on or after this date. */
-  createdAfterDate?: string;
+  createdAfterDate?: string | undefined;
   /** Filter to issues created on or before this date. */
-  createdBeforeDate?: string;
+  createdBeforeDate?: string | undefined;
   /** Filter to issues sourced from any of the provided audit IDs. */
-  auditIdMatchesAny?: ListRequestAuditIdMatchesAnyList;
+  auditIdMatchesAny?: ListRequestAuditIdMatchesAnyList | undefined;
   /** Filter to issues mapped to any of the provided control IDs. */
-  controlIdMatchesAny?: ListRequestControlIdMatchesAnyList;
+  controlIdMatchesAny?: ListRequestControlIdMatchesAnyList | undefined;
   /** Field to sort the results by. */
-  orderBy?: IssueSortField | (string & {});
+  orderBy?: IssueSortField | (string & {}) | undefined;
   /** Direction to sort the results in. One of `asc` or `desc`. Defaults to `asc`. */
-  orderDirection?: OrderDirection | (string & {});
+  orderDirection?: OrderDirection | (string & {}) | undefined;
 }
 export type PaginatedResponseIssueResultsDataList = Array<Issue>;
 export interface PaginatedResponseIssueResults {
@@ -4979,8 +4981,8 @@ export interface PaginatedResponseIssue {
 }
 export interface ListAccountMappingsRequest {
   riskScenarioId: string;
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 export type PaginatedResponseRiskScenarioAccountMappingResultsDataList =
   Array<RiskScenarioAccountMapping>;
@@ -4992,20 +4994,20 @@ export interface PaginatedResponseRiskScenarioAccountMapping {
   results: PaginatedResponseRiskScenarioAccountMappingResults;
 }
 export interface ListAnswerLibraryEntriesRequest {
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
   /** Full-text search across question and answer. */
-  q?: string;
+  q?: string | undefined;
   /** Only include entries updated at or after this ISO 8601 timestamp. */
-  lastUpdatedAfter?: string;
+  lastUpdatedAfter?: string | undefined;
   /** Only include entries updated at or before this ISO 8601 timestamp. */
-  lastUpdatedBefore?: string;
+  lastUpdatedBefore?: string | undefined;
   /** JSON-encoded array of `{categoryId, tagId}` pairs. Entries matching any of the given tags are returned (OR filter). Discover valid `categoryId` and `tagId` values via `GET /v1/customer-trust/tag-categories` (to list categories) and `GET /v1/customer-trust/tag-categories/{tagCategoryId}` (to list tags within a category). */
-  matchesTags?: string;
+  matchesTags?: string | undefined;
   /** Only include entries expiring at or before this ISO 8601 timestamp. */
-  expiresBefore?: string;
+  expiresBefore?: string | undefined;
   /** Only include entries expiring at or after this ISO 8601 timestamp. */
-  expiresAfter?: string;
+  expiresAfter?: string | undefined;
 }
 export type PaginatedResponseKnowledgeBaseAnswerLibraryEntryOutputResultsDataList =
   Array<KnowledgeBaseAnswerLibraryEntryOutput>;
@@ -5019,9 +5021,9 @@ export interface PaginatedResponseKnowledgeBaseAnswerLibraryEntryOutput {
 export type QuestionnaireAssignableUserRole = "owner" | "approver";
 export interface ListAssignableUsersRequest {
   /** Filter by role: "owner" or "approver". */
-  role?: QuestionnaireAssignableUserRole | (string & {});
+  role?: QuestionnaireAssignableUserRole | (string & {}) | undefined;
   /** Optional search string to filter users by name or email. */
-  q?: string;
+  q?: string | undefined;
 }
 export type QuestionnaireAssignableUser = UserDefinedTagCategory;
 export type QuestionnaireAssignableUsersResponseResultsDataList = Array<UserDefinedTagCategory>;
@@ -5032,8 +5034,8 @@ export interface QuestionnaireAssignableUsersResponse {
   results: QuestionnaireAssignableUsersResponseResults;
 }
 export interface ListBusinessUnitsRequest {
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 export type PaginatedResponseBusinessUnitResultsDataList = Array<BusinessUnit>;
 export interface PaginatedResponseBusinessUnitResults {
@@ -5045,10 +5047,10 @@ export interface PaginatedResponseBusinessUnit {
 }
 export interface ListChatbotConversationsRequest {
   slugId: string;
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
   /** Search conversations by message content. */
-  searchString?: string;
+  searchString?: string | undefined;
 }
 export interface TrustCenterChatbotConversation {
   /** Unique identifier for the conversation. */
@@ -5084,8 +5086,8 @@ export interface TrustCenterComplianceFrameworkListResponse {
   isSectionVisible: boolean;
 }
 export interface ListConnectedIntegrationsRequest {
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 export type PaginatedResponseIntegrationResultsDataList = Array<Integration>;
 export interface PaginatedResponseIntegrationResults {
@@ -5096,8 +5098,8 @@ export interface PaginatedResponseIntegration {
   results: PaginatedResponseIntegrationResults;
 }
 export interface ListContractsRequest {
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 export type PaginatedResponseContractResultsDataList = Array<Contract>;
 export interface PaginatedResponseContractResults {
@@ -5109,10 +5111,10 @@ export interface PaginatedResponseContract {
 }
 export type ListControlsRequestFrameworkMatchesAnyList = Array<string>;
 export interface ListControlsRequest {
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
   /** Includes all controls belonging to one of the provided framework values in frameworkMatchesAny. */
-  frameworkMatchesAny?: ListControlsRequestFrameworkMatchesAnyList;
+  frameworkMatchesAny?: ListControlsRequestFrameworkMatchesAnyList | undefined;
 }
 export type PaginatedResponseControlResultsDataList = Array<Control>;
 export interface PaginatedResponseControlResults {
@@ -5124,18 +5126,18 @@ export interface PaginatedResponseControl {
 }
 export interface ListControlsForDocumentRequest {
   documentId: string;
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 export interface ListControlsForFrameworkRequest {
   frameworkId: string;
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 export interface ListCustomAssetMappingsRequest {
   riskScenarioId: string;
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 export interface RiskScenarioCustomAssetMapping {
   /** The ID of a custom asset mapped to the risk scenario. */
@@ -5151,8 +5153,8 @@ export interface PaginatedResponseRiskScenarioCustomAssetMapping {
   results: PaginatedResponseRiskScenarioCustomAssetMappingResults;
 }
 export interface ListCustomAssetsRequest {
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 export interface CustomAsset {
   /** The unique ID of the custom inventory asset. */
@@ -5171,11 +5173,11 @@ export interface PaginatedResponseCustomAsset {
   results: PaginatedResponseCustomAssetResults;
 }
 export interface ListCustomerTrustAccountsRequest {
-  pageSize?: number;
-  pageCursor?: string;
-  searchString?: string;
-  isAutoApprovalEnabled?: boolean;
-  customFieldsFilter?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
+  searchString?: string | undefined;
+  isAutoApprovalEnabled?: boolean | undefined;
+  customFieldsFilter?: string | undefined;
 }
 export type PaginatedResponseCustomerTrustAccountVantaApiResultsDataList =
   Array<CustomerTrustAccountVantaApi>;
@@ -5187,10 +5189,10 @@ export interface PaginatedResponseCustomerTrustAccountVantaApi {
   results: PaginatedResponseCustomerTrustAccountVantaApiResults;
 }
 export interface ListCustomRequirementsRequest {
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
   /** Filter requirements by type. If omitted, returns both onboarding and offboarding requirements. */
-  requirementType?: CustomRequirementType | (string & {});
+  requirementType?: CustomRequirementType | (string & {}) | undefined;
 }
 export type PaginatedResponseCustomRequirementResultsDataList = Array<CustomRequirement>;
 export interface PaginatedResponseCustomRequirementResults {
@@ -5201,8 +5203,8 @@ export interface PaginatedResponseCustomRequirement {
   results: PaginatedResponseCustomRequirementResults;
 }
 export interface ListDeactivatedControlsRequest {
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 /** The security domains that the control belongs to. */
 export type DeactivatedControlDomainsList = Array<string>;
@@ -5238,7 +5240,7 @@ export interface DeactivatedControl {
   /** The control's owner. */
   owner: Owner | null;
   /** The control's GDPR role, if the control is a GDPR control. */
-  role?: string | null;
+  role?: string | null | undefined;
   /** The control's custom field values, if control custom fields is included in your Vanta instance. */
   customFields: DeactivatedControlCustomFieldsList;
   /** When the control was created. Returns null for Vanta library controls. */
@@ -5246,7 +5248,7 @@ export interface DeactivatedControl {
   /** When the control was last modified. Returns null for Vanta library controls. */
   modificationDate: string | null;
   /** How the control is implemented. */
-  implementationDetails?: string | null;
+  implementationDetails?: string | null | undefined;
   /** The frameworks that the control is mapped to. Empty when the control maps to no framework the organization has enabled. */
   frameworks: DeactivatedControlFrameworksList;
   /** The reason given when the control was deactivated. Null when no reason was recorded, including for deactivations that predate the field. */
@@ -5262,8 +5264,8 @@ export interface PaginatedResponseDeactivatedControl {
 }
 export interface ListDiscoveredVendorAccountsRequest {
   discoveredVendorId: string;
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 export type DiscoveredVendorAccountTypeUSER = "USER";
 export interface DiscoveredVendorUser {
@@ -5281,7 +5283,7 @@ export interface DiscoveredVendorComputer {
   /** The associated computer's unique ID. */
   id: string;
   /** The associated computer's display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The associated computer's owner. */
   owner: DiscoveredVendorUser | null;
   /** The account type. */
@@ -5301,9 +5303,9 @@ export interface PaginatedResponseDiscoveredVendorAccount {
 export type DiscoveredVendorScope = "NEEDS_REVIEW" | "IGNORED" | "REJECTED";
 export interface ListDiscoveredVendorsRequest {
   /** Defaults to "NEEDS_REVIEW" if not provided */
-  scope?: DiscoveredVendorScope | (string & {});
-  pageSize?: number;
-  pageCursor?: string;
+  scope?: DiscoveredVendorScope | (string & {}) | undefined;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 /** The discovered vendor's category. */
 export type DiscoveredVendorCategory = Training;
@@ -5365,12 +5367,12 @@ export interface PaginatedResponseDiscoveredVendor {
 export type ListDocumentsRequestFrameworkMatchesAnyList = Array<string>;
 export type ListDocumentsRequestStatusMatchesAnyList = Array<DocumentStatus | (string & {})>;
 export interface ListDocumentsRequest {
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
   /** Includes all documents that match one of the provided framework values in frameworkMatchesAny. */
-  frameworkMatchesAny?: ListDocumentsRequestFrameworkMatchesAnyList;
+  frameworkMatchesAny?: ListDocumentsRequestFrameworkMatchesAnyList | undefined;
   /** Includes all documents that match one of the provided status values in statusMatchesAny. */
-  statusMatchesAny?: ListDocumentsRequestStatusMatchesAnyList;
+  statusMatchesAny?: ListDocumentsRequestStatusMatchesAnyList | undefined;
 }
 export type PaginatedResponseDocumentResultsDataList = Array<Document>;
 export interface PaginatedResponseDocumentResults {
@@ -5382,8 +5384,8 @@ export interface PaginatedResponseDocument {
 }
 export interface ListDocumentsForControlRequest {
   controlId: string;
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 export interface ListEnterpriseRiskMappingsRequest {
   riskScenarioId: string;
@@ -5402,10 +5404,10 @@ export interface PaginatedResponseRiskScenarioEnterpriseRiskMapping {
   results: PaginatedResponseRiskScenarioEnterpriseRiskMappingResults;
 }
 export interface ListEventLogsRequest {
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
   /** Filter to event logs created at or after this ISO 8601 timestamp. */
-  startDate?: string;
+  startDate?: string | undefined;
 }
 /** The event's initiator. */
 export interface EventLogActor {
@@ -5444,8 +5446,8 @@ export interface PaginatedResponseEventLog {
 }
 export interface ListFilesForDocumentRequest {
   documentId: string;
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 /** The actor who uploaded this document. It could be a user or an app. */
 export type UploadedFileTUploadedBy = VendorDocumentUploadedBy;
@@ -5482,14 +5484,14 @@ export interface PaginatedResponseUploadedFileT {
   results: PaginatedResponseUploadedFileTResults;
 }
 export interface ListFrameworksRequest {
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
   /** Whether to include lifecycle status. Defaults to true. */
-  includeStatus?: boolean;
+  includeStatus?: boolean | undefined;
   /** Whether to return only frameworks in your program. Defaults to true. */
-  purchasedOnly?: boolean;
+  purchasedOnly?: boolean | undefined;
   /** Whether to look up progress counts for purchased frameworks. Defaults to true. Counts are -1 when this is false and for unpurchased frameworks. */
-  includeProgress?: boolean;
+  includeProgress?: boolean | undefined;
 }
 /** The framework's lifecycle status. Null means it has no lifecycle status. Omitted when includeStatus is false or status information is unavailable. */
 export type FrameworkStatus = "ACTIVE" | "DRAFT" | "SNOOZED" | "ARCHIVED" | "NEW_UPGRADE";
@@ -5505,7 +5507,7 @@ export interface Framework {
   /** The framework's description. */
   description: string;
   /** The framework's lifecycle status. Null means it has no lifecycle status. Omitted when includeStatus is false or status information is unavailable. */
-  status?: FrameworkStatus | null;
+  status?: FrameworkStatus | null | undefined;
   /** The number of completed controls in the framework. */
   numControlsCompleted: number;
   /** The total number of controls in the framework. */
@@ -5521,7 +5523,7 @@ export interface Framework {
   /** Whether the framework is in your program. Progress counts are -1 for unpurchased frameworks. */
   isPurchased: boolean;
   /** The assessment tiers your program is on, such as HITRUST i1. Omitted for frameworks without tiers. */
-  activeVariants?: FrameworkActiveVariantsList;
+  activeVariants?: FrameworkActiveVariantsList | undefined;
 }
 export type PaginatedResponseFrameworkResultsDataList = Array<Framework>;
 export interface PaginatedResponseFrameworkResults {
@@ -5533,10 +5535,10 @@ export interface PaginatedResponseFramework {
 }
 export type ListImportableIdpGroupsRequestIntegrationIdList = Array<string>;
 export interface ListImportableIdpGroupsRequest {
-  pageSize?: number;
-  pageCursor?: string;
-  search?: string;
-  integrationId?: ListImportableIdpGroupsRequestIntegrationIdList;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
+  search?: string | undefined;
+  integrationId?: ListImportableIdpGroupsRequestIntegrationIdList | undefined;
 }
 export interface ImportableIdpGroup {
   id: string;
@@ -5554,8 +5556,8 @@ export interface PaginatedImportableIdpGroupResponse {
 }
 export interface ListIntegrationMappingsRequest {
   riskScenarioId: string;
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 export interface RiskScenarioIntegrationMapping {
   /** The service ID of an integration linked as a whole to the risk scenario. */
@@ -5572,8 +5574,8 @@ export interface PaginatedResponseRiskScenarioIntegrationMapping {
 }
 export interface ListIssueMappingsRequest {
   riskScenarioId: string;
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 export interface RiskScenarioIssueMapping {
   /** The ID of an issue mapped to the risk scenario. */
@@ -5593,22 +5595,22 @@ export type ListKnowledgeBaseResourcesRequestTypeMatchesAnyList = Array<
   KnowledgeBaseResourceTypeFilter | (string & {})
 >;
 export interface ListKnowledgeBaseResourcesRequest {
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
   /** Full-text search across resource titles. */
-  q?: string;
+  q?: string | undefined;
   /** Filter to FILE and/or URL resources. Repeat the param to allow either. */
-  typeMatchesAny?: ListKnowledgeBaseResourcesRequestTypeMatchesAnyList;
+  typeMatchesAny?: ListKnowledgeBaseResourcesRequestTypeMatchesAnyList | undefined;
   /** Only include resources updated at or after this ISO 8601 timestamp. */
-  lastUpdatedAfter?: string;
+  lastUpdatedAfter?: string | undefined;
   /** Only include resources updated at or before this ISO 8601 timestamp. */
-  lastUpdatedBefore?: string;
+  lastUpdatedBefore?: string | undefined;
   /** JSON-encoded array of `{categoryId, tagId}` pairs. Tags within the same category are OR'd together; tags across different categories are AND'd. For example, passing two tags from "Framework" and one tag from "Region" matches resources that have either of the two frameworks AND the given region. Discover valid `categoryId` and `tagId` values via `GET /v1/customer-trust/tag-categories` (to list categories) and `GET /v1/customer-trust/tag-categories/{tagCategoryId}` (to list tags within a category). */
-  matchesTags?: string;
+  matchesTags?: string | undefined;
   /** Only include resources expiring at or before this ISO 8601 timestamp. */
-  expiresBefore?: string;
+  expiresBefore?: string | undefined;
   /** Only include resources expiring at or after this ISO 8601 timestamp. */
-  expiresAfter?: string;
+  expiresAfter?: string | undefined;
 }
 export type PaginatedResponseTrustKnowledgeBaseResourceOutputResultsDataList =
   Array<TrustKnowledgeBaseResourceOutput>;
@@ -5621,8 +5623,8 @@ export interface PaginatedResponseTrustKnowledgeBaseResourceOutput {
 }
 export interface ListLinksForDocumentRequest {
   documentId: string;
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 export type PaginatedResponseUploadedLinkResultsDataList = Array<UploadedLink>;
 export interface PaginatedResponseUploadedLinkResults {
@@ -5643,10 +5645,12 @@ export type ListMonitoredComputersRequestComplianceStatusFilterMatchesAnyList = 
   ComputerStatusFilter | (string & {})
 >;
 export interface ListMonitoredComputersRequest {
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
   /** Filters for monitored computers matching any status declared in the filter. */
-  complianceStatusFilterMatchesAny?: ListMonitoredComputersRequestComplianceStatusFilterMatchesAnyList;
+  complianceStatusFilterMatchesAny?:
+    | ListMonitoredComputersRequestComplianceStatusFilterMatchesAnyList
+    | undefined;
 }
 export type PaginatedResponseMonitoredComputerResultsDataList = Array<MonitoredComputer>;
 export interface PaginatedResponseMonitoredComputerResults {
@@ -5674,26 +5678,26 @@ export type ListPeopleRequestFrameworkIdMatchesAnyList = Array<string>;
 export type ListPeopleRequestProgramScopeIdMatchesAnyList = Array<string>;
 export type ListPeopleRequestBusinessUnitIdMatchesAnyList = Array<string>;
 export interface ListPeopleRequest {
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
   /** Filter individuals by those whose tasksSummary status is any of the provided values. */
-  tasksSummaryStatusMatchesAny?: ListPeopleRequestTasksSummaryStatusMatchesAnyList;
+  tasksSummaryStatusMatchesAny?: ListPeopleRequestTasksSummaryStatusMatchesAnyList | undefined;
   /** Requires taskStatusMatchesAny. Includes all people for whom any of the provided taskType values in taskTypeMatchesAny is any of the provided taskStatus values in taskStatusMatchesAny. */
-  taskTypeMatchesAny?: ListPeopleRequestTaskTypeMatchesAnyList;
+  taskTypeMatchesAny?: ListPeopleRequestTaskTypeMatchesAnyList | undefined;
   /** Requires taskTypeMatchesAny. Includes all people for whom any of the provided taskType values in taskTypeMatchesAny is any of the provided taskStatus values in taskStatusMatchesAny. */
-  taskStatusMatchesAny?: ListPeopleRequestTaskStatusMatchesAnyList;
+  taskStatusMatchesAny?: ListPeopleRequestTaskStatusMatchesAnyList | undefined;
   /** Filter people by email address, first name, or last name (partial match, case-insensitive). */
-  emailAndNameFilter?: string;
+  emailAndNameFilter?: string | undefined;
   /** Filter people matching any of the given group IDs. */
-  groupIdsMatchesAny?: ListPeopleRequestGroupIdsMatchesAnyList;
+  groupIdsMatchesAny?: ListPeopleRequestGroupIdsMatchesAnyList | undefined;
   /** Filter people matching the given employment status. */
-  employmentStatus?: EmploymentStatus | (string & {});
+  employmentStatus?: EmploymentStatus | (string & {}) | undefined;
   /** Filter people in scope for any of the given framework IDs. Framework IDs are built-in framework identifiers or custom framework ObjectIds. Blank IDs match nothing. */
-  frameworkIdMatchesAny?: ListPeopleRequestFrameworkIdMatchesAnyList;
+  frameworkIdMatchesAny?: ListPeopleRequestFrameworkIdMatchesAnyList | undefined;
   /** Filter people in scope for any of the given program scope IDs. Program scopes you cannot view are ignored. Blank IDs match nothing. */
-  programScopeIdMatchesAny?: ListPeopleRequestProgramScopeIdMatchesAnyList;
+  programScopeIdMatchesAny?: ListPeopleRequestProgramScopeIdMatchesAnyList | undefined;
   /** Filter people in scope for any of the given business unit IDs. Blank IDs match nothing. */
-  businessUnitIdMatchesAny?: ListPeopleRequestBusinessUnitIdMatchesAnyList;
+  businessUnitIdMatchesAny?: ListPeopleRequestBusinessUnitIdMatchesAnyList | undefined;
 }
 export type PaginatedResponsePersonResultsDataList = Array<Person>;
 export interface PaginatedResponsePersonResults {
@@ -5704,8 +5708,8 @@ export interface PaginatedResponsePerson {
   results: PaginatedResponsePersonResults;
 }
 export interface ListPersonGroupsRequest {
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 export type PaginatedResponseGroupResultsDataList = Array<Group>;
 export interface PaginatedResponseGroupResults {
@@ -5716,8 +5720,8 @@ export interface PaginatedResponseGroup {
   results: PaginatedResponseGroupResults;
 }
 export interface ListPoliciesRequest {
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 export type PaginatedResponsePolicyResultsDataList = Array<Policy>;
 export interface PaginatedResponsePolicyResults {
@@ -5730,12 +5734,12 @@ export interface PaginatedResponsePolicy {
 export type ListProgramScopesRequestBusinessUnitIdMatchesAnyList = Array<string>;
 export type ListProgramScopesRequestFrameworkIdMatchesAnyList = Array<string>;
 export interface ListProgramScopesRequest {
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
   /** Filter program scopes to those whose business unit ID matches any of the provided IDs. */
-  businessUnitIdMatchesAny?: ListProgramScopesRequestBusinessUnitIdMatchesAnyList;
+  businessUnitIdMatchesAny?: ListProgramScopesRequestBusinessUnitIdMatchesAnyList | undefined;
   /** Filter program scopes to those whose framework ID matches any of the provided IDs. */
-  frameworkIdMatchesAny?: ListProgramScopesRequestFrameworkIdMatchesAnyList;
+  frameworkIdMatchesAny?: ListProgramScopesRequestFrameworkIdMatchesAnyList | undefined;
 }
 export type PaginatedResponseProgramScopeResultsDataList = Array<ProgramScope>;
 export interface PaginatedResponseProgramScopeResults {
@@ -5747,10 +5751,10 @@ export interface PaginatedResponseProgramScope {
 }
 export interface ListQuestionnaireResponsesRequest {
   questionnaireId: string;
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
   /** Filter responses by question text (case-insensitive, partial match). */
-  q?: string;
+  q?: string | undefined;
 }
 export type PaginatedResponseQuestionnaireResponseWithoutViewerPermissionsResultsDataList =
   Array<QuestionnaireResponseWithoutViewerPermissions>;
@@ -5770,22 +5774,22 @@ export type ListQuestionnairesRequestTypeMatchesAnyList = Array<
 export type ListQuestionnairesRequestOwnerIdMatchesAnyList = Array<string>;
 export type ListQuestionnairesRequestApproverIdMatchesAnyList = Array<string>;
 export interface ListQuestionnairesRequest {
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
   /** Filter questionnaires by display name (case-insensitive, partial match). */
-  q?: string;
+  q?: string | undefined;
   /** Filter questionnaires matching any of the provided statuses. */
-  statusMatchesAny?: ListQuestionnairesRequestStatusMatchesAnyList;
+  statusMatchesAny?: ListQuestionnairesRequestStatusMatchesAnyList | undefined;
   /** Filter questionnaires matching any of the provided types. */
-  typeMatchesAny?: ListQuestionnairesRequestTypeMatchesAnyList;
+  typeMatchesAny?: ListQuestionnairesRequestTypeMatchesAnyList | undefined;
   /** Filter to questionnaires created after this date (ISO 8601 string). */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
   /** Filter to questionnaires created before this date (ISO 8601 string). */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Filter to questionnaires owned by any of the provided user IDs. */
-  ownerIdMatchesAny?: ListQuestionnairesRequestOwnerIdMatchesAnyList;
+  ownerIdMatchesAny?: ListQuestionnairesRequestOwnerIdMatchesAnyList | undefined;
   /** Filter to questionnaires with an approver matching any of the provided user IDs. */
-  approverIdMatchesAny?: ListQuestionnairesRequestApproverIdMatchesAnyList;
+  approverIdMatchesAny?: ListQuestionnairesRequestApproverIdMatchesAnyList | undefined;
 }
 export type PaginatedResponseCustomerTrustQuestionnaireResultsDataList =
   Array<CustomerTrustQuestionnaire>;
@@ -5820,15 +5824,15 @@ export interface ListResourcesRequest {
   /** Unique identifier of the integration resource type. */
   resourceKind: string;
   /** Unique identifier of the integration connection. */
-  connectionId?: string;
+  connectionId?: string | undefined;
   /** Filter resources that have a description. If omitted, this will return resources both with and without a description. */
-  hasDescription?: boolean;
+  hasDescription?: boolean | undefined;
   /** Filter resources that have an owner. If omitted, this will return resources both with and without an owner. */
-  hasOwner?: boolean;
+  hasOwner?: boolean | undefined;
   /** Filter resources that are in scope. If omitted, this will return resources both in and out of scope. */
-  isInScope?: boolean;
-  pageSize?: number;
-  pageCursor?: string;
+  isInScope?: boolean | undefined;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 export type PaginatedResponseAnyResourceResultsDataList = Array<AnyResource>;
 export interface PaginatedResponseAnyResourceResults {
@@ -5858,25 +5862,29 @@ export type ListRiskScenarioRequestResidualScoreGroupMatchesAnyList = Array<
 export type ListRiskScenarioRequestReviewStatusMatchesAnyList = Array<ReviewStatus | (string & {})>;
 export type ListRiskScenarioRequestOrderBy = "description" | "createdAt";
 export interface ListRiskScenarioRequest {
-  pageSize?: number;
-  pageCursor?: string;
-  includeIgnored?: boolean;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
+  includeIgnored?: boolean | undefined;
   /** Use "No owner" to filter scenarios without owner assigned. */
-  ownerMatchesAny?: ListRiskScenarioRequestOwnerMatchesAnyList;
-  searchString?: string;
+  ownerMatchesAny?: ListRiskScenarioRequestOwnerMatchesAnyList | undefined;
+  searchString?: string | undefined;
   /** Use "Uncategorized" to filter scenarios without any category. */
-  categoryMatchesAny?: ListRiskScenarioRequestCategoryMatchesAnyList;
+  categoryMatchesAny?: ListRiskScenarioRequestCategoryMatchesAnyList | undefined;
   /** Use "Uncategorized" to filter scenarios with none of Confidentiality, Integrity or Availability assigned. */
-  ciaCategoryMatchesAny?: ListRiskScenarioRequestCiaCategoryMatchesAnyList;
+  ciaCategoryMatchesAny?: ListRiskScenarioRequestCiaCategoryMatchesAnyList | undefined;
   /** Use "No treatment type" to filter scenarios without treatment specified. */
-  treatmentTypeMatchesAny?: ListRiskScenarioRequestTreatmentTypeMatchesAnyList;
-  inherentScoreGroupMatchesAny?: ListRiskScenarioRequestInherentScoreGroupMatchesAnyList;
-  residualScoreGroupMatchesAny?: ListRiskScenarioRequestResidualScoreGroupMatchesAnyList;
-  reviewStatusMatchesAny?: ListRiskScenarioRequestReviewStatusMatchesAnyList;
+  treatmentTypeMatchesAny?: ListRiskScenarioRequestTreatmentTypeMatchesAnyList | undefined;
+  inherentScoreGroupMatchesAny?:
+    | ListRiskScenarioRequestInherentScoreGroupMatchesAnyList
+    | undefined;
+  residualScoreGroupMatchesAny?:
+    | ListRiskScenarioRequestResidualScoreGroupMatchesAnyList
+    | undefined;
+  reviewStatusMatchesAny?: ListRiskScenarioRequestReviewStatusMatchesAnyList | undefined;
   /** Filter by risk scenario type. Defaults to "Risk Scenario". Only returns enterprise risks when explicitly set to "Enterprise Risk". */
-  type?: RiskScenarioType | (string & {});
+  type?: RiskScenarioType | (string & {}) | undefined;
   /** Default to order by description alphabetically. */
-  orderBy?: ListRiskScenarioRequestOrderBy | (string & {});
+  orderBy?: ListRiskScenarioRequestOrderBy | (string & {}) | undefined;
 }
 export type PaginatedResponseRiskScenarioResultsDataList = Array<RiskScenario>;
 export interface PaginatedResponseRiskScenarioResults {
@@ -5888,8 +5896,8 @@ export interface PaginatedResponseRiskScenario {
 }
 export interface ListRiskScenarioControlsRequest {
   riskScenarioId: string;
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 export type PaginatedResponseRiskScenarioControlResultsDataList = Array<RiskScenarioControl>;
 export interface PaginatedResponseRiskScenarioControlResults {
@@ -5908,17 +5916,17 @@ export type ListTagCategoriesRequestProductContextIdsMatchesAnyList = Array<
   CustomerTrustProductContextIdFilter | (string & {})
 >;
 export interface ListTagCategoriesRequest {
-  productContextIdsMatchesAny?: ListTagCategoriesRequestProductContextIdsMatchesAnyList;
+  productContextIdsMatchesAny?: ListTagCategoriesRequestProductContextIdsMatchesAnyList | undefined;
 }
 export type ArrayResponseUserDefinedTagCategoryResultsList = Array<UserDefinedTagCategory>;
 export interface ArrayResponseUserDefinedTagCategory {
   results: ArrayResponseUserDefinedTagCategoryResultsList;
 }
 export interface ListTaskRequirementSetsRequest {
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
   /** Filter sets by reusable status. If omitted, returns both reusable and non-reusable sets. */
-  reusable?: boolean;
+  reusable?: boolean | undefined;
 }
 export type PaginatedResponseTaskRequirementSetResultsDataList = Array<TaskRequirementSet>;
 export interface PaginatedResponseTaskRequirementSetResults {
@@ -5949,22 +5957,22 @@ export type TestCategory =
   | "VENDORS"
   | "VULNERABILITY_MANAGEMENT";
 export interface ListTestsRequest {
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
   /** Filter tests by test status. Possible values: OK (Test passed), DEACTIVATED (Test is deactivated), NEEDS_ATTENTION (Test failed), IN_PROGRESS (Test is in progress), INVALID (Test is invalid), NOT_APPLICABLE (Test is not applicable) */
-  statusFilter?: TestStatus | (string & {});
+  statusFilter?: TestStatus | (string & {}) | undefined;
   /** Filter tests by framework. */
-  frameworkFilter?: string;
+  frameworkFilter?: string | undefined;
   /** Filter tests by integration. */
-  integrationFilter?: string;
+  integrationFilter?: string | undefined;
   /** Filter tests by control ID. */
-  controlFilter?: string;
+  controlFilter?: string | undefined;
   /** Filter tests by owner ID. */
-  ownerFilter?: string;
+  ownerFilter?: string | undefined;
   /** Filter tests by category. */
-  categoryFilter?: TestCategory | (string & {});
+  categoryFilter?: TestCategory | (string & {}) | undefined;
   /** Filter tests by rollout status. A test in rollout is an upcoming test that does not have its history tracked yet. */
-  isInRollout?: boolean;
+  isInRollout?: boolean | undefined;
 }
 export type PaginatedResponseTestResultsDataList = Array<Test>;
 export interface PaginatedResponseTestResults {
@@ -5976,13 +5984,13 @@ export interface PaginatedResponseTest {
 }
 export interface ListTestsForControlRequest {
   controlId: string;
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 export interface ListTrustCenterAccessRequestsRequest {
   slugId: string;
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 export type PaginatedResponseTrustCenterAccessRequestResultsDataList =
   Array<TrustCenterAccessRequest>;
@@ -5999,13 +6007,13 @@ export type ListTrustCenterActivityEventsRequestEventTypesMatchesAnyList = Array
 >;
 export interface ListTrustCenterActivityEventsRequest {
   slugId: string;
-  pageSize?: number;
-  pageCursor?: string;
-  eventTypesMatchesAny?: ListTrustCenterActivityEventsRequestEventTypesMatchesAnyList;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
+  eventTypesMatchesAny?: ListTrustCenterActivityEventsRequestEventTypesMatchesAnyList | undefined;
   /** Only include activity events that occurred on or after the specified date and time. */
-  afterDate?: string;
+  afterDate?: string | undefined;
   /** Only include activity events that occurred before the specified date and time. */
-  beforeDate?: string;
+  beforeDate?: string | undefined;
 }
 export type TrustCenterPage =
   | "COMPLIANCE"
@@ -6064,8 +6072,8 @@ export interface PaginatedResponseTrustCenterActivityEvent {
 }
 export interface ListTrustCenterControlsRequest {
   slugId: string;
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 export type PaginatedResponseTrustCenterControlResultsDataList = Array<TrustCenterControl>;
 export interface PaginatedResponseTrustCenterControlResults {
@@ -6106,8 +6114,8 @@ export interface ArrayResponseTrustCenterFaq {
 }
 export interface ListTrustCenterHistoricalAccessRequestsRequest {
   slugId: string;
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 /** IDs for the resources that the viewer requested access to. */
 export type TrustCenterAccessRequestHistoricalRequestedResourcesList = Array<string>;
@@ -6170,8 +6178,8 @@ export interface ArrayResponseTrustCenterSubprocessor {
 }
 export interface ListTrustCenterSubscriberGroupsRequest {
   slugId: string;
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 export type PaginatedResponseTrustCenterSubscriberGroupResultsDataList =
   Array<TrustCenterSubscriberGroup>;
@@ -6184,9 +6192,9 @@ export interface PaginatedResponseTrustCenterSubscriberGroup {
 }
 export interface ListTrustCenterSubscribersRequest {
   slugId: string;
-  pageSize?: number;
-  pageCursor?: string;
-  customerTrustAccountId?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
+  customerTrustAccountId?: string | undefined;
 }
 export type PaginatedResponseTrustCenterSubscriberResultsDataList = Array<TrustCenterSubscriber>;
 export interface PaginatedResponseTrustCenterSubscriberResults {
@@ -6198,8 +6206,8 @@ export interface PaginatedResponseTrustCenterSubscriber {
 }
 export interface ListTrustCenterUpdatesRequest {
   slugId: string;
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 export type PaginatedResponseTrustCenterUpdateAPIResponseResultsDataList =
   Array<TrustCenterUpdateAPIResponse>;
@@ -6221,7 +6229,7 @@ export interface TrustCenterVideo {
   /** Title of the video. */
   title: string;
   /** Description of the video. */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export type ArrayResponseTrustCenterVideoResultsList = Array<TrustCenterVideo>;
 export interface ArrayResponseTrustCenterVideo {
@@ -6229,9 +6237,9 @@ export interface ArrayResponseTrustCenterVideo {
 }
 export interface ListTrustCenterViewersRequest {
   slugId: string;
-  pageSize?: number;
-  pageCursor?: string;
-  includeRemoved?: boolean;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
+  includeRemoved?: boolean | undefined;
 }
 export type PaginatedResponseTrustCenterViewerResultsDataList = Array<TrustCenterViewer>;
 export interface PaginatedResponseTrustCenterViewerResults {
@@ -6242,8 +6250,8 @@ export interface PaginatedResponseTrustCenterViewer {
   results: PaginatedResponseTrustCenterViewerResults;
 }
 export interface ListUsersRequest {
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 export type PaginatedResponseUserResultsDataList = Array<User>;
 export interface PaginatedResponseUserResults {
@@ -6271,24 +6279,24 @@ export type ListVendorAlertsRequestVendorRiskLevelMatchesAnyList = Array<
 export type ListVendorAlertsRequestOrderBy = "severity" | "status" | "creationDate";
 export type ListVendorAlertsRequestOrderDirection = "asc" | "desc";
 export interface ListVendorAlertsRequest {
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
   /** Search alert titles and vendor names. */
-  search?: string;
+  search?: string | undefined;
   /** Filter to alerts matching any of the provided statuses. */
-  statusMatchesAny?: ListVendorAlertsRequestStatusMatchesAnyList;
+  statusMatchesAny?: ListVendorAlertsRequestStatusMatchesAnyList | undefined;
   /** Filter to alerts matching any of the provided severities. */
-  severityMatchesAny?: ListVendorAlertsRequestSeverityMatchesAnyList;
+  severityMatchesAny?: ListVendorAlertsRequestSeverityMatchesAnyList | undefined;
   /** Filter to alerts matching any of the provided security categories. */
-  categoryMatchesAny?: ListVendorAlertsRequestCategoryMatchesAnyList;
+  categoryMatchesAny?: ListVendorAlertsRequestCategoryMatchesAnyList | undefined;
   /** Filter to alerts matching any of the provided types. */
-  typeMatchesAny?: ListVendorAlertsRequestTypeMatchesAnyList;
+  typeMatchesAny?: ListVendorAlertsRequestTypeMatchesAnyList | undefined;
   /** Filter to alerts whose vendors match any of the provided inherent risk levels. */
-  vendorRiskLevelMatchesAny?: ListVendorAlertsRequestVendorRiskLevelMatchesAnyList;
+  vendorRiskLevelMatchesAny?: ListVendorAlertsRequestVendorRiskLevelMatchesAnyList | undefined;
   /** Field to sort results by. Defaults to severity. */
-  orderBy?: ListVendorAlertsRequestOrderBy | (string & {});
+  orderBy?: ListVendorAlertsRequestOrderBy | (string & {}) | undefined;
   /** Direction to sort results in. Defaults to descending. */
-  orderDirection?: ListVendorAlertsRequestOrderDirection | (string & {});
+  orderDirection?: ListVendorAlertsRequestOrderDirection | (string & {}) | undefined;
 }
 export type PaginatedResponseVendorAlertResultsDataList = Array<VendorAlert>;
 export interface PaginatedResponseVendorAlertResults {
@@ -6299,10 +6307,10 @@ export interface PaginatedResponseVendorAlert {
   results: PaginatedResponseVendorAlertResults;
 }
 export interface ListVendorAssessmentTypesRequest {
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
   /** Filter assessment types to a single lifecycle status */
-  status?: VendorAssessmentTypeLifecycleStatus | (string & {});
+  status?: VendorAssessmentTypeLifecycleStatus | (string & {}) | undefined;
 }
 export type PaginatedResponseVendorAssessmentTypeResultsDataList = Array<VendorAssessmentType>;
 export interface PaginatedResponseVendorAssessmentTypeResults {
@@ -6313,8 +6321,8 @@ export interface PaginatedResponseVendorAssessmentType {
   results: PaginatedResponseVendorAssessmentTypeResults;
 }
 export interface ListVendorCategoriesRequest {
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 export type PaginatedResponseVendorCategoryResultsDataList = Array<VendorCategory2>;
 export interface PaginatedResponseVendorCategoryResults {
@@ -6326,8 +6334,8 @@ export interface PaginatedResponseVendorCategory {
 }
 export interface ListVendorDocumentsRequest {
   vendorId: string;
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 export type ListVendorExternalFindingsRequestSeverityMatchesAnyItem =
   | "CRITICAL"
@@ -6361,23 +6369,23 @@ export type ListVendorExternalFindingsRequestDirection = "asc" | "desc";
 export interface ListVendorExternalFindingsRequest {
   /** Unique identifier of the vendor. */
   vendorId: string;
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
   /** Search finding titles and descriptions. */
-  q?: string;
+  q?: string | undefined;
   /** Match any specified severity. Omitted: all except INFO. */
-  severityMatchesAny?: ListVendorExternalFindingsRequestSeverityMatchesAnyList;
+  severityMatchesAny?: ListVendorExternalFindingsRequestSeverityMatchesAnyList | undefined;
   /** Match any specified status. Omitted: both statuses. */
-  statusMatchesAny?: ListVendorExternalFindingsRequestStatusMatchesAnyList;
+  statusMatchesAny?: ListVendorExternalFindingsRequestStatusMatchesAnyList | undefined;
   /** Match any specified monitoring category, exactly and case-sensitively. Omitted: all categories. */
-  categoryMatchesAny?: ListVendorExternalFindingsRequestCategoryMatchesAnyList;
+  categoryMatchesAny?: ListVendorExternalFindingsRequestCategoryMatchesAnyList | undefined;
   /** Inclusive ISO 8601 first-seen lower bound. Supply both date bounds with start no later than end. */
-  firstSeenStartDate?: string;
+  firstSeenStartDate?: string | undefined;
   /** Inclusive ISO 8601 first-seen upper bound. Supply both date bounds with start no later than end. */
-  firstSeenEndDate?: string;
-  sort?: ListVendorExternalFindingsRequestSort | (string & {});
+  firstSeenEndDate?: string | undefined;
+  sort?: ListVendorExternalFindingsRequestSort | (string & {}) | undefined;
   /** Ascending means oldest first, highest severity first (CRITICAL to INFO), or title A to Z. Descending reverses each order, matching security incident alerts' severity convention. */
-  direction?: ListVendorExternalFindingsRequestDirection | (string & {});
+  direction?: ListVendorExternalFindingsRequestDirection | (string & {}) | undefined;
 }
 export type PaginatedResponseVendorExternalFindingResultsDataList = Array<VendorExternalFinding>;
 export interface PaginatedResponseVendorExternalFindingResults {
@@ -6389,8 +6397,8 @@ export interface PaginatedResponseVendorExternalFinding {
 }
 export interface ListVendorFindingMappingsRequest {
   riskScenarioId: string;
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 export interface RiskScenarioVendorFindingMapping {
   /** The ID of a vendor finding mapped to the risk scenario. */
@@ -6407,12 +6415,12 @@ export interface PaginatedResponseRiskScenarioVendorFindingMapping {
 }
 export interface ListVendorFindingsRequest {
   vendorId: string;
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
   /** Filter findings by security review ID */
-  securityReviewId?: string;
+  securityReviewId?: string | undefined;
   /** Filter findings by document ID */
-  documentId?: string;
+  documentId?: string | undefined;
 }
 export type PaginatedResponseVendorFindingResultsDataList = Array<VendorFinding>;
 export interface PaginatedResponseVendorFindingResults {
@@ -6423,8 +6431,8 @@ export interface PaginatedResponseVendorFinding {
   results: PaginatedResponseVendorFindingResults;
 }
 export interface ListVendorRiskAttributesRequest {
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
 }
 /** Authoritative category IDs this risk attribute applies to, including system category IDs and custom category IDs. */
 export type VendorRiskAttributeVendorCategoryIdsList = Array<string>;
@@ -6464,14 +6472,14 @@ export interface PaginatedResponseVendorRiskAttribute {
 }
 export type ListVendorsRequestStatusMatchesAnyList = Array<VendorStatus | (string & {})>;
 export interface ListVendorsRequest {
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
   /** Filter vendors by name (case-insensitive, partial match) */
-  name?: string;
+  name?: string | undefined;
   /** Filter vendors by website URL using canonical vendor matching. */
-  websiteUrl?: string;
+  websiteUrl?: string | undefined;
   /** Filter vendors by status (can specify multiple) */
-  statusMatchesAny?: ListVendorsRequestStatusMatchesAnyList;
+  statusMatchesAny?: ListVendorsRequestStatusMatchesAnyList | undefined;
 }
 export type PaginatedResponseVendorResultsDataList = Array<Vendor>;
 export interface PaginatedResponseVendorResults {
@@ -6501,23 +6509,31 @@ export type ListVendorSecurityIncidentAlertsRequestSort =
   | "confirmationStatus";
 export type ListVendorSecurityIncidentAlertsRequestDirection = "asc" | "desc";
 export interface ListVendorSecurityIncidentAlertsRequest {
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
   /** Case-insensitive search on alert title and affected vendor name. */
-  q?: string;
+  q?: string | undefined;
   /** Organization vendor IDs. */
-  vendorIdMatchesAny?: ListVendorSecurityIncidentAlertsRequestVendorIdMatchesAnyList;
+  vendorIdMatchesAny?: ListVendorSecurityIncidentAlertsRequestVendorIdMatchesAnyList | undefined;
   /** Filter by resolution state. Returns alerts matching any of the specified states. */
-  resolutionStateMatchesAny?: ListVendorSecurityIncidentAlertsRequestResolutionStateMatchesAnyList;
+  resolutionStateMatchesAny?:
+    | ListVendorSecurityIncidentAlertsRequestResolutionStateMatchesAnyList
+    | undefined;
   /** Filter by incident confirmation status. Returns alerts matching any of the specified statuses. */
-  confirmationStatusMatchesAny?: ListVendorSecurityIncidentAlertsRequestConfirmationStatusMatchesAnyList;
+  confirmationStatusMatchesAny?:
+    | ListVendorSecurityIncidentAlertsRequestConfirmationStatusMatchesAnyList
+    | undefined;
   /** Filter by overall impact severity. Returns alerts matching any of the specified severities. */
-  impactSeverityMatchesAny?: ListVendorSecurityIncidentAlertsRequestImpactSeverityMatchesAnyList;
+  impactSeverityMatchesAny?:
+    | ListVendorSecurityIncidentAlertsRequestImpactSeverityMatchesAnyList
+    | undefined;
   /** Matches a DATA_LEAK consequence's severity, independently of overall impact. */
-  dataLeakSeverityMatchesAny?: ListVendorSecurityIncidentAlertsRequestDataLeakSeverityMatchesAnyList;
-  sort?: ListVendorSecurityIncidentAlertsRequestSort | (string & {});
+  dataLeakSeverityMatchesAny?:
+    | ListVendorSecurityIncidentAlertsRequestDataLeakSeverityMatchesAnyList
+    | undefined;
+  sort?: ListVendorSecurityIncidentAlertsRequestSort | (string & {}) | undefined;
   /** Ascending means oldest first, highest impact first (CRITICAL to LOW to UNSPECIFIED), OPEN before RESOLVED, or CONFIRMED before SUSPECTED before POTENTIAL. Descending reverses each order. */
-  direction?: ListVendorSecurityIncidentAlertsRequestDirection | (string & {});
+  direction?: ListVendorSecurityIncidentAlertsRequestDirection | (string & {}) | undefined;
 }
 export type PaginatedResponseVendorSecurityIncidentAlertResultsDataList =
   Array<VendorSecurityIncidentAlert>;
@@ -6531,30 +6547,30 @@ export interface PaginatedResponseVendorSecurityIncidentAlert {
 /** ExternalFindingSeverity describes the severity of an external finding (Vulnerability or Security Alert) */
 export type ExternalFindingSeverity = "CRITICAL" | "HIGH" | "LOW" | "MEDIUM";
 export interface ListVulnerabilitiesRequest {
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
   /** Filter vulnerabilities by deactivation status. */
-  isDeactivated?: boolean;
+  isDeactivated?: boolean | undefined;
   /** Filter vulnerabilities based on a specific external ID. */
-  externalVulnerabilityId?: string;
+  externalVulnerabilityId?: string | undefined;
   /** Filter vulnerabilities that have an available fix. */
-  isFixAvailable?: boolean;
+  isFixAvailable?: boolean | undefined;
   /** Filter vulnerabilities that are from a specific package. */
-  packageIdentifier?: string;
+  packageIdentifier?: string | undefined;
   /** Filter vulnerabilities with a fix due after a specific timestamp. */
-  slaDeadlineAfterDate?: string;
+  slaDeadlineAfterDate?: string | undefined;
   /** Filter vulnerabilities with a fix due before a specific timestamp. */
-  slaDeadlineBeforeDate?: string;
+  slaDeadlineBeforeDate?: string | undefined;
   /** Filter vulnerabilities by severity. Possible values: CRITICAL, HIGH, MEDIUM, LOW. */
-  severity?: ExternalFindingSeverity | (string & {});
+  severity?: ExternalFindingSeverity | (string & {}) | undefined;
   /** Filter vulnerabilities by the vulnerability scanner that detected them. */
-  integrationId?: string;
+  integrationId?: string | undefined;
   /** Filter vulnerabilities without an SLA due date. */
-  includeVulnerabilitiesWithoutSlas?: boolean;
+  includeVulnerabilitiesWithoutSlas?: boolean | undefined;
   /** Filter vulnerabilities by a specific asset ID. */
-  vulnerableAssetId?: string;
+  vulnerableAssetId?: string | undefined;
   /** Full-text filter on the vulnerability's name and description. */
-  q?: string;
+  q?: string | undefined;
 }
 export type PaginatedResponseVulnerabilityResultsDataList = Array<Vulnerability>;
 export interface PaginatedResponseVulnerabilityResults {
@@ -6565,18 +6581,18 @@ export interface PaginatedResponseVulnerability {
   results: PaginatedResponseVulnerabilityResults;
 }
 export interface ListVulnerabilityRemediationsRequest {
-  pageSize?: number;
-  pageCursor?: string;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
   /** Filter vulnerability remediations based on a specific scanner integration. */
-  integrationId?: string;
+  integrationId?: string | undefined;
   /** Filter vulnerability remediations by severity. Possible values: CRITICAL, HIGH, MEDIUM, LOW. */
-  severity?: ExternalFindingSeverity | (string & {});
+  severity?: ExternalFindingSeverity | (string & {}) | undefined;
   /** Filter vulnerability remediations by remediation status. */
-  isRemediatedOnTime?: boolean;
+  isRemediatedOnTime?: boolean | undefined;
   /** Filter vulnerability remediations that occurred after a specific timestamp. */
-  remediatedAfterDate?: string;
+  remediatedAfterDate?: string | undefined;
   /** Filter vulnerability remediations that occurred before a specific timestamp. */
-  remediatedBeforeDate?: string;
+  remediatedBeforeDate?: string | undefined;
 }
 export interface VulnerabilityRemediation {
   /** Unique identifier for the remediation. */
@@ -6605,15 +6621,15 @@ export interface PaginatedResponseVulnerabilityRemediation {
 }
 export interface ListVulnerableAssetsRequest {
   /** Filter vulnerable assets by search query. */
-  q?: string;
-  pageSize?: number;
-  pageCursor?: string;
+  q?: string | undefined;
+  pageSize?: number | undefined;
+  pageCursor?: string | undefined;
   /** Filter vulnerable assets by specific vulnerability scanner. */
-  integrationId?: string;
+  integrationId?: string | undefined;
   /** Filter vulnerable assets by asset type. Possible values: CODE_REPOSITORY, CONTAINER_REPOSITORY, CONTAINER_REPOSITORY_IMAGE, MANIFEST_FILE, SERVER, SERVERLESS_FUNCTION, WORKSTATION. */
-  assetType?: VulnerableAssetType | (string & {});
+  assetType?: VulnerableAssetType | (string & {}) | undefined;
   /** Filter vulnerable assets by... */
-  assetExternalAccountId?: string;
+  assetExternalAccountId?: string | undefined;
 }
 export type PaginatedResponseVulnerableAssetResultsDataList = Array<VulnerableAsset>;
 export interface PaginatedResponseVulnerableAssetResults {
@@ -6794,9 +6810,9 @@ export type CustomerTrustAccountsInputTagsByCategoryList = Array<TagsByCategoryI
 /** Account selectors for narrowing `GROUPS` notifications to subscribers with a matching linked account. */
 export interface CustomerTrustAccountsInput {
   /** Filter accounts by custom field label/value pairs. When `value` is an array, accounts matching any of the values are included. When multiple entries are provided, accounts must satisfy all of them. */
-  customFieldsFilter?: CustomerTrustAccountsInputCustomFieldsFilterList;
+  customFieldsFilter?: CustomerTrustAccountsInputCustomFieldsFilterList | undefined;
   /** Narrow the candidate accounts resolved from `customFieldsFilter` to those with matching tags. Within a category entry, accounts matching any of the `tagIds` are included. When multiple entries are provided, accounts must satisfy all of them. */
-  tagsByCategory?: CustomerTrustAccountsInputTagsByCategoryList;
+  tagsByCategory?: CustomerTrustAccountsInputTagsByCategoryList | undefined;
 }
 export interface SendTrustCenterUpdateNotificationsRequest {
   slugId: string;
@@ -6806,7 +6822,7 @@ export interface SendTrustCenterUpdateNotificationsRequest {
   /** IDs of subscriber groups to notify. When `customerTrustAccounts` is also provided, only subscribers in these groups whose linked account matches are notified. */
   subscriberGroupIds: SendTrustCenterUpdateNotificationsRequestSubscriberGroupIdsList;
   /** Optional account filters. When provided, only subscribers in `subscriberGroupIds` whose linked account matches all specified filters are notified. */
-  customerTrustAccounts?: CustomerTrustAccountsInput;
+  customerTrustAccounts?: CustomerTrustAccountsInput | undefined;
 }
 export interface NotifySpecificSubscribersResponse {
   /** The number of subscribers who will receive this notification. */
@@ -6874,22 +6890,22 @@ export interface SubmitDocumentCollectionResponse {}
 export interface SubmitRiskForApprovalRequest {
   riskScenarioId: string;
   /** Optional comment to include with the approval request. */
-  comment?: string;
+  comment?: string | undefined;
 }
 /** Tags to associate with the entry. Replaces the existing tag set. Pass `[]` to clear all tags. Discover valid `categoryId` and `tagId` values via `GET /v1/customer-trust/tag-categories` (to list categories) and `GET /v1/customer-trust/tag-categories/{tagCategoryId}` (to list tags within a category). */
 export type UpdateAnswerLibraryEntryRouteRequestTagsList = Array<TagInput>;
 export interface UpdateAnswerLibraryEntryRouteRequest {
   id: string;
   /** The question text. */
-  question?: string;
+  question?: string | undefined;
   /** The answer text. */
-  answer?: string;
+  answer?: string | undefined;
   /** The actor to assign as owner. Pass `null` to clear. Currently only type "User" is supported. */
-  ownerAssignment?: AnswerLibraryActorAssignmentInput | null;
+  ownerAssignment?: AnswerLibraryActorAssignmentInput | null | undefined;
   /** The expiration date in ISO 8601 format. Pass `null` to clear. */
-  expirationDate?: string | null;
+  expirationDate?: string | null | undefined;
   /** Tags to associate with the entry. Replaces the existing tag set. Pass `[]` to clear all tags. Discover valid `categoryId` and `tagId` values via `GET /v1/customer-trust/tag-categories` (to list categories) and `GET /v1/customer-trust/tag-categories/{tagCategoryId}` (to list tags within a category). */
-  tags?: UpdateAnswerLibraryEntryRouteRequestTagsList;
+  tags?: UpdateAnswerLibraryEntryRouteRequestTagsList | undefined;
 }
 /** Compliance standard to associate with this framework. Pass null to unset. */
 export type UpdateComplianceFrameworkRequestStandard =
@@ -6958,30 +6974,30 @@ export interface UpdateComplianceFrameworkRequest {
   slugId: string;
   frameworkId: string;
   /** Display name of the framework. */
-  name?: string;
+  name?: string | undefined;
   /** Compliance standard to associate with this framework. Pass null to unset. */
-  standard?: UpdateComplianceFrameworkRequestStandard | (string & {}) | null;
+  standard?: UpdateComplianceFrameworkRequestStandard | (string & {}) | null | undefined;
   /** Description of the framework. Pass null to unset. */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 /** The control's new values for custom fields. */
 export type UpdateControlMetadataRequestCustomFieldsList = Array<CustomField>;
 export interface UpdateControlMetadataRequest {
   controlId: string;
   /** How the control is implemented. */
-  implementationDetails?: string;
+  implementationDetails?: string | undefined;
   /** A new name for the control. */
-  name?: string;
+  name?: string | undefined;
   /** The new external ID for the control. */
-  externalId?: string;
+  externalId?: string | undefined;
   /** The new description for the control. */
-  description?: string;
+  description?: string | undefined;
   /** The new category for the control. */
-  domain?: ControlDomain | (string & {});
+  domain?: ControlDomain | (string & {}) | undefined;
   /** The new note for the control. */
-  note?: string;
+  note?: string | undefined;
   /** The control's new values for custom fields. */
-  customFields?: UpdateControlMetadataRequestCustomFieldsList;
+  customFields?: UpdateControlMetadataRequestCustomFieldsList | undefined;
 }
 /** Updated custom field values for the account */
 export type UpdateCustomerTrustAccountRequestCustomFieldsList = Array<CustomField>;
@@ -6993,37 +7009,37 @@ export type UpdateCustomerTrustAccountRequestTagsByCategoryList = Array<TagsByCa
 export interface UpdateCustomerTrustAccountRequest {
   accountId: string;
   /** Updated name for the account */
-  name?: string;
+  name?: string | undefined;
   /** Updated primary email domain for the account */
-  emailDomain?: string;
+  emailDomain?: string | undefined;
   /** Updated custom field values for the account */
-  customFields?: UpdateCustomerTrustAccountRequestCustomFieldsList;
+  customFields?: UpdateCustomerTrustAccountRequestCustomFieldsList | undefined;
   /** Manual revenue overrides for configured currency fields. Omitted fields are unchanged. */
-  revenueOverrides?: UpdateCustomerTrustAccountRequestRevenueOverridesList;
+  revenueOverrides?: UpdateCustomerTrustAccountRequestRevenueOverridesList | undefined;
   /** Tags to assign to this account, grouped by category. Replaces existing tags per category. */
-  tagsByCategory?: UpdateCustomerTrustAccountRequestTagsByCategoryList;
+  tagsByCategory?: UpdateCustomerTrustAccountRequestTagsByCategoryList | undefined;
 }
 export type UpdateCustomOffboardingRequirementInputRequirementType = "OFFBOARDING";
 export interface UpdateCustomOffboardingRequirementInput {
   requirementType: UpdateCustomOffboardingRequirementInputRequirementType;
   /** New display title. Omit to preserve. */
-  title?: string;
+  title?: string | undefined;
   /** New instructions. Omit to preserve, null to clear. */
-  instructions?: string | null;
+  instructions?: string | null | undefined;
 }
 export type UpdateCustomOnboardingRequirementInputRequirementType = "ONBOARDING";
 export interface UpdateCustomOnboardingRequirementInput {
   requirementType: UpdateCustomOnboardingRequirementInputRequirementType;
   /** New display title. Omit to preserve. */
-  title?: string;
+  title?: string | undefined;
   /** New instructions. Omit to preserve, null to clear. */
-  instructions?: string | null;
+  instructions?: string | null | undefined;
   /** Who completes the requirement. Omit to preserve. */
-  ownerType?: CustomRequirementOwnerType | (string & {});
+  ownerType?: CustomRequirementOwnerType | (string & {}) | undefined;
   /** New label for the requirement's text input. Omit to preserve, null to clear. */
-  textInputLabel?: string | null;
+  textInputLabel?: string | null | undefined;
   /** New label for the requirement's file input. Omit to preserve, null to clear. */
-  fileInputLabel?: string | null;
+  fileInputLabel?: string | null | undefined;
 }
 export type UpdateCustomRequirementInput =
   | UpdateCustomOffboardingRequirementInput
@@ -7039,44 +7055,44 @@ export type UpdateDocumentResourceRequestTagsList = Array<TagInput>;
 export interface UpdateDocumentResourceRequest {
   id: string;
   /** The title of the document resource. */
-  title?: string;
+  title?: string | undefined;
   /** A description for the document resource. Pass `null` to clear. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The actor to assign as owner. Pass `null` to clear. Currently only type "User" is supported. */
-  ownerAssignment?: KnowledgeBaseResourceActorAssignmentInput | null;
+  ownerAssignment?: KnowledgeBaseResourceActorAssignmentInput | null | undefined;
   /** Customer visibility on the Trust Center. */
-  customerVisibility?: KnowledgeBaseCustomerVisibility | (string & {});
+  customerVisibility?: KnowledgeBaseCustomerVisibility | (string & {}) | undefined;
   /** Trust Center download permission. */
-  downloadPermission?: KnowledgeBaseResourceDownloadPermission | (string & {});
+  downloadPermission?: KnowledgeBaseResourceDownloadPermission | (string & {}) | undefined;
   /** Whether the resource should be used for question-answering in Questionnaire Automation. */
-  isUsedInQuestionnaires?: boolean;
+  isUsedInQuestionnaires?: boolean | undefined;
   /** Expiration date in ISO 8601 format. Pass `null` to clear. */
-  expirationDate?: string | null;
+  expirationDate?: string | null | undefined;
   /** Tags to associate with the resource. A non-empty array replaces the existing tag set; pass `[]` to clear all tags. */
-  tags?: UpdateDocumentResourceRequestTagsList;
+  tags?: UpdateDocumentResourceRequestTagsList | undefined;
   /** Trust Center category id to associate this resource with. Pass `null` to move the resource to uncategorized. Only valid when the resource's effective visibility (after applying any patched `customerVisibility`) is REQUEST_ACCESS or PUBLIC; other combinations and unknown ids return an InvalidInputError. */
-  categoryId?: string | null;
+  categoryId?: string | null | undefined;
 }
 export interface UpdateGroupRequest {
   groupId: string;
   /** Email of an active Vanta user with the Admin role in the organization. Omit to preserve; pass null to clear. */
-  pointOfContactEmail?: string | null;
+  pointOfContactEmail?: string | null | undefined;
   /** New description. Omit to preserve; pass null to clear. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** New display name. Omit to preserve. Names are trimmed, must be non-empty and unique, and cannot change for an IdP-managed group. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface UpdatePersonRequestName {
   last: string;
   first: string;
 }
 export interface UpdatePersonRequestEmployment {
-  startDate?: string;
+  startDate?: string | undefined;
 }
 export interface UpdatePersonRequest {
   personId: string;
-  name?: UpdatePersonRequestName;
-  employment?: UpdatePersonRequestEmployment;
+  name?: UpdatePersonRequestName | undefined;
+  employment?: UpdatePersonRequestEmployment | undefined;
 }
 export type SettableQuestionnaireStatus =
   | "IN_PROGRESS"
@@ -7101,19 +7117,19 @@ export type UpdateQuestionnaireRequestTagAndCategoryIdsList = Array<TagInput>;
 export interface UpdateQuestionnaireRequest {
   questionnaireId: string;
   /** Display name of the questionnaire */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Due date for questionnaire completion (ISO 8601 string, null to clear) */
-  dueDate?: string | null;
+  dueDate?: string | null | undefined;
   /** Status transition (limited to settable statuses) */
-  status?: SettableQuestionnaireStatus | (string & {});
+  status?: SettableQuestionnaireStatus | (string & {}) | undefined;
   /** Owner assignment as Actor (null to unassign) */
-  ownerAssignment?: UpdateActorAssignment | null;
+  ownerAssignment?: UpdateActorAssignment | null | undefined;
   /** Approver assignment as Actor (null to unassign, requires QuestionnaireAutomationAdvanced) */
-  approverAssignment?: UpdateActorAssignment | null;
+  approverAssignment?: UpdateActorAssignment | null | undefined;
   /** Metadata key-value pairs */
-  metadata?: UpdateQuestionnaireRequestMetadataList;
+  metadata?: UpdateQuestionnaireRequestMetadataList | undefined;
   /** Tags to assign to the questionnaire. Each entry must include a categoryId and tagId. Replaces all existing tags. */
-  tagAndCategoryIds?: UpdateQuestionnaireRequestTagAndCategoryIdsList;
+  tagAndCategoryIds?: UpdateQuestionnaireRequestTagAndCategoryIdsList | undefined;
 }
 /** Construct a type with a set of properties K of type T */
 export type RecordStringUnknown = { [key: string]: unknown | undefined };
@@ -7137,22 +7153,22 @@ export interface UpdateResourceRequest2 {
   /** Unique identifier of the resource. */
   resourceId: string;
   /** Determines whether resources should be marked as in scope. */
-  inScope?: boolean;
+  inScope?: boolean | undefined;
   /** Description to update for the resources. */
-  description?: string;
+  description?: string | undefined;
   /** Owner ID to update for the resources. */
-  ownerId?: string;
+  ownerId?: string | undefined;
 }
 export interface UpdateResourceResponse {}
 export interface UpdateResourceRequest {
   /** ID of the resource to update. */
   id: string;
   /** Owner ID to update for the resource. */
-  ownerId?: string;
+  ownerId?: string | undefined;
   /** Description to update for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** Determines whether resources should be marked in scope or not. */
-  inScope?: boolean;
+  inScope?: boolean | undefined;
 }
 /** List of resource update requests. */
 export type UpdateResourcesRequestUpdatesList = Array<UpdateResourceRequest>;
@@ -7173,37 +7189,37 @@ export type UpdateRiskScenarioRequestCustomFieldsList = Array<CustomAttribute>;
 export interface UpdateRiskScenarioRequest {
   riskScenarioId: string;
   /** This describes an actual or potential risk to your organization's people, processes, technology, data, and facilities. Document actual issues or likely scenarios based on your specific environment or a potential vulnerability. */
-  description?: string;
+  description?: string | undefined;
   /** Optional long-form description providing extended context for the risk scenario. Maximum 10000 characters. */
-  detailedDescription?: string;
+  detailedDescription?: string | undefined;
   /** If set to true this risk can only be seen by its owner or users with Admin, RiskSensitiveManage or RiskSensitiveView permissions. */
-  isSensitive?: boolean;
+  isSensitive?: boolean | undefined;
   /** Represents the probability of an incident occurring due to this risk or vulnerability, expressed as a numerical score. Defaults to a range of 1-5, where higher values indicate greater likelihood. The range can be customized in the Risk Management settings. */
-  likelihood?: number;
+  likelihood?: number | undefined;
   /** Represents the potential severity of harm to your organization's operations if this risk is exploited, expressed as a numerical score. Defaults to a range of 1-5, where higher values indicate greater impact. The range can be customized in the Risk Management settings. */
-  impact?: number;
+  impact?: number | undefined;
   /** Represents the adjusted probability of this risk being exploited or affecting operations after implementing risk treatments, such as controls or mitigations. Expressed as a numerical score, defaulting to a range of 1-5. The range can be customized in the Risk Management settings. */
-  residualLikelihood?: number;
+  residualLikelihood?: number | undefined;
   /** Represents the adjusted severity of harm to your organization's operations if this risk is exploited after implementing risk treatments, such as controls or mitigations. Expressed as a numerical score, defaulting to a range of 1-5. The range can be customized in the Risk Management settings. */
-  residualImpact?: number;
+  residualImpact?: number | undefined;
   /** The list of categories this risk scenario belongs to. Each element in the list will become a new custom category if it doesn't match an existing one. You can reference the current category options in the Risk Management settings and/or enter new values. */
-  categories?: UpdateRiskScenarioRequestCategoriesList;
+  categories?: UpdateRiskScenarioRequestCategoriesList | undefined;
   /** Enter a list of the following for the type of risk documented: - Confidentiality: Risk to data stores, customer/sensitive information, etc. - Integrity: Risk to accuracy or integrity of system settings and/or data - Availability: Risk to normal service operations and critical system functionality */
-  ciaCategories?: UpdateRiskScenarioRequestCiaCategoriesList;
+  ciaCategories?: UpdateRiskScenarioRequestCiaCategoriesList | undefined;
   /** Indicate how your leadership team wants to address an identified risk. Please note: not all risks need to be addressed immediately (or at all). Your Risk Treatment decision will depend on multiple factors, such as your organization's risk tolerance and the value of the asset that the risk is associated with. The options are: - Mitigate: Identify controls to put in place or tasks to be done that will reduce the risk score. - Transfer: Move risk outside of your organization's set of responsibilities e.g. get cyber liability insurance. - Avoid: Stop doing the activity which is causing the risk to your organization and its assets. - Accept: Decide to live with the risk and take no further actions. - Accept: decide to live with the risk; this may be because it is highly unlikely, has a low financial or operational impact, or the cost and effort to treat the risk far exceeds the value of the asset */
-  treatment?: Treatment | (string & {});
+  treatment?: Treatment | (string & {}) | undefined;
   /** The person responsible for tracking and mitigating this risk scenario. This should be the email address of a valid Vanta user. */
-  owner?: string | null;
+  owner?: string | null | undefined;
   /** Additional context about the risk scenario and why it has specific impact and likelihood scores. */
-  note?: string;
+  note?: string | undefined;
   /** Name of the risk register to associate with this scenario. */
-  riskRegister?: string;
+  riskRegister?: string | undefined;
   /** The list of custom fields. You can reference custom fields in the Risk Management settings and/or create new one. The format is: - {label: "field-name", value: "string-representation"} for text, date, number and currency fields - {label: "field-name", value: ["option1", "option2"]} for picklist fields If the organization doesn't have custom fields, a non-empty list is rejected and an empty list is ignored. */
-  customFields?: UpdateRiskScenarioRequestCustomFieldsList;
+  customFields?: UpdateRiskScenarioRequestCustomFieldsList | undefined;
   /** Changing the risk scenario type (`"Risk Scenario"` vs. `"Enterprise Risk"`) is not supported via update. Requests that include this field will be rejected. To change a risk's type, create a new scenario with the desired type and archive the old one. */
-  type?: RiskScenarioType | (string & {});
+  type?: RiskScenarioType | (string & {}) | undefined;
   /** The date this risk was identified. Matches the "Identified Date" field in the Vanta UI. Omitting the field leaves the existing value unchanged. */
-  identificationDate?: string;
+  identificationDate?: string | undefined;
 }
 export interface UpdateRiskScenarioControlRequest {
   riskScenarioId: string;
@@ -7216,24 +7232,24 @@ export type NotificationFrequency = "DAILY" | "NEVER" | "WEEKLY";
 export type UpdateSettingsRequestChannelsList = Array<NotificationChannelType | (string & {})>;
 export interface UpdateSettingsRequest {
   /** Omit to preserve the current frequency. NEVER disables reminders. */
-  frequency?: NotificationFrequency | (string & {});
+  frequency?: NotificationFrequency | (string & {}) | undefined;
   /** Replaces the complete channel set. Omit to preserve it; an empty array disables reminders. */
-  channels?: UpdateSettingsRequestChannelsList;
+  channels?: UpdateSettingsRequestChannelsList | undefined;
 }
 export type UpdateSettingsResponse = PersonnelNotificationSettings;
 export interface UpdateTaskRequirementSetDetailsRequest {
   requirementSetId: string;
   /** New description. Omit to preserve. */
-  description?: string;
+  description?: string | undefined;
   /** New name. Omit to preserve. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface UpdateTaskRequirementSetRequirementsRequest {
   requirementSetId: string;
   /** Onboarding requirements to replace. Omit a requirement to leave it unchanged. */
-  onboarding?: OnboardingRequirementsInput;
+  onboarding?: OnboardingRequirementsInput | undefined;
   /** Offboarding requirements to replace. Omit a requirement to leave it unchanged. */
-  offboarding?: OffboardingRequirementsInput;
+  offboarding?: OffboardingRequirementsInput | undefined;
 }
 export type BannerSettingGRADIENT = "GRADIENT";
 export type BannerSettingMINIMAL = "MINIMAL";
@@ -7241,51 +7257,51 @@ export type ApiSelectableBannerSetting = BannerSettingGRADIENT | BannerSettingMI
 /** The banner configuration of the Trust Center. */
 export interface UpdateTrustCenterRequestBannerSetting {
   /** End color of the banner. Only applies if setting is GRADIENT. */
-  endColor?: string;
+  endColor?: string | undefined;
   /** Start color of the banner. Only applies if setting is GRADIENT. */
-  startColor?: string;
+  startColor?: string | undefined;
   /** The banner style to use. Must be one of "GRADIENT" or "MINIMAL". */
   setting: ApiSelectableBannerSetting;
 }
 /** The custom theme configuration for the Trust Center. */
 export interface UpdateTrustCenterRequestCustomTheme {
   /** Secondary color for the theme. If null is passed in, resets to default. */
-  secondary?: string | null;
+  secondary?: string | null | undefined;
   /** Primary color for the theme. If null is passed in, resets to default. */
-  primary?: string | null;
+  primary?: string | null | undefined;
 }
 export interface UpdateTrustCenterRequest {
   slugId: string;
   /** Custom title for the Trust Center. If null is passed in, the current custom title is unset and the default title is restored. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Company description displayed in the Trust Center header. If null is passed in, the current company description is unset. */
-  companyDescription?: string | null;
+  companyDescription?: string | null | undefined;
   /** The banner configuration of the Trust Center. */
-  bannerSetting?: UpdateTrustCenterRequestBannerSetting;
+  bannerSetting?: UpdateTrustCenterRequestBannerSetting | undefined;
   /** The custom theme configuration for the Trust Center. */
-  customTheme?: UpdateTrustCenterRequestCustomTheme;
+  customTheme?: UpdateTrustCenterRequestCustomTheme | undefined;
   /** Privacy policy URL to set on the Trust Center. If null is passed in, unsets the current privacy policy. */
-  privacyPolicy?: string | null;
+  privacyPolicy?: string | null | undefined;
   /** AWS Marketplace listing URL to set on the Trust Center. If null is passed in, unsets the current AWS Marketplace listing. */
-  awsMarketplaceListing?: string | null;
+  awsMarketplaceListing?: string | null | undefined;
   /** Whether the Trust Center is public or not. */
-  isPublic?: boolean;
+  isPublic?: boolean | undefined;
   /** Contact email displayed on the Trust Center. If null is passed in, unsets the current contact email. */
-  contactEmail?: string | null;
+  contactEmail?: string | null | undefined;
   /** Custom heading displayed on the Trust Center. If null is passed in, unsets the current custom heading. */
-  customHeading?: string | null;
+  customHeading?: string | null | undefined;
   /** The default status-visibility mode applied to all controls that don't have a category-level override. Omit to leave unchanged. Only settable for domains with the Vanta Compliance Platform; other domains have no control status to render. */
-  controlVisibilityMode?: TrustCenterControlVisibilityMode | (string & {});
+  controlVisibilityMode?: TrustCenterControlVisibilityMode | (string & {}) | undefined;
 }
 export interface UpdateTrustCenterControlCategoryRequest {
   slugId: string;
   categoryId: string;
   /** New name for the category. Omit to leave the name unchanged. */
-  name?: string;
+  name?: string | undefined;
   /** Visibility of the category's controls on the Trust Center. Omit to leave unchanged. */
-  visibility?: TrustCenterControlVisibility | (string & {});
+  visibility?: TrustCenterControlVisibility | (string & {}) | undefined;
   /** Per-category status-visibility override. Omit to leave unchanged; pass `null` to clear the override and fall back to the Trust Center's global default. */
-  statusVisibilityOverride?: TrustCenterControlVisibilityMode | (string & {}) | null;
+  statusVisibilityOverride?: TrustCenterControlVisibilityMode | (string & {}) | null | undefined;
 }
 /** IDs of controls to add to the category. */
 export type UpdateTrustCenterControlsInCategoryRequestControlsToAddList = Array<string>;
@@ -7307,7 +7323,7 @@ export interface UpdateTrustCenterFaqRequest {
   /** The FAQ answer. */
   answer: string;
   /** The category to place this FAQ in. Pass null to move to uncategorized. Omit to leave unchanged (on update) or default to uncategorized (on create). */
-  categoryId?: string | null;
+  categoryId?: string | null | undefined;
 }
 export interface UpdateTrustCenterFaqCategoryRequest {
   slugId: string;
@@ -7319,11 +7335,11 @@ export interface UpdateTrustCenterResourceRequest {
   slugId: string;
   resourceId: string;
   /** Title of the Trust Center document. */
-  title?: string;
+  title?: string | undefined;
   /** Boolean determining whether the document is publicly available. */
-  isPublic?: boolean;
+  isPublic?: boolean | undefined;
   /** Description of the uploaded document. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateTrustCenterResourceCategoryRequest {
   slugId: string;
@@ -7335,11 +7351,11 @@ export interface UpdateTrustCenterSubprocessorRequest {
   slugId: string;
   subprocessorId: string;
   /** What to set the subprocessor description to. If null is passed in, the subprocessor's current description is unset. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** What to set the subprocessor location to. If null is passed in, the subprocessor's current description is unset. */
-  location?: string | null;
+  location?: string | null | undefined;
   /** What to set the subprocessor purpose to. If null is passed in, the subprocessor's current description is unset. */
-  purpose?: string | null;
+  purpose?: string | null | undefined;
 }
 export interface UpdateTrustCenterSubscriberGroupRequest {
   slugId: string;
@@ -7357,7 +7373,7 @@ export interface UpdateTrustCenterUpdateRequest {
   /** Category of the update. */
   category: UpdateCategory | (string & {});
   /** Visibility type of the update. */
-  visibilityType?: UpdateVisibilityType | (string & {});
+  visibilityType?: UpdateVisibilityType | (string & {}) | undefined;
 }
 /** Identifiers for the resources that this viewer should have access to. */
 export type UpdateTrustCenterViewerRequestResourceIdsList = Array<string>;
@@ -7365,28 +7381,28 @@ export interface UpdateTrustCenterViewerRequest {
   slugId: string;
   viewerId: string;
   /** Access level for the viewer. */
-  accessLevel?: ViewerAccessLevel | (string & {});
+  accessLevel?: ViewerAccessLevel | (string & {}) | undefined;
   /** Identifiers for the resources that this viewer should have access to. */
-  resourceIds?: UpdateTrustCenterViewerRequestResourceIdsList;
+  resourceIds?: UpdateTrustCenterViewerRequestResourceIdsList | undefined;
   /** The date access should expire for this viewer. Set to null to remove expiration. */
-  expirationDate?: string | null;
+  expirationDate?: string | null | undefined;
   /** Whether to require an NDA for the viewer. */
-  isNdaRequired?: boolean;
+  isNdaRequired?: boolean | undefined;
   /** ID of a Customer Trust Account to associate with this viewer. Set to null to remove the association. Omit to leave unchanged. */
-  customerTrustAccountId?: string | null;
+  customerTrustAccountId?: string | null | undefined;
 }
 /** The authentication details about the vendor. */
 export interface UpdateVendorRequestAuthDetails {
   /** Minimum number for chacters required for passwords for this vendor. */
-  passwordMinimumLength?: number;
+  passwordMinimumLength?: number | undefined;
   /** Whether or not the vendor requires passwords to have a symbol. */
-  passwordRequiresSymbol?: boolean;
+  passwordRequiresSymbol?: boolean | undefined;
   /** Whether or not the vendor requires passwords to have a number. */
-  passwordRequiresNumber?: boolean;
+  passwordRequiresNumber?: boolean | undefined;
   /** Whether or not the vendor requires password multi factor authentication. */
-  passwordMFA?: boolean;
+  passwordMFA?: boolean | undefined;
   /** The authentication method the vendor uses. */
-  method?: VendorAuthenticationMethod | (string & {}) | null;
+  method?: VendorAuthenticationMethod | (string & {}) | null | undefined;
 }
 /** A list of risk attribute ids the vendor has been assigned. */
 export type UpdateVendorRequestRiskAttributeIdsList = Array<string>;
@@ -7395,51 +7411,51 @@ export type UpdateVendorRequestCustomFieldsList = Array<CustomField>;
 export interface UpdateVendorRequest {
   vendorId: string;
   /** Display name of the vendor. */
-  name?: string;
+  name?: string | undefined;
   /** The url of the vendor's website. */
-  websiteUrl?: string | null;
+  websiteUrl?: string | null | undefined;
   /** Name of the external account manager for this vendor. */
-  accountManagerName?: string | null;
+  accountManagerName?: string | null | undefined;
   /** Email of the external account manager for this vendor. */
-  accountManagerEmail?: string;
+  accountManagerEmail?: string | undefined;
   /** The Vanta user ID of the security owner of this vendor. */
-  securityOwnerUserId?: string | null;
+  securityOwnerUserId?: string | null | undefined;
   /** Services provided by the vendor. */
-  servicesProvided?: string | null;
+  servicesProvided?: string | null | undefined;
   /** Miscellaneous notes about the vendor */
-  additionalNotes?: string | null;
+  additionalNotes?: string | null | undefined;
   /** The Vanta user ID of the business owner of this vendor. */
-  businessOwnerUserId?: string | null;
+  businessOwnerUserId?: string | null | undefined;
   /** When the contract with the vendor is up for renewal. */
-  contractStartDate?: string | null;
+  contractStartDate?: string | null | undefined;
   /** When the contract with the vendor is up for renewal. */
-  contractRenewalDate?: string | null;
+  contractRenewalDate?: string | null | undefined;
   /** When the contract with the vendor was terminated. */
-  contractTerminationDate?: string | null;
+  contractTerminationDate?: string | null | undefined;
   /** Whether or not auditors can view this vendor. */
-  isVisibleToAuditors?: boolean;
+  isVisibleToAuditors?: boolean | undefined;
   /** The authentication details about the vendor. */
-  authDetails?: UpdateVendorRequestAuthDetails;
+  authDetails?: UpdateVendorRequestAuthDetails | undefined;
   /** This field is ignored. Use `POST /vendors/{vendorId}/set-status` to change vendor status. */
-  status?: VendorStatus | (string & {});
+  status?: VendorStatus | (string & {}) | undefined;
   /** The vendor's category. Cannot be combined with `categoryId`. */
-  category?: string;
+  category?: string | undefined;
   /** The ID of the vendor's category. Pass null to clear it, or omit to keep it. Cannot be combined with `category`. */
-  categoryId?: string | null;
+  categoryId?: string | null | undefined;
   /** The inherent risk level of the vendor. Setting it to null means it will be auto-scored by Vanta based on the risk attributes and rubric */
-  inherentRiskLevel?: VendorRiskLevel | (string & {}) | null;
+  inherentRiskLevel?: VendorRiskLevel | (string & {}) | null | undefined;
   /** The residual risk level of the vendor. */
-  residualRiskLevel?: VendorRiskLevel | (string & {});
+  residualRiskLevel?: VendorRiskLevel | (string & {}) | undefined;
   /** A list of risk attribute ids the vendor has been assigned. */
-  riskAttributeIds?: UpdateVendorRequestRiskAttributeIdsList;
+  riskAttributeIds?: UpdateVendorRequestRiskAttributeIdsList | undefined;
   /** The vendor's headquarters. */
-  vendorHeadquarters?: CountryCode | (string & {}) | null;
+  vendorHeadquarters?: CountryCode | (string & {}) | null | undefined;
   /** The contract amount for the vendor. */
-  contractAmount?: VendorContractAmount | null;
+  contractAmount?: VendorContractAmount | null | undefined;
   /** The custom fields for the vendor. For more information on how to set custom fields via the API, visit https://developer.vanta.com/docs/guides/use-custom-fields-with-vendors */
-  customFields?: UpdateVendorRequestCustomFieldsList;
+  customFields?: UpdateVendorRequestCustomFieldsList | undefined;
   /** Framework scoping configuration for this vendor. Determines which compliance frameworks the vendor applies to. */
-  frameworkScope?: VendorFrameworkScope;
+  frameworkScope?: VendorFrameworkScope | undefined;
 }
 /** IDs of the vendor alerts to update. Each alert must belong to your organization. Repeated IDs are ignored; the supplied status applies to every unique ID. */
 export type UpdateVendorAlertsRequestAlertIdsList = Array<string>;
@@ -7459,9 +7475,9 @@ export interface UpdateVendorAlertsResponse {
 }
 export interface VendorAlertSettingsChange {
   category: VendorAlertSettingsCategoryName | (string & {});
-  isEnabled?: boolean;
-  riskLevelSetting?: VendorAlertRiskLevelSetting | (string & {});
-  severitySetting?: VendorAlertSeveritySetting | (string & {});
+  isEnabled?: boolean | undefined;
+  riskLevelSetting?: VendorAlertRiskLevelSetting | (string & {}) | undefined;
+  severitySetting?: VendorAlertSeveritySetting | (string & {}) | undefined;
 }
 /** Partial updates, with each category appearing at most once. Omitted fields remain unchanged. */
 export type UpdateVendorAlertSettingsRequestChangesList = Array<VendorAlertSettingsChange>;
@@ -7472,9 +7488,9 @@ export interface UpdateVendorAlertSettingsRequest {
 export interface UpdateVendorCategoryRequest {
   categoryId: string;
   /** New display label. Omit to keep the current label. */
-  label?: string;
+  label?: string | undefined;
   /** New description. Pass null to clear it, or omit to keep it. */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 /** Remediation information about the finding. Will only be populated if riskStatus is set to "REMEDIATE". */
 export type UpdateVendorFindingRequestRemediation = CreateVendorFindingRequestRemediation;
@@ -7482,11 +7498,11 @@ export interface UpdateVendorFindingRequest {
   vendorId: string;
   findingId: string;
   /** The content of the finding. */
-  content?: string;
+  content?: string | undefined;
   /** The risk status of the finding. */
-  riskStatus?: FindingRiskStatus | (string & {});
+  riskStatus?: FindingRiskStatus | (string & {}) | undefined;
   /** Remediation information about the finding. Will only be populated if riskStatus is set to "REMEDIATE". */
-  remediation?: CreateVendorFindingRequestRemediation;
+  remediation?: CreateVendorFindingRequestRemediation | undefined;
 }
 /** IDs of the security incident alerts to update. Use each alert's ID, not the ID of the incident it reports. Every alert must belong to your organization. */
 export type UpdateVendorSecurityIncidentAlertsRequestAlertIdsList = Array<string>;
@@ -7508,23 +7524,23 @@ export type UpdateWebpageResourceRequestTagsList = Array<TagInput>;
 export interface UpdateWebpageResourceRequest {
   id: string;
   /** The title of the webpage resource. */
-  title?: string;
+  title?: string | undefined;
   /** A description for the webpage resource. Pass `null` to clear. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The actor to assign as owner. Pass `null` to clear. Currently only type "User" is supported. */
-  ownerAssignment?: KnowledgeBaseResourceActorAssignmentInput | null;
+  ownerAssignment?: KnowledgeBaseResourceActorAssignmentInput | null | undefined;
   /** Customer visibility on the Trust Center. Webpage resources accept only PRIVATE or PUBLIC; REQUEST_ACCESS and SHAREABLE return an InvalidInputError. */
-  customerVisibility?: KnowledgeBaseCustomerVisibility | (string & {});
+  customerVisibility?: KnowledgeBaseCustomerVisibility | (string & {}) | undefined;
   /** Whether to scan sub-pages one level deep alongside the primary URL. */
-  includeSubPages?: boolean;
+  includeSubPages?: boolean | undefined;
   /** Whether the resource should be used for question-answering in Questionnaire Automation. */
-  isUsedInQuestionnaires?: boolean;
+  isUsedInQuestionnaires?: boolean | undefined;
   /** Expiration date in ISO 8601 format. Pass `null` to clear. */
-  expirationDate?: string | null;
+  expirationDate?: string | null | undefined;
   /** Tags to associate with the resource. A non-empty array replaces the existing tag set; pass `[]` to clear all tags. */
-  tags?: UpdateWebpageResourceRequestTagsList;
+  tags?: UpdateWebpageResourceRequestTagsList | undefined;
   /** Trust Center category id to associate this resource with. Pass `null` to move the resource to uncategorized. Only valid when the resource's effective visibility (after applying any patched `customerVisibility`) is PUBLIC; other combinations and unknown ids return an InvalidInputError. */
-  categoryId?: string | null;
+  categoryId?: string | null | undefined;
 }
 export interface UploadComplianceFrameworkBadgeRequest {
   slugId: string;
@@ -7539,11 +7555,11 @@ export interface UploadContractRequest {
   /** The contract file to upload. Only PDF files are accepted. */
   file: string;
   /** ISO 8601 date indicating when the contract was executed. */
-  executedDate?: string;
+  executedDate?: string | undefined;
   /** ID of the customer trust account to associate with this contract. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Stable source-system identifier used to reject duplicate contract uploads; repeats return 409. Use the upstream document or record ID when available, such as the Microsoft Graph DriveItem ID for SharePoint or the Ironclad record ID for Ironclad. If there is no source system, generate and store a durable idempotency key. Maximum 256 characters. */
-  externalId?: string;
+  externalId?: string | undefined;
 }
 export interface UploadDocumentForSecurityReviewRequest {
   vendorId: string;
@@ -7552,9 +7568,9 @@ export interface UploadDocumentForSecurityReviewRequest {
   /** Type of the vendor document. */
   type: string;
   /** The document's title. */
-  title?: string;
+  title?: string | undefined;
   /** The document's description. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface UploadDocumentToVendorRequest {
   vendorId: string;
@@ -7562,17 +7578,17 @@ export interface UploadDocumentToVendorRequest {
   /** Type of the vendor document. */
   type: string;
   /** The document's title. */
-  title?: string;
+  title?: string | undefined;
   /** The document's description. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface UploadFileForDocumentRequest {
   documentId: string;
   file: string;
   /** Date indicating when the document is effective from. */
-  effectiveAtDate?: string;
+  effectiveAtDate?: string | undefined;
   /** Description of the uploaded document. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface UploadTrustCenterFaviconRequest {
   slugId: string;
@@ -7619,7 +7635,7 @@ export interface UpsertTrustCenterDataCollectedRequest {
   /** List of data-collected disclosures to set on the Trust Center. */
   dataCollected: UpsertTrustCenterDataCollectedRequestDataCollectedList;
   /** Custom heading for the data collected section. If null is passed in, unsets the current heading. */
-  dataCollectedHeading?: string | null;
+  dataCollectedHeading?: string | null | undefined;
 }
 /** Ordered list of all resource category IDs representing the desired order. */
 export type UpsertTrustCenterResourceCategoriesOrderRequestCategoryIdsList = Array<string>;
@@ -7630,13 +7646,13 @@ export interface UpsertTrustCenterResourceCategoriesOrderRequest {
 }
 export interface SetTrustCenterVideoItem {
   /** ID of an existing video on this Trust Center, to keep that video. Omit to add a new video. An ID that matches no existing video returns 404. */
-  id?: string;
+  id?: string | undefined;
   /** Full video URL (e.g. "https://www.youtube.com/watch?v=dQw4w9WgXcQ" or "https://vimeo.com/123456"). Supported platforms: YouTube, Vimeo. */
   url: string;
   /** Title of the video. */
   title: string;
   /** Description of the video. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The videos to display on the Trust Center. Replaces all existing videos. */
 export type UpsertTrustCenterVideosRequestVideosList = Array<SetTrustCenterVideoItem>;
@@ -7648,12 +7664,12 @@ export interface UpsertTrustCenterVideosRequest {
 export interface VerifyAnswerLibraryEntryRouteRequest {
   id: string;
   /** The expiration date in ISO 8601 format. If omitted, falls back to the configured review cadence. */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
 }
 export interface VerifyKnowledgeBaseResourceRequest {
   id: string;
   /** The expiration date in ISO 8601 format. If omitted, falls back to the configured review cadence. */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
 }
 export type VerifyKnowledgeBaseResourceResponse = TrustKnowledgeBaseResourceOutput;
 export type AcknowledgeSlaMissVulnerabilityRemediationsError = VantaOpError;

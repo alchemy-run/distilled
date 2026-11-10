@@ -85,53 +85,53 @@ export class NotFound
 /** Describes a web asset. */
 export interface WebAsset {
   /** Web assets are identified by a URL that contains only the scheme, hostname and port parts. The format is http[s]://[:] Hostnames must be fully qualified: they must end in a single period ("`.`"). Only the schemes "http" and "https" are currently allowed. Port numbers are given as a decimal number, and they must be omitted if the standard port numbers are used: 80 for http and 443 for https. We call this limited URL the "site". All URLs that share the same scheme, hostname and port are considered to be a part of the site and thus belong to the web asset. Example: the asset with the site `https://www.google.com` contains all these URLs: * `https://www.google.com/` * `https://www.google.com:443/` * `https://www.google.com/foo` * `https://www.google.com/foo?bar` * `https://www.google.com/foo#bar` * `https://user@password:www.google.com/` But it does not contain these URLs: * `http://www.google.com/` (wrong scheme) * `https://google.com/` (hostname does not match) * `https://www.google.com:444/` (port does not match) REQUIRED */
-  site?: string;
+  site?: string | undefined;
 }
 /** Describes an X509 certificate. */
 export interface CertificateInfo {
   /** The uppercase SHA-265 fingerprint of the certificate. From the PEM certificate, it can be acquired like this: $ keytool -printcert -file $CERTFILE | grep SHA256: SHA256: 14:6D:E9:83:C5:73:06:50:D8:EE:B9:95:2F:34:FC:64:16:A0:83: \ 42:E6:1D:BE:A8:8A:04:96:B2:3F:CF:44:E5 or like this: $ openssl x509 -in $CERTFILE -noout -fingerprint -sha256 SHA256 Fingerprint=14:6D:E9:83:C5:73:06:50:D8:EE:B9:95:2F:34:FC:64: \ 16:A0:83:42:E6:1D:BE:A8:8A:04:96:B2:3F:CF:44:E5 In this example, the contents of this field would be `14:6D:E9:83:C5:73: 06:50:D8:EE:B9:95:2F:34:FC:64:16:A0:83:42:E6:1D:BE:A8:8A:04:96:B2:3F:CF: 44:E5`. If these tools are not available to you, you can convert the PEM certificate into the DER format, compute the SHA-256 hash of that string and represent the result as a hexstring (that is, uppercase hexadecimal representations of each octet, separated by colons). */
-  sha256Fingerprint?: string;
+  sha256Fingerprint?: string | undefined;
 }
 /** Describes an android app asset. */
 export interface AndroidAppAsset {
   /** Android App assets are naturally identified by their Java package name. For example, the Google Maps app uses the package name `com.google.android.apps.maps`. REQUIRED */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Because there is no global enforcement of package name uniqueness, we also require a signing certificate, which in combination with the package name uniquely identifies an app. Some apps' signing keys are rotated, so they may be signed by different keys over time. We treat these as distinct assets, since we use (package name, cert) as the unique ID. This should not normally pose any problems as both versions of the app will make the same or similar statements. Other assets making statements about the app will have to be updated when a key is rotated, however. (Note that the syntaxes for publishing and querying for statements contain syntactic sugar to easily let you specify apps that are known by multiple certificates.) REQUIRED */
-  certificate?: CertificateInfo;
+  certificate?: CertificateInfo | undefined;
 }
 /** Uniquely identifies an asset. A digital asset is an identifiable and addressable online entity that typically provides some service or content. Examples of assets are websites, Android apps, Twitter feeds, and Plus Pages. */
 export interface Asset {
   /** Set if this is a web asset. */
-  web?: WebAsset;
+  web?: WebAsset | undefined;
   /** Set if this is an Android App asset. */
-  androidApp?: AndroidAppAsset;
+  androidApp?: AndroidAppAsset | undefined;
 }
 /** A single statement to check in a bulk call using BulkCheck. See CheckRequest for details about each field. */
 export interface StatementTemplate {
   /** The relationship being asserted between the source and target. If omitted, you must specify a BulkCheckRequest.default_relation value to use here. */
-  relation?: string;
+  relation?: string | undefined;
   /** The target that the source is declaring the relationship with. If omitted, you must specify a BulkCheckRequest.default_target to use here. */
-  target?: Asset;
+  target?: Asset | undefined;
   /** The source asset that is asserting the statement. If omitted, you must specify a BulkCheckRequest.default_source value to use here. */
-  source?: Asset;
+  source?: Asset | undefined;
 }
 export type StatementTemplateList = Array<StatementTemplate>;
 /** Message used to check for the existence of multiple digital asset links within a single RPC. */
 export interface BulkCheckRequest {
   /** If specified, will be used in any given template statement that doesn't specify a source. */
-  defaultSource?: Asset;
+  defaultSource?: Asset | undefined;
   /** If specified, will be used in any given template statement that doesn't specify a target. */
-  defaultTarget?: Asset;
+  defaultTarget?: Asset | undefined;
   /** List of statements to check. For each statement, you can omit a field if the corresponding default_* field below was supplied. Minimum 1 statement; maximum 1,000 statements. Any additional statements will be ignored. */
-  statements?: StatementTemplateList;
+  statements?: StatementTemplateList | undefined;
   /** Same configuration as in CheckRequest; all statement checks will use the same configuration. */
-  returnRelationExtensions?: boolean;
+  returnRelationExtensions?: boolean | undefined;
   /** If specified, will be used in any given template statement that doesn't specify a relation. */
-  defaultRelation?: string;
+  defaultRelation?: string | undefined;
 }
 export interface BulkCheckAssetlinksRequest {
   /** Request body */
-  body?: BulkCheckRequest;
+  body?: BulkCheckRequest | undefined;
 }
 export type BulkCheckResponseBulkErrorCodeEnum =
   | "ERROR_CODE_UNSPECIFIED"
@@ -163,64 +163,64 @@ export type DocumentMapList = Array<DocumentMap>;
 /** Response message for the CheckAssetLinks call. */
 export interface CheckResponse {
   /** Error codes that describe the result of the Check operation. NOTE: Error codes may be populated even when `linked` is true. The error codes do not necessarily imply that the request failed, but rather, specify any errors encountered in the statements file(s) which may or may not impact whether the server determines the requested source and target to be linked. */
-  errorCode?: CheckResponseErrorCodeItemEnumList;
+  errorCode?: CheckResponseErrorCodeItemEnumList | undefined;
   /** From serving time, how much longer the response should be considered valid barring further updates. REQUIRED */
-  maxAge?: string;
+  maxAge?: string | undefined;
   /** Statements may specify relation level extensions/payloads to express more details when declaring permissions to grant from the source asset to the target asset. When requested, the API will return relation_extensions specified in any and all statements linking the requested source and target assets by the relation specified in the request. */
-  relationExtensions?: DocumentMapList;
+  relationExtensions?: DocumentMapList | undefined;
   /** Set to true if the assets specified in the request are linked by the relation specified in the request. */
-  linked?: boolean;
+  linked?: boolean | undefined;
   /** Human-readable message containing information intended to help end users understand, reproduce and debug the result. The message will be in English and we are currently not planning to offer any translations. Please note that no guarantees are made about the contents or format of this string. Any aspect of it may be subject to change without notice. You should not attempt to programmatically parse this data. For programmatic access, use the error_code field below. */
-  debugString?: string;
+  debugString?: string | undefined;
 }
 export type CheckResponseList = Array<CheckResponse>;
 /** Response for BulkCheck call. Results are sent in a list in the same order in which they were sent. Individual check errors are described in the appropriate check_results entry. If the entire call fails, the response will include a bulk_error_code field describing the error. */
 export interface BulkCheckResponse {
   /** Error code for the entire request. Present only if the entire request failed. Individual check errors will not trigger the presence of this field. */
-  bulkErrorCode?: BulkCheckResponseBulkErrorCodeEnum;
+  bulkErrorCode?: BulkCheckResponseBulkErrorCodeEnum | undefined;
   /** List of results for each check request. Results are returned in the same order in which they were sent in the request. */
-  checkResults?: CheckResponseList;
+  checkResults?: CheckResponseList | undefined;
 }
 export interface CheckAssetlinksRequest {
   /** The uppercase SHA-265 fingerprint of the certificate. From the PEM certificate, it can be acquired like this: $ keytool -printcert -file $CERTFILE | grep SHA256: SHA256: 14:6D:E9:83:C5:73:06:50:D8:EE:B9:95:2F:34:FC:64:16:A0:83: \ 42:E6:1D:BE:A8:8A:04:96:B2:3F:CF:44:E5 or like this: $ openssl x509 -in $CERTFILE -noout -fingerprint -sha256 SHA256 Fingerprint=14:6D:E9:83:C5:73:06:50:D8:EE:B9:95:2F:34:FC:64: \ 16:A0:83:42:E6:1D:BE:A8:8A:04:96:B2:3F:CF:44:E5 In this example, the contents of this field would be `14:6D:E9:83:C5:73: 06:50:D8:EE:B9:95:2F:34:FC:64:16:A0:83:42:E6:1D:BE:A8:8A:04:96:B2:3F:CF: 44:E5`. If these tools are not available to you, you can convert the PEM certificate into the DER format, compute the SHA-256 hash of that string and represent the result as a hexstring (that is, uppercase hexadecimal representations of each octet, separated by colons). */
-  "source.androidApp.certificate.sha256Fingerprint"?: string;
+  "source.androidApp.certificate.sha256Fingerprint"?: string | undefined;
   /** Query string for the relation. We identify relations with strings of the format `/`, where `` must be one of a set of pre-defined purpose categories, and `` is a free-form lowercase alphanumeric string that describes the specific use case of the statement. Refer to [our API documentation](/digital-asset-links/v1/relation-strings) for the current list of supported relations. For a query to match an asset link, both the query's and the asset link's relation strings must match exactly. Example: A query with relation `delegate_permission/common.handle_all_urls` matches an asset link with relation `delegate_permission/common.handle_all_urls`. */
-  relation?: string;
+  relation?: string | undefined;
   /** Web assets are identified by a URL that contains only the scheme, hostname and port parts. The format is http[s]://[:] Hostnames must be fully qualified: they must end in a single period ("`.`"). Only the schemes "http" and "https" are currently allowed. Port numbers are given as a decimal number, and they must be omitted if the standard port numbers are used: 80 for http and 443 for https. We call this limited URL the "site". All URLs that share the same scheme, hostname and port are considered to be a part of the site and thus belong to the web asset. Example: the asset with the site `https://www.google.com` contains all these URLs: * `https://www.google.com/` * `https://www.google.com:443/` * `https://www.google.com/foo` * `https://www.google.com/foo?bar` * `https://www.google.com/foo#bar` * `https://user@password:www.google.com/` But it does not contain these URLs: * `http://www.google.com/` (wrong scheme) * `https://google.com/` (hostname does not match) * `https://www.google.com:444/` (port does not match) REQUIRED */
-  "target.web.site"?: string;
+  "target.web.site"?: string | undefined;
   /** Android App assets are naturally identified by their Java package name. For example, the Google Maps app uses the package name `com.google.android.apps.maps`. REQUIRED */
-  "source.androidApp.packageName"?: string;
+  "source.androidApp.packageName"?: string | undefined;
   /** The uppercase SHA-265 fingerprint of the certificate. From the PEM certificate, it can be acquired like this: $ keytool -printcert -file $CERTFILE | grep SHA256: SHA256: 14:6D:E9:83:C5:73:06:50:D8:EE:B9:95:2F:34:FC:64:16:A0:83: \ 42:E6:1D:BE:A8:8A:04:96:B2:3F:CF:44:E5 or like this: $ openssl x509 -in $CERTFILE -noout -fingerprint -sha256 SHA256 Fingerprint=14:6D:E9:83:C5:73:06:50:D8:EE:B9:95:2F:34:FC:64: \ 16:A0:83:42:E6:1D:BE:A8:8A:04:96:B2:3F:CF:44:E5 In this example, the contents of this field would be `14:6D:E9:83:C5:73: 06:50:D8:EE:B9:95:2F:34:FC:64:16:A0:83:42:E6:1D:BE:A8:8A:04:96:B2:3F:CF: 44:E5`. If these tools are not available to you, you can convert the PEM certificate into the DER format, compute the SHA-256 hash of that string and represent the result as a hexstring (that is, uppercase hexadecimal representations of each octet, separated by colons). */
-  "target.androidApp.certificate.sha256Fingerprint"?: string;
+  "target.androidApp.certificate.sha256Fingerprint"?: string | undefined;
   /** Android App assets are naturally identified by their Java package name. For example, the Google Maps app uses the package name `com.google.android.apps.maps`. REQUIRED */
-  "target.androidApp.packageName"?: string;
+  "target.androidApp.packageName"?: string | undefined;
   /** Web assets are identified by a URL that contains only the scheme, hostname and port parts. The format is http[s]://[:] Hostnames must be fully qualified: they must end in a single period ("`.`"). Only the schemes "http" and "https" are currently allowed. Port numbers are given as a decimal number, and they must be omitted if the standard port numbers are used: 80 for http and 443 for https. We call this limited URL the "site". All URLs that share the same scheme, hostname and port are considered to be a part of the site and thus belong to the web asset. Example: the asset with the site `https://www.google.com` contains all these URLs: * `https://www.google.com/` * `https://www.google.com:443/` * `https://www.google.com/foo` * `https://www.google.com/foo?bar` * `https://www.google.com/foo#bar` * `https://user@password:www.google.com/` But it does not contain these URLs: * `http://www.google.com/` (wrong scheme) * `https://google.com/` (hostname does not match) * `https://www.google.com:444/` (port does not match) REQUIRED */
-  "source.web.site"?: string;
+  "source.web.site"?: string | undefined;
   /** Whether to return relation_extensions payloads specified in the source Digital Asset Links statements linking the requested source and target assets by the requested relation type. If this is set to `false` (default), relation_extensions specified will not be returned, even if they are specified in the DAL statement file. If set to `true`, the API will propagate any and all relation_extensions, across statements, linking the source and target assets by the requested relation type, if specified in the DAL statement file. */
-  returnRelationExtensions?: boolean;
+  returnRelationExtensions?: boolean | undefined;
 }
 export interface ListStatementsRequest {
   /** Whether to return any relation_extensions payloads specified in the source digital asset links statements. If this is set to `false` (default), relation_extensions specified will not be returned, even if they are specified in the DAL statement file. If set to `true`, the API will propagate relation_extensions associated with each statement's relation type, if specified in the DAL statement file. */
-  returnRelationExtensions?: boolean;
+  returnRelationExtensions?: boolean | undefined;
   /** Android App assets are naturally identified by their Java package name. For example, the Google Maps app uses the package name `com.google.android.apps.maps`. REQUIRED */
-  "source.androidApp.packageName"?: string;
+  "source.androidApp.packageName"?: string | undefined;
   /** The uppercase SHA-265 fingerprint of the certificate. From the PEM certificate, it can be acquired like this: $ keytool -printcert -file $CERTFILE | grep SHA256: SHA256: 14:6D:E9:83:C5:73:06:50:D8:EE:B9:95:2F:34:FC:64:16:A0:83: \ 42:E6:1D:BE:A8:8A:04:96:B2:3F:CF:44:E5 or like this: $ openssl x509 -in $CERTFILE -noout -fingerprint -sha256 SHA256 Fingerprint=14:6D:E9:83:C5:73:06:50:D8:EE:B9:95:2F:34:FC:64: \ 16:A0:83:42:E6:1D:BE:A8:8A:04:96:B2:3F:CF:44:E5 In this example, the contents of this field would be `14:6D:E9:83:C5:73: 06:50:D8:EE:B9:95:2F:34:FC:64:16:A0:83:42:E6:1D:BE:A8:8A:04:96:B2:3F:CF: 44:E5`. If these tools are not available to you, you can convert the PEM certificate into the DER format, compute the SHA-256 hash of that string and represent the result as a hexstring (that is, uppercase hexadecimal representations of each octet, separated by colons). */
-  "source.androidApp.certificate.sha256Fingerprint"?: string;
+  "source.androidApp.certificate.sha256Fingerprint"?: string | undefined;
   /** Web assets are identified by a URL that contains only the scheme, hostname and port parts. The format is http[s]://[:] Hostnames must be fully qualified: they must end in a single period ("`.`"). Only the schemes "http" and "https" are currently allowed. Port numbers are given as a decimal number, and they must be omitted if the standard port numbers are used: 80 for http and 443 for https. We call this limited URL the "site". All URLs that share the same scheme, hostname and port are considered to be a part of the site and thus belong to the web asset. Example: the asset with the site `https://www.google.com` contains all these URLs: * `https://www.google.com/` * `https://www.google.com:443/` * `https://www.google.com/foo` * `https://www.google.com/foo?bar` * `https://www.google.com/foo#bar` * `https://user@password:www.google.com/` But it does not contain these URLs: * `http://www.google.com/` (wrong scheme) * `https://google.com/` (hostname does not match) * `https://www.google.com:444/` (port does not match) REQUIRED */
-  "source.web.site"?: string;
+  "source.web.site"?: string | undefined;
   /** Use only associations that match the specified relation. See the [`Statement`](#Statement) message for a detailed definition of relation strings. For a query to match a statement, one of the following must be true: * both the query's and the statement's relation strings match exactly, or * the query's relation string is empty or missing. Example: A query with relation `delegate_permission/common.handle_all_urls` matches an asset link with relation `delegate_permission/common.handle_all_urls`. */
-  relation?: string;
+  relation?: string | undefined;
 }
 /** Describes a reliable statement that has been made about the relationship between a source asset and a target asset. Statements are always made by the source asset, either directly or by delegating to a statement list that is stored elsewhere. For more detailed definitions of statements and assets, please refer to our [API documentation landing page](/digital-asset-links/v1/getting-started). */
 export interface Statement {
   /** Statements may specify relation level extensions/payloads to express more details when declaring permissions to grant from the source asset to the target asset. These relation extensions should be specified in the `relation_extensions` object, keyed by the relation type they're associated with. { relation: ["delegate_permission/common.handle_all_urls"], target: {...}, relation_extensions: { "delegate_permission/common.handle_all_urls": { ...handle_all_urls specific payload specified here... } } } When requested, and specified in the statement file, the API will return relation_extensions associated with the statement's relation type. i.e. the API will only return relation_extensions specified for "delegate_permission/common.handle_all_urls" if this statement object's relation type is "delegate_permission/common.handle_all_urls". */
-  relationExtensions?: DocumentMap;
+  relationExtensions?: DocumentMap | undefined;
   /** Every statement has a target asset. REQUIRED */
-  target?: Asset;
+  target?: Asset | undefined;
   /** The relation identifies the use of the statement as intended by the source asset's owner (that is, the person or entity who issued the statement). Every complete statement has a relation. We identify relations with strings of the format `/`, where `` must be one of a set of pre-defined purpose categories, and `` is a free-form lowercase alphanumeric string that describes the specific use case of the statement. Refer to [our API documentation](/digital-asset-links/v1/relation-strings) for the current list of supported relations. Example: `delegate_permission/common.handle_all_urls` REQUIRED */
-  relation?: string;
+  relation?: string | undefined;
   /** Every statement has a source asset. REQUIRED */
-  source?: Asset;
+  source?: Asset | undefined;
 }
 export type StatementList = Array<Statement>;
 export type ListResponseErrorCodeItemEnum =
@@ -239,13 +239,13 @@ export type ListResponseErrorCodeItemEnumList = Array<ListResponseErrorCodeItemE
 /** Response message for the List call. */
 export interface ListResponse {
   /** A list of all the matching statements that have been found. */
-  statements?: StatementList;
+  statements?: StatementList | undefined;
   /** Error codes that describe the result of the List operation. */
-  errorCode?: ListResponseErrorCodeItemEnumList;
+  errorCode?: ListResponseErrorCodeItemEnumList | undefined;
   /** From serving time, how much longer the response should be considered valid barring further updates. REQUIRED */
-  maxAge?: string;
+  maxAge?: string | undefined;
   /** Human-readable message containing information intended to help end users understand, reproduce and debug the result. The message will be in English and we are currently not planning to offer any translations. Please note that no guarantees are made about the contents or format of this string. Any aspect of it may be subject to change without notice. You should not attempt to programmatically parse this data. For programmatic access, use the error_code field below. */
-  debugString?: string;
+  debugString?: string | undefined;
 }
 export type BulkCheckAssetlinksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Send a bundle of statement checks in a single RPC to minimize latency and service load. Statements need not be all for the same source and/or target. We recommend using this method when you need to check more than one statement in a short period of time. */

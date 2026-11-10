@@ -234,25 +234,25 @@ export interface Tag {
 export type TagList = Tag[];
 export interface UsageAllocation {
   AllocatedUsageQuantity: number;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type UsageAllocations = UsageAllocation[];
 export type CustomerAWSAccountId = string;
 export type LicenseArn = string;
 export interface UsageRecord {
   Timestamp: Date;
-  CustomerIdentifier?: string;
+  CustomerIdentifier?: string | undefined;
   Dimension: string;
-  Quantity?: number;
-  UsageAllocations?: UsageAllocation[];
-  CustomerAWSAccountId?: string;
-  LicenseArn?: string;
+  Quantity?: number | undefined;
+  UsageAllocations?: UsageAllocation[] | undefined;
+  CustomerAWSAccountId?: string | undefined;
+  LicenseArn?: string | undefined;
 }
 export type UsageRecordList = UsageRecord[];
 export type ProductCode = string;
 export interface BatchMeterUsageRequest {
   UsageRecords: UsageRecord[];
-  ProductCode?: string;
+  ProductCode?: string | undefined;
 }
 export type UsageRecordResultStatus =
   | "Success"
@@ -260,53 +260,53 @@ export type UsageRecordResultStatus =
   | "DuplicateRecord"
   | (string & {});
 export interface UsageRecordResult {
-  UsageRecord?: UsageRecord;
-  MeteringRecordId?: string;
-  Status?: UsageRecordResultStatus;
+  UsageRecord?: UsageRecord | undefined;
+  MeteringRecordId?: string | undefined;
+  Status?: UsageRecordResultStatus | undefined;
 }
 export type UsageRecordResultList = UsageRecordResult[];
 export interface BatchMeterUsageResult {
-  Results?: UsageRecordResult[];
-  UnprocessedRecords?: UsageRecord[];
+  Results?: UsageRecordResult[] | undefined;
+  UnprocessedRecords?: UsageRecord[] | undefined;
 }
 export type ClientToken = string;
 export interface MeterUsageRequest {
   ProductCode: string;
   Timestamp: Date;
   UsageDimension: string;
-  UsageQuantity?: number;
-  DryRun?: boolean;
-  UsageAllocations?: UsageAllocation[];
-  ClientToken?: string;
+  UsageQuantity?: number | undefined;
+  DryRun?: boolean | undefined;
+  UsageAllocations?: UsageAllocation[] | undefined;
+  ClientToken?: string | undefined;
 }
 export interface MeterUsageResult {
-  MeteringRecordId?: string;
+  MeteringRecordId?: string | undefined;
 }
 export type VersionInteger = number;
 export type Nonce = string;
 export interface RegisterUsageRequest {
   ProductCode: string;
   PublicKeyVersion: number;
-  Nonce?: string;
+  Nonce?: string | undefined;
 }
 export type NonEmptyString = string;
 export interface RegisterUsageResult {
-  PublicKeyRotationTimestamp?: Date;
-  Signature?: string;
+  PublicKeyRotationTimestamp?: Date | undefined;
+  Signature?: string | undefined;
 }
 export interface ResolveCustomerRequest {
   RegistrationToken: string;
 }
 export type AgreementId = string;
 export interface Metadata {
-  AgreementId?: string;
+  AgreementId?: string | undefined;
 }
 export interface ResolveCustomerResult {
-  CustomerIdentifier?: string;
-  ProductCode?: string;
-  CustomerAWSAccountId?: string;
-  LicenseArn?: string;
-  Metadata?: Metadata;
+  CustomerIdentifier?: string | undefined;
+  ProductCode?: string | undefined;
+  CustomerAWSAccountId?: string | undefined;
+  LicenseArn?: string | undefined;
+  Metadata?: Metadata | undefined;
 }
 export type ErrorMessage = string;
 export type BatchMeterUsageError =

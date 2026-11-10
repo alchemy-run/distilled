@@ -24,17 +24,17 @@ const TELEMETRY = {
 } as const;
 
 export interface FlashContainerDeregisterRequest {
-  serviceName?: string;
+  serviceName?: string | undefined;
 }
 export interface FlashContainerDeregisterResponse {}
 export interface FlashSetTargetSlotsMetricsRequest {
   /** TODO(claudia): add other metrics to use in autoscaling decisions */
-  functionId?: string;
-  targetSlots?: number;
+  functionId?: string | undefined;
+  targetSlots?: number | undefined;
 }
 export interface FlashSetTargetSlotsMetricsResponse {}
 export interface ListFlashContainerRequest {
-  functionId?: string;
+  functionId?: string | undefined;
 }
 export interface ListFlashContainerResponseContainer {
   taskId: string;
@@ -46,12 +46,12 @@ export interface ListFlashContainerResponse {
   containers: ListFlashContainerResponseContainerList;
 }
 export interface RegisterFlashContainerRequest {
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** not used? */
-  priority?: number;
-  weight?: number;
-  host?: string;
-  port?: number;
+  priority?: number | undefined;
+  weight?: number | undefined;
+  host?: string | undefined;
+  port?: number | undefined;
 }
 export interface RegisterFlashContainerResponse {
   url: string;

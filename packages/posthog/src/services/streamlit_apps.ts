@@ -48,11 +48,11 @@ export interface CreateStreamlitAppRequest {
   /** Name of the app. */
   name: string;
   /** Optional description of the app. */
-  description?: string;
+  description?: string | undefined;
   /** CPU cores allocated to the sandbox. */
-  cpu_cores?: number;
+  cpu_cores?: number | undefined;
   /** Memory in GB allocated to the sandbox. */
-  memory_gb?: number;
+  memory_gb?: number | undefined;
 }
 export type StreamlitAppUserInfoHedgehogConfigMap = { [key: string]: unknown | undefined };
 export interface StreamlitAppUserInfo {
@@ -68,7 +68,7 @@ export interface StreamlitAppUserInfo {
 }
 export interface AppVersionContract {
   /** User who uploaded this version. */
-  created_by?: StreamlitAppUserInfo | null;
+  created_by?: StreamlitAppUserInfo | null | undefined;
   id: string;
   version_number: number;
   zip_hash: string;
@@ -85,11 +85,11 @@ export interface AppSandboxContract {
 }
 export interface AppContract {
   /** User who created this app. */
-  created_by?: StreamlitAppUserInfo | null;
+  created_by?: StreamlitAppUserInfo | null | undefined;
   /** Currently active version, or null if none uploaded yet. */
-  active_version?: AppVersionContract | null;
+  active_version?: AppVersionContract | null | undefined;
   /** Current sandbox state, or null if the app has never started. */
-  sandbox?: AppSandboxContract | null;
+  sandbox?: AppSandboxContract | null | undefined;
   id: string;
   short_id: string;
   name: string;
@@ -110,9 +110,9 @@ export interface GetStreamlitAppsSourceRequest {
   project_id: string;
   short_id: string;
   /** Comma-separated file paths whose content to return, for example 'app.py,utils.py'. Other files appear in the manifest without content. Defaults to all text files. */
-  paths?: string;
+  paths?: string | undefined;
   /** Version number to read. Defaults to the active version. */
-  version_number?: number;
+  version_number?: number | undefined;
 }
 export interface AppSourceFileContract {
   /** Project-relative path of the file, for example 'app.py' or 'pages/1_Overview.py'. */
@@ -153,7 +153,7 @@ export interface StreamlitAppStatus {
   /** Timestamp of the last recorded viewer activity, null when none. */
   last_activity_at: string | null;
   /** Version number the running sandbox was booted from. */
-  version_number?: number | null;
+  version_number?: number | null | undefined;
 }
 export interface GetStreamlitAppsVersionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -170,13 +170,13 @@ export interface ListStreamlitAppsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface AppSummaryContract {
   /** User who created this app. */
-  created_by?: StreamlitAppUserInfo | null;
+  created_by?: StreamlitAppUserInfo | null | undefined;
   id: string;
   short_id: string;
   name: string;
@@ -190,8 +190,8 @@ export interface AppSummaryContract {
 export type PaginatedAppSummaryContractListResultsList = Array<AppSummaryContract>;
 export interface PaginatedAppSummaryContractList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedAppSummaryContractListResultsList;
 }
 export interface StreamlitAppsActivateVersionCreateRequest {
@@ -231,9 +231,9 @@ export interface StreamlitAppsCreateVersionFromSourceCreateRequest {
   /** Full Python source for the Streamlit app's root app.py file, as free text (max 1 MB). Becomes a new version and is set as the active version. */
   source: string;
   /** Extra text files to ship next to app.py, keyed by project-relative path (for example 'utils.py' or 'data/config.json'), each as plain text (max 1 MB). */
-  files?: StreamlitAppsCreateVersionFromSourceCreateRequestFilesMap;
+  files?: StreamlitAppsCreateVersionFromSourceCreateRequestFilesMap | undefined;
   /** Extra binary files to ship next to app.py, keyed by project-relative path (for example 'data/events.parquet'), each as standard base64 text. */
-  assets?: StreamlitAppsCreateVersionFromSourceCreateRequestAssetsMap;
+  assets?: StreamlitAppsCreateVersionFromSourceCreateRequestAssetsMap | undefined;
 }
 export interface StreamlitAppsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -270,11 +270,11 @@ export interface StreamlitAppsEditSourceCreateRequest {
   /** Version number that the changes apply to. Must be the active version of the app, otherwise the request fails with 409 and returns the active version number. */
   base_version: number;
   /** Exact text edits to existing text files. Files that no change touches stay byte-for-byte the same. */
-  file_edits?: StreamlitAppsEditSourceCreateRequestFileEditsList;
+  file_edits?: StreamlitAppsEditSourceCreateRequestFileEditsList | undefined;
   /** New text files keyed by project-relative path, each value the file's full text (max 1 MB). The path must not exist in the base version. */
-  create_files?: StreamlitAppsEditSourceCreateRequestCreateFilesMap;
+  create_files?: StreamlitAppsEditSourceCreateRequestCreateFilesMap | undefined;
   /** Paths of files to remove from the base version. app.py cannot be removed. */
-  delete_files?: StreamlitAppsEditSourceCreateRequestDeleteFilesList;
+  delete_files?: StreamlitAppsEditSourceCreateRequestDeleteFilesList | undefined;
 }
 export interface StreamlitAppsRestartCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -304,26 +304,26 @@ export interface UpdateStreamlitAppRequest {
   project_id: string;
   short_id: string;
   /** New name for the app. */
-  name?: string;
+  name?: string | undefined;
   /** New description for the app. */
-  description?: string;
+  description?: string | undefined;
   /** New CPU core allocation for the sandbox. */
-  cpu_cores?: number;
+  cpu_cores?: number | undefined;
   /** New memory (GB) allocation for the sandbox. */
-  memory_gb?: number;
+  memory_gb?: number | undefined;
 }
 export interface UpdateStreamlitAppsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   short_id: string;
   /** New name for the app. */
-  name?: string;
+  name?: string | undefined;
   /** New description for the app. */
-  description?: string;
+  description?: string | undefined;
   /** New CPU core allocation for the sandbox. */
-  cpu_cores?: number;
+  cpu_cores?: number | undefined;
   /** New memory (GB) allocation for the sandbox. */
-  memory_gb?: number;
+  memory_gb?: number | undefined;
 }
 export type CreateStreamlitAppError = PosthogOpError;
 /** Create a streamlit app */

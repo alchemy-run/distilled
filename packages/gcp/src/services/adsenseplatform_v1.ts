@@ -103,7 +103,7 @@ export interface ClosePlatformsAccountsRequest {
   /** Required. Account to close. Format: platforms/{platform}/accounts/{account_id} */
   name: string;
   /** Request body */
-  body?: CloseAccountRequest;
+  body?: CloseAccountRequest | undefined;
 }
 /** Response definition for the account close rpc. */
 export interface CloseAccountResponse {}
@@ -111,62 +111,62 @@ export type AccountStateEnum = "STATE_UNSPECIFIED" | "UNCHECKED" | "APPROVED" | 
 /** Represents a time zone from the [IANA Time Zone Database](https://www.iana.org/time-zones). */
 export interface TimeZone {
   /** Optional. IANA Time Zone Database version number. For example "2019a". */
-  version?: string;
+  version?: string | undefined;
   /** IANA Time Zone Database time zone. For example "America/New_York". */
-  id?: string;
+  id?: string | undefined;
 }
 /** Representation of an Account. */
 export interface Account {
   /** Display name of this account. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. Creation time of the account. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Required. An opaque token that uniquely identifies the account among all the platform's accounts. This string may contain at most 64 non-whitespace ASCII characters, but otherwise has no predefined structure. However, it is expected to be a platform-specific identifier for the user creating the account, so that only a single account can be created for any given user. This field must not contain any information that is recognizable as personally identifiable information. e.g. it should not be an email address or login name. Once an account has been created, a second attempt to create an account using the same creation_request_id will result in an ALREADY_EXISTS error. */
-  creationRequestId?: string;
+  creationRequestId?: string | undefined;
   /** Required. Input only. CLDR region code of the country/region of the address. Set this to country code of the child account if known, otherwise to your own country code. */
-  regionCode?: string;
+  regionCode?: string | undefined;
   /** Output only. Resource name of the account. Format: platforms/pub-[0-9]+/accounts/pub-[0-9]+ */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Approval state of the account. */
-  state?: AccountStateEnum | (string & {});
+  state?: AccountStateEnum | (string & {}) | undefined;
   /** Required. The IANA TZ timezone code of this account. For more information, see https://en.wikipedia.org/wiki/List_of_tz_database_time_zones. This field is used for reporting. It is recommended to set it to the same value for all child accounts. */
-  timeZone?: TimeZone;
+  timeZone?: TimeZone | undefined;
 }
 export interface CreatePlatformsAccountsRequest {
   /** Required. Platform to create an account for. Format: platforms/{platform} */
   parent: string;
   /** Request body */
-  body?: Account;
+  body?: Account | undefined;
 }
 /** Address data. */
 export interface Address {
   /** City. Max length 60 bytes or 30 characters. */
-  city?: string;
+  city?: string | undefined;
   /** Contact name of the company. Max length 128 bytes or 34 characters. */
-  contact?: string;
+  contact?: string | undefined;
   /** Phone number with international code (i.e. +441234567890). */
-  phone?: string;
+  phone?: string | undefined;
   /** State. Max length 60 bytes or 30 characters. */
-  state?: string;
+  state?: string | undefined;
   /** Zip/post code. Max length 10 bytes or 10 characters. */
-  zip?: string;
+  zip?: string | undefined;
   /** Country/Region code. The region is specified as a CLDR region code (e.g. "US", "FR"). */
-  regionCode?: string;
+  regionCode?: string | undefined;
   /** Name of the company. Max length 255 bytes or 34 characters. */
-  company?: string;
+  company?: string | undefined;
   /** First line of address. Max length 64 bytes or 30 characters. */
-  address1?: string;
+  address1?: string | undefined;
   /** Second line of address. Max length 64 bytes or 30 characters. */
-  address2?: string;
+  address2?: string | undefined;
   /** Fax number with international code (i.e. +441234567890). */
-  fax?: string;
+  fax?: string | undefined;
 }
 /** Private information for partner recorded events (PII). */
 export interface EventInfo {
   /** The billing address of the publisher associated with this event, if available. */
-  billingAddress?: Address;
+  billingAddress?: Address | undefined;
   /** Required. The email address that is associated with the publisher when performing the event. */
-  email?: string;
+  email?: string | undefined;
 }
 export type EventEventTypeEnum =
   | "EVENT_TYPE_UNSPECIFIED"
@@ -175,17 +175,17 @@ export type EventEventTypeEnum =
 /** A platform sub-account event to record spam signals. */
 export interface Event {
   /** Required. Information associated with the event. */
-  eventInfo?: EventInfo;
+  eventInfo?: EventInfo | undefined;
   /** Required. Event timestamp. */
-  eventTime?: string;
+  eventTime?: string | undefined;
   /** Required. Event type. */
-  eventType?: EventEventTypeEnum | (string & {});
+  eventType?: EventEventTypeEnum | (string & {}) | undefined;
 }
 export interface CreatePlatformsAccountsEventsRequest {
   /** Required. Account to log events about. Format: platforms/{platform}/accounts/{account} */
   parent: string;
   /** Request body */
-  body?: Event;
+  body?: Event | undefined;
 }
 export type SiteStateEnum =
   | "STATE_UNSPECIFIED"
@@ -196,17 +196,17 @@ export type SiteStateEnum =
 /** Representation of a Site. */
 export interface Site {
   /** Domain/sub-domain of the site. Must be a valid domain complying with [RFC 1035](https://www.ietf.org/rfc/rfc1035.txt) and formatted as punycode [RFC 3492](https://www.ietf.org/rfc/rfc3492.txt) in case the domain contains unicode characters. */
-  domain?: string;
+  domain?: string | undefined;
   /** Output only. State of a site. */
-  state?: SiteStateEnum | (string & {});
+  state?: SiteStateEnum | (string & {}) | undefined;
   /** Output only. Resource name of a site. Format: platforms/{platform}/accounts/{account}/sites/{site} */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreatePlatformsAccountsSitesRequest {
   /** Required. Account to create site. Format: platforms/{platform}/accounts/{account_id} */
   parent: string;
   /** Request body */
-  body?: Site;
+  body?: Site | undefined;
 }
 export interface DeletePlatformsAccountsSitesRequest {
   /** Required. The name of the site to delete. Format: platforms/{platform}/accounts/{account}/sites/{site} */
@@ -226,44 +226,44 @@ export interface ListPlatformsAccountsRequest {
   /** Required. Platform who parents the accounts. Format: platforms/{platform} */
   parent: string;
   /** Optional. A page token, received from a previous `ListAccounts` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of accounts to include in the response, used for paging. If unspecified, at most 10000 accounts will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type AccountList = Array<Account>;
 /** Response definition for the list accounts rpc. */
 export interface ListAccountsResponse {
   /** The Accounts returned in the list response. Represented by a partial view of the Account resource, populating `name` and `creation_request_id`. */
-  accounts?: AccountList;
+  accounts?: AccountList | undefined;
   /** Continuation token used to page through accounts. To retrieve the next page of the results, set the next request's "page_token" value to this. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListPlatformsAccountsSitesRequest {
   /** The maximum number of sites to include in the response, used for paging. If unspecified, at most 10000 sites will be returned. The maximum value is 10000; values above 10000 will be coerced to 10000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The account which owns the sites. Format: platforms/{platform}/accounts/{account} */
   parent: string;
   /** A page token, received from a previous `ListSites` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSites` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type SiteList = Array<Site>;
 /** Response definition for the site list rpc. */
 export interface ListSitesResponse {
   /** The sites returned in this list response. */
-  sites?: SiteList;
+  sites?: SiteList | undefined;
   /** Continuation token used to page through sites. To retrieve the next page of the results, set the next request's "page_token" value to this. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface LookupPlatformsAccountsRequest {
   /** Optional. The creation_request_id provided when calling createAccount. */
-  creationRequestId?: string;
+  creationRequestId?: string | undefined;
   /** Required. Platform who parents the account. Format: platforms/{platform} */
   parent: string;
 }
 /** Response definition for the lookup account rpc. */
 export interface LookupAccountResponse {
   /** The name of the Account Format: platforms/{platform}/accounts/{account_id} */
-  name?: string;
+  name?: string | undefined;
 }
 export interface RequestReviewPlatformsAccountsSitesRequest {
   /** Required. The name of the site to submit for review. Format: platforms/{platform}/accounts/{account}/sites/{site} */

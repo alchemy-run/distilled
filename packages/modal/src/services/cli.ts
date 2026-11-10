@@ -26,9 +26,9 @@ const TELEMETRY = {
 export type StringList = Array<string>;
 export interface CliCommandSuggestRequest {
   /** Successfully parsed parent commands, excluding "modal". */
-  parentPath?: StringList;
+  parentPath?: StringList | undefined;
   /** The command token that could not be resolved. No arguments or option values. */
-  unknownCommand?: string;
+  unknownCommand?: string | undefined;
 }
 export interface CliCommandSuggestResponse {
   /** Complete guidance text; empty when local CLI suggestions should be used. */

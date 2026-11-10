@@ -370,16 +370,16 @@ export type GlossaryTermIdList = string[];
 export type HashString = string;
 export interface AssociateGlossaryTermsRequest {
   AssetIdentifier: string;
-  IterableFormName?: string;
-  ItemIdentifier?: string;
+  IterableFormName?: string | undefined;
+  ItemIdentifier?: string | undefined;
   GlossaryTermIdentifiers: string[];
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface AssociateGlossaryTermsResponse {
-  AssetIdentifier?: string;
-  IterableFormName?: string;
-  ItemIdentifier?: string;
-  GlossaryTerms?: string[];
+  AssetIdentifier?: string | undefined;
+  IterableFormName?: string | undefined;
+  ItemIdentifier?: string | undefined;
+  GlossaryTerms?: string[] | undefined;
 }
 export type CatalogIdString = string;
 export type NameString = string;
@@ -392,18 +392,18 @@ export type ParametersMapValue = string;
 export type ParametersMap = { [key: string]: string | undefined };
 export interface Column {
   Name: string;
-  Type?: string;
-  Comment?: string;
-  Parameters?: { [key: string]: string | undefined };
+  Type?: string | undefined;
+  Comment?: string | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
 }
 export type ColumnList = Column[];
 export type LocationString = string;
 export type LocationStringList = string[];
 export type FormatString = string;
 export interface SerDeInfo {
-  Name?: string;
-  SerializationLibrary?: string;
-  Parameters?: { [key: string]: string | undefined };
+  Name?: string | undefined;
+  SerializationLibrary?: string | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
 }
 export type NameStringList = string[];
 export type IntegerFlag = number;
@@ -416,129 +416,129 @@ export type ColumnValuesString = string;
 export type ColumnValueStringList = string[];
 export type LocationMap = { [key: string]: string | undefined };
 export interface SkewedInfo {
-  SkewedColumnNames?: string[];
-  SkewedColumnValues?: string[];
-  SkewedColumnValueLocationMaps?: { [key: string]: string | undefined };
+  SkewedColumnNames?: string[] | undefined;
+  SkewedColumnValues?: string[] | undefined;
+  SkewedColumnValueLocationMaps?: { [key: string]: string | undefined } | undefined;
 }
 export type GlueResourceArn = string;
 export type SchemaRegistryNameString = string;
 export interface SchemaId {
-  SchemaArn?: string;
-  SchemaName?: string;
-  RegistryName?: string;
+  SchemaArn?: string | undefined;
+  SchemaName?: string | undefined;
+  RegistryName?: string | undefined;
 }
 export type SchemaVersionIdString = string;
 export type VersionLongNumber = number;
 export interface SchemaReference {
-  SchemaId?: SchemaId;
-  SchemaVersionId?: string;
-  SchemaVersionNumber?: number;
+  SchemaId?: SchemaId | undefined;
+  SchemaVersionId?: string | undefined;
+  SchemaVersionNumber?: number | undefined;
 }
 export interface StorageDescriptor {
-  Columns?: Column[];
-  Location?: string;
-  AdditionalLocations?: string[];
-  InputFormat?: string;
-  OutputFormat?: string;
-  Compressed?: boolean;
-  NumberOfBuckets?: number;
-  SerdeInfo?: SerDeInfo;
-  BucketColumns?: string[];
-  SortColumns?: Order[];
-  Parameters?: { [key: string]: string | undefined };
-  SkewedInfo?: SkewedInfo;
-  StoredAsSubDirectories?: boolean;
-  SchemaReference?: SchemaReference;
+  Columns?: Column[] | undefined;
+  Location?: string | undefined;
+  AdditionalLocations?: string[] | undefined;
+  InputFormat?: string | undefined;
+  OutputFormat?: string | undefined;
+  Compressed?: boolean | undefined;
+  NumberOfBuckets?: number | undefined;
+  SerdeInfo?: SerDeInfo | undefined;
+  BucketColumns?: string[] | undefined;
+  SortColumns?: Order[] | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
+  SkewedInfo?: SkewedInfo | undefined;
+  StoredAsSubDirectories?: boolean | undefined;
+  SchemaReference?: SchemaReference | undefined;
 }
 export interface PartitionInput {
-  Values?: string[];
-  LastAccessTime?: Date;
-  StorageDescriptor?: StorageDescriptor;
-  Parameters?: { [key: string]: string | undefined };
-  LastAnalyzedTime?: Date;
+  Values?: string[] | undefined;
+  LastAccessTime?: Date | undefined;
+  StorageDescriptor?: StorageDescriptor | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
+  LastAnalyzedTime?: Date | undefined;
 }
 export type PartitionInputList = PartitionInput[];
 export interface BatchCreatePartitionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   PartitionInputList: PartitionInput[];
 }
 export type DescriptionString = string;
 export interface ErrorDetail {
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export interface PartitionError {
-  PartitionValues?: string[];
-  ErrorDetail?: ErrorDetail;
+  PartitionValues?: string[] | undefined;
+  ErrorDetail?: ErrorDetail | undefined;
 }
 export type PartitionErrors = PartitionError[];
 export interface BatchCreatePartitionResponse {
-  Errors?: PartitionError[];
+  Errors?: PartitionError[] | undefined;
 }
 export type DeleteConnectionNameList = string[];
 export interface BatchDeleteConnectionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   ConnectionNameList: string[];
 }
 export type ErrorByName = { [key: string]: ErrorDetail | undefined };
 export interface BatchDeleteConnectionResponse {
-  Succeeded?: string[];
-  Errors?: { [key: string]: ErrorDetail | undefined };
+  Succeeded?: string[] | undefined;
+  Errors?: { [key: string]: ErrorDetail | undefined } | undefined;
 }
 export interface PartitionValueList {
   Values: string[];
 }
 export type BatchDeletePartitionValueList = PartitionValueList[];
 export interface BatchDeletePartitionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   PartitionsToDelete: PartitionValueList[];
 }
 export interface BatchDeletePartitionResponse {
-  Errors?: PartitionError[];
+  Errors?: PartitionError[] | undefined;
 }
 export type BatchDeleteTableNameList = string[];
 export type TransactionIdString = string;
 export interface BatchDeleteTableRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TablesToDelete: string[];
-  TransactionId?: string;
+  TransactionId?: string | undefined;
 }
 export interface TableError {
-  TableName?: string;
-  ErrorDetail?: ErrorDetail;
+  TableName?: string | undefined;
+  ErrorDetail?: ErrorDetail | undefined;
 }
 export type TableErrors = TableError[];
 export interface BatchDeleteTableResponse {
-  Errors?: TableError[];
+  Errors?: TableError[] | undefined;
 }
 export type VersionString = string;
 export type BatchDeleteTableVersionList = string[];
 export interface BatchDeleteTableVersionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   VersionIds: string[];
 }
 export interface TableVersionError {
-  TableName?: string;
-  VersionId?: string;
-  ErrorDetail?: ErrorDetail;
+  TableName?: string | undefined;
+  VersionId?: string | undefined;
+  ErrorDetail?: ErrorDetail | undefined;
 }
 export type TableVersionErrors = TableVersionError[];
 export interface BatchDeleteTableVersionResponse {
-  Errors?: TableVersionError[];
+  Errors?: TableVersionError[] | undefined;
 }
 export type OrchestrationNameString = string;
 export type BatchGetBlueprintNames = string[];
 export interface BatchGetBlueprintsRequest {
   Names: string[];
-  IncludeBlueprint?: boolean;
-  IncludeParameterSpec?: boolean;
+  IncludeBlueprint?: boolean | undefined;
+  IncludeParameterSpec?: boolean | undefined;
 }
 export type Generic512CharString = string;
 export type TimestampValue = Date;
@@ -546,29 +546,29 @@ export type BlueprintParameterSpec = string;
 export type BlueprintStatus = "CREATING" | "ACTIVE" | "UPDATING" | "FAILED" | (string & {});
 export type ErrorString = string;
 export interface LastActiveDefinition {
-  Description?: string;
-  LastModifiedOn?: Date;
-  ParameterSpec?: string;
-  BlueprintLocation?: string;
-  BlueprintServiceLocation?: string;
+  Description?: string | undefined;
+  LastModifiedOn?: Date | undefined;
+  ParameterSpec?: string | undefined;
+  BlueprintLocation?: string | undefined;
+  BlueprintServiceLocation?: string | undefined;
 }
 export interface Blueprint {
-  Name?: string;
-  Description?: string;
-  CreatedOn?: Date;
-  LastModifiedOn?: Date;
-  ParameterSpec?: string;
-  BlueprintLocation?: string;
-  BlueprintServiceLocation?: string;
-  Status?: BlueprintStatus;
-  ErrorMessage?: string;
-  LastActiveDefinition?: LastActiveDefinition;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CreatedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
+  ParameterSpec?: string | undefined;
+  BlueprintLocation?: string | undefined;
+  BlueprintServiceLocation?: string | undefined;
+  Status?: BlueprintStatus | undefined;
+  ErrorMessage?: string | undefined;
+  LastActiveDefinition?: LastActiveDefinition | undefined;
 }
 export type Blueprints = Blueprint[];
 export type BlueprintNames = string[];
 export interface BatchGetBlueprintsResponse {
-  Blueprints?: Blueprint[];
-  MissingBlueprints?: string[];
+  Blueprints?: Blueprint[] | undefined;
+  MissingBlueprints?: string[] | undefined;
 }
 export type CrawlerNameList = string[];
 export interface BatchGetCrawlersRequest {
@@ -580,74 +580,74 @@ export type PathList = string[];
 export type ConnectionName = string;
 export type EventQueueArn = string;
 export interface S3Target {
-  Path?: string;
-  Exclusions?: string[];
-  ConnectionName?: string;
-  SampleSize?: number;
-  EventQueueArn?: string;
-  DlqEventQueueArn?: string;
+  Path?: string | undefined;
+  Exclusions?: string[] | undefined;
+  ConnectionName?: string | undefined;
+  SampleSize?: number | undefined;
+  EventQueueArn?: string | undefined;
+  DlqEventQueueArn?: string | undefined;
 }
 export type S3TargetList = S3Target[];
 export type JdbcMetadataEntry = "COMMENTS" | "RAWTYPES" | (string & {});
 export type EnableAdditionalMetadata = JdbcMetadataEntry[];
 export interface JdbcTarget {
-  ConnectionName?: string;
-  Path?: string;
-  Exclusions?: string[];
-  EnableAdditionalMetadata?: JdbcMetadataEntry[];
+  ConnectionName?: string | undefined;
+  Path?: string | undefined;
+  Exclusions?: string[] | undefined;
+  EnableAdditionalMetadata?: JdbcMetadataEntry[] | undefined;
 }
 export type JdbcTargetList = JdbcTarget[];
 export interface MongoDBTarget {
-  ConnectionName?: string;
-  Path?: string;
-  ScanAll?: boolean;
+  ConnectionName?: string | undefined;
+  Path?: string | undefined;
+  ScanAll?: boolean | undefined;
 }
 export type MongoDBTargetList = MongoDBTarget[];
 export interface DynamoDBTarget {
-  Path?: string;
-  scanAll?: boolean;
-  scanRate?: number;
+  Path?: string | undefined;
+  scanAll?: boolean | undefined;
+  scanRate?: number | undefined;
 }
 export type DynamoDBTargetList = DynamoDBTarget[];
 export type CatalogTablesList = string[];
 export interface CatalogTarget {
   DatabaseName: string;
   Tables: string[];
-  ConnectionName?: string;
-  EventQueueArn?: string;
-  DlqEventQueueArn?: string;
+  ConnectionName?: string | undefined;
+  EventQueueArn?: string | undefined;
+  DlqEventQueueArn?: string | undefined;
 }
 export type CatalogTargetList = CatalogTarget[];
 export interface DeltaTarget {
-  DeltaTables?: string[];
-  ConnectionName?: string;
-  WriteManifest?: boolean;
-  CreateNativeDeltaTable?: boolean;
+  DeltaTables?: string[] | undefined;
+  ConnectionName?: string | undefined;
+  WriteManifest?: boolean | undefined;
+  CreateNativeDeltaTable?: boolean | undefined;
 }
 export type DeltaTargetList = DeltaTarget[];
 export interface IcebergTarget {
-  Paths?: string[];
-  ConnectionName?: string;
-  Exclusions?: string[];
-  MaximumTraversalDepth?: number;
+  Paths?: string[] | undefined;
+  ConnectionName?: string | undefined;
+  Exclusions?: string[] | undefined;
+  MaximumTraversalDepth?: number | undefined;
 }
 export type IcebergTargetList = IcebergTarget[];
 export interface HudiTarget {
-  Paths?: string[];
-  ConnectionName?: string;
-  Exclusions?: string[];
-  MaximumTraversalDepth?: number;
+  Paths?: string[] | undefined;
+  ConnectionName?: string | undefined;
+  Exclusions?: string[] | undefined;
+  MaximumTraversalDepth?: number | undefined;
 }
 export type HudiTargetList = HudiTarget[];
 export interface CrawlerTargets {
-  S3Targets?: S3Target[];
-  JdbcTargets?: JdbcTarget[];
-  MongoDBTargets?: MongoDBTarget[];
-  DynamoDBTargets?: DynamoDBTarget[];
-  CatalogTargets?: CatalogTarget[];
-  DeltaTargets?: DeltaTarget[];
-  IcebergTargets?: IcebergTarget[];
-  HudiTargets?: HudiTarget[];
+  S3Targets?: S3Target[] | undefined;
+  JdbcTargets?: JdbcTarget[] | undefined;
+  MongoDBTargets?: MongoDBTarget[] | undefined;
+  DynamoDBTargets?: DynamoDBTarget[] | undefined;
+  CatalogTargets?: CatalogTarget[] | undefined;
+  DeltaTargets?: DeltaTarget[] | undefined;
+  IcebergTargets?: IcebergTarget[] | undefined;
+  HudiTargets?: HudiTarget[] | undefined;
 }
 export type DatabaseName = string;
 export type ClassifierNameList = string[];
@@ -657,7 +657,7 @@ export type RecrawlBehavior =
   | "CRAWL_EVENT_MODE"
   | (string & {});
 export interface RecrawlPolicy {
-  RecrawlBehavior?: RecrawlBehavior;
+  RecrawlBehavior?: RecrawlBehavior | undefined;
 }
 export type UpdateBehavior = "LOG" | "UPDATE_IN_DATABASE" | (string & {});
 export type DeleteBehavior =
@@ -666,20 +666,20 @@ export type DeleteBehavior =
   | "DEPRECATE_IN_DATABASE"
   | (string & {});
 export interface SchemaChangePolicy {
-  UpdateBehavior?: UpdateBehavior;
-  DeleteBehavior?: DeleteBehavior;
+  UpdateBehavior?: UpdateBehavior | undefined;
+  DeleteBehavior?: DeleteBehavior | undefined;
 }
 export type CrawlerLineageSettings = "ENABLE" | "DISABLE" | (string & {});
 export interface LineageConfiguration {
-  CrawlerLineageSettings?: CrawlerLineageSettings;
+  CrawlerLineageSettings?: CrawlerLineageSettings | undefined;
 }
 export type CrawlerState = "READY" | "RUNNING" | "STOPPING" | (string & {});
 export type TablePrefix = string;
 export type CronExpression = string;
 export type ScheduleState = "SCHEDULED" | "NOT_SCHEDULED" | "TRANSITIONING" | (string & {});
 export interface Schedule {
-  ScheduleExpression?: string;
-  State?: ScheduleState;
+  ScheduleExpression?: string | undefined;
+  State?: ScheduleState | undefined;
 }
 export type MillisecondsCount = number;
 export type LastCrawlStatus = "SUCCEEDED" | "CANCELLED" | "FAILED" | (string & {});
@@ -687,48 +687,48 @@ export type LogGroup = string;
 export type LogStream = string;
 export type MessagePrefix = string;
 export interface LastCrawlInfo {
-  Status?: LastCrawlStatus;
-  ErrorMessage?: string;
-  LogGroup?: string;
-  LogStream?: string;
-  MessagePrefix?: string;
-  StartTime?: Date;
+  Status?: LastCrawlStatus | undefined;
+  ErrorMessage?: string | undefined;
+  LogGroup?: string | undefined;
+  LogStream?: string | undefined;
+  MessagePrefix?: string | undefined;
+  StartTime?: Date | undefined;
 }
 export type VersionId = number;
 export type CrawlerConfiguration = string;
 export type CrawlerSecurityConfiguration = string;
 export type AccountId = string;
 export interface LakeFormationConfiguration {
-  UseLakeFormationCredentials?: boolean;
-  AccountId?: string;
+  UseLakeFormationCredentials?: boolean | undefined;
+  AccountId?: string | undefined;
 }
 export interface Crawler {
-  Name?: string;
-  Role?: string;
-  Targets?: CrawlerTargets;
-  DatabaseName?: string;
-  Description?: string;
-  Classifiers?: string[];
-  RecrawlPolicy?: RecrawlPolicy;
-  SchemaChangePolicy?: SchemaChangePolicy;
-  LineageConfiguration?: LineageConfiguration;
-  State?: CrawlerState;
-  TablePrefix?: string;
-  Schedule?: Schedule;
-  CrawlElapsedTime?: number;
-  CreationTime?: Date;
-  LastUpdated?: Date;
-  LastCrawl?: LastCrawlInfo;
-  Version?: number;
-  Configuration?: string;
-  CrawlerSecurityConfiguration?: string;
-  LakeFormationConfiguration?: LakeFormationConfiguration;
-  CatalogId?: string;
+  Name?: string | undefined;
+  Role?: string | undefined;
+  Targets?: CrawlerTargets | undefined;
+  DatabaseName?: string | undefined;
+  Description?: string | undefined;
+  Classifiers?: string[] | undefined;
+  RecrawlPolicy?: RecrawlPolicy | undefined;
+  SchemaChangePolicy?: SchemaChangePolicy | undefined;
+  LineageConfiguration?: LineageConfiguration | undefined;
+  State?: CrawlerState | undefined;
+  TablePrefix?: string | undefined;
+  Schedule?: Schedule | undefined;
+  CrawlElapsedTime?: number | undefined;
+  CreationTime?: Date | undefined;
+  LastUpdated?: Date | undefined;
+  LastCrawl?: LastCrawlInfo | undefined;
+  Version?: number | undefined;
+  Configuration?: string | undefined;
+  CrawlerSecurityConfiguration?: string | undefined;
+  LakeFormationConfiguration?: LakeFormationConfiguration | undefined;
+  CatalogId?: string | undefined;
 }
 export type CrawlerList = Crawler[];
 export interface BatchGetCrawlersResponse {
-  Crawlers?: Crawler[];
-  CrawlersNotFound?: string[];
+  Crawlers?: Crawler[] | undefined;
+  CrawlersNotFound?: string[] | undefined;
 }
 export type CustomEntityTypeNames = string[];
 export interface BatchGetCustomEntityTypesRequest {
@@ -738,38 +738,39 @@ export type ContextWords = string[];
 export interface CustomEntityType {
   Name: string;
   RegexString: string;
-  ContextWords?: string[];
+  ContextWords?: string[] | undefined;
 }
 export type CustomEntityTypes = CustomEntityType[];
 export interface BatchGetCustomEntityTypesResponse {
-  CustomEntityTypes?: CustomEntityType[];
-  CustomEntityTypesNotFound?: string[];
+  CustomEntityTypes?: CustomEntityType[] | undefined;
+  CustomEntityTypesNotFound?: string[] | undefined;
 }
 export type DataQualityResultIds = string[];
 export interface BatchGetDataQualityResultRequest {
   ResultIds: string[];
 }
+export type DataQualityEvaluationRunMode = "ON_DEMAND" | "EVALUATION_CONFIG" | (string & {});
 export type GenericBoundedDouble = number;
 export type GlueTableAdditionalOptions = { [key: string]: string | undefined };
 export interface GlueTable {
   DatabaseName: string;
   TableName: string;
-  CatalogId?: string;
-  ConnectionName?: string;
-  AdditionalOptions?: { [key: string]: string | undefined };
+  CatalogId?: string | undefined;
+  ConnectionName?: string | undefined;
+  AdditionalOptions?: { [key: string]: string | undefined } | undefined;
 }
 export type PreProcessingQueryString = string;
 export interface DataQualityGlueTable {
   DatabaseName: string;
   TableName: string;
-  CatalogId?: string;
-  ConnectionName?: string;
-  AdditionalOptions?: { [key: string]: string | undefined };
-  PreProcessingQuery?: string;
+  CatalogId?: string | undefined;
+  ConnectionName?: string | undefined;
+  AdditionalOptions?: { [key: string]: string | undefined } | undefined;
+  PreProcessingQuery?: string | undefined;
 }
 export interface DataSource {
-  GlueTable?: GlueTable;
-  DataQualityGlueTable?: DataQualityGlueTable;
+  GlueTable?: GlueTable | undefined;
+  DataQualityGlueTable?: DataQualityGlueTable | undefined;
 }
 export type DataQualityRuleResultDescription = string | redacted.Redacted<string>;
 export type DataQualityRuleResultStatus = "PASS" | "FAIL" | "ERROR" | (string & {});
@@ -777,80 +778,82 @@ export type EvaluatedMetricsMap = { [key: string]: number | undefined };
 export type RuleMetricsMap = { [key: string]: number | undefined };
 export type Labels = { [key: string]: string | undefined };
 export interface DataQualityRuleResult {
-  Name?: string;
-  Description?: string | redacted.Redacted<string>;
-  EvaluationMessage?: string | redacted.Redacted<string>;
-  Result?: DataQualityRuleResultStatus;
-  EvaluatedMetrics?: { [key: string]: number | undefined };
-  EvaluatedRule?: string | redacted.Redacted<string>;
-  RuleMetrics?: { [key: string]: number | undefined };
-  Labels?: { [key: string]: string | undefined };
+  Name?: string | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  EvaluationMessage?: string | redacted.Redacted<string> | undefined;
+  Result?: DataQualityRuleResultStatus | undefined;
+  EvaluatedMetrics?: { [key: string]: number | undefined } | undefined;
+  EvaluatedRule?: string | redacted.Redacted<string> | undefined;
+  RuleMetrics?: { [key: string]: number | undefined } | undefined;
+  Labels?: { [key: string]: string | undefined } | undefined;
 }
 export type DataQualityRuleResults = DataQualityRuleResult[];
 export type BinEdges = string[];
 export type Count = number[];
 export interface DistributionData {
-  BinEdges?: string[];
-  Count?: number[];
-  DataType?: string;
+  BinEdges?: string[] | undefined;
+  Count?: number[] | undefined;
+  DataType?: string | undefined;
 }
 export type EvaluatedDistributionsMap = { [key: string]: DistributionData | undefined };
 export interface DataQualityAnalyzerResult {
-  Name?: string;
-  Description?: string | redacted.Redacted<string>;
-  EvaluationMessage?: string | redacted.Redacted<string>;
-  EvaluatedMetrics?: { [key: string]: number | undefined };
-  EvaluatedDistributions?: { [key: string]: DistributionData | undefined };
+  Name?: string | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  EvaluationMessage?: string | redacted.Redacted<string> | undefined;
+  EvaluatedMetrics?: { [key: string]: number | undefined } | undefined;
+  EvaluatedDistributions?: { [key: string]: DistributionData | undefined } | undefined;
 }
 export type DataQualityAnalyzerResults = DataQualityAnalyzerResult[];
 export type DataQualityObservationDescription = string | redacted.Redacted<string>;
 export interface DataQualityMetricValues {
-  ActualValue?: number;
-  ExpectedValue?: number;
-  LowerLimit?: number;
-  UpperLimit?: number;
+  ActualValue?: number | undefined;
+  ExpectedValue?: number | undefined;
+  LowerLimit?: number | undefined;
+  UpperLimit?: number | undefined;
 }
 export type NewRules = string[];
 export interface MetricBasedObservation {
-  MetricName?: string;
-  StatisticId?: string;
-  MetricValues?: DataQualityMetricValues;
-  NewRules?: string[];
+  MetricName?: string | undefined;
+  StatisticId?: string | undefined;
+  MetricValues?: DataQualityMetricValues | undefined;
+  NewRules?: string[] | undefined;
 }
 export interface DataQualityObservation {
-  Description?: string | redacted.Redacted<string>;
-  MetricBasedObservation?: MetricBasedObservation;
+  Description?: string | redacted.Redacted<string> | undefined;
+  MetricBasedObservation?: MetricBasedObservation | undefined;
 }
 export type DataQualityObservations = DataQualityObservation[];
 export interface DataQualityAggregatedMetrics {
-  TotalRowsProcessed?: number;
-  TotalRowsPassed?: number;
-  TotalRowsFailed?: number;
-  TotalRulesProcessed?: number;
-  TotalRulesPassed?: number;
-  TotalRulesFailed?: number;
+  TotalRowsProcessed?: number | undefined;
+  TotalRowsPassed?: number | undefined;
+  TotalRowsFailed?: number | undefined;
+  TotalRulesProcessed?: number | undefined;
+  TotalRulesPassed?: number | undefined;
+  TotalRulesFailed?: number | undefined;
 }
 export interface DataQualityResult {
-  ResultId?: string;
-  ProfileId?: string;
-  Score?: number;
-  DataSource?: DataSource;
-  RulesetName?: string;
-  EvaluationContext?: string;
-  StartedOn?: Date;
-  CompletedOn?: Date;
-  JobName?: string;
-  JobRunId?: string;
-  RulesetEvaluationRunId?: string;
-  RuleResults?: DataQualityRuleResult[];
-  AnalyzerResults?: DataQualityAnalyzerResult[];
-  Observations?: DataQualityObservation[];
-  AggregatedMetrics?: DataQualityAggregatedMetrics;
+  ResultId?: string | undefined;
+  EvaluationRunMode?: DataQualityEvaluationRunMode | undefined;
+  DataQualityEvaluationConfig?: string | undefined;
+  ProfileId?: string | undefined;
+  Score?: number | undefined;
+  DataSource?: DataSource | undefined;
+  RulesetName?: string | undefined;
+  EvaluationContext?: string | undefined;
+  StartedOn?: Date | undefined;
+  CompletedOn?: Date | undefined;
+  JobName?: string | undefined;
+  JobRunId?: string | undefined;
+  RulesetEvaluationRunId?: string | undefined;
+  RuleResults?: DataQualityRuleResult[] | undefined;
+  AnalyzerResults?: DataQualityAnalyzerResult[] | undefined;
+  Observations?: DataQualityObservation[] | undefined;
+  AggregatedMetrics?: DataQualityAggregatedMetrics | undefined;
 }
 export type DataQualityResultsList = DataQualityResult[];
 export interface BatchGetDataQualityResultResponse {
   Results: DataQualityResult[];
-  ResultsNotFound?: string[];
+  ResultsNotFound?: string[] | undefined;
 }
 export type DataQualityResultV2IdList = string[];
 export interface BatchGetDataQualityResultV2Request {
@@ -861,25 +864,27 @@ export type PublishDataQualityResultTags = { [key: string]: string | undefined }
 export type PublishDataQualityResultDescriptors = { [key: string]: string | undefined };
 export interface DataQualityResultV2Item {
   ResultId: string;
-  DataSource?: DataSource;
-  Dimensions?: { [key: string]: string | undefined };
-  Tags?: { [key: string]: string | undefined };
-  ExecutionStartedOn?: Date;
-  ExecutionCompletedOn?: Date;
-  ResultPublishedOn?: Date;
-  Score?: number;
-  RuleResults?: DataQualityRuleResult[];
-  AnalyzerResults?: DataQualityAnalyzerResult[];
-  Observations?: DataQualityObservation[];
-  EvaluationContext?: string;
-  Descriptors?: { [key: string]: string | undefined };
-  AggregatedMetrics?: DataQualityAggregatedMetrics;
-  RulesetName?: string;
+  EvaluationRunMode?: DataQualityEvaluationRunMode | undefined;
+  DataQualityEvaluationConfig?: string | undefined;
+  DataSource?: DataSource | undefined;
+  Dimensions?: { [key: string]: string | undefined } | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ExecutionStartedOn?: Date | undefined;
+  ExecutionCompletedOn?: Date | undefined;
+  ResultPublishedOn?: Date | undefined;
+  Score?: number | undefined;
+  RuleResults?: DataQualityRuleResult[] | undefined;
+  AnalyzerResults?: DataQualityAnalyzerResult[] | undefined;
+  Observations?: DataQualityObservation[] | undefined;
+  EvaluationContext?: string | undefined;
+  Descriptors?: { [key: string]: string | undefined } | undefined;
+  AggregatedMetrics?: DataQualityAggregatedMetrics | undefined;
+  RulesetName?: string | undefined;
 }
 export type DataQualityResultV2List = DataQualityResultV2Item[];
 export interface BatchGetDataQualityResultV2Response {
   Results: DataQualityResultV2Item[];
-  ResultsNotFound?: string[];
+  ResultsNotFound?: string[] | undefined;
 }
 export type DataQualityRulesetEvaluationRunIdList = string[];
 export interface BatchGetDataQualityRulesetEvaluationRunRequest {
@@ -891,46 +896,46 @@ export type UriString = string;
 export type DQCompositeRuleEvaluationMethod = "COLUMN" | "ROW" | (string & {});
 export type ResultTypeEnum = "ALL" | "PASSED_ONLY" | "FAILED_ONLY" | (string & {});
 export interface CatalogTableConfigOptions {
-  DatabaseName?: string;
-  TableName?: string;
-  S3Location?: string;
-  CatalogId?: string;
+  DatabaseName?: string | undefined;
+  TableName?: string | undefined;
+  S3Location?: string | undefined;
+  CatalogId?: string | undefined;
 }
 export interface RowLevelResultsOptions {
-  MaxRowsToWrite?: number;
-  ResultType?: ResultTypeEnum;
-  CatalogTableConfig?: CatalogTableConfigOptions;
+  MaxRowsToWrite?: number | undefined;
+  ResultType?: ResultTypeEnum | undefined;
+  CatalogTableConfig?: CatalogTableConfigOptions | undefined;
 }
 export interface DistributionResultsOptions {
-  WriteDistributionResultsEnabled?: boolean;
-  CatalogTableConfig?: CatalogTableConfigOptions;
+  WriteDistributionResultsEnabled?: boolean | undefined;
+  CatalogTableConfig?: CatalogTableConfigOptions | undefined;
 }
 export interface ProfilingResultsOptions {
-  WriteProfilingResultsEnabled?: boolean;
-  CatalogTableConfig?: CatalogTableConfigOptions;
-  DistributionResults?: DistributionResultsOptions;
+  WriteProfilingResultsEnabled?: boolean | undefined;
+  CatalogTableConfig?: CatalogTableConfigOptions | undefined;
+  DistributionResults?: DistributionResultsOptions | undefined;
 }
 export type ObservationConfiguration = "ALL" | "NONE" | (string & {});
 export type ObservationMode = "SCHEDULED" | "FIXED" | (string & {});
 export interface DataQualityRuleResultsOptions {
-  WriteDataQualityRuleResultsEnabled?: boolean;
-  CatalogTableConfig?: CatalogTableConfigOptions;
+  WriteDataQualityRuleResultsEnabled?: boolean | undefined;
+  CatalogTableConfig?: CatalogTableConfigOptions | undefined;
 }
 export interface ObservationResultsOptions {
-  WriteObservationResultsEnabled?: boolean;
-  CatalogTableConfig?: CatalogTableConfigOptions;
+  WriteObservationResultsEnabled?: boolean | undefined;
+  CatalogTableConfig?: CatalogTableConfigOptions | undefined;
 }
 export interface DataQualityEvaluationRunAdditionalRunOptions {
-  CloudWatchMetricsEnabled?: boolean;
-  ResultsS3Prefix?: string;
-  CompositeRuleEvaluationMethod?: DQCompositeRuleEvaluationMethod;
-  CustomLogGroupPrefix?: string;
-  RowLevelResults?: RowLevelResultsOptions;
-  ProfilingResults?: ProfilingResultsOptions;
-  ObservationScope?: ObservationConfiguration;
-  ObservationMode?: ObservationMode;
-  DataQualityRuleResults?: DataQualityRuleResultsOptions;
-  ObservationResults?: ObservationResultsOptions;
+  CloudWatchMetricsEnabled?: boolean | undefined;
+  ResultsS3Prefix?: string | undefined;
+  CompositeRuleEvaluationMethod?: DQCompositeRuleEvaluationMethod | undefined;
+  CustomLogGroupPrefix?: string | undefined;
+  RowLevelResults?: RowLevelResultsOptions | undefined;
+  ProfilingResults?: ProfilingResultsOptions | undefined;
+  ObservationScope?: ObservationConfiguration | undefined;
+  ObservationMode?: ObservationMode | undefined;
+  DataQualityRuleResults?: DataQualityRuleResultsOptions | undefined;
+  ObservationResults?: ObservationResultsOptions | undefined;
 }
 export type TaskStatusType =
   | "STARTING"
@@ -946,26 +951,26 @@ export type RulesetNames = string[];
 export type DataQualityResultIdList = string[];
 export type DataSourceMap = { [key: string]: DataSource | undefined };
 export interface DataQualityRulesetEvaluationRun {
-  RunId?: string;
-  DataSource?: DataSource;
-  Role?: string;
-  NumberOfWorkers?: number;
-  Timeout?: number;
-  AdditionalRunOptions?: DataQualityEvaluationRunAdditionalRunOptions;
-  Status?: TaskStatusType;
-  ErrorString?: string;
-  StartedOn?: Date;
-  LastModifiedOn?: Date;
-  CompletedOn?: Date;
-  ExecutionTime?: number;
-  RulesetNames?: string[];
-  ResultIds?: string[];
-  AdditionalDataSources?: { [key: string]: DataSource | undefined };
+  RunId?: string | undefined;
+  DataSource?: DataSource | undefined;
+  Role?: string | undefined;
+  NumberOfWorkers?: number | undefined;
+  Timeout?: number | undefined;
+  AdditionalRunOptions?: DataQualityEvaluationRunAdditionalRunOptions | undefined;
+  Status?: TaskStatusType | undefined;
+  ErrorString?: string | undefined;
+  StartedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
+  CompletedOn?: Date | undefined;
+  ExecutionTime?: number | undefined;
+  RulesetNames?: string[] | undefined;
+  ResultIds?: string[] | undefined;
+  AdditionalDataSources?: { [key: string]: DataSource | undefined } | undefined;
 }
 export type DataQualityRulesetEvaluationRunsList = DataQualityRulesetEvaluationRun[];
 export interface BatchGetDataQualityRulesetEvaluationRunResponse {
-  Runs?: DataQualityRulesetEvaluationRun[];
-  RunsNotFound?: string[];
+  Runs?: DataQualityRulesetEvaluationRun[] | undefined;
+  RunsNotFound?: string[] | undefined;
 }
 export type DevEndpointNames = string[];
 export interface BatchGetDevEndpointsRequest {
@@ -993,36 +998,36 @@ export type GlueVersionString = string;
 export type PublicKeysList = string[];
 export type MapValue = { [key: string]: string | undefined };
 export interface DevEndpoint {
-  EndpointName?: string;
-  RoleArn?: string;
-  SecurityGroupIds?: string[];
-  SubnetId?: string;
-  YarnEndpointAddress?: string;
-  PrivateAddress?: string;
-  ZeppelinRemoteSparkInterpreterPort?: number;
-  PublicAddress?: string;
-  Status?: string;
-  WorkerType?: WorkerType;
-  GlueVersion?: string;
-  NumberOfWorkers?: number;
-  NumberOfNodes?: number;
-  AvailabilityZone?: string;
-  VpcId?: string;
-  ExtraPythonLibsS3Path?: string;
-  ExtraJarsS3Path?: string;
-  FailureReason?: string;
-  LastUpdateStatus?: string;
-  CreatedTimestamp?: Date;
-  LastModifiedTimestamp?: Date;
-  PublicKey?: string;
-  PublicKeys?: string[];
-  SecurityConfiguration?: string;
-  Arguments?: { [key: string]: string | undefined };
+  EndpointName?: string | undefined;
+  RoleArn?: string | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  SubnetId?: string | undefined;
+  YarnEndpointAddress?: string | undefined;
+  PrivateAddress?: string | undefined;
+  ZeppelinRemoteSparkInterpreterPort?: number | undefined;
+  PublicAddress?: string | undefined;
+  Status?: string | undefined;
+  WorkerType?: WorkerType | undefined;
+  GlueVersion?: string | undefined;
+  NumberOfWorkers?: number | undefined;
+  NumberOfNodes?: number | undefined;
+  AvailabilityZone?: string | undefined;
+  VpcId?: string | undefined;
+  ExtraPythonLibsS3Path?: string | undefined;
+  ExtraJarsS3Path?: string | undefined;
+  FailureReason?: string | undefined;
+  LastUpdateStatus?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
+  LastModifiedTimestamp?: Date | undefined;
+  PublicKey?: string | undefined;
+  PublicKeys?: string[] | undefined;
+  SecurityConfiguration?: string | undefined;
+  Arguments?: { [key: string]: string | undefined } | undefined;
 }
 export type DevEndpointList = DevEndpoint[];
 export interface BatchGetDevEndpointsResponse {
-  DevEndpoints?: DevEndpoint[];
-  DevEndpointsNotFound?: string[];
+  DevEndpoints?: DevEndpoint[] | undefined;
+  DevEndpointsNotFound?: string[] | undefined;
 }
 export type ItemIdentifierList = string[];
 export interface BatchGetIterableFormsRequest {
@@ -1036,29 +1041,29 @@ export type AssetFormKey = string;
 export type FormTypeId = string;
 export type FormContent = string;
 export interface AssetFormEntry {
-  FormTypeId?: string;
-  Content?: string;
+  FormTypeId?: string | undefined;
+  Content?: string | undefined;
 }
 export type AssetFormMap = { [key: string]: AssetFormEntry | undefined };
 export interface IterableFormItem {
-  ItemId?: string;
-  ItemName?: string;
-  GlossaryTerms?: string[];
-  Forms?: { [key: string]: AssetFormEntry | undefined };
-  Attachments?: { [key: string]: AssetFormEntry | undefined };
+  ItemId?: string | undefined;
+  ItemName?: string | undefined;
+  GlossaryTerms?: string[] | undefined;
+  Forms?: { [key: string]: AssetFormEntry | undefined } | undefined;
+  Attachments?: { [key: string]: AssetFormEntry | undefined } | undefined;
 }
 export type IterableFormItemList = IterableFormItem[];
 export type ItemErrorCode = string;
 export type ItemErrorMessage = string;
 export interface ItemError {
-  ItemIdentifier?: string;
-  Code?: string;
-  Message?: string;
+  ItemIdentifier?: string | undefined;
+  Code?: string | undefined;
+  Message?: string | undefined;
 }
 export type ItemErrorList = ItemError[];
 export interface BatchGetIterableFormsResponse {
-  Items?: IterableFormItem[];
-  Errors?: ItemError[];
+  Items?: IterableFormItem[] | undefined;
+  Errors?: ItemError[] | undefined;
 }
 export type JobNameList = string[];
 export interface BatchGetJobsRequest {
@@ -1067,27 +1072,27 @@ export interface BatchGetJobsRequest {
 export type JobMode = "SCRIPT" | "VISUAL" | "NOTEBOOK" | (string & {});
 export type MaxConcurrentRuns = number;
 export interface ExecutionProperty {
-  MaxConcurrentRuns?: number;
+  MaxConcurrentRuns?: number | undefined;
 }
 export type ScriptLocationString = string;
 export type PythonVersionString = string;
 export type RuntimeNameString = string;
 export interface JobCommand {
-  Name?: string;
-  ScriptLocation?: string;
-  PythonVersion?: string;
-  Runtime?: string;
+  Name?: string | undefined;
+  ScriptLocation?: string | undefined;
+  PythonVersion?: string | undefined;
+  Runtime?: string | undefined;
 }
 export type GenericMap = { [key: string]: string | undefined };
 export type ConnectionString = string;
 export type ConnectionStringList = string[];
 export interface ConnectionsList {
-  Connections?: string[];
+  Connections?: string[] | undefined;
 }
 export type MaxRetries = number;
 export type NotifyDelayAfter = number;
 export interface NotificationProperty {
-  NotifyDelayAfter?: number;
+  NotifyDelayAfter?: number | undefined;
 }
 export type NodeId = string;
 export type NodeName = string;
@@ -1096,12 +1101,12 @@ export type EnclosedInStringPropertyWithQuote = string;
 export type GlueStudioColumnNameString = string;
 export interface GlueStudioSchemaColumn {
   Name: string;
-  Type?: string;
-  GlueStudioType?: string;
+  Type?: string | undefined;
+  GlueStudioType?: string | undefined;
 }
 export type GlueStudioSchemaColumnList = GlueStudioSchemaColumn[];
 export interface GlueSchema {
-  Columns?: GlueStudioSchemaColumn[];
+  Columns?: GlueStudioSchemaColumn[] | undefined;
 }
 export type GlueSchemas = GlueSchema[];
 export interface AthenaConnectorSource {
@@ -1109,9 +1114,9 @@ export interface AthenaConnectorSource {
   ConnectionName: string;
   ConnectorName: string;
   ConnectionType: string;
-  ConnectionTable?: string;
+  ConnectionTable?: string | undefined;
   SchemaName: string;
-  OutputSchemas?: GlueSchema[];
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export type BoxedNonNegativeLong = number;
 export type EnclosedInStringProperties = string[];
@@ -1168,16 +1173,16 @@ export type GlueRecordType =
   | "SHORT"
   | "DOUBLE"
   | (string & {});
-export type JDBCDataTypeMapping = { [key in JDBCDataType]?: GlueRecordType };
+export type JDBCDataTypeMapping = { [key in JDBCDataType]?: GlueRecordType | undefined };
 export interface JDBCConnectorOptions {
-  FilterPredicate?: string;
-  PartitionColumn?: string;
-  LowerBound?: number;
-  UpperBound?: number;
-  NumPartitions?: number;
-  JobBookmarkKeys?: string[];
-  JobBookmarkKeysSortOrder?: string;
-  DataTypeMapping?: { [key: string]: GlueRecordType | undefined };
+  FilterPredicate?: string | undefined;
+  PartitionColumn?: string | undefined;
+  LowerBound?: number | undefined;
+  UpperBound?: number | undefined;
+  NumPartitions?: number | undefined;
+  JobBookmarkKeys?: string[] | undefined;
+  JobBookmarkKeysSortOrder?: string | undefined;
+  DataTypeMapping?: { [key: string]: GlueRecordType | undefined } | undefined;
 }
 export type SqlQuery = string;
 export interface JDBCConnectorSource {
@@ -1185,10 +1190,10 @@ export interface JDBCConnectorSource {
   ConnectionName: string;
   ConnectorName: string;
   ConnectionType: string;
-  AdditionalOptions?: JDBCConnectorOptions;
-  ConnectionTable?: string;
-  Query?: string;
-  OutputSchemas?: GlueSchema[];
+  AdditionalOptions?: JDBCConnectorOptions | undefined;
+  ConnectionTable?: string | undefined;
+  Query?: string | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export type AdditionalOptions = { [key: string]: string | undefined };
 export interface SparkConnectorSource {
@@ -1196,81 +1201,81 @@ export interface SparkConnectorSource {
   ConnectionName: string;
   ConnectorName: string;
   ConnectionType: string;
-  AdditionalOptions?: { [key: string]: string | undefined };
-  OutputSchemas?: GlueSchema[];
+  AdditionalOptions?: { [key: string]: string | undefined } | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface CatalogSource {
   Name: string;
   Database: string;
   Table: string;
-  PartitionPredicate?: string;
-  OutputSchemas?: GlueSchema[];
+  PartitionPredicate?: string | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface RedshiftSource {
   Name: string;
   Database: string;
   Table: string;
-  RedshiftTmpDir?: string;
-  TmpDirIAMRole?: string;
+  RedshiftTmpDir?: string | undefined;
+  TmpDirIAMRole?: string | undefined;
 }
 export type BoxedLong = number;
 export interface S3SourceAdditionalOptions {
-  BoundedSize?: number;
-  BoundedFiles?: number;
+  BoundedSize?: number | undefined;
+  BoundedFiles?: number | undefined;
 }
 export interface S3CatalogSource {
   Name: string;
   Database: string;
   Table: string;
-  PartitionPredicate?: string;
-  AdditionalOptions?: S3SourceAdditionalOptions;
+  PartitionPredicate?: string | undefined;
+  AdditionalOptions?: S3SourceAdditionalOptions | undefined;
 }
 export type CompressionType = "gzip" | "bzip2" | (string & {});
 export type BoxedBoolean = boolean;
 export type BoxedNonNegativeInt = number;
 export interface S3DirectSourceAdditionalOptions {
-  BoundedSize?: number;
-  BoundedFiles?: number;
-  EnableSamplePath?: boolean;
-  SamplePath?: string;
+  BoundedSize?: number | undefined;
+  BoundedFiles?: number | undefined;
+  EnableSamplePath?: boolean | undefined;
+  SamplePath?: string | undefined;
 }
 export type Separator = "comma" | "ctrla" | "pipe" | "semicolon" | "tab" | (string & {});
 export type QuoteChar = "quote" | "quillemet" | "single_quote" | "disabled" | (string & {});
 export interface S3CsvSource {
   Name: string;
   Paths: string[];
-  CompressionType?: CompressionType;
-  Exclusions?: string[];
-  GroupSize?: string;
-  GroupFiles?: string;
-  Recurse?: boolean;
-  MaxBand?: number;
-  MaxFilesInBand?: number;
-  AdditionalOptions?: S3DirectSourceAdditionalOptions;
+  CompressionType?: CompressionType | undefined;
+  Exclusions?: string[] | undefined;
+  GroupSize?: string | undefined;
+  GroupFiles?: string | undefined;
+  Recurse?: boolean | undefined;
+  MaxBand?: number | undefined;
+  MaxFilesInBand?: number | undefined;
+  AdditionalOptions?: S3DirectSourceAdditionalOptions | undefined;
   Separator: Separator;
-  Escaper?: string;
+  Escaper?: string | undefined;
   QuoteChar: QuoteChar;
-  Multiline?: boolean;
-  WithHeader?: boolean;
-  WriteHeader?: boolean;
-  SkipFirst?: boolean;
-  OptimizePerformance?: boolean;
-  OutputSchemas?: GlueSchema[];
+  Multiline?: boolean | undefined;
+  WithHeader?: boolean | undefined;
+  WriteHeader?: boolean | undefined;
+  SkipFirst?: boolean | undefined;
+  OptimizePerformance?: boolean | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface S3JsonSource {
   Name: string;
   Paths: string[];
-  CompressionType?: CompressionType;
-  Exclusions?: string[];
-  GroupSize?: string;
-  GroupFiles?: string;
-  Recurse?: boolean;
-  MaxBand?: number;
-  MaxFilesInBand?: number;
-  AdditionalOptions?: S3DirectSourceAdditionalOptions;
-  JsonPath?: string;
-  Multiline?: boolean;
-  OutputSchemas?: GlueSchema[];
+  CompressionType?: CompressionType | undefined;
+  Exclusions?: string[] | undefined;
+  GroupSize?: string | undefined;
+  GroupFiles?: string | undefined;
+  Recurse?: boolean | undefined;
+  MaxBand?: number | undefined;
+  MaxFilesInBand?: number | undefined;
+  AdditionalOptions?: S3DirectSourceAdditionalOptions | undefined;
+  JsonPath?: string | undefined;
+  Multiline?: boolean | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export type ParquetCompressionType =
   | "snappy"
@@ -1284,15 +1289,15 @@ export type ParquetCompressionType =
 export interface S3ParquetSource {
   Name: string;
   Paths: string[];
-  CompressionType?: ParquetCompressionType;
-  Exclusions?: string[];
-  GroupSize?: string;
-  GroupFiles?: string;
-  Recurse?: boolean;
-  MaxBand?: number;
-  MaxFilesInBand?: number;
-  AdditionalOptions?: S3DirectSourceAdditionalOptions;
-  OutputSchemas?: GlueSchema[];
+  CompressionType?: ParquetCompressionType | undefined;
+  Exclusions?: string[] | undefined;
+  GroupSize?: string | undefined;
+  GroupFiles?: string | undefined;
+  Recurse?: boolean | undefined;
+  MaxBand?: number | undefined;
+  MaxFilesInBand?: number | undefined;
+  AdditionalOptions?: S3DirectSourceAdditionalOptions | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface RelationalCatalogSource {
   Name: string;
@@ -1300,15 +1305,15 @@ export interface RelationalCatalogSource {
   Table: string;
 }
 export interface DDBELTCatalogAdditionalOptions {
-  DynamodbExport?: string;
-  DynamodbUnnestDDBJson?: boolean;
+  DynamodbExport?: string | undefined;
+  DynamodbUnnestDDBJson?: boolean | undefined;
 }
 export interface DynamoDBCatalogSource {
   Name: string;
   Database: string;
   Table: string;
-  PitrEnabled?: boolean;
-  AdditionalOptions?: DDBELTCatalogAdditionalOptions;
+  PitrEnabled?: boolean | undefined;
+  AdditionalOptions?: DDBELTCatalogAdditionalOptions | undefined;
 }
 export type OneInput = string[];
 export interface JDBCConnectorTarget {
@@ -1318,8 +1323,8 @@ export interface JDBCConnectorTarget {
   ConnectionTable: string;
   ConnectorName: string;
   ConnectionType: string;
-  AdditionalOptions?: { [key: string]: string | undefined };
-  OutputSchemas?: GlueSchema[];
+  AdditionalOptions?: { [key: string]: string | undefined } | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface SparkConnectorTarget {
   Name: string;
@@ -1327,66 +1332,66 @@ export interface SparkConnectorTarget {
   ConnectionName: string;
   ConnectorName: string;
   ConnectionType: string;
-  AdditionalOptions?: { [key: string]: string | undefined };
-  OutputSchemas?: GlueSchema[];
+  AdditionalOptions?: { [key: string]: string | undefined } | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export type GlueStudioPathList = string[][];
 export interface BasicCatalogTarget {
   Name: string;
   Inputs: string[];
-  PartitionKeys?: string[][];
+  PartitionKeys?: string[][] | undefined;
   Database: string;
   Table: string;
 }
 export type EnclosedInStringPropertiesMinOne = string[];
 export interface UpsertRedshiftTargetOptions {
-  TableLocation?: string;
-  ConnectionName?: string;
-  UpsertKeys?: string[];
+  TableLocation?: string | undefined;
+  ConnectionName?: string | undefined;
+  UpsertKeys?: string[] | undefined;
 }
 export interface RedshiftTarget {
   Name: string;
   Inputs: string[];
   Database: string;
   Table: string;
-  RedshiftTmpDir?: string;
-  TmpDirIAMRole?: string;
-  UpsertRedshiftOptions?: UpsertRedshiftTargetOptions;
+  RedshiftTmpDir?: string | undefined;
+  TmpDirIAMRole?: string | undefined;
+  UpsertRedshiftOptions?: UpsertRedshiftTargetOptions | undefined;
 }
 export type UpdateCatalogBehavior = "UPDATE_IN_DATABASE" | "LOG" | (string & {});
 export interface CatalogSchemaChangePolicy {
-  EnableUpdateCatalog?: boolean;
-  UpdateBehavior?: UpdateCatalogBehavior;
+  EnableUpdateCatalog?: boolean | undefined;
+  UpdateBehavior?: UpdateCatalogBehavior | undefined;
 }
 export interface AutoDataQuality {
-  IsEnabled?: boolean;
-  EvaluationContext?: string;
+  IsEnabled?: boolean | undefined;
+  EvaluationContext?: string | undefined;
 }
 export interface S3CatalogTarget {
   Name: string;
   Inputs: string[];
-  PartitionKeys?: string[][];
+  PartitionKeys?: string[][] | undefined;
   Table: string;
   Database: string;
-  SchemaChangePolicy?: CatalogSchemaChangePolicy;
-  AutoDataQuality?: AutoDataQuality;
+  SchemaChangePolicy?: CatalogSchemaChangePolicy | undefined;
+  AutoDataQuality?: AutoDataQuality | undefined;
 }
 export type NumberTargetPartitionsString = string;
 export interface DirectSchemaChangePolicy {
-  EnableUpdateCatalog?: boolean;
-  UpdateBehavior?: UpdateCatalogBehavior;
-  Table?: string;
-  Database?: string;
+  EnableUpdateCatalog?: boolean | undefined;
+  UpdateBehavior?: UpdateCatalogBehavior | undefined;
+  Table?: string | undefined;
+  Database?: string | undefined;
 }
 export interface S3GlueParquetTarget {
   Name: string;
   Inputs: string[];
-  PartitionKeys?: string[][];
+  PartitionKeys?: string[][] | undefined;
   Path: string;
-  Compression?: ParquetCompressionType;
-  NumberTargetPartitions?: string;
-  SchemaChangePolicy?: DirectSchemaChangePolicy;
-  AutoDataQuality?: AutoDataQuality;
+  Compression?: ParquetCompressionType | undefined;
+  NumberTargetPartitions?: string | undefined;
+  SchemaChangePolicy?: DirectSchemaChangePolicy | undefined;
+  AutoDataQuality?: AutoDataQuality | undefined;
 }
 export type TargetFormat =
   | "json"
@@ -1403,22 +1408,22 @@ export type TargetFormat =
 export interface S3DirectTarget {
   Name: string;
   Inputs: string[];
-  PartitionKeys?: string[][];
+  PartitionKeys?: string[][] | undefined;
   Path: string;
-  Compression?: string;
-  NumberTargetPartitions?: string;
+  Compression?: string | undefined;
+  NumberTargetPartitions?: string | undefined;
   Format: TargetFormat;
-  SchemaChangePolicy?: DirectSchemaChangePolicy;
-  AutoDataQuality?: AutoDataQuality;
-  OutputSchemas?: GlueSchema[];
+  SchemaChangePolicy?: DirectSchemaChangePolicy | undefined;
+  AutoDataQuality?: AutoDataQuality | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface Mapping {
-  ToKey?: string;
-  FromPath?: string[];
-  FromType?: string;
-  ToType?: string;
-  Dropped?: boolean;
-  Children?: Mapping[];
+  ToKey?: string | undefined;
+  FromPath?: string[] | undefined;
+  FromType?: string | undefined;
+  ToType?: string | undefined;
+  Dropped?: boolean | undefined;
+  Children?: Mapping[] | undefined;
 }
 export type Mappings = Mapping[];
 export interface ApplyMapping {
@@ -1448,8 +1453,8 @@ export interface Spigot {
   Name: string;
   Inputs: string[];
   Path: string;
-  Topk?: number;
-  Prob?: number;
+  Topk?: number | undefined;
+  Prob?: number | undefined;
 }
 export type TwoInputs = string[];
 export type JoinType =
@@ -1486,7 +1491,7 @@ export interface FillMissingValues {
   Name: string;
   Inputs: string[];
   ImputedPath: string;
-  FilledPath?: string;
+  FilledPath?: string | undefined;
 }
 export type FilterLogicalOperator = "AND" | "OR" | (string & {});
 export type FilterOperation =
@@ -1506,7 +1511,7 @@ export interface FilterValue {
 export type FilterValues = FilterValue[];
 export interface FilterExpression {
   Operation: FilterOperation;
-  Negated?: boolean;
+  Negated?: boolean | undefined;
   Values: FilterValue[];
 }
 export type FilterExpressions = FilterExpression[];
@@ -1523,7 +1528,7 @@ export interface CustomCode {
   Inputs: string[];
   Code: string;
   ClassName: string;
-  OutputSchemas?: GlueSchema[];
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface SqlAlias {
   From: string;
@@ -1535,98 +1540,98 @@ export interface SparkSQL {
   Inputs: string[];
   SqlQuery: string;
   SqlAliases: SqlAlias[];
-  OutputSchemas?: GlueSchema[];
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export type BoxedPositiveInt = number;
 export type StartingPosition = "latest" | "trim_horizon" | "earliest" | "timestamp" | (string & {});
 export type Iso8601DateTime = Date;
 export interface KinesisStreamingSourceOptions {
-  EndpointUrl?: string;
-  StreamName?: string;
-  Classification?: string;
-  Delimiter?: string;
-  StartingPosition?: StartingPosition;
-  MaxFetchTimeInMs?: number;
-  MaxFetchRecordsPerShard?: number;
-  MaxRecordPerRead?: number;
-  AddIdleTimeBetweenReads?: boolean;
-  IdleTimeBetweenReadsInMs?: number;
-  DescribeShardInterval?: number;
-  NumRetries?: number;
-  RetryIntervalMs?: number;
-  MaxRetryIntervalMs?: number;
-  AvoidEmptyBatches?: boolean;
-  StreamArn?: string;
-  RoleArn?: string;
-  RoleSessionName?: string;
-  AddRecordTimestamp?: string;
-  EmitConsumerLagMetrics?: string;
-  StartingTimestamp?: Date;
-  FanoutConsumerARN?: string;
+  EndpointUrl?: string | undefined;
+  StreamName?: string | undefined;
+  Classification?: string | undefined;
+  Delimiter?: string | undefined;
+  StartingPosition?: StartingPosition | undefined;
+  MaxFetchTimeInMs?: number | undefined;
+  MaxFetchRecordsPerShard?: number | undefined;
+  MaxRecordPerRead?: number | undefined;
+  AddIdleTimeBetweenReads?: boolean | undefined;
+  IdleTimeBetweenReadsInMs?: number | undefined;
+  DescribeShardInterval?: number | undefined;
+  NumRetries?: number | undefined;
+  RetryIntervalMs?: number | undefined;
+  MaxRetryIntervalMs?: number | undefined;
+  AvoidEmptyBatches?: boolean | undefined;
+  StreamArn?: string | undefined;
+  RoleArn?: string | undefined;
+  RoleSessionName?: string | undefined;
+  AddRecordTimestamp?: string | undefined;
+  EmitConsumerLagMetrics?: string | undefined;
+  StartingTimestamp?: Date | undefined;
+  FanoutConsumerARN?: string | undefined;
 }
 export type PollingTime = number;
 export type PositiveLong = number;
 export interface StreamingDataPreviewOptions {
-  PollingTime?: number;
-  RecordPollingLimit?: number;
+  PollingTime?: number | undefined;
+  RecordPollingLimit?: number | undefined;
 }
 export interface DirectKinesisSource {
   Name: string;
-  WindowSize?: number;
-  DetectSchema?: boolean;
-  StreamingOptions?: KinesisStreamingSourceOptions;
-  DataPreviewOptions?: StreamingDataPreviewOptions;
+  WindowSize?: number | undefined;
+  DetectSchema?: boolean | undefined;
+  StreamingOptions?: KinesisStreamingSourceOptions | undefined;
+  DataPreviewOptions?: StreamingDataPreviewOptions | undefined;
 }
 export interface KafkaStreamingSourceOptions {
-  BootstrapServers?: string;
-  SecurityProtocol?: string;
-  ConnectionName?: string;
-  TopicName?: string;
-  Assign?: string;
-  SubscribePattern?: string;
-  Classification?: string;
-  Delimiter?: string;
-  StartingOffsets?: string;
-  EndingOffsets?: string;
-  PollTimeoutMs?: number;
-  NumRetries?: number;
-  RetryIntervalMs?: number;
-  MaxOffsetsPerTrigger?: number;
-  MinPartitions?: number;
-  IncludeHeaders?: boolean;
-  AddRecordTimestamp?: string;
-  EmitConsumerLagMetrics?: string;
-  StartingTimestamp?: Date;
+  BootstrapServers?: string | undefined;
+  SecurityProtocol?: string | undefined;
+  ConnectionName?: string | undefined;
+  TopicName?: string | undefined;
+  Assign?: string | undefined;
+  SubscribePattern?: string | undefined;
+  Classification?: string | undefined;
+  Delimiter?: string | undefined;
+  StartingOffsets?: string | undefined;
+  EndingOffsets?: string | undefined;
+  PollTimeoutMs?: number | undefined;
+  NumRetries?: number | undefined;
+  RetryIntervalMs?: number | undefined;
+  MaxOffsetsPerTrigger?: number | undefined;
+  MinPartitions?: number | undefined;
+  IncludeHeaders?: boolean | undefined;
+  AddRecordTimestamp?: string | undefined;
+  EmitConsumerLagMetrics?: string | undefined;
+  StartingTimestamp?: Date | undefined;
 }
 export interface DirectKafkaSource {
   Name: string;
-  StreamingOptions?: KafkaStreamingSourceOptions;
-  WindowSize?: number;
-  DetectSchema?: boolean;
-  DataPreviewOptions?: StreamingDataPreviewOptions;
+  StreamingOptions?: KafkaStreamingSourceOptions | undefined;
+  WindowSize?: number | undefined;
+  DetectSchema?: boolean | undefined;
+  DataPreviewOptions?: StreamingDataPreviewOptions | undefined;
 }
 export interface CatalogKinesisSource {
   Name: string;
-  WindowSize?: number;
-  DetectSchema?: boolean;
+  WindowSize?: number | undefined;
+  DetectSchema?: boolean | undefined;
   Table: string;
   Database: string;
-  StreamingOptions?: KinesisStreamingSourceOptions;
-  DataPreviewOptions?: StreamingDataPreviewOptions;
+  StreamingOptions?: KinesisStreamingSourceOptions | undefined;
+  DataPreviewOptions?: StreamingDataPreviewOptions | undefined;
 }
 export interface CatalogKafkaSource {
   Name: string;
-  WindowSize?: number;
-  DetectSchema?: boolean;
+  WindowSize?: number | undefined;
+  DetectSchema?: boolean | undefined;
   Table: string;
   Database: string;
-  StreamingOptions?: KafkaStreamingSourceOptions;
-  DataPreviewOptions?: StreamingDataPreviewOptions;
+  StreamingOptions?: KafkaStreamingSourceOptions | undefined;
+  DataPreviewOptions?: StreamingDataPreviewOptions | undefined;
 }
 export interface NullCheckBoxList {
-  IsEmpty?: boolean;
-  IsNullString?: boolean;
-  IsNegOne?: boolean;
+  IsEmpty?: boolean | undefined;
+  IsNullString?: boolean | undefined;
+  IsNegOne?: boolean | undefined;
 }
 export type GenericLimitedString = string;
 export interface Datatype {
@@ -1641,8 +1646,8 @@ export type NullValueFields = NullValueField[];
 export interface DropNullFields {
   Name: string;
   Inputs: string[];
-  NullCheckBoxList?: NullCheckBoxList;
-  NullTextList?: NullValueField[];
+  NullCheckBoxList?: NullCheckBoxList | undefined;
+  NullTextList?: NullValueField[] | undefined;
 }
 export interface Merge {
   Name: string;
@@ -1672,17 +1677,17 @@ export interface PIIDetection {
   Inputs: string[];
   PiiType: PiiType;
   EntityTypesToDetect: string[];
-  OutputColumnName?: string;
-  SampleFraction?: number;
-  ThresholdFraction?: number;
-  MaskValue?: string;
-  RedactText?: string;
-  RedactChar?: string;
-  MatchPattern?: string;
-  NumLeftCharsToExclude?: number;
-  NumRightCharsToExclude?: number;
-  DetectionParameters?: string;
-  DetectionSensitivity?: string;
+  OutputColumnName?: string | undefined;
+  SampleFraction?: number | undefined;
+  ThresholdFraction?: number | undefined;
+  MaskValue?: string | undefined;
+  RedactText?: string | undefined;
+  RedactChar?: string | undefined;
+  MatchPattern?: string | undefined;
+  NumLeftCharsToExclude?: number | undefined;
+  NumRightCharsToExclude?: number | undefined;
+  DetectionParameters?: string | undefined;
+  DetectionSensitivity?: string | undefined;
 }
 export type AggFunction =
   | "avg"
@@ -1717,22 +1722,22 @@ export type LimitedPathList = string[][];
 export interface DropDuplicates {
   Name: string;
   Inputs: string[];
-  Columns?: string[][];
+  Columns?: string[][] | undefined;
 }
 export interface GovernedCatalogTarget {
   Name: string;
   Inputs: string[];
-  PartitionKeys?: string[][];
+  PartitionKeys?: string[][] | undefined;
   Table: string;
   Database: string;
-  SchemaChangePolicy?: CatalogSchemaChangePolicy;
+  SchemaChangePolicy?: CatalogSchemaChangePolicy | undefined;
 }
 export interface GovernedCatalogSource {
   Name: string;
   Database: string;
   Table: string;
-  PartitionPredicate?: string;
-  AdditionalOptions?: S3SourceAdditionalOptions;
+  PartitionPredicate?: string | undefined;
+  AdditionalOptions?: S3SourceAdditionalOptions | undefined;
 }
 export interface MicrosoftSQLServerCatalogSource {
   Name: string;
@@ -1801,74 +1806,74 @@ export type ParamType =
 export interface TransformConfigParameter {
   Name: string;
   Type: ParamType;
-  ValidationRule?: string;
-  ValidationMessage?: string;
-  Value?: string[];
-  ListType?: ParamType;
-  IsOptional?: boolean;
+  ValidationRule?: string | undefined;
+  ValidationMessage?: string | undefined;
+  Value?: string[] | undefined;
+  ListType?: ParamType | undefined;
+  IsOptional?: boolean | undefined;
 }
 export type TransformConfigParameterList = TransformConfigParameter[];
 export interface DynamicTransform {
   Name: string;
   TransformName: string;
   Inputs: string[];
-  Parameters?: TransformConfigParameter[];
+  Parameters?: TransformConfigParameter[] | undefined;
   FunctionName: string;
   Path: string;
-  Version?: string;
-  OutputSchemas?: GlueSchema[];
+  Version?: string | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export type DQDLString = string;
 export type DQTransformOutput = "PrimaryInput" | "EvaluationResults" | (string & {});
 export interface DQResultsPublishingOptions {
-  EvaluationContext?: string;
-  ResultsS3Prefix?: string;
-  CloudWatchMetricsEnabled?: boolean;
-  ResultsPublishingEnabled?: boolean;
+  EvaluationContext?: string | undefined;
+  ResultsS3Prefix?: string | undefined;
+  CloudWatchMetricsEnabled?: boolean | undefined;
+  ResultsPublishingEnabled?: boolean | undefined;
 }
 export type DQStopJobOnFailureTiming = "Immediate" | "AfterDataLoad" | (string & {});
 export interface DQStopJobOnFailureOptions {
-  StopJobOnFailureTiming?: DQStopJobOnFailureTiming;
+  StopJobOnFailureTiming?: DQStopJobOnFailureTiming | undefined;
 }
 export interface EvaluateDataQuality {
   Name: string;
   Inputs: string[];
   Ruleset: string;
-  Output?: DQTransformOutput;
-  PublishingOptions?: DQResultsPublishingOptions;
-  StopJobOnFailureOptions?: DQStopJobOnFailureOptions;
+  Output?: DQTransformOutput | undefined;
+  PublishingOptions?: DQResultsPublishingOptions | undefined;
+  StopJobOnFailureOptions?: DQStopJobOnFailureOptions | undefined;
 }
 export interface S3CatalogHudiSource {
   Name: string;
   Database: string;
   Table: string;
-  AdditionalHudiOptions?: { [key: string]: string | undefined };
-  OutputSchemas?: GlueSchema[];
+  AdditionalHudiOptions?: { [key: string]: string | undefined } | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface CatalogHudiSource {
   Name: string;
   Database: string;
   Table: string;
-  AdditionalHudiOptions?: { [key: string]: string | undefined };
-  OutputSchemas?: GlueSchema[];
+  AdditionalHudiOptions?: { [key: string]: string | undefined } | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface S3HudiSource {
   Name: string;
   Paths: string[];
-  AdditionalHudiOptions?: { [key: string]: string | undefined };
-  AdditionalOptions?: S3DirectSourceAdditionalOptions;
-  OutputSchemas?: GlueSchema[];
+  AdditionalHudiOptions?: { [key: string]: string | undefined } | undefined;
+  AdditionalOptions?: S3DirectSourceAdditionalOptions | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface S3HudiCatalogTarget {
   Name: string;
   Inputs: string[];
-  PartitionKeys?: string[][];
+  PartitionKeys?: string[][] | undefined;
   Table: string;
   Database: string;
   AdditionalOptions: { [key: string]: string | undefined };
-  SchemaChangePolicy?: CatalogSchemaChangePolicy;
-  AutoDataQuality?: AutoDataQuality;
-  OutputSchemas?: GlueSchema[];
+  SchemaChangePolicy?: CatalogSchemaChangePolicy | undefined;
+  AutoDataQuality?: AutoDataQuality | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export type HudiTargetCompressionType = "gzip" | "lzo" | "uncompressed" | "snappy" | (string & {});
 export interface S3HudiDirectTarget {
@@ -1876,12 +1881,12 @@ export interface S3HudiDirectTarget {
   Inputs: string[];
   Path: string;
   Compression: HudiTargetCompressionType;
-  NumberTargetPartitions?: string;
-  PartitionKeys?: string[][];
+  NumberTargetPartitions?: string | undefined;
+  PartitionKeys?: string[][] | undefined;
   Format: TargetFormat;
   AdditionalOptions: { [key: string]: string | undefined };
-  SchemaChangePolicy?: DirectSchemaChangePolicy;
-  AutoDataQuality?: AutoDataQuality;
+  SchemaChangePolicy?: DirectSchemaChangePolicy | undefined;
+  AutoDataQuality?: AutoDataQuality | undefined;
 }
 export type JDBCConnectionType =
   | "sqlserver"
@@ -1896,101 +1901,101 @@ export interface DirectJDBCSource {
   Table: string;
   ConnectionName: string;
   ConnectionType: JDBCConnectionType;
-  RedshiftTmpDir?: string;
-  OutputSchemas?: GlueSchema[];
+  RedshiftTmpDir?: string | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface S3CatalogDeltaSource {
   Name: string;
   Database: string;
   Table: string;
-  AdditionalDeltaOptions?: { [key: string]: string | undefined };
-  OutputSchemas?: GlueSchema[];
+  AdditionalDeltaOptions?: { [key: string]: string | undefined } | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface CatalogDeltaSource {
   Name: string;
   Database: string;
   Table: string;
-  AdditionalDeltaOptions?: { [key: string]: string | undefined };
-  OutputSchemas?: GlueSchema[];
+  AdditionalDeltaOptions?: { [key: string]: string | undefined } | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface S3DeltaSource {
   Name: string;
   Paths: string[];
-  AdditionalDeltaOptions?: { [key: string]: string | undefined };
-  AdditionalOptions?: S3DirectSourceAdditionalOptions;
-  OutputSchemas?: GlueSchema[];
+  AdditionalDeltaOptions?: { [key: string]: string | undefined } | undefined;
+  AdditionalOptions?: S3DirectSourceAdditionalOptions | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface S3DeltaCatalogTarget {
   Name: string;
   Inputs: string[];
-  PartitionKeys?: string[][];
+  PartitionKeys?: string[][] | undefined;
   Table: string;
   Database: string;
-  AdditionalOptions?: { [key: string]: string | undefined };
-  SchemaChangePolicy?: CatalogSchemaChangePolicy;
-  AutoDataQuality?: AutoDataQuality;
-  OutputSchemas?: GlueSchema[];
+  AdditionalOptions?: { [key: string]: string | undefined } | undefined;
+  SchemaChangePolicy?: CatalogSchemaChangePolicy | undefined;
+  AutoDataQuality?: AutoDataQuality | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export type DeltaTargetCompressionType = "uncompressed" | "snappy" | (string & {});
 export interface S3DeltaDirectTarget {
   Name: string;
   Inputs: string[];
-  PartitionKeys?: string[][];
+  PartitionKeys?: string[][] | undefined;
   Path: string;
   Compression: DeltaTargetCompressionType;
-  NumberTargetPartitions?: string;
+  NumberTargetPartitions?: string | undefined;
   Format: TargetFormat;
-  AdditionalOptions?: { [key: string]: string | undefined };
-  SchemaChangePolicy?: DirectSchemaChangePolicy;
-  AutoDataQuality?: AutoDataQuality;
+  AdditionalOptions?: { [key: string]: string | undefined } | undefined;
+  SchemaChangePolicy?: DirectSchemaChangePolicy | undefined;
+  AutoDataQuality?: AutoDataQuality | undefined;
 }
 export interface Option {
-  Value?: string;
-  Label?: string;
-  Description?: string;
+  Value?: string | undefined;
+  Label?: string | undefined;
+  Description?: string | undefined;
 }
 export interface AmazonRedshiftAdvancedOption {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type AmazonRedshiftAdvancedOptions = AmazonRedshiftAdvancedOption[];
 export type OptionList = Option[];
 export interface AmazonRedshiftNodeData {
-  AccessType?: string;
-  SourceType?: string;
-  Connection?: Option;
-  Schema?: Option;
-  Table?: Option;
-  CatalogDatabase?: Option;
-  CatalogTable?: Option;
-  CatalogRedshiftSchema?: string;
-  CatalogRedshiftTable?: string;
-  TempDir?: string;
-  IamRole?: Option;
-  AdvancedOptions?: AmazonRedshiftAdvancedOption[];
-  SampleQuery?: string;
-  PreAction?: string;
-  PostAction?: string;
-  Action?: string;
-  TablePrefix?: string;
-  Upsert?: boolean;
-  MergeAction?: string;
-  MergeWhenMatched?: string;
-  MergeWhenNotMatched?: string;
-  MergeClause?: string;
-  CrawlerConnection?: string;
-  TableSchema?: Option[];
-  StagingTable?: string;
-  SelectedColumns?: Option[];
+  AccessType?: string | undefined;
+  SourceType?: string | undefined;
+  Connection?: Option | undefined;
+  Schema?: Option | undefined;
+  Table?: Option | undefined;
+  CatalogDatabase?: Option | undefined;
+  CatalogTable?: Option | undefined;
+  CatalogRedshiftSchema?: string | undefined;
+  CatalogRedshiftTable?: string | undefined;
+  TempDir?: string | undefined;
+  IamRole?: Option | undefined;
+  AdvancedOptions?: AmazonRedshiftAdvancedOption[] | undefined;
+  SampleQuery?: string | undefined;
+  PreAction?: string | undefined;
+  PostAction?: string | undefined;
+  Action?: string | undefined;
+  TablePrefix?: string | undefined;
+  Upsert?: boolean | undefined;
+  MergeAction?: string | undefined;
+  MergeWhenMatched?: string | undefined;
+  MergeWhenNotMatched?: string | undefined;
+  MergeClause?: string | undefined;
+  CrawlerConnection?: string | undefined;
+  TableSchema?: Option[] | undefined;
+  StagingTable?: string | undefined;
+  SelectedColumns?: Option[] | undefined;
 }
 export interface AmazonRedshiftSource {
-  Name?: string;
-  Data?: AmazonRedshiftNodeData;
+  Name?: string | undefined;
+  Data?: AmazonRedshiftNodeData | undefined;
 }
 export interface AmazonRedshiftTarget {
-  Name?: string;
-  Data?: AmazonRedshiftNodeData;
-  Inputs?: string[];
+  Name?: string | undefined;
+  Data?: AmazonRedshiftNodeData | undefined;
+  Inputs?: string[] | undefined;
 }
 export type DQDLAliases = { [key: string]: string | undefined };
 export type AdditionalOptionKeys =
@@ -1998,15 +2003,15 @@ export type AdditionalOptionKeys =
   | "observations.scope"
   | "compositeRuleEvaluation.method"
   | (string & {});
-export type DQAdditionalOptions = { [key in AdditionalOptionKeys]?: string };
+export type DQAdditionalOptions = { [key in AdditionalOptionKeys]?: string | undefined };
 export interface EvaluateDataQualityMultiFrame {
   Name: string;
   Inputs: string[];
-  AdditionalDataSources?: { [key: string]: string | undefined };
+  AdditionalDataSources?: { [key: string]: string | undefined } | undefined;
   Ruleset: string;
-  PublishingOptions?: DQResultsPublishingOptions;
-  AdditionalOptions?: { [key: string]: string | undefined };
-  StopJobOnFailureOptions?: DQStopJobOnFailureOptions;
+  PublishingOptions?: DQResultsPublishingOptions | undefined;
+  AdditionalOptions?: { [key: string]: string | undefined } | undefined;
+  StopJobOnFailureOptions?: DQStopJobOnFailureOptions | undefined;
 }
 export type RecipeVersion = string;
 export interface RecipeReference {
@@ -2019,97 +2024,97 @@ export type ParameterValue = string;
 export type ParameterMap = { [key: string]: string | undefined };
 export interface RecipeAction {
   Operation: string;
-  Parameters?: { [key: string]: string | undefined };
+  Parameters?: { [key: string]: string | undefined } | undefined;
 }
 export type DatabrewCondition = string;
 export type DatabrewConditionValue = string;
 export type TargetColumn = string;
 export interface ConditionExpression {
   Condition: string;
-  Value?: string;
+  Value?: string | undefined;
   TargetColumn: string;
 }
 export type ConditionExpressionList = ConditionExpression[];
 export interface RecipeStep {
   Action: RecipeAction;
-  ConditionExpressions?: ConditionExpression[];
+  ConditionExpressions?: ConditionExpression[] | undefined;
 }
 export type RecipeSteps = RecipeStep[];
 export interface Recipe {
   Name: string;
   Inputs: string[];
-  RecipeReference?: RecipeReference;
-  RecipeSteps?: RecipeStep[];
+  RecipeReference?: RecipeReference | undefined;
+  RecipeSteps?: RecipeStep[] | undefined;
 }
 export interface SnowflakeNodeData {
-  SourceType?: string;
-  Connection?: Option;
-  Schema?: string;
-  Table?: string;
-  Database?: string;
-  TempDir?: string;
-  IamRole?: Option;
-  AdditionalOptions?: { [key: string]: string | undefined };
-  SampleQuery?: string;
-  PreAction?: string;
-  PostAction?: string;
-  Action?: string;
-  Upsert?: boolean;
-  MergeAction?: string;
-  MergeWhenMatched?: string;
-  MergeWhenNotMatched?: string;
-  MergeClause?: string;
-  StagingTable?: string;
-  SelectedColumns?: Option[];
-  AutoPushdown?: boolean;
-  TableSchema?: Option[];
+  SourceType?: string | undefined;
+  Connection?: Option | undefined;
+  Schema?: string | undefined;
+  Table?: string | undefined;
+  Database?: string | undefined;
+  TempDir?: string | undefined;
+  IamRole?: Option | undefined;
+  AdditionalOptions?: { [key: string]: string | undefined } | undefined;
+  SampleQuery?: string | undefined;
+  PreAction?: string | undefined;
+  PostAction?: string | undefined;
+  Action?: string | undefined;
+  Upsert?: boolean | undefined;
+  MergeAction?: string | undefined;
+  MergeWhenMatched?: string | undefined;
+  MergeWhenNotMatched?: string | undefined;
+  MergeClause?: string | undefined;
+  StagingTable?: string | undefined;
+  SelectedColumns?: Option[] | undefined;
+  AutoPushdown?: boolean | undefined;
+  TableSchema?: Option[] | undefined;
 }
 export interface SnowflakeSource {
   Name: string;
   Data: SnowflakeNodeData;
-  OutputSchemas?: GlueSchema[];
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface SnowflakeTarget {
   Name: string;
   Data: SnowflakeNodeData;
-  Inputs?: string[];
+  Inputs?: string[] | undefined;
 }
 export type ConnectorOptions = { [key: string]: string | undefined };
 export interface ConnectorDataSource {
   Name: string;
   ConnectionType: string;
   Data: { [key: string]: string | undefined };
-  OutputSchemas?: GlueSchema[];
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface ConnectorDataTarget {
   Name: string;
   ConnectionType: string;
   Data: { [key: string]: string | undefined };
-  Inputs?: string[];
+  Inputs?: string[] | undefined;
 }
 export interface S3CatalogIcebergSource {
   Name: string;
   Database: string;
   Table: string;
-  AdditionalIcebergOptions?: { [key: string]: string | undefined };
-  OutputSchemas?: GlueSchema[];
+  AdditionalIcebergOptions?: { [key: string]: string | undefined } | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface CatalogIcebergSource {
   Name: string;
   Database: string;
   Table: string;
-  AdditionalIcebergOptions?: { [key: string]: string | undefined };
-  OutputSchemas?: GlueSchema[];
+  AdditionalIcebergOptions?: { [key: string]: string | undefined } | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface S3IcebergCatalogTarget {
   Name: string;
   Inputs: string[];
-  PartitionKeys?: string[][];
+  PartitionKeys?: string[][] | undefined;
   Table: string;
   Database: string;
-  AdditionalOptions?: { [key: string]: string | undefined };
-  SchemaChangePolicy?: CatalogSchemaChangePolicy;
-  AutoDataQuality?: AutoDataQuality;
+  AdditionalOptions?: { [key: string]: string | undefined } | undefined;
+  SchemaChangePolicy?: CatalogSchemaChangePolicy | undefined;
+  AutoDataQuality?: AutoDataQuality | undefined;
 }
 export type IcebergTargetCompressionType =
   | "gzip"
@@ -2120,138 +2125,138 @@ export type IcebergTargetCompressionType =
 export interface S3IcebergDirectTarget {
   Name: string;
   Inputs: string[];
-  PartitionKeys?: string[][];
+  PartitionKeys?: string[][] | undefined;
   Path: string;
   Format: TargetFormat;
-  AdditionalOptions?: { [key: string]: string | undefined };
-  SchemaChangePolicy?: DirectSchemaChangePolicy;
-  AutoDataQuality?: AutoDataQuality;
+  AdditionalOptions?: { [key: string]: string | undefined } | undefined;
+  SchemaChangePolicy?: DirectSchemaChangePolicy | undefined;
+  AutoDataQuality?: AutoDataQuality | undefined;
   Compression: IcebergTargetCompressionType;
-  NumberTargetPartitions?: string;
-  OutputSchemas?: GlueSchema[];
+  NumberTargetPartitions?: string | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface S3ExcelSource {
   Name: string;
   Paths: string[];
-  CompressionType?: ParquetCompressionType;
-  Exclusions?: string[];
-  GroupSize?: string;
-  GroupFiles?: string;
-  Recurse?: boolean;
-  MaxBand?: number;
-  MaxFilesInBand?: number;
-  AdditionalOptions?: S3DirectSourceAdditionalOptions;
-  NumberRows?: number;
-  SkipFooter?: number;
-  OutputSchemas?: GlueSchema[];
+  CompressionType?: ParquetCompressionType | undefined;
+  Exclusions?: string[] | undefined;
+  GroupSize?: string | undefined;
+  GroupFiles?: string | undefined;
+  Recurse?: boolean | undefined;
+  MaxBand?: number | undefined;
+  MaxFilesInBand?: number | undefined;
+  AdditionalOptions?: S3DirectSourceAdditionalOptions | undefined;
+  NumberRows?: number | undefined;
+  SkipFooter?: number | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export type HyperTargetCompressionType = "uncompressed" | (string & {});
 export interface S3HyperDirectTarget {
   Name: string;
   Inputs: string[];
-  Format?: TargetFormat;
-  PartitionKeys?: string[][];
+  Format?: TargetFormat | undefined;
+  PartitionKeys?: string[][] | undefined;
   Path: string;
-  Compression?: HyperTargetCompressionType;
-  SchemaChangePolicy?: DirectSchemaChangePolicy;
-  AutoDataQuality?: AutoDataQuality;
-  OutputSchemas?: GlueSchema[];
+  Compression?: HyperTargetCompressionType | undefined;
+  SchemaChangePolicy?: DirectSchemaChangePolicy | undefined;
+  AutoDataQuality?: AutoDataQuality | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export type DdbExportType = "ddb" | "s3" | (string & {});
 export interface DDBELTConnectionOptions {
-  DynamodbExport?: DdbExportType;
-  DynamodbUnnestDDBJson?: boolean;
+  DynamodbExport?: DdbExportType | undefined;
+  DynamodbUnnestDDBJson?: boolean | undefined;
   DynamodbTableArn: string;
-  DynamodbS3Bucket?: string;
-  DynamodbS3Prefix?: string;
-  DynamodbS3BucketOwner?: string;
-  DynamodbStsRoleArn?: string;
+  DynamodbS3Bucket?: string | undefined;
+  DynamodbS3Prefix?: string | undefined;
+  DynamodbS3BucketOwner?: string | undefined;
+  DynamodbStsRoleArn?: string | undefined;
 }
 export interface DynamoDBELTConnectorSource {
   Name: string;
-  ConnectionOptions?: DDBELTConnectionOptions;
-  OutputSchemas?: GlueSchema[];
+  ConnectionOptions?: DDBELTConnectionOptions | undefined;
+  OutputSchemas?: GlueSchema[] | undefined;
 }
 export interface CodeGenConfigurationNode {
-  AthenaConnectorSource?: AthenaConnectorSource;
-  JDBCConnectorSource?: JDBCConnectorSource;
-  SparkConnectorSource?: SparkConnectorSource;
-  CatalogSource?: CatalogSource;
-  RedshiftSource?: RedshiftSource;
-  S3CatalogSource?: S3CatalogSource;
-  S3CsvSource?: S3CsvSource;
-  S3JsonSource?: S3JsonSource;
-  S3ParquetSource?: S3ParquetSource;
-  RelationalCatalogSource?: RelationalCatalogSource;
-  DynamoDBCatalogSource?: DynamoDBCatalogSource;
-  JDBCConnectorTarget?: JDBCConnectorTarget;
-  SparkConnectorTarget?: SparkConnectorTarget;
-  CatalogTarget?: BasicCatalogTarget;
-  RedshiftTarget?: RedshiftTarget;
-  S3CatalogTarget?: S3CatalogTarget;
-  S3GlueParquetTarget?: S3GlueParquetTarget;
-  S3DirectTarget?: S3DirectTarget;
-  ApplyMapping?: ApplyMapping;
-  SelectFields?: SelectFields;
-  DropFields?: DropFields;
-  RenameField?: RenameField;
-  Spigot?: Spigot;
-  Join?: Join;
-  SplitFields?: SplitFields;
-  SelectFromCollection?: SelectFromCollection;
-  FillMissingValues?: FillMissingValues;
-  Filter?: Filter;
-  CustomCode?: CustomCode;
-  SparkSQL?: SparkSQL;
-  DirectKinesisSource?: DirectKinesisSource;
-  DirectKafkaSource?: DirectKafkaSource;
-  CatalogKinesisSource?: CatalogKinesisSource;
-  CatalogKafkaSource?: CatalogKafkaSource;
-  DropNullFields?: DropNullFields;
-  Merge?: Merge;
-  Union?: Union;
-  PIIDetection?: PIIDetection;
-  Aggregate?: Aggregate;
-  DropDuplicates?: DropDuplicates;
-  GovernedCatalogTarget?: GovernedCatalogTarget;
-  GovernedCatalogSource?: GovernedCatalogSource;
-  MicrosoftSQLServerCatalogSource?: MicrosoftSQLServerCatalogSource;
-  MySQLCatalogSource?: MySQLCatalogSource;
-  OracleSQLCatalogSource?: OracleSQLCatalogSource;
-  PostgreSQLCatalogSource?: PostgreSQLCatalogSource;
-  MicrosoftSQLServerCatalogTarget?: MicrosoftSQLServerCatalogTarget;
-  MySQLCatalogTarget?: MySQLCatalogTarget;
-  OracleSQLCatalogTarget?: OracleSQLCatalogTarget;
-  PostgreSQLCatalogTarget?: PostgreSQLCatalogTarget;
-  Route?: Route;
-  DynamicTransform?: DynamicTransform;
-  EvaluateDataQuality?: EvaluateDataQuality;
-  S3CatalogHudiSource?: S3CatalogHudiSource;
-  CatalogHudiSource?: CatalogHudiSource;
-  S3HudiSource?: S3HudiSource;
-  S3HudiCatalogTarget?: S3HudiCatalogTarget;
-  S3HudiDirectTarget?: S3HudiDirectTarget;
-  DirectJDBCSource?: DirectJDBCSource;
-  S3CatalogDeltaSource?: S3CatalogDeltaSource;
-  CatalogDeltaSource?: CatalogDeltaSource;
-  S3DeltaSource?: S3DeltaSource;
-  S3DeltaCatalogTarget?: S3DeltaCatalogTarget;
-  S3DeltaDirectTarget?: S3DeltaDirectTarget;
-  AmazonRedshiftSource?: AmazonRedshiftSource;
-  AmazonRedshiftTarget?: AmazonRedshiftTarget;
-  EvaluateDataQualityMultiFrame?: EvaluateDataQualityMultiFrame;
-  Recipe?: Recipe;
-  SnowflakeSource?: SnowflakeSource;
-  SnowflakeTarget?: SnowflakeTarget;
-  ConnectorDataSource?: ConnectorDataSource;
-  ConnectorDataTarget?: ConnectorDataTarget;
-  S3CatalogIcebergSource?: S3CatalogIcebergSource;
-  CatalogIcebergSource?: CatalogIcebergSource;
-  S3IcebergCatalogTarget?: S3IcebergCatalogTarget;
-  S3IcebergDirectTarget?: S3IcebergDirectTarget;
-  S3ExcelSource?: S3ExcelSource;
-  S3HyperDirectTarget?: S3HyperDirectTarget;
-  DynamoDBELTConnectorSource?: DynamoDBELTConnectorSource;
+  AthenaConnectorSource?: AthenaConnectorSource | undefined;
+  JDBCConnectorSource?: JDBCConnectorSource | undefined;
+  SparkConnectorSource?: SparkConnectorSource | undefined;
+  CatalogSource?: CatalogSource | undefined;
+  RedshiftSource?: RedshiftSource | undefined;
+  S3CatalogSource?: S3CatalogSource | undefined;
+  S3CsvSource?: S3CsvSource | undefined;
+  S3JsonSource?: S3JsonSource | undefined;
+  S3ParquetSource?: S3ParquetSource | undefined;
+  RelationalCatalogSource?: RelationalCatalogSource | undefined;
+  DynamoDBCatalogSource?: DynamoDBCatalogSource | undefined;
+  JDBCConnectorTarget?: JDBCConnectorTarget | undefined;
+  SparkConnectorTarget?: SparkConnectorTarget | undefined;
+  CatalogTarget?: BasicCatalogTarget | undefined;
+  RedshiftTarget?: RedshiftTarget | undefined;
+  S3CatalogTarget?: S3CatalogTarget | undefined;
+  S3GlueParquetTarget?: S3GlueParquetTarget | undefined;
+  S3DirectTarget?: S3DirectTarget | undefined;
+  ApplyMapping?: ApplyMapping | undefined;
+  SelectFields?: SelectFields | undefined;
+  DropFields?: DropFields | undefined;
+  RenameField?: RenameField | undefined;
+  Spigot?: Spigot | undefined;
+  Join?: Join | undefined;
+  SplitFields?: SplitFields | undefined;
+  SelectFromCollection?: SelectFromCollection | undefined;
+  FillMissingValues?: FillMissingValues | undefined;
+  Filter?: Filter | undefined;
+  CustomCode?: CustomCode | undefined;
+  SparkSQL?: SparkSQL | undefined;
+  DirectKinesisSource?: DirectKinesisSource | undefined;
+  DirectKafkaSource?: DirectKafkaSource | undefined;
+  CatalogKinesisSource?: CatalogKinesisSource | undefined;
+  CatalogKafkaSource?: CatalogKafkaSource | undefined;
+  DropNullFields?: DropNullFields | undefined;
+  Merge?: Merge | undefined;
+  Union?: Union | undefined;
+  PIIDetection?: PIIDetection | undefined;
+  Aggregate?: Aggregate | undefined;
+  DropDuplicates?: DropDuplicates | undefined;
+  GovernedCatalogTarget?: GovernedCatalogTarget | undefined;
+  GovernedCatalogSource?: GovernedCatalogSource | undefined;
+  MicrosoftSQLServerCatalogSource?: MicrosoftSQLServerCatalogSource | undefined;
+  MySQLCatalogSource?: MySQLCatalogSource | undefined;
+  OracleSQLCatalogSource?: OracleSQLCatalogSource | undefined;
+  PostgreSQLCatalogSource?: PostgreSQLCatalogSource | undefined;
+  MicrosoftSQLServerCatalogTarget?: MicrosoftSQLServerCatalogTarget | undefined;
+  MySQLCatalogTarget?: MySQLCatalogTarget | undefined;
+  OracleSQLCatalogTarget?: OracleSQLCatalogTarget | undefined;
+  PostgreSQLCatalogTarget?: PostgreSQLCatalogTarget | undefined;
+  Route?: Route | undefined;
+  DynamicTransform?: DynamicTransform | undefined;
+  EvaluateDataQuality?: EvaluateDataQuality | undefined;
+  S3CatalogHudiSource?: S3CatalogHudiSource | undefined;
+  CatalogHudiSource?: CatalogHudiSource | undefined;
+  S3HudiSource?: S3HudiSource | undefined;
+  S3HudiCatalogTarget?: S3HudiCatalogTarget | undefined;
+  S3HudiDirectTarget?: S3HudiDirectTarget | undefined;
+  DirectJDBCSource?: DirectJDBCSource | undefined;
+  S3CatalogDeltaSource?: S3CatalogDeltaSource | undefined;
+  CatalogDeltaSource?: CatalogDeltaSource | undefined;
+  S3DeltaSource?: S3DeltaSource | undefined;
+  S3DeltaCatalogTarget?: S3DeltaCatalogTarget | undefined;
+  S3DeltaDirectTarget?: S3DeltaDirectTarget | undefined;
+  AmazonRedshiftSource?: AmazonRedshiftSource | undefined;
+  AmazonRedshiftTarget?: AmazonRedshiftTarget | undefined;
+  EvaluateDataQualityMultiFrame?: EvaluateDataQualityMultiFrame | undefined;
+  Recipe?: Recipe | undefined;
+  SnowflakeSource?: SnowflakeSource | undefined;
+  SnowflakeTarget?: SnowflakeTarget | undefined;
+  ConnectorDataSource?: ConnectorDataSource | undefined;
+  ConnectorDataTarget?: ConnectorDataTarget | undefined;
+  S3CatalogIcebergSource?: S3CatalogIcebergSource | undefined;
+  CatalogIcebergSource?: CatalogIcebergSource | undefined;
+  S3IcebergCatalogTarget?: S3IcebergCatalogTarget | undefined;
+  S3IcebergDirectTarget?: S3IcebergDirectTarget | undefined;
+  S3ExcelSource?: S3ExcelSource | undefined;
+  S3HyperDirectTarget?: S3HyperDirectTarget | undefined;
+  DynamoDBELTConnectorSource?: DynamoDBELTConnectorSource | undefined;
 }
 export type CodeGenConfigurationNodes = { [key: string]: CodeGenConfigurationNode | undefined };
 export type ExecutionClass = "FLEX" | "STANDARD" | (string & {});
@@ -2266,14 +2271,14 @@ export type SourceControlAuthStrategy =
   | "AWS_SECRETS_MANAGER"
   | (string & {});
 export interface SourceControlDetails {
-  Provider?: SourceControlProvider;
-  Repository?: string;
-  Owner?: string;
-  Branch?: string;
-  Folder?: string;
-  LastCommitId?: string;
-  AuthStrategy?: SourceControlAuthStrategy;
-  AuthToken?: string;
+  Provider?: SourceControlProvider | undefined;
+  Repository?: string | undefined;
+  Owner?: string | undefined;
+  Branch?: string | undefined;
+  Folder?: string | undefined;
+  LastCommitId?: string | undefined;
+  AuthStrategy?: SourceControlAuthStrategy | undefined;
+  AuthToken?: string | undefined;
 }
 export type MaintenanceWindow = string;
 export type AutoUpgradeStatus =
@@ -2286,89 +2291,89 @@ export type AutoUpgradeStatus =
   | (string & {});
 export type IdString = string;
 export interface AutoUpgradeMetadata {
-  TargetVersion?: string;
-  SourceVersion?: string;
-  Status?: AutoUpgradeStatus;
-  AnalysisId?: string;
+  TargetVersion?: string | undefined;
+  SourceVersion?: string | undefined;
+  Status?: AutoUpgradeStatus | undefined;
+  AnalysisId?: string | undefined;
 }
 export interface Job {
-  Name?: string;
-  JobMode?: JobMode;
-  JobRunQueuingEnabled?: boolean;
-  Description?: string;
-  LogUri?: string;
-  Role?: string;
-  CreatedOn?: Date;
-  LastModifiedOn?: Date;
-  ExecutionProperty?: ExecutionProperty;
-  Command?: JobCommand;
-  DefaultArguments?: { [key: string]: string | undefined };
-  NonOverridableArguments?: { [key: string]: string | undefined };
-  Connections?: ConnectionsList;
-  MaxRetries?: number;
-  AllocatedCapacity?: number;
-  Timeout?: number;
-  MaxCapacity?: number;
-  WorkerType?: WorkerType;
-  NumberOfWorkers?: number;
-  SecurityConfiguration?: string;
-  NotificationProperty?: NotificationProperty;
-  GlueVersion?: string;
-  CodeGenConfigurationNodes?: { [key: string]: CodeGenConfigurationNode | undefined };
-  ExecutionClass?: ExecutionClass;
-  SourceControlDetails?: SourceControlDetails;
-  MaintenanceWindow?: string;
-  ProfileName?: string;
-  AutoUpgradeMetadata?: AutoUpgradeMetadata;
+  Name?: string | undefined;
+  JobMode?: JobMode | undefined;
+  JobRunQueuingEnabled?: boolean | undefined;
+  Description?: string | undefined;
+  LogUri?: string | undefined;
+  Role?: string | undefined;
+  CreatedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
+  ExecutionProperty?: ExecutionProperty | undefined;
+  Command?: JobCommand | undefined;
+  DefaultArguments?: { [key: string]: string | undefined } | undefined;
+  NonOverridableArguments?: { [key: string]: string | undefined } | undefined;
+  Connections?: ConnectionsList | undefined;
+  MaxRetries?: number | undefined;
+  AllocatedCapacity?: number | undefined;
+  Timeout?: number | undefined;
+  MaxCapacity?: number | undefined;
+  WorkerType?: WorkerType | undefined;
+  NumberOfWorkers?: number | undefined;
+  SecurityConfiguration?: string | undefined;
+  NotificationProperty?: NotificationProperty | undefined;
+  GlueVersion?: string | undefined;
+  CodeGenConfigurationNodes?: { [key: string]: CodeGenConfigurationNode | undefined } | undefined;
+  ExecutionClass?: ExecutionClass | undefined;
+  SourceControlDetails?: SourceControlDetails | undefined;
+  MaintenanceWindow?: string | undefined;
+  ProfileName?: string | undefined;
+  AutoUpgradeMetadata?: AutoUpgradeMetadata | undefined;
 }
 export type JobList = Job[];
 export interface BatchGetJobsResponse {
-  Jobs?: Job[];
-  JobsNotFound?: string[];
+  Jobs?: Job[] | undefined;
+  JobsNotFound?: string[] | undefined;
 }
 export type BatchGetPartitionValueList = PartitionValueList[];
 export type AuditContextString = string;
 export type ColumnNameString = string;
 export type AuditColumnNamesList = string[];
 export interface AuditContext {
-  AdditionalAuditContext?: string;
-  RequestedColumns?: string[];
-  AllColumnsRequested?: boolean;
+  AdditionalAuditContext?: string | undefined;
+  RequestedColumns?: string[] | undefined;
+  AllColumnsRequested?: boolean | undefined;
 }
 export type NullableString = string;
 export type ContextKey = string;
 export type ContextValue = string;
 export type AdditionalContextMap = { [key: string]: string | undefined };
 export interface QuerySessionContext {
-  QueryId?: string;
-  QueryStartTime?: Date;
-  ClusterId?: string;
-  QueryAuthorizationId?: string;
-  AdditionalContext?: { [key: string]: string | undefined };
+  QueryId?: string | undefined;
+  QueryStartTime?: Date | undefined;
+  ClusterId?: string | undefined;
+  QueryAuthorizationId?: string | undefined;
+  AdditionalContext?: { [key: string]: string | undefined } | undefined;
 }
 export interface BatchGetPartitionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   PartitionsToGet: PartitionValueList[];
-  AuditContext?: AuditContext;
-  QuerySessionContext?: QuerySessionContext;
+  AuditContext?: AuditContext | undefined;
+  QuerySessionContext?: QuerySessionContext | undefined;
 }
 export interface Partition {
-  Values?: string[];
-  DatabaseName?: string;
-  TableName?: string;
-  CreationTime?: Date;
-  LastAccessTime?: Date;
-  StorageDescriptor?: StorageDescriptor;
-  Parameters?: { [key: string]: string | undefined };
-  LastAnalyzedTime?: Date;
-  CatalogId?: string;
+  Values?: string[] | undefined;
+  DatabaseName?: string | undefined;
+  TableName?: string | undefined;
+  CreationTime?: Date | undefined;
+  LastAccessTime?: Date | undefined;
+  StorageDescriptor?: StorageDescriptor | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
+  LastAnalyzedTime?: Date | undefined;
+  CatalogId?: string | undefined;
 }
 export type PartitionList = Partition[];
 export interface BatchGetPartitionResponse {
-  Partitions?: Partition[];
-  UnprocessedKeys?: PartitionValueList[];
+  Partitions?: Partition[] | undefined;
+  UnprocessedKeys?: PartitionValueList[] | undefined;
 }
 export type DatabaseNameString = string;
 export type TableNameString = string;
@@ -2378,10 +2383,10 @@ export type TableOptimizerType =
   | "orphan_file_deletion"
   | (string & {});
 export interface BatchGetTableOptimizerEntry {
-  catalogId?: string;
-  databaseName?: string;
-  tableName?: string;
-  type?: TableOptimizerType;
+  catalogId?: string | undefined;
+  databaseName?: string | undefined;
+  tableName?: string | undefined;
+  type?: TableOptimizerType | undefined;
 }
 export type BatchGetTableOptimizerEntries = BatchGetTableOptimizerEntry[];
 export interface BatchGetTableOptimizerRequest {
@@ -2392,38 +2397,38 @@ export type GlueConnectionNameString = string;
 export type TableOptimizerVpcConfiguration = { glueConnectionName: string };
 export type CompactionStrategy = "binpack" | "sort" | "z-order" | (string & {});
 export interface IcebergCompactionConfiguration {
-  strategy?: CompactionStrategy;
-  minInputFiles?: number;
-  deleteFileThreshold?: number;
+  strategy?: CompactionStrategy | undefined;
+  minInputFiles?: number | undefined;
+  deleteFileThreshold?: number | undefined;
 }
 export interface CompactionConfiguration {
-  icebergConfiguration?: IcebergCompactionConfiguration;
+  icebergConfiguration?: IcebergCompactionConfiguration | undefined;
 }
 export interface IcebergRetentionConfiguration {
-  snapshotRetentionPeriodInDays?: number;
-  numberOfSnapshotsToRetain?: number;
-  cleanExpiredFiles?: boolean;
-  runRateInHours?: number;
+  snapshotRetentionPeriodInDays?: number | undefined;
+  numberOfSnapshotsToRetain?: number | undefined;
+  cleanExpiredFiles?: boolean | undefined;
+  runRateInHours?: number | undefined;
 }
 export interface RetentionConfiguration {
-  icebergConfiguration?: IcebergRetentionConfiguration;
+  icebergConfiguration?: IcebergRetentionConfiguration | undefined;
 }
 export type MessageString = string;
 export interface IcebergOrphanFileDeletionConfiguration {
-  orphanFileRetentionPeriodInDays?: number;
-  location?: string;
-  runRateInHours?: number;
+  orphanFileRetentionPeriodInDays?: number | undefined;
+  location?: string | undefined;
+  runRateInHours?: number | undefined;
 }
 export interface OrphanFileDeletionConfiguration {
-  icebergConfiguration?: IcebergOrphanFileDeletionConfiguration;
+  icebergConfiguration?: IcebergOrphanFileDeletionConfiguration | undefined;
 }
 export interface TableOptimizerConfiguration {
-  roleArn?: string;
-  enabled?: boolean;
-  vpcConfiguration?: TableOptimizerVpcConfiguration;
-  compactionConfiguration?: CompactionConfiguration;
-  retentionConfiguration?: RetentionConfiguration;
-  orphanFileDeletionConfiguration?: OrphanFileDeletionConfiguration;
+  roleArn?: string | undefined;
+  enabled?: boolean | undefined;
+  vpcConfiguration?: TableOptimizerVpcConfiguration | undefined;
+  compactionConfiguration?: CompactionConfiguration | undefined;
+  retentionConfiguration?: RetentionConfiguration | undefined;
+  orphanFileDeletionConfiguration?: OrphanFileDeletionConfiguration | undefined;
 }
 export type TableOptimizerEventType =
   | "starting"
@@ -2433,81 +2438,81 @@ export type TableOptimizerEventType =
   | (string & {});
 export type TableOptimizerRunTimestamp = Date;
 export interface RunMetrics {
-  NumberOfBytesCompacted?: string;
-  NumberOfFilesCompacted?: string;
-  NumberOfDpus?: string;
-  JobDurationInHour?: string;
+  NumberOfBytesCompacted?: string | undefined;
+  NumberOfFilesCompacted?: string | undefined;
+  NumberOfDpus?: string | undefined;
+  JobDurationInHour?: string | undefined;
 }
 export type MetricCounts = number;
 export type DpuHours = number;
 export type DpuCounts = number;
 export type DpuDurationInHour = number;
 export interface IcebergCompactionMetrics {
-  NumberOfBytesCompacted?: number;
-  NumberOfFilesCompacted?: number;
-  DpuHours?: number;
-  NumberOfDpus?: number;
-  JobDurationInHour?: number;
+  NumberOfBytesCompacted?: number | undefined;
+  NumberOfFilesCompacted?: number | undefined;
+  DpuHours?: number | undefined;
+  NumberOfDpus?: number | undefined;
+  JobDurationInHour?: number | undefined;
 }
 export interface CompactionMetrics {
-  IcebergMetrics?: IcebergCompactionMetrics;
+  IcebergMetrics?: IcebergCompactionMetrics | undefined;
 }
 export interface IcebergRetentionMetrics {
-  NumberOfDataFilesDeleted?: number;
-  NumberOfManifestFilesDeleted?: number;
-  NumberOfManifestListsDeleted?: number;
-  DpuHours?: number;
-  NumberOfDpus?: number;
-  JobDurationInHour?: number;
+  NumberOfDataFilesDeleted?: number | undefined;
+  NumberOfManifestFilesDeleted?: number | undefined;
+  NumberOfManifestListsDeleted?: number | undefined;
+  DpuHours?: number | undefined;
+  NumberOfDpus?: number | undefined;
+  JobDurationInHour?: number | undefined;
 }
 export interface RetentionMetrics {
-  IcebergMetrics?: IcebergRetentionMetrics;
+  IcebergMetrics?: IcebergRetentionMetrics | undefined;
 }
 export interface IcebergOrphanFileDeletionMetrics {
-  NumberOfOrphanFilesDeleted?: number;
-  DpuHours?: number;
-  NumberOfDpus?: number;
-  JobDurationInHour?: number;
+  NumberOfOrphanFilesDeleted?: number | undefined;
+  DpuHours?: number | undefined;
+  NumberOfDpus?: number | undefined;
+  JobDurationInHour?: number | undefined;
 }
 export interface OrphanFileDeletionMetrics {
-  IcebergMetrics?: IcebergOrphanFileDeletionMetrics;
+  IcebergMetrics?: IcebergOrphanFileDeletionMetrics | undefined;
 }
 export interface TableOptimizerRun {
-  eventType?: TableOptimizerEventType;
-  startTimestamp?: Date;
-  endTimestamp?: Date;
-  metrics?: RunMetrics;
-  error?: string;
-  compactionMetrics?: CompactionMetrics;
-  compactionStrategy?: CompactionStrategy;
-  retentionMetrics?: RetentionMetrics;
-  orphanFileDeletionMetrics?: OrphanFileDeletionMetrics;
+  eventType?: TableOptimizerEventType | undefined;
+  startTimestamp?: Date | undefined;
+  endTimestamp?: Date | undefined;
+  metrics?: RunMetrics | undefined;
+  error?: string | undefined;
+  compactionMetrics?: CompactionMetrics | undefined;
+  compactionStrategy?: CompactionStrategy | undefined;
+  retentionMetrics?: RetentionMetrics | undefined;
+  orphanFileDeletionMetrics?: OrphanFileDeletionMetrics | undefined;
 }
 export type ConfigurationSource = "catalog" | "table" | (string & {});
 export interface TableOptimizer {
-  type?: TableOptimizerType;
-  configuration?: TableOptimizerConfiguration;
-  lastRun?: TableOptimizerRun;
-  configurationSource?: ConfigurationSource;
+  type?: TableOptimizerType | undefined;
+  configuration?: TableOptimizerConfiguration | undefined;
+  lastRun?: TableOptimizerRun | undefined;
+  configurationSource?: ConfigurationSource | undefined;
 }
 export interface BatchTableOptimizer {
-  catalogId?: string;
-  databaseName?: string;
-  tableName?: string;
-  tableOptimizer?: TableOptimizer;
+  catalogId?: string | undefined;
+  databaseName?: string | undefined;
+  tableName?: string | undefined;
+  tableOptimizer?: TableOptimizer | undefined;
 }
 export type BatchTableOptimizers = BatchTableOptimizer[];
 export interface BatchGetTableOptimizerError_ {
-  error?: ErrorDetail;
-  catalogId?: string;
-  databaseName?: string;
-  tableName?: string;
-  type?: TableOptimizerType;
+  error?: ErrorDetail | undefined;
+  catalogId?: string | undefined;
+  databaseName?: string | undefined;
+  tableName?: string | undefined;
+  type?: TableOptimizerType | undefined;
 }
 export type BatchGetTableOptimizerErrors = BatchGetTableOptimizerError_[];
 export interface BatchGetTableOptimizerResponse {
-  TableOptimizers?: BatchTableOptimizer[];
-  Failures?: BatchGetTableOptimizerError_[];
+  TableOptimizers?: BatchTableOptimizer[] | undefined;
+  Failures?: BatchGetTableOptimizerError_[] | undefined;
 }
 export type TriggerNameList = string[];
 export interface BatchGetTriggersRequest {
@@ -2525,12 +2530,12 @@ export type TriggerState =
   | "UPDATING"
   | (string & {});
 export interface Action {
-  JobName?: string;
-  Arguments?: { [key: string]: string | undefined };
-  Timeout?: number;
-  SecurityConfiguration?: string;
-  NotificationProperty?: NotificationProperty;
-  CrawlerName?: string;
+  JobName?: string | undefined;
+  Arguments?: { [key: string]: string | undefined } | undefined;
+  Timeout?: number | undefined;
+  SecurityConfiguration?: string | undefined;
+  NotificationProperty?: NotificationProperty | undefined;
+  CrawlerName?: string | undefined;
 }
 export type ActionList = Action[];
 export type Logical = "AND" | "ANY" | (string & {});
@@ -2556,44 +2561,44 @@ export type CrawlState =
   | "ERROR"
   | (string & {});
 export interface Condition {
-  LogicalOperator?: LogicalOperator;
-  JobName?: string;
-  State?: JobRunState;
-  CrawlerName?: string;
-  CrawlState?: CrawlState;
+  LogicalOperator?: LogicalOperator | undefined;
+  JobName?: string | undefined;
+  State?: JobRunState | undefined;
+  CrawlerName?: string | undefined;
+  CrawlState?: CrawlState | undefined;
 }
 export type ConditionList = Condition[];
 export interface Predicate {
-  Logical?: Logical;
-  Conditions?: Condition[];
+  Logical?: Logical | undefined;
+  Conditions?: Condition[] | undefined;
 }
 export type BatchSize = number;
 export type BatchWindow = number;
 export interface EventBatchingCondition {
   BatchSize: number;
-  BatchWindow?: number;
+  BatchWindow?: number | undefined;
 }
 export interface Trigger {
-  Name?: string;
-  WorkflowName?: string;
-  Id?: string;
-  Type?: TriggerType;
-  State?: TriggerState;
-  Description?: string;
-  Schedule?: string;
-  Actions?: Action[];
-  Predicate?: Predicate;
-  EventBatchingCondition?: EventBatchingCondition;
+  Name?: string | undefined;
+  WorkflowName?: string | undefined;
+  Id?: string | undefined;
+  Type?: TriggerType | undefined;
+  State?: TriggerState | undefined;
+  Description?: string | undefined;
+  Schedule?: string | undefined;
+  Actions?: Action[] | undefined;
+  Predicate?: Predicate | undefined;
+  EventBatchingCondition?: EventBatchingCondition | undefined;
 }
 export type TriggerList = Trigger[];
 export interface BatchGetTriggersResponse {
-  Triggers?: Trigger[];
-  TriggersNotFound?: string[];
+  Triggers?: Trigger[] | undefined;
+  TriggersNotFound?: string[] | undefined;
 }
 export type WorkflowNames = string[];
 export interface BatchGetWorkflowsRequest {
   Names: string[];
-  IncludeGraph?: boolean;
+  IncludeGraph?: boolean | undefined;
 }
 export type WorkflowRunProperties = { [key: string]: string | undefined };
 export type WorkflowRunStatus =
@@ -2604,149 +2609,149 @@ export type WorkflowRunStatus =
   | "ERROR"
   | (string & {});
 export interface WorkflowRunStatistics {
-  TotalActions?: number;
-  TimeoutActions?: number;
-  FailedActions?: number;
-  StoppedActions?: number;
-  SucceededActions?: number;
-  RunningActions?: number;
-  ErroredActions?: number;
-  WaitingActions?: number;
+  TotalActions?: number | undefined;
+  TimeoutActions?: number | undefined;
+  FailedActions?: number | undefined;
+  StoppedActions?: number | undefined;
+  SucceededActions?: number | undefined;
+  RunningActions?: number | undefined;
+  ErroredActions?: number | undefined;
+  WaitingActions?: number | undefined;
 }
 export type NodeType = "CRAWLER" | "JOB" | "TRIGGER" | (string & {});
 export interface TriggerNodeDetails {
-  Trigger?: Trigger;
+  Trigger?: Trigger | undefined;
 }
 export type AttemptCount = number;
 export interface Predecessor {
-  JobName?: string;
-  RunId?: string;
+  JobName?: string | undefined;
+  RunId?: string | undefined;
 }
 export type PredecessorList = Predecessor[];
 export type OrchestrationMessageString = string;
 export type OrchestrationPolicyJsonString = string;
 export interface JobRun {
-  Id?: string;
-  Attempt?: number;
-  PreviousRunId?: string;
-  TriggerName?: string;
-  JobName?: string;
-  JobMode?: JobMode;
-  JobRunQueuingEnabled?: boolean;
-  StartedOn?: Date;
-  LastModifiedOn?: Date;
-  CompletedOn?: Date;
-  JobRunState?: JobRunState;
-  Arguments?: { [key: string]: string | undefined };
-  ErrorMessage?: string;
-  PredecessorRuns?: Predecessor[];
-  AllocatedCapacity?: number;
-  ExecutionTime?: number;
-  Timeout?: number;
-  MaxCapacity?: number;
-  WorkerType?: WorkerType;
-  NumberOfWorkers?: number;
-  SecurityConfiguration?: string;
-  LogGroupName?: string;
-  NotificationProperty?: NotificationProperty;
-  GlueVersion?: string;
-  DPUSeconds?: number;
-  ExecutionClass?: ExecutionClass;
-  MaintenanceWindow?: string;
-  ProfileName?: string;
-  StateDetail?: string;
-  ExecutionRoleSessionPolicy?: string;
+  Id?: string | undefined;
+  Attempt?: number | undefined;
+  PreviousRunId?: string | undefined;
+  TriggerName?: string | undefined;
+  JobName?: string | undefined;
+  JobMode?: JobMode | undefined;
+  JobRunQueuingEnabled?: boolean | undefined;
+  StartedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
+  CompletedOn?: Date | undefined;
+  JobRunState?: JobRunState | undefined;
+  Arguments?: { [key: string]: string | undefined } | undefined;
+  ErrorMessage?: string | undefined;
+  PredecessorRuns?: Predecessor[] | undefined;
+  AllocatedCapacity?: number | undefined;
+  ExecutionTime?: number | undefined;
+  Timeout?: number | undefined;
+  MaxCapacity?: number | undefined;
+  WorkerType?: WorkerType | undefined;
+  NumberOfWorkers?: number | undefined;
+  SecurityConfiguration?: string | undefined;
+  LogGroupName?: string | undefined;
+  NotificationProperty?: NotificationProperty | undefined;
+  GlueVersion?: string | undefined;
+  DPUSeconds?: number | undefined;
+  ExecutionClass?: ExecutionClass | undefined;
+  MaintenanceWindow?: string | undefined;
+  ProfileName?: string | undefined;
+  StateDetail?: string | undefined;
+  ExecutionRoleSessionPolicy?: string | undefined;
 }
 export type JobRunList = JobRun[];
 export interface JobNodeDetails {
-  JobRuns?: JobRun[];
+  JobRuns?: JobRun[] | undefined;
 }
 export interface Crawl {
-  State?: CrawlState;
-  StartedOn?: Date;
-  CompletedOn?: Date;
-  ErrorMessage?: string;
-  LogGroup?: string;
-  LogStream?: string;
+  State?: CrawlState | undefined;
+  StartedOn?: Date | undefined;
+  CompletedOn?: Date | undefined;
+  ErrorMessage?: string | undefined;
+  LogGroup?: string | undefined;
+  LogStream?: string | undefined;
 }
 export type CrawlList = Crawl[];
 export interface CrawlerNodeDetails {
-  Crawls?: Crawl[];
+  Crawls?: Crawl[] | undefined;
 }
 export interface Node {
-  Type?: NodeType;
-  Name?: string;
-  UniqueId?: string;
-  TriggerDetails?: TriggerNodeDetails;
-  JobDetails?: JobNodeDetails;
-  CrawlerDetails?: CrawlerNodeDetails;
+  Type?: NodeType | undefined;
+  Name?: string | undefined;
+  UniqueId?: string | undefined;
+  TriggerDetails?: TriggerNodeDetails | undefined;
+  JobDetails?: JobNodeDetails | undefined;
+  CrawlerDetails?: CrawlerNodeDetails | undefined;
 }
 export type NodeList = Node[];
 export interface Edge {
-  SourceId?: string;
-  DestinationId?: string;
+  SourceId?: string | undefined;
+  DestinationId?: string | undefined;
 }
 export type EdgeList = Edge[];
 export interface WorkflowGraph {
-  Nodes?: Node[];
-  Edges?: Edge[];
+  Nodes?: Node[] | undefined;
+  Edges?: Edge[] | undefined;
 }
 export interface StartingEventBatchCondition {
-  BatchSize?: number;
-  BatchWindow?: number;
+  BatchSize?: number | undefined;
+  BatchWindow?: number | undefined;
 }
 export interface WorkflowRun {
-  Name?: string;
-  WorkflowRunId?: string;
-  PreviousRunId?: string;
-  WorkflowRunProperties?: { [key: string]: string | undefined };
-  StartedOn?: Date;
-  CompletedOn?: Date;
-  Status?: WorkflowRunStatus;
-  ErrorMessage?: string;
-  Statistics?: WorkflowRunStatistics;
-  Graph?: WorkflowGraph;
-  StartingEventBatchCondition?: StartingEventBatchCondition;
+  Name?: string | undefined;
+  WorkflowRunId?: string | undefined;
+  PreviousRunId?: string | undefined;
+  WorkflowRunProperties?: { [key: string]: string | undefined } | undefined;
+  StartedOn?: Date | undefined;
+  CompletedOn?: Date | undefined;
+  Status?: WorkflowRunStatus | undefined;
+  ErrorMessage?: string | undefined;
+  Statistics?: WorkflowRunStatistics | undefined;
+  Graph?: WorkflowGraph | undefined;
+  StartingEventBatchCondition?: StartingEventBatchCondition | undefined;
 }
 export interface BlueprintDetails {
-  BlueprintName?: string;
-  RunId?: string;
+  BlueprintName?: string | undefined;
+  RunId?: string | undefined;
 }
 export interface Workflow {
-  Name?: string;
-  Description?: string;
-  DefaultRunProperties?: { [key: string]: string | undefined };
-  CreatedOn?: Date;
-  LastModifiedOn?: Date;
-  LastRun?: WorkflowRun;
-  Graph?: WorkflowGraph;
-  MaxConcurrentRuns?: number;
-  BlueprintDetails?: BlueprintDetails;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  DefaultRunProperties?: { [key: string]: string | undefined } | undefined;
+  CreatedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
+  LastRun?: WorkflowRun | undefined;
+  Graph?: WorkflowGraph | undefined;
+  MaxConcurrentRuns?: number | undefined;
+  BlueprintDetails?: BlueprintDetails | undefined;
 }
 export type Workflows = Workflow[];
 export interface BatchGetWorkflowsResponse {
-  Workflows?: Workflow[];
-  MissingWorkflows?: string[];
+  Workflows?: Workflow[] | undefined;
+  MissingWorkflows?: string[] | undefined;
 }
 export type InclusionAnnotationValue = "INCLUDE" | "EXCLUDE" | (string & {});
 export interface DatapointInclusionAnnotation {
-  ProfileId?: string;
-  StatisticId?: string;
-  InclusionAnnotation?: InclusionAnnotationValue;
+  ProfileId?: string | undefined;
+  StatisticId?: string | undefined;
+  InclusionAnnotation?: InclusionAnnotationValue | undefined;
 }
 export type InclusionAnnotationList = DatapointInclusionAnnotation[];
 export interface BatchPutDataQualityStatisticAnnotationRequest {
   InclusionAnnotations: DatapointInclusionAnnotation[];
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface AnnotationError {
-  ProfileId?: string;
-  StatisticId?: string;
-  FailureReason?: string;
+  ProfileId?: string | undefined;
+  StatisticId?: string | undefined;
+  FailureReason?: string | undefined;
 }
 export type AnnotationErrorList = AnnotationError[];
 export interface BatchPutDataQualityStatisticAnnotationResponse {
-  FailedInclusionAnnotations?: AnnotationError[];
+  FailedInclusionAnnotations?: AnnotationError[] | undefined;
 }
 export type BatchStopJobRunJobRunIdList = string[];
 export interface BatchStopJobRunRequest {
@@ -2754,19 +2759,19 @@ export interface BatchStopJobRunRequest {
   JobRunIds: string[];
 }
 export interface BatchStopJobRunSuccessfulSubmission {
-  JobName?: string;
-  JobRunId?: string;
+  JobName?: string | undefined;
+  JobRunId?: string | undefined;
 }
 export type BatchStopJobRunSuccessfulSubmissionList = BatchStopJobRunSuccessfulSubmission[];
 export interface BatchStopJobRunError_ {
-  JobName?: string;
-  JobRunId?: string;
-  ErrorDetail?: ErrorDetail;
+  JobName?: string | undefined;
+  JobRunId?: string | undefined;
+  ErrorDetail?: ErrorDetail | undefined;
 }
 export type BatchStopJobRunErrorList = BatchStopJobRunError_[];
 export interface BatchStopJobRunResponse {
-  SuccessfulSubmissions?: BatchStopJobRunSuccessfulSubmission[];
-  Errors?: BatchStopJobRunError_[];
+  SuccessfulSubmissions?: BatchStopJobRunSuccessfulSubmission[] | undefined;
+  Errors?: BatchStopJobRunError_[] | undefined;
 }
 export type BoundedPartitionValueList = string[];
 export interface BatchUpdatePartitionRequestEntry {
@@ -2775,18 +2780,18 @@ export interface BatchUpdatePartitionRequestEntry {
 }
 export type BatchUpdatePartitionRequestEntryList = BatchUpdatePartitionRequestEntry[];
 export interface BatchUpdatePartitionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   Entries: BatchUpdatePartitionRequestEntry[];
 }
 export interface BatchUpdatePartitionFailureEntry {
-  PartitionValueList?: string[];
-  ErrorDetail?: ErrorDetail;
+  PartitionValueList?: string[] | undefined;
+  ErrorDetail?: ErrorDetail | undefined;
 }
 export type BatchUpdatePartitionFailureList = BatchUpdatePartitionFailureEntry[];
 export interface BatchUpdatePartitionResponse {
-  Errors?: BatchUpdatePartitionFailureEntry[];
+  Errors?: BatchUpdatePartitionFailureEntry[] | undefined;
 }
 export interface CancelDataQualityRuleRecommendationRunRequest {
   RunId: string;
@@ -2801,14 +2806,14 @@ export interface CancelMLTaskRunRequest {
   TaskRunId: string;
 }
 export interface CancelMLTaskRunResponse {
-  TransformId?: string;
-  TaskRunId?: string;
-  Status?: TaskStatusType;
+  TransformId?: string | undefined;
+  TaskRunId?: string | undefined;
+  Status?: TaskStatusType | undefined;
 }
 export interface CancelStatementRequest {
   SessionId: string;
   Id: number;
-  RequestOrigin?: string;
+  RequestOrigin?: string | undefined;
 }
 export interface CancelStatementResponse {}
 export type DataFormat = "AVRO" | "JSON" | "PROTOBUF" | (string & {});
@@ -2820,8 +2825,8 @@ export interface CheckSchemaVersionValidityInput {
 export type IsVersionValid = boolean;
 export type SchemaValidationError = string;
 export interface CheckSchemaVersionValidityResponse {
-  Valid?: boolean;
-  Error?: string;
+  Valid?: boolean | undefined;
+  Error?: string | undefined;
 }
 export type OrchestrationS3Location = string;
 export type TagKey = string;
@@ -2829,19 +2834,19 @@ export type TagValue = string;
 export type TagsMap = { [key: string]: string | undefined };
 export interface CreateBlueprintRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   BlueprintLocation: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateBlueprintResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type CatalogNameString = string;
 export type FederationIdentifier = string;
 export interface FederatedCatalog {
-  Identifier?: string;
-  ConnectionName?: string;
-  ConnectionType?: string;
+  Identifier?: string | undefined;
+  ConnectionName?: string | undefined;
+  ConnectionType?: string | undefined;
 }
 export type ResourceArnString = string;
 export interface TargetRedshiftCatalog {
@@ -2849,25 +2854,25 @@ export interface TargetRedshiftCatalog {
 }
 export type IAMRoleArn = string;
 export interface DataLakeAccessProperties {
-  DataLakeAccess?: boolean;
-  DataTransferRole?: string;
-  KmsKey?: string;
-  CatalogType?: string;
+  DataLakeAccess?: boolean | undefined;
+  DataTransferRole?: string | undefined;
+  KmsKey?: string | undefined;
+  CatalogType?: string | undefined;
 }
 export interface IcebergOptimizationProperties {
-  RoleArn?: string;
-  Compaction?: { [key: string]: string | undefined };
-  Retention?: { [key: string]: string | undefined };
-  OrphanFileDeletion?: { [key: string]: string | undefined };
+  RoleArn?: string | undefined;
+  Compaction?: { [key: string]: string | undefined } | undefined;
+  Retention?: { [key: string]: string | undefined } | undefined;
+  OrphanFileDeletion?: { [key: string]: string | undefined } | undefined;
 }
 export interface CatalogProperties {
-  DataLakeAccessProperties?: DataLakeAccessProperties;
-  IcebergOptimizationProperties?: IcebergOptimizationProperties;
-  CustomProperties?: { [key: string]: string | undefined };
+  DataLakeAccessProperties?: DataLakeAccessProperties | undefined;
+  IcebergOptimizationProperties?: IcebergOptimizationProperties | undefined;
+  CustomProperties?: { [key: string]: string | undefined } | undefined;
 }
 export type DataLakePrincipalString = string;
 export interface DataLakePrincipal {
-  DataLakePrincipalIdentifier?: string;
+  DataLakePrincipalIdentifier?: string | undefined;
 }
 export type Permission =
   | "ALL"
@@ -2882,27 +2887,29 @@ export type Permission =
   | (string & {});
 export type PermissionList = Permission[];
 export interface PrincipalPermissions {
-  Principal?: DataLakePrincipal;
-  Permissions?: Permission[];
+  Principal?: DataLakePrincipal | undefined;
+  Permissions?: Permission[] | undefined;
 }
 export type PrincipalPermissionsList = PrincipalPermissions[];
 export type AllowFullTableExternalDataAccessEnum = "True" | "False" | (string & {});
 export type OverwriteChildResourcePermissionsWithDefaultEnum = "Accept" | "Deny" | (string & {});
 export interface CatalogInput {
-  Description?: string;
-  FederatedCatalog?: FederatedCatalog;
-  Parameters?: { [key: string]: string | undefined };
-  TargetRedshiftCatalog?: TargetRedshiftCatalog;
-  CatalogProperties?: CatalogProperties;
-  CreateTableDefaultPermissions?: PrincipalPermissions[];
-  CreateDatabaseDefaultPermissions?: PrincipalPermissions[];
-  AllowFullTableExternalDataAccess?: AllowFullTableExternalDataAccessEnum;
-  OverwriteChildResourcePermissionsWithDefault?: OverwriteChildResourcePermissionsWithDefaultEnum;
+  Description?: string | undefined;
+  FederatedCatalog?: FederatedCatalog | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
+  TargetRedshiftCatalog?: TargetRedshiftCatalog | undefined;
+  CatalogProperties?: CatalogProperties | undefined;
+  CreateTableDefaultPermissions?: PrincipalPermissions[] | undefined;
+  CreateDatabaseDefaultPermissions?: PrincipalPermissions[] | undefined;
+  AllowFullTableExternalDataAccess?: AllowFullTableExternalDataAccessEnum | undefined;
+  OverwriteChildResourcePermissionsWithDefault?:
+    | OverwriteChildResourcePermissionsWithDefaultEnum
+    | undefined;
 }
 export interface CreateCatalogRequest {
   Name: string;
   CatalogInput: CatalogInput;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateCatalogResponse {}
 export type Classification = string;
@@ -2912,13 +2919,13 @@ export interface CreateGrokClassifierRequest {
   Classification: string;
   Name: string;
   GrokPattern: string;
-  CustomPatterns?: string;
+  CustomPatterns?: string | undefined;
 }
 export type RowTag = string;
 export interface CreateXMLClassifierRequest {
   Classification: string;
   Name: string;
-  RowTag?: string;
+  RowTag?: string | undefined;
 }
 export type JsonPath = string;
 export interface CreateJsonClassifierRequest {
@@ -2933,21 +2940,21 @@ export type CustomDatatypes = string[];
 export type CsvSerdeOption = "OpenCSVSerDe" | "LazySimpleSerDe" | "None" | (string & {});
 export interface CreateCsvClassifierRequest {
   Name: string;
-  Delimiter?: string;
-  QuoteSymbol?: string;
-  ContainsHeader?: CsvHeaderOption;
-  Header?: string[];
-  DisableValueTrimming?: boolean;
-  AllowSingleColumn?: boolean;
-  CustomDatatypeConfigured?: boolean;
-  CustomDatatypes?: string[];
-  Serde?: CsvSerdeOption;
+  Delimiter?: string | undefined;
+  QuoteSymbol?: string | undefined;
+  ContainsHeader?: CsvHeaderOption | undefined;
+  Header?: string[] | undefined;
+  DisableValueTrimming?: boolean | undefined;
+  AllowSingleColumn?: boolean | undefined;
+  CustomDatatypeConfigured?: boolean | undefined;
+  CustomDatatypes?: string[] | undefined;
+  Serde?: CsvSerdeOption | undefined;
 }
 export interface CreateClassifierRequest {
-  GrokClassifier?: CreateGrokClassifierRequest;
-  XMLClassifier?: CreateXMLClassifierRequest;
-  JsonClassifier?: CreateJsonClassifierRequest;
-  CsvClassifier?: CreateCsvClassifierRequest;
+  GrokClassifier?: CreateGrokClassifierRequest | undefined;
+  XMLClassifier?: CreateXMLClassifierRequest | undefined;
+  JsonClassifier?: CreateJsonClassifierRequest | undefined;
+  CsvClassifier?: CreateCsvClassifierRequest | undefined;
 }
 export interface CreateClassifierResponse {}
 export type ColumnNameList = string[];
@@ -2956,12 +2963,12 @@ export interface CreateColumnStatisticsTaskSettingsRequest {
   DatabaseName: string;
   TableName: string;
   Role: string;
-  Schedule?: string;
-  ColumnNameList?: string[];
-  SampleSize?: number;
-  CatalogID?: string;
-  SecurityConfiguration?: string;
-  Tags?: { [key: string]: string | undefined };
+  Schedule?: string | undefined;
+  ColumnNameList?: string[] | undefined;
+  SampleSize?: number | undefined;
+  CatalogID?: string | undefined;
+  SecurityConfiguration?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateColumnStatisticsTaskSettingsResponse {}
 export type ConnectionType =
@@ -3110,15 +3117,15 @@ export type ConnectionPropertyKey =
   | "CLUSTER_IDENTIFIER"
   | "DATABASE"
   | (string & {});
-export type ConnectionProperties = { [key in ConnectionPropertyKey]?: string };
+export type ConnectionProperties = { [key in ConnectionPropertyKey]?: string | undefined };
 export type PropertyKey = string;
 export type PropertyValue = string;
 export type PropertyMap = { [key: string]: string | undefined };
 export type SecurityGroupIdList = string[];
 export interface PhysicalConnectionRequirements {
-  SubnetId?: string;
-  SecurityGroupIdList?: string[];
-  AvailabilityZone?: string;
+  SubnetId?: string | undefined;
+  SecurityGroupIdList?: string[] | undefined;
+  AvailabilityZone?: string | undefined;
 }
 export type AuthenticationType = "BASIC" | "OAUTH2" | "CUSTOM" | "IAM" | (string & {});
 export type OAuth2GrantType =
@@ -3130,8 +3137,8 @@ export type OAuth2GrantType =
 export type UserManagedClientApplicationClientId = string;
 export type AWSManagedClientApplicationReference = string;
 export interface OAuth2ClientApplication {
-  UserManagedClientApplicationClientId?: string;
-  AWSManagedClientApplicationReference?: string;
+  UserManagedClientApplicationClientId?: string | undefined;
+  AWSManagedClientApplicationReference?: string | undefined;
 }
 export type TokenUrl = string;
 export type TokenUrlParameterKey = string;
@@ -3140,193 +3147,248 @@ export type TokenUrlParametersMap = { [key: string]: string | undefined };
 export type AuthorizationCode = string | redacted.Redacted<string>;
 export type RedirectUri = string;
 export interface AuthorizationCodeProperties {
-  AuthorizationCode?: string | redacted.Redacted<string>;
-  RedirectUri?: string;
+  AuthorizationCode?: string | redacted.Redacted<string> | undefined;
+  RedirectUri?: string | undefined;
 }
 export type UserManagedClientApplicationClientSecret = string | redacted.Redacted<string>;
 export type AccessToken = string | redacted.Redacted<string>;
 export type RefreshToken = string | redacted.Redacted<string>;
 export type JwtToken = string | redacted.Redacted<string>;
 export interface OAuth2Credentials {
-  UserManagedClientApplicationClientSecret?: string | redacted.Redacted<string>;
-  AccessToken?: string | redacted.Redacted<string>;
-  RefreshToken?: string | redacted.Redacted<string>;
-  JwtToken?: string | redacted.Redacted<string>;
+  UserManagedClientApplicationClientSecret?: string | redacted.Redacted<string> | undefined;
+  AccessToken?: string | redacted.Redacted<string> | undefined;
+  RefreshToken?: string | redacted.Redacted<string> | undefined;
+  JwtToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface OAuth2PropertiesInput {
-  OAuth2GrantType?: OAuth2GrantType;
-  OAuth2ClientApplication?: OAuth2ClientApplication;
-  TokenUrl?: string;
-  TokenUrlParametersMap?: { [key: string]: string | undefined };
-  AuthorizationCodeProperties?: AuthorizationCodeProperties;
-  OAuth2Credentials?: OAuth2Credentials;
+  OAuth2GrantType?: OAuth2GrantType | undefined;
+  OAuth2ClientApplication?: OAuth2ClientApplication | undefined;
+  TokenUrl?: string | undefined;
+  TokenUrlParametersMap?: { [key: string]: string | undefined } | undefined;
+  AuthorizationCodeProperties?: AuthorizationCodeProperties | undefined;
+  OAuth2Credentials?: OAuth2Credentials | undefined;
 }
 export type SecretArn = string;
 export type KmsKeyArn = string;
 export type Username = string;
 export type Password = string | redacted.Redacted<string>;
 export interface BasicAuthenticationCredentials {
-  Username?: string;
-  Password?: string | redacted.Redacted<string>;
+  Username?: string | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
 }
 export type CredentialKey = string;
 export type CredentialValue = string;
 export type CredentialMap = { [key: string]: string | undefined };
 export interface AuthenticationConfigurationInput {
-  AuthenticationType?: AuthenticationType;
-  OAuth2Properties?: OAuth2PropertiesInput;
-  SecretArn?: string;
-  KmsKeyArn?: string;
-  BasicAuthenticationCredentials?: BasicAuthenticationCredentials;
-  CustomAuthenticationCredentials?: { [key: string]: string | undefined };
+  AuthenticationType?: AuthenticationType | undefined;
+  OAuth2Properties?: OAuth2PropertiesInput | undefined;
+  SecretArn?: string | undefined;
+  KmsKeyArn?: string | undefined;
+  BasicAuthenticationCredentials?: BasicAuthenticationCredentials | undefined;
+  CustomAuthenticationCredentials?: { [key: string]: string | undefined } | undefined;
 }
 export type ComputeEnvironment = "SPARK" | "ATHENA" | "PYTHON" | (string & {});
 export type ComputeEnvironmentList = ComputeEnvironment[];
 export interface ConnectionInput {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   ConnectionType: ConnectionType;
-  MatchCriteria?: string[];
+  MatchCriteria?: string[] | undefined;
   ConnectionProperties: { [key: string]: string | undefined };
-  SparkProperties?: { [key: string]: string | undefined };
-  AthenaProperties?: { [key: string]: string | undefined };
-  PythonProperties?: { [key: string]: string | undefined };
-  PhysicalConnectionRequirements?: PhysicalConnectionRequirements;
-  AuthenticationConfiguration?: AuthenticationConfigurationInput;
-  ValidateCredentials?: boolean;
-  ValidateForComputeEnvironments?: ComputeEnvironment[];
+  SparkProperties?: { [key: string]: string | undefined } | undefined;
+  AthenaProperties?: { [key: string]: string | undefined } | undefined;
+  PythonProperties?: { [key: string]: string | undefined } | undefined;
+  PhysicalConnectionRequirements?: PhysicalConnectionRequirements | undefined;
+  AuthenticationConfiguration?: AuthenticationConfigurationInput | undefined;
+  ValidateCredentials?: boolean | undefined;
+  ValidateForComputeEnvironments?: ComputeEnvironment[] | undefined;
 }
 export interface CreateConnectionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   ConnectionInput: ConnectionInput;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ConnectionStatus = "READY" | "IN_PROGRESS" | "FAILED" | (string & {});
 export interface CreateConnectionResponse {
-  CreateConnectionStatus?: ConnectionStatus;
+  CreateConnectionStatus?: ConnectionStatus | undefined;
 }
 export interface CreateCrawlerRequest {
   Name: string;
   Role: string;
-  DatabaseName?: string;
-  Description?: string;
+  DatabaseName?: string | undefined;
+  Description?: string | undefined;
   Targets: CrawlerTargets;
-  Schedule?: string;
-  Classifiers?: string[];
-  TablePrefix?: string;
-  SchemaChangePolicy?: SchemaChangePolicy;
-  RecrawlPolicy?: RecrawlPolicy;
-  LineageConfiguration?: LineageConfiguration;
-  LakeFormationConfiguration?: LakeFormationConfiguration;
-  Configuration?: string;
-  CrawlerSecurityConfiguration?: string;
-  Tags?: { [key: string]: string | undefined };
-  CatalogId?: string;
+  Schedule?: string | undefined;
+  Classifiers?: string[] | undefined;
+  TablePrefix?: string | undefined;
+  SchemaChangePolicy?: SchemaChangePolicy | undefined;
+  RecrawlPolicy?: RecrawlPolicy | undefined;
+  LineageConfiguration?: LineageConfiguration | undefined;
+  LakeFormationConfiguration?: LakeFormationConfiguration | undefined;
+  Configuration?: string | undefined;
+  CrawlerSecurityConfiguration?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  CatalogId?: string | undefined;
 }
 export interface CreateCrawlerResponse {}
 export interface CreateCustomEntityTypeRequest {
   Name: string;
   RegexString: string;
-  ContextWords?: string[];
-  Tags?: { [key: string]: string | undefined };
+  ContextWords?: string[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateCustomEntityTypeResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type URI = string;
 export interface DatabaseIdentifier {
-  CatalogId?: string;
-  DatabaseName?: string;
-  Region?: string;
+  CatalogId?: string | undefined;
+  DatabaseName?: string | undefined;
+  Region?: string | undefined;
 }
 export interface FederatedDatabase {
-  Identifier?: string;
-  ConnectionName?: string;
-  ConnectionType?: string;
+  Identifier?: string | undefined;
+  ConnectionName?: string | undefined;
+  ConnectionType?: string | undefined;
 }
 export interface DatabaseInput {
   Name: string;
-  Description?: string;
-  LocationUri?: string;
-  Parameters?: { [key: string]: string | undefined };
-  CreateTableDefaultPermissions?: PrincipalPermissions[];
-  TargetDatabase?: DatabaseIdentifier;
-  FederatedDatabase?: FederatedDatabase;
+  Description?: string | undefined;
+  LocationUri?: string | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
+  CreateTableDefaultPermissions?: PrincipalPermissions[] | undefined;
+  TargetDatabase?: DatabaseIdentifier | undefined;
+  FederatedDatabase?: FederatedDatabase | undefined;
 }
 export interface CreateDatabaseRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseInput: DatabaseInput;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateDatabaseResponse {}
+export type DataQualityEvaluationConfigLevel = "CATALOG" | "DATABASE" | "TABLE" | (string & {});
+export interface DataQualityEvaluationConfigGlueTables {
+  CatalogId: string;
+  DatabaseName?: string | undefined;
+  TableNamePattern?: string | undefined;
+  PreProcessingQuery?: string | undefined;
+  ConnectionName?: string | undefined;
+  AdditionalOptions?: { [key: string]: string | undefined } | undefined;
+}
+export interface DataQualityEvaluationConfigDataSource {
+  GlueTables?: DataQualityEvaluationConfigGlueTables | undefined;
+}
+export type DataQualityEvaluationConfigManagedRuleset = "SIMPLE" | "ADVANCED" | (string & {});
+export type DataQualityEvaluationConfigTrigger =
+  | "ONCE"
+  | "SCHEDULE"
+  | "METADATA_CHANGE"
+  | (string & {});
+export type DataQualityEvaluationConfigTriggers = DataQualityEvaluationConfigTrigger[];
+export type DataQualityEvaluationConfigScheduleExpression = string;
+export interface DataQualityEvaluationConfigAdditionalRunOptions {
+  CloudWatchMetricsEnabled?: boolean | undefined;
+  ResultsS3Prefix?: string | undefined;
+  CompositeRuleEvaluationMethod?: DQCompositeRuleEvaluationMethod | undefined;
+  RowLevelResults?: RowLevelResultsOptions | undefined;
+  ProfilingResults?: ProfilingResultsOptions | undefined;
+  ObservationScope?: ObservationConfiguration | undefined;
+  ObservationMode?: ObservationMode | undefined;
+  DataQualityRuleResults?: DataQualityRuleResultsOptions | undefined;
+  ObservationResults?: ObservationResultsOptions | undefined;
+  CustomLogGroupPrefix?: string | undefined;
+}
+export type ClientTokenString = string;
+export interface CreateDataQualityEvaluationConfigRequest {
+  Name: string;
+  Level: DataQualityEvaluationConfigLevel;
+  DataSource: DataQualityEvaluationConfigDataSource;
+  RulesetName?: string | undefined;
+  ManagedRulesetName?: DataQualityEvaluationConfigManagedRuleset | undefined;
+  Triggers?: DataQualityEvaluationConfigTrigger[] | undefined;
+  ScheduleExpression?: string | undefined;
+  StartAt?: Date | undefined;
+  EndAt?: Date | undefined;
+  Role: string;
+  NumberOfWorkers?: number | undefined;
+  Timeout?: number | undefined;
+  AdditionalRunOptions?: DataQualityEvaluationConfigAdditionalRunOptions | undefined;
+  AdditionalDataSources?: { [key: string]: DataSource | undefined } | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ClientToken?: string | undefined;
+}
+export interface CreateDataQualityEvaluationConfigResponse {
+  Name?: string | undefined;
+  EvaluationRunMode?: DataQualityEvaluationRunMode | undefined;
+}
 export type DataQualityRulesetString = string;
 export interface DataQualityTargetTable {
   TableName: string;
   DatabaseName: string;
-  CatalogId?: string;
+  CatalogId?: string | undefined;
 }
 export interface CreateDataQualityRulesetRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   Ruleset: string;
-  Tags?: { [key: string]: string | undefined };
-  TargetTable?: DataQualityTargetTable;
-  DataQualitySecurityConfiguration?: string;
-  ClientToken?: string;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  TargetTable?: DataQualityTargetTable | undefined;
+  DataQualitySecurityConfiguration?: string | undefined;
+  ClientToken?: string | undefined;
 }
 export interface CreateDataQualityRulesetResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface CreateDevEndpointRequest {
   EndpointName: string;
   RoleArn: string;
-  SecurityGroupIds?: string[];
-  SubnetId?: string;
-  PublicKey?: string;
-  PublicKeys?: string[];
-  NumberOfNodes?: number;
-  WorkerType?: WorkerType;
-  GlueVersion?: string;
-  NumberOfWorkers?: number;
-  ExtraPythonLibsS3Path?: string;
-  ExtraJarsS3Path?: string;
-  SecurityConfiguration?: string;
-  Tags?: { [key: string]: string | undefined };
-  Arguments?: { [key: string]: string | undefined };
+  SecurityGroupIds?: string[] | undefined;
+  SubnetId?: string | undefined;
+  PublicKey?: string | undefined;
+  PublicKeys?: string[] | undefined;
+  NumberOfNodes?: number | undefined;
+  WorkerType?: WorkerType | undefined;
+  GlueVersion?: string | undefined;
+  NumberOfWorkers?: number | undefined;
+  ExtraPythonLibsS3Path?: string | undefined;
+  ExtraJarsS3Path?: string | undefined;
+  SecurityConfiguration?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Arguments?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateDevEndpointResponse {
-  EndpointName?: string;
-  Status?: string;
-  SecurityGroupIds?: string[];
-  SubnetId?: string;
-  RoleArn?: string;
-  YarnEndpointAddress?: string;
-  ZeppelinRemoteSparkInterpreterPort?: number;
-  NumberOfNodes?: number;
-  WorkerType?: WorkerType;
-  GlueVersion?: string;
-  NumberOfWorkers?: number;
-  AvailabilityZone?: string;
-  VpcId?: string;
-  ExtraPythonLibsS3Path?: string;
-  ExtraJarsS3Path?: string;
-  FailureReason?: string;
-  SecurityConfiguration?: string;
-  CreatedTimestamp?: Date;
-  Arguments?: { [key: string]: string | undefined };
+  EndpointName?: string | undefined;
+  Status?: string | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  SubnetId?: string | undefined;
+  RoleArn?: string | undefined;
+  YarnEndpointAddress?: string | undefined;
+  ZeppelinRemoteSparkInterpreterPort?: number | undefined;
+  NumberOfNodes?: number | undefined;
+  WorkerType?: WorkerType | undefined;
+  GlueVersion?: string | undefined;
+  NumberOfWorkers?: number | undefined;
+  AvailabilityZone?: string | undefined;
+  VpcId?: string | undefined;
+  ExtraPythonLibsS3Path?: string | undefined;
+  ExtraJarsS3Path?: string | undefined;
+  FailureReason?: string | undefined;
+  SecurityConfiguration?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
+  Arguments?: { [key: string]: string | undefined } | undefined;
 }
 export type GlossaryName = string;
 export type MetadataDescription = string;
 export interface CreateGlossaryRequest {
   Name: string;
-  Description?: string;
-  ClientToken?: string;
+  Description?: string | undefined;
+  ClientToken?: string | undefined;
 }
 export type GlossaryId = string;
 export interface CreateGlossaryResponse {
-  Id?: string;
-  Name?: string;
-  Description?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
 }
 export type GlossaryTermName = string;
 export type GlossaryShortDescription = string;
@@ -3334,28 +3396,28 @@ export type GlossaryLongDescription = string;
 export interface CreateGlossaryTermRequest {
   GlossaryIdentifier: string;
   Name: string;
-  ShortDescription?: string;
-  LongDescription?: string;
-  ClientToken?: string;
+  ShortDescription?: string | undefined;
+  LongDescription?: string | undefined;
+  ClientToken?: string | undefined;
 }
 export interface CreateGlossaryTermResponse {
-  Id?: string;
-  GlossaryId?: string;
-  Name?: string;
-  ShortDescription?: string;
-  LongDescription?: string;
+  Id?: string | undefined;
+  GlossaryId?: string | undefined;
+  Name?: string | undefined;
+  ShortDescription?: string | undefined;
+  LongDescription?: string | undefined;
 }
 export type IdentityCenterInstanceArn = string;
 export type IdentityCenterScope = string;
 export type IdentityCenterScopesList = string[];
 export interface CreateGlueIdentityCenterConfigurationRequest {
   InstanceArn: string;
-  Scopes?: string[];
-  UserBackgroundSessionsEnabled?: boolean;
+  Scopes?: string[] | undefined;
+  UserBackgroundSessionsEnabled?: boolean | undefined;
 }
 export type ApplicationArn = string;
 export interface CreateGlueIdentityCenterConfigurationResponse {
-  ApplicationArn?: string;
+  ApplicationArn?: string | undefined;
 }
 export type String128 = string;
 export type String512 = string;
@@ -3364,29 +3426,29 @@ export type String2048 = string;
 export type IntegrationString = string;
 export type IntegrationAdditionalEncryptionContextMap = { [key: string]: string | undefined };
 export interface Tag {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type IntegrationTagsList = Tag[];
 export type IntegrationSourcePropertiesMap = { [key: string]: string | undefined };
 export type ContinuousSync = boolean;
 export type TargetNamespace = string;
 export interface IntegrationConfig {
-  RefreshInterval?: string;
-  SourceProperties?: { [key: string]: string | undefined };
-  ContinuousSync?: boolean;
-  TargetNamespace?: string;
+  RefreshInterval?: string | undefined;
+  SourceProperties?: { [key: string]: string | undefined } | undefined;
+  ContinuousSync?: boolean | undefined;
+  TargetNamespace?: string | undefined;
 }
 export interface CreateIntegrationRequest {
   IntegrationName: string;
   SourceArn: string;
   TargetArn: string;
-  Description?: string;
-  DataFilter?: string;
-  KmsKeyId?: string;
-  AdditionalEncryptionContext?: { [key: string]: string | undefined };
-  Tags?: Tag[];
-  IntegrationConfig?: IntegrationConfig;
+  Description?: string | undefined;
+  DataFilter?: string | undefined;
+  KmsKeyId?: string | undefined;
+  AdditionalEncryptionContext?: { [key: string]: string | undefined } | undefined;
+  Tags?: Tag[] | undefined;
+  IntegrationConfig?: IntegrationConfig | undefined;
 }
 export type IntegrationStatus =
   | "CREATING"
@@ -3399,145 +3461,145 @@ export type IntegrationStatus =
   | (string & {});
 export type IntegrationTimestamp = Date;
 export interface IntegrationError {
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type IntegrationErrorList = IntegrationError[];
 export interface CreateIntegrationResponse {
   SourceArn: string;
   TargetArn: string;
   IntegrationName: string;
-  Description?: string;
+  Description?: string | undefined;
   IntegrationArn: string;
-  KmsKeyId?: string;
-  AdditionalEncryptionContext?: { [key: string]: string | undefined };
-  Tags?: Tag[];
+  KmsKeyId?: string | undefined;
+  AdditionalEncryptionContext?: { [key: string]: string | undefined } | undefined;
+  Tags?: Tag[] | undefined;
   Status: IntegrationStatus;
   CreateTime: Date;
-  Errors?: IntegrationError[];
-  DataFilter?: string;
-  IntegrationConfig?: IntegrationConfig;
+  Errors?: IntegrationError[] | undefined;
+  DataFilter?: string | undefined;
+  IntegrationConfig?: IntegrationConfig | undefined;
 }
 export interface SourceProcessingProperties {
-  RoleArn?: string;
+  RoleArn?: string | undefined;
 }
 export interface TargetProcessingProperties {
-  RoleArn?: string;
-  KmsArn?: string;
-  ConnectionName?: string;
-  EventBusArn?: string;
+  RoleArn?: string | undefined;
+  KmsArn?: string | undefined;
+  ConnectionName?: string | undefined;
+  EventBusArn?: string | undefined;
 }
 export interface CreateIntegrationResourcePropertyRequest {
   ResourceArn: string;
-  SourceProcessingProperties?: SourceProcessingProperties;
-  TargetProcessingProperties?: TargetProcessingProperties;
-  Tags?: Tag[];
+  SourceProcessingProperties?: SourceProcessingProperties | undefined;
+  TargetProcessingProperties?: TargetProcessingProperties | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateIntegrationResourcePropertyResponse {
   ResourceArn: string;
-  ResourcePropertyArn?: string;
-  SourceProcessingProperties?: SourceProcessingProperties;
-  TargetProcessingProperties?: TargetProcessingProperties;
+  ResourcePropertyArn?: string | undefined;
+  SourceProcessingProperties?: SourceProcessingProperties | undefined;
+  TargetProcessingProperties?: TargetProcessingProperties | undefined;
 }
 export type SourceTableFieldsList = string[];
 export type PrimaryKeyList = string[];
 export interface SourceTableConfig {
-  Fields?: string[];
-  FilterPredicate?: string;
-  PrimaryKey?: string[];
-  RecordUpdateField?: string;
+  Fields?: string[] | undefined;
+  FilterPredicate?: string | undefined;
+  PrimaryKey?: string[] | undefined;
+  RecordUpdateField?: string | undefined;
 }
 export type UnnestSpec = "TOPLEVEL" | "FULL" | "NOUNNEST" | (string & {});
 export interface IntegrationPartition {
-  FieldName?: string;
-  FunctionSpec?: string;
-  ConversionSpec?: string;
+  FieldName?: string | undefined;
+  FunctionSpec?: string | undefined;
+  ConversionSpec?: string | undefined;
 }
 export type IntegrationPartitionSpecList = IntegrationPartition[];
 export interface TargetTableConfig {
-  UnnestSpec?: UnnestSpec;
-  PartitionSpec?: IntegrationPartition[];
-  TargetTableName?: string;
-  IntegrationArn?: string;
+  UnnestSpec?: UnnestSpec | undefined;
+  PartitionSpec?: IntegrationPartition[] | undefined;
+  TargetTableName?: string | undefined;
+  IntegrationArn?: string | undefined;
 }
 export interface CreateIntegrationTablePropertiesRequest {
   ResourceArn: string;
   TableName: string;
-  SourceTableConfig?: SourceTableConfig;
-  TargetTableConfig?: TargetTableConfig;
+  SourceTableConfig?: SourceTableConfig | undefined;
+  TargetTableConfig?: TargetTableConfig | undefined;
 }
 export interface CreateIntegrationTablePropertiesResponse {}
 export interface CreateJobRequest {
   Name: string;
-  JobMode?: JobMode;
-  JobRunQueuingEnabled?: boolean;
-  Description?: string;
-  LogUri?: string;
+  JobMode?: JobMode | undefined;
+  JobRunQueuingEnabled?: boolean | undefined;
+  Description?: string | undefined;
+  LogUri?: string | undefined;
   Role: string;
-  ExecutionProperty?: ExecutionProperty;
+  ExecutionProperty?: ExecutionProperty | undefined;
   Command: JobCommand;
-  DefaultArguments?: { [key: string]: string | undefined };
-  NonOverridableArguments?: { [key: string]: string | undefined };
-  Connections?: ConnectionsList;
-  MaxRetries?: number;
-  AllocatedCapacity?: number;
-  Timeout?: number;
-  MaxCapacity?: number;
-  SecurityConfiguration?: string;
-  Tags?: { [key: string]: string | undefined };
-  NotificationProperty?: NotificationProperty;
-  GlueVersion?: string;
-  NumberOfWorkers?: number;
-  WorkerType?: WorkerType;
-  CodeGenConfigurationNodes?: { [key: string]: CodeGenConfigurationNode | undefined };
-  ExecutionClass?: ExecutionClass;
-  SourceControlDetails?: SourceControlDetails;
-  MaintenanceWindow?: string;
+  DefaultArguments?: { [key: string]: string | undefined } | undefined;
+  NonOverridableArguments?: { [key: string]: string | undefined } | undefined;
+  Connections?: ConnectionsList | undefined;
+  MaxRetries?: number | undefined;
+  AllocatedCapacity?: number | undefined;
+  Timeout?: number | undefined;
+  MaxCapacity?: number | undefined;
+  SecurityConfiguration?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  NotificationProperty?: NotificationProperty | undefined;
+  GlueVersion?: string | undefined;
+  NumberOfWorkers?: number | undefined;
+  WorkerType?: WorkerType | undefined;
+  CodeGenConfigurationNodes?: { [key: string]: CodeGenConfigurationNode | undefined } | undefined;
+  ExecutionClass?: ExecutionClass | undefined;
+  SourceControlDetails?: SourceControlDetails | undefined;
+  MaintenanceWindow?: string | undefined;
 }
 export interface CreateJobResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type GlueTables = GlueTable[];
 export type TransformType = "FIND_MATCHES" | (string & {});
 export interface FindMatchesParameters {
-  PrimaryKeyColumnName?: string;
-  PrecisionRecallTradeoff?: number;
-  AccuracyCostTradeoff?: number;
-  EnforceProvidedLabels?: boolean;
+  PrimaryKeyColumnName?: string | undefined;
+  PrecisionRecallTradeoff?: number | undefined;
+  AccuracyCostTradeoff?: number | undefined;
+  EnforceProvidedLabels?: boolean | undefined;
 }
 export interface TransformParameters {
   TransformType: TransformType;
-  FindMatchesParameters?: FindMatchesParameters;
+  FindMatchesParameters?: FindMatchesParameters | undefined;
 }
 export type MLUserDataEncryptionModeString = "DISABLED" | "SSE-KMS" | (string & {});
 export interface MLUserDataEncryption {
   MlUserDataEncryptionMode: MLUserDataEncryptionModeString;
-  KmsKeyId?: string;
+  KmsKeyId?: string | undefined;
 }
 export interface TransformEncryption {
-  MlUserDataEncryption?: MLUserDataEncryption;
-  TaskRunSecurityConfigurationName?: string;
+  MlUserDataEncryption?: MLUserDataEncryption | undefined;
+  TaskRunSecurityConfigurationName?: string | undefined;
 }
 export interface CreateMLTransformRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   InputRecordTables: GlueTable[];
   Parameters: TransformParameters;
   Role: string;
-  GlueVersion?: string;
-  MaxCapacity?: number;
-  WorkerType?: WorkerType;
-  NumberOfWorkers?: number;
-  Timeout?: number;
-  MaxRetries?: number;
-  Tags?: { [key: string]: string | undefined };
-  TransformEncryption?: TransformEncryption;
+  GlueVersion?: string | undefined;
+  MaxCapacity?: number | undefined;
+  WorkerType?: WorkerType | undefined;
+  NumberOfWorkers?: number | undefined;
+  Timeout?: number | undefined;
+  MaxRetries?: number | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  TransformEncryption?: TransformEncryption | undefined;
 }
 export interface CreateMLTransformResponse {
-  TransformId?: string;
+  TransformId?: string | undefined;
 }
 export interface CreatePartitionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   PartitionInput: PartitionInput;
@@ -3549,7 +3611,7 @@ export interface PartitionIndex {
   IndexName: string;
 }
 export interface CreatePartitionIndexRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   PartitionIndex: PartitionIndex;
@@ -3557,18 +3619,18 @@ export interface CreatePartitionIndexRequest {
 export interface CreatePartitionIndexResponse {}
 export interface CreateRegistryInput {
   RegistryName: string;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateRegistryResponse {
-  RegistryArn?: string;
-  RegistryName?: string;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
+  RegistryArn?: string | undefined;
+  RegistryName?: string | undefined;
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface RegistryId {
-  RegistryName?: string;
-  RegistryArn?: string;
+  RegistryName?: string | undefined;
+  RegistryArn?: string | undefined;
 }
 export type Compatibility =
   | "NONE"
@@ -3581,32 +3643,32 @@ export type Compatibility =
   | "FULL_ALL"
   | (string & {});
 export interface CreateSchemaInput {
-  RegistryId?: RegistryId;
+  RegistryId?: RegistryId | undefined;
   SchemaName: string;
   DataFormat: DataFormat;
-  Compatibility?: Compatibility;
-  Description?: string;
-  Tags?: { [key: string]: string | undefined };
-  SchemaDefinition?: string;
+  Compatibility?: Compatibility | undefined;
+  Description?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  SchemaDefinition?: string | undefined;
 }
 export type SchemaCheckpointNumber = number;
 export type SchemaStatus = "AVAILABLE" | "PENDING" | "DELETING" | (string & {});
 export type SchemaVersionStatus = "AVAILABLE" | "PENDING" | "FAILURE" | "DELETING" | (string & {});
 export interface CreateSchemaResponse {
-  RegistryName?: string;
-  RegistryArn?: string;
-  SchemaName?: string;
-  SchemaArn?: string;
-  Description?: string;
-  DataFormat?: DataFormat;
-  Compatibility?: Compatibility;
-  SchemaCheckpoint?: number;
-  LatestSchemaVersion?: number;
-  NextSchemaVersion?: number;
-  SchemaStatus?: SchemaStatus;
-  Tags?: { [key: string]: string | undefined };
-  SchemaVersionId?: string;
-  SchemaVersionStatus?: SchemaVersionStatus;
+  RegistryName?: string | undefined;
+  RegistryArn?: string | undefined;
+  SchemaName?: string | undefined;
+  SchemaArn?: string | undefined;
+  Description?: string | undefined;
+  DataFormat?: DataFormat | undefined;
+  Compatibility?: Compatibility | undefined;
+  SchemaCheckpoint?: number | undefined;
+  LatestSchemaVersion?: number | undefined;
+  NextSchemaVersion?: number | undefined;
+  SchemaStatus?: SchemaStatus | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  SchemaVersionId?: string | undefined;
+  SchemaVersionStatus?: SchemaVersionStatus | undefined;
 }
 export type CodeGenIdentifier = string;
 export type CodeGenNodeType = string;
@@ -3615,94 +3677,94 @@ export type CodeGenArgValue = string;
 export interface CodeGenNodeArg {
   Name: string;
   Value: string;
-  Param?: boolean;
+  Param?: boolean | undefined;
 }
 export type CodeGenNodeArgs = CodeGenNodeArg[];
 export interface CodeGenNode {
   Id: string;
   NodeType: string;
   Args: CodeGenNodeArg[];
-  LineNumber?: number;
+  LineNumber?: number | undefined;
 }
 export type DagNodes = CodeGenNode[];
 export interface CodeGenEdge {
   Source: string;
   Target: string;
-  TargetParameter?: string;
+  TargetParameter?: string | undefined;
 }
 export type DagEdges = CodeGenEdge[];
 export type Language = "PYTHON" | "SCALA" | (string & {});
 export interface CreateScriptRequest {
-  DagNodes?: CodeGenNode[];
-  DagEdges?: CodeGenEdge[];
-  Language?: Language;
+  DagNodes?: CodeGenNode[] | undefined;
+  DagEdges?: CodeGenEdge[] | undefined;
+  Language?: Language | undefined;
 }
 export type PythonScript = string;
 export type ScalaCode = string;
 export interface CreateScriptResponse {
-  PythonScript?: string;
-  ScalaCode?: string;
+  PythonScript?: string | undefined;
+  ScalaCode?: string | undefined;
 }
 export type S3EncryptionMode = "DISABLED" | "SSE-KMS" | "SSE-S3" | (string & {});
 export interface S3Encryption {
-  S3EncryptionMode?: S3EncryptionMode;
-  KmsKeyArn?: string;
+  S3EncryptionMode?: S3EncryptionMode | undefined;
+  KmsKeyArn?: string | undefined;
 }
 export type S3EncryptionList = S3Encryption[];
 export type CloudWatchEncryptionMode = "DISABLED" | "SSE-KMS" | (string & {});
 export interface CloudWatchEncryption {
-  CloudWatchEncryptionMode?: CloudWatchEncryptionMode;
-  KmsKeyArn?: string;
+  CloudWatchEncryptionMode?: CloudWatchEncryptionMode | undefined;
+  KmsKeyArn?: string | undefined;
 }
 export type JobBookmarksEncryptionMode = "DISABLED" | "CSE-KMS" | (string & {});
 export interface JobBookmarksEncryption {
-  JobBookmarksEncryptionMode?: JobBookmarksEncryptionMode;
-  KmsKeyArn?: string;
+  JobBookmarksEncryptionMode?: JobBookmarksEncryptionMode | undefined;
+  KmsKeyArn?: string | undefined;
 }
 export type DataQualityEncryptionMode = "DISABLED" | "SSE-KMS" | (string & {});
 export interface DataQualityEncryption {
-  DataQualityEncryptionMode?: DataQualityEncryptionMode;
-  KmsKeyArn?: string;
+  DataQualityEncryptionMode?: DataQualityEncryptionMode | undefined;
+  KmsKeyArn?: string | undefined;
 }
 export interface EncryptionConfiguration {
-  S3Encryption?: S3Encryption[];
-  CloudWatchEncryption?: CloudWatchEncryption;
-  JobBookmarksEncryption?: JobBookmarksEncryption;
-  DataQualityEncryption?: DataQualityEncryption;
+  S3Encryption?: S3Encryption[] | undefined;
+  CloudWatchEncryption?: CloudWatchEncryption | undefined;
+  JobBookmarksEncryption?: JobBookmarksEncryption | undefined;
+  DataQualityEncryption?: DataQualityEncryption | undefined;
 }
 export interface CreateSecurityConfigurationRequest {
   Name: string;
   EncryptionConfiguration: EncryptionConfiguration;
 }
 export interface CreateSecurityConfigurationResponse {
-  Name?: string;
-  CreatedTimestamp?: Date;
+  Name?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
 }
 export type OrchestrationRoleArn = string;
 export interface SessionCommand {
-  Name?: string;
-  PythonVersion?: string;
+  Name?: string | undefined;
+  PythonVersion?: string | undefined;
 }
 export type OrchestrationArgumentsValue = string;
 export type OrchestrationArgumentsMap = { [key: string]: string | undefined };
 export type SessionType = "LIVY" | "SPARK_CONNECT" | (string & {});
 export interface CreateSessionRequest {
   Id: string;
-  Description?: string;
+  Description?: string | undefined;
   Role: string;
   Command: SessionCommand;
-  Timeout?: number;
-  IdleTimeout?: number;
-  DefaultArguments?: { [key: string]: string | undefined };
-  Connections?: ConnectionsList;
-  MaxCapacity?: number;
-  NumberOfWorkers?: number;
-  WorkerType?: WorkerType;
-  SecurityConfiguration?: string;
-  GlueVersion?: string;
-  Tags?: { [key: string]: string | undefined };
-  RequestOrigin?: string;
-  SessionType?: SessionType;
+  Timeout?: number | undefined;
+  IdleTimeout?: number | undefined;
+  DefaultArguments?: { [key: string]: string | undefined } | undefined;
+  Connections?: ConnectionsList | undefined;
+  MaxCapacity?: number | undefined;
+  NumberOfWorkers?: number | undefined;
+  WorkerType?: WorkerType | undefined;
+  SecurityConfiguration?: string | undefined;
+  GlueVersion?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  RequestOrigin?: string | undefined;
+  SessionType?: SessionType | undefined;
 }
 export type SessionStatus =
   | "PROVISIONING"
@@ -3715,54 +3777,54 @@ export type SessionStatus =
 export type DoubleValue = number;
 export type IdleTimeout = number;
 export interface Session {
-  Id?: string;
-  CreatedOn?: Date;
-  Status?: SessionStatus;
-  ErrorMessage?: string;
-  Description?: string;
-  Role?: string;
-  Command?: SessionCommand;
-  DefaultArguments?: { [key: string]: string | undefined };
-  Connections?: ConnectionsList;
-  Progress?: number;
-  MaxCapacity?: number;
-  SecurityConfiguration?: string;
-  GlueVersion?: string;
-  NumberOfWorkers?: number;
-  WorkerType?: WorkerType;
-  CompletedOn?: Date;
-  ExecutionTime?: number;
-  DPUSeconds?: number;
-  IdleTimeout?: number;
-  ProfileName?: string;
-  SessionType?: SessionType;
+  Id?: string | undefined;
+  CreatedOn?: Date | undefined;
+  Status?: SessionStatus | undefined;
+  ErrorMessage?: string | undefined;
+  Description?: string | undefined;
+  Role?: string | undefined;
+  Command?: SessionCommand | undefined;
+  DefaultArguments?: { [key: string]: string | undefined } | undefined;
+  Connections?: ConnectionsList | undefined;
+  Progress?: number | undefined;
+  MaxCapacity?: number | undefined;
+  SecurityConfiguration?: string | undefined;
+  GlueVersion?: string | undefined;
+  NumberOfWorkers?: number | undefined;
+  WorkerType?: WorkerType | undefined;
+  CompletedOn?: Date | undefined;
+  ExecutionTime?: number | undefined;
+  DPUSeconds?: number | undefined;
+  IdleTimeout?: number | undefined;
+  ProfileName?: string | undefined;
+  SessionType?: SessionType | undefined;
 }
 export interface CreateSessionResponse {
-  Session?: Session;
+  Session?: Session | undefined;
 }
 export type NonNegativeInteger = number;
 export type ViewTextString = string;
 export type TableTypeString = string;
 export interface TableIdentifier {
-  CatalogId?: string;
-  DatabaseName?: string;
-  Name?: string;
-  Region?: string;
+  CatalogId?: string | undefined;
+  DatabaseName?: string | undefined;
+  Name?: string | undefined;
+  Region?: string | undefined;
 }
 export interface FederatedTable {
-  Identifier?: string;
-  DatabaseIdentifier?: string;
-  ConnectionName?: string;
-  ConnectionType?: string;
+  Identifier?: string | undefined;
+  DatabaseIdentifier?: string | undefined;
+  ConnectionName?: string | undefined;
+  ConnectionType?: string | undefined;
 }
 export type ViewDialect = "REDSHIFT" | "ATHENA" | "SPARK" | (string & {});
 export type ViewDialectVersionString = string;
 export interface ViewRepresentationInput {
-  Dialect?: ViewDialect;
-  DialectVersion?: string;
-  ViewOriginalText?: string;
-  ValidationConnection?: string;
-  ViewExpandedText?: string;
+  Dialect?: ViewDialect | undefined;
+  DialectVersion?: string | undefined;
+  ViewOriginalText?: string | undefined;
+  ValidationConnection?: string | undefined;
+  ViewExpandedText?: string | undefined;
 }
 export type ViewRepresentationInputList = ViewRepresentationInput[];
 export type TableVersionId = number;
@@ -3779,46 +3841,46 @@ export type SubObjectSourceType =
   | "ICEBERG"
   | (string & {});
 export interface SubObjectStatistics {
-  SourceType?: SubObjectSourceType;
-  GlueVersionId?: string;
-  PartitionCount?: number;
-  FileCount?: number;
-  TotalFileBytes?: number;
+  SourceType?: SubObjectSourceType | undefined;
+  GlueVersionId?: string | undefined;
+  PartitionCount?: number | undefined;
+  FileCount?: number | undefined;
+  TotalFileBytes?: number | undefined;
 }
 export type SubObjectsStatisticsList = SubObjectStatistics[];
 export type SparkPipelineInfoKey = string;
 export type SparkPipelineInfoValue = string;
 export type SparkPipelineInfoMap = { [key: string]: string | undefined };
 export interface ViewDefinitionInput {
-  IsProtected?: boolean;
-  IsManaged?: boolean;
-  Definer?: string;
-  Representations?: ViewRepresentationInput[];
-  ViewVersionId?: number;
-  ViewVersionToken?: string;
-  RefreshSeconds?: number;
-  LastRefreshType?: LastRefreshType;
-  SubObjects?: string[];
-  SubObjectVersionIds?: number[];
-  SubObjectsStatistics?: SubObjectStatistics[];
-  SparkPipelineInfo?: { [key: string]: string | undefined };
+  IsProtected?: boolean | undefined;
+  IsManaged?: boolean | undefined;
+  Definer?: string | undefined;
+  Representations?: ViewRepresentationInput[] | undefined;
+  ViewVersionId?: number | undefined;
+  ViewVersionToken?: string | undefined;
+  RefreshSeconds?: number | undefined;
+  LastRefreshType?: LastRefreshType | undefined;
+  SubObjects?: string[] | undefined;
+  SubObjectVersionIds?: number[] | undefined;
+  SubObjectsStatistics?: SubObjectStatistics[] | undefined;
+  SparkPipelineInfo?: { [key: string]: string | undefined } | undefined;
 }
 export interface TableInput {
   Name: string;
-  Description?: string;
-  Owner?: string;
-  LastAccessTime?: Date;
-  LastAnalyzedTime?: Date;
-  Retention?: number;
-  StorageDescriptor?: StorageDescriptor;
-  PartitionKeys?: Column[];
-  ViewOriginalText?: string;
-  ViewExpandedText?: string;
-  TableType?: string;
-  Parameters?: { [key: string]: string | undefined };
-  TargetTable?: TableIdentifier;
-  FederatedTable?: FederatedTable;
-  ViewDefinition?: ViewDefinitionInput;
+  Description?: string | undefined;
+  Owner?: string | undefined;
+  LastAccessTime?: Date | undefined;
+  LastAnalyzedTime?: Date | undefined;
+  Retention?: number | undefined;
+  StorageDescriptor?: StorageDescriptor | undefined;
+  PartitionKeys?: Column[] | undefined;
+  ViewOriginalText?: string | undefined;
+  ViewExpandedText?: string | undefined;
+  TableType?: string | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
+  TargetTable?: TableIdentifier | undefined;
+  FederatedTable?: FederatedTable | undefined;
+  ViewDefinition?: ViewDefinitionInput | undefined;
 }
 export type PartitionIndexList = PartitionIndex[];
 export type MetadataOperation = "CREATE" | (string & {});
@@ -3830,15 +3892,15 @@ export interface IcebergStructField {
   Name: string;
   Type: any;
   Required: boolean;
-  Doc?: string;
-  InitialDefault?: any;
-  WriteDefault?: any;
+  Doc?: string | undefined;
+  InitialDefault?: any | undefined;
+  WriteDefault?: any | undefined;
 }
 export type IcebergStructFieldList = IcebergStructField[];
 export interface IcebergSchema {
-  SchemaId?: number;
-  IdentifierFieldIds?: number[];
-  Type?: IcebergStructTypeEnum;
+  SchemaId?: number | undefined;
+  IdentifierFieldIds?: number[] | undefined;
+  Type?: IcebergStructTypeEnum | undefined;
   Fields: IcebergStructField[];
 }
 export type IcebergTransformString = string;
@@ -3846,12 +3908,12 @@ export interface IcebergPartitionField {
   SourceId: number;
   Transform: string;
   Name: string;
-  FieldId?: number;
+  FieldId?: number | undefined;
 }
 export type IcebergPartitionSpecFieldList = IcebergPartitionField[];
 export interface IcebergPartitionSpec {
   Fields: IcebergPartitionField[];
-  SpecId?: number;
+  SpecId?: number | undefined;
 }
 export type IcebergSortDirection = "asc" | "desc" | (string & {});
 export type IcebergNullOrder = "nulls-first" | "nulls-last" | (string & {});
@@ -3870,26 +3932,26 @@ export type StringToStringMap = { [key: string]: string | undefined };
 export interface CreateIcebergTableInput {
   Location: string;
   Schema: IcebergSchema;
-  PartitionSpec?: IcebergPartitionSpec;
-  WriteOrder?: IcebergSortOrder;
-  Properties?: { [key: string]: string | undefined };
+  PartitionSpec?: IcebergPartitionSpec | undefined;
+  WriteOrder?: IcebergSortOrder | undefined;
+  Properties?: { [key: string]: string | undefined } | undefined;
 }
 export interface IcebergInput {
   MetadataOperation: MetadataOperation;
-  Version?: string;
-  CreateIcebergTableInput?: CreateIcebergTableInput;
+  Version?: string | undefined;
+  CreateIcebergTableInput?: CreateIcebergTableInput | undefined;
 }
 export interface OpenTableFormatInput {
-  IcebergInput?: IcebergInput;
+  IcebergInput?: IcebergInput | undefined;
 }
 export interface CreateTableRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
-  Name?: string;
-  TableInput?: TableInput;
-  PartitionIndexes?: PartitionIndex[];
-  TransactionId?: string;
-  OpenTableFormatInput?: OpenTableFormatInput;
+  Name?: string | undefined;
+  TableInput?: TableInput | undefined;
+  PartitionIndexes?: PartitionIndex[] | undefined;
+  TransactionId?: string | undefined;
+  OpenTableFormatInput?: OpenTableFormatInput | undefined;
 }
 export interface CreateTableResponse {}
 export interface CreateTableOptimizerRequest {
@@ -3902,40 +3964,40 @@ export interface CreateTableOptimizerRequest {
 export interface CreateTableOptimizerResponse {}
 export interface CreateTriggerRequest {
   Name: string;
-  WorkflowName?: string;
+  WorkflowName?: string | undefined;
   Type: TriggerType;
-  Schedule?: string;
-  Predicate?: Predicate;
+  Schedule?: string | undefined;
+  Predicate?: Predicate | undefined;
   Actions: Action[];
-  Description?: string;
-  StartOnCreation?: boolean;
-  Tags?: { [key: string]: string | undefined };
-  EventBatchingCondition?: EventBatchingCondition;
+  Description?: string | undefined;
+  StartOnCreation?: boolean | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  EventBatchingCondition?: EventBatchingCondition | undefined;
 }
 export interface CreateTriggerResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type ConfigValueString = string;
 export type AllowedValuesStringList = string[];
 export interface ConfigurationObject {
-  DefaultValue?: string;
-  AllowedValues?: string[];
-  MinValue?: string;
-  MaxValue?: string;
+  DefaultValue?: string | undefined;
+  AllowedValues?: string[] | undefined;
+  MinValue?: string | undefined;
+  MaxValue?: string | undefined;
 }
 export type ConfigurationMap = { [key: string]: ConfigurationObject | undefined };
 export interface ProfileConfiguration {
-  SessionConfiguration?: { [key: string]: ConfigurationObject | undefined };
-  JobConfiguration?: { [key: string]: ConfigurationObject | undefined };
+  SessionConfiguration?: { [key: string]: ConfigurationObject | undefined } | undefined;
+  JobConfiguration?: { [key: string]: ConfigurationObject | undefined } | undefined;
 }
 export interface CreateUsageProfileRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   Configuration: ProfileConfiguration;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateUsageProfileResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type FunctionType =
   | "REGULAR_FUNCTION"
@@ -3945,24 +4007,24 @@ export type FunctionType =
 export type PrincipalType = "USER" | "ROLE" | "GROUP" | (string & {});
 export type ResourceType = "JAR" | "FILE" | "ARCHIVE" | (string & {});
 export interface ResourceUri {
-  ResourceType?: ResourceType;
-  Uri?: string;
-  LastModified?: Date;
+  ResourceType?: ResourceType | undefined;
+  Uri?: string | undefined;
+  LastModified?: Date | undefined;
 }
 export type ResourceUriList = ResourceUri[];
 export type GovernanceMode = "IAM_ONLY" | "LAKE_FORMATION" | (string & {});
 export interface UserDefinedFunctionInput {
-  FunctionName?: string;
-  ClassName?: string;
-  OwnerName?: string;
-  FunctionType?: FunctionType;
-  OwnerType?: PrincipalType;
-  ResourceUris?: ResourceUri[];
-  ArtifactLocation?: string;
-  GovernanceMode?: GovernanceMode;
+  FunctionName?: string | undefined;
+  ClassName?: string | undefined;
+  OwnerName?: string | undefined;
+  FunctionType?: FunctionType | undefined;
+  OwnerType?: PrincipalType | undefined;
+  ResourceUris?: ResourceUri[] | undefined;
+  ArtifactLocation?: string | undefined;
+  GovernanceMode?: GovernanceMode | undefined;
 }
 export interface CreateUserDefinedFunctionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   FunctionInput: UserDefinedFunctionInput;
 }
@@ -3970,13 +4032,13 @@ export interface CreateUserDefinedFunctionResponse {}
 export type WorkflowDescriptionString = string;
 export interface CreateWorkflowRequest {
   Name: string;
-  Description?: string;
-  DefaultRunProperties?: { [key: string]: string | undefined };
-  Tags?: { [key: string]: string | undefined };
-  MaxConcurrentRuns?: number;
+  Description?: string | undefined;
+  DefaultRunProperties?: { [key: string]: string | undefined } | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  MaxConcurrentRuns?: number | undefined;
 }
 export interface CreateWorkflowResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface DeleteAssetRequest {
   Identifier: string;
@@ -3990,20 +4052,20 @@ export interface DeleteAssetTypeResponse {}
 export type AttachmentName = string;
 export interface DeleteAttachmentRequest {
   AssetIdentifier: string;
-  IterableFormName?: string;
-  ItemIdentifier?: string;
+  IterableFormName?: string | undefined;
+  ItemIdentifier?: string | undefined;
   AttachmentName: string;
 }
 export interface DeleteAttachmentResponse {
-  AssetIdentifier?: string;
-  IterableFormName?: string;
-  ItemIdentifier?: string;
+  AssetIdentifier?: string | undefined;
+  IterableFormName?: string | undefined;
+  ItemIdentifier?: string | undefined;
 }
 export interface DeleteBlueprintRequest {
   Name: string;
 }
 export interface DeleteBlueprintResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface DeleteCatalogRequest {
   CatalogId: string;
@@ -4014,7 +4076,7 @@ export interface DeleteClassifierRequest {
 }
 export interface DeleteClassifierResponse {}
 export interface DeleteColumnStatisticsForPartitionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   PartitionValues: string[];
@@ -4022,7 +4084,7 @@ export interface DeleteColumnStatisticsForPartitionRequest {
 }
 export interface DeleteColumnStatisticsForPartitionResponse {}
 export interface DeleteColumnStatisticsForTableRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   ColumnName: string;
@@ -4031,11 +4093,11 @@ export interface DeleteColumnStatisticsForTableResponse {}
 export interface DeleteColumnStatisticsTaskSettingsRequest {
   DatabaseName: string;
   TableName: string;
-  CatalogID?: string;
+  CatalogID?: string | undefined;
 }
 export interface DeleteColumnStatisticsTaskSettingsResponse {}
 export interface DeleteConnectionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   ConnectionName: string;
 }
 export interface DeleteConnectionResponse {}
@@ -4051,13 +4113,17 @@ export interface DeleteCustomEntityTypeRequest {
   Name: string;
 }
 export interface DeleteCustomEntityTypeResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface DeleteDatabaseRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Name: string;
 }
 export interface DeleteDatabaseResponse {}
+export interface DeleteDataQualityEvaluationConfigRequest {
+  Name: string;
+}
+export interface DeleteDataQualityEvaluationConfigResponse {}
 export interface DeleteDataQualityRulesetRequest {
   Name: string;
 }
@@ -4087,15 +4153,15 @@ export interface DeleteIntegrationResponse {
   SourceArn: string;
   TargetArn: string;
   IntegrationName: string;
-  Description?: string;
+  Description?: string | undefined;
   IntegrationArn: string;
-  KmsKeyId?: string;
-  AdditionalEncryptionContext?: { [key: string]: string | undefined };
-  Tags?: Tag[];
+  KmsKeyId?: string | undefined;
+  AdditionalEncryptionContext?: { [key: string]: string | undefined } | undefined;
+  Tags?: Tag[] | undefined;
   Status: IntegrationStatus;
   CreateTime: Date;
-  Errors?: IntegrationError[];
-  DataFilter?: string;
+  Errors?: IntegrationError[] | undefined;
+  DataFilter?: string | undefined;
 }
 export interface DeleteIntegrationResourcePropertyRequest {
   ResourceArn: string;
@@ -4110,23 +4176,23 @@ export interface DeleteJobRequest {
   JobName: string;
 }
 export interface DeleteJobResponse {
-  JobName?: string;
+  JobName?: string | undefined;
 }
 export interface DeleteMLTransformRequest {
   TransformId: string;
 }
 export interface DeleteMLTransformResponse {
-  TransformId?: string;
+  TransformId?: string | undefined;
 }
 export interface DeletePartitionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   PartitionValues: string[];
 }
 export interface DeletePartitionResponse {}
 export interface DeletePartitionIndexRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   IndexName: string;
@@ -4137,22 +4203,22 @@ export interface DeleteRegistryInput {
 }
 export type RegistryStatus = "AVAILABLE" | "DELETING" | (string & {});
 export interface DeleteRegistryResponse {
-  RegistryName?: string;
-  RegistryArn?: string;
-  Status?: RegistryStatus;
+  RegistryName?: string | undefined;
+  RegistryArn?: string | undefined;
+  Status?: RegistryStatus | undefined;
 }
 export interface DeleteResourcePolicyRequest {
-  PolicyHashCondition?: string;
-  ResourceArn?: string;
+  PolicyHashCondition?: string | undefined;
+  ResourceArn?: string | undefined;
 }
 export interface DeleteResourcePolicyResponse {}
 export interface DeleteSchemaInput {
   SchemaId: SchemaId;
 }
 export interface DeleteSchemaResponse {
-  SchemaArn?: string;
-  SchemaName?: string;
-  Status?: SchemaStatus;
+  SchemaArn?: string | undefined;
+  SchemaName?: string | undefined;
+  Status?: SchemaStatus | undefined;
 }
 export type VersionsString = string;
 export interface DeleteSchemaVersionsInput {
@@ -4162,16 +4228,16 @@ export interface DeleteSchemaVersionsInput {
 export type ErrorCodeString = string;
 export type ErrorMessageString = string;
 export interface ErrorDetails {
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export interface SchemaVersionErrorItem {
-  VersionNumber?: number;
-  ErrorDetails?: ErrorDetails;
+  VersionNumber?: number | undefined;
+  ErrorDetails?: ErrorDetails | undefined;
 }
 export type SchemaVersionErrorList = SchemaVersionErrorItem[];
 export interface DeleteSchemaVersionsResponse {
-  SchemaVersionErrors?: SchemaVersionErrorItem[];
+  SchemaVersionErrors?: SchemaVersionErrorItem[] | undefined;
 }
 export interface DeleteSecurityConfigurationRequest {
   Name: string;
@@ -4179,16 +4245,16 @@ export interface DeleteSecurityConfigurationRequest {
 export interface DeleteSecurityConfigurationResponse {}
 export interface DeleteSessionRequest {
   Id: string;
-  RequestOrigin?: string;
+  RequestOrigin?: string | undefined;
 }
 export interface DeleteSessionResponse {
-  Id?: string;
+  Id?: string | undefined;
 }
 export interface DeleteTableRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   Name: string;
-  TransactionId?: string;
+  TransactionId?: string | undefined;
 }
 export interface DeleteTableResponse {}
 export interface DeleteTableOptimizerRequest {
@@ -4199,7 +4265,7 @@ export interface DeleteTableOptimizerRequest {
 }
 export interface DeleteTableOptimizerResponse {}
 export interface DeleteTableVersionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   VersionId: string;
@@ -4209,14 +4275,14 @@ export interface DeleteTriggerRequest {
   Name: string;
 }
 export interface DeleteTriggerResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface DeleteUsageProfileRequest {
   Name: string;
 }
 export interface DeleteUsageProfileResponse {}
 export interface DeleteUserDefinedFunctionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   FunctionName: string;
 }
@@ -4225,7 +4291,7 @@ export interface DeleteWorkflowRequest {
   Name: string;
 }
 export interface DeleteWorkflowResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface DescribeConnectionTypeRequest {
   ConnectionType: string;
@@ -4253,7 +4319,7 @@ export type PropertyTypes = PropertyType[];
 export type AllowedValueDescriptionString = string;
 export type AllowedValueValueString = string;
 export interface AllowedValue {
-  Description?: string;
+  Description?: string | undefined;
   Value: string;
 }
 export type AllowedValues = AllowedValue[];
@@ -4262,20 +4328,20 @@ export interface Property {
   Name: string;
   Description: string;
   Required: boolean;
-  DefaultValue?: string;
+  DefaultValue?: string | undefined;
   PropertyTypes: PropertyType[];
-  AllowedValues?: AllowedValue[];
-  DataOperationScopes?: DataOperation[];
-  KeyOverride?: string;
-  PropertyLocation?: PropertyLocation;
+  AllowedValues?: AllowedValue[] | undefined;
+  DataOperationScopes?: DataOperation[] | undefined;
+  KeyOverride?: string | undefined;
+  PropertyLocation?: PropertyLocation | undefined;
 }
 export type PropertiesMap = { [key: string]: Property | undefined };
 export interface AuthConfiguration {
   AuthenticationType: Property;
-  SecretArn?: Property;
-  OAuth2Properties?: { [key: string]: Property | undefined };
-  BasicAuthenticationProperties?: { [key: string]: Property | undefined };
-  CustomAuthenticationProperties?: { [key: string]: Property | undefined };
+  SecretArn?: Property | undefined;
+  OAuth2Properties?: { [key: string]: Property | undefined } | undefined;
+  BasicAuthenticationProperties?: { [key: string]: Property | undefined } | undefined;
+  CustomAuthenticationProperties?: { [key: string]: Property | undefined } | undefined;
 }
 export type ComputeEnvironmentName = string;
 export type ComputeEnvironmentConfigurationDescriptionString = string;
@@ -4290,7 +4356,7 @@ export interface ComputeEnvironmentConfiguration {
   ConnectionPropertyNameOverrides: { [key: string]: string | undefined };
   ConnectionOptionNameOverrides: { [key: string]: string | undefined };
   ConnectionPropertiesRequiredOverrides: string[];
-  PhysicalConnectionPropertiesRequired?: boolean;
+  PhysicalConnectionPropertiesRequired?: boolean | undefined;
 }
 export type ComputeEnvironmentConfigurationMap = {
   [key: string]: ComputeEnvironmentConfiguration | undefined;
@@ -4300,70 +4366,70 @@ export type PathString = string;
 export type ConnectorPropertyKey = string;
 export interface ConnectorProperty {
   Name: string;
-  KeyOverride?: string;
+  KeyOverride?: string | undefined;
   Required: boolean;
-  DefaultValue?: string;
-  AllowedValues?: string[];
-  PropertyLocation?: PropertyLocation;
+  DefaultValue?: string | undefined;
+  AllowedValues?: string[] | undefined;
+  PropertyLocation?: PropertyLocation | undefined;
   PropertyType: PropertyType;
-  Format?: string;
+  Format?: string | undefined;
 }
 export type ConnectorPropertyList = ConnectorProperty[];
 export type JsonPathString = string;
 export interface ResponseConfiguration {
   ResultPath: string;
-  ErrorPath?: string;
+  ErrorPath?: string | undefined;
 }
 export type DefaultValue = string;
 export interface ResponseExtractionMapping {
-  ContentPath?: string;
-  HeaderKey?: string;
+  ContentPath?: string | undefined;
+  HeaderKey?: string | undefined;
 }
 export interface ExtractedParameter {
-  Key?: string;
-  DefaultValue?: string;
-  PropertyLocation?: PropertyLocation;
-  Value?: ResponseExtractionMapping;
+  Key?: string | undefined;
+  DefaultValue?: string | undefined;
+  PropertyLocation?: PropertyLocation | undefined;
+  Value?: ResponseExtractionMapping | undefined;
 }
 export interface CursorConfiguration {
   NextPage: ExtractedParameter;
-  LimitParameter?: ExtractedParameter;
+  LimitParameter?: ExtractedParameter | undefined;
 }
 export interface OffsetConfiguration {
   OffsetParameter: ExtractedParameter;
   LimitParameter: ExtractedParameter;
 }
 export interface PaginationConfiguration {
-  CursorConfiguration?: CursorConfiguration;
-  OffsetConfiguration?: OffsetConfiguration;
+  CursorConfiguration?: CursorConfiguration | undefined;
+  OffsetConfiguration?: OffsetConfiguration | undefined;
 }
 export type FilterMode = "QUERY_PARAMS" | "FILTER_STRING" | (string & {});
 export type ConnectionStringToStringMap = { [key: string]: string | undefined };
 export interface BetweenConfiguration {
-  LowBoundKey?: string;
-  HighBoundKey?: string;
-  Template?: string;
+  LowBoundKey?: string | undefined;
+  HighBoundKey?: string | undefined;
+  Template?: string | undefined;
 }
 export interface FilterStringConfiguration {
   QueryParameterName: string;
-  QuoteStringValues?: boolean;
-  QuoteCharacter?: string;
+  QuoteStringValues?: boolean | undefined;
+  QuoteCharacter?: string | undefined;
 }
 export interface FilterConfiguration {
   FilterMode: FilterMode;
-  OperatorMappings?: { [key: string]: string | undefined };
-  DateTimeFormat?: string;
-  StripQuotes?: boolean;
-  BetweenConfiguration?: BetweenConfiguration;
-  FilterStringConfiguration?: FilterStringConfiguration;
+  OperatorMappings?: { [key: string]: string | undefined } | undefined;
+  DateTimeFormat?: string | undefined;
+  StripQuotes?: boolean | undefined;
+  BetweenConfiguration?: BetweenConfiguration | undefined;
+  FilterStringConfiguration?: FilterStringConfiguration | undefined;
 }
 export interface SourceConfiguration {
-  RequestMethod?: HTTPMethod;
-  RequestPath?: string;
-  RequestParameters?: ConnectorProperty[];
-  ResponseConfiguration?: ResponseConfiguration;
-  PaginationConfiguration?: PaginationConfiguration;
-  FilterConfiguration?: FilterConfiguration;
+  RequestMethod?: HTTPMethod | undefined;
+  RequestPath?: string | undefined;
+  RequestParameters?: ConnectorProperty[] | undefined;
+  ResponseConfiguration?: ResponseConfiguration | undefined;
+  PaginationConfiguration?: PaginationConfiguration | undefined;
+  FilterConfiguration?: FilterConfiguration | undefined;
 }
 export type EntityConfigurationMapKeyString = string;
 export type FieldDefinitionMapKeyString = string;
@@ -4388,55 +4454,57 @@ export type FieldDataType =
   | "UNION"
   | (string & {});
 export interface FilterOverrides {
-  FieldName?: string;
-  OperatorMappings?: { [key: string]: string | undefined };
-  BetweenConfiguration?: BetweenConfiguration;
-  DateTimeFormat?: string;
+  FieldName?: string | undefined;
+  OperatorMappings?: { [key: string]: string | undefined } | undefined;
+  BetweenConfiguration?: BetweenConfiguration | undefined;
+  DateTimeFormat?: string | undefined;
 }
 export interface FieldDefinition {
   Name: string;
   FieldDataType: FieldDataType;
-  ResponseDateFormat?: string;
-  IsPartitionable?: boolean;
-  IsNullable?: boolean;
-  IsQueryable?: boolean;
-  IsOrderable?: boolean;
-  FilterOverrides?: FilterOverrides;
+  ResponseDateFormat?: string | undefined;
+  IsPartitionable?: boolean | undefined;
+  IsNullable?: boolean | undefined;
+  IsQueryable?: boolean | undefined;
+  IsOrderable?: boolean | undefined;
+  FilterOverrides?: FilterOverrides | undefined;
 }
 export type FieldDefinitionMap = { [key: string]: FieldDefinition | undefined };
 export interface EntityConfiguration {
-  SourceConfiguration?: SourceConfiguration;
-  Schema?: { [key: string]: FieldDefinition | undefined };
+  SourceConfiguration?: SourceConfiguration | undefined;
+  Schema?: { [key: string]: FieldDefinition | undefined } | undefined;
 }
 export type EntityConfigurationMap = { [key: string]: EntityConfiguration | undefined };
 export interface RestConfiguration {
-  GlobalSourceConfiguration?: SourceConfiguration;
-  ValidationEndpointConfiguration?: SourceConfiguration;
-  EntityConfigurations?: { [key: string]: EntityConfiguration | undefined };
+  GlobalSourceConfiguration?: SourceConfiguration | undefined;
+  ValidationEndpointConfiguration?: SourceConfiguration | undefined;
+  EntityConfigurations?: { [key: string]: EntityConfiguration | undefined } | undefined;
 }
 export interface DescribeConnectionTypeResponse {
-  ConnectionType?: string;
-  Description?: string;
-  Capabilities?: Capabilities;
-  ConnectionProperties?: { [key: string]: Property | undefined };
-  ConnectionOptions?: { [key: string]: Property | undefined };
-  AuthenticationConfiguration?: AuthConfiguration;
-  ComputeEnvironmentConfigurations?: { [key: string]: ComputeEnvironmentConfiguration | undefined };
-  PhysicalConnectionRequirements?: { [key: string]: Property | undefined };
-  AthenaConnectionProperties?: { [key: string]: Property | undefined };
-  PythonConnectionProperties?: { [key: string]: Property | undefined };
-  SparkConnectionProperties?: { [key: string]: Property | undefined };
-  RestConfiguration?: RestConfiguration;
+  ConnectionType?: string | undefined;
+  Description?: string | undefined;
+  Capabilities?: Capabilities | undefined;
+  ConnectionProperties?: { [key: string]: Property | undefined } | undefined;
+  ConnectionOptions?: { [key: string]: Property | undefined } | undefined;
+  AuthenticationConfiguration?: AuthConfiguration | undefined;
+  ComputeEnvironmentConfigurations?:
+    | { [key: string]: ComputeEnvironmentConfiguration | undefined }
+    | undefined;
+  PhysicalConnectionRequirements?: { [key: string]: Property | undefined } | undefined;
+  AthenaConnectionProperties?: { [key: string]: Property | undefined } | undefined;
+  PythonConnectionProperties?: { [key: string]: Property | undefined } | undefined;
+  SparkConnectionProperties?: { [key: string]: Property | undefined } | undefined;
+  RestConfiguration?: RestConfiguration | undefined;
 }
 export type EntityName = string;
 export type NextToken = string;
 export type ApiVersion = string;
 export interface DescribeEntityRequest {
   ConnectionName: string;
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   EntityName: string;
-  NextToken?: string;
-  DataStoreApiVersion?: string;
+  NextToken?: string | undefined;
+  DataStoreApiVersion?: string | undefined;
 }
 export type EntityFieldName = string;
 export type FieldLabel = string;
@@ -4455,36 +4523,36 @@ export type FieldFilterOperator =
 export type FieldFilterOperatorsList = FieldFilterOperator[];
 export type CustomProperties = { [key: string]: string | undefined };
 export interface Field {
-  FieldName?: string;
-  Label?: string;
-  Description?: string;
-  FieldType?: FieldDataType;
-  IsPrimaryKey?: boolean;
-  IsNullable?: boolean;
-  IsRetrievable?: boolean;
-  IsFilterable?: boolean;
-  IsPartitionable?: boolean;
-  IsCreateable?: boolean;
-  IsUpdateable?: boolean;
-  IsUpsertable?: boolean;
-  IsDefaultOnCreate?: boolean;
-  SupportedValues?: string[];
-  SupportedFilterOperators?: FieldFilterOperator[];
-  ParentField?: string;
-  NativeDataType?: string;
-  CustomProperties?: { [key: string]: string | undefined };
+  FieldName?: string | undefined;
+  Label?: string | undefined;
+  Description?: string | undefined;
+  FieldType?: FieldDataType | undefined;
+  IsPrimaryKey?: boolean | undefined;
+  IsNullable?: boolean | undefined;
+  IsRetrievable?: boolean | undefined;
+  IsFilterable?: boolean | undefined;
+  IsPartitionable?: boolean | undefined;
+  IsCreateable?: boolean | undefined;
+  IsUpdateable?: boolean | undefined;
+  IsUpsertable?: boolean | undefined;
+  IsDefaultOnCreate?: boolean | undefined;
+  SupportedValues?: string[] | undefined;
+  SupportedFilterOperators?: FieldFilterOperator[] | undefined;
+  ParentField?: string | undefined;
+  NativeDataType?: string | undefined;
+  CustomProperties?: { [key: string]: string | undefined } | undefined;
 }
 export type FieldsList = Field[];
 export interface DescribeEntityResponse {
-  Fields?: Field[];
-  NextToken?: string;
+  Fields?: Field[] | undefined;
+  NextToken?: string | undefined;
 }
 export type IntegrationInteger = number;
 export interface DescribeInboundIntegrationsRequest {
-  IntegrationArn?: string;
-  Marker?: string;
-  MaxRecords?: number;
-  TargetArn?: string;
+  IntegrationArn?: string | undefined;
+  Marker?: string | undefined;
+  MaxRecords?: number | undefined;
+  TargetArn?: string | undefined;
 }
 export interface InboundIntegration {
   SourceArn: string;
@@ -4492,58 +4560,58 @@ export interface InboundIntegration {
   IntegrationArn: string;
   Status: IntegrationStatus;
   CreateTime: Date;
-  IntegrationConfig?: IntegrationConfig;
-  Errors?: IntegrationError[];
+  IntegrationConfig?: IntegrationConfig | undefined;
+  Errors?: IntegrationError[] | undefined;
 }
 export type InboundIntegrationsList = InboundIntegration[];
 export interface DescribeInboundIntegrationsResponse {
-  InboundIntegrations?: InboundIntegration[];
-  Marker?: string;
+  InboundIntegrations?: InboundIntegration[] | undefined;
+  Marker?: string | undefined;
 }
 export type IntegrationFilterValues = string[];
 export interface IntegrationFilter {
-  Name?: string;
-  Values?: string[];
+  Name?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type IntegrationFilterList = IntegrationFilter[];
 export interface DescribeIntegrationsRequest {
-  IntegrationIdentifier?: string;
-  Marker?: string;
-  MaxRecords?: number;
-  Filters?: IntegrationFilter[];
+  IntegrationIdentifier?: string | undefined;
+  Marker?: string | undefined;
+  MaxRecords?: number | undefined;
+  Filters?: IntegrationFilter[] | undefined;
 }
 export interface Integration {
   SourceArn: string;
   TargetArn: string;
-  Description?: string;
+  Description?: string | undefined;
   IntegrationName: string;
   IntegrationArn: string;
-  KmsKeyId?: string;
-  AdditionalEncryptionContext?: { [key: string]: string | undefined };
-  Tags?: Tag[];
+  KmsKeyId?: string | undefined;
+  AdditionalEncryptionContext?: { [key: string]: string | undefined } | undefined;
+  Tags?: Tag[] | undefined;
   Status: IntegrationStatus;
   CreateTime: Date;
-  IntegrationConfig?: IntegrationConfig;
-  Errors?: IntegrationError[];
-  DataFilter?: string;
+  IntegrationConfig?: IntegrationConfig | undefined;
+  Errors?: IntegrationError[] | undefined;
+  DataFilter?: string | undefined;
 }
 export type IntegrationsList = Integration[];
 export interface DescribeIntegrationsResponse {
-  Integrations?: Integration[];
-  Marker?: string;
+  Integrations?: Integration[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DisassociateGlossaryTermsRequest {
   AssetIdentifier: string;
-  IterableFormName?: string;
-  ItemIdentifier?: string;
+  IterableFormName?: string | undefined;
+  ItemIdentifier?: string | undefined;
   GlossaryTermIdentifiers: string[];
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface DisassociateGlossaryTermsResponse {
-  AssetIdentifier?: string;
-  IterableFormName?: string;
-  ItemIdentifier?: string;
-  GlossaryTerms?: string[];
+  AssetIdentifier?: string | undefined;
+  IterableFormName?: string | undefined;
+  ItemIdentifier?: string | undefined;
+  GlossaryTerms?: string[] | undefined;
 }
 export interface GetAssetInput {
   Identifier: string;
@@ -4554,20 +4622,20 @@ export type CreatedAt = Date;
 export type UpdatedAt = Date;
 export type IterableFormKey = string;
 export interface IterableFormEntry {
-  FormTypeId?: string;
+  FormTypeId?: string | undefined;
 }
 export type IterableFormMap = { [key: string]: IterableFormEntry | undefined };
 export interface GetAssetOutput {
   Id: string;
-  Name?: string;
-  Description?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
   AssetTypeId: string;
-  GlossaryTerms?: string[];
-  Forms?: { [key: string]: AssetFormEntry | undefined };
-  Attachments?: { [key: string]: AssetFormEntry | undefined };
-  IterableForms?: { [key: string]: IterableFormEntry | undefined };
+  GlossaryTerms?: string[] | undefined;
+  Forms?: { [key: string]: AssetFormEntry | undefined } | undefined;
+  Attachments?: { [key: string]: AssetFormEntry | undefined } | undefined;
+  IterableForms?: { [key: string]: IterableFormEntry | undefined } | undefined;
 }
 export interface GetAssetTypeRequest {
   Identifier: string;
@@ -4579,17 +4647,17 @@ export interface AssetTypeFormReference {
 }
 export type AssetTypeFormsMap = { [key: string]: AssetTypeFormReference | undefined };
 export interface GetAssetTypeResponse {
-  Id?: string;
-  Name?: string;
-  Forms?: { [key: string]: AssetTypeFormReference | undefined };
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Forms?: { [key: string]: AssetTypeFormReference | undefined } | undefined;
 }
 export interface GetBlueprintRequest {
   Name: string;
-  IncludeBlueprint?: boolean;
-  IncludeParameterSpec?: boolean;
+  IncludeBlueprint?: boolean | undefined;
+  IncludeParameterSpec?: boolean | undefined;
 }
 export interface GetBlueprintResponse {
-  Blueprint?: Blueprint;
+  Blueprint?: Blueprint | undefined;
 }
 export interface GetBlueprintRunRequest {
   BlueprintName: string;
@@ -4599,98 +4667,98 @@ export type BlueprintRunState = "RUNNING" | "SUCCEEDED" | "FAILED" | "ROLLING_BA
 export type BlueprintParameters = string;
 export type OrchestrationIAMRoleArn = string;
 export interface BlueprintRun {
-  BlueprintName?: string;
-  RunId?: string;
-  WorkflowName?: string;
-  State?: BlueprintRunState;
-  StartedOn?: Date;
-  CompletedOn?: Date;
-  ErrorMessage?: string;
-  RollbackErrorMessage?: string;
-  Parameters?: string;
-  RoleArn?: string;
+  BlueprintName?: string | undefined;
+  RunId?: string | undefined;
+  WorkflowName?: string | undefined;
+  State?: BlueprintRunState | undefined;
+  StartedOn?: Date | undefined;
+  CompletedOn?: Date | undefined;
+  ErrorMessage?: string | undefined;
+  RollbackErrorMessage?: string | undefined;
+  Parameters?: string | undefined;
+  RoleArn?: string | undefined;
 }
 export interface GetBlueprintRunResponse {
-  BlueprintRun?: BlueprintRun;
+  BlueprintRun?: BlueprintRun | undefined;
 }
 export type PageSize = number;
 export interface GetBlueprintRunsRequest {
   BlueprintName: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type BlueprintRuns = BlueprintRun[];
 export interface GetBlueprintRunsResponse {
-  BlueprintRuns?: BlueprintRun[];
-  NextToken?: string;
+  BlueprintRuns?: BlueprintRun[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetCatalogRequest {
   CatalogId: string;
 }
 export interface DataLakeAccessPropertiesOutput {
-  DataLakeAccess?: boolean;
-  DataTransferRole?: string;
-  KmsKey?: string;
-  ManagedWorkgroupName?: string;
-  ManagedWorkgroupStatus?: string;
-  RedshiftDatabaseName?: string;
-  StatusMessage?: string;
-  CatalogType?: string;
+  DataLakeAccess?: boolean | undefined;
+  DataTransferRole?: string | undefined;
+  KmsKey?: string | undefined;
+  ManagedWorkgroupName?: string | undefined;
+  ManagedWorkgroupStatus?: string | undefined;
+  RedshiftDatabaseName?: string | undefined;
+  StatusMessage?: string | undefined;
+  CatalogType?: string | undefined;
 }
 export interface IcebergOptimizationPropertiesOutput {
-  RoleArn?: string;
-  Compaction?: { [key: string]: string | undefined };
-  Retention?: { [key: string]: string | undefined };
-  OrphanFileDeletion?: { [key: string]: string | undefined };
-  LastUpdatedTime?: Date;
+  RoleArn?: string | undefined;
+  Compaction?: { [key: string]: string | undefined } | undefined;
+  Retention?: { [key: string]: string | undefined } | undefined;
+  OrphanFileDeletion?: { [key: string]: string | undefined } | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export interface CatalogPropertiesOutput {
-  DataLakeAccessProperties?: DataLakeAccessPropertiesOutput;
-  IcebergOptimizationProperties?: IcebergOptimizationPropertiesOutput;
-  CustomProperties?: { [key: string]: string | undefined };
+  DataLakeAccessProperties?: DataLakeAccessPropertiesOutput | undefined;
+  IcebergOptimizationProperties?: IcebergOptimizationPropertiesOutput | undefined;
+  CustomProperties?: { [key: string]: string | undefined } | undefined;
 }
 export interface Catalog {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Name: string;
-  ResourceArn?: string;
-  Description?: string;
-  Parameters?: { [key: string]: string | undefined };
-  CreateTime?: Date;
-  UpdateTime?: Date;
-  TargetRedshiftCatalog?: TargetRedshiftCatalog;
-  FederatedCatalog?: FederatedCatalog;
-  CatalogProperties?: CatalogPropertiesOutput;
-  CreateTableDefaultPermissions?: PrincipalPermissions[];
-  CreateDatabaseDefaultPermissions?: PrincipalPermissions[];
-  AllowFullTableExternalDataAccess?: AllowFullTableExternalDataAccessEnum;
+  ResourceArn?: string | undefined;
+  Description?: string | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
+  CreateTime?: Date | undefined;
+  UpdateTime?: Date | undefined;
+  TargetRedshiftCatalog?: TargetRedshiftCatalog | undefined;
+  FederatedCatalog?: FederatedCatalog | undefined;
+  CatalogProperties?: CatalogPropertiesOutput | undefined;
+  CreateTableDefaultPermissions?: PrincipalPermissions[] | undefined;
+  CreateDatabaseDefaultPermissions?: PrincipalPermissions[] | undefined;
+  AllowFullTableExternalDataAccess?: AllowFullTableExternalDataAccessEnum | undefined;
 }
 export interface GetCatalogResponse {
-  Catalog?: Catalog;
+  Catalog?: Catalog | undefined;
 }
 export interface GetCatalogImportStatusRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
 }
 export interface CatalogImportStatus {
-  ImportCompleted?: boolean;
-  ImportTime?: Date;
-  ImportedBy?: string;
+  ImportCompleted?: boolean | undefined;
+  ImportTime?: Date | undefined;
+  ImportedBy?: string | undefined;
 }
 export interface GetCatalogImportStatusResponse {
-  ImportStatus?: CatalogImportStatus;
+  ImportStatus?: CatalogImportStatus | undefined;
 }
 export type Token = string;
 export interface GetCatalogsRequest {
-  ParentCatalogId?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  Recursive?: boolean;
-  IncludeRoot?: boolean;
-  HasDatabases?: boolean;
+  ParentCatalogId?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Recursive?: boolean | undefined;
+  IncludeRoot?: boolean | undefined;
+  HasDatabases?: boolean | undefined;
 }
 export type CatalogList = Catalog[];
 export interface GetCatalogsResponse {
   CatalogList: Catalog[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface GetClassifierRequest {
   Name: string;
@@ -4698,63 +4766,63 @@ export interface GetClassifierRequest {
 export interface GrokClassifier {
   Name: string;
   Classification: string;
-  CreationTime?: Date;
-  LastUpdated?: Date;
-  Version?: number;
+  CreationTime?: Date | undefined;
+  LastUpdated?: Date | undefined;
+  Version?: number | undefined;
   GrokPattern: string;
-  CustomPatterns?: string;
+  CustomPatterns?: string | undefined;
 }
 export interface XMLClassifier {
   Name: string;
   Classification: string;
-  CreationTime?: Date;
-  LastUpdated?: Date;
-  Version?: number;
-  RowTag?: string;
+  CreationTime?: Date | undefined;
+  LastUpdated?: Date | undefined;
+  Version?: number | undefined;
+  RowTag?: string | undefined;
 }
 export interface JsonClassifier {
   Name: string;
-  CreationTime?: Date;
-  LastUpdated?: Date;
-  Version?: number;
+  CreationTime?: Date | undefined;
+  LastUpdated?: Date | undefined;
+  Version?: number | undefined;
   JsonPath: string;
 }
 export interface CsvClassifier {
   Name: string;
-  CreationTime?: Date;
-  LastUpdated?: Date;
-  Version?: number;
-  Delimiter?: string;
-  QuoteSymbol?: string;
-  ContainsHeader?: CsvHeaderOption;
-  Header?: string[];
-  DisableValueTrimming?: boolean;
-  AllowSingleColumn?: boolean;
-  CustomDatatypeConfigured?: boolean;
-  CustomDatatypes?: string[];
-  Serde?: CsvSerdeOption;
+  CreationTime?: Date | undefined;
+  LastUpdated?: Date | undefined;
+  Version?: number | undefined;
+  Delimiter?: string | undefined;
+  QuoteSymbol?: string | undefined;
+  ContainsHeader?: CsvHeaderOption | undefined;
+  Header?: string[] | undefined;
+  DisableValueTrimming?: boolean | undefined;
+  AllowSingleColumn?: boolean | undefined;
+  CustomDatatypeConfigured?: boolean | undefined;
+  CustomDatatypes?: string[] | undefined;
+  Serde?: CsvSerdeOption | undefined;
 }
 export interface Classifier {
-  GrokClassifier?: GrokClassifier;
-  XMLClassifier?: XMLClassifier;
-  JsonClassifier?: JsonClassifier;
-  CsvClassifier?: CsvClassifier;
+  GrokClassifier?: GrokClassifier | undefined;
+  XMLClassifier?: XMLClassifier | undefined;
+  JsonClassifier?: JsonClassifier | undefined;
+  CsvClassifier?: CsvClassifier | undefined;
 }
 export interface GetClassifierResponse {
-  Classifier?: Classifier;
+  Classifier?: Classifier | undefined;
 }
 export interface GetClassifiersRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ClassifierList = Classifier[];
 export interface GetClassifiersResponse {
-  Classifiers?: Classifier[];
-  NextToken?: string;
+  Classifiers?: Classifier[] | undefined;
+  NextToken?: string | undefined;
 }
 export type GetColumnNamesList = string[];
 export interface GetColumnStatisticsForPartitionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   PartitionValues: string[];
@@ -4777,8 +4845,8 @@ export interface BooleanColumnStatisticsData {
   NumberOfNulls: number;
 }
 export interface DateColumnStatisticsData {
-  MinimumValue?: Date;
-  MaximumValue?: Date;
+  MinimumValue?: Date | undefined;
+  MaximumValue?: Date | undefined;
   NumberOfNulls: number;
   NumberOfDistinctValues: number;
 }
@@ -4787,20 +4855,20 @@ export interface DecimalNumber {
   Scale: number;
 }
 export interface DecimalColumnStatisticsData {
-  MinimumValue?: DecimalNumber;
-  MaximumValue?: DecimalNumber;
+  MinimumValue?: DecimalNumber | undefined;
+  MaximumValue?: DecimalNumber | undefined;
   NumberOfNulls: number;
   NumberOfDistinctValues: number;
 }
 export interface DoubleColumnStatisticsData {
-  MinimumValue?: number;
-  MaximumValue?: number;
+  MinimumValue?: number | undefined;
+  MaximumValue?: number | undefined;
   NumberOfNulls: number;
   NumberOfDistinctValues: number;
 }
 export interface LongColumnStatisticsData {
-  MinimumValue?: number;
-  MaximumValue?: number;
+  MinimumValue?: number | undefined;
+  MaximumValue?: number | undefined;
   NumberOfNulls: number;
   NumberOfDistinctValues: number;
 }
@@ -4818,13 +4886,13 @@ export interface BinaryColumnStatisticsData {
 }
 export interface ColumnStatisticsData {
   Type: ColumnStatisticsType;
-  BooleanColumnStatisticsData?: BooleanColumnStatisticsData;
-  DateColumnStatisticsData?: DateColumnStatisticsData;
-  DecimalColumnStatisticsData?: DecimalColumnStatisticsData;
-  DoubleColumnStatisticsData?: DoubleColumnStatisticsData;
-  LongColumnStatisticsData?: LongColumnStatisticsData;
-  StringColumnStatisticsData?: StringColumnStatisticsData;
-  BinaryColumnStatisticsData?: BinaryColumnStatisticsData;
+  BooleanColumnStatisticsData?: BooleanColumnStatisticsData | undefined;
+  DateColumnStatisticsData?: DateColumnStatisticsData | undefined;
+  DecimalColumnStatisticsData?: DecimalColumnStatisticsData | undefined;
+  DoubleColumnStatisticsData?: DoubleColumnStatisticsData | undefined;
+  LongColumnStatisticsData?: LongColumnStatisticsData | undefined;
+  StringColumnStatisticsData?: StringColumnStatisticsData | undefined;
+  BinaryColumnStatisticsData?: BinaryColumnStatisticsData | undefined;
 }
 export interface ColumnStatistics {
   ColumnName: string;
@@ -4834,23 +4902,23 @@ export interface ColumnStatistics {
 }
 export type ColumnStatisticsList = ColumnStatistics[];
 export interface ColumnError {
-  ColumnName?: string;
-  Error?: ErrorDetail;
+  ColumnName?: string | undefined;
+  Error?: ErrorDetail | undefined;
 }
 export type ColumnErrors = ColumnError[];
 export interface GetColumnStatisticsForPartitionResponse {
-  ColumnStatisticsList?: ColumnStatistics[];
-  Errors?: ColumnError[];
+  ColumnStatisticsList?: ColumnStatistics[] | undefined;
+  Errors?: ColumnError[] | undefined;
 }
 export interface GetColumnStatisticsForTableRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   ColumnNames: string[];
 }
 export interface GetColumnStatisticsForTableResponse {
-  ColumnStatisticsList?: ColumnStatistics[];
-  Errors?: ColumnError[];
+  ColumnStatisticsList?: ColumnStatistics[] | undefined;
+  Errors?: ColumnError[] | undefined;
 }
 export interface GetColumnStatisticsTaskRunRequest {
   ColumnStatisticsTaskRunId: string;
@@ -4866,219 +4934,219 @@ export type ColumnStatisticsState =
   | "STOPPED"
   | (string & {});
 export interface ColumnStatisticsTaskRun {
-  CustomerId?: string;
-  ColumnStatisticsTaskRunId?: string;
-  DatabaseName?: string;
-  TableName?: string;
-  ColumnNameList?: string[];
-  CatalogID?: string;
-  Role?: string;
-  SampleSize?: number;
-  SecurityConfiguration?: string;
-  NumberOfWorkers?: number;
-  WorkerType?: string;
-  ComputationType?: ComputationType;
-  Status?: ColumnStatisticsState;
-  CreationTime?: Date;
-  LastUpdated?: Date;
-  StartTime?: Date;
-  EndTime?: Date;
-  ErrorMessage?: string;
-  DPUSeconds?: number;
+  CustomerId?: string | undefined;
+  ColumnStatisticsTaskRunId?: string | undefined;
+  DatabaseName?: string | undefined;
+  TableName?: string | undefined;
+  ColumnNameList?: string[] | undefined;
+  CatalogID?: string | undefined;
+  Role?: string | undefined;
+  SampleSize?: number | undefined;
+  SecurityConfiguration?: string | undefined;
+  NumberOfWorkers?: number | undefined;
+  WorkerType?: string | undefined;
+  ComputationType?: ComputationType | undefined;
+  Status?: ColumnStatisticsState | undefined;
+  CreationTime?: Date | undefined;
+  LastUpdated?: Date | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  ErrorMessage?: string | undefined;
+  DPUSeconds?: number | undefined;
 }
 export interface GetColumnStatisticsTaskRunResponse {
-  ColumnStatisticsTaskRun?: ColumnStatisticsTaskRun;
+  ColumnStatisticsTaskRun?: ColumnStatisticsTaskRun | undefined;
 }
 export interface GetColumnStatisticsTaskRunsRequest {
   DatabaseName: string;
   TableName: string;
-  MaxResults?: number;
-  NextToken?: string;
-  CatalogID?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  CatalogID?: string | undefined;
 }
 export type ColumnStatisticsTaskRunsList = ColumnStatisticsTaskRun[];
 export interface GetColumnStatisticsTaskRunsResponse {
-  ColumnStatisticsTaskRuns?: ColumnStatisticsTaskRun[];
-  NextToken?: string;
+  ColumnStatisticsTaskRuns?: ColumnStatisticsTaskRun[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetColumnStatisticsTaskSettingsRequest {
   DatabaseName: string;
   TableName: string;
-  CatalogID?: string;
+  CatalogID?: string | undefined;
 }
 export type ScheduleType = "CRON" | "AUTO" | (string & {});
 export type SettingSource = "CATALOG" | "TABLE" | (string & {});
 export type ExecutionStatus = "FAILED" | "STARTED" | (string & {});
 export interface ExecutionAttempt {
-  Status?: ExecutionStatus;
-  ColumnStatisticsTaskRunId?: string;
-  ExecutionTimestamp?: Date;
-  ErrorMessage?: string;
+  Status?: ExecutionStatus | undefined;
+  ColumnStatisticsTaskRunId?: string | undefined;
+  ExecutionTimestamp?: Date | undefined;
+  ErrorMessage?: string | undefined;
 }
 export interface ColumnStatisticsTaskSettings {
-  DatabaseName?: string;
-  TableName?: string;
-  Schedule?: Schedule;
-  ColumnNameList?: string[];
-  CatalogID?: string;
-  Role?: string;
-  SampleSize?: number;
-  SecurityConfiguration?: string;
-  ScheduleType?: ScheduleType;
-  SettingSource?: SettingSource;
-  LastExecutionAttempt?: ExecutionAttempt;
+  DatabaseName?: string | undefined;
+  TableName?: string | undefined;
+  Schedule?: Schedule | undefined;
+  ColumnNameList?: string[] | undefined;
+  CatalogID?: string | undefined;
+  Role?: string | undefined;
+  SampleSize?: number | undefined;
+  SecurityConfiguration?: string | undefined;
+  ScheduleType?: ScheduleType | undefined;
+  SettingSource?: SettingSource | undefined;
+  LastExecutionAttempt?: ExecutionAttempt | undefined;
 }
 export interface GetColumnStatisticsTaskSettingsResponse {
-  ColumnStatisticsTaskSettings?: ColumnStatisticsTaskSettings;
+  ColumnStatisticsTaskSettings?: ColumnStatisticsTaskSettings | undefined;
 }
 export interface GetConnectionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Name: string;
-  HidePassword?: boolean;
-  ApplyOverrideForComputeEnvironment?: ComputeEnvironment;
+  HidePassword?: boolean | undefined;
+  ApplyOverrideForComputeEnvironment?: ComputeEnvironment | undefined;
 }
 export type LongValueString = string;
 export interface OAuth2Properties {
-  OAuth2GrantType?: OAuth2GrantType;
-  OAuth2ClientApplication?: OAuth2ClientApplication;
-  TokenUrl?: string;
-  TokenUrlParametersMap?: { [key: string]: string | undefined };
+  OAuth2GrantType?: OAuth2GrantType | undefined;
+  OAuth2ClientApplication?: OAuth2ClientApplication | undefined;
+  TokenUrl?: string | undefined;
+  TokenUrlParametersMap?: { [key: string]: string | undefined } | undefined;
 }
 export interface AuthenticationConfiguration {
-  AuthenticationType?: AuthenticationType;
-  SecretArn?: string;
-  KmsKeyArn?: string;
-  OAuth2Properties?: OAuth2Properties;
+  AuthenticationType?: AuthenticationType | undefined;
+  SecretArn?: string | undefined;
+  KmsKeyArn?: string | undefined;
+  OAuth2Properties?: OAuth2Properties | undefined;
 }
 export type ConnectionSchemaVersion = number;
 export interface Connection {
-  Name?: string;
-  Description?: string;
-  ConnectionType?: ConnectionType;
-  MatchCriteria?: string[];
-  ConnectionProperties?: { [key: string]: string | undefined };
-  SparkProperties?: { [key: string]: string | undefined };
-  AthenaProperties?: { [key: string]: string | undefined };
-  PythonProperties?: { [key: string]: string | undefined };
-  PhysicalConnectionRequirements?: PhysicalConnectionRequirements;
-  CreationTime?: Date;
-  LastUpdatedTime?: Date;
-  LastUpdatedBy?: string;
-  Status?: ConnectionStatus;
-  StatusReason?: string;
-  LastConnectionValidationTime?: Date;
-  AuthenticationConfiguration?: AuthenticationConfiguration;
-  ConnectionSchemaVersion?: number;
-  CompatibleComputeEnvironments?: ComputeEnvironment[];
+  Name?: string | undefined;
+  Description?: string | undefined;
+  ConnectionType?: ConnectionType | undefined;
+  MatchCriteria?: string[] | undefined;
+  ConnectionProperties?: { [key: string]: string | undefined } | undefined;
+  SparkProperties?: { [key: string]: string | undefined } | undefined;
+  AthenaProperties?: { [key: string]: string | undefined } | undefined;
+  PythonProperties?: { [key: string]: string | undefined } | undefined;
+  PhysicalConnectionRequirements?: PhysicalConnectionRequirements | undefined;
+  CreationTime?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  LastUpdatedBy?: string | undefined;
+  Status?: ConnectionStatus | undefined;
+  StatusReason?: string | undefined;
+  LastConnectionValidationTime?: Date | undefined;
+  AuthenticationConfiguration?: AuthenticationConfiguration | undefined;
+  ConnectionSchemaVersion?: number | undefined;
+  CompatibleComputeEnvironments?: ComputeEnvironment[] | undefined;
 }
 export interface GetConnectionResponse {
-  Connection?: Connection;
+  Connection?: Connection | undefined;
 }
 export interface GetConnectionsFilter {
-  MatchCriteria?: string[];
-  ConnectionType?: ConnectionType;
-  ConnectionSchemaVersion?: number;
+  MatchCriteria?: string[] | undefined;
+  ConnectionType?: ConnectionType | undefined;
+  ConnectionSchemaVersion?: number | undefined;
 }
 export interface GetConnectionsRequest {
-  CatalogId?: string;
-  Filter?: GetConnectionsFilter;
-  HidePassword?: boolean;
-  NextToken?: string;
-  MaxResults?: number;
+  CatalogId?: string | undefined;
+  Filter?: GetConnectionsFilter | undefined;
+  HidePassword?: boolean | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ConnectionList = Connection[];
 export interface GetConnectionsResponse {
-  ConnectionList?: Connection[];
-  NextToken?: string;
+  ConnectionList?: Connection[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetCrawlerRequest {
   Name: string;
 }
 export interface GetCrawlerResponse {
-  Crawler?: Crawler;
+  Crawler?: Crawler | undefined;
 }
 export interface GetCrawlerMetricsRequest {
-  CrawlerNameList?: string[];
-  MaxResults?: number;
-  NextToken?: string;
+  CrawlerNameList?: string[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface CrawlerMetrics {
-  CrawlerName?: string;
-  TimeLeftSeconds?: number;
-  StillEstimating?: boolean;
-  LastRuntimeSeconds?: number;
-  MedianRuntimeSeconds?: number;
-  TablesCreated?: number;
-  TablesUpdated?: number;
-  TablesDeleted?: number;
+  CrawlerName?: string | undefined;
+  TimeLeftSeconds?: number | undefined;
+  StillEstimating?: boolean | undefined;
+  LastRuntimeSeconds?: number | undefined;
+  MedianRuntimeSeconds?: number | undefined;
+  TablesCreated?: number | undefined;
+  TablesUpdated?: number | undefined;
+  TablesDeleted?: number | undefined;
 }
 export type CrawlerMetricsList = CrawlerMetrics[];
 export interface GetCrawlerMetricsResponse {
-  CrawlerMetricsList?: CrawlerMetrics[];
-  NextToken?: string;
+  CrawlerMetricsList?: CrawlerMetrics[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetCrawlersRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetCrawlersResponse {
-  Crawlers?: Crawler[];
-  NextToken?: string;
+  Crawlers?: Crawler[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetCustomEntityTypeRequest {
   Name: string;
 }
 export interface GetCustomEntityTypeResponse {
-  Name?: string;
-  RegexString?: string;
-  ContextWords?: string[];
+  Name?: string | undefined;
+  RegexString?: string | undefined;
+  ContextWords?: string[] | undefined;
 }
 export type GlueResourceType = "JOB" | "SESSION" | (string & {});
 export interface GetDashboardUrlRequest {
   ResourceId: string;
   ResourceType: GlueResourceType;
-  RequestOrigin?: string;
+  RequestOrigin?: string | undefined;
 }
 export type SensitiveUrl = string | redacted.Redacted<string>;
 export interface GetDashboardUrlResponse {
   Url: string | redacted.Redacted<string>;
 }
 export interface GetDatabaseRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Name: string;
 }
 export interface Database {
   Name: string;
-  Description?: string;
-  LocationUri?: string;
-  Parameters?: { [key: string]: string | undefined };
-  CreateTime?: Date;
-  CreateTableDefaultPermissions?: PrincipalPermissions[];
-  TargetDatabase?: DatabaseIdentifier;
-  CatalogId?: string;
-  FederatedDatabase?: FederatedDatabase;
+  Description?: string | undefined;
+  LocationUri?: string | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
+  CreateTime?: Date | undefined;
+  CreateTableDefaultPermissions?: PrincipalPermissions[] | undefined;
+  TargetDatabase?: DatabaseIdentifier | undefined;
+  CatalogId?: string | undefined;
+  FederatedDatabase?: FederatedDatabase | undefined;
 }
 export interface GetDatabaseResponse {
-  Database?: Database;
+  Database?: Database | undefined;
 }
 export type CatalogGetterPageSize = number;
 export type ResourceShareType = "FOREIGN" | "ALL" | "FEDERATED" | (string & {});
 export type DatabaseAttributes = "NAME" | "TARGET_DATABASE" | (string & {});
 export type DatabaseAttributesList = DatabaseAttributes[];
 export interface GetDatabasesRequest {
-  CatalogId?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  ResourceShareType?: ResourceShareType;
-  AttributesToGet?: DatabaseAttributes[];
+  CatalogId?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ResourceShareType?: ResourceShareType | undefined;
+  AttributesToGet?: DatabaseAttributes[] | undefined;
 }
 export type DatabaseList = Database[];
 export interface GetDatabasesResponse {
   DatabaseList: Database[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface GetDataCatalogEncryptionSettingsRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
 }
 export type CatalogEncryptionMode =
   | "DISABLED"
@@ -5087,19 +5155,19 @@ export type CatalogEncryptionMode =
   | (string & {});
 export interface EncryptionAtRest {
   CatalogEncryptionMode: CatalogEncryptionMode;
-  SseAwsKmsKeyId?: string;
-  CatalogEncryptionServiceRole?: string;
+  SseAwsKmsKeyId?: string | undefined;
+  CatalogEncryptionServiceRole?: string | undefined;
 }
 export interface ConnectionPasswordEncryption {
   ReturnConnectionPasswordEncrypted: boolean;
-  AwsKmsKeyId?: string;
+  AwsKmsKeyId?: string | undefined;
 }
 export interface DataCatalogEncryptionSettings {
-  EncryptionAtRest?: EncryptionAtRest;
-  ConnectionPasswordEncryption?: ConnectionPasswordEncryption;
+  EncryptionAtRest?: EncryptionAtRest | undefined;
+  ConnectionPasswordEncryption?: ConnectionPasswordEncryption | undefined;
 }
 export interface GetDataCatalogEncryptionSettingsResponse {
-  DataCatalogEncryptionSettings?: DataCatalogEncryptionSettings;
+  DataCatalogEncryptionSettings?: DataCatalogEncryptionSettings | undefined;
 }
 export interface GetDataCatalogExportConfigurationInput {}
 export type ExportSetting = "ENABLED" | "DISABLED" | (string & {});
@@ -5113,165 +5181,192 @@ export type ExportStatus =
 export type SseAlgorithm = string;
 export type KmsKeyArnString = string;
 export interface ExportEncryptionConfiguration {
-  SseAlgorithm?: string;
-  KmsKeyArn?: string;
+  SseAlgorithm?: string | undefined;
+  KmsKeyArn?: string | undefined;
 }
 export type S3TableBucketArn = string;
 export interface GetDataCatalogExportConfigurationOutput {
-  ExportSetting?: ExportSetting;
-  Status?: ExportStatus;
-  EncryptionConfiguration?: ExportEncryptionConfiguration;
-  S3TableBucketArn?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  ExportSetting?: ExportSetting | undefined;
+  Status?: ExportStatus | undefined;
+  EncryptionConfiguration?: ExportEncryptionConfiguration | undefined;
+  S3TableBucketArn?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface GetDataflowGraphRequest {
-  PythonScript?: string;
+  PythonScript?: string | undefined;
 }
 export interface GetDataflowGraphResponse {
-  DagNodes?: CodeGenNode[];
-  DagEdges?: CodeGenEdge[];
+  DagNodes?: CodeGenNode[] | undefined;
+  DagEdges?: CodeGenEdge[] | undefined;
+}
+export interface GetDataQualityEvaluationConfigRequest {
+  Name: string;
+}
+export interface GetDataQualityEvaluationConfigResponse {
+  Name?: string | undefined;
+  EvaluationRunMode?: DataQualityEvaluationRunMode | undefined;
+  CreatedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
+  Level?: DataQualityEvaluationConfigLevel | undefined;
+  DataSource?: DataQualityEvaluationConfigDataSource | undefined;
+  RulesetName?: string | undefined;
+  ManagedRulesetName?: DataQualityEvaluationConfigManagedRuleset | undefined;
+  Triggers?: DataQualityEvaluationConfigTrigger[] | undefined;
+  ScheduleExpression?: string | undefined;
+  StartAt?: Date | undefined;
+  EndAt?: Date | undefined;
+  PauseRuns?: boolean | undefined;
+  Role?: string | undefined;
+  NumberOfWorkers?: number | undefined;
+  Timeout?: number | undefined;
+  AdditionalRunOptions?: DataQualityEvaluationConfigAdditionalRunOptions | undefined;
+  AdditionalDataSources?: { [key: string]: DataSource | undefined } | undefined;
 }
 export interface GetDataQualityModelRequest {
-  StatisticId?: string;
+  StatisticId?: string | undefined;
   ProfileId: string;
 }
 export type DataQualityModelStatus = "RUNNING" | "SUCCEEDED" | "FAILED" | (string & {});
 export interface GetDataQualityModelResponse {
-  Status?: DataQualityModelStatus;
-  StartedOn?: Date;
-  CompletedOn?: Date;
-  FailureReason?: string;
+  Status?: DataQualityModelStatus | undefined;
+  StartedOn?: Date | undefined;
+  CompletedOn?: Date | undefined;
+  FailureReason?: string | undefined;
 }
 export interface GetDataQualityModelResultRequest {
   StatisticId: string;
   ProfileId: string;
 }
 export interface StatisticModelResult {
-  LowerBound?: number;
-  UpperBound?: number;
-  PredictedValue?: number;
-  ActualValue?: number;
-  Date?: Date;
-  InclusionAnnotation?: InclusionAnnotationValue;
+  LowerBound?: number | undefined;
+  UpperBound?: number | undefined;
+  PredictedValue?: number | undefined;
+  ActualValue?: number | undefined;
+  Date?: Date | undefined;
+  InclusionAnnotation?: InclusionAnnotationValue | undefined;
 }
 export type StatisticModelResults = StatisticModelResult[];
 export interface GetDataQualityModelResultResponse {
-  CompletedOn?: Date;
-  Model?: StatisticModelResult[];
+  CompletedOn?: Date | undefined;
+  Model?: StatisticModelResult[] | undefined;
 }
 export interface GetDataQualityResultRequest {
   ResultId: string;
 }
 export interface GetDataQualityResultResponse {
-  ResultId?: string;
-  ProfileId?: string;
-  Score?: number;
-  DataSource?: DataSource;
-  RulesetName?: string;
-  EvaluationContext?: string;
-  StartedOn?: Date;
-  CompletedOn?: Date;
-  JobName?: string;
-  JobRunId?: string;
-  RulesetEvaluationRunId?: string;
-  RuleResults?: DataQualityRuleResult[];
-  AnalyzerResults?: DataQualityAnalyzerResult[];
-  Observations?: DataQualityObservation[];
-  AggregatedMetrics?: DataQualityAggregatedMetrics;
+  ResultId?: string | undefined;
+  EvaluationRunMode?: DataQualityEvaluationRunMode | undefined;
+  DataQualityEvaluationConfig?: string | undefined;
+  ProfileId?: string | undefined;
+  Score?: number | undefined;
+  DataSource?: DataSource | undefined;
+  RulesetName?: string | undefined;
+  EvaluationContext?: string | undefined;
+  StartedOn?: Date | undefined;
+  CompletedOn?: Date | undefined;
+  JobName?: string | undefined;
+  JobRunId?: string | undefined;
+  RulesetEvaluationRunId?: string | undefined;
+  RuleResults?: DataQualityRuleResult[] | undefined;
+  AnalyzerResults?: DataQualityAnalyzerResult[] | undefined;
+  Observations?: DataQualityObservation[] | undefined;
+  AggregatedMetrics?: DataQualityAggregatedMetrics | undefined;
 }
 export interface GetDataQualityResultV2Request {
   ResultId: string;
 }
 export interface GetDataQualityResultV2Response {
-  ResultId?: string;
-  DataSource?: DataSource;
-  ProfileId?: string;
-  Dimensions?: { [key: string]: string | undefined };
-  Tags?: { [key: string]: string | undefined };
-  ExecutionStartedOn?: Date;
-  ExecutionCompletedOn?: Date;
-  ResultPublishedOn?: Date;
-  Score?: number;
-  RuleResults?: DataQualityRuleResult[];
-  AnalyzerResults?: DataQualityAnalyzerResult[];
-  Observations?: DataQualityObservation[];
-  EvaluationContext?: string;
-  Descriptors?: { [key: string]: string | undefined };
-  AggregatedMetrics?: DataQualityAggregatedMetrics;
-  RulesetName?: string;
+  ResultId?: string | undefined;
+  EvaluationRunMode?: DataQualityEvaluationRunMode | undefined;
+  DataQualityEvaluationConfig?: string | undefined;
+  DataSource?: DataSource | undefined;
+  ProfileId?: string | undefined;
+  Dimensions?: { [key: string]: string | undefined } | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ExecutionStartedOn?: Date | undefined;
+  ExecutionCompletedOn?: Date | undefined;
+  ResultPublishedOn?: Date | undefined;
+  Score?: number | undefined;
+  RuleResults?: DataQualityRuleResult[] | undefined;
+  AnalyzerResults?: DataQualityAnalyzerResult[] | undefined;
+  Observations?: DataQualityObservation[] | undefined;
+  EvaluationContext?: string | undefined;
+  Descriptors?: { [key: string]: string | undefined } | undefined;
+  AggregatedMetrics?: DataQualityAggregatedMetrics | undefined;
+  RulesetName?: string | undefined;
 }
 export interface GetDataQualityRuleRecommendationRunRequest {
   RunId: string;
 }
 export interface DataQualityRuleRecommendationRunAdditionalRunOptions {
-  CustomLogGroupPrefix?: string;
+  CustomLogGroupPrefix?: string | undefined;
 }
 export type RecommendationMode = "BASIC" | "ADVANCED" | (string & {});
 export interface GetDataQualityRuleRecommendationRunResponse {
-  RunId?: string;
-  DataSource?: DataSource;
-  Role?: string;
-  NumberOfWorkers?: number;
-  Timeout?: number;
-  Status?: TaskStatusType;
-  ErrorString?: string;
-  StartedOn?: Date;
-  LastModifiedOn?: Date;
-  CompletedOn?: Date;
-  ExecutionTime?: number;
-  RecommendedRuleset?: string;
-  CreatedRulesetName?: string;
-  DataQualitySecurityConfiguration?: string;
-  AdditionalRunOptions?: DataQualityRuleRecommendationRunAdditionalRunOptions;
-  RecommendationMode?: RecommendationMode;
+  RunId?: string | undefined;
+  DataSource?: DataSource | undefined;
+  Role?: string | undefined;
+  NumberOfWorkers?: number | undefined;
+  Timeout?: number | undefined;
+  Status?: TaskStatusType | undefined;
+  ErrorString?: string | undefined;
+  StartedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
+  CompletedOn?: Date | undefined;
+  ExecutionTime?: number | undefined;
+  RecommendedRuleset?: string | undefined;
+  CreatedRulesetName?: string | undefined;
+  DataQualitySecurityConfiguration?: string | undefined;
+  AdditionalRunOptions?: DataQualityRuleRecommendationRunAdditionalRunOptions | undefined;
+  RecommendationMode?: RecommendationMode | undefined;
 }
 export interface GetDataQualityRulesetRequest {
   Name: string;
 }
 export interface GetDataQualityRulesetResponse {
-  Name?: string;
-  Description?: string;
-  Ruleset?: string;
-  TargetTable?: DataQualityTargetTable;
-  CreatedOn?: Date;
-  LastModifiedOn?: Date;
-  RecommendationRunId?: string;
-  DataQualitySecurityConfiguration?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Ruleset?: string | undefined;
+  TargetTable?: DataQualityTargetTable | undefined;
+  CreatedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
+  RecommendationRunId?: string | undefined;
+  DataQualitySecurityConfiguration?: string | undefined;
 }
 export interface GetDataQualityRulesetEvaluationRunRequest {
   RunId: string;
 }
 export interface GetDataQualityRulesetEvaluationRunResponse {
-  RunId?: string;
-  DataSource?: DataSource;
-  Role?: string;
-  NumberOfWorkers?: number;
-  Timeout?: number;
-  AdditionalRunOptions?: DataQualityEvaluationRunAdditionalRunOptions;
-  Status?: TaskStatusType;
-  ErrorString?: string;
-  StartedOn?: Date;
-  LastModifiedOn?: Date;
-  CompletedOn?: Date;
-  ExecutionTime?: number;
-  RulesetNames?: string[];
-  ResultIds?: string[];
-  AdditionalDataSources?: { [key: string]: DataSource | undefined };
+  RunId?: string | undefined;
+  DataSource?: DataSource | undefined;
+  Role?: string | undefined;
+  NumberOfWorkers?: number | undefined;
+  Timeout?: number | undefined;
+  AdditionalRunOptions?: DataQualityEvaluationRunAdditionalRunOptions | undefined;
+  Status?: TaskStatusType | undefined;
+  ErrorString?: string | undefined;
+  StartedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
+  CompletedOn?: Date | undefined;
+  ExecutionTime?: number | undefined;
+  RulesetNames?: string[] | undefined;
+  ResultIds?: string[] | undefined;
+  AdditionalDataSources?: { [key: string]: DataSource | undefined } | undefined;
 }
 export interface GetDevEndpointRequest {
   EndpointName: string;
 }
 export interface GetDevEndpointResponse {
-  DevEndpoint?: DevEndpoint;
+  DevEndpoint?: DevEndpoint | undefined;
 }
 export interface GetDevEndpointsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetDevEndpointsResponse {
-  DevEndpoints?: DevEndpoint[];
-  NextToken?: string;
+  DevEndpoints?: DevEndpoint[] | undefined;
+  NextToken?: string | undefined;
 }
 export type OptionKey = string;
 export type OptionValue = string;
@@ -5280,22 +5375,22 @@ export type FilterPredicate = string;
 export type Limit = number;
 export type SelectedFields = string[];
 export interface GetEntityRecordsRequest {
-  ConnectionName?: string;
-  CatalogId?: string;
+  ConnectionName?: string | undefined;
+  CatalogId?: string | undefined;
   EntityName: string;
-  NextToken?: string;
-  DataStoreApiVersion?: string;
-  ConnectionOptions?: { [key: string]: string | undefined };
-  FilterPredicate?: string;
+  NextToken?: string | undefined;
+  DataStoreApiVersion?: string | undefined;
+  ConnectionOptions?: { [key: string]: string | undefined } | undefined;
+  FilterPredicate?: string | undefined;
   Limit: number;
-  OrderBy?: string;
-  SelectedFields?: string[];
+  OrderBy?: string | undefined;
+  SelectedFields?: string[] | undefined;
 }
 export type Record = unknown;
 export type Records = any[];
 export interface GetEntityRecordsResponse {
-  Records?: any[];
-  NextToken?: string;
+  Records?: any[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetFormTypeRequest {
   Identifier: string;
@@ -5303,105 +5398,105 @@ export interface GetFormTypeRequest {
 export type FormTypeName = string;
 export type FormTypeSchema = string;
 export interface GetFormTypeResponse {
-  Id?: string;
-  Name?: string;
-  Schema?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Schema?: string | undefined;
 }
 export interface GetGlossaryRequest {
   Identifier: string;
 }
 export interface GetGlossaryResponse {
-  Id?: string;
-  Name?: string;
-  Description?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
 }
 export interface GetGlossaryTermRequest {
   Identifier: string;
 }
 export interface GetGlossaryTermResponse {
-  Id?: string;
-  GlossaryId?: string;
-  Name?: string;
-  ShortDescription?: string;
-  LongDescription?: string;
+  Id?: string | undefined;
+  GlossaryId?: string | undefined;
+  Name?: string | undefined;
+  ShortDescription?: string | undefined;
+  LongDescription?: string | undefined;
 }
 export interface GetGlueIdentityCenterConfigurationRequest {}
 export type OrchestrationStringList = string[];
 export interface GetGlueIdentityCenterConfigurationResponse {
-  ApplicationArn?: string;
-  InstanceArn?: string;
-  Scopes?: string[];
-  UserBackgroundSessionsEnabled?: boolean;
+  ApplicationArn?: string | undefined;
+  InstanceArn?: string | undefined;
+  Scopes?: string[] | undefined;
+  UserBackgroundSessionsEnabled?: boolean | undefined;
 }
 export interface GetIntegrationResourcePropertyRequest {
   ResourceArn: string;
 }
 export interface GetIntegrationResourcePropertyResponse {
-  ResourceArn?: string;
-  ResourcePropertyArn?: string;
-  SourceProcessingProperties?: SourceProcessingProperties;
-  TargetProcessingProperties?: TargetProcessingProperties;
+  ResourceArn?: string | undefined;
+  ResourcePropertyArn?: string | undefined;
+  SourceProcessingProperties?: SourceProcessingProperties | undefined;
+  TargetProcessingProperties?: TargetProcessingProperties | undefined;
 }
 export interface GetIntegrationTablePropertiesRequest {
   ResourceArn: string;
   TableName: string;
 }
 export interface GetIntegrationTablePropertiesResponse {
-  ResourceArn?: string;
-  TableName?: string;
-  SourceTableConfig?: SourceTableConfig;
-  TargetTableConfig?: TargetTableConfig;
+  ResourceArn?: string | undefined;
+  TableName?: string | undefined;
+  SourceTableConfig?: SourceTableConfig | undefined;
+  TargetTableConfig?: TargetTableConfig | undefined;
 }
 export interface GetJobRequest {
   JobName: string;
 }
 export interface GetJobResponse {
-  Job?: Job;
+  Job?: Job | undefined;
 }
 export type JobName = string;
 export type RunId = string;
 export interface GetJobBookmarkRequest {
   JobName: string;
-  RunId?: string;
+  RunId?: string | undefined;
 }
 export type JsonValue = string;
 export interface JobBookmarkEntry {
-  JobName?: string;
-  Version?: number;
-  Run?: number;
-  Attempt?: number;
-  PreviousRunId?: string;
-  RunId?: string;
-  JobBookmark?: string;
+  JobName?: string | undefined;
+  Version?: number | undefined;
+  Run?: number | undefined;
+  Attempt?: number | undefined;
+  PreviousRunId?: string | undefined;
+  RunId?: string | undefined;
+  JobBookmark?: string | undefined;
 }
 export interface GetJobBookmarkResponse {
-  JobBookmarkEntry?: JobBookmarkEntry;
+  JobBookmarkEntry?: JobBookmarkEntry | undefined;
 }
 export interface GetJobRunRequest {
   JobName: string;
   RunId: string;
-  PredecessorsIncluded?: boolean;
+  PredecessorsIncluded?: boolean | undefined;
 }
 export interface GetJobRunResponse {
-  JobRun?: JobRun;
+  JobRun?: JobRun | undefined;
 }
 export type OrchestrationPageSize200 = number;
 export interface GetJobRunsRequest {
   JobName: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface GetJobRunsResponse {
-  JobRuns?: JobRun[];
-  NextToken?: string;
+  JobRuns?: JobRun[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetJobsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface GetJobsResponse {
-  Jobs?: Job[];
-  NextToken?: string;
+  Jobs?: Job[] | undefined;
+  NextToken?: string | undefined;
 }
 export type Id = string;
 export type Name = string;
@@ -5423,12 +5518,12 @@ export interface GetJobUpgradeAnalysisResponse {
   jobName: string;
   analysisId: string;
   status: Status;
-  sourceVersion?: string;
+  sourceVersion?: string | undefined;
   targetVersion: string;
-  analysisType?: AnalysisType;
-  autoUpgradeEvaluationSummary?: string;
-  errorMessage?: string;
-  autoUpgradeEligibilitySummary?: string;
+  analysisType?: AnalysisType | undefined;
+  autoUpgradeEvaluationSummary?: string | undefined;
+  errorMessage?: string | undefined;
+  autoUpgradeEligibilitySummary?: string | undefined;
 }
 export interface CatalogEntry {
   DatabaseName: string;
@@ -5436,24 +5531,24 @@ export interface CatalogEntry {
 }
 export type CatalogEntries = CatalogEntry[];
 export interface Location {
-  Jdbc?: CodeGenNodeArg[];
-  S3?: CodeGenNodeArg[];
-  DynamoDB?: CodeGenNodeArg[];
+  Jdbc?: CodeGenNodeArg[] | undefined;
+  S3?: CodeGenNodeArg[] | undefined;
+  DynamoDB?: CodeGenNodeArg[] | undefined;
 }
 export interface GetMappingRequest {
   Source: CatalogEntry;
-  Sinks?: CatalogEntry[];
-  Location?: Location;
+  Sinks?: CatalogEntry[] | undefined;
+  Location?: Location | undefined;
 }
 export type SchemaPathString = string;
 export type FieldType = string;
 export interface MappingEntry {
-  SourceTable?: string;
-  SourcePath?: string;
-  SourceType?: string;
-  TargetTable?: string;
-  TargetPath?: string;
-  TargetType?: string;
+  SourceTable?: string | undefined;
+  SourcePath?: string | undefined;
+  SourceType?: string | undefined;
+  TargetTable?: string | undefined;
+  TargetPath?: string | undefined;
+  TargetType?: string | undefined;
 }
 export type MappingList = MappingEntry[];
 export interface GetMappingResponse {
@@ -5474,24 +5569,24 @@ export type MaterializedViewRefreshState =
 export type MaterializedViewRefreshType = "FULL" | "INCREMENTAL" | (string & {});
 export type ByteCount = number;
 export interface MaterializedViewRefreshTaskRun {
-  CustomerId?: string;
-  MaterializedViewRefreshTaskRunId?: string;
-  DatabaseName?: string;
-  TableName?: string;
-  CatalogId?: string;
-  Role?: string;
-  Status?: MaterializedViewRefreshState;
-  CreationTime?: Date;
-  LastUpdated?: Date;
-  StartTime?: Date;
-  EndTime?: Date;
-  ErrorMessage?: string;
-  DPUSeconds?: number;
-  RefreshType?: MaterializedViewRefreshType;
-  ProcessedBytes?: number;
+  CustomerId?: string | undefined;
+  MaterializedViewRefreshTaskRunId?: string | undefined;
+  DatabaseName?: string | undefined;
+  TableName?: string | undefined;
+  CatalogId?: string | undefined;
+  Role?: string | undefined;
+  Status?: MaterializedViewRefreshState | undefined;
+  CreationTime?: Date | undefined;
+  LastUpdated?: Date | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  ErrorMessage?: string | undefined;
+  DPUSeconds?: number | undefined;
+  RefreshType?: MaterializedViewRefreshType | undefined;
+  ProcessedBytes?: number | undefined;
 }
 export interface GetMaterializedViewRefreshTaskRunResponse {
-  MaterializedViewRefreshTaskRun?: MaterializedViewRefreshTaskRun;
+  MaterializedViewRefreshTaskRun?: MaterializedViewRefreshTaskRun | undefined;
 }
 export interface GetMLTaskRunRequest {
   TransformId: string;
@@ -5506,45 +5601,45 @@ export type TaskType =
   | (string & {});
 export type ReplaceBoolean = boolean;
 export interface ImportLabelsTaskRunProperties {
-  InputS3Path?: string;
-  Replace?: boolean;
+  InputS3Path?: string | undefined;
+  Replace?: boolean | undefined;
 }
 export interface ExportLabelsTaskRunProperties {
-  OutputS3Path?: string;
+  OutputS3Path?: string | undefined;
 }
 export interface LabelingSetGenerationTaskRunProperties {
-  OutputS3Path?: string;
+  OutputS3Path?: string | undefined;
 }
 export interface FindMatchesTaskRunProperties {
-  JobId?: string;
-  JobName?: string;
-  JobRunId?: string;
+  JobId?: string | undefined;
+  JobName?: string | undefined;
+  JobRunId?: string | undefined;
 }
 export interface TaskRunProperties {
-  TaskType?: TaskType;
-  ImportLabelsTaskRunProperties?: ImportLabelsTaskRunProperties;
-  ExportLabelsTaskRunProperties?: ExportLabelsTaskRunProperties;
-  LabelingSetGenerationTaskRunProperties?: LabelingSetGenerationTaskRunProperties;
-  FindMatchesTaskRunProperties?: FindMatchesTaskRunProperties;
+  TaskType?: TaskType | undefined;
+  ImportLabelsTaskRunProperties?: ImportLabelsTaskRunProperties | undefined;
+  ExportLabelsTaskRunProperties?: ExportLabelsTaskRunProperties | undefined;
+  LabelingSetGenerationTaskRunProperties?: LabelingSetGenerationTaskRunProperties | undefined;
+  FindMatchesTaskRunProperties?: FindMatchesTaskRunProperties | undefined;
 }
 export interface GetMLTaskRunResponse {
-  TransformId?: string;
-  TaskRunId?: string;
-  Status?: TaskStatusType;
-  LogGroupName?: string;
-  Properties?: TaskRunProperties;
-  ErrorString?: string;
-  StartedOn?: Date;
-  LastModifiedOn?: Date;
-  CompletedOn?: Date;
-  ExecutionTime?: number;
+  TransformId?: string | undefined;
+  TaskRunId?: string | undefined;
+  Status?: TaskStatusType | undefined;
+  LogGroupName?: string | undefined;
+  Properties?: TaskRunProperties | undefined;
+  ErrorString?: string | undefined;
+  StartedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
+  CompletedOn?: Date | undefined;
+  ExecutionTime?: number | undefined;
 }
 export type PaginationToken = string;
 export interface TaskRunFilterCriteria {
-  TaskRunType?: TaskType;
-  Status?: TaskStatusType;
-  StartedBefore?: Date;
-  StartedAfter?: Date;
+  TaskRunType?: TaskType | undefined;
+  Status?: TaskStatusType | undefined;
+  StartedBefore?: Date | undefined;
+  StartedAfter?: Date | undefined;
 }
 export type TaskRunSortColumnType = "TASK_RUN_TYPE" | "STATUS" | "STARTED" | (string & {});
 export type SortDirectionType = "DESCENDING" | "ASCENDING" | (string & {});
@@ -5554,27 +5649,27 @@ export interface TaskRunSortCriteria {
 }
 export interface GetMLTaskRunsRequest {
   TransformId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  Filter?: TaskRunFilterCriteria;
-  Sort?: TaskRunSortCriteria;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filter?: TaskRunFilterCriteria | undefined;
+  Sort?: TaskRunSortCriteria | undefined;
 }
 export interface TaskRun {
-  TransformId?: string;
-  TaskRunId?: string;
-  Status?: TaskStatusType;
-  LogGroupName?: string;
-  Properties?: TaskRunProperties;
-  ErrorString?: string;
-  StartedOn?: Date;
-  LastModifiedOn?: Date;
-  CompletedOn?: Date;
-  ExecutionTime?: number;
+  TransformId?: string | undefined;
+  TaskRunId?: string | undefined;
+  Status?: TaskStatusType | undefined;
+  LogGroupName?: string | undefined;
+  Properties?: TaskRunProperties | undefined;
+  ErrorString?: string | undefined;
+  StartedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
+  CompletedOn?: Date | undefined;
+  ExecutionTime?: number | undefined;
 }
 export type TaskRunList = TaskRun[];
 export interface GetMLTaskRunsResponse {
-  TaskRuns?: TaskRun[];
-  NextToken?: string;
+  TaskRuns?: TaskRun[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetMLTransformRequest {
   TransformId: string;
@@ -5582,65 +5677,65 @@ export interface GetMLTransformRequest {
 export type TransformStatusType = "NOT_READY" | "READY" | "DELETING" | (string & {});
 export type RecordsCount = number;
 export interface ConfusionMatrix {
-  NumTruePositives?: number;
-  NumFalsePositives?: number;
-  NumTrueNegatives?: number;
-  NumFalseNegatives?: number;
+  NumTruePositives?: number | undefined;
+  NumFalsePositives?: number | undefined;
+  NumTrueNegatives?: number | undefined;
+  NumFalseNegatives?: number | undefined;
 }
 export interface ColumnImportance {
-  ColumnName?: string;
-  Importance?: number;
+  ColumnName?: string | undefined;
+  Importance?: number | undefined;
 }
 export type ColumnImportanceList = ColumnImportance[];
 export interface FindMatchesMetrics {
-  AreaUnderPRCurve?: number;
-  Precision?: number;
-  Recall?: number;
-  F1?: number;
-  ConfusionMatrix?: ConfusionMatrix;
-  ColumnImportances?: ColumnImportance[];
+  AreaUnderPRCurve?: number | undefined;
+  Precision?: number | undefined;
+  Recall?: number | undefined;
+  F1?: number | undefined;
+  ConfusionMatrix?: ConfusionMatrix | undefined;
+  ColumnImportances?: ColumnImportance[] | undefined;
 }
 export interface EvaluationMetrics {
   TransformType: TransformType;
-  FindMatchesMetrics?: FindMatchesMetrics;
+  FindMatchesMetrics?: FindMatchesMetrics | undefined;
 }
 export type LabelCount = number;
 export interface SchemaColumn {
-  Name?: string;
-  DataType?: string;
+  Name?: string | undefined;
+  DataType?: string | undefined;
 }
 export type TransformSchema = SchemaColumn[];
 export interface GetMLTransformResponse {
-  TransformId?: string;
-  Name?: string;
-  Description?: string;
-  Status?: TransformStatusType;
-  CreatedOn?: Date;
-  LastModifiedOn?: Date;
-  InputRecordTables?: GlueTable[];
-  Parameters?: TransformParameters;
-  EvaluationMetrics?: EvaluationMetrics;
-  LabelCount?: number;
-  Schema?: SchemaColumn[];
-  Role?: string;
-  GlueVersion?: string;
-  MaxCapacity?: number;
-  WorkerType?: WorkerType;
-  NumberOfWorkers?: number;
-  Timeout?: number;
-  MaxRetries?: number;
-  TransformEncryption?: TransformEncryption;
+  TransformId?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Status?: TransformStatusType | undefined;
+  CreatedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
+  InputRecordTables?: GlueTable[] | undefined;
+  Parameters?: TransformParameters | undefined;
+  EvaluationMetrics?: EvaluationMetrics | undefined;
+  LabelCount?: number | undefined;
+  Schema?: SchemaColumn[] | undefined;
+  Role?: string | undefined;
+  GlueVersion?: string | undefined;
+  MaxCapacity?: number | undefined;
+  WorkerType?: WorkerType | undefined;
+  NumberOfWorkers?: number | undefined;
+  Timeout?: number | undefined;
+  MaxRetries?: number | undefined;
+  TransformEncryption?: TransformEncryption | undefined;
 }
 export interface TransformFilterCriteria {
-  Name?: string;
-  TransformType?: TransformType;
-  Status?: TransformStatusType;
-  GlueVersion?: string;
-  CreatedBefore?: Date;
-  CreatedAfter?: Date;
-  LastModifiedBefore?: Date;
-  LastModifiedAfter?: Date;
-  Schema?: SchemaColumn[];
+  Name?: string | undefined;
+  TransformType?: TransformType | undefined;
+  Status?: TransformStatusType | undefined;
+  GlueVersion?: string | undefined;
+  CreatedBefore?: Date | undefined;
+  CreatedAfter?: Date | undefined;
+  LastModifiedBefore?: Date | undefined;
+  LastModifiedAfter?: Date | undefined;
+  Schema?: SchemaColumn[] | undefined;
 }
 export type TransformSortColumnType =
   | "NAME"
@@ -5654,52 +5749,52 @@ export interface TransformSortCriteria {
   SortDirection: SortDirectionType;
 }
 export interface GetMLTransformsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Filter?: TransformFilterCriteria;
-  Sort?: TransformSortCriteria;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filter?: TransformFilterCriteria | undefined;
+  Sort?: TransformSortCriteria | undefined;
 }
 export interface MLTransform {
-  TransformId?: string;
-  Name?: string;
-  Description?: string;
-  Status?: TransformStatusType;
-  CreatedOn?: Date;
-  LastModifiedOn?: Date;
-  InputRecordTables?: GlueTable[];
-  Parameters?: TransformParameters;
-  EvaluationMetrics?: EvaluationMetrics;
-  LabelCount?: number;
-  Schema?: SchemaColumn[];
-  Role?: string;
-  GlueVersion?: string;
-  MaxCapacity?: number;
-  WorkerType?: WorkerType;
-  NumberOfWorkers?: number;
-  Timeout?: number;
-  MaxRetries?: number;
-  TransformEncryption?: TransformEncryption;
+  TransformId?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Status?: TransformStatusType | undefined;
+  CreatedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
+  InputRecordTables?: GlueTable[] | undefined;
+  Parameters?: TransformParameters | undefined;
+  EvaluationMetrics?: EvaluationMetrics | undefined;
+  LabelCount?: number | undefined;
+  Schema?: SchemaColumn[] | undefined;
+  Role?: string | undefined;
+  GlueVersion?: string | undefined;
+  MaxCapacity?: number | undefined;
+  WorkerType?: WorkerType | undefined;
+  NumberOfWorkers?: number | undefined;
+  Timeout?: number | undefined;
+  MaxRetries?: number | undefined;
+  TransformEncryption?: TransformEncryption | undefined;
 }
 export type TransformList = MLTransform[];
 export interface GetMLTransformsResponse {
   Transforms: MLTransform[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface GetPartitionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   PartitionValues: string[];
-  AuditContext?: AuditContext;
+  AuditContext?: AuditContext | undefined;
 }
 export interface GetPartitionResponse {
-  Partition?: Partition;
+  Partition?: Partition | undefined;
 }
 export interface GetPartitionIndexesRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface KeySchemaElement {
   Name: string;
@@ -5716,20 +5811,20 @@ export type BackfillErrorCode =
   | (string & {});
 export type BackfillErroredPartitionsList = PartitionValueList[];
 export interface BackfillError {
-  Code?: BackfillErrorCode;
-  Partitions?: PartitionValueList[];
+  Code?: BackfillErrorCode | undefined;
+  Partitions?: PartitionValueList[] | undefined;
 }
 export type BackfillErrors = BackfillError[];
 export interface PartitionIndexDescriptor {
   IndexName: string;
   Keys: KeySchemaElement[];
   IndexStatus: PartitionIndexStatus;
-  BackfillErrors?: BackfillError[];
+  BackfillErrors?: BackfillError[] | undefined;
 }
 export type PartitionIndexDescriptorList = PartitionIndexDescriptor[];
 export interface GetPartitionIndexesResponse {
-  PartitionIndexDescriptorList?: PartitionIndexDescriptor[];
-  NextToken?: string;
+  PartitionIndexDescriptorList?: PartitionIndexDescriptor[] | undefined;
+  NextToken?: string | undefined;
 }
 export type PredicateString = string;
 export type TotalSegmentsInteger = number;
@@ -5739,34 +5834,34 @@ export interface Segment {
 }
 export type BooleanNullable = boolean;
 export interface GetPartitionsRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
-  Expression?: string;
-  NextToken?: string;
-  Segment?: Segment;
-  MaxResults?: number;
-  ExcludeColumnSchema?: boolean;
-  TransactionId?: string;
-  QueryAsOfTime?: Date;
-  AuditContext?: AuditContext;
+  Expression?: string | undefined;
+  NextToken?: string | undefined;
+  Segment?: Segment | undefined;
+  MaxResults?: number | undefined;
+  ExcludeColumnSchema?: boolean | undefined;
+  TransactionId?: string | undefined;
+  QueryAsOfTime?: Date | undefined;
+  AuditContext?: AuditContext | undefined;
 }
 export interface GetPartitionsResponse {
-  Partitions?: Partition[];
-  NextToken?: string;
+  Partitions?: Partition[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AdditionalPlanOptionsMap = { [key: string]: string | undefined };
 export interface GetPlanRequest {
   Mapping: MappingEntry[];
   Source: CatalogEntry;
-  Sinks?: CatalogEntry[];
-  Location?: Location;
-  Language?: Language;
-  AdditionalPlanOptionsMap?: { [key: string]: string | undefined };
+  Sinks?: CatalogEntry[] | undefined;
+  Location?: Location | undefined;
+  Language?: Language | undefined;
+  AdditionalPlanOptionsMap?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetPlanResponse {
-  PythonScript?: string;
-  ScalaCode?: string;
+  PythonScript?: string | undefined;
+  ScalaCode?: string | undefined;
 }
 export interface GetRegistryInput {
   RegistryId: RegistryId;
@@ -5774,85 +5869,85 @@ export interface GetRegistryInput {
 export type CreatedTimestamp = string;
 export type UpdatedTimestamp = string;
 export interface GetRegistryResponse {
-  RegistryName?: string;
-  RegistryArn?: string;
-  Description?: string;
-  Status?: RegistryStatus;
-  CreatedTime?: string;
-  UpdatedTime?: string;
+  RegistryName?: string | undefined;
+  RegistryArn?: string | undefined;
+  Description?: string | undefined;
+  Status?: RegistryStatus | undefined;
+  CreatedTime?: string | undefined;
+  UpdatedTime?: string | undefined;
 }
 export interface GetResourcePoliciesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type PolicyJsonString = string;
 export interface GluePolicy {
-  PolicyInJson?: string;
-  PolicyHash?: string;
-  CreateTime?: Date;
-  UpdateTime?: Date;
+  PolicyInJson?: string | undefined;
+  PolicyHash?: string | undefined;
+  CreateTime?: Date | undefined;
+  UpdateTime?: Date | undefined;
 }
 export type GetResourcePoliciesResponseList = GluePolicy[];
 export interface GetResourcePoliciesResponse {
-  GetResourcePoliciesResponseList?: GluePolicy[];
-  NextToken?: string;
+  GetResourcePoliciesResponseList?: GluePolicy[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetResourcePolicyRequest {
-  ResourceArn?: string;
+  ResourceArn?: string | undefined;
 }
 export interface GetResourcePolicyResponse {
-  PolicyInJson?: string;
-  PolicyHash?: string;
-  CreateTime?: Date;
-  UpdateTime?: Date;
+  PolicyInJson?: string | undefined;
+  PolicyHash?: string | undefined;
+  CreateTime?: Date | undefined;
+  UpdateTime?: Date | undefined;
 }
 export interface GetSchemaInput {
   SchemaId: SchemaId;
 }
 export interface GetSchemaResponse {
-  RegistryName?: string;
-  RegistryArn?: string;
-  SchemaName?: string;
-  SchemaArn?: string;
-  Description?: string;
-  DataFormat?: DataFormat;
-  Compatibility?: Compatibility;
-  SchemaCheckpoint?: number;
-  LatestSchemaVersion?: number;
-  NextSchemaVersion?: number;
-  SchemaStatus?: SchemaStatus;
-  CreatedTime?: string;
-  UpdatedTime?: string;
+  RegistryName?: string | undefined;
+  RegistryArn?: string | undefined;
+  SchemaName?: string | undefined;
+  SchemaArn?: string | undefined;
+  Description?: string | undefined;
+  DataFormat?: DataFormat | undefined;
+  Compatibility?: Compatibility | undefined;
+  SchemaCheckpoint?: number | undefined;
+  LatestSchemaVersion?: number | undefined;
+  NextSchemaVersion?: number | undefined;
+  SchemaStatus?: SchemaStatus | undefined;
+  CreatedTime?: string | undefined;
+  UpdatedTime?: string | undefined;
 }
 export interface GetSchemaByDefinitionInput {
   SchemaId: SchemaId;
   SchemaDefinition: string;
 }
 export interface GetSchemaByDefinitionResponse {
-  SchemaVersionId?: string;
-  SchemaArn?: string;
-  DataFormat?: DataFormat;
-  Status?: SchemaVersionStatus;
-  CreatedTime?: string;
+  SchemaVersionId?: string | undefined;
+  SchemaArn?: string | undefined;
+  DataFormat?: DataFormat | undefined;
+  Status?: SchemaVersionStatus | undefined;
+  CreatedTime?: string | undefined;
 }
 export type LatestSchemaVersionBoolean = boolean;
 export interface SchemaVersionNumber {
-  LatestVersion?: boolean;
-  VersionNumber?: number;
+  LatestVersion?: boolean | undefined;
+  VersionNumber?: number | undefined;
 }
 export interface GetSchemaVersionInput {
-  SchemaId?: SchemaId;
-  SchemaVersionId?: string;
-  SchemaVersionNumber?: SchemaVersionNumber;
+  SchemaId?: SchemaId | undefined;
+  SchemaVersionId?: string | undefined;
+  SchemaVersionNumber?: SchemaVersionNumber | undefined;
 }
 export interface GetSchemaVersionResponse {
-  SchemaVersionId?: string;
-  SchemaDefinition?: string;
-  DataFormat?: DataFormat;
-  SchemaArn?: string;
-  VersionNumber?: number;
-  Status?: SchemaVersionStatus;
-  CreatedTime?: string;
+  SchemaVersionId?: string | undefined;
+  SchemaDefinition?: string | undefined;
+  DataFormat?: DataFormat | undefined;
+  SchemaArn?: string | undefined;
+  VersionNumber?: number | undefined;
+  Status?: SchemaVersionStatus | undefined;
+  CreatedTime?: string | undefined;
 }
 export type SchemaDiffType = "SYNTAX_DIFF" | (string & {});
 export interface GetSchemaVersionsDiffInput {
@@ -5863,34 +5958,34 @@ export interface GetSchemaVersionsDiffInput {
 }
 export type SchemaDefinitionDiff = string;
 export interface GetSchemaVersionsDiffResponse {
-  Diff?: string;
+  Diff?: string | undefined;
 }
 export interface GetSecurityConfigurationRequest {
   Name: string;
 }
 export interface SecurityConfiguration {
-  Name?: string;
-  CreatedTimeStamp?: Date;
-  EncryptionConfiguration?: EncryptionConfiguration;
+  Name?: string | undefined;
+  CreatedTimeStamp?: Date | undefined;
+  EncryptionConfiguration?: EncryptionConfiguration | undefined;
 }
 export interface GetSecurityConfigurationResponse {
-  SecurityConfiguration?: SecurityConfiguration;
+  SecurityConfiguration?: SecurityConfiguration | undefined;
 }
 export interface GetSecurityConfigurationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type SecurityConfigurationList = SecurityConfiguration[];
 export interface GetSecurityConfigurationsResponse {
-  SecurityConfigurations?: SecurityConfiguration[];
-  NextToken?: string;
+  SecurityConfigurations?: SecurityConfiguration[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetSessionRequest {
   Id: string;
-  RequestOrigin?: string;
+  RequestOrigin?: string | undefined;
 }
 export interface GetSessionResponse {
-  Session?: Session;
+  Session?: Session | undefined;
 }
 export interface GetSessionEndpointRequest {
   SessionId: string;
@@ -5908,7 +6003,7 @@ export interface GetSessionEndpointResponse {
 export interface GetStatementRequest {
   SessionId: string;
   Id: number;
-  RequestOrigin?: string;
+  RequestOrigin?: string | undefined;
 }
 export type StatementState =
   | "WAITING"
@@ -5919,28 +6014,28 @@ export type StatementState =
   | "ERROR"
   | (string & {});
 export interface StatementOutputData {
-  TextPlain?: string;
+  TextPlain?: string | undefined;
 }
 export interface StatementOutput {
-  Data?: StatementOutputData;
-  ExecutionCount?: number;
-  Status?: StatementState;
-  ErrorName?: string;
-  ErrorValue?: string;
-  Traceback?: string[];
+  Data?: StatementOutputData | undefined;
+  ExecutionCount?: number | undefined;
+  Status?: StatementState | undefined;
+  ErrorName?: string | undefined;
+  ErrorValue?: string | undefined;
+  Traceback?: string[] | undefined;
 }
 export type LongValue = number;
 export interface Statement {
-  Id?: number;
-  Code?: string;
-  State?: StatementState;
-  Output?: StatementOutput;
-  Progress?: number;
-  StartedOn?: number;
-  CompletedOn?: number;
+  Id?: number | undefined;
+  Code?: string | undefined;
+  State?: StatementState | undefined;
+  Output?: StatementOutput | undefined;
+  Progress?: number | undefined;
+  StartedOn?: number | undefined;
+  CompletedOn?: number | undefined;
 }
 export interface GetStatementResponse {
-  Statement?: Statement;
+  Statement?: Statement | undefined;
 }
 export interface GetSystemLogsForJobRunRequest {
   JobName: string;
@@ -5948,13 +6043,13 @@ export interface GetSystemLogsForJobRunRequest {
 }
 export type Url = string;
 export interface GetSystemLogsForJobRunResponse {
-  SystemLogsUrl?: string;
+  SystemLogsUrl?: string | undefined;
 }
 export interface GetSystemLogsForSessionRequest {
   Id: string;
 }
 export interface GetSystemLogsForSessionResponse {
-  SystemLogsUrl?: string;
+  SystemLogsUrl?: string | undefined;
 }
 export type TableAttributes =
   | "NAME"
@@ -5964,55 +6059,55 @@ export type TableAttributes =
   | (string & {});
 export type TableAttributesList = TableAttributes[];
 export interface GetTableRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   Name: string;
-  TransactionId?: string;
-  QueryAsOfTime?: Date;
-  AuditContext?: AuditContext;
-  IncludeStatusDetails?: boolean;
-  AttributesToGet?: TableAttributes[];
+  TransactionId?: string | undefined;
+  QueryAsOfTime?: Date | undefined;
+  AuditContext?: AuditContext | undefined;
+  IncludeStatusDetails?: boolean | undefined;
+  AttributesToGet?: TableAttributes[] | undefined;
 }
 export interface ViewRepresentation {
-  Dialect?: ViewDialect;
-  DialectVersion?: string;
-  ViewOriginalText?: string;
-  ViewExpandedText?: string;
-  ValidationConnection?: string;
-  IsStale?: boolean;
+  Dialect?: ViewDialect | undefined;
+  DialectVersion?: string | undefined;
+  ViewOriginalText?: string | undefined;
+  ViewExpandedText?: string | undefined;
+  ValidationConnection?: string | undefined;
+  IsStale?: boolean | undefined;
 }
 export type ViewRepresentationList = ViewRepresentation[];
 export interface ViewDefinition {
-  IsProtected?: boolean;
-  IsManaged?: boolean;
-  Definer?: string;
-  ViewVersionId?: number;
-  ViewVersionToken?: string;
-  RefreshSeconds?: number;
-  LastRefreshType?: LastRefreshType;
-  SubObjects?: string[];
-  SubObjectVersionIds?: number[];
-  SubObjectsStatistics?: SubObjectStatistics[];
-  Representations?: ViewRepresentation[];
-  SparkPipelineInfo?: { [key: string]: string | undefined };
+  IsProtected?: boolean | undefined;
+  IsManaged?: boolean | undefined;
+  Definer?: string | undefined;
+  ViewVersionId?: number | undefined;
+  ViewVersionToken?: string | undefined;
+  RefreshSeconds?: number | undefined;
+  LastRefreshType?: LastRefreshType | undefined;
+  SubObjects?: string[] | undefined;
+  SubObjectVersionIds?: number[] | undefined;
+  SubObjectsStatistics?: SubObjectStatistics[] | undefined;
+  Representations?: ViewRepresentation[] | undefined;
+  SparkPipelineInfo?: { [key: string]: string | undefined } | undefined;
 }
 export type TableIdString = string;
 export type IcebergSchemaList = IcebergSchema[];
 export type IcebergPartitionSpecList = IcebergPartitionSpec[];
 export type IcebergSortOrderList = IcebergSortOrder[];
 export interface IcebergTableMetadata {
-  FormatVersion?: string;
-  TableUuid?: string;
-  Location?: string;
-  Properties?: { [key: string]: string | undefined };
-  Schemas?: IcebergSchema[];
-  CurrentSchemaId?: number;
-  LastColumnId?: number;
-  PartitionSpecs?: IcebergPartitionSpec[];
-  DefaultSpecId?: number;
-  LastPartitionId?: number;
-  SortOrders?: IcebergSortOrder[];
-  DefaultSortOrderId?: number;
+  FormatVersion?: string | undefined;
+  TableUuid?: string | undefined;
+  Location?: string | undefined;
+  Properties?: { [key: string]: string | undefined } | undefined;
+  Schemas?: IcebergSchema[] | undefined;
+  CurrentSchemaId?: number | undefined;
+  LastColumnId?: number | undefined;
+  PartitionSpecs?: IcebergPartitionSpec[] | undefined;
+  DefaultSpecId?: number | undefined;
+  LastPartitionId?: number | undefined;
+  SortOrders?: IcebergSortOrder[] | undefined;
+  DefaultSortOrderId?: number | undefined;
 }
 export type ResourceAction = "UPDATE" | "CREATE" | (string & {});
 export type ResourceState =
@@ -6023,62 +6118,62 @@ export type ResourceState =
   | "FAILED"
   | (string & {});
 export interface ViewValidation {
-  Dialect?: ViewDialect;
-  DialectVersion?: string;
-  ViewValidationText?: string;
-  UpdateTime?: Date;
-  State?: ResourceState;
-  Error?: ErrorDetail;
+  Dialect?: ViewDialect | undefined;
+  DialectVersion?: string | undefined;
+  ViewValidationText?: string | undefined;
+  UpdateTime?: Date | undefined;
+  State?: ResourceState | undefined;
+  Error?: ErrorDetail | undefined;
 }
 export type ViewValidationList = ViewValidation[];
 export interface StatusDetails {
-  RequestedChange?: Table;
-  ViewValidations?: ViewValidation[];
+  RequestedChange?: Table | undefined;
+  ViewValidations?: ViewValidation[] | undefined;
 }
 export interface TableStatus {
-  RequestedBy?: string;
-  UpdatedBy?: string;
-  RequestTime?: Date;
-  UpdateTime?: Date;
-  Action?: ResourceAction;
-  State?: ResourceState;
-  Error?: ErrorDetail;
-  Details?: StatusDetails;
+  RequestedBy?: string | undefined;
+  UpdatedBy?: string | undefined;
+  RequestTime?: Date | undefined;
+  UpdateTime?: Date | undefined;
+  Action?: ResourceAction | undefined;
+  State?: ResourceState | undefined;
+  Error?: ErrorDetail | undefined;
+  Details?: StatusDetails | undefined;
 }
 export interface RLSProperties {
-  DefaultRLSPolicy?: string;
+  DefaultRLSPolicy?: string | undefined;
 }
 export interface Table {
   Name: string;
-  DatabaseName?: string;
-  Description?: string;
-  Owner?: string;
-  CreateTime?: Date;
-  UpdateTime?: Date;
-  LastAccessTime?: Date;
-  LastAnalyzedTime?: Date;
-  Retention?: number;
-  StorageDescriptor?: StorageDescriptor;
-  PartitionKeys?: Column[];
-  ViewOriginalText?: string;
-  ViewExpandedText?: string;
-  TableType?: string;
-  Parameters?: { [key: string]: string | undefined };
-  CreatedBy?: string;
-  IsRegisteredWithLakeFormation?: boolean;
-  TargetTable?: TableIdentifier;
-  CatalogId?: string;
-  VersionId?: string;
-  FederatedTable?: FederatedTable;
-  ViewDefinition?: ViewDefinition;
-  IsMultiDialectView?: boolean;
-  IsMaterializedView?: boolean;
-  IcebergTableMetadata?: IcebergTableMetadata;
-  Status?: TableStatus;
-  RLSProperties?: RLSProperties;
+  DatabaseName?: string | undefined;
+  Description?: string | undefined;
+  Owner?: string | undefined;
+  CreateTime?: Date | undefined;
+  UpdateTime?: Date | undefined;
+  LastAccessTime?: Date | undefined;
+  LastAnalyzedTime?: Date | undefined;
+  Retention?: number | undefined;
+  StorageDescriptor?: StorageDescriptor | undefined;
+  PartitionKeys?: Column[] | undefined;
+  ViewOriginalText?: string | undefined;
+  ViewExpandedText?: string | undefined;
+  TableType?: string | undefined;
+  Parameters?: { [key: string]: string | undefined } | undefined;
+  CreatedBy?: string | undefined;
+  IsRegisteredWithLakeFormation?: boolean | undefined;
+  TargetTable?: TableIdentifier | undefined;
+  CatalogId?: string | undefined;
+  VersionId?: string | undefined;
+  FederatedTable?: FederatedTable | undefined;
+  ViewDefinition?: ViewDefinition | undefined;
+  IsMultiDialectView?: boolean | undefined;
+  IsMaterializedView?: boolean | undefined;
+  IcebergTableMetadata?: IcebergTableMetadata | undefined;
+  Status?: TableStatus | undefined;
+  RLSProperties?: RLSProperties | undefined;
 }
 export interface GetTableResponse {
-  Table?: Table;
+  Table?: Table | undefined;
 }
 export interface GetTableOptimizerRequest {
   CatalogId: string;
@@ -6087,78 +6182,78 @@ export interface GetTableOptimizerRequest {
   Type: TableOptimizerType;
 }
 export interface GetTableOptimizerResponse {
-  CatalogId?: string;
-  DatabaseName?: string;
-  TableName?: string;
-  TableOptimizer?: TableOptimizer;
+  CatalogId?: string | undefined;
+  DatabaseName?: string | undefined;
+  TableName?: string | undefined;
+  TableOptimizer?: TableOptimizer | undefined;
 }
 export type FilterString = string;
 export type TableResourceShareType = "FEDERATED" | "ALL" | (string & {});
 export interface GetTablesRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
-  Expression?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  TransactionId?: string;
-  QueryAsOfTime?: Date;
-  AuditContext?: AuditContext;
-  ResourceShareType?: TableResourceShareType;
-  IncludeStatusDetails?: boolean;
-  AttributesToGet?: TableAttributes[];
+  Expression?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  TransactionId?: string | undefined;
+  QueryAsOfTime?: Date | undefined;
+  AuditContext?: AuditContext | undefined;
+  ResourceShareType?: TableResourceShareType | undefined;
+  IncludeStatusDetails?: boolean | undefined;
+  AttributesToGet?: TableAttributes[] | undefined;
 }
 export type TableList = Table[];
 export interface GetTablesResponse {
-  TableList?: Table[];
-  NextToken?: string;
+  TableList?: Table[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetTableVersionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
-  VersionId?: string;
-  AuditContext?: AuditContext;
+  VersionId?: string | undefined;
+  AuditContext?: AuditContext | undefined;
 }
 export interface TableVersion {
-  Table?: Table;
-  VersionId?: string;
+  Table?: Table | undefined;
+  VersionId?: string | undefined;
 }
 export interface GetTableVersionResponse {
-  TableVersion?: TableVersion;
+  TableVersion?: TableVersion | undefined;
 }
 export interface GetTableVersionsRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
-  NextToken?: string;
-  MaxResults?: number;
-  AuditContext?: AuditContext;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  AuditContext?: AuditContext | undefined;
 }
 export type GetTableVersionsList = TableVersion[];
 export interface GetTableVersionsResponse {
-  TableVersions?: TableVersion[];
-  NextToken?: string;
+  TableVersions?: TableVersion[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetTagsRequest {
   ResourceArn: string;
 }
 export interface GetTagsResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetTriggerRequest {
   Name: string;
 }
 export interface GetTriggerResponse {
-  Trigger?: Trigger;
+  Trigger?: Trigger | undefined;
 }
 export interface GetTriggersRequest {
-  NextToken?: string;
-  DependentJobName?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  DependentJobName?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface GetTriggersResponse {
-  Triggers?: Trigger[];
-  NextToken?: string;
+  Triggers?: Trigger[] | undefined;
+  NextToken?: string | undefined;
 }
 export type PermissionType =
   | "COLUMN_PERMISSION"
@@ -6168,229 +6263,229 @@ export type PermissionType =
   | (string & {});
 export type PermissionTypeList = PermissionType[];
 export interface GetUnfilteredPartitionMetadataRequest {
-  Region?: string;
+  Region?: string | undefined;
   CatalogId: string;
   DatabaseName: string;
   TableName: string;
   PartitionValues: string[];
-  AuditContext?: AuditContext;
+  AuditContext?: AuditContext | undefined;
   SupportedPermissionTypes: PermissionType[];
-  QuerySessionContext?: QuerySessionContext;
+  QuerySessionContext?: QuerySessionContext | undefined;
 }
 export interface GetUnfilteredPartitionMetadataResponse {
-  Partition?: Partition;
-  AuthorizedColumns?: string[];
-  IsRegisteredWithLakeFormation?: boolean;
+  Partition?: Partition | undefined;
+  AuthorizedColumns?: string[] | undefined;
+  IsRegisteredWithLakeFormation?: boolean | undefined;
 }
 export interface GetUnfilteredPartitionsMetadataRequest {
-  Region?: string;
+  Region?: string | undefined;
   CatalogId: string;
   DatabaseName: string;
   TableName: string;
-  Expression?: string;
-  AuditContext?: AuditContext;
+  Expression?: string | undefined;
+  AuditContext?: AuditContext | undefined;
   SupportedPermissionTypes: PermissionType[];
-  NextToken?: string;
-  Segment?: Segment;
-  MaxResults?: number;
-  QuerySessionContext?: QuerySessionContext;
+  NextToken?: string | undefined;
+  Segment?: Segment | undefined;
+  MaxResults?: number | undefined;
+  QuerySessionContext?: QuerySessionContext | undefined;
 }
 export interface UnfilteredPartition {
-  Partition?: Partition;
-  AuthorizedColumns?: string[];
-  IsRegisteredWithLakeFormation?: boolean;
+  Partition?: Partition | undefined;
+  AuthorizedColumns?: string[] | undefined;
+  IsRegisteredWithLakeFormation?: boolean | undefined;
 }
 export type UnfilteredPartitionList = UnfilteredPartition[];
 export interface GetUnfilteredPartitionsMetadataResponse {
-  UnfilteredPartitions?: UnfilteredPartition[];
-  NextToken?: string;
+  UnfilteredPartitions?: UnfilteredPartition[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface SupportedDialect {
-  Dialect?: ViewDialect;
-  DialectVersion?: string;
+  Dialect?: ViewDialect | undefined;
+  DialectVersion?: string | undefined;
 }
 export interface GetUnfilteredTableMetadataRequest {
-  Region?: string;
+  Region?: string | undefined;
   CatalogId: string;
   DatabaseName: string;
   Name: string;
-  AuditContext?: AuditContext;
+  AuditContext?: AuditContext | undefined;
   SupportedPermissionTypes: PermissionType[];
-  ParentResourceArn?: string;
-  RootResourceArn?: string;
-  SupportedDialect?: SupportedDialect;
-  Permissions?: Permission[];
-  QuerySessionContext?: QuerySessionContext;
+  ParentResourceArn?: string | undefined;
+  RootResourceArn?: string | undefined;
+  SupportedDialect?: SupportedDialect | undefined;
+  Permissions?: Permission[] | undefined;
+  QuerySessionContext?: QuerySessionContext | undefined;
 }
 export interface ColumnRowFilter {
-  ColumnName?: string;
-  RowFilterExpression?: string;
+  ColumnName?: string | undefined;
+  RowFilterExpression?: string | undefined;
 }
 export type ColumnRowFilterList = ColumnRowFilter[];
 export interface GetUnfilteredTableMetadataResponse {
-  Table?: Table;
-  AuthorizedColumns?: string[];
-  IsRegisteredWithLakeFormation?: boolean;
-  CellFilters?: ColumnRowFilter[];
-  QueryAuthorizationId?: string;
-  IsMultiDialectView?: boolean;
-  IsMaterializedView?: boolean;
-  ResourceArn?: string;
-  IsProtected?: boolean;
-  Permissions?: Permission[];
-  RowFilter?: string;
+  Table?: Table | undefined;
+  AuthorizedColumns?: string[] | undefined;
+  IsRegisteredWithLakeFormation?: boolean | undefined;
+  CellFilters?: ColumnRowFilter[] | undefined;
+  QueryAuthorizationId?: string | undefined;
+  IsMultiDialectView?: boolean | undefined;
+  IsMaterializedView?: boolean | undefined;
+  ResourceArn?: string | undefined;
+  IsProtected?: boolean | undefined;
+  Permissions?: Permission[] | undefined;
+  RowFilter?: string | undefined;
 }
 export interface GetUsageProfileRequest {
   Name: string;
 }
 export interface GetUsageProfileResponse {
-  Name?: string;
-  Description?: string;
-  Configuration?: ProfileConfiguration;
-  CreatedOn?: Date;
-  LastModifiedOn?: Date;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Configuration?: ProfileConfiguration | undefined;
+  CreatedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
 }
 export interface GetUserDefinedFunctionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   FunctionName: string;
 }
 export interface UserDefinedFunction {
-  FunctionName?: string;
-  DatabaseName?: string;
-  ClassName?: string;
-  OwnerName?: string;
-  FunctionType?: FunctionType;
-  OwnerType?: PrincipalType;
-  CreateTime?: Date;
-  ResourceUris?: ResourceUri[];
-  ArtifactLocation?: string;
-  GovernanceMode?: GovernanceMode;
-  CatalogId?: string;
+  FunctionName?: string | undefined;
+  DatabaseName?: string | undefined;
+  ClassName?: string | undefined;
+  OwnerName?: string | undefined;
+  FunctionType?: FunctionType | undefined;
+  OwnerType?: PrincipalType | undefined;
+  CreateTime?: Date | undefined;
+  ResourceUris?: ResourceUri[] | undefined;
+  ArtifactLocation?: string | undefined;
+  GovernanceMode?: GovernanceMode | undefined;
+  CatalogId?: string | undefined;
 }
 export interface GetUserDefinedFunctionResponse {
-  UserDefinedFunction?: UserDefinedFunction;
+  UserDefinedFunction?: UserDefinedFunction | undefined;
 }
 export interface GetUserDefinedFunctionsRequest {
-  CatalogId?: string;
-  DatabaseName?: string;
+  CatalogId?: string | undefined;
+  DatabaseName?: string | undefined;
   Pattern: string;
-  FunctionType?: FunctionType;
-  NextToken?: string;
-  MaxResults?: number;
+  FunctionType?: FunctionType | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type UserDefinedFunctionList = UserDefinedFunction[];
 export interface GetUserDefinedFunctionsResponse {
-  UserDefinedFunctions?: UserDefinedFunction[];
-  NextToken?: string;
+  UserDefinedFunctions?: UserDefinedFunction[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetWorkflowRequest {
   Name: string;
-  IncludeGraph?: boolean;
+  IncludeGraph?: boolean | undefined;
 }
 export interface GetWorkflowResponse {
-  Workflow?: Workflow;
+  Workflow?: Workflow | undefined;
 }
 export interface GetWorkflowRunRequest {
   Name: string;
   RunId: string;
-  IncludeGraph?: boolean;
+  IncludeGraph?: boolean | undefined;
 }
 export interface GetWorkflowRunResponse {
-  Run?: WorkflowRun;
+  Run?: WorkflowRun | undefined;
 }
 export interface GetWorkflowRunPropertiesRequest {
   Name: string;
   RunId: string;
 }
 export interface GetWorkflowRunPropertiesResponse {
-  RunProperties?: { [key: string]: string | undefined };
+  RunProperties?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetWorkflowRunsRequest {
   Name: string;
-  IncludeGraph?: boolean;
-  NextToken?: string;
-  MaxResults?: number;
+  IncludeGraph?: boolean | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type WorkflowRuns = WorkflowRun[];
 export interface GetWorkflowRunsResponse {
-  Runs?: WorkflowRun[];
-  NextToken?: string;
+  Runs?: WorkflowRun[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ImportCatalogToGlueRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
 }
 export interface ImportCatalogToGlueResponse {}
 export interface ListAssetTypesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface AssetTypeItem {
-  Id?: string;
-  Name?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
 }
 export type AssetTypeItemList = AssetTypeItem[];
 export interface ListAssetTypesResponse {
-  Items?: AssetTypeItem[];
-  NextToken?: string;
+  Items?: AssetTypeItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export type OrchestrationPageSize25 = number;
 export interface ListBlueprintsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Tags?: { [key: string]: string | undefined };
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListBlueprintsResponse {
-  Blueprints?: string[];
-  NextToken?: string;
+  Blueprints?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListColumnStatisticsTaskRunsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ColumnStatisticsTaskRunIdList = string[];
 export interface ListColumnStatisticsTaskRunsResponse {
-  ColumnStatisticsTaskRunIds?: string[];
-  NextToken?: string;
+  ColumnStatisticsTaskRunIds?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxResults = number;
 export interface ListConnectionTypesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type DisplayName = string;
 export type Vendor = string;
 export type UrlString = string;
 export interface ConnectionTypeVariant {
-  ConnectionTypeVariantName?: string;
-  DisplayName?: string;
-  Description?: string;
-  LogoUrl?: string;
+  ConnectionTypeVariantName?: string | undefined;
+  DisplayName?: string | undefined;
+  Description?: string | undefined;
+  LogoUrl?: string | undefined;
 }
 export type ConnectionTypeVariantList = ConnectionTypeVariant[];
 export interface ConnectionTypeBrief {
-  ConnectionType?: ConnectionType;
-  DisplayName?: string;
-  Vendor?: string;
-  Description?: string;
-  Categories?: string[];
-  Capabilities?: Capabilities;
-  LogoUrl?: string;
-  ConnectionTypeVariants?: ConnectionTypeVariant[];
+  ConnectionType?: ConnectionType | undefined;
+  DisplayName?: string | undefined;
+  Vendor?: string | undefined;
+  Description?: string | undefined;
+  Categories?: string[] | undefined;
+  Capabilities?: Capabilities | undefined;
+  LogoUrl?: string | undefined;
+  ConnectionTypeVariants?: ConnectionTypeVariant[] | undefined;
 }
 export type ConnectionTypeList = ConnectionTypeBrief[];
 export interface ListConnectionTypesResponse {
-  ConnectionTypes?: ConnectionTypeBrief[];
-  NextToken?: string;
+  ConnectionTypes?: ConnectionTypeBrief[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCrawlersRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Tags?: { [key: string]: string | undefined };
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListCrawlersResponse {
-  CrawlerNames?: string[];
-  NextToken?: string;
+  CrawlerNames?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export type FieldName =
   | "CRAWL_ID"
@@ -6401,479 +6496,517 @@ export type FieldName =
   | (string & {});
 export type FilterOperator = "GT" | "GE" | "LT" | "LE" | "EQ" | "NE" | (string & {});
 export interface CrawlsFilter {
-  FieldName?: FieldName;
-  FilterOperator?: FilterOperator;
-  FieldValue?: string;
+  FieldName?: FieldName | undefined;
+  FilterOperator?: FilterOperator | undefined;
+  FieldValue?: string | undefined;
 }
 export type CrawlsFilterList = CrawlsFilter[];
 export interface ListCrawlsRequest {
   CrawlerName: string;
-  MaxResults?: number;
-  Filters?: CrawlsFilter[];
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  Filters?: CrawlsFilter[] | undefined;
+  NextToken?: string | undefined;
 }
 export type CrawlId = string;
 export type CrawlerHistoryState = "RUNNING" | "COMPLETED" | "FAILED" | "STOPPED" | (string & {});
 export interface CrawlerHistory {
-  CrawlId?: string;
-  State?: CrawlerHistoryState;
-  StartTime?: Date;
-  EndTime?: Date;
-  Summary?: string;
-  ErrorMessage?: string;
-  LogGroup?: string;
-  LogStream?: string;
-  MessagePrefix?: string;
-  DPUHour?: number;
+  CrawlId?: string | undefined;
+  State?: CrawlerHistoryState | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Summary?: string | undefined;
+  ErrorMessage?: string | undefined;
+  LogGroup?: string | undefined;
+  LogStream?: string | undefined;
+  MessagePrefix?: string | undefined;
+  DPUHour?: number | undefined;
 }
 export type CrawlerHistoryList = CrawlerHistory[];
 export interface ListCrawlsResponse {
-  Crawls?: CrawlerHistory[];
-  NextToken?: string;
+  Crawls?: CrawlerHistory[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCustomEntityTypesRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Tags?: { [key: string]: string | undefined };
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListCustomEntityTypesResponse {
-  CustomEntityTypes?: CustomEntityType[];
-  NextToken?: string;
+  CustomEntityTypes?: CustomEntityType[] | undefined;
+  NextToken?: string | undefined;
+}
+export type DataQualityEvaluationConfigPageSize = number;
+export interface ListDataQualityEvaluationConfigsRequest {
+  Level?: DataQualityEvaluationConfigLevel | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+}
+export interface DataQualityEvaluationConfigListGlueTables {
+  CatalogId: string;
+  DatabaseName?: string | undefined;
+  TableNamePattern?: string | undefined;
+}
+export interface DataQualityEvaluationConfigListDataSource {
+  GlueTables?: DataQualityEvaluationConfigListGlueTables | undefined;
+}
+export interface DataQualityEvaluationConfigListDetails {
+  Name?: string | undefined;
+  EvaluationRunMode?: DataQualityEvaluationRunMode | undefined;
+  CreatedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
+  Level?: DataQualityEvaluationConfigLevel | undefined;
+  DataSource?: DataQualityEvaluationConfigListDataSource | undefined;
+  RulesetName?: string | undefined;
+  ManagedRulesetName?: DataQualityEvaluationConfigManagedRuleset | undefined;
+  PauseRuns?: boolean | undefined;
+}
+export type DataQualityEvaluationConfigList = DataQualityEvaluationConfigListDetails[];
+export interface ListDataQualityEvaluationConfigsResponse {
+  DataQualityEvaluationConfigs?: DataQualityEvaluationConfigListDetails[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DataQualityResultFilterCriteria {
-  DataSource?: DataSource;
-  JobName?: string;
-  JobRunId?: string;
-  StartedAfter?: Date;
-  StartedBefore?: Date;
+  DataSource?: DataSource | undefined;
+  JobName?: string | undefined;
+  JobRunId?: string | undefined;
+  StartedAfter?: Date | undefined;
+  StartedBefore?: Date | undefined;
+  EvaluationRunMode?: DataQualityEvaluationRunMode | undefined;
+  DataQualityEvaluationConfig?: string | undefined;
 }
 export interface ListDataQualityResultsRequest {
-  Filter?: DataQualityResultFilterCriteria;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: DataQualityResultFilterCriteria | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface DataQualityResultDescription {
-  ResultId?: string;
-  DataSource?: DataSource;
-  JobName?: string;
-  JobRunId?: string;
-  StartedOn?: Date;
+  ResultId?: string | undefined;
+  EvaluationRunMode?: DataQualityEvaluationRunMode | undefined;
+  DataQualityEvaluationConfig?: string | undefined;
+  DataSource?: DataSource | undefined;
+  JobName?: string | undefined;
+  JobRunId?: string | undefined;
+  StartedOn?: Date | undefined;
 }
 export type DataQualityResultDescriptionList = DataQualityResultDescription[];
 export interface ListDataQualityResultsResponse {
   Results: DataQualityResultDescription[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface DataQualityResultsV2FilterCriteria {
-  DataSource?: DataSource;
-  PublishedAfter?: Date;
-  PublishedBefore?: Date;
-  Dimensions?: { [key: string]: string | undefined };
-  EvaluationContext?: string;
+  DataSource?: DataSource | undefined;
+  PublishedAfter?: Date | undefined;
+  PublishedBefore?: Date | undefined;
+  Dimensions?: { [key: string]: string | undefined } | undefined;
+  EvaluationContext?: string | undefined;
+  EvaluationRunMode?: DataQualityEvaluationRunMode | undefined;
+  DataQualityEvaluationConfig?: string | undefined;
 }
 export interface ListDataQualityResultsV2Request {
-  Filter?: DataQualityResultsV2FilterCriteria;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: DataQualityResultsV2FilterCriteria | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface DataQualityResultsV2Description {
-  ResultId?: string;
-  DataSource?: DataSource;
-  ResultPublishedOn?: Date;
-  Dimensions?: { [key: string]: string | undefined };
-  EvaluationContext?: string;
-  Descriptors?: { [key: string]: string | undefined };
+  ResultId?: string | undefined;
+  EvaluationRunMode?: DataQualityEvaluationRunMode | undefined;
+  DataQualityEvaluationConfig?: string | undefined;
+  DataSource?: DataSource | undefined;
+  ResultPublishedOn?: Date | undefined;
+  Dimensions?: { [key: string]: string | undefined } | undefined;
+  EvaluationContext?: string | undefined;
+  Descriptors?: { [key: string]: string | undefined } | undefined;
 }
 export type DataQualityResultsV2DescriptionList = DataQualityResultsV2Description[];
 export interface ListDataQualityResultsV2Response {
   Results: DataQualityResultsV2Description[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface DataQualityRuleRecommendationRunFilter {
   DataSource: DataSource;
-  StartedBefore?: Date;
-  StartedAfter?: Date;
+  StartedBefore?: Date | undefined;
+  StartedAfter?: Date | undefined;
 }
 export interface ListDataQualityRuleRecommendationRunsRequest {
-  Filter?: DataQualityRuleRecommendationRunFilter;
-  NextToken?: string;
-  MaxResults?: number;
-  Tags?: { [key: string]: string | undefined };
+  Filter?: DataQualityRuleRecommendationRunFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DataQualityRuleRecommendationRunDescription {
-  RunId?: string;
-  Status?: TaskStatusType;
-  StartedOn?: Date;
-  DataSource?: DataSource;
-  CreatedRulesetName?: string;
-  RecommendationMode?: RecommendationMode;
+  RunId?: string | undefined;
+  Status?: TaskStatusType | undefined;
+  StartedOn?: Date | undefined;
+  DataSource?: DataSource | undefined;
+  CreatedRulesetName?: string | undefined;
+  RecommendationMode?: RecommendationMode | undefined;
 }
 export type DataQualityRuleRecommendationRunList = DataQualityRuleRecommendationRunDescription[];
 export interface ListDataQualityRuleRecommendationRunsResponse {
-  Runs?: DataQualityRuleRecommendationRunDescription[];
-  NextToken?: string;
+  Runs?: DataQualityRuleRecommendationRunDescription[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DataQualityRulesetEvaluationRunFilter {
   DataSource: DataSource;
-  StartedBefore?: Date;
-  StartedAfter?: Date;
-  RulesetName?: string;
+  StartedBefore?: Date | undefined;
+  StartedAfter?: Date | undefined;
+  RulesetName?: string | undefined;
 }
 export interface ListDataQualityRulesetEvaluationRunsRequest {
-  Filter?: DataQualityRulesetEvaluationRunFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: DataQualityRulesetEvaluationRunFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface DataQualityRulesetEvaluationRunDescription {
-  RunId?: string;
-  Status?: TaskStatusType;
-  StartedOn?: Date;
-  DataSource?: DataSource;
+  RunId?: string | undefined;
+  Status?: TaskStatusType | undefined;
+  StartedOn?: Date | undefined;
+  DataSource?: DataSource | undefined;
 }
 export type DataQualityRulesetEvaluationRunList = DataQualityRulesetEvaluationRunDescription[];
 export interface ListDataQualityRulesetEvaluationRunsResponse {
-  Runs?: DataQualityRulesetEvaluationRunDescription[];
-  NextToken?: string;
+  Runs?: DataQualityRulesetEvaluationRunDescription[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DataQualityRulesetFilterCriteria {
-  Name?: string;
-  Description?: string;
-  CreatedBefore?: Date;
-  CreatedAfter?: Date;
-  LastModifiedBefore?: Date;
-  LastModifiedAfter?: Date;
-  TargetTable?: DataQualityTargetTable;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CreatedBefore?: Date | undefined;
+  CreatedAfter?: Date | undefined;
+  LastModifiedBefore?: Date | undefined;
+  LastModifiedAfter?: Date | undefined;
+  TargetTable?: DataQualityTargetTable | undefined;
 }
 export interface ListDataQualityRulesetsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Filter?: DataQualityRulesetFilterCriteria;
-  Tags?: { [key: string]: string | undefined };
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filter?: DataQualityRulesetFilterCriteria | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DataQualityRulesetListDetails {
-  Name?: string;
-  Description?: string;
-  CreatedOn?: Date;
-  LastModifiedOn?: Date;
-  TargetTable?: DataQualityTargetTable;
-  RecommendationRunId?: string;
-  RuleCount?: number;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CreatedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
+  TargetTable?: DataQualityTargetTable | undefined;
+  RecommendationRunId?: string | undefined;
+  RuleCount?: number | undefined;
 }
 export type DataQualityRulesetList = DataQualityRulesetListDetails[];
 export interface ListDataQualityRulesetsResponse {
-  Rulesets?: DataQualityRulesetListDetails[];
-  NextToken?: string;
+  Rulesets?: DataQualityRulesetListDetails[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface TimestampFilter {
-  RecordedBefore?: Date;
-  RecordedAfter?: Date;
+  RecordedBefore?: Date | undefined;
+  RecordedAfter?: Date | undefined;
 }
 export interface ListDataQualityStatisticAnnotationsRequest {
-  StatisticId?: string;
-  ProfileId?: string;
-  TimestampFilter?: TimestampFilter;
-  MaxResults?: number;
-  NextToken?: string;
+  StatisticId?: string | undefined;
+  ProfileId?: string | undefined;
+  TimestampFilter?: TimestampFilter | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface TimestampedInclusionAnnotation {
-  Value?: InclusionAnnotationValue;
-  LastModifiedOn?: Date;
+  Value?: InclusionAnnotationValue | undefined;
+  LastModifiedOn?: Date | undefined;
 }
 export interface StatisticAnnotation {
-  ProfileId?: string;
-  StatisticId?: string;
-  StatisticRecordedOn?: Date;
-  InclusionAnnotation?: TimestampedInclusionAnnotation;
+  ProfileId?: string | undefined;
+  StatisticId?: string | undefined;
+  StatisticRecordedOn?: Date | undefined;
+  InclusionAnnotation?: TimestampedInclusionAnnotation | undefined;
 }
 export type AnnotationList = StatisticAnnotation[];
 export interface ListDataQualityStatisticAnnotationsResponse {
-  Annotations?: StatisticAnnotation[];
-  NextToken?: string;
+  Annotations?: StatisticAnnotation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDataQualityStatisticsRequest {
-  StatisticId?: string;
-  ProfileId?: string;
-  TimestampFilter?: TimestampFilter;
-  MaxResults?: number;
-  NextToken?: string;
+  StatisticId?: string | undefined;
+  ProfileId?: string | undefined;
+  TimestampFilter?: TimestampFilter | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface RunIdentifier {
-  RunId?: string;
-  JobRunId?: string;
+  RunId?: string | undefined;
+  JobRunId?: string | undefined;
 }
 export type StatisticNameString = string;
 export type StatisticEvaluationLevel = "Dataset" | "Column" | "Multicolumn" | (string & {});
 export type ReferenceDatasetsList = string[];
 export type StatisticPropertiesMap = { [key: string]: string | undefined };
 export interface StatisticSummary {
-  StatisticId?: string;
-  ProfileId?: string;
-  RunIdentifier?: RunIdentifier;
-  StatisticName?: string;
-  DoubleValue?: number;
-  DistributionValue?: DistributionData;
-  EvaluationLevel?: StatisticEvaluationLevel;
-  ColumnsReferenced?: string[];
-  ReferencedDatasets?: string[];
-  StatisticProperties?: { [key: string]: string | undefined };
-  RecordedOn?: Date;
-  InclusionAnnotation?: TimestampedInclusionAnnotation;
+  StatisticId?: string | undefined;
+  ProfileId?: string | undefined;
+  RunIdentifier?: RunIdentifier | undefined;
+  StatisticName?: string | undefined;
+  DoubleValue?: number | undefined;
+  DistributionValue?: DistributionData | undefined;
+  EvaluationLevel?: StatisticEvaluationLevel | undefined;
+  ColumnsReferenced?: string[] | undefined;
+  ReferencedDatasets?: string[] | undefined;
+  StatisticProperties?: { [key: string]: string | undefined } | undefined;
+  RecordedOn?: Date | undefined;
+  InclusionAnnotation?: TimestampedInclusionAnnotation | undefined;
 }
 export type StatisticSummaryList = StatisticSummary[];
 export interface ListDataQualityStatisticsResponse {
-  Statistics?: StatisticSummary[];
-  NextToken?: string;
+  Statistics?: StatisticSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDevEndpointsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Tags?: { [key: string]: string | undefined };
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DevEndpointNameList = string[];
 export interface ListDevEndpointsResponse {
-  DevEndpointNames?: string[];
-  NextToken?: string;
+  DevEndpointNames?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListEntitiesRequest {
-  ConnectionName?: string;
-  CatalogId?: string;
-  ParentEntityName?: string;
-  NextToken?: string;
-  DataStoreApiVersion?: string;
+  ConnectionName?: string | undefined;
+  CatalogId?: string | undefined;
+  ParentEntityName?: string | undefined;
+  NextToken?: string | undefined;
+  DataStoreApiVersion?: string | undefined;
 }
 export type EntityLabel = string;
 export type IsParentEntity = boolean;
 export type EntityDescription = string;
 export type Category = string;
 export interface Entity {
-  EntityName?: string;
-  Label?: string;
-  IsParentEntity?: boolean;
-  Description?: string;
-  Category?: string;
-  CustomProperties?: { [key: string]: string | undefined };
+  EntityName?: string | undefined;
+  Label?: string | undefined;
+  IsParentEntity?: boolean | undefined;
+  Description?: string | undefined;
+  Category?: string | undefined;
+  CustomProperties?: { [key: string]: string | undefined } | undefined;
 }
 export type EntityList = Entity[];
 export interface ListEntitiesResponse {
-  Entities?: Entity[];
-  NextToken?: string;
+  Entities?: Entity[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListFormTypesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface FormTypeItem {
-  Id?: string;
-  Name?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
 }
 export type FormTypeItemList = FormTypeItem[];
 export interface ListFormTypesResponse {
   Items: FormTypeItem[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListGlossariesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface GlossaryItem {
-  Id?: string;
-  Name?: string;
-  Description?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
 }
 export type GlossaryItemList = GlossaryItem[];
 export interface ListGlossariesResponse {
-  Items?: GlossaryItem[];
-  NextToken?: string;
+  Items?: GlossaryItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListGlossaryTermsRequest {
   GlossaryIdentifier: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface GlossaryTermItem {
-  Id?: string;
-  Name?: string;
-  ShortDescription?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  ShortDescription?: string | undefined;
 }
 export type GlossaryTermItemList = GlossaryTermItem[];
 export interface ListGlossaryTermsResponse {
-  Items?: GlossaryTermItem[];
-  NextToken?: string;
+  Items?: GlossaryTermItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export type String4096 = string;
 export type IntegrationResourcePropertyFilterValues = string[];
 export interface IntegrationResourcePropertyFilter {
-  Name?: string;
-  Values?: string[];
+  Name?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type IntegrationResourcePropertyFilterList = IntegrationResourcePropertyFilter[];
 export interface ListIntegrationResourcePropertiesRequest {
-  Marker?: string;
-  Filters?: IntegrationResourcePropertyFilter[];
-  MaxRecords?: number;
+  Marker?: string | undefined;
+  Filters?: IntegrationResourcePropertyFilter[] | undefined;
+  MaxRecords?: number | undefined;
 }
 export interface IntegrationResourceProperty {
   ResourceArn: string;
-  ResourcePropertyArn?: string;
-  SourceProcessingProperties?: SourceProcessingProperties;
-  TargetProcessingProperties?: TargetProcessingProperties;
+  ResourcePropertyArn?: string | undefined;
+  SourceProcessingProperties?: SourceProcessingProperties | undefined;
+  TargetProcessingProperties?: TargetProcessingProperties | undefined;
 }
 export type IntegrationResourcePropertyList = IntegrationResourceProperty[];
 export interface ListIntegrationResourcePropertiesResponse {
-  IntegrationResourcePropertyList?: IntegrationResourceProperty[];
-  Marker?: string;
+  IntegrationResourcePropertyList?: IntegrationResourceProperty[] | undefined;
+  Marker?: string | undefined;
 }
 export type IntegrationTablePropertiesFilterValues = string[];
 export interface IntegrationTablePropertiesFilter {
-  Name?: string;
-  Values?: string[];
+  Name?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type IntegrationTablePropertiesFilterList = IntegrationTablePropertiesFilter[];
 export interface ListIntegrationTablePropertiesRequest {
-  Marker?: string;
-  Filters?: IntegrationTablePropertiesFilter[];
-  MaxRecords?: number;
+  Marker?: string | undefined;
+  Filters?: IntegrationTablePropertiesFilter[] | undefined;
+  MaxRecords?: number | undefined;
 }
 export interface IntegrationTableProperties {
   ResourceArn: string;
   TableName: string;
-  SourceTableConfig?: SourceTableConfig;
-  TargetTableConfig?: TargetTableConfig;
+  SourceTableConfig?: SourceTableConfig | undefined;
+  TargetTableConfig?: TargetTableConfig | undefined;
 }
 export type IntegrationTablePropertiesList = IntegrationTableProperties[];
 export interface ListIntegrationTablePropertiesResponse {
-  IntegrationTablePropertiesList?: IntegrationTableProperties[];
-  Marker?: string;
+  IntegrationTablePropertiesList?: IntegrationTableProperties[] | undefined;
+  Marker?: string | undefined;
 }
 export interface ListIterableFormsRequest {
   AssetIdentifier: string;
   IterableFormName: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ItemDescription = string;
 export interface IterableFormListItem {
-  ItemId?: string;
-  ItemName?: string;
-  Description?: string;
-  GlossaryTerms?: string[];
+  ItemId?: string | undefined;
+  ItemName?: string | undefined;
+  Description?: string | undefined;
+  GlossaryTerms?: string[] | undefined;
 }
 export type IterableFormListItemList = IterableFormListItem[];
 export interface ListIterableFormsResponse {
-  Items?: IterableFormListItem[];
-  NextToken?: string;
+  Items?: IterableFormListItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListJobsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Tags?: { [key: string]: string | undefined };
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListJobsResponse {
-  JobNames?: string[];
-  NextToken?: string;
+  JobNames?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListMaterializedViewRefreshTaskRunsRequest {
   CatalogId: string;
-  DatabaseName?: string;
-  TableName?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  DatabaseName?: string | undefined;
+  TableName?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type MaterializedViewRefreshTaskRunsList = MaterializedViewRefreshTaskRun[];
 export interface ListMaterializedViewRefreshTaskRunsResponse {
-  MaterializedViewRefreshTaskRuns?: MaterializedViewRefreshTaskRun[];
-  NextToken?: string;
+  MaterializedViewRefreshTaskRuns?: MaterializedViewRefreshTaskRun[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListMLTransformsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Filter?: TransformFilterCriteria;
-  Sort?: TransformSortCriteria;
-  Tags?: { [key: string]: string | undefined };
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Filter?: TransformFilterCriteria | undefined;
+  Sort?: TransformSortCriteria | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type TransformIdList = string[];
 export interface ListMLTransformsResponse {
   TransformIds: string[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type MaxResultsNumber = number;
 export type SchemaRegistryTokenString = string;
 export interface ListRegistriesInput {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface RegistryListItem {
-  RegistryName?: string;
-  RegistryArn?: string;
-  Description?: string;
-  Status?: RegistryStatus;
-  CreatedTime?: string;
-  UpdatedTime?: string;
+  RegistryName?: string | undefined;
+  RegistryArn?: string | undefined;
+  Description?: string | undefined;
+  Status?: RegistryStatus | undefined;
+  CreatedTime?: string | undefined;
+  UpdatedTime?: string | undefined;
 }
 export type RegistryListDefinition = RegistryListItem[];
 export interface ListRegistriesResponse {
-  Registries?: RegistryListItem[];
-  NextToken?: string;
+  Registries?: RegistryListItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSchemasInput {
-  RegistryId?: RegistryId;
-  MaxResults?: number;
-  NextToken?: string;
+  RegistryId?: RegistryId | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface SchemaListItem {
-  RegistryName?: string;
-  SchemaName?: string;
-  SchemaArn?: string;
-  Description?: string;
-  SchemaStatus?: SchemaStatus;
-  CreatedTime?: string;
-  UpdatedTime?: string;
+  RegistryName?: string | undefined;
+  SchemaName?: string | undefined;
+  SchemaArn?: string | undefined;
+  Description?: string | undefined;
+  SchemaStatus?: SchemaStatus | undefined;
+  CreatedTime?: string | undefined;
+  UpdatedTime?: string | undefined;
 }
 export type SchemaListDefinition = SchemaListItem[];
 export interface ListSchemasResponse {
-  Schemas?: SchemaListItem[];
-  NextToken?: string;
+  Schemas?: SchemaListItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSchemaVersionsInput {
   SchemaId: SchemaId;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface SchemaVersionListItem {
-  SchemaArn?: string;
-  SchemaVersionId?: string;
-  VersionNumber?: number;
-  Status?: SchemaVersionStatus;
-  CreatedTime?: string;
+  SchemaArn?: string | undefined;
+  SchemaVersionId?: string | undefined;
+  VersionNumber?: number | undefined;
+  Status?: SchemaVersionStatus | undefined;
+  CreatedTime?: string | undefined;
 }
 export type SchemaVersionList = SchemaVersionListItem[];
 export interface ListSchemaVersionsResponse {
-  Schemas?: SchemaVersionListItem[];
-  NextToken?: string;
+  Schemas?: SchemaVersionListItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export type OrchestrationToken = string;
 export interface ListSessionsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  Tags?: { [key: string]: string | undefined };
-  RequestOrigin?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  RequestOrigin?: string | undefined;
 }
 export type SessionIdList = string[];
 export type SessionList = Session[];
 export interface ListSessionsResponse {
-  Ids?: string[];
-  Sessions?: Session[];
-  NextToken?: string;
+  Ids?: string[] | undefined;
+  Sessions?: Session[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListStatementsRequest {
   SessionId: string;
-  RequestOrigin?: string;
-  NextToken?: string;
+  RequestOrigin?: string | undefined;
+  NextToken?: string | undefined;
 }
 export type StatementList = Statement[];
 export interface ListStatementsResponse {
-  Statements?: Statement[];
-  NextToken?: string;
+  Statements?: Statement[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxListTableOptimizerRunsTokenResults = number;
 export type ListTableOptimizerRunsToken = string;
@@ -6882,105 +7015,104 @@ export interface ListTableOptimizerRunsRequest {
   DatabaseName: string;
   TableName: string;
   Type: TableOptimizerType;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type TableOptimizerRuns = TableOptimizerRun[];
 export interface ListTableOptimizerRunsResponse {
-  CatalogId?: string;
-  DatabaseName?: string;
-  TableName?: string;
-  NextToken?: string;
-  TableOptimizerRuns?: TableOptimizerRun[];
+  CatalogId?: string | undefined;
+  DatabaseName?: string | undefined;
+  TableName?: string | undefined;
+  NextToken?: string | undefined;
+  TableOptimizerRuns?: TableOptimizerRun[] | undefined;
 }
 export interface ListTriggersRequest {
-  NextToken?: string;
-  DependentJobName?: string;
-  MaxResults?: number;
-  Tags?: { [key: string]: string | undefined };
+  NextToken?: string | undefined;
+  DependentJobName?: string | undefined;
+  MaxResults?: number | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListTriggersResponse {
-  TriggerNames?: string[];
-  NextToken?: string;
+  TriggerNames?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListUsageProfilesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface UsageProfileDefinition {
-  Name?: string;
-  Description?: string;
-  CreatedOn?: Date;
-  LastModifiedOn?: Date;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CreatedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
 }
 export type UsageProfileDefinitionList = UsageProfileDefinition[];
 export interface ListUsageProfilesResponse {
-  Profiles?: UsageProfileDefinition[];
-  NextToken?: string;
+  Profiles?: UsageProfileDefinition[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListWorkflowsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListWorkflowsResponse {
-  Workflows?: string[];
-  NextToken?: string;
+  Workflows?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ModifyIntegrationRequest {
   IntegrationIdentifier: string;
-  Description?: string;
-  DataFilter?: string;
-  IntegrationConfig?: IntegrationConfig;
-  IntegrationName?: string;
+  Description?: string | undefined;
+  DataFilter?: string | undefined;
+  IntegrationConfig?: IntegrationConfig | undefined;
+  IntegrationName?: string | undefined;
 }
 export interface ModifyIntegrationResponse {
   SourceArn: string;
   TargetArn: string;
   IntegrationName: string;
-  Description?: string;
+  Description?: string | undefined;
   IntegrationArn: string;
-  KmsKeyId?: string;
-  AdditionalEncryptionContext?: { [key: string]: string | undefined };
-  Tags?: Tag[];
+  KmsKeyId?: string | undefined;
+  AdditionalEncryptionContext?: { [key: string]: string | undefined } | undefined;
+  Tags?: Tag[] | undefined;
   Status: IntegrationStatus;
   CreateTime: Date;
-  Errors?: IntegrationError[];
-  DataFilter?: string;
-  IntegrationConfig?: IntegrationConfig;
+  Errors?: IntegrationError[] | undefined;
+  DataFilter?: string | undefined;
+  IntegrationConfig?: IntegrationConfig | undefined;
 }
 export interface DataQualityConfigurationV2 {
-  ObservationsEnabled?: ObservationConfiguration;
-  ObservationMode?: ObservationMode;
+  ObservationsEnabled?: ObservationConfiguration | undefined;
+  ObservationMode?: ObservationMode | undefined;
 }
-export type ClientTokenString = string;
 export type DataQualityFlagsEnabled = { [key: string]: string | undefined };
 export type DataQualityEngine = "SPARK" | "PYTHON" | (string & {});
 export interface DataQualityTelemetry {
-  VcpuHours?: number;
-  FlagsEnabled?: { [key: string]: string | undefined };
-  LibraryVersion?: string;
-  SparkVersion?: string;
-  HostRuntimeVersion?: string;
-  Engine?: DataQualityEngine;
+  VcpuHours?: number | undefined;
+  FlagsEnabled?: { [key: string]: string | undefined } | undefined;
+  LibraryVersion?: string | undefined;
+  SparkVersion?: string | undefined;
+  HostRuntimeVersion?: string | undefined;
+  Engine?: DataQualityEngine | undefined;
 }
 export interface PublishDataQualityResultV2Request {
   Dimensions: { [key: string]: string | undefined };
-  Tags?: { [key: string]: string | undefined };
-  ExecutionStartedOn?: Date;
-  ExecutionCompletedOn?: Date;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ExecutionStartedOn?: Date | undefined;
+  ExecutionCompletedOn?: Date | undefined;
   Score: number;
   RuleResults: DataQualityRuleResult[];
-  AnalyzerResults?: DataQualityAnalyzerResult[];
-  Observations?: DataQualityObservation[];
-  AggregatedMetrics?: DataQualityAggregatedMetrics;
-  Statistics?: StatisticSummary[];
-  RunConfiguration?: DataQualityConfigurationV2;
-  ClientToken?: string;
+  AnalyzerResults?: DataQualityAnalyzerResult[] | undefined;
+  Observations?: DataQualityObservation[] | undefined;
+  AggregatedMetrics?: DataQualityAggregatedMetrics | undefined;
+  Statistics?: StatisticSummary[] | undefined;
+  RunConfiguration?: DataQualityConfigurationV2 | undefined;
+  ClientToken?: string | undefined;
   EvaluationContext: string;
-  Descriptors?: { [key: string]: string | undefined };
-  RulesetName?: string;
-  DataQualitySecurityConfiguration?: string;
-  Telemetry?: DataQualityTelemetry;
+  Descriptors?: { [key: string]: string | undefined } | undefined;
+  RulesetName?: string | undefined;
+  DataQualitySecurityConfiguration?: string | undefined;
+  Telemetry?: DataQualityTelemetry | undefined;
 }
 export interface PublishDataQualityResultV2Response {
   ResultId: string;
@@ -6989,56 +7121,56 @@ export interface PutAssetRequest {
   AssetTypeId: string;
   Identifier: string;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   Forms: { [key: string]: AssetFormEntry | undefined };
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface PutAssetResponse {
   Id: string;
   Name: string;
-  Description?: string;
-  CreatedAt?: Date;
-  Forms?: { [key: string]: AssetFormEntry | undefined };
+  Description?: string | undefined;
+  CreatedAt?: Date | undefined;
+  Forms?: { [key: string]: AssetFormEntry | undefined } | undefined;
 }
 export interface PutAssetTypeRequest {
   Name: string;
   Forms: { [key: string]: AssetTypeFormReference | undefined };
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface PutAssetTypeResponse {
-  Id?: string;
-  Name?: string;
-  Forms?: { [key: string]: AssetTypeFormReference | undefined };
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Forms?: { [key: string]: AssetTypeFormReference | undefined } | undefined;
 }
 export interface PutAttachmentRequest {
   AssetIdentifier: string;
-  IterableFormName?: string;
-  ItemIdentifier?: string;
+  IterableFormName?: string | undefined;
+  ItemIdentifier?: string | undefined;
   AttachmentName: string;
   Content: string;
   FormTypeId: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface PutAttachmentResponse {
-  AssetIdentifier?: string;
-  IterableFormName?: string;
-  ItemIdentifier?: string;
-  AttachmentName?: string;
-  FormTypeId?: string;
+  AssetIdentifier?: string | undefined;
+  IterableFormName?: string | undefined;
+  ItemIdentifier?: string | undefined;
+  AttachmentName?: string | undefined;
+  FormTypeId?: string | undefined;
 }
 export interface PutDataCatalogEncryptionSettingsRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DataCatalogEncryptionSettings: DataCatalogEncryptionSettings;
 }
 export interface PutDataCatalogEncryptionSettingsResponse {}
 export interface PutDataCatalogExportConfigurationInput {
   ExportSetting: ExportSetting;
-  EncryptionConfiguration?: ExportEncryptionConfiguration;
-  ClientToken?: string;
+  EncryptionConfiguration?: ExportEncryptionConfiguration | undefined;
+  ClientToken?: string | undefined;
 }
 export interface PutDataCatalogExportConfigurationOutput {
-  ExportSetting?: ExportSetting;
-  EncryptionConfiguration?: ExportEncryptionConfiguration;
+  ExportSetting?: ExportSetting | undefined;
+  EncryptionConfiguration?: ExportEncryptionConfiguration | undefined;
 }
 export interface PutDataQualityProfileAnnotationRequest {
   ProfileId: string;
@@ -7048,46 +7180,46 @@ export interface PutDataQualityProfileAnnotationResponse {}
 export interface PutFormTypeRequest {
   Name: string;
   Schema: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface PutFormTypeResponse {
-  Id?: string;
-  Name?: string;
-  Schema?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Schema?: string | undefined;
 }
 export type ExistCondition = "MUST_EXIST" | "NOT_EXIST" | "NONE" | (string & {});
 export type EnableHybridValues = "TRUE" | "FALSE" | (string & {});
 export interface PutResourcePolicyRequest {
   PolicyInJson: string;
-  ResourceArn?: string;
-  PolicyHashCondition?: string;
-  PolicyExistsCondition?: ExistCondition;
-  EnableHybrid?: EnableHybridValues;
+  ResourceArn?: string | undefined;
+  PolicyHashCondition?: string | undefined;
+  PolicyExistsCondition?: ExistCondition | undefined;
+  EnableHybrid?: EnableHybridValues | undefined;
 }
 export interface PutResourcePolicyResponse {
-  PolicyHash?: string;
+  PolicyHash?: string | undefined;
 }
 export type MetadataKeyString = string;
 export type MetadataValueString = string;
 export interface MetadataKeyValuePair {
-  MetadataKey?: string;
-  MetadataValue?: string;
+  MetadataKey?: string | undefined;
+  MetadataValue?: string | undefined;
 }
 export interface PutSchemaVersionMetadataInput {
-  SchemaId?: SchemaId;
-  SchemaVersionNumber?: SchemaVersionNumber;
-  SchemaVersionId?: string;
+  SchemaId?: SchemaId | undefined;
+  SchemaVersionNumber?: SchemaVersionNumber | undefined;
+  SchemaVersionId?: string | undefined;
   MetadataKeyValue: MetadataKeyValuePair;
 }
 export interface PutSchemaVersionMetadataResponse {
-  SchemaArn?: string;
-  SchemaName?: string;
-  RegistryName?: string;
-  LatestVersion?: boolean;
-  VersionNumber?: number;
-  SchemaVersionId?: string;
-  MetadataKey?: string;
-  MetadataValue?: string;
+  SchemaArn?: string | undefined;
+  SchemaName?: string | undefined;
+  RegistryName?: string | undefined;
+  LatestVersion?: boolean | undefined;
+  VersionNumber?: number | undefined;
+  SchemaVersionId?: string | undefined;
+  MetadataKey?: string | undefined;
+  MetadataValue?: string | undefined;
 }
 export interface PutWorkflowRunPropertiesRequest {
   Name: string;
@@ -7098,33 +7230,33 @@ export interface PutWorkflowRunPropertiesResponse {}
 export type MetadataList = MetadataKeyValuePair[];
 export type QuerySchemaVersionMetadataMaxResults = number;
 export interface QuerySchemaVersionMetadataInput {
-  SchemaId?: SchemaId;
-  SchemaVersionNumber?: SchemaVersionNumber;
-  SchemaVersionId?: string;
-  MetadataList?: MetadataKeyValuePair[];
-  MaxResults?: number;
-  NextToken?: string;
+  SchemaId?: SchemaId | undefined;
+  SchemaVersionNumber?: SchemaVersionNumber | undefined;
+  SchemaVersionId?: string | undefined;
+  MetadataList?: MetadataKeyValuePair[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface OtherMetadataValueListItem {
-  MetadataValue?: string;
-  CreatedTime?: string;
+  MetadataValue?: string | undefined;
+  CreatedTime?: string | undefined;
 }
 export type OtherMetadataValueList = OtherMetadataValueListItem[];
 export interface MetadataInfo {
-  MetadataValue?: string;
-  CreatedTime?: string;
-  OtherMetadataValueList?: OtherMetadataValueListItem[];
+  MetadataValue?: string | undefined;
+  CreatedTime?: string | undefined;
+  OtherMetadataValueList?: OtherMetadataValueListItem[] | undefined;
 }
 export type MetadataInfoMap = { [key: string]: MetadataInfo | undefined };
 export interface QuerySchemaVersionMetadataResponse {
-  MetadataInfoMap?: { [key: string]: MetadataInfo | undefined };
-  SchemaVersionId?: string;
-  NextToken?: string;
+  MetadataInfoMap?: { [key: string]: MetadataInfo | undefined } | undefined;
+  SchemaVersionId?: string | undefined;
+  NextToken?: string | undefined;
 }
 export type IntegrationType = "REST" | (string & {});
 export interface ConnectionPropertiesConfiguration {
-  Url?: ConnectorProperty;
-  AdditionalRequestParameters?: ConnectorProperty[];
+  Url?: ConnectorProperty | undefined;
+  AdditionalRequestParameters?: ConnectorProperty[] | undefined;
 }
 export type ConnectorOAuth2GrantType =
   | "CLIENT_CREDENTIALS"
@@ -7133,96 +7265,96 @@ export type ConnectorOAuth2GrantType =
   | (string & {});
 export type ContentType = "APPLICATION_JSON" | "URL_ENCODED" | (string & {});
 export interface ClientCredentialsProperties {
-  TokenUrl?: ConnectorProperty;
-  RequestMethod?: HTTPMethod;
-  ContentType?: ContentType;
-  ClientId?: ConnectorProperty;
-  ClientSecret?: ConnectorProperty;
-  Scope?: ConnectorProperty;
-  TokenUrlParameters?: ConnectorProperty[];
+  TokenUrl?: ConnectorProperty | undefined;
+  RequestMethod?: HTTPMethod | undefined;
+  ContentType?: ContentType | undefined;
+  ClientId?: ConnectorProperty | undefined;
+  ClientSecret?: ConnectorProperty | undefined;
+  Scope?: ConnectorProperty | undefined;
+  TokenUrlParameters?: ConnectorProperty[] | undefined;
 }
 export interface JWTBearerProperties {
-  TokenUrl?: ConnectorProperty;
-  RequestMethod?: HTTPMethod;
-  ContentType?: ContentType;
-  JwtToken?: ConnectorProperty;
-  TokenUrlParameters?: ConnectorProperty[];
+  TokenUrl?: ConnectorProperty | undefined;
+  RequestMethod?: HTTPMethod | undefined;
+  ContentType?: ContentType | undefined;
+  JwtToken?: ConnectorProperty | undefined;
+  TokenUrlParameters?: ConnectorProperty[] | undefined;
 }
 export interface ConnectorAuthorizationCodeProperties {
-  AuthorizationCodeUrl?: ConnectorProperty;
-  AuthorizationCode?: ConnectorProperty;
-  RedirectUri?: ConnectorProperty;
-  TokenUrl?: ConnectorProperty;
-  RequestMethod?: HTTPMethod;
-  ContentType?: ContentType;
-  ClientId?: ConnectorProperty;
-  ClientSecret?: ConnectorProperty;
-  Scope?: ConnectorProperty;
-  Prompt?: ConnectorProperty;
-  TokenUrlParameters?: ConnectorProperty[];
+  AuthorizationCodeUrl?: ConnectorProperty | undefined;
+  AuthorizationCode?: ConnectorProperty | undefined;
+  RedirectUri?: ConnectorProperty | undefined;
+  TokenUrl?: ConnectorProperty | undefined;
+  RequestMethod?: HTTPMethod | undefined;
+  ContentType?: ContentType | undefined;
+  ClientId?: ConnectorProperty | undefined;
+  ClientSecret?: ConnectorProperty | undefined;
+  Scope?: ConnectorProperty | undefined;
+  Prompt?: ConnectorProperty | undefined;
+  TokenUrlParameters?: ConnectorProperty[] | undefined;
 }
 export interface ConnectorOAuth2Properties {
   OAuth2GrantType: ConnectorOAuth2GrantType;
-  ClientCredentialsProperties?: ClientCredentialsProperties;
-  JWTBearerProperties?: JWTBearerProperties;
-  AuthorizationCodeProperties?: ConnectorAuthorizationCodeProperties;
+  ClientCredentialsProperties?: ClientCredentialsProperties | undefined;
+  JWTBearerProperties?: JWTBearerProperties | undefined;
+  AuthorizationCodeProperties?: ConnectorAuthorizationCodeProperties | undefined;
 }
 export interface BasicAuthenticationProperties {
-  Username?: ConnectorProperty;
-  Password?: ConnectorProperty;
+  Username?: ConnectorProperty | undefined;
+  Password?: ConnectorProperty | undefined;
 }
 export interface CustomAuthenticationProperties {
   AuthenticationParameters: ConnectorProperty[];
 }
 export interface ConnectorAuthenticationConfiguration {
   AuthenticationTypes: AuthenticationType[];
-  OAuth2Properties?: ConnectorOAuth2Properties;
-  BasicAuthenticationProperties?: BasicAuthenticationProperties;
-  CustomAuthenticationProperties?: CustomAuthenticationProperties;
+  OAuth2Properties?: ConnectorOAuth2Properties | undefined;
+  BasicAuthenticationProperties?: BasicAuthenticationProperties | undefined;
+  CustomAuthenticationProperties?: CustomAuthenticationProperties | undefined;
 }
 export interface RegisterConnectionTypeRequest {
   ConnectionType: string;
   IntegrationType: IntegrationType;
-  Description?: string;
+  Description?: string | undefined;
   ConnectionProperties: ConnectionPropertiesConfiguration;
   ConnectorAuthenticationConfiguration: ConnectorAuthenticationConfiguration;
   RestConfiguration: RestConfiguration;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface RegisterConnectionTypeResponse {
-  ConnectionTypeArn?: string;
+  ConnectionTypeArn?: string | undefined;
 }
 export interface RegisterSchemaVersionInput {
   SchemaId: SchemaId;
   SchemaDefinition: string;
 }
 export interface RegisterSchemaVersionResponse {
-  SchemaVersionId?: string;
-  VersionNumber?: number;
-  Status?: SchemaVersionStatus;
+  SchemaVersionId?: string | undefined;
+  VersionNumber?: number | undefined;
+  Status?: SchemaVersionStatus | undefined;
 }
 export interface RemoveSchemaVersionMetadataInput {
-  SchemaId?: SchemaId;
-  SchemaVersionNumber?: SchemaVersionNumber;
-  SchemaVersionId?: string;
+  SchemaId?: SchemaId | undefined;
+  SchemaVersionNumber?: SchemaVersionNumber | undefined;
+  SchemaVersionId?: string | undefined;
   MetadataKeyValue: MetadataKeyValuePair;
 }
 export interface RemoveSchemaVersionMetadataResponse {
-  SchemaArn?: string;
-  SchemaName?: string;
-  RegistryName?: string;
-  LatestVersion?: boolean;
-  VersionNumber?: number;
-  SchemaVersionId?: string;
-  MetadataKey?: string;
-  MetadataValue?: string;
+  SchemaArn?: string | undefined;
+  SchemaName?: string | undefined;
+  RegistryName?: string | undefined;
+  LatestVersion?: boolean | undefined;
+  VersionNumber?: number | undefined;
+  SchemaVersionId?: string | undefined;
+  MetadataKey?: string | undefined;
+  MetadataValue?: string | undefined;
 }
 export interface ResetJobBookmarkRequest {
   JobName: string;
-  RunId?: string;
+  RunId?: string | undefined;
 }
 export interface ResetJobBookmarkResponse {
-  JobBookmarkEntry?: JobBookmarkEntry;
+  JobBookmarkEntry?: JobBookmarkEntry | undefined;
 }
 export type NodeIdList = string[];
 export interface ResumeWorkflowRunRequest {
@@ -7231,17 +7363,17 @@ export interface ResumeWorkflowRunRequest {
   NodeIds: string[];
 }
 export interface ResumeWorkflowRunResponse {
-  RunId?: string;
-  NodeIds?: string[];
+  RunId?: string | undefined;
+  NodeIds?: string[] | undefined;
 }
 export type OrchestrationStatementCodeString = string;
 export interface RunStatementRequest {
   SessionId: string;
   Code: string;
-  RequestOrigin?: string;
+  RequestOrigin?: string | undefined;
 }
 export interface RunStatementResponse {
-  Id?: number;
+  Id?: number | undefined;
 }
 export type SearchText = string;
 export type SearchMaxResults = number;
@@ -7250,7 +7382,7 @@ export type SearchAttribute = string;
 export type SearchSortOrder = "ASCENDING" | "DESCENDING" | (string & {});
 export interface SearchSort {
   Attribute: string;
-  Order?: SearchSortOrder;
+  Order?: SearchSortOrder | undefined;
 }
 export type SearchFilterClauseList = SearchFilterClause[];
 export type SearchFilterOperator =
@@ -7264,12 +7396,12 @@ export type SearchFilterOperator =
 export type SearchFilterStringValue = string;
 export type SearchFilterLongValue = number;
 export type SearchFilterValue =
-  | { StringValue: string; LongValue?: never }
-  | { StringValue?: never; LongValue: number };
+  | { StringValue: string; LongValue?: undefined }
+  | { StringValue?: undefined; LongValue: number };
 export interface SearchAttributeFilter {
   Attribute: string;
   Operator: SearchFilterOperator;
-  Value?: SearchFilterValue;
+  Value?: SearchFilterValue | undefined;
 }
 export type SearchMapKey = string;
 export type SearchMapFilterValue = { StringValue: string };
@@ -7281,47 +7413,47 @@ export interface SearchMapFilter {
 export type SearchFilterClause =
   | {
       AndAllFilters: SearchFilterClause[];
-      OrAnyFilters?: never;
-      AttributeFilter?: never;
-      MapFilter?: never;
+      OrAnyFilters?: undefined;
+      AttributeFilter?: undefined;
+      MapFilter?: undefined;
     }
   | {
-      AndAllFilters?: never;
+      AndAllFilters?: undefined;
       OrAnyFilters: SearchFilterClause[];
-      AttributeFilter?: never;
-      MapFilter?: never;
+      AttributeFilter?: undefined;
+      MapFilter?: undefined;
     }
   | {
-      AndAllFilters?: never;
-      OrAnyFilters?: never;
+      AndAllFilters?: undefined;
+      OrAnyFilters?: undefined;
       AttributeFilter: SearchAttributeFilter;
-      MapFilter?: never;
+      MapFilter?: undefined;
     }
   | {
-      AndAllFilters?: never;
-      OrAnyFilters?: never;
-      AttributeFilter?: never;
+      AndAllFilters?: undefined;
+      OrAnyFilters?: undefined;
+      AttributeFilter?: undefined;
       MapFilter: SearchMapFilter;
     };
 export interface SearchAssetsInput {
-  SearchText?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Sort?: SearchSort;
-  FilterClause?: SearchFilterClause;
+  SearchText?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Sort?: SearchSort | undefined;
+  FilterClause?: SearchFilterClause | undefined;
 }
 export type SearchResultName = string;
 export interface SearchResultItem {
-  Id?: string;
-  AssetName?: string;
-  AssetDescription?: string;
-  UpdatedAt?: Date;
-  AssetTypeId?: string;
+  Id?: string | undefined;
+  AssetName?: string | undefined;
+  AssetDescription?: string | undefined;
+  UpdatedAt?: Date | undefined;
+  AssetTypeId?: string | undefined;
 }
 export type SearchResultItemList = SearchResultItem[];
 export interface SearchAssetsOutput {
-  Items?: SearchResultItem[];
-  NextToken?: string;
+  Items?: SearchResultItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export type Comparator =
   | "EQUALS"
@@ -7331,55 +7463,55 @@ export type Comparator =
   | "LESS_THAN_EQUALS"
   | (string & {});
 export interface PropertyPredicate {
-  Key?: string;
-  Value?: string;
-  Comparator?: Comparator;
+  Key?: string | undefined;
+  Value?: string | undefined;
+  Comparator?: Comparator | undefined;
 }
 export type SearchPropertyPredicates = PropertyPredicate[];
 export type Sort = "ASC" | "DESC" | (string & {});
 export interface SortCriterion {
-  FieldName?: string;
-  Sort?: Sort;
+  FieldName?: string | undefined;
+  Sort?: Sort | undefined;
 }
 export type SortCriteria = SortCriterion[];
 export interface SearchTablesRequest {
-  CatalogId?: string;
-  NextToken?: string;
-  Filters?: PropertyPredicate[];
-  SearchText?: string;
-  SortCriteria?: SortCriterion[];
-  MaxResults?: number;
-  ResourceShareType?: ResourceShareType;
-  IncludeStatusDetails?: boolean;
+  CatalogId?: string | undefined;
+  NextToken?: string | undefined;
+  Filters?: PropertyPredicate[] | undefined;
+  SearchText?: string | undefined;
+  SortCriteria?: SortCriterion[] | undefined;
+  MaxResults?: number | undefined;
+  ResourceShareType?: ResourceShareType | undefined;
+  IncludeStatusDetails?: boolean | undefined;
 }
 export interface SearchTablesResponse {
-  NextToken?: string;
-  TableList?: Table[];
+  NextToken?: string | undefined;
+  TableList?: Table[] | undefined;
 }
 export interface StartBlueprintRunRequest {
   BlueprintName: string;
-  Parameters?: string;
+  Parameters?: string | undefined;
   RoleArn: string;
 }
 export interface StartBlueprintRunResponse {
-  RunId?: string;
+  RunId?: string | undefined;
 }
 export interface StartColumnStatisticsTaskRunRequest {
   DatabaseName: string;
   TableName: string;
-  ColumnNameList?: string[];
+  ColumnNameList?: string[] | undefined;
   Role: string;
-  SampleSize?: number;
-  CatalogID?: string;
-  SecurityConfiguration?: string;
+  SampleSize?: number | undefined;
+  CatalogID?: string | undefined;
+  SecurityConfiguration?: string | undefined;
 }
 export interface StartColumnStatisticsTaskRunResponse {
-  ColumnStatisticsTaskRunId?: string;
+  ColumnStatisticsTaskRunId?: string | undefined;
 }
 export interface StartColumnStatisticsTaskRunScheduleRequest {
   DatabaseName: string;
   TableName: string;
-  CatalogID?: string;
+  CatalogID?: string | undefined;
 }
 export interface StartColumnStatisticsTaskRunScheduleResponse {}
 export interface StartCrawlerRequest {
@@ -7393,118 +7525,118 @@ export interface StartCrawlerScheduleResponse {}
 export interface StartDataQualityRuleRecommendationRunRequest {
   DataSource: DataSource;
   Role: string;
-  NumberOfWorkers?: number;
-  Timeout?: number;
-  CreatedRulesetName?: string;
-  DataQualitySecurityConfiguration?: string;
-  ClientToken?: string;
-  AdditionalRunOptions?: DataQualityRuleRecommendationRunAdditionalRunOptions;
-  RecommendationMode?: RecommendationMode;
+  NumberOfWorkers?: number | undefined;
+  Timeout?: number | undefined;
+  CreatedRulesetName?: string | undefined;
+  DataQualitySecurityConfiguration?: string | undefined;
+  ClientToken?: string | undefined;
+  AdditionalRunOptions?: DataQualityRuleRecommendationRunAdditionalRunOptions | undefined;
+  RecommendationMode?: RecommendationMode | undefined;
 }
 export interface StartDataQualityRuleRecommendationRunResponse {
-  RunId?: string;
+  RunId?: string | undefined;
 }
 export interface StartDataQualityRulesetEvaluationRunRequest {
   DataSource: DataSource;
   Role: string;
-  NumberOfWorkers?: number;
-  Timeout?: number;
-  ClientToken?: string;
-  AdditionalRunOptions?: DataQualityEvaluationRunAdditionalRunOptions;
+  NumberOfWorkers?: number | undefined;
+  Timeout?: number | undefined;
+  ClientToken?: string | undefined;
+  AdditionalRunOptions?: DataQualityEvaluationRunAdditionalRunOptions | undefined;
   RulesetNames: string[];
-  AdditionalDataSources?: { [key: string]: DataSource | undefined };
+  AdditionalDataSources?: { [key: string]: DataSource | undefined } | undefined;
 }
 export interface StartDataQualityRulesetEvaluationRunResponse {
-  RunId?: string;
+  RunId?: string | undefined;
 }
 export interface StartExportLabelsTaskRunRequest {
   TransformId: string;
   OutputS3Path: string;
 }
 export interface StartExportLabelsTaskRunResponse {
-  TaskRunId?: string;
+  TaskRunId?: string | undefined;
 }
 export interface StartImportLabelsTaskRunRequest {
   TransformId: string;
   InputS3Path: string;
-  ReplaceAllLabels?: boolean;
+  ReplaceAllLabels?: boolean | undefined;
 }
 export interface StartImportLabelsTaskRunResponse {
-  TaskRunId?: string;
+  TaskRunId?: string | undefined;
 }
 export interface StartJobRunRequest {
   JobName: string;
-  JobRunQueuingEnabled?: boolean;
-  JobRunId?: string;
-  Arguments?: { [key: string]: string | undefined };
-  AllocatedCapacity?: number;
-  Timeout?: number;
-  MaxCapacity?: number;
-  SecurityConfiguration?: string;
-  NotificationProperty?: NotificationProperty;
-  WorkerType?: WorkerType;
-  NumberOfWorkers?: number;
-  ExecutionClass?: ExecutionClass;
-  ExecutionRoleSessionPolicy?: string;
+  JobRunQueuingEnabled?: boolean | undefined;
+  JobRunId?: string | undefined;
+  Arguments?: { [key: string]: string | undefined } | undefined;
+  AllocatedCapacity?: number | undefined;
+  Timeout?: number | undefined;
+  MaxCapacity?: number | undefined;
+  SecurityConfiguration?: string | undefined;
+  NotificationProperty?: NotificationProperty | undefined;
+  WorkerType?: WorkerType | undefined;
+  NumberOfWorkers?: number | undefined;
+  ExecutionClass?: ExecutionClass | undefined;
+  ExecutionRoleSessionPolicy?: string | undefined;
 }
 export interface StartJobRunResponse {
-  JobRunId?: string;
+  JobRunId?: string | undefined;
 }
 export type UpgradeConsent = "APPROVE" | "DECLINE" | (string & {});
 export interface StartJobUpgradeAnalysisRequest {
   jobName: string;
-  analysisId?: string;
-  upgradeConsent?: UpgradeConsent;
+  analysisId?: string | undefined;
+  upgradeConsent?: UpgradeConsent | undefined;
 }
 export interface StartJobUpgradeAnalysisResponse {
-  analysisId?: string;
-  jobName?: string;
+  analysisId?: string | undefined;
+  jobName?: string | undefined;
 }
 export interface StartMaterializedViewRefreshTaskRunRequest {
   CatalogId: string;
   DatabaseName: string;
   TableName: string;
-  FullRefresh?: boolean;
+  FullRefresh?: boolean | undefined;
 }
 export interface StartMaterializedViewRefreshTaskRunResponse {
-  MaterializedViewRefreshTaskRunId?: string;
+  MaterializedViewRefreshTaskRunId?: string | undefined;
 }
 export interface StartMLEvaluationTaskRunRequest {
   TransformId: string;
 }
 export interface StartMLEvaluationTaskRunResponse {
-  TaskRunId?: string;
+  TaskRunId?: string | undefined;
 }
 export interface StartMLLabelingSetGenerationTaskRunRequest {
   TransformId: string;
   OutputS3Path: string;
 }
 export interface StartMLLabelingSetGenerationTaskRunResponse {
-  TaskRunId?: string;
+  TaskRunId?: string | undefined;
 }
 export interface StartTriggerRequest {
   Name: string;
 }
 export interface StartTriggerResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface StartWorkflowRunRequest {
   Name: string;
-  RunProperties?: { [key: string]: string | undefined };
+  RunProperties?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartWorkflowRunResponse {
-  RunId?: string;
+  RunId?: string | undefined;
 }
 export interface StopColumnStatisticsTaskRunRequest {
   DatabaseName: string;
   TableName: string;
-  CatalogID?: string;
+  CatalogID?: string | undefined;
 }
 export interface StopColumnStatisticsTaskRunResponse {}
 export interface StopColumnStatisticsTaskRunScheduleRequest {
   DatabaseName: string;
   TableName: string;
-  CatalogID?: string;
+  CatalogID?: string | undefined;
 }
 export interface StopColumnStatisticsTaskRunScheduleResponse {}
 export interface StopCrawlerRequest {
@@ -7528,16 +7660,16 @@ export interface StopMaterializedViewRefreshTaskRunRequest {
 export interface StopMaterializedViewRefreshTaskRunResponse {}
 export interface StopSessionRequest {
   Id: string;
-  RequestOrigin?: string;
+  RequestOrigin?: string | undefined;
 }
 export interface StopSessionResponse {
-  Id?: string;
+  Id?: string | undefined;
 }
 export interface StopTriggerRequest {
   Name: string;
 }
 export interface StopTriggerResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface StopWorkflowRunRequest {
   Name: string;
@@ -7552,12 +7684,12 @@ export interface TagResourceResponse {}
 export interface TestConnectionInput {
   ConnectionType: ConnectionType;
   ConnectionProperties: { [key: string]: string | undefined };
-  AuthenticationConfiguration?: AuthenticationConfigurationInput;
+  AuthenticationConfiguration?: AuthenticationConfigurationInput | undefined;
 }
 export interface TestConnectionRequest {
-  ConnectionName?: string;
-  CatalogId?: string;
-  TestConnectionInput?: TestConnectionInput;
+  ConnectionName?: string | undefined;
+  CatalogId?: string | undefined;
+  TestConnectionInput?: TestConnectionInput | undefined;
 }
 export interface TestConnectionResponse {}
 export type TagKeysList = string[];
@@ -7568,23 +7700,23 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateAssetRequest {
   Identifier: string;
-  Name?: string;
-  Description?: string;
-  ClientToken?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  ClientToken?: string | undefined;
 }
 export interface UpdateAssetResponse {
   Id: string;
-  Name?: string;
-  Description?: string;
-  UpdatedAt?: Date;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface UpdateBlueprintRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   BlueprintLocation: string;
 }
 export interface UpdateBlueprintResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface UpdateCatalogRequest {
   CatalogId: string;
@@ -7593,76 +7725,76 @@ export interface UpdateCatalogRequest {
 export interface UpdateCatalogResponse {}
 export interface UpdateGrokClassifierRequest {
   Name: string;
-  Classification?: string;
-  GrokPattern?: string;
-  CustomPatterns?: string;
+  Classification?: string | undefined;
+  GrokPattern?: string | undefined;
+  CustomPatterns?: string | undefined;
 }
 export interface UpdateXMLClassifierRequest {
   Name: string;
-  Classification?: string;
-  RowTag?: string;
+  Classification?: string | undefined;
+  RowTag?: string | undefined;
 }
 export interface UpdateJsonClassifierRequest {
   Name: string;
-  JsonPath?: string;
+  JsonPath?: string | undefined;
 }
 export interface UpdateCsvClassifierRequest {
   Name: string;
-  Delimiter?: string;
-  QuoteSymbol?: string;
-  ContainsHeader?: CsvHeaderOption;
-  Header?: string[];
-  DisableValueTrimming?: boolean;
-  AllowSingleColumn?: boolean;
-  CustomDatatypeConfigured?: boolean;
-  CustomDatatypes?: string[];
-  Serde?: CsvSerdeOption;
+  Delimiter?: string | undefined;
+  QuoteSymbol?: string | undefined;
+  ContainsHeader?: CsvHeaderOption | undefined;
+  Header?: string[] | undefined;
+  DisableValueTrimming?: boolean | undefined;
+  AllowSingleColumn?: boolean | undefined;
+  CustomDatatypeConfigured?: boolean | undefined;
+  CustomDatatypes?: string[] | undefined;
+  Serde?: CsvSerdeOption | undefined;
 }
 export interface UpdateClassifierRequest {
-  GrokClassifier?: UpdateGrokClassifierRequest;
-  XMLClassifier?: UpdateXMLClassifierRequest;
-  JsonClassifier?: UpdateJsonClassifierRequest;
-  CsvClassifier?: UpdateCsvClassifierRequest;
+  GrokClassifier?: UpdateGrokClassifierRequest | undefined;
+  XMLClassifier?: UpdateXMLClassifierRequest | undefined;
+  JsonClassifier?: UpdateJsonClassifierRequest | undefined;
+  CsvClassifier?: UpdateCsvClassifierRequest | undefined;
 }
 export interface UpdateClassifierResponse {}
 export type UpdateColumnStatisticsList = ColumnStatistics[];
 export interface UpdateColumnStatisticsForPartitionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   PartitionValues: string[];
   ColumnStatisticsList: ColumnStatistics[];
 }
 export interface ColumnStatisticsError {
-  ColumnStatistics?: ColumnStatistics;
-  Error?: ErrorDetail;
+  ColumnStatistics?: ColumnStatistics | undefined;
+  Error?: ErrorDetail | undefined;
 }
 export type ColumnStatisticsErrors = ColumnStatisticsError[];
 export interface UpdateColumnStatisticsForPartitionResponse {
-  Errors?: ColumnStatisticsError[];
+  Errors?: ColumnStatisticsError[] | undefined;
 }
 export interface UpdateColumnStatisticsForTableRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   ColumnStatisticsList: ColumnStatistics[];
 }
 export interface UpdateColumnStatisticsForTableResponse {
-  Errors?: ColumnStatisticsError[];
+  Errors?: ColumnStatisticsError[] | undefined;
 }
 export interface UpdateColumnStatisticsTaskSettingsRequest {
   DatabaseName: string;
   TableName: string;
-  Role?: string;
-  Schedule?: string;
-  ColumnNameList?: string[];
-  SampleSize?: number;
-  CatalogID?: string;
-  SecurityConfiguration?: string;
+  Role?: string | undefined;
+  Schedule?: string | undefined;
+  ColumnNameList?: string[] | undefined;
+  SampleSize?: number | undefined;
+  CatalogID?: string | undefined;
+  SecurityConfiguration?: string | undefined;
 }
 export interface UpdateColumnStatisticsTaskSettingsResponse {}
 export interface UpdateConnectionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Name: string;
   ConnectionInput: ConnectionInput;
 }
@@ -7670,172 +7802,208 @@ export interface UpdateConnectionResponse {}
 export type DescriptionStringRemovable = string;
 export interface UpdateCrawlerRequest {
   Name: string;
-  Role?: string;
-  DatabaseName?: string;
-  Description?: string;
-  Targets?: CrawlerTargets;
-  Schedule?: string;
-  Classifiers?: string[];
-  TablePrefix?: string;
-  SchemaChangePolicy?: SchemaChangePolicy;
-  RecrawlPolicy?: RecrawlPolicy;
-  LineageConfiguration?: LineageConfiguration;
-  LakeFormationConfiguration?: LakeFormationConfiguration;
-  Configuration?: string;
-  CrawlerSecurityConfiguration?: string;
-  CatalogId?: string;
+  Role?: string | undefined;
+  DatabaseName?: string | undefined;
+  Description?: string | undefined;
+  Targets?: CrawlerTargets | undefined;
+  Schedule?: string | undefined;
+  Classifiers?: string[] | undefined;
+  TablePrefix?: string | undefined;
+  SchemaChangePolicy?: SchemaChangePolicy | undefined;
+  RecrawlPolicy?: RecrawlPolicy | undefined;
+  LineageConfiguration?: LineageConfiguration | undefined;
+  LakeFormationConfiguration?: LakeFormationConfiguration | undefined;
+  Configuration?: string | undefined;
+  CrawlerSecurityConfiguration?: string | undefined;
+  CatalogId?: string | undefined;
 }
 export interface UpdateCrawlerResponse {}
 export interface UpdateCrawlerScheduleRequest {
   CrawlerName: string;
-  Schedule?: string;
+  Schedule?: string | undefined;
 }
 export interface UpdateCrawlerScheduleResponse {}
 export interface UpdateDatabaseRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   Name: string;
   DatabaseInput: DatabaseInput;
 }
 export interface UpdateDatabaseResponse {}
+export interface UpdateDataQualityEvaluationConfigRequest {
+  Name: string;
+  DataSource?: DataQualityEvaluationConfigDataSource | undefined;
+  RulesetName?: string | undefined;
+  ManagedRulesetName?: DataQualityEvaluationConfigManagedRuleset | undefined;
+  Triggers?: DataQualityEvaluationConfigTrigger[] | undefined;
+  ScheduleExpression?: string | undefined;
+  StartAt?: Date | undefined;
+  EndAt?: Date | undefined;
+  PauseRuns?: boolean | undefined;
+  Role?: string | undefined;
+  NumberOfWorkers?: number | undefined;
+  Timeout?: number | undefined;
+  AdditionalRunOptions?: DataQualityEvaluationConfigAdditionalRunOptions | undefined;
+  AdditionalDataSources?: { [key: string]: DataSource | undefined } | undefined;
+}
+export interface UpdateDataQualityEvaluationConfigResponse {
+  Name?: string | undefined;
+  EvaluationRunMode?: DataQualityEvaluationRunMode | undefined;
+  CreatedOn?: Date | undefined;
+  LastModifiedOn?: Date | undefined;
+  Level?: DataQualityEvaluationConfigLevel | undefined;
+  DataSource?: DataQualityEvaluationConfigDataSource | undefined;
+  RulesetName?: string | undefined;
+  ManagedRulesetName?: DataQualityEvaluationConfigManagedRuleset | undefined;
+  Triggers?: DataQualityEvaluationConfigTrigger[] | undefined;
+  ScheduleExpression?: string | undefined;
+  StartAt?: Date | undefined;
+  EndAt?: Date | undefined;
+  PauseRuns?: boolean | undefined;
+  Role?: string | undefined;
+  NumberOfWorkers?: number | undefined;
+  Timeout?: number | undefined;
+  AdditionalRunOptions?: DataQualityEvaluationConfigAdditionalRunOptions | undefined;
+  AdditionalDataSources?: { [key: string]: DataSource | undefined } | undefined;
+}
 export interface UpdateDataQualityRulesetRequest {
   Name: string;
-  Description?: string;
-  Ruleset?: string;
+  Description?: string | undefined;
+  Ruleset?: string | undefined;
 }
 export interface UpdateDataQualityRulesetResponse {
-  Name?: string;
-  Description?: string;
-  Ruleset?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Ruleset?: string | undefined;
 }
 export interface DevEndpointCustomLibraries {
-  ExtraPythonLibsS3Path?: string;
-  ExtraJarsS3Path?: string;
+  ExtraPythonLibsS3Path?: string | undefined;
+  ExtraJarsS3Path?: string | undefined;
 }
 export interface UpdateDevEndpointRequest {
   EndpointName: string;
-  PublicKey?: string;
-  AddPublicKeys?: string[];
-  DeletePublicKeys?: string[];
-  CustomLibraries?: DevEndpointCustomLibraries;
-  UpdateEtlLibraries?: boolean;
-  DeleteArguments?: string[];
-  AddArguments?: { [key: string]: string | undefined };
+  PublicKey?: string | undefined;
+  AddPublicKeys?: string[] | undefined;
+  DeletePublicKeys?: string[] | undefined;
+  CustomLibraries?: DevEndpointCustomLibraries | undefined;
+  UpdateEtlLibraries?: boolean | undefined;
+  DeleteArguments?: string[] | undefined;
+  AddArguments?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateDevEndpointResponse {}
 export interface UpdateGlossaryRequest {
   Identifier: string;
-  Name?: string;
-  Description?: string;
-  ClientToken?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  ClientToken?: string | undefined;
 }
 export interface UpdateGlossaryResponse {
-  Id?: string;
-  Name?: string;
-  Description?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
 }
 export interface UpdateGlossaryTermRequest {
   Identifier: string;
-  Name?: string;
-  ShortDescription?: string;
-  LongDescription?: string;
-  ClientToken?: string;
+  Name?: string | undefined;
+  ShortDescription?: string | undefined;
+  LongDescription?: string | undefined;
+  ClientToken?: string | undefined;
 }
 export interface UpdateGlossaryTermResponse {
-  Id?: string;
-  GlossaryId?: string;
-  Name?: string;
-  ShortDescription?: string;
-  LongDescription?: string;
+  Id?: string | undefined;
+  GlossaryId?: string | undefined;
+  Name?: string | undefined;
+  ShortDescription?: string | undefined;
+  LongDescription?: string | undefined;
 }
 export interface UpdateGlueIdentityCenterConfigurationRequest {
-  Scopes?: string[];
-  UserBackgroundSessionsEnabled?: boolean;
+  Scopes?: string[] | undefined;
+  UserBackgroundSessionsEnabled?: boolean | undefined;
 }
 export interface UpdateGlueIdentityCenterConfigurationResponse {}
 export interface UpdateIntegrationResourcePropertyRequest {
   ResourceArn: string;
-  SourceProcessingProperties?: SourceProcessingProperties;
-  TargetProcessingProperties?: TargetProcessingProperties;
+  SourceProcessingProperties?: SourceProcessingProperties | undefined;
+  TargetProcessingProperties?: TargetProcessingProperties | undefined;
 }
 export interface UpdateIntegrationResourcePropertyResponse {
-  ResourceArn?: string;
-  ResourcePropertyArn?: string;
-  SourceProcessingProperties?: SourceProcessingProperties;
-  TargetProcessingProperties?: TargetProcessingProperties;
+  ResourceArn?: string | undefined;
+  ResourcePropertyArn?: string | undefined;
+  SourceProcessingProperties?: SourceProcessingProperties | undefined;
+  TargetProcessingProperties?: TargetProcessingProperties | undefined;
 }
 export interface UpdateIntegrationTablePropertiesRequest {
   ResourceArn: string;
   TableName: string;
-  SourceTableConfig?: SourceTableConfig;
-  TargetTableConfig?: TargetTableConfig;
+  SourceTableConfig?: SourceTableConfig | undefined;
+  TargetTableConfig?: TargetTableConfig | undefined;
 }
 export interface UpdateIntegrationTablePropertiesResponse {}
 export interface JobUpdate {
-  JobMode?: JobMode;
-  JobRunQueuingEnabled?: boolean;
-  Description?: string;
-  LogUri?: string;
-  Role?: string;
-  ExecutionProperty?: ExecutionProperty;
-  Command?: JobCommand;
-  DefaultArguments?: { [key: string]: string | undefined };
-  NonOverridableArguments?: { [key: string]: string | undefined };
-  Connections?: ConnectionsList;
-  MaxRetries?: number;
-  AllocatedCapacity?: number;
-  Timeout?: number;
-  MaxCapacity?: number;
-  WorkerType?: WorkerType;
-  NumberOfWorkers?: number;
-  SecurityConfiguration?: string;
-  NotificationProperty?: NotificationProperty;
-  GlueVersion?: string;
-  CodeGenConfigurationNodes?: { [key: string]: CodeGenConfigurationNode | undefined };
-  ExecutionClass?: ExecutionClass;
-  SourceControlDetails?: SourceControlDetails;
-  MaintenanceWindow?: string;
+  JobMode?: JobMode | undefined;
+  JobRunQueuingEnabled?: boolean | undefined;
+  Description?: string | undefined;
+  LogUri?: string | undefined;
+  Role?: string | undefined;
+  ExecutionProperty?: ExecutionProperty | undefined;
+  Command?: JobCommand | undefined;
+  DefaultArguments?: { [key: string]: string | undefined } | undefined;
+  NonOverridableArguments?: { [key: string]: string | undefined } | undefined;
+  Connections?: ConnectionsList | undefined;
+  MaxRetries?: number | undefined;
+  AllocatedCapacity?: number | undefined;
+  Timeout?: number | undefined;
+  MaxCapacity?: number | undefined;
+  WorkerType?: WorkerType | undefined;
+  NumberOfWorkers?: number | undefined;
+  SecurityConfiguration?: string | undefined;
+  NotificationProperty?: NotificationProperty | undefined;
+  GlueVersion?: string | undefined;
+  CodeGenConfigurationNodes?: { [key: string]: CodeGenConfigurationNode | undefined } | undefined;
+  ExecutionClass?: ExecutionClass | undefined;
+  SourceControlDetails?: SourceControlDetails | undefined;
+  MaintenanceWindow?: string | undefined;
 }
 export interface UpdateJobRequest {
   JobName: string;
   JobUpdate: JobUpdate;
 }
 export interface UpdateJobResponse {
-  JobName?: string;
+  JobName?: string | undefined;
 }
 export type CommitIdString = string;
 export type AuthTokenString = string;
 export interface UpdateJobFromSourceControlRequest {
-  JobName?: string;
-  Provider?: SourceControlProvider;
-  RepositoryName?: string;
-  RepositoryOwner?: string;
-  BranchName?: string;
-  Folder?: string;
-  CommitId?: string;
-  AuthStrategy?: SourceControlAuthStrategy;
-  AuthToken?: string;
+  JobName?: string | undefined;
+  Provider?: SourceControlProvider | undefined;
+  RepositoryName?: string | undefined;
+  RepositoryOwner?: string | undefined;
+  BranchName?: string | undefined;
+  Folder?: string | undefined;
+  CommitId?: string | undefined;
+  AuthStrategy?: SourceControlAuthStrategy | undefined;
+  AuthToken?: string | undefined;
 }
 export interface UpdateJobFromSourceControlResponse {
-  JobName?: string;
+  JobName?: string | undefined;
 }
 export interface UpdateMLTransformRequest {
   TransformId: string;
-  Name?: string;
-  Description?: string;
-  Parameters?: TransformParameters;
-  Role?: string;
-  GlueVersion?: string;
-  MaxCapacity?: number;
-  WorkerType?: WorkerType;
-  NumberOfWorkers?: number;
-  Timeout?: number;
-  MaxRetries?: number;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Parameters?: TransformParameters | undefined;
+  Role?: string | undefined;
+  GlueVersion?: string | undefined;
+  MaxCapacity?: number | undefined;
+  WorkerType?: WorkerType | undefined;
+  NumberOfWorkers?: number | undefined;
+  Timeout?: number | undefined;
+  MaxRetries?: number | undefined;
 }
 export interface UpdateMLTransformResponse {
-  TransformId?: string;
+  TransformId?: string | undefined;
 }
 export interface UpdatePartitionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   TableName: string;
   PartitionValueList: string[];
@@ -7847,33 +8015,33 @@ export interface UpdateRegistryInput {
   Description: string;
 }
 export interface UpdateRegistryResponse {
-  RegistryName?: string;
-  RegistryArn?: string;
+  RegistryName?: string | undefined;
+  RegistryArn?: string | undefined;
 }
 export interface UpdateSchemaInput {
   SchemaId: SchemaId;
-  SchemaVersionNumber?: SchemaVersionNumber;
-  Compatibility?: Compatibility;
-  Description?: string;
+  SchemaVersionNumber?: SchemaVersionNumber | undefined;
+  Compatibility?: Compatibility | undefined;
+  Description?: string | undefined;
 }
 export interface UpdateSchemaResponse {
-  SchemaArn?: string;
-  SchemaName?: string;
-  RegistryName?: string;
+  SchemaArn?: string | undefined;
+  SchemaName?: string | undefined;
+  RegistryName?: string | undefined;
 }
 export interface UpdateSourceControlFromJobRequest {
-  JobName?: string;
-  Provider?: SourceControlProvider;
-  RepositoryName?: string;
-  RepositoryOwner?: string;
-  BranchName?: string;
-  Folder?: string;
-  CommitId?: string;
-  AuthStrategy?: SourceControlAuthStrategy;
-  AuthToken?: string;
+  JobName?: string | undefined;
+  Provider?: SourceControlProvider | undefined;
+  RepositoryName?: string | undefined;
+  RepositoryOwner?: string | undefined;
+  BranchName?: string | undefined;
+  Folder?: string | undefined;
+  CommitId?: string | undefined;
+  AuthStrategy?: SourceControlAuthStrategy | undefined;
+  AuthToken?: string | undefined;
 }
 export interface UpdateSourceControlFromJobResponse {
-  JobName?: string;
+  JobName?: string | undefined;
 }
 export type ViewUpdateAction = "ADD" | "REPLACE" | "ADD_OR_REPLACE" | "DROP" | (string & {});
 export type IcebergUpdateAction =
@@ -7894,18 +8062,18 @@ export type EncryptedKeyMetadataString = string;
 export interface IcebergEncryptedKey {
   KeyId: string;
   EncryptedKeyMetadata: string;
-  EncryptedById?: string;
-  Properties?: { [key: string]: string | undefined };
+  EncryptedById?: string | undefined;
+  Properties?: { [key: string]: string | undefined } | undefined;
 }
 export interface IcebergTableUpdate {
   Schema: IcebergSchema;
-  PartitionSpec?: IcebergPartitionSpec;
-  SortOrder?: IcebergSortOrder;
+  PartitionSpec?: IcebergPartitionSpec | undefined;
+  SortOrder?: IcebergSortOrder | undefined;
   Location: string;
-  Properties?: { [key: string]: string | undefined };
-  Action?: IcebergUpdateAction;
-  EncryptionKey?: IcebergEncryptedKey;
-  KeyId?: string;
+  Properties?: { [key: string]: string | undefined } | undefined;
+  Action?: IcebergUpdateAction | undefined;
+  EncryptionKey?: IcebergEncryptedKey | undefined;
+  KeyId?: string | undefined;
 }
 export type IcebergTableUpdateList = IcebergTableUpdate[];
 export interface UpdateIcebergTableInput {
@@ -7915,19 +8083,19 @@ export interface UpdateIcebergInput {
   UpdateIcebergTableInput: UpdateIcebergTableInput;
 }
 export interface UpdateOpenTableFormatInput {
-  UpdateIcebergInput?: UpdateIcebergInput;
+  UpdateIcebergInput?: UpdateIcebergInput | undefined;
 }
 export interface UpdateTableRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
-  Name?: string;
-  TableInput?: TableInput;
-  SkipArchive?: boolean;
-  TransactionId?: string;
-  VersionId?: string;
-  ViewUpdateAction?: ViewUpdateAction;
-  Force?: boolean;
-  UpdateOpenTableFormatInput?: UpdateOpenTableFormatInput;
+  Name?: string | undefined;
+  TableInput?: TableInput | undefined;
+  SkipArchive?: boolean | undefined;
+  TransactionId?: string | undefined;
+  VersionId?: string | undefined;
+  ViewUpdateAction?: ViewUpdateAction | undefined;
+  Force?: boolean | undefined;
+  UpdateOpenTableFormatInput?: UpdateOpenTableFormatInput | undefined;
 }
 export interface UpdateTableResponse {}
 export interface UpdateTableOptimizerRequest {
@@ -7939,30 +8107,30 @@ export interface UpdateTableOptimizerRequest {
 }
 export interface UpdateTableOptimizerResponse {}
 export interface TriggerUpdate {
-  Name?: string;
-  Description?: string;
-  Schedule?: string;
-  Actions?: Action[];
-  Predicate?: Predicate;
-  EventBatchingCondition?: EventBatchingCondition;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Schedule?: string | undefined;
+  Actions?: Action[] | undefined;
+  Predicate?: Predicate | undefined;
+  EventBatchingCondition?: EventBatchingCondition | undefined;
 }
 export interface UpdateTriggerRequest {
   Name: string;
   TriggerUpdate: TriggerUpdate;
 }
 export interface UpdateTriggerResponse {
-  Trigger?: Trigger;
+  Trigger?: Trigger | undefined;
 }
 export interface UpdateUsageProfileRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   Configuration: ProfileConfiguration;
 }
 export interface UpdateUsageProfileResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface UpdateUserDefinedFunctionRequest {
-  CatalogId?: string;
+  CatalogId?: string | undefined;
   DatabaseName: string;
   FunctionName: string;
   FunctionInput: UserDefinedFunctionInput;
@@ -7970,12 +8138,12 @@ export interface UpdateUserDefinedFunctionRequest {
 export interface UpdateUserDefinedFunctionResponse {}
 export interface UpdateWorkflowRequest {
   Name: string;
-  Description?: string;
-  DefaultRunProperties?: { [key: string]: string | undefined };
-  MaxConcurrentRuns?: number;
+  Description?: string | undefined;
+  DefaultRunProperties?: { [key: string]: string | undefined } | undefined;
+  MaxConcurrentRuns?: number | undefined;
 }
 export interface UpdateWorkflowResponse {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type FederationSourceErrorCode =
   | "AccessDeniedException"
@@ -8007,8 +8175,8 @@ export const associateGlossaryTerms: API.OperationMethod<
   AssociateGlossaryTermsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10272, __c321, 0) as any as S.Schema<AssociateGlossaryTermsRequest>,
-  output: __S(10304, __c322, 0) as any as S.Schema<AssociateGlossaryTermsResponse>,
+  input: __S(10464, __c327, 0) as any as S.Schema<AssociateGlossaryTermsRequest>,
+  output: __S(10496, __c328, 0) as any as S.Schema<AssociateGlossaryTermsResponse>,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -8046,8 +8214,8 @@ export const batchCreatePartition: API.OperationMethod<
   BatchCreatePartitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10369, __c324, 1) as any as S.Schema<BatchCreatePartitionRequest>,
-  output: __S(10434, __c326, 2) as any as S.Schema<BatchCreatePartitionResponse>,
+  input: __S(10561, __c330, 1) as any as S.Schema<BatchCreatePartitionRequest>,
+  output: __S(10626, __c332, 2) as any as S.Schema<BatchCreatePartitionResponse>,
   errors: [
     AlreadyExistsException,
     ConcurrentModificationException,
@@ -8078,8 +8246,8 @@ export const batchDeleteConnection: API.OperationMethod<
   BatchDeleteConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10592, __c331, 0) as any as S.Schema<BatchDeleteConnectionRequest>,
-  output: __S(10594, __c331, 2) as any as S.Schema<BatchDeleteConnectionResponse>,
+  input: __S(10784, __c337, 0) as any as S.Schema<BatchDeleteConnectionRequest>,
+  output: __S(10786, __c337, 2) as any as S.Schema<BatchDeleteConnectionResponse>,
   errors: [InternalServiceException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8104,8 +8272,8 @@ export const batchDeletePartition: API.OperationMethod<
   BatchDeletePartitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10624, __c332, 0) as any as S.Schema<BatchDeletePartitionRequest>,
-  output: __S(10434, __c326, 2) as any as S.Schema<BatchDeletePartitionResponse>,
+  input: __S(10816, __c338, 0) as any as S.Schema<BatchDeletePartitionRequest>,
+  output: __S(10626, __c332, 2) as any as S.Schema<BatchDeletePartitionResponse>,
   errors: [
     ConcurrentModificationException,
     EntityNotFoundException,
@@ -8148,8 +8316,8 @@ export const batchDeleteTable: API.OperationMethod<
   BatchDeleteTableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10688, __c334, 0) as any as S.Schema<BatchDeleteTableRequest>,
-  output: __S(10691, __c334, 3) as any as S.Schema<BatchDeleteTableResponse>,
+  input: __S(10880, __c340, 0) as any as S.Schema<BatchDeleteTableRequest>,
+  output: __S(10883, __c340, 3) as any as S.Schema<BatchDeleteTableResponse>,
   errors: [
     ConcurrentModificationException,
     EntityNotFoundException,
@@ -8181,8 +8349,8 @@ export const batchDeleteTableVersion: API.OperationMethod<
   BatchDeleteTableVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10720, __c335, 0) as any as S.Schema<BatchDeleteTableVersionRequest>,
-  output: __S(10723, __c335, 3) as any as S.Schema<BatchDeleteTableVersionResponse>,
+  input: __S(10912, __c341, 0) as any as S.Schema<BatchDeleteTableVersionRequest>,
+  output: __S(10915, __c341, 3) as any as S.Schema<BatchDeleteTableVersionResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -8210,8 +8378,8 @@ export const batchGetBlueprints: API.OperationMethod<
   BatchGetBlueprintsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10752, __c336, 0) as any as S.Schema<BatchGetBlueprintsRequest>,
-  output: __S(10754, __c336, 2) as any as S.Schema<BatchGetBlueprintsResponse>,
+  input: __S(10944, __c342, 0) as any as S.Schema<BatchGetBlueprintsRequest>,
+  output: __S(10946, __c342, 2) as any as S.Schema<BatchGetBlueprintsResponse>,
   errors: [InternalServiceException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8233,8 +8401,8 @@ export const batchGetCrawlers: API.OperationMethod<
   BatchGetCrawlersError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10816, __c338, 0) as any as S.Schema<BatchGetCrawlersRequest>,
-  output: __S(10817, __c338, 1) as any as S.Schema<BatchGetCrawlersResponse>,
+  input: __S(11008, __c344, 0) as any as S.Schema<BatchGetCrawlersRequest>,
+  output: __S(11009, __c344, 1) as any as S.Schema<BatchGetCrawlersResponse>,
   errors: [InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8257,8 +8425,8 @@ export const batchGetCustomEntityTypes: API.OperationMethod<
   BatchGetCustomEntityTypesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11008, __c344, 0) as any as S.Schema<BatchGetCustomEntityTypesRequest>,
-  output: __S(11009, __c344, 1) as any as S.Schema<BatchGetCustomEntityTypesResponse>,
+  input: __S(11200, __c350, 0) as any as S.Schema<BatchGetCustomEntityTypesRequest>,
+  output: __S(11201, __c350, 1) as any as S.Schema<BatchGetCustomEntityTypesResponse>,
   errors: [InternalServiceException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8281,8 +8449,8 @@ export const batchGetDataQualityResult: API.OperationMethod<
   BatchGetDataQualityResultError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11072, __c346, 0) as any as S.Schema<BatchGetDataQualityResultRequest>,
-  output: __S(11074, __c346, 2) as any as S.Schema<BatchGetDataQualityResultResponse>,
+  input: __S(11264, __c352, 0) as any as S.Schema<BatchGetDataQualityResultRequest>,
+  output: __S(11266, __c352, 2) as any as S.Schema<BatchGetDataQualityResultResponse>,
   errors: [InternalServiceException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8305,8 +8473,8 @@ export const batchGetDataQualityResultV2: API.OperationMethod<
   BatchGetDataQualityResultV2Error,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11296, __c353, 0) as any as S.Schema<BatchGetDataQualityResultV2Request>,
-  output: __S(11299, __c353, 3) as any as S.Schema<BatchGetDataQualityResultV2Response>,
+  input: __S(11488, __c359, 0) as any as S.Schema<BatchGetDataQualityResultV2Request>,
+  output: __S(11491, __c359, 3) as any as S.Schema<BatchGetDataQualityResultV2Response>,
   errors: [InternalServiceException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8329,8 +8497,8 @@ export const batchGetDataQualityRulesetEvaluationRun: API.OperationMethod<
   BatchGetDataQualityRulesetEvaluationRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11328, __c354, 0) as any as S.Schema<BatchGetDataQualityRulesetEvaluationRunRequest>,
-  output: __S(11330, __c354, 2) as any as S.Schema<BatchGetDataQualityRulesetEvaluationRunResponse>,
+  input: __S(11520, __c360, 0) as any as S.Schema<BatchGetDataQualityRulesetEvaluationRunRequest>,
+  output: __S(11522, __c360, 2) as any as S.Schema<BatchGetDataQualityRulesetEvaluationRunResponse>,
   errors: [InternalServiceException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8357,8 +8525,8 @@ export const batchGetDevEndpoints: API.OperationMethod<
   BatchGetDevEndpointsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11424, __c357, 0) as any as S.Schema<BatchGetDevEndpointsRequest>,
-  output: __S(11425, __c357, 1) as any as S.Schema<BatchGetDevEndpointsResponse>,
+  input: __S(11648, __c364, 0) as any as S.Schema<BatchGetDevEndpointsRequest>,
+  output: __S(11649, __c364, 1) as any as S.Schema<BatchGetDevEndpointsResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceException,
@@ -8388,8 +8556,8 @@ export const batchGetIterableForms: API.OperationMethod<
   BatchGetIterableFormsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11520, __c360, 0) as any as S.Schema<BatchGetIterableFormsRequest>,
-  output: __S(11525, __c360, 5) as any as S.Schema<BatchGetIterableFormsResponse>,
+  input: __S(11744, __c367, 0) as any as S.Schema<BatchGetIterableFormsRequest>,
+  output: __S(11749, __c367, 5) as any as S.Schema<BatchGetIterableFormsResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -8423,8 +8591,8 @@ export const batchGetJobs: API.OperationMethod<
   BatchGetJobsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11584, __c362, 0) as any as S.Schema<BatchGetJobsRequest>,
-  output: __S(11585, __c362, 1) as any as S.Schema<BatchGetJobsResponse>,
+  input: __S(11808, __c369, 0) as any as S.Schema<BatchGetJobsRequest>,
+  output: __S(11809, __c369, 1) as any as S.Schema<BatchGetJobsResponse>,
   errors: [InternalServiceException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8452,8 +8620,8 @@ export const batchGetPartition: API.OperationMethod<
   BatchGetPartitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(11904, __c372, 0) as any as S.Schema<BatchGetPartitionRequest>,
-  output: __S(11905, __c372, 1) as any as S.Schema<BatchGetPartitionResponse>,
+  input: __S(12128, __c379, 0) as any as S.Schema<BatchGetPartitionRequest>,
+  output: __S(12129, __c379, 1) as any as S.Schema<BatchGetPartitionResponse>,
   errors: [
     EntityNotFoundException,
     FederationSourceException,
@@ -8487,8 +8655,8 @@ export const batchGetTableOptimizer: API.OperationMethod<
   BatchGetTableOptimizerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12066, __c377, 2) as any as S.Schema<BatchGetTableOptimizerRequest>,
-  output: __S(12071, __c377, 7) as any as S.Schema<BatchGetTableOptimizerResponse>,
+  input: __S(12290, __c384, 2) as any as S.Schema<BatchGetTableOptimizerRequest>,
+  output: __S(12295, __c384, 7) as any as S.Schema<BatchGetTableOptimizerResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -8517,8 +8685,8 @@ export const batchGetTriggers: API.OperationMethod<
   BatchGetTriggersError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12192, __c381, 0) as any as S.Schema<BatchGetTriggersRequest>,
-  output: __S(12193, __c381, 1) as any as S.Schema<BatchGetTriggersResponse>,
+  input: __S(12416, __c388, 0) as any as S.Schema<BatchGetTriggersRequest>,
+  output: __S(12417, __c388, 1) as any as S.Schema<BatchGetTriggersResponse>,
   errors: [InternalServiceException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8541,8 +8709,8 @@ export const batchGetWorkflows: API.OperationMethod<
   BatchGetWorkflowsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12320, __c385, 0) as any as S.Schema<BatchGetWorkflowsRequest>,
-  output: __S(12322, __c385, 2) as any as S.Schema<BatchGetWorkflowsResponse>,
+  input: __S(12544, __c392, 0) as any as S.Schema<BatchGetWorkflowsRequest>,
+  output: __S(12546, __c392, 2) as any as S.Schema<BatchGetWorkflowsResponse>,
   errors: [InternalServiceException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8568,8 +8736,8 @@ export const batchPutDataQualityStatisticAnnotation: API.OperationMethod<
   BatchPutDataQualityStatisticAnnotationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12514, __c391, 2) as any as S.Schema<BatchPutDataQualityStatisticAnnotationRequest>,
-  output: __S(12517, __c391, 5) as any as S.Schema<BatchPutDataQualityStatisticAnnotationResponse>,
+  input: __S(12738, __c398, 2) as any as S.Schema<BatchPutDataQualityStatisticAnnotationRequest>,
+  output: __S(12741, __c398, 5) as any as S.Schema<BatchPutDataQualityStatisticAnnotationResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -8597,8 +8765,8 @@ export const batchStopJobRun: API.OperationMethod<
   BatchStopJobRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12544, __c392, 0) as any as S.Schema<BatchStopJobRunRequest>,
-  output: __S(12549, __c392, 5) as any as S.Schema<BatchStopJobRunResponse>,
+  input: __S(12768, __c399, 0) as any as S.Schema<BatchStopJobRunRequest>,
+  output: __S(12773, __c399, 5) as any as S.Schema<BatchStopJobRunResponse>,
   errors: [InternalServiceException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8624,8 +8792,8 @@ export const batchUpdatePartition: API.OperationMethod<
   BatchUpdatePartitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12578, __c393, 2) as any as S.Schema<BatchUpdatePartitionRequest>,
-  output: __S(12581, __c393, 5) as any as S.Schema<BatchUpdatePartitionResponse>,
+  input: __S(12802, __c400, 2) as any as S.Schema<BatchUpdatePartitionRequest>,
+  output: __S(12805, __c400, 5) as any as S.Schema<BatchUpdatePartitionResponse>,
   errors: [
     ConcurrentModificationException,
     EntityNotFoundException,
@@ -8656,8 +8824,8 @@ export const cancelDataQualityRuleRecommendationRun: API.OperationMethod<
   CancelDataQualityRuleRecommendationRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12608, __c394, 0) as any as S.Schema<CancelDataQualityRuleRecommendationRunRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<CancelDataQualityRuleRecommendationRunResponse>,
+  input: __S(12832, __c401, 0) as any as S.Schema<CancelDataQualityRuleRecommendationRunRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<CancelDataQualityRuleRecommendationRunResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -8686,8 +8854,8 @@ export const cancelDataQualityRulesetEvaluationRun: API.OperationMethod<
   CancelDataQualityRulesetEvaluationRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12672, __c396, 0) as any as S.Schema<CancelDataQualityRulesetEvaluationRunRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<CancelDataQualityRulesetEvaluationRunResponse>,
+  input: __S(12896, __c403, 0) as any as S.Schema<CancelDataQualityRulesetEvaluationRunRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<CancelDataQualityRulesetEvaluationRunResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -8718,8 +8886,8 @@ export const cancelMLTaskRun: API.OperationMethod<
   CancelMLTaskRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12704, __c397, 0) as any as S.Schema<CancelMLTaskRunRequest>,
-  output: __S(12705, __c397, 1) as any as S.Schema<CancelMLTaskRunResponse>,
+  input: __S(12928, __c404, 0) as any as S.Schema<CancelMLTaskRunRequest>,
+  output: __S(12929, __c404, 1) as any as S.Schema<CancelMLTaskRunResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -8750,8 +8918,8 @@ export const cancelStatement: API.OperationMethod<
   CancelStatementError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12736, __c398, 0) as any as S.Schema<CancelStatementRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<CancelStatementResponse>,
+  input: __S(12960, __c405, 0) as any as S.Schema<CancelStatementRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<CancelStatementResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -8781,8 +8949,8 @@ export const checkSchemaVersionValidity: API.OperationMethod<
   CheckSchemaVersionValidityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12768, __c399, 0) as any as S.Schema<CheckSchemaVersionValidityInput>,
-  output: __S(12769, __c399, 1) as any as S.Schema<CheckSchemaVersionValidityResponse>,
+  input: __S(12992, __c406, 0) as any as S.Schema<CheckSchemaVersionValidityInput>,
+  output: __S(12993, __c406, 1) as any as S.Schema<CheckSchemaVersionValidityResponse>,
   errors: [AccessDeniedException, InternalServiceException, InvalidInputException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8807,8 +8975,8 @@ export const createBlueprint: API.OperationMethod<
   CreateBlueprintError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12800, __c400, 0) as any as S.Schema<CreateBlueprintRequest>,
-  output: __S(12832, __c401, 0) as any as S.Schema<CreateBlueprintResponse>,
+  input: __S(13024, __c407, 0) as any as S.Schema<CreateBlueprintRequest>,
+  output: __S(13056, __c408, 0) as any as S.Schema<CreateBlueprintResponse>,
   errors: [
     AlreadyExistsException,
     InternalServiceException,
@@ -8845,8 +9013,8 @@ export const createCatalog: API.OperationMethod<
   CreateCatalogError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12864, __c402, 0) as any as S.Schema<CreateCatalogRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<CreateCatalogResponse>,
+  input: __S(13088, __c409, 0) as any as S.Schema<CreateCatalogRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<CreateCatalogResponse>,
   errors: [
     AccessDeniedException,
     AlreadyExistsException,
@@ -8883,8 +9051,8 @@ export const createClassifier: API.OperationMethod<
   CreateClassifierError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12995, __c406, 3) as any as S.Schema<CreateClassifierRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<CreateClassifierResponse>,
+  input: __S(13219, __c413, 3) as any as S.Schema<CreateClassifierRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<CreateClassifierResponse>,
   errors: [AlreadyExistsException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -8911,8 +9079,8 @@ export const createColumnStatisticsTaskSettings: API.OperationMethod<
   CreateColumnStatisticsTaskSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13056, __c408, 0) as any as S.Schema<CreateColumnStatisticsTaskSettingsRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<CreateColumnStatisticsTaskSettingsResponse>,
+  input: __S(13280, __c415, 0) as any as S.Schema<CreateColumnStatisticsTaskSettingsRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<CreateColumnStatisticsTaskSettingsResponse>,
   errors: [
     AccessDeniedException,
     AlreadyExistsException,
@@ -8947,8 +9115,8 @@ export const createConnection: API.OperationMethod<
   CreateConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13088, __c409, 0) as any as S.Schema<CreateConnectionRequest>,
-  output: __S(13089, __c409, 1) as any as S.Schema<CreateConnectionResponse>,
+  input: __S(13312, __c416, 0) as any as S.Schema<CreateConnectionRequest>,
+  output: __S(13313, __c416, 1) as any as S.Schema<CreateConnectionResponse>,
   errors: [
     AlreadyExistsException,
     GlueEncryptionException,
@@ -8982,8 +9150,8 @@ export const createCrawler: API.OperationMethod<
   CreateCrawlerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13248, __c414, 0) as any as S.Schema<CreateCrawlerRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<CreateCrawlerResponse>,
+  input: __S(13472, __c421, 0) as any as S.Schema<CreateCrawlerRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<CreateCrawlerResponse>,
   errors: [
     AlreadyExistsException,
     InvalidInputException,
@@ -9019,8 +9187,8 @@ export const createCustomEntityType: API.OperationMethod<
   CreateCustomEntityTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13280, __c415, 0) as any as S.Schema<CreateCustomEntityTypeRequest>,
-  output: __S(12832, __c401, 0) as any as S.Schema<CreateCustomEntityTypeResponse>,
+  input: __S(13504, __c422, 0) as any as S.Schema<CreateCustomEntityTypeRequest>,
+  output: __S(13056, __c408, 0) as any as S.Schema<CreateCustomEntityTypeResponse>,
   errors: [
     AccessDeniedException,
     AlreadyExistsException,
@@ -9058,8 +9226,8 @@ export const createDatabase: API.OperationMethod<
   CreateDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13312, __c416, 0) as any as S.Schema<CreateDatabaseRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<CreateDatabaseResponse>,
+  input: __S(13536, __c423, 0) as any as S.Schema<CreateDatabaseRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<CreateDatabaseResponse>,
   errors: [
     AlreadyExistsException,
     ConcurrentModificationException,
@@ -9077,6 +9245,46 @@ export const createDatabase: API.OperationMethod<
   operationName: "CreateDatabase",
   telemetry: TELEMETRY,
   span: "CreateDatabase",
+}));
+
+export type CreateDataQualityEvaluationConfigError =
+  | AccessDeniedException
+  | AlreadyExistsException
+  | EntityNotFoundException
+  | IdempotentParameterMismatchException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ResourceNumberLimitExceededException
+  | CommonErrors;
+/**
+ * Creates a data quality evaluation configuration, which evaluates the data quality of a collection of tables in the Glue Data Catalog once, on a schedule, or when table metadata changes. A configuration applies to a catalog, a database, or a single table, and evaluates every table in scope, including tables added later, without per-table setup.
+ *
+ * When configurations at more than one level apply to the same table, the most specific configuration applies. Each table is evaluated at most once an hour, whichever triggers you choose.
+ */
+export const createDataQualityEvaluationConfig: API.OperationMethod<
+  CreateDataQualityEvaluationConfigRequest & RegionInput,
+  CreateDataQualityEvaluationConfigResponse,
+  CreateDataQualityEvaluationConfigError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(13632, __c426, 0) as any as S.Schema<CreateDataQualityEvaluationConfigRequest>,
+  output: __S(13633, __c426, 1) as any as S.Schema<CreateDataQualityEvaluationConfigResponse>,
+  errors: [
+    AccessDeniedException,
+    AlreadyExistsException,
+    EntityNotFoundException,
+    IdempotentParameterMismatchException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+    ResourceNumberLimitExceededException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateDataQualityEvaluationConfig",
+  telemetry: TELEMETRY,
+  span: "CreateDataQualityEvaluationConfig",
 }));
 
 export type CreateDataQualityRulesetError =
@@ -9097,8 +9305,8 @@ export const createDataQualityRuleset: API.OperationMethod<
   CreateDataQualityRulesetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13408, __c419, 0) as any as S.Schema<CreateDataQualityRulesetRequest>,
-  output: __S(12832, __c401, 0) as any as S.Schema<CreateDataQualityRulesetResponse>,
+  input: __S(13696, __c428, 0) as any as S.Schema<CreateDataQualityRulesetRequest>,
+  output: __S(13056, __c408, 0) as any as S.Schema<CreateDataQualityRulesetResponse>,
   errors: [
     AlreadyExistsException,
     InternalServiceException,
@@ -9132,8 +9340,8 @@ export const createDevEndpoint: API.OperationMethod<
   CreateDevEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13472, __c421, 0) as any as S.Schema<CreateDevEndpointRequest>,
-  output: __S(13473, __c421, 1) as any as S.Schema<CreateDevEndpointResponse>,
+  input: __S(13760, __c430, 0) as any as S.Schema<CreateDevEndpointRequest>,
+  output: __S(13761, __c430, 1) as any as S.Schema<CreateDevEndpointResponse>,
   errors: [
     AccessDeniedException,
     AlreadyExistsException,
@@ -9168,8 +9376,8 @@ export const createGlossary: API.OperationMethod<
   CreateGlossaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13504, __c422, 0) as any as S.Schema<CreateGlossaryRequest>,
-  output: __S(13536, __c423, 0) as any as S.Schema<CreateGlossaryResponse>,
+  input: __S(13792, __c431, 0) as any as S.Schema<CreateGlossaryRequest>,
+  output: __S(13824, __c432, 0) as any as S.Schema<CreateGlossaryResponse>,
   errors: [
     AccessDeniedException,
     AlreadyExistsException,
@@ -9203,8 +9411,8 @@ export const createGlossaryTerm: API.OperationMethod<
   CreateGlossaryTermError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13568, __c424, 0) as any as S.Schema<CreateGlossaryTermRequest>,
-  output: __S(13600, __c425, 0) as any as S.Schema<CreateGlossaryTermResponse>,
+  input: __S(13856, __c433, 0) as any as S.Schema<CreateGlossaryTermRequest>,
+  output: __S(13888, __c434, 0) as any as S.Schema<CreateGlossaryTermResponse>,
   errors: [
     AccessDeniedException,
     AlreadyExistsException,
@@ -9239,8 +9447,8 @@ export const createGlueIdentityCenterConfiguration: API.OperationMethod<
   CreateGlueIdentityCenterConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13632, __c426, 0) as any as S.Schema<CreateGlueIdentityCenterConfigurationRequest>,
-  output: __S(13633, __c426, 1) as any as S.Schema<CreateGlueIdentityCenterConfigurationResponse>,
+  input: __S(13920, __c435, 0) as any as S.Schema<CreateGlueIdentityCenterConfigurationRequest>,
+  output: __S(13921, __c435, 1) as any as S.Schema<CreateGlueIdentityCenterConfigurationResponse>,
   errors: [
     AccessDeniedException,
     AlreadyExistsException,
@@ -9279,8 +9487,8 @@ export const createIntegration: API.OperationMethod<
   CreateIntegrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13664, __c427, 0) as any as S.Schema<CreateIntegrationRequest>,
-  output: __S(13760, __c430, 0) as any as S.Schema<CreateIntegrationResponse>,
+  input: __S(13952, __c436, 0) as any as S.Schema<CreateIntegrationRequest>,
+  output: __S(14048, __c439, 0) as any as S.Schema<CreateIntegrationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -9321,8 +9529,8 @@ export const createIntegrationResourceProperty: API.OperationMethod<
   CreateIntegrationResourcePropertyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13824, __c432, 0) as any as S.Schema<CreateIntegrationResourcePropertyRequest>,
-  output: __S(13888, __c434, 0) as any as S.Schema<CreateIntegrationResourcePropertyResponse>,
+  input: __S(14112, __c441, 0) as any as S.Schema<CreateIntegrationResourcePropertyRequest>,
+  output: __S(14176, __c443, 0) as any as S.Schema<CreateIntegrationResourcePropertyResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -9358,8 +9566,8 @@ export const createIntegrationTableProperties: API.OperationMethod<
   CreateIntegrationTablePropertiesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13920, __c435, 0) as any as S.Schema<CreateIntegrationTablePropertiesRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<CreateIntegrationTablePropertiesResponse>,
+  input: __S(14208, __c444, 0) as any as S.Schema<CreateIntegrationTablePropertiesRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<CreateIntegrationTablePropertiesResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -9395,8 +9603,8 @@ export const createJob: API.OperationMethod<
   CreateJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(13984, __c437, 0) as any as S.Schema<CreateJobRequest>,
-  output: __S(12832, __c401, 0) as any as S.Schema<CreateJobResponse>,
+  input: __S(14272, __c446, 0) as any as S.Schema<CreateJobRequest>,
+  output: __S(13056, __c408, 0) as any as S.Schema<CreateJobResponse>,
   errors: [
     AlreadyExistsException,
     ConcurrentModificationException,
@@ -9444,8 +9652,8 @@ export const createMLTransform: API.OperationMethod<
   CreateMLTransformError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14016, __c438, 0) as any as S.Schema<CreateMLTransformRequest>,
-  output: __S(14048, __c439, 0) as any as S.Schema<CreateMLTransformResponse>,
+  input: __S(14304, __c447, 0) as any as S.Schema<CreateMLTransformRequest>,
+  output: __S(14336, __c448, 0) as any as S.Schema<CreateMLTransformResponse>,
   errors: [
     AccessDeniedException,
     AlreadyExistsException,
@@ -9480,8 +9688,8 @@ export const createPartition: API.OperationMethod<
   CreatePartitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14144, __c442, 0) as any as S.Schema<CreatePartitionRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<CreatePartitionResponse>,
+  input: __S(14432, __c451, 0) as any as S.Schema<CreatePartitionRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<CreatePartitionResponse>,
   errors: [
     AlreadyExistsException,
     EntityNotFoundException,
@@ -9516,8 +9724,8 @@ export const createPartitionIndex: API.OperationMethod<
   CreatePartitionIndexError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14176, __c443, 0) as any as S.Schema<CreatePartitionIndexRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<CreatePartitionIndexResponse>,
+  input: __S(14464, __c452, 0) as any as S.Schema<CreatePartitionIndexRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<CreatePartitionIndexResponse>,
   errors: [
     AlreadyExistsException,
     EntityNotFoundException,
@@ -9551,8 +9759,8 @@ export const createRegistry: API.OperationMethod<
   CreateRegistryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(14240, __c445, 0) as any as S.Schema<CreateRegistryInput>,
-  output: __S(14241, __c445, 1) as any as S.Schema<CreateRegistryResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<CreateRegistryInput>,
+  output: __S(1, __c0, 1) as any as S.Schema<CreateRegistryResponse>,
   errors: [
     AccessDeniedException,
     AlreadyExistsException,
@@ -9590,8 +9798,8 @@ export const createSchema: API.OperationMethod<
   CreateSchemaError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateSchemaInput>,
-  output: __S(1, __c0, 1) as any as S.Schema<CreateSchemaResponse>,
+  input: __S(32, __c1, 0) as any as S.Schema<CreateSchemaInput>,
+  output: __S(33, __c1, 1) as any as S.Schema<CreateSchemaResponse>,
   errors: [
     AccessDeniedException,
     AlreadyExistsException,
@@ -9622,8 +9830,8 @@ export const createScript: API.OperationMethod<
   CreateScriptError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<CreateScriptRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<CreateScriptResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<CreateScriptRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<CreateScriptResponse>,
   errors: [InternalServiceException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -9648,8 +9856,8 @@ export const createSecurityConfiguration: API.OperationMethod<
   CreateSecurityConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<CreateSecurityConfigurationRequest>,
-  output: __S(193, __c6, 1) as any as S.Schema<CreateSecurityConfigurationResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<CreateSecurityConfigurationRequest>,
+  output: __S(225, __c7, 1) as any as S.Schema<CreateSecurityConfigurationResponse>,
   errors: [
     AlreadyExistsException,
     InternalServiceException,
@@ -9684,8 +9892,8 @@ export const createSession: API.OperationMethod<
   CreateSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<CreateSessionRequest>,
-  output: __S(288, __c9, 0) as any as S.Schema<CreateSessionResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<CreateSessionRequest>,
+  output: __S(320, __c10, 0) as any as S.Schema<CreateSessionResponse>,
   errors: [
     AccessDeniedException,
     AlreadyExistsException,
@@ -9726,8 +9934,8 @@ export const createTable: API.OperationMethod<
   CreateTableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(356, __c11, 4) as any as S.Schema<CreateTableRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<CreateTableResponse>,
+  input: __S(388, __c12, 4) as any as S.Schema<CreateTableRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<CreateTableResponse>,
   errors: [
     AlreadyExistsException,
     ConcurrentModificationException,
@@ -9766,8 +9974,8 @@ export const createTableOptimizer: API.OperationMethod<
   CreateTableOptimizerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<CreateTableOptimizerRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<CreateTableOptimizerResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<CreateTableOptimizerRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<CreateTableOptimizerResponse>,
   errors: [
     AccessDeniedException,
     AlreadyExistsException,
@@ -9805,8 +10013,8 @@ export const createTrigger: API.OperationMethod<
   CreateTriggerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<CreateTriggerRequest>,
-  output: __S(12832, __c401, 0) as any as S.Schema<CreateTriggerResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<CreateTriggerRequest>,
+  output: __S(13056, __c408, 0) as any as S.Schema<CreateTriggerResponse>,
   errors: [
     AlreadyExistsException,
     ConcurrentModificationException,
@@ -9841,8 +10049,8 @@ export const createUsageProfile: API.OperationMethod<
   CreateUsageProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<CreateUsageProfileRequest>,
-  output: __S(12832, __c401, 0) as any as S.Schema<CreateUsageProfileResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<CreateUsageProfileRequest>,
+  output: __S(13056, __c408, 0) as any as S.Schema<CreateUsageProfileResponse>,
   errors: [
     AlreadyExistsException,
     InternalServiceException,
@@ -9876,8 +10084,8 @@ export const createUserDefinedFunction: API.OperationMethod<
   CreateUserDefinedFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<CreateUserDefinedFunctionRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<CreateUserDefinedFunctionResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<CreateUserDefinedFunctionRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<CreateUserDefinedFunctionResponse>,
   errors: [
     AlreadyExistsException,
     EntityNotFoundException,
@@ -9911,8 +10119,8 @@ export const createWorkflow: API.OperationMethod<
   CreateWorkflowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<CreateWorkflowRequest>,
-  output: __S(12832, __c401, 0) as any as S.Schema<CreateWorkflowResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<CreateWorkflowRequest>,
+  output: __S(13056, __c408, 0) as any as S.Schema<CreateWorkflowResponse>,
   errors: [
     AlreadyExistsException,
     ConcurrentModificationException,
@@ -9944,8 +10152,8 @@ export const deleteAsset: API.OperationMethod<
   DeleteAssetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<DeleteAssetRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<DeleteAssetResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<DeleteAssetRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<DeleteAssetResponse>,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -9976,8 +10184,8 @@ export const deleteAssetType: API.OperationMethod<
   DeleteAssetTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<DeleteAssetTypeRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<DeleteAssetTypeResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<DeleteAssetTypeRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<DeleteAssetTypeResponse>,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -10009,8 +10217,8 @@ export const deleteAttachment: API.OperationMethod<
   DeleteAttachmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<DeleteAttachmentRequest>,
-  output: __S(769, __c24, 1) as any as S.Schema<DeleteAttachmentResponse>,
+  input: __S(800, __c25, 0) as any as S.Schema<DeleteAttachmentRequest>,
+  output: __S(801, __c25, 1) as any as S.Schema<DeleteAttachmentResponse>,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -10043,8 +10251,8 @@ export const deleteBlueprint: API.OperationMethod<
   DeleteBlueprintError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<DeleteBlueprintRequest>,
-  output: __S(12832, __c401, 0) as any as S.Schema<DeleteBlueprintResponse>,
+  input: __S(832, __c26, 0) as any as S.Schema<DeleteBlueprintRequest>,
+  output: __S(13056, __c408, 0) as any as S.Schema<DeleteBlueprintResponse>,
   errors: [InternalServiceException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10076,8 +10284,8 @@ export const deleteCatalog: API.OperationMethod<
   DeleteCatalogError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<DeleteCatalogRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<DeleteCatalogResponse>,
+  input: __S(864, __c27, 0) as any as S.Schema<DeleteCatalogRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<DeleteCatalogResponse>,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -10108,8 +10316,8 @@ export const deleteClassifier: API.OperationMethod<
   DeleteClassifierError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<DeleteClassifierRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<DeleteClassifierResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<DeleteClassifierRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<DeleteClassifierResponse>,
   errors: [EntityNotFoundException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10136,8 +10344,8 @@ export const deleteColumnStatisticsForPartition: API.OperationMethod<
   DeleteColumnStatisticsForPartitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<DeleteColumnStatisticsForPartitionRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<DeleteColumnStatisticsForPartitionResponse>,
+  input: __S(928, __c29, 0) as any as S.Schema<DeleteColumnStatisticsForPartitionRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<DeleteColumnStatisticsForPartitionResponse>,
   errors: [
     EntityNotFoundException,
     GlueEncryptionException,
@@ -10170,8 +10378,8 @@ export const deleteColumnStatisticsForTable: API.OperationMethod<
   DeleteColumnStatisticsForTableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<DeleteColumnStatisticsForTableRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<DeleteColumnStatisticsForTableResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<DeleteColumnStatisticsForTableRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<DeleteColumnStatisticsForTableResponse>,
   errors: [
     EntityNotFoundException,
     GlueEncryptionException,
@@ -10200,8 +10408,8 @@ export const deleteColumnStatisticsTaskSettings: API.OperationMethod<
   DeleteColumnStatisticsTaskSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<DeleteColumnStatisticsTaskSettingsRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<DeleteColumnStatisticsTaskSettingsResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<DeleteColumnStatisticsTaskSettingsRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<DeleteColumnStatisticsTaskSettingsResponse>,
   errors: [EntityNotFoundException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10223,8 +10431,8 @@ export const deleteConnection: API.OperationMethod<
   DeleteConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<DeleteConnectionRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<DeleteConnectionResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<DeleteConnectionRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<DeleteConnectionResponse>,
   errors: [EntityNotFoundException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10252,8 +10460,8 @@ export const deleteConnectionType: API.OperationMethod<
   DeleteConnectionTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<DeleteConnectionTypeRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<DeleteConnectionTypeResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<DeleteConnectionTypeRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<DeleteConnectionTypeResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -10285,8 +10493,8 @@ export const deleteCrawler: API.OperationMethod<
   DeleteCrawlerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<DeleteCrawlerRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<DeleteCrawlerResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<DeleteCrawlerRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<DeleteCrawlerResponse>,
   errors: [
     CrawlerRunningException,
     EntityNotFoundException,
@@ -10316,8 +10524,8 @@ export const deleteCustomEntityType: API.OperationMethod<
   DeleteCustomEntityTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<DeleteCustomEntityTypeRequest>,
-  output: __S(12832, __c401, 0) as any as S.Schema<DeleteCustomEntityTypeResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<DeleteCustomEntityTypeRequest>,
+  output: __S(13056, __c408, 0) as any as S.Schema<DeleteCustomEntityTypeResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -10363,8 +10571,8 @@ export const deleteDatabase: API.OperationMethod<
   DeleteDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<DeleteDatabaseRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<DeleteDatabaseResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<DeleteDatabaseRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<DeleteDatabaseResponse>,
   errors: [
     ConcurrentModificationException,
     EntityNotFoundException,
@@ -10382,6 +10590,38 @@ export const deleteDatabase: API.OperationMethod<
   span: "DeleteDatabase",
 }));
 
+export type DeleteDataQualityEvaluationConfigError =
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors;
+/**
+ * Deletes a data quality evaluation configuration.
+ */
+export const deleteDataQualityEvaluationConfig: API.OperationMethod<
+  DeleteDataQualityEvaluationConfigRequest & RegionInput,
+  DeleteDataQualityEvaluationConfigResponse,
+  DeleteDataQualityEvaluationConfigError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1184, __c37, 0) as any as S.Schema<DeleteDataQualityEvaluationConfigRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<DeleteDataQualityEvaluationConfigResponse>,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteDataQualityEvaluationConfig",
+  telemetry: TELEMETRY,
+  span: "DeleteDataQualityEvaluationConfig",
+}));
+
 export type DeleteDataQualityRulesetError =
   | EntityNotFoundException
   | InternalServiceException
@@ -10397,8 +10637,8 @@ export const deleteDataQualityRuleset: API.OperationMethod<
   DeleteDataQualityRulesetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<DeleteDataQualityRulesetRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<DeleteDataQualityRulesetResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<DeleteDataQualityRulesetRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<DeleteDataQualityRulesetResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -10427,8 +10667,8 @@ export const deleteDevEndpoint: API.OperationMethod<
   DeleteDevEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<DeleteDevEndpointRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<DeleteDevEndpointResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<DeleteDevEndpointRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<DeleteDevEndpointResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -10459,8 +10699,8 @@ export const deleteFormType: API.OperationMethod<
   DeleteFormTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<DeleteFormTypeRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<DeleteFormTypeResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<DeleteFormTypeRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<DeleteFormTypeResponse>,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -10493,8 +10733,8 @@ export const deleteGlossary: API.OperationMethod<
   DeleteGlossaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<DeleteGlossaryRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<DeleteGlossaryResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<DeleteGlossaryRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<DeleteGlossaryResponse>,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -10526,8 +10766,8 @@ export const deleteGlossaryTerm: API.OperationMethod<
   DeleteGlossaryTermError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<DeleteGlossaryTermRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<DeleteGlossaryTermResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<DeleteGlossaryTermRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<DeleteGlossaryTermResponse>,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -10563,8 +10803,8 @@ export const deleteGlueIdentityCenterConfiguration: API.OperationMethod<
   DeleteGlueIdentityCenterConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<DeleteGlueIdentityCenterConfigurationRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<DeleteGlueIdentityCenterConfigurationResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<DeleteGlueIdentityCenterConfigurationRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<DeleteGlueIdentityCenterConfigurationResponse>,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -10602,8 +10842,8 @@ export const deleteIntegration: API.OperationMethod<
   DeleteIntegrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<DeleteIntegrationRequest>,
-  output: __S(1345, __c42, 1) as any as S.Schema<DeleteIntegrationResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<DeleteIntegrationRequest>,
+  output: __S(1409, __c44, 1) as any as S.Schema<DeleteIntegrationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -10642,8 +10882,8 @@ export const deleteIntegrationResourceProperty: API.OperationMethod<
   DeleteIntegrationResourcePropertyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<DeleteIntegrationResourcePropertyRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<DeleteIntegrationResourcePropertyResponse>,
+  input: __S(1440, __c45, 0) as any as S.Schema<DeleteIntegrationResourcePropertyRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<DeleteIntegrationResourcePropertyResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -10678,8 +10918,8 @@ export const deleteIntegrationTableProperties: API.OperationMethod<
   DeleteIntegrationTablePropertiesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<DeleteIntegrationTablePropertiesRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<DeleteIntegrationTablePropertiesResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<DeleteIntegrationTablePropertiesRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<DeleteIntegrationTablePropertiesResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -10711,8 +10951,8 @@ export const deleteJob: API.OperationMethod<
   DeleteJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<DeleteJobRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<DeleteJobResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<DeleteJobRequest>,
+  output: __S(1536, __c48, 0) as any as S.Schema<DeleteJobResponse>,
   errors: [InternalServiceException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -10741,8 +10981,8 @@ export const deleteMLTransform: API.OperationMethod<
   DeleteMLTransformError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<DeleteMLTransformRequest>,
-  output: __S(14048, __c439, 0) as any as S.Schema<DeleteMLTransformResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<DeleteMLTransformRequest>,
+  output: __S(14336, __c448, 0) as any as S.Schema<DeleteMLTransformResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -10771,8 +11011,8 @@ export const deletePartition: API.OperationMethod<
   DeletePartitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<DeletePartitionRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<DeletePartitionResponse>,
+  input: __S(1600, __c50, 0) as any as S.Schema<DeletePartitionRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<DeletePartitionResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -10803,8 +11043,8 @@ export const deletePartitionIndex: API.OperationMethod<
   DeletePartitionIndexError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<DeletePartitionIndexRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<DeletePartitionIndexResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<DeletePartitionIndexRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<DeletePartitionIndexResponse>,
   errors: [
     ConflictException,
     EntityNotFoundException,
@@ -10835,8 +11075,8 @@ export const deleteRegistry: API.OperationMethod<
   DeleteRegistryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<DeleteRegistryInput>,
-  output: __S(1601, __c50, 1) as any as S.Schema<DeleteRegistryResponse>,
+  input: __S(1664, __c52, 0) as any as S.Schema<DeleteRegistryInput>,
+  output: __S(1665, __c52, 1) as any as S.Schema<DeleteRegistryResponse>,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -10866,8 +11106,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<DeleteResourcePolicyRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<DeleteResourcePolicyResponse>,
+  input: __S(1696, __c53, 0) as any as S.Schema<DeleteResourcePolicyRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<DeleteResourcePolicyResponse>,
   errors: [
     ConditionCheckFailureException,
     EntityNotFoundException,
@@ -10897,8 +11137,8 @@ export const deleteSchema: API.OperationMethod<
   DeleteSchemaError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<DeleteSchemaInput>,
-  output: __S(1665, __c52, 1) as any as S.Schema<DeleteSchemaResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<DeleteSchemaInput>,
+  output: __S(1729, __c54, 1) as any as S.Schema<DeleteSchemaResponse>,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -10933,8 +11173,8 @@ export const deleteSchemaVersions: API.OperationMethod<
   DeleteSchemaVersionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<DeleteSchemaVersionsInput>,
-  output: __S(1699, __c53, 3) as any as S.Schema<DeleteSchemaVersionsResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<DeleteSchemaVersionsInput>,
+  output: __S(1763, __c55, 3) as any as S.Schema<DeleteSchemaVersionsResponse>,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -10963,8 +11203,8 @@ export const deleteSecurityConfiguration: API.OperationMethod<
   DeleteSecurityConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<DeleteSecurityConfigurationRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<DeleteSecurityConfigurationResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<DeleteSecurityConfigurationRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<DeleteSecurityConfigurationResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -10995,8 +11235,8 @@ export const deleteSession: API.OperationMethod<
   DeleteSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<DeleteSessionRequest>,
-  output: __S(1792, __c56, 0) as any as S.Schema<DeleteSessionResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<DeleteSessionRequest>,
+  output: __S(1856, __c58, 0) as any as S.Schema<DeleteSessionResponse>,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -11041,8 +11281,8 @@ export const deleteTable: API.OperationMethod<
   DeleteTableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<DeleteTableRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<DeleteTableResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<DeleteTableRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<DeleteTableResponse>,
   errors: [
     ConcurrentModificationException,
     EntityNotFoundException,
@@ -11076,8 +11316,8 @@ export const deleteTableOptimizer: API.OperationMethod<
   DeleteTableOptimizerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<DeleteTableOptimizerRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<DeleteTableOptimizerResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<DeleteTableOptimizerRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<DeleteTableOptimizerResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -11107,8 +11347,8 @@ export const deleteTableVersion: API.OperationMethod<
   DeleteTableVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<DeleteTableVersionRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<DeleteTableVersionResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<DeleteTableVersionRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<DeleteTableVersionResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -11138,8 +11378,8 @@ export const deleteTrigger: API.OperationMethod<
   DeleteTriggerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<DeleteTriggerRequest>,
-  output: __S(12832, __c401, 0) as any as S.Schema<DeleteTriggerResponse>,
+  input: __S(1984, __c62, 0) as any as S.Schema<DeleteTriggerRequest>,
+  output: __S(13056, __c408, 0) as any as S.Schema<DeleteTriggerResponse>,
   errors: [
     ConcurrentModificationException,
     InternalServiceException,
@@ -11168,8 +11408,8 @@ export const deleteUsageProfile: API.OperationMethod<
   DeleteUsageProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<DeleteUsageProfileRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<DeleteUsageProfileResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<DeleteUsageProfileRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<DeleteUsageProfileResponse>,
   errors: [
     InternalServiceException,
     InvalidInputException,
@@ -11198,8 +11438,8 @@ export const deleteUserDefinedFunction: API.OperationMethod<
   DeleteUserDefinedFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<DeleteUserDefinedFunctionRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<DeleteUserDefinedFunctionResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<DeleteUserDefinedFunctionRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<DeleteUserDefinedFunctionResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -11228,8 +11468,8 @@ export const deleteWorkflow: API.OperationMethod<
   DeleteWorkflowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<DeleteWorkflowRequest>,
-  output: __S(12832, __c401, 0) as any as S.Schema<DeleteWorkflowResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<DeleteWorkflowRequest>,
+  output: __S(13056, __c408, 0) as any as S.Schema<DeleteWorkflowResponse>,
   errors: [
     ConcurrentModificationException,
     InternalServiceException,
@@ -11260,8 +11500,8 @@ export const describeConnectionType: API.OperationMethod<
   DescribeConnectionTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<DescribeConnectionTypeRequest>,
-  output: __S(2056, __c64, 8) as any as S.Schema<DescribeConnectionTypeResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<DescribeConnectionTypeRequest>,
+  output: __S(2120, __c66, 8) as any as S.Schema<DescribeConnectionTypeResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceException,
@@ -11296,8 +11536,8 @@ export const describeEntity: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Field
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<DescribeEntityRequest>,
-  output: __S(2147, __c67, 3) as any as S.Schema<DescribeEntityResponse>,
+  input: __S(2208, __c69, 0) as any as S.Schema<DescribeEntityRequest>,
+  output: __S(2211, __c69, 3) as any as S.Schema<DescribeEntityResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -11335,8 +11575,8 @@ export const describeInboundIntegrations: API.OperationMethod<
   DescribeInboundIntegrationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<DescribeInboundIntegrationsRequest>,
-  output: __S(2179, __c68, 3) as any as S.Schema<DescribeInboundIntegrationsResponse>,
+  input: __S(2240, __c70, 0) as any as S.Schema<DescribeInboundIntegrationsRequest>,
+  output: __S(2243, __c70, 3) as any as S.Schema<DescribeInboundIntegrationsResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -11373,8 +11613,8 @@ export const describeIntegrations: API.OperationMethod<
   DescribeIntegrationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<DescribeIntegrationsRequest>,
-  output: __S(2211, __c69, 3) as any as S.Schema<DescribeIntegrationsResponse>,
+  input: __S(2272, __c71, 0) as any as S.Schema<DescribeIntegrationsRequest>,
+  output: __S(2275, __c71, 3) as any as S.Schema<DescribeIntegrationsResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -11408,8 +11648,8 @@ export const disassociateGlossaryTerms: API.OperationMethod<
   DisassociateGlossaryTermsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<DisassociateGlossaryTermsRequest>,
-  output: __S(10304, __c322, 0) as any as S.Schema<DisassociateGlossaryTermsResponse>,
+  input: __S(2336, __c73, 0) as any as S.Schema<DisassociateGlossaryTermsRequest>,
+  output: __S(10496, __c328, 0) as any as S.Schema<DisassociateGlossaryTermsResponse>,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -11444,8 +11684,8 @@ export const getAsset: API.OperationMethod<
   GetAssetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<GetAssetInput>,
-  output: __S(2307, __c72, 3) as any as S.Schema<GetAssetOutput>,
+  input: __S(2368, __c74, 0) as any as S.Schema<GetAssetInput>,
+  output: __S(2371, __c74, 3) as any as S.Schema<GetAssetOutput>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -11476,8 +11716,8 @@ export const getAssetType: API.OperationMethod<
   GetAssetTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<GetAssetTypeRequest>,
-  output: __S(2370, __c74, 2) as any as S.Schema<GetAssetTypeResponse>,
+  input: __S(2400, __c75, 0) as any as S.Schema<GetAssetTypeRequest>,
+  output: __S(2434, __c76, 2) as any as S.Schema<GetAssetTypeResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -11507,8 +11747,8 @@ export const getBlueprint: API.OperationMethod<
   GetBlueprintError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<GetBlueprintRequest>,
-  output: __S(2401, __c75, 1) as any as S.Schema<GetBlueprintResponse>,
+  input: __S(2464, __c77, 0) as any as S.Schema<GetBlueprintRequest>,
+  output: __S(2465, __c77, 1) as any as S.Schema<GetBlueprintResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -11536,8 +11776,8 @@ export const getBlueprintRun: API.OperationMethod<
   GetBlueprintRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<GetBlueprintRunRequest>,
-  output: __S(2433, __c76, 1) as any as S.Schema<GetBlueprintRunResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<GetBlueprintRunRequest>,
+  output: __S(2497, __c78, 1) as any as S.Schema<GetBlueprintRunResponse>,
   errors: [EntityNotFoundException, InternalServiceException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11562,8 +11802,8 @@ export const getBlueprintRuns: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<GetBlueprintRunsRequest>,
-  output: __S(2498, __c78, 2) as any as S.Schema<GetBlueprintRunsResponse>,
+  input: __S(2560, __c80, 0) as any as S.Schema<GetBlueprintRunsRequest>,
+  output: __S(2562, __c80, 2) as any as S.Schema<GetBlueprintRunsResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -11601,8 +11841,8 @@ export const getCatalog: API.OperationMethod<
   GetCatalogError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<GetCatalogRequest>,
-  output: __S(2529, __c79, 1) as any as S.Schema<GetCatalogResponse>,
+  input: __S(2592, __c81, 0) as any as S.Schema<GetCatalogRequest>,
+  output: __S(2593, __c81, 1) as any as S.Schema<GetCatalogResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -11633,8 +11873,8 @@ export const getCatalogImportStatus: API.OperationMethod<
   GetCatalogImportStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<GetCatalogImportStatusRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<GetCatalogImportStatusResponse>,
+  input: __S(2656, __c83, 0) as any as S.Schema<GetCatalogImportStatusRequest>,
+  output: __S(2658, __c83, 2) as any as S.Schema<GetCatalogImportStatusResponse>,
   errors: [InternalServiceException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11662,8 +11902,8 @@ export const getCatalogs: API.OperationMethod<
   GetCatalogsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<GetCatalogsRequest>,
-  output: __S(2626, __c82, 2) as any as S.Schema<GetCatalogsResponse>,
+  input: __S(2688, __c84, 0) as any as S.Schema<GetCatalogsRequest>,
+  output: __S(2690, __c84, 2) as any as S.Schema<GetCatalogsResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -11691,8 +11931,8 @@ export const getClassifier: API.OperationMethod<
   GetClassifierError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<GetClassifierRequest>,
-  output: __S(2657, __c83, 1) as any as S.Schema<GetClassifierResponse>,
+  input: __S(2720, __c85, 0) as any as S.Schema<GetClassifierRequest>,
+  output: __S(2721, __c85, 1) as any as S.Schema<GetClassifierResponse>,
   errors: [EntityNotFoundException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11712,8 +11952,8 @@ export const getClassifiers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<GetClassifiersRequest>,
-  output: __S(2722, __c85, 2) as any as S.Schema<GetClassifiersResponse>,
+  input: __S(2784, __c87, 0) as any as S.Schema<GetClassifiersRequest>,
+  output: __S(2786, __c87, 2) as any as S.Schema<GetClassifiersResponse>,
   errors: [OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11745,8 +11985,8 @@ export const getColumnStatisticsForPartition: API.OperationMethod<
   GetColumnStatisticsForPartitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<GetColumnStatisticsForPartitionRequest>,
-  output: __S(2786, __c87, 2) as any as S.Schema<GetColumnStatisticsForPartitionResponse>,
+  input: __S(2816, __c88, 0) as any as S.Schema<GetColumnStatisticsForPartitionRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<GetColumnStatisticsForPartitionResponse>,
   errors: [
     EntityNotFoundException,
     GlueEncryptionException,
@@ -11779,8 +12019,8 @@ export const getColumnStatisticsForTable: API.OperationMethod<
   GetColumnStatisticsForTableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<GetColumnStatisticsForTableRequest>,
-  output: __S(2786, __c87, 2) as any as S.Schema<GetColumnStatisticsForTableResponse>,
+  input: __S(2912, __c91, 0) as any as S.Schema<GetColumnStatisticsForTableRequest>,
+  output: __S(2850, __c89, 2) as any as S.Schema<GetColumnStatisticsForTableResponse>,
   errors: [
     EntityNotFoundException,
     GlueEncryptionException,
@@ -11809,8 +12049,8 @@ export const getColumnStatisticsTaskRun: API.OperationMethod<
   GetColumnStatisticsTaskRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<GetColumnStatisticsTaskRunRequest>,
-  output: __S(2881, __c90, 1) as any as S.Schema<GetColumnStatisticsTaskRunResponse>,
+  input: __S(2944, __c92, 0) as any as S.Schema<GetColumnStatisticsTaskRunRequest>,
+  output: __S(2945, __c92, 1) as any as S.Schema<GetColumnStatisticsTaskRunResponse>,
   errors: [EntityNotFoundException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11830,8 +12070,8 @@ export const getColumnStatisticsTaskRuns: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<GetColumnStatisticsTaskRunsRequest>,
-  output: __S(2946, __c92, 2) as any as S.Schema<GetColumnStatisticsTaskRunsResponse>,
+  input: __S(3008, __c94, 0) as any as S.Schema<GetColumnStatisticsTaskRunsRequest>,
+  output: __S(3010, __c94, 2) as any as S.Schema<GetColumnStatisticsTaskRunsResponse>,
   errors: [OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11859,8 +12099,8 @@ export const getColumnStatisticsTaskSettings: API.OperationMethod<
   GetColumnStatisticsTaskSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<GetColumnStatisticsTaskSettingsRequest>,
-  output: __S(2979, __c93, 3) as any as S.Schema<GetColumnStatisticsTaskSettingsResponse>,
+  input: __S(3040, __c95, 0) as any as S.Schema<GetColumnStatisticsTaskSettingsRequest>,
+  output: __S(3043, __c95, 3) as any as S.Schema<GetColumnStatisticsTaskSettingsResponse>,
   errors: [EntityNotFoundException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11884,8 +12124,8 @@ export const getConnection: API.OperationMethod<
   GetConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<GetConnectionRequest>,
-  output: __S(3009, __c94, 1) as any as S.Schema<GetConnectionResponse>,
+  input: __S(3072, __c96, 0) as any as S.Schema<GetConnectionRequest>,
+  output: __S(3073, __c96, 1) as any as S.Schema<GetConnectionResponse>,
   errors: [
     EntityNotFoundException,
     GlueEncryptionException,
@@ -11915,8 +12155,8 @@ export const getConnections: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3073, __c96, 1) as any as S.Schema<GetConnectionsRequest>,
-  output: __S(3075, __c96, 3) as any as S.Schema<GetConnectionsResponse>,
+  input: __S(3137, __c98, 1) as any as S.Schema<GetConnectionsRequest>,
+  output: __S(3139, __c98, 3) as any as S.Schema<GetConnectionsResponse>,
   errors: [
     EntityNotFoundException,
     GlueEncryptionException,
@@ -11945,8 +12185,8 @@ export const getCrawler: API.OperationMethod<
   GetCrawlerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<GetCrawlerRequest>,
-  output: __S(3105, __c97, 1) as any as S.Schema<GetCrawlerResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<GetCrawlerRequest>,
+  output: __S(3169, __c99, 1) as any as S.Schema<GetCrawlerResponse>,
   errors: [EntityNotFoundException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11966,8 +12206,8 @@ export const getCrawlerMetrics: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<GetCrawlerMetricsRequest>,
-  output: __S(3139, __c98, 3) as any as S.Schema<GetCrawlerMetricsResponse>,
+  input: __S(3200, __c100, 0) as any as S.Schema<GetCrawlerMetricsRequest>,
+  output: __S(3203, __c100, 3) as any as S.Schema<GetCrawlerMetricsResponse>,
   errors: [OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -11993,8 +12233,8 @@ export const getCrawlers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<GetCrawlersRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<GetCrawlersResponse>,
+  input: __S(3232, __c101, 0) as any as S.Schema<GetCrawlersRequest>,
+  output: __S(3233, __c101, 1) as any as S.Schema<GetCrawlersResponse>,
   errors: [OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12024,8 +12264,8 @@ export const getCustomEntityType: API.OperationMethod<
   GetCustomEntityTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<GetCustomEntityTypeRequest>,
-  output: __S(3201, __c100, 1) as any as S.Schema<GetCustomEntityTypeResponse>,
+  input: __S(3264, __c102, 0) as any as S.Schema<GetCustomEntityTypeRequest>,
+  output: __S(3265, __c102, 1) as any as S.Schema<GetCustomEntityTypeResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -12056,8 +12296,8 @@ export const getDashboardUrl: API.OperationMethod<
   GetDashboardUrlError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<GetDashboardUrlRequest>,
-  output: __S(3233, __c101, 1) as any as S.Schema<GetDashboardUrlResponse>,
+  input: __S(3296, __c103, 0) as any as S.Schema<GetDashboardUrlRequest>,
+  output: __S(3297, __c103, 1) as any as S.Schema<GetDashboardUrlResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -12090,8 +12330,8 @@ export const getDatabase: API.OperationMethod<
   GetDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<GetDatabaseRequest>,
-  output: __S(3265, __c102, 1) as any as S.Schema<GetDatabaseResponse>,
+  input: __S(3328, __c104, 0) as any as S.Schema<GetDatabaseRequest>,
+  output: __S(3329, __c104, 1) as any as S.Schema<GetDatabaseResponse>,
   errors: [
     EntityNotFoundException,
     FederationSourceException,
@@ -12127,8 +12367,8 @@ export const getDatabases: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<GetDatabasesRequest>,
-  output: __S(3330, __c104, 2) as any as S.Schema<GetDatabasesResponse>,
+  input: __S(3392, __c106, 0) as any as S.Schema<GetDatabasesRequest>,
+  output: __S(3394, __c106, 2) as any as S.Schema<GetDatabasesResponse>,
   errors: [
     EntityNotFoundException,
     FederationSourceException,
@@ -12164,8 +12404,8 @@ export const getDataCatalogEncryptionSettings: API.OperationMethod<
   GetDataCatalogEncryptionSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<GetDataCatalogEncryptionSettingsRequest>,
-  output: __S(3361, __c105, 1) as any as S.Schema<GetDataCatalogEncryptionSettingsResponse>,
+  input: __S(3424, __c107, 0) as any as S.Schema<GetDataCatalogEncryptionSettingsRequest>,
+  output: __S(3425, __c107, 1) as any as S.Schema<GetDataCatalogEncryptionSettingsResponse>,
   errors: [InternalServiceException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -12189,8 +12429,8 @@ export const getDataCatalogExportConfiguration: API.OperationMethod<
   GetDataCatalogExportConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<GetDataCatalogExportConfigurationInput>,
-  output: __S(3425, __c107, 1) as any as S.Schema<GetDataCatalogExportConfigurationOutput>,
+  input: __S(3488, __c109, 0) as any as S.Schema<GetDataCatalogExportConfigurationInput>,
+  output: __S(3489, __c109, 1) as any as S.Schema<GetDataCatalogExportConfigurationOutput>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -12221,14 +12461,46 @@ export const getDataflowGraph: API.OperationMethod<
   GetDataflowGraphError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<GetDataflowGraphRequest>,
-  output: __S(3489, __c109, 1) as any as S.Schema<GetDataflowGraphResponse>,
+  input: __S(3552, __c111, 0) as any as S.Schema<GetDataflowGraphRequest>,
+  output: __S(3553, __c111, 1) as any as S.Schema<GetDataflowGraphResponse>,
   errors: [InternalServiceException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataflowGraph",
   telemetry: TELEMETRY,
   span: "GetDataflowGraph",
+}));
+
+export type GetDataQualityEvaluationConfigError =
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors;
+/**
+ * Retrieves a data quality evaluation configuration.
+ */
+export const getDataQualityEvaluationConfig: API.OperationMethod<
+  GetDataQualityEvaluationConfigRequest & RegionInput,
+  GetDataQualityEvaluationConfigResponse,
+  GetDataQualityEvaluationConfigError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3584, __c112, 0) as any as S.Schema<GetDataQualityEvaluationConfigRequest>,
+  output: __S(3616, __c113, 0) as any as S.Schema<GetDataQualityEvaluationConfigResponse>,
+  errors: [
+    AccessDeniedException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetDataQualityEvaluationConfig",
+  telemetry: TELEMETRY,
+  span: "GetDataQualityEvaluationConfig",
 }));
 
 export type GetDataQualityModelError =
@@ -12246,8 +12518,8 @@ export const getDataQualityModel: API.OperationMethod<
   GetDataQualityModelError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<GetDataQualityModelRequest>,
-  output: __S(3521, __c110, 1) as any as S.Schema<GetDataQualityModelResponse>,
+  input: __S(3648, __c114, 0) as any as S.Schema<GetDataQualityModelRequest>,
+  output: __S(3649, __c114, 1) as any as S.Schema<GetDataQualityModelResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -12276,8 +12548,8 @@ export const getDataQualityModelResult: API.OperationMethod<
   GetDataQualityModelResultError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<GetDataQualityModelResultRequest>,
-  output: __S(3555, __c111, 3) as any as S.Schema<GetDataQualityModelResultResponse>,
+  input: __S(3680, __c115, 0) as any as S.Schema<GetDataQualityModelResultRequest>,
+  output: __S(3683, __c115, 3) as any as S.Schema<GetDataQualityModelResultResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -12306,8 +12578,8 @@ export const getDataQualityResult: API.OperationMethod<
   GetDataQualityResultError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<GetDataQualityResultRequest>,
-  output: __S(11104, __c347, 0) as any as S.Schema<GetDataQualityResultResponse>,
+  input: __S(3712, __c116, 0) as any as S.Schema<GetDataQualityResultRequest>,
+  output: __S(11296, __c353, 0) as any as S.Schema<GetDataQualityResultResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -12336,8 +12608,8 @@ export const getDataQualityResultV2: API.OperationMethod<
   GetDataQualityResultV2Error,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<GetDataQualityResultV2Request>,
-  output: __S(3617, __c113, 1) as any as S.Schema<GetDataQualityResultV2Response>,
+  input: __S(3744, __c117, 0) as any as S.Schema<GetDataQualityResultV2Request>,
+  output: __S(3745, __c117, 1) as any as S.Schema<GetDataQualityResultV2Response>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -12366,8 +12638,8 @@ export const getDataQualityRuleRecommendationRun: API.OperationMethod<
   GetDataQualityRuleRecommendationRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3648, __c114, 0) as any as S.Schema<GetDataQualityRuleRecommendationRunRequest>,
-  output: __S(3649, __c114, 1) as any as S.Schema<GetDataQualityRuleRecommendationRunResponse>,
+  input: __S(3776, __c118, 0) as any as S.Schema<GetDataQualityRuleRecommendationRunRequest>,
+  output: __S(3777, __c118, 1) as any as S.Schema<GetDataQualityRuleRecommendationRunResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -12396,8 +12668,8 @@ export const getDataQualityRuleset: API.OperationMethod<
   GetDataQualityRulesetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<GetDataQualityRulesetRequest>,
-  output: __S(3713, __c116, 1) as any as S.Schema<GetDataQualityRulesetResponse>,
+  input: __S(3840, __c120, 0) as any as S.Schema<GetDataQualityRulesetRequest>,
+  output: __S(3841, __c120, 1) as any as S.Schema<GetDataQualityRulesetResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -12426,8 +12698,8 @@ export const getDataQualityRulesetEvaluationRun: API.OperationMethod<
   GetDataQualityRulesetEvaluationRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<GetDataQualityRulesetEvaluationRunRequest>,
-  output: __S(11360, __c355, 0) as any as S.Schema<GetDataQualityRulesetEvaluationRunResponse>,
+  input: __S(3872, __c121, 0) as any as S.Schema<GetDataQualityRulesetEvaluationRunRequest>,
+  output: __S(11552, __c361, 0) as any as S.Schema<GetDataQualityRulesetEvaluationRunResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -12460,8 +12732,8 @@ export const getDevEndpoint: API.OperationMethod<
   GetDevEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<GetDevEndpointRequest>,
-  output: __S(3777, __c118, 1) as any as S.Schema<GetDevEndpointResponse>,
+  input: __S(3904, __c122, 0) as any as S.Schema<GetDevEndpointRequest>,
+  output: __S(3905, __c122, 1) as any as S.Schema<GetDevEndpointResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -12495,8 +12767,8 @@ export const getDevEndpoints: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<GetDevEndpointsRequest>,
-  output: __S(3809, __c119, 1) as any as S.Schema<GetDevEndpointsResponse>,
+  input: __S(3936, __c123, 0) as any as S.Schema<GetDevEndpointsRequest>,
+  output: __S(3937, __c123, 1) as any as S.Schema<GetDevEndpointsResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -12537,8 +12809,8 @@ export const getEntityRecords: API.OperationMethod<
   GetEntityRecordsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<GetEntityRecordsRequest>,
-  output: __S(3842, __c120, 2) as any as S.Schema<GetEntityRecordsResponse>,
+  input: __S(3968, __c124, 0) as any as S.Schema<GetEntityRecordsRequest>,
+  output: __S(3970, __c124, 2) as any as S.Schema<GetEntityRecordsResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -12571,8 +12843,8 @@ export const getFormType: API.OperationMethod<
   GetFormTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<GetFormTypeRequest>,
-  output: __S(3904, __c122, 0) as any as S.Schema<GetFormTypeResponse>,
+  input: __S(4000, __c125, 0) as any as S.Schema<GetFormTypeRequest>,
+  output: __S(4032, __c126, 0) as any as S.Schema<GetFormTypeResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -12602,8 +12874,8 @@ export const getGlossary: API.OperationMethod<
   GetGlossaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<GetGlossaryRequest>,
-  output: __S(13536, __c423, 0) as any as S.Schema<GetGlossaryResponse>,
+  input: __S(4064, __c127, 0) as any as S.Schema<GetGlossaryRequest>,
+  output: __S(13824, __c432, 0) as any as S.Schema<GetGlossaryResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -12632,8 +12904,8 @@ export const getGlossaryTerm: API.OperationMethod<
   GetGlossaryTermError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<GetGlossaryTermRequest>,
-  output: __S(13600, __c425, 0) as any as S.Schema<GetGlossaryTermResponse>,
+  input: __S(4096, __c128, 0) as any as S.Schema<GetGlossaryTermRequest>,
+  output: __S(13888, __c434, 0) as any as S.Schema<GetGlossaryTermResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -12665,8 +12937,8 @@ export const getGlueIdentityCenterConfiguration: API.OperationMethod<
   GetGlueIdentityCenterConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<GetGlueIdentityCenterConfigurationRequest>,
-  output: __S(4001, __c125, 1) as any as S.Schema<GetGlueIdentityCenterConfigurationResponse>,
+  input: __S(4128, __c129, 0) as any as S.Schema<GetGlueIdentityCenterConfigurationRequest>,
+  output: __S(4129, __c129, 1) as any as S.Schema<GetGlueIdentityCenterConfigurationResponse>,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -12700,8 +12972,8 @@ export const getIntegrationResourceProperty: API.OperationMethod<
   GetIntegrationResourcePropertyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<GetIntegrationResourcePropertyRequest>,
-  output: __S(4064, __c127, 0) as any as S.Schema<GetIntegrationResourcePropertyResponse>,
+  input: __S(4160, __c130, 0) as any as S.Schema<GetIntegrationResourcePropertyRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<GetIntegrationResourcePropertyResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -12736,8 +13008,8 @@ export const getIntegrationTableProperties: API.OperationMethod<
   GetIntegrationTablePropertiesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<GetIntegrationTablePropertiesRequest>,
-  output: __S(4097, __c128, 1) as any as S.Schema<GetIntegrationTablePropertiesResponse>,
+  input: __S(4224, __c132, 0) as any as S.Schema<GetIntegrationTablePropertiesRequest>,
+  output: __S(4225, __c132, 1) as any as S.Schema<GetIntegrationTablePropertiesResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -12769,8 +13041,8 @@ export const getJob: API.OperationMethod<
   GetJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<GetJobRequest>,
-  output: __S(4129, __c129, 1) as any as S.Schema<GetJobResponse>,
+  input: __S(4256, __c133, 0) as any as S.Schema<GetJobRequest>,
+  output: __S(4257, __c133, 1) as any as S.Schema<GetJobResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -12808,8 +13080,8 @@ export const getJobBookmark: API.OperationMethod<
   GetJobBookmarkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<GetJobBookmarkRequest>,
-  output: __S(4193, __c131, 1) as any as S.Schema<GetJobBookmarkResponse>,
+  input: __S(4288, __c134, 0) as any as S.Schema<GetJobBookmarkRequest>,
+  output: __S(4321, __c135, 1) as any as S.Schema<GetJobBookmarkResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -12839,8 +13111,8 @@ export const getJobRun: API.OperationMethod<
   GetJobRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<GetJobRunRequest>,
-  output: __S(4225, __c132, 1) as any as S.Schema<GetJobRunResponse>,
+  input: __S(4352, __c136, 0) as any as S.Schema<GetJobRunRequest>,
+  output: __S(4353, __c136, 1) as any as S.Schema<GetJobRunResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -12872,8 +13144,8 @@ export const getJobRuns: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   JobRun
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<GetJobRunsRequest>,
-  output: __S(4257, __c133, 1) as any as S.Schema<GetJobRunsResponse>,
+  input: __S(4384, __c137, 0) as any as S.Schema<GetJobRunsRequest>,
+  output: __S(4385, __c137, 1) as any as S.Schema<GetJobRunsResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -12909,8 +13181,8 @@ export const getJobs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Job
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<GetJobsRequest>,
-  output: __S(4289, __c134, 1) as any as S.Schema<GetJobsResponse>,
+  input: __S(4416, __c138, 0) as any as S.Schema<GetJobsRequest>,
+  output: __S(4417, __c138, 1) as any as S.Schema<GetJobsResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -12946,8 +13218,8 @@ export const getJobUpgradeAnalysis: API.OperationMethod<
   GetJobUpgradeAnalysisError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<GetJobUpgradeAnalysisRequest>,
-  output: __S(4321, __c135, 1) as any as S.Schema<GetJobUpgradeAnalysisResponse>,
+  input: __S(4448, __c139, 0) as any as S.Schema<GetJobUpgradeAnalysisRequest>,
+  output: __S(4449, __c139, 1) as any as S.Schema<GetJobUpgradeAnalysisResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -12977,8 +13249,8 @@ export const getMapping: API.OperationMethod<
   GetMappingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<GetMappingRequest>,
-  output: __S(4353, __c136, 1) as any as S.Schema<GetMappingResponse>,
+  input: __S(4480, __c140, 0) as any as S.Schema<GetMappingRequest>,
+  output: __S(4481, __c140, 1) as any as S.Schema<GetMappingResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -13007,8 +13279,8 @@ export const getMaterializedViewRefreshTaskRun: API.OperationMethod<
   GetMaterializedViewRefreshTaskRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<GetMaterializedViewRefreshTaskRunRequest>,
-  output: __S(4417, __c138, 1) as any as S.Schema<GetMaterializedViewRefreshTaskRunResponse>,
+  input: __S(4544, __c142, 0) as any as S.Schema<GetMaterializedViewRefreshTaskRunRequest>,
+  output: __S(4545, __c142, 1) as any as S.Schema<GetMaterializedViewRefreshTaskRunResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -13041,8 +13313,8 @@ export const getMLTaskRun: API.OperationMethod<
   GetMLTaskRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<GetMLTaskRunRequest>,
-  output: __S(4516, __c141, 4) as any as S.Schema<GetMLTaskRunResponse>,
+  input: __S(4608, __c144, 0) as any as S.Schema<GetMLTaskRunRequest>,
+  output: __S(4644, __c145, 4) as any as S.Schema<GetMLTaskRunResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -13078,8 +13350,8 @@ export const getMLTaskRuns: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4545, __c142, 1) as any as S.Schema<GetMLTaskRunsRequest>,
-  output: __S(4547, __c142, 3) as any as S.Schema<GetMLTaskRunsResponse>,
+  input: __S(4673, __c146, 1) as any as S.Schema<GetMLTaskRunsRequest>,
+  output: __S(4675, __c146, 3) as any as S.Schema<GetMLTaskRunsResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -13117,8 +13389,8 @@ export const getMLTransform: API.OperationMethod<
   GetMLTransformError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<GetMLTransformRequest>,
-  output: __S(4645, __c145, 5) as any as S.Schema<GetMLTransformResponse>,
+  input: __S(4736, __c148, 0) as any as S.Schema<GetMLTransformRequest>,
+  output: __S(4773, __c149, 5) as any as S.Schema<GetMLTransformResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -13152,8 +13424,8 @@ export const getMLTransforms: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<GetMLTransformsRequest>,
-  output: __S(4706, __c147, 2) as any as S.Schema<GetMLTransformsResponse>,
+  input: __S(4832, __c151, 0) as any as S.Schema<GetMLTransformsRequest>,
+  output: __S(4834, __c151, 2) as any as S.Schema<GetMLTransformsResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -13190,8 +13462,8 @@ export const getPartition: API.OperationMethod<
   GetPartitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4768, __c149, 0) as any as S.Schema<GetPartitionRequest>,
-  output: __S(4769, __c149, 1) as any as S.Schema<GetPartitionResponse>,
+  input: __S(4896, __c153, 0) as any as S.Schema<GetPartitionRequest>,
+  output: __S(4897, __c153, 1) as any as S.Schema<GetPartitionResponse>,
   errors: [
     EntityNotFoundException,
     FederationSourceException,
@@ -13225,8 +13497,8 @@ export const getPartitionIndexes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   PartitionIndexDescriptor
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4800, __c150, 0) as any as S.Schema<GetPartitionIndexesRequest>,
-  output: __S(4807, __c150, 7) as any as S.Schema<GetPartitionIndexesResponse>,
+  input: __S(4928, __c154, 0) as any as S.Schema<GetPartitionIndexesRequest>,
+  output: __S(4935, __c154, 7) as any as S.Schema<GetPartitionIndexesResponse>,
   errors: [
     ConflictException,
     EntityNotFoundException,
@@ -13267,8 +13539,8 @@ export const getPartitions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<GetPartitionsRequest>,
-  output: __S(4833, __c151, 1) as any as S.Schema<GetPartitionsResponse>,
+  input: __S(4960, __c155, 0) as any as S.Schema<GetPartitionsRequest>,
+  output: __S(4961, __c155, 1) as any as S.Schema<GetPartitionsResponse>,
   errors: [
     EntityNotFoundException,
     FederationSourceException,
@@ -13306,8 +13578,8 @@ export const getPlan: API.OperationMethod<
   GetPlanError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<GetPlanRequest>,
-  output: __S(160, __c5, 0) as any as S.Schema<GetPlanResponse>,
+  input: __S(5024, __c157, 0) as any as S.Schema<GetPlanRequest>,
+  output: __S(192, __c6, 0) as any as S.Schema<GetPlanResponse>,
   errors: [InternalServiceException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -13331,8 +13603,8 @@ export const getRegistry: API.OperationMethod<
   GetRegistryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<GetRegistryInput>,
-  output: __S(4960, __c155, 0) as any as S.Schema<GetRegistryResponse>,
+  input: __S(5056, __c158, 0) as any as S.Schema<GetRegistryInput>,
+  output: __S(5088, __c159, 0) as any as S.Schema<GetRegistryResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -13368,8 +13640,8 @@ export const getResourcePolicies: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   GluePolicy
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4992, __c156, 0) as any as S.Schema<GetResourcePoliciesRequest>,
-  output: __S(4994, __c156, 2) as any as S.Schema<GetResourcePoliciesResponse>,
+  input: __S(5120, __c160, 0) as any as S.Schema<GetResourcePoliciesRequest>,
+  output: __S(5122, __c160, 2) as any as S.Schema<GetResourcePoliciesResponse>,
   errors: [
     GlueEncryptionException,
     InternalServiceException,
@@ -13404,8 +13676,8 @@ export const getResourcePolicy: API.OperationMethod<
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<GetResourcePolicyRequest>,
-  output: __S(5024, __c157, 0) as any as S.Schema<GetResourcePolicyResponse>,
+  input: __S(5184, __c162, 0) as any as S.Schema<GetResourcePolicyRequest>,
+  output: __S(5152, __c161, 0) as any as S.Schema<GetResourcePolicyResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -13434,8 +13706,8 @@ export const getSchema: API.OperationMethod<
   GetSchemaError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5088, __c159, 0) as any as S.Schema<GetSchemaInput>,
-  output: __S(5089, __c159, 1) as any as S.Schema<GetSchemaResponse>,
+  input: __S(5216, __c163, 0) as any as S.Schema<GetSchemaInput>,
+  output: __S(5217, __c163, 1) as any as S.Schema<GetSchemaResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -13464,8 +13736,8 @@ export const getSchemaByDefinition: API.OperationMethod<
   GetSchemaByDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<GetSchemaByDefinitionInput>,
-  output: __S(5121, __c160, 1) as any as S.Schema<GetSchemaByDefinitionResponse>,
+  input: __S(5248, __c164, 0) as any as S.Schema<GetSchemaByDefinitionInput>,
+  output: __S(5249, __c164, 1) as any as S.Schema<GetSchemaByDefinitionResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -13494,8 +13766,8 @@ export const getSchemaVersion: API.OperationMethod<
   GetSchemaVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5152, __c161, 0) as any as S.Schema<GetSchemaVersionInput>,
-  output: __S(5153, __c161, 1) as any as S.Schema<GetSchemaVersionResponse>,
+  input: __S(5280, __c165, 0) as any as S.Schema<GetSchemaVersionInput>,
+  output: __S(5281, __c165, 1) as any as S.Schema<GetSchemaVersionResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -13526,8 +13798,8 @@ export const getSchemaVersionsDiff: API.OperationMethod<
   GetSchemaVersionsDiffError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5216, __c163, 0) as any as S.Schema<GetSchemaVersionsDiffInput>,
-  output: __S(5217, __c163, 1) as any as S.Schema<GetSchemaVersionsDiffResponse>,
+  input: __S(5344, __c167, 0) as any as S.Schema<GetSchemaVersionsDiffInput>,
+  output: __S(5345, __c167, 1) as any as S.Schema<GetSchemaVersionsDiffResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -13556,8 +13828,8 @@ export const getSecurityConfiguration: API.OperationMethod<
   GetSecurityConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5248, __c164, 0) as any as S.Schema<GetSecurityConfigurationRequest>,
-  output: __S(5249, __c164, 1) as any as S.Schema<GetSecurityConfigurationResponse>,
+  input: __S(5376, __c168, 0) as any as S.Schema<GetSecurityConfigurationRequest>,
+  output: __S(5377, __c168, 1) as any as S.Schema<GetSecurityConfigurationResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -13587,8 +13859,8 @@ export const getSecurityConfigurations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SecurityConfiguration
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5312, __c166, 0) as any as S.Schema<GetSecurityConfigurationsRequest>,
-  output: __S(5314, __c166, 2) as any as S.Schema<GetSecurityConfigurationsResponse>,
+  input: __S(5440, __c170, 0) as any as S.Schema<GetSecurityConfigurationsRequest>,
+  output: __S(5442, __c170, 2) as any as S.Schema<GetSecurityConfigurationsResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -13624,8 +13896,8 @@ export const getSession: API.OperationMethod<
   GetSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5344, __c167, 0) as any as S.Schema<GetSessionRequest>,
-  output: __S(288, __c9, 0) as any as S.Schema<GetSessionResponse>,
+  input: __S(5472, __c171, 0) as any as S.Schema<GetSessionRequest>,
+  output: __S(320, __c10, 0) as any as S.Schema<GetSessionResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -13658,8 +13930,8 @@ export const getSessionEndpoint: API.OperationMethod<
   GetSessionEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<GetSessionEndpointRequest>,
-  output: __S(5378, __c168, 2) as any as S.Schema<GetSessionEndpointResponse>,
+  input: __S(5504, __c172, 0) as any as S.Schema<GetSessionEndpointRequest>,
+  output: __S(5506, __c172, 2) as any as S.Schema<GetSessionEndpointResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -13693,8 +13965,8 @@ export const getStatement: API.OperationMethod<
   GetStatementError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5408, __c169, 0) as any as S.Schema<GetStatementRequest>,
-  output: __S(5409, __c169, 1) as any as S.Schema<GetStatementResponse>,
+  input: __S(5536, __c173, 0) as any as S.Schema<GetStatementRequest>,
+  output: __S(5537, __c173, 1) as any as S.Schema<GetStatementResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -13726,8 +13998,8 @@ export const getSystemLogsForJobRun: API.OperationMethod<
   GetSystemLogsForJobRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5472, __c171, 0) as any as S.Schema<GetSystemLogsForJobRunRequest>,
-  output: __S(5504, __c172, 0) as any as S.Schema<GetSystemLogsForJobRunResponse>,
+  input: __S(5600, __c175, 0) as any as S.Schema<GetSystemLogsForJobRunRequest>,
+  output: __S(5632, __c176, 0) as any as S.Schema<GetSystemLogsForJobRunResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -13757,8 +14029,8 @@ export const getSystemLogsForSession: API.OperationMethod<
   GetSystemLogsForSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<GetSystemLogsForSessionRequest>,
-  output: __S(5504, __c172, 0) as any as S.Schema<GetSystemLogsForSessionResponse>,
+  input: __S(5664, __c177, 0) as any as S.Schema<GetSystemLogsForSessionRequest>,
+  output: __S(5632, __c176, 0) as any as S.Schema<GetSystemLogsForSessionResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -13792,8 +14064,8 @@ export const getTable: API.OperationMethod<
   GetTableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5568, __c174, 0) as any as S.Schema<GetTableRequest>,
-  output: __S(5569, __c174, 1) as any as S.Schema<GetTableResponse>,
+  input: __S(5696, __c178, 0) as any as S.Schema<GetTableRequest>,
+  output: __S(5697, __c178, 1) as any as S.Schema<GetTableResponse>,
   errors: [
     EntityNotFoundException,
     FederationSourceException,
@@ -13827,8 +14099,8 @@ export const getTableOptimizer: API.OperationMethod<
   GetTableOptimizerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5632, __c176, 0) as any as S.Schema<GetTableOptimizerRequest>,
-  output: __S(5633, __c176, 1) as any as S.Schema<GetTableOptimizerResponse>,
+  input: __S(5760, __c180, 0) as any as S.Schema<GetTableOptimizerRequest>,
+  output: __S(5761, __c180, 1) as any as S.Schema<GetTableOptimizerResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -13863,8 +14135,8 @@ export const getTables: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5664, __c177, 0) as any as S.Schema<GetTablesRequest>,
-  output: __S(5665, __c177, 1) as any as S.Schema<GetTablesResponse>,
+  input: __S(5792, __c181, 0) as any as S.Schema<GetTablesRequest>,
+  output: __S(5793, __c181, 1) as any as S.Schema<GetTablesResponse>,
   errors: [
     EntityNotFoundException,
     FederationSourceException,
@@ -13902,8 +14174,8 @@ export const getTableVersion: API.OperationMethod<
   GetTableVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<GetTableVersionRequest>,
-  output: __S(5729, __c179, 1) as any as S.Schema<GetTableVersionResponse>,
+  input: __S(5856, __c183, 0) as any as S.Schema<GetTableVersionRequest>,
+  output: __S(5857, __c183, 1) as any as S.Schema<GetTableVersionResponse>,
   errors: [
     EntityNotFoundException,
     GlueEncryptionException,
@@ -13936,8 +14208,8 @@ export const getTableVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5792, __c181, 0) as any as S.Schema<GetTableVersionsRequest>,
-  output: __S(5794, __c181, 2) as any as S.Schema<GetTableVersionsResponse>,
+  input: __S(5920, __c185, 0) as any as S.Schema<GetTableVersionsRequest>,
+  output: __S(5922, __c185, 2) as any as S.Schema<GetTableVersionsResponse>,
   errors: [
     EntityNotFoundException,
     GlueEncryptionException,
@@ -13972,8 +14244,8 @@ export const getTags: API.OperationMethod<
   GetTagsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<GetTagsRequest>,
-  output: __S(5825, __c182, 1) as any as S.Schema<GetTagsResponse>,
+  input: __S(5952, __c186, 0) as any as S.Schema<GetTagsRequest>,
+  output: __S(5953, __c186, 1) as any as S.Schema<GetTagsResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -14002,8 +14274,8 @@ export const getTrigger: API.OperationMethod<
   GetTriggerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5856, __c183, 0) as any as S.Schema<GetTriggerRequest>,
-  output: __S(12416, __c388, 0) as any as S.Schema<GetTriggerResponse>,
+  input: __S(5984, __c187, 0) as any as S.Schema<GetTriggerRequest>,
+  output: __S(12640, __c395, 0) as any as S.Schema<GetTriggerResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -14033,8 +14305,8 @@ export const getTriggers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Trigger
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5888, __c184, 0) as any as S.Schema<GetTriggersRequest>,
-  output: __S(5889, __c184, 1) as any as S.Schema<GetTriggersResponse>,
+  input: __S(6016, __c188, 0) as any as S.Schema<GetTriggersRequest>,
+  output: __S(6017, __c188, 1) as any as S.Schema<GetTriggersResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -14076,8 +14348,8 @@ export const getUnfilteredPartitionMetadata: API.OperationMethod<
   GetUnfilteredPartitionMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5920, __c185, 0) as any as S.Schema<GetUnfilteredPartitionMetadataRequest>,
-  output: __S(5952, __c186, 0) as any as S.Schema<GetUnfilteredPartitionMetadataResponse>,
+  input: __S(6048, __c189, 0) as any as S.Schema<GetUnfilteredPartitionMetadataRequest>,
+  output: __S(6080, __c190, 0) as any as S.Schema<GetUnfilteredPartitionMetadataResponse>,
   errors: [
     EntityNotFoundException,
     FederationSourceException,
@@ -14118,8 +14390,8 @@ export const getUnfilteredPartitionsMetadata: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(5984, __c187, 0) as any as S.Schema<GetUnfilteredPartitionsMetadataRequest>,
-  output: __S(5986, __c187, 2) as any as S.Schema<GetUnfilteredPartitionsMetadataResponse>,
+  input: __S(6112, __c191, 0) as any as S.Schema<GetUnfilteredPartitionsMetadataRequest>,
+  output: __S(6114, __c191, 2) as any as S.Schema<GetUnfilteredPartitionsMetadataResponse>,
   errors: [
     EntityNotFoundException,
     FederationSourceException,
@@ -14163,8 +14435,8 @@ export const getUnfilteredTableMetadata: API.OperationMethod<
   GetUnfilteredTableMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6017, __c188, 1) as any as S.Schema<GetUnfilteredTableMetadataRequest>,
-  output: __S(6020, __c188, 4) as any as S.Schema<GetUnfilteredTableMetadataResponse>,
+  input: __S(6145, __c192, 1) as any as S.Schema<GetUnfilteredTableMetadataRequest>,
+  output: __S(6148, __c192, 4) as any as S.Schema<GetUnfilteredTableMetadataResponse>,
   errors: [
     EntityNotFoundException,
     FederationSourceException,
@@ -14198,8 +14470,8 @@ export const getUsageProfile: API.OperationMethod<
   GetUsageProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<GetUsageProfileRequest>,
-  output: __S(6049, __c189, 1) as any as S.Schema<GetUsageProfileResponse>,
+  input: __S(6176, __c193, 0) as any as S.Schema<GetUsageProfileRequest>,
+  output: __S(6177, __c193, 1) as any as S.Schema<GetUsageProfileResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -14230,8 +14502,8 @@ export const getUserDefinedFunction: API.OperationMethod<
   GetUserDefinedFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6080, __c190, 0) as any as S.Schema<GetUserDefinedFunctionRequest>,
-  output: __S(6081, __c190, 1) as any as S.Schema<GetUserDefinedFunctionResponse>,
+  input: __S(6208, __c194, 0) as any as S.Schema<GetUserDefinedFunctionRequest>,
+  output: __S(6209, __c194, 1) as any as S.Schema<GetUserDefinedFunctionResponse>,
   errors: [
     EntityNotFoundException,
     GlueEncryptionException,
@@ -14263,8 +14535,8 @@ export const getUserDefinedFunctions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<GetUserDefinedFunctionsRequest>,
-  output: __S(6146, __c192, 2) as any as S.Schema<GetUserDefinedFunctionsResponse>,
+  input: __S(6272, __c196, 0) as any as S.Schema<GetUserDefinedFunctionsRequest>,
+  output: __S(6274, __c196, 2) as any as S.Schema<GetUserDefinedFunctionsResponse>,
   errors: [
     EntityNotFoundException,
     GlueEncryptionException,
@@ -14299,8 +14571,8 @@ export const getWorkflow: API.OperationMethod<
   GetWorkflowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c193, 0) as any as S.Schema<GetWorkflowRequest>,
-  output: __S(6177, __c193, 1) as any as S.Schema<GetWorkflowResponse>,
+  input: __S(6304, __c197, 0) as any as S.Schema<GetWorkflowRequest>,
+  output: __S(6305, __c197, 1) as any as S.Schema<GetWorkflowResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -14329,8 +14601,8 @@ export const getWorkflowRun: API.OperationMethod<
   GetWorkflowRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6208, __c194, 0) as any as S.Schema<GetWorkflowRunRequest>,
-  output: __S(6209, __c194, 1) as any as S.Schema<GetWorkflowRunResponse>,
+  input: __S(6336, __c198, 0) as any as S.Schema<GetWorkflowRunRequest>,
+  output: __S(6337, __c198, 1) as any as S.Schema<GetWorkflowRunResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -14359,8 +14631,8 @@ export const getWorkflowRunProperties: API.OperationMethod<
   GetWorkflowRunPropertiesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c195, 0) as any as S.Schema<GetWorkflowRunPropertiesRequest>,
-  output: __S(6241, __c195, 1) as any as S.Schema<GetWorkflowRunPropertiesResponse>,
+  input: __S(6368, __c199, 0) as any as S.Schema<GetWorkflowRunPropertiesRequest>,
+  output: __S(6369, __c199, 1) as any as S.Schema<GetWorkflowRunPropertiesResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -14390,8 +14662,8 @@ export const getWorkflowRuns: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   WorkflowRun
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(6272, __c196, 0) as any as S.Schema<GetWorkflowRunsRequest>,
-  output: __S(6274, __c196, 2) as any as S.Schema<GetWorkflowRunsResponse>,
+  input: __S(6400, __c200, 0) as any as S.Schema<GetWorkflowRunsRequest>,
+  output: __S(6402, __c200, 2) as any as S.Schema<GetWorkflowRunsResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -14424,8 +14696,8 @@ export const importCatalogToGlue: API.OperationMethod<
   ImportCatalogToGlueError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6304, __c197, 0) as any as S.Schema<ImportCatalogToGlueRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<ImportCatalogToGlueResponse>,
+  input: __S(6432, __c201, 0) as any as S.Schema<ImportCatalogToGlueRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<ImportCatalogToGlueResponse>,
   errors: [InternalServiceException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14450,8 +14722,8 @@ export const listAssetTypes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AssetTypeItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(6336, __c198, 0) as any as S.Schema<ListAssetTypesRequest>,
-  output: __S(6337, __c198, 1) as any as S.Schema<ListAssetTypesResponse>,
+  input: __S(6464, __c202, 0) as any as S.Schema<ListAssetTypesRequest>,
+  output: __S(6465, __c202, 1) as any as S.Schema<ListAssetTypesResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceException,
@@ -14486,8 +14758,8 @@ export const listBlueprints: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   OrchestrationNameString
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(6400, __c200, 0) as any as S.Schema<ListBlueprintsRequest>,
-  output: __S(6401, __c200, 1) as any as S.Schema<ListBlueprintsResponse>,
+  input: __S(6528, __c204, 0) as any as S.Schema<ListBlueprintsRequest>,
+  output: __S(6529, __c204, 1) as any as S.Schema<ListBlueprintsResponse>,
   errors: [InternalServiceException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14513,8 +14785,8 @@ export const listColumnStatisticsTaskRuns: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(6432, __c201, 0) as any as S.Schema<ListColumnStatisticsTaskRunsRequest>,
-  output: __S(6433, __c201, 1) as any as S.Schema<ListColumnStatisticsTaskRunsResponse>,
+  input: __S(6560, __c205, 0) as any as S.Schema<ListColumnStatisticsTaskRunsRequest>,
+  output: __S(6561, __c205, 1) as any as S.Schema<ListColumnStatisticsTaskRunsResponse>,
   errors: [OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14544,8 +14816,8 @@ export const listConnectionTypes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ConnectionTypeBrief
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(6464, __c202, 0) as any as S.Schema<ListConnectionTypesRequest>,
-  output: __S(6469, __c202, 5) as any as S.Schema<ListConnectionTypesResponse>,
+  input: __S(6592, __c206, 0) as any as S.Schema<ListConnectionTypesRequest>,
+  output: __S(6597, __c206, 5) as any as S.Schema<ListConnectionTypesResponse>,
   errors: [AccessDeniedException, InternalServiceException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14577,8 +14849,8 @@ export const listCrawlers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(6496, __c203, 0) as any as S.Schema<ListCrawlersRequest>,
-  output: __S(6497, __c203, 1) as any as S.Schema<ListCrawlersResponse>,
+  input: __S(6624, __c207, 0) as any as S.Schema<ListCrawlersRequest>,
+  output: __S(6625, __c207, 1) as any as S.Schema<ListCrawlersResponse>,
   errors: [OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14616,8 +14888,8 @@ export const listCrawls: API.OperationMethod<
   ListCrawlsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6530, __c204, 2) as any as S.Schema<ListCrawlsRequest>,
-  output: __S(6533, __c204, 5) as any as S.Schema<ListCrawlsResponse>,
+  input: __S(6658, __c208, 2) as any as S.Schema<ListCrawlsRequest>,
+  output: __S(6661, __c208, 5) as any as S.Schema<ListCrawlsResponse>,
   errors: [EntityNotFoundException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14641,8 +14913,8 @@ export const listCustomEntityTypes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(6560, __c205, 0) as any as S.Schema<ListCustomEntityTypesRequest>,
-  output: __S(6561, __c205, 1) as any as S.Schema<ListCustomEntityTypesResponse>,
+  input: __S(6688, __c209, 0) as any as S.Schema<ListCustomEntityTypesRequest>,
+  output: __S(6689, __c209, 1) as any as S.Schema<ListCustomEntityTypesResponse>,
   errors: [InternalServiceException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14654,6 +14926,43 @@ export const listCustomEntityTypes: API.PaginatedOperationMethod<
   } as const,
   telemetry: TELEMETRY,
   span: "ListCustomEntityTypes",
+})) as any;
+
+export type ListDataQualityEvaluationConfigsError =
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors;
+/**
+ * Lists the data quality evaluation configurations in your account, optionally filtered by level.
+ */
+export const listDataQualityEvaluationConfigs: API.PaginatedOperationMethod<
+  ListDataQualityEvaluationConfigsRequest & RegionInput,
+  ListDataQualityEvaluationConfigsResponse,
+  ListDataQualityEvaluationConfigsError,
+  Credentials | HttpClient.HttpClient,
+  DataQualityEvaluationConfigListDetails
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(6720, __c210, 0) as any as S.Schema<ListDataQualityEvaluationConfigsRequest>,
+  output: __S(6725, __c210, 5) as any as S.Schema<ListDataQualityEvaluationConfigsResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListDataQualityEvaluationConfigs",
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "DataQualityEvaluationConfigs",
+    pageSize: "MaxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListDataQualityEvaluationConfigs",
 })) as any;
 
 export type ListDataQualityResultsError =
@@ -14671,8 +14980,8 @@ export const listDataQualityResults: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(6593, __c206, 1) as any as S.Schema<ListDataQualityResultsRequest>,
-  output: __S(6596, __c206, 4) as any as S.Schema<ListDataQualityResultsResponse>,
+  input: __S(6753, __c211, 1) as any as S.Schema<ListDataQualityResultsRequest>,
+  output: __S(6756, __c211, 4) as any as S.Schema<ListDataQualityResultsResponse>,
   errors: [InternalServiceException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14701,8 +15010,8 @@ export const listDataQualityResultsV2: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DataQualityResultsV2Description
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(6625, __c207, 1) as any as S.Schema<ListDataQualityResultsV2Request>,
-  output: __S(6628, __c207, 4) as any as S.Schema<ListDataQualityResultsV2Response>,
+  input: __S(6785, __c212, 1) as any as S.Schema<ListDataQualityResultsV2Request>,
+  output: __S(6788, __c212, 4) as any as S.Schema<ListDataQualityResultsV2Response>,
   errors: [InternalServiceException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14732,8 +15041,8 @@ export const listDataQualityRuleRecommendationRuns: API.PaginatedOperationMethod
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(6657, __c208, 1) as any as S.Schema<ListDataQualityRuleRecommendationRunsRequest>,
-  output: __S(6660, __c208, 4) as any as S.Schema<ListDataQualityRuleRecommendationRunsResponse>,
+  input: __S(6817, __c213, 1) as any as S.Schema<ListDataQualityRuleRecommendationRunsRequest>,
+  output: __S(6820, __c213, 4) as any as S.Schema<ListDataQualityRuleRecommendationRunsResponse>,
   errors: [InternalServiceException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14762,8 +15071,8 @@ export const listDataQualityRulesetEvaluationRuns: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(6689, __c209, 1) as any as S.Schema<ListDataQualityRulesetEvaluationRunsRequest>,
-  output: __S(6692, __c209, 4) as any as S.Schema<ListDataQualityRulesetEvaluationRunsResponse>,
+  input: __S(6849, __c214, 1) as any as S.Schema<ListDataQualityRulesetEvaluationRunsRequest>,
+  output: __S(6852, __c214, 4) as any as S.Schema<ListDataQualityRulesetEvaluationRunsResponse>,
   errors: [InternalServiceException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14793,8 +15102,8 @@ export const listDataQualityRulesets: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(6721, __c210, 1) as any as S.Schema<ListDataQualityRulesetsRequest>,
-  output: __S(6724, __c210, 4) as any as S.Schema<ListDataQualityRulesetsResponse>,
+  input: __S(6881, __c215, 1) as any as S.Schema<ListDataQualityRulesetsRequest>,
+  output: __S(6884, __c215, 4) as any as S.Schema<ListDataQualityRulesetsResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -14826,8 +15135,8 @@ export const listDataQualityStatisticAnnotations: API.OperationMethod<
   ListDataQualityStatisticAnnotationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6752, __c211, 0) as any as S.Schema<ListDataQualityStatisticAnnotationsRequest>,
-  output: __S(6755, __c211, 3) as any as S.Schema<ListDataQualityStatisticAnnotationsResponse>,
+  input: __S(6912, __c216, 0) as any as S.Schema<ListDataQualityStatisticAnnotationsRequest>,
+  output: __S(6915, __c216, 3) as any as S.Schema<ListDataQualityStatisticAnnotationsResponse>,
   errors: [InternalServiceException, InvalidInputException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14850,8 +15159,8 @@ export const listDataQualityStatistics: API.OperationMethod<
   ListDataQualityStatisticsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6848, __c214, 0) as any as S.Schema<ListDataQualityStatisticsRequest>,
-  output: __S(6849, __c214, 1) as any as S.Schema<ListDataQualityStatisticsResponse>,
+  input: __S(7008, __c219, 0) as any as S.Schema<ListDataQualityStatisticsRequest>,
+  output: __S(7009, __c219, 1) as any as S.Schema<ListDataQualityStatisticsResponse>,
   errors: [EntityNotFoundException, InternalServiceException, InvalidInputException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -14882,8 +15191,8 @@ export const listDevEndpoints: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(6912, __c216, 0) as any as S.Schema<ListDevEndpointsRequest>,
-  output: __S(6913, __c216, 1) as any as S.Schema<ListDevEndpointsResponse>,
+  input: __S(7072, __c221, 0) as any as S.Schema<ListDevEndpointsRequest>,
+  output: __S(7073, __c221, 1) as any as S.Schema<ListDevEndpointsResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -14921,8 +15230,8 @@ export const listEntities: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Entity
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(6944, __c217, 0) as any as S.Schema<ListEntitiesRequest>,
-  output: __S(6947, __c217, 3) as any as S.Schema<ListEntitiesResponse>,
+  input: __S(7104, __c222, 0) as any as S.Schema<ListEntitiesRequest>,
+  output: __S(7107, __c222, 3) as any as S.Schema<ListEntitiesResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -14956,8 +15265,8 @@ export const listFormTypes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   FormTypeItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(6976, __c218, 0) as any as S.Schema<ListFormTypesRequest>,
-  output: __S(6977, __c218, 1) as any as S.Schema<ListFormTypesResponse>,
+  input: __S(7136, __c223, 0) as any as S.Schema<ListFormTypesRequest>,
+  output: __S(7137, __c223, 1) as any as S.Schema<ListFormTypesResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceException,
@@ -14993,8 +15302,8 @@ export const listGlossaries: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   GlossaryItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(7008, __c219, 0) as any as S.Schema<ListGlossariesRequest>,
-  output: __S(7010, __c219, 2) as any as S.Schema<ListGlossariesResponse>,
+  input: __S(7168, __c224, 0) as any as S.Schema<ListGlossariesRequest>,
+  output: __S(7170, __c224, 2) as any as S.Schema<ListGlossariesResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceException,
@@ -15030,8 +15339,8 @@ export const listGlossaryTerms: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   GlossaryTermItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(7040, __c220, 0) as any as S.Schema<ListGlossaryTermsRequest>,
-  output: __S(7043, __c220, 3) as any as S.Schema<ListGlossaryTermsResponse>,
+  input: __S(7200, __c225, 0) as any as S.Schema<ListGlossaryTermsRequest>,
+  output: __S(7203, __c225, 3) as any as S.Schema<ListGlossaryTermsResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceException,
@@ -15069,8 +15378,8 @@ export const listIntegrationResourceProperties: API.OperationMethod<
   ListIntegrationResourcePropertiesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7072, __c221, 0) as any as S.Schema<ListIntegrationResourcePropertiesRequest>,
-  output: __S(7074, __c221, 2) as any as S.Schema<ListIntegrationResourcePropertiesResponse>,
+  input: __S(7232, __c226, 0) as any as S.Schema<ListIntegrationResourcePropertiesRequest>,
+  output: __S(7234, __c226, 2) as any as S.Schema<ListIntegrationResourcePropertiesResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -15105,8 +15414,8 @@ export const listIntegrationTableProperties: API.OperationMethod<
   ListIntegrationTablePropertiesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7104, __c222, 0) as any as S.Schema<ListIntegrationTablePropertiesRequest>,
-  output: __S(7107, __c222, 3) as any as S.Schema<ListIntegrationTablePropertiesResponse>,
+  input: __S(7264, __c227, 0) as any as S.Schema<ListIntegrationTablePropertiesRequest>,
+  output: __S(7267, __c227, 3) as any as S.Schema<ListIntegrationTablePropertiesResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -15140,8 +15449,8 @@ export const listIterableForms: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   IterableFormListItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(7136, __c223, 0) as any as S.Schema<ListIterableFormsRequest>,
-  output: __S(7139, __c223, 3) as any as S.Schema<ListIterableFormsResponse>,
+  input: __S(7296, __c228, 0) as any as S.Schema<ListIterableFormsRequest>,
+  output: __S(7299, __c228, 3) as any as S.Schema<ListIterableFormsResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -15185,8 +15494,8 @@ export const listJobs: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   NameString
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(7168, __c224, 0) as any as S.Schema<ListJobsRequest>,
-  output: __S(7169, __c224, 1) as any as S.Schema<ListJobsResponse>,
+  input: __S(7328, __c229, 0) as any as S.Schema<ListJobsRequest>,
+  output: __S(7329, __c229, 1) as any as S.Schema<ListJobsResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -15221,8 +15530,8 @@ export const listMaterializedViewRefreshTaskRuns: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   MaterializedViewRefreshTaskRun
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(7200, __c225, 0) as any as S.Schema<ListMaterializedViewRefreshTaskRunsRequest>,
-  output: __S(7202, __c225, 2) as any as S.Schema<ListMaterializedViewRefreshTaskRunsResponse>,
+  input: __S(7360, __c230, 0) as any as S.Schema<ListMaterializedViewRefreshTaskRunsRequest>,
+  output: __S(7362, __c230, 2) as any as S.Schema<ListMaterializedViewRefreshTaskRunsResponse>,
   errors: [AccessDeniedException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -15256,8 +15565,8 @@ export const listMLTransforms: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(7232, __c226, 0) as any as S.Schema<ListMLTransformsRequest>,
-  output: __S(7233, __c226, 1) as any as S.Schema<ListMLTransformsResponse>,
+  input: __S(7392, __c231, 0) as any as S.Schema<ListMLTransformsRequest>,
+  output: __S(7393, __c231, 1) as any as S.Schema<ListMLTransformsResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -15291,8 +15600,8 @@ export const listRegistries: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   RegistryListItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(7264, __c227, 0) as any as S.Schema<ListRegistriesInput>,
-  output: __S(7266, __c227, 2) as any as S.Schema<ListRegistriesResponse>,
+  input: __S(7424, __c232, 0) as any as S.Schema<ListRegistriesInput>,
+  output: __S(7426, __c232, 2) as any as S.Schema<ListRegistriesResponse>,
   errors: [AccessDeniedException, InternalServiceException, InvalidInputException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -15325,8 +15634,8 @@ export const listSchemas: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SchemaListItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(7296, __c228, 0) as any as S.Schema<ListSchemasInput>,
-  output: __S(7299, __c228, 3) as any as S.Schema<ListSchemasResponse>,
+  input: __S(7456, __c233, 0) as any as S.Schema<ListSchemasInput>,
+  output: __S(7459, __c233, 3) as any as S.Schema<ListSchemasResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -15362,8 +15671,8 @@ export const listSchemaVersions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SchemaVersionListItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(7328, __c229, 0) as any as S.Schema<ListSchemaVersionsInput>,
-  output: __S(7331, __c229, 3) as any as S.Schema<ListSchemaVersionsResponse>,
+  input: __S(7488, __c234, 0) as any as S.Schema<ListSchemaVersionsInput>,
+  output: __S(7491, __c234, 3) as any as S.Schema<ListSchemaVersionsResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -15399,8 +15708,8 @@ export const listSessions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(7360, __c230, 0) as any as S.Schema<ListSessionsRequest>,
-  output: __S(7362, __c230, 2) as any as S.Schema<ListSessionsResponse>,
+  input: __S(7520, __c235, 0) as any as S.Schema<ListSessionsRequest>,
+  output: __S(7522, __c235, 2) as any as S.Schema<ListSessionsResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceException,
@@ -15436,8 +15745,8 @@ export const listStatements: API.OperationMethod<
   ListStatementsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7392, __c231, 0) as any as S.Schema<ListStatementsRequest>,
-  output: __S(7394, __c231, 2) as any as S.Schema<ListStatementsResponse>,
+  input: __S(7552, __c236, 0) as any as S.Schema<ListStatementsRequest>,
+  output: __S(7554, __c236, 2) as any as S.Schema<ListStatementsResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -15471,8 +15780,8 @@ export const listTableOptimizerRuns: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TableOptimizerRun
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(7424, __c232, 0) as any as S.Schema<ListTableOptimizerRunsRequest>,
-  output: __S(7426, __c232, 2) as any as S.Schema<ListTableOptimizerRunsResponse>,
+  input: __S(7584, __c237, 0) as any as S.Schema<ListTableOptimizerRunsRequest>,
+  output: __S(7586, __c237, 2) as any as S.Schema<ListTableOptimizerRunsResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -15514,8 +15823,8 @@ export const listTriggers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   NameString
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(7456, __c233, 0) as any as S.Schema<ListTriggersRequest>,
-  output: __S(7457, __c233, 1) as any as S.Schema<ListTriggersResponse>,
+  input: __S(7616, __c238, 0) as any as S.Schema<ListTriggersRequest>,
+  output: __S(7617, __c238, 1) as any as S.Schema<ListTriggersResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -15551,8 +15860,8 @@ export const listUsageProfiles: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   UsageProfileDefinition
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(7488, __c234, 0) as any as S.Schema<ListUsageProfilesRequest>,
-  output: __S(7491, __c234, 3) as any as S.Schema<ListUsageProfilesResponse>,
+  input: __S(7648, __c239, 0) as any as S.Schema<ListUsageProfilesRequest>,
+  output: __S(7651, __c239, 3) as any as S.Schema<ListUsageProfilesResponse>,
   errors: [
     InternalServiceException,
     InvalidInputException,
@@ -15587,8 +15896,8 @@ export const listWorkflows: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   NameString
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(7520, __c235, 0) as any as S.Schema<ListWorkflowsRequest>,
-  output: __S(7521, __c235, 1) as any as S.Schema<ListWorkflowsResponse>,
+  input: __S(7680, __c240, 0) as any as S.Schema<ListWorkflowsRequest>,
+  output: __S(7681, __c240, 1) as any as S.Schema<ListWorkflowsResponse>,
   errors: [InternalServiceException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -15625,8 +15934,8 @@ export const modifyIntegration: API.OperationMethod<
   ModifyIntegrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7552, __c236, 0) as any as S.Schema<ModifyIntegrationRequest>,
-  output: __S(13760, __c430, 0) as any as S.Schema<ModifyIntegrationResponse>,
+  input: __S(7712, __c241, 0) as any as S.Schema<ModifyIntegrationRequest>,
+  output: __S(14048, __c439, 0) as any as S.Schema<ModifyIntegrationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -15665,8 +15974,8 @@ export const publishDataQualityResultV2: API.OperationMethod<
   PublishDataQualityResultV2Error,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7586, __c237, 2) as any as S.Schema<PublishDataQualityResultV2Request>,
-  output: __S(7587, __c237, 3) as any as S.Schema<PublishDataQualityResultV2Response>,
+  input: __S(7746, __c242, 2) as any as S.Schema<PublishDataQualityResultV2Request>,
+  output: __S(7747, __c242, 3) as any as S.Schema<PublishDataQualityResultV2Response>,
   errors: [
     IdempotentParameterMismatchException,
     InternalServiceException,
@@ -15698,8 +16007,8 @@ export const putAsset: API.OperationMethod<
   PutAssetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7616, __c238, 0) as any as S.Schema<PutAssetRequest>,
-  output: __S(7617, __c238, 1) as any as S.Schema<PutAssetResponse>,
+  input: __S(7776, __c243, 0) as any as S.Schema<PutAssetRequest>,
+  output: __S(7777, __c243, 1) as any as S.Schema<PutAssetResponse>,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -15732,8 +16041,8 @@ export const putAssetType: API.OperationMethod<
   PutAssetTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7648, __c239, 0) as any as S.Schema<PutAssetTypeRequest>,
-  output: __S(2370, __c74, 2) as any as S.Schema<PutAssetTypeResponse>,
+  input: __S(7808, __c244, 0) as any as S.Schema<PutAssetTypeRequest>,
+  output: __S(2434, __c76, 2) as any as S.Schema<PutAssetTypeResponse>,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -15766,8 +16075,8 @@ export const putAttachment: API.OperationMethod<
   PutAttachmentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7680, __c240, 0) as any as S.Schema<PutAttachmentRequest>,
-  output: __S(7681, __c240, 1) as any as S.Schema<PutAttachmentResponse>,
+  input: __S(7840, __c245, 0) as any as S.Schema<PutAttachmentRequest>,
+  output: __S(7841, __c245, 1) as any as S.Schema<PutAttachmentResponse>,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -15801,8 +16110,8 @@ export const putDataCatalogEncryptionSettings: API.OperationMethod<
   PutDataCatalogEncryptionSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7712, __c241, 0) as any as S.Schema<PutDataCatalogEncryptionSettingsRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<PutDataCatalogEncryptionSettingsResponse>,
+  input: __S(7872, __c246, 0) as any as S.Schema<PutDataCatalogEncryptionSettingsRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<PutDataCatalogEncryptionSettingsResponse>,
   errors: [InternalServiceException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -15827,8 +16136,8 @@ export const putDataCatalogExportConfiguration: API.OperationMethod<
   PutDataCatalogExportConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7744, __c242, 0) as any as S.Schema<PutDataCatalogExportConfigurationInput>,
-  output: __S(7745, __c242, 1) as any as S.Schema<PutDataCatalogExportConfigurationOutput>,
+  input: __S(7904, __c247, 0) as any as S.Schema<PutDataCatalogExportConfigurationInput>,
+  output: __S(7905, __c247, 1) as any as S.Schema<PutDataCatalogExportConfigurationOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -15860,8 +16169,8 @@ export const putDataQualityProfileAnnotation: API.OperationMethod<
   PutDataQualityProfileAnnotationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7776, __c243, 0) as any as S.Schema<PutDataQualityProfileAnnotationRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<PutDataQualityProfileAnnotationResponse>,
+  input: __S(7936, __c248, 0) as any as S.Schema<PutDataQualityProfileAnnotationRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<PutDataQualityProfileAnnotationResponse>,
   errors: [EntityNotFoundException, InternalServiceException, InvalidInputException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -15886,8 +16195,8 @@ export const putFormType: API.OperationMethod<
   PutFormTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7808, __c244, 0) as any as S.Schema<PutFormTypeRequest>,
-  output: __S(3904, __c122, 0) as any as S.Schema<PutFormTypeResponse>,
+  input: __S(7968, __c249, 0) as any as S.Schema<PutFormTypeRequest>,
+  output: __S(4032, __c126, 0) as any as S.Schema<PutFormTypeResponse>,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -15918,8 +16227,8 @@ export const putResourcePolicy: API.OperationMethod<
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7840, __c245, 0) as any as S.Schema<PutResourcePolicyRequest>,
-  output: __S(7841, __c245, 1) as any as S.Schema<PutResourcePolicyResponse>,
+  input: __S(8000, __c250, 0) as any as S.Schema<PutResourcePolicyRequest>,
+  output: __S(8001, __c250, 1) as any as S.Schema<PutResourcePolicyResponse>,
   errors: [
     ConditionCheckFailureException,
     EntityNotFoundException,
@@ -15950,8 +16259,8 @@ export const putSchemaVersionMetadata: API.OperationMethod<
   PutSchemaVersionMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7872, __c246, 0) as any as S.Schema<PutSchemaVersionMetadataInput>,
-  output: __S(7936, __c248, 0) as any as S.Schema<PutSchemaVersionMetadataResponse>,
+  input: __S(8032, __c251, 0) as any as S.Schema<PutSchemaVersionMetadataInput>,
+  output: __S(8096, __c253, 0) as any as S.Schema<PutSchemaVersionMetadataResponse>,
   errors: [
     AccessDeniedException,
     AlreadyExistsException,
@@ -15984,8 +16293,8 @@ export const putWorkflowRunProperties: API.OperationMethod<
   PutWorkflowRunPropertiesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7968, __c249, 0) as any as S.Schema<PutWorkflowRunPropertiesRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<PutWorkflowRunPropertiesResponse>,
+  input: __S(8128, __c254, 0) as any as S.Schema<PutWorkflowRunPropertiesRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<PutWorkflowRunPropertiesResponse>,
   errors: [
     AlreadyExistsException,
     ConcurrentModificationException,
@@ -16016,8 +16325,8 @@ export const querySchemaVersionMetadata: API.OperationMethod<
   QuerySchemaVersionMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8001, __c250, 1) as any as S.Schema<QuerySchemaVersionMetadataInput>,
-  output: __S(8006, __c250, 6) as any as S.Schema<QuerySchemaVersionMetadataResponse>,
+  input: __S(8161, __c255, 1) as any as S.Schema<QuerySchemaVersionMetadataInput>,
+  output: __S(8166, __c255, 6) as any as S.Schema<QuerySchemaVersionMetadataResponse>,
   errors: [AccessDeniedException, EntityNotFoundException, InvalidInputException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -16047,8 +16356,8 @@ export const registerConnectionType: API.OperationMethod<
   RegisterConnectionTypeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8040, __c251, 8) as any as S.Schema<RegisterConnectionTypeRequest>,
-  output: __S(8041, __c251, 9) as any as S.Schema<RegisterConnectionTypeResponse>,
+  input: __S(8200, __c256, 8) as any as S.Schema<RegisterConnectionTypeRequest>,
+  output: __S(8201, __c256, 9) as any as S.Schema<RegisterConnectionTypeResponse>,
   errors: [
     AccessDeniedException,
     InternalServiceException,
@@ -16085,8 +16394,8 @@ export const registerSchemaVersion: API.OperationMethod<
   RegisterSchemaVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8064, __c252, 0) as any as S.Schema<RegisterSchemaVersionInput>,
-  output: __S(8065, __c252, 1) as any as S.Schema<RegisterSchemaVersionResponse>,
+  input: __S(8224, __c257, 0) as any as S.Schema<RegisterSchemaVersionInput>,
+  output: __S(8225, __c257, 1) as any as S.Schema<RegisterSchemaVersionResponse>,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -16116,8 +16425,8 @@ export const removeSchemaVersionMetadata: API.OperationMethod<
   RemoveSchemaVersionMetadataError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8096, __c253, 0) as any as S.Schema<RemoveSchemaVersionMetadataInput>,
-  output: __S(7936, __c248, 0) as any as S.Schema<RemoveSchemaVersionMetadataResponse>,
+  input: __S(8256, __c258, 0) as any as S.Schema<RemoveSchemaVersionMetadataInput>,
+  output: __S(8096, __c253, 0) as any as S.Schema<RemoveSchemaVersionMetadataResponse>,
   errors: [AccessDeniedException, EntityNotFoundException, InvalidInputException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -16149,8 +16458,8 @@ export const resetJobBookmark: API.OperationMethod<
   ResetJobBookmarkError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8128, __c254, 0) as any as S.Schema<ResetJobBookmarkRequest>,
-  output: __S(4193, __c131, 1) as any as S.Schema<ResetJobBookmarkResponse>,
+  input: __S(8288, __c259, 0) as any as S.Schema<ResetJobBookmarkRequest>,
+  output: __S(4321, __c135, 1) as any as S.Schema<ResetJobBookmarkResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -16181,8 +16490,8 @@ export const resumeWorkflowRun: API.OperationMethod<
   ResumeWorkflowRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8160, __c255, 0) as any as S.Schema<ResumeWorkflowRunRequest>,
-  output: __S(8161, __c255, 1) as any as S.Schema<ResumeWorkflowRunResponse>,
+  input: __S(8320, __c260, 0) as any as S.Schema<ResumeWorkflowRunRequest>,
+  output: __S(8321, __c260, 1) as any as S.Schema<ResumeWorkflowRunResponse>,
   errors: [
     ConcurrentRunsExceededException,
     EntityNotFoundException,
@@ -16219,8 +16528,8 @@ export const runStatement: API.OperationMethod<
   RunStatementError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8192, __c256, 0) as any as S.Schema<RunStatementRequest>,
-  output: __S(8193, __c256, 1) as any as S.Schema<RunStatementResponse>,
+  input: __S(8352, __c261, 0) as any as S.Schema<RunStatementRequest>,
+  output: __S(8353, __c261, 1) as any as S.Schema<RunStatementResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -16256,8 +16565,8 @@ export const searchAssets: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SearchResultItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(8231, __c257, 7) as any as S.Schema<SearchAssetsInput>,
-  output: __S(8234, __c257, 10) as any as S.Schema<SearchAssetsOutput>,
+  input: __S(8391, __c262, 7) as any as S.Schema<SearchAssetsInput>,
+  output: __S(8394, __c262, 10) as any as S.Schema<SearchAssetsOutput>,
   errors: [
     AccessDeniedException,
     InternalServiceException,
@@ -16294,8 +16603,8 @@ export const searchTables: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(8260, __c258, 4) as any as S.Schema<SearchTablesRequest>,
-  output: __S(8261, __c258, 5) as any as S.Schema<SearchTablesResponse>,
+  input: __S(8420, __c263, 4) as any as S.Schema<SearchTablesRequest>,
+  output: __S(8421, __c263, 5) as any as S.Schema<SearchTablesResponse>,
   errors: [InternalServiceException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -16326,8 +16635,8 @@ export const startBlueprintRun: API.OperationMethod<
   StartBlueprintRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8288, __c259, 0) as any as S.Schema<StartBlueprintRunRequest>,
-  output: __S(8320, __c260, 0) as any as S.Schema<StartBlueprintRunResponse>,
+  input: __S(8448, __c264, 0) as any as S.Schema<StartBlueprintRunRequest>,
+  output: __S(8480, __c265, 0) as any as S.Schema<StartBlueprintRunResponse>,
   errors: [
     EntityNotFoundException,
     IllegalBlueprintStateException,
@@ -16360,8 +16669,8 @@ export const startColumnStatisticsTaskRun: API.OperationMethod<
   StartColumnStatisticsTaskRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8352, __c261, 0) as any as S.Schema<StartColumnStatisticsTaskRunRequest>,
-  output: __S(8353, __c261, 1) as any as S.Schema<StartColumnStatisticsTaskRunResponse>,
+  input: __S(8512, __c266, 0) as any as S.Schema<StartColumnStatisticsTaskRunRequest>,
+  output: __S(8513, __c266, 1) as any as S.Schema<StartColumnStatisticsTaskRunResponse>,
   errors: [
     AccessDeniedException,
     ColumnStatisticsTaskRunningException,
@@ -16392,8 +16701,8 @@ export const startColumnStatisticsTaskRunSchedule: API.OperationMethod<
   StartColumnStatisticsTaskRunScheduleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8384, __c262, 0) as any as S.Schema<StartColumnStatisticsTaskRunScheduleRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<StartColumnStatisticsTaskRunScheduleResponse>,
+  input: __S(8544, __c267, 0) as any as S.Schema<StartColumnStatisticsTaskRunScheduleRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<StartColumnStatisticsTaskRunScheduleResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -16423,8 +16732,8 @@ export const startCrawler: API.OperationMethod<
   StartCrawlerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8416, __c263, 0) as any as S.Schema<StartCrawlerRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<StartCrawlerResponse>,
+  input: __S(8576, __c268, 0) as any as S.Schema<StartCrawlerRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<StartCrawlerResponse>,
   errors: [CrawlerRunningException, EntityNotFoundException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -16451,8 +16760,8 @@ export const startCrawlerSchedule: API.OperationMethod<
   StartCrawlerScheduleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8448, __c264, 0) as any as S.Schema<StartCrawlerScheduleRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<StartCrawlerScheduleResponse>,
+  input: __S(8608, __c269, 0) as any as S.Schema<StartCrawlerScheduleRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<StartCrawlerScheduleResponse>,
   errors: [
     EntityNotFoundException,
     NoScheduleException,
@@ -16484,8 +16793,8 @@ export const startDataQualityRuleRecommendationRun: API.OperationMethod<
   StartDataQualityRuleRecommendationRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8480, __c265, 0) as any as S.Schema<StartDataQualityRuleRecommendationRunRequest>,
-  output: __S(8320, __c260, 0) as any as S.Schema<StartDataQualityRuleRecommendationRunResponse>,
+  input: __S(8640, __c270, 0) as any as S.Schema<StartDataQualityRuleRecommendationRunRequest>,
+  output: __S(8480, __c265, 0) as any as S.Schema<StartDataQualityRuleRecommendationRunResponse>,
   errors: [
     ConflictException,
     InternalServiceException,
@@ -16515,8 +16824,8 @@ export const startDataQualityRulesetEvaluationRun: API.OperationMethod<
   StartDataQualityRulesetEvaluationRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8512, __c266, 0) as any as S.Schema<StartDataQualityRulesetEvaluationRunRequest>,
-  output: __S(8320, __c260, 0) as any as S.Schema<StartDataQualityRulesetEvaluationRunResponse>,
+  input: __S(8672, __c271, 0) as any as S.Schema<StartDataQualityRulesetEvaluationRunRequest>,
+  output: __S(8480, __c265, 0) as any as S.Schema<StartDataQualityRulesetEvaluationRunResponse>,
   errors: [
     ConflictException,
     EntityNotFoundException,
@@ -16554,8 +16863,8 @@ export const startExportLabelsTaskRun: API.OperationMethod<
   StartExportLabelsTaskRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8544, __c267, 0) as any as S.Schema<StartExportLabelsTaskRunRequest>,
-  output: __S(8576, __c268, 0) as any as S.Schema<StartExportLabelsTaskRunResponse>,
+  input: __S(8704, __c272, 0) as any as S.Schema<StartExportLabelsTaskRunRequest>,
+  output: __S(8736, __c273, 0) as any as S.Schema<StartExportLabelsTaskRunResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -16609,8 +16918,8 @@ export const startImportLabelsTaskRun: API.OperationMethod<
   StartImportLabelsTaskRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8608, __c269, 0) as any as S.Schema<StartImportLabelsTaskRunRequest>,
-  output: __S(8576, __c268, 0) as any as S.Schema<StartImportLabelsTaskRunResponse>,
+  input: __S(8768, __c274, 0) as any as S.Schema<StartImportLabelsTaskRunRequest>,
+  output: __S(8736, __c273, 0) as any as S.Schema<StartImportLabelsTaskRunResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -16643,8 +16952,8 @@ export const startJobRun: API.OperationMethod<
   StartJobRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8640, __c270, 0) as any as S.Schema<StartJobRunRequest>,
-  output: __S(8641, __c270, 1) as any as S.Schema<StartJobRunResponse>,
+  input: __S(8800, __c275, 0) as any as S.Schema<StartJobRunRequest>,
+  output: __S(8801, __c275, 1) as any as S.Schema<StartJobRunResponse>,
   errors: [
     ConcurrentRunsExceededException,
     EntityNotFoundException,
@@ -16679,8 +16988,8 @@ export const startJobUpgradeAnalysis: API.OperationMethod<
   StartJobUpgradeAnalysisError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8672, __c271, 0) as any as S.Schema<StartJobUpgradeAnalysisRequest>,
-  output: __S(8673, __c271, 1) as any as S.Schema<StartJobUpgradeAnalysisResponse>,
+  input: __S(8832, __c276, 0) as any as S.Schema<StartJobUpgradeAnalysisRequest>,
+  output: __S(8833, __c276, 1) as any as S.Schema<StartJobUpgradeAnalysisResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -16714,8 +17023,8 @@ export const startMaterializedViewRefreshTaskRun: API.OperationMethod<
   StartMaterializedViewRefreshTaskRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8704, __c272, 0) as any as S.Schema<StartMaterializedViewRefreshTaskRunRequest>,
-  output: __S(8705, __c272, 1) as any as S.Schema<StartMaterializedViewRefreshTaskRunResponse>,
+  input: __S(8864, __c277, 0) as any as S.Schema<StartMaterializedViewRefreshTaskRunRequest>,
+  output: __S(8865, __c277, 1) as any as S.Schema<StartMaterializedViewRefreshTaskRunResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -16755,8 +17064,8 @@ export const startMLEvaluationTaskRun: API.OperationMethod<
   StartMLEvaluationTaskRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8736, __c273, 0) as any as S.Schema<StartMLEvaluationTaskRunRequest>,
-  output: __S(8576, __c268, 0) as any as S.Schema<StartMLEvaluationTaskRunResponse>,
+  input: __S(8896, __c278, 0) as any as S.Schema<StartMLEvaluationTaskRunRequest>,
+  output: __S(8736, __c273, 0) as any as S.Schema<StartMLEvaluationTaskRunResponse>,
   errors: [
     ConcurrentRunsExceededException,
     EntityNotFoundException,
@@ -16804,8 +17113,8 @@ export const startMLLabelingSetGenerationTaskRun: API.OperationMethod<
   StartMLLabelingSetGenerationTaskRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8768, __c274, 0) as any as S.Schema<StartMLLabelingSetGenerationTaskRunRequest>,
-  output: __S(8576, __c268, 0) as any as S.Schema<StartMLLabelingSetGenerationTaskRunResponse>,
+  input: __S(8928, __c279, 0) as any as S.Schema<StartMLLabelingSetGenerationTaskRunRequest>,
+  output: __S(8736, __c273, 0) as any as S.Schema<StartMLLabelingSetGenerationTaskRunResponse>,
   errors: [
     ConcurrentRunsExceededException,
     EntityNotFoundException,
@@ -16839,8 +17148,8 @@ export const startTrigger: API.OperationMethod<
   StartTriggerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8800, __c275, 0) as any as S.Schema<StartTriggerRequest>,
-  output: __S(12832, __c401, 0) as any as S.Schema<StartTriggerResponse>,
+  input: __S(8960, __c280, 0) as any as S.Schema<StartTriggerRequest>,
+  output: __S(13056, __c408, 0) as any as S.Schema<StartTriggerResponse>,
   errors: [
     ConcurrentRunsExceededException,
     EntityNotFoundException,
@@ -16873,8 +17182,8 @@ export const startWorkflowRun: API.OperationMethod<
   StartWorkflowRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8832, __c276, 0) as any as S.Schema<StartWorkflowRunRequest>,
-  output: __S(8320, __c260, 0) as any as S.Schema<StartWorkflowRunResponse>,
+  input: __S(8992, __c281, 0) as any as S.Schema<StartWorkflowRunRequest>,
+  output: __S(8480, __c265, 0) as any as S.Schema<StartWorkflowRunResponse>,
   errors: [
     ConcurrentRunsExceededException,
     EntityNotFoundException,
@@ -16905,8 +17214,8 @@ export const stopColumnStatisticsTaskRun: API.OperationMethod<
   StopColumnStatisticsTaskRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8864, __c277, 0) as any as S.Schema<StopColumnStatisticsTaskRunRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<StopColumnStatisticsTaskRunResponse>,
+  input: __S(9024, __c282, 0) as any as S.Schema<StopColumnStatisticsTaskRunRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<StopColumnStatisticsTaskRunResponse>,
   errors: [
     ColumnStatisticsTaskNotRunningException,
     ColumnStatisticsTaskStoppingException,
@@ -16934,8 +17243,8 @@ export const stopColumnStatisticsTaskRunSchedule: API.OperationMethod<
   StopColumnStatisticsTaskRunScheduleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8896, __c278, 0) as any as S.Schema<StopColumnStatisticsTaskRunScheduleRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<StopColumnStatisticsTaskRunScheduleResponse>,
+  input: __S(9056, __c283, 0) as any as S.Schema<StopColumnStatisticsTaskRunScheduleRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<StopColumnStatisticsTaskRunScheduleResponse>,
   errors: [EntityNotFoundException, InvalidInputException, OperationTimeoutException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -16959,8 +17268,8 @@ export const stopCrawler: API.OperationMethod<
   StopCrawlerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8928, __c279, 0) as any as S.Schema<StopCrawlerRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<StopCrawlerResponse>,
+  input: __S(9088, __c284, 0) as any as S.Schema<StopCrawlerRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<StopCrawlerResponse>,
   errors: [
     CrawlerNotRunningException,
     CrawlerStoppingException,
@@ -16991,8 +17300,8 @@ export const stopCrawlerSchedule: API.OperationMethod<
   StopCrawlerScheduleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8960, __c280, 0) as any as S.Schema<StopCrawlerScheduleRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<StopCrawlerScheduleResponse>,
+  input: __S(9120, __c285, 0) as any as S.Schema<StopCrawlerScheduleRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<StopCrawlerScheduleResponse>,
   errors: [
     EntityNotFoundException,
     OperationTimeoutException,
@@ -17023,8 +17332,8 @@ export const stopJobUpgradeAnalysis: API.OperationMethod<
   StopJobUpgradeAnalysisError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8992, __c281, 0) as any as S.Schema<StopJobUpgradeAnalysisRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<StopJobUpgradeAnalysisResponse>,
+  input: __S(9152, __c286, 0) as any as S.Schema<StopJobUpgradeAnalysisRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<StopJobUpgradeAnalysisResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -17056,8 +17365,8 @@ export const stopMaterializedViewRefreshTaskRun: API.OperationMethod<
   StopMaterializedViewRefreshTaskRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9024, __c282, 0) as any as S.Schema<StopMaterializedViewRefreshTaskRunRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<StopMaterializedViewRefreshTaskRunResponse>,
+  input: __S(9184, __c287, 0) as any as S.Schema<StopMaterializedViewRefreshTaskRunRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<StopMaterializedViewRefreshTaskRunResponse>,
   errors: [
     AccessDeniedException,
     InvalidInputException,
@@ -17089,8 +17398,8 @@ export const stopSession: API.OperationMethod<
   StopSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9056, __c283, 0) as any as S.Schema<StopSessionRequest>,
-  output: __S(1792, __c56, 0) as any as S.Schema<StopSessionResponse>,
+  input: __S(9216, __c288, 0) as any as S.Schema<StopSessionRequest>,
+  output: __S(1856, __c58, 0) as any as S.Schema<StopSessionResponse>,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -17122,8 +17431,8 @@ export const stopTrigger: API.OperationMethod<
   StopTriggerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9088, __c284, 0) as any as S.Schema<StopTriggerRequest>,
-  output: __S(12832, __c401, 0) as any as S.Schema<StopTriggerResponse>,
+  input: __S(9248, __c289, 0) as any as S.Schema<StopTriggerRequest>,
+  output: __S(13056, __c408, 0) as any as S.Schema<StopTriggerResponse>,
   errors: [
     ConcurrentModificationException,
     EntityNotFoundException,
@@ -17154,8 +17463,8 @@ export const stopWorkflowRun: API.OperationMethod<
   StopWorkflowRunError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9120, __c285, 0) as any as S.Schema<StopWorkflowRunRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<StopWorkflowRunResponse>,
+  input: __S(9280, __c290, 0) as any as S.Schema<StopWorkflowRunRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<StopWorkflowRunResponse>,
   errors: [
     EntityNotFoundException,
     IllegalWorkflowStateException,
@@ -17187,8 +17496,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9152, __c286, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<TagResourceResponse>,
+  input: __S(9312, __c291, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -17226,8 +17535,8 @@ export const testConnection: API.OperationMethod<
   TestConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9185, __c287, 1) as any as S.Schema<TestConnectionRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<TestConnectionResponse>,
+  input: __S(9345, __c292, 1) as any as S.Schema<TestConnectionRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<TestConnectionResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -17261,8 +17570,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9216, __c288, 0) as any as S.Schema<UntagResourceRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<UntagResourceResponse>,
+  input: __S(9376, __c293, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -17293,8 +17602,8 @@ export const updateAsset: API.OperationMethod<
   UpdateAssetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9248, __c289, 0) as any as S.Schema<UpdateAssetRequest>,
-  output: __S(9249, __c289, 1) as any as S.Schema<UpdateAssetResponse>,
+  input: __S(9408, __c294, 0) as any as S.Schema<UpdateAssetRequest>,
+  output: __S(9409, __c294, 1) as any as S.Schema<UpdateAssetResponse>,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -17327,8 +17636,8 @@ export const updateBlueprint: API.OperationMethod<
   UpdateBlueprintError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9280, __c290, 0) as any as S.Schema<UpdateBlueprintRequest>,
-  output: __S(12832, __c401, 0) as any as S.Schema<UpdateBlueprintResponse>,
+  input: __S(9440, __c295, 0) as any as S.Schema<UpdateBlueprintRequest>,
+  output: __S(13056, __c408, 0) as any as S.Schema<UpdateBlueprintResponse>,
   errors: [
     ConcurrentModificationException,
     EntityNotFoundException,
@@ -17363,8 +17672,8 @@ export const updateCatalog: API.OperationMethod<
   UpdateCatalogError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9312, __c291, 0) as any as S.Schema<UpdateCatalogRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<UpdateCatalogResponse>,
+  input: __S(9472, __c296, 0) as any as S.Schema<UpdateCatalogRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<UpdateCatalogResponse>,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -17399,8 +17708,8 @@ export const updateClassifier: API.OperationMethod<
   UpdateClassifierError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9347, __c292, 3) as any as S.Schema<UpdateClassifierRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<UpdateClassifierResponse>,
+  input: __S(9507, __c297, 3) as any as S.Schema<UpdateClassifierRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<UpdateClassifierResponse>,
   errors: [
     EntityNotFoundException,
     InvalidInputException,
@@ -17432,8 +17741,8 @@ export const updateColumnStatisticsForPartition: API.OperationMethod<
   UpdateColumnStatisticsForPartitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9376, __c293, 0) as any as S.Schema<UpdateColumnStatisticsForPartitionRequest>,
-  output: __S(9410, __c294, 2) as any as S.Schema<UpdateColumnStatisticsForPartitionResponse>,
+  input: __S(9536, __c298, 0) as any as S.Schema<UpdateColumnStatisticsForPartitionRequest>,
+  output: __S(9570, __c299, 2) as any as S.Schema<UpdateColumnStatisticsForPartitionResponse>,
   errors: [
     EntityNotFoundException,
     GlueEncryptionException,
@@ -17466,8 +17775,8 @@ export const updateColumnStatisticsForTable: API.OperationMethod<
   UpdateColumnStatisticsForTableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9440, __c295, 0) as any as S.Schema<UpdateColumnStatisticsForTableRequest>,
-  output: __S(9410, __c294, 2) as any as S.Schema<UpdateColumnStatisticsForTableResponse>,
+  input: __S(9600, __c300, 0) as any as S.Schema<UpdateColumnStatisticsForTableRequest>,
+  output: __S(9570, __c299, 2) as any as S.Schema<UpdateColumnStatisticsForTableResponse>,
   errors: [
     EntityNotFoundException,
     GlueEncryptionException,
@@ -17498,8 +17807,8 @@ export const updateColumnStatisticsTaskSettings: API.OperationMethod<
   UpdateColumnStatisticsTaskSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9472, __c296, 0) as any as S.Schema<UpdateColumnStatisticsTaskSettingsRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<UpdateColumnStatisticsTaskSettingsResponse>,
+  input: __S(9632, __c301, 0) as any as S.Schema<UpdateColumnStatisticsTaskSettingsRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<UpdateColumnStatisticsTaskSettingsResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -17529,8 +17838,8 @@ export const updateConnection: API.OperationMethod<
   UpdateConnectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9504, __c297, 0) as any as S.Schema<UpdateConnectionRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<UpdateConnectionResponse>,
+  input: __S(9664, __c302, 0) as any as S.Schema<UpdateConnectionRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<UpdateConnectionResponse>,
   errors: [
     EntityNotFoundException,
     GlueEncryptionException,
@@ -17564,8 +17873,8 @@ export const updateCrawler: API.OperationMethod<
   UpdateCrawlerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9536, __c298, 0) as any as S.Schema<UpdateCrawlerRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<UpdateCrawlerResponse>,
+  input: __S(9696, __c303, 0) as any as S.Schema<UpdateCrawlerRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<UpdateCrawlerResponse>,
   errors: [
     CrawlerRunningException,
     EntityNotFoundException,
@@ -17598,8 +17907,8 @@ export const updateCrawlerSchedule: API.OperationMethod<
   UpdateCrawlerScheduleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9568, __c299, 0) as any as S.Schema<UpdateCrawlerScheduleRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<UpdateCrawlerScheduleResponse>,
+  input: __S(9728, __c304, 0) as any as S.Schema<UpdateCrawlerScheduleRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<UpdateCrawlerScheduleResponse>,
   errors: [
     EntityNotFoundException,
     InvalidInputException,
@@ -17634,8 +17943,8 @@ export const updateDatabase: API.OperationMethod<
   UpdateDatabaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9600, __c300, 0) as any as S.Schema<UpdateDatabaseRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<UpdateDatabaseResponse>,
+  input: __S(9760, __c305, 0) as any as S.Schema<UpdateDatabaseRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<UpdateDatabaseResponse>,
   errors: [
     AlreadyExistsException,
     ConcurrentModificationException,
@@ -17652,6 +17961,40 @@ export const updateDatabase: API.OperationMethod<
   operationName: "UpdateDatabase",
   telemetry: TELEMETRY,
   span: "UpdateDatabase",
+}));
+
+export type UpdateDataQualityEvaluationConfigError =
+  | AccessDeniedException
+  | ConcurrentModificationException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors;
+/**
+ * Updates a data quality evaluation configuration. Fields that you don't specify keep their current values.
+ */
+export const updateDataQualityEvaluationConfig: API.OperationMethod<
+  UpdateDataQualityEvaluationConfigRequest & RegionInput,
+  UpdateDataQualityEvaluationConfigResponse,
+  UpdateDataQualityEvaluationConfigError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(9792, __c306, 0) as any as S.Schema<UpdateDataQualityEvaluationConfigRequest>,
+  output: __S(3616, __c113, 0) as any as S.Schema<UpdateDataQualityEvaluationConfigResponse>,
+  errors: [
+    AccessDeniedException,
+    ConcurrentModificationException,
+    EntityNotFoundException,
+    InternalServiceException,
+    InvalidInputException,
+    OperationTimeoutException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateDataQualityEvaluationConfig",
+  telemetry: TELEMETRY,
+  span: "UpdateDataQualityEvaluationConfig",
 }));
 
 export type UpdateDataQualityRulesetError =
@@ -17672,8 +18015,8 @@ export const updateDataQualityRuleset: API.OperationMethod<
   UpdateDataQualityRulesetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9632, __c301, 0) as any as S.Schema<UpdateDataQualityRulesetRequest>,
-  output: __S(9633, __c301, 1) as any as S.Schema<UpdateDataQualityRulesetResponse>,
+  input: __S(9824, __c307, 0) as any as S.Schema<UpdateDataQualityRulesetRequest>,
+  output: __S(9825, __c307, 1) as any as S.Schema<UpdateDataQualityRulesetResponse>,
   errors: [
     AlreadyExistsException,
     EntityNotFoundException,
@@ -17706,8 +18049,8 @@ export const updateDevEndpoint: API.OperationMethod<
   UpdateDevEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9665, __c302, 1) as any as S.Schema<UpdateDevEndpointRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<UpdateDevEndpointResponse>,
+  input: __S(9857, __c308, 1) as any as S.Schema<UpdateDevEndpointRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<UpdateDevEndpointResponse>,
   errors: [
     EntityNotFoundException,
     InternalServiceException,
@@ -17740,8 +18083,8 @@ export const updateGlossary: API.OperationMethod<
   UpdateGlossaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9696, __c303, 0) as any as S.Schema<UpdateGlossaryRequest>,
-  output: __S(13536, __c423, 0) as any as S.Schema<UpdateGlossaryResponse>,
+  input: __S(9888, __c309, 0) as any as S.Schema<UpdateGlossaryRequest>,
+  output: __S(13824, __c432, 0) as any as S.Schema<UpdateGlossaryResponse>,
   errors: [
     AccessDeniedException,
     AlreadyExistsException,
@@ -17776,8 +18119,8 @@ export const updateGlossaryTerm: API.OperationMethod<
   UpdateGlossaryTermError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9728, __c304, 0) as any as S.Schema<UpdateGlossaryTermRequest>,
-  output: __S(13600, __c425, 0) as any as S.Schema<UpdateGlossaryTermResponse>,
+  input: __S(9920, __c310, 0) as any as S.Schema<UpdateGlossaryTermRequest>,
+  output: __S(13888, __c434, 0) as any as S.Schema<UpdateGlossaryTermResponse>,
   errors: [
     AccessDeniedException,
     AlreadyExistsException,
@@ -17814,8 +18157,8 @@ export const updateGlueIdentityCenterConfiguration: API.OperationMethod<
   UpdateGlueIdentityCenterConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9760, __c305, 0) as any as S.Schema<UpdateGlueIdentityCenterConfigurationRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<UpdateGlueIdentityCenterConfigurationResponse>,
+  input: __S(9952, __c311, 0) as any as S.Schema<UpdateGlueIdentityCenterConfigurationRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<UpdateGlueIdentityCenterConfigurationResponse>,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -17849,8 +18192,8 @@ export const updateIntegrationResourceProperty: API.OperationMethod<
   UpdateIntegrationResourcePropertyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9792, __c306, 0) as any as S.Schema<UpdateIntegrationResourcePropertyRequest>,
-  output: __S(4064, __c127, 0) as any as S.Schema<UpdateIntegrationResourcePropertyResponse>,
+  input: __S(9984, __c312, 0) as any as S.Schema<UpdateIntegrationResourcePropertyRequest>,
+  output: __S(4192, __c131, 0) as any as S.Schema<UpdateIntegrationResourcePropertyResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -17887,8 +18230,8 @@ export const updateIntegrationTableProperties: API.OperationMethod<
   UpdateIntegrationTablePropertiesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9824, __c307, 0) as any as S.Schema<UpdateIntegrationTablePropertiesRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<UpdateIntegrationTablePropertiesResponse>,
+  input: __S(10016, __c313, 0) as any as S.Schema<UpdateIntegrationTablePropertiesRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<UpdateIntegrationTablePropertiesResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -17922,8 +18265,8 @@ export const updateJob: API.OperationMethod<
   UpdateJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9857, __c308, 1) as any as S.Schema<UpdateJobRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<UpdateJobResponse>,
+  input: __S(10049, __c314, 1) as any as S.Schema<UpdateJobRequest>,
+  output: __S(1536, __c48, 0) as any as S.Schema<UpdateJobResponse>,
   errors: [
     ConcurrentModificationException,
     EntityNotFoundException,
@@ -17959,8 +18302,8 @@ export const updateJobFromSourceControl: API.OperationMethod<
   UpdateJobFromSourceControlError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9888, __c309, 0) as any as S.Schema<UpdateJobFromSourceControlRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<UpdateJobFromSourceControlResponse>,
+  input: __S(10080, __c315, 0) as any as S.Schema<UpdateJobFromSourceControlRequest>,
+  output: __S(1536, __c48, 0) as any as S.Schema<UpdateJobFromSourceControlResponse>,
   errors: [
     AccessDeniedException,
     AlreadyExistsException,
@@ -17997,8 +18340,8 @@ export const updateMLTransform: API.OperationMethod<
   UpdateMLTransformError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9920, __c310, 0) as any as S.Schema<UpdateMLTransformRequest>,
-  output: __S(14048, __c439, 0) as any as S.Schema<UpdateMLTransformResponse>,
+  input: __S(10112, __c316, 0) as any as S.Schema<UpdateMLTransformRequest>,
+  output: __S(14336, __c448, 0) as any as S.Schema<UpdateMLTransformResponse>,
   errors: [
     AccessDeniedException,
     EntityNotFoundException,
@@ -18029,8 +18372,8 @@ export const updatePartition: API.OperationMethod<
   UpdatePartitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9952, __c311, 0) as any as S.Schema<UpdatePartitionRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<UpdatePartitionResponse>,
+  input: __S(10144, __c317, 0) as any as S.Schema<UpdatePartitionRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<UpdatePartitionResponse>,
   errors: [
     EntityNotFoundException,
     GlueEncryptionException,
@@ -18061,8 +18404,8 @@ export const updateRegistry: API.OperationMethod<
   UpdateRegistryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9984, __c312, 0) as any as S.Schema<UpdateRegistryInput>,
-  output: __S(32, __c1, 0) as any as S.Schema<UpdateRegistryResponse>,
+  input: __S(10176, __c318, 0) as any as S.Schema<UpdateRegistryInput>,
+  output: __S(64, __c2, 0) as any as S.Schema<UpdateRegistryResponse>,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -18099,8 +18442,8 @@ export const updateSchema: API.OperationMethod<
   UpdateSchemaError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10016, __c313, 0) as any as S.Schema<UpdateSchemaInput>,
-  output: __S(10496, __c328, 0) as any as S.Schema<UpdateSchemaResponse>,
+  input: __S(10208, __c319, 0) as any as S.Schema<UpdateSchemaInput>,
+  output: __S(10688, __c334, 0) as any as S.Schema<UpdateSchemaResponse>,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -18135,8 +18478,8 @@ export const updateSourceControlFromJob: API.OperationMethod<
   UpdateSourceControlFromJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10048, __c314, 0) as any as S.Schema<UpdateSourceControlFromJobRequest>,
-  output: __S(1472, __c46, 0) as any as S.Schema<UpdateSourceControlFromJobResponse>,
+  input: __S(10240, __c320, 0) as any as S.Schema<UpdateSourceControlFromJobRequest>,
+  output: __S(1536, __c48, 0) as any as S.Schema<UpdateSourceControlFromJobResponse>,
   errors: [
     AccessDeniedException,
     AlreadyExistsException,
@@ -18175,8 +18518,8 @@ export const updateTable: API.OperationMethod<
   UpdateTableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10086, __c315, 6) as any as S.Schema<UpdateTableRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<UpdateTableResponse>,
+  input: __S(10278, __c321, 6) as any as S.Schema<UpdateTableRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<UpdateTableResponse>,
   errors: [
     AlreadyExistsException,
     ConcurrentModificationException,
@@ -18215,8 +18558,8 @@ export const updateTableOptimizer: API.OperationMethod<
   UpdateTableOptimizerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10112, __c316, 0) as any as S.Schema<UpdateTableOptimizerRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<UpdateTableOptimizerResponse>,
+  input: __S(10304, __c322, 0) as any as S.Schema<UpdateTableOptimizerRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<UpdateTableOptimizerResponse>,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
@@ -18251,8 +18594,8 @@ export const updateTrigger: API.OperationMethod<
   UpdateTriggerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10145, __c317, 1) as any as S.Schema<UpdateTriggerRequest>,
-  output: __S(12416, __c388, 0) as any as S.Schema<UpdateTriggerResponse>,
+  input: __S(10337, __c323, 1) as any as S.Schema<UpdateTriggerRequest>,
+  output: __S(12640, __c395, 0) as any as S.Schema<UpdateTriggerResponse>,
   errors: [
     ConcurrentModificationException,
     EntityNotFoundException,
@@ -18284,8 +18627,8 @@ export const updateUsageProfile: API.OperationMethod<
   UpdateUsageProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10176, __c318, 0) as any as S.Schema<UpdateUsageProfileRequest>,
-  output: __S(12832, __c401, 0) as any as S.Schema<UpdateUsageProfileResponse>,
+  input: __S(10368, __c324, 0) as any as S.Schema<UpdateUsageProfileRequest>,
+  output: __S(13056, __c408, 0) as any as S.Schema<UpdateUsageProfileResponse>,
   errors: [
     ConcurrentModificationException,
     EntityNotFoundException,
@@ -18317,8 +18660,8 @@ export const updateUserDefinedFunction: API.OperationMethod<
   UpdateUserDefinedFunctionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10208, __c319, 0) as any as S.Schema<UpdateUserDefinedFunctionRequest>,
-  output: __S(12640, __c395, 0) as any as S.Schema<UpdateUserDefinedFunctionResponse>,
+  input: __S(10400, __c325, 0) as any as S.Schema<UpdateUserDefinedFunctionRequest>,
+  output: __S(12864, __c402, 0) as any as S.Schema<UpdateUserDefinedFunctionResponse>,
   errors: [
     EntityNotFoundException,
     GlueEncryptionException,
@@ -18349,8 +18692,8 @@ export const updateWorkflow: API.OperationMethod<
   UpdateWorkflowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10240, __c320, 0) as any as S.Schema<UpdateWorkflowRequest>,
-  output: __S(12832, __c401, 0) as any as S.Schema<UpdateWorkflowResponse>,
+  input: __S(10432, __c326, 0) as any as S.Schema<UpdateWorkflowRequest>,
+  output: __S(13056, __c408, 0) as any as S.Schema<UpdateWorkflowResponse>,
   errors: [
     ConcurrentModificationException,
     EntityNotFoundException,
@@ -18371,12 +18714,33 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          RegistryId: S.optional(__S(32, __c1, 0)),
+          RegistryName: S.String,
+          Description: S.optional(S.String),
+          Tags: S.optional(__S(10656, __c333, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateRegistryInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          RegistryArn: S.optional(S.String),
+          RegistryName: S.optional(S.String),
+          Description: S.optional(S.String),
+          Tags: S.optional(__S(10656, __c333, 0)),
+        }),
+      ).annotate({ identifier: "CreateRegistryResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          RegistryId: S.optional(__S(64, __c2, 0)),
           SchemaName: S.String,
           DataFormat: S.String,
           Compatibility: S.optional(S.String),
           Description: S.optional(S.String),
-          Tags: S.optional(__S(10464, __c327, 0)),
+          Tags: S.optional(__S(10656, __c333, 0)),
           SchemaDefinition: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateSchemaInput" });
@@ -18394,14 +18758,14 @@ function __c0(j: number): any {
           LatestSchemaVersion: S.optional(S.Number),
           NextSchemaVersion: S.optional(S.Number),
           SchemaStatus: S.optional(S.String),
-          Tags: S.optional(__S(10464, __c327, 0)),
+          Tags: S.optional(__S(10656, __c333, 0)),
           SchemaVersionId: S.optional(S.String),
           SchemaVersionStatus: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateSchemaResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18409,50 +18773,50 @@ function __c1(j: number): any {
       ).annotate({ identifier: "RegistryId" });
   }
 }
-function __c2(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          DagNodes: S.optional(__S(97, __c3, 1)),
-          DagEdges: S.optional(__S(99, __c3, 3)),
-          Language: S.optional(S.String),
-        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "CreateScriptRequest" });
-  }
-}
 function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Id: S.String,
-          NodeType: S.String,
-          Args: __S(129, __c4, 1),
-          LineNumber: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "CodeGenNode" });
-    case 1:
-      return S.Array(__S(96, __c3, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({ Source: S.String, Target: S.String, TargetParameter: S.optional(S.String) }),
-      ).annotate({ identifier: "CodeGenEdge" });
-    case 3:
-      return S.Array(__S(98, __c3, 2));
+          DagNodes: S.optional(__S(129, __c4, 1)),
+          DagEdges: S.optional(__S(131, __c4, 3)),
+          Language: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateScriptRequest" });
   }
 }
 function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Name: S.String, Value: S.String, Param: S.optional(S.Boolean) }),
-      ).annotate({ identifier: "CodeGenNodeArg" });
+        S.Struct({
+          Id: S.String,
+          NodeType: S.String,
+          Args: __S(161, __c5, 1),
+          LineNumber: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "CodeGenNode" });
     case 1:
       return S.Array(__S(128, __c4, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ Source: S.String, Target: S.String, TargetParameter: S.optional(S.String) }),
+      ).annotate({ identifier: "CodeGenEdge" });
+    case 3:
+      return S.Array(__S(130, __c4, 2));
   }
 }
 function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Name: S.String, Value: S.String, Param: S.optional(S.Boolean) }),
+      ).annotate({ identifier: "CodeGenNodeArg" });
+    case 1:
+      return S.Array(__S(160, __c5, 0));
+  }
+}
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18460,11 +18824,11 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateScriptResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Name: S.String, EncryptionConfiguration: __S(229, __c7, 5) }).pipe(
+        S.Struct({ Name: S.String, EncryptionConfiguration: __S(261, __c8, 5) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "CreateSecurityConfigurationRequest" });
@@ -18477,14 +18841,14 @@ function __c6(j: number): any {
       ).annotate({ identifier: "CreateSecurityConfigurationResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ S3EncryptionMode: S.optional(S.String), KmsKeyArn: S.optional(S.String) }),
       ).annotate({ identifier: "S3Encryption" });
     case 1:
-      return S.Array(__S(224, __c7, 0));
+      return S.Array(__S(256, __c8, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -18509,15 +18873,15 @@ function __c7(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          S3Encryption: S.optional(__S(225, __c7, 1)),
-          CloudWatchEncryption: S.optional(__S(226, __c7, 2)),
-          JobBookmarksEncryption: S.optional(__S(227, __c7, 3)),
-          DataQualityEncryption: S.optional(__S(228, __c7, 4)),
+          S3Encryption: S.optional(__S(257, __c8, 1)),
+          CloudWatchEncryption: S.optional(__S(258, __c8, 2)),
+          JobBookmarksEncryption: S.optional(__S(259, __c8, 3)),
+          DataQualityEncryption: S.optional(__S(260, __c8, 4)),
         }),
       ).annotate({ identifier: "EncryptionConfiguration" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18525,32 +18889,32 @@ function __c8(j: number): any {
           Id: S.String,
           Description: S.optional(S.String),
           Role: S.String,
-          Command: __S(320, __c10, 0),
+          Command: __S(352, __c11, 0),
           Timeout: S.optional(S.Number),
           IdleTimeout: S.optional(S.Number),
-          DefaultArguments: S.optional(__S(10464, __c327, 0)),
-          Connections: S.optional(__S(11744, __c367, 0)),
+          DefaultArguments: S.optional(__S(10656, __c333, 0)),
+          Connections: S.optional(__S(11968, __c374, 0)),
           MaxCapacity: S.optional(S.Number),
           NumberOfWorkers: S.optional(S.Number),
           WorkerType: S.optional(S.String),
           SecurityConfiguration: S.optional(S.String),
           GlueVersion: S.optional(S.String),
-          Tags: S.optional(__S(10464, __c327, 0)),
+          Tags: S.optional(__S(10656, __c333, 0)),
           RequestOrigin: S.optional(S.String),
           SessionType: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateSessionRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ Session: S.optional(__S(321, __c10, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ Session: S.optional(__S(353, __c11, 1)) })).annotate({
         identifier: "CreateSessionResponse",
       });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18565,9 +18929,9 @@ function __c10(j: number): any {
           ErrorMessage: S.optional(S.String),
           Description: S.optional(S.String),
           Role: S.optional(S.String),
-          Command: S.optional(__S(320, __c10, 0)),
-          DefaultArguments: S.optional(__S(10464, __c327, 0)),
-          Connections: S.optional(__S(11744, __c367, 0)),
+          Command: S.optional(__S(352, __c11, 0)),
+          DefaultArguments: S.optional(__S(10656, __c333, 0)),
+          Connections: S.optional(__S(11968, __c374, 0)),
           Progress: S.optional(S.Number),
           MaxCapacity: S.optional(S.Number),
           SecurityConfiguration: S.optional(S.String),
@@ -18584,18 +18948,18 @@ function __c10(j: number): any {
       ).annotate({ identifier: "Session" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(14208, __c444, 0));
+      return S.Array(__S(14496, __c453, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           Location: S.String,
-          Schema: __S(390, __c12, 6),
-          PartitionSpec: S.optional(__S(393, __c12, 9)),
-          WriteOrder: S.optional(__S(396, __c12, 12)),
-          Properties: S.optional(__S(10464, __c327, 0)),
+          Schema: __S(422, __c13, 6),
+          PartitionSpec: S.optional(__S(425, __c13, 9)),
+          WriteOrder: S.optional(__S(428, __c13, 12)),
+          Properties: S.optional(__S(10656, __c333, 0)),
         }),
       ).annotate({ identifier: "CreateIcebergTableInput" });
     case 2:
@@ -18603,11 +18967,11 @@ function __c11(j: number): any {
         S.Struct({
           MetadataOperation: S.String,
           Version: S.optional(S.String),
-          CreateIcebergTableInput: S.optional(__S(353, __c11, 1)),
+          CreateIcebergTableInput: S.optional(__S(385, __c12, 1)),
         }),
       ).annotate({ identifier: "IcebergInput" });
     case 3:
-      return S.suspend(() => S.Struct({ IcebergInput: S.optional(__S(354, __c11, 2)) })).annotate({
+      return S.suspend(() => S.Struct({ IcebergInput: S.optional(__S(386, __c12, 2)) })).annotate({
         identifier: "OpenTableFormatInput",
       });
     case 4:
@@ -18616,15 +18980,15 @@ function __c11(j: number): any {
           CatalogId: S.optional(S.String),
           DatabaseName: S.String,
           Name: S.optional(S.String),
-          TableInput: S.optional(__S(419, __c13, 3)),
-          PartitionIndexes: S.optional(__S(352, __c11, 0)),
+          TableInput: S.optional(__S(451, __c14, 3)),
+          PartitionIndexes: S.optional(__S(384, __c12, 0)),
           TransactionId: S.optional(S.String),
-          OpenTableFormatInput: S.optional(__S(355, __c11, 3)),
+          OpenTableFormatInput: S.optional(__S(387, __c12, 3)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateTableRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18655,7 +19019,7 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "SubObjectStatistics" });
     case 3:
-      return S.Array(__S(386, __c12, 2));
+      return S.Array(__S(418, __c13, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -18669,14 +19033,14 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "IcebergStructField" });
     case 5:
-      return S.Array(__S(388, __c12, 4));
+      return S.Array(__S(420, __c13, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           SchemaId: S.optional(S.Number),
-          IdentifierFieldIds: S.optional(__S(11136, __c348, 0)),
+          IdentifierFieldIds: S.optional(__S(11328, __c354, 0)),
           Type: S.optional(S.String),
-          Fields: __S(389, __c12, 5),
+          Fields: __S(421, __c13, 5),
         }),
       ).annotate({ identifier: "IcebergSchema" });
     case 7:
@@ -18689,10 +19053,10 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "IcebergPartitionField" });
     case 8:
-      return S.Array(__S(391, __c12, 7));
+      return S.Array(__S(423, __c13, 7));
     case 9:
       return S.suspend(() =>
-        S.Struct({ Fields: __S(392, __c12, 8), SpecId: S.optional(S.Number) }),
+        S.Struct({ Fields: __S(424, __c13, 8), SpecId: S.optional(S.Number) }),
       ).annotate({ identifier: "IcebergPartitionSpec" });
     case 10:
       return S.suspend(() =>
@@ -18704,14 +19068,14 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "IcebergSortField" });
     case 11:
-      return S.Array(__S(394, __c12, 10));
+      return S.Array(__S(426, __c13, 10));
     case 12:
-      return S.suspend(() => S.Struct({ OrderId: S.Number, Fields: __S(395, __c12, 11) })).annotate(
+      return S.suspend(() => S.Struct({ OrderId: S.Number, Fields: __S(427, __c13, 11) })).annotate(
         { identifier: "IcebergSortOrder" },
       );
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18724,22 +19088,22 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "ViewRepresentationInput" });
     case 1:
-      return S.Array(__S(416, __c13, 0));
+      return S.Array(__S(448, __c14, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           IsProtected: S.optional(S.Boolean),
           IsManaged: S.optional(S.Boolean),
           Definer: S.optional(S.String),
-          Representations: S.optional(__S(417, __c13, 1)),
+          Representations: S.optional(__S(449, __c14, 1)),
           ViewVersionId: S.optional(S.Number),
           ViewVersionToken: S.optional(S.String),
           RefreshSeconds: S.optional(S.Number),
           LastRefreshType: S.optional(S.String),
-          SubObjects: S.optional(__S(10336, __c323, 0)),
-          SubObjectVersionIds: S.optional(__S(11136, __c348, 0)),
-          SubObjectsStatistics: S.optional(__S(387, __c12, 3)),
-          SparkPipelineInfo: S.optional(__S(10464, __c327, 0)),
+          SubObjects: S.optional(__S(10528, __c329, 0)),
+          SubObjectVersionIds: S.optional(__S(11328, __c354, 0)),
+          SubObjectsStatistics: S.optional(__S(419, __c13, 3)),
+          SparkPipelineInfo: S.optional(__S(10656, __c333, 0)),
         }),
       ).annotate({ identifier: "ViewDefinitionInput" });
     case 3:
@@ -18751,20 +19115,20 @@ function __c13(j: number): any {
           LastAccessTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastAnalyzedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Retention: S.optional(S.Number),
-          StorageDescriptor: S.optional(__S(10535, __c329, 7)),
-          PartitionKeys: S.optional(__S(10529, __c329, 1)),
+          StorageDescriptor: S.optional(__S(10727, __c335, 7)),
+          PartitionKeys: S.optional(__S(10721, __c335, 1)),
           ViewOriginalText: S.optional(S.String),
           ViewExpandedText: S.optional(S.String),
           TableType: S.optional(S.String),
-          Parameters: S.optional(__S(10464, __c327, 0)),
-          TargetTable: S.optional(__S(384, __c12, 0)),
-          FederatedTable: S.optional(__S(385, __c12, 1)),
-          ViewDefinition: S.optional(__S(418, __c13, 2)),
+          Parameters: S.optional(__S(10656, __c333, 0)),
+          TargetTable: S.optional(__S(416, __c13, 0)),
+          FederatedTable: S.optional(__S(417, __c13, 1)),
+          ViewDefinition: S.optional(__S(450, __c14, 2)),
         }),
       ).annotate({ identifier: "TableInput" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18773,28 +19137,9 @@ function __c14(j: number): any {
           DatabaseName: S.String,
           TableName: S.String,
           Type: S.String,
-          TableOptimizerConfiguration: __S(12103, __c378, 7),
+          TableOptimizerConfiguration: __S(12327, __c385, 7),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateTableOptimizerRequest" });
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Name: S.String,
-          WorkflowName: S.optional(S.String),
-          Type: S.String,
-          Schedule: S.optional(S.String),
-          Predicate: S.optional(__S(12260, __c383, 4)),
-          Actions: __S(12257, __c383, 1),
-          Description: S.optional(S.String),
-          StartOnCreation: S.optional(S.Boolean),
-          Tags: S.optional(__S(10464, __c327, 0)),
-          EventBatchingCondition: S.optional(__S(12261, __c383, 5)),
-        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "CreateTriggerRequest" });
   }
 }
 function __c16(j: number): any {
@@ -18803,11 +19148,17 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
+          WorkflowName: S.optional(S.String),
+          Type: S.String,
+          Schedule: S.optional(S.String),
+          Predicate: S.optional(__S(12484, __c390, 4)),
+          Actions: __S(12481, __c390, 1),
           Description: S.optional(S.String),
-          Configuration: __S(546, __c17, 2),
-          Tags: S.optional(__S(10464, __c327, 0)),
+          StartOnCreation: S.optional(S.Boolean),
+          Tags: S.optional(__S(10656, __c333, 0)),
+          EventBatchingCondition: S.optional(__S(12485, __c390, 5)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "CreateUsageProfileRequest" });
+      ).annotate({ identifier: "CreateTriggerRequest" });
   }
 }
 function __c17(j: number): any {
@@ -18815,21 +19166,12 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          DefaultValue: S.optional(S.String),
-          AllowedValues: S.optional(__S(10336, __c323, 0)),
-          MinValue: S.optional(S.String),
-          MaxValue: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ConfigurationObject" });
-    case 1:
-      return S.Record(S.String, /*@__PURE__*/ __S(544, __c17, 0).pipe(S.optional));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          SessionConfiguration: S.optional(__S(545, __c17, 1)),
-          JobConfiguration: S.optional(__S(545, __c17, 1)),
-        }),
-      ).annotate({ identifier: "ProfileConfiguration" });
+          Name: S.String,
+          Description: S.optional(S.String),
+          Configuration: __S(578, __c18, 2),
+          Tags: S.optional(__S(10656, __c333, 0)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateUsageProfileRequest" });
   }
 }
 function __c18(j: number): any {
@@ -18837,14 +19179,36 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          DefaultValue: S.optional(S.String),
+          AllowedValues: S.optional(__S(10528, __c329, 0)),
+          MinValue: S.optional(S.String),
+          MaxValue: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConfigurationObject" });
+    case 1:
+      return S.Record(S.String, /*@__PURE__*/ __S(576, __c18, 0).pipe(S.optional));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          SessionConfiguration: S.optional(__S(577, __c18, 1)),
+          JobConfiguration: S.optional(__S(577, __c18, 1)),
+        }),
+      ).annotate({ identifier: "ProfileConfiguration" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           CatalogId: S.optional(S.String),
           DatabaseName: S.String,
-          FunctionInput: __S(640, __c20, 0),
+          FunctionInput: __S(672, __c21, 0),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateUserDefinedFunctionRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18855,10 +19219,10 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "ResourceUri" });
     case 1:
-      return S.Array(__S(608, __c19, 0));
+      return S.Array(__S(640, __c20, 0));
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18868,28 +19232,28 @@ function __c20(j: number): any {
           OwnerName: S.optional(S.String),
           FunctionType: S.optional(S.String),
           OwnerType: S.optional(S.String),
-          ResourceUris: S.optional(__S(609, __c19, 1)),
+          ResourceUris: S.optional(__S(641, __c20, 1)),
           ArtifactLocation: S.optional(S.String),
           GovernanceMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserDefinedFunctionInput" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
           Description: S.optional(S.String),
-          DefaultRunProperties: S.optional(__S(10464, __c327, 0)),
-          Tags: S.optional(__S(10464, __c327, 0)),
+          DefaultRunProperties: S.optional(__S(10656, __c333, 0)),
+          Tags: S.optional(__S(10656, __c333, 0)),
           MaxConcurrentRuns: S.optional(S.Number),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateWorkflowRequest" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18906,7 +19270,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "DeleteAssetRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18923,7 +19287,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "DeleteAssetTypeRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18956,7 +19320,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "DeleteAttachmentResponse" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18966,7 +19330,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "DeleteBlueprintRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18976,7 +19340,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "DeleteCatalogRequest" });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18986,7 +19350,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "DeleteClassifierRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18994,13 +19358,13 @@ function __c28(j: number): any {
           CatalogId: S.optional(S.String),
           DatabaseName: S.String,
           TableName: S.String,
-          PartitionValues: __S(10336, __c323, 0),
+          PartitionValues: __S(10528, __c329, 0),
           ColumnName: S.String,
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DeleteColumnStatisticsForPartitionRequest" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19013,7 +19377,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "DeleteColumnStatisticsForTableRequest" });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19025,7 +19389,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "DeleteColumnStatisticsTaskSettingsRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19035,7 +19399,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "DeleteConnectionRequest" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19045,7 +19409,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "DeleteConnectionTypeRequest" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19055,7 +19419,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "DeleteCrawlerRequest" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19065,7 +19429,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "DeleteCustomEntityTypeRequest" });
   }
 }
-function __c35(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19075,7 +19439,17 @@ function __c35(j: number): any {
       ).annotate({ identifier: "DeleteDatabaseRequest" });
   }
 }
-function __c36(j: number): any {
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Name: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteDataQualityEvaluationConfigRequest" });
+  }
+}
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19085,7 +19459,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "DeleteDataQualityRulesetRequest" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19095,7 +19469,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "DeleteDevEndpointRequest" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19112,7 +19486,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "DeleteFormTypeRequest" });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19129,7 +19503,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "DeleteGlossaryRequest" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19146,7 +19520,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "DeleteGlossaryTermRequest" });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19156,7 +19530,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "DeleteGlueIdentityCenterConfigurationRequest" });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19173,17 +19547,17 @@ function __c42(j: number): any {
           Description: S.optional(S.String),
           IntegrationArn: S.String,
           KmsKeyId: S.optional(S.String),
-          AdditionalEncryptionContext: S.optional(__S(10464, __c327, 0)),
-          Tags: S.optional(__S(13793, __c431, 1)),
+          AdditionalEncryptionContext: S.optional(__S(10656, __c333, 0)),
+          Tags: S.optional(__S(14081, __c440, 1)),
           Status: S.String,
           CreateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          Errors: S.optional(__S(13696, __c428, 0)),
+          Errors: S.optional(__S(13984, __c437, 0)),
           DataFilter: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeleteIntegrationResponse" });
   }
 }
-function __c43(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19193,7 +19567,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "DeleteIntegrationResourcePropertyRequest" });
   }
 }
-function __c44(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19203,7 +19577,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "DeleteIntegrationTablePropertiesRequest" });
   }
 }
-function __c45(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19213,7 +19587,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "DeleteJobRequest" });
   }
 }
-function __c46(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ JobName: S.optional(S.String) })).annotate({
@@ -19221,7 +19595,7 @@ function __c46(j: number): any {
       });
   }
 }
-function __c47(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19231,7 +19605,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "DeleteMLTransformRequest" });
   }
 }
-function __c48(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19239,12 +19613,12 @@ function __c48(j: number): any {
           CatalogId: S.optional(S.String),
           DatabaseName: S.String,
           TableName: S.String,
-          PartitionValues: __S(10336, __c323, 0),
+          PartitionValues: __S(10528, __c329, 0),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DeletePartitionRequest" });
   }
 }
-function __c49(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19257,11 +19631,11 @@ function __c49(j: number): any {
       ).annotate({ identifier: "DeletePartitionIndexRequest" });
   }
 }
-function __c50(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ RegistryId: __S(32, __c1, 0) }).pipe(
+        S.Struct({ RegistryId: __S(64, __c2, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "DeleteRegistryInput" });
@@ -19275,7 +19649,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "DeleteRegistryResponse" });
   }
 }
-function __c51(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19286,11 +19660,11 @@ function __c51(j: number): any {
       ).annotate({ identifier: "DeleteResourcePolicyRequest" });
   }
 }
-function __c52(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ SchemaId: __S(10496, __c328, 0) }).pipe(
+        S.Struct({ SchemaId: __S(10688, __c334, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "DeleteSchemaInput" });
@@ -19304,11 +19678,11 @@ function __c52(j: number): any {
       ).annotate({ identifier: "DeleteSchemaResponse" });
   }
 }
-function __c53(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ SchemaId: __S(10496, __c328, 0), Versions: S.String }).pipe(
+        S.Struct({ SchemaId: __S(10688, __c334, 0), Versions: S.String }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "DeleteSchemaVersionsInput" });
@@ -19316,18 +19690,18 @@ function __c53(j: number): any {
       return S.suspend(() =>
         S.Struct({
           VersionNumber: S.optional(S.Number),
-          ErrorDetails: S.optional(__S(10400, __c325, 0)),
+          ErrorDetails: S.optional(__S(10592, __c331, 0)),
         }),
       ).annotate({ identifier: "SchemaVersionErrorItem" });
     case 2:
-      return S.Array(__S(1697, __c53, 1));
+      return S.Array(__S(1761, __c55, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ SchemaVersionErrors: S.optional(__S(1698, __c53, 2)) }),
+        S.Struct({ SchemaVersionErrors: S.optional(__S(1762, __c55, 2)) }),
       ).annotate({ identifier: "DeleteSchemaVersionsResponse" });
   }
 }
-function __c54(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19337,7 +19711,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "DeleteSecurityConfigurationRequest" });
   }
 }
-function __c55(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19347,7 +19721,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "DeleteSessionRequest" });
   }
 }
-function __c56(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Id: S.optional(S.String) })).annotate({
@@ -19355,7 +19729,7 @@ function __c56(j: number): any {
       });
   }
 }
-function __c57(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19368,7 +19742,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "DeleteTableRequest" });
   }
 }
-function __c58(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19381,7 +19755,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "DeleteTableOptimizerRequest" });
   }
 }
-function __c59(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19394,7 +19768,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "DeleteTableVersionRequest" });
   }
 }
-function __c60(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19404,7 +19778,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "DeleteTriggerRequest" });
   }
 }
-function __c61(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19414,7 +19788,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "DeleteUsageProfileRequest" });
   }
 }
-function __c62(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19426,7 +19800,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "DeleteUserDefinedFunctionRequest" });
   }
 }
-function __c63(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19436,7 +19810,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "DeleteWorkflowRequest" });
   }
 }
-function __c64(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19449,7 +19823,7 @@ function __c64(j: number): any {
         S.Struct({ Description: S.optional(S.String), Value: S.String }),
       ).annotate({ identifier: "AllowedValue" });
     case 2:
-      return S.Array(__S(2049, __c64, 1));
+      return S.Array(__S(2113, __c66, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -19457,23 +19831,23 @@ function __c64(j: number): any {
           Description: S.String,
           Required: S.Boolean,
           DefaultValue: S.optional(S.String),
-          PropertyTypes: __S(10944, __c342, 0),
-          AllowedValues: S.optional(__S(2050, __c64, 2)),
-          DataOperationScopes: S.optional(__S(10944, __c342, 0)),
+          PropertyTypes: __S(11136, __c348, 0),
+          AllowedValues: S.optional(__S(2114, __c66, 2)),
+          DataOperationScopes: S.optional(__S(11136, __c348, 0)),
           KeyOverride: S.optional(S.String),
           PropertyLocation: S.optional(S.String),
         }),
       ).annotate({ identifier: "Property" });
     case 4:
-      return S.Record(S.String, /*@__PURE__*/ __S(2051, __c64, 3).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(2115, __c66, 3).pipe(S.optional));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          AuthenticationType: __S(2051, __c64, 3),
-          SecretArn: S.optional(__S(2051, __c64, 3)),
-          OAuth2Properties: S.optional(__S(2052, __c64, 4)),
-          BasicAuthenticationProperties: S.optional(__S(2052, __c64, 4)),
-          CustomAuthenticationProperties: S.optional(__S(2052, __c64, 4)),
+          AuthenticationType: __S(2115, __c66, 3),
+          SecretArn: S.optional(__S(2115, __c66, 3)),
+          OAuth2Properties: S.optional(__S(2116, __c66, 4)),
+          BasicAuthenticationProperties: S.optional(__S(2116, __c66, 4)),
+          CustomAuthenticationProperties: S.optional(__S(2116, __c66, 4)),
         }),
       ).annotate({ identifier: "AuthConfiguration" });
     case 6:
@@ -19482,48 +19856,48 @@ function __c64(j: number): any {
           Name: S.String,
           Description: S.String,
           ComputeEnvironment: S.String,
-          SupportedAuthenticationTypes: __S(10944, __c342, 0),
-          ConnectionOptions: __S(2052, __c64, 4),
-          ConnectionPropertyNameOverrides: __S(10464, __c327, 0),
-          ConnectionOptionNameOverrides: __S(10464, __c327, 0),
-          ConnectionPropertiesRequiredOverrides: __S(10336, __c323, 0),
+          SupportedAuthenticationTypes: __S(11136, __c348, 0),
+          ConnectionOptions: __S(2116, __c66, 4),
+          ConnectionPropertyNameOverrides: __S(10656, __c333, 0),
+          ConnectionOptionNameOverrides: __S(10656, __c333, 0),
+          ConnectionPropertiesRequiredOverrides: __S(10528, __c329, 0),
           PhysicalConnectionPropertiesRequired: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ComputeEnvironmentConfiguration" });
     case 7:
-      return S.Record(S.String, /*@__PURE__*/ __S(2054, __c64, 6).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(2118, __c66, 6).pipe(S.optional));
     case 8:
       return S.suspend(() =>
         S.Struct({
           ConnectionType: S.optional(S.String),
           Description: S.optional(S.String),
-          Capabilities: S.optional(__S(2080, __c65, 0)),
-          ConnectionProperties: S.optional(__S(2052, __c64, 4)),
-          ConnectionOptions: S.optional(__S(2052, __c64, 4)),
-          AuthenticationConfiguration: S.optional(__S(2053, __c64, 5)),
-          ComputeEnvironmentConfigurations: S.optional(__S(2055, __c64, 7)),
-          PhysicalConnectionRequirements: S.optional(__S(2052, __c64, 4)),
-          AthenaConnectionProperties: S.optional(__S(2052, __c64, 4)),
-          PythonConnectionProperties: S.optional(__S(2052, __c64, 4)),
-          SparkConnectionProperties: S.optional(__S(2052, __c64, 4)),
-          RestConfiguration: S.optional(__S(2129, __c66, 17)),
+          Capabilities: S.optional(__S(2144, __c67, 0)),
+          ConnectionProperties: S.optional(__S(2116, __c66, 4)),
+          ConnectionOptions: S.optional(__S(2116, __c66, 4)),
+          AuthenticationConfiguration: S.optional(__S(2117, __c66, 5)),
+          ComputeEnvironmentConfigurations: S.optional(__S(2119, __c66, 7)),
+          PhysicalConnectionRequirements: S.optional(__S(2116, __c66, 4)),
+          AthenaConnectionProperties: S.optional(__S(2116, __c66, 4)),
+          PythonConnectionProperties: S.optional(__S(2116, __c66, 4)),
+          SparkConnectionProperties: S.optional(__S(2116, __c66, 4)),
+          RestConfiguration: S.optional(__S(2193, __c68, 17)),
         }),
       ).annotate({ identifier: "DescribeConnectionTypeResponse" });
   }
 }
-function __c65(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          SupportedAuthenticationTypes: __S(10944, __c342, 0),
-          SupportedDataOperations: __S(10944, __c342, 0),
-          SupportedComputeEnvironments: __S(10944, __c342, 0),
+          SupportedAuthenticationTypes: __S(11136, __c348, 0),
+          SupportedDataOperations: __S(11136, __c348, 0),
+          SupportedComputeEnvironments: __S(11136, __c348, 0),
         }),
       ).annotate({ identifier: "Capabilities" });
   }
 }
-function __c66(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19532,14 +19906,14 @@ function __c66(j: number): any {
           KeyOverride: S.optional(S.String),
           Required: S.Boolean,
           DefaultValue: S.optional(S.String),
-          AllowedValues: S.optional(__S(10336, __c323, 0)),
+          AllowedValues: S.optional(__S(10528, __c329, 0)),
           PropertyLocation: S.optional(S.String),
           PropertyType: S.String,
           Format: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConnectorProperty" });
     case 1:
-      return S.Array(__S(2112, __c66, 0));
+      return S.Array(__S(2176, __c68, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({ ResultPath: S.String, ErrorPath: S.optional(S.String) }),
@@ -19554,25 +19928,25 @@ function __c66(j: number): any {
           Key: S.optional(S.String),
           DefaultValue: S.optional(S.String),
           PropertyLocation: S.optional(S.String),
-          Value: S.optional(__S(2115, __c66, 3)),
+          Value: S.optional(__S(2179, __c68, 3)),
         }),
       ).annotate({ identifier: "ExtractedParameter" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          NextPage: __S(2116, __c66, 4),
-          LimitParameter: S.optional(__S(2116, __c66, 4)),
+          NextPage: __S(2180, __c68, 4),
+          LimitParameter: S.optional(__S(2180, __c68, 4)),
         }),
       ).annotate({ identifier: "CursorConfiguration" });
     case 6:
       return S.suspend(() =>
-        S.Struct({ OffsetParameter: __S(2116, __c66, 4), LimitParameter: __S(2116, __c66, 4) }),
+        S.Struct({ OffsetParameter: __S(2180, __c68, 4), LimitParameter: __S(2180, __c68, 4) }),
       ).annotate({ identifier: "OffsetConfiguration" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          CursorConfiguration: S.optional(__S(2117, __c66, 5)),
-          OffsetConfiguration: S.optional(__S(2118, __c66, 6)),
+          CursorConfiguration: S.optional(__S(2181, __c68, 5)),
+          OffsetConfiguration: S.optional(__S(2182, __c68, 6)),
         }),
       ).annotate({ identifier: "PaginationConfiguration" });
     case 8:
@@ -19595,11 +19969,11 @@ function __c66(j: number): any {
       return S.suspend(() =>
         S.Struct({
           FilterMode: S.String,
-          OperatorMappings: S.optional(__S(10464, __c327, 0)),
+          OperatorMappings: S.optional(__S(10656, __c333, 0)),
           DateTimeFormat: S.optional(S.String),
           StripQuotes: S.optional(S.Boolean),
-          BetweenConfiguration: S.optional(__S(2120, __c66, 8)),
-          FilterStringConfiguration: S.optional(__S(2121, __c66, 9)),
+          BetweenConfiguration: S.optional(__S(2184, __c68, 8)),
+          FilterStringConfiguration: S.optional(__S(2185, __c68, 9)),
         }),
       ).annotate({ identifier: "FilterConfiguration" });
     case 11:
@@ -19607,18 +19981,18 @@ function __c66(j: number): any {
         S.Struct({
           RequestMethod: S.optional(S.String),
           RequestPath: S.optional(S.String),
-          RequestParameters: S.optional(__S(2113, __c66, 1)),
-          ResponseConfiguration: S.optional(__S(2114, __c66, 2)),
-          PaginationConfiguration: S.optional(__S(2119, __c66, 7)),
-          FilterConfiguration: S.optional(__S(2122, __c66, 10)),
+          RequestParameters: S.optional(__S(2177, __c68, 1)),
+          ResponseConfiguration: S.optional(__S(2178, __c68, 2)),
+          PaginationConfiguration: S.optional(__S(2183, __c68, 7)),
+          FilterConfiguration: S.optional(__S(2186, __c68, 10)),
         }),
       ).annotate({ identifier: "SourceConfiguration" });
     case 12:
       return S.suspend(() =>
         S.Struct({
           FieldName: S.optional(S.String),
-          OperatorMappings: S.optional(__S(10464, __c327, 0)),
-          BetweenConfiguration: S.optional(__S(2120, __c66, 8)),
+          OperatorMappings: S.optional(__S(10656, __c333, 0)),
+          BetweenConfiguration: S.optional(__S(2184, __c68, 8)),
           DateTimeFormat: S.optional(S.String),
         }),
       ).annotate({ identifier: "FilterOverrides" });
@@ -19632,31 +20006,31 @@ function __c66(j: number): any {
           IsNullable: S.optional(S.Boolean),
           IsQueryable: S.optional(S.Boolean),
           IsOrderable: S.optional(S.Boolean),
-          FilterOverrides: S.optional(__S(2124, __c66, 12)),
+          FilterOverrides: S.optional(__S(2188, __c68, 12)),
         }),
       ).annotate({ identifier: "FieldDefinition" });
     case 14:
-      return S.Record(S.String, /*@__PURE__*/ __S(2125, __c66, 13).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(2189, __c68, 13).pipe(S.optional));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          SourceConfiguration: S.optional(__S(2123, __c66, 11)),
-          Schema: S.optional(__S(2126, __c66, 14)),
+          SourceConfiguration: S.optional(__S(2187, __c68, 11)),
+          Schema: S.optional(__S(2190, __c68, 14)),
         }),
       ).annotate({ identifier: "EntityConfiguration" });
     case 16:
-      return S.Record(S.String, /*@__PURE__*/ __S(2127, __c66, 15).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(2191, __c68, 15).pipe(S.optional));
     case 17:
       return S.suspend(() =>
         S.Struct({
-          GlobalSourceConfiguration: S.optional(__S(2123, __c66, 11)),
-          ValidationEndpointConfiguration: S.optional(__S(2123, __c66, 11)),
-          EntityConfigurations: S.optional(__S(2128, __c66, 16)),
+          GlobalSourceConfiguration: S.optional(__S(2187, __c68, 11)),
+          ValidationEndpointConfiguration: S.optional(__S(2187, __c68, 11)),
+          EntityConfigurations: S.optional(__S(2192, __c68, 16)),
         }),
       ).annotate({ identifier: "RestConfiguration" });
   }
 }
-function __c67(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19684,22 +20058,22 @@ function __c67(j: number): any {
           IsUpdateable: S.optional(S.Boolean),
           IsUpsertable: S.optional(S.Boolean),
           IsDefaultOnCreate: S.optional(S.Boolean),
-          SupportedValues: S.optional(__S(10336, __c323, 0)),
-          SupportedFilterOperators: S.optional(__S(10944, __c342, 0)),
+          SupportedValues: S.optional(__S(10528, __c329, 0)),
+          SupportedFilterOperators: S.optional(__S(11136, __c348, 0)),
           ParentField: S.optional(S.String),
           NativeDataType: S.optional(S.String),
-          CustomProperties: S.optional(__S(10464, __c327, 0)),
+          CustomProperties: S.optional(__S(10656, __c333, 0)),
         }),
       ).annotate({ identifier: "Field" });
     case 2:
-      return S.Array(__S(2145, __c67, 1));
+      return S.Array(__S(2209, __c69, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ Fields: S.optional(__S(2146, __c67, 2)), NextToken: S.optional(S.String) }),
+        S.Struct({ Fields: S.optional(__S(2210, __c69, 2)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "DescribeEntityResponse" });
   }
 }
-function __c68(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19718,22 +20092,22 @@ function __c68(j: number): any {
           IntegrationArn: S.String,
           Status: S.String,
           CreateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          IntegrationConfig: S.optional(__S(13728, __c429, 0)),
-          Errors: S.optional(__S(13696, __c428, 0)),
+          IntegrationConfig: S.optional(__S(14016, __c438, 0)),
+          Errors: S.optional(__S(13984, __c437, 0)),
         }),
       ).annotate({ identifier: "InboundIntegration" });
     case 2:
-      return S.Array(__S(2177, __c68, 1));
+      return S.Array(__S(2241, __c70, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          InboundIntegrations: S.optional(__S(2178, __c68, 2)),
+          InboundIntegrations: S.optional(__S(2242, __c70, 2)),
           Marker: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribeInboundIntegrationsResponse" });
   }
 }
-function __c69(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19741,7 +20115,7 @@ function __c69(j: number): any {
           IntegrationIdentifier: S.optional(S.String),
           Marker: S.optional(S.String),
           MaxRecords: S.optional(S.Number),
-          Filters: S.optional(__S(2241, __c70, 1)),
+          Filters: S.optional(__S(2305, __c72, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeIntegrationsRequest" });
     case 1:
@@ -19753,34 +20127,34 @@ function __c69(j: number): any {
           IntegrationName: S.String,
           IntegrationArn: S.String,
           KmsKeyId: S.optional(S.String),
-          AdditionalEncryptionContext: S.optional(__S(10464, __c327, 0)),
-          Tags: S.optional(__S(13793, __c431, 1)),
+          AdditionalEncryptionContext: S.optional(__S(10656, __c333, 0)),
+          Tags: S.optional(__S(14081, __c440, 1)),
           Status: S.String,
           CreateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          IntegrationConfig: S.optional(__S(13728, __c429, 0)),
-          Errors: S.optional(__S(13696, __c428, 0)),
+          IntegrationConfig: S.optional(__S(14016, __c438, 0)),
+          Errors: S.optional(__S(13984, __c437, 0)),
           DataFilter: S.optional(S.String),
         }),
       ).annotate({ identifier: "Integration" });
     case 2:
-      return S.Array(__S(2209, __c69, 1));
+      return S.Array(__S(2273, __c71, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ Integrations: S.optional(__S(2210, __c69, 2)), Marker: S.optional(S.String) }),
+        S.Struct({ Integrations: S.optional(__S(2274, __c71, 2)), Marker: S.optional(S.String) }),
       ).annotate({ identifier: "DescribeIntegrationsResponse" });
   }
 }
-function __c70(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Name: S.optional(S.String), Values: S.optional(__S(10336, __c323, 0)) }),
+        S.Struct({ Name: S.optional(S.String), Values: S.optional(__S(10528, __c329, 0)) }),
       ).annotate({ identifier: "IntegrationFilter" });
     case 1:
-      return S.Array(__S(2240, __c70, 0));
+      return S.Array(__S(2304, __c72, 0));
   }
 }
-function __c71(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19788,7 +20162,7 @@ function __c71(j: number): any {
           AssetIdentifier: S.String.pipe(T.HttpLabel("AssetIdentifier")),
           IterableFormName: S.optional(S.String),
           ItemIdentifier: S.optional(S.String),
-          GlossaryTermIdentifiers: __S(10336, __c323, 0),
+          GlossaryTermIdentifiers: __S(10528, __c329, 0),
           ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -19806,7 +20180,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "DisassociateGlossaryTermsRequest" });
   }
 }
-function __c72(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19826,7 +20200,7 @@ function __c72(j: number): any {
         identifier: "IterableFormEntry",
       });
     case 2:
-      return S.Record(S.String, /*@__PURE__*/ __S(2305, __c72, 1).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(2369, __c74, 1).pipe(S.optional));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -19836,15 +20210,15 @@ function __c72(j: number): any {
           CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           AssetTypeId: S.String,
-          GlossaryTerms: S.optional(__S(10336, __c323, 0)),
-          Forms: S.optional(__S(11553, __c361, 1)),
-          Attachments: S.optional(__S(11553, __c361, 1)),
-          IterableForms: S.optional(__S(2306, __c72, 2)),
+          GlossaryTerms: S.optional(__S(10528, __c329, 0)),
+          Forms: S.optional(__S(11777, __c368, 1)),
+          Attachments: S.optional(__S(11777, __c368, 1)),
+          IterableForms: S.optional(__S(2370, __c74, 2)),
         }),
       ).annotate({ identifier: "GetAssetOutput" });
   }
 }
-function __c73(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19861,25 +20235,25 @@ function __c73(j: number): any {
       ).annotate({ identifier: "GetAssetTypeRequest" });
   }
 }
-function __c74(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ FormTypeIdentifier: S.String })).annotate({
         identifier: "AssetTypeFormReference",
       });
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ __S(2368, __c74, 0).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(2432, __c76, 0).pipe(S.optional));
     case 2:
       return S.suspend(() =>
         S.Struct({
           Id: S.optional(S.String),
           Name: S.optional(S.String),
-          Forms: S.optional(__S(2369, __c74, 1)),
+          Forms: S.optional(__S(2433, __c76, 1)),
         }),
       ).annotate({ identifier: "GetAssetTypeResponse" });
   }
 }
-function __c75(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19890,12 +20264,12 @@ function __c75(j: number): any {
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetBlueprintRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Blueprint: S.optional(__S(10785, __c337, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ Blueprint: S.optional(__S(10977, __c343, 1)) })).annotate({
         identifier: "GetBlueprintResponse",
       });
   }
 }
-function __c76(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19904,12 +20278,12 @@ function __c76(j: number): any {
         ),
       ).annotate({ identifier: "GetBlueprintRunRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ BlueprintRun: S.optional(__S(2464, __c77, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ BlueprintRun: S.optional(__S(2528, __c79, 0)) })).annotate({
         identifier: "GetBlueprintRunResponse",
       });
   }
 }
-function __c77(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19928,7 +20302,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "BlueprintRun" });
   }
 }
-function __c78(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19939,17 +20313,17 @@ function __c78(j: number): any {
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetBlueprintRunsRequest" });
     case 1:
-      return S.Array(__S(2464, __c77, 0));
+      return S.Array(__S(2528, __c79, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          BlueprintRuns: S.optional(__S(2497, __c78, 1)),
+          BlueprintRuns: S.optional(__S(2561, __c80, 1)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetBlueprintRunsResponse" });
   }
 }
-function __c79(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19958,12 +20332,12 @@ function __c79(j: number): any {
         ),
       ).annotate({ identifier: "GetCatalogRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Catalog: S.optional(__S(2563, __c80, 3)) })).annotate({
+      return S.suspend(() => S.Struct({ Catalog: S.optional(__S(2627, __c82, 3)) })).annotate({
         identifier: "GetCatalogResponse",
       });
   }
 }
-function __c80(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19982,18 +20356,18 @@ function __c80(j: number): any {
       return S.suspend(() =>
         S.Struct({
           RoleArn: S.optional(S.String),
-          Compaction: S.optional(__S(10464, __c327, 0)),
-          Retention: S.optional(__S(10464, __c327, 0)),
-          OrphanFileDeletion: S.optional(__S(10464, __c327, 0)),
+          Compaction: S.optional(__S(10656, __c333, 0)),
+          Retention: S.optional(__S(10656, __c333, 0)),
+          OrphanFileDeletion: S.optional(__S(10656, __c333, 0)),
           LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "IcebergOptimizationPropertiesOutput" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          DataLakeAccessProperties: S.optional(__S(2560, __c80, 0)),
-          IcebergOptimizationProperties: S.optional(__S(2561, __c80, 1)),
-          CustomProperties: S.optional(__S(10464, __c327, 0)),
+          DataLakeAccessProperties: S.optional(__S(2624, __c82, 0)),
+          IcebergOptimizationProperties: S.optional(__S(2625, __c82, 1)),
+          CustomProperties: S.optional(__S(10656, __c333, 0)),
         }),
       ).annotate({ identifier: "CatalogPropertiesOutput" });
     case 3:
@@ -20003,20 +20377,20 @@ function __c80(j: number): any {
           Name: S.String,
           ResourceArn: S.optional(S.String),
           Description: S.optional(S.String),
-          Parameters: S.optional(__S(10464, __c327, 0)),
+          Parameters: S.optional(__S(10656, __c333, 0)),
           CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           UpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          TargetRedshiftCatalog: S.optional(__S(12896, __c403, 0)),
-          FederatedCatalog: S.optional(__S(12960, __c405, 0)),
-          CatalogProperties: S.optional(__S(2562, __c80, 2)),
-          CreateTableDefaultPermissions: S.optional(__S(12963, __c405, 3)),
-          CreateDatabaseDefaultPermissions: S.optional(__S(12963, __c405, 3)),
+          TargetRedshiftCatalog: S.optional(__S(13120, __c410, 0)),
+          FederatedCatalog: S.optional(__S(13184, __c412, 0)),
+          CatalogProperties: S.optional(__S(2626, __c82, 2)),
+          CreateTableDefaultPermissions: S.optional(__S(13187, __c412, 3)),
+          CreateDatabaseDefaultPermissions: S.optional(__S(13187, __c412, 3)),
           AllowFullTableExternalDataAccess: S.optional(S.String),
         }),
       ).annotate({ identifier: "Catalog" });
   }
 }
-function __c81(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20033,12 +20407,12 @@ function __c81(j: number): any {
         }),
       ).annotate({ identifier: "CatalogImportStatus" });
     case 2:
-      return S.suspend(() => S.Struct({ ImportStatus: S.optional(__S(2593, __c81, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ ImportStatus: S.optional(__S(2657, __c83, 1)) })).annotate({
         identifier: "GetCatalogImportStatusResponse",
       });
   }
 }
-function __c82(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20052,14 +20426,14 @@ function __c82(j: number): any {
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetCatalogsRequest" });
     case 1:
-      return S.Array(__S(2563, __c80, 3));
+      return S.Array(__S(2627, __c82, 3));
     case 2:
       return S.suspend(() =>
-        S.Struct({ CatalogList: __S(2625, __c82, 1), NextToken: S.optional(S.String) }),
+        S.Struct({ CatalogList: __S(2689, __c84, 1), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "GetCatalogsResponse" });
   }
 }
-function __c83(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20068,12 +20442,12 @@ function __c83(j: number): any {
         ),
       ).annotate({ identifier: "GetClassifierRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Classifier: S.optional(__S(2692, __c84, 4)) })).annotate({
+      return S.suspend(() => S.Struct({ Classifier: S.optional(__S(2756, __c86, 4)) })).annotate({
         identifier: "GetClassifierResponse",
       });
   }
 }
-function __c84(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20118,26 +20492,26 @@ function __c84(j: number): any {
           Delimiter: S.optional(S.String),
           QuoteSymbol: S.optional(S.String),
           ContainsHeader: S.optional(S.String),
-          Header: S.optional(__S(10336, __c323, 0)),
+          Header: S.optional(__S(10528, __c329, 0)),
           DisableValueTrimming: S.optional(S.Boolean),
           AllowSingleColumn: S.optional(S.Boolean),
           CustomDatatypeConfigured: S.optional(S.Boolean),
-          CustomDatatypes: S.optional(__S(10336, __c323, 0)),
+          CustomDatatypes: S.optional(__S(10528, __c329, 0)),
           Serde: S.optional(S.String),
         }),
       ).annotate({ identifier: "CsvClassifier" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          GrokClassifier: S.optional(__S(2688, __c84, 0)),
-          XMLClassifier: S.optional(__S(2689, __c84, 1)),
-          JsonClassifier: S.optional(__S(2690, __c84, 2)),
-          CsvClassifier: S.optional(__S(2691, __c84, 3)),
+          GrokClassifier: S.optional(__S(2752, __c86, 0)),
+          XMLClassifier: S.optional(__S(2753, __c86, 1)),
+          JsonClassifier: S.optional(__S(2754, __c86, 2)),
+          CsvClassifier: S.optional(__S(2755, __c86, 3)),
         }),
       ).annotate({ identifier: "Classifier" });
   }
 }
-function __c85(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20146,14 +20520,14 @@ function __c85(j: number): any {
         ),
       ).annotate({ identifier: "GetClassifiersRequest" });
     case 1:
-      return S.Array(__S(2692, __c84, 4));
+      return S.Array(__S(2756, __c86, 4));
     case 2:
       return S.suspend(() =>
-        S.Struct({ Classifiers: S.optional(__S(2721, __c85, 1)), NextToken: S.optional(S.String) }),
+        S.Struct({ Classifiers: S.optional(__S(2785, __c87, 1)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "GetClassifiersResponse" });
   }
 }
-function __c86(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20161,30 +20535,30 @@ function __c86(j: number): any {
           CatalogId: S.optional(S.String),
           DatabaseName: S.String,
           TableName: S.String,
-          PartitionValues: __S(10336, __c323, 0),
-          ColumnNames: __S(10336, __c323, 0),
+          PartitionValues: __S(10528, __c329, 0),
+          ColumnNames: __S(10528, __c329, 0),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetColumnStatisticsForPartitionRequest" });
   }
 }
-function __c87(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ColumnName: S.optional(S.String), Error: S.optional(__S(10400, __c325, 0)) }),
+        S.Struct({ ColumnName: S.optional(S.String), Error: S.optional(__S(10592, __c331, 0)) }),
       ).annotate({ identifier: "ColumnError" });
     case 1:
-      return S.Array(__S(2784, __c87, 0));
+      return S.Array(__S(2848, __c89, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ColumnStatisticsList: S.optional(__S(2825, __c88, 9)),
-          Errors: S.optional(__S(2785, __c87, 1)),
+          ColumnStatisticsList: S.optional(__S(2889, __c90, 9)),
+          Errors: S.optional(__S(2849, __c89, 1)),
         }),
       ).annotate({ identifier: "GetColumnStatisticsForPartitionResponse" });
   }
 }
-function __c88(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20206,8 +20580,8 @@ function __c88(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          MinimumValue: S.optional(__S(2818, __c88, 2)),
-          MaximumValue: S.optional(__S(2818, __c88, 2)),
+          MinimumValue: S.optional(__S(2882, __c90, 2)),
+          MaximumValue: S.optional(__S(2882, __c90, 2)),
           NumberOfNulls: S.Number,
           NumberOfDistinctValues: S.Number,
         }),
@@ -20238,13 +20612,13 @@ function __c88(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Type: S.String,
-          BooleanColumnStatisticsData: S.optional(__S(2816, __c88, 0)),
-          DateColumnStatisticsData: S.optional(__S(2817, __c88, 1)),
-          DecimalColumnStatisticsData: S.optional(__S(2819, __c88, 3)),
-          DoubleColumnStatisticsData: S.optional(__S(2820, __c88, 4)),
-          LongColumnStatisticsData: S.optional(__S(2820, __c88, 4)),
-          StringColumnStatisticsData: S.optional(__S(2821, __c88, 5)),
-          BinaryColumnStatisticsData: S.optional(__S(2822, __c88, 6)),
+          BooleanColumnStatisticsData: S.optional(__S(2880, __c90, 0)),
+          DateColumnStatisticsData: S.optional(__S(2881, __c90, 1)),
+          DecimalColumnStatisticsData: S.optional(__S(2883, __c90, 3)),
+          DoubleColumnStatisticsData: S.optional(__S(2884, __c90, 4)),
+          LongColumnStatisticsData: S.optional(__S(2884, __c90, 4)),
+          StringColumnStatisticsData: S.optional(__S(2885, __c90, 5)),
+          BinaryColumnStatisticsData: S.optional(__S(2886, __c90, 6)),
         }),
       ).annotate({ identifier: "ColumnStatisticsData" });
     case 8:
@@ -20253,14 +20627,14 @@ function __c88(j: number): any {
           ColumnName: S.String,
           ColumnType: S.String,
           AnalyzedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          StatisticsData: __S(2823, __c88, 7),
+          StatisticsData: __S(2887, __c90, 7),
         }),
       ).annotate({ identifier: "ColumnStatistics" });
     case 9:
-      return S.Array(__S(2824, __c88, 8));
+      return S.Array(__S(2888, __c90, 8));
   }
 }
-function __c89(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20268,12 +20642,12 @@ function __c89(j: number): any {
           CatalogId: S.optional(S.String),
           DatabaseName: S.String,
           TableName: S.String,
-          ColumnNames: __S(10336, __c323, 0),
+          ColumnNames: __S(10528, __c329, 0),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetColumnStatisticsForTableRequest" });
   }
 }
-function __c90(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20283,11 +20657,11 @@ function __c90(j: number): any {
       ).annotate({ identifier: "GetColumnStatisticsTaskRunRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ ColumnStatisticsTaskRun: S.optional(__S(2912, __c91, 0)) }),
+        S.Struct({ ColumnStatisticsTaskRun: S.optional(__S(2976, __c93, 0)) }),
       ).annotate({ identifier: "GetColumnStatisticsTaskRunResponse" });
   }
 }
-function __c91(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20296,7 +20670,7 @@ function __c91(j: number): any {
           ColumnStatisticsTaskRunId: S.optional(S.String),
           DatabaseName: S.optional(S.String),
           TableName: S.optional(S.String),
-          ColumnNameList: S.optional(__S(10336, __c323, 0)),
+          ColumnNameList: S.optional(__S(10528, __c329, 0)),
           CatalogID: S.optional(S.String),
           Role: S.optional(S.String),
           SampleSize: S.optional(S.Number),
@@ -20315,7 +20689,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "ColumnStatisticsTaskRun" });
   }
 }
-function __c92(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20328,17 +20702,17 @@ function __c92(j: number): any {
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetColumnStatisticsTaskRunsRequest" });
     case 1:
-      return S.Array(__S(2912, __c91, 0));
+      return S.Array(__S(2976, __c93, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ColumnStatisticsTaskRuns: S.optional(__S(2945, __c92, 1)),
+          ColumnStatisticsTaskRuns: S.optional(__S(3009, __c94, 1)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetColumnStatisticsTaskRunsResponse" });
   }
 }
-function __c93(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20362,24 +20736,24 @@ function __c93(j: number): any {
         S.Struct({
           DatabaseName: S.optional(S.String),
           TableName: S.optional(S.String),
-          Schedule: S.optional(__S(10848, __c339, 0)),
-          ColumnNameList: S.optional(__S(10336, __c323, 0)),
+          Schedule: S.optional(__S(11040, __c345, 0)),
+          ColumnNameList: S.optional(__S(10528, __c329, 0)),
           CatalogID: S.optional(S.String),
           Role: S.optional(S.String),
           SampleSize: S.optional(S.Number),
           SecurityConfiguration: S.optional(S.String),
           ScheduleType: S.optional(S.String),
           SettingSource: S.optional(S.String),
-          LastExecutionAttempt: S.optional(__S(2977, __c93, 1)),
+          LastExecutionAttempt: S.optional(__S(3041, __c95, 1)),
         }),
       ).annotate({ identifier: "ColumnStatisticsTaskSettings" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ ColumnStatisticsTaskSettings: S.optional(__S(2978, __c93, 2)) }),
+        S.Struct({ ColumnStatisticsTaskSettings: S.optional(__S(3042, __c95, 2)) }),
       ).annotate({ identifier: "GetColumnStatisticsTaskSettingsResponse" });
   }
 }
-function __c94(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20391,20 +20765,20 @@ function __c94(j: number): any {
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetConnectionRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Connection: S.optional(__S(3042, __c95, 2)) })).annotate({
+      return S.suspend(() => S.Struct({ Connection: S.optional(__S(3106, __c97, 2)) })).annotate({
         identifier: "GetConnectionResponse",
       });
   }
 }
-function __c95(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           OAuth2GrantType: S.optional(S.String),
-          OAuth2ClientApplication: S.optional(__S(13120, __c410, 0)),
+          OAuth2ClientApplication: S.optional(__S(13344, __c417, 0)),
           TokenUrl: S.optional(S.String),
-          TokenUrlParametersMap: S.optional(__S(10464, __c327, 0)),
+          TokenUrlParametersMap: S.optional(__S(10656, __c333, 0)),
         }),
       ).annotate({ identifier: "OAuth2Properties" });
     case 1:
@@ -20413,7 +20787,7 @@ function __c95(j: number): any {
           AuthenticationType: S.optional(S.String),
           SecretArn: S.optional(S.String),
           KmsKeyArn: S.optional(S.String),
-          OAuth2Properties: S.optional(__S(3040, __c95, 0)),
+          OAuth2Properties: S.optional(__S(3104, __c97, 0)),
         }),
       ).annotate({ identifier: "AuthenticationConfiguration" });
     case 2:
@@ -20422,31 +20796,31 @@ function __c95(j: number): any {
           Name: S.optional(S.String),
           Description: S.optional(S.String),
           ConnectionType: S.optional(S.String),
-          MatchCriteria: S.optional(__S(10336, __c323, 0)),
-          ConnectionProperties: S.optional(__S(11712, __c366, 0)),
-          SparkProperties: S.optional(__S(10464, __c327, 0)),
-          AthenaProperties: S.optional(__S(10464, __c327, 0)),
-          PythonProperties: S.optional(__S(10464, __c327, 0)),
-          PhysicalConnectionRequirements: S.optional(__S(13152, __c411, 0)),
+          MatchCriteria: S.optional(__S(10528, __c329, 0)),
+          ConnectionProperties: S.optional(__S(11936, __c373, 0)),
+          SparkProperties: S.optional(__S(10656, __c333, 0)),
+          AthenaProperties: S.optional(__S(10656, __c333, 0)),
+          PythonProperties: S.optional(__S(10656, __c333, 0)),
+          PhysicalConnectionRequirements: S.optional(__S(13376, __c418, 0)),
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastUpdatedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastUpdatedBy: S.optional(S.String),
           Status: S.optional(S.String),
           StatusReason: S.optional(S.String),
           LastConnectionValidationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          AuthenticationConfiguration: S.optional(__S(3041, __c95, 1)),
+          AuthenticationConfiguration: S.optional(__S(3105, __c97, 1)),
           ConnectionSchemaVersion: S.optional(S.Number),
-          CompatibleComputeEnvironments: S.optional(__S(10944, __c342, 0)),
+          CompatibleComputeEnvironments: S.optional(__S(11136, __c348, 0)),
         }),
       ).annotate({ identifier: "Connection" });
   }
 }
-function __c96(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          MatchCriteria: S.optional(__S(10336, __c323, 0)),
+          MatchCriteria: S.optional(__S(10528, __c329, 0)),
           ConnectionType: S.optional(S.String),
           ConnectionSchemaVersion: S.optional(S.Number),
         }),
@@ -20455,24 +20829,24 @@ function __c96(j: number): any {
       return S.suspend(() =>
         S.Struct({
           CatalogId: S.optional(S.String),
-          Filter: S.optional(__S(3072, __c96, 0)),
+          Filter: S.optional(__S(3136, __c98, 0)),
           HidePassword: S.optional(S.Boolean),
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetConnectionsRequest" });
     case 2:
-      return S.Array(__S(3042, __c95, 2));
+      return S.Array(__S(3106, __c97, 2));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ConnectionList: S.optional(__S(3074, __c96, 2)),
+          ConnectionList: S.optional(__S(3138, __c98, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetConnectionsResponse" });
   }
 }
-function __c97(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20481,17 +20855,17 @@ function __c97(j: number): any {
         ),
       ).annotate({ identifier: "GetCrawlerRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Crawler: S.optional(__S(10881, __c340, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ Crawler: S.optional(__S(11073, __c346, 1)) })).annotate({
         identifier: "GetCrawlerResponse",
       });
   }
 }
-function __c98(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          CrawlerNameList: S.optional(__S(10336, __c323, 0)),
+          CrawlerNameList: S.optional(__S(10528, __c329, 0)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -20510,17 +20884,17 @@ function __c98(j: number): any {
         }),
       ).annotate({ identifier: "CrawlerMetrics" });
     case 2:
-      return S.Array(__S(3137, __c98, 1));
+      return S.Array(__S(3201, __c100, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          CrawlerMetricsList: S.optional(__S(3138, __c98, 2)),
+          CrawlerMetricsList: S.optional(__S(3202, __c100, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetCrawlerMetricsResponse" });
   }
 }
-function __c99(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20530,11 +20904,11 @@ function __c99(j: number): any {
       ).annotate({ identifier: "GetCrawlersRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Crawlers: S.optional(__S(10912, __c341, 0)), NextToken: S.optional(S.String) }),
+        S.Struct({ Crawlers: S.optional(__S(11104, __c347, 0)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "GetCrawlersResponse" });
   }
 }
-function __c100(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20547,12 +20921,12 @@ function __c100(j: number): any {
         S.Struct({
           Name: S.optional(S.String),
           RegexString: S.optional(S.String),
-          ContextWords: S.optional(__S(10336, __c323, 0)),
+          ContextWords: S.optional(__S(10528, __c329, 0)),
         }),
       ).annotate({ identifier: "GetCustomEntityTypeResponse" });
   }
 }
-function __c101(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20568,7 +20942,7 @@ function __c101(j: number): any {
       });
   }
 }
-function __c102(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20577,12 +20951,12 @@ function __c102(j: number): any {
         ),
       ).annotate({ identifier: "GetDatabaseRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Database: S.optional(__S(3296, __c103, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ Database: S.optional(__S(3360, __c105, 0)) })).annotate({
         identifier: "GetDatabaseResponse",
       });
   }
 }
-function __c103(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20590,17 +20964,17 @@ function __c103(j: number): any {
           Name: S.String,
           Description: S.optional(S.String),
           LocationUri: S.optional(S.String),
-          Parameters: S.optional(__S(10464, __c327, 0)),
+          Parameters: S.optional(__S(10656, __c333, 0)),
           CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          CreateTableDefaultPermissions: S.optional(__S(12963, __c405, 3)),
-          TargetDatabase: S.optional(__S(13344, __c417, 0)),
+          CreateTableDefaultPermissions: S.optional(__S(13187, __c412, 3)),
+          TargetDatabase: S.optional(__S(13568, __c424, 0)),
           CatalogId: S.optional(S.String),
-          FederatedDatabase: S.optional(__S(12960, __c405, 0)),
+          FederatedDatabase: S.optional(__S(13184, __c412, 0)),
         }),
       ).annotate({ identifier: "Database" });
   }
 }
-function __c104(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20609,18 +20983,18 @@ function __c104(j: number): any {
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
           ResourceShareType: S.optional(S.String),
-          AttributesToGet: S.optional(__S(10944, __c342, 0)),
+          AttributesToGet: S.optional(__S(11136, __c348, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetDatabasesRequest" });
     case 1:
-      return S.Array(__S(3296, __c103, 0));
+      return S.Array(__S(3360, __c105, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ DatabaseList: __S(3329, __c104, 1), NextToken: S.optional(S.String) }),
+        S.Struct({ DatabaseList: __S(3393, __c106, 1), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "GetDatabasesResponse" });
   }
 }
-function __c105(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20630,11 +21004,11 @@ function __c105(j: number): any {
       ).annotate({ identifier: "GetDataCatalogEncryptionSettingsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ DataCatalogEncryptionSettings: S.optional(__S(3394, __c106, 2)) }),
+        S.Struct({ DataCatalogEncryptionSettings: S.optional(__S(3458, __c108, 2)) }),
       ).annotate({ identifier: "GetDataCatalogEncryptionSettingsResponse" });
   }
 }
-function __c106(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20654,13 +21028,13 @@ function __c106(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          EncryptionAtRest: S.optional(__S(3392, __c106, 0)),
-          ConnectionPasswordEncryption: S.optional(__S(3393, __c106, 1)),
+          EncryptionAtRest: S.optional(__S(3456, __c108, 0)),
+          ConnectionPasswordEncryption: S.optional(__S(3457, __c108, 1)),
         }),
       ).annotate({ identifier: "DataCatalogEncryptionSettings" });
   }
 }
-function __c107(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20680,7 +21054,7 @@ function __c107(j: number): any {
         S.Struct({
           ExportSetting: S.optional(S.String),
           Status: S.optional(S.String),
-          EncryptionConfiguration: S.optional(__S(3456, __c108, 0)),
+          EncryptionConfiguration: S.optional(__S(3520, __c110, 0)),
           S3TableBucketArn: S.optional(S.String),
           CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           UpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -20688,7 +21062,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "GetDataCatalogExportConfigurationOutput" });
   }
 }
-function __c108(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20696,7 +21070,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "ExportEncryptionConfiguration" });
   }
 }
-function __c109(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20707,13 +21081,50 @@ function __c109(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DagNodes: S.optional(__S(97, __c3, 1)),
-          DagEdges: S.optional(__S(99, __c3, 3)),
+          DagNodes: S.optional(__S(129, __c4, 1)),
+          DagEdges: S.optional(__S(131, __c4, 3)),
         }),
       ).annotate({ identifier: "GetDataflowGraphResponse" });
   }
 }
-function __c110(j: number): any {
+function __c112(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Name: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetDataQualityEvaluationConfigRequest" });
+  }
+}
+function __c113(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          EvaluationRunMode: S.optional(S.String),
+          CreatedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LastModifiedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Level: S.optional(S.String),
+          DataSource: S.optional(__S(13665, __c427, 1)),
+          RulesetName: S.optional(S.String),
+          ManagedRulesetName: S.optional(S.String),
+          Triggers: S.optional(__S(11136, __c348, 0)),
+          ScheduleExpression: S.optional(S.String),
+          StartAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          EndAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          PauseRuns: S.optional(S.Boolean),
+          Role: S.optional(S.String),
+          NumberOfWorkers: S.optional(S.Number),
+          Timeout: S.optional(S.Number),
+          AdditionalRunOptions: S.optional(__S(13666, __c427, 2)),
+          AdditionalDataSources: S.optional(__S(11622, __c363, 6)),
+        }),
+      ).annotate({ identifier: "GetDataQualityEvaluationConfigResponse" });
+  }
+}
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20732,7 +21143,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "GetDataQualityModelResponse" });
   }
 }
-function __c111(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20752,17 +21163,17 @@ function __c111(j: number): any {
         }),
       ).annotate({ identifier: "StatisticModelResult" });
     case 2:
-      return S.Array(__S(3553, __c111, 1));
+      return S.Array(__S(3681, __c115, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           CompletedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          Model: S.optional(__S(3554, __c111, 2)),
+          Model: S.optional(__S(3682, __c115, 2)),
         }),
       ).annotate({ identifier: "GetDataQualityModelResultResponse" });
   }
 }
-function __c112(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20772,7 +21183,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "GetDataQualityResultRequest" });
   }
 }
-function __c113(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20784,26 +21195,28 @@ function __c113(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ResultId: S.optional(S.String),
-          DataSource: S.optional(__S(11233, __c351, 1)),
+          EvaluationRunMode: S.optional(S.String),
+          DataQualityEvaluationConfig: S.optional(S.String),
+          DataSource: S.optional(__S(11425, __c357, 1)),
           ProfileId: S.optional(S.String),
-          Dimensions: S.optional(__S(10464, __c327, 0)),
-          Tags: S.optional(__S(10464, __c327, 0)),
+          Dimensions: S.optional(__S(10656, __c333, 0)),
+          Tags: S.optional(__S(10656, __c333, 0)),
           ExecutionStartedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ExecutionCompletedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ResultPublishedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Score: S.optional(S.Number),
-          RuleResults: S.optional(__S(11202, __c350, 2)),
-          AnalyzerResults: S.optional(__S(11205, __c350, 5)),
-          Observations: S.optional(__S(11209, __c350, 9)),
+          RuleResults: S.optional(__S(11394, __c356, 2)),
+          AnalyzerResults: S.optional(__S(11397, __c356, 5)),
+          Observations: S.optional(__S(11401, __c356, 9)),
           EvaluationContext: S.optional(S.String),
-          Descriptors: S.optional(__S(10464, __c327, 0)),
-          AggregatedMetrics: S.optional(__S(11210, __c350, 10)),
+          Descriptors: S.optional(__S(10656, __c333, 0)),
+          AggregatedMetrics: S.optional(__S(11402, __c356, 10)),
           RulesetName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetDataQualityResultV2Response" });
   }
 }
-function __c114(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20815,7 +21228,7 @@ function __c114(j: number): any {
       return S.suspend(() =>
         S.Struct({
           RunId: S.optional(S.String),
-          DataSource: S.optional(__S(11233, __c351, 1)),
+          DataSource: S.optional(__S(11425, __c357, 1)),
           Role: S.optional(S.String),
           NumberOfWorkers: S.optional(S.Number),
           Timeout: S.optional(S.Number),
@@ -20828,13 +21241,13 @@ function __c114(j: number): any {
           RecommendedRuleset: S.optional(S.String),
           CreatedRulesetName: S.optional(S.String),
           DataQualitySecurityConfiguration: S.optional(S.String),
-          AdditionalRunOptions: S.optional(__S(3680, __c115, 0)),
+          AdditionalRunOptions: S.optional(__S(3808, __c119, 0)),
           RecommendationMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetDataQualityRuleRecommendationRunResponse" });
   }
 }
-function __c115(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ CustomLogGroupPrefix: S.optional(S.String) })).annotate({
@@ -20842,7 +21255,7 @@ function __c115(j: number): any {
       });
   }
 }
-function __c116(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20856,7 +21269,7 @@ function __c116(j: number): any {
           Name: S.optional(S.String),
           Description: S.optional(S.String),
           Ruleset: S.optional(S.String),
-          TargetTable: S.optional(__S(13440, __c420, 0)),
+          TargetTable: S.optional(__S(13728, __c429, 0)),
           CreatedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastModifiedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           RecommendationRunId: S.optional(S.String),
@@ -20865,7 +21278,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "GetDataQualityRulesetResponse" });
   }
 }
-function __c117(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20875,7 +21288,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "GetDataQualityRulesetEvaluationRunRequest" });
   }
 }
-function __c118(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20884,12 +21297,12 @@ function __c118(j: number): any {
         ),
       ).annotate({ identifier: "GetDevEndpointRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ DevEndpoint: S.optional(__S(11456, __c358, 0)) })).annotate(
+      return S.suspend(() => S.Struct({ DevEndpoint: S.optional(__S(11680, __c365, 0)) })).annotate(
         { identifier: "GetDevEndpointResponse" },
       );
   }
 }
-function __c119(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20900,13 +21313,13 @@ function __c119(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DevEndpoints: S.optional(__S(11488, __c359, 0)),
+          DevEndpoints: S.optional(__S(11712, __c366, 0)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetDevEndpointsResponse" });
   }
 }
-function __c120(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20916,22 +21329,22 @@ function __c120(j: number): any {
           EntityName: S.String,
           NextToken: S.optional(S.String),
           DataStoreApiVersion: S.optional(S.String),
-          ConnectionOptions: S.optional(__S(10464, __c327, 0)),
+          ConnectionOptions: S.optional(__S(10656, __c333, 0)),
           FilterPredicate: S.optional(S.String),
           Limit: S.Number,
           OrderBy: S.optional(S.String),
-          SelectedFields: S.optional(__S(10336, __c323, 0)),
+          SelectedFields: S.optional(__S(10528, __c329, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetEntityRecordsRequest" });
     case 1:
       return S.Array(S.Any);
     case 2:
       return S.suspend(() =>
-        S.Struct({ Records: S.optional(__S(3841, __c120, 1)), NextToken: S.optional(S.String) }),
+        S.Struct({ Records: S.optional(__S(3969, __c124, 1)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "GetEntityRecordsResponse" });
   }
 }
-function __c121(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20948,7 +21361,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "GetFormTypeRequest" });
   }
 }
-function __c122(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20960,7 +21373,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "GetFormTypeResponse" });
   }
 }
-function __c123(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20977,7 +21390,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "GetGlossaryRequest" });
   }
 }
-function __c124(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20994,7 +21407,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "GetGlossaryTermRequest" });
   }
 }
-function __c125(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21007,13 +21420,13 @@ function __c125(j: number): any {
         S.Struct({
           ApplicationArn: S.optional(S.String),
           InstanceArn: S.optional(S.String),
-          Scopes: S.optional(__S(10336, __c323, 0)),
+          Scopes: S.optional(__S(10528, __c329, 0)),
           UserBackgroundSessionsEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GetGlueIdentityCenterConfigurationResponse" });
   }
 }
-function __c126(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21023,20 +21436,20 @@ function __c126(j: number): any {
       ).annotate({ identifier: "GetIntegrationResourcePropertyRequest" });
   }
 }
-function __c127(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ResourceArn: S.optional(S.String),
           ResourcePropertyArn: S.optional(S.String),
-          SourceProcessingProperties: S.optional(__S(13856, __c433, 0)),
-          TargetProcessingProperties: S.optional(__S(13857, __c433, 1)),
+          SourceProcessingProperties: S.optional(__S(14144, __c442, 0)),
+          TargetProcessingProperties: S.optional(__S(14145, __c442, 1)),
         }),
       ).annotate({ identifier: "GetIntegrationResourcePropertyResponse" });
   }
 }
-function __c128(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21049,13 +21462,13 @@ function __c128(j: number): any {
         S.Struct({
           ResourceArn: S.optional(S.String),
           TableName: S.optional(S.String),
-          SourceTableConfig: S.optional(__S(13952, __c436, 0)),
-          TargetTableConfig: S.optional(__S(13955, __c436, 3)),
+          SourceTableConfig: S.optional(__S(14240, __c445, 0)),
+          TargetTableConfig: S.optional(__S(14243, __c445, 3)),
         }),
       ).annotate({ identifier: "GetIntegrationTablePropertiesResponse" });
   }
 }
-function __c129(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21064,12 +21477,12 @@ function __c129(j: number): any {
         ),
       ).annotate({ identifier: "GetJobRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Job: S.optional(__S(11617, __c363, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ Job: S.optional(__S(11841, __c370, 1)) })).annotate({
         identifier: "GetJobResponse",
       });
   }
 }
-function __c130(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21079,7 +21492,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "GetJobBookmarkRequest" });
   }
 }
-function __c131(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21095,11 +21508,11 @@ function __c131(j: number): any {
       ).annotate({ identifier: "JobBookmarkEntry" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ JobBookmarkEntry: S.optional(__S(4192, __c131, 0)) }),
+        S.Struct({ JobBookmarkEntry: S.optional(__S(4320, __c135, 0)) }),
       ).annotate({ identifier: "GetJobBookmarkResponse" });
   }
 }
-function __c132(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21110,12 +21523,12 @@ function __c132(j: number): any {
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetJobRunRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ JobRun: S.optional(__S(12354, __c386, 2)) })).annotate({
+      return S.suspend(() => S.Struct({ JobRun: S.optional(__S(12578, __c393, 2)) })).annotate({
         identifier: "GetJobRunResponse",
       });
   }
 }
-function __c133(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21127,11 +21540,11 @@ function __c133(j: number): any {
       ).annotate({ identifier: "GetJobRunsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ JobRuns: S.optional(__S(12384, __c387, 0)), NextToken: S.optional(S.String) }),
+        S.Struct({ JobRuns: S.optional(__S(12608, __c394, 0)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "GetJobRunsResponse" });
   }
 }
-function __c134(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21141,11 +21554,11 @@ function __c134(j: number): any {
       ).annotate({ identifier: "GetJobsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Jobs: S.optional(__S(11648, __c364, 0)), NextToken: S.optional(S.String) }),
+        S.Struct({ Jobs: S.optional(__S(11872, __c371, 0)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "GetJobsResponse" });
   }
 }
-function __c135(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21169,36 +21582,36 @@ function __c135(j: number): any {
       ).annotate({ identifier: "GetJobUpgradeAnalysisResponse" });
   }
 }
-function __c136(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Source: __S(4384, __c137, 0),
-          Sinks: S.optional(__S(4385, __c137, 1)),
-          Location: S.optional(__S(4386, __c137, 2)),
+          Source: __S(4512, __c141, 0),
+          Sinks: S.optional(__S(4513, __c141, 1)),
+          Location: S.optional(__S(4514, __c141, 2)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetMappingRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Mapping: __S(4388, __c137, 4) })).annotate({
+      return S.suspend(() => S.Struct({ Mapping: __S(4516, __c141, 4) })).annotate({
         identifier: "GetMappingResponse",
       });
   }
 }
-function __c137(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ DatabaseName: S.String, TableName: S.String })).annotate({
         identifier: "CatalogEntry",
       });
     case 1:
-      return S.Array(__S(4384, __c137, 0));
+      return S.Array(__S(4512, __c141, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Jdbc: S.optional(__S(129, __c4, 1)),
-          S3: S.optional(__S(129, __c4, 1)),
-          DynamoDB: S.optional(__S(129, __c4, 1)),
+          Jdbc: S.optional(__S(161, __c5, 1)),
+          S3: S.optional(__S(161, __c5, 1)),
+          DynamoDB: S.optional(__S(161, __c5, 1)),
         }),
       ).annotate({ identifier: "Location" });
     case 3:
@@ -21213,10 +21626,10 @@ function __c137(j: number): any {
         }),
       ).annotate({ identifier: "MappingEntry" });
     case 4:
-      return S.Array(__S(4387, __c137, 3));
+      return S.Array(__S(4515, __c141, 3));
   }
 }
-function __c138(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21226,11 +21639,11 @@ function __c138(j: number): any {
       ).annotate({ identifier: "GetMaterializedViewRefreshTaskRunRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ MaterializedViewRefreshTaskRun: S.optional(__S(4448, __c139, 0)) }),
+        S.Struct({ MaterializedViewRefreshTaskRun: S.optional(__S(4576, __c143, 0)) }),
       ).annotate({ identifier: "GetMaterializedViewRefreshTaskRunResponse" });
   }
 }
-function __c139(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21254,7 +21667,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "MaterializedViewRefreshTaskRun" });
   }
 }
-function __c140(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21264,7 +21677,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "GetMLTaskRunRequest" });
   }
 }
-function __c141(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21286,10 +21699,10 @@ function __c141(j: number): any {
       return S.suspend(() =>
         S.Struct({
           TaskType: S.optional(S.String),
-          ImportLabelsTaskRunProperties: S.optional(__S(4512, __c141, 0)),
-          ExportLabelsTaskRunProperties: S.optional(__S(4513, __c141, 1)),
-          LabelingSetGenerationTaskRunProperties: S.optional(__S(4513, __c141, 1)),
-          FindMatchesTaskRunProperties: S.optional(__S(4514, __c141, 2)),
+          ImportLabelsTaskRunProperties: S.optional(__S(4640, __c145, 0)),
+          ExportLabelsTaskRunProperties: S.optional(__S(4641, __c145, 1)),
+          LabelingSetGenerationTaskRunProperties: S.optional(__S(4641, __c145, 1)),
+          FindMatchesTaskRunProperties: S.optional(__S(4642, __c145, 2)),
         }),
       ).annotate({ identifier: "TaskRunProperties" });
     case 4:
@@ -21299,7 +21712,7 @@ function __c141(j: number): any {
           TaskRunId: S.optional(S.String),
           Status: S.optional(S.String),
           LogGroupName: S.optional(S.String),
-          Properties: S.optional(__S(4515, __c141, 3)),
+          Properties: S.optional(__S(4643, __c145, 3)),
           ErrorString: S.optional(S.String),
           StartedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastModifiedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -21309,7 +21722,7 @@ function __c141(j: number): any {
       ).annotate({ identifier: "GetMLTaskRunResponse" });
   }
 }
-function __c142(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21326,19 +21739,19 @@ function __c142(j: number): any {
           TransformId: S.String,
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
-          Filter: S.optional(__S(4544, __c142, 0)),
-          Sort: S.optional(__S(4576, __c143, 0)),
+          Filter: S.optional(__S(4672, __c146, 0)),
+          Sort: S.optional(__S(4704, __c147, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetMLTaskRunsRequest" });
     case 2:
-      return S.Array(__S(4516, __c141, 4));
+      return S.Array(__S(4644, __c145, 4));
     case 3:
       return S.suspend(() =>
-        S.Struct({ TaskRuns: S.optional(__S(4546, __c142, 2)), NextToken: S.optional(S.String) }),
+        S.Struct({ TaskRuns: S.optional(__S(4674, __c146, 2)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "GetMLTaskRunsResponse" });
   }
 }
-function __c143(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Column: S.String, SortDirection: S.String })).annotate({
@@ -21346,7 +21759,7 @@ function __c143(j: number): any {
       });
   }
 }
-function __c144(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21356,7 +21769,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "GetMLTransformRequest" });
   }
 }
-function __c145(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21372,7 +21785,7 @@ function __c145(j: number): any {
         S.Struct({ ColumnName: S.optional(S.String), Importance: S.optional(S.Number) }),
       ).annotate({ identifier: "ColumnImportance" });
     case 2:
-      return S.Array(__S(4641, __c145, 1));
+      return S.Array(__S(4769, __c149, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -21380,13 +21793,13 @@ function __c145(j: number): any {
           Precision: S.optional(S.Number),
           Recall: S.optional(S.Number),
           F1: S.optional(S.Number),
-          ConfusionMatrix: S.optional(__S(4640, __c145, 0)),
-          ColumnImportances: S.optional(__S(4642, __c145, 2)),
+          ConfusionMatrix: S.optional(__S(4768, __c149, 0)),
+          ColumnImportances: S.optional(__S(4770, __c149, 2)),
         }),
       ).annotate({ identifier: "FindMatchesMetrics" });
     case 4:
       return S.suspend(() =>
-        S.Struct({ TransformType: S.String, FindMatchesMetrics: S.optional(__S(4643, __c145, 3)) }),
+        S.Struct({ TransformType: S.String, FindMatchesMetrics: S.optional(__S(4771, __c149, 3)) }),
       ).annotate({ identifier: "EvaluationMetrics" });
     case 5:
       return S.suspend(() =>
@@ -21397,11 +21810,11 @@ function __c145(j: number): any {
           Status: S.optional(S.String),
           CreatedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastModifiedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          InputRecordTables: S.optional(__S(14080, __c440, 0)),
-          Parameters: S.optional(__S(14113, __c441, 1)),
-          EvaluationMetrics: S.optional(__S(4644, __c145, 4)),
+          InputRecordTables: S.optional(__S(14368, __c449, 0)),
+          Parameters: S.optional(__S(14401, __c450, 1)),
+          EvaluationMetrics: S.optional(__S(4772, __c149, 4)),
           LabelCount: S.optional(S.Number),
-          Schema: S.optional(__S(4673, __c146, 1)),
+          Schema: S.optional(__S(4801, __c150, 1)),
           Role: S.optional(S.String),
           GlueVersion: S.optional(S.String),
           MaxCapacity: S.optional(S.Number),
@@ -21409,41 +21822,41 @@ function __c145(j: number): any {
           NumberOfWorkers: S.optional(S.Number),
           Timeout: S.optional(S.Number),
           MaxRetries: S.optional(S.Number),
-          TransformEncryption: S.optional(__S(14082, __c440, 2)),
+          TransformEncryption: S.optional(__S(14370, __c449, 2)),
         }),
       ).annotate({ identifier: "GetMLTransformResponse" });
   }
 }
-function __c146(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ Name: S.optional(S.String), DataType: S.optional(S.String) }),
       ).annotate({ identifier: "SchemaColumn" });
     case 1:
-      return S.Array(__S(4672, __c146, 0));
+      return S.Array(__S(4800, __c150, 0));
   }
 }
-function __c147(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
-          Filter: S.optional(__S(4736, __c148, 0)),
-          Sort: S.optional(__S(4576, __c143, 0)),
+          Filter: S.optional(__S(4864, __c152, 0)),
+          Sort: S.optional(__S(4704, __c147, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetMLTransformsRequest" });
     case 1:
-      return S.Array(__S(4645, __c145, 5));
+      return S.Array(__S(4773, __c149, 5));
     case 2:
       return S.suspend(() =>
-        S.Struct({ Transforms: __S(4705, __c147, 1), NextToken: S.optional(S.String) }),
+        S.Struct({ Transforms: __S(4833, __c151, 1), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "GetMLTransformsResponse" });
   }
 }
-function __c148(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21456,12 +21869,12 @@ function __c148(j: number): any {
           CreatedAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastModifiedBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastModifiedAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          Schema: S.optional(__S(4673, __c146, 1)),
+          Schema: S.optional(__S(4801, __c150, 1)),
         }),
       ).annotate({ identifier: "TransformFilterCriteria" });
   }
 }
-function __c149(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21469,17 +21882,17 @@ function __c149(j: number): any {
           CatalogId: S.optional(S.String),
           DatabaseName: S.String,
           TableName: S.String,
-          PartitionValues: __S(10336, __c323, 0),
-          AuditContext: S.optional(__S(11936, __c373, 0)),
+          PartitionValues: __S(10528, __c329, 0),
+          AuditContext: S.optional(__S(12160, __c380, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetPartitionRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Partition: S.optional(__S(11968, __c374, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ Partition: S.optional(__S(12192, __c381, 0)) })).annotate({
         identifier: "GetPartitionResponse",
       });
   }
 }
-function __c150(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21495,34 +21908,34 @@ function __c150(j: number): any {
         identifier: "KeySchemaElement",
       });
     case 2:
-      return S.Array(__S(4801, __c150, 1));
+      return S.Array(__S(4929, __c154, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ Code: S.optional(S.String), Partitions: S.optional(__S(10657, __c333, 1)) }),
+        S.Struct({ Code: S.optional(S.String), Partitions: S.optional(__S(10849, __c339, 1)) }),
       ).annotate({ identifier: "BackfillError" });
     case 4:
-      return S.Array(__S(4803, __c150, 3));
+      return S.Array(__S(4931, __c154, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           IndexName: S.String,
-          Keys: __S(4802, __c150, 2),
+          Keys: __S(4930, __c154, 2),
           IndexStatus: S.String,
-          BackfillErrors: S.optional(__S(4804, __c150, 4)),
+          BackfillErrors: S.optional(__S(4932, __c154, 4)),
         }),
       ).annotate({ identifier: "PartitionIndexDescriptor" });
     case 6:
-      return S.Array(__S(4805, __c150, 5));
+      return S.Array(__S(4933, __c154, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          PartitionIndexDescriptorList: S.optional(__S(4806, __c150, 6)),
+          PartitionIndexDescriptorList: S.optional(__S(4934, __c154, 6)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetPartitionIndexesResponse" });
   }
 }
-function __c151(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21532,24 +21945,24 @@ function __c151(j: number): any {
           TableName: S.String,
           Expression: S.optional(S.String),
           NextToken: S.optional(S.String),
-          Segment: S.optional(__S(4864, __c152, 0)),
+          Segment: S.optional(__S(4992, __c156, 0)),
           MaxResults: S.optional(S.Number),
           ExcludeColumnSchema: S.optional(S.Boolean),
           TransactionId: S.optional(S.String),
           QueryAsOfTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          AuditContext: S.optional(__S(11936, __c373, 0)),
+          AuditContext: S.optional(__S(12160, __c380, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetPartitionsRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Partitions: S.optional(__S(12000, __c375, 0)),
+          Partitions: S.optional(__S(12224, __c382, 0)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetPartitionsResponse" });
   }
 }
-function __c152(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21557,32 +21970,32 @@ function __c152(j: number): any {
       ).annotate({ identifier: "Segment" });
   }
 }
-function __c153(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Mapping: __S(4388, __c137, 4),
-          Source: __S(4384, __c137, 0),
-          Sinks: S.optional(__S(4385, __c137, 1)),
-          Location: S.optional(__S(4386, __c137, 2)),
+          Mapping: __S(4516, __c141, 4),
+          Source: __S(4512, __c141, 0),
+          Sinks: S.optional(__S(4513, __c141, 1)),
+          Location: S.optional(__S(4514, __c141, 2)),
           Language: S.optional(S.String),
-          AdditionalPlanOptionsMap: S.optional(__S(10464, __c327, 0)),
+          AdditionalPlanOptionsMap: S.optional(__S(10656, __c333, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetPlanRequest" });
   }
 }
-function __c154(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ RegistryId: __S(32, __c1, 0) }).pipe(
+        S.Struct({ RegistryId: __S(64, __c2, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "GetRegistryInput" });
   }
 }
-function __c155(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21597,7 +22010,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "GetRegistryResponse" });
   }
 }
-function __c156(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21606,17 +22019,17 @@ function __c156(j: number): any {
         ),
       ).annotate({ identifier: "GetResourcePoliciesRequest" });
     case 1:
-      return S.Array(__S(5024, __c157, 0));
+      return S.Array(__S(5152, __c161, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          GetResourcePoliciesResponseList: S.optional(__S(4993, __c156, 1)),
+          GetResourcePoliciesResponseList: S.optional(__S(5121, __c160, 1)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetResourcePoliciesResponse" });
   }
 }
-function __c157(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21629,7 +22042,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "GluePolicy" });
   }
 }
-function __c158(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21639,11 +22052,11 @@ function __c158(j: number): any {
       ).annotate({ identifier: "GetResourcePolicyRequest" });
   }
 }
-function __c159(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ SchemaId: __S(10496, __c328, 0) }).pipe(
+        S.Struct({ SchemaId: __S(10688, __c334, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "GetSchemaInput" });
@@ -21667,11 +22080,11 @@ function __c159(j: number): any {
       ).annotate({ identifier: "GetSchemaResponse" });
   }
 }
-function __c160(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ SchemaId: __S(10496, __c328, 0), SchemaDefinition: S.String }).pipe(
+        S.Struct({ SchemaId: __S(10688, __c334, 0), SchemaDefinition: S.String }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "GetSchemaByDefinitionInput" });
@@ -21687,14 +22100,14 @@ function __c160(j: number): any {
       ).annotate({ identifier: "GetSchemaByDefinitionResponse" });
   }
 }
-function __c161(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          SchemaId: S.optional(__S(10496, __c328, 0)),
+          SchemaId: S.optional(__S(10688, __c334, 0)),
           SchemaVersionId: S.optional(S.String),
-          SchemaVersionNumber: S.optional(__S(5184, __c162, 0)),
+          SchemaVersionNumber: S.optional(__S(5312, __c166, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetSchemaVersionInput" });
     case 1:
@@ -21711,7 +22124,7 @@ function __c161(j: number): any {
       ).annotate({ identifier: "GetSchemaVersionResponse" });
   }
 }
-function __c162(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21719,14 +22132,14 @@ function __c162(j: number): any {
       ).annotate({ identifier: "SchemaVersionNumber" });
   }
 }
-function __c163(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          SchemaId: __S(10496, __c328, 0),
-          FirstSchemaVersionNumber: __S(5184, __c162, 0),
-          SecondSchemaVersionNumber: __S(5184, __c162, 0),
+          SchemaId: __S(10688, __c334, 0),
+          FirstSchemaVersionNumber: __S(5312, __c166, 0),
+          SecondSchemaVersionNumber: __S(5312, __c166, 0),
           SchemaDiffType: S.String,
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetSchemaVersionsDiffInput" });
@@ -21736,7 +22149,7 @@ function __c163(j: number): any {
       });
   }
 }
-function __c164(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21746,23 +22159,23 @@ function __c164(j: number): any {
       ).annotate({ identifier: "GetSecurityConfigurationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ SecurityConfiguration: S.optional(__S(5280, __c165, 0)) }),
+        S.Struct({ SecurityConfiguration: S.optional(__S(5408, __c169, 0)) }),
       ).annotate({ identifier: "GetSecurityConfigurationResponse" });
   }
 }
-function __c165(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
           CreatedTimeStamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          EncryptionConfiguration: S.optional(__S(229, __c7, 5)),
+          EncryptionConfiguration: S.optional(__S(261, __c8, 5)),
         }),
       ).annotate({ identifier: "SecurityConfiguration" });
   }
 }
-function __c166(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21771,17 +22184,17 @@ function __c166(j: number): any {
         ),
       ).annotate({ identifier: "GetSecurityConfigurationsRequest" });
     case 1:
-      return S.Array(__S(5280, __c165, 0));
+      return S.Array(__S(5408, __c169, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          SecurityConfigurations: S.optional(__S(5313, __c166, 1)),
+          SecurityConfigurations: S.optional(__S(5441, __c170, 1)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSecurityConfigurationsResponse" });
   }
 }
-function __c167(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21791,7 +22204,7 @@ function __c167(j: number): any {
       ).annotate({ identifier: "GetSessionRequest" });
   }
 }
-function __c168(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21809,13 +22222,13 @@ function __c168(j: number): any {
       ).annotate({ identifier: "SessionEndpoint" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ SparkConnect: __S(5377, __c168, 1) }).pipe(
+        S.Struct({ SparkConnect: __S(5505, __c172, 1) }).pipe(
           S.encodeKeys({ SparkConnect: "SPARK_CONNECT" }),
         ),
       ).annotate({ identifier: "GetSessionEndpointResponse" });
   }
 }
-function __c169(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21824,12 +22237,12 @@ function __c169(j: number): any {
         ),
       ).annotate({ identifier: "GetStatementRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Statement: S.optional(__S(5442, __c170, 2)) })).annotate({
+      return S.suspend(() => S.Struct({ Statement: S.optional(__S(5570, __c174, 2)) })).annotate({
         identifier: "GetStatementResponse",
       });
   }
 }
-function __c170(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ TextPlain: S.optional(S.String) })).annotate({
@@ -21838,12 +22251,12 @@ function __c170(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Data: S.optional(__S(5440, __c170, 0)),
+          Data: S.optional(__S(5568, __c174, 0)),
           ExecutionCount: S.optional(S.Number),
           Status: S.optional(S.String),
           ErrorName: S.optional(S.String),
           ErrorValue: S.optional(S.String),
-          Traceback: S.optional(__S(10336, __c323, 0)),
+          Traceback: S.optional(__S(10528, __c329, 0)),
         }),
       ).annotate({ identifier: "StatementOutput" });
     case 2:
@@ -21852,7 +22265,7 @@ function __c170(j: number): any {
           Id: S.optional(S.Number),
           Code: S.optional(S.String),
           State: S.optional(S.String),
-          Output: S.optional(__S(5441, __c170, 1)),
+          Output: S.optional(__S(5569, __c174, 1)),
           Progress: S.optional(S.Number),
           StartedOn: S.optional(S.Number),
           CompletedOn: S.optional(S.Number),
@@ -21860,7 +22273,7 @@ function __c170(j: number): any {
       ).annotate({ identifier: "Statement" });
   }
 }
-function __c171(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21870,7 +22283,7 @@ function __c171(j: number): any {
       ).annotate({ identifier: "GetSystemLogsForJobRunRequest" });
   }
 }
-function __c172(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ SystemLogsUrl: S.optional(S.String) })).annotate({
@@ -21878,7 +22291,7 @@ function __c172(j: number): any {
       });
   }
 }
-function __c173(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21888,7 +22301,7 @@ function __c173(j: number): any {
       ).annotate({ identifier: "GetSystemLogsForSessionRequest" });
   }
 }
-function __c174(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21898,18 +22311,18 @@ function __c174(j: number): any {
           Name: S.String,
           TransactionId: S.optional(S.String),
           QueryAsOfTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          AuditContext: S.optional(__S(11936, __c373, 0)),
+          AuditContext: S.optional(__S(12160, __c380, 0)),
           IncludeStatusDetails: S.optional(S.Boolean),
-          AttributesToGet: S.optional(__S(10944, __c342, 0)),
+          AttributesToGet: S.optional(__S(11136, __c348, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetTableRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Table: S.optional(__S(5612, __c175, 12)) })).annotate({
+      return S.suspend(() => S.Struct({ Table: S.optional(__S(5740, __c179, 12)) })).annotate({
         identifier: "GetTableResponse",
       });
   }
 }
-function __c175(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -21923,7 +22336,7 @@ function __c175(j: number): any {
         }),
       ).annotate({ identifier: "ViewRepresentation" });
     case 1:
-      return S.Array(__S(5600, __c175, 0));
+      return S.Array(__S(5728, __c179, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -21934,33 +22347,33 @@ function __c175(j: number): any {
           ViewVersionToken: S.optional(S.String),
           RefreshSeconds: S.optional(S.Number),
           LastRefreshType: S.optional(S.String),
-          SubObjects: S.optional(__S(10336, __c323, 0)),
-          SubObjectVersionIds: S.optional(__S(11136, __c348, 0)),
-          SubObjectsStatistics: S.optional(__S(387, __c12, 3)),
-          Representations: S.optional(__S(5601, __c175, 1)),
-          SparkPipelineInfo: S.optional(__S(10464, __c327, 0)),
+          SubObjects: S.optional(__S(10528, __c329, 0)),
+          SubObjectVersionIds: S.optional(__S(11328, __c354, 0)),
+          SubObjectsStatistics: S.optional(__S(419, __c13, 3)),
+          Representations: S.optional(__S(5729, __c179, 1)),
+          SparkPipelineInfo: S.optional(__S(10656, __c333, 0)),
         }),
       ).annotate({ identifier: "ViewDefinition" });
     case 3:
-      return S.Array(__S(390, __c12, 6));
+      return S.Array(__S(422, __c13, 6));
     case 4:
-      return S.Array(__S(393, __c12, 9));
+      return S.Array(__S(425, __c13, 9));
     case 5:
-      return S.Array(__S(396, __c12, 12));
+      return S.Array(__S(428, __c13, 12));
     case 6:
       return S.suspend(() =>
         S.Struct({
           FormatVersion: S.optional(S.String),
           TableUuid: S.optional(S.String),
           Location: S.optional(S.String),
-          Properties: S.optional(__S(10464, __c327, 0)),
-          Schemas: S.optional(__S(5603, __c175, 3)),
+          Properties: S.optional(__S(10656, __c333, 0)),
+          Schemas: S.optional(__S(5731, __c179, 3)),
           CurrentSchemaId: S.optional(S.Number),
           LastColumnId: S.optional(S.Number),
-          PartitionSpecs: S.optional(__S(5604, __c175, 4)),
+          PartitionSpecs: S.optional(__S(5732, __c179, 4)),
           DefaultSpecId: S.optional(S.Number),
           LastPartitionId: S.optional(S.Number),
-          SortOrders: S.optional(__S(5605, __c175, 5)),
+          SortOrders: S.optional(__S(5733, __c179, 5)),
           DefaultSortOrderId: S.optional(S.Number),
         }),
       ).annotate({ identifier: "IcebergTableMetadata" });
@@ -21972,20 +22385,20 @@ function __c175(j: number): any {
           ViewValidationText: S.optional(S.String),
           UpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           State: S.optional(S.String),
-          Error: S.optional(__S(10400, __c325, 0)),
+          Error: S.optional(__S(10592, __c331, 0)),
         }),
       ).annotate({ identifier: "ViewValidation" });
     case 8:
-      return S.Array(__S(5607, __c175, 7));
+      return S.Array(__S(5735, __c179, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           RequestedChange: S.optional(
-            S.suspend((): S.Schema<Table> => __S(5612, __c175, 12)).annotate({
+            S.suspend((): S.Schema<Table> => __S(5740, __c179, 12)).annotate({
               identifier: "Table",
             }),
           ),
-          ViewValidations: S.optional(__S(5608, __c175, 8)),
+          ViewValidations: S.optional(__S(5736, __c179, 8)),
         }),
       ).annotate({ identifier: "StatusDetails" });
     case 10:
@@ -21997,9 +22410,9 @@ function __c175(j: number): any {
           UpdateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Action: S.optional(S.String),
           State: S.optional(S.String),
-          Error: S.optional(__S(10400, __c325, 0)),
+          Error: S.optional(__S(10592, __c331, 0)),
           Details: S.optional(
-            S.suspend((): S.Schema<StatusDetails> => __S(5609, __c175, 9)).annotate({
+            S.suspend((): S.Schema<StatusDetails> => __S(5737, __c179, 9)).annotate({
               identifier: "StatusDetails",
             }),
           ),
@@ -22021,33 +22434,33 @@ function __c175(j: number): any {
           LastAccessTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastAnalyzedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Retention: S.optional(S.Number),
-          StorageDescriptor: S.optional(__S(10535, __c329, 7)),
-          PartitionKeys: S.optional(__S(10529, __c329, 1)),
+          StorageDescriptor: S.optional(__S(10727, __c335, 7)),
+          PartitionKeys: S.optional(__S(10721, __c335, 1)),
           ViewOriginalText: S.optional(S.String),
           ViewExpandedText: S.optional(S.String),
           TableType: S.optional(S.String),
-          Parameters: S.optional(__S(10464, __c327, 0)),
+          Parameters: S.optional(__S(10656, __c333, 0)),
           CreatedBy: S.optional(S.String),
           IsRegisteredWithLakeFormation: S.optional(S.Boolean),
-          TargetTable: S.optional(__S(384, __c12, 0)),
+          TargetTable: S.optional(__S(416, __c13, 0)),
           CatalogId: S.optional(S.String),
           VersionId: S.optional(S.String),
-          FederatedTable: S.optional(__S(385, __c12, 1)),
-          ViewDefinition: S.optional(__S(5602, __c175, 2)),
+          FederatedTable: S.optional(__S(417, __c13, 1)),
+          ViewDefinition: S.optional(__S(5730, __c179, 2)),
           IsMultiDialectView: S.optional(S.Boolean),
           IsMaterializedView: S.optional(S.Boolean),
-          IcebergTableMetadata: S.optional(__S(5606, __c175, 6)),
+          IcebergTableMetadata: S.optional(__S(5734, __c179, 6)),
           Status: S.optional(
-            S.suspend((): S.Schema<TableStatus> => __S(5610, __c175, 10)).annotate({
+            S.suspend((): S.Schema<TableStatus> => __S(5738, __c179, 10)).annotate({
               identifier: "TableStatus",
             }),
           ),
-          RLSProperties: S.optional(__S(5611, __c175, 11)),
+          RLSProperties: S.optional(__S(5739, __c179, 11)),
         }),
       ).annotate({ identifier: "Table" });
   }
 }
-function __c176(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22064,12 +22477,12 @@ function __c176(j: number): any {
           CatalogId: S.optional(S.String),
           DatabaseName: S.optional(S.String),
           TableName: S.optional(S.String),
-          TableOptimizer: S.optional(__S(12128, __c379, 0)),
+          TableOptimizer: S.optional(__S(12352, __c386, 0)),
         }),
       ).annotate({ identifier: "GetTableOptimizerResponse" });
   }
 }
-function __c177(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22081,29 +22494,29 @@ function __c177(j: number): any {
           MaxResults: S.optional(S.Number),
           TransactionId: S.optional(S.String),
           QueryAsOfTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          AuditContext: S.optional(__S(11936, __c373, 0)),
+          AuditContext: S.optional(__S(12160, __c380, 0)),
           ResourceShareType: S.optional(S.String),
           IncludeStatusDetails: S.optional(S.Boolean),
-          AttributesToGet: S.optional(__S(10944, __c342, 0)),
+          AttributesToGet: S.optional(__S(11136, __c348, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetTablesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ TableList: S.optional(__S(5696, __c178, 0)), NextToken: S.optional(S.String) }),
+        S.Struct({ TableList: S.optional(__S(5824, __c182, 0)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "GetTablesResponse" });
   }
 }
-function __c178(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.Array(
-        /*@__PURE__*/ S.suspend((): S.Schema<Table> => __S(5612, __c175, 12)).annotate({
+        /*@__PURE__*/ S.suspend((): S.Schema<Table> => __S(5740, __c179, 12)).annotate({
           identifier: "Table",
         }),
       );
   }
 }
-function __c179(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22112,24 +22525,24 @@ function __c179(j: number): any {
           DatabaseName: S.String,
           TableName: S.String,
           VersionId: S.optional(S.String),
-          AuditContext: S.optional(__S(11936, __c373, 0)),
+          AuditContext: S.optional(__S(12160, __c380, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetTableVersionRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ TableVersion: S.optional(__S(5760, __c180, 0)) })).annotate(
+      return S.suspend(() => S.Struct({ TableVersion: S.optional(__S(5888, __c184, 0)) })).annotate(
         { identifier: "GetTableVersionResponse" },
       );
   }
 }
-function __c180(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Table: S.optional(__S(5612, __c175, 12)), VersionId: S.optional(S.String) }),
+        S.Struct({ Table: S.optional(__S(5740, __c179, 12)), VersionId: S.optional(S.String) }),
       ).annotate({ identifier: "TableVersion" });
   }
 }
-function __c181(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22139,21 +22552,21 @@ function __c181(j: number): any {
           TableName: S.String,
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
-          AuditContext: S.optional(__S(11936, __c373, 0)),
+          AuditContext: S.optional(__S(12160, __c380, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetTableVersionsRequest" });
     case 1:
-      return S.Array(__S(5760, __c180, 0));
+      return S.Array(__S(5888, __c184, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          TableVersions: S.optional(__S(5793, __c181, 1)),
+          TableVersions: S.optional(__S(5921, __c185, 1)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetTableVersionsResponse" });
   }
 }
-function __c182(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22162,12 +22575,12 @@ function __c182(j: number): any {
         ),
       ).annotate({ identifier: "GetTagsRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Tags: S.optional(__S(10464, __c327, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ Tags: S.optional(__S(10656, __c333, 0)) })).annotate({
         identifier: "GetTagsResponse",
       });
   }
 }
-function __c183(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22177,7 +22590,7 @@ function __c183(j: number): any {
       ).annotate({ identifier: "GetTriggerRequest" });
   }
 }
-function __c184(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22189,11 +22602,11 @@ function __c184(j: number): any {
       ).annotate({ identifier: "GetTriggersRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Triggers: S.optional(__S(12224, __c382, 0)), NextToken: S.optional(S.String) }),
+        S.Struct({ Triggers: S.optional(__S(12448, __c389, 0)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "GetTriggersResponse" });
   }
 }
-function __c185(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22202,27 +22615,27 @@ function __c185(j: number): any {
           CatalogId: S.String,
           DatabaseName: S.String,
           TableName: S.String,
-          PartitionValues: __S(10336, __c323, 0),
-          AuditContext: S.optional(__S(11936, __c373, 0)),
-          SupportedPermissionTypes: __S(10944, __c342, 0),
-          QuerySessionContext: S.optional(__S(12032, __c376, 0)),
+          PartitionValues: __S(10528, __c329, 0),
+          AuditContext: S.optional(__S(12160, __c380, 0)),
+          SupportedPermissionTypes: __S(11136, __c348, 0),
+          QuerySessionContext: S.optional(__S(12256, __c383, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetUnfilteredPartitionMetadataRequest" });
   }
 }
-function __c186(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Partition: S.optional(__S(11968, __c374, 0)),
-          AuthorizedColumns: S.optional(__S(10336, __c323, 0)),
+          Partition: S.optional(__S(12192, __c381, 0)),
+          AuthorizedColumns: S.optional(__S(10528, __c329, 0)),
           IsRegisteredWithLakeFormation: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GetUnfilteredPartitionMetadataResponse" });
   }
 }
-function __c187(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22232,26 +22645,26 @@ function __c187(j: number): any {
           DatabaseName: S.String,
           TableName: S.String,
           Expression: S.optional(S.String),
-          AuditContext: S.optional(__S(11936, __c373, 0)),
-          SupportedPermissionTypes: __S(10944, __c342, 0),
+          AuditContext: S.optional(__S(12160, __c380, 0)),
+          SupportedPermissionTypes: __S(11136, __c348, 0),
           NextToken: S.optional(S.String),
-          Segment: S.optional(__S(4864, __c152, 0)),
+          Segment: S.optional(__S(4992, __c156, 0)),
           MaxResults: S.optional(S.Number),
-          QuerySessionContext: S.optional(__S(12032, __c376, 0)),
+          QuerySessionContext: S.optional(__S(12256, __c383, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetUnfilteredPartitionsMetadataRequest" });
     case 1:
-      return S.Array(__S(5952, __c186, 0));
+      return S.Array(__S(6080, __c190, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          UnfilteredPartitions: S.optional(__S(5985, __c187, 1)),
+          UnfilteredPartitions: S.optional(__S(6113, __c191, 1)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetUnfilteredPartitionsMetadataResponse" });
   }
 }
-function __c188(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22264,13 +22677,13 @@ function __c188(j: number): any {
           CatalogId: S.String,
           DatabaseName: S.String,
           Name: S.String,
-          AuditContext: S.optional(__S(11936, __c373, 0)),
-          SupportedPermissionTypes: __S(10944, __c342, 0),
+          AuditContext: S.optional(__S(12160, __c380, 0)),
+          SupportedPermissionTypes: __S(11136, __c348, 0),
           ParentResourceArn: S.optional(S.String),
           RootResourceArn: S.optional(S.String),
-          SupportedDialect: S.optional(__S(6016, __c188, 0)),
-          Permissions: S.optional(__S(10944, __c342, 0)),
-          QuerySessionContext: S.optional(__S(12032, __c376, 0)),
+          SupportedDialect: S.optional(__S(6144, __c192, 0)),
+          Permissions: S.optional(__S(11136, __c348, 0)),
+          QuerySessionContext: S.optional(__S(12256, __c383, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetUnfilteredTableMetadataRequest" });
     case 2:
@@ -22278,26 +22691,26 @@ function __c188(j: number): any {
         S.Struct({ ColumnName: S.optional(S.String), RowFilterExpression: S.optional(S.String) }),
       ).annotate({ identifier: "ColumnRowFilter" });
     case 3:
-      return S.Array(__S(6018, __c188, 2));
+      return S.Array(__S(6146, __c192, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          Table: S.optional(__S(5612, __c175, 12)),
-          AuthorizedColumns: S.optional(__S(10336, __c323, 0)),
+          Table: S.optional(__S(5740, __c179, 12)),
+          AuthorizedColumns: S.optional(__S(10528, __c329, 0)),
           IsRegisteredWithLakeFormation: S.optional(S.Boolean),
-          CellFilters: S.optional(__S(6019, __c188, 3)),
+          CellFilters: S.optional(__S(6147, __c192, 3)),
           QueryAuthorizationId: S.optional(S.String),
           IsMultiDialectView: S.optional(S.Boolean),
           IsMaterializedView: S.optional(S.Boolean),
           ResourceArn: S.optional(S.String),
           IsProtected: S.optional(S.Boolean),
-          Permissions: S.optional(__S(10944, __c342, 0)),
+          Permissions: S.optional(__S(11136, __c348, 0)),
           RowFilter: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetUnfilteredTableMetadataResponse" });
   }
 }
-function __c189(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22310,14 +22723,14 @@ function __c189(j: number): any {
         S.Struct({
           Name: S.optional(S.String),
           Description: S.optional(S.String),
-          Configuration: S.optional(__S(546, __c17, 2)),
+          Configuration: S.optional(__S(578, __c18, 2)),
           CreatedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastModifiedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "GetUsageProfileResponse" });
   }
 }
-function __c190(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22329,11 +22742,11 @@ function __c190(j: number): any {
       ).annotate({ identifier: "GetUserDefinedFunctionRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ UserDefinedFunction: S.optional(__S(6112, __c191, 0)) }),
+        S.Struct({ UserDefinedFunction: S.optional(__S(6240, __c195, 0)) }),
       ).annotate({ identifier: "GetUserDefinedFunctionResponse" });
   }
 }
-function __c191(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22345,7 +22758,7 @@ function __c191(j: number): any {
           FunctionType: S.optional(S.String),
           OwnerType: S.optional(S.String),
           CreateTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          ResourceUris: S.optional(__S(609, __c19, 1)),
+          ResourceUris: S.optional(__S(641, __c20, 1)),
           ArtifactLocation: S.optional(S.String),
           GovernanceMode: S.optional(S.String),
           CatalogId: S.optional(S.String),
@@ -22353,7 +22766,7 @@ function __c191(j: number): any {
       ).annotate({ identifier: "UserDefinedFunction" });
   }
 }
-function __c192(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22367,17 +22780,17 @@ function __c192(j: number): any {
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetUserDefinedFunctionsRequest" });
     case 1:
-      return S.Array(__S(6112, __c191, 0));
+      return S.Array(__S(6240, __c195, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          UserDefinedFunctions: S.optional(__S(6145, __c192, 1)),
+          UserDefinedFunctions: S.optional(__S(6273, __c196, 1)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetUserDefinedFunctionsResponse" });
   }
 }
-function __c193(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22386,12 +22799,12 @@ function __c193(j: number): any {
         ),
       ).annotate({ identifier: "GetWorkflowRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Workflow: S.optional(__S(12449, __c389, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ Workflow: S.optional(__S(12673, __c396, 1)) })).annotate({
         identifier: "GetWorkflowResponse",
       });
   }
 }
-function __c194(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22400,12 +22813,12 @@ function __c194(j: number): any {
         ),
       ).annotate({ identifier: "GetWorkflowRunRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ Run: S.optional(__S(12491, __c390, 11)) })).annotate({
+      return S.suspend(() => S.Struct({ Run: S.optional(__S(12715, __c397, 11)) })).annotate({
         identifier: "GetWorkflowRunResponse",
       });
   }
 }
-function __c195(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22415,11 +22828,11 @@ function __c195(j: number): any {
       ).annotate({ identifier: "GetWorkflowRunPropertiesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ RunProperties: S.optional(__S(10464, __c327, 0)) }),
+        S.Struct({ RunProperties: S.optional(__S(10656, __c333, 0)) }),
       ).annotate({ identifier: "GetWorkflowRunPropertiesResponse" });
   }
 }
-function __c196(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22431,14 +22844,14 @@ function __c196(j: number): any {
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetWorkflowRunsRequest" });
     case 1:
-      return S.Array(__S(12491, __c390, 11));
+      return S.Array(__S(12715, __c397, 11));
     case 2:
       return S.suspend(() =>
-        S.Struct({ Runs: S.optional(__S(6273, __c196, 1)), NextToken: S.optional(S.String) }),
+        S.Struct({ Runs: S.optional(__S(6401, __c200, 1)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "GetWorkflowRunsResponse" });
   }
 }
-function __c197(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22448,7 +22861,7 @@ function __c197(j: number): any {
       ).annotate({ identifier: "ImportCatalogToGlueRequest" });
   }
 }
-function __c198(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22461,40 +22874,40 @@ function __c198(j: number): any {
       ).annotate({ identifier: "ListAssetTypesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Items: S.optional(__S(6369, __c199, 1)), NextToken: S.optional(S.String) }),
+        S.Struct({ Items: S.optional(__S(6497, __c203, 1)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListAssetTypesResponse" });
   }
 }
-function __c199(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ Id: S.optional(S.String), Name: S.optional(S.String) }),
       ).annotate({ identifier: "AssetTypeItem" });
     case 1:
-      return S.Array(__S(6368, __c199, 0));
+      return S.Array(__S(6496, __c203, 0));
   }
 }
-function __c200(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
-          Tags: S.optional(__S(10464, __c327, 0)),
+          Tags: S.optional(__S(10656, __c333, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListBlueprintsRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Blueprints: S.optional(__S(10336, __c323, 0)),
+          Blueprints: S.optional(__S(10528, __c329, 0)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListBlueprintsResponse" });
   }
 }
-function __c201(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22505,13 +22918,13 @@ function __c201(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ColumnStatisticsTaskRunIds: S.optional(__S(10336, __c323, 0)),
+          ColumnStatisticsTaskRunIds: S.optional(__S(10528, __c329, 0)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListColumnStatisticsTaskRunsResponse" });
   }
 }
-function __c202(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22529,7 +22942,7 @@ function __c202(j: number): any {
         }),
       ).annotate({ identifier: "ConnectionTypeVariant" });
     case 2:
-      return S.Array(__S(6465, __c202, 1));
+      return S.Array(__S(6593, __c206, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -22537,43 +22950,43 @@ function __c202(j: number): any {
           DisplayName: S.optional(S.String),
           Vendor: S.optional(S.String),
           Description: S.optional(S.String),
-          Categories: S.optional(__S(10336, __c323, 0)),
-          Capabilities: S.optional(__S(2080, __c65, 0)),
+          Categories: S.optional(__S(10528, __c329, 0)),
+          Capabilities: S.optional(__S(2144, __c67, 0)),
           LogoUrl: S.optional(S.String),
-          ConnectionTypeVariants: S.optional(__S(6466, __c202, 2)),
+          ConnectionTypeVariants: S.optional(__S(6594, __c206, 2)),
         }),
       ).annotate({ identifier: "ConnectionTypeBrief" });
     case 4:
-      return S.Array(__S(6467, __c202, 3));
+      return S.Array(__S(6595, __c206, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          ConnectionTypes: S.optional(__S(6468, __c202, 4)),
+          ConnectionTypes: S.optional(__S(6596, __c206, 4)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListConnectionTypesResponse" });
   }
 }
-function __c203(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
-          Tags: S.optional(__S(10464, __c327, 0)),
+          Tags: S.optional(__S(10656, __c333, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListCrawlersRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          CrawlerNames: S.optional(__S(10336, __c323, 0)),
+          CrawlerNames: S.optional(__S(10528, __c329, 0)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCrawlersResponse" });
   }
 }
-function __c204(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22584,13 +22997,13 @@ function __c204(j: number): any {
         }),
       ).annotate({ identifier: "CrawlsFilter" });
     case 1:
-      return S.Array(__S(6528, __c204, 0));
+      return S.Array(__S(6656, __c208, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           CrawlerName: S.String,
           MaxResults: S.optional(S.Number),
-          Filters: S.optional(__S(6529, __c204, 1)),
+          Filters: S.optional(__S(6657, __c208, 1)),
           NextToken: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListCrawlsRequest" });
@@ -22610,48 +23023,97 @@ function __c204(j: number): any {
         }),
       ).annotate({ identifier: "CrawlerHistory" });
     case 4:
-      return S.Array(__S(6531, __c204, 3));
+      return S.Array(__S(6659, __c208, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ Crawls: S.optional(__S(6532, __c204, 4)), NextToken: S.optional(S.String) }),
+        S.Struct({ Crawls: S.optional(__S(6660, __c208, 4)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListCrawlsResponse" });
   }
 }
-function __c205(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
-          Tags: S.optional(__S(10464, __c327, 0)),
+          Tags: S.optional(__S(10656, __c333, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListCustomEntityTypesRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          CustomEntityTypes: S.optional(__S(11041, __c345, 1)),
+          CustomEntityTypes: S.optional(__S(11233, __c351, 1)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCustomEntityTypesResponse" });
   }
 }
-function __c206(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          DataSource: S.optional(__S(11233, __c351, 1)),
+          Level: S.optional(S.String),
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListDataQualityEvaluationConfigsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          CatalogId: S.String,
+          DatabaseName: S.optional(S.String),
+          TableNamePattern: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataQualityEvaluationConfigListGlueTables" });
+    case 2:
+      return S.suspend(() => S.Struct({ GlueTables: S.optional(__S(6721, __c210, 1)) })).annotate({
+        identifier: "DataQualityEvaluationConfigListDataSource",
+      });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          EvaluationRunMode: S.optional(S.String),
+          CreatedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          LastModifiedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Level: S.optional(S.String),
+          DataSource: S.optional(__S(6722, __c210, 2)),
+          RulesetName: S.optional(S.String),
+          ManagedRulesetName: S.optional(S.String),
+          PauseRuns: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "DataQualityEvaluationConfigListDetails" });
+    case 4:
+      return S.Array(__S(6723, __c210, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          DataQualityEvaluationConfigs: S.optional(__S(6724, __c210, 4)),
+          NextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListDataQualityEvaluationConfigsResponse" });
+  }
+}
+function __c211(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          DataSource: S.optional(__S(11425, __c357, 1)),
           JobName: S.optional(S.String),
           JobRunId: S.optional(S.String),
           StartedAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           StartedBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          EvaluationRunMode: S.optional(S.String),
+          DataQualityEvaluationConfig: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataQualityResultFilterCriteria" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Filter: S.optional(__S(6592, __c206, 0)),
+          Filter: S.optional(__S(6752, __c211, 0)),
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -22660,36 +23122,40 @@ function __c206(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ResultId: S.optional(S.String),
-          DataSource: S.optional(__S(11233, __c351, 1)),
+          EvaluationRunMode: S.optional(S.String),
+          DataQualityEvaluationConfig: S.optional(S.String),
+          DataSource: S.optional(__S(11425, __c357, 1)),
           JobName: S.optional(S.String),
           JobRunId: S.optional(S.String),
           StartedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "DataQualityResultDescription" });
     case 3:
-      return S.Array(__S(6594, __c206, 2));
+      return S.Array(__S(6754, __c211, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ Results: __S(6595, __c206, 3), NextToken: S.optional(S.String) }),
+        S.Struct({ Results: __S(6755, __c211, 3), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListDataQualityResultsResponse" });
   }
 }
-function __c207(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          DataSource: S.optional(__S(11233, __c351, 1)),
+          DataSource: S.optional(__S(11425, __c357, 1)),
           PublishedAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           PublishedBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          Dimensions: S.optional(__S(10464, __c327, 0)),
+          Dimensions: S.optional(__S(10656, __c333, 0)),
           EvaluationContext: S.optional(S.String),
+          EvaluationRunMode: S.optional(S.String),
+          DataQualityEvaluationConfig: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataQualityResultsV2FilterCriteria" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Filter: S.optional(__S(6624, __c207, 0)),
+          Filter: S.optional(__S(6784, __c212, 0)),
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -22698,27 +23164,29 @@ function __c207(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ResultId: S.optional(S.String),
-          DataSource: S.optional(__S(11233, __c351, 1)),
+          EvaluationRunMode: S.optional(S.String),
+          DataQualityEvaluationConfig: S.optional(S.String),
+          DataSource: S.optional(__S(11425, __c357, 1)),
           ResultPublishedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          Dimensions: S.optional(__S(10464, __c327, 0)),
+          Dimensions: S.optional(__S(10656, __c333, 0)),
           EvaluationContext: S.optional(S.String),
-          Descriptors: S.optional(__S(10464, __c327, 0)),
+          Descriptors: S.optional(__S(10656, __c333, 0)),
         }),
       ).annotate({ identifier: "DataQualityResultsV2Description" });
     case 3:
-      return S.Array(__S(6626, __c207, 2));
+      return S.Array(__S(6786, __c212, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ Results: __S(6627, __c207, 3), NextToken: S.optional(S.String) }),
+        S.Struct({ Results: __S(6787, __c212, 3), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListDataQualityResultsV2Response" });
   }
 }
-function __c208(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          DataSource: __S(11233, __c351, 1),
+          DataSource: __S(11425, __c357, 1),
           StartedBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           StartedAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
@@ -22726,10 +23194,10 @@ function __c208(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Filter: S.optional(__S(6656, __c208, 0)),
+          Filter: S.optional(__S(6816, __c213, 0)),
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
-          Tags: S.optional(__S(10464, __c327, 0)),
+          Tags: S.optional(__S(10656, __c333, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListDataQualityRuleRecommendationRunsRequest" });
     case 2:
@@ -22738,25 +23206,25 @@ function __c208(j: number): any {
           RunId: S.optional(S.String),
           Status: S.optional(S.String),
           StartedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          DataSource: S.optional(__S(11233, __c351, 1)),
+          DataSource: S.optional(__S(11425, __c357, 1)),
           CreatedRulesetName: S.optional(S.String),
           RecommendationMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataQualityRuleRecommendationRunDescription" });
     case 3:
-      return S.Array(__S(6658, __c208, 2));
+      return S.Array(__S(6818, __c213, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ Runs: S.optional(__S(6659, __c208, 3)), NextToken: S.optional(S.String) }),
+        S.Struct({ Runs: S.optional(__S(6819, __c213, 3)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListDataQualityRuleRecommendationRunsResponse" });
   }
 }
-function __c209(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          DataSource: __S(11233, __c351, 1),
+          DataSource: __S(11425, __c357, 1),
           StartedBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           StartedAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           RulesetName: S.optional(S.String),
@@ -22765,7 +23233,7 @@ function __c209(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Filter: S.optional(__S(6688, __c209, 0)),
+          Filter: S.optional(__S(6848, __c214, 0)),
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -22776,18 +23244,18 @@ function __c209(j: number): any {
           RunId: S.optional(S.String),
           Status: S.optional(S.String),
           StartedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          DataSource: S.optional(__S(11233, __c351, 1)),
+          DataSource: S.optional(__S(11425, __c357, 1)),
         }),
       ).annotate({ identifier: "DataQualityRulesetEvaluationRunDescription" });
     case 3:
-      return S.Array(__S(6690, __c209, 2));
+      return S.Array(__S(6850, __c214, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ Runs: S.optional(__S(6691, __c209, 3)), NextToken: S.optional(S.String) }),
+        S.Struct({ Runs: S.optional(__S(6851, __c214, 3)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListDataQualityRulesetEvaluationRunsResponse" });
   }
 }
-function __c210(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22798,7 +23266,7 @@ function __c210(j: number): any {
           CreatedAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastModifiedBefore: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastModifiedAfter: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          TargetTable: S.optional(__S(13440, __c420, 0)),
+          TargetTable: S.optional(__S(13728, __c429, 0)),
         }),
       ).annotate({ identifier: "DataQualityRulesetFilterCriteria" });
     case 1:
@@ -22806,8 +23274,8 @@ function __c210(j: number): any {
         S.Struct({
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
-          Filter: S.optional(__S(6720, __c210, 0)),
-          Tags: S.optional(__S(10464, __c327, 0)),
+          Filter: S.optional(__S(6880, __c215, 0)),
+          Tags: S.optional(__S(10656, __c333, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListDataQualityRulesetsRequest" });
     case 2:
@@ -22817,27 +23285,27 @@ function __c210(j: number): any {
           Description: S.optional(S.String),
           CreatedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastModifiedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          TargetTable: S.optional(__S(13440, __c420, 0)),
+          TargetTable: S.optional(__S(13728, __c429, 0)),
           RecommendationRunId: S.optional(S.String),
           RuleCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "DataQualityRulesetListDetails" });
     case 3:
-      return S.Array(__S(6722, __c210, 2));
+      return S.Array(__S(6882, __c215, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ Rulesets: S.optional(__S(6723, __c210, 3)), NextToken: S.optional(S.String) }),
+        S.Struct({ Rulesets: S.optional(__S(6883, __c215, 3)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListDataQualityRulesetsResponse" });
   }
 }
-function __c211(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           StatisticId: S.optional(S.String),
           ProfileId: S.optional(S.String),
-          TimestampFilter: S.optional(__S(6784, __c212, 0)),
+          TimestampFilter: S.optional(__S(6944, __c217, 0)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -22848,21 +23316,21 @@ function __c211(j: number): any {
           ProfileId: S.optional(S.String),
           StatisticId: S.optional(S.String),
           StatisticRecordedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          InclusionAnnotation: S.optional(__S(6816, __c213, 0)),
+          InclusionAnnotation: S.optional(__S(6976, __c218, 0)),
         }),
       ).annotate({ identifier: "StatisticAnnotation" });
     case 2:
-      return S.Array(__S(6753, __c211, 1));
+      return S.Array(__S(6913, __c216, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Annotations: S.optional(__S(6754, __c211, 2)),
+          Annotations: S.optional(__S(6914, __c216, 2)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDataQualityStatisticAnnotationsResponse" });
   }
 }
-function __c212(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22873,7 +23341,7 @@ function __c212(j: number): any {
       ).annotate({ identifier: "TimestampFilter" });
   }
 }
-function __c213(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22884,25 +23352,25 @@ function __c213(j: number): any {
       ).annotate({ identifier: "TimestampedInclusionAnnotation" });
   }
 }
-function __c214(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           StatisticId: S.optional(S.String),
           ProfileId: S.optional(S.String),
-          TimestampFilter: S.optional(__S(6784, __c212, 0)),
+          TimestampFilter: S.optional(__S(6944, __c217, 0)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListDataQualityStatisticsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Statistics: S.optional(__S(6882, __c215, 2)), NextToken: S.optional(S.String) }),
+        S.Struct({ Statistics: S.optional(__S(7042, __c220, 2)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListDataQualityStatisticsResponse" });
   }
 }
-function __c215(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22913,42 +23381,42 @@ function __c215(j: number): any {
         S.Struct({
           StatisticId: S.optional(S.String),
           ProfileId: S.optional(S.String),
-          RunIdentifier: S.optional(__S(6880, __c215, 0)),
+          RunIdentifier: S.optional(__S(7040, __c220, 0)),
           StatisticName: S.optional(S.String),
           DoubleValue: S.optional(S.Number),
-          DistributionValue: S.optional(__S(11168, __c349, 0)),
+          DistributionValue: S.optional(__S(11360, __c355, 0)),
           EvaluationLevel: S.optional(S.String),
-          ColumnsReferenced: S.optional(__S(10336, __c323, 0)),
-          ReferencedDatasets: S.optional(__S(10336, __c323, 0)),
-          StatisticProperties: S.optional(__S(10464, __c327, 0)),
+          ColumnsReferenced: S.optional(__S(10528, __c329, 0)),
+          ReferencedDatasets: S.optional(__S(10528, __c329, 0)),
+          StatisticProperties: S.optional(__S(10656, __c333, 0)),
           RecordedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          InclusionAnnotation: S.optional(__S(6816, __c213, 0)),
+          InclusionAnnotation: S.optional(__S(6976, __c218, 0)),
         }),
       ).annotate({ identifier: "StatisticSummary" });
     case 2:
-      return S.Array(__S(6881, __c215, 1));
+      return S.Array(__S(7041, __c220, 1));
   }
 }
-function __c216(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
-          Tags: S.optional(__S(10464, __c327, 0)),
+          Tags: S.optional(__S(10656, __c333, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListDevEndpointsRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DevEndpointNames: S.optional(__S(10336, __c323, 0)),
+          DevEndpointNames: S.optional(__S(10528, __c329, 0)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDevEndpointsResponse" });
   }
 }
-function __c217(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22968,18 +23436,18 @@ function __c217(j: number): any {
           IsParentEntity: S.optional(S.Boolean),
           Description: S.optional(S.String),
           Category: S.optional(S.String),
-          CustomProperties: S.optional(__S(10464, __c327, 0)),
+          CustomProperties: S.optional(__S(10656, __c333, 0)),
         }),
       ).annotate({ identifier: "Entity" });
     case 2:
-      return S.Array(__S(6945, __c217, 1));
+      return S.Array(__S(7105, __c222, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ Entities: S.optional(__S(6946, __c217, 2)), NextToken: S.optional(S.String) }),
+        S.Struct({ Entities: S.optional(__S(7106, __c222, 2)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListEntitiesResponse" });
   }
 }
-function __c218(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -22990,11 +23458,11 @@ function __c218(j: number): any {
       ).annotate({ identifier: "ListFormTypesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Items: __S(6369, __c199, 1), NextToken: S.optional(S.String) }),
+        S.Struct({ Items: __S(6497, __c203, 1), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListFormTypesResponse" });
   }
 }
-function __c219(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23004,14 +23472,14 @@ function __c219(j: number): any {
         }).pipe(T.all(T.Http({ method: "GET", uri: "/glossaries" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListGlossariesRequest" });
     case 1:
-      return S.Array(__S(13536, __c423, 0));
+      return S.Array(__S(13824, __c432, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ Items: S.optional(__S(7009, __c219, 1)), NextToken: S.optional(S.String) }),
+        S.Struct({ Items: S.optional(__S(7169, __c224, 1)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListGlossariesResponse" });
   }
 }
-function __c220(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23032,41 +23500,41 @@ function __c220(j: number): any {
         }),
       ).annotate({ identifier: "GlossaryTermItem" });
     case 2:
-      return S.Array(__S(7041, __c220, 1));
+      return S.Array(__S(7201, __c225, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ Items: S.optional(__S(7042, __c220, 2)), NextToken: S.optional(S.String) }),
+        S.Struct({ Items: S.optional(__S(7202, __c225, 2)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListGlossaryTermsResponse" });
   }
 }
-function __c221(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Marker: S.optional(S.String),
-          Filters: S.optional(__S(2241, __c70, 1)),
+          Filters: S.optional(__S(2305, __c72, 1)),
           MaxRecords: S.optional(S.Number),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListIntegrationResourcePropertiesRequest" });
     case 1:
-      return S.Array(__S(13888, __c434, 0));
+      return S.Array(__S(14176, __c443, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          IntegrationResourcePropertyList: S.optional(__S(7073, __c221, 1)),
+          IntegrationResourcePropertyList: S.optional(__S(7233, __c226, 1)),
           Marker: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListIntegrationResourcePropertiesResponse" });
   }
 }
-function __c222(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Marker: S.optional(S.String),
-          Filters: S.optional(__S(2241, __c70, 1)),
+          Filters: S.optional(__S(2305, __c72, 1)),
           MaxRecords: S.optional(S.Number),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListIntegrationTablePropertiesRequest" });
@@ -23075,22 +23543,22 @@ function __c222(j: number): any {
         S.Struct({
           ResourceArn: S.String,
           TableName: S.String,
-          SourceTableConfig: S.optional(__S(13952, __c436, 0)),
-          TargetTableConfig: S.optional(__S(13955, __c436, 3)),
+          SourceTableConfig: S.optional(__S(14240, __c445, 0)),
+          TargetTableConfig: S.optional(__S(14243, __c445, 3)),
         }),
       ).annotate({ identifier: "IntegrationTableProperties" });
     case 2:
-      return S.Array(__S(7105, __c222, 1));
+      return S.Array(__S(7265, __c227, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          IntegrationTablePropertiesList: S.optional(__S(7106, __c222, 2)),
+          IntegrationTablePropertiesList: S.optional(__S(7266, __c227, 2)),
           Marker: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListIntegrationTablePropertiesResponse" });
   }
 }
-function __c223(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23119,34 +23587,34 @@ function __c223(j: number): any {
           ItemId: S.optional(S.String),
           ItemName: S.optional(S.String),
           Description: S.optional(S.String),
-          GlossaryTerms: S.optional(__S(10336, __c323, 0)),
+          GlossaryTerms: S.optional(__S(10528, __c329, 0)),
         }),
       ).annotate({ identifier: "IterableFormListItem" });
     case 2:
-      return S.Array(__S(7137, __c223, 1));
+      return S.Array(__S(7297, __c228, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ Items: S.optional(__S(7138, __c223, 2)), NextToken: S.optional(S.String) }),
+        S.Struct({ Items: S.optional(__S(7298, __c228, 2)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListIterableFormsResponse" });
   }
 }
-function __c224(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
-          Tags: S.optional(__S(10464, __c327, 0)),
+          Tags: S.optional(__S(10656, __c333, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListJobsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ JobNames: S.optional(__S(10336, __c323, 0)), NextToken: S.optional(S.String) }),
+        S.Struct({ JobNames: S.optional(__S(10528, __c329, 0)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListJobsResponse" });
   }
 }
-function __c225(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23159,35 +23627,35 @@ function __c225(j: number): any {
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListMaterializedViewRefreshTaskRunsRequest" });
     case 1:
-      return S.Array(__S(4448, __c139, 0));
+      return S.Array(__S(4576, __c143, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          MaterializedViewRefreshTaskRuns: S.optional(__S(7201, __c225, 1)),
+          MaterializedViewRefreshTaskRuns: S.optional(__S(7361, __c230, 1)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListMaterializedViewRefreshTaskRunsResponse" });
   }
 }
-function __c226(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
-          Filter: S.optional(__S(4736, __c148, 0)),
-          Sort: S.optional(__S(4576, __c143, 0)),
-          Tags: S.optional(__S(10464, __c327, 0)),
+          Filter: S.optional(__S(4864, __c152, 0)),
+          Sort: S.optional(__S(4704, __c147, 0)),
+          Tags: S.optional(__S(10656, __c333, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListMLTransformsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ TransformIds: __S(10336, __c323, 0), NextToken: S.optional(S.String) }),
+        S.Struct({ TransformIds: __S(10528, __c329, 0), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListMLTransformsResponse" });
   }
 }
-function __c227(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23196,19 +23664,19 @@ function __c227(j: number): any {
         ),
       ).annotate({ identifier: "ListRegistriesInput" });
     case 1:
-      return S.Array(__S(4960, __c155, 0));
+      return S.Array(__S(5088, __c159, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ Registries: S.optional(__S(7265, __c227, 1)), NextToken: S.optional(S.String) }),
+        S.Struct({ Registries: S.optional(__S(7425, __c232, 1)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListRegistriesResponse" });
   }
 }
-function __c228(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          RegistryId: S.optional(__S(32, __c1, 0)),
+          RegistryId: S.optional(__S(64, __c2, 0)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -23226,19 +23694,19 @@ function __c228(j: number): any {
         }),
       ).annotate({ identifier: "SchemaListItem" });
     case 2:
-      return S.Array(__S(7297, __c228, 1));
+      return S.Array(__S(7457, __c233, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ Schemas: S.optional(__S(7298, __c228, 2)), NextToken: S.optional(S.String) }),
+        S.Struct({ Schemas: S.optional(__S(7458, __c233, 2)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListSchemasResponse" });
   }
 }
-function __c229(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          SchemaId: __S(10496, __c328, 0),
+          SchemaId: __S(10688, __c334, 0),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -23254,37 +23722,37 @@ function __c229(j: number): any {
         }),
       ).annotate({ identifier: "SchemaVersionListItem" });
     case 2:
-      return S.Array(__S(7329, __c229, 1));
+      return S.Array(__S(7489, __c234, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ Schemas: S.optional(__S(7330, __c229, 2)), NextToken: S.optional(S.String) }),
+        S.Struct({ Schemas: S.optional(__S(7490, __c234, 2)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListSchemaVersionsResponse" });
   }
 }
-function __c230(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           NextToken: S.optional(S.String),
           MaxResults: S.optional(S.Number),
-          Tags: S.optional(__S(10464, __c327, 0)),
+          Tags: S.optional(__S(10656, __c333, 0)),
           RequestOrigin: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListSessionsRequest" });
     case 1:
-      return S.Array(__S(321, __c10, 1));
+      return S.Array(__S(353, __c11, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Ids: S.optional(__S(10336, __c323, 0)),
-          Sessions: S.optional(__S(7361, __c230, 1)),
+          Ids: S.optional(__S(10528, __c329, 0)),
+          Sessions: S.optional(__S(7521, __c235, 1)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSessionsResponse" });
   }
 }
-function __c231(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23295,14 +23763,14 @@ function __c231(j: number): any {
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListStatementsRequest" });
     case 1:
-      return S.Array(__S(5442, __c170, 2));
+      return S.Array(__S(5570, __c174, 2));
     case 2:
       return S.suspend(() =>
-        S.Struct({ Statements: S.optional(__S(7393, __c231, 1)), NextToken: S.optional(S.String) }),
+        S.Struct({ Statements: S.optional(__S(7553, __c236, 1)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListStatementsResponse" });
   }
 }
-function __c232(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23316,7 +23784,7 @@ function __c232(j: number): any {
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListTableOptimizerRunsRequest" });
     case 1:
-      return S.Array(__S(12167, __c380, 7));
+      return S.Array(__S(12391, __c387, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -23324,12 +23792,12 @@ function __c232(j: number): any {
           DatabaseName: S.optional(S.String),
           TableName: S.optional(S.String),
           NextToken: S.optional(S.String),
-          TableOptimizerRuns: S.optional(__S(7425, __c232, 1)),
+          TableOptimizerRuns: S.optional(__S(7585, __c237, 1)),
         }),
       ).annotate({ identifier: "ListTableOptimizerRunsResponse" });
   }
 }
-function __c233(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23337,19 +23805,19 @@ function __c233(j: number): any {
           NextToken: S.optional(S.String),
           DependentJobName: S.optional(S.String),
           MaxResults: S.optional(S.Number),
-          Tags: S.optional(__S(10464, __c327, 0)),
+          Tags: S.optional(__S(10656, __c333, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListTriggersRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          TriggerNames: S.optional(__S(10336, __c323, 0)),
+          TriggerNames: S.optional(__S(10528, __c329, 0)),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTriggersResponse" });
   }
 }
-function __c234(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23367,14 +23835,14 @@ function __c234(j: number): any {
         }),
       ).annotate({ identifier: "UsageProfileDefinition" });
     case 2:
-      return S.Array(__S(7489, __c234, 1));
+      return S.Array(__S(7649, __c239, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ Profiles: S.optional(__S(7490, __c234, 2)), NextToken: S.optional(S.String) }),
+        S.Struct({ Profiles: S.optional(__S(7650, __c239, 2)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListUsageProfilesResponse" });
   }
 }
-function __c235(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23384,11 +23852,11 @@ function __c235(j: number): any {
       ).annotate({ identifier: "ListWorkflowsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Workflows: S.optional(__S(10336, __c323, 0)), NextToken: S.optional(S.String) }),
+        S.Struct({ Workflows: S.optional(__S(10528, __c329, 0)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListWorkflowsResponse" });
   }
 }
-function __c236(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23396,13 +23864,13 @@ function __c236(j: number): any {
           IntegrationIdentifier: S.String,
           Description: S.optional(S.String),
           DataFilter: S.optional(S.String),
-          IntegrationConfig: S.optional(__S(13728, __c429, 0)),
+          IntegrationConfig: S.optional(__S(14016, __c438, 0)),
           IntegrationName: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ModifyIntegrationRequest" });
   }
 }
-function __c237(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23415,7 +23883,7 @@ function __c237(j: number): any {
       return S.suspend(() =>
         S.Struct({
           VcpuHours: S.optional(S.Number),
-          FlagsEnabled: S.optional(__S(10464, __c327, 0)),
+          FlagsEnabled: S.optional(__S(10656, __c333, 0)),
           LibraryVersion: S.optional(S.String),
           SparkVersion: S.optional(S.String),
           HostRuntimeVersion: S.optional(S.String),
@@ -23425,23 +23893,23 @@ function __c237(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Dimensions: __S(10464, __c327, 0),
-          Tags: S.optional(__S(10464, __c327, 0)),
+          Dimensions: __S(10656, __c333, 0),
+          Tags: S.optional(__S(10656, __c333, 0)),
           ExecutionStartedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ExecutionCompletedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Score: S.Number,
-          RuleResults: __S(11202, __c350, 2),
-          AnalyzerResults: S.optional(__S(11205, __c350, 5)),
-          Observations: S.optional(__S(11209, __c350, 9)),
-          AggregatedMetrics: S.optional(__S(11210, __c350, 10)),
-          Statistics: S.optional(__S(6882, __c215, 2)),
-          RunConfiguration: S.optional(__S(7584, __c237, 0)),
+          RuleResults: __S(11394, __c356, 2),
+          AnalyzerResults: S.optional(__S(11397, __c356, 5)),
+          Observations: S.optional(__S(11401, __c356, 9)),
+          AggregatedMetrics: S.optional(__S(11402, __c356, 10)),
+          Statistics: S.optional(__S(7042, __c220, 2)),
+          RunConfiguration: S.optional(__S(7744, __c242, 0)),
           ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           EvaluationContext: S.String,
-          Descriptors: S.optional(__S(10464, __c327, 0)),
+          Descriptors: S.optional(__S(10656, __c333, 0)),
           RulesetName: S.optional(S.String),
           DataQualitySecurityConfiguration: S.optional(S.String),
-          Telemetry: S.optional(__S(7585, __c237, 1)),
+          Telemetry: S.optional(__S(7745, __c242, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "PublishDataQualityResultV2Request" });
     case 3:
@@ -23450,7 +23918,7 @@ function __c237(j: number): any {
       });
   }
 }
-function __c238(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23459,7 +23927,7 @@ function __c238(j: number): any {
           Identifier: S.String,
           Name: S.String,
           Description: S.optional(S.String),
-          Forms: __S(11553, __c361, 1),
+          Forms: __S(11777, __c368, 1),
           ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(T.all(T.Http({ method: "PUT", uri: "/assets" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "PutAssetRequest" });
@@ -23470,18 +23938,18 @@ function __c238(j: number): any {
           Name: S.String,
           Description: S.optional(S.String),
           CreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          Forms: S.optional(__S(11553, __c361, 1)),
+          Forms: S.optional(__S(11777, __c368, 1)),
         }),
       ).annotate({ identifier: "PutAssetResponse" });
   }
 }
-function __c239(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Forms: __S(2369, __c74, 1),
+          Forms: __S(2433, __c76, 1),
           ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(T.Http({ method: "PUT", uri: "/asset-types" }), svc, auth, proto, ver, rules),
@@ -23489,7 +23957,7 @@ function __c239(j: number): any {
       ).annotate({ identifier: "PutAssetTypeRequest" });
   }
 }
-function __c240(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23524,24 +23992,24 @@ function __c240(j: number): any {
       ).annotate({ identifier: "PutAttachmentResponse" });
   }
 }
-function __c241(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           CatalogId: S.optional(S.String),
-          DataCatalogEncryptionSettings: __S(3394, __c106, 2),
+          DataCatalogEncryptionSettings: __S(3458, __c108, 2),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "PutDataCatalogEncryptionSettingsRequest" });
   }
 }
-function __c242(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ExportSetting: S.String,
-          EncryptionConfiguration: S.optional(__S(3456, __c108, 0)),
+          EncryptionConfiguration: S.optional(__S(3520, __c110, 0)),
           ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -23558,12 +24026,12 @@ function __c242(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ExportSetting: S.optional(S.String),
-          EncryptionConfiguration: S.optional(__S(3456, __c108, 0)),
+          EncryptionConfiguration: S.optional(__S(3520, __c110, 0)),
         }),
       ).annotate({ identifier: "PutDataCatalogExportConfigurationOutput" });
   }
 }
-function __c243(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23573,7 +24041,7 @@ function __c243(j: number): any {
       ).annotate({ identifier: "PutDataQualityProfileAnnotationRequest" });
   }
 }
-function __c244(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23585,7 +24053,7 @@ function __c244(j: number): any {
       ).annotate({ identifier: "PutFormTypeRequest" });
   }
 }
-function __c245(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23603,20 +24071,20 @@ function __c245(j: number): any {
       });
   }
 }
-function __c246(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          SchemaId: S.optional(__S(10496, __c328, 0)),
-          SchemaVersionNumber: S.optional(__S(5184, __c162, 0)),
+          SchemaId: S.optional(__S(10688, __c334, 0)),
+          SchemaVersionNumber: S.optional(__S(5312, __c166, 0)),
           SchemaVersionId: S.optional(S.String),
-          MetadataKeyValue: __S(7904, __c247, 0),
+          MetadataKeyValue: __S(8064, __c252, 0),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "PutSchemaVersionMetadataInput" });
   }
 }
-function __c247(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23624,7 +24092,7 @@ function __c247(j: number): any {
       ).annotate({ identifier: "MetadataKeyValuePair" });
   }
 }
-function __c248(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23641,27 +24109,27 @@ function __c248(j: number): any {
       ).annotate({ identifier: "PutSchemaVersionMetadataResponse" });
   }
 }
-function __c249(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Name: S.String, RunId: S.String, RunProperties: __S(10464, __c327, 0) }).pipe(
+        S.Struct({ Name: S.String, RunId: S.String, RunProperties: __S(10656, __c333, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "PutWorkflowRunPropertiesRequest" });
   }
 }
-function __c250(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7904, __c247, 0));
+      return S.Array(__S(8064, __c252, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          SchemaId: S.optional(__S(10496, __c328, 0)),
-          SchemaVersionNumber: S.optional(__S(5184, __c162, 0)),
+          SchemaId: S.optional(__S(10688, __c334, 0)),
+          SchemaVersionNumber: S.optional(__S(5312, __c166, 0)),
           SchemaVersionId: S.optional(S.String),
-          MetadataList: S.optional(__S(8000, __c250, 0)),
+          MetadataList: S.optional(__S(8160, __c255, 0)),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -23671,101 +24139,101 @@ function __c250(j: number): any {
         S.Struct({ MetadataValue: S.optional(S.String), CreatedTime: S.optional(S.String) }),
       ).annotate({ identifier: "OtherMetadataValueListItem" });
     case 3:
-      return S.Array(__S(8002, __c250, 2));
+      return S.Array(__S(8162, __c255, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           MetadataValue: S.optional(S.String),
           CreatedTime: S.optional(S.String),
-          OtherMetadataValueList: S.optional(__S(8003, __c250, 3)),
+          OtherMetadataValueList: S.optional(__S(8163, __c255, 3)),
         }),
       ).annotate({ identifier: "MetadataInfo" });
     case 5:
-      return S.Record(S.String, /*@__PURE__*/ __S(8004, __c250, 4).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(8164, __c255, 4).pipe(S.optional));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          MetadataInfoMap: S.optional(__S(8005, __c250, 5)),
+          MetadataInfoMap: S.optional(__S(8165, __c255, 5)),
           SchemaVersionId: S.optional(S.String),
           NextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "QuerySchemaVersionMetadataResponse" });
   }
 }
-function __c251(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Url: S.optional(__S(2112, __c66, 0)),
-          AdditionalRequestParameters: S.optional(__S(2113, __c66, 1)),
+          Url: S.optional(__S(2176, __c68, 0)),
+          AdditionalRequestParameters: S.optional(__S(2177, __c68, 1)),
         }),
       ).annotate({ identifier: "ConnectionPropertiesConfiguration" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          TokenUrl: S.optional(__S(2112, __c66, 0)),
+          TokenUrl: S.optional(__S(2176, __c68, 0)),
           RequestMethod: S.optional(S.String),
           ContentType: S.optional(S.String),
-          ClientId: S.optional(__S(2112, __c66, 0)),
-          ClientSecret: S.optional(__S(2112, __c66, 0)),
-          Scope: S.optional(__S(2112, __c66, 0)),
-          TokenUrlParameters: S.optional(__S(2113, __c66, 1)),
+          ClientId: S.optional(__S(2176, __c68, 0)),
+          ClientSecret: S.optional(__S(2176, __c68, 0)),
+          Scope: S.optional(__S(2176, __c68, 0)),
+          TokenUrlParameters: S.optional(__S(2177, __c68, 1)),
         }),
       ).annotate({ identifier: "ClientCredentialsProperties" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          TokenUrl: S.optional(__S(2112, __c66, 0)),
+          TokenUrl: S.optional(__S(2176, __c68, 0)),
           RequestMethod: S.optional(S.String),
           ContentType: S.optional(S.String),
-          JwtToken: S.optional(__S(2112, __c66, 0)),
-          TokenUrlParameters: S.optional(__S(2113, __c66, 1)),
+          JwtToken: S.optional(__S(2176, __c68, 0)),
+          TokenUrlParameters: S.optional(__S(2177, __c68, 1)),
         }),
       ).annotate({ identifier: "JWTBearerProperties" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          AuthorizationCodeUrl: S.optional(__S(2112, __c66, 0)),
-          AuthorizationCode: S.optional(__S(2112, __c66, 0)),
-          RedirectUri: S.optional(__S(2112, __c66, 0)),
-          TokenUrl: S.optional(__S(2112, __c66, 0)),
+          AuthorizationCodeUrl: S.optional(__S(2176, __c68, 0)),
+          AuthorizationCode: S.optional(__S(2176, __c68, 0)),
+          RedirectUri: S.optional(__S(2176, __c68, 0)),
+          TokenUrl: S.optional(__S(2176, __c68, 0)),
           RequestMethod: S.optional(S.String),
           ContentType: S.optional(S.String),
-          ClientId: S.optional(__S(2112, __c66, 0)),
-          ClientSecret: S.optional(__S(2112, __c66, 0)),
-          Scope: S.optional(__S(2112, __c66, 0)),
-          Prompt: S.optional(__S(2112, __c66, 0)),
-          TokenUrlParameters: S.optional(__S(2113, __c66, 1)),
+          ClientId: S.optional(__S(2176, __c68, 0)),
+          ClientSecret: S.optional(__S(2176, __c68, 0)),
+          Scope: S.optional(__S(2176, __c68, 0)),
+          Prompt: S.optional(__S(2176, __c68, 0)),
+          TokenUrlParameters: S.optional(__S(2177, __c68, 1)),
         }),
       ).annotate({ identifier: "ConnectorAuthorizationCodeProperties" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           OAuth2GrantType: S.String,
-          ClientCredentialsProperties: S.optional(__S(8033, __c251, 1)),
-          JWTBearerProperties: S.optional(__S(8034, __c251, 2)),
-          AuthorizationCodeProperties: S.optional(__S(8035, __c251, 3)),
+          ClientCredentialsProperties: S.optional(__S(8193, __c256, 1)),
+          JWTBearerProperties: S.optional(__S(8194, __c256, 2)),
+          AuthorizationCodeProperties: S.optional(__S(8195, __c256, 3)),
         }),
       ).annotate({ identifier: "ConnectorOAuth2Properties" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Username: S.optional(__S(2112, __c66, 0)),
-          Password: S.optional(__S(2112, __c66, 0)),
+          Username: S.optional(__S(2176, __c68, 0)),
+          Password: S.optional(__S(2176, __c68, 0)),
         }),
       ).annotate({ identifier: "BasicAuthenticationProperties" });
     case 6:
-      return S.suspend(() => S.Struct({ AuthenticationParameters: __S(2113, __c66, 1) })).annotate({
+      return S.suspend(() => S.Struct({ AuthenticationParameters: __S(2177, __c68, 1) })).annotate({
         identifier: "CustomAuthenticationProperties",
       });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          AuthenticationTypes: __S(10944, __c342, 0),
-          OAuth2Properties: S.optional(__S(8036, __c251, 4)),
-          BasicAuthenticationProperties: S.optional(__S(8037, __c251, 5)),
-          CustomAuthenticationProperties: S.optional(__S(8038, __c251, 6)),
+          AuthenticationTypes: __S(11136, __c348, 0),
+          OAuth2Properties: S.optional(__S(8196, __c256, 4)),
+          BasicAuthenticationProperties: S.optional(__S(8197, __c256, 5)),
+          CustomAuthenticationProperties: S.optional(__S(8198, __c256, 6)),
         }),
       ).annotate({ identifier: "ConnectorAuthenticationConfiguration" });
     case 8:
@@ -23774,10 +24242,10 @@ function __c251(j: number): any {
           ConnectionType: S.String,
           IntegrationType: S.String,
           Description: S.optional(S.String),
-          ConnectionProperties: __S(8032, __c251, 0),
-          ConnectorAuthenticationConfiguration: __S(8039, __c251, 7),
-          RestConfiguration: __S(2129, __c66, 17),
-          Tags: S.optional(__S(10464, __c327, 0)),
+          ConnectionProperties: __S(8192, __c256, 0),
+          ConnectorAuthenticationConfiguration: __S(8199, __c256, 7),
+          RestConfiguration: __S(2193, __c68, 17),
+          Tags: S.optional(__S(10656, __c333, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "RegisterConnectionTypeRequest" });
     case 9:
@@ -23786,11 +24254,11 @@ function __c251(j: number): any {
       });
   }
 }
-function __c252(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ SchemaId: __S(10496, __c328, 0), SchemaDefinition: S.String }).pipe(
+        S.Struct({ SchemaId: __S(10688, __c334, 0), SchemaDefinition: S.String }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "RegisterSchemaVersionInput" });
@@ -23804,20 +24272,20 @@ function __c252(j: number): any {
       ).annotate({ identifier: "RegisterSchemaVersionResponse" });
   }
 }
-function __c253(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          SchemaId: S.optional(__S(10496, __c328, 0)),
-          SchemaVersionNumber: S.optional(__S(5184, __c162, 0)),
+          SchemaId: S.optional(__S(10688, __c334, 0)),
+          SchemaVersionNumber: S.optional(__S(5312, __c166, 0)),
           SchemaVersionId: S.optional(S.String),
-          MetadataKeyValue: __S(7904, __c247, 0),
+          MetadataKeyValue: __S(8064, __c252, 0),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "RemoveSchemaVersionMetadataInput" });
   }
 }
-function __c254(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23827,21 +24295,21 @@ function __c254(j: number): any {
       ).annotate({ identifier: "ResetJobBookmarkRequest" });
   }
 }
-function __c255(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Name: S.String, RunId: S.String, NodeIds: __S(10336, __c323, 0) }).pipe(
+        S.Struct({ Name: S.String, RunId: S.String, NodeIds: __S(10528, __c329, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "ResumeWorkflowRunRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ RunId: S.optional(S.String), NodeIds: S.optional(__S(10336, __c323, 0)) }),
+        S.Struct({ RunId: S.optional(S.String), NodeIds: S.optional(__S(10528, __c329, 0)) }),
       ).annotate({ identifier: "ResumeWorkflowRunResponse" });
   }
 }
-function __c256(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23855,7 +24323,7 @@ function __c256(j: number): any {
       });
   }
 }
-function __c257(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23863,7 +24331,7 @@ function __c257(j: number): any {
       ).annotate({ identifier: "SearchSort" });
     case 1:
       return S.Array(
-        /*@__PURE__*/ S.suspend(() => __S(8230, __c257, 6)).annotate({
+        /*@__PURE__*/ S.suspend(() => __S(8390, __c262, 6)).annotate({
           identifier: "SearchFilterClause",
         }),
       );
@@ -23877,29 +24345,29 @@ function __c257(j: number): any {
         S.Struct({
           Attribute: S.String,
           Operator: S.String,
-          Value: S.optional(__S(8226, __c257, 2)),
+          Value: S.optional(__S(8386, __c262, 2)),
         }),
       ).annotate({ identifier: "SearchAttributeFilter" });
     case 4:
       return S.Union([/*@__PURE__*/ S.Struct({ StringValue: S.String })]);
     case 5:
       return S.suspend(() =>
-        S.Struct({ Attribute: S.String, Key: S.String, Value: __S(8228, __c257, 4) }),
+        S.Struct({ Attribute: S.String, Key: S.String, Value: __S(8388, __c262, 4) }),
       ).annotate({ identifier: "SearchMapFilter" });
     case 6:
       return S.Union([
         /*@__PURE__*/ S.Struct({
-          AndAllFilters: /*@__PURE__*/ S.suspend(() => __S(8225, __c257, 1)).annotate({
+          AndAllFilters: /*@__PURE__*/ S.suspend(() => __S(8385, __c262, 1)).annotate({
             identifier: "SearchFilterClauseList",
           }),
         }),
         /*@__PURE__*/ S.Struct({
-          OrAnyFilters: /*@__PURE__*/ S.suspend(() => __S(8225, __c257, 1)).annotate({
+          OrAnyFilters: /*@__PURE__*/ S.suspend(() => __S(8385, __c262, 1)).annotate({
             identifier: "SearchFilterClauseList",
           }),
         }),
-        /*@__PURE__*/ S.Struct({ AttributeFilter: __S(8227, __c257, 3) }),
-        /*@__PURE__*/ S.Struct({ MapFilter: __S(8229, __c257, 5) }),
+        /*@__PURE__*/ S.Struct({ AttributeFilter: __S(8387, __c262, 3) }),
+        /*@__PURE__*/ S.Struct({ MapFilter: __S(8389, __c262, 5) }),
       ]);
     case 7:
       return S.suspend(() =>
@@ -23907,8 +24375,8 @@ function __c257(j: number): any {
           SearchText: S.optional(S.String),
           MaxResults: S.optional(S.Number),
           NextToken: S.optional(S.String),
-          Sort: S.optional(__S(8224, __c257, 0)),
-          FilterClause: S.optional(__S(8230, __c257, 6)),
+          Sort: S.optional(__S(8384, __c262, 0)),
+          FilterClause: S.optional(__S(8390, __c262, 6)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/search-assets" }), svc, auth, proto, ver, rules),
         ),
@@ -23924,14 +24392,14 @@ function __c257(j: number): any {
         }),
       ).annotate({ identifier: "SearchResultItem" });
     case 9:
-      return S.Array(__S(8232, __c257, 8));
+      return S.Array(__S(8392, __c262, 8));
     case 10:
       return S.suspend(() =>
-        S.Struct({ Items: S.optional(__S(8233, __c257, 9)), NextToken: S.optional(S.String) }),
+        S.Struct({ Items: S.optional(__S(8393, __c262, 9)), NextToken: S.optional(S.String) }),
       ).annotate({ identifier: "SearchAssetsOutput" });
   }
 }
-function __c258(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23942,21 +24410,21 @@ function __c258(j: number): any {
         }),
       ).annotate({ identifier: "PropertyPredicate" });
     case 1:
-      return S.Array(__S(8256, __c258, 0));
+      return S.Array(__S(8416, __c263, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({ FieldName: S.optional(S.String), Sort: S.optional(S.String) }),
       ).annotate({ identifier: "SortCriterion" });
     case 3:
-      return S.Array(__S(8258, __c258, 2));
+      return S.Array(__S(8418, __c263, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           CatalogId: S.optional(S.String),
           NextToken: S.optional(S.String),
-          Filters: S.optional(__S(8257, __c258, 1)),
+          Filters: S.optional(__S(8417, __c263, 1)),
           SearchText: S.optional(S.String),
-          SortCriteria: S.optional(__S(8259, __c258, 3)),
+          SortCriteria: S.optional(__S(8419, __c263, 3)),
           MaxResults: S.optional(S.Number),
           ResourceShareType: S.optional(S.String),
           IncludeStatusDetails: S.optional(S.Boolean),
@@ -23964,11 +24432,11 @@ function __c258(j: number): any {
       ).annotate({ identifier: "SearchTablesRequest" });
     case 5:
       return S.suspend(() =>
-        S.Struct({ NextToken: S.optional(S.String), TableList: S.optional(__S(5696, __c178, 0)) }),
+        S.Struct({ NextToken: S.optional(S.String), TableList: S.optional(__S(5824, __c182, 0)) }),
       ).annotate({ identifier: "SearchTablesResponse" });
   }
 }
-function __c259(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -23980,7 +24448,7 @@ function __c259(j: number): any {
       ).annotate({ identifier: "StartBlueprintRunRequest" });
   }
 }
-function __c260(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ RunId: S.optional(S.String) })).annotate({
@@ -23988,14 +24456,14 @@ function __c260(j: number): any {
       });
   }
 }
-function __c261(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           DatabaseName: S.String,
           TableName: S.String,
-          ColumnNameList: S.optional(__S(10336, __c323, 0)),
+          ColumnNameList: S.optional(__S(10528, __c329, 0)),
           Role: S.String,
           SampleSize: S.optional(S.Number),
           CatalogID: S.optional(S.String),
@@ -24008,7 +24476,7 @@ function __c261(j: number): any {
       ).annotate({ identifier: "StartColumnStatisticsTaskRunResponse" });
   }
 }
-function __c262(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24020,7 +24488,7 @@ function __c262(j: number): any {
       ).annotate({ identifier: "StartColumnStatisticsTaskRunScheduleRequest" });
   }
 }
-function __c263(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24030,7 +24498,7 @@ function __c263(j: number): any {
       ).annotate({ identifier: "StartCrawlerRequest" });
   }
 }
-function __c264(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24040,42 +24508,42 @@ function __c264(j: number): any {
       ).annotate({ identifier: "StartCrawlerScheduleRequest" });
   }
 }
-function __c265(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          DataSource: __S(11233, __c351, 1),
+          DataSource: __S(11425, __c357, 1),
           Role: S.String,
           NumberOfWorkers: S.optional(S.Number),
           Timeout: S.optional(S.Number),
           CreatedRulesetName: S.optional(S.String),
           DataQualitySecurityConfiguration: S.optional(S.String),
           ClientToken: S.optional(S.String),
-          AdditionalRunOptions: S.optional(__S(3680, __c115, 0)),
+          AdditionalRunOptions: S.optional(__S(3808, __c119, 0)),
           RecommendationMode: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "StartDataQualityRuleRecommendationRunRequest" });
   }
 }
-function __c266(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          DataSource: __S(11233, __c351, 1),
+          DataSource: __S(11425, __c357, 1),
           Role: S.String,
           NumberOfWorkers: S.optional(S.Number),
           Timeout: S.optional(S.Number),
           ClientToken: S.optional(S.String),
-          AdditionalRunOptions: S.optional(__S(11398, __c356, 6)),
-          RulesetNames: __S(10336, __c323, 0),
-          AdditionalDataSources: S.optional(__S(11399, __c356, 7)),
+          AdditionalRunOptions: S.optional(__S(11584, __c362, 0)),
+          RulesetNames: __S(10528, __c329, 0),
+          AdditionalDataSources: S.optional(__S(11622, __c363, 6)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "StartDataQualityRulesetEvaluationRunRequest" });
   }
 }
-function __c267(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24085,7 +24553,7 @@ function __c267(j: number): any {
       ).annotate({ identifier: "StartExportLabelsTaskRunRequest" });
   }
 }
-function __c268(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ TaskRunId: S.optional(S.String) })).annotate({
@@ -24093,7 +24561,7 @@ function __c268(j: number): any {
       });
   }
 }
-function __c269(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24105,7 +24573,7 @@ function __c269(j: number): any {
       ).annotate({ identifier: "StartImportLabelsTaskRunRequest" });
   }
 }
-function __c270(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24113,12 +24581,12 @@ function __c270(j: number): any {
           JobName: S.String,
           JobRunQueuingEnabled: S.optional(S.Boolean),
           JobRunId: S.optional(S.String),
-          Arguments: S.optional(__S(10464, __c327, 0)),
+          Arguments: S.optional(__S(10656, __c333, 0)),
           AllocatedCapacity: S.optional(S.Number),
           Timeout: S.optional(S.Number),
           MaxCapacity: S.optional(S.Number),
           SecurityConfiguration: S.optional(S.String),
-          NotificationProperty: S.optional(__S(11680, __c365, 0)),
+          NotificationProperty: S.optional(__S(11904, __c372, 0)),
           WorkerType: S.optional(S.String),
           NumberOfWorkers: S.optional(S.Number),
           ExecutionClass: S.optional(S.String),
@@ -24131,7 +24599,7 @@ function __c270(j: number): any {
       });
   }
 }
-function __c271(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24147,7 +24615,7 @@ function __c271(j: number): any {
       ).annotate({ identifier: "StartJobUpgradeAnalysisResponse" });
   }
 }
-function __c272(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24164,7 +24632,7 @@ function __c272(j: number): any {
       ).annotate({ identifier: "StartMaterializedViewRefreshTaskRunResponse" });
   }
 }
-function __c273(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24174,7 +24642,7 @@ function __c273(j: number): any {
       ).annotate({ identifier: "StartMLEvaluationTaskRunRequest" });
   }
 }
-function __c274(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24184,7 +24652,7 @@ function __c274(j: number): any {
       ).annotate({ identifier: "StartMLLabelingSetGenerationTaskRunRequest" });
   }
 }
-function __c275(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24194,17 +24662,17 @@ function __c275(j: number): any {
       ).annotate({ identifier: "StartTriggerRequest" });
   }
 }
-function __c276(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Name: S.String, RunProperties: S.optional(__S(10464, __c327, 0)) }).pipe(
+        S.Struct({ Name: S.String, RunProperties: S.optional(__S(10656, __c333, 0)) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "StartWorkflowRunRequest" });
   }
 }
-function __c277(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24216,7 +24684,7 @@ function __c277(j: number): any {
       ).annotate({ identifier: "StopColumnStatisticsTaskRunRequest" });
   }
 }
-function __c278(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24228,7 +24696,7 @@ function __c278(j: number): any {
       ).annotate({ identifier: "StopColumnStatisticsTaskRunScheduleRequest" });
   }
 }
-function __c279(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24238,7 +24706,7 @@ function __c279(j: number): any {
       ).annotate({ identifier: "StopCrawlerRequest" });
   }
 }
-function __c280(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24248,7 +24716,7 @@ function __c280(j: number): any {
       ).annotate({ identifier: "StopCrawlerScheduleRequest" });
   }
 }
-function __c281(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24258,7 +24726,7 @@ function __c281(j: number): any {
       ).annotate({ identifier: "StopJobUpgradeAnalysisRequest" });
   }
 }
-function __c282(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24268,7 +24736,7 @@ function __c282(j: number): any {
       ).annotate({ identifier: "StopMaterializedViewRefreshTaskRunRequest" });
   }
 }
-function __c283(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24278,7 +24746,7 @@ function __c283(j: number): any {
       ).annotate({ identifier: "StopSessionRequest" });
   }
 }
-function __c284(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24288,7 +24756,7 @@ function __c284(j: number): any {
       ).annotate({ identifier: "StopTriggerRequest" });
   }
 }
-function __c285(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24298,24 +24766,24 @@ function __c285(j: number): any {
       ).annotate({ identifier: "StopWorkflowRunRequest" });
   }
 }
-function __c286(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ResourceArn: S.String, TagsToAdd: __S(10464, __c327, 0) }).pipe(
+        S.Struct({ ResourceArn: S.String, TagsToAdd: __S(10656, __c333, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c287(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ConnectionType: S.String,
-          ConnectionProperties: __S(11712, __c366, 0),
-          AuthenticationConfiguration: S.optional(__S(13188, __c412, 4)),
+          ConnectionProperties: __S(11936, __c373, 0),
+          AuthenticationConfiguration: S.optional(__S(13412, __c419, 4)),
         }),
       ).annotate({ identifier: "TestConnectionInput" });
     case 1:
@@ -24323,22 +24791,22 @@ function __c287(j: number): any {
         S.Struct({
           ConnectionName: S.optional(S.String),
           CatalogId: S.optional(S.String),
-          TestConnectionInput: S.optional(__S(9184, __c287, 0)),
+          TestConnectionInput: S.optional(__S(9344, __c292, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "TestConnectionRequest" });
   }
 }
-function __c288(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ResourceArn: S.String, TagsToRemove: __S(10336, __c323, 0) }).pipe(
+        S.Struct({ ResourceArn: S.String, TagsToRemove: __S(10528, __c329, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c289(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24369,7 +24837,7 @@ function __c289(j: number): any {
       ).annotate({ identifier: "UpdateAssetResponse" });
   }
 }
-function __c290(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24381,17 +24849,17 @@ function __c290(j: number): any {
       ).annotate({ identifier: "UpdateBlueprintRequest" });
   }
 }
-function __c291(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ CatalogId: S.String, CatalogInput: __S(12931, __c404, 3) }).pipe(
+        S.Struct({ CatalogId: S.String, CatalogInput: __S(13155, __c411, 3) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "UpdateCatalogRequest" });
   }
 }
-function __c292(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24417,15 +24885,15 @@ function __c292(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          GrokClassifier: S.optional(__S(9344, __c292, 0)),
-          XMLClassifier: S.optional(__S(9345, __c292, 1)),
-          JsonClassifier: S.optional(__S(9346, __c292, 2)),
-          CsvClassifier: S.optional(__S(13024, __c407, 0)),
+          GrokClassifier: S.optional(__S(9504, __c297, 0)),
+          XMLClassifier: S.optional(__S(9505, __c297, 1)),
+          JsonClassifier: S.optional(__S(9506, __c297, 2)),
+          CsvClassifier: S.optional(__S(13248, __c414, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateClassifierRequest" });
   }
 }
-function __c293(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24433,30 +24901,30 @@ function __c293(j: number): any {
           CatalogId: S.optional(S.String),
           DatabaseName: S.String,
           TableName: S.String,
-          PartitionValues: __S(10336, __c323, 0),
-          ColumnStatisticsList: __S(2825, __c88, 9),
+          PartitionValues: __S(10528, __c329, 0),
+          ColumnStatisticsList: __S(2889, __c90, 9),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateColumnStatisticsForPartitionRequest" });
   }
 }
-function __c294(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          ColumnStatistics: S.optional(__S(2824, __c88, 8)),
-          Error: S.optional(__S(10400, __c325, 0)),
+          ColumnStatistics: S.optional(__S(2888, __c90, 8)),
+          Error: S.optional(__S(10592, __c331, 0)),
         }),
       ).annotate({ identifier: "ColumnStatisticsError" });
     case 1:
-      return S.Array(__S(9408, __c294, 0));
+      return S.Array(__S(9568, __c299, 0));
     case 2:
-      return S.suspend(() => S.Struct({ Errors: S.optional(__S(9409, __c294, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ Errors: S.optional(__S(9569, __c299, 1)) })).annotate({
         identifier: "UpdateColumnStatisticsForPartitionResponse",
       });
   }
 }
-function __c295(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24464,12 +24932,12 @@ function __c295(j: number): any {
           CatalogId: S.optional(S.String),
           DatabaseName: S.String,
           TableName: S.String,
-          ColumnStatisticsList: __S(2825, __c88, 9),
+          ColumnStatisticsList: __S(2889, __c90, 9),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateColumnStatisticsForTableRequest" });
   }
 }
-function __c296(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24478,7 +24946,7 @@ function __c296(j: number): any {
           TableName: S.String,
           Role: S.optional(S.String),
           Schedule: S.optional(S.String),
-          ColumnNameList: S.optional(__S(10336, __c323, 0)),
+          ColumnNameList: S.optional(__S(10528, __c329, 0)),
           SampleSize: S.optional(S.Number),
           CatalogID: S.optional(S.String),
           SecurityConfiguration: S.optional(S.String),
@@ -24486,19 +24954,19 @@ function __c296(j: number): any {
       ).annotate({ identifier: "UpdateColumnStatisticsTaskSettingsRequest" });
   }
 }
-function __c297(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           CatalogId: S.optional(S.String),
           Name: S.String,
-          ConnectionInput: __S(13216, __c413, 0),
+          ConnectionInput: __S(13440, __c420, 0),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateConnectionRequest" });
   }
 }
-function __c298(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24507,14 +24975,14 @@ function __c298(j: number): any {
           Role: S.optional(S.String),
           DatabaseName: S.optional(S.String),
           Description: S.optional(S.String),
-          Targets: S.optional(__S(10990, __c343, 14)),
+          Targets: S.optional(__S(11182, __c349, 14)),
           Schedule: S.optional(S.String),
-          Classifiers: S.optional(__S(10336, __c323, 0)),
+          Classifiers: S.optional(__S(10528, __c329, 0)),
           TablePrefix: S.optional(S.String),
-          SchemaChangePolicy: S.optional(__S(10992, __c343, 16)),
-          RecrawlPolicy: S.optional(__S(10991, __c343, 15)),
-          LineageConfiguration: S.optional(__S(10993, __c343, 17)),
-          LakeFormationConfiguration: S.optional(__S(10994, __c343, 18)),
+          SchemaChangePolicy: S.optional(__S(11184, __c349, 16)),
+          RecrawlPolicy: S.optional(__S(11183, __c349, 15)),
+          LineageConfiguration: S.optional(__S(11185, __c349, 17)),
+          LakeFormationConfiguration: S.optional(__S(11186, __c349, 18)),
           Configuration: S.optional(S.String),
           CrawlerSecurityConfiguration: S.optional(S.String),
           CatalogId: S.optional(S.String),
@@ -24522,7 +24990,7 @@ function __c298(j: number): any {
       ).annotate({ identifier: "UpdateCrawlerRequest" });
   }
 }
-function __c299(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24532,19 +25000,42 @@ function __c299(j: number): any {
       ).annotate({ identifier: "UpdateCrawlerScheduleRequest" });
   }
 }
-function __c300(j: number): any {
+function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           CatalogId: S.optional(S.String),
           Name: S.String,
-          DatabaseInput: __S(13376, __c418, 0),
+          DatabaseInput: __S(13600, __c425, 0),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateDatabaseRequest" });
   }
 }
-function __c301(j: number): any {
+function __c306(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          DataSource: S.optional(__S(13665, __c427, 1)),
+          RulesetName: S.optional(S.String),
+          ManagedRulesetName: S.optional(S.String),
+          Triggers: S.optional(__S(11136, __c348, 0)),
+          ScheduleExpression: S.optional(S.String),
+          StartAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          EndAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          PauseRuns: S.optional(S.Boolean),
+          Role: S.optional(S.String),
+          NumberOfWorkers: S.optional(S.Number),
+          Timeout: S.optional(S.Number),
+          AdditionalRunOptions: S.optional(__S(13666, __c427, 2)),
+          AdditionalDataSources: S.optional(__S(11622, __c363, 6)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "UpdateDataQualityEvaluationConfigRequest" });
+  }
+}
+function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24564,7 +25055,7 @@ function __c301(j: number): any {
       ).annotate({ identifier: "UpdateDataQualityRulesetResponse" });
   }
 }
-function __c302(j: number): any {
+function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24578,17 +25069,17 @@ function __c302(j: number): any {
         S.Struct({
           EndpointName: S.String,
           PublicKey: S.optional(S.String),
-          AddPublicKeys: S.optional(__S(10336, __c323, 0)),
-          DeletePublicKeys: S.optional(__S(10336, __c323, 0)),
-          CustomLibraries: S.optional(__S(9664, __c302, 0)),
+          AddPublicKeys: S.optional(__S(10528, __c329, 0)),
+          DeletePublicKeys: S.optional(__S(10528, __c329, 0)),
+          CustomLibraries: S.optional(__S(9856, __c308, 0)),
           UpdateEtlLibraries: S.optional(S.Boolean),
-          DeleteArguments: S.optional(__S(10336, __c323, 0)),
-          AddArguments: S.optional(__S(10464, __c327, 0)),
+          DeleteArguments: S.optional(__S(10528, __c329, 0)),
+          AddArguments: S.optional(__S(10656, __c333, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateDevEndpointRequest" });
   }
 }
-function __c303(j: number): any {
+function __c309(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24610,7 +25101,7 @@ function __c303(j: number): any {
       ).annotate({ identifier: "UpdateGlossaryRequest" });
   }
 }
-function __c304(j: number): any {
+function __c310(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24633,43 +25124,43 @@ function __c304(j: number): any {
       ).annotate({ identifier: "UpdateGlossaryTermRequest" });
   }
 }
-function __c305(j: number): any {
+function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Scopes: S.optional(__S(10336, __c323, 0)),
+          Scopes: S.optional(__S(10528, __c329, 0)),
           UserBackgroundSessionsEnabled: S.optional(S.Boolean),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateGlueIdentityCenterConfigurationRequest" });
   }
 }
-function __c306(j: number): any {
+function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ResourceArn: S.String,
-          SourceProcessingProperties: S.optional(__S(13856, __c433, 0)),
-          TargetProcessingProperties: S.optional(__S(13857, __c433, 1)),
+          SourceProcessingProperties: S.optional(__S(14144, __c442, 0)),
+          TargetProcessingProperties: S.optional(__S(14145, __c442, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateIntegrationResourcePropertyRequest" });
   }
 }
-function __c307(j: number): any {
+function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ResourceArn: S.String,
           TableName: S.String,
-          SourceTableConfig: S.optional(__S(13952, __c436, 0)),
-          TargetTableConfig: S.optional(__S(13955, __c436, 3)),
+          SourceTableConfig: S.optional(__S(14240, __c445, 0)),
+          TargetTableConfig: S.optional(__S(14243, __c445, 3)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateIntegrationTablePropertiesRequest" });
   }
 }
-function __c308(j: number): any {
+function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24679,11 +25170,11 @@ function __c308(j: number): any {
           Description: S.optional(S.String),
           LogUri: S.optional(S.String),
           Role: S.optional(S.String),
-          ExecutionProperty: S.optional(__S(11776, __c368, 0)),
-          Command: S.optional(__S(11777, __c368, 1)),
-          DefaultArguments: S.optional(__S(10464, __c327, 0)),
-          NonOverridableArguments: S.optional(__S(10464, __c327, 0)),
-          Connections: S.optional(__S(11744, __c367, 0)),
+          ExecutionProperty: S.optional(__S(12000, __c375, 0)),
+          Command: S.optional(__S(12001, __c375, 1)),
+          DefaultArguments: S.optional(__S(10656, __c333, 0)),
+          NonOverridableArguments: S.optional(__S(10656, __c333, 0)),
+          Connections: S.optional(__S(11968, __c374, 0)),
           MaxRetries: S.optional(S.Number),
           AllocatedCapacity: S.optional(S.Number),
           Timeout: S.optional(S.Number),
@@ -24691,23 +25182,23 @@ function __c308(j: number): any {
           WorkerType: S.optional(S.String),
           NumberOfWorkers: S.optional(S.Number),
           SecurityConfiguration: S.optional(S.String),
-          NotificationProperty: S.optional(__S(11680, __c365, 0)),
+          NotificationProperty: S.optional(__S(11904, __c372, 0)),
           GlueVersion: S.optional(S.String),
-          CodeGenConfigurationNodes: S.optional(__S(11897, __c371, 25)),
+          CodeGenConfigurationNodes: S.optional(__S(12121, __c378, 25)),
           ExecutionClass: S.optional(S.String),
-          SourceControlDetails: S.optional(__S(11898, __c371, 26)),
+          SourceControlDetails: S.optional(__S(12122, __c378, 26)),
           MaintenanceWindow: S.optional(S.String),
         }),
       ).annotate({ identifier: "JobUpdate" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ JobName: S.String, JobUpdate: __S(9856, __c308, 0) }).pipe(
+        S.Struct({ JobName: S.String, JobUpdate: __S(10048, __c314, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "UpdateJobRequest" });
   }
 }
-function __c309(j: number): any {
+function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24725,7 +25216,7 @@ function __c309(j: number): any {
       ).annotate({ identifier: "UpdateJobFromSourceControlRequest" });
   }
 }
-function __c310(j: number): any {
+function __c316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24733,7 +25224,7 @@ function __c310(j: number): any {
           TransformId: S.String,
           Name: S.optional(S.String),
           Description: S.optional(S.String),
-          Parameters: S.optional(__S(14113, __c441, 1)),
+          Parameters: S.optional(__S(14401, __c450, 1)),
           Role: S.optional(S.String),
           GlueVersion: S.optional(S.String),
           MaxCapacity: S.optional(S.Number),
@@ -24745,7 +25236,7 @@ function __c310(j: number): any {
       ).annotate({ identifier: "UpdateMLTransformRequest" });
   }
 }
-function __c311(j: number): any {
+function __c317(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24753,36 +25244,36 @@ function __c311(j: number): any {
           CatalogId: S.optional(S.String),
           DatabaseName: S.String,
           TableName: S.String,
-          PartitionValueList: __S(10336, __c323, 0),
-          PartitionInput: __S(10560, __c330, 0),
+          PartitionValueList: __S(10528, __c329, 0),
+          PartitionInput: __S(10752, __c336, 0),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdatePartitionRequest" });
   }
 }
-function __c312(j: number): any {
+function __c318(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ RegistryId: __S(32, __c1, 0), Description: S.String }).pipe(
+        S.Struct({ RegistryId: __S(64, __c2, 0), Description: S.String }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "UpdateRegistryInput" });
   }
 }
-function __c313(j: number): any {
+function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          SchemaId: __S(10496, __c328, 0),
-          SchemaVersionNumber: S.optional(__S(5184, __c162, 0)),
+          SchemaId: __S(10688, __c334, 0),
+          SchemaVersionNumber: S.optional(__S(5312, __c166, 0)),
           Compatibility: S.optional(S.String),
           Description: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateSchemaInput" });
   }
 }
-function __c314(j: number): any {
+function __c320(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24800,7 +25291,7 @@ function __c314(j: number): any {
       ).annotate({ identifier: "UpdateSourceControlFromJobRequest" });
   }
 }
-function __c315(j: number): any {
+function __c321(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24808,35 +25299,35 @@ function __c315(j: number): any {
           KeyId: S.String,
           EncryptedKeyMetadata: S.String,
           EncryptedById: S.optional(S.String),
-          Properties: S.optional(__S(10464, __c327, 0)),
+          Properties: S.optional(__S(10656, __c333, 0)),
         }),
       ).annotate({ identifier: "IcebergEncryptedKey" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Schema: __S(390, __c12, 6),
-          PartitionSpec: S.optional(__S(393, __c12, 9)),
-          SortOrder: S.optional(__S(396, __c12, 12)),
+          Schema: __S(422, __c13, 6),
+          PartitionSpec: S.optional(__S(425, __c13, 9)),
+          SortOrder: S.optional(__S(428, __c13, 12)),
           Location: S.String,
-          Properties: S.optional(__S(10464, __c327, 0)),
+          Properties: S.optional(__S(10656, __c333, 0)),
           Action: S.optional(S.String),
-          EncryptionKey: S.optional(__S(10080, __c315, 0)),
+          EncryptionKey: S.optional(__S(10272, __c321, 0)),
           KeyId: S.optional(S.String),
         }),
       ).annotate({ identifier: "IcebergTableUpdate" });
     case 2:
-      return S.Array(__S(10081, __c315, 1));
+      return S.Array(__S(10273, __c321, 1));
     case 3:
-      return S.suspend(() => S.Struct({ Updates: __S(10082, __c315, 2) })).annotate({
+      return S.suspend(() => S.Struct({ Updates: __S(10274, __c321, 2) })).annotate({
         identifier: "UpdateIcebergTableInput",
       });
     case 4:
-      return S.suspend(() => S.Struct({ UpdateIcebergTableInput: __S(10083, __c315, 3) })).annotate(
+      return S.suspend(() => S.Struct({ UpdateIcebergTableInput: __S(10275, __c321, 3) })).annotate(
         { identifier: "UpdateIcebergInput" },
       );
     case 5:
       return S.suspend(() =>
-        S.Struct({ UpdateIcebergInput: S.optional(__S(10084, __c315, 4)) }),
+        S.Struct({ UpdateIcebergInput: S.optional(__S(10276, __c321, 4)) }),
       ).annotate({ identifier: "UpdateOpenTableFormatInput" });
     case 6:
       return S.suspend(() =>
@@ -24844,18 +25335,18 @@ function __c315(j: number): any {
           CatalogId: S.optional(S.String),
           DatabaseName: S.String,
           Name: S.optional(S.String),
-          TableInput: S.optional(__S(419, __c13, 3)),
+          TableInput: S.optional(__S(451, __c14, 3)),
           SkipArchive: S.optional(S.Boolean),
           TransactionId: S.optional(S.String),
           VersionId: S.optional(S.String),
           ViewUpdateAction: S.optional(S.String),
           Force: S.optional(S.Boolean),
-          UpdateOpenTableFormatInput: S.optional(__S(10085, __c315, 5)),
+          UpdateOpenTableFormatInput: S.optional(__S(10277, __c321, 5)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateTableRequest" });
   }
 }
-function __c316(j: number): any {
+function __c322(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24864,12 +25355,12 @@ function __c316(j: number): any {
           DatabaseName: S.String,
           TableName: S.String,
           Type: S.String,
-          TableOptimizerConfiguration: __S(12103, __c378, 7),
+          TableOptimizerConfiguration: __S(12327, __c385, 7),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateTableOptimizerRequest" });
   }
 }
-function __c317(j: number): any {
+function __c323(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24877,32 +25368,32 @@ function __c317(j: number): any {
           Name: S.optional(S.String),
           Description: S.optional(S.String),
           Schedule: S.optional(S.String),
-          Actions: S.optional(__S(12257, __c383, 1)),
-          Predicate: S.optional(__S(12260, __c383, 4)),
-          EventBatchingCondition: S.optional(__S(12261, __c383, 5)),
+          Actions: S.optional(__S(12481, __c390, 1)),
+          Predicate: S.optional(__S(12484, __c390, 4)),
+          EventBatchingCondition: S.optional(__S(12485, __c390, 5)),
         }),
       ).annotate({ identifier: "TriggerUpdate" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Name: S.String, TriggerUpdate: __S(10144, __c317, 0) }).pipe(
+        S.Struct({ Name: S.String, TriggerUpdate: __S(10336, __c323, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "UpdateTriggerRequest" });
   }
 }
-function __c318(j: number): any {
+function __c324(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
           Description: S.optional(S.String),
-          Configuration: __S(546, __c17, 2),
+          Configuration: __S(578, __c18, 2),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateUsageProfileRequest" });
   }
 }
-function __c319(j: number): any {
+function __c325(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24910,25 +25401,25 @@ function __c319(j: number): any {
           CatalogId: S.optional(S.String),
           DatabaseName: S.String,
           FunctionName: S.String,
-          FunctionInput: __S(640, __c20, 0),
+          FunctionInput: __S(672, __c21, 0),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateUserDefinedFunctionRequest" });
   }
 }
-function __c320(j: number): any {
+function __c326(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
           Description: S.optional(S.String),
-          DefaultRunProperties: S.optional(__S(10464, __c327, 0)),
+          DefaultRunProperties: S.optional(__S(10656, __c333, 0)),
           MaxConcurrentRuns: S.optional(S.Number),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateWorkflowRequest" });
   }
 }
-function __c321(j: number): any {
+function __c327(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24936,7 +25427,7 @@ function __c321(j: number): any {
           AssetIdentifier: S.String.pipe(T.HttpLabel("AssetIdentifier")),
           IterableFormName: S.optional(S.String),
           ItemIdentifier: S.optional(S.String),
-          GlossaryTermIdentifiers: __S(10336, __c323, 0),
+          GlossaryTermIdentifiers: __S(10528, __c329, 0),
           ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -24951,7 +25442,7 @@ function __c321(j: number): any {
       ).annotate({ identifier: "AssociateGlossaryTermsRequest" });
   }
 }
-function __c322(j: number): any {
+function __c328(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24959,33 +25450,33 @@ function __c322(j: number): any {
           AssetIdentifier: S.optional(S.String),
           IterableFormName: S.optional(S.String),
           ItemIdentifier: S.optional(S.String),
-          GlossaryTerms: S.optional(__S(10336, __c323, 0)),
+          GlossaryTerms: S.optional(__S(10528, __c329, 0)),
         }),
       ).annotate({ identifier: "AssociateGlossaryTermsResponse" });
   }
 }
-function __c323(j: number): any {
+function __c329(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c324(j: number): any {
+function __c330(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(10560, __c330, 0));
+      return S.Array(__S(10752, __c336, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           CatalogId: S.optional(S.String),
           DatabaseName: S.String,
           TableName: S.String,
-          PartitionInputList: __S(10368, __c324, 0),
+          PartitionInputList: __S(10560, __c330, 0),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "BatchCreatePartitionRequest" });
   }
 }
-function __c325(j: number): any {
+function __c331(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -24993,30 +25484,30 @@ function __c325(j: number): any {
       ).annotate({ identifier: "ErrorDetail" });
   }
 }
-function __c326(j: number): any {
+function __c332(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          PartitionValues: S.optional(__S(10336, __c323, 0)),
-          ErrorDetail: S.optional(__S(10400, __c325, 0)),
+          PartitionValues: S.optional(__S(10528, __c329, 0)),
+          ErrorDetail: S.optional(__S(10592, __c331, 0)),
         }),
       ).annotate({ identifier: "PartitionError" });
     case 1:
-      return S.Array(__S(10432, __c326, 0));
+      return S.Array(__S(10624, __c332, 0));
     case 2:
-      return S.suspend(() => S.Struct({ Errors: S.optional(__S(10433, __c326, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ Errors: S.optional(__S(10625, __c332, 1)) })).annotate({
         identifier: "BatchCreatePartitionResponse",
       });
   }
 }
-function __c327(j: number): any {
+function __c333(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
   }
 }
-function __c328(j: number): any {
+function __c334(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25028,7 +25519,7 @@ function __c328(j: number): any {
       ).annotate({ identifier: "SchemaId" });
   }
 }
-function __c329(j: number): any {
+function __c335(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25036,17 +25527,17 @@ function __c329(j: number): any {
           Name: S.String,
           Type: S.optional(S.String),
           Comment: S.optional(S.String),
-          Parameters: S.optional(__S(10464, __c327, 0)),
+          Parameters: S.optional(__S(10656, __c333, 0)),
         }),
       ).annotate({ identifier: "Column" });
     case 1:
-      return S.Array(__S(10528, __c329, 0));
+      return S.Array(__S(10720, __c335, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
           SerializationLibrary: S.optional(S.String),
-          Parameters: S.optional(__S(10464, __c327, 0)),
+          Parameters: S.optional(__S(10656, __c333, 0)),
         }),
       ).annotate({ identifier: "SerDeInfo" });
     case 3:
@@ -25054,19 +25545,19 @@ function __c329(j: number): any {
         identifier: "Order",
       });
     case 4:
-      return S.Array(__S(10531, __c329, 3));
+      return S.Array(__S(10723, __c335, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          SkewedColumnNames: S.optional(__S(10336, __c323, 0)),
-          SkewedColumnValues: S.optional(__S(10336, __c323, 0)),
-          SkewedColumnValueLocationMaps: S.optional(__S(10464, __c327, 0)),
+          SkewedColumnNames: S.optional(__S(10528, __c329, 0)),
+          SkewedColumnValues: S.optional(__S(10528, __c329, 0)),
+          SkewedColumnValueLocationMaps: S.optional(__S(10656, __c333, 0)),
         }),
       ).annotate({ identifier: "SkewedInfo" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          SchemaId: S.optional(__S(10496, __c328, 0)),
+          SchemaId: S.optional(__S(10688, __c334, 0)),
           SchemaVersionId: S.optional(S.String),
           SchemaVersionNumber: S.optional(S.Number),
         }),
@@ -25074,132 +25565,22 @@ function __c329(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          Columns: S.optional(__S(10529, __c329, 1)),
+          Columns: S.optional(__S(10721, __c335, 1)),
           Location: S.optional(S.String),
-          AdditionalLocations: S.optional(__S(10336, __c323, 0)),
+          AdditionalLocations: S.optional(__S(10528, __c329, 0)),
           InputFormat: S.optional(S.String),
           OutputFormat: S.optional(S.String),
           Compressed: S.optional(S.Boolean),
           NumberOfBuckets: S.optional(S.Number),
-          SerdeInfo: S.optional(__S(10530, __c329, 2)),
-          BucketColumns: S.optional(__S(10336, __c323, 0)),
-          SortColumns: S.optional(__S(10532, __c329, 4)),
-          Parameters: S.optional(__S(10464, __c327, 0)),
-          SkewedInfo: S.optional(__S(10533, __c329, 5)),
+          SerdeInfo: S.optional(__S(10722, __c335, 2)),
+          BucketColumns: S.optional(__S(10528, __c329, 0)),
+          SortColumns: S.optional(__S(10724, __c335, 4)),
+          Parameters: S.optional(__S(10656, __c333, 0)),
+          SkewedInfo: S.optional(__S(10725, __c335, 5)),
           StoredAsSubDirectories: S.optional(S.Boolean),
-          SchemaReference: S.optional(__S(10534, __c329, 6)),
+          SchemaReference: S.optional(__S(10726, __c335, 6)),
         }),
       ).annotate({ identifier: "StorageDescriptor" });
-  }
-}
-function __c330(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          Values: S.optional(__S(10336, __c323, 0)),
-          LastAccessTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          StorageDescriptor: S.optional(__S(10535, __c329, 7)),
-          Parameters: S.optional(__S(10464, __c327, 0)),
-          LastAnalyzedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-        }),
-      ).annotate({ identifier: "PartitionInput" });
-  }
-}
-function __c331(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          CatalogId: S.optional(S.String),
-          ConnectionNameList: __S(10336, __c323, 0),
-        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "BatchDeleteConnectionRequest" });
-    case 1:
-      return S.Record(S.String, /*@__PURE__*/ __S(10400, __c325, 0).pipe(S.optional));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          Succeeded: S.optional(__S(10336, __c323, 0)),
-          Errors: S.optional(__S(10593, __c331, 1)),
-        }),
-      ).annotate({ identifier: "BatchDeleteConnectionResponse" });
-  }
-}
-function __c332(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          CatalogId: S.optional(S.String),
-          DatabaseName: S.String,
-          TableName: S.String,
-          PartitionsToDelete: __S(10657, __c333, 1),
-        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "BatchDeletePartitionRequest" });
-  }
-}
-function __c333(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ Values: __S(10336, __c323, 0) })).annotate({
-        identifier: "PartitionValueList",
-      });
-    case 1:
-      return S.Array(__S(10656, __c333, 0));
-  }
-}
-function __c334(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          CatalogId: S.optional(S.String),
-          DatabaseName: S.String,
-          TablesToDelete: __S(10336, __c323, 0),
-          TransactionId: S.optional(S.String),
-        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "BatchDeleteTableRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          TableName: S.optional(S.String),
-          ErrorDetail: S.optional(__S(10400, __c325, 0)),
-        }),
-      ).annotate({ identifier: "TableError" });
-    case 2:
-      return S.Array(__S(10689, __c334, 1));
-    case 3:
-      return S.suspend(() => S.Struct({ Errors: S.optional(__S(10690, __c334, 2)) })).annotate({
-        identifier: "BatchDeleteTableResponse",
-      });
-  }
-}
-function __c335(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          CatalogId: S.optional(S.String),
-          DatabaseName: S.String,
-          TableName: S.String,
-          VersionIds: __S(10336, __c323, 0),
-        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "BatchDeleteTableVersionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          TableName: S.optional(S.String),
-          VersionId: S.optional(S.String),
-          ErrorDetail: S.optional(__S(10400, __c325, 0)),
-        }),
-      ).annotate({ identifier: "TableVersionError" });
-    case 2:
-      return S.Array(__S(10721, __c335, 1));
-    case 3:
-      return S.suspend(() => S.Struct({ Errors: S.optional(__S(10722, __c335, 2)) })).annotate({
-        identifier: "BatchDeleteTableVersionResponse",
-      });
   }
 }
 function __c336(j: number): any {
@@ -25207,23 +25588,133 @@ function __c336(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Names: __S(10336, __c323, 0),
+          Values: S.optional(__S(10528, __c329, 0)),
+          LastAccessTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          StorageDescriptor: S.optional(__S(10727, __c335, 7)),
+          Parameters: S.optional(__S(10656, __c333, 0)),
+          LastAnalyzedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "PartitionInput" });
+  }
+}
+function __c337(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CatalogId: S.optional(S.String),
+          ConnectionNameList: __S(10528, __c329, 0),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "BatchDeleteConnectionRequest" });
+    case 1:
+      return S.Record(S.String, /*@__PURE__*/ __S(10592, __c331, 0).pipe(S.optional));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          Succeeded: S.optional(__S(10528, __c329, 0)),
+          Errors: S.optional(__S(10785, __c337, 1)),
+        }),
+      ).annotate({ identifier: "BatchDeleteConnectionResponse" });
+  }
+}
+function __c338(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CatalogId: S.optional(S.String),
+          DatabaseName: S.String,
+          TableName: S.String,
+          PartitionsToDelete: __S(10849, __c339, 1),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "BatchDeletePartitionRequest" });
+  }
+}
+function __c339(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ Values: __S(10528, __c329, 0) })).annotate({
+        identifier: "PartitionValueList",
+      });
+    case 1:
+      return S.Array(__S(10848, __c339, 0));
+  }
+}
+function __c340(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CatalogId: S.optional(S.String),
+          DatabaseName: S.String,
+          TablesToDelete: __S(10528, __c329, 0),
+          TransactionId: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "BatchDeleteTableRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          TableName: S.optional(S.String),
+          ErrorDetail: S.optional(__S(10592, __c331, 0)),
+        }),
+      ).annotate({ identifier: "TableError" });
+    case 2:
+      return S.Array(__S(10881, __c340, 1));
+    case 3:
+      return S.suspend(() => S.Struct({ Errors: S.optional(__S(10882, __c340, 2)) })).annotate({
+        identifier: "BatchDeleteTableResponse",
+      });
+  }
+}
+function __c341(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CatalogId: S.optional(S.String),
+          DatabaseName: S.String,
+          TableName: S.String,
+          VersionIds: __S(10528, __c329, 0),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "BatchDeleteTableVersionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          TableName: S.optional(S.String),
+          VersionId: S.optional(S.String),
+          ErrorDetail: S.optional(__S(10592, __c331, 0)),
+        }),
+      ).annotate({ identifier: "TableVersionError" });
+    case 2:
+      return S.Array(__S(10913, __c341, 1));
+    case 3:
+      return S.suspend(() => S.Struct({ Errors: S.optional(__S(10914, __c341, 2)) })).annotate({
+        identifier: "BatchDeleteTableVersionResponse",
+      });
+  }
+}
+function __c342(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Names: __S(10528, __c329, 0),
           IncludeBlueprint: S.optional(S.Boolean),
           IncludeParameterSpec: S.optional(S.Boolean),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "BatchGetBlueprintsRequest" });
     case 1:
-      return S.Array(__S(10785, __c337, 1));
+      return S.Array(__S(10977, __c343, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Blueprints: S.optional(__S(10753, __c336, 1)),
-          MissingBlueprints: S.optional(__S(10336, __c323, 0)),
+          Blueprints: S.optional(__S(10945, __c342, 1)),
+          MissingBlueprints: S.optional(__S(10528, __c329, 0)),
         }),
       ).annotate({ identifier: "BatchGetBlueprintsResponse" });
   }
 }
-function __c337(j: number): any {
+function __c343(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25247,29 +25738,29 @@ function __c337(j: number): any {
           BlueprintServiceLocation: S.optional(S.String),
           Status: S.optional(S.String),
           ErrorMessage: S.optional(S.String),
-          LastActiveDefinition: S.optional(__S(10784, __c337, 0)),
+          LastActiveDefinition: S.optional(__S(10976, __c343, 0)),
         }),
       ).annotate({ identifier: "Blueprint" });
   }
 }
-function __c338(j: number): any {
+function __c344(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ CrawlerNames: __S(10336, __c323, 0) }).pipe(
+        S.Struct({ CrawlerNames: __S(10528, __c329, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchGetCrawlersRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Crawlers: S.optional(__S(10912, __c341, 0)),
-          CrawlersNotFound: S.optional(__S(10336, __c323, 0)),
+          Crawlers: S.optional(__S(11104, __c347, 0)),
+          CrawlersNotFound: S.optional(__S(10528, __c329, 0)),
         }),
       ).annotate({ identifier: "BatchGetCrawlersResponse" });
   }
 }
-function __c339(j: number): any {
+function __c345(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25277,7 +25768,7 @@ function __c339(j: number): any {
       ).annotate({ identifier: "Schedule" });
   }
 }
-function __c340(j: number): any {
+function __c346(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25295,48 +25786,48 @@ function __c340(j: number): any {
         S.Struct({
           Name: S.optional(S.String),
           Role: S.optional(S.String),
-          Targets: S.optional(__S(10990, __c343, 14)),
+          Targets: S.optional(__S(11182, __c349, 14)),
           DatabaseName: S.optional(S.String),
           Description: S.optional(S.String),
-          Classifiers: S.optional(__S(10336, __c323, 0)),
-          RecrawlPolicy: S.optional(__S(10991, __c343, 15)),
-          SchemaChangePolicy: S.optional(__S(10992, __c343, 16)),
-          LineageConfiguration: S.optional(__S(10993, __c343, 17)),
+          Classifiers: S.optional(__S(10528, __c329, 0)),
+          RecrawlPolicy: S.optional(__S(11183, __c349, 15)),
+          SchemaChangePolicy: S.optional(__S(11184, __c349, 16)),
+          LineageConfiguration: S.optional(__S(11185, __c349, 17)),
           State: S.optional(S.String),
           TablePrefix: S.optional(S.String),
-          Schedule: S.optional(__S(10848, __c339, 0)),
+          Schedule: S.optional(__S(11040, __c345, 0)),
           CrawlElapsedTime: S.optional(S.Number),
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastUpdated: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          LastCrawl: S.optional(__S(10880, __c340, 0)),
+          LastCrawl: S.optional(__S(11072, __c346, 0)),
           Version: S.optional(S.Number),
           Configuration: S.optional(S.String),
           CrawlerSecurityConfiguration: S.optional(S.String),
-          LakeFormationConfiguration: S.optional(__S(10994, __c343, 18)),
+          LakeFormationConfiguration: S.optional(__S(11186, __c349, 18)),
           CatalogId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Crawler" });
   }
 }
-function __c341(j: number): any {
+function __c347(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(10881, __c340, 1));
+      return S.Array(__S(11073, __c346, 1));
   }
 }
-function __c342(j: number): any {
+function __c348(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c343(j: number): any {
+function __c349(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Path: S.optional(S.String),
-          Exclusions: S.optional(__S(10336, __c323, 0)),
+          Exclusions: S.optional(__S(10528, __c329, 0)),
           ConnectionName: S.optional(S.String),
           SampleSize: S.optional(S.Number),
           EventQueueArn: S.optional(S.String),
@@ -25344,18 +25835,18 @@ function __c343(j: number): any {
         }),
       ).annotate({ identifier: "S3Target" });
     case 1:
-      return S.Array(__S(10976, __c343, 0));
+      return S.Array(__S(11168, __c349, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           ConnectionName: S.optional(S.String),
           Path: S.optional(S.String),
-          Exclusions: S.optional(__S(10336, __c323, 0)),
-          EnableAdditionalMetadata: S.optional(__S(10944, __c342, 0)),
+          Exclusions: S.optional(__S(10528, __c329, 0)),
+          EnableAdditionalMetadata: S.optional(__S(11136, __c348, 0)),
         }),
       ).annotate({ identifier: "JdbcTarget" });
     case 3:
-      return S.Array(__S(10978, __c343, 2));
+      return S.Array(__S(11170, __c349, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -25365,7 +25856,7 @@ function __c343(j: number): any {
         }),
       ).annotate({ identifier: "MongoDBTarget" });
     case 5:
-      return S.Array(__S(10980, __c343, 4));
+      return S.Array(__S(11172, __c349, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -25375,52 +25866,52 @@ function __c343(j: number): any {
         }),
       ).annotate({ identifier: "DynamoDBTarget" });
     case 7:
-      return S.Array(__S(10982, __c343, 6));
+      return S.Array(__S(11174, __c349, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           DatabaseName: S.String,
-          Tables: __S(10336, __c323, 0),
+          Tables: __S(10528, __c329, 0),
           ConnectionName: S.optional(S.String),
           EventQueueArn: S.optional(S.String),
           DlqEventQueueArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "CatalogTarget" });
     case 9:
-      return S.Array(__S(10984, __c343, 8));
+      return S.Array(__S(11176, __c349, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          DeltaTables: S.optional(__S(10336, __c323, 0)),
+          DeltaTables: S.optional(__S(10528, __c329, 0)),
           ConnectionName: S.optional(S.String),
           WriteManifest: S.optional(S.Boolean),
           CreateNativeDeltaTable: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DeltaTarget" });
     case 11:
-      return S.Array(__S(10986, __c343, 10));
+      return S.Array(__S(11178, __c349, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          Paths: S.optional(__S(10336, __c323, 0)),
+          Paths: S.optional(__S(10528, __c329, 0)),
           ConnectionName: S.optional(S.String),
-          Exclusions: S.optional(__S(10336, __c323, 0)),
+          Exclusions: S.optional(__S(10528, __c329, 0)),
           MaximumTraversalDepth: S.optional(S.Number),
         }),
       ).annotate({ identifier: "IcebergTarget" });
     case 13:
-      return S.Array(__S(10988, __c343, 12));
+      return S.Array(__S(11180, __c349, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          S3Targets: S.optional(__S(10977, __c343, 1)),
-          JdbcTargets: S.optional(__S(10979, __c343, 3)),
-          MongoDBTargets: S.optional(__S(10981, __c343, 5)),
-          DynamoDBTargets: S.optional(__S(10983, __c343, 7)),
-          CatalogTargets: S.optional(__S(10985, __c343, 9)),
-          DeltaTargets: S.optional(__S(10987, __c343, 11)),
-          IcebergTargets: S.optional(__S(10989, __c343, 13)),
-          HudiTargets: S.optional(__S(10989, __c343, 13)),
+          S3Targets: S.optional(__S(11169, __c349, 1)),
+          JdbcTargets: S.optional(__S(11171, __c349, 3)),
+          MongoDBTargets: S.optional(__S(11173, __c349, 5)),
+          DynamoDBTargets: S.optional(__S(11175, __c349, 7)),
+          CatalogTargets: S.optional(__S(11177, __c349, 9)),
+          DeltaTargets: S.optional(__S(11179, __c349, 11)),
+          IcebergTargets: S.optional(__S(11181, __c349, 13)),
+          HudiTargets: S.optional(__S(11181, __c349, 13)),
         }),
       ).annotate({ identifier: "CrawlerTargets" });
     case 15:
@@ -25444,65 +25935,67 @@ function __c343(j: number): any {
       ).annotate({ identifier: "LakeFormationConfiguration" });
   }
 }
-function __c344(j: number): any {
+function __c350(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Names: __S(10336, __c323, 0) }).pipe(
+        S.Struct({ Names: __S(10528, __c329, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchGetCustomEntityTypesRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          CustomEntityTypes: S.optional(__S(11041, __c345, 1)),
-          CustomEntityTypesNotFound: S.optional(__S(10336, __c323, 0)),
+          CustomEntityTypes: S.optional(__S(11233, __c351, 1)),
+          CustomEntityTypesNotFound: S.optional(__S(10528, __c329, 0)),
         }),
       ).annotate({ identifier: "BatchGetCustomEntityTypesResponse" });
   }
 }
-function __c345(j: number): any {
+function __c351(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
           RegexString: S.String,
-          ContextWords: S.optional(__S(10336, __c323, 0)),
+          ContextWords: S.optional(__S(10528, __c329, 0)),
         }),
       ).annotate({ identifier: "CustomEntityType" });
     case 1:
-      return S.Array(__S(11040, __c345, 0));
+      return S.Array(__S(11232, __c351, 0));
   }
 }
-function __c346(j: number): any {
+function __c352(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ResultIds: __S(10336, __c323, 0) }).pipe(
+        S.Struct({ ResultIds: __S(10528, __c329, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchGetDataQualityResultRequest" });
     case 1:
-      return S.Array(__S(11104, __c347, 0));
+      return S.Array(__S(11296, __c353, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Results: __S(11073, __c346, 1),
-          ResultsNotFound: S.optional(__S(10336, __c323, 0)),
+          Results: __S(11265, __c352, 1),
+          ResultsNotFound: S.optional(__S(10528, __c329, 0)),
         }),
       ).annotate({ identifier: "BatchGetDataQualityResultResponse" });
   }
 }
-function __c347(j: number): any {
+function __c353(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ResultId: S.optional(S.String),
+          EvaluationRunMode: S.optional(S.String),
+          DataQualityEvaluationConfig: S.optional(S.String),
           ProfileId: S.optional(S.String),
           Score: S.optional(S.Number),
-          DataSource: S.optional(__S(11233, __c351, 1)),
+          DataSource: S.optional(__S(11425, __c357, 1)),
           RulesetName: S.optional(S.String),
           EvaluationContext: S.optional(S.String),
           StartedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -25510,33 +26003,33 @@ function __c347(j: number): any {
           JobName: S.optional(S.String),
           JobRunId: S.optional(S.String),
           RulesetEvaluationRunId: S.optional(S.String),
-          RuleResults: S.optional(__S(11202, __c350, 2)),
-          AnalyzerResults: S.optional(__S(11205, __c350, 5)),
-          Observations: S.optional(__S(11209, __c350, 9)),
-          AggregatedMetrics: S.optional(__S(11210, __c350, 10)),
+          RuleResults: S.optional(__S(11394, __c356, 2)),
+          AnalyzerResults: S.optional(__S(11397, __c356, 5)),
+          Observations: S.optional(__S(11401, __c356, 9)),
+          AggregatedMetrics: S.optional(__S(11402, __c356, 10)),
         }),
       ).annotate({ identifier: "DataQualityResult" });
   }
 }
-function __c348(j: number): any {
+function __c354(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c349(j: number): any {
+function __c355(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          BinEdges: S.optional(__S(10336, __c323, 0)),
-          Count: S.optional(__S(11136, __c348, 0)),
+          BinEdges: S.optional(__S(10528, __c329, 0)),
+          Count: S.optional(__S(11328, __c354, 0)),
           DataType: S.optional(S.String),
         }),
       ).annotate({ identifier: "DistributionData" });
   }
 }
-function __c350(j: number): any {
+function __c356(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.Number.pipe(S.optional));
@@ -25547,28 +26040,28 @@ function __c350(j: number): any {
           Description: S.optional(SensitiveString),
           EvaluationMessage: S.optional(SensitiveString),
           Result: S.optional(S.String),
-          EvaluatedMetrics: S.optional(__S(11200, __c350, 0)),
+          EvaluatedMetrics: S.optional(__S(11392, __c356, 0)),
           EvaluatedRule: S.optional(SensitiveString),
-          RuleMetrics: S.optional(__S(11200, __c350, 0)),
-          Labels: S.optional(__S(10464, __c327, 0)),
+          RuleMetrics: S.optional(__S(11392, __c356, 0)),
+          Labels: S.optional(__S(10656, __c333, 0)),
         }),
       ).annotate({ identifier: "DataQualityRuleResult" });
     case 2:
-      return S.Array(__S(11201, __c350, 1));
+      return S.Array(__S(11393, __c356, 1));
     case 3:
-      return S.Record(S.String, /*@__PURE__*/ __S(11168, __c349, 0).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(11360, __c355, 0).pipe(S.optional));
     case 4:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
           Description: S.optional(SensitiveString),
           EvaluationMessage: S.optional(SensitiveString),
-          EvaluatedMetrics: S.optional(__S(11200, __c350, 0)),
-          EvaluatedDistributions: S.optional(__S(11203, __c350, 3)),
+          EvaluatedMetrics: S.optional(__S(11392, __c356, 0)),
+          EvaluatedDistributions: S.optional(__S(11395, __c356, 3)),
         }),
       ).annotate({ identifier: "DataQualityAnalyzerResult" });
     case 5:
-      return S.Array(__S(11204, __c350, 4));
+      return S.Array(__S(11396, __c356, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -25583,19 +26076,19 @@ function __c350(j: number): any {
         S.Struct({
           MetricName: S.optional(S.String),
           StatisticId: S.optional(S.String),
-          MetricValues: S.optional(__S(11206, __c350, 6)),
-          NewRules: S.optional(__S(10336, __c323, 0)),
+          MetricValues: S.optional(__S(11398, __c356, 6)),
+          NewRules: S.optional(__S(10528, __c329, 0)),
         }),
       ).annotate({ identifier: "MetricBasedObservation" });
     case 8:
       return S.suspend(() =>
         S.Struct({
           Description: S.optional(SensitiveString),
-          MetricBasedObservation: S.optional(__S(11207, __c350, 7)),
+          MetricBasedObservation: S.optional(__S(11399, __c356, 7)),
         }),
       ).annotate({ identifier: "DataQualityObservation" });
     case 9:
-      return S.Array(__S(11208, __c350, 8));
+      return S.Array(__S(11400, __c356, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -25609,7 +26102,7 @@ function __c350(j: number): any {
       ).annotate({ identifier: "DataQualityAggregatedMetrics" });
   }
 }
-function __c351(j: number): any {
+function __c357(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25618,20 +26111,20 @@ function __c351(j: number): any {
           TableName: S.String,
           CatalogId: S.optional(S.String),
           ConnectionName: S.optional(S.String),
-          AdditionalOptions: S.optional(__S(10464, __c327, 0)),
+          AdditionalOptions: S.optional(__S(10656, __c333, 0)),
           PreProcessingQuery: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataQualityGlueTable" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          GlueTable: S.optional(__S(11264, __c352, 0)),
-          DataQualityGlueTable: S.optional(__S(11232, __c351, 0)),
+          GlueTable: S.optional(__S(11456, __c358, 0)),
+          DataQualityGlueTable: S.optional(__S(11424, __c357, 0)),
         }),
       ).annotate({ identifier: "DataSource" });
   }
 }
-function __c352(j: number): any {
+function __c358(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25640,16 +26133,16 @@ function __c352(j: number): any {
           TableName: S.String,
           CatalogId: S.optional(S.String),
           ConnectionName: S.optional(S.String),
-          AdditionalOptions: S.optional(__S(10464, __c327, 0)),
+          AdditionalOptions: S.optional(__S(10656, __c333, 0)),
         }),
       ).annotate({ identifier: "GlueTable" });
   }
 }
-function __c353(j: number): any {
+function __c359(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ResultIds: __S(10336, __c323, 0) }).pipe(
+        S.Struct({ ResultIds: __S(10528, __c329, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchGetDataQualityResultV2Request" });
@@ -25657,77 +26150,98 @@ function __c353(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ResultId: S.String,
-          DataSource: S.optional(__S(11233, __c351, 1)),
-          Dimensions: S.optional(__S(10464, __c327, 0)),
-          Tags: S.optional(__S(10464, __c327, 0)),
+          EvaluationRunMode: S.optional(S.String),
+          DataQualityEvaluationConfig: S.optional(S.String),
+          DataSource: S.optional(__S(11425, __c357, 1)),
+          Dimensions: S.optional(__S(10656, __c333, 0)),
+          Tags: S.optional(__S(10656, __c333, 0)),
           ExecutionStartedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ExecutionCompletedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ResultPublishedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Score: S.optional(S.Number),
-          RuleResults: S.optional(__S(11202, __c350, 2)),
-          AnalyzerResults: S.optional(__S(11205, __c350, 5)),
-          Observations: S.optional(__S(11209, __c350, 9)),
+          RuleResults: S.optional(__S(11394, __c356, 2)),
+          AnalyzerResults: S.optional(__S(11397, __c356, 5)),
+          Observations: S.optional(__S(11401, __c356, 9)),
           EvaluationContext: S.optional(S.String),
-          Descriptors: S.optional(__S(10464, __c327, 0)),
-          AggregatedMetrics: S.optional(__S(11210, __c350, 10)),
+          Descriptors: S.optional(__S(10656, __c333, 0)),
+          AggregatedMetrics: S.optional(__S(11402, __c356, 10)),
           RulesetName: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataQualityResultV2Item" });
     case 2:
-      return S.Array(__S(11297, __c353, 1));
+      return S.Array(__S(11489, __c359, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Results: __S(11298, __c353, 2),
-          ResultsNotFound: S.optional(__S(10336, __c323, 0)),
+          Results: __S(11490, __c359, 2),
+          ResultsNotFound: S.optional(__S(10528, __c329, 0)),
         }),
       ).annotate({ identifier: "BatchGetDataQualityResultV2Response" });
   }
 }
-function __c354(j: number): any {
+function __c360(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ RunIds: __S(10336, __c323, 0) }).pipe(
+        S.Struct({ RunIds: __S(10528, __c329, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchGetDataQualityRulesetEvaluationRunRequest" });
     case 1:
-      return S.Array(__S(11360, __c355, 0));
+      return S.Array(__S(11552, __c361, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Runs: S.optional(__S(11329, __c354, 1)),
-          RunsNotFound: S.optional(__S(10336, __c323, 0)),
+          Runs: S.optional(__S(11521, __c360, 1)),
+          RunsNotFound: S.optional(__S(10528, __c329, 0)),
         }),
       ).annotate({ identifier: "BatchGetDataQualityRulesetEvaluationRunResponse" });
   }
 }
-function __c355(j: number): any {
+function __c361(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           RunId: S.optional(S.String),
-          DataSource: S.optional(__S(11233, __c351, 1)),
+          DataSource: S.optional(__S(11425, __c357, 1)),
           Role: S.optional(S.String),
           NumberOfWorkers: S.optional(S.Number),
           Timeout: S.optional(S.Number),
-          AdditionalRunOptions: S.optional(__S(11398, __c356, 6)),
+          AdditionalRunOptions: S.optional(__S(11584, __c362, 0)),
           Status: S.optional(S.String),
           ErrorString: S.optional(S.String),
           StartedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastModifiedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           CompletedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ExecutionTime: S.optional(S.Number),
-          RulesetNames: S.optional(__S(10336, __c323, 0)),
-          ResultIds: S.optional(__S(10336, __c323, 0)),
-          AdditionalDataSources: S.optional(__S(11399, __c356, 7)),
+          RulesetNames: S.optional(__S(10528, __c329, 0)),
+          ResultIds: S.optional(__S(10528, __c329, 0)),
+          AdditionalDataSources: S.optional(__S(11622, __c363, 6)),
         }),
       ).annotate({ identifier: "DataQualityRulesetEvaluationRun" });
   }
 }
-function __c356(j: number): any {
+function __c362(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CloudWatchMetricsEnabled: S.optional(S.Boolean),
+          ResultsS3Prefix: S.optional(S.String),
+          CompositeRuleEvaluationMethod: S.optional(S.String),
+          CustomLogGroupPrefix: S.optional(S.String),
+          RowLevelResults: S.optional(__S(11617, __c363, 1)),
+          ProfilingResults: S.optional(__S(11619, __c363, 3)),
+          ObservationScope: S.optional(S.String),
+          ObservationMode: S.optional(S.String),
+          DataQualityRuleResults: S.optional(__S(11620, __c363, 4)),
+          ObservationResults: S.optional(__S(11621, __c363, 5)),
+        }),
+      ).annotate({ identifier: "DataQualityEvaluationRunAdditionalRunOptions" });
+  }
+}
+function __c363(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25743,82 +26257,67 @@ function __c356(j: number): any {
         S.Struct({
           MaxRowsToWrite: S.optional(S.Number),
           ResultType: S.optional(S.String),
-          CatalogTableConfig: S.optional(__S(11392, __c356, 0)),
+          CatalogTableConfig: S.optional(__S(11616, __c363, 0)),
         }),
       ).annotate({ identifier: "RowLevelResultsOptions" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           WriteDistributionResultsEnabled: S.optional(S.Boolean),
-          CatalogTableConfig: S.optional(__S(11392, __c356, 0)),
+          CatalogTableConfig: S.optional(__S(11616, __c363, 0)),
         }),
       ).annotate({ identifier: "DistributionResultsOptions" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           WriteProfilingResultsEnabled: S.optional(S.Boolean),
-          CatalogTableConfig: S.optional(__S(11392, __c356, 0)),
-          DistributionResults: S.optional(__S(11394, __c356, 2)),
+          CatalogTableConfig: S.optional(__S(11616, __c363, 0)),
+          DistributionResults: S.optional(__S(11618, __c363, 2)),
         }),
       ).annotate({ identifier: "ProfilingResultsOptions" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           WriteDataQualityRuleResultsEnabled: S.optional(S.Boolean),
-          CatalogTableConfig: S.optional(__S(11392, __c356, 0)),
+          CatalogTableConfig: S.optional(__S(11616, __c363, 0)),
         }),
       ).annotate({ identifier: "DataQualityRuleResultsOptions" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           WriteObservationResultsEnabled: S.optional(S.Boolean),
-          CatalogTableConfig: S.optional(__S(11392, __c356, 0)),
+          CatalogTableConfig: S.optional(__S(11616, __c363, 0)),
         }),
       ).annotate({ identifier: "ObservationResultsOptions" });
     case 6:
-      return S.suspend(() =>
-        S.Struct({
-          CloudWatchMetricsEnabled: S.optional(S.Boolean),
-          ResultsS3Prefix: S.optional(S.String),
-          CompositeRuleEvaluationMethod: S.optional(S.String),
-          CustomLogGroupPrefix: S.optional(S.String),
-          RowLevelResults: S.optional(__S(11393, __c356, 1)),
-          ProfilingResults: S.optional(__S(11395, __c356, 3)),
-          ObservationScope: S.optional(S.String),
-          ObservationMode: S.optional(S.String),
-          DataQualityRuleResults: S.optional(__S(11396, __c356, 4)),
-          ObservationResults: S.optional(__S(11397, __c356, 5)),
-        }),
-      ).annotate({ identifier: "DataQualityEvaluationRunAdditionalRunOptions" });
-    case 7:
-      return S.Record(S.String, /*@__PURE__*/ __S(11233, __c351, 1).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(11425, __c357, 1).pipe(S.optional));
   }
 }
-function __c357(j: number): any {
+function __c364(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ DevEndpointNames: __S(10336, __c323, 0) }).pipe(
+        S.Struct({ DevEndpointNames: __S(10528, __c329, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchGetDevEndpointsRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          DevEndpoints: S.optional(__S(11488, __c359, 0)),
-          DevEndpointsNotFound: S.optional(__S(10336, __c323, 0)),
+          DevEndpoints: S.optional(__S(11712, __c366, 0)),
+          DevEndpointsNotFound: S.optional(__S(10528, __c329, 0)),
         }),
       ).annotate({ identifier: "BatchGetDevEndpointsResponse" });
   }
 }
-function __c358(j: number): any {
+function __c365(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           EndpointName: S.optional(S.String),
           RoleArn: S.optional(S.String),
-          SecurityGroupIds: S.optional(__S(10336, __c323, 0)),
+          SecurityGroupIds: S.optional(__S(10528, __c329, 0)),
           SubnetId: S.optional(S.String),
           YarnEndpointAddress: S.optional(S.String),
           PrivateAddress: S.optional(S.String),
@@ -25838,27 +26337,27 @@ function __c358(j: number): any {
           CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastModifiedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           PublicKey: S.optional(S.String),
-          PublicKeys: S.optional(__S(10336, __c323, 0)),
+          PublicKeys: S.optional(__S(10528, __c329, 0)),
           SecurityConfiguration: S.optional(S.String),
-          Arguments: S.optional(__S(10464, __c327, 0)),
+          Arguments: S.optional(__S(10656, __c333, 0)),
         }),
       ).annotate({ identifier: "DevEndpoint" });
   }
 }
-function __c359(j: number): any {
+function __c366(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(11456, __c358, 0));
+      return S.Array(__S(11680, __c365, 0));
   }
 }
-function __c360(j: number): any {
+function __c367(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           AssetIdentifier: S.String.pipe(T.HttpLabel("AssetIdentifier")),
           IterableFormName: S.String.pipe(T.HttpLabel("IterableFormName")),
-          ItemIdentifiers: __S(10336, __c323, 0),
+          ItemIdentifiers: __S(10528, __c329, 0),
         }).pipe(
           T.all(
             T.Http({
@@ -25878,13 +26377,13 @@ function __c360(j: number): any {
         S.Struct({
           ItemId: S.optional(S.String),
           ItemName: S.optional(S.String),
-          GlossaryTerms: S.optional(__S(10336, __c323, 0)),
-          Forms: S.optional(__S(11553, __c361, 1)),
-          Attachments: S.optional(__S(11553, __c361, 1)),
+          GlossaryTerms: S.optional(__S(10528, __c329, 0)),
+          Forms: S.optional(__S(11777, __c368, 1)),
+          Attachments: S.optional(__S(11777, __c368, 1)),
         }),
       ).annotate({ identifier: "IterableFormItem" });
     case 2:
-      return S.Array(__S(11521, __c360, 1));
+      return S.Array(__S(11745, __c367, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -25894,44 +26393,44 @@ function __c360(j: number): any {
         }),
       ).annotate({ identifier: "ItemError" });
     case 4:
-      return S.Array(__S(11523, __c360, 3));
+      return S.Array(__S(11747, __c367, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Items: S.optional(__S(11522, __c360, 2)),
-          Errors: S.optional(__S(11524, __c360, 4)),
+          Items: S.optional(__S(11746, __c367, 2)),
+          Errors: S.optional(__S(11748, __c367, 4)),
         }),
       ).annotate({ identifier: "BatchGetIterableFormsResponse" });
   }
 }
-function __c361(j: number): any {
+function __c368(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ FormTypeId: S.optional(S.String), Content: S.optional(S.String) }),
       ).annotate({ identifier: "AssetFormEntry" });
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ __S(11552, __c361, 0).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(11776, __c368, 0).pipe(S.optional));
   }
 }
-function __c362(j: number): any {
+function __c369(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ JobNames: __S(10336, __c323, 0) }).pipe(
+        S.Struct({ JobNames: __S(10528, __c329, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchGetJobsRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Jobs: S.optional(__S(11648, __c364, 0)),
-          JobsNotFound: S.optional(__S(10336, __c323, 0)),
+          Jobs: S.optional(__S(11872, __c371, 0)),
+          JobsNotFound: S.optional(__S(10528, __c329, 0)),
         }),
       ).annotate({ identifier: "BatchGetJobsResponse" });
   }
 }
-function __c363(j: number): any {
+function __c370(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -25953,11 +26452,11 @@ function __c363(j: number): any {
           Role: S.optional(S.String),
           CreatedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastModifiedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          ExecutionProperty: S.optional(__S(11776, __c368, 0)),
-          Command: S.optional(__S(11777, __c368, 1)),
-          DefaultArguments: S.optional(__S(10464, __c327, 0)),
-          NonOverridableArguments: S.optional(__S(10464, __c327, 0)),
-          Connections: S.optional(__S(11744, __c367, 0)),
+          ExecutionProperty: S.optional(__S(12000, __c375, 0)),
+          Command: S.optional(__S(12001, __c375, 1)),
+          DefaultArguments: S.optional(__S(10656, __c333, 0)),
+          NonOverridableArguments: S.optional(__S(10656, __c333, 0)),
+          Connections: S.optional(__S(11968, __c374, 0)),
           MaxRetries: S.optional(S.Number),
           AllocatedCapacity: S.optional(S.Number),
           Timeout: S.optional(S.Number),
@@ -25965,25 +26464,25 @@ function __c363(j: number): any {
           WorkerType: S.optional(S.String),
           NumberOfWorkers: S.optional(S.Number),
           SecurityConfiguration: S.optional(S.String),
-          NotificationProperty: S.optional(__S(11680, __c365, 0)),
+          NotificationProperty: S.optional(__S(11904, __c372, 0)),
           GlueVersion: S.optional(S.String),
-          CodeGenConfigurationNodes: S.optional(__S(11897, __c371, 25)),
+          CodeGenConfigurationNodes: S.optional(__S(12121, __c378, 25)),
           ExecutionClass: S.optional(S.String),
-          SourceControlDetails: S.optional(__S(11898, __c371, 26)),
+          SourceControlDetails: S.optional(__S(12122, __c378, 26)),
           MaintenanceWindow: S.optional(S.String),
           ProfileName: S.optional(S.String),
-          AutoUpgradeMetadata: S.optional(__S(11616, __c363, 0)),
+          AutoUpgradeMetadata: S.optional(__S(11840, __c370, 0)),
         }),
       ).annotate({ identifier: "Job" });
   }
 }
-function __c364(j: number): any {
+function __c371(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(11617, __c363, 1));
+      return S.Array(__S(11841, __c370, 1));
   }
 }
-function __c365(j: number): any {
+function __c372(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ NotifyDelayAfter: S.optional(S.Number) })).annotate({
@@ -25991,21 +26490,21 @@ function __c365(j: number): any {
       });
   }
 }
-function __c366(j: number): any {
+function __c373(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
   }
 }
-function __c367(j: number): any {
+function __c374(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ Connections: S.optional(__S(10336, __c323, 0)) })).annotate(
+      return S.suspend(() => S.Struct({ Connections: S.optional(__S(10528, __c329, 0)) })).annotate(
         { identifier: "ConnectionsList" },
       );
   }
 }
-function __c368(j: number): any {
+function __c375(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ MaxConcurrentRuns: S.optional(S.Number) })).annotate({
@@ -26029,13 +26528,13 @@ function __c368(j: number): any {
         }),
       ).annotate({ identifier: "GlueStudioSchemaColumn" });
     case 3:
-      return S.Array(__S(11778, __c368, 2));
+      return S.Array(__S(12002, __c375, 2));
     case 4:
-      return S.suspend(() => S.Struct({ Columns: S.optional(__S(11779, __c368, 3)) })).annotate({
+      return S.suspend(() => S.Struct({ Columns: S.optional(__S(12003, __c375, 3)) })).annotate({
         identifier: "GlueSchema",
       });
     case 5:
-      return S.Array(__S(11780, __c368, 4));
+      return S.Array(__S(12004, __c375, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -26045,7 +26544,7 @@ function __c368(j: number): any {
           ConnectionType: S.String,
           ConnectionTable: S.optional(S.String),
           SchemaName: S.String,
-          OutputSchemas: S.optional(__S(11781, __c368, 5)),
+          OutputSchemas: S.optional(__S(12005, __c375, 5)),
         }),
       ).annotate({ identifier: "AthenaConnectorSource" });
     case 7:
@@ -26058,9 +26557,9 @@ function __c368(j: number): any {
           LowerBound: S.optional(S.Number),
           UpperBound: S.optional(S.Number),
           NumPartitions: S.optional(S.Number),
-          JobBookmarkKeys: S.optional(__S(10336, __c323, 0)),
+          JobBookmarkKeys: S.optional(__S(10528, __c329, 0)),
           JobBookmarkKeysSortOrder: S.optional(S.String),
-          DataTypeMapping: S.optional(__S(11783, __c368, 7)),
+          DataTypeMapping: S.optional(__S(12007, __c375, 7)),
         }),
       ).annotate({ identifier: "JDBCConnectorOptions" });
     case 9:
@@ -26070,10 +26569,10 @@ function __c368(j: number): any {
           ConnectionName: S.String,
           ConnectorName: S.String,
           ConnectionType: S.String,
-          AdditionalOptions: S.optional(__S(11784, __c368, 8)),
+          AdditionalOptions: S.optional(__S(12008, __c375, 8)),
           ConnectionTable: S.optional(S.String),
           Query: S.optional(S.String),
-          OutputSchemas: S.optional(__S(11781, __c368, 5)),
+          OutputSchemas: S.optional(__S(12005, __c375, 5)),
         }),
       ).annotate({ identifier: "JDBCConnectorSource" });
     case 10:
@@ -26083,8 +26582,8 @@ function __c368(j: number): any {
           ConnectionName: S.String,
           ConnectorName: S.String,
           ConnectionType: S.String,
-          AdditionalOptions: S.optional(__S(10464, __c327, 0)),
-          OutputSchemas: S.optional(__S(11781, __c368, 5)),
+          AdditionalOptions: S.optional(__S(10656, __c333, 0)),
+          OutputSchemas: S.optional(__S(12005, __c375, 5)),
         }),
       ).annotate({ identifier: "SparkConnectorSource" });
     case 11:
@@ -26094,7 +26593,7 @@ function __c368(j: number): any {
           Database: S.String,
           Table: S.String,
           PartitionPredicate: S.optional(S.String),
-          OutputSchemas: S.optional(__S(11781, __c368, 5)),
+          OutputSchemas: S.optional(__S(12005, __c375, 5)),
         }),
       ).annotate({ identifier: "CatalogSource" });
     case 12:
@@ -26118,7 +26617,7 @@ function __c368(j: number): any {
           Database: S.String,
           Table: S.String,
           PartitionPredicate: S.optional(S.String),
-          AdditionalOptions: S.optional(__S(11789, __c368, 13)),
+          AdditionalOptions: S.optional(__S(12013, __c375, 13)),
         }),
       ).annotate({ identifier: "S3CatalogSource" });
     case 15:
@@ -26134,15 +26633,15 @@ function __c368(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Paths: __S(10336, __c323, 0),
+          Paths: __S(10528, __c329, 0),
           CompressionType: S.optional(S.String),
-          Exclusions: S.optional(__S(10336, __c323, 0)),
+          Exclusions: S.optional(__S(10528, __c329, 0)),
           GroupSize: S.optional(S.String),
           GroupFiles: S.optional(S.String),
           Recurse: S.optional(S.Boolean),
           MaxBand: S.optional(S.Number),
           MaxFilesInBand: S.optional(S.Number),
-          AdditionalOptions: S.optional(__S(11791, __c368, 15)),
+          AdditionalOptions: S.optional(__S(12015, __c375, 15)),
           Separator: S.String,
           Escaper: S.optional(S.String),
           QuoteChar: S.String,
@@ -26151,41 +26650,41 @@ function __c368(j: number): any {
           WriteHeader: S.optional(S.Boolean),
           SkipFirst: S.optional(S.Boolean),
           OptimizePerformance: S.optional(S.Boolean),
-          OutputSchemas: S.optional(__S(11781, __c368, 5)),
+          OutputSchemas: S.optional(__S(12005, __c375, 5)),
         }),
       ).annotate({ identifier: "S3CsvSource" });
     case 17:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Paths: __S(10336, __c323, 0),
+          Paths: __S(10528, __c329, 0),
           CompressionType: S.optional(S.String),
-          Exclusions: S.optional(__S(10336, __c323, 0)),
+          Exclusions: S.optional(__S(10528, __c329, 0)),
           GroupSize: S.optional(S.String),
           GroupFiles: S.optional(S.String),
           Recurse: S.optional(S.Boolean),
           MaxBand: S.optional(S.Number),
           MaxFilesInBand: S.optional(S.Number),
-          AdditionalOptions: S.optional(__S(11791, __c368, 15)),
+          AdditionalOptions: S.optional(__S(12015, __c375, 15)),
           JsonPath: S.optional(S.String),
           Multiline: S.optional(S.Boolean),
-          OutputSchemas: S.optional(__S(11781, __c368, 5)),
+          OutputSchemas: S.optional(__S(12005, __c375, 5)),
         }),
       ).annotate({ identifier: "S3JsonSource" });
     case 18:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Paths: __S(10336, __c323, 0),
+          Paths: __S(10528, __c329, 0),
           CompressionType: S.optional(S.String),
-          Exclusions: S.optional(__S(10336, __c323, 0)),
+          Exclusions: S.optional(__S(10528, __c329, 0)),
           GroupSize: S.optional(S.String),
           GroupFiles: S.optional(S.String),
           Recurse: S.optional(S.Boolean),
           MaxBand: S.optional(S.Number),
           MaxFilesInBand: S.optional(S.Number),
-          AdditionalOptions: S.optional(__S(11791, __c368, 15)),
-          OutputSchemas: S.optional(__S(11781, __c368, 5)),
+          AdditionalOptions: S.optional(__S(12015, __c375, 15)),
+          OutputSchemas: S.optional(__S(12005, __c375, 5)),
         }),
       ).annotate({ identifier: "S3ParquetSource" });
     case 19:
@@ -26206,42 +26705,42 @@ function __c368(j: number): any {
           Database: S.String,
           Table: S.String,
           PitrEnabled: S.optional(S.Boolean),
-          AdditionalOptions: S.optional(__S(11796, __c368, 20)),
+          AdditionalOptions: S.optional(__S(12020, __c375, 20)),
         }),
       ).annotate({ identifier: "DynamoDBCatalogSource" });
     case 22:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
+          Inputs: __S(10528, __c329, 0),
           ConnectionName: S.String,
           ConnectionTable: S.String,
           ConnectorName: S.String,
           ConnectionType: S.String,
-          AdditionalOptions: S.optional(__S(10464, __c327, 0)),
-          OutputSchemas: S.optional(__S(11781, __c368, 5)),
+          AdditionalOptions: S.optional(__S(10656, __c333, 0)),
+          OutputSchemas: S.optional(__S(12005, __c375, 5)),
         }),
       ).annotate({ identifier: "JDBCConnectorTarget" });
     case 23:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
+          Inputs: __S(10528, __c329, 0),
           ConnectionName: S.String,
           ConnectorName: S.String,
           ConnectionType: S.String,
-          AdditionalOptions: S.optional(__S(10464, __c327, 0)),
-          OutputSchemas: S.optional(__S(11781, __c368, 5)),
+          AdditionalOptions: S.optional(__S(10656, __c333, 0)),
+          OutputSchemas: S.optional(__S(12005, __c375, 5)),
         }),
       ).annotate({ identifier: "SparkConnectorTarget" });
     case 24:
-      return S.Array(__S(10336, __c323, 0));
+      return S.Array(__S(10528, __c329, 0));
     case 25:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
-          PartitionKeys: S.optional(__S(11800, __c368, 24)),
+          Inputs: __S(10528, __c329, 0),
+          PartitionKeys: S.optional(__S(12024, __c375, 24)),
           Database: S.String,
           Table: S.String,
         }),
@@ -26251,19 +26750,19 @@ function __c368(j: number): any {
         S.Struct({
           TableLocation: S.optional(S.String),
           ConnectionName: S.optional(S.String),
-          UpsertKeys: S.optional(__S(10336, __c323, 0)),
+          UpsertKeys: S.optional(__S(10528, __c329, 0)),
         }),
       ).annotate({ identifier: "UpsertRedshiftTargetOptions" });
     case 27:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
+          Inputs: __S(10528, __c329, 0),
           Database: S.String,
           Table: S.String,
           RedshiftTmpDir: S.optional(S.String),
           TmpDirIAMRole: S.optional(S.String),
-          UpsertRedshiftOptions: S.optional(__S(11802, __c368, 26)),
+          UpsertRedshiftOptions: S.optional(__S(12026, __c375, 26)),
         }),
       ).annotate({ identifier: "RedshiftTarget" });
     case 28:
@@ -26281,12 +26780,12 @@ function __c368(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
-          PartitionKeys: S.optional(__S(11800, __c368, 24)),
+          Inputs: __S(10528, __c329, 0),
+          PartitionKeys: S.optional(__S(12024, __c375, 24)),
           Table: S.String,
           Database: S.String,
-          SchemaChangePolicy: S.optional(__S(11804, __c368, 28)),
-          AutoDataQuality: S.optional(__S(11805, __c368, 29)),
+          SchemaChangePolicy: S.optional(__S(12028, __c375, 28)),
+          AutoDataQuality: S.optional(__S(12029, __c375, 29)),
         }),
       ).annotate({ identifier: "S3CatalogTarget" });
     case 31:
@@ -26300,143 +26799,143 @@ function __c368(j: number): any {
       ).annotate({ identifier: "DirectSchemaChangePolicy" });
   }
 }
-function __c369(j: number): any {
+function __c376(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
-          PartitionKeys: S.optional(__S(11800, __c368, 24)),
+          Inputs: __S(10528, __c329, 0),
+          PartitionKeys: S.optional(__S(12024, __c375, 24)),
           Path: S.String,
           Compression: S.optional(S.String),
           NumberTargetPartitions: S.optional(S.String),
-          SchemaChangePolicy: S.optional(__S(11807, __c368, 31)),
-          AutoDataQuality: S.optional(__S(11805, __c368, 29)),
+          SchemaChangePolicy: S.optional(__S(12031, __c375, 31)),
+          AutoDataQuality: S.optional(__S(12029, __c375, 29)),
         }),
       ).annotate({ identifier: "S3GlueParquetTarget" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
-          PartitionKeys: S.optional(__S(11800, __c368, 24)),
+          Inputs: __S(10528, __c329, 0),
+          PartitionKeys: S.optional(__S(12024, __c375, 24)),
           Path: S.String,
           Compression: S.optional(S.String),
           NumberTargetPartitions: S.optional(S.String),
           Format: S.String,
-          SchemaChangePolicy: S.optional(__S(11807, __c368, 31)),
-          AutoDataQuality: S.optional(__S(11805, __c368, 29)),
-          OutputSchemas: S.optional(__S(11781, __c368, 5)),
+          SchemaChangePolicy: S.optional(__S(12031, __c375, 31)),
+          AutoDataQuality: S.optional(__S(12029, __c375, 29)),
+          OutputSchemas: S.optional(__S(12005, __c375, 5)),
         }),
       ).annotate({ identifier: "S3DirectTarget" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           ToKey: S.optional(S.String),
-          FromPath: S.optional(__S(10336, __c323, 0)),
+          FromPath: S.optional(__S(10528, __c329, 0)),
           FromType: S.optional(S.String),
           ToType: S.optional(S.String),
           Dropped: S.optional(S.Boolean),
           Children: S.optional(
-            S.suspend(() => __S(11811, __c369, 3)).annotate({ identifier: "Mappings" }),
+            S.suspend(() => __S(12035, __c376, 3)).annotate({ identifier: "Mappings" }),
           ),
         }),
       ).annotate({ identifier: "Mapping" });
     case 3:
       return S.Array(
-        /*@__PURE__*/ S.suspend((): S.Schema<Mapping> => __S(11810, __c369, 2)).annotate({
+        /*@__PURE__*/ S.suspend((): S.Schema<Mapping> => __S(12034, __c376, 2)).annotate({
           identifier: "Mapping",
         }),
       );
     case 4:
       return S.suspend(() =>
-        S.Struct({ Name: S.String, Inputs: __S(10336, __c323, 0), Mapping: __S(11811, __c369, 3) }),
+        S.Struct({ Name: S.String, Inputs: __S(10528, __c329, 0), Mapping: __S(12035, __c376, 3) }),
       ).annotate({ identifier: "ApplyMapping" });
     case 5:
       return S.suspend(() =>
-        S.Struct({ Name: S.String, Inputs: __S(10336, __c323, 0), Paths: __S(11800, __c368, 24) }),
+        S.Struct({ Name: S.String, Inputs: __S(10528, __c329, 0), Paths: __S(12024, __c375, 24) }),
       ).annotate({ identifier: "SelectFields" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
-          SourcePath: __S(10336, __c323, 0),
-          TargetPath: __S(10336, __c323, 0),
+          Inputs: __S(10528, __c329, 0),
+          SourcePath: __S(10528, __c329, 0),
+          TargetPath: __S(10528, __c329, 0),
         }),
       ).annotate({ identifier: "RenameField" });
     case 7:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
+          Inputs: __S(10528, __c329, 0),
           Path: S.String,
           Topk: S.optional(S.Number),
           Prob: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Spigot" });
     case 8:
-      return S.suspend(() => S.Struct({ From: S.String, Keys: __S(11800, __c368, 24) })).annotate({
+      return S.suspend(() => S.Struct({ From: S.String, Keys: __S(12024, __c375, 24) })).annotate({
         identifier: "JoinColumn",
       });
     case 9:
-      return S.Array(__S(11816, __c369, 8));
+      return S.Array(__S(12040, __c376, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
+          Inputs: __S(10528, __c329, 0),
           JoinType: S.String,
-          Columns: __S(11817, __c369, 9),
+          Columns: __S(12041, __c376, 9),
         }),
       ).annotate({ identifier: "Join" });
     case 11:
       return S.suspend(() =>
-        S.Struct({ Name: S.String, Inputs: __S(10336, __c323, 0), Index: S.Number }),
+        S.Struct({ Name: S.String, Inputs: __S(10528, __c329, 0), Index: S.Number }),
       ).annotate({ identifier: "SelectFromCollection" });
     case 12:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
+          Inputs: __S(10528, __c329, 0),
           ImputedPath: S.String,
           FilledPath: S.optional(S.String),
         }),
       ).annotate({ identifier: "FillMissingValues" });
     case 13:
-      return S.suspend(() => S.Struct({ Type: S.String, Value: __S(10336, __c323, 0) })).annotate({
+      return S.suspend(() => S.Struct({ Type: S.String, Value: __S(10528, __c329, 0) })).annotate({
         identifier: "FilterValue",
       });
     case 14:
-      return S.Array(__S(11821, __c369, 13));
+      return S.Array(__S(12045, __c376, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
           Operation: S.String,
           Negated: S.optional(S.Boolean),
-          Values: __S(11822, __c369, 14),
+          Values: __S(12046, __c376, 14),
         }),
       ).annotate({ identifier: "FilterExpression" });
     case 16:
-      return S.Array(__S(11823, __c369, 15));
+      return S.Array(__S(12047, __c376, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
+          Inputs: __S(10528, __c329, 0),
           LogicalOperator: S.String,
-          Filters: __S(11824, __c369, 16),
+          Filters: __S(12048, __c376, 16),
         }),
       ).annotate({ identifier: "Filter" });
     case 18:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
+          Inputs: __S(10528, __c329, 0),
           Code: S.String,
           ClassName: S.String,
-          OutputSchemas: S.optional(__S(11781, __c368, 5)),
+          OutputSchemas: S.optional(__S(12005, __c375, 5)),
         }),
       ).annotate({ identifier: "CustomCode" });
     case 19:
@@ -26444,15 +26943,15 @@ function __c369(j: number): any {
         identifier: "SqlAlias",
       });
     case 20:
-      return S.Array(__S(11827, __c369, 19));
+      return S.Array(__S(12051, __c376, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
+          Inputs: __S(10528, __c329, 0),
           SqlQuery: S.String,
-          SqlAliases: __S(11828, __c369, 20),
-          OutputSchemas: S.optional(__S(11781, __c368, 5)),
+          SqlAliases: __S(12052, __c376, 20),
+          OutputSchemas: S.optional(__S(12005, __c375, 5)),
         }),
       ).annotate({ identifier: "SparkSQL" });
     case 22:
@@ -26492,8 +26991,8 @@ function __c369(j: number): any {
           Name: S.String,
           WindowSize: S.optional(S.Number),
           DetectSchema: S.optional(S.Boolean),
-          StreamingOptions: S.optional(__S(11830, __c369, 22)),
-          DataPreviewOptions: S.optional(__S(11831, __c369, 23)),
+          StreamingOptions: S.optional(__S(12054, __c376, 22)),
+          DataPreviewOptions: S.optional(__S(12055, __c376, 23)),
         }),
       ).annotate({ identifier: "DirectKinesisSource" });
     case 25:
@@ -26524,10 +27023,10 @@ function __c369(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          StreamingOptions: S.optional(__S(11833, __c369, 25)),
+          StreamingOptions: S.optional(__S(12057, __c376, 25)),
           WindowSize: S.optional(S.Number),
           DetectSchema: S.optional(S.Boolean),
-          DataPreviewOptions: S.optional(__S(11831, __c369, 23)),
+          DataPreviewOptions: S.optional(__S(12055, __c376, 23)),
         }),
       ).annotate({ identifier: "DirectKafkaSource" });
     case 27:
@@ -26538,8 +27037,8 @@ function __c369(j: number): any {
           DetectSchema: S.optional(S.Boolean),
           Table: S.String,
           Database: S.String,
-          StreamingOptions: S.optional(__S(11830, __c369, 22)),
-          DataPreviewOptions: S.optional(__S(11831, __c369, 23)),
+          StreamingOptions: S.optional(__S(12054, __c376, 22)),
+          DataPreviewOptions: S.optional(__S(12055, __c376, 23)),
         }),
       ).annotate({ identifier: "CatalogKinesisSource" });
     case 28:
@@ -26550,8 +27049,8 @@ function __c369(j: number): any {
           DetectSchema: S.optional(S.Boolean),
           Table: S.String,
           Database: S.String,
-          StreamingOptions: S.optional(__S(11833, __c369, 25)),
-          DataPreviewOptions: S.optional(__S(11831, __c369, 23)),
+          StreamingOptions: S.optional(__S(12057, __c376, 25)),
+          DataPreviewOptions: S.optional(__S(12055, __c376, 23)),
         }),
       ).annotate({ identifier: "CatalogKafkaSource" });
     case 29:
@@ -26568,43 +27067,43 @@ function __c369(j: number): any {
       });
     case 31:
       return S.suspend(() =>
-        S.Struct({ Value: S.String, Datatype: __S(11838, __c369, 30) }),
+        S.Struct({ Value: S.String, Datatype: __S(12062, __c376, 30) }),
       ).annotate({ identifier: "NullValueField" });
   }
 }
-function __c370(j: number): any {
+function __c377(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(11839, __c369, 31));
+      return S.Array(__S(12063, __c376, 31));
     case 1:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
-          NullCheckBoxList: S.optional(__S(11837, __c369, 29)),
-          NullTextList: S.optional(__S(11840, __c370, 0)),
+          Inputs: __S(10528, __c329, 0),
+          NullCheckBoxList: S.optional(__S(12061, __c376, 29)),
+          NullTextList: S.optional(__S(12064, __c377, 0)),
         }),
       ).annotate({ identifier: "DropNullFields" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
+          Inputs: __S(10528, __c329, 0),
           Source: S.String,
-          PrimaryKeys: __S(11800, __c368, 24),
+          PrimaryKeys: __S(12024, __c375, 24),
         }),
       ).annotate({ identifier: "Merge" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ Name: S.String, Inputs: __S(10336, __c323, 0), UnionType: S.String }),
+        S.Struct({ Name: S.String, Inputs: __S(10528, __c329, 0), UnionType: S.String }),
       ).annotate({ identifier: "Union" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
+          Inputs: __S(10528, __c329, 0),
           PiiType: S.String,
-          EntityTypesToDetect: __S(10336, __c323, 0),
+          EntityTypesToDetect: __S(10528, __c329, 0),
           OutputColumnName: S.optional(S.String),
           SampleFraction: S.optional(S.Number),
           ThresholdFraction: S.optional(S.Number),
@@ -26620,43 +27119,43 @@ function __c370(j: number): any {
       ).annotate({ identifier: "PIIDetection" });
     case 5:
       return S.suspend(() =>
-        S.Struct({ Column: __S(10336, __c323, 0), AggFunc: S.String }),
+        S.Struct({ Column: __S(10528, __c329, 0), AggFunc: S.String }),
       ).annotate({ identifier: "AggregateOperation" });
     case 6:
-      return S.Array(__S(11845, __c370, 5));
+      return S.Array(__S(12069, __c377, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
-          Groups: __S(11800, __c368, 24),
-          Aggs: __S(11846, __c370, 6),
+          Inputs: __S(10528, __c329, 0),
+          Groups: __S(12024, __c375, 24),
+          Aggs: __S(12070, __c377, 6),
         }),
       ).annotate({ identifier: "Aggregate" });
     case 8:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
-          Columns: S.optional(__S(11800, __c368, 24)),
+          Inputs: __S(10528, __c329, 0),
+          Columns: S.optional(__S(12024, __c375, 24)),
         }),
       ).annotate({ identifier: "DropDuplicates" });
     case 9:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
-          PartitionKeys: S.optional(__S(11800, __c368, 24)),
+          Inputs: __S(10528, __c329, 0),
+          PartitionKeys: S.optional(__S(12024, __c375, 24)),
           Table: S.String,
           Database: S.String,
-          SchemaChangePolicy: S.optional(__S(11804, __c368, 28)),
+          SchemaChangePolicy: S.optional(__S(12028, __c375, 28)),
         }),
       ).annotate({ identifier: "GovernedCatalogTarget" });
     case 10:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
+          Inputs: __S(10528, __c329, 0),
           Database: S.String,
           Table: S.String,
         }),
@@ -26665,18 +27164,18 @@ function __c370(j: number): any {
       return S.suspend(() =>
         S.Struct({
           GroupName: S.String,
-          Filters: __S(11824, __c369, 16),
+          Filters: __S(12048, __c376, 16),
           LogicalOperator: S.String,
         }),
       ).annotate({ identifier: "GroupFilters" });
     case 12:
-      return S.Array(__S(11851, __c370, 11));
+      return S.Array(__S(12075, __c377, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
-          GroupFiltersList: __S(11852, __c370, 12),
+          Inputs: __S(10528, __c329, 0),
+          GroupFiltersList: __S(12076, __c377, 12),
         }),
       ).annotate({ identifier: "Route" });
     case 14:
@@ -26686,24 +27185,24 @@ function __c370(j: number): any {
           Type: S.String,
           ValidationRule: S.optional(S.String),
           ValidationMessage: S.optional(S.String),
-          Value: S.optional(__S(10336, __c323, 0)),
+          Value: S.optional(__S(10528, __c329, 0)),
           ListType: S.optional(S.String),
           IsOptional: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "TransformConfigParameter" });
     case 15:
-      return S.Array(__S(11854, __c370, 14));
+      return S.Array(__S(12078, __c377, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
           TransformName: S.String,
-          Inputs: __S(10336, __c323, 0),
-          Parameters: S.optional(__S(11855, __c370, 15)),
+          Inputs: __S(10528, __c329, 0),
+          Parameters: S.optional(__S(12079, __c377, 15)),
           FunctionName: S.String,
           Path: S.String,
           Version: S.optional(S.String),
-          OutputSchemas: S.optional(__S(11781, __c368, 5)),
+          OutputSchemas: S.optional(__S(12005, __c375, 5)),
         }),
       ).annotate({ identifier: "DynamicTransform" });
     case 17:
@@ -26723,11 +27222,11 @@ function __c370(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
+          Inputs: __S(10528, __c329, 0),
           Ruleset: S.String,
           Output: S.optional(S.String),
-          PublishingOptions: S.optional(__S(11857, __c370, 17)),
-          StopJobOnFailureOptions: S.optional(__S(11858, __c370, 18)),
+          PublishingOptions: S.optional(__S(12081, __c377, 17)),
+          StopJobOnFailureOptions: S.optional(__S(12082, __c377, 18)),
         }),
       ).annotate({ identifier: "EvaluateDataQuality" });
     case 20:
@@ -26736,47 +27235,47 @@ function __c370(j: number): any {
           Name: S.String,
           Database: S.String,
           Table: S.String,
-          AdditionalHudiOptions: S.optional(__S(10464, __c327, 0)),
-          OutputSchemas: S.optional(__S(11781, __c368, 5)),
+          AdditionalHudiOptions: S.optional(__S(10656, __c333, 0)),
+          OutputSchemas: S.optional(__S(12005, __c375, 5)),
         }),
       ).annotate({ identifier: "S3CatalogHudiSource" });
     case 21:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Paths: __S(10336, __c323, 0),
-          AdditionalHudiOptions: S.optional(__S(10464, __c327, 0)),
-          AdditionalOptions: S.optional(__S(11791, __c368, 15)),
-          OutputSchemas: S.optional(__S(11781, __c368, 5)),
+          Paths: __S(10528, __c329, 0),
+          AdditionalHudiOptions: S.optional(__S(10656, __c333, 0)),
+          AdditionalOptions: S.optional(__S(12015, __c375, 15)),
+          OutputSchemas: S.optional(__S(12005, __c375, 5)),
         }),
       ).annotate({ identifier: "S3HudiSource" });
     case 22:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
-          PartitionKeys: S.optional(__S(11800, __c368, 24)),
+          Inputs: __S(10528, __c329, 0),
+          PartitionKeys: S.optional(__S(12024, __c375, 24)),
           Table: S.String,
           Database: S.String,
-          AdditionalOptions: __S(10464, __c327, 0),
-          SchemaChangePolicy: S.optional(__S(11804, __c368, 28)),
-          AutoDataQuality: S.optional(__S(11805, __c368, 29)),
-          OutputSchemas: S.optional(__S(11781, __c368, 5)),
+          AdditionalOptions: __S(10656, __c333, 0),
+          SchemaChangePolicy: S.optional(__S(12028, __c375, 28)),
+          AutoDataQuality: S.optional(__S(12029, __c375, 29)),
+          OutputSchemas: S.optional(__S(12005, __c375, 5)),
         }),
       ).annotate({ identifier: "S3HudiCatalogTarget" });
     case 23:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
+          Inputs: __S(10528, __c329, 0),
           Path: S.String,
           Compression: S.String,
           NumberTargetPartitions: S.optional(S.String),
-          PartitionKeys: S.optional(__S(11800, __c368, 24)),
+          PartitionKeys: S.optional(__S(12024, __c375, 24)),
           Format: S.String,
-          AdditionalOptions: __S(10464, __c327, 0),
-          SchemaChangePolicy: S.optional(__S(11807, __c368, 31)),
-          AutoDataQuality: S.optional(__S(11805, __c368, 29)),
+          AdditionalOptions: __S(10656, __c333, 0),
+          SchemaChangePolicy: S.optional(__S(12031, __c375, 31)),
+          AutoDataQuality: S.optional(__S(12029, __c375, 29)),
         }),
       ).annotate({ identifier: "S3HudiDirectTarget" });
     case 24:
@@ -26788,7 +27287,7 @@ function __c370(j: number): any {
           ConnectionName: S.String,
           ConnectionType: S.String,
           RedshiftTmpDir: S.optional(S.String),
-          OutputSchemas: S.optional(__S(11781, __c368, 5)),
+          OutputSchemas: S.optional(__S(12005, __c375, 5)),
         }),
       ).annotate({ identifier: "DirectJDBCSource" });
     case 25:
@@ -26797,47 +27296,47 @@ function __c370(j: number): any {
           Name: S.String,
           Database: S.String,
           Table: S.String,
-          AdditionalDeltaOptions: S.optional(__S(10464, __c327, 0)),
-          OutputSchemas: S.optional(__S(11781, __c368, 5)),
+          AdditionalDeltaOptions: S.optional(__S(10656, __c333, 0)),
+          OutputSchemas: S.optional(__S(12005, __c375, 5)),
         }),
       ).annotate({ identifier: "S3CatalogDeltaSource" });
     case 26:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Paths: __S(10336, __c323, 0),
-          AdditionalDeltaOptions: S.optional(__S(10464, __c327, 0)),
-          AdditionalOptions: S.optional(__S(11791, __c368, 15)),
-          OutputSchemas: S.optional(__S(11781, __c368, 5)),
+          Paths: __S(10528, __c329, 0),
+          AdditionalDeltaOptions: S.optional(__S(10656, __c333, 0)),
+          AdditionalOptions: S.optional(__S(12015, __c375, 15)),
+          OutputSchemas: S.optional(__S(12005, __c375, 5)),
         }),
       ).annotate({ identifier: "S3DeltaSource" });
     case 27:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
-          PartitionKeys: S.optional(__S(11800, __c368, 24)),
+          Inputs: __S(10528, __c329, 0),
+          PartitionKeys: S.optional(__S(12024, __c375, 24)),
           Table: S.String,
           Database: S.String,
-          AdditionalOptions: S.optional(__S(10464, __c327, 0)),
-          SchemaChangePolicy: S.optional(__S(11804, __c368, 28)),
-          AutoDataQuality: S.optional(__S(11805, __c368, 29)),
-          OutputSchemas: S.optional(__S(11781, __c368, 5)),
+          AdditionalOptions: S.optional(__S(10656, __c333, 0)),
+          SchemaChangePolicy: S.optional(__S(12028, __c375, 28)),
+          AutoDataQuality: S.optional(__S(12029, __c375, 29)),
+          OutputSchemas: S.optional(__S(12005, __c375, 5)),
         }),
       ).annotate({ identifier: "S3DeltaCatalogTarget" });
     case 28:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
-          PartitionKeys: S.optional(__S(11800, __c368, 24)),
+          Inputs: __S(10528, __c329, 0),
+          PartitionKeys: S.optional(__S(12024, __c375, 24)),
           Path: S.String,
           Compression: S.String,
           NumberTargetPartitions: S.optional(S.String),
           Format: S.String,
-          AdditionalOptions: S.optional(__S(10464, __c327, 0)),
-          SchemaChangePolicy: S.optional(__S(11807, __c368, 31)),
-          AutoDataQuality: S.optional(__S(11805, __c368, 29)),
+          AdditionalOptions: S.optional(__S(10656, __c333, 0)),
+          SchemaChangePolicy: S.optional(__S(12031, __c375, 31)),
+          AutoDataQuality: S.optional(__S(12029, __c375, 29)),
         }),
       ).annotate({ identifier: "S3DeltaDirectTarget" });
     case 29:
@@ -26853,28 +27352,28 @@ function __c370(j: number): any {
         S.Struct({ Key: S.optional(S.String), Value: S.optional(S.String) }),
       ).annotate({ identifier: "AmazonRedshiftAdvancedOption" });
     case 31:
-      return S.Array(__S(11870, __c370, 30));
+      return S.Array(__S(12094, __c377, 30));
   }
 }
-function __c371(j: number): any {
+function __c378(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(11869, __c370, 29));
+      return S.Array(__S(12093, __c377, 29));
     case 1:
       return S.suspend(() =>
         S.Struct({
           AccessType: S.optional(S.String),
           SourceType: S.optional(S.String),
-          Connection: S.optional(__S(11869, __c370, 29)),
-          Schema: S.optional(__S(11869, __c370, 29)),
-          Table: S.optional(__S(11869, __c370, 29)),
-          CatalogDatabase: S.optional(__S(11869, __c370, 29)),
-          CatalogTable: S.optional(__S(11869, __c370, 29)),
+          Connection: S.optional(__S(12093, __c377, 29)),
+          Schema: S.optional(__S(12093, __c377, 29)),
+          Table: S.optional(__S(12093, __c377, 29)),
+          CatalogDatabase: S.optional(__S(12093, __c377, 29)),
+          CatalogTable: S.optional(__S(12093, __c377, 29)),
           CatalogRedshiftSchema: S.optional(S.String),
           CatalogRedshiftTable: S.optional(S.String),
           TempDir: S.optional(S.String),
-          IamRole: S.optional(__S(11869, __c370, 29)),
-          AdvancedOptions: S.optional(__S(11871, __c370, 31)),
+          IamRole: S.optional(__S(12093, __c377, 29)),
+          AdvancedOptions: S.optional(__S(12095, __c377, 31)),
           SampleQuery: S.optional(S.String),
           PreAction: S.optional(S.String),
           PostAction: S.optional(S.String),
@@ -26886,33 +27385,33 @@ function __c371(j: number): any {
           MergeWhenNotMatched: S.optional(S.String),
           MergeClause: S.optional(S.String),
           CrawlerConnection: S.optional(S.String),
-          TableSchema: S.optional(__S(11872, __c371, 0)),
+          TableSchema: S.optional(__S(12096, __c378, 0)),
           StagingTable: S.optional(S.String),
-          SelectedColumns: S.optional(__S(11872, __c371, 0)),
+          SelectedColumns: S.optional(__S(12096, __c378, 0)),
         }),
       ).annotate({ identifier: "AmazonRedshiftNodeData" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ Name: S.optional(S.String), Data: S.optional(__S(11873, __c371, 1)) }),
+        S.Struct({ Name: S.optional(S.String), Data: S.optional(__S(12097, __c378, 1)) }),
       ).annotate({ identifier: "AmazonRedshiftSource" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           Name: S.optional(S.String),
-          Data: S.optional(__S(11873, __c371, 1)),
-          Inputs: S.optional(__S(10336, __c323, 0)),
+          Data: S.optional(__S(12097, __c378, 1)),
+          Inputs: S.optional(__S(10528, __c329, 0)),
         }),
       ).annotate({ identifier: "AmazonRedshiftTarget" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
-          AdditionalDataSources: S.optional(__S(10464, __c327, 0)),
+          Inputs: __S(10528, __c329, 0),
+          AdditionalDataSources: S.optional(__S(10656, __c333, 0)),
           Ruleset: S.String,
-          PublishingOptions: S.optional(__S(11857, __c370, 17)),
-          AdditionalOptions: S.optional(__S(11712, __c366, 0)),
-          StopJobOnFailureOptions: S.optional(__S(11858, __c370, 18)),
+          PublishingOptions: S.optional(__S(12081, __c377, 17)),
+          AdditionalOptions: S.optional(__S(11936, __c373, 0)),
+          StopJobOnFailureOptions: S.optional(__S(12082, __c377, 18)),
         }),
       ).annotate({ identifier: "EvaluateDataQualityMultiFrame" });
     case 5:
@@ -26921,43 +27420,43 @@ function __c371(j: number): any {
       });
     case 6:
       return S.suspend(() =>
-        S.Struct({ Operation: S.String, Parameters: S.optional(__S(10464, __c327, 0)) }),
+        S.Struct({ Operation: S.String, Parameters: S.optional(__S(10656, __c333, 0)) }),
       ).annotate({ identifier: "RecipeAction" });
     case 7:
       return S.suspend(() =>
         S.Struct({ Condition: S.String, Value: S.optional(S.String), TargetColumn: S.String }),
       ).annotate({ identifier: "ConditionExpression" });
     case 8:
-      return S.Array(__S(11879, __c371, 7));
+      return S.Array(__S(12103, __c378, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          Action: __S(11878, __c371, 6),
-          ConditionExpressions: S.optional(__S(11880, __c371, 8)),
+          Action: __S(12102, __c378, 6),
+          ConditionExpressions: S.optional(__S(12104, __c378, 8)),
         }),
       ).annotate({ identifier: "RecipeStep" });
     case 10:
-      return S.Array(__S(11881, __c371, 9));
+      return S.Array(__S(12105, __c378, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
-          RecipeReference: S.optional(__S(11877, __c371, 5)),
-          RecipeSteps: S.optional(__S(11882, __c371, 10)),
+          Inputs: __S(10528, __c329, 0),
+          RecipeReference: S.optional(__S(12101, __c378, 5)),
+          RecipeSteps: S.optional(__S(12106, __c378, 10)),
         }),
       ).annotate({ identifier: "Recipe" });
     case 12:
       return S.suspend(() =>
         S.Struct({
           SourceType: S.optional(S.String),
-          Connection: S.optional(__S(11869, __c370, 29)),
+          Connection: S.optional(__S(12093, __c377, 29)),
           Schema: S.optional(S.String),
           Table: S.optional(S.String),
           Database: S.optional(S.String),
           TempDir: S.optional(S.String),
-          IamRole: S.optional(__S(11869, __c370, 29)),
-          AdditionalOptions: S.optional(__S(10464, __c327, 0)),
+          IamRole: S.optional(__S(12093, __c377, 29)),
+          AdditionalOptions: S.optional(__S(10656, __c333, 0)),
           SampleQuery: S.optional(S.String),
           PreAction: S.optional(S.String),
           PostAction: S.optional(S.String),
@@ -26968,25 +27467,25 @@ function __c371(j: number): any {
           MergeWhenNotMatched: S.optional(S.String),
           MergeClause: S.optional(S.String),
           StagingTable: S.optional(S.String),
-          SelectedColumns: S.optional(__S(11872, __c371, 0)),
+          SelectedColumns: S.optional(__S(12096, __c378, 0)),
           AutoPushdown: S.optional(S.Boolean),
-          TableSchema: S.optional(__S(11872, __c371, 0)),
+          TableSchema: S.optional(__S(12096, __c378, 0)),
         }),
       ).annotate({ identifier: "SnowflakeNodeData" });
     case 13:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Data: __S(11884, __c371, 12),
-          OutputSchemas: S.optional(__S(11781, __c368, 5)),
+          Data: __S(12108, __c378, 12),
+          OutputSchemas: S.optional(__S(12005, __c375, 5)),
         }),
       ).annotate({ identifier: "SnowflakeSource" });
     case 14:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Data: __S(11884, __c371, 12),
-          Inputs: S.optional(__S(10336, __c323, 0)),
+          Data: __S(12108, __c378, 12),
+          Inputs: S.optional(__S(10528, __c329, 0)),
         }),
       ).annotate({ identifier: "SnowflakeTarget" });
     case 15:
@@ -26994,8 +27493,8 @@ function __c371(j: number): any {
         S.Struct({
           Name: S.String,
           ConnectionType: S.String,
-          Data: __S(10464, __c327, 0),
-          OutputSchemas: S.optional(__S(11781, __c368, 5)),
+          Data: __S(10656, __c333, 0),
+          OutputSchemas: S.optional(__S(12005, __c375, 5)),
         }),
       ).annotate({ identifier: "ConnectorDataSource" });
     case 16:
@@ -27003,8 +27502,8 @@ function __c371(j: number): any {
         S.Struct({
           Name: S.String,
           ConnectionType: S.String,
-          Data: __S(10464, __c327, 0),
-          Inputs: S.optional(__S(10336, __c323, 0)),
+          Data: __S(10656, __c333, 0),
+          Inputs: S.optional(__S(10528, __c329, 0)),
         }),
       ).annotate({ identifier: "ConnectorDataTarget" });
     case 17:
@@ -27013,69 +27512,69 @@ function __c371(j: number): any {
           Name: S.String,
           Database: S.String,
           Table: S.String,
-          AdditionalIcebergOptions: S.optional(__S(10464, __c327, 0)),
-          OutputSchemas: S.optional(__S(11781, __c368, 5)),
+          AdditionalIcebergOptions: S.optional(__S(10656, __c333, 0)),
+          OutputSchemas: S.optional(__S(12005, __c375, 5)),
         }),
       ).annotate({ identifier: "S3CatalogIcebergSource" });
     case 18:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
-          PartitionKeys: S.optional(__S(11800, __c368, 24)),
+          Inputs: __S(10528, __c329, 0),
+          PartitionKeys: S.optional(__S(12024, __c375, 24)),
           Table: S.String,
           Database: S.String,
-          AdditionalOptions: S.optional(__S(10464, __c327, 0)),
-          SchemaChangePolicy: S.optional(__S(11804, __c368, 28)),
-          AutoDataQuality: S.optional(__S(11805, __c368, 29)),
+          AdditionalOptions: S.optional(__S(10656, __c333, 0)),
+          SchemaChangePolicy: S.optional(__S(12028, __c375, 28)),
+          AutoDataQuality: S.optional(__S(12029, __c375, 29)),
         }),
       ).annotate({ identifier: "S3IcebergCatalogTarget" });
     case 19:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
-          PartitionKeys: S.optional(__S(11800, __c368, 24)),
+          Inputs: __S(10528, __c329, 0),
+          PartitionKeys: S.optional(__S(12024, __c375, 24)),
           Path: S.String,
           Format: S.String,
-          AdditionalOptions: S.optional(__S(10464, __c327, 0)),
-          SchemaChangePolicy: S.optional(__S(11807, __c368, 31)),
-          AutoDataQuality: S.optional(__S(11805, __c368, 29)),
+          AdditionalOptions: S.optional(__S(10656, __c333, 0)),
+          SchemaChangePolicy: S.optional(__S(12031, __c375, 31)),
+          AutoDataQuality: S.optional(__S(12029, __c375, 29)),
           Compression: S.String,
           NumberTargetPartitions: S.optional(S.String),
-          OutputSchemas: S.optional(__S(11781, __c368, 5)),
+          OutputSchemas: S.optional(__S(12005, __c375, 5)),
         }),
       ).annotate({ identifier: "S3IcebergDirectTarget" });
     case 20:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Paths: __S(10336, __c323, 0),
+          Paths: __S(10528, __c329, 0),
           CompressionType: S.optional(S.String),
-          Exclusions: S.optional(__S(10336, __c323, 0)),
+          Exclusions: S.optional(__S(10528, __c329, 0)),
           GroupSize: S.optional(S.String),
           GroupFiles: S.optional(S.String),
           Recurse: S.optional(S.Boolean),
           MaxBand: S.optional(S.Number),
           MaxFilesInBand: S.optional(S.Number),
-          AdditionalOptions: S.optional(__S(11791, __c368, 15)),
+          AdditionalOptions: S.optional(__S(12015, __c375, 15)),
           NumberRows: S.optional(S.Number),
           SkipFooter: S.optional(S.Number),
-          OutputSchemas: S.optional(__S(11781, __c368, 5)),
+          OutputSchemas: S.optional(__S(12005, __c375, 5)),
         }),
       ).annotate({ identifier: "S3ExcelSource" });
     case 21:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          Inputs: __S(10336, __c323, 0),
+          Inputs: __S(10528, __c329, 0),
           Format: S.optional(S.String),
-          PartitionKeys: S.optional(__S(11800, __c368, 24)),
+          PartitionKeys: S.optional(__S(12024, __c375, 24)),
           Path: S.String,
           Compression: S.optional(S.String),
-          SchemaChangePolicy: S.optional(__S(11807, __c368, 31)),
-          AutoDataQuality: S.optional(__S(11805, __c368, 29)),
-          OutputSchemas: S.optional(__S(11781, __c368, 5)),
+          SchemaChangePolicy: S.optional(__S(12031, __c375, 31)),
+          AutoDataQuality: S.optional(__S(12029, __c375, 29)),
+          OutputSchemas: S.optional(__S(12005, __c375, 5)),
         }),
       ).annotate({ identifier: "S3HyperDirectTarget" });
     case 22:
@@ -27094,96 +27593,96 @@ function __c371(j: number): any {
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          ConnectionOptions: S.optional(__S(11894, __c371, 22)),
-          OutputSchemas: S.optional(__S(11781, __c368, 5)),
+          ConnectionOptions: S.optional(__S(12118, __c378, 22)),
+          OutputSchemas: S.optional(__S(12005, __c375, 5)),
         }),
       ).annotate({ identifier: "DynamoDBELTConnectorSource" });
     case 24:
       return S.suspend(() =>
         S.Struct({
-          AthenaConnectorSource: S.optional(__S(11782, __c368, 6)),
-          JDBCConnectorSource: S.optional(__S(11785, __c368, 9)),
-          SparkConnectorSource: S.optional(__S(11786, __c368, 10)),
-          CatalogSource: S.optional(__S(11787, __c368, 11)),
-          RedshiftSource: S.optional(__S(11788, __c368, 12)),
-          S3CatalogSource: S.optional(__S(11790, __c368, 14)),
-          S3CsvSource: S.optional(__S(11792, __c368, 16)),
-          S3JsonSource: S.optional(__S(11793, __c368, 17)),
-          S3ParquetSource: S.optional(__S(11794, __c368, 18)),
-          RelationalCatalogSource: S.optional(__S(11795, __c368, 19)),
-          DynamoDBCatalogSource: S.optional(__S(11797, __c368, 21)),
-          JDBCConnectorTarget: S.optional(__S(11798, __c368, 22)),
-          SparkConnectorTarget: S.optional(__S(11799, __c368, 23)),
-          CatalogTarget: S.optional(__S(11801, __c368, 25)),
-          RedshiftTarget: S.optional(__S(11803, __c368, 27)),
-          S3CatalogTarget: S.optional(__S(11806, __c368, 30)),
-          S3GlueParquetTarget: S.optional(__S(11808, __c369, 0)),
-          S3DirectTarget: S.optional(__S(11809, __c369, 1)),
-          ApplyMapping: S.optional(__S(11812, __c369, 4)),
-          SelectFields: S.optional(__S(11813, __c369, 5)),
-          DropFields: S.optional(__S(11813, __c369, 5)),
-          RenameField: S.optional(__S(11814, __c369, 6)),
-          Spigot: S.optional(__S(11815, __c369, 7)),
-          Join: S.optional(__S(11818, __c369, 10)),
-          SplitFields: S.optional(__S(11813, __c369, 5)),
-          SelectFromCollection: S.optional(__S(11819, __c369, 11)),
-          FillMissingValues: S.optional(__S(11820, __c369, 12)),
-          Filter: S.optional(__S(11825, __c369, 17)),
-          CustomCode: S.optional(__S(11826, __c369, 18)),
-          SparkSQL: S.optional(__S(11829, __c369, 21)),
-          DirectKinesisSource: S.optional(__S(11832, __c369, 24)),
-          DirectKafkaSource: S.optional(__S(11834, __c369, 26)),
-          CatalogKinesisSource: S.optional(__S(11835, __c369, 27)),
-          CatalogKafkaSource: S.optional(__S(11836, __c369, 28)),
-          DropNullFields: S.optional(__S(11841, __c370, 1)),
-          Merge: S.optional(__S(11842, __c370, 2)),
-          Union: S.optional(__S(11843, __c370, 3)),
-          PIIDetection: S.optional(__S(11844, __c370, 4)),
-          Aggregate: S.optional(__S(11847, __c370, 7)),
-          DropDuplicates: S.optional(__S(11848, __c370, 8)),
-          GovernedCatalogTarget: S.optional(__S(11849, __c370, 9)),
-          GovernedCatalogSource: S.optional(__S(11790, __c368, 14)),
-          MicrosoftSQLServerCatalogSource: S.optional(__S(11795, __c368, 19)),
-          MySQLCatalogSource: S.optional(__S(11795, __c368, 19)),
-          OracleSQLCatalogSource: S.optional(__S(11795, __c368, 19)),
-          PostgreSQLCatalogSource: S.optional(__S(11795, __c368, 19)),
-          MicrosoftSQLServerCatalogTarget: S.optional(__S(11850, __c370, 10)),
-          MySQLCatalogTarget: S.optional(__S(11850, __c370, 10)),
-          OracleSQLCatalogTarget: S.optional(__S(11850, __c370, 10)),
-          PostgreSQLCatalogTarget: S.optional(__S(11850, __c370, 10)),
-          Route: S.optional(__S(11853, __c370, 13)),
-          DynamicTransform: S.optional(__S(11856, __c370, 16)),
-          EvaluateDataQuality: S.optional(__S(11859, __c370, 19)),
-          S3CatalogHudiSource: S.optional(__S(11860, __c370, 20)),
-          CatalogHudiSource: S.optional(__S(11860, __c370, 20)),
-          S3HudiSource: S.optional(__S(11861, __c370, 21)),
-          S3HudiCatalogTarget: S.optional(__S(11862, __c370, 22)),
-          S3HudiDirectTarget: S.optional(__S(11863, __c370, 23)),
-          DirectJDBCSource: S.optional(__S(11864, __c370, 24)),
-          S3CatalogDeltaSource: S.optional(__S(11865, __c370, 25)),
-          CatalogDeltaSource: S.optional(__S(11865, __c370, 25)),
-          S3DeltaSource: S.optional(__S(11866, __c370, 26)),
-          S3DeltaCatalogTarget: S.optional(__S(11867, __c370, 27)),
-          S3DeltaDirectTarget: S.optional(__S(11868, __c370, 28)),
-          AmazonRedshiftSource: S.optional(__S(11874, __c371, 2)),
-          AmazonRedshiftTarget: S.optional(__S(11875, __c371, 3)),
-          EvaluateDataQualityMultiFrame: S.optional(__S(11876, __c371, 4)),
-          Recipe: S.optional(__S(11883, __c371, 11)),
-          SnowflakeSource: S.optional(__S(11885, __c371, 13)),
-          SnowflakeTarget: S.optional(__S(11886, __c371, 14)),
-          ConnectorDataSource: S.optional(__S(11887, __c371, 15)),
-          ConnectorDataTarget: S.optional(__S(11888, __c371, 16)),
-          S3CatalogIcebergSource: S.optional(__S(11889, __c371, 17)),
-          CatalogIcebergSource: S.optional(__S(11889, __c371, 17)),
-          S3IcebergCatalogTarget: S.optional(__S(11890, __c371, 18)),
-          S3IcebergDirectTarget: S.optional(__S(11891, __c371, 19)),
-          S3ExcelSource: S.optional(__S(11892, __c371, 20)),
-          S3HyperDirectTarget: S.optional(__S(11893, __c371, 21)),
-          DynamoDBELTConnectorSource: S.optional(__S(11895, __c371, 23)),
+          AthenaConnectorSource: S.optional(__S(12006, __c375, 6)),
+          JDBCConnectorSource: S.optional(__S(12009, __c375, 9)),
+          SparkConnectorSource: S.optional(__S(12010, __c375, 10)),
+          CatalogSource: S.optional(__S(12011, __c375, 11)),
+          RedshiftSource: S.optional(__S(12012, __c375, 12)),
+          S3CatalogSource: S.optional(__S(12014, __c375, 14)),
+          S3CsvSource: S.optional(__S(12016, __c375, 16)),
+          S3JsonSource: S.optional(__S(12017, __c375, 17)),
+          S3ParquetSource: S.optional(__S(12018, __c375, 18)),
+          RelationalCatalogSource: S.optional(__S(12019, __c375, 19)),
+          DynamoDBCatalogSource: S.optional(__S(12021, __c375, 21)),
+          JDBCConnectorTarget: S.optional(__S(12022, __c375, 22)),
+          SparkConnectorTarget: S.optional(__S(12023, __c375, 23)),
+          CatalogTarget: S.optional(__S(12025, __c375, 25)),
+          RedshiftTarget: S.optional(__S(12027, __c375, 27)),
+          S3CatalogTarget: S.optional(__S(12030, __c375, 30)),
+          S3GlueParquetTarget: S.optional(__S(12032, __c376, 0)),
+          S3DirectTarget: S.optional(__S(12033, __c376, 1)),
+          ApplyMapping: S.optional(__S(12036, __c376, 4)),
+          SelectFields: S.optional(__S(12037, __c376, 5)),
+          DropFields: S.optional(__S(12037, __c376, 5)),
+          RenameField: S.optional(__S(12038, __c376, 6)),
+          Spigot: S.optional(__S(12039, __c376, 7)),
+          Join: S.optional(__S(12042, __c376, 10)),
+          SplitFields: S.optional(__S(12037, __c376, 5)),
+          SelectFromCollection: S.optional(__S(12043, __c376, 11)),
+          FillMissingValues: S.optional(__S(12044, __c376, 12)),
+          Filter: S.optional(__S(12049, __c376, 17)),
+          CustomCode: S.optional(__S(12050, __c376, 18)),
+          SparkSQL: S.optional(__S(12053, __c376, 21)),
+          DirectKinesisSource: S.optional(__S(12056, __c376, 24)),
+          DirectKafkaSource: S.optional(__S(12058, __c376, 26)),
+          CatalogKinesisSource: S.optional(__S(12059, __c376, 27)),
+          CatalogKafkaSource: S.optional(__S(12060, __c376, 28)),
+          DropNullFields: S.optional(__S(12065, __c377, 1)),
+          Merge: S.optional(__S(12066, __c377, 2)),
+          Union: S.optional(__S(12067, __c377, 3)),
+          PIIDetection: S.optional(__S(12068, __c377, 4)),
+          Aggregate: S.optional(__S(12071, __c377, 7)),
+          DropDuplicates: S.optional(__S(12072, __c377, 8)),
+          GovernedCatalogTarget: S.optional(__S(12073, __c377, 9)),
+          GovernedCatalogSource: S.optional(__S(12014, __c375, 14)),
+          MicrosoftSQLServerCatalogSource: S.optional(__S(12019, __c375, 19)),
+          MySQLCatalogSource: S.optional(__S(12019, __c375, 19)),
+          OracleSQLCatalogSource: S.optional(__S(12019, __c375, 19)),
+          PostgreSQLCatalogSource: S.optional(__S(12019, __c375, 19)),
+          MicrosoftSQLServerCatalogTarget: S.optional(__S(12074, __c377, 10)),
+          MySQLCatalogTarget: S.optional(__S(12074, __c377, 10)),
+          OracleSQLCatalogTarget: S.optional(__S(12074, __c377, 10)),
+          PostgreSQLCatalogTarget: S.optional(__S(12074, __c377, 10)),
+          Route: S.optional(__S(12077, __c377, 13)),
+          DynamicTransform: S.optional(__S(12080, __c377, 16)),
+          EvaluateDataQuality: S.optional(__S(12083, __c377, 19)),
+          S3CatalogHudiSource: S.optional(__S(12084, __c377, 20)),
+          CatalogHudiSource: S.optional(__S(12084, __c377, 20)),
+          S3HudiSource: S.optional(__S(12085, __c377, 21)),
+          S3HudiCatalogTarget: S.optional(__S(12086, __c377, 22)),
+          S3HudiDirectTarget: S.optional(__S(12087, __c377, 23)),
+          DirectJDBCSource: S.optional(__S(12088, __c377, 24)),
+          S3CatalogDeltaSource: S.optional(__S(12089, __c377, 25)),
+          CatalogDeltaSource: S.optional(__S(12089, __c377, 25)),
+          S3DeltaSource: S.optional(__S(12090, __c377, 26)),
+          S3DeltaCatalogTarget: S.optional(__S(12091, __c377, 27)),
+          S3DeltaDirectTarget: S.optional(__S(12092, __c377, 28)),
+          AmazonRedshiftSource: S.optional(__S(12098, __c378, 2)),
+          AmazonRedshiftTarget: S.optional(__S(12099, __c378, 3)),
+          EvaluateDataQualityMultiFrame: S.optional(__S(12100, __c378, 4)),
+          Recipe: S.optional(__S(12107, __c378, 11)),
+          SnowflakeSource: S.optional(__S(12109, __c378, 13)),
+          SnowflakeTarget: S.optional(__S(12110, __c378, 14)),
+          ConnectorDataSource: S.optional(__S(12111, __c378, 15)),
+          ConnectorDataTarget: S.optional(__S(12112, __c378, 16)),
+          S3CatalogIcebergSource: S.optional(__S(12113, __c378, 17)),
+          CatalogIcebergSource: S.optional(__S(12113, __c378, 17)),
+          S3IcebergCatalogTarget: S.optional(__S(12114, __c378, 18)),
+          S3IcebergDirectTarget: S.optional(__S(12115, __c378, 19)),
+          S3ExcelSource: S.optional(__S(12116, __c378, 20)),
+          S3HyperDirectTarget: S.optional(__S(12117, __c378, 21)),
+          DynamoDBELTConnectorSource: S.optional(__S(12119, __c378, 23)),
         }),
       ).annotate({ identifier: "CodeGenConfigurationNode" });
     case 25:
-      return S.Record(S.String, /*@__PURE__*/ __S(11896, __c371, 24).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(12120, __c378, 24).pipe(S.optional));
     case 26:
       return S.suspend(() =>
         S.Struct({
@@ -27199,7 +27698,7 @@ function __c371(j: number): any {
       ).annotate({ identifier: "SourceControlDetails" });
   }
 }
-function __c372(j: number): any {
+function __c379(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27207,57 +27706,57 @@ function __c372(j: number): any {
           CatalogId: S.optional(S.String),
           DatabaseName: S.String,
           TableName: S.String,
-          PartitionsToGet: __S(10657, __c333, 1),
-          AuditContext: S.optional(__S(11936, __c373, 0)),
-          QuerySessionContext: S.optional(__S(12032, __c376, 0)),
+          PartitionsToGet: __S(10849, __c339, 1),
+          AuditContext: S.optional(__S(12160, __c380, 0)),
+          QuerySessionContext: S.optional(__S(12256, __c383, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "BatchGetPartitionRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Partitions: S.optional(__S(12000, __c375, 0)),
-          UnprocessedKeys: S.optional(__S(10657, __c333, 1)),
+          Partitions: S.optional(__S(12224, __c382, 0)),
+          UnprocessedKeys: S.optional(__S(10849, __c339, 1)),
         }),
       ).annotate({ identifier: "BatchGetPartitionResponse" });
   }
 }
-function __c373(j: number): any {
+function __c380(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           AdditionalAuditContext: S.optional(S.String),
-          RequestedColumns: S.optional(__S(10336, __c323, 0)),
+          RequestedColumns: S.optional(__S(10528, __c329, 0)),
           AllColumnsRequested: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AuditContext" });
   }
 }
-function __c374(j: number): any {
+function __c381(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Values: S.optional(__S(10336, __c323, 0)),
+          Values: S.optional(__S(10528, __c329, 0)),
           DatabaseName: S.optional(S.String),
           TableName: S.optional(S.String),
           CreationTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastAccessTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          StorageDescriptor: S.optional(__S(10535, __c329, 7)),
-          Parameters: S.optional(__S(10464, __c327, 0)),
+          StorageDescriptor: S.optional(__S(10727, __c335, 7)),
+          Parameters: S.optional(__S(10656, __c333, 0)),
           LastAnalyzedTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           CatalogId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Partition" });
   }
 }
-function __c375(j: number): any {
+function __c382(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(11968, __c374, 0));
+      return S.Array(__S(12192, __c381, 0));
   }
 }
-function __c376(j: number): any {
+function __c383(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27266,12 +27765,12 @@ function __c376(j: number): any {
           QueryStartTime: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           ClusterId: S.optional(S.String),
           QueryAuthorizationId: S.optional(S.String),
-          AdditionalContext: S.optional(__S(10464, __c327, 0)),
+          AdditionalContext: S.optional(__S(10656, __c333, 0)),
         }),
       ).annotate({ identifier: "QuerySessionContext" });
   }
 }
-function __c377(j: number): any {
+function __c384(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27283,10 +27782,10 @@ function __c377(j: number): any {
         }),
       ).annotate({ identifier: "BatchGetTableOptimizerEntry" });
     case 1:
-      return S.Array(__S(12064, __c377, 0));
+      return S.Array(__S(12288, __c384, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ Entries: __S(12065, __c377, 1) }).pipe(
+        S.Struct({ Entries: __S(12289, __c384, 1) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchGetTableOptimizerRequest" });
@@ -27296,15 +27795,15 @@ function __c377(j: number): any {
           catalogId: S.optional(S.String),
           databaseName: S.optional(S.String),
           tableName: S.optional(S.String),
-          tableOptimizer: S.optional(__S(12128, __c379, 0)),
+          tableOptimizer: S.optional(__S(12352, __c386, 0)),
         }),
       ).annotate({ identifier: "BatchTableOptimizer" });
     case 4:
-      return S.Array(__S(12067, __c377, 3));
+      return S.Array(__S(12291, __c384, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(10400, __c325, 0)),
+          error: S.optional(__S(10592, __c331, 0)),
           catalogId: S.optional(S.String),
           databaseName: S.optional(S.String),
           tableName: S.optional(S.String),
@@ -27312,17 +27811,17 @@ function __c377(j: number): any {
         }),
       ).annotate({ identifier: "BatchGetTableOptimizerError" });
     case 6:
-      return S.Array(__S(12069, __c377, 5));
+      return S.Array(__S(12293, __c384, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          TableOptimizers: S.optional(__S(12068, __c377, 4)),
-          Failures: S.optional(__S(12070, __c377, 6)),
+          TableOptimizers: S.optional(__S(12292, __c384, 4)),
+          Failures: S.optional(__S(12294, __c384, 6)),
         }),
       ).annotate({ identifier: "BatchGetTableOptimizerResponse" });
   }
 }
-function __c378(j: number): any {
+function __c385(j: number): any {
   switch (j) {
     case 0:
       return S.Union([/*@__PURE__*/ S.Struct({ glueConnectionName: S.String })]);
@@ -27336,7 +27835,7 @@ function __c378(j: number): any {
       ).annotate({ identifier: "IcebergCompactionConfiguration" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ icebergConfiguration: S.optional(__S(12097, __c378, 1)) }),
+        S.Struct({ icebergConfiguration: S.optional(__S(12321, __c385, 1)) }),
       ).annotate({ identifier: "CompactionConfiguration" });
     case 3:
       return S.suspend(() =>
@@ -27349,7 +27848,7 @@ function __c378(j: number): any {
       ).annotate({ identifier: "IcebergRetentionConfiguration" });
     case 4:
       return S.suspend(() =>
-        S.Struct({ icebergConfiguration: S.optional(__S(12099, __c378, 3)) }),
+        S.Struct({ icebergConfiguration: S.optional(__S(12323, __c385, 3)) }),
       ).annotate({ identifier: "RetentionConfiguration" });
     case 5:
       return S.suspend(() =>
@@ -27361,35 +27860,35 @@ function __c378(j: number): any {
       ).annotate({ identifier: "IcebergOrphanFileDeletionConfiguration" });
     case 6:
       return S.suspend(() =>
-        S.Struct({ icebergConfiguration: S.optional(__S(12101, __c378, 5)) }),
+        S.Struct({ icebergConfiguration: S.optional(__S(12325, __c385, 5)) }),
       ).annotate({ identifier: "OrphanFileDeletionConfiguration" });
     case 7:
       return S.suspend(() =>
         S.Struct({
           roleArn: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          vpcConfiguration: S.optional(__S(12096, __c378, 0)),
-          compactionConfiguration: S.optional(__S(12098, __c378, 2)),
-          retentionConfiguration: S.optional(__S(12100, __c378, 4)),
-          orphanFileDeletionConfiguration: S.optional(__S(12102, __c378, 6)),
+          vpcConfiguration: S.optional(__S(12320, __c385, 0)),
+          compactionConfiguration: S.optional(__S(12322, __c385, 2)),
+          retentionConfiguration: S.optional(__S(12324, __c385, 4)),
+          orphanFileDeletionConfiguration: S.optional(__S(12326, __c385, 6)),
         }),
       ).annotate({ identifier: "TableOptimizerConfiguration" });
   }
 }
-function __c379(j: number): any {
+function __c386(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          configuration: S.optional(__S(12103, __c378, 7)),
-          lastRun: S.optional(__S(12167, __c380, 7)),
+          configuration: S.optional(__S(12327, __c385, 7)),
+          lastRun: S.optional(__S(12391, __c387, 7)),
           configurationSource: S.optional(S.String),
         }),
       ).annotate({ identifier: "TableOptimizer" });
   }
 }
-function __c380(j: number): any {
+function __c387(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27412,7 +27911,7 @@ function __c380(j: number): any {
       ).annotate({ identifier: "IcebergCompactionMetrics" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ IcebergMetrics: S.optional(__S(12161, __c380, 1)) }),
+        S.Struct({ IcebergMetrics: S.optional(__S(12385, __c387, 1)) }),
       ).annotate({ identifier: "CompactionMetrics" });
     case 3:
       return S.suspend(() =>
@@ -27427,7 +27926,7 @@ function __c380(j: number): any {
       ).annotate({ identifier: "IcebergRetentionMetrics" });
     case 4:
       return S.suspend(() =>
-        S.Struct({ IcebergMetrics: S.optional(__S(12163, __c380, 3)) }),
+        S.Struct({ IcebergMetrics: S.optional(__S(12387, __c387, 3)) }),
       ).annotate({ identifier: "RetentionMetrics" });
     case 5:
       return S.suspend(() =>
@@ -27440,7 +27939,7 @@ function __c380(j: number): any {
       ).annotate({ identifier: "IcebergOrphanFileDeletionMetrics" });
     case 6:
       return S.suspend(() =>
-        S.Struct({ IcebergMetrics: S.optional(__S(12165, __c380, 5)) }),
+        S.Struct({ IcebergMetrics: S.optional(__S(12389, __c387, 5)) }),
       ).annotate({ identifier: "OrphanFileDeletionMetrics" });
     case 7:
       return S.suspend(() =>
@@ -27448,54 +27947,54 @@ function __c380(j: number): any {
           eventType: S.optional(S.String),
           startTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           endTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          metrics: S.optional(__S(12160, __c380, 0)),
+          metrics: S.optional(__S(12384, __c387, 0)),
           error: S.optional(S.String),
-          compactionMetrics: S.optional(__S(12162, __c380, 2)),
+          compactionMetrics: S.optional(__S(12386, __c387, 2)),
           compactionStrategy: S.optional(S.String),
-          retentionMetrics: S.optional(__S(12164, __c380, 4)),
-          orphanFileDeletionMetrics: S.optional(__S(12166, __c380, 6)),
+          retentionMetrics: S.optional(__S(12388, __c387, 4)),
+          orphanFileDeletionMetrics: S.optional(__S(12390, __c387, 6)),
         }),
       ).annotate({ identifier: "TableOptimizerRun" });
   }
 }
-function __c381(j: number): any {
+function __c388(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ TriggerNames: __S(10336, __c323, 0) }).pipe(
+        S.Struct({ TriggerNames: __S(10528, __c329, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchGetTriggersRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          Triggers: S.optional(__S(12224, __c382, 0)),
-          TriggersNotFound: S.optional(__S(10336, __c323, 0)),
+          Triggers: S.optional(__S(12448, __c389, 0)),
+          TriggersNotFound: S.optional(__S(10528, __c329, 0)),
         }),
       ).annotate({ identifier: "BatchGetTriggersResponse" });
   }
 }
-function __c382(j: number): any {
+function __c389(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(12288, __c384, 0));
+      return S.Array(__S(12512, __c391, 0));
   }
 }
-function __c383(j: number): any {
+function __c390(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           JobName: S.optional(S.String),
-          Arguments: S.optional(__S(10464, __c327, 0)),
+          Arguments: S.optional(__S(10656, __c333, 0)),
           Timeout: S.optional(S.Number),
           SecurityConfiguration: S.optional(S.String),
-          NotificationProperty: S.optional(__S(11680, __c365, 0)),
+          NotificationProperty: S.optional(__S(11904, __c372, 0)),
           CrawlerName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Action" });
     case 1:
-      return S.Array(__S(12256, __c383, 0));
+      return S.Array(__S(12480, __c390, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -27507,10 +28006,10 @@ function __c383(j: number): any {
         }),
       ).annotate({ identifier: "Condition" });
     case 3:
-      return S.Array(__S(12258, __c383, 2));
+      return S.Array(__S(12482, __c390, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ Logical: S.optional(S.String), Conditions: S.optional(__S(12259, __c383, 3)) }),
+        S.Struct({ Logical: S.optional(S.String), Conditions: S.optional(__S(12483, __c390, 3)) }),
       ).annotate({ identifier: "Predicate" });
     case 5:
       return S.suspend(() =>
@@ -27518,7 +28017,7 @@ function __c383(j: number): any {
       ).annotate({ identifier: "EventBatchingCondition" });
   }
 }
-function __c384(j: number): any {
+function __c391(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27530,40 +28029,40 @@ function __c384(j: number): any {
           State: S.optional(S.String),
           Description: S.optional(S.String),
           Schedule: S.optional(S.String),
-          Actions: S.optional(__S(12257, __c383, 1)),
-          Predicate: S.optional(__S(12260, __c383, 4)),
-          EventBatchingCondition: S.optional(__S(12261, __c383, 5)),
+          Actions: S.optional(__S(12481, __c390, 1)),
+          Predicate: S.optional(__S(12484, __c390, 4)),
+          EventBatchingCondition: S.optional(__S(12485, __c390, 5)),
         }),
       ).annotate({ identifier: "Trigger" });
   }
 }
-function __c385(j: number): any {
+function __c392(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Names: __S(10336, __c323, 0), IncludeGraph: S.optional(S.Boolean) }).pipe(
+        S.Struct({ Names: __S(10528, __c329, 0), IncludeGraph: S.optional(S.Boolean) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchGetWorkflowsRequest" });
     case 1:
-      return S.Array(__S(12449, __c389, 1));
+      return S.Array(__S(12673, __c396, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Workflows: S.optional(__S(12321, __c385, 1)),
-          MissingWorkflows: S.optional(__S(10336, __c323, 0)),
+          Workflows: S.optional(__S(12545, __c392, 1)),
+          MissingWorkflows: S.optional(__S(10528, __c329, 0)),
         }),
       ).annotate({ identifier: "BatchGetWorkflowsResponse" });
   }
 }
-function __c386(j: number): any {
+function __c393(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ JobName: S.optional(S.String), RunId: S.optional(S.String) }),
       ).annotate({ identifier: "Predecessor" });
     case 1:
-      return S.Array(__S(12352, __c386, 0));
+      return S.Array(__S(12576, __c393, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -27578,9 +28077,9 @@ function __c386(j: number): any {
           LastModifiedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           CompletedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           JobRunState: S.optional(S.String),
-          Arguments: S.optional(__S(10464, __c327, 0)),
+          Arguments: S.optional(__S(10656, __c333, 0)),
           ErrorMessage: S.optional(S.String),
-          PredecessorRuns: S.optional(__S(12353, __c386, 1)),
+          PredecessorRuns: S.optional(__S(12577, __c393, 1)),
           AllocatedCapacity: S.optional(S.Number),
           ExecutionTime: S.optional(S.Number),
           Timeout: S.optional(S.Number),
@@ -27589,7 +28088,7 @@ function __c386(j: number): any {
           NumberOfWorkers: S.optional(S.Number),
           SecurityConfiguration: S.optional(S.String),
           LogGroupName: S.optional(S.String),
-          NotificationProperty: S.optional(__S(11680, __c365, 0)),
+          NotificationProperty: S.optional(__S(11904, __c372, 0)),
           GlueVersion: S.optional(S.String),
           DPUSeconds: S.optional(S.Number),
           ExecutionClass: S.optional(S.String),
@@ -27601,21 +28100,21 @@ function __c386(j: number): any {
       ).annotate({ identifier: "JobRun" });
   }
 }
-function __c387(j: number): any {
+function __c394(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(12354, __c386, 2));
+      return S.Array(__S(12578, __c393, 2));
   }
 }
-function __c388(j: number): any {
+function __c395(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ Trigger: S.optional(__S(12288, __c384, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ Trigger: S.optional(__S(12512, __c391, 0)) })).annotate({
         identifier: "TriggerNodeDetails",
       });
   }
 }
-function __c389(j: number): any {
+function __c396(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27626,18 +28125,18 @@ function __c389(j: number): any {
         S.Struct({
           Name: S.optional(S.String),
           Description: S.optional(S.String),
-          DefaultRunProperties: S.optional(__S(10464, __c327, 0)),
+          DefaultRunProperties: S.optional(__S(10656, __c333, 0)),
           CreatedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           LastModifiedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          LastRun: S.optional(__S(12491, __c390, 11)),
-          Graph: S.optional(__S(12489, __c390, 9)),
+          LastRun: S.optional(__S(12715, __c397, 11)),
+          Graph: S.optional(__S(12713, __c397, 9)),
           MaxConcurrentRuns: S.optional(S.Number),
-          BlueprintDetails: S.optional(__S(12448, __c389, 0)),
+          BlueprintDetails: S.optional(__S(12672, __c396, 0)),
         }),
       ).annotate({ identifier: "Workflow" });
   }
 }
-function __c390(j: number): any {
+function __c397(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27653,7 +28152,7 @@ function __c390(j: number): any {
         }),
       ).annotate({ identifier: "WorkflowRunStatistics" });
     case 1:
-      return S.suspend(() => S.Struct({ JobRuns: S.optional(__S(12384, __c387, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ JobRuns: S.optional(__S(12608, __c394, 0)) })).annotate({
         identifier: "JobNodeDetails",
       });
     case 2:
@@ -27668,9 +28167,9 @@ function __c390(j: number): any {
         }),
       ).annotate({ identifier: "Crawl" });
     case 3:
-      return S.Array(__S(12482, __c390, 2));
+      return S.Array(__S(12706, __c397, 2));
     case 4:
-      return S.suspend(() => S.Struct({ Crawls: S.optional(__S(12483, __c390, 3)) })).annotate({
+      return S.suspend(() => S.Struct({ Crawls: S.optional(__S(12707, __c397, 3)) })).annotate({
         identifier: "CrawlerNodeDetails",
       });
     case 5:
@@ -27679,24 +28178,24 @@ function __c390(j: number): any {
           Type: S.optional(S.String),
           Name: S.optional(S.String),
           UniqueId: S.optional(S.String),
-          TriggerDetails: S.optional(__S(12416, __c388, 0)),
-          JobDetails: S.optional(__S(12481, __c390, 1)),
-          CrawlerDetails: S.optional(__S(12484, __c390, 4)),
+          TriggerDetails: S.optional(__S(12640, __c395, 0)),
+          JobDetails: S.optional(__S(12705, __c397, 1)),
+          CrawlerDetails: S.optional(__S(12708, __c397, 4)),
         }),
       ).annotate({ identifier: "Node" });
     case 6:
-      return S.Array(__S(12485, __c390, 5));
+      return S.Array(__S(12709, __c397, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({ SourceId: S.optional(S.String), DestinationId: S.optional(S.String) }),
       ).annotate({ identifier: "Edge" });
     case 8:
-      return S.Array(__S(12487, __c390, 7));
+      return S.Array(__S(12711, __c397, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          Nodes: S.optional(__S(12486, __c390, 6)),
-          Edges: S.optional(__S(12488, __c390, 8)),
+          Nodes: S.optional(__S(12710, __c397, 6)),
+          Edges: S.optional(__S(12712, __c397, 8)),
         }),
       ).annotate({ identifier: "WorkflowGraph" });
     case 10:
@@ -27709,19 +28208,19 @@ function __c390(j: number): any {
           Name: S.optional(S.String),
           WorkflowRunId: S.optional(S.String),
           PreviousRunId: S.optional(S.String),
-          WorkflowRunProperties: S.optional(__S(10464, __c327, 0)),
+          WorkflowRunProperties: S.optional(__S(10656, __c333, 0)),
           StartedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           CompletedOn: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Status: S.optional(S.String),
           ErrorMessage: S.optional(S.String),
-          Statistics: S.optional(__S(12480, __c390, 0)),
-          Graph: S.optional(__S(12489, __c390, 9)),
-          StartingEventBatchCondition: S.optional(__S(12490, __c390, 10)),
+          Statistics: S.optional(__S(12704, __c397, 0)),
+          Graph: S.optional(__S(12713, __c397, 9)),
+          StartingEventBatchCondition: S.optional(__S(12714, __c397, 10)),
         }),
       ).annotate({ identifier: "WorkflowRun" });
   }
 }
-function __c391(j: number): any {
+function __c398(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27732,11 +28231,11 @@ function __c391(j: number): any {
         }),
       ).annotate({ identifier: "DatapointInclusionAnnotation" });
     case 1:
-      return S.Array(__S(12512, __c391, 0));
+      return S.Array(__S(12736, __c398, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          InclusionAnnotations: __S(12513, __c391, 1),
+          InclusionAnnotations: __S(12737, __c398, 1),
           ClientToken: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "BatchPutDataQualityStatisticAnnotationRequest" });
@@ -27749,18 +28248,18 @@ function __c391(j: number): any {
         }),
       ).annotate({ identifier: "AnnotationError" });
     case 4:
-      return S.Array(__S(12515, __c391, 3));
+      return S.Array(__S(12739, __c398, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ FailedInclusionAnnotations: S.optional(__S(12516, __c391, 4)) }),
+        S.Struct({ FailedInclusionAnnotations: S.optional(__S(12740, __c398, 4)) }),
       ).annotate({ identifier: "BatchPutDataQualityStatisticAnnotationResponse" });
   }
 }
-function __c392(j: number): any {
+function __c399(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ JobName: S.String, JobRunIds: __S(10336, __c323, 0) }).pipe(
+        S.Struct({ JobName: S.String, JobRunIds: __S(10528, __c329, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "BatchStopJobRunRequest" });
@@ -27769,62 +28268,62 @@ function __c392(j: number): any {
         S.Struct({ JobName: S.optional(S.String), JobRunId: S.optional(S.String) }),
       ).annotate({ identifier: "BatchStopJobRunSuccessfulSubmission" });
     case 2:
-      return S.Array(__S(12545, __c392, 1));
+      return S.Array(__S(12769, __c399, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           JobName: S.optional(S.String),
           JobRunId: S.optional(S.String),
-          ErrorDetail: S.optional(__S(10400, __c325, 0)),
+          ErrorDetail: S.optional(__S(10592, __c331, 0)),
         }),
       ).annotate({ identifier: "BatchStopJobRunError" });
     case 4:
-      return S.Array(__S(12547, __c392, 3));
+      return S.Array(__S(12771, __c399, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          SuccessfulSubmissions: S.optional(__S(12546, __c392, 2)),
-          Errors: S.optional(__S(12548, __c392, 4)),
+          SuccessfulSubmissions: S.optional(__S(12770, __c399, 2)),
+          Errors: S.optional(__S(12772, __c399, 4)),
         }),
       ).annotate({ identifier: "BatchStopJobRunResponse" });
   }
 }
-function __c393(j: number): any {
+function __c400(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          PartitionValueList: __S(10336, __c323, 0),
-          PartitionInput: __S(10560, __c330, 0),
+          PartitionValueList: __S(10528, __c329, 0),
+          PartitionInput: __S(10752, __c336, 0),
         }),
       ).annotate({ identifier: "BatchUpdatePartitionRequestEntry" });
     case 1:
-      return S.Array(__S(12576, __c393, 0));
+      return S.Array(__S(12800, __c400, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           CatalogId: S.optional(S.String),
           DatabaseName: S.String,
           TableName: S.String,
-          Entries: __S(12577, __c393, 1),
+          Entries: __S(12801, __c400, 1),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "BatchUpdatePartitionRequest" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          PartitionValueList: S.optional(__S(10336, __c323, 0)),
-          ErrorDetail: S.optional(__S(10400, __c325, 0)),
+          PartitionValueList: S.optional(__S(10528, __c329, 0)),
+          ErrorDetail: S.optional(__S(10592, __c331, 0)),
         }),
       ).annotate({ identifier: "BatchUpdatePartitionFailureEntry" });
     case 4:
-      return S.Array(__S(12579, __c393, 3));
+      return S.Array(__S(12803, __c400, 3));
     case 5:
-      return S.suspend(() => S.Struct({ Errors: S.optional(__S(12580, __c393, 4)) })).annotate({
+      return S.suspend(() => S.Struct({ Errors: S.optional(__S(12804, __c400, 4)) })).annotate({
         identifier: "BatchUpdatePartitionResponse",
       });
   }
 }
-function __c394(j: number): any {
+function __c401(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27834,7 +28333,7 @@ function __c394(j: number): any {
       ).annotate({ identifier: "CancelDataQualityRuleRecommendationRunRequest" });
   }
 }
-function __c395(j: number): any {
+function __c402(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -27842,7 +28341,7 @@ function __c395(j: number): any {
       });
   }
 }
-function __c396(j: number): any {
+function __c403(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27852,7 +28351,7 @@ function __c396(j: number): any {
       ).annotate({ identifier: "CancelDataQualityRulesetEvaluationRunRequest" });
   }
 }
-function __c397(j: number): any {
+function __c404(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27870,7 +28369,7 @@ function __c397(j: number): any {
       ).annotate({ identifier: "CancelMLTaskRunResponse" });
   }
 }
-function __c398(j: number): any {
+function __c405(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27880,7 +28379,7 @@ function __c398(j: number): any {
       ).annotate({ identifier: "CancelStatementRequest" });
   }
 }
-function __c399(j: number): any {
+function __c406(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27894,7 +28393,7 @@ function __c399(j: number): any {
       ).annotate({ identifier: "CheckSchemaVersionValidityResponse" });
   }
 }
-function __c400(j: number): any {
+function __c407(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27902,12 +28401,12 @@ function __c400(j: number): any {
           Name: S.String,
           Description: S.optional(S.String),
           BlueprintLocation: S.String,
-          Tags: S.optional(__S(10464, __c327, 0)),
+          Tags: S.optional(__S(10656, __c333, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateBlueprintRequest" });
   }
 }
-function __c401(j: number): any {
+function __c408(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Name: S.optional(S.String) })).annotate({
@@ -27915,19 +28414,19 @@ function __c401(j: number): any {
       });
   }
 }
-function __c402(j: number): any {
+function __c409(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
-          CatalogInput: __S(12931, __c404, 3),
-          Tags: S.optional(__S(10464, __c327, 0)),
+          CatalogInput: __S(13155, __c411, 3),
+          Tags: S.optional(__S(10656, __c333, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateCatalogRequest" });
   }
 }
-function __c403(j: number): any {
+function __c410(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ CatalogArn: S.String })).annotate({
@@ -27935,7 +28434,7 @@ function __c403(j: number): any {
       });
   }
 }
-function __c404(j: number): any {
+function __c411(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27950,36 +28449,36 @@ function __c404(j: number): any {
       return S.suspend(() =>
         S.Struct({
           RoleArn: S.optional(S.String),
-          Compaction: S.optional(__S(10464, __c327, 0)),
-          Retention: S.optional(__S(10464, __c327, 0)),
-          OrphanFileDeletion: S.optional(__S(10464, __c327, 0)),
+          Compaction: S.optional(__S(10656, __c333, 0)),
+          Retention: S.optional(__S(10656, __c333, 0)),
+          OrphanFileDeletion: S.optional(__S(10656, __c333, 0)),
         }),
       ).annotate({ identifier: "IcebergOptimizationProperties" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          DataLakeAccessProperties: S.optional(__S(12928, __c404, 0)),
-          IcebergOptimizationProperties: S.optional(__S(12929, __c404, 1)),
-          CustomProperties: S.optional(__S(10464, __c327, 0)),
+          DataLakeAccessProperties: S.optional(__S(13152, __c411, 0)),
+          IcebergOptimizationProperties: S.optional(__S(13153, __c411, 1)),
+          CustomProperties: S.optional(__S(10656, __c333, 0)),
         }),
       ).annotate({ identifier: "CatalogProperties" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           Description: S.optional(S.String),
-          FederatedCatalog: S.optional(__S(12960, __c405, 0)),
-          Parameters: S.optional(__S(10464, __c327, 0)),
-          TargetRedshiftCatalog: S.optional(__S(12896, __c403, 0)),
-          CatalogProperties: S.optional(__S(12930, __c404, 2)),
-          CreateTableDefaultPermissions: S.optional(__S(12963, __c405, 3)),
-          CreateDatabaseDefaultPermissions: S.optional(__S(12963, __c405, 3)),
+          FederatedCatalog: S.optional(__S(13184, __c412, 0)),
+          Parameters: S.optional(__S(10656, __c333, 0)),
+          TargetRedshiftCatalog: S.optional(__S(13120, __c410, 0)),
+          CatalogProperties: S.optional(__S(13154, __c411, 2)),
+          CreateTableDefaultPermissions: S.optional(__S(13187, __c412, 3)),
+          CreateDatabaseDefaultPermissions: S.optional(__S(13187, __c412, 3)),
           AllowFullTableExternalDataAccess: S.optional(S.String),
           OverwriteChildResourcePermissionsWithDefault: S.optional(S.String),
         }),
       ).annotate({ identifier: "CatalogInput" });
   }
 }
-function __c405(j: number): any {
+function __c412(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -27996,15 +28495,15 @@ function __c405(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Principal: S.optional(__S(12961, __c405, 1)),
-          Permissions: S.optional(__S(10944, __c342, 0)),
+          Principal: S.optional(__S(13185, __c412, 1)),
+          Permissions: S.optional(__S(11136, __c348, 0)),
         }),
       ).annotate({ identifier: "PrincipalPermissions" });
     case 3:
-      return S.Array(__S(12962, __c405, 2));
+      return S.Array(__S(13186, __c412, 2));
   }
 }
-function __c406(j: number): any {
+function __c413(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28026,15 +28525,15 @@ function __c406(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          GrokClassifier: S.optional(__S(12992, __c406, 0)),
-          XMLClassifier: S.optional(__S(12993, __c406, 1)),
-          JsonClassifier: S.optional(__S(12994, __c406, 2)),
-          CsvClassifier: S.optional(__S(13024, __c407, 0)),
+          GrokClassifier: S.optional(__S(13216, __c413, 0)),
+          XMLClassifier: S.optional(__S(13217, __c413, 1)),
+          JsonClassifier: S.optional(__S(13218, __c413, 2)),
+          CsvClassifier: S.optional(__S(13248, __c414, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateClassifierRequest" });
   }
 }
-function __c407(j: number): any {
+function __c414(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28043,17 +28542,17 @@ function __c407(j: number): any {
           Delimiter: S.optional(S.String),
           QuoteSymbol: S.optional(S.String),
           ContainsHeader: S.optional(S.String),
-          Header: S.optional(__S(10336, __c323, 0)),
+          Header: S.optional(__S(10528, __c329, 0)),
           DisableValueTrimming: S.optional(S.Boolean),
           AllowSingleColumn: S.optional(S.Boolean),
           CustomDatatypeConfigured: S.optional(S.Boolean),
-          CustomDatatypes: S.optional(__S(10336, __c323, 0)),
+          CustomDatatypes: S.optional(__S(10528, __c329, 0)),
           Serde: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateCsvClassifierRequest" });
   }
 }
-function __c408(j: number): any {
+function __c415(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28062,23 +28561,23 @@ function __c408(j: number): any {
           TableName: S.String,
           Role: S.String,
           Schedule: S.optional(S.String),
-          ColumnNameList: S.optional(__S(10336, __c323, 0)),
+          ColumnNameList: S.optional(__S(10528, __c329, 0)),
           SampleSize: S.optional(S.Number),
           CatalogID: S.optional(S.String),
           SecurityConfiguration: S.optional(S.String),
-          Tags: S.optional(__S(10464, __c327, 0)),
+          Tags: S.optional(__S(10656, __c333, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateColumnStatisticsTaskSettingsRequest" });
   }
 }
-function __c409(j: number): any {
+function __c416(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           CatalogId: S.optional(S.String),
-          ConnectionInput: __S(13216, __c413, 0),
-          Tags: S.optional(__S(10464, __c327, 0)),
+          ConnectionInput: __S(13440, __c420, 0),
+          Tags: S.optional(__S(10656, __c333, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateConnectionRequest" });
     case 1:
@@ -28087,7 +28586,7 @@ function __c409(j: number): any {
       });
   }
 }
-function __c410(j: number): any {
+function __c417(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28098,19 +28597,19 @@ function __c410(j: number): any {
       ).annotate({ identifier: "OAuth2ClientApplication" });
   }
 }
-function __c411(j: number): any {
+function __c418(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           SubnetId: S.optional(S.String),
-          SecurityGroupIdList: S.optional(__S(10336, __c323, 0)),
+          SecurityGroupIdList: S.optional(__S(10528, __c329, 0)),
           AvailabilityZone: S.optional(S.String),
         }),
       ).annotate({ identifier: "PhysicalConnectionRequirements" });
   }
 }
-function __c412(j: number): any {
+function __c419(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28132,11 +28631,11 @@ function __c412(j: number): any {
       return S.suspend(() =>
         S.Struct({
           OAuth2GrantType: S.optional(S.String),
-          OAuth2ClientApplication: S.optional(__S(13120, __c410, 0)),
+          OAuth2ClientApplication: S.optional(__S(13344, __c417, 0)),
           TokenUrl: S.optional(S.String),
-          TokenUrlParametersMap: S.optional(__S(10464, __c327, 0)),
-          AuthorizationCodeProperties: S.optional(__S(13184, __c412, 0)),
-          OAuth2Credentials: S.optional(__S(13185, __c412, 1)),
+          TokenUrlParametersMap: S.optional(__S(10656, __c333, 0)),
+          AuthorizationCodeProperties: S.optional(__S(13408, __c419, 0)),
+          OAuth2Credentials: S.optional(__S(13409, __c419, 1)),
         }),
       ).annotate({ identifier: "OAuth2PropertiesInput" });
     case 3:
@@ -28147,16 +28646,16 @@ function __c412(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AuthenticationType: S.optional(S.String),
-          OAuth2Properties: S.optional(__S(13186, __c412, 2)),
+          OAuth2Properties: S.optional(__S(13410, __c419, 2)),
           SecretArn: S.optional(S.String),
           KmsKeyArn: S.optional(S.String),
-          BasicAuthenticationCredentials: S.optional(__S(13187, __c412, 3)),
-          CustomAuthenticationCredentials: S.optional(__S(10464, __c327, 0)),
+          BasicAuthenticationCredentials: S.optional(__S(13411, __c419, 3)),
+          CustomAuthenticationCredentials: S.optional(__S(10656, __c333, 0)),
         }),
       ).annotate({ identifier: "AuthenticationConfigurationInput" });
   }
 }
-function __c413(j: number): any {
+function __c420(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28164,20 +28663,20 @@ function __c413(j: number): any {
           Name: S.String,
           Description: S.optional(S.String),
           ConnectionType: S.String,
-          MatchCriteria: S.optional(__S(10336, __c323, 0)),
-          ConnectionProperties: __S(11712, __c366, 0),
-          SparkProperties: S.optional(__S(10464, __c327, 0)),
-          AthenaProperties: S.optional(__S(10464, __c327, 0)),
-          PythonProperties: S.optional(__S(10464, __c327, 0)),
-          PhysicalConnectionRequirements: S.optional(__S(13152, __c411, 0)),
-          AuthenticationConfiguration: S.optional(__S(13188, __c412, 4)),
+          MatchCriteria: S.optional(__S(10528, __c329, 0)),
+          ConnectionProperties: __S(11936, __c373, 0),
+          SparkProperties: S.optional(__S(10656, __c333, 0)),
+          AthenaProperties: S.optional(__S(10656, __c333, 0)),
+          PythonProperties: S.optional(__S(10656, __c333, 0)),
+          PhysicalConnectionRequirements: S.optional(__S(13376, __c418, 0)),
+          AuthenticationConfiguration: S.optional(__S(13412, __c419, 4)),
           ValidateCredentials: S.optional(S.Boolean),
-          ValidateForComputeEnvironments: S.optional(__S(10944, __c342, 0)),
+          ValidateForComputeEnvironments: S.optional(__S(11136, __c348, 0)),
         }),
       ).annotate({ identifier: "ConnectionInput" });
   }
 }
-function __c414(j: number): any {
+function __c421(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28186,48 +28685,48 @@ function __c414(j: number): any {
           Role: S.String,
           DatabaseName: S.optional(S.String),
           Description: S.optional(S.String),
-          Targets: __S(10990, __c343, 14),
+          Targets: __S(11182, __c349, 14),
           Schedule: S.optional(S.String),
-          Classifiers: S.optional(__S(10336, __c323, 0)),
+          Classifiers: S.optional(__S(10528, __c329, 0)),
           TablePrefix: S.optional(S.String),
-          SchemaChangePolicy: S.optional(__S(10992, __c343, 16)),
-          RecrawlPolicy: S.optional(__S(10991, __c343, 15)),
-          LineageConfiguration: S.optional(__S(10993, __c343, 17)),
-          LakeFormationConfiguration: S.optional(__S(10994, __c343, 18)),
+          SchemaChangePolicy: S.optional(__S(11184, __c349, 16)),
+          RecrawlPolicy: S.optional(__S(11183, __c349, 15)),
+          LineageConfiguration: S.optional(__S(11185, __c349, 17)),
+          LakeFormationConfiguration: S.optional(__S(11186, __c349, 18)),
           Configuration: S.optional(S.String),
           CrawlerSecurityConfiguration: S.optional(S.String),
-          Tags: S.optional(__S(10464, __c327, 0)),
+          Tags: S.optional(__S(10656, __c333, 0)),
           CatalogId: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateCrawlerRequest" });
   }
 }
-function __c415(j: number): any {
+function __c422(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
           RegexString: S.String,
-          ContextWords: S.optional(__S(10336, __c323, 0)),
-          Tags: S.optional(__S(10464, __c327, 0)),
+          ContextWords: S.optional(__S(10528, __c329, 0)),
+          Tags: S.optional(__S(10656, __c333, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateCustomEntityTypeRequest" });
   }
 }
-function __c416(j: number): any {
+function __c423(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           CatalogId: S.optional(S.String),
-          DatabaseInput: __S(13376, __c418, 0),
-          Tags: S.optional(__S(10464, __c327, 0)),
+          DatabaseInput: __S(13600, __c425, 0),
+          Tags: S.optional(__S(10656, __c333, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateDatabaseRequest" });
   }
 }
-function __c417(j: number): any {
+function __c424(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28239,7 +28738,7 @@ function __c417(j: number): any {
       ).annotate({ identifier: "DatabaseIdentifier" });
   }
 }
-function __c418(j: number): any {
+function __c425(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28247,15 +28746,78 @@ function __c418(j: number): any {
           Name: S.String,
           Description: S.optional(S.String),
           LocationUri: S.optional(S.String),
-          Parameters: S.optional(__S(10464, __c327, 0)),
-          CreateTableDefaultPermissions: S.optional(__S(12963, __c405, 3)),
-          TargetDatabase: S.optional(__S(13344, __c417, 0)),
-          FederatedDatabase: S.optional(__S(12960, __c405, 0)),
+          Parameters: S.optional(__S(10656, __c333, 0)),
+          CreateTableDefaultPermissions: S.optional(__S(13187, __c412, 3)),
+          TargetDatabase: S.optional(__S(13568, __c424, 0)),
+          FederatedDatabase: S.optional(__S(13184, __c412, 0)),
         }),
       ).annotate({ identifier: "DatabaseInput" });
   }
 }
-function __c419(j: number): any {
+function __c426(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String,
+          Level: S.String,
+          DataSource: __S(13665, __c427, 1),
+          RulesetName: S.optional(S.String),
+          ManagedRulesetName: S.optional(S.String),
+          Triggers: S.optional(__S(11136, __c348, 0)),
+          ScheduleExpression: S.optional(S.String),
+          StartAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          EndAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          Role: S.String,
+          NumberOfWorkers: S.optional(S.Number),
+          Timeout: S.optional(S.Number),
+          AdditionalRunOptions: S.optional(__S(13666, __c427, 2)),
+          AdditionalDataSources: S.optional(__S(11622, __c363, 6)),
+          Tags: S.optional(__S(10656, __c333, 0)),
+          ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateDataQualityEvaluationConfigRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Name: S.optional(S.String), EvaluationRunMode: S.optional(S.String) }),
+      ).annotate({ identifier: "CreateDataQualityEvaluationConfigResponse" });
+  }
+}
+function __c427(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          CatalogId: S.String,
+          DatabaseName: S.optional(S.String),
+          TableNamePattern: S.optional(S.String),
+          PreProcessingQuery: S.optional(S.String),
+          ConnectionName: S.optional(S.String),
+          AdditionalOptions: S.optional(__S(10656, __c333, 0)),
+        }),
+      ).annotate({ identifier: "DataQualityEvaluationConfigGlueTables" });
+    case 1:
+      return S.suspend(() => S.Struct({ GlueTables: S.optional(__S(13664, __c427, 0)) })).annotate({
+        identifier: "DataQualityEvaluationConfigDataSource",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          CloudWatchMetricsEnabled: S.optional(S.Boolean),
+          ResultsS3Prefix: S.optional(S.String),
+          CompositeRuleEvaluationMethod: S.optional(S.String),
+          RowLevelResults: S.optional(__S(11617, __c363, 1)),
+          ProfilingResults: S.optional(__S(11619, __c363, 3)),
+          ObservationScope: S.optional(S.String),
+          ObservationMode: S.optional(S.String),
+          DataQualityRuleResults: S.optional(__S(11620, __c363, 4)),
+          ObservationResults: S.optional(__S(11621, __c363, 5)),
+          CustomLogGroupPrefix: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataQualityEvaluationConfigAdditionalRunOptions" });
+  }
+}
+function __c428(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28263,15 +28825,15 @@ function __c419(j: number): any {
           Name: S.String,
           Description: S.optional(S.String),
           Ruleset: S.String,
-          Tags: S.optional(__S(10464, __c327, 0)),
-          TargetTable: S.optional(__S(13440, __c420, 0)),
+          Tags: S.optional(__S(10656, __c333, 0)),
+          TargetTable: S.optional(__S(13728, __c429, 0)),
           DataQualitySecurityConfiguration: S.optional(S.String),
           ClientToken: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateDataQualityRulesetRequest" });
   }
 }
-function __c420(j: number): any {
+function __c429(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28279,17 +28841,17 @@ function __c420(j: number): any {
       ).annotate({ identifier: "DataQualityTargetTable" });
   }
 }
-function __c421(j: number): any {
+function __c430(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           EndpointName: S.String,
           RoleArn: S.String,
-          SecurityGroupIds: S.optional(__S(10336, __c323, 0)),
+          SecurityGroupIds: S.optional(__S(10528, __c329, 0)),
           SubnetId: S.optional(S.String),
           PublicKey: S.optional(S.String),
-          PublicKeys: S.optional(__S(10336, __c323, 0)),
+          PublicKeys: S.optional(__S(10528, __c329, 0)),
           NumberOfNodes: S.optional(S.Number),
           WorkerType: S.optional(S.String),
           GlueVersion: S.optional(S.String),
@@ -28297,8 +28859,8 @@ function __c421(j: number): any {
           ExtraPythonLibsS3Path: S.optional(S.String),
           ExtraJarsS3Path: S.optional(S.String),
           SecurityConfiguration: S.optional(S.String),
-          Tags: S.optional(__S(10464, __c327, 0)),
-          Arguments: S.optional(__S(10464, __c327, 0)),
+          Tags: S.optional(__S(10656, __c333, 0)),
+          Arguments: S.optional(__S(10656, __c333, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateDevEndpointRequest" });
     case 1:
@@ -28306,7 +28868,7 @@ function __c421(j: number): any {
         S.Struct({
           EndpointName: S.optional(S.String),
           Status: S.optional(S.String),
-          SecurityGroupIds: S.optional(__S(10336, __c323, 0)),
+          SecurityGroupIds: S.optional(__S(10528, __c329, 0)),
           SubnetId: S.optional(S.String),
           RoleArn: S.optional(S.String),
           YarnEndpointAddress: S.optional(S.String),
@@ -28322,12 +28884,12 @@ function __c421(j: number): any {
           FailureReason: S.optional(S.String),
           SecurityConfiguration: S.optional(S.String),
           CreatedTimestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          Arguments: S.optional(__S(10464, __c327, 0)),
+          Arguments: S.optional(__S(10656, __c333, 0)),
         }),
       ).annotate({ identifier: "CreateDevEndpointResponse" });
   }
 }
-function __c422(j: number): any {
+function __c431(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28341,7 +28903,7 @@ function __c422(j: number): any {
       ).annotate({ identifier: "CreateGlossaryRequest" });
   }
 }
-function __c423(j: number): any {
+function __c432(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28353,7 +28915,7 @@ function __c423(j: number): any {
       ).annotate({ identifier: "CreateGlossaryResponse" });
   }
 }
-function __c424(j: number): any {
+function __c433(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28369,7 +28931,7 @@ function __c424(j: number): any {
       ).annotate({ identifier: "CreateGlossaryTermRequest" });
   }
 }
-function __c425(j: number): any {
+function __c434(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28383,13 +28945,13 @@ function __c425(j: number): any {
       ).annotate({ identifier: "CreateGlossaryTermResponse" });
   }
 }
-function __c426(j: number): any {
+function __c435(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           InstanceArn: S.String,
-          Scopes: S.optional(__S(10336, __c323, 0)),
+          Scopes: S.optional(__S(10528, __c329, 0)),
           UserBackgroundSessionsEnabled: S.optional(S.Boolean),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateGlueIdentityCenterConfigurationRequest" });
@@ -28399,7 +28961,7 @@ function __c426(j: number): any {
       });
   }
 }
-function __c427(j: number): any {
+function __c436(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28410,33 +28972,33 @@ function __c427(j: number): any {
           Description: S.optional(S.String),
           DataFilter: S.optional(S.String),
           KmsKeyId: S.optional(S.String),
-          AdditionalEncryptionContext: S.optional(__S(10464, __c327, 0)),
-          Tags: S.optional(__S(13793, __c431, 1)),
-          IntegrationConfig: S.optional(__S(13728, __c429, 0)),
+          AdditionalEncryptionContext: S.optional(__S(10656, __c333, 0)),
+          Tags: S.optional(__S(14081, __c440, 1)),
+          IntegrationConfig: S.optional(__S(14016, __c438, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateIntegrationRequest" });
   }
 }
-function __c428(j: number): any {
+function __c437(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(10400, __c325, 0));
+      return S.Array(__S(10592, __c331, 0));
   }
 }
-function __c429(j: number): any {
+function __c438(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           RefreshInterval: S.optional(S.String),
-          SourceProperties: S.optional(__S(10464, __c327, 0)),
+          SourceProperties: S.optional(__S(10656, __c333, 0)),
           ContinuousSync: S.optional(S.Boolean),
           TargetNamespace: S.optional(S.String),
         }),
       ).annotate({ identifier: "IntegrationConfig" });
   }
 }
-function __c430(j: number): any {
+function __c439(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28447,41 +29009,41 @@ function __c430(j: number): any {
           Description: S.optional(S.String),
           IntegrationArn: S.String,
           KmsKeyId: S.optional(S.String),
-          AdditionalEncryptionContext: S.optional(__S(10464, __c327, 0)),
-          Tags: S.optional(__S(13793, __c431, 1)),
+          AdditionalEncryptionContext: S.optional(__S(10656, __c333, 0)),
+          Tags: S.optional(__S(14081, __c440, 1)),
           Status: S.String,
           CreateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          Errors: S.optional(__S(13696, __c428, 0)),
+          Errors: S.optional(__S(13984, __c437, 0)),
           DataFilter: S.optional(S.String),
-          IntegrationConfig: S.optional(__S(13728, __c429, 0)),
+          IntegrationConfig: S.optional(__S(14016, __c438, 0)),
         }),
       ).annotate({ identifier: "CreateIntegrationResponse" });
   }
 }
-function __c431(j: number): any {
+function __c440(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ key: S.optional(S.String), value: S.optional(S.String) }),
       ).annotate({ identifier: "Tag" });
     case 1:
-      return S.Array(__S(13792, __c431, 0));
+      return S.Array(__S(14080, __c440, 0));
   }
 }
-function __c432(j: number): any {
+function __c441(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ResourceArn: S.String,
-          SourceProcessingProperties: S.optional(__S(13856, __c433, 0)),
-          TargetProcessingProperties: S.optional(__S(13857, __c433, 1)),
-          Tags: S.optional(__S(13793, __c431, 1)),
+          SourceProcessingProperties: S.optional(__S(14144, __c442, 0)),
+          TargetProcessingProperties: S.optional(__S(14145, __c442, 1)),
+          Tags: S.optional(__S(14081, __c440, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateIntegrationResourcePropertyRequest" });
   }
 }
-function __c433(j: number): any {
+function __c442(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ RoleArn: S.optional(S.String) })).annotate({
@@ -28498,40 +29060,40 @@ function __c433(j: number): any {
       ).annotate({ identifier: "TargetProcessingProperties" });
   }
 }
-function __c434(j: number): any {
+function __c443(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ResourceArn: S.String,
           ResourcePropertyArn: S.optional(S.String),
-          SourceProcessingProperties: S.optional(__S(13856, __c433, 0)),
-          TargetProcessingProperties: S.optional(__S(13857, __c433, 1)),
+          SourceProcessingProperties: S.optional(__S(14144, __c442, 0)),
+          TargetProcessingProperties: S.optional(__S(14145, __c442, 1)),
         }),
       ).annotate({ identifier: "CreateIntegrationResourcePropertyResponse" });
   }
 }
-function __c435(j: number): any {
+function __c444(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ResourceArn: S.String,
           TableName: S.String,
-          SourceTableConfig: S.optional(__S(13952, __c436, 0)),
-          TargetTableConfig: S.optional(__S(13955, __c436, 3)),
+          SourceTableConfig: S.optional(__S(14240, __c445, 0)),
+          TargetTableConfig: S.optional(__S(14243, __c445, 3)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateIntegrationTablePropertiesRequest" });
   }
 }
-function __c436(j: number): any {
+function __c445(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Fields: S.optional(__S(10336, __c323, 0)),
+          Fields: S.optional(__S(10528, __c329, 0)),
           FilterPredicate: S.optional(S.String),
-          PrimaryKey: S.optional(__S(10336, __c323, 0)),
+          PrimaryKey: S.optional(__S(10528, __c329, 0)),
           RecordUpdateField: S.optional(S.String),
         }),
       ).annotate({ identifier: "SourceTableConfig" });
@@ -28544,19 +29106,19 @@ function __c436(j: number): any {
         }),
       ).annotate({ identifier: "IntegrationPartition" });
     case 2:
-      return S.Array(__S(13953, __c436, 1));
+      return S.Array(__S(14241, __c445, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           UnnestSpec: S.optional(S.String),
-          PartitionSpec: S.optional(__S(13954, __c436, 2)),
+          PartitionSpec: S.optional(__S(14242, __c445, 2)),
           TargetTableName: S.optional(S.String),
           IntegrationArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "TargetTableConfig" });
   }
 }
-function __c437(j: number): any {
+function __c446(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28567,38 +29129,38 @@ function __c437(j: number): any {
           Description: S.optional(S.String),
           LogUri: S.optional(S.String),
           Role: S.String,
-          ExecutionProperty: S.optional(__S(11776, __c368, 0)),
-          Command: __S(11777, __c368, 1),
-          DefaultArguments: S.optional(__S(10464, __c327, 0)),
-          NonOverridableArguments: S.optional(__S(10464, __c327, 0)),
-          Connections: S.optional(__S(11744, __c367, 0)),
+          ExecutionProperty: S.optional(__S(12000, __c375, 0)),
+          Command: __S(12001, __c375, 1),
+          DefaultArguments: S.optional(__S(10656, __c333, 0)),
+          NonOverridableArguments: S.optional(__S(10656, __c333, 0)),
+          Connections: S.optional(__S(11968, __c374, 0)),
           MaxRetries: S.optional(S.Number),
           AllocatedCapacity: S.optional(S.Number),
           Timeout: S.optional(S.Number),
           MaxCapacity: S.optional(S.Number),
           SecurityConfiguration: S.optional(S.String),
-          Tags: S.optional(__S(10464, __c327, 0)),
-          NotificationProperty: S.optional(__S(11680, __c365, 0)),
+          Tags: S.optional(__S(10656, __c333, 0)),
+          NotificationProperty: S.optional(__S(11904, __c372, 0)),
           GlueVersion: S.optional(S.String),
           NumberOfWorkers: S.optional(S.Number),
           WorkerType: S.optional(S.String),
-          CodeGenConfigurationNodes: S.optional(__S(11897, __c371, 25)),
+          CodeGenConfigurationNodes: S.optional(__S(12121, __c378, 25)),
           ExecutionClass: S.optional(S.String),
-          SourceControlDetails: S.optional(__S(11898, __c371, 26)),
+          SourceControlDetails: S.optional(__S(12122, __c378, 26)),
           MaintenanceWindow: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateJobRequest" });
   }
 }
-function __c438(j: number): any {
+function __c447(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           Name: S.String,
           Description: S.optional(S.String),
-          InputRecordTables: __S(14080, __c440, 0),
-          Parameters: __S(14113, __c441, 1),
+          InputRecordTables: __S(14368, __c449, 0),
+          Parameters: __S(14401, __c450, 1),
           Role: S.String,
           GlueVersion: S.optional(S.String),
           MaxCapacity: S.optional(S.Number),
@@ -28606,13 +29168,13 @@ function __c438(j: number): any {
           NumberOfWorkers: S.optional(S.Number),
           Timeout: S.optional(S.Number),
           MaxRetries: S.optional(S.Number),
-          Tags: S.optional(__S(10464, __c327, 0)),
-          TransformEncryption: S.optional(__S(14082, __c440, 2)),
+          Tags: S.optional(__S(10656, __c333, 0)),
+          TransformEncryption: S.optional(__S(14370, __c449, 2)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateMLTransformRequest" });
   }
 }
-function __c439(j: number): any {
+function __c448(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ TransformId: S.optional(S.String) })).annotate({
@@ -28620,10 +29182,10 @@ function __c439(j: number): any {
       });
   }
 }
-function __c440(j: number): any {
+function __c449(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(11264, __c352, 0));
+      return S.Array(__S(11456, __c358, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({ MlUserDataEncryptionMode: S.String, KmsKeyId: S.optional(S.String) }),
@@ -28631,13 +29193,13 @@ function __c440(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          MlUserDataEncryption: S.optional(__S(14081, __c440, 1)),
+          MlUserDataEncryption: S.optional(__S(14369, __c449, 1)),
           TaskRunSecurityConfigurationName: S.optional(S.String),
         }),
       ).annotate({ identifier: "TransformEncryption" });
   }
 }
-function __c441(j: number): any {
+function __c450(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28652,12 +29214,12 @@ function __c441(j: number): any {
       return S.suspend(() =>
         S.Struct({
           TransformType: S.String,
-          FindMatchesParameters: S.optional(__S(14112, __c441, 0)),
+          FindMatchesParameters: S.optional(__S(14400, __c450, 0)),
         }),
       ).annotate({ identifier: "TransformParameters" });
   }
 }
-function __c442(j: number): any {
+function __c451(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28665,12 +29227,12 @@ function __c442(j: number): any {
           CatalogId: S.optional(S.String),
           DatabaseName: S.String,
           TableName: S.String,
-          PartitionInput: __S(10560, __c330, 0),
+          PartitionInput: __S(10752, __c336, 0),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreatePartitionRequest" });
   }
 }
-function __c443(j: number): any {
+function __c452(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -28678,38 +29240,17 @@ function __c443(j: number): any {
           CatalogId: S.optional(S.String),
           DatabaseName: S.String,
           TableName: S.String,
-          PartitionIndex: __S(14208, __c444, 0),
+          PartitionIndex: __S(14496, __c453, 0),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreatePartitionIndexRequest" });
   }
 }
-function __c444(j: number): any {
+function __c453(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Keys: __S(10336, __c323, 0), IndexName: S.String }),
+        S.Struct({ Keys: __S(10528, __c329, 0), IndexName: S.String }),
       ).annotate({ identifier: "PartitionIndex" });
-  }
-}
-function __c445(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          RegistryName: S.String,
-          Description: S.optional(S.String),
-          Tags: S.optional(__S(10464, __c327, 0)),
-        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "CreateRegistryInput" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          RegistryArn: S.optional(S.String),
-          RegistryName: S.optional(S.String),
-          Description: S.optional(S.String),
-          Tags: S.optional(__S(10464, __c327, 0)),
-        }),
-      ).annotate({ identifier: "CreateRegistryResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

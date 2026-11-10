@@ -94,9 +94,9 @@ export type StateErrorTypeEnum = "TYPE_UNSPECIFIED" | "KMS_ERROR";
 /** Describes an error related to the current state of the workflow. */
 export interface StateError {
   /** Provides specifics about the error. */
-  details?: string;
+  details?: string | undefined;
   /** The type of this state error. */
-  type?: StateErrorTypeEnum | (string & {});
+  type?: StateErrorTypeEnum | (string & {}) | undefined;
 }
 export type WorkflowExecutionHistoryLevelEnum =
   | "EXECUTION_HISTORY_LEVEL_UNSPECIFIED"
@@ -106,75 +106,75 @@ export type WorkflowStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "UNAVAILABLE";
 /** Workflow program to be executed by Workflows. */
 export interface Workflow {
   /** Output only. The timestamp for the latest revision of the workflow's creation. */
-  revisionCreateTime?: string;
+  revisionCreateTime?: string | undefined;
   /** Labels associated with this workflow. Labels can contain at most 64 entries. Keys and values can be no longer than 63 characters and can only contain lowercase letters, numeric characters, underscores, and dashes. Label keys must start with a letter. International characters are allowed. This is a workflow-wide field and is not tied to a specific revision. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. The timestamp for when the workflow was created. This is a workflow-wide field and is not tied to a specific revision. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. Describes the level of platform logging to apply to calls and call responses during executions of this workflow. If both the workflow and the execution specify a logging level, the execution level takes precedence. */
-  callLogLevel?: WorkflowCallLogLevelEnum | (string & {});
+  callLogLevel?: WorkflowCallLogLevelEnum | (string & {}) | undefined;
   /** Workflow code to be executed. The size limit is 128KB. */
-  sourceContents?: string;
+  sourceContents?: string | undefined;
   /** Description of the workflow provided by the user. Must be at most 1000 Unicode characters long. This is a workflow-wide field and is not tied to a specific revision. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. The resource name of a KMS crypto key version used to encrypt or decrypt the data associated with the workflow. Format: projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{cryptoKey}/cryptoKeyVersions/{cryptoKeyVersion} */
-  cryptoKeyVersion?: string;
+  cryptoKeyVersion?: string | undefined;
   /** Output only. The timestamp for when the workflow was last updated. This is a workflow-wide field and is not tied to a specific revision. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. A list of all KMS crypto keys used to encrypt or decrypt the data associated with the workflow. */
-  allKmsKeys?: StringList;
+  allKmsKeys?: StringList | undefined;
   /** Optional. User-defined environment variables associated with this workflow revision. This map has a maximum length of 20. Each string can take up to 4KiB. Keys cannot be empty strings and cannot start with "GOOGLE" or "WORKFLOWS". */
-  userEnvVars?: StringMap;
+  userEnvVars?: StringMap | undefined;
   /** Output only. Error regarding the state of the workflow. For example, this field will have error details if the execution data is unavailable due to revoked KMS key permissions. */
-  stateError?: StateError;
+  stateError?: StateError | undefined;
   /** The resource name of the workflow. Format: projects/{project}/locations/{location}/workflows/{workflow}. This is a workflow-wide field and is not tied to a specific revision. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Describes the execution history level to apply to this workflow. */
-  executionHistoryLevel?: WorkflowExecutionHistoryLevelEnum | (string & {});
+  executionHistoryLevel?: WorkflowExecutionHistoryLevelEnum | (string & {}) | undefined;
   /** Optional. The resource name of a KMS crypto key used to encrypt or decrypt the data associated with the workflow. Format: projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{cryptoKey} Using `-` as a wildcard for the `{project}` or not providing one at all will infer the project from the account. If not provided, data associated with the workflow will not be CMEK-encrypted. */
-  cryptoKeyName?: string;
+  cryptoKeyName?: string | undefined;
   /** The service account associated with the latest workflow version. This service account represents the identity of the workflow and determines what permissions the workflow has. Format: projects/{project}/serviceAccounts/{account} or {account} Using `-` as a wildcard for the `{project}` or not providing one at all will infer the project from the account. The `{account}` value can be the `email` address or the `unique_id` of the service account. If not provided, workflow will use the project's default service account. Modifying this field for an existing workflow results in a new workflow revision. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** Optional. Input only. Immutable. Tags associated with this workflow. */
-  tags?: StringMap;
+  tags?: StringMap | undefined;
   /** Output only. A list of all KMS crypto key versions used to encrypt or decrypt the data associated with the workflow. */
-  allKmsKeysVersions?: StringList;
+  allKmsKeysVersions?: StringList | undefined;
   /** Output only. The revision of the workflow. A new revision of a workflow is created as a result of updating the following properties of a workflow: - Service account - Workflow code to be executed The format is "000001-a4d", where the first six characters define the zero-padded revision ordinal number. They are followed by a hyphen and three hexadecimal random characters. */
-  revisionId?: string;
+  revisionId?: string | undefined;
   /** Output only. State of the workflow deployment. */
-  state?: WorkflowStateEnum | (string & {});
+  state?: WorkflowStateEnum | (string & {}) | undefined;
 }
 export interface CreateProjectsLocationsWorkflowsRequest {
   /** Required. Project and location in which the workflow should be created. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Required. The ID of the workflow to be created. It has to fulfill the following requirements: * Must contain only letters, numbers, underscores and hyphens. * Must start with a letter. * Must be between 1-64 characters. * Must end with a number or a letter. * Must be unique within the customer project and location. */
-  workflowId?: string;
+  workflowId?: string | undefined;
   /** Request body */
-  body?: Workflow;
+  body?: Workflow | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -193,15 +193,15 @@ export interface GetProjectsLocationsRequest {
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -209,96 +209,96 @@ export interface GetProjectsLocationsOperationsRequest {
 }
 export interface GetProjectsLocationsWorkflowsRequest {
   /** Optional. The revision of the workflow to retrieve. If the revision_id is empty, the latest revision is retrieved. The format is "000001-a4d", where the first six characters define the zero-padded decimal revision number. They are followed by a hyphen and three hexadecimal characters. */
-  revisionId?: string;
+  revisionId?: string | undefined;
   /** Required. Name of the workflow for which information should be retrieved. Format: projects/{project}/locations/{location}/workflows/{workflow} */
   name: string;
 }
 export interface ListProjectsLocationsRequest {
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsWorkflowsRequest {
   /** Maximum number of workflows to return per call. The service might return fewer than this value even if not at the end of the collection. If a value is not specified, a default value of 500 is used. The maximum permitted value is 1000 and values greater than 1000 are coerced down to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Project and location from which the workflows should be listed. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Comma-separated list of fields that specify the order of the results. Default sorting order for a field is ascending. To specify descending order for a field, append a "desc" suffix. If not specified, the results are returned in an unspecified order. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** A page token, received from a previous `ListWorkflows` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListWorkflows` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Filter to restrict results to specific workflows. For details, see AIP-160. For example, if you are using the Google APIs Explorer: `state="SUCCEEDED"` or `createTime>"2023-08-01" AND state="FAILED"` */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type WorkflowList = Array<Workflow>;
 /** Response for the ListWorkflows method. */
 export interface ListWorkflowsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The workflows that match the request. */
-  workflows?: WorkflowList;
+  workflows?: WorkflowList | undefined;
   /** Unreachable resources. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListRevisionsProjectsLocationsWorkflowsRequest {
   /** The maximum number of revisions to return per page. If a value is not specified, a default value of 20 is used. The maximum permitted value is 100. Values greater than 100 are coerced down to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Workflow for which the revisions should be listed. Format: projects/{project}/locations/{location}/workflows/{workflow} */
   name: string;
   /** The page token, received from a previous ListWorkflowRevisions call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** Response for the ListWorkflowRevisions method. */
 export interface ListWorkflowRevisionsResponse {
   /** The revisions of the workflow, ordered in reverse chronological order. */
-  workflows?: WorkflowList;
+  workflows?: WorkflowList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface PatchProjectsLocationsWorkflowsRequest {
   /** The resource name of the workflow. Format: projects/{project}/locations/{location}/workflows/{workflow}. This is a workflow-wide field and is not tied to a specific revision. */
   name: string;
   /** List of fields to be updated. If not present, the entire workflow will be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Workflow;
+  body?: Workflow | undefined;
 }
 export type CreateProjectsLocationsWorkflowsError =
   | NotFound

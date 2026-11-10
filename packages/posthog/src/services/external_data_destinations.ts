@@ -41,9 +41,9 @@ export interface CreateExternalDataDestinationRequest {
   /** Human-readable name shown when picking destinations for a source or table. */
   name: string;
   /** Settings for this destination: target database, schema or dataset, bucket and prefix, file format. Credentials are not stored here. They live on the linked integration. */
-  config?: unknown;
+  config?: unknown | undefined;
   /** Integration holding this destination's credentials. Required for every type except the PostHog warehouse. */
-  integration?: number | null;
+  integration?: number | null | undefined;
 }
 /** One source that writes to a destination. Shape only -- never used to deserialize. */
 export interface SyncedSource {
@@ -67,9 +67,9 @@ export interface ExternalDataDestination {
   /** Human-readable name shown when picking destinations for a source or table. */
   name: string;
   /** Settings for this destination: target database, schema or dataset, bucket and prefix, file format. Credentials are not stored here. They live on the linked integration. */
-  config?: unknown;
+  config?: unknown | undefined;
   /** Integration holding this destination's credentials. Required for every type except the PostHog warehouse. */
-  integration?: number | null;
+  integration?: number | null | undefined;
   /** Whether this is the managed PostHog warehouse destination. */
   is_posthog_warehouse: boolean;
   created_at: string;
@@ -118,7 +118,7 @@ export interface ExternalDataDestinationsAddSourcesCreateRequest {
   /** IDs of up to 50 existing sources to attach to this destination. */
   source_ids: ExternalDataDestinationsAddSourcesCreateRequestSourceIdsList;
   /** Start a full resync for each enabled table newly attached. */
-  resync?: boolean;
+  resync?: boolean | undefined;
 }
 /** Sources newly attached to this destination. */
 export type AddSourcesResponseAttachedList = Array<SyncedSource>;
@@ -186,7 +186,7 @@ export interface ExternalDataDestinationsConnectLinkRetrieveRequest {
     | ExternalDataDestinationsConnectLinkRetrieveRequestDestinationType
     | (string & {});
   /** Which integration kind to connect when the type accepts more than one. Only S3 does: 'aws-s3' (the default) or 's3-compatible' for MinIO, Wasabi, R2, GCS and similar. */
-  integration_kind?: string;
+  integration_kind?: string | undefined;
 }
 export interface DestinationConnectLink {
   /** The destination type the link is for. */
@@ -225,15 +225,15 @@ export interface ListExternalDataDestinationsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedExternalDataDestinationListResultsList = Array<ExternalDataDestination>;
 export interface PaginatedExternalDataDestinationList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedExternalDataDestinationListResultsList;
 }
 export interface UpdateExternalDataDestinationRequest {
@@ -246,9 +246,9 @@ export interface UpdateExternalDataDestinationRequest {
   /** Human-readable name shown when picking destinations for a source or table. */
   name: string;
   /** Settings for this destination: target database, schema or dataset, bucket and prefix, file format. Credentials are not stored here. They live on the linked integration. */
-  config?: unknown;
+  config?: unknown | undefined;
   /** Integration holding this destination's credentials. Required for every type except the PostHog warehouse. */
-  integration?: number | null;
+  integration?: number | null | undefined;
 }
 export interface UpdateExternalDataDestinationsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -256,13 +256,13 @@ export interface UpdateExternalDataDestinationsPartialRequest {
   /** A UUID string identifying this external data destination. */
   id: string;
   /** Where synced rows are written. The PostHog warehouse is managed for you, so you cannot create one here. * `PostHogWarehouse` - PostHog warehouse * `Redshift` - Redshift * `Snowflake` - Snowflake * `BigQuery` - BigQuery * `Postgres` - Postgres * `Databricks` - Databricks * `AzureBlob` - Azure Blob * `S3` - S3 */
-  type?: ExternalDataDestinationTypeEnum | (string & {});
+  type?: ExternalDataDestinationTypeEnum | (string & {}) | undefined;
   /** Human-readable name shown when picking destinations for a source or table. */
-  name?: string;
+  name?: string | undefined;
   /** Settings for this destination: target database, schema or dataset, bucket and prefix, file format. Credentials are not stored here. They live on the linked integration. */
-  config?: unknown;
+  config?: unknown | undefined;
   /** Integration holding this destination's credentials. Required for every type except the PostHog warehouse. */
-  integration?: number | null;
+  integration?: number | null | undefined;
 }
 export type CreateExternalDataDestinationError = PosthogOpError;
 /** Manage where warehouse sources write their synced rows. A destination can be attached to several sources, or to a single table on a source. Credentials come from an integration, so one connection can be reused across syncs. */

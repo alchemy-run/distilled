@@ -89,23 +89,23 @@ export interface ActivateCuratorsCuratedPackagesRequest {
   /** Required. The name of the curated package to activate. Format: `curators/{accountId}/curatedPackages/{curatedPackageId}` */
   name: string;
   /** Request body */
-  body?: ActivateCuratedPackageRequest;
+  body?: ActivateCuratedPackageRequest | undefined;
 }
 export type StringList = Array<string>;
 /** Settings for controlling access to a curated package. */
 export interface AccessControlSettings {
   /** Required. Immutable. The list of media planners that are explicitly granted access to the curated package. Eligible media planners can be found in the mediaPlanners.list method. Only a single media planner may be allowlisted at this time. Format: `mediaPlanners/{mediaPlannerAccountId}` */
-  allowlistedMediaPlanners?: StringList;
+  allowlistedMediaPlanners?: StringList | undefined;
 }
 export type CuratedPackageStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "INACTIVE";
 /** Represents an amount of money with its currency type. */
 export interface Money {
   /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
-  units?: string;
+  units?: string | undefined;
   /** The three-letter currency code defined in ISO 4217. */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
   /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
-  nanos?: number;
+  nanos?: number | undefined;
 }
 export type CuratedPackageCurationFeeVisibilityEnum =
   | "CURATION_FEE_VISIBILITY_UNSPECIFIED"
@@ -118,9 +118,9 @@ export type PackageTargetingIncludedEnvironmentEnum =
 /** Generic targeting used for targeting dimensions that contains a list of included and excluded numeric IDs. This cannot be filtered using list filter syntax. */
 export interface CriteriaTargeting {
   /** A list of numeric IDs to be included. */
-  targetedCriteriaIds?: StringList;
+  targetedCriteriaIds?: StringList | undefined;
   /** A list of numeric IDs to be excluded. */
-  excludedCriteriaIds?: StringList;
+  excludedCriteriaIds?: StringList | undefined;
 }
 export type StringTargetingDimensionSelectionTypeEnum =
   | "SELECTION_TYPE_UNSPECIFIED"
@@ -129,18 +129,18 @@ export type StringTargetingDimensionSelectionTypeEnum =
 /** Generic targeting with string values. */
 export interface StringTargetingDimension {
   /** Required. How the items in this list should be targeted. */
-  selectionType?: StringTargetingDimensionSelectionTypeEnum | (string & {});
+  selectionType?: StringTargetingDimensionSelectionTypeEnum | (string & {}) | undefined;
   /** Required. The values specified. */
-  values?: StringList;
+  values?: StringList | undefined;
 }
 /** Represents targeting about where the ads can appear, for example, certain sites or mobile applications. Different placement targeting types will be logically OR'ed. */
 export interface PackagePlacementTargeting {
   /** Optional. The list of targeted mobile app categories. */
-  includedMobileAppCategoryTargeting?: StringList;
+  includedMobileAppCategoryTargeting?: StringList | undefined;
   /** Optional. The list of targeted or excluded mobile application IDs that publishers own. Currently, only Android and Apple apps are supported. Android App ID, for example, com.google.android.apps.maps, can be found in Google Play Store URL. iOS App ID (which is a number) can be found at the end of iTunes store URL. First party mobile applications is either included or excluded. */
-  mobileAppTargeting?: StringTargetingDimension;
+  mobileAppTargeting?: StringTargetingDimension | undefined;
   /** Optional. The list of targeted or excluded URLs. The domains should have the http/https stripped (for example, google.com), and can contain a max of 5 paths per url. */
-  uriTargeting?: StringTargetingDimension;
+  uriTargeting?: StringTargetingDimension | undefined;
 }
 export type PackageTargetingIncludedCreativeFormatEnum =
   | "CREATIVE_FORMAT_UNSPECIFIED"
@@ -154,18 +154,18 @@ export type PackageTargetingIncludedRewardedTypeEnum =
 /** Defines targeting criteria for handling the IAB audience and content Taxonomy ID space. */
 export interface TaxonomyTargeting {
   /** Optional. The list of targeted content taxonomy IDs. */
-  targetedTaxonomyIds?: StringList;
+  targetedTaxonomyIds?: StringList | undefined;
   /** Optional. The list of excluded content taxonomy IDs. */
-  excludedTaxonomyIds?: StringList;
+  excludedTaxonomyIds?: StringList | undefined;
 }
 /** Represents targeting about publisher provided signals. Different publisher provided signals types will be logically OR'ed. */
 export interface PackagePublisherProvidedSignalsTargeting {
   /** Optional. The list of targeted or excluded audience IDs. Based off of IAB Audience Taxonomy version 1.1 (https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/main/Audience%20Taxonomies/Audience%20Taxonomy%201.1.tsv) */
-  audienceTargeting?: TaxonomyTargeting;
+  audienceTargeting?: TaxonomyTargeting | undefined;
   /** Optional. The list of targeted or excluded content IDs. Based off of IAB Content Taxonomy version 2.2 (https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/main/Content%20Taxonomies/Content%20Taxonomy%202.2.tsv) */
-  contentTargeting?: TaxonomyTargeting;
+  contentTargeting?: TaxonomyTargeting | undefined;
   /** Optional. The list of targeted and excluded video and audio signals IDs. These are additional signals supported by publisher provided signals. */
-  videoAndAudioSignalsTargeting?: StringTargetingDimension;
+  videoAndAudioSignalsTargeting?: StringTargetingDimension | undefined;
 }
 export type PackageTargetingIncludedNativeInventoryTypesItemEnum =
   | "NATIVE_INVENTORY_TYPE_UNSPECIFIED"
@@ -207,9 +207,9 @@ export type PackageVideoTargetingIncludedPlaybackMethodsItemEnumList = Array<
 /** Represents the size of the video player that can be targeted. Both width and height are required to be set to non-zero values. */
 export interface VideoPlayerSizeTargeting {
   /** Required. The minimum height of the video player in pixels. */
-  minimumHeight?: string;
+  minimumHeight?: string | undefined;
   /** Required. The minimum width of the video player in pixels. */
-  minimumWidth?: string;
+  minimumWidth?: string | undefined;
 }
 export type VideoPlcmtTargetingVideoPlcmtTypesItemEnum =
   | "VIDEO_PLCMT_TYPE_UNSPECIFIED"
@@ -227,9 +227,9 @@ export type VideoPlcmtTargetingSelectionTypeEnum =
 /** Defines targeting criteria based on the video placement type, often corresponding to the IAB OpenRTB 'plcmt' field. */
 export interface VideoPlcmtTargeting {
   /** Required. The list of targeted video plcmts types. If empty, inventory will be targeted regardless of video plcmt type. */
-  videoPlcmtTypes?: VideoPlcmtTargetingVideoPlcmtTypesItemEnumList;
+  videoPlcmtTypes?: VideoPlcmtTargetingVideoPlcmtTypesItemEnumList | undefined;
   /** Required. The selection type for the list of video plcmts. */
-  selectionType?: VideoPlcmtTargetingSelectionTypeEnum | (string & {});
+  selectionType?: VideoPlcmtTargetingSelectionTypeEnum | (string & {}) | undefined;
 }
 export type PackageVideoTargetingIncludedPositionTypesItemEnum =
   | "POSITION_TYPE_UNSPECIFIED"
@@ -265,25 +265,27 @@ export type PackageVideoTargetingIncludedContentDeliveryMethodEnum =
 /** Video specific targeting criteria. */
 export interface PackageVideoTargeting {
   /** Optional. The list of targeted video playback methods. If empty, inventory will be targeted regardless of video playback method. */
-  includedPlaybackMethods?: PackageVideoTargetingIncludedPlaybackMethodsItemEnumList;
+  includedPlaybackMethods?: PackageVideoTargetingIncludedPlaybackMethodsItemEnumList | undefined;
   /** Optional. The targeted minimum predicted completion rate percentage. This value must be a multiple of 10 between 10 and 90 (inclusive). For example, 10 is valid, but 0, 15, and 100 are not. A value of 10 means that the configuration will only match adslots for which we predict at least 10% completion rate. An unset value indicates inventory will be targeted regardless of predicted completion rate. */
-  minimumPredictedCompletionRatePercentage?: string;
+  minimumPredictedCompletionRatePercentage?: string | undefined;
   /** Optional. The targeted video player size. If unset, inventory will be targeted regardless of video player size. */
-  includedPlayerSizeTargeting?: VideoPlayerSizeTargeting;
+  includedPlayerSizeTargeting?: VideoPlayerSizeTargeting | undefined;
   /** Optional. The targeted video plcmt types. If unset, inventory will be targeted regardless of video plcmt type. */
-  plcmtTargeting?: VideoPlcmtTargeting;
+  plcmtTargeting?: VideoPlcmtTargeting | undefined;
   /** Optional. The targeted video ad position types. If empty, inventory will be targeted regardless of video ad position type. */
-  includedPositionTypes?: PackageVideoTargetingIncludedPositionTypesItemEnumList;
+  includedPositionTypes?: PackageVideoTargetingIncludedPositionTypesItemEnumList | undefined;
   /** Optional. The list of targeted video mime types using the IANA published MIME type strings (https://www.iana.org/assignments/media-types/media-types.xhtml). If empty, inventory will be targeted regardless of video mime type. */
-  includedMimeTypes?: PackageVideoTargetingIncludedMimeTypesItemEnumList;
+  includedMimeTypes?: PackageVideoTargetingIncludedMimeTypesItemEnumList | undefined;
   /** Optional. The targeted maximum video ad duration. If unset, inventory will be targeted regardless of maximum video ad duration. */
   includedMaximumAdDurationTargeting?:
     | PackageVideoTargetingIncludedMaximumAdDurationTargetingEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. The targeted video delivery method. If unset, inventory will be targeted regardless of video delivery method. */
   includedContentDeliveryMethod?:
     | PackageVideoTargetingIncludedContentDeliveryMethodEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type PackageTargetingIncludedAcceleratedMobilePageTypeEnum =
   | "ACCELERATED_MOBILE_PAGE_TYPE_UNSPECIFIED"
@@ -301,84 +303,93 @@ export type AdSizeTypeEnum = "TYPE_UNSPECIFIED" | "PIXEL" | "INTERSTITIAL" | "NA
 /** Represents size of a single ad slot, or a creative. */
 export interface AdSize {
   /** The height of the ad slot in pixels. This field will be present only when size type is `PIXEL`. */
-  height?: string;
+  height?: string | undefined;
   /** The type of the ad slot size. */
-  type?: AdSizeTypeEnum | (string & {});
+  type?: AdSizeTypeEnum | (string & {}) | undefined;
   /** The width of the ad slot in pixels. This field will be present only when size type is `PIXEL`. */
-  width?: string;
+  width?: string | undefined;
 }
 export type AdSizeList = Array<AdSize>;
 /** Targeting criteria for curated and auction packages. */
 export interface PackageTargeting {
   /** Optional. The targeted minimum predicted viewability percentage. This value must be a multiple of 10 between 10 and 90 (inclusive). For example, 10 is valid, but 0, 15, and 100 are not. A value of 10 means that the configuration will only match adslots for which we predict at least 10% viewability. An unset value indicates inventory will be targeted regardless of predicted viewability. */
-  minimumPredictedViewabilityPercentage?: string;
+  minimumPredictedViewabilityPercentage?: string | undefined;
   /** Optional. The environment to target. If unspecified, all environments are targeted. */
-  includedEnvironment?: PackageTargetingIncludedEnvironmentEnum | (string & {});
+  includedEnvironment?: PackageTargetingIncludedEnvironmentEnum | (string & {}) | undefined;
   /** Optional. The verticals included or excluded as defined in https://developers.google.com/authorized-buyers/rtb/downloads/publisher-verticals. If unset, inventory will be targeted regardless of vertical. */
-  verticalTargeting?: CriteriaTargeting;
+  verticalTargeting?: CriteriaTargeting | undefined;
   /** Optional. Placement targeting information, for example, URL, mobile applications. */
-  placementTargeting?: PackagePlacementTargeting;
+  placementTargeting?: PackagePlacementTargeting | undefined;
   /** Optional. The creative format to target. If unset, all creative markup types are targeted. */
-  includedCreativeFormat?: PackageTargetingIncludedCreativeFormatEnum | (string & {});
+  includedCreativeFormat?: PackageTargetingIncludedCreativeFormatEnum | (string & {}) | undefined;
   /** Optional. The targeted rewarded type. If unset, inventory will be targeted regardless of rewarded type. */
-  includedRewardedType?: PackageTargetingIncludedRewardedTypeEnum | (string & {});
+  includedRewardedType?: PackageTargetingIncludedRewardedTypeEnum | (string & {}) | undefined;
   /** Optional. The publisher provided signals to target. If unset, inventory will be targeted regardless of publisher provided signals. */
-  publisherProvidedSignalsTargeting?: PackagePublisherProvidedSignalsTargeting;
+  publisherProvidedSignalsTargeting?: PackagePublisherProvidedSignalsTargeting | undefined;
   /** Optional. The targeted native inventory types. If empty, inventory will be targeted regardless of native inventory type. */
-  includedNativeInventoryTypes?: PackageTargetingIncludedNativeInventoryTypesItemEnumList;
+  includedNativeInventoryTypes?:
+    | PackageTargetingIncludedNativeInventoryTypesItemEnumList
+    | undefined;
   /** Optional. The included list of targeted authorized seller statuses. If empty, inventory will be targeted regardless of seller status. */
-  includedAuthorizedSellerStatuses?: PackageTargetingIncludedAuthorizedSellerStatusesItemEnumList;
+  includedAuthorizedSellerStatuses?:
+    | PackageTargetingIncludedAuthorizedSellerStatusesItemEnumList
+    | undefined;
   /** Optional. The targeted publishers. If unset, inventory will be targeted regardless of publisher. Publishers are identified by their publisher ID from ads.txt / app-ads.txt. See https://iabtechlab.com/ads-txt/ and https://iabtechlab.com/app-ads-txt/ for more details. */
-  publisherTargeting?: StringTargetingDimension;
+  publisherTargeting?: StringTargetingDimension | undefined;
   /** Optional. The targeted minimum predicted click through rate, ranging in values [10, 10000] (0.01% - 10%). A value of 50 means that the configuration will only match adslots for which we predict at least 0.05% click through rate. An unset value indicates inventory will be targeted regardless of predicted click through rate. */
-  minimumPredictedClickThroughRatePercentageMillis?: string;
+  minimumPredictedClickThroughRatePercentageMillis?: string | undefined;
   /** Optional. The active data segments to be targeted. If unset, inventory will be targeted regardless of data segments. Format: `curators/{account_id}/dataSegments/{data_segment_id}` */
-  includedDataSegments?: StringList;
+  includedDataSegments?: StringList | undefined;
   /** Optional. The list of included device types to target. If empty, all device types are targeted. */
-  includedDeviceTypes?: PackageTargetingIncludedDeviceTypesItemEnumList;
+  includedDeviceTypes?: PackageTargetingIncludedDeviceTypesItemEnumList | undefined;
   /** Optional. The list of targeted open measurement types. If empty, inventory will be targeted regardless of Open Measurement support. */
-  includedOpenMeasurementTypes?: PackageTargetingIncludedOpenMeasurementTypesItemEnumList;
+  includedOpenMeasurementTypes?:
+    | PackageTargetingIncludedOpenMeasurementTypesItemEnumList
+    | undefined;
   /** Optional. Video specific targeting criteria. */
-  videoTargeting?: PackageVideoTargeting;
+  videoTargeting?: PackageVideoTargeting | undefined;
   /** Optional. The targeted accelerated mobile page type. If unset, inventory will be targeted regardless of AMP status. */
   includedAcceleratedMobilePageType?:
     | PackageTargetingIncludedAcceleratedMobilePageTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. The geo criteria IDs to be included or excluded as defined in https://storage.googleapis.com/adx-rtb-dictionaries/geo-table.csv. If unset, inventory will be targeted regardless of geo. */
-  geoTargeting?: CriteriaTargeting;
+  geoTargeting?: CriteriaTargeting | undefined;
   /** Optional. The list of targeted restricted categories. If empty, inventory will be targeted regardless of restricted categories. */
-  includedRestrictedCategories?: PackageTargetingIncludedRestrictedCategoriesItemEnumList;
+  includedRestrictedCategories?:
+    | PackageTargetingIncludedRestrictedCategoriesItemEnumList
+    | undefined;
   /** Optional. The list of ad sizes to target. If unset, inventory will be targeted regardless of ad size. Curated packages supports `PIXEL` and `INTERSTITIAL` ad sizes. */
-  includedAdSizes?: AdSizeList;
+  includedAdSizes?: AdSizeList | undefined;
   /** Optional. The languages to target. If unset, inventory will be targeted regardless of language. See https://developers.google.com/google-ads/api/data/codes-formats#languages for the list of supported language codes. */
-  languageTargeting?: StringTargetingDimension;
+  languageTargeting?: StringTargetingDimension | undefined;
 }
 /** Represents a curated package of inventory created and managed by a Curator. */
 export interface CuratedPackage {
   /** Required. Settings for controlling access to the curated package. Access to this curated package is limited to the allowlisted media planners and the creator. Buyers and bidders can not be allowlisted for or have direct access to this resource. */
-  accessSettings?: AccessControlSettings;
+  accessSettings?: AccessControlSettings | undefined;
   /** Output only. The state of the curated package. Can be used to filter the response of the curatedPackages.list method. */
-  state?: CuratedPackageStateEnum | (string & {});
+  state?: CuratedPackageStateEnum | (string & {}) | undefined;
   /** Required. The display name assigned to the curated package by the curator. Can be used to filter the response of the curatedPackages.list method. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. The timestamp when the curated package was created. Can be used to filter the response of the curatedPackages.list method. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The timestamp when the curated package was last updated. Can be used to filter the response of the curatedPackages.list method. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. The minimum CPM a buyer has to bid to participate in auctions for inventory in this curated package. Can be used to filter the response of the curatedPackages.list method. */
-  floorPriceCpm?: Money;
+  floorPriceCpm?: Money | undefined;
   /** Identifier. The unique resource name for the curated package. Format: `curators/{accountId}/curatedPackages/{curatedPackageId}` */
-  name?: string;
+  name?: string | undefined;
   /** Optional. A description of the curated package, provided by the curator. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. Immutable. The visibility of the combined curation package fee and data segment fees (the total curation fee). */
-  curationFeeVisibility?: CuratedPackageCurationFeeVisibilityEnum | (string & {});
+  curationFeeVisibility?: CuratedPackageCurationFeeVisibilityEnum | (string & {}) | undefined;
   /** Optional. Targeting criteria for the curated package. */
-  targeting?: PackageTargeting;
+  targeting?: PackageTargeting | undefined;
   /** Optional. The CPM fee charged by the curator to buyers using this curated package. Can be used to filter the response of the curatedPackages.list method. */
-  feeCpm?: Money;
+  feeCpm?: Money | undefined;
   /** Optional. The fee will be charged as a percentage of the impression cost, represented in millipercent. For example, 1% is represented as 1000. */
-  millipercentOfMediaFee?: string;
+  millipercentOfMediaFee?: string | undefined;
 }
 /** Request message for activating a data segment */
 export type ActivateDataSegmentRequest = ActivateCuratedPackageRequest;
@@ -386,37 +397,37 @@ export interface ActivateCuratorsDataSegmentsRequest {
   /** Required. Name of data segment to activate. v1alpha format: `buyers/{accountId}/dataSegments/{curatorDataSegmentId}` v1beta format: `curators/{accountId}/dataSegments/{curatorDataSegmentId}` */
   name: string;
   /** Request body */
-  body?: ActivateCuratedPackageRequest;
+  body?: ActivateCuratedPackageRequest | undefined;
 }
 export type DataSegmentStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "INACTIVE" | "SUSPENDED";
 /** Defines an identifier for a segment of inventory that can be targeted by curators or media planners in the deals or auction packages UI. Curation of inventory is done by curators on external platforms. -- Next ID: 9 -- */
 export interface DataSegment {
   /** Optional. The fee will be charged as a percentage of the impression cost, represented in millipercent. For example, 1% is represented as 1000. */
-  millipercentOfMediaFee?: string;
+  millipercentOfMediaFee?: string | undefined;
   /** Optional. Immutable. The ID of the User List wrapped by this Data Segment. Curators with a linked Data Partner account can create a data segment that wraps a user list owned by the linked Data Partner account. User lists can be uploaded and managed using the [Data Manager API](https://developers.google.com/data-manager/api/data-partners/audiences). Linking a user list to a data segment lets you define a segment of inventory that is based on an audience you create. */
-  userListId?: string;
+  userListId?: string | undefined;
   /** Output only. The state of the data segment. */
-  state?: DataSegmentStateEnum | (string & {});
+  state?: DataSegmentStateEnum | (string & {}) | undefined;
   /** Optional. A fixed fee charged per thousand impressions. Once set, the currency code cannot be changed. */
-  cpmFee?: Money;
+  cpmFee?: Money | undefined;
   /** Output only. Time the data segment was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Time the data segment was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Immutable. Identifier. The unique identifier for the data segment. Account ID corresponds to the account ID that created the segment. v1alpha format: `buyers/{accountId}/dataSegments/{curatorDataSegmentId}` v1beta format: `curators/{curatorAccountId}/dataSegments/{curatorDataSegmentId}` */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateCuratorsCuratedPackagesRequest {
   /** Required. The parent curator account where this curated package will be created. Format: `curators/{accountId}` */
   parent: string;
   /** Request body */
-  body?: CuratedPackage;
+  body?: CuratedPackage | undefined;
 }
 export interface CreateCuratorsDataSegmentsRequest {
   /** Required. The parent resource where this data segment will be created. v1alpha format: `buyers/{accountId}` v1beta format: `curators/{accountId}` */
   parent: string;
   /** Request body */
-  body?: DataSegment;
+  body?: DataSegment | undefined;
 }
 /** Request message for DeactivateCuratedPackage. */
 export type DeactivateCuratedPackageRequest = ActivateCuratedPackageRequest;
@@ -424,7 +435,7 @@ export interface DeactivateCuratorsCuratedPackagesRequest {
   /** Required. The name of the curated package to deactivate. Format: `curators/{accountId}/curatedPackages/{curatedPackageId}` */
   name: string;
   /** Request body */
-  body?: ActivateCuratedPackageRequest;
+  body?: ActivateCuratedPackageRequest | undefined;
 }
 /** Request message for deactivating a data segment */
 export type DeactivateDataSegmentRequest = ActivateCuratedPackageRequest;
@@ -432,7 +443,7 @@ export interface DeactivateCuratorsDataSegmentsRequest {
   /** Required. Name of data segment to deactivate. v1alpha format: `buyers/{accountId}/dataSegments/{curatorDataSegmentId}` v1beta format: `curators/{accountId}/dataSegments/{curatorDataSegmentId}` */
   name: string;
   /** Request body */
-  body?: ActivateCuratedPackageRequest;
+  body?: ActivateCuratedPackageRequest | undefined;
 }
 export interface GetCuratorsCuratedPackagesRequest {
   /** Required. The name of the curated package to retrieve. Format: `curators/{accountId}/curatedPackages/{curatedPackageId}` */
@@ -446,25 +457,25 @@ export interface ListCuratorsCuratedPackagesRequest {
   /** Required. The parent curator account which owns this collection of curated packages. Format: `curators/{accountId}` */
   parent: string;
   /** Optional. Optional query string using the [Cloud API list filtering syntax](/authorized-buyers/apis/guides/list-filters). Supported columns for filtering are: * displayName * createTime * updateTime * state * feeCpm.currencyCode * feeCpm.units * feeCpm.nanos * floorPriceCpm.currencyCode * floorPriceCpm.units * floorPriceCpm.nanos */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Requested page size. The server may return fewer results than requested. Max allowed page size is 500. If unspecified, the server will default to 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListCuratedPackages` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type CuratedPackageList = Array<CuratedPackage>;
 /** Response message for ListCuratedPackages. */
 export interface ListCuratedPackagesResponse {
   /** A token to retrieve the next page of results. Pass this value in the ListCuratedPackagesRequest.pageToken field in the subsequent call to `ListCuratedPackages` method to retrieve the next page of results. If empty, then there are no more results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of curated packages. */
-  curatedPackages?: CuratedPackageList;
+  curatedPackages?: CuratedPackageList | undefined;
 }
 export interface ListCuratorsDataSegmentsRequest {
   /** Optional. Requested page size. The server may return fewer results than requested. Max allowed page size is 500. If unspecified, the server will default to 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The page token as returned. ListDataSegmentsResponse.nextPageToken */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Name of the parent curator that can access the data segment. v1alpha format: `buyers/{accountId}` v1beta format: `curators/{accountId}` */
   parent: string;
 }
@@ -472,67 +483,67 @@ export type DataSegmentList = Array<DataSegment>;
 /** Response message for listing data segments. */
 export interface ListDataSegmentsResponse {
   /** The list of data segments. */
-  dataSegments?: DataSegmentList;
+  dataSegments?: DataSegmentList | undefined;
   /** Continuation token for fetching the next page of results. Pass this value in the ListDataSegmentsRequest.pageToken field in the subsequent call to the `ListDataSegments` method to retrieve the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListMediaPlannersRequest {
   /** Optional query string using the [Cloud API list filtering syntax](/authorized-buyers/apis/guides/list-filters). Supported columns for filtering are: * `name` * `displayName` * `ancestorNames` */
-  filter?: string;
+  filter?: string | undefined;
   /** The maximum number of media planners to return. If unspecified, at most 100 media planners will be returned. The maximum value is 500; values above 500 will be coerced to 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A token identifying a page of results the server should return. This value is received from a previous `ListMediaPlanners` call in ListMediaPlannersResponse.nextPageToken. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** Represents a media planner account. */
 export interface MediaPlanner {
   /** Output only. Account ID of the media planner. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Output only. The display name of the media planner. Can be used to filter the response of the mediaPlanners.list method. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Identifier. The unique resource name of the media planner. Format: `mediaPlanners/{mediaPlannerAccountId}` Can be used to filter the response of the mediaPlanners.list method. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The ancestor names of the media planner. Format: `mediaPlanners/{mediaPlannerAccountId}` Can be used to filter the response of the mediaPlanners.list method. */
-  ancestorNames?: StringList;
+  ancestorNames?: StringList | undefined;
 }
 export type MediaPlannerList = Array<MediaPlanner>;
 /** A response containing media planner account information. */
 export interface ListMediaPlannersResponse {
   /** A token which can be passed to a subsequent call to the `ListMediaPlanners` method to retrieve the next page of results in ListMediaPlannersRequest.pageToken. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of media planners. */
-  mediaPlanners?: MediaPlannerList;
+  mediaPlanners?: MediaPlannerList | undefined;
 }
 export interface PatchCuratorsCuratedPackagesRequest {
   /** Identifier. The unique resource name for the curated package. Format: `curators/{accountId}/curatedPackages/{curatedPackageId}` */
   name: string;
   /** Optional. List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement (the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: CuratedPackage;
+  body?: CuratedPackage | undefined;
 }
 export interface PatchCuratorsDataSegmentsRequest {
   /** Optional. List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement(the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Immutable. Identifier. The unique identifier for the data segment. Account ID corresponds to the account ID that created the segment. v1alpha format: `buyers/{accountId}/dataSegments/{curatorDataSegmentId}` v1beta format: `curators/{curatorAccountId}/dataSegments/{curatorDataSegmentId}` */
   name: string;
   /** Request body */
-  body?: DataSegment;
+  body?: DataSegment | undefined;
 }
 export interface SearchMediaPlannersRequest {
   /** Optional. The maximum number of media planners to return. If unspecified, at most 100 media planners will be returned. The maximum value is 500; values above 500 will be coerced to 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The DSP seat ID to search for. The DSP seat ID is provided by the media planner. */
-  dspSeatId?: string;
+  dspSeatId?: string | undefined;
   /** Optional. A token identifying a page of results the server should return. This value is received from a previous `SearchMediaPlanners` call in `SearchMediaPlannersResponse.nextPageToken`. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** A response containing media planner account information from a search. */
 export interface SearchMediaPlannersResponse {
   /** A token which can be passed to a subsequent call to the `SearchMediaPlanners` method to retrieve the next page of results in SearchMediaPlannersRequest.pageToken. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of media planners matching the search criteria. */
-  mediaPlanners?: MediaPlannerList;
+  mediaPlanners?: MediaPlannerList | undefined;
 }
 export type ActivateCuratorsCuratedPackagesError =
   | NotFound

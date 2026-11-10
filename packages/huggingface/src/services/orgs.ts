@@ -53,12 +53,12 @@ export interface ChangeMemberRoleRequest {
   name: string;
   username: string;
   role: ChangeMemberRoleRequestRole | (string & {});
-  resourceGroups?: ChangeMemberRoleRequestResourceGroupsList;
+  resourceGroups?: ChangeMemberRoleRequestResourceGroupsList | undefined;
 }
 export interface ChangeMemberRoleResponse {}
 export interface ExportAuditLogRequest {
   name: string;
-  q?: string;
+  q?: string | undefined;
 }
 export type ExportAuditLogResponseBodyItemType =
   | "billing.update_payment_method"
@@ -195,8 +195,8 @@ export type ExportAuditLogResponseBodyItemType =
   | "oauth.app.move";
 export interface ExportAuditLogResponseBodyItemLocation {
   formatted: string;
-  country?: string;
-  city?: string;
+  country?: string | undefined;
+  city?: string | undefined;
 }
 export type ExportAuditLogResponseBodyItemAuthorType = "user" | "system";
 export interface ExportAuditLogResponseBodyItemAuthor {
@@ -205,39 +205,39 @@ export interface ExportAuditLogResponseBodyItemAuthor {
   user: string;
   avatarUrl: string;
   type: ExportAuditLogResponseBodyItemAuthorType;
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export type ExportAuditLogResponseBodyItemTokenRole = "read" | "write" | "fineGrained";
 export interface ExportAuditLogResponseBodyItemToken {
   type: string;
   id: string;
-  role?: ExportAuditLogResponseBodyItemTokenRole;
-  last4?: string;
+  role?: ExportAuditLogResponseBodyItemTokenRole | undefined;
+  last4?: string | undefined;
   deleted: boolean;
 }
 export interface ExportAuditLogResponseBodyItemOauth {
   clientId: string;
-  name?: string;
+  name?: string | undefined;
 }
 export interface ExportAuditLogResponseBodyItem {
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
   createdAt: string;
   type: ExportAuditLogResponseBodyItemType;
-  data?: unknown;
+  data?: unknown | undefined;
   message: string;
-  ip?: string;
-  location?: ExportAuditLogResponseBodyItemLocation;
-  userAgent?: string;
+  ip?: string | undefined;
+  location?: ExportAuditLogResponseBodyItemLocation | undefined;
+  userAgent?: string | undefined;
   author: ExportAuditLogResponseBodyItemAuthor;
-  token?: ExportAuditLogResponseBodyItemToken;
-  oauth?: ExportAuditLogResponseBodyItemOauth;
+  token?: ExportAuditLogResponseBodyItemToken | undefined;
+  oauth?: ExportAuditLogResponseBodyItemOauth | undefined;
 }
 export type ExportAuditLogResponseBodyList = Array<ExportAuditLogResponseBodyItem>;
 export type ExportAuditLogResponse = ExportAuditLogResponseBodyList;
 export interface GetAvatarRequest {
   name: string;
-  redirect?: string;
+  redirect?: string | undefined;
 }
 export interface GetAvatarResponse {
   avatarUrl: string;
@@ -291,11 +291,11 @@ export interface GetNetworkSecuritySettingsResponse {
 }
 export interface GetOrganizationMembersRequest {
   name: string;
-  search?: string;
-  email?: string;
-  cursor?: string;
-  limit?: number;
-  includeExternal?: string;
+  search?: string | undefined;
+  email?: string | undefined;
+  cursor?: string | undefined;
+  limit?: number | undefined;
+  includeExternal?: string | undefined;
 }
 export type GetOrganizationMembersResponseBodyItemRole =
   | "admin"
@@ -331,15 +331,15 @@ export interface GetOrganizationMembersResponseBodyItem {
   isPro: boolean;
   user: string;
   type: string;
-  isFollowing?: boolean;
+  isFollowing?: boolean | undefined;
   /** A hex string of 24 characters representing an ObjectId. */
   _id: string;
-  role?: GetOrganizationMembersResponseBodyItemRole;
-  resourceGroups?: GetOrganizationMembersResponseBodyItemResourceGroupsList;
-  twoFaEnabled?: boolean;
+  role?: GetOrganizationMembersResponseBodyItemRole | undefined;
+  resourceGroups?: GetOrganizationMembersResponseBodyItemResourceGroupsList | undefined;
+  twoFaEnabled?: boolean | undefined;
   /** The user's SSO email, if the org has a Team or Enterprise plan and the requester is an admin */
-  verifiedEmail?: string | null;
-  isExternalCollaborator?: boolean;
+  verifiedEmail?: string | null | undefined;
+  isExternalCollaborator?: boolean | undefined;
 }
 export type GetOrganizationMembersResponseBodyList = Array<GetOrganizationMembersResponseBodyItem>;
 export type GetOrganizationMembersResponse = GetOrganizationMembersResponseBodyList;
@@ -351,8 +351,8 @@ export interface GetOrgUsageV2Request {
 export interface GetOrgUsageV2Response {}
 export interface GetResourceGroupUsageRequest {
   name: string;
-  startDate?: string;
-  endDate?: string;
+  startDate?: string | undefined;
+  endDate?: string | undefined;
 }
 export interface GetResourceGroupUsageResponsePeriodsItemResourceGroupsItemStorage {
   privateGB: number;
@@ -396,8 +396,8 @@ export interface GetResourceGroupUsageResponse {
 }
 export interface GetSessionInferenceUsageRequest {
   name: string;
-  startDate?: string;
-  endDate?: string;
+  startDate?: string | undefined;
+  endDate?: string | undefined;
 }
 export interface GetSessionInferenceUsageResponsePeriodsItemSessionsItem {
   id: string;
@@ -420,9 +420,9 @@ export interface GetSocialHandlesRequest {
   name: string;
 }
 export interface GetSocialHandlesResponseSocialHandles {
-  twitter?: string;
-  github?: string;
-  linkedin?: string;
+  twitter?: string | undefined;
+  github?: string | undefined;
+  linkedin?: string | undefined;
 }
 export interface GetSocialHandlesResponse {
   _id: string;
@@ -431,9 +431,9 @@ export interface GetSocialHandlesResponse {
 }
 export interface InferenceUsageRequest {
   name: string;
-  startDate?: string;
-  endDate?: string;
-  limit?: number;
+  startDate?: string | undefined;
+  endDate?: string | undefined;
+  limit?: number | undefined;
 }
 export interface InferenceUsageResponseBodyItemUsageItem {
   user: string | null;
@@ -455,9 +455,9 @@ export type InferenceUsageResponseBodyList = Array<InferenceUsageResponseBodyIte
 export type InferenceUsageResponse = InferenceUsageResponseBodyList;
 export interface ListMemberAccessTokensRequest {
   name: string;
-  cursor?: string;
-  limit?: number;
-  q?: string;
+  cursor?: string | undefined;
+  limit?: number | undefined;
+  q?: string | undefined;
 }
 /** Kind of access the token carries. `read` and `write` reach everything their owner can reach, while `fineGrained` is limited to the permissions listed under `fineGrained` */
 export type ListMemberAccessTokensResponseBodyItemRole = "read" | "write" | "fineGrained";
@@ -489,9 +489,9 @@ export interface ListMemberAccessTokensResponseBodyItemAuthorization {
   /** Date the token first requested access to the organization */
   requestedAt: string;
   /** Date the token was granted access, recorded when the organization grants it automatically because the owner already holds write access */
-  authorizedAt?: string;
+  authorizedAt?: string | undefined;
   /** User who granted the token its access. Absent when `authorizedAt` is, and when that account has since been deleted */
-  authorizer?: ListMemberAccessTokensResponseBodyItemAuthorizationAuthorizer;
+  authorizer?: ListMemberAccessTokensResponseBodyItemAuthorizationAuthorizer | undefined;
 }
 export type ListMemberAccessTokensResponseBodyItemFineGrainedScopedItemEntityType =
   | "dataset"
@@ -620,17 +620,17 @@ export interface ListMemberAccessTokensResponseBodyItem {
   /** Kind of access the token carries. `read` and `write` reach everything their owner can reach, while `fineGrained` is limited to the permissions listed under `fineGrained` */
   role: ListMemberAccessTokensResponseBodyItemRole;
   /** Last 4 characters of the token's value, the only part of it ever returned. Absent on tokens created before this was recorded */
-  last4?: string;
+  last4?: string | undefined;
   /** Date the token was created, or the date it was last rotated */
   createdAt: string;
   /** Date the token last authenticated a request. Absent on tokens that have never been used */
-  lastUsedAt?: string;
+  lastUsedAt?: string | undefined;
   /** Organization member the token belongs to */
   owner: ListMemberAccessTokensResponseBodyItemOwner;
   /** Where the token stands in the organization's approval flow. Reported by organizations that require administrator approval of member tokens, and on any token whose access has been revoked */
-  authorization?: ListMemberAccessTokensResponseBodyItemAuthorization;
+  authorization?: ListMemberAccessTokensResponseBodyItemAuthorization | undefined;
   /** Permissions carried by a `fineGrained` token, narrowed to those that bear on the organization. Absent on `read` and `write` tokens, whose access is not expressed as a permission list, and never covering the account-wide permissions the token may hold elsewhere */
-  fineGrained?: ListMemberAccessTokensResponseBodyItemFineGrained;
+  fineGrained?: ListMemberAccessTokensResponseBodyItemFineGrained | undefined;
 }
 export type ListMemberAccessTokensResponseBodyList = Array<ListMemberAccessTokensResponseBodyItem>;
 export type ListMemberAccessTokensResponse = ListMemberAccessTokensResponseBodyList;
@@ -648,11 +648,11 @@ export type ListOrganizationRepositoriesRequestSort = "storage" | "updatedAt";
 export type ListOrganizationRepositoriesRequestDirection = "asc" | "desc";
 export interface ListOrganizationRepositoriesRequest {
   name: string;
-  search?: string;
-  type?: ListOrganizationRepositoriesRequestType | (string & {});
-  limit?: number;
-  sort?: ListOrganizationRepositoriesRequestSort | (string & {});
-  direction?: ListOrganizationRepositoriesRequestDirection | (string & {});
+  search?: string | undefined;
+  type?: ListOrganizationRepositoriesRequestType | (string & {}) | undefined;
+  limit?: number | undefined;
+  sort?: ListOrganizationRepositoriesRequestSort | (string & {}) | undefined;
+  direction?: ListOrganizationRepositoriesRequestDirection | (string & {}) | undefined;
 }
 export type ListOrganizationRepositoriesResponseBodyItemType =
   | "dataset"
@@ -694,7 +694,7 @@ export type RotateSsoCredentialsRequestBody =
   | RotateSsoCredentialsRequestBodyCase1;
 export interface RotateSsoCredentialsRequest {
   name: string;
-  body?: RotateSsoCredentialsRequestBody;
+  body?: RotateSsoCredentialsRequestBody | undefined;
 }
 export type RotateSsoCredentialsResponse = unknown;
 export interface StreamUsageRequest {
@@ -736,13 +736,13 @@ export type UpdateNetworkSecurityRequestAllowedContentsList =
   Array<UpdateNetworkSecurityRequestAllowedContentsItem>;
 export interface UpdateNetworkSecurityRequest {
   name: string;
-  enforceAuth?: boolean;
-  enforceIpRestriction?: boolean;
-  highRateLimits?: boolean;
-  ipRanges?: UpdateNetworkSecurityRequestIpRangesList;
-  blockedContents?: UpdateNetworkSecurityRequestBlockedContentsList;
-  allowedContents?: UpdateNetworkSecurityRequestAllowedContentsList;
-  keepReposMetadataVisible?: boolean;
+  enforceAuth?: boolean | undefined;
+  enforceIpRestriction?: boolean | undefined;
+  highRateLimits?: boolean | undefined;
+  ipRanges?: UpdateNetworkSecurityRequestIpRangesList | undefined;
+  blockedContents?: UpdateNetworkSecurityRequestBlockedContentsList | undefined;
+  allowedContents?: UpdateNetworkSecurityRequestAllowedContentsList | undefined;
+  keepReposMetadataVisible?: boolean | undefined;
 }
 export type UpdateNetworkSecurityResponseEnforceAuth = boolean | string;
 export type UpdateNetworkSecurityResponseIpRangesList = Array<string>;

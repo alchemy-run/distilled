@@ -27,134 +27,134 @@ const TELEMETRY = {
 export interface CountActivityExecutionsRequest {
   namespace: string;
   /** Visibility query, see https://docs.temporal.io/list-filter for the syntax. */
-  query?: string;
+  query?: string | undefined;
 }
 export type CountActivityExecutionsResponseAggregationGroupGroupValuesList = Array<unknown>;
 export interface CountActivityExecutionsResponseAggregationGroup {
-  groupValues?: CountActivityExecutionsResponseAggregationGroupGroupValuesList;
-  count?: string;
+  groupValues?: CountActivityExecutionsResponseAggregationGroupGroupValuesList | undefined;
+  count?: string | undefined;
 }
 /** Contains the groups if the request is grouping by a field. The list might not be complete, and the counts of each group is approximate. */
 export type CountActivityExecutionsResponseGroupsList =
   Array<CountActivityExecutionsResponseAggregationGroup>;
 export interface CountActivityExecutionsResponse {
   /** If `query` is not grouping by any field, the count is an approximate number of activities that match the query. If `query` is grouping by a field, the count is simply the sum of the counts of the groups returned in the response. This number can be smaller than the total number of activities matching the query. */
-  count?: string;
+  count?: string | undefined;
   /** Contains the groups if the request is grouping by a field. The list might not be complete, and the counts of each group is approximate. */
-  groups?: CountActivityExecutionsResponseGroupsList;
+  groups?: CountActivityExecutionsResponseGroupsList | undefined;
 }
 export interface CountNexusOperationExecutionsRequest {
   namespace: string;
   /** Visibility query, see https://docs.temporal.io/list-filter for the syntax. See also ListNexusOperationExecutionsRequest for search attributes available for Nexus operations. */
-  query?: string;
+  query?: string | undefined;
 }
 export type CountNexusOperationExecutionsResponseAggregationGroupGroupValuesList = Array<unknown>;
 export interface CountNexusOperationExecutionsResponseAggregationGroup {
-  groupValues?: CountNexusOperationExecutionsResponseAggregationGroupGroupValuesList;
-  count?: string;
+  groupValues?: CountNexusOperationExecutionsResponseAggregationGroupGroupValuesList | undefined;
+  count?: string | undefined;
 }
 /** Contains the groups if the request is grouping by a field. The list might not be complete, and the counts of each group is approximate. */
 export type CountNexusOperationExecutionsResponseGroupsList =
   Array<CountNexusOperationExecutionsResponseAggregationGroup>;
 export interface CountNexusOperationExecutionsResponse {
   /** If `query` is not grouping by any field, the count is an approximate number of operations that match the query. If `query` is grouping by a field, the count is simply the sum of the counts of the groups returned in the response. This number can be smaller than the total number of operations matching the query. */
-  count?: string;
+  count?: string | undefined;
   /** Contains the groups if the request is grouping by a field. The list might not be complete, and the counts of each group is approximate. */
-  groups?: CountNexusOperationExecutionsResponseGroupsList;
+  groups?: CountNexusOperationExecutionsResponseGroupsList | undefined;
 }
 export interface CountSchedulesRequest {
   namespace: string;
   /** Visibility query, see https://docs.temporal.io/list-filter for the syntax. */
-  query?: string;
+  query?: string | undefined;
 }
 export type CountSchedulesResponseAggregationGroupGroupValuesList = Array<unknown>;
 export interface CountSchedulesResponseAggregationGroup {
-  groupValues?: CountSchedulesResponseAggregationGroupGroupValuesList;
-  count?: string;
+  groupValues?: CountSchedulesResponseAggregationGroupGroupValuesList | undefined;
+  count?: string | undefined;
 }
 /** Contains the groups if the request is grouping by a field. The list might not be complete, and the counts of each group is approximate. */
 export type CountSchedulesResponseGroupsList = Array<CountSchedulesResponseAggregationGroup>;
 export interface CountSchedulesResponse {
   /** If `query` is not grouping by any field, the count is an approximate number of schedules that match the query. If `query` is grouping by a field, the count is simply the sum of the counts of the groups returned in the response. This number can be smaller than the total number of schedules matching the query. */
-  count?: string;
+  count?: string | undefined;
   /** Contains the groups if the request is grouping by a field. The list might not be complete, and the counts of each group is approximate. */
-  groups?: CountSchedulesResponseGroupsList;
+  groups?: CountSchedulesResponseGroupsList | undefined;
 }
 export interface CountWorkflowExecutionsRequest {
   namespace: string;
-  query?: string;
+  query?: string | undefined;
 }
 export type CountWorkflowExecutionsResponseAggregationGroupGroupValuesList = Array<unknown>;
 export interface CountWorkflowExecutionsResponseAggregationGroup {
-  groupValues?: CountWorkflowExecutionsResponseAggregationGroupGroupValuesList;
-  count?: string;
+  groupValues?: CountWorkflowExecutionsResponseAggregationGroupGroupValuesList | undefined;
+  count?: string | undefined;
 }
 /** `groups` contains the groups if the request is grouping by a field. The list might not be complete, and the counts of each group is approximate. */
 export type CountWorkflowExecutionsResponseGroupsList =
   Array<CountWorkflowExecutionsResponseAggregationGroup>;
 export interface CountWorkflowExecutionsResponse {
   /** If `query` is not grouping by any field, the count is an approximate number of workflows that matches the query. If `query` is grouping by a field, the count is simply the sum of the counts of the groups returned in the response. This number can be smaller than the total number of workflows matching the query. */
-  count?: string;
+  count?: string | undefined;
   /** `groups` contains the groups if the request is grouping by a field. The list might not be complete, and the counts of each group is approximate. */
-  groups?: CountWorkflowExecutionsResponseGroupsList;
+  groups?: CountWorkflowExecutionsResponseGroupsList | undefined;
 }
 /** Target a worker polling on a Nexus task queue in a specific namespace. */
 export interface EndpointTargetWorker {
   /** Namespace to route requests to. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Nexus task queue to route requests to. */
-  taskQueue?: string;
+  taskQueue?: string | undefined;
 }
 /** Target an external server by URL. At a later point, this will support providing credentials, in the meantime, an http.RoundTripper can be injected into the server to modify the request. */
 export interface EndpointTargetExternal {
   /** URL to call. */
-  url?: string;
+  url?: string | undefined;
 }
 /** Target to route requests to. */
 export interface EndpointTarget {
-  worker?: EndpointTargetWorker;
-  external?: EndpointTargetExternal;
+  worker?: EndpointTargetWorker | undefined;
+  external?: EndpointTargetExternal | undefined;
 }
 /** Contains mutable fields for an Endpoint. */
 export interface EndpointSpec {
   /** Endpoint name, unique for this cluster. Must match `[a-zA-Z_][a-zA-Z0-9_]*`. Renaming an endpoint breaks all workflow callers that reference this endpoint, causing operations to fail. */
-  name?: string;
+  name?: string | undefined;
   /** Markdown description serialized as a single JSON string. If the Payload is encrypted, the UI and CLI may decrypt with the configured codec server endpoint. By default, the server enforces a limit of 20,000 bytes for this entire payload. */
-  description?: unknown;
+  description?: unknown | undefined;
   /** Target to route requests to. */
-  target?: EndpointTarget;
+  target?: EndpointTarget | undefined;
 }
 export interface CreateNexusEndpointRequest {
   /** Endpoint definition to create. */
-  spec?: EndpointSpec;
+  spec?: EndpointSpec | undefined;
 }
 /** A cluster-global binding from an endpoint ID to a target for dispatching incoming Nexus requests. */
 export interface Endpoint {
   /** Data version for this endpoint, incremented for every update issued via the UpdateNexusEndpoint API. */
-  version?: string;
+  version?: string | undefined;
   /** Unique server-generated endpoint ID. */
-  id?: string;
+  id?: string | undefined;
   /** Spec for the endpoint. */
-  spec?: EndpointSpec;
+  spec?: EndpointSpec | undefined;
   /** The date and time when the endpoint was created. (-- api-linter: core::0142::time-field-names=disabled aip.dev/not-precedent: Not following linter rules. --) */
-  createdTime?: string;
+  createdTime?: string | undefined;
   /** The date and time when the endpoint was last modified. Will not be set if the endpoint has never been modified. (-- api-linter: core::0142::time-field-names=disabled aip.dev/not-precedent: Not following linter rules. --) */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** Server exposed URL prefix for invocation of operations on this endpoint. This doesn't include the protocol, hostname or port as the server does not know how it should be accessed publicly. The URL is stable in the face of endpoint renames. */
-  urlPrefix?: string;
+  urlPrefix?: string | undefined;
 }
 export interface CreateNexusEndpointResponse {
   /** Data post acceptance. Can be used to issue additional updates to this record. */
-  endpoint?: Endpoint;
+  endpoint?: Endpoint | undefined;
 }
 /** Range represents a set of integer values, used to match fields of a calendar time in StructuredCalendarSpec. If end < start, then end is interpreted as equal to start. This means you can use a Range with start set to a value, and end and step unset (defaulting to 0) to represent a single value. */
 export interface Range {
   /** Start of range (inclusive). */
-  start?: number;
+  start?: number | undefined;
   /** End of range (inclusive). */
-  end?: number;
+  end?: number | undefined;
   /** Step (optional, default 1). */
-  step?: number;
+  step?: number | undefined;
 }
 /** Match seconds (0-59) */
 export type StructuredCalendarSpecSecondList = Array<Range>;
@@ -173,21 +173,21 @@ export type StructuredCalendarSpecDayOfWeekList = Array<Range>;
 /** StructuredCalendarSpec describes an event specification relative to the calendar, in a form that's easy to work with programmatically. Each field can be one or more ranges. A timestamp matches if at least one range of each field matches the corresponding fields of the timestamp, except for year: if year is missing, that means all years match. For all fields besides year, at least one Range must be present to match anything. Relative expressions such as "last day of the month" or "third Monday" are not currently representable; callers must enumerate the concrete days they require. */
 export interface StructuredCalendarSpec {
   /** Match seconds (0-59) */
-  second?: StructuredCalendarSpecSecondList;
+  second?: StructuredCalendarSpecSecondList | undefined;
   /** Match minutes (0-59) */
-  minute?: StructuredCalendarSpecMinuteList;
+  minute?: StructuredCalendarSpecMinuteList | undefined;
   /** Match hours (0-23) */
-  hour?: StructuredCalendarSpecHourList;
+  hour?: StructuredCalendarSpecHourList | undefined;
   /** Match days of the month (1-31) (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: standard name of field --) */
-  dayOfMonth?: StructuredCalendarSpecDayOfMonthList;
+  dayOfMonth?: StructuredCalendarSpecDayOfMonthList | undefined;
   /** Match months (1-12) */
-  month?: StructuredCalendarSpecMonthList;
+  month?: StructuredCalendarSpecMonthList | undefined;
   /** Match years. */
-  year?: StructuredCalendarSpecYearList;
+  year?: StructuredCalendarSpecYearList | undefined;
   /** Match days of the week (0-6; 0 is Sunday). */
-  dayOfWeek?: StructuredCalendarSpecDayOfWeekList;
+  dayOfWeek?: StructuredCalendarSpecDayOfWeekList | undefined;
   /** Free-form comment describing the intention of this spec. */
-  comment?: string;
+  comment?: string | undefined;
 }
 /** Calendar-based specifications of times. */
 export type ScheduleSpecStructuredCalendarList = Array<StructuredCalendarSpec>;
@@ -196,28 +196,28 @@ export type ScheduleSpecCronStringList = Array<string>;
 /** CalendarSpec describes an event specification relative to the calendar, similar to a traditional cron specification, but with labeled fields. Each field can be one of: *: matches always x: matches when the field equals x x/y : matches when the field equals x+n*y where n is an integer x-z: matches when the field is between x and z inclusive w,x,y,...: matches when the field is one of the listed values Each x, y, z, ... is either a decimal integer, or a month or day of week name or abbreviation (in the appropriate fields). A timestamp matches if all fields match. Note that fields have different default values, for convenience. Note that the special case that some cron implementations have for treating day_of_month and day_of_week as "or" instead of "and" when both are set is not implemented. day_of_week can accept 0 or 7 as Sunday CalendarSpec gets compiled into StructuredCalendarSpec, which is what will be returned if you describe the schedule. */
 export interface CalendarSpec {
   /** Expression to match seconds. Default: 0 */
-  second?: string;
+  second?: string | undefined;
   /** Expression to match minutes. Default: 0 */
-  minute?: string;
+  minute?: string | undefined;
   /** Expression to match hours. Default: 0 */
-  hour?: string;
+  hour?: string | undefined;
   /** Expression to match days of the month. Default: * (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: standard name of field --) */
-  dayOfMonth?: string;
+  dayOfMonth?: string | undefined;
   /** Expression to match months. Default: * */
-  month?: string;
+  month?: string | undefined;
   /** Expression to match years. Default: * */
-  year?: string;
+  year?: string | undefined;
   /** Expression to match days of the week. Default: * */
-  dayOfWeek?: string;
+  dayOfWeek?: string | undefined;
   /** Free-form comment describing the intention of this spec. */
-  comment?: string;
+  comment?: string | undefined;
 }
 /** Calendar-based specifications of times. */
 export type ScheduleSpecCalendarList = Array<CalendarSpec>;
 /** IntervalSpec matches times that can be expressed as: epoch + n * interval + phase where n is an integer. phase defaults to zero if missing. interval is required. Both interval and phase must be non-negative and are truncated to the nearest second before any calculations. For example, an interval of 1 hour with phase of zero would match every hour, on the hour. The same interval but a phase of 19 minutes would match every xx:19:00. An interval of 28 days with phase zero would match 2022-02-17T00:00:00Z (among other times). The same interval with a phase of 3 days, 5 hours, and 23 minutes would match 2022-02-20T05:23:00Z instead. */
 export interface IntervalSpec {
-  interval?: string;
-  phase?: string;
+  interval?: string | undefined;
+  phase?: string | undefined;
 }
 /** Interval-based specifications of times. */
 export type ScheduleSpecIntervalList = Array<IntervalSpec>;
@@ -227,29 +227,29 @@ export type ScheduleSpecExcludeStructuredCalendarList = Array<StructuredCalendar
 /** ScheduleSpec is a complete description of a set of absolute timestamps (possibly infinite) that an action should occur at. The meaning of a ScheduleSpec depends only on its contents and never changes, except that the definition of a time zone can change over time (most commonly, when daylight saving time policy changes for an area). To create a totally self-contained ScheduleSpec, use UTC or include timezone_data. For input, you can provide zero or more of: structured_calendar, calendar, cron_string, interval, and exclude_structured_calendar, and all of them will be used (the schedule will take action at the union of all of their times, minus the ones that match exclude_structured_calendar). On input, calendar and cron_string fields will be compiled into structured_calendar (and maybe interval and timezone_name), so if you Describe a schedule, you'll see only structured_calendar, interval, etc. If a spec has no matching times after the current time, then the schedule will be subject to automatic deletion (after several days). */
 export interface ScheduleSpec {
   /** Calendar-based specifications of times. */
-  structuredCalendar?: ScheduleSpecStructuredCalendarList;
+  structuredCalendar?: ScheduleSpecStructuredCalendarList | undefined;
   /** cron_string holds a traditional cron specification as a string. It accepts 5, 6, or 7 fields, separated by spaces, and interprets them the same way as CalendarSpec. 5 fields: minute, hour, day_of_month, month, day_of_week 6 fields: minute, hour, day_of_month, month, day_of_week, year 7 fields: second, minute, hour, day_of_month, month, day_of_week, year If year is not given, it defaults to *. If second is not given, it defaults to 0. Shorthands @yearly, @monthly, @weekly, @daily, and @hourly are also accepted instead of the 5-7 time fields. Optionally, the string can be preceded by CRON_TZ=<timezone name> or TZ=<timezone name>, which will get copied to timezone_name. (There must not also be a timezone_name present.) Optionally "#" followed by a comment can appear at the end of the string. Note that the special case that some cron implementations have for treating day_of_month and day_of_week as "or" instead of "and" when both are set is not implemented. @every <interval>[/<phase>] is accepted and gets compiled into an IntervalSpec instead. <interval> and <phase> should be a decimal integer with a unit suffix s, m, h, or d. */
-  cronString?: ScheduleSpecCronStringList;
+  cronString?: ScheduleSpecCronStringList | undefined;
   /** Calendar-based specifications of times. */
-  calendar?: ScheduleSpecCalendarList;
+  calendar?: ScheduleSpecCalendarList | undefined;
   /** Interval-based specifications of times. */
-  interval?: ScheduleSpecIntervalList;
+  interval?: ScheduleSpecIntervalList | undefined;
   /** Any timestamps matching any of exclude_* will be skipped. Deprecated. Use exclude_structured_calendar. */
-  excludeCalendar?: ScheduleSpecExcludeCalendarList;
-  excludeStructuredCalendar?: ScheduleSpecExcludeStructuredCalendarList;
+  excludeCalendar?: ScheduleSpecExcludeCalendarList | undefined;
+  excludeStructuredCalendar?: ScheduleSpecExcludeStructuredCalendarList | undefined;
   /** If start_time is set, any timestamps before start_time will be skipped. (Together, start_time and end_time make an inclusive interval.) */
-  startTime?: string;
+  startTime?: string | undefined;
   /** If end_time is set, any timestamps after end_time will be skipped. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** All timestamps will be incremented by a random value from 0 to this amount of jitter. Default: 0 */
-  jitter?: string;
+  jitter?: string | undefined;
   /** Time zone to interpret all calendar-based specs in. If unset, defaults to UTC. We recommend using UTC for your application if at all possible, to avoid various surprising properties of time zones. Time zones may be provided by name, corresponding to names in the IANA time zone database (see https://www.iana.org/time-zones). The definition will be loaded by the Temporal server from the environment it runs in. If your application requires more control over the time zone definition used, it may pass in a complete definition in the form of a TZif file from the time zone database. If present, this will be used instead of loading anything from the environment. You are then responsible for updating timezone_data when the definition changes. Calendar spec matching is based on literal matching of the clock time with no special handling of DST: if you write a calendar spec that fires at 2:30am and specify a time zone that follows DST, that action will not be triggered on the day that has no 2:30am. Similarly, an action that fires at 1:30am will be triggered twice on the day that has two 1:30s. Also note that no actions are taken on leap-seconds (e.g. 23:59:60 UTC). */
-  timezoneName?: string;
-  timezoneData?: string;
+  timezoneName?: string | undefined;
+  timezoneData?: string | undefined;
 }
 /** Represents the identifier used by a workflow author to define the workflow. Typically, the name of a function. This is sometimes referred to as the workflow's "name" */
 export interface WorkflowType {
-  name?: string;
+  name?: string | undefined;
 }
 /** Default: TASK_QUEUE_KIND_NORMAL. */
 export type TaskQueueKind =
@@ -259,16 +259,16 @@ export type TaskQueueKind =
   | "TASK_QUEUE_KIND_WORKER_COMMANDS";
 /** See https://docs.temporal.io/docs/concepts/task-queues/ */
 export interface TaskQueue {
-  name?: string;
+  name?: string | undefined;
   /** Default: TASK_QUEUE_KIND_NORMAL. */
-  kind?: TaskQueueKind | (string & {});
+  kind?: TaskQueueKind | (string & {}) | undefined;
   /** Iff kind == TASK_QUEUE_KIND_STICKY, then this field contains the name of the normal task queue that the sticky worker is running on. */
-  normalName?: string;
+  normalName?: string | undefined;
 }
 export type PayloadsPayloadsList = Array<unknown>;
 /** See `Payload` */
 export interface Payloads {
-  payloads?: PayloadsPayloadsList;
+  payloads?: PayloadsPayloadsList | undefined;
 }
 /** Default: WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE. */
 export type NewWorkflowExecutionInfoWorkflowIdReusePolicy =
@@ -282,37 +282,37 @@ export type RetryPolicyNonRetryableErrorTypesList = Array<string>;
 /** How retries ought to be handled, usable by both workflows and activities */
 export interface RetryPolicy {
   /** Interval of the first retry. If retryBackoffCoefficient is 1.0 then it is used for all retries. */
-  initialInterval?: string;
+  initialInterval?: string | undefined;
   /** Coefficient used to calculate the next retry interval. The next retry interval is previous interval multiplied by the coefficient. Must be 1 or larger. */
-  backoffCoefficient?: number;
+  backoffCoefficient?: number | undefined;
   /** Maximum interval between retries. Exponential backoff leads to interval increase. This value is the cap of the increase. Default is 100x of the initial interval. */
-  maximumInterval?: string;
+  maximumInterval?: string | undefined;
   /** Maximum number of attempts. When exceeded the retries stop even if not expired yet. 1 disables retries. 0 means unlimited (up to the timeouts) */
-  maximumAttempts?: number;
+  maximumAttempts?: number | undefined;
   /** Non-Retryable errors types. Will stop retrying if the error type matches this list. Note that this is not a substring match, the error *type* (not message) must match exactly. */
-  nonRetryableErrorTypes?: RetryPolicyNonRetryableErrorTypesList;
+  nonRetryableErrorTypes?: RetryPolicyNonRetryableErrorTypesList | undefined;
 }
 export type MemoFieldsMap = { [key: string]: unknown | undefined };
 /** A user-defined set of *unindexed* fields that are exposed when listing/searching workflows */
 export interface Memo {
-  fields?: MemoFieldsMap;
+  fields?: MemoFieldsMap | undefined;
 }
 export type SearchAttributesIndexedFieldsMap = { [key: string]: unknown | undefined };
 /** A user-defined set of *indexed* fields that are used/exposed when listing/searching workflows. The payload is not serialized in a user-defined way. */
 export interface SearchAttributes {
-  indexedFields?: SearchAttributesIndexedFieldsMap;
+  indexedFields?: SearchAttributesIndexedFieldsMap | undefined;
 }
 export type HeaderFieldsMap = { [key: string]: unknown | undefined };
 /** Contains metadata that can be attached to a variety of requests, like starting a workflow, and can be propagated between, for example, workflows and activities. */
 export interface Header {
-  fields?: HeaderFieldsMap;
+  fields?: HeaderFieldsMap | undefined;
 }
 /** Information a user can set, often for use by user interfaces. */
 export interface UserMetadata {
   /** Short-form text that provides a summary. This payload should be a "json/plain"-encoded payload that is a single JSON string for use in user interfaces. User interface formatting may not apply to this text when used in "title" situations. The payload data section is limited to 400 bytes by default. */
-  summary?: unknown;
+  summary?: unknown | undefined;
   /** Long-form text that provides details. This payload should be a "json/plain"-encoded payload that is a single JSON string for use in user interfaces. User interface formatting may apply to this text in common use. The payload data section is limited to 20000 bytes by default. */
-  details?: unknown;
+  details?: unknown | undefined;
 }
 /** Defaults to PINNED_OVERRIDE_BEHAVIOR_UNSPECIFIED. See `PinnedOverrideBehavior` for details. */
 export type VersioningOverridePinnedOverrideBehavior =
@@ -321,15 +321,15 @@ export type VersioningOverridePinnedOverrideBehavior =
 /** A Worker Deployment Version (Version, for short) represents a version of workers within a Worker Deployment. (see documentation of WorkerDeploymentVersionInfo) Version records are created in Temporal server automatically when their first poller arrives to the server. Experimental. Worker Deployment Versions are experimental and might significantly change in the future. */
 export interface WorkerDeploymentVersion {
   /** A unique identifier for this Version within the Deployment it is a part of. Not necessarily unique within the namespace. The combination of `deployment_name` and `build_id` uniquely identifies this Version within the namespace, because Deployment names are unique within a namespace. */
-  buildId?: string;
+  buildId?: string | undefined;
   /** Identifies the Worker Deployment this Version is part of. */
-  deploymentName?: string;
+  deploymentName?: string | undefined;
 }
 export interface VersioningOverridePinnedOverride {
   /** Defaults to PINNED_OVERRIDE_BEHAVIOR_UNSPECIFIED. See `PinnedOverrideBehavior` for details. */
-  behavior?: VersioningOverridePinnedOverrideBehavior | (string & {});
+  behavior?: VersioningOverridePinnedOverrideBehavior | (string & {}) | undefined;
   /** Specifies the Worker Deployment Version to pin this workflow to. Required if the target workflow is not already pinned to a version. If omitted and the target workflow is already pinned, the effective pinned version will be the existing pinned version. If omitted and the target workflow is not pinned, the override request will be rejected with a PreconditionFailed error. */
-  version?: WorkerDeploymentVersion;
+  version?: WorkerDeploymentVersion | undefined;
 }
 /** Required. Deprecated. Use `override`. */
 export type VersioningOverrideBehavior =
@@ -339,64 +339,64 @@ export type VersioningOverrideBehavior =
 /** `Deployment` identifies a deployment of Temporal workers. The combination of deployment series name + build ID serves as the identifier. User can use `WorkerDeploymentOptions` in their worker programs to specify these values. Deprecated. */
 export interface Deployment {
   /** Different versions of the same worker service/application are related together by having a shared series name. Out of all deployments of a series, one can be designated as the current deployment, which receives new workflow executions and new tasks of workflows with `VERSIONING_BEHAVIOR_AUTO_UPGRADE` versioning behavior. */
-  seriesName?: string;
+  seriesName?: string | undefined;
   /** Build ID changes with each version of the worker when the worker program code and/or config changes. */
-  buildId?: string;
+  buildId?: string | undefined;
 }
 /** Used to override the versioning behavior (and pinned deployment version, if applicable) of a specific workflow execution. If set, this override takes precedence over worker-sent values. See `WorkflowExecutionInfo.VersioningInfo` for more information. To remove the override, call `UpdateWorkflowExecutionOptions` with a null `VersioningOverride`, and use the `update_mask` to indicate that it should be mutated. Pinned behavior overrides are automatically inherited by child workflows, workflow retries, continue-as-new workflows, and cron workflows. */
 export interface VersioningOverride {
   /** Override the workflow to have Pinned behavior. */
-  pinned?: VersioningOverridePinnedOverride;
+  pinned?: VersioningOverridePinnedOverride | undefined;
   /** Override the workflow to have AutoUpgrade behavior. */
-  autoUpgrade?: boolean;
+  autoUpgrade?: boolean | undefined;
   /** Required. Deprecated. Use `override`. */
-  behavior?: VersioningOverrideBehavior | (string & {});
+  behavior?: VersioningOverrideBehavior | (string & {}) | undefined;
   /** Required if behavior is `PINNED`. Must be null if behavior is `AUTO_UPGRADE`. Identifies the worker deployment to pin the workflow to. Deprecated. Use `override.pinned.version`. */
-  deployment?: Deployment;
+  deployment?: Deployment | undefined;
   /** Required if behavior is `PINNED`. Must be absent if behavior is not `PINNED`. Identifies the worker deployment version to pin the workflow to, in the format "<deployment_name>.<build_id>". Deprecated. Use `override.pinned.version`. */
-  pinnedVersion?: string;
+  pinnedVersion?: string | undefined;
 }
 /** Priority contains metadata that controls relative ordering of task processing when tasks are backed up in a queue. Initially, Priority will be used in matching (workflow and activity) task queues. Later it may be used in history task queues and in rate limiting decisions. Priority is attached to workflows and activities. By default, activities inherit Priority from the workflow that created them, but may override fields when an activity is started or modified. Despite being named "Priority", this message also contains fields that control "fairness" mechanisms. For all fields, the field not present or equal to zero/empty string means to inherit the value from the calling workflow, or if there is no calling workflow, then use the default value. For all fields other than fairness_key, the zero value isn't meaningful so there's no confusion between inherit/default and a meaningful value. For fairness_key, the empty string will be interpreted as "inherit". This means that if a workflow has a non-empty fairness key, you can't override the fairness key of its activity to the empty string. The overall semantics of Priority are: 1. First, consider "priority": higher priority (lower number) goes first. 2. Then, consider fairness: try to dispatch tasks for different fairness keys in proportion to their weight. Applications may use any subset of mechanisms that are useful to them and leave the other fields to use default values. Not all queues in the system may support the "full" semantics of all priority fields. (Currently only support in matching task queues is planned.) */
 export interface Priority {
   /** Priority key is a positive integer from 1 to n, where smaller integers correspond to higher priorities (tasks run sooner). In general, tasks in a queue should be processed in close to priority order, although small deviations are possible. The maximum priority value (minimum priority) is determined by server configuration, and defaults to 5. If priority is not present (or zero), then the effective priority will be the default priority, which is calculated by (min+max)/2. With the default max of 5, and min of 1, that comes out to 3. */
-  priorityKey?: number;
+  priorityKey?: number | undefined;
   /** Fairness key is a short string that's used as a key for a fairness balancing mechanism. It may correspond to a tenant id, or to a fixed string like "high" or "low". The default is the empty string. The fairness mechanism attempts to dispatch tasks for a given key in proportion to its weight. For example, using a thousand distinct tenant ids, each with a weight of 1.0 (the default) will result in each tenant getting a roughly equal share of task dispatch throughput. (Note: this does not imply equal share of worker capacity! Fairness decisions are made based on queue statistics, not current worker load.) As another example, using keys "high" and "low" with weight 9.0 and 1.0 respectively will prefer dispatching "high" tasks over "low" tasks at a 9:1 ratio, while allowing either key to use all worker capacity if the other is not present. All fairness mechanisms, including rate limits, are best-effort and probabilistic. The results may not match what a "perfect" algorithm with infinite resources would produce. The more unique keys are used, the less accurate the results will be. Fairness keys are limited to 64 bytes. */
-  fairnessKey?: string;
+  fairnessKey?: string | undefined;
   /** Fairness weight for a task can come from multiple sources for flexibility. From highest to lowest precedence: 1. Weights for a small set of keys can be overridden in task queue configuration with an API. 2. It can be attached to the workflow/activity in this field. 3. The default weight of 1.0 will be used. Weight values are clamped to the range [0.001, 1000]. */
-  fairnessWeight?: number;
+  fairnessWeight?: number | undefined;
 }
 /** NewWorkflowExecutionInfo is a shared message that encapsulates all the required arguments to starting a workflow in different contexts. */
 export interface NewWorkflowExecutionInfo {
-  workflowId?: string;
-  workflowType?: WorkflowType;
-  taskQueue?: TaskQueue;
+  workflowId?: string | undefined;
+  workflowType?: WorkflowType | undefined;
+  taskQueue?: TaskQueue | undefined;
   /** Serialized arguments to the workflow. */
-  input?: Payloads;
+  input?: Payloads | undefined;
   /** Total workflow execution timeout including retries and continue as new. */
-  workflowExecutionTimeout?: string;
+  workflowExecutionTimeout?: string | undefined;
   /** Timeout of a single workflow run. */
-  workflowRunTimeout?: string;
+  workflowRunTimeout?: string | undefined;
   /** Timeout of a single workflow task. */
-  workflowTaskTimeout?: string;
+  workflowTaskTimeout?: string | undefined;
   /** Default: WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE. */
-  workflowIdReusePolicy?: NewWorkflowExecutionInfoWorkflowIdReusePolicy | (string & {});
+  workflowIdReusePolicy?: NewWorkflowExecutionInfoWorkflowIdReusePolicy | (string & {}) | undefined;
   /** The retry policy for the workflow. Will never exceed `workflow_execution_timeout`. */
-  retryPolicy?: RetryPolicy;
+  retryPolicy?: RetryPolicy | undefined;
   /** See https://docs.temporal.io/docs/content/what-is-a-temporal-cron-job/ */
-  cronSchedule?: string;
-  memo?: Memo;
-  searchAttributes?: SearchAttributes;
-  header?: Header;
+  cronSchedule?: string | undefined;
+  memo?: Memo | undefined;
+  searchAttributes?: SearchAttributes | undefined;
+  header?: Header | undefined;
   /** Metadata on the workflow if it is started. This is carried over to the WorkflowExecutionConfig for use by user interfaces to display the fixed as-of-start summary and details of the workflow. */
-  userMetadata?: UserMetadata;
+  userMetadata?: UserMetadata | undefined;
   /** If set, takes precedence over the Versioning Behavior sent by the SDK on Workflow Task completion. To unset the override after the workflow is running, use UpdateWorkflowExecutionOptions. */
-  versioningOverride?: VersioningOverride;
+  versioningOverride?: VersioningOverride | undefined;
   /** Priority metadata */
-  priority?: Priority;
+  priority?: Priority | undefined;
 }
 export interface ScheduleAction {
   /** All fields of NewWorkflowExecutionInfo are valid except for: - workflow_id_reuse_policy - cron_schedule The workflow id of the started workflow may not match this exactly, it may have a timestamp appended for uniqueness. */
-  startWorkflow?: NewWorkflowExecutionInfo;
+  startWorkflow?: NewWorkflowExecutionInfo | undefined;
 }
 /** Policy for overlaps. Note that this can be changed after a schedule has taken some actions, and some changes might produce unintuitive results. In general, the later policy overrides the earlier policy. */
 export type SchedulePoliciesOverlapPolicy =
@@ -409,28 +409,28 @@ export type SchedulePoliciesOverlapPolicy =
   | "SCHEDULE_OVERLAP_POLICY_ALLOW_ALL";
 export interface SchedulePolicies {
   /** Policy for overlaps. Note that this can be changed after a schedule has taken some actions, and some changes might produce unintuitive results. In general, the later policy overrides the earlier policy. */
-  overlapPolicy?: SchedulePoliciesOverlapPolicy | (string & {});
+  overlapPolicy?: SchedulePoliciesOverlapPolicy | (string & {}) | undefined;
   /** Policy for catchups: If the Temporal server misses an action due to one or more components being down, and comes back up, the action will be run if the scheduled time is within this window from the current time. This value defaults to one year, and can't be less than 10 seconds. */
-  catchupWindow?: string;
+  catchupWindow?: string | undefined;
   /** If true, and a workflow run fails or times out, turn on "paused". This applies after retry policies: the full chain of retries must fail to trigger a pause here. */
-  pauseOnFailure?: boolean;
+  pauseOnFailure?: boolean | undefined;
   /** If true, and the action would start a workflow, a timestamp will not be appended to the scheduled workflow id. */
-  keepOriginalWorkflowId?: boolean;
+  keepOriginalWorkflowId?: boolean | undefined;
 }
 export interface ScheduleState {
   /** Informative human-readable message with contextual notes, e.g. the reason a schedule is paused. The system may overwrite this message on certain conditions, e.g. when pause-on-failure happens. */
-  notes?: string;
+  notes?: string | undefined;
   /** If true, do not take any actions based on the schedule spec. */
-  paused?: boolean;
+  paused?: boolean | undefined;
   /** If limited_actions is true, decrement remaining_actions after each action, and do not take any more scheduled actions if remaining_actions is zero. Actions may still be taken by explicit request (i.e. trigger immediately or backfill). Skipped actions (due to overlap policy) do not count against remaining actions. If a schedule has no more remaining actions, then the schedule will be subject to automatic deletion (after several days). */
-  limitedActions?: boolean;
-  remainingActions?: string;
+  limitedActions?: boolean | undefined;
+  remainingActions?: string | undefined;
 }
 export interface Schedule {
-  spec?: ScheduleSpec;
-  action?: ScheduleAction;
-  policies?: SchedulePolicies;
-  state?: ScheduleState;
+  spec?: ScheduleSpec | undefined;
+  action?: ScheduleAction | undefined;
+  policies?: SchedulePolicies | undefined;
+  state?: ScheduleState | undefined;
 }
 /** If set, override overlap policy for this one request. */
 export type TriggerImmediatelyRequestOverlapPolicy =
@@ -443,9 +443,9 @@ export type TriggerImmediatelyRequestOverlapPolicy =
   | "SCHEDULE_OVERLAP_POLICY_ALLOW_ALL";
 export interface TriggerImmediatelyRequest {
   /** If set, override overlap policy for this one request. */
-  overlapPolicy?: TriggerImmediatelyRequestOverlapPolicy | (string & {});
+  overlapPolicy?: TriggerImmediatelyRequestOverlapPolicy | (string & {}) | undefined;
   /** Timestamp used for the identity of the target workflow. If not set the default value is the current time. */
-  scheduledTime?: string;
+  scheduledTime?: string | undefined;
 }
 /** If set, override overlap policy for this request. */
 export type BackfillRequestOverlapPolicy =
@@ -458,21 +458,21 @@ export type BackfillRequestOverlapPolicy =
   | "SCHEDULE_OVERLAP_POLICY_ALLOW_ALL";
 export interface BackfillRequest {
   /** Time range to evaluate schedule in. Currently, this time range is exclusive on start_time and inclusive on end_time. (This is admittedly counterintuitive and it may change in the future, so to be safe, use a start time strictly before a scheduled time.) Also note that an action nominally scheduled in the interval but with jitter that pushes it after end_time will not be included. */
-  startTime?: string;
-  endTime?: string;
+  startTime?: string | undefined;
+  endTime?: string | undefined;
   /** If set, override overlap policy for this request. */
-  overlapPolicy?: BackfillRequestOverlapPolicy | (string & {});
+  overlapPolicy?: BackfillRequestOverlapPolicy | (string & {}) | undefined;
 }
 /** If set, runs though the specified time period(s) and takes actions as if that time passed by right now, all at once. The overlap policy can be overridden for the scope of the backfill. */
 export type SchedulePatchBackfillRequestList = Array<BackfillRequest>;
 export interface SchedulePatch {
   /** If set, trigger one action immediately. */
-  triggerImmediately?: TriggerImmediatelyRequest;
+  triggerImmediately?: TriggerImmediatelyRequest | undefined;
   /** If set, runs though the specified time period(s) and takes actions as if that time passed by right now, all at once. The overlap policy can be overridden for the scope of the backfill. */
-  backfillRequest?: SchedulePatchBackfillRequestList;
+  backfillRequest?: SchedulePatchBackfillRequestList | undefined;
   /** If set, change the state to paused or unpaused (respectively) and set the notes field to the value of the string. */
-  pause?: string;
-  unpause?: string;
+  pause?: string | undefined;
+  unpause?: string | undefined;
 }
 export interface CreateScheduleRequest {
   /** The namespace the schedule should be created in. */
@@ -480,32 +480,32 @@ export interface CreateScheduleRequest {
   /** The id of the new schedule. */
   scheduleId: string;
   /** The schedule spec, policies, action, and initial state. */
-  schedule?: Schedule;
+  schedule?: Schedule | undefined;
   /** Optional initial patch (e.g. to run the action once immediately). */
-  initialPatch?: SchedulePatch;
+  initialPatch?: SchedulePatch | undefined;
   /** The identity of the client who initiated this request. */
-  identity?: string;
+  identity?: string | undefined;
   /** A unique identifier for this create request for idempotence. Typically UUIDv4. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Memo and search attributes to attach to the schedule itself. */
-  memo?: Memo;
-  searchAttributes?: SearchAttributes;
+  memo?: Memo | undefined;
+  searchAttributes?: SearchAttributes | undefined;
 }
 export interface CreateScheduleResponse {
-  conflictToken?: string;
+  conflictToken?: string | undefined;
 }
 export interface CreateWorkerDeploymentRequest {
   namespace: string;
   /** The name of the Worker Deployment to create. If a Worker Deployment with this name already exists, an error will be returned. */
   deploymentName: string;
   /** Optional. The identity of the client who initiated this request. */
-  identity?: string;
+  identity?: string | undefined;
   /** A unique identifier for this create request for idempotence. Typically UUIDv4. */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface CreateWorkerDeploymentResponse {
   /** This value is returned so that it can be optionally passed to APIs that write to the WorkerDeployment state to ensure that the state did not change between this API call and a future write. */
-  conflictToken?: string;
+  conflictToken?: string | undefined;
 }
 export type ComputeConfigScalingGroupTaskQueueTypesItem =
   | "TASK_QUEUE_TYPE_UNSPECIFIED"
@@ -519,26 +519,26 @@ export type ComputeConfigScalingGroupTaskQueueTypesList = Array<
 /** ComputeProvider stores information used by a worker control plane controller to respond to worker lifecycle events. For example, when a Task is received on a TaskQueue that has no active pollers, a serverless worker lifecycle controller might need to invoke an AWS Lambda Function that itself ends up calling the SDK's worker.New() function. */
 export interface ComputeProvider {
   /** Type of the compute provider. This string is implementation-specific and can be used by implementations to understand how to interpret the contents of the provider_details field. */
-  type?: string;
+  type?: string | undefined;
   /** Contains provider-specific instructions and configuration. For server-implemented providers, use the SDK's default content converter to ensure the server can understand it. For remote-implemented providers, you might use your own content converters according to what the remote endpoints understand. */
-  details?: unknown;
+  details?: unknown | undefined;
   /** Optional. If the compute provider is a Nexus service, this should point there. */
-  nexusEndpoint?: string;
+  nexusEndpoint?: string | undefined;
 }
 /** ComputeScaler instructs the Temporal Service when to scale up or down the number of Workers that comprise a WorkerDeployment. */
 export interface ComputeScaler {
   /** Type of the compute scaler. this string is implementation-specific and can be used by implementations to understand how to interpret the contents of the scaler_details field. */
-  type?: string;
+  type?: string | undefined;
   /** Contains scaler-specific instructions and configuration. For server-implemented scalers, use the SDK's default data converter to ensure the server can understand it. For remote-implemented scalers, you might use your own data converters according to what the remote endpoints understand. */
-  details?: unknown;
+  details?: unknown | undefined;
 }
 export interface ComputeConfigScalingGroup {
   /** Optional. The set of task queue types this scaling group serves. If not provided, this scaling group serves all not otherwise defined task types. */
-  taskQueueTypes?: ComputeConfigScalingGroupTaskQueueTypesList;
+  taskQueueTypes?: ComputeConfigScalingGroupTaskQueueTypesList | undefined;
   /** Stores instructions for a worker control plane controller how to respond to worker lifeycle events. */
-  provider?: ComputeProvider;
+  provider?: ComputeProvider | undefined;
   /** Informs a worker lifecycle controller *when* and *how often* to perform certain worker lifecycle actions like starting a serverless worker. */
-  scaler?: ComputeScaler;
+  scaler?: ComputeScaler | undefined;
 }
 /** Each scaling group describes a compute config for a specific subset of the worker deployment version: covering a specific set of task types and/or regions. Having different configurations for different task types, allows independent tuning of activity and workflow task processing (for example). The key of the map is the ID of the scaling group used to reference it in subsequent update calls. */
 export type ComputeConfigScalingGroupsMap = {
@@ -547,77 +547,77 @@ export type ComputeConfigScalingGroupsMap = {
 /** ComputeConfig stores configuration that helps a worker control plane controller understand *when* and *how* to respond to worker lifecycle events. */
 export interface ComputeConfig {
   /** Each scaling group describes a compute config for a specific subset of the worker deployment version: covering a specific set of task types and/or regions. Having different configurations for different task types, allows independent tuning of activity and workflow task processing (for example). The key of the map is the ID of the scaling group used to reference it in subsequent update calls. */
-  scalingGroups?: ComputeConfigScalingGroupsMap;
+  scalingGroups?: ComputeConfigScalingGroupsMap | undefined;
 }
 export interface CreateWorkerDeploymentVersionRequest {
   namespace: string;
   deployment_version_deployment_name: string;
   /** Required. */
-  deploymentVersion?: WorkerDeploymentVersion;
+  deploymentVersion?: WorkerDeploymentVersion | undefined;
   /** Optional. Contains the new worker compute configuration for the Worker Deployment. Used for worker scale management. */
-  computeConfig?: ComputeConfig;
+  computeConfig?: ComputeConfig | undefined;
   /** Optional. The identity of the client who initiated this request. */
-  identity?: string;
+  identity?: string | undefined;
   /** A unique identifier for this create request for idempotence. Typically UUIDv4. If a second request with the same ID is recieved, it is considered a successful no-op. Retrying with a different request ID for the same deployment name + build ID is an error. */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export type CreateWorkerDeploymentVersionResponse2 = unknown;
 /** Activity trigger will be triggered when an activity is about to start. */
 export interface WorkflowRuleSpecActivityStartingTrigger {
   /** Activity predicate is a SQL-like string filter parameter. It is used to match against workflow data. The following activity attributes are supported as part of the predicate: - ActivityType: An Activity Type is the mapping of a name to an Activity Definition.. - ActivityId: The ID of the activity. - ActivityAttempt: The number attempts of the activity. - BackoffInterval: The current amount of time between scheduled attempts of the activity. - ActivityStatus: The status of the activity. Can be one of "Scheduled", "Started", "Paused". - TaskQueue: The name of the task queue the workflow specified that the activity should run on. Activity predicate support the following operators: * =, !=, >, >=, <, <= * AND, OR, () * BETWEEN ... AND STARTS_WITH */
-  predicate?: string;
+  predicate?: string | undefined;
 }
 export interface WorkflowRuleAction {
-  activityPause?: unknown;
+  activityPause?: unknown | undefined;
 }
 /** WorkflowRuleAction to be taken when the rule is triggered and predicate is matched. */
 export type WorkflowRuleSpecActionsList = Array<WorkflowRuleAction>;
 export interface WorkflowRuleSpec {
   /** The id of the new workflow rule. Must be unique within the namespace. Can be set by the user, and can have business meaning. */
-  id?: string;
-  activityStart?: WorkflowRuleSpecActivityStartingTrigger;
+  id?: string | undefined;
+  activityStart?: WorkflowRuleSpecActivityStartingTrigger | undefined;
   /** Restricted Visibility query. This query is used to filter workflows in this namespace to which this rule should apply. It is applied to any running workflow each time a triggering event occurs, before the trigger predicate is evaluated. The following workflow attributes are supported: - WorkflowType - WorkflowId - StartTime - ExecutionStatus */
-  visibilityQuery?: string;
+  visibilityQuery?: string | undefined;
   /** WorkflowRuleAction to be taken when the rule is triggered and predicate is matched. */
-  actions?: WorkflowRuleSpecActionsList;
+  actions?: WorkflowRuleSpecActionsList | undefined;
   /** Expiration time of the rule. After this time, the rule will be deleted. Can be empty if the rule should never expire. */
-  expirationTime?: string;
+  expirationTime?: string | undefined;
 }
 export interface CreateWorkflowRuleRequest {
   namespace: string;
   /** The rule specification . */
-  spec?: WorkflowRuleSpec;
+  spec?: WorkflowRuleSpec | undefined;
   /** If true, the rule will be applied to the currently running workflows via batch job. If not set , the rule will only be applied when triggering condition is satisfied. visibility_query in the rule will be used to select the workflows to apply the rule to. */
-  forceScan?: boolean;
+  forceScan?: boolean | undefined;
   /** Used to de-dupe requests. Typically should be UUID. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Identity of the actor who created the rule. Will be stored with the rule. */
-  identity?: string;
+  identity?: string | undefined;
   /** Rule description.Will be stored with the rule. */
-  description?: string;
+  description?: string | undefined;
 }
 /** WorkflowRule describes a rule that can be applied to any workflow in this namespace. */
 export interface WorkflowRule {
   /** Rule creation time. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Rule specification */
-  spec?: WorkflowRuleSpec;
+  spec?: WorkflowRuleSpec | undefined;
   /** Identity of the actor that created the rule (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: It is better reflect the intent this way, we will also have updated_by. --) (-- api-linter: core::0142::time-field-names=disabled aip.dev/not-precedent: Same as above. All other options sounds clumsy --) */
-  createdByIdentity?: string;
+  createdByIdentity?: string | undefined;
   /** Rule description. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface CreateWorkflowRuleResponse {
   /** Created rule. */
-  rule?: WorkflowRule;
+  rule?: WorkflowRule | undefined;
   /** Batch Job ID if force-scan flag was provided. Otherwise empty. */
-  jobId?: string;
+  jobId?: string | undefined;
 }
 export interface DeleteNexusEndpointRequest {
   /** Server-generated unique endpoint ID. */
   id: string;
   /** Data version for this endpoint. Must match current version. */
-  version?: string;
+  version?: string | undefined;
 }
 export type DeleteNexusEndpointResponse2 = unknown;
 export interface DeleteScheduleRequest {
@@ -626,14 +626,14 @@ export interface DeleteScheduleRequest {
   /** The id of the schedule to delete. */
   scheduleId: string;
   /** The identity of the client who initiated this request. */
-  identity?: string;
+  identity?: string | undefined;
 }
 export type DeleteScheduleResponse2 = unknown;
 export interface DeleteWorkerDeploymentRequest {
   namespace: string;
   deploymentName: string;
   /** Optional. The identity of the client who initiated this request. */
-  identity?: string;
+  identity?: string | undefined;
 }
 export type DeleteWorkerDeploymentResponse2 = unknown;
 export interface DeleteWorkerDeploymentVersionRequest {
@@ -641,15 +641,15 @@ export interface DeleteWorkerDeploymentVersionRequest {
   deployment_version_deployment_name: string;
   deployment_version_build_id: string;
   /** Deprecated. Use `deployment_version`. */
-  version?: string;
+  version?: string | undefined;
   /** A unique identifier for this Version within the Deployment it is a part of. Not necessarily unique within the namespace. The combination of `deployment_name` and `build_id` uniquely identifies this Version within the namespace, because Deployment names are unique within a namespace. */
-  deploymentVersion_buildId?: string;
+  deploymentVersion_buildId?: string | undefined;
   /** Identifies the Worker Deployment this Version is part of. */
-  deploymentVersion_deploymentName?: string;
+  deploymentVersion_deploymentName?: string | undefined;
   /** Pass to force deletion even if the Version is draining. In this case the open pinned workflows will be stuck until manually moved to another version by UpdateWorkflowExecutionOptions. */
-  skipDrainage?: boolean;
+  skipDrainage?: boolean | undefined;
   /** Optional. The identity of the client who initiated this request. */
-  identity?: string;
+  identity?: string | undefined;
 }
 export type DeleteWorkerDeploymentVersionResponse2 = unknown;
 export interface DeleteWorkflowRuleRequest {
@@ -662,13 +662,13 @@ export interface DescribeActivityExecutionRequest {
   namespace: string;
   activityId: string;
   /** Activity run ID. If empty the request targets the latest run. */
-  runId?: string;
+  runId?: string | undefined;
   /** Include the input field in the response. */
-  includeInput?: boolean;
+  includeInput?: boolean | undefined;
   /** Include the outcome (result/failure) in the response if the activity has completed. */
-  includeOutcome?: boolean;
+  includeOutcome?: boolean | undefined;
   /** Token from a previous DescribeActivityExecutionResponse. If present, long-poll until activity state changes from the state encoded in this token. If absent, return current state immediately. If present, run_id must also be present. Note that activity state may change multiple times between requests, therefore it is not guaranteed that a client making a sequence of long-poll requests will see a complete sequence of state changes. */
-  longPollToken?: string;
+  longPollToken?: string | undefined;
 }
 /** Represents the identifier used by a activity author to define the activity. Typically, the name of a function. This is sometimes referred to as the activity's "name" */
 export type ActivityType = WorkflowType;
@@ -693,12 +693,12 @@ export type ApplicationFailureInfoCategory =
   | "APPLICATION_ERROR_CATEGORY_UNSPECIFIED"
   | "APPLICATION_ERROR_CATEGORY_BENIGN";
 export interface ApplicationFailureInfo {
-  type?: string;
-  nonRetryable?: boolean;
-  details?: Payloads;
+  type?: string | undefined;
+  nonRetryable?: boolean | undefined;
+  details?: Payloads | undefined;
   /** next_retry_delay can be used by the client to override the activity retry interval calculated by the retry policy. Retry attempts will still be subject to the maximum retries limit and total time limit defined by the policy. */
-  nextRetryDelay?: string;
-  category?: ApplicationFailureInfoCategory | (string & {});
+  nextRetryDelay?: string | undefined;
+  category?: ApplicationFailureInfoCategory | (string & {}) | undefined;
 }
 export type TimeoutFailureInfoTimeoutType =
   | "TIMEOUT_TYPE_UNSPECIFIED"
@@ -707,23 +707,23 @@ export type TimeoutFailureInfoTimeoutType =
   | "TIMEOUT_TYPE_SCHEDULE_TO_CLOSE"
   | "TIMEOUT_TYPE_HEARTBEAT";
 export interface TimeoutFailureInfo {
-  timeoutType?: TimeoutFailureInfoTimeoutType | (string & {});
-  lastHeartbeatDetails?: Payloads;
+  timeoutType?: TimeoutFailureInfoTimeoutType | (string & {}) | undefined;
+  lastHeartbeatDetails?: Payloads | undefined;
 }
 export interface CanceledFailureInfo {
-  details?: Payloads;
+  details?: Payloads | undefined;
   /** The identity of the worker or client that requested the cancellation. */
-  identity?: string;
+  identity?: string | undefined;
 }
 export interface TerminatedFailureInfo {
   /** The identity of the worker or client that requested the termination. */
-  identity?: string;
+  identity?: string | undefined;
 }
 export interface ServerFailureInfo {
-  nonRetryable?: boolean;
+  nonRetryable?: boolean | undefined;
 }
 export interface ResetWorkflowFailureInfo {
-  lastHeartbeatDetails?: Payloads;
+  lastHeartbeatDetails?: Payloads | undefined;
 }
 export type ActivityFailureInfoRetryState =
   | "RETRY_STATE_UNSPECIFIED"
@@ -735,17 +735,17 @@ export type ActivityFailureInfoRetryState =
   | "RETRY_STATE_INTERNAL_SERVER_ERROR"
   | "RETRY_STATE_CANCEL_REQUESTED";
 export interface ActivityFailureInfo {
-  scheduledEventId?: string;
-  startedEventId?: string;
-  identity?: string;
-  activityType?: WorkflowType;
-  activityId?: string;
-  retryState?: ActivityFailureInfoRetryState | (string & {});
+  scheduledEventId?: string | undefined;
+  startedEventId?: string | undefined;
+  identity?: string | undefined;
+  activityType?: WorkflowType | undefined;
+  activityId?: string | undefined;
+  retryState?: ActivityFailureInfoRetryState | (string & {}) | undefined;
 }
 /** Identifies a specific workflow within a namespace. Practically speaking, because run_id is a uuid, a workflow execution is globally unique. Note that many commands allow specifying an empty run id as a way of saying "target the latest run of the workflow". */
 export interface WorkflowExecution {
-  workflowId?: string;
-  runId?: string;
+  workflowId?: string | undefined;
+  runId?: string | undefined;
 }
 export type ChildWorkflowExecutionFailureInfoRetryState =
   | "RETRY_STATE_UNSPECIFIED"
@@ -757,27 +757,27 @@ export type ChildWorkflowExecutionFailureInfoRetryState =
   | "RETRY_STATE_INTERNAL_SERVER_ERROR"
   | "RETRY_STATE_CANCEL_REQUESTED";
 export interface ChildWorkflowExecutionFailureInfo {
-  namespace?: string;
-  workflowExecution?: WorkflowExecution;
-  workflowType?: WorkflowType;
-  initiatedEventId?: string;
-  startedEventId?: string;
-  retryState?: ChildWorkflowExecutionFailureInfoRetryState | (string & {});
+  namespace?: string | undefined;
+  workflowExecution?: WorkflowExecution | undefined;
+  workflowType?: WorkflowType | undefined;
+  initiatedEventId?: string | undefined;
+  startedEventId?: string | undefined;
+  retryState?: ChildWorkflowExecutionFailureInfoRetryState | (string & {}) | undefined;
 }
 /** Representation of the Temporal SDK NexusOperationError object that is returned to workflow callers. */
 export interface NexusOperationFailureInfo {
   /** The NexusOperationScheduled event ID. */
-  scheduledEventId?: string;
+  scheduledEventId?: string | undefined;
   /** Endpoint name. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Service name. */
-  service?: string;
+  service?: string | undefined;
   /** Operation name. */
-  operation?: string;
+  operation?: string | undefined;
   /** Operation ID - may be empty if the operation completed synchronously. Deprecated. Renamed to operation_token. */
-  operationId?: string;
+  operationId?: string | undefined;
   /** Operation token - may be empty if the operation completed synchronously. */
-  operationToken?: string;
+  operationToken?: string | undefined;
 }
 /** Retry behavior, defaults to the retry behavior of the error type as defined in the spec. */
 export type NexusHandlerFailureInfoRetryBehavior =
@@ -786,28 +786,28 @@ export type NexusHandlerFailureInfoRetryBehavior =
   | "NEXUS_HANDLER_ERROR_RETRY_BEHAVIOR_NON_RETRYABLE";
 export interface NexusHandlerFailureInfo {
   /** The Nexus error type as defined in the spec: https://github.com/nexus-rpc/api/blob/main/SPEC.md#predefined-handler-errors. */
-  type?: string;
+  type?: string | undefined;
   /** Retry behavior, defaults to the retry behavior of the error type as defined in the spec. */
-  retryBehavior?: NexusHandlerFailureInfoRetryBehavior | (string & {});
+  retryBehavior?: NexusHandlerFailureInfoRetryBehavior | (string & {}) | undefined;
 }
 export interface Failure {
-  message?: string;
+  message?: string | undefined;
   /** The source this Failure originated in, e.g. TypeScriptSDK / JavaSDK In some SDKs this is used to rehydrate the stack trace into an exception object. */
-  source?: string;
-  stackTrace?: string;
+  source?: string | undefined;
+  stackTrace?: string | undefined;
   /** Alternative way to supply `message` and `stack_trace` and possibly other attributes, used for encryption of errors originating in user code which might contain sensitive information. The `encoded_attributes` Payload could represent any serializable object, e.g. JSON object or a `Failure` proto message. SDK authors: - The SDK should provide a default `encodeFailureAttributes` and `decodeFailureAttributes` implementation that: - Uses a JSON object to represent `{ message, stack_trace }`. - Overwrites the original message with "Encoded failure" to indicate that more information could be extracted. - Overwrites the original stack_trace with an empty string. - The resulting JSON object is converted to Payload using the default PayloadConverter and should be processed by the user-provided PayloadCodec - If there's demand, we could allow overriding the default SDK implementation to encode other opaque Failure attributes. */
-  encodedAttributes?: unknown;
-  cause?: Failure;
-  applicationFailureInfo?: ApplicationFailureInfo;
-  timeoutFailureInfo?: TimeoutFailureInfo;
-  canceledFailureInfo?: CanceledFailureInfo;
-  terminatedFailureInfo?: TerminatedFailureInfo;
-  serverFailureInfo?: ServerFailureInfo;
-  resetWorkflowFailureInfo?: ResetWorkflowFailureInfo;
-  activityFailureInfo?: ActivityFailureInfo;
-  childWorkflowExecutionFailureInfo?: ChildWorkflowExecutionFailureInfo;
-  nexusOperationExecutionFailureInfo?: NexusOperationFailureInfo;
-  nexusHandlerFailureInfo?: NexusHandlerFailureInfo;
+  encodedAttributes?: unknown | undefined;
+  cause?: Failure | undefined;
+  applicationFailureInfo?: ApplicationFailureInfo | undefined;
+  timeoutFailureInfo?: TimeoutFailureInfo | undefined;
+  canceledFailureInfo?: CanceledFailureInfo | undefined;
+  terminatedFailureInfo?: TerminatedFailureInfo | undefined;
+  serverFailureInfo?: ServerFailureInfo | undefined;
+  resetWorkflowFailureInfo?: ResetWorkflowFailureInfo | undefined;
+  activityFailureInfo?: ActivityFailureInfo | undefined;
+  childWorkflowExecutionFailureInfo?: ChildWorkflowExecutionFailureInfo | undefined;
+  nexusOperationExecutionFailureInfo?: NexusOperationFailureInfo | undefined;
+  nexusHandlerFailureInfo?: NexusHandlerFailureInfo | undefined;
 }
 export type WorkflowEventEventReferenceEventType =
   | "EVENT_TYPE_UNSPECIFIED"
@@ -873,8 +873,8 @@ export type WorkflowEventEventReferenceEventType =
   | "EVENT_TYPE_WORKFLOW_EXECUTION_TIME_SKIPPING_TRANSITIONED";
 /** EventReference is a direct reference to a history event through the event ID. */
 export interface WorkflowEventEventReference {
-  eventId?: string;
-  eventType?: WorkflowEventEventReferenceEventType | (string & {});
+  eventId?: string | undefined;
+  eventType?: WorkflowEventEventReferenceEventType | (string & {}) | undefined;
 }
 export type WorkflowEventRequestIdReferenceEventType =
   | "EVENT_TYPE_UNSPECIFIED"
@@ -940,135 +940,135 @@ export type WorkflowEventRequestIdReferenceEventType =
   | "EVENT_TYPE_WORKFLOW_EXECUTION_TIME_SKIPPING_TRANSITIONED";
 /** RequestIdReference is a indirect reference to a history event through the request ID. */
 export interface WorkflowEventRequestIdReference {
-  requestId?: string;
-  eventType?: WorkflowEventRequestIdReferenceEventType | (string & {});
+  requestId?: string | undefined;
+  eventType?: WorkflowEventRequestIdReferenceEventType | (string & {}) | undefined;
 }
 export interface LinkWorkflowEvent {
-  namespace?: string;
-  workflowId?: string;
-  runId?: string;
-  eventRef?: WorkflowEventEventReference;
-  requestIdRef?: WorkflowEventRequestIdReference;
+  namespace?: string | undefined;
+  workflowId?: string | undefined;
+  runId?: string | undefined;
+  eventRef?: WorkflowEventEventReference | undefined;
+  requestIdRef?: WorkflowEventRequestIdReference | undefined;
 }
 /** A link to a built-in batch job. Batch jobs can be used to perform operations on a set of workflows (e.g. terminate, signal, cancel, etc). This link can be put on workflow history events generated by actions taken by a batch job. */
 export interface LinkBatchJob {
-  jobId?: string;
+  jobId?: string | undefined;
 }
 /** A link to an activity. */
 export interface LinkActivity {
-  namespace?: string;
-  activityId?: string;
-  runId?: string;
+  namespace?: string | undefined;
+  activityId?: string | undefined;
+  runId?: string | undefined;
 }
 /** A link to a standalone Nexus operation. */
 export interface LinkNexusOperation {
-  namespace?: string;
-  operationId?: string;
-  runId?: string;
+  namespace?: string | undefined;
+  operationId?: string | undefined;
+  runId?: string | undefined;
 }
 /** Link can be associated with history events. It might contain information about an external entity related to the history event. For example, workflow A makes a Nexus call that starts workflow B: in this case, a history event in workflow A could contain a Link to the workflow started event in workflow B, and vice-versa. */
 export interface Link {
-  workflowEvent?: LinkWorkflowEvent;
-  batchJob?: LinkBatchJob;
-  activity?: LinkActivity;
-  nexusOperation?: LinkNexusOperation;
+  workflowEvent?: LinkWorkflowEvent | undefined;
+  batchJob?: LinkBatchJob | undefined;
+  activity?: LinkActivity | undefined;
+  nexusOperation?: LinkNexusOperation | undefined;
 }
 /** Links to related entities, such as the entity that started this activity. */
 export type ActivityExecutionInfoLinksList = Array<Link>;
 /** Information about a standalone activity. */
 export interface ActivityExecutionInfo {
   /** Unique identifier of this activity within its namespace along with run ID (below). */
-  activityId?: string;
-  runId?: string;
+  activityId?: string | undefined;
+  runId?: string | undefined;
   /** The type of the activity, a string that maps to a registered activity on a worker. */
-  activityType?: WorkflowType;
+  activityType?: WorkflowType | undefined;
   /** A general status for this activity, indicates whether it is currently running or in one of the terminal statuses. */
-  status?: ActivityExecutionInfoStatus;
+  status?: ActivityExecutionInfoStatus | undefined;
   /** More detailed breakdown of ACTIVITY_EXECUTION_STATUS_RUNNING. */
-  runState?: ActivityExecutionInfoRunState;
-  taskQueue?: string;
+  runState?: ActivityExecutionInfoRunState | undefined;
+  taskQueue?: string | undefined;
   /** Indicates how long the caller is willing to wait for an activity completion. Limits how long retries will be attempted. (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: "to" is used to indicate interval. --) */
-  scheduleToCloseTimeout?: string;
+  scheduleToCloseTimeout?: string | undefined;
   /** Limits time an activity task can stay in a task queue before a worker picks it up. This timeout is always non retryable, as all a retry would achieve is to put it back into the same queue. Defaults to `schedule_to_close_timeout`. (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: "to" is used to indicate interval. --) */
-  scheduleToStartTimeout?: string;
+  scheduleToStartTimeout?: string | undefined;
   /** Maximum time a single activity attempt is allowed to execute after being picked up by a worker. This timeout is always retryable. (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: "to" is used to indicate interval. --) */
-  startToCloseTimeout?: string;
+  startToCloseTimeout?: string | undefined;
   /** Maximum permitted time between successful worker heartbeats. */
-  heartbeatTimeout?: string;
+  heartbeatTimeout?: string | undefined;
   /** The retry policy for the activity. Will never exceed `schedule_to_close_timeout`. */
-  retryPolicy?: RetryPolicy;
+  retryPolicy?: RetryPolicy | undefined;
   /** Details provided in the last recorded activity heartbeat. */
-  heartbeatDetails?: Payloads;
+  heartbeatDetails?: Payloads | undefined;
   /** Time the last heartbeat was recorded. */
-  lastHeartbeatTime?: string;
+  lastHeartbeatTime?: string | undefined;
   /** Time the last attempt was started. */
-  lastStartedTime?: string;
+  lastStartedTime?: string | undefined;
   /** The attempt this activity is currently on. Incremented each time a new attempt is scheduled. */
-  attempt?: number;
+  attempt?: number | undefined;
   /** How long this activity has been running for, including all attempts and backoff between attempts. */
-  executionDuration?: string;
+  executionDuration?: string | undefined;
   /** Time the activity was originally scheduled via a StartActivityExecution request. */
-  scheduleTime?: string;
+  scheduleTime?: string | undefined;
   /** Scheduled time + schedule to close timeout. */
-  expirationTime?: string;
+  expirationTime?: string | undefined;
   /** Time when the activity transitioned to a closed state. */
-  closeTime?: string;
+  closeTime?: string | undefined;
   /** Failure details from the last failed attempt. */
-  lastFailure?: Failure;
-  lastWorkerIdentity?: string;
+  lastFailure?: Failure | undefined;
+  lastWorkerIdentity?: string | undefined;
   /** Time from the last attempt failure to the next activity retry. If the activity is currently running, this represents the next retry interval in case the attempt fails. If activity is currently backing off between attempt, this represents the current retry interval. If there is no next retry allowed, this field will be null. This interval is typically calculated from the specified retry policy, but may be modified if an activity fails with a retryable application failure specifying a retry delay. */
-  currentRetryInterval?: string;
+  currentRetryInterval?: string | undefined;
   /** The time when the last activity attempt completed. If activity has not been completed yet, it will be null. */
-  lastAttemptCompleteTime?: string;
+  lastAttemptCompleteTime?: string | undefined;
   /** The time when the next activity attempt will be scheduled. If activity is currently scheduled or started, this field will be null. */
-  nextAttemptScheduleTime?: string;
+  nextAttemptScheduleTime?: string | undefined;
   /** The Worker Deployment Version this activity was dispatched to most recently. If nil, the activity has not yet been dispatched or was last dispatched to an unversioned worker. */
-  lastDeploymentVersion?: WorkerDeploymentVersion;
+  lastDeploymentVersion?: WorkerDeploymentVersion | undefined;
   /** Priority metadata. */
-  priority?: Priority;
+  priority?: Priority | undefined;
   /** Incremented each time the activity's state is mutated in persistence. */
-  stateTransitionCount?: string;
+  stateTransitionCount?: string | undefined;
   /** Updated once on scheduled and once on terminal status. */
-  stateSizeBytes?: string;
-  searchAttributes?: SearchAttributes;
-  header?: Header;
+  stateSizeBytes?: string | undefined;
+  searchAttributes?: SearchAttributes | undefined;
+  header?: Header | undefined;
   /** Metadata for use by user interfaces to display the fixed as-of-start summary and details of the activity. */
-  userMetadata?: UserMetadata;
+  userMetadata?: UserMetadata | undefined;
   /** Set if activity cancelation was requested. */
-  canceledReason?: string;
+  canceledReason?: string | undefined;
   /** Links to related entities, such as the entity that started this activity. */
-  links?: ActivityExecutionInfoLinksList;
+  links?: ActivityExecutionInfoLinksList | undefined;
   /** Total number of heartbeats recorded across all attempts of this activity, including retries. */
-  totalHeartbeatCount?: string;
+  totalHeartbeatCount?: string | undefined;
 }
 /** The outcome of a completed activity execution: either a successful result or a failure. */
 export interface ActivityExecutionOutcome {
   /** The result if the activity completed successfully. */
-  result?: Payloads;
+  result?: Payloads | undefined;
   /** The failure if the activity completed unsuccessfully. */
-  failure?: Failure;
+  failure?: Failure | undefined;
 }
 /** Header to attach to callback request. */
 export type CallbackNexusHeaderMap = { [key: string]: string | undefined };
 export interface CallbackNexus {
   /** Callback URL. */
-  url?: string;
+  url?: string | undefined;
   /** Header to attach to callback request. */
-  header?: CallbackNexusHeaderMap;
+  header?: CallbackNexusHeaderMap | undefined;
 }
 /** Callbacks to be delivered internally within the system. This variant is not settable in the API and will be rejected by the service with an INVALID_ARGUMENT error. The only reason that this is exposed is because callbacks are replicated across clusters via the WorkflowExecutionStarted event, which is defined in the public API. */
 export interface CallbackInternal {
   /** Opaque internal data. */
-  data?: string;
+  data?: string | undefined;
 }
 /** Links associated with the callback. It can be used to link to underlying resources of the callback. */
 export type CallbackLinksList = Array<Link>;
 /** Callback to attach to various events in the system, e.g. workflow run completion. */
 export interface Callback {
-  nexus?: CallbackNexus;
-  internal?: CallbackInternal;
+  nexus?: CallbackNexus | undefined;
+  internal?: CallbackInternal | undefined;
   /** Links associated with the callback. It can be used to link to underlying resources of the callback. */
-  links?: CallbackLinksList;
+  links?: CallbackLinksList | undefined;
 }
 /** The current state of the callback. */
 export type CallbackInfoState =
@@ -1082,37 +1082,37 @@ export type CallbackInfoState =
 /** Common callback information. Specific CallbackInfo messages should embed this and may include additional fields. */
 export interface CallbackInfo {
   /** Information on how this callback should be invoked (e.g. its URL and type). */
-  callback?: Callback;
+  callback?: Callback | undefined;
   /** The time when the callback was registered. */
-  registrationTime?: string;
+  registrationTime?: string | undefined;
   /** The current state of the callback. */
-  state?: CallbackInfoState;
+  state?: CallbackInfoState | undefined;
   /** The number of attempts made to deliver the callback. This number represents a minimum bound since the attempt is incremented after the callback request completes. */
-  attempt?: number;
+  attempt?: number | undefined;
   /** The time when the last attempt completed. */
-  lastAttemptCompleteTime?: string;
+  lastAttemptCompleteTime?: string | undefined;
   /** The last attempt's failure, if any. */
-  lastAttemptFailure?: Failure;
+  lastAttemptFailure?: Failure | undefined;
   /** The time when the next attempt is scheduled. */
-  nextAttemptScheduleTime?: string;
+  nextAttemptScheduleTime?: string | undefined;
   /** If the state is BLOCKED, blocked reason provides additional information. */
-  blockedReason?: string;
+  blockedReason?: string | undefined;
 }
 /** Callbacks attached to this activity execution and their current state. */
 export type DescribeActivityExecutionResponseCallbacksList = Array<CallbackInfo>;
 export interface DescribeActivityExecutionResponse {
   /** The run ID of the activity, useful when run_id was not specified in the request. */
-  runId?: string;
+  runId?: string | undefined;
   /** Information about the activity execution. */
-  info?: ActivityExecutionInfo;
+  info?: ActivityExecutionInfo | undefined;
   /** Serialized activity input, passed as arguments to the activity function. Only set if include_input was true in the request. */
-  input?: Payloads;
+  input?: Payloads | undefined;
   /** Only set if the activity is completed and include_outcome was true in the request. */
-  outcome?: ActivityExecutionOutcome;
+  outcome?: ActivityExecutionOutcome | undefined;
   /** Token for follow-on long-poll requests. Absent only if the activity is complete. */
-  longPollToken?: string;
+  longPollToken?: string | undefined;
   /** Callbacks attached to this activity execution and their current state. */
-  callbacks?: DescribeActivityExecutionResponseCallbacksList;
+  callbacks?: DescribeActivityExecutionResponseCallbacksList | undefined;
 }
 export interface DescribeBatchOperationRequest {
   /** Namespace that contains the batch operation */
@@ -1140,34 +1140,34 @@ export type DescribeBatchOperationResponseState =
   | "BATCH_OPERATION_STATE_FAILED";
 export interface DescribeBatchOperationResponse {
   /** Batch operation type */
-  operationType?: DescribeBatchOperationResponseOperationType;
+  operationType?: DescribeBatchOperationResponseOperationType | undefined;
   /** Batch job ID */
-  jobId?: string;
+  jobId?: string | undefined;
   /** Batch operation state */
-  state?: DescribeBatchOperationResponseState;
+  state?: DescribeBatchOperationResponseState | undefined;
   /** Batch operation start time */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Batch operation close time */
-  closeTime?: string;
+  closeTime?: string | undefined;
   /** Total operation count */
-  totalOperationCount?: string;
+  totalOperationCount?: string | undefined;
   /** Complete operation count */
-  completeOperationCount?: string;
+  completeOperationCount?: string | undefined;
   /** Failure operation count */
-  failureOperationCount?: string;
+  failureOperationCount?: string | undefined;
   /** Identity indicates the operator identity */
-  identity?: string;
+  identity?: string | undefined;
   /** Reason indicates the reason to stop a operation */
-  reason?: string;
+  reason?: string | undefined;
 }
 export interface DescribeDeploymentRequest {
   namespace: string;
   deployment_series_name: string;
   deployment_build_id: string;
   /** Different versions of the same worker service/application are related together by having a shared series name. Out of all deployments of a series, one can be designated as the current deployment, which receives new workflow executions and new tasks of workflows with `VERSIONING_BEHAVIOR_AUTO_UPGRADE` versioning behavior. */
-  deployment_seriesName?: string;
+  deployment_seriesName?: string | undefined;
   /** Build ID changes with each version of the worker when the worker program code and/or config changes. */
-  deployment_buildId?: string;
+  deployment_buildId?: string | undefined;
 }
 export type DeploymentInfoTaskQueueInfoType =
   | "TASK_QUEUE_TYPE_UNSPECIFIED"
@@ -1175,33 +1175,33 @@ export type DeploymentInfoTaskQueueInfoType =
   | "TASK_QUEUE_TYPE_ACTIVITY"
   | "TASK_QUEUE_TYPE_NEXUS";
 export interface DeploymentInfoTaskQueueInfo {
-  name?: string;
-  type?: DeploymentInfoTaskQueueInfoType;
+  name?: string | undefined;
+  type?: DeploymentInfoTaskQueueInfoType | undefined;
   /** When server saw the first poller for this task queue in this deployment. */
-  firstPollerTime?: string;
+  firstPollerTime?: string | undefined;
 }
 export type DeploymentInfoTaskQueueInfosList = Array<DeploymentInfoTaskQueueInfo>;
 /** A user-defined set of key-values. Can be updated as part of write operations to the deployment, such as `SetCurrentDeployment`. */
 export type DeploymentInfoMetadataMap = { [key: string]: unknown | undefined };
 /** `DeploymentInfo` holds information about a deployment. Deployment information is tracked automatically by server as soon as the first poll from that deployment reaches the server. There can be multiple task queue workers in a single deployment which are listed in this message. Deprecated. */
 export interface DeploymentInfo {
-  deployment?: Deployment;
-  createTime?: string;
-  taskQueueInfos?: DeploymentInfoTaskQueueInfosList;
+  deployment?: Deployment | undefined;
+  createTime?: string | undefined;
+  taskQueueInfos?: DeploymentInfoTaskQueueInfosList | undefined;
   /** A user-defined set of key-values. Can be updated as part of write operations to the deployment, such as `SetCurrentDeployment`. */
-  metadata?: DeploymentInfoMetadataMap;
+  metadata?: DeploymentInfoMetadataMap | undefined;
   /** If this deployment is the current deployment of its deployment series. */
-  isCurrent?: boolean;
+  isCurrent?: boolean | undefined;
 }
 /** [cleanup-wv-pre-release] Pre-release deployment APIs, clean up later */
 export interface DescribeDeploymentResponse {
-  deploymentInfo?: DeploymentInfo;
+  deploymentInfo?: DeploymentInfo | undefined;
 }
 export interface DescribeNamespaceRequest {
   namespace: string;
-  id?: string;
+  id?: string | undefined;
   /** If true, the server may serve the response from an eventually-consistent source instead of reading through to persistence. Defaults to false, which preserves read-after-write consistency. SDKs should set this when fetching namespace capabilities on worker/client startup. */
-  weakConsistency?: boolean;
+  weakConsistency?: boolean | undefined;
 }
 export type NamespaceInfoState =
   | "NAMESPACE_STATE_UNSPECIFIED"
@@ -1213,55 +1213,55 @@ export type NamespaceInfoDataMap = { [key: string]: string | undefined };
 /** Namespace capability details. Should contain what features are enabled in a namespace. */
 export interface NamespaceInfoCapabilities {
   /** True if the namespace supports eager workflow start. */
-  eagerWorkflowStart?: boolean;
+  eagerWorkflowStart?: boolean | undefined;
   /** True if the namespace supports sync update */
-  syncUpdate?: boolean;
+  syncUpdate?: boolean | undefined;
   /** True if the namespace supports async update */
-  asyncUpdate?: boolean;
+  asyncUpdate?: boolean | undefined;
   /** True if the namespace supports worker heartbeats */
-  workerHeartbeats?: boolean;
+  workerHeartbeats?: boolean | undefined;
   /** True if the namespace supports reported problems search attribute */
-  reportedProblemsSearchAttribute?: boolean;
+  reportedProblemsSearchAttribute?: boolean | undefined;
   /** True if the namespace supports pausing workflows */
-  workflowPause?: boolean;
+  workflowPause?: boolean | undefined;
   /** True if the namespace supports standalone activities */
-  standaloneActivities?: boolean;
+  standaloneActivities?: boolean | undefined;
   /** True if the namespace supports server-side completion of outstanding worker polls on shutdown. When enabled, the server will complete polls for workers that send WorkerInstanceKey in their poll requests and call ShutdownWorker with the same WorkerInstanceKey. The poll will return an empty response. When this flag is true, workers should allow polls to return gracefully rather than terminating any open polls on shutdown. */
-  workerPollCompleteOnShutdown?: boolean;
+  workerPollCompleteOnShutdown?: boolean | undefined;
   /** True if the namespace supports poller autoscaling */
-  pollerAutoscaling?: boolean;
+  pollerAutoscaling?: boolean | undefined;
   /** True if the namespace supports worker commands (server-to-worker communication via control queues). */
-  workerCommands?: boolean;
+  workerCommands?: boolean | undefined;
 }
 export interface NamespaceInfoLimits {
   /** Maximum size in bytes for payload fields in workflow history events (e.g., workflow/activity inputs and results, failure details, signal payloads). When exceeded, the server will reject the operation with an error. */
-  blobSizeLimitError?: string;
+  blobSizeLimitError?: string | undefined;
   /** Maximum total memo size in bytes per workflow execution. */
-  memoSizeLimitError?: string;
+  memoSizeLimitError?: string | undefined;
 }
 export interface NamespaceInfo {
-  name?: string;
-  state?: NamespaceInfoState;
-  description?: string;
-  ownerEmail?: string;
+  name?: string | undefined;
+  state?: NamespaceInfoState | undefined;
+  description?: string | undefined;
+  ownerEmail?: string | undefined;
   /** A key-value map for any customized purpose. */
-  data?: NamespaceInfoDataMap;
-  id?: string;
+  data?: NamespaceInfoDataMap | undefined;
+  id?: string | undefined;
   /** All capabilities the namespace supports. */
-  capabilities?: NamespaceInfoCapabilities;
+  capabilities?: NamespaceInfoCapabilities | undefined;
   /** Namespace configured limits */
-  limits?: NamespaceInfoLimits;
+  limits?: NamespaceInfoLimits | undefined;
   /** Whether scheduled workflows are supported on this namespace. This is only needed temporarily while the feature is experimental, so we can give it a high tag. */
-  supportsSchedules?: boolean;
+  supportsSchedules?: boolean | undefined;
 }
 export interface BadBinaryInfo {
-  reason?: string;
-  operator?: string;
-  createTime?: string;
+  reason?: string | undefined;
+  operator?: string | undefined;
+  createTime?: string | undefined;
 }
 export type BadBinariesBinariesMap = { [key: string]: BadBinaryInfo | undefined };
 export interface BadBinaries {
-  binaries?: BadBinariesBinariesMap;
+  binaries?: BadBinariesBinariesMap | undefined;
 }
 /** If unspecified (ARCHIVAL_STATE_UNSPECIFIED) then default server configuration is used. */
 export type NamespaceConfigHistoryArchivalState =
@@ -1276,19 +1276,19 @@ export type NamespaceConfigVisibilityArchivalState =
 /** Map from field name to alias. */
 export type NamespaceConfigCustomSearchAttributeAliasesMap = { [key: string]: string | undefined };
 export interface NamespaceConfig {
-  workflowExecutionRetentionTtl?: string;
-  badBinaries?: BadBinaries;
+  workflowExecutionRetentionTtl?: string | undefined;
+  badBinaries?: BadBinaries | undefined;
   /** If unspecified (ARCHIVAL_STATE_UNSPECIFIED) then default server configuration is used. */
-  historyArchivalState?: NamespaceConfigHistoryArchivalState | (string & {});
-  historyArchivalUri?: string;
+  historyArchivalState?: NamespaceConfigHistoryArchivalState | (string & {}) | undefined;
+  historyArchivalUri?: string | undefined;
   /** If unspecified (ARCHIVAL_STATE_UNSPECIFIED) then default server configuration is used. */
-  visibilityArchivalState?: NamespaceConfigVisibilityArchivalState | (string & {});
-  visibilityArchivalUri?: string;
+  visibilityArchivalState?: NamespaceConfigVisibilityArchivalState | (string & {}) | undefined;
+  visibilityArchivalUri?: string | undefined;
   /** Map from field name to alias. */
-  customSearchAttributeAliases?: NamespaceConfigCustomSearchAttributeAliasesMap;
+  customSearchAttributeAliases?: NamespaceConfigCustomSearchAttributeAliasesMap | undefined;
 }
 export interface ClusterReplicationConfig {
-  clusterName?: string;
+  clusterName?: string | undefined;
 }
 export type NamespaceReplicationConfigClustersList = Array<ClusterReplicationConfig>;
 export type NamespaceReplicationConfigState =
@@ -1296,38 +1296,38 @@ export type NamespaceReplicationConfigState =
   | "REPLICATION_STATE_NORMAL"
   | "REPLICATION_STATE_HANDOVER";
 export interface NamespaceReplicationConfig {
-  activeClusterName?: string;
-  clusters?: NamespaceReplicationConfigClustersList;
-  state?: NamespaceReplicationConfigState | (string & {});
+  activeClusterName?: string | undefined;
+  clusters?: NamespaceReplicationConfigClustersList | undefined;
+  state?: NamespaceReplicationConfigState | (string & {}) | undefined;
 }
 /** Represents a historical replication status of a Namespace */
 export interface FailoverStatus {
   /** Timestamp when the Cluster switched to the following failover_version */
-  failoverTime?: string;
-  failoverVersion?: string;
+  failoverTime?: string | undefined;
+  failoverVersion?: string | undefined;
 }
 /** Contains the historical state of failover_versions for the cluster, truncated to contain only the last N states to ensure that the list does not grow unbounded. */
 export type DescribeNamespaceResponseFailoverHistoryList = Array<FailoverStatus>;
 export interface DescribeNamespaceResponse {
-  namespaceInfo?: NamespaceInfo;
-  config?: NamespaceConfig;
-  replicationConfig?: NamespaceReplicationConfig;
-  failoverVersion?: string;
-  isGlobalNamespace?: boolean;
+  namespaceInfo?: NamespaceInfo | undefined;
+  config?: NamespaceConfig | undefined;
+  replicationConfig?: NamespaceReplicationConfig | undefined;
+  failoverVersion?: string | undefined;
+  isGlobalNamespace?: boolean | undefined;
   /** Contains the historical state of failover_versions for the cluster, truncated to contain only the last N states to ensure that the list does not grow unbounded. */
-  failoverHistory?: DescribeNamespaceResponseFailoverHistoryList;
+  failoverHistory?: DescribeNamespaceResponseFailoverHistoryList | undefined;
 }
 export interface DescribeNexusOperationExecutionRequest {
   namespace: string;
   operationId: string;
   /** Operation run ID. If empty the request targets the latest run. */
-  runId?: string;
+  runId?: string | undefined;
   /** Include the input field in the response. */
-  includeInput?: boolean;
+  includeInput?: boolean | undefined;
   /** Include the outcome (result/failure) in the response if the operation has completed. */
-  includeOutcome?: boolean;
+  includeOutcome?: boolean | undefined;
   /** Token from a previous DescribeNexusOperationExecutionResponse. If present, this RPC will long-poll until operation state changes from the state encoded in this token. If absent, return current state immediately. If present, run_id must also be present. Note that operation state may change multiple times between requests, therefore it is not guaranteed that a client making a sequence of long-poll requests will see a complete sequence of state changes. */
-  longPollToken?: string;
+  longPollToken?: string | undefined;
 }
 /** A general status for this operation, indicates whether it is currently running or in one of the terminal statuses. Updated once when the operation is originally scheduled, and again when it reaches a terminal status. */
 export type NexusOperationExecutionInfoStatus =
@@ -1356,20 +1356,20 @@ export type NexusOperationExecutionCancellationInfoState =
 /** NexusOperationExecutionCancellationInfo contains the state of a Nexus operation cancellation. */
 export interface NexusOperationExecutionCancellationInfo {
   /** The time when cancellation was requested. */
-  requestedTime?: string;
-  state?: NexusOperationExecutionCancellationInfoState;
+  requestedTime?: string | undefined;
+  state?: NexusOperationExecutionCancellationInfoState | undefined;
   /** The number of attempts made to deliver the cancel operation request. This number represents a minimum bound since the attempt is incremented after the request completes. */
-  attempt?: number;
+  attempt?: number | undefined;
   /** The time when the last attempt completed. */
-  lastAttemptCompleteTime?: string;
+  lastAttemptCompleteTime?: string | undefined;
   /** The last attempt's failure, if any. */
-  lastAttemptFailure?: Failure;
+  lastAttemptFailure?: Failure | undefined;
   /** The time when the next attempt is scheduled. */
-  nextAttemptScheduleTime?: string;
+  nextAttemptScheduleTime?: string | undefined;
   /** If the state is BLOCKED, blocked reason provides additional information. */
-  blockedReason?: string;
+  blockedReason?: string | undefined;
   /** A reason that may be specified in the CancelNexusOperationRequest. */
-  reason?: string;
+  reason?: string | undefined;
 }
 /** Header for context propagation and tracing purposes. */
 export type NexusOperationExecutionInfoNexusHeaderMap = { [key: string]: string | undefined };
@@ -1378,72 +1378,72 @@ export type NexusOperationExecutionInfoLinksList = Array<Link>;
 /** Full current state of a standalone Nexus operation, as of the time of the request. */
 export interface NexusOperationExecutionInfo {
   /** Unique identifier of this Nexus operation within its namespace along with run ID (below). */
-  operationId?: string;
-  runId?: string;
+  operationId?: string | undefined;
+  runId?: string | undefined;
   /** Endpoint name, resolved to a URL via the cluster's endpoint registry. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Service name. */
-  service?: string;
+  service?: string | undefined;
   /** Operation name. */
-  operation?: string;
+  operation?: string | undefined;
   /** A general status for this operation, indicates whether it is currently running or in one of the terminal statuses. Updated once when the operation is originally scheduled, and again when it reaches a terminal status. */
-  status?: NexusOperationExecutionInfoStatus;
+  status?: NexusOperationExecutionInfoStatus | undefined;
   /** More detailed breakdown of NEXUS_OPERATION_EXECUTION_STATUS_RUNNING. */
-  state?: NexusOperationExecutionInfoState;
+  state?: NexusOperationExecutionInfoState | undefined;
   /** Schedule-to-close timeout for this operation. (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: "to" is used to indicate interval. --) */
-  scheduleToCloseTimeout?: string;
+  scheduleToCloseTimeout?: string | undefined;
   /** Schedule-to-start timeout for this operation. (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: "to" is used to indicate interval. --) */
-  scheduleToStartTimeout?: string;
+  scheduleToStartTimeout?: string | undefined;
   /** Start-to-close timeout for this operation. (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: "to" is used to indicate interval. --) */
-  startToCloseTimeout?: string;
+  startToCloseTimeout?: string | undefined;
   /** The number of attempts made to deliver the start operation request. This number is approximate, it is incremented when a task is added to the history queue. In practice, there could be more attempts if a task is executed but fails to commit, or less attempts if a task was never executed. */
-  attempt?: number;
+  attempt?: number | undefined;
   /** Time the operation was originally scheduled via a StartNexusOperation request. */
-  scheduleTime?: string;
+  scheduleTime?: string | undefined;
   /** Scheduled time + schedule to close timeout. */
-  expirationTime?: string;
+  expirationTime?: string | undefined;
   /** Time when the operation transitioned to a closed state. */
-  closeTime?: string;
+  closeTime?: string | undefined;
   /** The time when the last attempt completed. */
-  lastAttemptCompleteTime?: string;
+  lastAttemptCompleteTime?: string | undefined;
   /** The last attempt's failure, if any. */
-  lastAttemptFailure?: Failure;
+  lastAttemptFailure?: Failure | undefined;
   /** The time when the next attempt is scheduled. */
-  nextAttemptScheduleTime?: string;
+  nextAttemptScheduleTime?: string | undefined;
   /** Elapsed time from schedule_time to now for running operations or to close_time for closed operations, including all attempts and backoff between attempts. */
-  executionDuration?: string;
-  cancellationInfo?: NexusOperationExecutionCancellationInfo;
+  executionDuration?: string | undefined;
+  cancellationInfo?: NexusOperationExecutionCancellationInfo | undefined;
   /** If the state is BLOCKED, blocked reason provides additional information. */
-  blockedReason?: string;
+  blockedReason?: string | undefined;
   /** Server-generated request ID used as an idempotency token when submitting start requests to the handler. Distinct from the request_id in StartNexusOperationRequest, which is the caller-side idempotency key for the StartNexusOperation RPC itself. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Operation token. Only set for asynchronous operations after a successful StartOperation call. */
-  operationToken?: string;
+  operationToken?: string | undefined;
   /** Incremented each time the operation's state is mutated in persistence. */
-  stateTransitionCount?: string;
-  searchAttributes?: SearchAttributes;
+  stateTransitionCount?: string | undefined;
+  searchAttributes?: SearchAttributes | undefined;
   /** Header for context propagation and tracing purposes. */
-  nexusHeader?: NexusOperationExecutionInfoNexusHeaderMap;
+  nexusHeader?: NexusOperationExecutionInfoNexusHeaderMap | undefined;
   /** Metadata for use by user interfaces to display the fixed as-of-start summary and details of the operation. */
-  userMetadata?: UserMetadata;
+  userMetadata?: UserMetadata | undefined;
   /** Links attached by the handler of this operation on start or completion. */
-  links?: NexusOperationExecutionInfoLinksList;
+  links?: NexusOperationExecutionInfoLinksList | undefined;
   /** The identity of the client who started this operation. */
-  identity?: string;
+  identity?: string | undefined;
 }
 export interface DescribeNexusOperationExecutionResponse {
   /** The run ID of the operation, useful when run_id was not specified in the request. */
-  runId?: string;
+  runId?: string | undefined;
   /** Information about the operation. */
-  info?: NexusOperationExecutionInfo;
+  info?: NexusOperationExecutionInfo | undefined;
   /** Serialized operation input, passed as the request payload. Only set if include_input was true in the request. */
-  input?: unknown;
+  input?: unknown | undefined;
   /** The result if the operation completed successfully. */
-  result?: unknown;
+  result?: unknown | undefined;
   /** The failure if the operation completed unsuccessfully. */
-  failure?: Failure;
+  failure?: Failure | undefined;
   /** Token for follow-on long-poll requests. Absent only if the operation is complete. */
-  longPollToken?: string;
+  longPollToken?: string | undefined;
 }
 export interface DescribeScheduleRequest {
   /** The namespace of the schedule to describe. */
@@ -1466,13 +1466,13 @@ export type ScheduleActionResultStartWorkflowStatus =
   | "WORKFLOW_EXECUTION_STATUS_PAUSED";
 export interface ScheduleActionResult {
   /** Time that the action was taken (according to the schedule, including jitter). */
-  scheduleTime?: string;
+  scheduleTime?: string | undefined;
   /** Time that the action was taken (real time). */
-  actualTime?: string;
+  actualTime?: string | undefined;
   /** If action was start_workflow: */
-  startWorkflowResult?: WorkflowExecution;
+  startWorkflowResult?: WorkflowExecution | undefined;
   /** If the action was start_workflow, this field will reflect an eventually-consistent view of the started workflow's status. */
-  startWorkflowStatus?: ScheduleActionResultStartWorkflowStatus;
+  startWorkflowStatus?: ScheduleActionResultStartWorkflowStatus | undefined;
 }
 /** Most recent ten actual action times (including manual triggers). */
 export type ScheduleInfoRecentActionsList = Array<ScheduleActionResult>;
@@ -1480,37 +1480,37 @@ export type ScheduleInfoRecentActionsList = Array<ScheduleActionResult>;
 export type ScheduleInfoFutureActionTimesList = Array<string>;
 export interface ScheduleInfo {
   /** Number of actions taken so far. */
-  actionCount?: string;
+  actionCount?: string | undefined;
   /** Number of times a scheduled action was skipped due to missing the catchup window. */
-  missedCatchupWindow?: string;
+  missedCatchupWindow?: string | undefined;
   /** Number of skipped actions due to overlap. */
-  overlapSkipped?: string;
+  overlapSkipped?: string | undefined;
   /** Number of dropped actions due to buffer limit. */
-  bufferDropped?: string;
+  bufferDropped?: string | undefined;
   /** Number of actions in the buffer. The buffer holds the actions that cannot be immediately triggered (due to the overlap policy). These actions can be a result of the normal schedule or a backfill. */
-  bufferSize?: string;
+  bufferSize?: string | undefined;
   /** Currently-running workflows started by this schedule. (There might be more than one if the overlap policy allows overlaps.) Note that the run_ids in here are the original execution run ids as started by the schedule. If the workflows retried, did continue-as-new, or were reset, they might still be running but with a different run_id. */
-  runningWorkflows?: ScheduleInfoRunningWorkflowsList;
+  runningWorkflows?: ScheduleInfoRunningWorkflowsList | undefined;
   /** Most recent ten actual action times (including manual triggers). */
-  recentActions?: ScheduleInfoRecentActionsList;
+  recentActions?: ScheduleInfoRecentActionsList | undefined;
   /** Next ten scheduled action times. */
-  futureActionTimes?: ScheduleInfoFutureActionTimesList;
+  futureActionTimes?: ScheduleInfoFutureActionTimesList | undefined;
   /** Timestamps of schedule creation and last update. */
-  createTime?: string;
-  updateTime?: string;
+  createTime?: string | undefined;
+  updateTime?: string | undefined;
   /** Deprecated. */
-  invalidScheduleError?: string;
+  invalidScheduleError?: string | undefined;
 }
 export interface DescribeScheduleResponse {
   /** The complete current schedule details. This may not match the schedule as created because: - some types of schedule specs may get compiled into others (e.g. CronString into StructuredCalendarSpec) - some unspecified fields may be replaced by defaults - some fields in the state are modified automatically - the schedule may have been modified by UpdateSchedule or PatchSchedule */
-  schedule?: Schedule;
+  schedule?: Schedule | undefined;
   /** Extra schedule state info. */
-  info?: ScheduleInfo;
+  info?: ScheduleInfo | undefined;
   /** The memo and search attributes that the schedule was created with. */
-  memo?: Memo;
-  searchAttributes?: SearchAttributes;
+  memo?: Memo | undefined;
+  searchAttributes?: SearchAttributes | undefined;
   /** This value can be passed back to UpdateSchedule to ensure that the schedule was not modified between a Describe and an Update, which could lead to lost updates and other confusion. */
-  conflictToken?: string;
+  conflictToken?: string | undefined;
 }
 export type DescribeTaskQueueRequestTaskQueueKind =
   | "TASK_QUEUE_KIND_UNSPECIFIED"
@@ -1537,42 +1537,42 @@ export type DescribeTaskQueueRequestTaskQueueTypesList = Array<
 export interface DescribeTaskQueueRequest {
   namespace: string;
   task_queue_name: string;
-  taskQueue_name?: string;
+  taskQueue_name?: string | undefined;
   /** Default: TASK_QUEUE_KIND_NORMAL. */
-  taskQueue_kind?: DescribeTaskQueueRequestTaskQueueKind | (string & {});
+  taskQueue_kind?: DescribeTaskQueueRequestTaskQueueKind | (string & {}) | undefined;
   /** Iff kind == TASK_QUEUE_KIND_STICKY, then this field contains the name of the normal task queue that the sticky worker is running on. */
-  taskQueue_normalName?: string;
+  taskQueue_normalName?: string | undefined;
   /** If unspecified (TASK_QUEUE_TYPE_UNSPECIFIED), then default value (TASK_QUEUE_TYPE_WORKFLOW) will be used. Only supported in default mode (use `task_queue_types` in ENHANCED mode instead). */
-  taskQueueType?: DescribeTaskQueueRequestTaskQueueType | (string & {});
+  taskQueueType?: DescribeTaskQueueRequestTaskQueueType | (string & {}) | undefined;
   /** Report stats for the requested task queue type(s). */
-  reportStats?: boolean;
+  reportStats?: boolean | undefined;
   /** Report Task Queue Config */
-  reportConfig?: boolean;
+  reportConfig?: boolean | undefined;
   /** Deprecated, use `report_stats` instead. If true, the task queue status will be included in the response. */
-  includeTaskQueueStatus?: boolean;
+  includeTaskQueueStatus?: boolean | undefined;
   /** Deprecated. ENHANCED mode is also being deprecated. Select the API mode to use for this request: DEFAULT mode (if unset) or ENHANCED mode. Consult the documentation for each field to understand which mode it is supported in. */
-  apiMode?: DescribeTaskQueueRequestApiMode | (string & {});
+  apiMode?: DescribeTaskQueueRequestApiMode | (string & {}) | undefined;
   /** Include specific Build IDs. */
-  versions_buildIds?: DescribeTaskQueueRequestVersionsBuildIdsList;
+  versions_buildIds?: DescribeTaskQueueRequestVersionsBuildIdsList | undefined;
   /** Include the unversioned queue. */
-  versions_unversioned?: boolean;
+  versions_unversioned?: boolean | undefined;
   /** Include all active versions. A version is considered active if, in the last few minutes, it has had new tasks or polls, or it has been the subject of certain task queue API calls. */
-  versions_allActive?: boolean;
+  versions_allActive?: boolean | undefined;
   /** Deprecated (as part of the ENHANCED mode deprecation). Task queue types to report info about. If not specified, all types are considered. */
-  taskQueueTypes?: DescribeTaskQueueRequestTaskQueueTypesList;
+  taskQueueTypes?: DescribeTaskQueueRequestTaskQueueTypesList | undefined;
   /** Deprecated (as part of the ENHANCED mode deprecation). Report list of pollers for requested task queue types and versions. */
-  reportPollers?: boolean;
+  reportPollers?: boolean | undefined;
   /** Deprecated (as part of the ENHANCED mode deprecation). Report task reachability for the requested versions and all task types (task reachability is not reported per task type). */
-  reportTaskReachability?: boolean;
+  reportTaskReachability?: boolean | undefined;
 }
 /** Identifies the version that a worker is compatible with when polling or identifying itself, and whether or not this worker is opting into the build-id based versioning feature. This is used by matching to determine which workers ought to receive what tasks. Deprecated. Use WorkerDeploymentOptions instead. */
 export interface WorkerVersionCapabilities {
   /** An opaque whole-worker identifier */
-  buildId?: string;
+  buildId?: string | undefined;
   /** If set, the worker is opting in to worker versioning, and wishes to only receive appropriate tasks. */
-  useVersioning?: boolean;
+  useVersioning?: boolean | undefined;
   /** Must be sent if user has set a deployment series name (versioning-3). */
-  deploymentSeriesName?: string;
+  deploymentSeriesName?: string | undefined;
 }
 /** Required. Versioning Mode for this worker. Must be the same for all workers with the same `deployment_name` and `build_id` combination, across all Task Queues. When `worker_versioning_mode==VERSIONED`, the worker will be part of a Deployment Version. */
 export type WorkerDeploymentOptionsWorkerVersioningMode =
@@ -1582,32 +1582,32 @@ export type WorkerDeploymentOptionsWorkerVersioningMode =
 /** Worker Deployment options set in SDK that need to be sent to server in every poll. */
 export interface WorkerDeploymentOptions {
   /** Required when `worker_versioning_mode==VERSIONED`. */
-  deploymentName?: string;
+  deploymentName?: string | undefined;
   /** The Build ID of the worker. Required when `worker_versioning_mode==VERSIONED`, in which case, the worker will be part of a Deployment Version. */
-  buildId?: string;
+  buildId?: string | undefined;
   /** Required. Versioning Mode for this worker. Must be the same for all workers with the same `deployment_name` and `build_id` combination, across all Task Queues. When `worker_versioning_mode==VERSIONED`, the worker will be part of a Deployment Version. */
-  workerVersioningMode?: WorkerDeploymentOptionsWorkerVersioningMode | (string & {});
+  workerVersioningMode?: WorkerDeploymentOptionsWorkerVersioningMode | (string & {}) | undefined;
 }
 export interface PollerInfo {
-  lastAccessTime?: string;
-  identity?: string;
-  ratePerSecond?: number;
+  lastAccessTime?: string | undefined;
+  identity?: string | undefined;
+  ratePerSecond?: number | undefined;
   /** If a worker has opted into the worker versioning feature while polling, its capabilities will appear here. Deprecated. Replaced by deployment_options. */
-  workerVersionCapabilities?: WorkerVersionCapabilities;
+  workerVersionCapabilities?: WorkerVersionCapabilities | undefined;
   /** Worker deployment options that SDK sent to server. */
-  deploymentOptions?: WorkerDeploymentOptions;
+  deploymentOptions?: WorkerDeploymentOptions | undefined;
 }
 export type DescribeTaskQueueResponsePollersList = Array<PollerInfo>;
 /** TaskQueueStats contains statistics about task queue backlog and activity. For workflow task queue type, this result is partial because tasks sent to sticky queues are not included. Read comments above each metric to understand the impact of sticky queue exclusion on that metric accuracy. */
 export interface TaskQueueStats {
   /** The approximate number of tasks backlogged in this task queue. May count expired tasks but eventually converges to the right value. Can be relied upon for scaling decisions. Special note for workflow task queue type: this metric does not count sticky queue tasks. However, because those tasks only remain valid for a few seconds, the inaccuracy becomes less significant as the backlog size grows. */
-  approximateBacklogCount?: string;
+  approximateBacklogCount?: string | undefined;
   /** Approximate age of the oldest task in the backlog based on the creation time of the task at the head of the queue. Can be relied upon for scaling decisions. Special note for workflow task queue type: this metric does not count sticky queue tasks. However, because those tasks only remain valid for a few seconds, they should not affect the result when backlog is older than few seconds. */
-  approximateBacklogAge?: string;
+  approximateBacklogAge?: string | undefined;
   /** The approximate tasks per second added to the task queue, averaging the last 30 seconds. These includes tasks whether or not they were added to/dispatched from the backlog or they were dispatched immediately without going to the backlog (sync-matched). The difference between `tasks_add_rate` and `tasks_dispatch_rate` is a reliable metric for the rate at which backlog grows/shrinks. Note: the actual tasks delivered to the workers may significantly be higher than the numbers reported by tasks_add_rate, because: - Tasks can be sent to workers without going to the task queue. This is called Eager dispatch. Eager dispatch is enable for activities by default in the latest SDKs. - Tasks going to Sticky queue are not accounted for. Note that, typically, only the first workflow task of each workflow goes to a normal queue, and the rest workflow tasks go to the Sticky queue associated with a specific worker instance. */
-  tasksAddRate?: number;
+  tasksAddRate?: number | undefined;
   /** The approximate tasks per second dispatched from the task queue, averaging the last 30 seconds. These includes tasks whether or not they were added to/dispatched from the backlog or they were dispatched immediately without going to the backlog (sync-matched). The difference between `tasks_add_rate` and `tasks_dispatch_rate` is a reliable metric for the rate at which backlog grows/shrinks. Note: the actual tasks delivered to the workers may significantly be higher than the numbers reported by tasks_dispatch_rate, because: - Tasks can be sent to workers without going to the task queue. This is called Eager dispatch. Eager dispatch is enable for activities by default in the latest SDKs. - Tasks going to Sticky queue are not accounted for. Note that, typically, only the first workflow task of each workflow goes to a normal queue, and the rest workflow tasks go to the Sticky queue associated with a specific worker instance. */
-  tasksDispatchRate?: number;
+  tasksDispatchRate?: number | undefined;
 }
 /** Task queue stats breakdown by priority key. Only contains actively used priority keys. Only set if `report_stats` is set on the request. (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: "by" is used to clarify the keys and values. --) */
 export type DescribeTaskQueueResponseStatsByPriorityKeyMap = {
@@ -1615,43 +1615,43 @@ export type DescribeTaskQueueResponseStatsByPriorityKeyMap = {
 };
 export interface TaskQueueVersioningInfo {
   /** Specifies which Deployment Version should receive new workflow executions and tasks of existing unversioned or AutoUpgrade workflows. Nil value represents all the unversioned workers (those with `UNVERSIONED` (or unspecified) `WorkerVersioningMode`.) Note: Current Version is overridden by the Ramping Version for a portion of traffic when ramp percentage is non-zero (see `ramping_deployment_version` and `ramping_version_percentage`). */
-  currentDeploymentVersion?: WorkerDeploymentVersion;
+  currentDeploymentVersion?: WorkerDeploymentVersion | undefined;
   /** Deprecated. Use `current_deployment_version`. */
-  currentVersion?: string;
+  currentVersion?: string | undefined;
   /** When ramp percentage is non-zero, that portion of traffic is shifted from the Current Version to the Ramping Version. Must always be different from `current_deployment_version` unless both are nil. Nil value represents all the unversioned workers (those with `UNVERSIONED` (or unspecified) `WorkerVersioningMode`.) Note that it is possible to ramp from one Version to another Version, or from unversioned workers to a particular Version, or from a particular Version to unversioned workers. */
-  rampingDeploymentVersion?: WorkerDeploymentVersion;
+  rampingDeploymentVersion?: WorkerDeploymentVersion | undefined;
   /** Deprecated. Use `ramping_deployment_version`. */
-  rampingVersion?: string;
+  rampingVersion?: string | undefined;
   /** Percentage of tasks that are routed to the Ramping Version instead of the Current Version. Valid range: [0, 100]. A 100% value means the Ramping Version is receiving full traffic but not yet "promoted" to be the Current Version, likely due to pending validations. A 0% value means the Ramping Version is receiving no traffic. */
-  rampingVersionPercentage?: number;
+  rampingVersionPercentage?: number | undefined;
   /** Last time versioning information of this Task Queue changed. */
-  updateTime?: string;
+  updateTime?: string | undefined;
 }
 export interface RateLimit {
   /** Zero is a valid rate limit. */
-  requestsPerSecond?: number;
+  requestsPerSecond?: number | undefined;
 }
 export interface ConfigMetadata {
   /** Reason for why the config was set. */
-  reason?: string;
+  reason?: string | undefined;
   /** Identity of the last updater. Set by the request's identity field. */
-  updateIdentity?: string;
+  updateIdentity?: string | undefined;
   /** Time of the last update. */
-  updateTime?: string;
+  updateTime?: string | undefined;
 }
 export interface RateLimitConfig {
-  rateLimit?: RateLimit;
-  metadata?: ConfigMetadata;
+  rateLimit?: RateLimit | undefined;
+  metadata?: ConfigMetadata | undefined;
 }
 /** If set, overrides the fairness weights for the corresponding fairness keys. */
 export type TaskQueueConfigFairnessWeightOverridesMap = { [key: string]: number | undefined };
 export interface TaskQueueConfig {
   /** Unless modified, this is the system-defined rate limit. */
-  queueRateLimit?: RateLimitConfig;
+  queueRateLimit?: RateLimitConfig | undefined;
   /** If set, each individual fairness key will be limited to this rate, scaled by the weight of the fairness key. */
-  fairnessKeysRateLimitDefault?: RateLimitConfig;
+  fairnessKeysRateLimitDefault?: RateLimitConfig | undefined;
   /** If set, overrides the fairness weights for the corresponding fairness keys. */
-  fairnessWeightOverrides?: TaskQueueConfigFairnessWeightOverridesMap;
+  fairnessWeightOverrides?: TaskQueueConfigFairnessWeightOverridesMap | undefined;
 }
 /** Source of the RateLimit Configuration,which can be one of the following values: - SOURCE_API: The rate limit that is set via the TaskQueueConfig api. - SOURCE_WORKER: The rate limit is the value set using the workerOptions in TaskQueueActivitiesPerSecond. - SOURCE_SYSTEM: The rate limit is the default value set by the system */
 export type DescribeTaskQueueResponseEffectiveRateLimitRateLimitSource =
@@ -1661,28 +1661,28 @@ export type DescribeTaskQueueResponseEffectiveRateLimitRateLimitSource =
   | "RATE_LIMIT_SOURCE_SYSTEM";
 export interface DescribeTaskQueueResponseEffectiveRateLimit {
   /** The effective rate limit for the task queue. */
-  requestsPerSecond?: number;
+  requestsPerSecond?: number | undefined;
   /** Source of the RateLimit Configuration,which can be one of the following values: - SOURCE_API: The rate limit that is set via the TaskQueueConfig api. - SOURCE_WORKER: The rate limit is the value set using the workerOptions in TaskQueueActivitiesPerSecond. - SOURCE_SYSTEM: The rate limit is the default value set by the system */
-  rateLimitSource?: DescribeTaskQueueResponseEffectiveRateLimitRateLimitSource;
+  rateLimitSource?: DescribeTaskQueueResponseEffectiveRateLimitRateLimitSource | undefined;
 }
 export interface TaskIdBlock {
-  startId?: string;
-  endId?: string;
+  startId?: string | undefined;
+  endId?: string | undefined;
 }
 /** Deprecated. Use `InternalTaskQueueStatus`. This is kept until `DescribeTaskQueue` supports legacy behavior. */
 export interface TaskQueueStatus {
-  backlogCountHint?: string;
-  readLevel?: string;
-  ackLevel?: string;
-  ratePerSecond?: number;
-  taskIdBlock?: TaskIdBlock;
+  backlogCountHint?: string | undefined;
+  readLevel?: string | undefined;
+  ackLevel?: string | undefined;
+  ratePerSecond?: number | undefined;
+  taskIdBlock?: TaskIdBlock | undefined;
 }
 /** Unversioned workers (with `useVersioning=false`) are reported in unversioned result even if they set a Build ID. */
 export type TaskQueueTypeInfoPollersList = Array<PollerInfo>;
 export interface TaskQueueTypeInfo {
   /** Unversioned workers (with `useVersioning=false`) are reported in unversioned result even if they set a Build ID. */
-  pollers?: TaskQueueTypeInfoPollersList;
-  stats?: TaskQueueStats;
+  pollers?: TaskQueueTypeInfoPollersList | undefined;
+  stats?: TaskQueueStats | undefined;
 }
 /** Task Queue info per Task Type. Key is the numerical value of the temporal.api.enums.v1.TaskQueueType enum. */
 export type TaskQueueVersionInfoTypesInfoMap = { [key: string]: TaskQueueTypeInfo | undefined };
@@ -1694,29 +1694,29 @@ export type TaskQueueVersionInfoTaskReachability =
   | "BUILD_ID_TASK_REACHABILITY_UNREACHABLE";
 export interface TaskQueueVersionInfo {
   /** Task Queue info per Task Type. Key is the numerical value of the temporal.api.enums.v1.TaskQueueType enum. */
-  typesInfo?: TaskQueueVersionInfoTypesInfoMap;
+  typesInfo?: TaskQueueVersionInfoTypesInfoMap | undefined;
   /** Task Reachability is eventually consistent; there may be a delay until it converges to the most accurate value but it is designed in a way to take the more conservative side until it converges. For example REACHABLE is more conservative than CLOSED_WORKFLOWS_ONLY. Note: future activities who inherit their workflow's Build ID but not its Task Queue will not be accounted for reachability as server cannot know if they'll happen as they do not use assignment rules of their Task Queue. Same goes for Child Workflows or Continue-As-New Workflows who inherit the parent/previous workflow's Build ID but not its Task Queue. In those cases, make sure to query reachability for the parent/previous workflow's Task Queue as well. */
-  taskReachability?: TaskQueueVersionInfoTaskReachability;
+  taskReachability?: TaskQueueVersionInfoTaskReachability | undefined;
 }
 /** Deprecated. Only returned in ENHANCED mode. This map contains Task Queue information for each Build ID. Empty string as key value means unversioned. */
 export type DescribeTaskQueueResponseVersionsInfoMap = {
   [key: string]: TaskQueueVersionInfo | undefined;
 };
 export interface DescribeTaskQueueResponse {
-  pollers?: DescribeTaskQueueResponsePollersList;
+  pollers?: DescribeTaskQueueResponsePollersList | undefined;
   /** Statistics for the task queue. Only set if `report_stats` is set on the request. */
-  stats?: TaskQueueStats;
+  stats?: TaskQueueStats | undefined;
   /** Task queue stats breakdown by priority key. Only contains actively used priority keys. Only set if `report_stats` is set on the request. (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: "by" is used to clarify the keys and values. --) */
-  statsByPriorityKey?: DescribeTaskQueueResponseStatsByPriorityKeyMap;
+  statsByPriorityKey?: DescribeTaskQueueResponseStatsByPriorityKeyMap | undefined;
   /** Specifies which Worker Deployment Version(s) Server routes this Task Queue's tasks to. When not present, it means the tasks are routed to Unversioned workers (workers with UNVERSIONED or unspecified WorkerVersioningMode.) Task Queue Versioning info is updated indirectly by calling SetWorkerDeploymentCurrentVersion and SetWorkerDeploymentRampingVersion on Worker Deployments. Note: This information is not relevant to Pinned workflow executions and their activities as they are always routed to their Pinned Deployment Version. However, new workflow executions are typically not Pinned until they complete their first task (unless they are started with a Pinned VersioningOverride or are Child Workflows of a Pinned parent). */
-  versioningInfo?: TaskQueueVersioningInfo;
+  versioningInfo?: TaskQueueVersioningInfo | undefined;
   /** Only populated if report_task_queue_config is set to true. */
-  config?: TaskQueueConfig;
-  effectiveRateLimit?: DescribeTaskQueueResponseEffectiveRateLimit;
+  config?: TaskQueueConfig | undefined;
+  effectiveRateLimit?: DescribeTaskQueueResponseEffectiveRateLimit | undefined;
   /** Deprecated. Status of the task queue. Only populated when `include_task_queue_status` is set to true in the request. */
-  taskQueueStatus?: TaskQueueStatus;
+  taskQueueStatus?: TaskQueueStatus | undefined;
   /** Deprecated. Only returned in ENHANCED mode. This map contains Task Queue information for each Build ID. Empty string as key value means unversioned. */
-  versionsInfo?: DescribeTaskQueueResponseVersionsInfoMap;
+  versionsInfo?: DescribeTaskQueueResponseVersionsInfoMap | undefined;
 }
 export interface DescribeWorkerRequest {
   /** Namespace this worker belongs to. */
@@ -1727,15 +1727,15 @@ export interface DescribeWorkerRequest {
 /** Holds everything needed to identify the worker host/process context */
 export interface WorkerHostInfo {
   /** Worker host identifier. */
-  hostName?: string;
+  hostName?: string | undefined;
   /** Worker grouping identifier. A key to group workers that share the same client+namespace+process. This will be used to build the worker command nexus task queue name: "temporal-sys/worker-commands/{worker_grouping_key}" */
-  workerGroupingKey?: string;
+  workerGroupingKey?: string | undefined;
   /** Worker process identifier. This id only needs to be unique within one host (so using e.g. a unix pid would be appropriate). */
-  processId?: string;
+  processId?: string | undefined;
   /** System used CPU as a float in the range [0.0, 1.0] where 1.0 is defined as all cores on the host pegged. */
-  currentHostCpuUsage?: number;
+  currentHostCpuUsage?: number | undefined;
   /** System used memory as a float in the range [0.0, 1.0] where 1.0 is defined as all available memory on the host is used. */
-  currentHostMemUsage?: number;
+  currentHostMemUsage?: number | undefined;
 }
 /** Worker status. Defined by SDK. */
 export type WorkerHeartbeatStatus =
@@ -1745,87 +1745,87 @@ export type WorkerHeartbeatStatus =
   | "WORKER_STATUS_SHUTDOWN";
 export interface WorkerSlotsInfo {
   /** Number of slots available for the worker to specific tasks. May be -1 if the upper bound is not known. */
-  currentAvailableSlots?: number;
+  currentAvailableSlots?: number | undefined;
   /** Number of slots used by the worker for specific tasks. */
-  currentUsedSlots?: number;
+  currentUsedSlots?: number | undefined;
   /** Kind of the slot supplier, which is used to determine how the slots are allocated. Possible values: "Fixed | ResourceBased | Custom String" */
-  slotSupplierKind?: string;
+  slotSupplierKind?: string | undefined;
   /** Total number of tasks processed (completed both successfully and unsuccesfully, or any other way) by the worker since the worker started. This is a cumulative counter. */
-  totalProcessedTasks?: number;
+  totalProcessedTasks?: number | undefined;
   /** Total number of failed tasks processed by the worker so far. */
-  totalFailedTasks?: number;
+  totalFailedTasks?: number | undefined;
   /** Number of tasks processed in since the last heartbeat from the worker. This is a cumulative counter, and it is reset to 0 each time the worker sends a heartbeat. Contains both successful and failed tasks. */
-  lastIntervalProcessedTasks?: number;
+  lastIntervalProcessedTasks?: number | undefined;
   /** Number of failed tasks processed since the last heartbeat from the worker. */
-  lastIntervalFailureTasks?: number;
+  lastIntervalFailureTasks?: number | undefined;
 }
 export interface WorkerPollerInfo {
   /** Number of polling RPCs that are currently in flight. */
-  currentPollers?: number;
-  lastSuccessfulPollTime?: string;
+  currentPollers?: number | undefined;
+  lastSuccessfulPollTime?: string | undefined;
   /** Set true if the number of concurrent pollers is auto-scaled */
-  isAutoscaling?: boolean;
+  isAutoscaling?: boolean | undefined;
 }
 export interface PluginInfo {
   /** The name of the plugin, required. */
-  name?: string;
+  name?: string | undefined;
   /** The version of the plugin, may be empty. */
-  version?: string;
+  version?: string | undefined;
 }
 /** Plugins currently in use by this SDK. */
 export type WorkerHeartbeatPluginsList = Array<PluginInfo>;
 export interface StorageDriverInfo {
   /** The type of the driver, required. */
-  type?: string;
+  type?: string | undefined;
 }
 /** Storage drivers in use by this SDK. */
 export type WorkerHeartbeatDriversList = Array<StorageDriverInfo>;
 /** Worker info message, contains information about the worker and its current state. All information is provided by the worker itself. (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: Removing those words make names less clear. --) */
 export interface WorkerHeartbeat {
   /** Worker identifier, should be unique for the namespace. It is distinct from worker identity, which is not necessarily namespace-unique. */
-  workerInstanceKey?: string;
+  workerInstanceKey?: string | undefined;
   /** Worker identity, set by the client, may not be unique. Usually host_name+(user group name)+process_id, but can be overwritten by the user. */
-  workerIdentity?: string;
+  workerIdentity?: string | undefined;
   /** Worker host information. */
-  hostInfo?: WorkerHostInfo;
+  hostInfo?: WorkerHostInfo | undefined;
   /** Task queue this worker is polling for tasks. */
-  taskQueue?: string;
-  deploymentVersion?: WorkerDeploymentVersion;
-  sdkName?: string;
-  sdkVersion?: string;
+  taskQueue?: string | undefined;
+  deploymentVersion?: WorkerDeploymentVersion | undefined;
+  sdkName?: string | undefined;
+  sdkVersion?: string | undefined;
   /** Worker status. Defined by SDK. */
-  status?: WorkerHeartbeatStatus | (string & {});
+  status?: WorkerHeartbeatStatus | (string & {}) | undefined;
   /** Worker start time. It can be used to determine worker uptime. (current time - start time) */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Timestamp of this heartbeat, coming from the worker. Worker should set it to "now". Note that this timestamp comes directly from the worker and is subject to workers' clock skew. */
-  heartbeatTime?: string;
+  heartbeatTime?: string | undefined;
   /** Elapsed time since the last heartbeat from the worker. */
-  elapsedSinceLastHeartbeat?: string;
-  workflowTaskSlotsInfo?: WorkerSlotsInfo;
-  activityTaskSlotsInfo?: WorkerSlotsInfo;
-  nexusTaskSlotsInfo?: WorkerSlotsInfo;
-  localActivitySlotsInfo?: WorkerSlotsInfo;
-  workflowPollerInfo?: WorkerPollerInfo;
-  workflowStickyPollerInfo?: WorkerPollerInfo;
-  activityPollerInfo?: WorkerPollerInfo;
-  nexusPollerInfo?: WorkerPollerInfo;
+  elapsedSinceLastHeartbeat?: string | undefined;
+  workflowTaskSlotsInfo?: WorkerSlotsInfo | undefined;
+  activityTaskSlotsInfo?: WorkerSlotsInfo | undefined;
+  nexusTaskSlotsInfo?: WorkerSlotsInfo | undefined;
+  localActivitySlotsInfo?: WorkerSlotsInfo | undefined;
+  workflowPollerInfo?: WorkerPollerInfo | undefined;
+  workflowStickyPollerInfo?: WorkerPollerInfo | undefined;
+  activityPollerInfo?: WorkerPollerInfo | undefined;
+  nexusPollerInfo?: WorkerPollerInfo | undefined;
   /** A Workflow Task found a cached Workflow Execution to run against. */
-  totalStickyCacheHit?: number;
+  totalStickyCacheHit?: number | undefined;
   /** A Workflow Task did not find a cached Workflow execution to run against. */
-  totalStickyCacheMiss?: number;
+  totalStickyCacheMiss?: number | undefined;
   /** Current cache size, expressed in number of Workflow Executions. */
-  currentStickyCacheSize?: number;
+  currentStickyCacheSize?: number | undefined;
   /** Plugins currently in use by this SDK. */
-  plugins?: WorkerHeartbeatPluginsList;
+  plugins?: WorkerHeartbeatPluginsList | undefined;
   /** Storage drivers in use by this SDK. */
-  drivers?: WorkerHeartbeatDriversList;
+  drivers?: WorkerHeartbeatDriversList | undefined;
 }
 /** Detailed worker information. */
 export interface WorkerInfo {
-  workerHeartbeat?: WorkerHeartbeat;
+  workerHeartbeat?: WorkerHeartbeat | undefined;
 }
 export interface DescribeWorkerResponse {
-  workerInfo?: WorkerInfo;
+  workerInfo?: WorkerInfo | undefined;
 }
 export interface DescribeWorkerDeploymentRequest {
   namespace: string;
@@ -1853,11 +1853,11 @@ export type VersionDrainageInfoStatus =
 /** Information about workflow drainage to help the user determine when it is safe to decommission a Version. Not present while version is current or ramping. */
 export interface VersionDrainageInfo {
   /** Set to DRAINING when the version first stops accepting new executions (is no longer current or ramping). Set to DRAINED when no more open pinned workflows exist on this version. */
-  status?: VersionDrainageInfoStatus;
+  status?: VersionDrainageInfoStatus | undefined;
   /** Last time the drainage status changed. */
-  lastChangedTime?: string;
+  lastChangedTime?: string | undefined;
   /** Last time the system checked for drainage of this version. */
-  lastCheckedTime?: string;
+  lastCheckedTime?: string | undefined;
 }
 export type ComputeConfigScalingGroupSummaryTaskQueueTypesItem =
   | "TASK_QUEUE_TYPE_UNSPECIFIED"
@@ -1867,64 +1867,64 @@ export type ComputeConfigScalingGroupSummaryTaskQueueTypesItem =
 export type ComputeConfigScalingGroupSummaryTaskQueueTypesList =
   Array<ComputeConfigScalingGroupSummaryTaskQueueTypesItem>;
 export interface ComputeConfigScalingGroupSummary {
-  taskQueueTypes?: ComputeConfigScalingGroupSummaryTaskQueueTypesList;
-  providerType?: string;
+  taskQueueTypes?: ComputeConfigScalingGroupSummaryTaskQueueTypesList | undefined;
+  providerType?: string | undefined;
 }
 export type ComputeConfigSummaryScalingGroupsMap = {
   [key: string]: ComputeConfigScalingGroupSummary | undefined;
 };
 /** A subset of information in ComputeConfig optimized for list views. */
 export interface ComputeConfigSummary {
-  scalingGroups?: ComputeConfigSummaryScalingGroupsMap;
+  scalingGroups?: ComputeConfigSummaryScalingGroupsMap | undefined;
 }
 export interface WorkerDeploymentInfoWorkerDeploymentVersionSummary {
   /** Deprecated. Use `deployment_version`. */
-  version?: string;
+  version?: string | undefined;
   /** The status of the Worker Deployment Version. */
-  status?: WorkerDeploymentInfoWorkerDeploymentVersionSummaryStatus;
+  status?: WorkerDeploymentInfoWorkerDeploymentVersionSummaryStatus | undefined;
   /** Required. */
-  deploymentVersion?: WorkerDeploymentVersion;
-  createTime?: string;
+  deploymentVersion?: WorkerDeploymentVersion | undefined;
+  createTime?: string | undefined;
   /** Deprecated. Use `drainage_info` instead. */
-  drainageStatus?: WorkerDeploymentInfoWorkerDeploymentVersionSummaryDrainageStatus;
+  drainageStatus?: WorkerDeploymentInfoWorkerDeploymentVersionSummaryDrainageStatus | undefined;
   /** Information about workflow drainage to help the user determine when it is safe to decommission a Version. Not present while version is current or ramping */
-  drainageInfo?: VersionDrainageInfo;
+  drainageInfo?: VersionDrainageInfo | undefined;
   /** Unset if not current. (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: 'Since' captures the field semantics despite being a preposition. --) */
-  currentSinceTime?: string;
+  currentSinceTime?: string | undefined;
   /** Unset if not ramping. Updated when the version first starts ramping, not on each ramp change. (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: 'Since' captures the field semantics despite being a preposition. --) */
-  rampingSinceTime?: string;
+  rampingSinceTime?: string | undefined;
   /** Last time `current_since_time`, `ramping_since_time, or `ramp_percentage` of this version changed. */
-  routingUpdateTime?: string;
+  routingUpdateTime?: string | undefined;
   /** Timestamp when this version first became current or ramping. */
-  firstActivationTime?: string;
+  firstActivationTime?: string | undefined;
   /** Timestamp when this version last became current. Can be used to determine whether a version has ever been Current. */
-  lastCurrentTime?: string;
+  lastCurrentTime?: string | undefined;
   /** Timestamp when this version last stopped being current or ramping. Cleared if the version becomes current or ramping again. */
-  lastDeactivationTime?: string;
-  computeConfig?: ComputeConfigSummary;
+  lastDeactivationTime?: string | undefined;
+  computeConfig?: ComputeConfigSummary | undefined;
 }
 /** Deployment Versions that are currently tracked in this Deployment. A DeploymentVersion will be cleaned up automatically if all the following conditions meet: - It does not receive new executions (is not current or ramping) - It has no active pollers (see WorkerDeploymentVersionInfo.pollers_status) - It is drained (see WorkerDeploymentVersionInfo.drainage_status) */
 export type WorkerDeploymentInfoVersionSummariesList =
   Array<WorkerDeploymentInfoWorkerDeploymentVersionSummary>;
 export interface RoutingConfig {
   /** Specifies which Deployment Version should receive new workflow executions and tasks of existing unversioned or AutoUpgrade workflows. Nil value means no Version in this Deployment (except Ramping Version, if present) receives traffic other than tasks of previously Pinned workflows. In absence of a Current Version, remaining traffic after any ramp (if set) goes to unversioned workers (those with `UNVERSIONED` (or unspecified) `WorkerVersioningMode`.). Note: Current Version is overridden by the Ramping Version for a portion of traffic when ramp percentage is non-zero (see `ramping_deployment_version` and `ramping_version_percentage`). */
-  currentDeploymentVersion?: WorkerDeploymentVersion;
+  currentDeploymentVersion?: WorkerDeploymentVersion | undefined;
   /** Deprecated. Use `current_deployment_version`. */
-  currentVersion?: string;
+  currentVersion?: string | undefined;
   /** When ramp percentage is non-zero, that portion of traffic is shifted from the Current Version to the Ramping Version. Must always be different from `current_deployment_version` unless both are nil. Nil value represents all the unversioned workers (those with `UNVERSIONED` (or unspecified) `WorkerVersioningMode`.) Note that it is possible to ramp from one Version to another Version, or from unversioned workers to a particular Version, or from a particular Version to unversioned workers. */
-  rampingDeploymentVersion?: WorkerDeploymentVersion;
+  rampingDeploymentVersion?: WorkerDeploymentVersion | undefined;
   /** Deprecated. Use `ramping_deployment_version`. */
-  rampingVersion?: string;
+  rampingVersion?: string | undefined;
   /** Percentage of tasks that are routed to the Ramping Version instead of the Current Version. Valid range: [0, 100]. A 100% value means the Ramping Version is receiving full traffic but not yet "promoted" to be the Current Version, likely due to pending validations. A 0% value means the Ramping Version is receiving no traffic. */
-  rampingVersionPercentage?: number;
+  rampingVersionPercentage?: number | undefined;
   /** Last time current version was changed. */
-  currentVersionChangedTime?: string;
+  currentVersionChangedTime?: string | undefined;
   /** Last time ramping version was changed. Not updated if only the ramp percentage changes. */
-  rampingVersionChangedTime?: string;
+  rampingVersionChangedTime?: string | undefined;
   /** Last time ramping version percentage was changed. If ramping version is changed, this is also updated, even if the percentage stays the same. */
-  rampingVersionPercentageChangedTime?: string;
+  rampingVersionPercentageChangedTime?: string | undefined;
   /** Monotonically increasing value which is incremented on every mutation to any field of this message to achieve eventual consistency between task queues and their partitions. */
-  revisionNumber?: string;
+  revisionNumber?: string | undefined;
 }
 /** Indicates whether the routing_config has been fully propagated to all relevant task queues and their partitions. */
 export type WorkerDeploymentInfoRoutingConfigUpdateState =
@@ -1934,35 +1934,35 @@ export type WorkerDeploymentInfoRoutingConfigUpdateState =
 /** A Worker Deployment (Deployment, for short) represents all workers serving a shared set of Task Queues. Typically, a Deployment represents one service or application. A Deployment contains multiple Deployment Versions, each representing a different version of workers. (see documentation of WorkerDeploymentVersionInfo) Deployment records are created in Temporal server automatically when their first poller arrives to the server. */
 export interface WorkerDeploymentInfo {
   /** Identifies a Worker Deployment. Must be unique within the namespace. */
-  name?: string;
+  name?: string | undefined;
   /** Deployment Versions that are currently tracked in this Deployment. A DeploymentVersion will be cleaned up automatically if all the following conditions meet: - It does not receive new executions (is not current or ramping) - It has no active pollers (see WorkerDeploymentVersionInfo.pollers_status) - It is drained (see WorkerDeploymentVersionInfo.drainage_status) */
-  versionSummaries?: WorkerDeploymentInfoVersionSummariesList;
-  createTime?: string;
-  routingConfig?: RoutingConfig;
+  versionSummaries?: WorkerDeploymentInfoVersionSummariesList | undefined;
+  createTime?: string | undefined;
+  routingConfig?: RoutingConfig | undefined;
   /** Identity of the last client who modified the configuration of this Deployment. Set to the `identity` value sent by APIs such as `SetWorkerDeploymentCurrentVersion` and `SetWorkerDeploymentRampingVersion`. */
-  lastModifierIdentity?: string;
+  lastModifierIdentity?: string | undefined;
   /** Identity of the client that has the exclusive right to make changes to this Worker Deployment. Empty by default. If this is set, clients whose identity does not match `manager_identity` will not be able to make changes to this Worker Deployment. They can either set their own identity as the manager or unset the field to proceed. */
-  managerIdentity?: string;
+  managerIdentity?: string | undefined;
   /** Indicates whether the routing_config has been fully propagated to all relevant task queues and their partitions. */
-  routingConfigUpdateState?: WorkerDeploymentInfoRoutingConfigUpdateState;
+  routingConfigUpdateState?: WorkerDeploymentInfoRoutingConfigUpdateState | undefined;
 }
 export interface DescribeWorkerDeploymentResponse {
   /** This value is returned so that it can be optionally passed to APIs that write to the Worker Deployment state to ensure that the state did not change between this read and a future write. */
-  conflictToken?: string;
-  workerDeploymentInfo?: WorkerDeploymentInfo;
+  conflictToken?: string | undefined;
+  workerDeploymentInfo?: WorkerDeploymentInfo | undefined;
 }
 export interface DescribeWorkerDeploymentVersionRequest {
   namespace: string;
   deployment_version_deployment_name: string;
   deployment_version_build_id: string;
   /** Deprecated. Use `deployment_version`. */
-  version?: string;
+  version?: string | undefined;
   /** A unique identifier for this Version within the Deployment it is a part of. Not necessarily unique within the namespace. The combination of `deployment_name` and `build_id` uniquely identifies this Version within the namespace, because Deployment names are unique within a namespace. */
-  deploymentVersion_buildId?: string;
+  deploymentVersion_buildId?: string | undefined;
   /** Identifies the Worker Deployment this Version is part of. */
-  deploymentVersion_deploymentName?: string;
+  deploymentVersion_deploymentName?: string | undefined;
   /** Report stats for task queues which have been polled by this version. */
-  reportTaskQueueStats?: boolean;
+  reportTaskQueueStats?: boolean | undefined;
 }
 /** The status of the Worker Deployment Version. */
 export type WorkerDeploymentVersionInfoStatus =
@@ -1979,8 +1979,8 @@ export type WorkerDeploymentVersionInfoVersionTaskQueueInfoType =
   | "TASK_QUEUE_TYPE_ACTIVITY"
   | "TASK_QUEUE_TYPE_NEXUS";
 export interface WorkerDeploymentVersionInfoVersionTaskQueueInfo {
-  name?: string;
-  type?: WorkerDeploymentVersionInfoVersionTaskQueueInfoType;
+  name?: string | undefined;
+  type?: WorkerDeploymentVersionInfoVersionTaskQueueInfoType | undefined;
 }
 /** All the Task Queues that have ever polled from this Deployment version. Deprecated. Use `version_task_queues` in DescribeWorkerDeploymentVersionResponse instead. */
 export type WorkerDeploymentVersionInfoTaskQueueInfosList =
@@ -1989,43 +1989,43 @@ export type WorkerDeploymentVersionInfoTaskQueueInfosList =
 export type VersionMetadataEntriesMap = { [key: string]: unknown | undefined };
 export interface VersionMetadata {
   /** Arbitrary key-values. */
-  entries?: VersionMetadataEntriesMap;
+  entries?: VersionMetadataEntriesMap | undefined;
 }
 /** A Worker Deployment Version (Version, for short) represents all workers of the same code and config within a Deployment. Workers of the same Version are expected to behave exactly the same so when executions move between them there are no non-determinism issues. Worker Deployment Versions are created in Temporal server automatically when their first poller arrives to the server. */
 export interface WorkerDeploymentVersionInfo {
   /** Deprecated. Use `deployment_version`. */
-  version?: string;
+  version?: string | undefined;
   /** The status of the Worker Deployment Version. */
-  status?: WorkerDeploymentVersionInfoStatus;
+  status?: WorkerDeploymentVersionInfoStatus | undefined;
   /** Required. */
-  deploymentVersion?: WorkerDeploymentVersion;
+  deploymentVersion?: WorkerDeploymentVersion | undefined;
   /** Deprecated. User deployment_version.deployment_name. */
-  deploymentName?: string;
-  createTime?: string;
+  deploymentName?: string | undefined;
+  createTime?: string | undefined;
   /** Last time `current_since_time`, `ramping_since_time, or `ramp_percentage` of this version changed. */
-  routingChangedTime?: string;
+  routingChangedTime?: string | undefined;
   /** (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: 'Since' captures the field semantics despite being a preposition. --) Unset if not current. */
-  currentSinceTime?: string;
+  currentSinceTime?: string | undefined;
   /** (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: 'Since' captures the field semantics despite being a preposition. --) Unset if not ramping. Updated when the version first starts ramping, not on each ramp change. */
-  rampingSinceTime?: string;
+  rampingSinceTime?: string | undefined;
   /** Timestamp when this version first became current or ramping. */
-  firstActivationTime?: string;
+  firstActivationTime?: string | undefined;
   /** Timestamp when this version last became current. Can be used to determine whether a version has ever been Current. */
-  lastCurrentTime?: string;
+  lastCurrentTime?: string | undefined;
   /** Timestamp when this version last stopped being current or ramping. Cleared if the version becomes current or ramping again. */
-  lastDeactivationTime?: string;
+  lastDeactivationTime?: string | undefined;
   /** Range: [0, 100]. Must be zero if the version is not ramping (i.e. `ramping_since_time` is nil). Can be in the range [0, 100] if the version is ramping. */
-  rampPercentage?: number;
+  rampPercentage?: number | undefined;
   /** All the Task Queues that have ever polled from this Deployment version. Deprecated. Use `version_task_queues` in DescribeWorkerDeploymentVersionResponse instead. */
-  taskQueueInfos?: WorkerDeploymentVersionInfoTaskQueueInfosList;
+  taskQueueInfos?: WorkerDeploymentVersionInfoTaskQueueInfosList | undefined;
   /** Helps user determine when it is safe to decommission the workers of this Version. Not present when version is current or ramping. Current limitations: - Not supported for Unversioned mode. - Periodically refreshed, may have delays up to few minutes (consult the last_checked_time value). - Refreshed only when version is not current or ramping AND the status is not "drained" yet. - Once the status is changed to "drained", it is not changed until the Version becomes Current or Ramping again, at which time the drainage info is cleared. This means if the Version is "drained" but new workflows are sent to it via Pinned Versioning Override, the status does not account for those Pinned-override executions and remains "drained". */
-  drainageInfo?: VersionDrainageInfo;
+  drainageInfo?: VersionDrainageInfo | undefined;
   /** Arbitrary user-provided metadata attached to this version. */
-  metadata?: VersionMetadata;
+  metadata?: VersionMetadata | undefined;
   /** Optional. Contains the new worker compute configuration for the Worker Deployment. Used for worker scale management. */
-  computeConfig?: ComputeConfig;
+  computeConfig?: ComputeConfig | undefined;
   /** Identity of the last client who modified the configuration of this Version. As of now, this field only covers changes through the following APIs: - `CreateWorkerDeploymentVersion` - `UpdateWorkerDeploymentVersionComputeConfig` - `UpdateWorkerDeploymentVersionMetadata` */
-  lastModifierIdentity?: string;
+  lastModifierIdentity?: string | undefined;
 }
 export type DescribeWorkerDeploymentVersionResponseVersionTaskQueueType =
   | "TASK_QUEUE_TYPE_UNSPECIFIED"
@@ -2037,34 +2037,36 @@ export type DescribeWorkerDeploymentVersionResponseVersionTaskQueueStatsByPriori
   [key: string]: TaskQueueStats | undefined;
 };
 export interface DescribeWorkerDeploymentVersionResponseVersionTaskQueue {
-  name?: string;
-  type?: DescribeWorkerDeploymentVersionResponseVersionTaskQueueType;
+  name?: string | undefined;
+  type?: DescribeWorkerDeploymentVersionResponseVersionTaskQueueType | undefined;
   /** Only set if `report_task_queue_stats` is set on the request. */
-  stats?: TaskQueueStats;
+  stats?: TaskQueueStats | undefined;
   /** Task queue stats breakdown by priority key. Only contains actively used priority keys. Only set if `report_task_queue_stats` is set to true in the request. (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: "by" is used to clarify the key. --) */
-  statsByPriorityKey?: DescribeWorkerDeploymentVersionResponseVersionTaskQueueStatsByPriorityKeyMap;
+  statsByPriorityKey?:
+    | DescribeWorkerDeploymentVersionResponseVersionTaskQueueStatsByPriorityKeyMap
+    | undefined;
 }
 /** All the Task Queues that have ever polled from this Deployment version. */
 export type DescribeWorkerDeploymentVersionResponseVersionTaskQueuesList =
   Array<DescribeWorkerDeploymentVersionResponseVersionTaskQueue>;
 export interface DescribeWorkerDeploymentVersionResponse {
-  workerDeploymentVersionInfo?: WorkerDeploymentVersionInfo;
+  workerDeploymentVersionInfo?: WorkerDeploymentVersionInfo | undefined;
   /** All the Task Queues that have ever polled from this Deployment version. */
-  versionTaskQueues?: DescribeWorkerDeploymentVersionResponseVersionTaskQueuesList;
+  versionTaskQueues?: DescribeWorkerDeploymentVersionResponseVersionTaskQueuesList | undefined;
 }
 export interface DescribeWorkflowExecutionRequest {
   namespace: string;
   execution_workflow_id: string;
-  execution_workflowId?: string;
-  execution_runId?: string;
+  execution_workflowId?: string | undefined;
+  execution_runId?: string | undefined;
 }
 export interface WorkflowExecutionConfig {
-  taskQueue?: TaskQueue;
-  workflowExecutionTimeout?: string;
-  workflowRunTimeout?: string;
-  defaultWorkflowTaskTimeout?: string;
+  taskQueue?: TaskQueue | undefined;
+  workflowExecutionTimeout?: string | undefined;
+  workflowRunTimeout?: string | undefined;
+  defaultWorkflowTaskTimeout?: string | undefined;
   /** User metadata provided on start workflow. */
-  userMetadata?: UserMetadata;
+  userMetadata?: UserMetadata | undefined;
 }
 export type WorkflowExecutionInfoStatus =
   | "WORKFLOW_EXECUTION_STATUS_UNSPECIFIED"
@@ -2079,29 +2081,29 @@ export type WorkflowExecutionInfoStatus =
 /** ResetPointInfo records the workflow event id that is the first one processed by a given build id or binary checksum. A new reset point will be created if either build id or binary checksum changes (although in general only one or the other will be used at a time). */
 export interface ResetPointInfo {
   /** Worker build id. */
-  buildId?: string;
+  buildId?: string | undefined;
   /** Deprecated. A worker binary version identifier. */
-  binaryChecksum?: string;
+  binaryChecksum?: string | undefined;
   /** The first run ID in the execution chain that was touched by this worker build. */
-  runId?: string;
+  runId?: string | undefined;
   /** Event ID of the first WorkflowTaskCompleted event processed by this worker build. */
-  firstWorkflowTaskCompletedId?: string;
-  createTime?: string;
+  firstWorkflowTaskCompletedId?: string | undefined;
+  createTime?: string | undefined;
   /** (-- api-linter: core::0214::resource-expiry=disabled aip.dev/not-precedent: TTL is not defined for ResetPointInfo. --) The time that the run is deleted due to retention. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** false if the reset point has pending childWFs/reqCancels/signalExternals. */
-  resettable?: boolean;
+  resettable?: boolean | undefined;
 }
 export type ResetPointsPointsList = Array<ResetPointInfo>;
 export interface ResetPoints {
-  points?: ResetPointsPointsList;
+  points?: ResetPointsPointsList | undefined;
 }
 /** Deprecated. This message is replaced with `Deployment` and `VersioningBehavior`. Identifies the version(s) of a worker that processed a task */
 export interface WorkerVersionStamp {
   /** An opaque whole-worker identifier. Replaces the deprecated `binary_checksum` field when this message is included in requests which previously used that. */
-  buildId?: string;
+  buildId?: string | undefined;
   /** If set, the worker is opting in to worker versioning. Otherwise, this is used only as a marker for workflow reset points and the BuildIDs search attribute. */
-  useVersioning?: boolean;
+  useVersioning?: boolean | undefined;
 }
 /** Versioning behavior determines how the server should treat this execution when workers are upgraded. When present it means this workflow execution is versioned; UNSPECIFIED means unversioned. See the comments in `VersioningBehavior` enum for more info about different behaviors. Child workflows or CaN executions **inherit** their parent/previous run's effective Versioning Behavior and Version (except when the new execution runs on a task queue not belonging to the same deployment version as the parent/previous run's task queue). The first workflow task will be dispatched according to the inherited behavior (or to the current version of the task-queue's deployment in the case of AutoUpgrade.) After completion of their first workflow task the Deployment Version and Behavior of the execution will update according to configuration on the worker. Note that `behavior` is overridden by `versioning_override` if the latter is present. */
 export type WorkflowExecutionVersioningInfoBehavior =
@@ -2111,14 +2113,14 @@ export type WorkflowExecutionVersioningInfoBehavior =
 /** Holds information about ongoing transition of a workflow execution from one deployment to another. Deprecated. Use DeploymentVersionTransition. */
 export interface DeploymentTransition {
   /** The target deployment of the transition. Null means a so-far-versioned workflow is transitioning to unversioned workers. */
-  deployment?: Deployment;
+  deployment?: Deployment | undefined;
 }
 /** Holds information about ongoing transition of a workflow execution from one worker deployment version to another. Experimental. Might change in the future. */
 export interface DeploymentVersionTransition {
   /** Deprecated. Use `deployment_version`. */
-  version?: string;
+  version?: string | undefined;
   /** The target Version of the transition. If nil, a so-far-versioned workflow is transitioning to unversioned workers. */
-  deploymentVersion?: WorkerDeploymentVersion;
+  deploymentVersion?: WorkerDeploymentVersion | undefined;
 }
 /** Experimental. If this workflow is the result of a continue-as-new, this field is set to the initial_versioning_behavior specified in that command. Only used for the initial task of this run and the initial task of any retries of this run. Not passed to children or to future continue-as-new. Note: In the first release of Upgrade-on-CaN, when the only ContinueAsNewVersioningBehavior was AutoUpgrade, a non-empty InheritedAutoUpgradeInfo meant that the workflow should start as AutoUpgrade. So for compatibility with ContinueAsNew history commands generated during that time, know that an UNSPECIFIED value here is equivalent to ContinueAsNewVersioningBehaviorAutoUpgrade if the behavior of the workflow is AutoUpgrade. */
 export type WorkflowExecutionVersioningInfoContinueAsNewInitialVersioningBehavior =
@@ -2128,63 +2130,65 @@ export type WorkflowExecutionVersioningInfoContinueAsNewInitialVersioningBehavio
 /** Holds all the information about worker versioning for a particular workflow execution. Experimental. Versioning info is experimental and might change in the future. */
 export interface WorkflowExecutionVersioningInfo {
   /** Versioning behavior determines how the server should treat this execution when workers are upgraded. When present it means this workflow execution is versioned; UNSPECIFIED means unversioned. See the comments in `VersioningBehavior` enum for more info about different behaviors. Child workflows or CaN executions **inherit** their parent/previous run's effective Versioning Behavior and Version (except when the new execution runs on a task queue not belonging to the same deployment version as the parent/previous run's task queue). The first workflow task will be dispatched according to the inherited behavior (or to the current version of the task-queue's deployment in the case of AutoUpgrade.) After completion of their first workflow task the Deployment Version and Behavior of the execution will update according to configuration on the worker. Note that `behavior` is overridden by `versioning_override` if the latter is present. */
-  behavior?: WorkflowExecutionVersioningInfoBehavior;
+  behavior?: WorkflowExecutionVersioningInfoBehavior | undefined;
   /** The worker deployment that completed the last workflow task of this workflow execution. Must be present if `behavior` is set. Absent value means no workflow task is completed, or the last workflow task was completed by an unversioned worker. Unversioned workers may still send a deployment value which will be stored here, so the right way to check if an execution is versioned if an execution is versioned or not is via the `behavior` field. Note that `deployment` is overridden by `versioning_override` if the latter is present. Deprecated. Use `deployment_version`. */
-  deployment?: Deployment;
+  deployment?: Deployment | undefined;
   /** Deprecated. Use `deployment_version`. */
-  version?: string;
+  version?: string | undefined;
   /** The Worker Deployment Version that completed the last workflow task of this workflow execution. An absent value means no workflow task is completed, or the workflow is unversioned. If present, and `behavior` is UNSPECIFIED, the last task of this workflow execution was completed by a worker that is not using versioning but _is_ passing Deployment Name and Build ID. Child workflows or CaN executions **inherit** their parent/previous run's effective Versioning Behavior and Version (except when the new execution runs on a task queue not belonging to the same deployment version as the parent/previous run's task queue). The first workflow task will be dispatched according to the inherited behavior (or to the current version of the task-queue's deployment in the case of AutoUpgrade.) After completion of their first workflow task the Deployment Version and Behavior of the execution will update according to configuration on the worker. Note that if `versioning_override.behavior` is PINNED then `versioning_override.pinned_version` will override this value. */
-  deploymentVersion?: WorkerDeploymentVersion;
+  deploymentVersion?: WorkerDeploymentVersion | undefined;
   /** Present if user has set an execution-specific versioning override. This override takes precedence over SDK-sent `behavior` (and `version` when override is PINNED). An override can be set when starting a new execution, as well as afterwards by calling the `UpdateWorkflowExecutionOptions` API. Pinned overrides are automatically inherited by child workflows, continue-as-new workflows, workflow retries, and cron workflows. */
-  versioningOverride?: VersioningOverride;
+  versioningOverride?: VersioningOverride | undefined;
   /** When present, indicates the workflow is transitioning to a different deployment. Can indicate one of the following transitions: unversioned -> versioned, versioned -> versioned on a different deployment, or versioned -> unversioned. Not applicable to workflows with PINNED behavior. When a workflow with AUTO_UPGRADE behavior creates a new workflow task, it will automatically start a transition to the task queue's current deployment if the task queue's current deployment is different from the workflow's deployment. If the AUTO_UPGRADE workflow is stuck due to backlogged activity or workflow tasks, those tasks will be redirected to the task queue's current deployment. As soon as a poller from that deployment is available to receive the task, the workflow will automatically start a transition to that deployment and continue execution there. A deployment transition can only exist while there is a pending or started workflow task. Once the pending workflow task completes on the transition's target deployment, the transition completes and the workflow's `deployment` and `behavior` fields are updated per the worker's task completion response. Pending activities will not start new attempts during a transition. Once the transition is completed, pending activities will start their next attempt on the new deployment. Deprecated. Use version_transition. */
-  deploymentTransition?: DeploymentTransition;
+  deploymentTransition?: DeploymentTransition | undefined;
   /** When present, indicates the workflow is transitioning to a different deployment version (which may belong to the same deployment name or another). Can indicate one of the following transitions: unversioned -> versioned, versioned -> versioned on a different deployment version, or versioned -> unversioned. Not applicable to workflows with PINNED behavior. When a workflow with AUTO_UPGRADE behavior creates a new workflow task, it will automatically start a transition to the task queue's current version if the task queue's current version is different from the workflow's current deployment version. If the AUTO_UPGRADE workflow is stuck due to backlogged activity or workflow tasks, those tasks will be redirected to the task queue's current version. As soon as a poller from that deployment version is available to receive the task, the workflow will automatically start a transition to that version and continue execution there. A version transition can only exist while there is a pending or started workflow task. Once the pending workflow task completes on the transition's target version, the transition completes and the workflow's `behavior`, and `deployment_version` fields are updated per the worker's task completion response. Pending activities will not start new attempts during a transition. Once the transition is completed, pending activities will start their next attempt on the new version. */
-  versionTransition?: DeploymentVersionTransition;
+  versionTransition?: DeploymentVersionTransition | undefined;
   /** Monotonic counter reflecting the latest routing decision for this workflow execution. Used for staleness detection between history and matching when dispatching tasks to workers. Incremented when a workflow execution routes to a new deployment version, which happens when a worker of the new deployment version completes a workflow task. Note: Pinned tasks and sticky tasks send a value of 0 for this field since these tasks do not face the problem of inconsistent dispatching that arises from eventual consistency between task queues and their partitions. */
-  revisionNumber?: string;
+  revisionNumber?: string | undefined;
   /** Experimental. If this workflow is the result of a continue-as-new, this field is set to the initial_versioning_behavior specified in that command. Only used for the initial task of this run and the initial task of any retries of this run. Not passed to children or to future continue-as-new. Note: In the first release of Upgrade-on-CaN, when the only ContinueAsNewVersioningBehavior was AutoUpgrade, a non-empty InheritedAutoUpgradeInfo meant that the workflow should start as AutoUpgrade. So for compatibility with ContinueAsNew history commands generated during that time, know that an UNSPECIFIED value here is equivalent to ContinueAsNewVersioningBehaviorAutoUpgrade if the behavior of the workflow is AutoUpgrade. */
-  continueAsNewInitialVersioningBehavior?: WorkflowExecutionVersioningInfoContinueAsNewInitialVersioningBehavior;
+  continueAsNewInitialVersioningBehavior?:
+    | WorkflowExecutionVersioningInfoContinueAsNewInitialVersioningBehavior
+    | undefined;
 }
 /** Hold basic information about a workflow execution. This structure is a part of visibility, and thus contain a limited subset of information. */
 export interface WorkflowExecutionInfo {
-  execution?: WorkflowExecution;
-  type?: WorkflowType;
-  startTime?: string;
-  closeTime?: string;
-  status?: WorkflowExecutionInfoStatus;
-  historyLength?: string;
-  parentNamespaceId?: string;
-  parentExecution?: WorkflowExecution;
-  executionTime?: string;
-  memo?: Memo;
-  searchAttributes?: SearchAttributes;
-  autoResetPoints?: ResetPoints;
-  taskQueue?: string;
-  stateTransitionCount?: string;
-  historySizeBytes?: string;
+  execution?: WorkflowExecution | undefined;
+  type?: WorkflowType | undefined;
+  startTime?: string | undefined;
+  closeTime?: string | undefined;
+  status?: WorkflowExecutionInfoStatus | undefined;
+  historyLength?: string | undefined;
+  parentNamespaceId?: string | undefined;
+  parentExecution?: WorkflowExecution | undefined;
+  executionTime?: string | undefined;
+  memo?: Memo | undefined;
+  searchAttributes?: SearchAttributes | undefined;
+  autoResetPoints?: ResetPoints | undefined;
+  taskQueue?: string | undefined;
+  stateTransitionCount?: string | undefined;
+  historySizeBytes?: string | undefined;
   /** If set, the most recent worker version stamp that appeared in a workflow task completion Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv] */
-  mostRecentWorkerVersionStamp?: WorkerVersionStamp;
+  mostRecentWorkerVersionStamp?: WorkerVersionStamp | undefined;
   /** Workflow execution duration is defined as difference between close time and execution time. This field is only populated if the workflow is closed. */
-  executionDuration?: string;
+  executionDuration?: string | undefined;
   /** Contains information about the root workflow execution. The root workflow execution is defined as follows: 1. A workflow without parent workflow is its own root workflow. 2. A workflow that has a parent workflow has the same root workflow as its parent workflow. Note: workflows continued as new or reseted may or may not have parents, check examples below. Examples: Scenario 1: Workflow W1 starts child workflow W2, and W2 starts child workflow W3. - The root workflow of all three workflows is W1. Scenario 2: Workflow W1 starts child workflow W2, and W2 continued as new W3. - The root workflow of all three workflows is W1. Scenario 3: Workflow W1 continued as new W2. - The root workflow of W1 is W1 and the root workflow of W2 is W2. Scenario 4: Workflow W1 starts child workflow W2, and W2 is reseted, creating W3 - The root workflow of all three workflows is W1. Scenario 5: Workflow W1 is reseted, creating W2. - The root workflow of W1 is W1 and the root workflow of W2 is W2. */
-  rootExecution?: WorkflowExecution;
+  rootExecution?: WorkflowExecution | undefined;
   /** The currently assigned build ID for this execution. Presence of this value means worker versioning is used for this execution. Assigned build ID is selected based on Worker Versioning Assignment Rules when the first workflow task of the execution is scheduled. If the first workflow task fails and is scheduled again, the assigned build ID may change according to the latest versioning rules. Assigned build ID can also change in the middle of a execution if Compatible Redirect Rules are applied to this execution. Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv] */
-  assignedBuildId?: string;
+  assignedBuildId?: string | undefined;
   /** Build ID inherited from a previous/parent execution. If present, assigned_build_id will be set to this, instead of using the assignment rules. Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv] */
-  inheritedBuildId?: string;
+  inheritedBuildId?: string | undefined;
   /** The first run ID in the execution chain. Executions created via the following operations are considered to be in the same chain - ContinueAsNew - Workflow Retry - Workflow Reset - Cron Schedule */
-  firstRunId?: string;
+  firstRunId?: string | undefined;
   /** Absent value means the workflow execution is not versioned. When present, the execution might be versioned or unversioned, depending on `versioning_info.behavior` and `versioning_info.versioning_override`. Experimental. Versioning info is experimental and might change in the future. */
-  versioningInfo?: WorkflowExecutionVersioningInfo;
+  versioningInfo?: WorkflowExecutionVersioningInfo | undefined;
   /** The name of Worker Deployment that completed the most recent workflow task. */
-  workerDeploymentName?: string;
+  workerDeploymentName?: string | undefined;
   /** Priority metadata */
-  priority?: Priority;
+  priority?: Priority | undefined;
   /** Total size in bytes of all external payloads referenced in workflow history. */
-  externalPayloadSizeBytes?: string;
+  externalPayloadSizeBytes?: string | undefined;
   /** Count of external payloads referenced in workflow history. */
-  externalPayloadCount?: string;
+  externalPayloadCount?: string | undefined;
 }
 export type PendingActivityInfoState =
   | "PENDING_ACTIVITY_STATE_UNSPECIFIED"
@@ -2195,77 +2199,77 @@ export type PendingActivityInfoState =
   | "PENDING_ACTIVITY_STATE_PAUSE_REQUESTED";
 export interface PauseInfoManual {
   /** The identity of the actor that paused the activity. */
-  identity?: string;
+  identity?: string | undefined;
   /** Reason for pausing the activity. */
-  reason?: string;
+  reason?: string | undefined;
 }
 export interface PauseInfoRule {
   /** The rule that paused the activity. */
-  ruleId?: string;
+  ruleId?: string | undefined;
   /** The identity of the actor that created the rule. */
-  identity?: string;
+  identity?: string | undefined;
   /** Reason why rule was created. Populated from rule description. */
-  reason?: string;
+  reason?: string | undefined;
 }
 export interface PendingActivityInfoPauseInfo {
   /** The time when the activity was paused. */
-  pauseTime?: string;
+  pauseTime?: string | undefined;
   /** activity was paused by the manual intervention */
-  manual?: PauseInfoManual;
+  manual?: PauseInfoManual | undefined;
   /** activity was paused by the rule */
-  rule?: PauseInfoRule;
+  rule?: PauseInfoRule | undefined;
 }
 export interface ActivityOptions {
-  taskQueue?: TaskQueue;
+  taskQueue?: TaskQueue | undefined;
   /** Indicates how long the caller is willing to wait for an activity completion. Limits how long retries will be attempted. Either this or `start_to_close_timeout` must be specified. (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: "to" is used to indicate interval. --) */
-  scheduleToCloseTimeout?: string;
+  scheduleToCloseTimeout?: string | undefined;
   /** Limits time an activity task can stay in a task queue before a worker picks it up. This timeout is always non retryable, as all a retry would achieve is to put it back into the same queue. Defaults to `schedule_to_close_timeout` or workflow execution timeout if not specified. (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: "to" is used to indicate interval. --) */
-  scheduleToStartTimeout?: string;
+  scheduleToStartTimeout?: string | undefined;
   /** Maximum time an activity is allowed to execute after being picked up by a worker. This timeout is always retryable. Either this or `schedule_to_close_timeout` must be specified. (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: "to" is used to indicate interval. --) */
-  startToCloseTimeout?: string;
+  startToCloseTimeout?: string | undefined;
   /** Maximum permitted time between successful worker heartbeats. */
-  heartbeatTimeout?: string;
+  heartbeatTimeout?: string | undefined;
   /** The retry policy for the activity. Will never exceed `schedule_to_close_timeout`. */
-  retryPolicy?: RetryPolicy;
+  retryPolicy?: RetryPolicy | undefined;
   /** Priority metadata. If this message is not present, or any fields are not present, they inherit the values from the workflow. */
-  priority?: Priority;
+  priority?: Priority | undefined;
 }
 export interface PendingActivityInfo {
-  activityId?: string;
-  activityType?: WorkflowType;
-  state?: PendingActivityInfoState;
-  heartbeatDetails?: Payloads;
-  lastHeartbeatTime?: string;
-  lastStartedTime?: string;
-  attempt?: number;
-  maximumAttempts?: number;
-  scheduledTime?: string;
-  expirationTime?: string;
-  lastFailure?: Failure;
-  lastWorkerIdentity?: string;
+  activityId?: string | undefined;
+  activityType?: WorkflowType | undefined;
+  state?: PendingActivityInfoState | undefined;
+  heartbeatDetails?: Payloads | undefined;
+  lastHeartbeatTime?: string | undefined;
+  lastStartedTime?: string | undefined;
+  attempt?: number | undefined;
+  maximumAttempts?: number | undefined;
+  scheduledTime?: string | undefined;
+  expirationTime?: string | undefined;
+  lastFailure?: Failure | undefined;
+  lastWorkerIdentity?: string | undefined;
   /** Deprecated. This means the activity is independently versioned and not bound to the build ID of its workflow. The activity will use the build id in this field instead. If the task fails and is scheduled again, the assigned build ID may change according to the latest versioning rules. */
-  lastIndependentlyAssignedBuildId?: string;
+  lastIndependentlyAssignedBuildId?: string | undefined;
   /** Deprecated. The version stamp of the worker to whom this activity was most recently dispatched This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv] */
-  lastWorkerVersionStamp?: WorkerVersionStamp;
+  lastWorkerVersionStamp?: WorkerVersionStamp | undefined;
   /** The time activity will wait until the next retry. If activity is currently running it will be next retry interval if activity failed. If activity is currently waiting it will be current retry interval. If there will be no retry it will be null. */
-  currentRetryInterval?: string;
+  currentRetryInterval?: string | undefined;
   /** The time when the last activity attempt was completed. If activity has not been completed yet then it will be null. */
-  lastAttemptCompleteTime?: string;
+  lastAttemptCompleteTime?: string | undefined;
   /** Next time when activity will be scheduled. If activity is currently scheduled or started it will be null. */
-  nextAttemptScheduleTime?: string;
+  nextAttemptScheduleTime?: string | undefined;
   /** Indicates if activity is paused. */
-  paused?: boolean;
+  paused?: boolean | undefined;
   /** The deployment this activity was dispatched to most recently. Present only if the activity was dispatched to a versioned worker. Deprecated. Use `last_deployment_version`. */
-  lastDeployment?: Deployment;
+  lastDeployment?: Deployment | undefined;
   /** The Worker Deployment Version this activity was dispatched to most recently. Deprecated. Use `last_deployment_version`. */
-  lastWorkerDeploymentVersion?: string;
+  lastWorkerDeploymentVersion?: string | undefined;
   /** The Worker Deployment Version this activity was dispatched to most recently. If nil, the activity has not yet been dispatched or was last dispatched to an unversioned worker. */
-  lastDeploymentVersion?: WorkerDeploymentVersion;
+  lastDeploymentVersion?: WorkerDeploymentVersion | undefined;
   /** Priority metadata. If this message is not present, or any fields are not present, they inherit the values from the workflow. */
-  priority?: Priority;
-  pauseInfo?: PendingActivityInfoPauseInfo;
+  priority?: Priority | undefined;
+  pauseInfo?: PendingActivityInfoPauseInfo | undefined;
   /** Current activity options. May be different from the one used to start the activity. */
-  activityOptions?: ActivityOptions;
+  activityOptions?: ActivityOptions | undefined;
 }
 export type DescribeWorkflowExecutionResponsePendingActivitiesList = Array<PendingActivityInfo>;
 /** Default: PARENT_CLOSE_POLICY_TERMINATE. */
@@ -2275,12 +2279,12 @@ export type PendingChildExecutionInfoParentClosePolicy =
   | "PARENT_CLOSE_POLICY_ABANDON"
   | "PARENT_CLOSE_POLICY_REQUEST_CANCEL";
 export interface PendingChildExecutionInfo {
-  workflowId?: string;
-  runId?: string;
-  workflowTypeName?: string;
-  initiatedId?: string;
+  workflowId?: string | undefined;
+  runId?: string | undefined;
+  workflowTypeName?: string | undefined;
+  initiatedId?: string | undefined;
   /** Default: PARENT_CLOSE_POLICY_TERMINATE. */
-  parentClosePolicy?: PendingChildExecutionInfoParentClosePolicy;
+  parentClosePolicy?: PendingChildExecutionInfoParentClosePolicy | undefined;
 }
 export type DescribeWorkflowExecutionResponsePendingChildrenList = Array<PendingChildExecutionInfo>;
 export type PendingWorkflowTaskInfoState =
@@ -2288,12 +2292,12 @@ export type PendingWorkflowTaskInfoState =
   | "PENDING_WORKFLOW_TASK_STATE_SCHEDULED"
   | "PENDING_WORKFLOW_TASK_STATE_STARTED";
 export interface PendingWorkflowTaskInfo {
-  state?: PendingWorkflowTaskInfoState;
-  scheduledTime?: string;
+  state?: PendingWorkflowTaskInfoState | undefined;
+  scheduledTime?: string | undefined;
   /** original_scheduled_time is the scheduled time of the first workflow task during workflow task heartbeat. Heartbeat workflow task is done by RespondWorkflowTaskComplete with ForceCreateNewWorkflowTask == true and no command In this case, OriginalScheduledTime won't change. Then when current time - original_scheduled_time exceeds some threshold, the workflow task will be forced timeout. */
-  originalScheduledTime?: string;
-  startedTime?: string;
-  attempt?: number;
+  originalScheduledTime?: string | undefined;
+  startedTime?: string | undefined;
+  attempt?: number | undefined;
 }
 export type DescribeWorkflowExecutionResponseCallbacksList = Array<CallbackInfo>;
 export type PendingNexusOperationInfoState =
@@ -2313,53 +2317,53 @@ export type NexusOperationCancellationInfoState =
 /** NexusOperationCancellationInfo contains the state of a nexus operation cancellation. */
 export interface NexusOperationCancellationInfo {
   /** The time when cancellation was requested. */
-  requestedTime?: string;
-  state?: NexusOperationCancellationInfoState;
+  requestedTime?: string | undefined;
+  state?: NexusOperationCancellationInfoState | undefined;
   /** The number of attempts made to deliver the cancel operation request. This number represents a minimum bound since the attempt is incremented after the request completes. */
-  attempt?: number;
+  attempt?: number | undefined;
   /** The time when the last attempt completed. */
-  lastAttemptCompleteTime?: string;
+  lastAttemptCompleteTime?: string | undefined;
   /** The last attempt's failure, if any. */
-  lastAttemptFailure?: Failure;
+  lastAttemptFailure?: Failure | undefined;
   /** The time when the next attempt is scheduled. */
-  nextAttemptScheduleTime?: string;
+  nextAttemptScheduleTime?: string | undefined;
   /** If the state is BLOCKED, blocked reason provides additional information. */
-  blockedReason?: string;
+  blockedReason?: string | undefined;
 }
 /** PendingNexusOperationInfo contains the state of a pending Nexus operation. */
 export interface PendingNexusOperationInfo {
   /** Endpoint name. Resolved to a URL via the cluster's endpoint registry. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Service name. */
-  service?: string;
+  service?: string | undefined;
   /** Operation name. */
-  operation?: string;
+  operation?: string | undefined;
   /** Operation ID. Only set for asynchronous operations after a successful StartOperation call. Deprecated. Renamed to operation_token. */
-  operationId?: string;
+  operationId?: string | undefined;
   /** Schedule-to-close timeout for this operation. This is the only timeout settable by a workflow. (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: "to" is used to indicate interval. --) */
-  scheduleToCloseTimeout?: string;
+  scheduleToCloseTimeout?: string | undefined;
   /** The time when the operation was scheduled. */
-  scheduledTime?: string;
-  state?: PendingNexusOperationInfoState;
+  scheduledTime?: string | undefined;
+  state?: PendingNexusOperationInfoState | undefined;
   /** The number of attempts made to deliver the start operation request. This number is approximate, it is incremented when a task is added to the history queue. In practice, there could be more attempts if a task is executed but fails to commit, or less attempts if a task was never executed. */
-  attempt?: number;
+  attempt?: number | undefined;
   /** The time when the last attempt completed. */
-  lastAttemptCompleteTime?: string;
+  lastAttemptCompleteTime?: string | undefined;
   /** The last attempt's failure, if any. */
-  lastAttemptFailure?: Failure;
+  lastAttemptFailure?: Failure | undefined;
   /** The time when the next attempt is scheduled. */
-  nextAttemptScheduleTime?: string;
-  cancellationInfo?: NexusOperationCancellationInfo;
+  nextAttemptScheduleTime?: string | undefined;
+  cancellationInfo?: NexusOperationCancellationInfo | undefined;
   /** The event ID of the NexusOperationScheduled event. Can be used to correlate an operation in the DescribeWorkflowExecution response with workflow history. */
-  scheduledEventId?: string;
+  scheduledEventId?: string | undefined;
   /** If the state is BLOCKED, blocked reason provides additional information. */
-  blockedReason?: string;
+  blockedReason?: string | undefined;
   /** Operation token. Only set for asynchronous operations after a successful StartOperation call. */
-  operationToken?: string;
+  operationToken?: string | undefined;
   /** Schedule-to-start timeout for this operation. (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: "to" is used to indicate interval. --) */
-  scheduleToStartTimeout?: string;
+  scheduleToStartTimeout?: string | undefined;
   /** Start-to-close timeout for this operation. (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: "to" is used to indicate interval. --) */
-  startToCloseTimeout?: string;
+  startToCloseTimeout?: string | undefined;
 }
 export type DescribeWorkflowExecutionResponsePendingNexusOperationsList =
   Array<PendingNexusOperationInfo>;
@@ -2429,11 +2433,11 @@ export type RequestIdInfoEventType =
 /** RequestIdInfo contains details of a request ID. */
 export interface RequestIdInfo {
   /** The event type of the history event generated by the request. */
-  eventType?: RequestIdInfoEventType;
+  eventType?: RequestIdInfoEventType | undefined;
   /** The event id of the history event generated by the request. It's possible the event ID is not known (unflushed buffered event). In this case, the value will be zero or a negative value, representing an invalid ID. */
-  eventId?: string;
+  eventId?: string | undefined;
   /** Indicate if the request is still buffered. If so, the event ID is not known and its value will be an invalid event ID. */
-  buffered?: boolean;
+  buffered?: boolean | undefined;
 }
 /** Request ID information (eg: history event information associated with the request ID). Note: It only contains request IDs from StartWorkflowExecution requests, including indirect calls (eg: if SignalWithStartWorkflowExecution starts a new workflow, then the request ID is used in the StartWorkflowExecution request). */
 export type WorkflowExecutionExtendedInfoRequestIdInfosMap = {
@@ -2442,40 +2446,40 @@ export type WorkflowExecutionExtendedInfoRequestIdInfosMap = {
 /** WorkflowExecutionPauseInfo contains the information about a workflow execution pause. */
 export interface WorkflowExecutionPauseInfo {
   /** The identity of the client who paused the workflow execution. */
-  identity?: string;
+  identity?: string | undefined;
   /** The time when the workflow execution was paused. */
-  pausedTime?: string;
+  pausedTime?: string | undefined;
   /** The reason for pausing the workflow execution. */
-  reason?: string;
+  reason?: string | undefined;
 }
 /** Holds all the extra information about workflow execution that is not part of Visibility. */
 export interface WorkflowExecutionExtendedInfo {
   /** Workflow execution expiration time is defined as workflow start time plus expiration timeout. Workflow start time may change after workflow reset. */
-  executionExpirationTime?: string;
+  executionExpirationTime?: string | undefined;
   /** Workflow run expiration time is defined as current workflow run start time plus workflow run timeout. */
-  runExpirationTime?: string;
+  runExpirationTime?: string | undefined;
   /** indicates if the workflow received a cancel request */
-  cancelRequested?: boolean;
+  cancelRequested?: boolean | undefined;
   /** Last workflow reset time. Nil if the workflow was never reset. */
-  lastResetTime?: string;
+  lastResetTime?: string | undefined;
   /** Original workflow start time. */
-  originalStartTime?: string;
+  originalStartTime?: string | undefined;
   /** Reset Run ID points to the new run when this execution is reset. If the execution is reset multiple times, it points to the latest run. */
-  resetRunId?: string;
+  resetRunId?: string | undefined;
   /** Request ID information (eg: history event information associated with the request ID). Note: It only contains request IDs from StartWorkflowExecution requests, including indirect calls (eg: if SignalWithStartWorkflowExecution starts a new workflow, then the request ID is used in the StartWorkflowExecution request). */
-  requestIdInfos?: WorkflowExecutionExtendedInfoRequestIdInfosMap;
+  requestIdInfos?: WorkflowExecutionExtendedInfoRequestIdInfosMap | undefined;
   /** Information about the workflow execution pause operation. */
-  pauseInfo?: WorkflowExecutionPauseInfo;
+  pauseInfo?: WorkflowExecutionPauseInfo | undefined;
 }
 export interface DescribeWorkflowExecutionResponse {
-  executionConfig?: WorkflowExecutionConfig;
-  workflowExecutionInfo?: WorkflowExecutionInfo;
-  pendingActivities?: DescribeWorkflowExecutionResponsePendingActivitiesList;
-  pendingChildren?: DescribeWorkflowExecutionResponsePendingChildrenList;
-  pendingWorkflowTask?: PendingWorkflowTaskInfo;
-  callbacks?: DescribeWorkflowExecutionResponseCallbacksList;
-  pendingNexusOperations?: DescribeWorkflowExecutionResponsePendingNexusOperationsList;
-  workflowExtendedInfo?: WorkflowExecutionExtendedInfo;
+  executionConfig?: WorkflowExecutionConfig | undefined;
+  workflowExecutionInfo?: WorkflowExecutionInfo | undefined;
+  pendingActivities?: DescribeWorkflowExecutionResponsePendingActivitiesList | undefined;
+  pendingChildren?: DescribeWorkflowExecutionResponsePendingChildrenList | undefined;
+  pendingWorkflowTask?: PendingWorkflowTaskInfo | undefined;
+  callbacks?: DescribeWorkflowExecutionResponseCallbacksList | undefined;
+  pendingNexusOperations?: DescribeWorkflowExecutionResponsePendingNexusOperationsList | undefined;
+  workflowExtendedInfo?: WorkflowExecutionExtendedInfo | undefined;
 }
 export interface DescribeWorkflowRuleRequest {
   namespace: string;
@@ -2484,53 +2488,53 @@ export interface DescribeWorkflowRuleRequest {
 }
 export interface DescribeWorkflowRuleResponse {
   /** The rule that was read. */
-  rule?: WorkflowRule;
+  rule?: WorkflowRule | undefined;
 }
 /** This is used to send commands to a specific worker or a group of workers. Right now, it is used to send commands to a specific worker instance. Will be extended to be able to send command to multiple workers. */
 export interface WorkerSelector {
   /** Worker instance key to which the command should be sent. */
-  workerInstanceKey?: string;
+  workerInstanceKey?: string | undefined;
 }
 export interface FetchWorkerConfigRequest {
   /** Namespace this worker belongs to. */
   namespace: string;
   /** The identity of the client who initiated this request. */
-  identity?: string;
+  identity?: string | undefined;
   /** Reason for sending worker command, can be used for audit purpose. */
-  reason?: string;
+  reason?: string | undefined;
   /** Defines which workers should receive this command. only single worker is supported at this time. */
-  selector?: WorkerSelector;
+  selector?: WorkerSelector | undefined;
   /** Resource ID for routing. Contains the worker grouping key. */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 export interface WorkerConfigSimplePollerBehavior {
-  maxPollers?: number;
+  maxPollers?: number | undefined;
 }
 export interface WorkerConfigAutoscalingPollerBehavior {
   /** At least this many poll calls will always be attempted (assuming slots are available). Cannot be zero. */
-  minPollers?: number;
+  minPollers?: number | undefined;
   /** At most this many poll calls will ever be open at once. Must be >= `minimum`. */
-  maxPollers?: number;
+  maxPollers?: number | undefined;
   /** This many polls will be attempted initially before scaling kicks in. Must be between `minimum` and `maximum`. */
-  initialPollers?: number;
+  initialPollers?: number | undefined;
 }
 export interface WorkerConfig {
-  workflowCacheSize?: number;
-  simplePollerBehavior?: WorkerConfigSimplePollerBehavior;
-  autoscalingPollerBehavior?: WorkerConfigAutoscalingPollerBehavior;
+  workflowCacheSize?: number | undefined;
+  simplePollerBehavior?: WorkerConfigSimplePollerBehavior | undefined;
+  autoscalingPollerBehavior?: WorkerConfigAutoscalingPollerBehavior | undefined;
 }
 export interface FetchWorkerConfigResponse {
   /** The worker configuration. */
-  workerConfig?: WorkerConfig;
+  workerConfig?: WorkerConfig | undefined;
 }
 export interface GetClusterInfoRequest {}
 /** Key is client name i.e "temporal-go", "temporal-java", or "temporal-cli". Value is ranges of supported versions of this client i.e ">1.1.1 <=1.4.0 || ^5.0.0". */
 export type GetClusterInfoResponseSupportedClientsMap = { [key: string]: string | undefined };
 /** ReleaseInfo contains information about specific version of temporal. */
 export interface ReleaseInfo {
-  version?: string;
-  releaseTime?: string;
-  notes?: string;
+  version?: string | undefined;
+  releaseTime?: string | undefined;
+  notes?: string | undefined;
 }
 export type AlertSeverity =
   | "SEVERITY_UNSPECIFIED"
@@ -2539,31 +2543,31 @@ export type AlertSeverity =
   | "SEVERITY_LOW";
 /** Alert contains notification and severity. */
 export interface Alert {
-  message?: string;
-  severity?: AlertSeverity;
+  message?: string | undefined;
+  severity?: AlertSeverity | undefined;
 }
 export type VersionInfoAlertsList = Array<Alert>;
 /** VersionInfo contains details about current and recommended release versions as well as alerts and upgrade instructions. */
 export interface VersionInfo {
-  current?: ReleaseInfo;
-  recommended?: ReleaseInfo;
-  instructions?: string;
-  alerts?: VersionInfoAlertsList;
-  lastUpdateTime?: string;
+  current?: ReleaseInfo | undefined;
+  recommended?: ReleaseInfo | undefined;
+  instructions?: string | undefined;
+  alerts?: VersionInfoAlertsList | undefined;
+  lastUpdateTime?: string | undefined;
 }
 /** GetClusterInfoResponse contains information about Temporal cluster. */
 export interface GetClusterInfoResponse {
   /** Key is client name i.e "temporal-go", "temporal-java", or "temporal-cli". Value is ranges of supported versions of this client i.e ">1.1.1 <=1.4.0 || ^5.0.0". */
-  supportedClients?: GetClusterInfoResponseSupportedClientsMap;
-  serverVersion?: string;
-  clusterId?: string;
-  versionInfo?: VersionInfo;
-  clusterName?: string;
-  historyShardCount?: number;
-  persistenceStore?: string;
-  visibilityStore?: string;
-  initialFailoverVersion?: string;
-  failoverVersionIncrement?: string;
+  supportedClients?: GetClusterInfoResponseSupportedClientsMap | undefined;
+  serverVersion?: string | undefined;
+  clusterId?: string | undefined;
+  versionInfo?: VersionInfo | undefined;
+  clusterName?: string | undefined;
+  historyShardCount?: number | undefined;
+  persistenceStore?: string | undefined;
+  visibilityStore?: string | undefined;
+  initialFailoverVersion?: string | undefined;
+  failoverVersionIncrement?: string | undefined;
 }
 export interface GetCurrentDeploymentRequest {
   namespace: string;
@@ -2571,16 +2575,16 @@ export interface GetCurrentDeploymentRequest {
 }
 /** [cleanup-wv-pre-release] Pre-release deployment APIs, clean up later */
 export interface GetCurrentDeploymentResponse {
-  currentDeploymentInfo?: DeploymentInfo;
+  currentDeploymentInfo?: DeploymentInfo | undefined;
 }
 export interface GetDeploymentReachabilityRequest {
   namespace: string;
   deployment_series_name: string;
   deployment_build_id: string;
   /** Different versions of the same worker service/application are related together by having a shared series name. Out of all deployments of a series, one can be designated as the current deployment, which receives new workflow executions and new tasks of workflows with `VERSIONING_BEHAVIOR_AUTO_UPGRADE` versioning behavior. */
-  deployment_seriesName?: string;
+  deployment_seriesName?: string | undefined;
   /** Build ID changes with each version of the worker when the worker program code and/or config changes. */
-  deployment_buildId?: string;
+  deployment_buildId?: string | undefined;
 }
 export type GetDeploymentReachabilityResponseReachability =
   | "DEPLOYMENT_REACHABILITY_UNSPECIFIED"
@@ -2589,72 +2593,72 @@ export type GetDeploymentReachabilityResponseReachability =
   | "DEPLOYMENT_REACHABILITY_UNREACHABLE";
 /** [cleanup-wv-pre-release] Pre-release deployment APIs, clean up later */
 export interface GetDeploymentReachabilityResponse {
-  deploymentInfo?: DeploymentInfo;
-  reachability?: GetDeploymentReachabilityResponseReachability;
+  deploymentInfo?: DeploymentInfo | undefined;
+  reachability?: GetDeploymentReachabilityResponseReachability | undefined;
   /** Reachability level might come from server cache. This timestamp specifies when the value was actually calculated. */
-  lastUpdateTime?: string;
+  lastUpdateTime?: string | undefined;
 }
 export interface GetNexusEndpointRequest {
   /** Server-generated unique endpoint ID. */
   id: string;
 }
 export interface GetNexusEndpointResponse {
-  endpoint?: Endpoint;
+  endpoint?: Endpoint | undefined;
 }
 export interface GetSystemInfoRequest {}
 /** System capability details. */
 export interface GetSystemInfoResponseCapabilities {
   /** True if signal and query headers are supported. */
-  signalAndQueryHeader?: boolean;
+  signalAndQueryHeader?: boolean | undefined;
   /** True if internal errors are differentiated from other types of errors for purposes of retrying non-internal errors. When unset/false, clients retry all failures. When true, clients should only retry non-internal errors. */
-  internalErrorDifferentiation?: boolean;
+  internalErrorDifferentiation?: boolean | undefined;
   /** True if RespondActivityTaskFailed API supports including heartbeat details */
-  activityFailureIncludeHeartbeat?: boolean;
+  activityFailureIncludeHeartbeat?: boolean | undefined;
   /** Supports scheduled workflow features. */
-  supportsSchedules?: boolean;
+  supportsSchedules?: boolean | undefined;
   /** True if server uses protos that include temporal.api.failure.v1.Failure.encoded_attributes */
-  encodedFailureAttributes?: boolean;
+  encodedFailureAttributes?: boolean | undefined;
   /** True if server supports dispatching Workflow and Activity tasks based on a worker's build_id (see: https://github.com/temporalio/proposals/blob/a123af3b559f43db16ea6dd31870bfb754c4dc5e/versioning/worker-versions.md) */
-  buildIdBasedVersioning?: boolean;
+  buildIdBasedVersioning?: boolean | undefined;
   /** True if server supports upserting workflow memo */
-  upsertMemo?: boolean;
+  upsertMemo?: boolean | undefined;
   /** True if server supports eager workflow task dispatching for the StartWorkflowExecution API */
-  eagerWorkflowStart?: boolean;
+  eagerWorkflowStart?: boolean | undefined;
   /** True if the server knows about the sdk metadata field on WFT completions and will record it in history */
-  sdkMetadata?: boolean;
+  sdkMetadata?: boolean | undefined;
   /** True if the server supports count group by execution status */
-  countGroupByExecutionStatus?: boolean;
+  countGroupByExecutionStatus?: boolean | undefined;
   /** True if the server supports Nexus operations. This flag is dependent both on server version and for Nexus to be enabled via server configuration. */
-  nexus?: boolean;
+  nexus?: boolean | undefined;
   /** True if the server supports server-scaled deployments. This flag is dependent both on server version and for server-scaled deployments to be enabled via server configuration. */
-  serverScaledDeployments?: boolean;
+  serverScaledDeployments?: boolean | undefined;
 }
 export interface GetSystemInfoResponse {
   /** Version of the server. */
-  serverVersion?: string;
+  serverVersion?: string | undefined;
   /** All capabilities the system supports. */
-  capabilities?: GetSystemInfoResponseCapabilities;
+  capabilities?: GetSystemInfoResponseCapabilities | undefined;
 }
 export interface GetWorkerBuildIdCompatibilityRequest {
   namespace: string;
   /** Must be set, the task queue to interrogate about worker id compatibility. */
   taskQueue: string;
   /** Limits how many compatible sets will be returned. Specify 1 to only return the current default major version set. 0 returns all sets. */
-  maxSets?: number;
+  maxSets?: number | undefined;
 }
 /** All the compatible versions, unordered, except for the last element, which is considered the set "default". */
 export type CompatibleVersionSetBuildIdsList = Array<string>;
 /** Used by the worker versioning APIs, represents an unordered set of one or more versions which are considered to be compatible with each other. Currently the versions are always worker build IDs. */
 export interface CompatibleVersionSet {
   /** All the compatible versions, unordered, except for the last element, which is considered the set "default". */
-  buildIds?: CompatibleVersionSetBuildIdsList;
+  buildIds?: CompatibleVersionSetBuildIdsList | undefined;
 }
 /** Major version sets, in order from oldest to newest. The last element of the list will always be the current default major version. IE: New workflows will target the most recent version in that version set. There may be fewer sets returned than exist, if the request chose to limit this response. */
 export type GetWorkerBuildIdCompatibilityResponseMajorVersionSetsList = Array<CompatibleVersionSet>;
 /** [cleanup-wv-pre-release] */
 export interface GetWorkerBuildIdCompatibilityResponse {
   /** Major version sets, in order from oldest to newest. The last element of the list will always be the current default major version. IE: New workflows will target the most recent version in that version set. There may be fewer sets returned than exist, if the request chose to limit this response. */
-  majorVersionSets?: GetWorkerBuildIdCompatibilityResponseMajorVersionSetsList;
+  majorVersionSets?: GetWorkerBuildIdCompatibilityResponseMajorVersionSetsList | undefined;
 }
 export type GetWorkerTaskReachabilityRequestBuildIdsList = Array<string>;
 export type GetWorkerTaskReachabilityRequestTaskQueuesList = Array<string>;
@@ -2667,11 +2671,11 @@ export type GetWorkerTaskReachabilityRequestReachability =
 export interface GetWorkerTaskReachabilityRequest {
   namespace: string;
   /** Build ids to retrieve reachability for. An empty string will be interpreted as an unversioned worker. The number of build ids that can be queried in a single API call is limited. Open source users can adjust this limit by setting the server's dynamic config value for `limit.reachabilityQueryBuildIds` with the caveat that this call can strain the visibility store. */
-  buildIds?: GetWorkerTaskReachabilityRequestBuildIdsList;
+  buildIds?: GetWorkerTaskReachabilityRequestBuildIdsList | undefined;
   /** Task queues to retrieve reachability for. Leave this empty to query for all task queues associated with given build ids in the namespace. Must specify at least one task queue if querying for an unversioned worker. The number of task queues that the server will fetch reachability information for is limited. See the `GetWorkerTaskReachabilityResponse` documentation for more information. */
-  taskQueues?: GetWorkerTaskReachabilityRequestTaskQueuesList;
+  taskQueues?: GetWorkerTaskReachabilityRequestTaskQueuesList | undefined;
   /** Type of reachability to query for. `TASK_REACHABILITY_NEW_WORKFLOWS` is always returned in the response. Use `TASK_REACHABILITY_EXISTING_WORKFLOWS` if your application needs to respond to queries on closed workflows. Otherwise, use `TASK_REACHABILITY_OPEN_WORKFLOWS`. Default is `TASK_REACHABILITY_EXISTING_WORKFLOWS` if left unspecified. See the TaskReachability docstring for information about each enum variant. */
-  reachability?: GetWorkerTaskReachabilityRequestReachability | (string & {});
+  reachability?: GetWorkerTaskReachabilityRequestReachability | (string & {}) | undefined;
 }
 export type TaskQueueReachabilityReachabilityItem =
   | "TASK_REACHABILITY_UNSPECIFIED"
@@ -2683,25 +2687,25 @@ export type TaskQueueReachabilityReachabilityItem =
 export type TaskQueueReachabilityReachabilityList = Array<TaskQueueReachabilityReachabilityItem>;
 /** Reachability of tasks for a worker on a single task queue. */
 export interface TaskQueueReachability {
-  taskQueue?: string;
+  taskQueue?: string | undefined;
   /** Task reachability for a worker in a single task queue. See the TaskReachability docstring for information about each enum variant. If reachability is empty, this worker is considered unreachable in this task queue. */
-  reachability?: TaskQueueReachabilityReachabilityList;
+  reachability?: TaskQueueReachabilityReachabilityList | undefined;
 }
 /** Reachability per task queue. */
 export type BuildIdReachabilityTaskQueueReachabilityList = Array<TaskQueueReachability>;
 /** Reachability of tasks for a worker by build id, in one or more task queues. */
 export interface BuildIdReachability {
   /** A build id or empty if unversioned. */
-  buildId?: string;
+  buildId?: string | undefined;
   /** Reachability per task queue. */
-  taskQueueReachability?: BuildIdReachabilityTaskQueueReachabilityList;
+  taskQueueReachability?: BuildIdReachabilityTaskQueueReachabilityList | undefined;
 }
 /** Task reachability, broken down by build id and then task queue. When requesting a large number of task queues or all task queues associated with the given build ids in a namespace, all task queues will be listed in the response but some of them may not contain reachability information due to a server enforced limit. When reaching the limit, task queues that reachability information could not be retrieved for will be marked with a single TASK_REACHABILITY_UNSPECIFIED entry. The caller may issue another call to get the reachability for those task queues. Open source users can adjust this limit by setting the server's dynamic config value for `limit.reachabilityTaskQueueScan` with the caveat that this call can strain the visibility store. */
 export type GetWorkerTaskReachabilityResponseBuildIdReachabilityList = Array<BuildIdReachability>;
 /** [cleanup-wv-pre-release] Deprecated. Use `DescribeTaskQueue`. */
 export interface GetWorkerTaskReachabilityResponse {
   /** Task reachability, broken down by build id and then task queue. When requesting a large number of task queues or all task queues associated with the given build ids in a namespace, all task queues will be listed in the response but some of them may not contain reachability information due to a server enforced limit. When reaching the limit, task queues that reachability information could not be retrieved for will be marked with a single TASK_REACHABILITY_UNSPECIFIED entry. The caller may issue another call to get the reachability for those task queues. Open source users can adjust this limit by setting the server's dynamic config value for `limit.reachabilityTaskQueueScan` with the caveat that this call can strain the visibility store. */
-  buildIdReachability?: GetWorkerTaskReachabilityResponseBuildIdReachabilityList;
+  buildIdReachability?: GetWorkerTaskReachabilityResponseBuildIdReachabilityList | undefined;
 }
 export interface GetWorkerVersioningRulesRequest {
   namespace: string;
@@ -2709,38 +2713,38 @@ export interface GetWorkerVersioningRulesRequest {
 }
 export interface RampByPercentage {
   /** Acceptable range is [0,100). */
-  rampPercentage?: number;
+  rampPercentage?: number | undefined;
 }
 /** Assignment rules are applied to *new* Workflow and Activity executions at schedule time to assign them to a Build ID. Assignment rules will not be used in the following cases: - Child Workflows or Continue-As-New Executions who inherit their parent/previous Workflow's assigned Build ID (by setting the `inherit_build_id` flag - default behavior in SDKs when the same Task Queue is used.) - An Activity that inherits the assigned Build ID of its Workflow (by setting the `use_workflow_build_id` flag - default behavior in SDKs when the same Task Queue is used.) In absence of (applicable) redirect rules (`CompatibleBuildIdRedirectRule`s) the task will be dispatched to Workers of the Build ID determined by the assignment rules (or inherited). Otherwise, the final Build ID will be determined by the redirect rules. Once a Workflow completes its first Workflow Task in a particular Build ID it stays in that Build ID regardless of changes to assignment rules. Redirect rules can be used to move the workflow to another compatible Build ID. When using Worker Versioning on a Task Queue, in the steady state, there should typically be a single assignment rule to send all new executions to the latest Build ID. Existence of at least one such "unconditional" rule at all times is enforces by the system, unless the `force` flag is used by the user when replacing/deleting these rules (for exceptional cases). During a deployment, one or more additional rules can be added to assign a subset of the tasks to a new Build ID based on a "ramp percentage". When there are multiple assignment rules for a Task Queue, the rules are evaluated in order, starting from index 0. The first applicable rule will be applied and the rest will be ignored. In the event that no assignment rule is applicable on a task (or the Task Queue is simply not versioned), the tasks will be dispatched to an unversioned Worker. */
 export interface BuildIdAssignmentRule {
-  targetBuildId?: string;
+  targetBuildId?: string | undefined;
   /** This ramp is useful for gradual Blue/Green deployments (and similar) where you want to send a certain portion of the traffic to the target Build ID. */
-  percentageRamp?: RampByPercentage;
+  percentageRamp?: RampByPercentage | undefined;
 }
 export interface TimestampedBuildIdAssignmentRule {
-  rule?: BuildIdAssignmentRule;
-  createTime?: string;
+  rule?: BuildIdAssignmentRule | undefined;
+  createTime?: string | undefined;
 }
 export type GetWorkerVersioningRulesResponseAssignmentRulesList =
   Array<TimestampedBuildIdAssignmentRule>;
 /** These rules apply to tasks assigned to a particular Build ID (`source_build_id`) to redirect them to another *compatible* Build ID (`target_build_id`). It is user's responsibility to ensure that the target Build ID is compatible with the source Build ID (e.g. by using the Patching API). Most deployments are not expected to need these rules, however following situations can greatly benefit from redirects: - Need to move long-running Workflow Executions from an old Build ID to a newer one. - Need to hotfix some broken or stuck Workflow Executions. In steady state, redirect rules are beneficial when dealing with old Executions ran on now-decommissioned Build IDs: - To redirecting the Workflow Queries to the current (compatible) Build ID. - To be able to Reset an old Execution so it can run on the current (compatible) Build ID. Redirect rules can be chained. */
 export interface CompatibleBuildIdRedirectRule {
-  sourceBuildId?: string;
+  sourceBuildId?: string | undefined;
   /** Target Build ID must be compatible with the Source Build ID; that is it must be able to process event histories made by the Source Build ID by using [Patching](https://docs.temporal.io/workflows#patching) or other means. */
-  targetBuildId?: string;
+  targetBuildId?: string | undefined;
 }
 export interface TimestampedCompatibleBuildIdRedirectRule {
-  rule?: CompatibleBuildIdRedirectRule;
-  createTime?: string;
+  rule?: CompatibleBuildIdRedirectRule | undefined;
+  createTime?: string | undefined;
 }
 export type GetWorkerVersioningRulesResponseCompatibleRedirectRulesList =
   Array<TimestampedCompatibleBuildIdRedirectRule>;
 /** [cleanup-wv-pre-release] */
 export interface GetWorkerVersioningRulesResponse {
-  assignmentRules?: GetWorkerVersioningRulesResponseAssignmentRulesList;
-  compatibleRedirectRules?: GetWorkerVersioningRulesResponseCompatibleRedirectRulesList;
+  assignmentRules?: GetWorkerVersioningRulesResponseAssignmentRulesList | undefined;
+  compatibleRedirectRules?: GetWorkerVersioningRulesResponseCompatibleRedirectRulesList | undefined;
   /** This value can be passed back to UpdateWorkerVersioningRulesRequest to ensure that the rules were not modified between this List and the Update, which could lead to lost updates and other confusion. */
-  conflictToken?: string;
+  conflictToken?: string | undefined;
 }
 export type GetWorkflowExecutionHistoryRequestHistoryEventFilterType =
   | "HISTORY_EVENT_FILTER_TYPE_UNSPECIFIED"
@@ -2749,16 +2753,19 @@ export type GetWorkflowExecutionHistoryRequestHistoryEventFilterType =
 export interface GetWorkflowExecutionHistoryRequest {
   namespace: string;
   execution_workflow_id: string;
-  execution_workflowId?: string;
-  execution_runId?: string;
-  maximumPageSize?: number;
+  execution_workflowId?: string | undefined;
+  execution_runId?: string | undefined;
+  maximumPageSize?: number | undefined;
   /** If a `GetWorkflowExecutionHistoryResponse` or a `PollWorkflowTaskQueueResponse` had one of these, it should be passed here to fetch the next page. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** If set to true, the RPC call will not resolve until there is a new event which matches the `history_event_filter_type`, or a timeout is hit. */
-  waitNewEvent?: boolean;
+  waitNewEvent?: boolean | undefined;
   /** Filter returned events such that they match the specified filter type. Default: HISTORY_EVENT_FILTER_TYPE_ALL_EVENT. */
-  historyEventFilterType?: GetWorkflowExecutionHistoryRequestHistoryEventFilterType | (string & {});
-  skipArchival?: boolean;
+  historyEventFilterType?:
+    | GetWorkflowExecutionHistoryRequestHistoryEventFilterType
+    | (string & {})
+    | undefined;
+  skipArchival?: boolean | undefined;
 }
 export type HistoryEventEventType =
   | "EVENT_TYPE_UNSPECIFIED"
@@ -2827,9 +2834,9 @@ export type HistoryEventLinksList = Array<Link>;
 /** Principal is an authenticated caller identity computed by the server from trusted authentication context. */
 export interface Principal {
   /** Low-cardinality category of the principal (e.g., "jwt", "users"). */
-  type?: string;
+  type?: string | undefined;
   /** Identifier within that category (e.g., sub JWT claim, email address). */
-  name?: string;
+  name?: string | undefined;
 }
 export type WorkflowExecutionStartedEventAttributesInitiator =
   | "CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED"
@@ -2846,108 +2853,110 @@ export type InheritedAutoUpgradeInfoContinueAsNewInitialVersioningBehavior =
 /** Used as part of WorkflowExecutionStartedEventAttributes to pass down the AutoUpgrade behavior and source deployment version to a workflow execution whose parent/previous workflow has an AutoUpgrade behavior. Also used for Upgrade-on-CaN behaviors AutoUpgrade and UseRampingVersion. */
 export interface InheritedAutoUpgradeInfo {
   /** The source deployment version of the parent/previous workflow. */
-  sourceDeploymentVersion?: WorkerDeploymentVersion;
+  sourceDeploymentVersion?: WorkerDeploymentVersion | undefined;
   /** The revision number of the source deployment version of the parent/previous workflow. */
-  sourceDeploymentRevisionNumber?: string;
+  sourceDeploymentRevisionNumber?: string | undefined;
   /** Experimental. If this workflow is the result of a continue-as-new, this field is set to the initial_versioning_behavior specified in that command. Only used for the initial task of this run and the initial task of any retries of this run. Not passed to children or to future continue-as-new. Note: In the first release of Upgrade-on-CaN, when the only ContinueAsNewVersioningBehavior was AutoUpgrade, a non-empty InheritedAutoUpgradeInfo meant that the workflow should start as AutoUpgrade. So for compatibility with history events generated during that time, know that an UNSPECIFIED value here is equivalent to AutoUpgrade value if the InheritedAutoUpgradeInfo is non-empty. */
-  continueAsNewInitialVersioningBehavior?: InheritedAutoUpgradeInfoContinueAsNewInitialVersioningBehavior;
+  continueAsNewInitialVersioningBehavior?:
+    | InheritedAutoUpgradeInfoContinueAsNewInitialVersioningBehavior
+    | undefined;
 }
 /** Wrapper for a target deployment version that the SDK declined to upgrade to. See declined_target_version_upgrade on WorkflowExecutionStartedEventAttributes. */
 export interface DeclinedTargetVersionUpgrade {
-  deploymentVersion?: WorkerDeploymentVersion;
+  deploymentVersion?: WorkerDeploymentVersion | undefined;
   /** Revision number of the task queue routing config at the time the target was declined. If an incoming target's revision is <= this value, it is not newer and is not used for deciding whether or not to suppress the upgrade signal. */
-  revisionNumber?: string;
+  revisionNumber?: string | undefined;
 }
 /** Configuration for time skipping during a workflow execution. When enabled, virtual time advances automatically whenever there is no in-flight work. In-flight work includes activities, child workflows, Nexus operations, signal/cancel external workflow operations, and possibly other features added in the future. User timers are not classified as in-flight work and will be skipped over. When time advances, it skips to the earlier of the next user timer or the configured bound, if either exists. Propagation behavior of time skipping: The enabled flag, bound fields, and accumulated skipped duration are propagated to related executions as follows: (1) Child workflows and continue-as-new: both the configuration and the accumulated skipped duration are inherited from the current execution. The configured bound is shared between the inherited skipped duration and any additional duration skipped by the new run. (2) Retry and cron: the configuration and accumulated skipped duration are inherited as recorded when the current workflow started; the accumulated skipped duration of the current run is not propagated. (3) Reset: the new run retains the time-skipping configuration of the current execution. Because reset replays all events up to the reset point and re-applies any UpdateWorkflowExecutionOptions changes made after that point, the resulting run ends up with the same final time-skipping configuration as the previous run. */
 export interface TimeSkippingConfig {
   /** Enables or disables time skipping for this workflow execution. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Maximum total virtual time that can be skipped. */
-  maxSkippedDuration?: string;
+  maxSkippedDuration?: string | undefined;
   /** Maximum elapsed time since time skipping was enabled. This includes both skipped time and real time elapsing. */
-  maxElapsedDuration?: string;
+  maxElapsedDuration?: string | undefined;
 }
 /** Always the first event in workflow history */
 export interface WorkflowExecutionStartedEventAttributes {
-  workflowType?: WorkflowType;
+  workflowType?: WorkflowType | undefined;
   /** If this workflow is a child, the namespace our parent lives in. SDKs and UI tools should use `parent_workflow_namespace` field but server must use `parent_workflow_namespace_id` only. */
-  parentWorkflowNamespace?: string;
-  parentWorkflowNamespaceId?: string;
+  parentWorkflowNamespace?: string | undefined;
+  parentWorkflowNamespaceId?: string | undefined;
   /** Contains information about parent workflow execution that initiated the child workflow these attributes belong to. If the workflow these attributes belong to is not a child workflow of any other execution, this field will not be populated. */
-  parentWorkflowExecution?: WorkflowExecution;
+  parentWorkflowExecution?: WorkflowExecution | undefined;
   /** EventID of the child execution initiated event in parent workflow */
-  parentInitiatedEventId?: string;
-  taskQueue?: TaskQueue;
+  parentInitiatedEventId?: string | undefined;
+  taskQueue?: TaskQueue | undefined;
   /** SDK will deserialize this and provide it as arguments to the workflow function */
-  input?: Payloads;
+  input?: Payloads | undefined;
   /** Total workflow execution timeout including retries and continue as new. */
-  workflowExecutionTimeout?: string;
+  workflowExecutionTimeout?: string | undefined;
   /** Timeout of a single workflow run. */
-  workflowRunTimeout?: string;
+  workflowRunTimeout?: string | undefined;
   /** Timeout of a single workflow task. */
-  workflowTaskTimeout?: string;
+  workflowTaskTimeout?: string | undefined;
   /** Run id of the previous workflow which continued-as-new or retried or cron executed into this workflow. */
-  continuedExecutionRunId?: string;
-  initiator?: WorkflowExecutionStartedEventAttributesInitiator;
-  continuedFailure?: Failure;
-  lastCompletionResult?: Payloads;
+  continuedExecutionRunId?: string | undefined;
+  initiator?: WorkflowExecutionStartedEventAttributesInitiator | undefined;
+  continuedFailure?: Failure | undefined;
+  lastCompletionResult?: Payloads | undefined;
   /** This is the run id when the WorkflowExecutionStarted event was written. A workflow reset changes the execution run_id, but preserves this field. */
-  originalExecutionRunId?: string;
+  originalExecutionRunId?: string | undefined;
   /** Identity of the client who requested this execution */
-  identity?: string;
+  identity?: string | undefined;
   /** This is the very first runId along the chain of ContinueAsNew, Retry, Cron and Reset. Used to identify a chain. */
-  firstExecutionRunId?: string;
-  retryPolicy?: RetryPolicy;
+  firstExecutionRunId?: string | undefined;
+  retryPolicy?: RetryPolicy | undefined;
   /** Starting at 1, the number of times we have tried to execute this workflow */
-  attempt?: number;
+  attempt?: number | undefined;
   /** The absolute time at which the workflow will be timed out. This is passed without change to the next run/retry of a workflow. */
-  workflowExecutionExpirationTime?: string;
+  workflowExecutionExpirationTime?: string | undefined;
   /** If this workflow runs on a cron schedule, it will appear here */
-  cronSchedule?: string;
+  cronSchedule?: string | undefined;
   /** For a cron workflow, this contains the amount of time between when this iteration of the cron workflow was scheduled and when it should run next per its cron_schedule. */
-  firstWorkflowTaskBackoff?: string;
-  memo?: Memo;
-  searchAttributes?: SearchAttributes;
-  prevAutoResetPoints?: ResetPoints;
-  header?: Header;
+  firstWorkflowTaskBackoff?: string | undefined;
+  memo?: Memo | undefined;
+  searchAttributes?: SearchAttributes | undefined;
+  prevAutoResetPoints?: ResetPoints | undefined;
+  header?: Header | undefined;
   /** Version of the child execution initiated event in parent workflow It should be used together with parent_initiated_event_id to identify a child initiated event for global namespace */
-  parentInitiatedEventVersion?: string;
+  parentInitiatedEventVersion?: string | undefined;
   /** This field is new in 1.21. */
-  workflowId?: string;
+  workflowId?: string | undefined;
   /** If this workflow intends to use anything other than the current overall default version for the queue, then we include it here. Deprecated. [cleanup-experimental-wv] */
-  sourceVersionStamp?: WorkerVersionStamp;
+  sourceVersionStamp?: WorkerVersionStamp | undefined;
   /** Completion callbacks attached when this workflow was started. */
-  completionCallbacks?: WorkflowExecutionStartedEventAttributesCompletionCallbacksList;
+  completionCallbacks?: WorkflowExecutionStartedEventAttributesCompletionCallbacksList | undefined;
   /** Contains information about the root workflow execution. The root workflow execution is defined as follows: 1. A workflow without parent workflow is its own root workflow. 2. A workflow that has a parent workflow has the same root workflow as its parent workflow. When the workflow is its own root workflow, then root_workflow_execution is nil. Note: workflows continued as new or reseted may or may not have parents, check examples below. Examples: Scenario 1: Workflow W1 starts child workflow W2, and W2 starts child workflow W3. - The root workflow of all three workflows is W1. - W1 has root_workflow_execution set to nil. - W2 and W3 have root_workflow_execution set to W1. Scenario 2: Workflow W1 starts child workflow W2, and W2 continued as new W3. - The root workflow of all three workflows is W1. - W1 has root_workflow_execution set to nil. - W2 and W3 have root_workflow_execution set to W1. Scenario 3: Workflow W1 continued as new W2. - The root workflow of W1 is W1 and the root workflow of W2 is W2. - W1 and W2 have root_workflow_execution set to nil. Scenario 4: Workflow W1 starts child workflow W2, and W2 is reseted, creating W3 - The root workflow of all three workflows is W1. - W1 has root_workflow_execution set to nil. - W2 and W3 have root_workflow_execution set to W1. Scenario 5: Workflow W1 is reseted, creating W2. - The root workflow of W1 is W1 and the root workflow of W2 is W2. - W1 and W2 have root_workflow_execution set to nil. */
-  rootWorkflowExecution?: WorkflowExecution;
+  rootWorkflowExecution?: WorkflowExecution | undefined;
   /** When present, this execution is assigned to the build ID of its parent or previous execution. Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv] */
-  inheritedBuildId?: string;
+  inheritedBuildId?: string | undefined;
   /** Versioning override applied to this workflow when it was started. Children, crons, retries, and continue-as-new will inherit source run's override if pinned and if the new workflow's Task Queue belongs to the override version. */
-  versioningOverride?: VersioningOverride;
+  versioningOverride?: VersioningOverride | undefined;
   /** When present, it means this is a child workflow of a parent that is Pinned to this Worker Deployment Version. In this case, child workflow will start as Pinned to this Version instead of starting on the Current Version of its Task Queue. This is set only if the child workflow is starting on a Task Queue belonging to the same Worker Deployment Version. Deprecated. Use `parent_versioning_info`. */
-  parentPinnedWorkerDeploymentVersion?: string;
+  parentPinnedWorkerDeploymentVersion?: string | undefined;
   /** Priority metadata */
-  priority?: Priority;
+  priority?: Priority | undefined;
   /** If present, the new workflow should start on this version with pinned base behavior. Child of pinned parent will inherit the parent's version if the Child's Task Queue belongs to that version. A new run initiated by workflow ContinueAsNew of pinned run, will inherit the previous run's version if the new run's Task Queue belongs to that version. A new run initiated by workflow Cron will never inherit. A new run initiated by workflow Retry will only inherit if the retried run is effectively pinned at the time of retry, and the retried run inherited a pinned version when it started (ie. it is a child of a pinned parent, or a CaN of a pinned run, and is running on a Task Queue in the inherited version). Pinned override is inherited if Task Queue of new run is compatible with the override version. Override is inherited separately and takes precedence over inherited base version. Note: This field is mutually exclusive with inherited_auto_upgrade_info. Additionaly, versioning_override, if present, overrides this field during routing decisions. */
-  inheritedPinnedVersion?: WorkerDeploymentVersion;
+  inheritedPinnedVersion?: WorkerDeploymentVersion | undefined;
   /** If present, the new workflow begins with AutoUpgrade behavior. Before dispatching the first workflow task, this field is set to the deployment version on which the parent/ previous run was operating. This inheritance only happens when the task queues belong to the same deployment version. The first workflow task will then be dispatched to either this inherited deployment version, or the current deployment version of the task queue's Deployment. After the first workflow task, the effective behavior depends on worker-sent values in subsequent workflow tasks. Inheritance rules: - ContinueAsNew and child workflows: inherit AutoUpgrade behavior and deployment version - Cron: never inherits - Retry: inherits only if the retried run is effectively AutoUpgrade at the time of retry, and inherited AutoUpgrade behavior when it started (i.e. it is a child of an AutoUpgrade parent or ContinueAsNew of an AutoUpgrade run, running on the same deployment as the parent/previous run) Additional notes: - This field is mutually exclusive with `inherited_pinned_version`. - `versioning_override`, if present, overrides this field during routing decisions. - SDK implementations do not interact with this field and is only used internally by the server to ensure task routing correctness. */
-  inheritedAutoUpgradeInfo?: InheritedAutoUpgradeInfo;
+  inheritedAutoUpgradeInfo?: InheritedAutoUpgradeInfo | undefined;
   /** A boolean indicating whether the SDK has asked to eagerly execute the first workflow task for this workflow and eager execution was accepted by the server. Only populated by server with version >= 1.29.0. */
-  eagerExecutionAccepted?: boolean;
+  eagerExecutionAccepted?: boolean | undefined;
   /** During a previous run of this workflow, the server may have notified the SDK that the Target Worker Deployment Version changed, but the SDK declined to upgrade (e.g., by continuing-as-new with PINNED behavior). This field records the target version that was declined. This is a wrapper message to distinguish "never declined" (nil wrapper) from "declined an unversioned target" (non-nil wrapper with nil deployment_version). Used internally by the server during continue-as-new and retry. Should not be read or interpreted by SDKs. */
-  declinedTargetVersionUpgrade?: DeclinedTargetVersionUpgrade;
+  declinedTargetVersionUpgrade?: DeclinedTargetVersionUpgrade | undefined;
   /** Initial time-skipping configuration for this workflow execution, recorded at start time. This may have been set explicitly via the start workflow request, or propagated from a parent/previous execution. The configuration may be updated after start via UpdateWorkflowExecutionOptions, which will be reflected in the WorkflowExecutionOptionsUpdatedEvent. */
-  timeSkippingConfig?: TimeSkippingConfig;
+  timeSkippingConfig?: TimeSkippingConfig | undefined;
   /** The time skipped by the previous execution that started this workflow. It can happen in cases of child workflows and continue-as-new workflows. */
-  initialSkippedDuration?: string;
+  initialSkippedDuration?: string | undefined;
 }
 export interface WorkflowExecutionCompletedEventAttributes {
   /** Serialized result of workflow completion (ie: The return value of the workflow function) */
-  result?: Payloads;
+  result?: Payloads | undefined;
   /** The `WORKFLOW_TASK_COMPLETED` event which this command was reported with */
-  workflowTaskCompletedEventId?: string;
+  workflowTaskCompletedEventId?: string | undefined;
   /** If another run is started by cron, this contains the new run id. */
-  newExecutionRunId?: string;
+  newExecutionRunId?: string | undefined;
 }
 export type WorkflowExecutionFailedEventAttributesRetryState =
   | "RETRY_STATE_UNSPECIFIED"
@@ -2960,12 +2969,12 @@ export type WorkflowExecutionFailedEventAttributesRetryState =
   | "RETRY_STATE_CANCEL_REQUESTED";
 export interface WorkflowExecutionFailedEventAttributes {
   /** Serialized result of workflow failure (ex: An exception thrown, or error returned) */
-  failure?: Failure;
-  retryState?: WorkflowExecutionFailedEventAttributesRetryState;
+  failure?: Failure | undefined;
+  retryState?: WorkflowExecutionFailedEventAttributesRetryState | undefined;
   /** The `WORKFLOW_TASK_COMPLETED` event which this command was reported with */
-  workflowTaskCompletedEventId?: string;
+  workflowTaskCompletedEventId?: string | undefined;
   /** If another run is started by cron or retry, this contains the new run id. */
-  newExecutionRunId?: string;
+  newExecutionRunId?: string | undefined;
 }
 export type WorkflowExecutionTimedOutEventAttributesRetryState =
   | "RETRY_STATE_UNSPECIFIED"
@@ -2977,17 +2986,17 @@ export type WorkflowExecutionTimedOutEventAttributesRetryState =
   | "RETRY_STATE_INTERNAL_SERVER_ERROR"
   | "RETRY_STATE_CANCEL_REQUESTED";
 export interface WorkflowExecutionTimedOutEventAttributes {
-  retryState?: WorkflowExecutionTimedOutEventAttributesRetryState;
+  retryState?: WorkflowExecutionTimedOutEventAttributesRetryState | undefined;
   /** If another run is started by cron or retry, this contains the new run id. */
-  newExecutionRunId?: string;
+  newExecutionRunId?: string | undefined;
 }
 export interface WorkflowTaskScheduledEventAttributes {
   /** The task queue this workflow task was enqueued in, which could be a normal or sticky queue */
-  taskQueue?: TaskQueue;
+  taskQueue?: TaskQueue | undefined;
   /** How long the worker has to process this task once receiving it before it times out (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: "to" is used to indicate interval. --) */
-  startToCloseTimeout?: string;
+  startToCloseTimeout?: string | undefined;
   /** Starting at 1, how many attempts there have been to complete this task */
-  attempt?: number;
+  attempt?: number | undefined;
 }
 export type WorkflowTaskStartedEventAttributesSuggestContinueAsNewReasonsItem =
   | "SUGGEST_CONTINUE_AS_NEW_REASON_UNSPECIFIED"
@@ -2999,23 +3008,25 @@ export type WorkflowTaskStartedEventAttributesSuggestContinueAsNewReasonsList =
   Array<WorkflowTaskStartedEventAttributesSuggestContinueAsNewReasonsItem>;
 export interface WorkflowTaskStartedEventAttributes {
   /** The id of the `WORKFLOW_TASK_SCHEDULED` event this task corresponds to */
-  scheduledEventId?: string;
+  scheduledEventId?: string | undefined;
   /** Identity of the worker who picked up this task */
-  identity?: string;
+  identity?: string | undefined;
   /** This field is populated from the RecordWorkflowTaskStartedRequest. Matching service would set the request_id on the RecordWorkflowTaskStartedRequest to a new UUID. This is useful in case a RecordWorkflowTaskStarted call succeed but matching doesn't get that response, so matching could retry and history service would return success if the request_id matches. In that case, matching will continue to deliver the task to worker. Without this field, history service would return AlreadyStarted error, and matching would drop the task. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** True if this workflow should continue-as-new soon. See `suggest_continue_as_new_reasons` for why. */
-  suggestContinueAsNew?: boolean;
+  suggestContinueAsNew?: boolean | undefined;
   /** The reason(s) that suggest_continue_as_new is true, if it is. Unset if suggest_continue_as_new is false. */
-  suggestContinueAsNewReasons?: WorkflowTaskStartedEventAttributesSuggestContinueAsNewReasonsList;
+  suggestContinueAsNewReasons?:
+    | WorkflowTaskStartedEventAttributesSuggestContinueAsNewReasonsList
+    | undefined;
   /** True if Workflow's Target Worker Deployment Version is different from its Pinned Version and the workflow is Pinned. Experimental. */
-  targetWorkerDeploymentVersionChanged?: boolean;
+  targetWorkerDeploymentVersionChanged?: boolean | undefined;
   /** Total history size in bytes, which the workflow might use to decide when to continue-as-new regardless of the suggestion. Note that history event count is just the event id of this event, so we don't include it explicitly here. */
-  historySizeBytes?: string;
+  historySizeBytes?: string | undefined;
   /** Version info of the worker to whom this task was dispatched. Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv] */
-  workerVersion?: WorkerVersionStamp;
+  workerVersion?: WorkerVersionStamp | undefined;
   /** Used by server internally to properly reapply build ID redirects to an execution when rebuilding it from events. Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv] */
-  buildIdRedirectCounter?: string;
+  buildIdRedirectCounter?: string | undefined;
 }
 /** Internal flags used by the core SDK. SDKs using flags must comply with the following behavior: During replay: * If a flag is not recognized (value is too high or not defined), it must fail the workflow task. * If a flag is recognized, it is stored in a set of used flags for the run. Code checks for that flag during and after this WFT are allowed to assume that the flag is present. * If a code check for a flag does not find the flag in the set of used flags, it must take the branch corresponding to the absence of that flag. During non-replay execution of new WFTs: * The SDK is free to use all flags it knows about. It must record any newly-used (IE: not previously recorded) flags when completing the WFT. SDKs which are too old to even know about this field at all are considered to produce undefined behavior if they replay workflows which used this mechanism. (-- api-linter: core::0141::forbidden-types=disabled aip.dev/not-precedent: These really shouldn't have negative values. --) */
 export type WorkflowTaskCompletedMetadataCoreUsedFlagsList = Array<number>;
@@ -3023,18 +3034,18 @@ export type WorkflowTaskCompletedMetadataCoreUsedFlagsList = Array<number>;
 export type WorkflowTaskCompletedMetadataLangUsedFlagsList = Array<number>;
 export interface WorkflowTaskCompletedMetadata {
   /** Internal flags used by the core SDK. SDKs using flags must comply with the following behavior: During replay: * If a flag is not recognized (value is too high or not defined), it must fail the workflow task. * If a flag is recognized, it is stored in a set of used flags for the run. Code checks for that flag during and after this WFT are allowed to assume that the flag is present. * If a code check for a flag does not find the flag in the set of used flags, it must take the branch corresponding to the absence of that flag. During non-replay execution of new WFTs: * The SDK is free to use all flags it knows about. It must record any newly-used (IE: not previously recorded) flags when completing the WFT. SDKs which are too old to even know about this field at all are considered to produce undefined behavior if they replay workflows which used this mechanism. (-- api-linter: core::0141::forbidden-types=disabled aip.dev/not-precedent: These really shouldn't have negative values. --) */
-  coreUsedFlags?: WorkflowTaskCompletedMetadataCoreUsedFlagsList;
+  coreUsedFlags?: WorkflowTaskCompletedMetadataCoreUsedFlagsList | undefined;
   /** Flags used by the SDK lang. No attempt is made to distinguish between different SDK languages here as processing a workflow with a different language than the one which authored it is already undefined behavior. See `core_used_patches` for more. (-- api-linter: core::0141::forbidden-types=disabled aip.dev/not-precedent: These really shouldn't have negative values. --) */
-  langUsedFlags?: WorkflowTaskCompletedMetadataLangUsedFlagsList;
+  langUsedFlags?: WorkflowTaskCompletedMetadataLangUsedFlagsList | undefined;
   /** Name of the SDK that processed the task. This is usually something like "temporal-go" and is usually the same as client-name gRPC header. This should only be set if its value changed since the last time recorded on the workflow (or be set on the first task). (-- api-linter: core::0122::name-suffix=disabled aip.dev/not-precedent: We're ok with a name suffix here. --) */
-  sdkName?: string;
+  sdkName?: string | undefined;
   /** Version of the SDK that processed the task. This is usually something like "1.20.0" and is usually the same as client-version gRPC header. This should only be set if its value changed since the last time recorded on the workflow (or be set on the first task). */
-  sdkVersion?: string;
+  sdkVersion?: string | undefined;
 }
 /** Metadata relevant for metering purposes */
 export interface MeteringMetadata {
   /** Count of local activities which have begun an execution attempt during this workflow task, and whose first attempt occurred in some previous task. This is used for metering purposes, and does not affect workflow state. (-- api-linter: core::0141::forbidden-types=disabled aip.dev/not-precedent: Negative values make no sense to represent. --) */
-  nonfirstLocalActivityExecutionAttempts?: number;
+  nonfirstLocalActivityExecutionAttempts?: number | undefined;
 }
 /** Versioning behavior sent by the worker that completed this task for this particular workflow execution. UNSPECIFIED means the task was completed by an unversioned worker. This value updates workflow execution's `versioning_info.behavior`. */
 export type WorkflowTaskCompletedEventAttributesVersioningBehavior =
@@ -3043,29 +3054,29 @@ export type WorkflowTaskCompletedEventAttributesVersioningBehavior =
   | "VERSIONING_BEHAVIOR_AUTO_UPGRADE";
 export interface WorkflowTaskCompletedEventAttributes {
   /** The id of the `WORKFLOW_TASK_SCHEDULED` event this task corresponds to */
-  scheduledEventId?: string;
+  scheduledEventId?: string | undefined;
   /** The id of the `WORKFLOW_TASK_STARTED` event this task corresponds to */
-  startedEventId?: string;
+  startedEventId?: string | undefined;
   /** Identity of the worker who completed this task */
-  identity?: string;
+  identity?: string | undefined;
   /** Binary ID of the worker who completed this task Deprecated. Replaced with `deployment_version`. */
-  binaryChecksum?: string;
+  binaryChecksum?: string | undefined;
   /** Version info of the worker who processed this workflow task. If present, the `build_id` field within is also used as `binary_checksum`, which may be omitted in that case (it may also be populated to preserve compatibility). Deprecated. Use `deployment_version` and `versioning_behavior` instead. */
-  workerVersion?: WorkerVersionStamp;
+  workerVersion?: WorkerVersionStamp | undefined;
   /** Data the SDK wishes to record for itself, but server need not interpret, and does not directly impact workflow state. */
-  sdkMetadata?: WorkflowTaskCompletedMetadata;
+  sdkMetadata?: WorkflowTaskCompletedMetadata | undefined;
   /** Local usage data sent during workflow task completion and recorded here for posterity */
-  meteringMetadata?: MeteringMetadata;
+  meteringMetadata?: MeteringMetadata | undefined;
   /** The deployment that completed this task. May or may not be set for unversioned workers, depending on whether a value is sent by the SDK. This value updates workflow execution's `versioning_info.deployment`. Deprecated. Replaced with `deployment_version`. */
-  deployment?: Deployment;
+  deployment?: Deployment | undefined;
   /** Versioning behavior sent by the worker that completed this task for this particular workflow execution. UNSPECIFIED means the task was completed by an unversioned worker. This value updates workflow execution's `versioning_info.behavior`. */
-  versioningBehavior?: WorkflowTaskCompletedEventAttributesVersioningBehavior;
+  versioningBehavior?: WorkflowTaskCompletedEventAttributesVersioningBehavior | undefined;
   /** The Worker Deployment Version that completed this task. Must be set if `versioning_behavior` is set. This value updates workflow execution's `versioning_info.version`. Deprecated. Replaced with `deployment_version`. */
-  workerDeploymentVersion?: string;
+  workerDeploymentVersion?: string | undefined;
   /** The name of Worker Deployment that completed this task. Must be set if `versioning_behavior` is set. This value updates workflow execution's `worker_deployment_name`. */
-  workerDeploymentName?: string;
+  workerDeploymentName?: string | undefined;
   /** The Worker Deployment Version that completed this task. Must be set if `versioning_behavior` is set. This value updates workflow execution's `versioning_info.deployment_version`. */
-  deploymentVersion?: WorkerDeploymentVersion;
+  deploymentVersion?: WorkerDeploymentVersion | undefined;
 }
 export type WorkflowTaskTimedOutEventAttributesTimeoutType =
   | "TIMEOUT_TYPE_UNSPECIFIED"
@@ -3075,10 +3086,10 @@ export type WorkflowTaskTimedOutEventAttributesTimeoutType =
   | "TIMEOUT_TYPE_HEARTBEAT";
 export interface WorkflowTaskTimedOutEventAttributes {
   /** The id of the `WORKFLOW_TASK_SCHEDULED` event this task corresponds to */
-  scheduledEventId?: string;
+  scheduledEventId?: string | undefined;
   /** The id of the `WORKFLOW_TASK_STARTED` event this task corresponds to */
-  startedEventId?: string;
-  timeoutType?: WorkflowTaskTimedOutEventAttributesTimeoutType;
+  startedEventId?: string | undefined;
+  timeoutType?: WorkflowTaskTimedOutEventAttributesTimeoutType | undefined;
 }
 export type WorkflowTaskFailedEventAttributesCause =
   | "WORKFLOW_TASK_FAILED_CAUSE_UNSPECIFIED"
@@ -3121,76 +3132,76 @@ export type WorkflowTaskFailedEventAttributesCause =
   | "WORKFLOW_TASK_FAILED_CAUSE_PAYLOADS_TOO_LARGE";
 export interface WorkflowTaskFailedEventAttributes {
   /** The id of the `WORKFLOW_TASK_SCHEDULED` event this task corresponds to */
-  scheduledEventId?: string;
+  scheduledEventId?: string | undefined;
   /** The id of the `WORKFLOW_TASK_STARTED` event this task corresponds to */
-  startedEventId?: string;
-  cause?: WorkflowTaskFailedEventAttributesCause;
+  startedEventId?: string | undefined;
+  cause?: WorkflowTaskFailedEventAttributesCause | undefined;
   /** The failure details */
-  failure?: Failure;
+  failure?: Failure | undefined;
   /** If a worker explicitly failed this task, this field contains the worker's identity. When the server generates the failure internally this field is set as 'history-service'. */
-  identity?: string;
+  identity?: string | undefined;
   /** The original run id of the workflow. For reset workflow. */
-  baseRunId?: string;
+  baseRunId?: string | undefined;
   /** If the workflow is being reset, the new run id. */
-  newRunId?: string;
+  newRunId?: string | undefined;
   /** Version of the event where the history branch was forked. Used by multi-cluster replication during resets to identify the correct history branch. */
-  forkEventVersion?: string;
+  forkEventVersion?: string | undefined;
   /** Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv] If a worker explicitly failed this task, its binary id */
-  binaryChecksum?: string;
+  binaryChecksum?: string | undefined;
   /** Version info of the worker who processed this workflow task. If present, the `build_id` field within is also used as `binary_checksum`, which may be omitted in that case (it may also be populated to preserve compatibility). Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv] */
-  workerVersion?: WorkerVersionStamp;
+  workerVersion?: WorkerVersionStamp | undefined;
 }
 export interface ActivityTaskScheduledEventAttributes {
   /** The worker/user assigned identifier for the activity */
-  activityId?: string;
-  activityType?: WorkflowType;
-  taskQueue?: TaskQueue;
-  header?: Header;
-  input?: Payloads;
+  activityId?: string | undefined;
+  activityType?: WorkflowType | undefined;
+  taskQueue?: TaskQueue | undefined;
+  header?: Header | undefined;
+  input?: Payloads | undefined;
   /** Indicates how long the caller is willing to wait for an activity completion. Limits how long retries will be attempted. Either this or `start_to_close_timeout` must be specified. (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: "to" is used to indicate interval. --) */
-  scheduleToCloseTimeout?: string;
+  scheduleToCloseTimeout?: string | undefined;
   /** Limits time an activity task can stay in a task queue before a worker picks it up. This timeout is always non retryable, as all a retry would achieve is to put it back into the same queue. Defaults to `schedule_to_close_timeout` or workflow execution timeout if not specified. (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: "to" is used to indicate interval. --) */
-  scheduleToStartTimeout?: string;
+  scheduleToStartTimeout?: string | undefined;
   /** Maximum time an activity is allowed to execute after being picked up by a worker. This timeout is always retryable. Either this or `schedule_to_close_timeout` must be specified. (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: "to" is used to indicate interval. --) */
-  startToCloseTimeout?: string;
+  startToCloseTimeout?: string | undefined;
   /** Maximum permitted time between successful worker heartbeats. */
-  heartbeatTimeout?: string;
+  heartbeatTimeout?: string | undefined;
   /** The `WORKFLOW_TASK_COMPLETED` event which this command was reported with */
-  workflowTaskCompletedEventId?: string;
+  workflowTaskCompletedEventId?: string | undefined;
   /** Activities are assigned a default retry policy controlled by the service's dynamic configuration. Retries will happen up to `schedule_to_close_timeout`. To disable retries set retry_policy.maximum_attempts to 1. */
-  retryPolicy?: RetryPolicy;
+  retryPolicy?: RetryPolicy | undefined;
   /** If this is set, the activity would be assigned to the Build ID of the workflow. Otherwise, Assignment rules of the activity's Task Queue will be used to determine the Build ID. Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv] */
-  useWorkflowBuildId?: boolean;
+  useWorkflowBuildId?: boolean | undefined;
   /** Priority metadata. If this message is not present, or any fields are not present, they inherit the values from the workflow. */
-  priority?: Priority;
+  priority?: Priority | undefined;
 }
 export interface ActivityTaskStartedEventAttributes {
   /** The id of the `ACTIVITY_TASK_SCHEDULED` event this task corresponds to */
-  scheduledEventId?: string;
+  scheduledEventId?: string | undefined;
   /** id of the worker that picked up this task */
-  identity?: string;
+  identity?: string | undefined;
   /** This field is populated from the RecordActivityTaskStartedRequest. Matching service would set the request_id on the RecordActivityTaskStartedRequest to a new UUID. This is useful in case a RecordActivityTaskStarted call succeed but matching doesn't get that response, so matching could retry and history service would return success if the request_id matches. In that case, matching will continue to deliver the task to worker. Without this field, history service would return AlreadyStarted error, and matching would drop the task. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Starting at 1, the number of times this task has been attempted */
-  attempt?: number;
+  attempt?: number | undefined;
   /** Will be set to the most recent failure details, if this task has previously failed and then been retried. */
-  lastFailure?: Failure;
+  lastFailure?: Failure | undefined;
   /** Version info of the worker to whom this task was dispatched. Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv] */
-  workerVersion?: WorkerVersionStamp;
+  workerVersion?: WorkerVersionStamp | undefined;
   /** Used by server internally to properly reapply build ID redirects to an execution when rebuilding it from events. Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv] */
-  buildIdRedirectCounter?: string;
+  buildIdRedirectCounter?: string | undefined;
 }
 export interface ActivityTaskCompletedEventAttributes {
   /** Serialized results of the activity. IE: The return value of the activity function */
-  result?: Payloads;
+  result?: Payloads | undefined;
   /** The id of the `ACTIVITY_TASK_SCHEDULED` event this completion corresponds to */
-  scheduledEventId?: string;
+  scheduledEventId?: string | undefined;
   /** The id of the `ACTIVITY_TASK_STARTED` event this completion corresponds to */
-  startedEventId?: string;
+  startedEventId?: string | undefined;
   /** id of the worker that completed this task */
-  identity?: string;
+  identity?: string | undefined;
   /** Version info of the worker who processed this workflow task. Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv] */
-  workerVersion?: WorkerVersionStamp;
+  workerVersion?: WorkerVersionStamp | undefined;
 }
 export type ActivityTaskFailedEventAttributesRetryState =
   | "RETRY_STATE_UNSPECIFIED"
@@ -3203,16 +3214,16 @@ export type ActivityTaskFailedEventAttributesRetryState =
   | "RETRY_STATE_CANCEL_REQUESTED";
 export interface ActivityTaskFailedEventAttributes {
   /** Failure details */
-  failure?: Failure;
+  failure?: Failure | undefined;
   /** The id of the `ACTIVITY_TASK_SCHEDULED` event this failure corresponds to */
-  scheduledEventId?: string;
+  scheduledEventId?: string | undefined;
   /** The id of the `ACTIVITY_TASK_STARTED` event this failure corresponds to */
-  startedEventId?: string;
+  startedEventId?: string | undefined;
   /** id of the worker that failed this task */
-  identity?: string;
-  retryState?: ActivityTaskFailedEventAttributesRetryState;
+  identity?: string | undefined;
+  retryState?: ActivityTaskFailedEventAttributesRetryState | undefined;
   /** Version info of the worker who processed this workflow task. Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv] */
-  workerVersion?: WorkerVersionStamp;
+  workerVersion?: WorkerVersionStamp | undefined;
 }
 export type ActivityTaskTimedOutEventAttributesRetryState =
   | "RETRY_STATE_UNSPECIFIED"
@@ -3225,145 +3236,145 @@ export type ActivityTaskTimedOutEventAttributesRetryState =
   | "RETRY_STATE_CANCEL_REQUESTED";
 export interface ActivityTaskTimedOutEventAttributes {
   /** If this activity had failed, was retried, and then timed out, that failure is stored as the `cause` in here. */
-  failure?: Failure;
+  failure?: Failure | undefined;
   /** The id of the `ACTIVITY_TASK_SCHEDULED` event this timeout corresponds to */
-  scheduledEventId?: string;
+  scheduledEventId?: string | undefined;
   /** The id of the `ACTIVITY_TASK_STARTED` event this timeout corresponds to */
-  startedEventId?: string;
-  retryState?: ActivityTaskTimedOutEventAttributesRetryState;
+  startedEventId?: string | undefined;
+  retryState?: ActivityTaskTimedOutEventAttributesRetryState | undefined;
 }
 export interface TimerStartedEventAttributes {
   /** The worker/user assigned id for this timer */
-  timerId?: string;
+  timerId?: string | undefined;
   /** How long until this timer fires (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: "to" is used to indicate interval. --) */
-  startToFireTimeout?: string;
+  startToFireTimeout?: string | undefined;
   /** The `WORKFLOW_TASK_COMPLETED` event which this command was reported with */
-  workflowTaskCompletedEventId?: string;
+  workflowTaskCompletedEventId?: string | undefined;
 }
 export interface TimerFiredEventAttributes {
   /** Will match the `timer_id` from `TIMER_STARTED` event for this timer */
-  timerId?: string;
+  timerId?: string | undefined;
   /** The id of the `TIMER_STARTED` event itself */
-  startedEventId?: string;
+  startedEventId?: string | undefined;
 }
 export interface ActivityTaskCancelRequestedEventAttributes {
   /** The id of the `ACTIVITY_TASK_SCHEDULED` event this cancel request corresponds to */
-  scheduledEventId?: string;
+  scheduledEventId?: string | undefined;
   /** The `WORKFLOW_TASK_COMPLETED` event which this command was reported with */
-  workflowTaskCompletedEventId?: string;
+  workflowTaskCompletedEventId?: string | undefined;
 }
 export interface ActivityTaskCanceledEventAttributes {
   /** Additional information that the activity reported upon confirming cancellation */
-  details?: Payloads;
+  details?: Payloads | undefined;
   /** id of the most recent `ACTIVITY_TASK_CANCEL_REQUESTED` event which refers to the same activity */
-  latestCancelRequestedEventId?: string;
+  latestCancelRequestedEventId?: string | undefined;
   /** The id of the `ACTIVITY_TASK_SCHEDULED` event this cancel confirmation corresponds to */
-  scheduledEventId?: string;
+  scheduledEventId?: string | undefined;
   /** The id of the `ACTIVITY_TASK_STARTED` event this cancel confirmation corresponds to */
-  startedEventId?: string;
+  startedEventId?: string | undefined;
   /** id of the worker who canceled this activity */
-  identity?: string;
+  identity?: string | undefined;
   /** Version info of the worker who processed this workflow task. Deprecated. This field should be cleaned up when versioning-2 API is removed. [cleanup-experimental-wv] */
-  workerVersion?: WorkerVersionStamp;
+  workerVersion?: WorkerVersionStamp | undefined;
 }
 export interface TimerCanceledEventAttributes {
   /** Will match the `timer_id` from `TIMER_STARTED` event for this timer */
-  timerId?: string;
+  timerId?: string | undefined;
   /** The id of the `TIMER_STARTED` event itself */
-  startedEventId?: string;
+  startedEventId?: string | undefined;
   /** The `WORKFLOW_TASK_COMPLETED` event which this command was reported with */
-  workflowTaskCompletedEventId?: string;
+  workflowTaskCompletedEventId?: string | undefined;
   /** The id of the worker who requested this cancel */
-  identity?: string;
+  identity?: string | undefined;
 }
 /** Serialized information recorded in the marker */
 export type MarkerRecordedEventAttributesDetailsMap = { [key: string]: Payloads | undefined };
 export interface MarkerRecordedEventAttributes {
   /** Workers use this to identify the "types" of various markers. Ex: Local activity, side effect. */
-  markerName?: string;
+  markerName?: string | undefined;
   /** Serialized information recorded in the marker */
-  details?: MarkerRecordedEventAttributesDetailsMap;
+  details?: MarkerRecordedEventAttributesDetailsMap | undefined;
   /** The `WORKFLOW_TASK_COMPLETED` event which this command was reported with */
-  workflowTaskCompletedEventId?: string;
-  header?: Header;
+  workflowTaskCompletedEventId?: string | undefined;
+  header?: Header | undefined;
   /** Some uses of markers, like a local activity, could "fail". If they did that is recorded here. */
-  failure?: Failure;
+  failure?: Failure | undefined;
 }
 export interface WorkflowExecutionSignaledEventAttributes {
   /** The name/type of the signal to fire */
-  signalName?: string;
+  signalName?: string | undefined;
   /** Will be deserialized and provided as argument(s) to the signal handler */
-  input?: Payloads;
+  input?: Payloads | undefined;
   /** id of the worker/client who sent this signal */
-  identity?: string;
+  identity?: string | undefined;
   /** Headers that were passed by the sender of the signal and copied by temporal server into the workflow task. */
-  header?: Header;
+  header?: Header | undefined;
   /** Deprecated. This field is never respected and should always be set to false. */
-  skipGenerateWorkflowTask?: boolean;
+  skipGenerateWorkflowTask?: boolean | undefined;
   /** When signal origin is a workflow execution, this field is set. */
-  externalWorkflowExecution?: WorkflowExecution;
+  externalWorkflowExecution?: WorkflowExecution | undefined;
   /** The request ID of the Signal request, used by the server to attach this to the correct Event ID when generating link. */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface WorkflowExecutionTerminatedEventAttributes {
   /** User/client provided reason for termination */
-  reason?: string;
-  details?: Payloads;
+  reason?: string | undefined;
+  details?: Payloads | undefined;
   /** id of the client who requested termination */
-  identity?: string;
+  identity?: string | undefined;
 }
 export interface WorkflowExecutionCancelRequestedEventAttributes {
   /** User provided reason for requesting cancellation */
-  cause?: string;
+  cause?: string | undefined;
   /** The ID of the `REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_INITIATED` event in the external workflow history when the cancellation was requested by another workflow. */
-  externalInitiatedEventId?: string;
-  externalWorkflowExecution?: WorkflowExecution;
+  externalInitiatedEventId?: string | undefined;
+  externalWorkflowExecution?: WorkflowExecution | undefined;
   /** id of the worker or client who requested this cancel */
-  identity?: string;
+  identity?: string | undefined;
 }
 export interface WorkflowExecutionCanceledEventAttributes {
   /** The `WORKFLOW_TASK_COMPLETED` event which this command was reported with */
-  workflowTaskCompletedEventId?: string;
-  details?: Payloads;
+  workflowTaskCompletedEventId?: string | undefined;
+  details?: Payloads | undefined;
 }
 export interface RequestCancelExternalWorkflowExecutionInitiatedEventAttributes {
   /** The `WORKFLOW_TASK_COMPLETED` event which this command was reported with */
-  workflowTaskCompletedEventId?: string;
+  workflowTaskCompletedEventId?: string | undefined;
   /** The namespace the workflow to be cancelled lives in. SDKs and UI tools should use `namespace` field but server must use `namespace_id` only. */
-  namespace?: string;
-  namespaceId?: string;
-  workflowExecution?: WorkflowExecution;
+  namespace?: string | undefined;
+  namespaceId?: string | undefined;
+  workflowExecution?: WorkflowExecution | undefined;
   /** Deprecated. */
-  control?: string;
+  control?: string | undefined;
   /** Workers are expected to set this to true if the workflow they are requesting to cancel is a child of the workflow which issued the request */
-  childWorkflowOnly?: boolean;
+  childWorkflowOnly?: boolean | undefined;
   /** Reason for requesting the cancellation */
-  reason?: string;
+  reason?: string | undefined;
 }
 export type RequestCancelExternalWorkflowExecutionFailedEventAttributesCause =
   | "CANCEL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_UNSPECIFIED"
   | "CANCEL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_EXTERNAL_WORKFLOW_EXECUTION_NOT_FOUND"
   | "CANCEL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_NAMESPACE_NOT_FOUND";
 export interface RequestCancelExternalWorkflowExecutionFailedEventAttributes {
-  cause?: RequestCancelExternalWorkflowExecutionFailedEventAttributesCause;
+  cause?: RequestCancelExternalWorkflowExecutionFailedEventAttributesCause | undefined;
   /** The `WORKFLOW_TASK_COMPLETED` event which this command was reported with */
-  workflowTaskCompletedEventId?: string;
+  workflowTaskCompletedEventId?: string | undefined;
   /** Namespace of the workflow which failed to cancel. SDKs and UI tools should use `namespace` field but server must use `namespace_id` only. */
-  namespace?: string;
-  namespaceId?: string;
-  workflowExecution?: WorkflowExecution;
+  namespace?: string | undefined;
+  namespaceId?: string | undefined;
+  workflowExecution?: WorkflowExecution | undefined;
   /** id of the `REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_INITIATED` event this failure corresponds to */
-  initiatedEventId?: string;
+  initiatedEventId?: string | undefined;
   /** Deprecated. */
-  control?: string;
+  control?: string | undefined;
 }
 export interface ExternalWorkflowExecutionCancelRequestedEventAttributes {
   /** id of the `REQUEST_CANCEL_EXTERNAL_WORKFLOW_EXECUTION_INITIATED` event this event corresponds to */
-  initiatedEventId?: string;
+  initiatedEventId?: string | undefined;
   /** Namespace of the to-be-cancelled workflow. SDKs and UI tools should use `namespace` field but server must use `namespace_id` only. */
-  namespace?: string;
-  namespaceId?: string;
-  workflowExecution?: WorkflowExecution;
+  namespace?: string | undefined;
+  namespaceId?: string | undefined;
+  workflowExecution?: WorkflowExecution | undefined;
 }
 export type WorkflowExecutionContinuedAsNewEventAttributesInitiator =
   | "CONTINUE_AS_NEW_INITIATOR_UNSPECIFIED"
@@ -3377,30 +3388,32 @@ export type WorkflowExecutionContinuedAsNewEventAttributesInitialVersioningBehav
   | "CONTINUE_AS_NEW_VERSIONING_BEHAVIOR_USE_RAMPING_VERSION";
 export interface WorkflowExecutionContinuedAsNewEventAttributes {
   /** The run ID of the new workflow started by this continue-as-new */
-  newExecutionRunId?: string;
-  workflowType?: WorkflowType;
-  taskQueue?: TaskQueue;
-  input?: Payloads;
+  newExecutionRunId?: string | undefined;
+  workflowType?: WorkflowType | undefined;
+  taskQueue?: TaskQueue | undefined;
+  input?: Payloads | undefined;
   /** Timeout of a single workflow run. */
-  workflowRunTimeout?: string;
+  workflowRunTimeout?: string | undefined;
   /** Timeout of a single workflow task. */
-  workflowTaskTimeout?: string;
+  workflowTaskTimeout?: string | undefined;
   /** The `WORKFLOW_TASK_COMPLETED` event which this command was reported with */
-  workflowTaskCompletedEventId?: string;
+  workflowTaskCompletedEventId?: string | undefined;
   /** How long the server will wait before scheduling the first workflow task for the new run. Used for cron, retry, and other continue-as-new cases that server may enforce some minimal delay between new runs for system protection purpose. */
-  backoffStartInterval?: string;
-  initiator?: WorkflowExecutionContinuedAsNewEventAttributesInitiator;
+  backoffStartInterval?: string | undefined;
+  initiator?: WorkflowExecutionContinuedAsNewEventAttributesInitiator | undefined;
   /** Deprecated. If a workflow's retry policy would cause a new run to start when the current one has failed, this field would be populated with that failure. Now (when supported by server and sdk) the final event will be `WORKFLOW_EXECUTION_FAILED` with `new_execution_run_id` set. */
-  failure?: Failure;
+  failure?: Failure | undefined;
   /** The result from the most recent completed run of this workflow. The SDK surfaces this to the new run via APIs such as `GetLastCompletionResult`. */
-  lastCompletionResult?: Payloads;
-  header?: Header;
-  memo?: Memo;
-  searchAttributes?: SearchAttributes;
+  lastCompletionResult?: Payloads | undefined;
+  header?: Header | undefined;
+  memo?: Memo | undefined;
+  searchAttributes?: SearchAttributes | undefined;
   /** If this is set, the new execution inherits the Build ID of the current execution. Otherwise, the assignment rules will be used to independently assign a Build ID to the new execution. Deprecated. Only considered for versioning v0.2. */
-  inheritBuildId?: boolean;
+  inheritBuildId?: boolean | undefined;
   /** Experimental. Optionally decide the versioning behavior that the first task of the new run should use. For example, choose to AutoUpgrade on continue-as-new instead of inheriting the pinned version of the previous run. */
-  initialVersioningBehavior?: WorkflowExecutionContinuedAsNewEventAttributesInitialVersioningBehavior;
+  initialVersioningBehavior?:
+    | WorkflowExecutionContinuedAsNewEventAttributesInitialVersioningBehavior
+    | undefined;
 }
 /** Default: PARENT_CLOSE_POLICY_TERMINATE. */
 export type StartChildWorkflowExecutionInitiatedEventAttributesParentClosePolicy =
@@ -3417,40 +3430,44 @@ export type StartChildWorkflowExecutionInitiatedEventAttributesWorkflowIdReusePo
   | "WORKFLOW_ID_REUSE_POLICY_TERMINATE_IF_RUNNING";
 export interface StartChildWorkflowExecutionInitiatedEventAttributes {
   /** Namespace of the child workflow. SDKs and UI tools should use `namespace` field but server must use `namespace_id` only. */
-  namespace?: string;
-  namespaceId?: string;
-  workflowId?: string;
-  workflowType?: WorkflowType;
-  taskQueue?: TaskQueue;
-  input?: Payloads;
+  namespace?: string | undefined;
+  namespaceId?: string | undefined;
+  workflowId?: string | undefined;
+  workflowType?: WorkflowType | undefined;
+  taskQueue?: TaskQueue | undefined;
+  input?: Payloads | undefined;
   /** Total workflow execution timeout including retries and continue as new. */
-  workflowExecutionTimeout?: string;
+  workflowExecutionTimeout?: string | undefined;
   /** Timeout of a single workflow run. */
-  workflowRunTimeout?: string;
+  workflowRunTimeout?: string | undefined;
   /** Timeout of a single workflow task. */
-  workflowTaskTimeout?: string;
+  workflowTaskTimeout?: string | undefined;
   /** Default: PARENT_CLOSE_POLICY_TERMINATE. */
-  parentClosePolicy?: StartChildWorkflowExecutionInitiatedEventAttributesParentClosePolicy;
+  parentClosePolicy?:
+    | StartChildWorkflowExecutionInitiatedEventAttributesParentClosePolicy
+    | undefined;
   /** Deprecated. */
-  control?: string;
+  control?: string | undefined;
   /** The `WORKFLOW_TASK_COMPLETED` event which this command was reported with */
-  workflowTaskCompletedEventId?: string;
+  workflowTaskCompletedEventId?: string | undefined;
   /** Default: WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE. */
-  workflowIdReusePolicy?: StartChildWorkflowExecutionInitiatedEventAttributesWorkflowIdReusePolicy;
-  retryPolicy?: RetryPolicy;
+  workflowIdReusePolicy?:
+    | StartChildWorkflowExecutionInitiatedEventAttributesWorkflowIdReusePolicy
+    | undefined;
+  retryPolicy?: RetryPolicy | undefined;
   /** If this child runs on a cron schedule, it will appear here */
-  cronSchedule?: string;
-  header?: Header;
-  memo?: Memo;
-  searchAttributes?: SearchAttributes;
+  cronSchedule?: string | undefined;
+  header?: Header | undefined;
+  memo?: Memo | undefined;
+  searchAttributes?: SearchAttributes | undefined;
   /** If this is set, the child workflow inherits the Build ID of the parent. Otherwise, the assignment rules of the child's Task Queue will be used to independently assign a Build ID to it. Deprecated. Only considered for versioning v0.2. */
-  inheritBuildId?: boolean;
+  inheritBuildId?: boolean | undefined;
   /** Priority metadata */
-  priority?: Priority;
+  priority?: Priority | undefined;
   /** The propagated time-skipping configuration for the child workflow. */
-  timeSkippingConfig?: TimeSkippingConfig;
+  timeSkippingConfig?: TimeSkippingConfig | undefined;
   /** Propagate the duration skipped to the child workflow. */
-  initialSkippedDuration?: string;
+  initialSkippedDuration?: string | undefined;
 }
 export type StartChildWorkflowExecutionFailedEventAttributesCause =
   | "START_CHILD_WORKFLOW_EXECUTION_FAILED_CAUSE_UNSPECIFIED"
@@ -3458,39 +3475,39 @@ export type StartChildWorkflowExecutionFailedEventAttributesCause =
   | "START_CHILD_WORKFLOW_EXECUTION_FAILED_CAUSE_NAMESPACE_NOT_FOUND";
 export interface StartChildWorkflowExecutionFailedEventAttributes {
   /** Namespace of the child workflow. SDKs and UI tools should use `namespace` field but server must use `namespace_id` only. */
-  namespace?: string;
-  namespaceId?: string;
-  workflowId?: string;
-  workflowType?: WorkflowType;
-  cause?: StartChildWorkflowExecutionFailedEventAttributesCause;
+  namespace?: string | undefined;
+  namespaceId?: string | undefined;
+  workflowId?: string | undefined;
+  workflowType?: WorkflowType | undefined;
+  cause?: StartChildWorkflowExecutionFailedEventAttributesCause | undefined;
   /** Deprecated. */
-  control?: string;
+  control?: string | undefined;
   /** Id of the `START_CHILD_WORKFLOW_EXECUTION_INITIATED` event which this event corresponds to */
-  initiatedEventId?: string;
+  initiatedEventId?: string | undefined;
   /** The `WORKFLOW_TASK_COMPLETED` event which this command was reported with */
-  workflowTaskCompletedEventId?: string;
+  workflowTaskCompletedEventId?: string | undefined;
 }
 export interface ChildWorkflowExecutionStartedEventAttributes {
   /** Namespace of the child workflow. SDKs and UI tools should use `namespace` field but server must use `namespace_id` only. */
-  namespace?: string;
-  namespaceId?: string;
+  namespace?: string | undefined;
+  namespaceId?: string | undefined;
   /** Id of the `START_CHILD_WORKFLOW_EXECUTION_INITIATED` event which this event corresponds to */
-  initiatedEventId?: string;
-  workflowExecution?: WorkflowExecution;
-  workflowType?: WorkflowType;
-  header?: Header;
+  initiatedEventId?: string | undefined;
+  workflowExecution?: WorkflowExecution | undefined;
+  workflowType?: WorkflowType | undefined;
+  header?: Header | undefined;
 }
 export interface ChildWorkflowExecutionCompletedEventAttributes {
-  result?: Payloads;
+  result?: Payloads | undefined;
   /** Namespace of the child workflow. SDKs and UI tools should use `namespace` field but server must use `namespace_id` only. */
-  namespace?: string;
-  namespaceId?: string;
-  workflowExecution?: WorkflowExecution;
-  workflowType?: WorkflowType;
+  namespace?: string | undefined;
+  namespaceId?: string | undefined;
+  workflowExecution?: WorkflowExecution | undefined;
+  workflowType?: WorkflowType | undefined;
   /** Id of the `START_CHILD_WORKFLOW_EXECUTION_INITIATED` event which this event corresponds to */
-  initiatedEventId?: string;
+  initiatedEventId?: string | undefined;
   /** Id of the `CHILD_WORKFLOW_EXECUTION_STARTED` event which this event corresponds to */
-  startedEventId?: string;
+  startedEventId?: string | undefined;
 }
 export type ChildWorkflowExecutionFailedEventAttributesRetryState =
   | "RETRY_STATE_UNSPECIFIED"
@@ -3502,29 +3519,29 @@ export type ChildWorkflowExecutionFailedEventAttributesRetryState =
   | "RETRY_STATE_INTERNAL_SERVER_ERROR"
   | "RETRY_STATE_CANCEL_REQUESTED";
 export interface ChildWorkflowExecutionFailedEventAttributes {
-  failure?: Failure;
+  failure?: Failure | undefined;
   /** Namespace of the child workflow. SDKs and UI tools should use `namespace` field but server must use `namespace_id` only. */
-  namespace?: string;
-  namespaceId?: string;
-  workflowExecution?: WorkflowExecution;
-  workflowType?: WorkflowType;
+  namespace?: string | undefined;
+  namespaceId?: string | undefined;
+  workflowExecution?: WorkflowExecution | undefined;
+  workflowType?: WorkflowType | undefined;
   /** Id of the `START_CHILD_WORKFLOW_EXECUTION_INITIATED` event which this event corresponds to */
-  initiatedEventId?: string;
+  initiatedEventId?: string | undefined;
   /** Id of the `CHILD_WORKFLOW_EXECUTION_STARTED` event which this event corresponds to */
-  startedEventId?: string;
-  retryState?: ChildWorkflowExecutionFailedEventAttributesRetryState;
+  startedEventId?: string | undefined;
+  retryState?: ChildWorkflowExecutionFailedEventAttributesRetryState | undefined;
 }
 export interface ChildWorkflowExecutionCanceledEventAttributes {
-  details?: Payloads;
+  details?: Payloads | undefined;
   /** Namespace of the child workflow. SDKs and UI tools should use `namespace` field but server must use `namespace_id` only. */
-  namespace?: string;
-  namespaceId?: string;
-  workflowExecution?: WorkflowExecution;
-  workflowType?: WorkflowType;
+  namespace?: string | undefined;
+  namespaceId?: string | undefined;
+  workflowExecution?: WorkflowExecution | undefined;
+  workflowType?: WorkflowType | undefined;
   /** Id of the `START_CHILD_WORKFLOW_EXECUTION_INITIATED` event which this event corresponds to */
-  initiatedEventId?: string;
+  initiatedEventId?: string | undefined;
   /** Id of the `CHILD_WORKFLOW_EXECUTION_STARTED` event which this event corresponds to */
-  startedEventId?: string;
+  startedEventId?: string | undefined;
 }
 export type ChildWorkflowExecutionTimedOutEventAttributesRetryState =
   | "RETRY_STATE_UNSPECIFIED"
@@ -3537,43 +3554,43 @@ export type ChildWorkflowExecutionTimedOutEventAttributesRetryState =
   | "RETRY_STATE_CANCEL_REQUESTED";
 export interface ChildWorkflowExecutionTimedOutEventAttributes {
   /** Namespace of the child workflow. SDKs and UI tools should use `namespace` field but server must use `namespace_id` only. */
-  namespace?: string;
-  namespaceId?: string;
-  workflowExecution?: WorkflowExecution;
-  workflowType?: WorkflowType;
+  namespace?: string | undefined;
+  namespaceId?: string | undefined;
+  workflowExecution?: WorkflowExecution | undefined;
+  workflowType?: WorkflowType | undefined;
   /** Id of the `START_CHILD_WORKFLOW_EXECUTION_INITIATED` event which this event corresponds to */
-  initiatedEventId?: string;
+  initiatedEventId?: string | undefined;
   /** Id of the `CHILD_WORKFLOW_EXECUTION_STARTED` event which this event corresponds to */
-  startedEventId?: string;
-  retryState?: ChildWorkflowExecutionTimedOutEventAttributesRetryState;
+  startedEventId?: string | undefined;
+  retryState?: ChildWorkflowExecutionTimedOutEventAttributesRetryState | undefined;
 }
 export interface ChildWorkflowExecutionTerminatedEventAttributes {
   /** Namespace of the child workflow. SDKs and UI tools should use `namespace` field but server must use `namespace_id` only. */
-  namespace?: string;
-  namespaceId?: string;
-  workflowExecution?: WorkflowExecution;
-  workflowType?: WorkflowType;
+  namespace?: string | undefined;
+  namespaceId?: string | undefined;
+  workflowExecution?: WorkflowExecution | undefined;
+  workflowType?: WorkflowType | undefined;
   /** Id of the `START_CHILD_WORKFLOW_EXECUTION_INITIATED` event which this event corresponds to */
-  initiatedEventId?: string;
+  initiatedEventId?: string | undefined;
   /** Id of the `CHILD_WORKFLOW_EXECUTION_STARTED` event which this event corresponds to */
-  startedEventId?: string;
+  startedEventId?: string | undefined;
 }
 export interface SignalExternalWorkflowExecutionInitiatedEventAttributes {
   /** The `WORKFLOW_TASK_COMPLETED` event which this command was reported with */
-  workflowTaskCompletedEventId?: string;
+  workflowTaskCompletedEventId?: string | undefined;
   /** Namespace of the to-be-signalled workflow. SDKs and UI tools should use `namespace` field but server must use `namespace_id` only. */
-  namespace?: string;
-  namespaceId?: string;
-  workflowExecution?: WorkflowExecution;
+  namespace?: string | undefined;
+  namespaceId?: string | undefined;
+  workflowExecution?: WorkflowExecution | undefined;
   /** name/type of the signal to fire in the external workflow */
-  signalName?: string;
+  signalName?: string | undefined;
   /** Serialized arguments to provide to the signal handler */
-  input?: Payloads;
+  input?: Payloads | undefined;
   /** Deprecated. */
-  control?: string;
+  control?: string | undefined;
   /** Workers are expected to set this to true if the workflow they are requesting to cancel is a child of the workflow which issued the request */
-  childWorkflowOnly?: boolean;
-  header?: Header;
+  childWorkflowOnly?: boolean | undefined;
+  header?: Header | undefined;
 }
 export type SignalExternalWorkflowExecutionFailedEventAttributesCause =
   | "SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_UNSPECIFIED"
@@ -3581,111 +3598,111 @@ export type SignalExternalWorkflowExecutionFailedEventAttributesCause =
   | "SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_NAMESPACE_NOT_FOUND"
   | "SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_FAILED_CAUSE_SIGNAL_COUNT_LIMIT_EXCEEDED";
 export interface SignalExternalWorkflowExecutionFailedEventAttributes {
-  cause?: SignalExternalWorkflowExecutionFailedEventAttributesCause;
+  cause?: SignalExternalWorkflowExecutionFailedEventAttributesCause | undefined;
   /** The `WORKFLOW_TASK_COMPLETED` event which this command was reported with */
-  workflowTaskCompletedEventId?: string;
+  workflowTaskCompletedEventId?: string | undefined;
   /** Namespace of the workflow which failed the signal. SDKs and UI tools should use `namespace` field but server must use `namespace_id` only. */
-  namespace?: string;
-  namespaceId?: string;
-  workflowExecution?: WorkflowExecution;
-  initiatedEventId?: string;
+  namespace?: string | undefined;
+  namespaceId?: string | undefined;
+  workflowExecution?: WorkflowExecution | undefined;
+  initiatedEventId?: string | undefined;
   /** Deprecated. */
-  control?: string;
+  control?: string | undefined;
 }
 export interface ExternalWorkflowExecutionSignaledEventAttributes {
   /** id of the `SIGNAL_EXTERNAL_WORKFLOW_EXECUTION_INITIATED` event this event corresponds to */
-  initiatedEventId?: string;
+  initiatedEventId?: string | undefined;
   /** Namespace of the workflow which was signaled. SDKs and UI tools should use `namespace` field but server must use `namespace_id` only. */
-  namespace?: string;
-  namespaceId?: string;
-  workflowExecution?: WorkflowExecution;
+  namespace?: string | undefined;
+  namespaceId?: string | undefined;
+  workflowExecution?: WorkflowExecution | undefined;
   /** Deprecated. */
-  control?: string;
+  control?: string | undefined;
 }
 export interface UpsertWorkflowSearchAttributesEventAttributes {
   /** The `WORKFLOW_TASK_COMPLETED` event which this command was reported with */
-  workflowTaskCompletedEventId?: string;
-  searchAttributes?: SearchAttributes;
+  workflowTaskCompletedEventId?: string | undefined;
+  searchAttributes?: SearchAttributes | undefined;
 }
 /** Metadata about a Workflow Update. */
 export interface Meta {
   /** An ID with workflow-scoped uniqueness for this Update. */
-  updateId?: string;
+  updateId?: string | undefined;
   /** A string identifying the agent that requested this Update. */
-  identity?: string;
+  identity?: string | undefined;
 }
 export interface Input {
   /** Headers that are passed with the Update from the requesting entity. These can include things like auth or tracing tokens. */
-  header?: Header;
+  header?: Header | undefined;
   /** The name of the Update handler to invoke on the target Workflow. */
-  name?: string;
+  name?: string | undefined;
   /** The arguments to pass to the named Update handler. */
-  args?: Payloads;
+  args?: Payloads | undefined;
 }
 /** The client request that triggers a Workflow Update. */
 export interface Request {
-  meta?: Meta;
-  input?: Input;
+  meta?: Meta | undefined;
+  input?: Input | undefined;
 }
 export interface WorkflowExecutionUpdateAcceptedEventAttributes {
   /** The instance ID of the update protocol that generated this event. */
-  protocolInstanceId?: string;
+  protocolInstanceId?: string | undefined;
   /** The message ID of the original request message that initiated this update. Needed so that the worker can recreate and deliver that same message as part of replay. */
-  acceptedRequestMessageId?: string;
+  acceptedRequestMessageId?: string | undefined;
   /** The event ID used to sequence the original request message. */
-  acceptedRequestSequencingEventId?: string;
+  acceptedRequestSequencingEventId?: string | undefined;
   /** The message payload of the original request message that initiated this update. */
-  acceptedRequest?: Request;
+  acceptedRequest?: Request | undefined;
 }
 export interface WorkflowExecutionUpdateRejectedEventAttributes {
   /** The instance ID of the update protocol that generated this event. */
-  protocolInstanceId?: string;
+  protocolInstanceId?: string | undefined;
   /** The message ID of the original request message that initiated this update. Needed so that the worker can recreate and deliver that same message as part of replay. */
-  rejectedRequestMessageId?: string;
+  rejectedRequestMessageId?: string | undefined;
   /** The event ID used to sequence the original request message. */
-  rejectedRequestSequencingEventId?: string;
+  rejectedRequestSequencingEventId?: string | undefined;
   /** The message payload of the original request message that initiated this update. */
-  rejectedRequest?: Request;
+  rejectedRequest?: Request | undefined;
   /** The cause of rejection. */
-  failure?: Failure;
+  failure?: Failure | undefined;
 }
 /** The outcome of a Workflow Update: success or failure. */
 export interface Outcome {
-  success?: Payloads;
-  failure?: Failure;
+  success?: Payloads | undefined;
+  failure?: Failure | undefined;
 }
 export interface WorkflowExecutionUpdateCompletedEventAttributes {
   /** The metadata about this update. */
-  meta?: Meta;
+  meta?: Meta | undefined;
   /** The event ID indicating the acceptance of this update. */
-  acceptedEventId?: string;
+  acceptedEventId?: string | undefined;
   /** The outcome of executing the workflow update function. */
-  outcome?: Outcome;
+  outcome?: Outcome | undefined;
 }
 /** Not used anywhere. Use case is replaced by WorkflowExecutionOptionsUpdatedEventAttributes */
 export interface WorkflowPropertiesModifiedExternallyEventAttributes {
   /** Not used. */
-  newTaskQueue?: string;
+  newTaskQueue?: string | undefined;
   /** Not used. */
-  newWorkflowTaskTimeout?: string;
+  newWorkflowTaskTimeout?: string | undefined;
   /** Not used. */
-  newWorkflowRunTimeout?: string;
+  newWorkflowRunTimeout?: string | undefined;
   /** Not used. */
-  newWorkflowExecutionTimeout?: string;
+  newWorkflowExecutionTimeout?: string | undefined;
   /** Not used. */
-  upsertedMemo?: Memo;
+  upsertedMemo?: Memo | undefined;
 }
 export interface ActivityPropertiesModifiedExternallyEventAttributes {
   /** The id of the `ACTIVITY_TASK_SCHEDULED` event this modification corresponds to. */
-  scheduledEventId?: string;
+  scheduledEventId?: string | undefined;
   /** If set, update the retry policy of the activity, replacing it with the specified one. The number of attempts at the activity is preserved. */
-  newRetryPolicy?: RetryPolicy;
+  newRetryPolicy?: RetryPolicy | undefined;
 }
 export interface WorkflowPropertiesModifiedEventAttributes {
   /** The `WORKFLOW_TASK_COMPLETED` event which this command was reported with */
-  workflowTaskCompletedEventId?: string;
+  workflowTaskCompletedEventId?: string | undefined;
   /** If set, update the workflow memo with the provided values. The values will be merged with the existing memo. If the user wants to delete values, a default/empty Payload should be used as the value for the key being deleted. */
-  upsertedMemo?: Memo;
+  upsertedMemo?: Memo | undefined;
 }
 /** An explanation of why this event was written to history. */
 export type WorkflowExecutionUpdateAdmittedEventAttributesOrigin =
@@ -3693,9 +3710,9 @@ export type WorkflowExecutionUpdateAdmittedEventAttributesOrigin =
   | "UPDATE_ADMITTED_EVENT_ORIGIN_REAPPLY";
 export interface WorkflowExecutionUpdateAdmittedEventAttributes {
   /** The update request associated with this event. */
-  request?: Request;
+  request?: Request | undefined;
   /** An explanation of why this event was written to history. */
-  origin?: WorkflowExecutionUpdateAdmittedEventAttributesOrigin;
+  origin?: WorkflowExecutionUpdateAdmittedEventAttributesOrigin | undefined;
 }
 /** Header to attach to the Nexus request. Note these headers are not the same as Temporal headers on internal activities and child workflows, these are transmitted to Nexus operations that may be external and are not traditional payloads. */
 export type NexusOperationScheduledEventAttributesNexusHeaderMap = {
@@ -3704,267 +3721,329 @@ export type NexusOperationScheduledEventAttributesNexusHeaderMap = {
 /** Event marking that an operation was scheduled by a workflow via the ScheduleNexusOperation command. */
 export interface NexusOperationScheduledEventAttributes {
   /** Endpoint name, must exist in the endpoint registry. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Service name. */
-  service?: string;
+  service?: string | undefined;
   /** Operation name. */
-  operation?: string;
+  operation?: string | undefined;
   /** Input for the operation. The server converts this into Nexus request content and the appropriate content headers internally when sending the StartOperation request. On the handler side, if it is also backed by Temporal, the content is transformed back to the original Payload stored in this event. */
-  input?: unknown;
+  input?: unknown | undefined;
   /** Schedule-to-close timeout for this operation. Indicates how long the caller is willing to wait for operation completion. Calls are retried internally by the server. (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: "to" is used to indicate interval. --) (-- api-linter: core::0142::time-field-names=disabled aip.dev/not-precedent: "timeout" is an acceptable suffix for duration fields in this API. --) */
-  scheduleToCloseTimeout?: string;
+  scheduleToCloseTimeout?: string | undefined;
   /** Header to attach to the Nexus request. Note these headers are not the same as Temporal headers on internal activities and child workflows, these are transmitted to Nexus operations that may be external and are not traditional payloads. */
-  nexusHeader?: NexusOperationScheduledEventAttributesNexusHeaderMap;
+  nexusHeader?: NexusOperationScheduledEventAttributesNexusHeaderMap | undefined;
   /** The `WORKFLOW_TASK_COMPLETED` event that the corresponding ScheduleNexusOperation command was reported with. */
-  workflowTaskCompletedEventId?: string;
+  workflowTaskCompletedEventId?: string | undefined;
   /** A unique ID generated by the history service upon creation of this event. The ID will be transmitted with all nexus StartOperation requests and is used as an idempotentency key. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Endpoint ID as resolved in the endpoint registry at the time this event was generated. This is stored on the event and used internally by the server in case the endpoint is renamed from the time the event was originally scheduled. */
-  endpointId?: string;
+  endpointId?: string | undefined;
   /** Schedule-to-start timeout for this operation. See ScheduleNexusOperationCommandAttributes.schedule_to_start_timeout for details. (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: "to" is used to indicate interval. --) */
-  scheduleToStartTimeout?: string;
+  scheduleToStartTimeout?: string | undefined;
   /** Start-to-close timeout for this operation. See ScheduleNexusOperationCommandAttributes.start_to_close_timeout for details. (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: "to" is used to indicate interval. --) */
-  startToCloseTimeout?: string;
+  startToCloseTimeout?: string | undefined;
 }
 /** Event marking an asynchronous operation was started by the responding Nexus handler. If the operation completes synchronously, this event is not generated. In rare situations, such as request timeouts, the service may fail to record the actual start time and will fabricate this event upon receiving the operation completion via callback. */
 export interface NexusOperationStartedEventAttributes {
   /** The ID of the `NEXUS_OPERATION_SCHEDULED` event this task corresponds to. */
-  scheduledEventId?: string;
+  scheduledEventId?: string | undefined;
   /** The operation ID returned by the Nexus handler in the response to the StartOperation request. This ID is used when canceling the operation. Deprecated: Renamed to operation_token. */
-  operationId?: string;
+  operationId?: string | undefined;
   /** The request ID allocated at schedule time. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** The operation token returned by the Nexus handler in the response to the StartOperation request. This token is used when canceling the operation. */
-  operationToken?: string;
+  operationToken?: string | undefined;
 }
 /** Nexus operation completed successfully. */
 export interface NexusOperationCompletedEventAttributes {
   /** The ID of the `NEXUS_OPERATION_SCHEDULED` event. Uniquely identifies this operation. */
-  scheduledEventId?: string;
+  scheduledEventId?: string | undefined;
   /** Serialized result of the Nexus operation. The response of the Nexus handler. Delivered either via a completion callback or as a response to a synchronous operation. */
-  result?: unknown;
+  result?: unknown | undefined;
   /** The request ID allocated at schedule time. */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 /** Nexus operation failed. */
 export interface NexusOperationFailedEventAttributes {
   /** The ID of the `NEXUS_OPERATION_SCHEDULED` event. Uniquely identifies this operation. */
-  scheduledEventId?: string;
+  scheduledEventId?: string | undefined;
   /** Failure details. A NexusOperationFailureInfo wrapping an ApplicationFailureInfo. */
-  failure?: Failure;
+  failure?: Failure | undefined;
   /** The request ID allocated at schedule time. */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 /** Nexus operation completed as canceled. May or may not have been due to a cancellation request by the workflow. */
 export interface NexusOperationCanceledEventAttributes {
   /** The ID of the `NEXUS_OPERATION_SCHEDULED` event. Uniquely identifies this operation. */
-  scheduledEventId?: string;
+  scheduledEventId?: string | undefined;
   /** Cancellation details. */
-  failure?: Failure;
+  failure?: Failure | undefined;
   /** The request ID allocated at schedule time. */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 /** Nexus operation timed out. */
 export interface NexusOperationTimedOutEventAttributes {
   /** The ID of the `NEXUS_OPERATION_SCHEDULED` event. Uniquely identifies this operation. */
-  scheduledEventId?: string;
+  scheduledEventId?: string | undefined;
   /** Failure details. A NexusOperationFailureInfo wrapping a CanceledFailureInfo. */
-  failure?: Failure;
+  failure?: Failure | undefined;
   /** The request ID allocated at schedule time. */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface NexusOperationCancelRequestedEventAttributes {
   /** The id of the `NEXUS_OPERATION_SCHEDULED` event this cancel request corresponds to. */
-  scheduledEventId?: string;
+  scheduledEventId?: string | undefined;
   /** The `WORKFLOW_TASK_COMPLETED` event that the corresponding RequestCancelNexusOperation command was reported with. */
-  workflowTaskCompletedEventId?: string;
+  workflowTaskCompletedEventId?: string | undefined;
 }
 /** Completion callbacks attached to the running workflow execution. */
 export type WorkflowExecutionOptionsUpdatedEventAttributesAttachedCompletionCallbacksList =
   Array<Callback>;
 export interface WorkflowExecutionOptionsUpdatedEventAttributes {
   /** Versioning override upserted in this event. Ignored if nil or if unset_versioning_override is true. */
-  versioningOverride?: VersioningOverride;
+  versioningOverride?: VersioningOverride | undefined;
   /** Versioning override removed in this event. */
-  unsetVersioningOverride?: boolean;
+  unsetVersioningOverride?: boolean | undefined;
   /** Request ID attached to the running workflow execution so that subsequent requests with same request ID will be deduped. */
-  attachedRequestId?: string;
+  attachedRequestId?: string | undefined;
   /** Completion callbacks attached to the running workflow execution. */
-  attachedCompletionCallbacks?: WorkflowExecutionOptionsUpdatedEventAttributesAttachedCompletionCallbacksList;
+  attachedCompletionCallbacks?:
+    | WorkflowExecutionOptionsUpdatedEventAttributesAttachedCompletionCallbacksList
+    | undefined;
   /** Optional. The identity of the client who initiated the request that created this event. */
-  identity?: string;
+  identity?: string | undefined;
   /** Priority override upserted in this event. Represents the full priority; not just partial fields. Ignored if nil. */
-  priority?: Priority;
+  priority?: Priority | undefined;
   /** If set, the time-skipping configuration was changed. Contains the full updated configuration. */
-  timeSkippingConfig?: TimeSkippingConfig;
+  timeSkippingConfig?: TimeSkippingConfig | undefined;
 }
 export interface NexusOperationCancelRequestCompletedEventAttributes {
   /** The ID of the `NEXUS_OPERATION_CANCEL_REQUESTED` event. */
-  requestedEventId?: string;
+  requestedEventId?: string | undefined;
   /** The `WORKFLOW_TASK_COMPLETED` event that the corresponding RequestCancelNexusOperation command was reported with. */
-  workflowTaskCompletedEventId?: string;
+  workflowTaskCompletedEventId?: string | undefined;
   /** The id of the `NEXUS_OPERATION_SCHEDULED` event this cancel request corresponds to. */
-  scheduledEventId?: string;
+  scheduledEventId?: string | undefined;
 }
 export interface NexusOperationCancelRequestFailedEventAttributes {
   /** The ID of the `NEXUS_OPERATION_CANCEL_REQUESTED` event. */
-  requestedEventId?: string;
+  requestedEventId?: string | undefined;
   /** The `WORKFLOW_TASK_COMPLETED` event that the corresponding RequestCancelNexusOperation command was reported with. */
-  workflowTaskCompletedEventId?: string;
+  workflowTaskCompletedEventId?: string | undefined;
   /** Failure details. A NexusOperationFailureInfo wrapping a CanceledFailureInfo. */
-  failure?: Failure;
+  failure?: Failure | undefined;
   /** The id of the `NEXUS_OPERATION_SCHEDULED` event this cancel request corresponds to. */
-  scheduledEventId?: string;
+  scheduledEventId?: string | undefined;
 }
 /** Attributes for an event marking that a workflow execution was paused. */
 export interface WorkflowExecutionPausedEventAttributes {
   /** The identity of the client who paused the workflow execution. */
-  identity?: string;
+  identity?: string | undefined;
   /** The reason for pausing the workflow execution. */
-  reason?: string;
+  reason?: string | undefined;
   /** The request ID of the request that paused the workflow execution. */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 /** Attributes for an event marking that a workflow execution was unpaused. */
 export interface WorkflowExecutionUnpausedEventAttributes {
   /** The identity of the client who unpaused the workflow execution. */
-  identity?: string;
+  identity?: string | undefined;
   /** The reason for unpausing the workflow execution. */
-  reason?: string;
+  reason?: string | undefined;
   /** The request ID of the request that unpaused the workflow execution. */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 /** Attributes for an event indicating that time skipping state changed for a workflow execution, either time was advanced or time skipping was disabled automatically due to a bound being reached. The worker_may_ignore field in HistoryEvent should always be set true for this event. */
 export interface WorkflowExecutionTimeSkippingTransitionedEventAttributes {
   /** The virtual time after time skipping was applied. */
-  targetTime?: string;
+  targetTime?: string | undefined;
   /** when true, time skipping was disabled automatically due to a bound being reached. (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: "after" is used to indicate temporal ordering. --) */
-  disabledAfterBound?: boolean;
+  disabledAfterBound?: boolean | undefined;
   /** The wall-clock time when the time-skipping state changed event was generated. */
-  wallClockTime?: string;
+  wallClockTime?: string | undefined;
 }
 /** History events are the method by which Temporal SDKs advance (or recreate) workflow state. See the `EventType` enum for more info about what each event is for. */
 export interface HistoryEvent {
   /** Monotonically increasing event number, starts at 1. */
-  eventId?: string;
-  eventTime?: string;
-  eventType?: HistoryEventEventType;
+  eventId?: string | undefined;
+  eventTime?: string | undefined;
+  eventType?: HistoryEventEventType | undefined;
   /** Failover version of the event, used by the server for multi-cluster replication and history versioning. SDKs generally ignore this field. */
-  version?: string;
+  version?: string | undefined;
   /** Identifier used by the service to order replication and transfer tasks associated with this event. SDKs generally ignore this field. */
-  taskId?: string;
+  taskId?: string | undefined;
   /** Set to true when the SDK may ignore the event as it does not impact workflow state or information in any way that the SDK need be concerned with. If an SDK encounters an event type which it does not understand, it must error unless this is true. If it is true, it's acceptable for the event type and/or attributes to be uninterpretable. */
-  workerMayIgnore?: boolean;
+  workerMayIgnore?: boolean | undefined;
   /** Metadata on the event. This is often carried over from commands and client calls. Most events won't have this information, and how this information is used is dependent upon the interface that reads it. Current well-known uses: * workflow_execution_started_event_attributes - summary and details from start workflow. * timer_started_event_attributes - summary represents an identifier for the timer for use by user interfaces. */
-  userMetadata?: UserMetadata;
+  userMetadata?: UserMetadata | undefined;
   /** Links to related entities, such as the entity that started this event's workflow. */
-  links?: HistoryEventLinksList;
+  links?: HistoryEventLinksList | undefined;
   /** Server-computed authenticated caller identity associated with this event. */
-  principal?: Principal;
-  workflowExecutionStartedEventAttributes?: WorkflowExecutionStartedEventAttributes;
-  workflowExecutionCompletedEventAttributes?: WorkflowExecutionCompletedEventAttributes;
-  workflowExecutionFailedEventAttributes?: WorkflowExecutionFailedEventAttributes;
-  workflowExecutionTimedOutEventAttributes?: WorkflowExecutionTimedOutEventAttributes;
-  workflowTaskScheduledEventAttributes?: WorkflowTaskScheduledEventAttributes;
-  workflowTaskStartedEventAttributes?: WorkflowTaskStartedEventAttributes;
-  workflowTaskCompletedEventAttributes?: WorkflowTaskCompletedEventAttributes;
-  workflowTaskTimedOutEventAttributes?: WorkflowTaskTimedOutEventAttributes;
-  workflowTaskFailedEventAttributes?: WorkflowTaskFailedEventAttributes;
-  activityTaskScheduledEventAttributes?: ActivityTaskScheduledEventAttributes;
-  activityTaskStartedEventAttributes?: ActivityTaskStartedEventAttributes;
-  activityTaskCompletedEventAttributes?: ActivityTaskCompletedEventAttributes;
-  activityTaskFailedEventAttributes?: ActivityTaskFailedEventAttributes;
-  activityTaskTimedOutEventAttributes?: ActivityTaskTimedOutEventAttributes;
-  timerStartedEventAttributes?: TimerStartedEventAttributes;
-  timerFiredEventAttributes?: TimerFiredEventAttributes;
-  activityTaskCancelRequestedEventAttributes?: ActivityTaskCancelRequestedEventAttributes;
-  activityTaskCanceledEventAttributes?: ActivityTaskCanceledEventAttributes;
-  timerCanceledEventAttributes?: TimerCanceledEventAttributes;
-  markerRecordedEventAttributes?: MarkerRecordedEventAttributes;
-  workflowExecutionSignaledEventAttributes?: WorkflowExecutionSignaledEventAttributes;
-  workflowExecutionTerminatedEventAttributes?: WorkflowExecutionTerminatedEventAttributes;
-  workflowExecutionCancelRequestedEventAttributes?: WorkflowExecutionCancelRequestedEventAttributes;
-  workflowExecutionCanceledEventAttributes?: WorkflowExecutionCanceledEventAttributes;
-  requestCancelExternalWorkflowExecutionInitiatedEventAttributes?: RequestCancelExternalWorkflowExecutionInitiatedEventAttributes;
-  requestCancelExternalWorkflowExecutionFailedEventAttributes?: RequestCancelExternalWorkflowExecutionFailedEventAttributes;
-  externalWorkflowExecutionCancelRequestedEventAttributes?: ExternalWorkflowExecutionCancelRequestedEventAttributes;
-  workflowExecutionContinuedAsNewEventAttributes?: WorkflowExecutionContinuedAsNewEventAttributes;
-  startChildWorkflowExecutionInitiatedEventAttributes?: StartChildWorkflowExecutionInitiatedEventAttributes;
-  startChildWorkflowExecutionFailedEventAttributes?: StartChildWorkflowExecutionFailedEventAttributes;
-  childWorkflowExecutionStartedEventAttributes?: ChildWorkflowExecutionStartedEventAttributes;
-  childWorkflowExecutionCompletedEventAttributes?: ChildWorkflowExecutionCompletedEventAttributes;
-  childWorkflowExecutionFailedEventAttributes?: ChildWorkflowExecutionFailedEventAttributes;
-  childWorkflowExecutionCanceledEventAttributes?: ChildWorkflowExecutionCanceledEventAttributes;
-  childWorkflowExecutionTimedOutEventAttributes?: ChildWorkflowExecutionTimedOutEventAttributes;
-  childWorkflowExecutionTerminatedEventAttributes?: ChildWorkflowExecutionTerminatedEventAttributes;
-  signalExternalWorkflowExecutionInitiatedEventAttributes?: SignalExternalWorkflowExecutionInitiatedEventAttributes;
-  signalExternalWorkflowExecutionFailedEventAttributes?: SignalExternalWorkflowExecutionFailedEventAttributes;
-  externalWorkflowExecutionSignaledEventAttributes?: ExternalWorkflowExecutionSignaledEventAttributes;
-  upsertWorkflowSearchAttributesEventAttributes?: UpsertWorkflowSearchAttributesEventAttributes;
-  workflowExecutionUpdateAcceptedEventAttributes?: WorkflowExecutionUpdateAcceptedEventAttributes;
-  workflowExecutionUpdateRejectedEventAttributes?: WorkflowExecutionUpdateRejectedEventAttributes;
-  workflowExecutionUpdateCompletedEventAttributes?: WorkflowExecutionUpdateCompletedEventAttributes;
-  workflowPropertiesModifiedExternallyEventAttributes?: WorkflowPropertiesModifiedExternallyEventAttributes;
-  activityPropertiesModifiedExternallyEventAttributes?: ActivityPropertiesModifiedExternallyEventAttributes;
-  workflowPropertiesModifiedEventAttributes?: WorkflowPropertiesModifiedEventAttributes;
-  workflowExecutionUpdateAdmittedEventAttributes?: WorkflowExecutionUpdateAdmittedEventAttributes;
-  nexusOperationScheduledEventAttributes?: NexusOperationScheduledEventAttributes;
-  nexusOperationStartedEventAttributes?: NexusOperationStartedEventAttributes;
-  nexusOperationCompletedEventAttributes?: NexusOperationCompletedEventAttributes;
-  nexusOperationFailedEventAttributes?: NexusOperationFailedEventAttributes;
-  nexusOperationCanceledEventAttributes?: NexusOperationCanceledEventAttributes;
-  nexusOperationTimedOutEventAttributes?: NexusOperationTimedOutEventAttributes;
-  nexusOperationCancelRequestedEventAttributes?: NexusOperationCancelRequestedEventAttributes;
-  workflowExecutionOptionsUpdatedEventAttributes?: WorkflowExecutionOptionsUpdatedEventAttributes;
-  nexusOperationCancelRequestCompletedEventAttributes?: NexusOperationCancelRequestCompletedEventAttributes;
-  nexusOperationCancelRequestFailedEventAttributes?: NexusOperationCancelRequestFailedEventAttributes;
-  workflowExecutionPausedEventAttributes?: WorkflowExecutionPausedEventAttributes;
-  workflowExecutionUnpausedEventAttributes?: WorkflowExecutionUnpausedEventAttributes;
-  workflowExecutionTimeSkippingTransitionedEventAttributes?: WorkflowExecutionTimeSkippingTransitionedEventAttributes;
+  principal?: Principal | undefined;
+  workflowExecutionStartedEventAttributes?: WorkflowExecutionStartedEventAttributes | undefined;
+  workflowExecutionCompletedEventAttributes?: WorkflowExecutionCompletedEventAttributes | undefined;
+  workflowExecutionFailedEventAttributes?: WorkflowExecutionFailedEventAttributes | undefined;
+  workflowExecutionTimedOutEventAttributes?: WorkflowExecutionTimedOutEventAttributes | undefined;
+  workflowTaskScheduledEventAttributes?: WorkflowTaskScheduledEventAttributes | undefined;
+  workflowTaskStartedEventAttributes?: WorkflowTaskStartedEventAttributes | undefined;
+  workflowTaskCompletedEventAttributes?: WorkflowTaskCompletedEventAttributes | undefined;
+  workflowTaskTimedOutEventAttributes?: WorkflowTaskTimedOutEventAttributes | undefined;
+  workflowTaskFailedEventAttributes?: WorkflowTaskFailedEventAttributes | undefined;
+  activityTaskScheduledEventAttributes?: ActivityTaskScheduledEventAttributes | undefined;
+  activityTaskStartedEventAttributes?: ActivityTaskStartedEventAttributes | undefined;
+  activityTaskCompletedEventAttributes?: ActivityTaskCompletedEventAttributes | undefined;
+  activityTaskFailedEventAttributes?: ActivityTaskFailedEventAttributes | undefined;
+  activityTaskTimedOutEventAttributes?: ActivityTaskTimedOutEventAttributes | undefined;
+  timerStartedEventAttributes?: TimerStartedEventAttributes | undefined;
+  timerFiredEventAttributes?: TimerFiredEventAttributes | undefined;
+  activityTaskCancelRequestedEventAttributes?:
+    | ActivityTaskCancelRequestedEventAttributes
+    | undefined;
+  activityTaskCanceledEventAttributes?: ActivityTaskCanceledEventAttributes | undefined;
+  timerCanceledEventAttributes?: TimerCanceledEventAttributes | undefined;
+  markerRecordedEventAttributes?: MarkerRecordedEventAttributes | undefined;
+  workflowExecutionSignaledEventAttributes?: WorkflowExecutionSignaledEventAttributes | undefined;
+  workflowExecutionTerminatedEventAttributes?:
+    | WorkflowExecutionTerminatedEventAttributes
+    | undefined;
+  workflowExecutionCancelRequestedEventAttributes?:
+    | WorkflowExecutionCancelRequestedEventAttributes
+    | undefined;
+  workflowExecutionCanceledEventAttributes?: WorkflowExecutionCanceledEventAttributes | undefined;
+  requestCancelExternalWorkflowExecutionInitiatedEventAttributes?:
+    | RequestCancelExternalWorkflowExecutionInitiatedEventAttributes
+    | undefined;
+  requestCancelExternalWorkflowExecutionFailedEventAttributes?:
+    | RequestCancelExternalWorkflowExecutionFailedEventAttributes
+    | undefined;
+  externalWorkflowExecutionCancelRequestedEventAttributes?:
+    | ExternalWorkflowExecutionCancelRequestedEventAttributes
+    | undefined;
+  workflowExecutionContinuedAsNewEventAttributes?:
+    | WorkflowExecutionContinuedAsNewEventAttributes
+    | undefined;
+  startChildWorkflowExecutionInitiatedEventAttributes?:
+    | StartChildWorkflowExecutionInitiatedEventAttributes
+    | undefined;
+  startChildWorkflowExecutionFailedEventAttributes?:
+    | StartChildWorkflowExecutionFailedEventAttributes
+    | undefined;
+  childWorkflowExecutionStartedEventAttributes?:
+    | ChildWorkflowExecutionStartedEventAttributes
+    | undefined;
+  childWorkflowExecutionCompletedEventAttributes?:
+    | ChildWorkflowExecutionCompletedEventAttributes
+    | undefined;
+  childWorkflowExecutionFailedEventAttributes?:
+    | ChildWorkflowExecutionFailedEventAttributes
+    | undefined;
+  childWorkflowExecutionCanceledEventAttributes?:
+    | ChildWorkflowExecutionCanceledEventAttributes
+    | undefined;
+  childWorkflowExecutionTimedOutEventAttributes?:
+    | ChildWorkflowExecutionTimedOutEventAttributes
+    | undefined;
+  childWorkflowExecutionTerminatedEventAttributes?:
+    | ChildWorkflowExecutionTerminatedEventAttributes
+    | undefined;
+  signalExternalWorkflowExecutionInitiatedEventAttributes?:
+    | SignalExternalWorkflowExecutionInitiatedEventAttributes
+    | undefined;
+  signalExternalWorkflowExecutionFailedEventAttributes?:
+    | SignalExternalWorkflowExecutionFailedEventAttributes
+    | undefined;
+  externalWorkflowExecutionSignaledEventAttributes?:
+    | ExternalWorkflowExecutionSignaledEventAttributes
+    | undefined;
+  upsertWorkflowSearchAttributesEventAttributes?:
+    | UpsertWorkflowSearchAttributesEventAttributes
+    | undefined;
+  workflowExecutionUpdateAcceptedEventAttributes?:
+    | WorkflowExecutionUpdateAcceptedEventAttributes
+    | undefined;
+  workflowExecutionUpdateRejectedEventAttributes?:
+    | WorkflowExecutionUpdateRejectedEventAttributes
+    | undefined;
+  workflowExecutionUpdateCompletedEventAttributes?:
+    | WorkflowExecutionUpdateCompletedEventAttributes
+    | undefined;
+  workflowPropertiesModifiedExternallyEventAttributes?:
+    | WorkflowPropertiesModifiedExternallyEventAttributes
+    | undefined;
+  activityPropertiesModifiedExternallyEventAttributes?:
+    | ActivityPropertiesModifiedExternallyEventAttributes
+    | undefined;
+  workflowPropertiesModifiedEventAttributes?: WorkflowPropertiesModifiedEventAttributes | undefined;
+  workflowExecutionUpdateAdmittedEventAttributes?:
+    | WorkflowExecutionUpdateAdmittedEventAttributes
+    | undefined;
+  nexusOperationScheduledEventAttributes?: NexusOperationScheduledEventAttributes | undefined;
+  nexusOperationStartedEventAttributes?: NexusOperationStartedEventAttributes | undefined;
+  nexusOperationCompletedEventAttributes?: NexusOperationCompletedEventAttributes | undefined;
+  nexusOperationFailedEventAttributes?: NexusOperationFailedEventAttributes | undefined;
+  nexusOperationCanceledEventAttributes?: NexusOperationCanceledEventAttributes | undefined;
+  nexusOperationTimedOutEventAttributes?: NexusOperationTimedOutEventAttributes | undefined;
+  nexusOperationCancelRequestedEventAttributes?:
+    | NexusOperationCancelRequestedEventAttributes
+    | undefined;
+  workflowExecutionOptionsUpdatedEventAttributes?:
+    | WorkflowExecutionOptionsUpdatedEventAttributes
+    | undefined;
+  nexusOperationCancelRequestCompletedEventAttributes?:
+    | NexusOperationCancelRequestCompletedEventAttributes
+    | undefined;
+  nexusOperationCancelRequestFailedEventAttributes?:
+    | NexusOperationCancelRequestFailedEventAttributes
+    | undefined;
+  workflowExecutionPausedEventAttributes?: WorkflowExecutionPausedEventAttributes | undefined;
+  workflowExecutionUnpausedEventAttributes?: WorkflowExecutionUnpausedEventAttributes | undefined;
+  workflowExecutionTimeSkippingTransitionedEventAttributes?:
+    | WorkflowExecutionTimeSkippingTransitionedEventAttributes
+    | undefined;
 }
 export type HistoryEventsList = Array<HistoryEvent>;
 export interface History {
-  events?: HistoryEventsList;
+  events?: HistoryEventsList | undefined;
 }
 export type DataBlobEncodingType =
   | "ENCODING_TYPE_UNSPECIFIED"
   | "ENCODING_TYPE_PROTO3"
   | "ENCODING_TYPE_JSON";
 export interface DataBlob {
-  encodingType?: DataBlobEncodingType;
-  data?: string;
+  encodingType?: DataBlobEncodingType | undefined;
+  data?: string | undefined;
 }
 /** Raw history is an alternate representation of history that may be returned if configured on the frontend. This is not supported by all SDKs. Either this or `history` will be set. */
 export type GetWorkflowExecutionHistoryResponseRawHistoryList = Array<DataBlob>;
 export interface GetWorkflowExecutionHistoryResponse {
-  history?: History;
+  history?: History | undefined;
   /** Raw history is an alternate representation of history that may be returned if configured on the frontend. This is not supported by all SDKs. Either this or `history` will be set. */
-  rawHistory?: GetWorkflowExecutionHistoryResponseRawHistoryList;
+  rawHistory?: GetWorkflowExecutionHistoryResponseRawHistoryList | undefined;
   /** Will be set if there are more history events than were included in this response */
-  nextPageToken?: string;
-  archived?: boolean;
+  nextPageToken?: string | undefined;
+  archived?: boolean | undefined;
 }
 export interface GetWorkflowExecutionHistoryReverseRequest {
   namespace: string;
   execution_workflow_id: string;
-  execution_workflowId?: string;
-  execution_runId?: string;
-  maximumPageSize?: number;
-  nextPageToken?: string;
+  execution_workflowId?: string | undefined;
+  execution_runId?: string | undefined;
+  maximumPageSize?: number | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface GetWorkflowExecutionHistoryReverseResponse {
-  history?: History;
+  history?: History | undefined;
   /** Will be set if there are more history events than were included in this response */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListActivityExecutionsRequest {
   namespace: string;
   /** Max number of executions to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Token returned in ListActivityExecutionsResponse. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Visibility query, see https://docs.temporal.io/list-filter for the syntax. */
-  query?: string;
+  query?: string | undefined;
 }
 /** Only scheduled and terminal statuses appear here. More detailed information in PendingActivityInfo but not available in the list response. */
 export type ActivityExecutionListInfoStatus =
@@ -3978,52 +4057,52 @@ export type ActivityExecutionListInfoStatus =
 /** Limited activity information returned in the list response. When adding fields here, ensure that it is also present in ActivityExecutionInfo (note that it may already be present in ActivityExecutionInfo but not at the top-level). */
 export interface ActivityExecutionListInfo {
   /** A unique identifier of this activity within its namespace along with run ID (below). */
-  activityId?: string;
+  activityId?: string | undefined;
   /** The run ID of the standalone activity. */
-  runId?: string;
+  runId?: string | undefined;
   /** The type of the activity, a string that maps to a registered activity on a worker. */
-  activityType?: WorkflowType;
+  activityType?: WorkflowType | undefined;
   /** Time the activity was originally scheduled via a StartActivityExecution request. */
-  scheduleTime?: string;
+  scheduleTime?: string | undefined;
   /** If the activity is in a terminal status, this field represents the time the activity transitioned to that status. */
-  closeTime?: string;
+  closeTime?: string | undefined;
   /** Only scheduled and terminal statuses appear here. More detailed information in PendingActivityInfo but not available in the list response. */
-  status?: ActivityExecutionListInfoStatus;
+  status?: ActivityExecutionListInfoStatus | undefined;
   /** Search attributes from the start request. */
-  searchAttributes?: SearchAttributes;
+  searchAttributes?: SearchAttributes | undefined;
   /** The task queue this activity was scheduled on when it was originally started, updated on activity options update. */
-  taskQueue?: string;
+  taskQueue?: string | undefined;
   /** Updated on terminal status. */
-  stateTransitionCount?: string;
+  stateTransitionCount?: string | undefined;
   /** Updated once on scheduled and once on terminal status. */
-  stateSizeBytes?: string;
+  stateSizeBytes?: string | undefined;
   /** The difference between close time and scheduled time. This field is only populated if the activity is closed. */
-  executionDuration?: string;
+  executionDuration?: string | undefined;
 }
 export type ListActivityExecutionsResponseExecutionsList = Array<ActivityExecutionListInfo>;
 export interface ListActivityExecutionsResponse {
-  executions?: ListActivityExecutionsResponseExecutionsList;
+  executions?: ListActivityExecutionsResponseExecutionsList | undefined;
   /** Token to use to fetch the next page. If empty, there is no next page. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListArchivedWorkflowExecutionsRequest {
   namespace: string;
-  pageSize?: number;
-  nextPageToken?: string;
-  query?: string;
+  pageSize?: number | undefined;
+  nextPageToken?: string | undefined;
+  query?: string | undefined;
 }
 export type ListArchivedWorkflowExecutionsResponseExecutionsList = Array<WorkflowExecutionInfo>;
 export interface ListArchivedWorkflowExecutionsResponse {
-  executions?: ListArchivedWorkflowExecutionsResponseExecutionsList;
-  nextPageToken?: string;
+  executions?: ListArchivedWorkflowExecutionsResponseExecutionsList | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ListBatchOperationsRequest {
   /** Namespace that contains the batch operation */
   namespace: string;
   /** List page size */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Next page token */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 /** Batch operation state */
 export type BatchOperationInfoState =
@@ -4033,73 +4112,73 @@ export type BatchOperationInfoState =
   | "BATCH_OPERATION_STATE_FAILED";
 export interface BatchOperationInfo {
   /** Batch job ID */
-  jobId?: string;
+  jobId?: string | undefined;
   /** Batch operation state */
-  state?: BatchOperationInfoState;
+  state?: BatchOperationInfoState | undefined;
   /** Batch operation start time */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Batch operation close time */
-  closeTime?: string;
+  closeTime?: string | undefined;
 }
 /** BatchOperationInfo contains the basic info about batch operation */
 export type ListBatchOperationsResponseOperationInfoList = Array<BatchOperationInfo>;
 export interface ListBatchOperationsResponse {
   /** BatchOperationInfo contains the basic info about batch operation */
-  operationInfo?: ListBatchOperationsResponseOperationInfoList;
-  nextPageToken?: string;
+  operationInfo?: ListBatchOperationsResponseOperationInfoList | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ListDeploymentsRequest {
   namespace: string;
-  pageSize?: number;
-  nextPageToken?: string;
+  pageSize?: number | undefined;
+  nextPageToken?: string | undefined;
   /** Optional. Use to filter based on exact series name match. */
-  seriesName?: string;
+  seriesName?: string | undefined;
 }
 /** DeploymentListInfo is an abbreviated set of fields from DeploymentInfo that's returned in ListDeployments. Deprecated. */
 export interface DeploymentListInfo {
-  deployment?: Deployment;
-  createTime?: string;
+  deployment?: Deployment | undefined;
+  createTime?: string | undefined;
   /** If this deployment is the current deployment of its deployment series. */
-  isCurrent?: boolean;
+  isCurrent?: boolean | undefined;
 }
 export type ListDeploymentsResponseDeploymentsList = Array<DeploymentListInfo>;
 /** [cleanup-wv-pre-release] Pre-release deployment APIs, clean up later */
 export interface ListDeploymentsResponse {
-  nextPageToken?: string;
-  deployments?: ListDeploymentsResponseDeploymentsList;
+  nextPageToken?: string | undefined;
+  deployments?: ListDeploymentsResponseDeploymentsList | undefined;
 }
 export interface ListNamespacesRequest {
-  pageSize?: number;
-  nextPageToken?: string;
+  pageSize?: number | undefined;
+  nextPageToken?: string | undefined;
   /** By default namespaces in NAMESPACE_STATE_DELETED state are not included. Setting include_deleted to true will include deleted namespaces. Note: Namespace is in NAMESPACE_STATE_DELETED state when it was deleted from the system but associated data is not deleted yet. */
-  namespaceFilter_includeDeleted?: boolean;
+  namespaceFilter_includeDeleted?: boolean | undefined;
 }
 export type ListNamespacesResponseNamespacesList = Array<DescribeNamespaceResponse>;
 export interface ListNamespacesResponse {
-  namespaces?: ListNamespacesResponseNamespacesList;
-  nextPageToken?: string;
+  namespaces?: ListNamespacesResponseNamespacesList | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ListNexusEndpointsRequest {
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** To get the next page, pass in `ListNexusEndpointsResponse.next_page_token` from the previous page's response, the token will be empty if there's no other page. Note: the last page may be empty if the total number of endpoints registered is a multiple of the page size. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Name of the incoming endpoint to filter on - optional. Specifying this will result in zero or one results. (-- api-linter: core::203::field-behavior-required=disabled aip.dev/not-precedent: Not following linter rules. --) */
-  name?: string;
+  name?: string | undefined;
 }
 export type ListNexusEndpointsResponseEndpointsList = Array<Endpoint>;
 export interface ListNexusEndpointsResponse {
   /** Token for getting the next page. */
-  nextPageToken?: string;
-  endpoints?: ListNexusEndpointsResponseEndpointsList;
+  nextPageToken?: string | undefined;
+  endpoints?: ListNexusEndpointsResponseEndpointsList | undefined;
 }
 export interface ListNexusOperationExecutionsRequest {
   namespace: string;
   /** Max number of operations to return per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Token returned in ListNexusOperationExecutionsResponse. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Visibility query, see https://docs.temporal.io/list-filter for the syntax. Search attributes that are avaialble for Nexus operations include: - OperationId - RunId - Endpoint - Service - Operation - RequestId - StartTime - ExecutionTime - CloseTime - ExecutionStatus - ExecutionDuration - StateTransitionCount */
-  query?: string;
+  query?: string | undefined;
 }
 /** The status is updated once, when the operation is originally scheduled, and again when the operation reaches a terminal status. */
 export type NexusOperationExecutionListInfoStatus =
@@ -4113,34 +4192,34 @@ export type NexusOperationExecutionListInfoStatus =
 /** Limited Nexus operation information returned in the list response. When adding fields here, ensure that it is also present in NexusOperationExecutionInfo (note that it may already be present in NexusOperationExecutionInfo but not at the top-level). */
 export interface NexusOperationExecutionListInfo {
   /** A unique identifier of this operation within its namespace along with run ID (below). */
-  operationId?: string;
+  operationId?: string | undefined;
   /** The run ID of the standalone Nexus operation. */
-  runId?: string;
+  runId?: string | undefined;
   /** Endpoint name. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Service name. */
-  service?: string;
+  service?: string | undefined;
   /** Operation name. */
-  operation?: string;
+  operation?: string | undefined;
   /** Time the operation was originally scheduled via a StartNexusOperation request. */
-  scheduleTime?: string;
+  scheduleTime?: string | undefined;
   /** If the operation is in a terminal status, this field represents the time the operation transitioned to that status. */
-  closeTime?: string;
+  closeTime?: string | undefined;
   /** The status is updated once, when the operation is originally scheduled, and again when the operation reaches a terminal status. */
-  status?: NexusOperationExecutionListInfoStatus;
+  status?: NexusOperationExecutionListInfoStatus | undefined;
   /** Search attributes from the start request. */
-  searchAttributes?: SearchAttributes;
+  searchAttributes?: SearchAttributes | undefined;
   /** Updated on terminal status. */
-  stateTransitionCount?: string;
+  stateTransitionCount?: string | undefined;
   /** The difference between close time and scheduled time. This field is only populated if the operation is closed. */
-  executionDuration?: string;
+  executionDuration?: string | undefined;
 }
 export type ListNexusOperationExecutionsResponseOperationsList =
   Array<NexusOperationExecutionListInfo>;
 export interface ListNexusOperationExecutionsResponse {
-  operations?: ListNexusOperationExecutionsResponseOperationsList;
+  operations?: ListNexusOperationExecutionsResponseOperationsList | undefined;
   /** Token to use to fetch the next page. If empty, there is no next page. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListScheduleMatchingTimesRequest {
   /** The namespace of the schedule to query. */
@@ -4148,22 +4227,22 @@ export interface ListScheduleMatchingTimesRequest {
   /** The id of the schedule to query. */
   scheduleId: string;
   /** Time range to query. */
-  startTime?: string;
-  endTime?: string;
+  startTime?: string | undefined;
+  endTime?: string | undefined;
 }
 export type ListScheduleMatchingTimesResponseStartTimeList = Array<string>;
 export interface ListScheduleMatchingTimesResponse {
-  startTime?: ListScheduleMatchingTimesResponseStartTimeList;
+  startTime?: ListScheduleMatchingTimesResponseStartTimeList | undefined;
 }
 export interface ListSchedulesRequest {
   /** The namespace to list schedules in. */
   namespace: string;
   /** How many to return at once. */
-  maximumPageSize?: number;
+  maximumPageSize?: number | undefined;
   /** Token to get the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Query to filter schedules. */
-  query?: string;
+  query?: string | undefined;
 }
 /** From info (maybe fewer entries): */
 export type ScheduleListInfoRecentActionsList = Array<ScheduleActionResult>;
@@ -4171,27 +4250,27 @@ export type ScheduleListInfoFutureActionTimesList = Array<string>;
 /** ScheduleListInfo is an abbreviated set of values from Schedule and ScheduleInfo that's returned in ListSchedules. */
 export interface ScheduleListInfo {
   /** From spec: Some fields are dropped from this copy of spec: timezone_data */
-  spec?: ScheduleSpec;
+  spec?: ScheduleSpec | undefined;
   /** From action: Action is a oneof field, but we need to encode this in JSON and oneof fields don't work well with JSON. If action is start_workflow, this is set: */
-  workflowType?: WorkflowType;
+  workflowType?: WorkflowType | undefined;
   /** From state: */
-  notes?: string;
-  paused?: boolean;
+  notes?: string | undefined;
+  paused?: boolean | undefined;
   /** From info (maybe fewer entries): */
-  recentActions?: ScheduleListInfoRecentActionsList;
-  futureActionTimes?: ScheduleListInfoFutureActionTimesList;
+  recentActions?: ScheduleListInfoRecentActionsList | undefined;
+  futureActionTimes?: ScheduleListInfoFutureActionTimesList | undefined;
 }
 /** ScheduleListEntry is returned by ListSchedules. */
 export interface ScheduleListEntry {
-  scheduleId?: string;
-  memo?: Memo;
-  searchAttributes?: SearchAttributes;
-  info?: ScheduleListInfo;
+  scheduleId?: string | undefined;
+  memo?: Memo | undefined;
+  searchAttributes?: SearchAttributes | undefined;
+  info?: ScheduleListInfo | undefined;
 }
 export type ListSchedulesResponseSchedulesList = Array<ScheduleListEntry>;
 export interface ListSchedulesResponse {
-  schedules?: ListSchedulesResponseSchedulesList;
-  nextPageToken?: string;
+  schedules?: ListSchedulesResponseSchedulesList | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ListSearchAttributesRequest {
   namespace: string;
@@ -4226,45 +4305,45 @@ export type ListSearchAttributesResponseSystemAttributesMap = {
 export type ListSearchAttributesResponseStorageSchemaMap = { [key: string]: string | undefined };
 export interface ListSearchAttributesResponse {
   /** Mapping between custom (user-registered) search attribute name to its IndexedValueType. */
-  customAttributes?: ListSearchAttributesResponseCustomAttributesMap;
+  customAttributes?: ListSearchAttributesResponseCustomAttributesMap | undefined;
   /** Mapping between system (predefined) search attribute name to its IndexedValueType. */
-  systemAttributes?: ListSearchAttributesResponseSystemAttributesMap;
+  systemAttributes?: ListSearchAttributesResponseSystemAttributesMap | undefined;
   /** Mapping from the attribute name to the visibility storage native type. */
-  storageSchema?: ListSearchAttributesResponseStorageSchemaMap;
+  storageSchema?: ListSearchAttributesResponseStorageSchemaMap | undefined;
 }
 export interface ListWorkerDeploymentsRequest {
   namespace: string;
-  pageSize?: number;
-  nextPageToken?: string;
+  pageSize?: number | undefined;
+  nextPageToken?: string | undefined;
 }
 /** A subset of WorkerDeploymentInfo */
 export interface ListWorkerDeploymentsResponseWorkerDeploymentSummary {
-  name?: string;
-  createTime?: string;
-  routingConfig?: RoutingConfig;
+  name?: string | undefined;
+  createTime?: string | undefined;
+  routingConfig?: RoutingConfig | undefined;
   /** Summary of the version that was added most recently in the Worker Deployment. */
-  latestVersionSummary?: WorkerDeploymentInfoWorkerDeploymentVersionSummary;
+  latestVersionSummary?: WorkerDeploymentInfoWorkerDeploymentVersionSummary | undefined;
   /** Summary of the current version of the Worker Deployment. */
-  currentVersionSummary?: WorkerDeploymentInfoWorkerDeploymentVersionSummary;
+  currentVersionSummary?: WorkerDeploymentInfoWorkerDeploymentVersionSummary | undefined;
   /** Summary of the ramping version of the Worker Deployment. */
-  rampingVersionSummary?: WorkerDeploymentInfoWorkerDeploymentVersionSummary;
+  rampingVersionSummary?: WorkerDeploymentInfoWorkerDeploymentVersionSummary | undefined;
 }
 /** The list of worker deployments. */
 export type ListWorkerDeploymentsResponseWorkerDeploymentsList =
   Array<ListWorkerDeploymentsResponseWorkerDeploymentSummary>;
 export interface ListWorkerDeploymentsResponse {
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of worker deployments. */
-  workerDeployments?: ListWorkerDeploymentsResponseWorkerDeploymentsList;
+  workerDeployments?: ListWorkerDeploymentsResponseWorkerDeploymentsList | undefined;
 }
 export interface ListWorkersRequest {
   namespace: string;
-  pageSize?: number;
-  nextPageToken?: string;
+  pageSize?: number | undefined;
+  nextPageToken?: string | undefined;
   /** `query` in ListWorkers is used to filter workers based on worker attributes. Supported attributes: * WorkerInstanceKey * WorkerIdentity * HostName * TaskQueue * DeploymentName * BuildId * SdkName * SdkVersion * StartTime * Status */
-  query?: string;
+  query?: string | undefined;
   /** When true, the response will include system workers that are created implicitly by the server and not by the user. By default, system workers are excluded. */
-  includeSystemWorkers?: boolean;
+  includeSystemWorkers?: boolean | undefined;
 }
 /** Deprecated: Use workers instead. This field returns full WorkerInfo which includes expensive runtime metrics. We will stop populating this field in the future. */
 export type ListWorkersResponseWorkersInfoList = Array<WorkerInfo>;
@@ -4281,86 +4360,86 @@ export type WorkerListInfoDriversList = Array<StorageDriverInfo>;
 /** Limited worker information returned in the list response. When adding fields here, ensure that it is also added to WorkerInfo (as it carries the full worker information). */
 export interface WorkerListInfo {
   /** Worker identifier, should be unique for the namespace. It is distinct from worker identity, which is not necessarily namespace-unique. */
-  workerInstanceKey?: string;
+  workerInstanceKey?: string | undefined;
   /** Worker identity, set by the client, may not be unique. Usually host_name+(user group name)+process_id, but can be overwritten by the user. */
-  workerIdentity?: string;
+  workerIdentity?: string | undefined;
   /** Task queue this worker is polling for tasks. */
-  taskQueue?: string;
-  deploymentVersion?: WorkerDeploymentVersion;
-  sdkName?: string;
-  sdkVersion?: string;
+  taskQueue?: string | undefined;
+  deploymentVersion?: WorkerDeploymentVersion | undefined;
+  sdkName?: string | undefined;
+  sdkVersion?: string | undefined;
   /** Worker status. Defined by SDK. */
-  status?: WorkerListInfoStatus;
+  status?: WorkerListInfoStatus | undefined;
   /** Worker start time. It can be used to determine worker uptime. (current time - start time) */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Worker host identifier. */
-  hostName?: string;
+  hostName?: string | undefined;
   /** Worker grouping identifier. A key to group workers that share the same client+namespace+process. This will be used to build the worker command nexus task queue name: "temporal-sys/worker-commands/{worker_grouping_key}" */
-  workerGroupingKey?: string;
+  workerGroupingKey?: string | undefined;
   /** Worker process identifier. This id only needs to be unique within one host (so using e.g. a unix pid would be appropriate). */
-  processId?: string;
+  processId?: string | undefined;
   /** Plugins currently in use by this SDK. */
-  plugins?: WorkerListInfoPluginsList;
+  plugins?: WorkerListInfoPluginsList | undefined;
   /** Storage drivers in use by this SDK. */
-  drivers?: WorkerListInfoDriversList;
+  drivers?: WorkerListInfoDriversList | undefined;
 }
 /** Limited worker information. */
 export type ListWorkersResponseWorkersList = Array<WorkerListInfo>;
 export interface ListWorkersResponse {
   /** Deprecated: Use workers instead. This field returns full WorkerInfo which includes expensive runtime metrics. We will stop populating this field in the future. */
-  workersInfo?: ListWorkersResponseWorkersInfoList;
+  workersInfo?: ListWorkersResponseWorkersInfoList | undefined;
   /** Limited worker information. */
-  workers?: ListWorkersResponseWorkersList;
+  workers?: ListWorkersResponseWorkersList | undefined;
   /** Next page token */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListWorkflowExecutionsRequest {
   namespace: string;
-  pageSize?: number;
-  nextPageToken?: string;
-  query?: string;
+  pageSize?: number | undefined;
+  nextPageToken?: string | undefined;
+  query?: string | undefined;
 }
 export type ListWorkflowExecutionsResponseExecutionsList = Array<WorkflowExecutionInfo>;
 export interface ListWorkflowExecutionsResponse {
-  executions?: ListWorkflowExecutionsResponseExecutionsList;
-  nextPageToken?: string;
+  executions?: ListWorkflowExecutionsResponseExecutionsList | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface ListWorkflowRulesRequest {
   namespace: string;
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListWorkflowRulesResponseRulesList = Array<WorkflowRule>;
 export interface ListWorkflowRulesResponse {
-  rules?: ListWorkflowRulesResponseRulesList;
-  nextPageToken?: string;
+  rules?: ListWorkflowRulesResponseRulesList | undefined;
+  nextPageToken?: string | undefined;
 }
 export interface PatchScheduleRequest {
   /** The namespace of the schedule to patch. */
   namespace: string;
   /** The id of the schedule to patch. */
   scheduleId: string;
-  patch?: SchedulePatch;
+  patch?: SchedulePatch | undefined;
   /** The identity of the client who initiated this request. */
-  identity?: string;
+  identity?: string | undefined;
   /** A unique identifier for this update request for idempotence. Typically UUIDv4. */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export type PatchScheduleResponse2 = unknown;
 export interface PauseActivityRequest {
   /** Namespace of the workflow which scheduled this activity. */
   namespace: string;
   /** Execution info of the workflow which scheduled this activity */
-  execution?: WorkflowExecution;
+  execution?: WorkflowExecution | undefined;
   /** The identity of the client who initiated this request. */
-  identity?: string;
+  identity?: string | undefined;
   /** Only the activity with this ID will be paused. */
-  id?: string;
+  id?: string | undefined;
   /** Pause all running activities of this type. Note: Experimental - the behavior of pause by activity type might change in a future release. */
-  type?: string;
+  type?: string | undefined;
   /** Reason to pause the activity. */
-  reason?: string;
+  reason?: string | undefined;
   /** Used to de-dupe pause requests. */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export type PauseActivityResponse2 = unknown;
 export interface PauseActivityExecutionRequest {
@@ -4369,17 +4448,17 @@ export interface PauseActivityExecutionRequest {
   /** The ID of the activity to target. */
   activityId: string;
   /** If provided, pause a workflow activity (or activities) for the given workflow ID. If empty, targets a standalone activity. */
-  workflowId?: string;
+  workflowId?: string | undefined;
   /** Run ID of the workflow or standalone activity. */
-  runId?: string;
+  runId?: string | undefined;
   /** The identity of the client who initiated this request. */
-  identity?: string;
+  identity?: string | undefined;
   /** Reason to pause the activity. */
-  reason?: string;
+  reason?: string | undefined;
   /** Resource ID for routing. Contains "workflow:{workflow_id}" for workflow activities or "activity:{activity_id}" for standalone activities. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Used to de-dupe pause requests. */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export type PauseActivityExecutionResponse2 = unknown;
 export interface PauseWorkflowExecutionRequest {
@@ -4388,25 +4467,25 @@ export interface PauseWorkflowExecutionRequest {
   /** ID of the workflow execution to be paused. Required. */
   workflowId: string;
   /** Run ID of the workflow execution to be paused. Optional. If not provided, the current run of the workflow will be paused. */
-  runId?: string;
+  runId?: string | undefined;
   /** The identity of the client who initiated this request. */
-  identity?: string;
+  identity?: string | undefined;
   /** Reason to pause the workflow execution. */
-  reason?: string;
+  reason?: string | undefined;
   /** A unique identifier for this pause request for idempotence. Typically UUIDv4. */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export type PauseWorkflowExecutionResponse2 = unknown;
 export interface PollActivityExecutionRequest {
   namespace: string;
   activityId: string;
   /** Activity run ID. If empty the request targets the latest run. */
-  runId?: string;
+  runId?: string | undefined;
 }
 export interface PollActivityExecutionResponse {
   /** The run ID of the activity, useful when run_id was not specified in the request. */
-  runId?: string;
-  outcome?: ActivityExecutionOutcome;
+  runId?: string | undefined;
+  outcome?: ActivityExecutionOutcome | undefined;
 }
 export type PollNexusOperationExecutionRequestWaitStage =
   | "NEXUS_OPERATION_WAIT_STAGE_UNSPECIFIED"
@@ -4416,9 +4495,9 @@ export interface PollNexusOperationExecutionRequest {
   namespace: string;
   operationId: string;
   /** Operation run ID. If empty the request targets the latest run. */
-  runId?: string;
+  runId?: string | undefined;
   /** Stage to wait for. The operation may be in a more advanced stage when the poll is unblocked. */
-  waitStage?: PollNexusOperationExecutionRequestWaitStage | (string & {});
+  waitStage?: PollNexusOperationExecutionRequestWaitStage | (string & {}) | undefined;
 }
 /** The current stage of the operation. May be more advanced than the stage requested in the poll. */
 export type PollNexusOperationExecutionResponseWaitStage =
@@ -4427,24 +4506,24 @@ export type PollNexusOperationExecutionResponseWaitStage =
   | "NEXUS_OPERATION_WAIT_STAGE_CLOSED";
 export interface PollNexusOperationExecutionResponse {
   /** The run ID of the operation, useful when run_id was not specified in the request. */
-  runId?: string;
+  runId?: string | undefined;
   /** The current stage of the operation. May be more advanced than the stage requested in the poll. */
-  waitStage?: PollNexusOperationExecutionResponseWaitStage;
+  waitStage?: PollNexusOperationExecutionResponseWaitStage | undefined;
   /** Operation token. Only populated for asynchronous operations after a successful StartOperation call. */
-  operationToken?: string;
+  operationToken?: string | undefined;
   /** The result if the operation completed successfully. */
-  result?: unknown;
+  result?: unknown | undefined;
   /** The failure if the operation completed unsuccessfully. */
-  failure?: Failure;
+  failure?: Failure | undefined;
 }
 /** See https://docs.temporal.io/docs/concepts/queries/ */
 export interface WorkflowQuery {
   /** The workflow-author-defined identifier of the query. Typically a function name. */
-  queryType?: string;
+  queryType?: string | undefined;
   /** Serialized arguments that will be provided to the query handler. */
-  queryArgs?: Payloads;
+  queryArgs?: Payloads | undefined;
   /** Headers that were passed by the caller of the query and copied by temporal server into the workflow task. */
-  header?: Header;
+  header?: Header | undefined;
 }
 /** QueryRejectCondition can used to reject the query if workflow state does not satisfy condition. Default: QUERY_REJECT_CONDITION_NONE. */
 export type QueryWorkflowRequestQueryRejectCondition =
@@ -4456,10 +4535,10 @@ export interface QueryWorkflowRequest {
   namespace: string;
   execution_workflow_id: string;
   query_query_type: string;
-  execution?: WorkflowExecution;
-  query?: WorkflowQuery;
+  execution?: WorkflowExecution | undefined;
+  query?: WorkflowQuery | undefined;
   /** QueryRejectCondition can used to reject the query if workflow state does not satisfy condition. Default: QUERY_REJECT_CONDITION_NONE. */
-  queryRejectCondition?: QueryWorkflowRequestQueryRejectCondition | (string & {});
+  queryRejectCondition?: QueryWorkflowRequestQueryRejectCondition | (string & {}) | undefined;
 }
 export type QueryRejectedStatus =
   | "WORKFLOW_EXECUTION_STATUS_UNSPECIFIED"
@@ -4472,30 +4551,30 @@ export type QueryRejectedStatus =
   | "WORKFLOW_EXECUTION_STATUS_TIMED_OUT"
   | "WORKFLOW_EXECUTION_STATUS_PAUSED";
 export interface QueryRejected {
-  status?: QueryRejectedStatus;
+  status?: QueryRejectedStatus | undefined;
 }
 export interface QueryWorkflowResponse {
-  queryResult?: Payloads;
-  queryRejected?: QueryRejected;
+  queryResult?: Payloads | undefined;
+  queryRejected?: QueryRejected | undefined;
 }
 export interface RecordActivityTaskHeartbeatRequest {
   namespace: string;
   /** The task token as received in `PollActivityTaskQueueResponse` */
-  taskToken?: string;
+  taskToken?: string | undefined;
   /** Arbitrary data, of which the most recent call is kept, to store for this activity */
-  details?: Payloads;
+  details?: Payloads | undefined;
   /** The identity of the worker/client */
-  identity?: string;
+  identity?: string | undefined;
   /** Resource ID for routing. Contains the workflow ID or activity ID for standalone activities. */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 export interface RecordActivityTaskHeartbeatResponse {
   /** Will be set to true if the activity has been asked to cancel itself. The SDK should then notify the activity of cancellation if it is still running. */
-  cancelRequested?: boolean;
+  cancelRequested?: boolean | undefined;
   /** Will be set to true if the activity is paused. */
-  activityPaused?: boolean;
+  activityPaused?: boolean | undefined;
   /** Will be set to true if the activity was reset. Applies only to the current run. */
-  activityReset?: boolean;
+  activityReset?: boolean | undefined;
 }
 export interface RecordActivityTaskHeartbeatByIdRequest {
   /** Namespace of the workflow which scheduled this activity */
@@ -4503,33 +4582,33 @@ export interface RecordActivityTaskHeartbeatByIdRequest {
   /** Id of the activity we're heartbeating */
   activityId: string;
   /** Id of the workflow which scheduled this activity, leave empty to target a standalone activity */
-  workflowId?: string;
+  workflowId?: string | undefined;
   /** For a workflow activity - the run ID of the workflow which scheduled this activity. For a standalone activity - the run ID of the activity. */
-  runId?: string;
+  runId?: string | undefined;
   /** Arbitrary data, of which the most recent call is kept, to store for this activity */
-  details?: Payloads;
+  details?: Payloads | undefined;
   /** The identity of the worker/client */
-  identity?: string;
+  identity?: string | undefined;
   /** Resource ID for routing. Contains "workflow:workflow_id" or "activity:activity_id" for standalone activities. */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 export interface RecordActivityTaskHeartbeatByIdResponse {
   /** Will be set to true if the activity has been asked to cancel itself. The SDK should then notify the activity of cancellation if it is still running. */
-  cancelRequested?: boolean;
+  cancelRequested?: boolean | undefined;
   /** Will be set to true if the activity is paused. */
-  activityPaused?: boolean;
+  activityPaused?: boolean | undefined;
   /** Will be set to true if the activity was reset. Applies only to the current run. */
-  activityReset?: boolean;
+  activityReset?: boolean | undefined;
 }
 export type RecordWorkerHeartbeatRequestWorkerHeartbeatList = Array<WorkerHeartbeat>;
 export interface RecordWorkerHeartbeatRequest {
   /** Namespace this worker belongs to. */
   namespace: string;
   /** The identity of the client who initiated this request. */
-  identity?: string;
-  workerHeartbeat?: RecordWorkerHeartbeatRequestWorkerHeartbeatList;
+  identity?: string | undefined;
+  workerHeartbeat?: RecordWorkerHeartbeatRequestWorkerHeartbeatList | undefined;
   /** Resource ID for routing. Contains the worker grouping key. */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 export type RecordWorkerHeartbeatResponse2 = unknown;
 export type RegisterNamespaceRequestClustersList = Array<ClusterReplicationConfig>;
@@ -4546,48 +4625,51 @@ export type RegisterNamespaceRequestVisibilityArchivalState =
   | "ARCHIVAL_STATE_DISABLED"
   | "ARCHIVAL_STATE_ENABLED";
 export interface RegisterNamespaceRequest {
-  namespace?: string;
-  description?: string;
-  ownerEmail?: string;
-  workflowExecutionRetentionPeriod?: string;
-  clusters?: RegisterNamespaceRequestClustersList;
-  activeClusterName?: string;
+  namespace?: string | undefined;
+  description?: string | undefined;
+  ownerEmail?: string | undefined;
+  workflowExecutionRetentionPeriod?: string | undefined;
+  clusters?: RegisterNamespaceRequestClustersList | undefined;
+  activeClusterName?: string | undefined;
   /** A key-value map for any customized purpose. */
-  data?: RegisterNamespaceRequestDataMap;
-  securityToken?: string;
-  isGlobalNamespace?: boolean;
+  data?: RegisterNamespaceRequestDataMap | undefined;
+  securityToken?: string | undefined;
+  isGlobalNamespace?: boolean | undefined;
   /** If unspecified (ARCHIVAL_STATE_UNSPECIFIED) then default server configuration is used. */
-  historyArchivalState?: RegisterNamespaceRequestHistoryArchivalState | (string & {});
-  historyArchivalUri?: string;
+  historyArchivalState?: RegisterNamespaceRequestHistoryArchivalState | (string & {}) | undefined;
+  historyArchivalUri?: string | undefined;
   /** If unspecified (ARCHIVAL_STATE_UNSPECIFIED) then default server configuration is used. */
-  visibilityArchivalState?: RegisterNamespaceRequestVisibilityArchivalState | (string & {});
-  visibilityArchivalUri?: string;
+  visibilityArchivalState?:
+    | RegisterNamespaceRequestVisibilityArchivalState
+    | (string & {})
+    | undefined;
+  visibilityArchivalUri?: string | undefined;
 }
 export type RegisterNamespaceResponse2 = unknown;
 export interface RequestCancelActivityExecutionRequest {
   namespace: string;
   activityId: string;
   /** Activity run ID, targets the latest run if run_id is empty. */
-  runId?: string;
+  runId?: string | undefined;
   /** The identity of the worker/client. */
-  identity?: string;
+  identity?: string | undefined;
   /** Used to de-dupe cancellation requests. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Reason for requesting the cancellation, recorded and available via the PollActivityExecution API. Not propagated to a worker if an activity attempt is currently running. */
-  reason?: string;
+  reason?: string | undefined;
 }
 export type RequestCancelActivityExecutionResponse2 = unknown;
 export interface RequestCancelNexusOperationExecutionRequest {
   namespace: string;
   operationId: string;
   /** Operation run ID, targets the latest run if empty. */
-  runId?: string;
+  runId?: string | undefined;
   /** The identity of the client who initiated this request. */
-  identity?: string;
+  identity?: string | undefined;
   /** Used to de-dupe cancellation requests. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Reason for requesting the cancellation, recorded and available via the DescribeNexusOperationExecution API. */
-  reason?: string;
+  reason?: string | undefined;
 }
 export type RequestCancelNexusOperationExecutionResponse2 = unknown;
 /** Links to be associated with the WorkflowExecutionCanceled event. */
@@ -4595,40 +4677,40 @@ export type RequestCancelWorkflowExecutionRequestLinksList = Array<Link>;
 export interface RequestCancelWorkflowExecutionRequest {
   namespace: string;
   workflow_execution_workflow_id: string;
-  workflowExecution?: WorkflowExecution;
+  workflowExecution?: WorkflowExecution | undefined;
   /** The identity of the worker/client */
-  identity?: string;
+  identity?: string | undefined;
   /** Used to de-dupe cancellation requests */
-  requestId?: string;
+  requestId?: string | undefined;
   /** If set, this call will error if the most recent (if no run id is set on `workflow_execution`), or specified (if it is) workflow execution is not part of the same execution chain as this id. */
-  firstExecutionRunId?: string;
+  firstExecutionRunId?: string | undefined;
   /** Reason for requesting the cancellation */
-  reason?: string;
+  reason?: string | undefined;
   /** Links to be associated with the WorkflowExecutionCanceled event. */
-  links?: RequestCancelWorkflowExecutionRequestLinksList;
+  links?: RequestCancelWorkflowExecutionRequestLinksList | undefined;
 }
 export type RequestCancelWorkflowExecutionResponse2 = unknown;
 export interface ResetActivityRequest {
   /** Namespace of the workflow which scheduled this activity. */
   namespace: string;
   /** Execution info of the workflow which scheduled this activity */
-  execution?: WorkflowExecution;
+  execution?: WorkflowExecution | undefined;
   /** The identity of the client who initiated this request. */
-  identity?: string;
+  identity?: string | undefined;
   /** Only activity with this ID will be reset. */
-  id?: string;
+  id?: string | undefined;
   /** Reset all running activities with of this type. */
-  type?: string;
+  type?: string | undefined;
   /** Reset all running activities. */
-  matchAll?: boolean;
+  matchAll?: boolean | undefined;
   /** Indicates that activity should reset heartbeat details. This flag will be applied only to the new instance of the activity. */
-  resetHeartbeat?: boolean;
+  resetHeartbeat?: boolean | undefined;
   /** If activity is paused, it will remain paused after reset */
-  keepPaused?: boolean;
+  keepPaused?: boolean | undefined;
   /** If set, and activity is in backoff, the activity will start at a random time within the specified jitter duration. (unless it is paused and keep_paused is set) */
-  jitter?: string;
+  jitter?: string | undefined;
   /** If set, the activity options will be restored to the defaults. Default options are then options activity was created with. They are part of the first schedule event. */
-  restoreOriginalOptions?: boolean;
+  restoreOriginalOptions?: boolean | undefined;
 }
 export type ResetActivityResponse2 = unknown;
 export interface ResetActivityExecutionRequest {
@@ -4637,21 +4719,21 @@ export interface ResetActivityExecutionRequest {
   /** The ID of the activity to target. */
   activityId: string;
   /** If provided, targets a workflow activity for the given workflow ID. If empty, targets a standalone activity. */
-  workflowId?: string;
+  workflowId?: string | undefined;
   /** Run ID of the workflow or standalone activity. */
-  runId?: string;
+  runId?: string | undefined;
   /** The identity of the client who initiated this request. */
-  identity?: string;
+  identity?: string | undefined;
   /** Indicates that activity should reset heartbeat details. This flag will be applied only to the new instance of the activity. */
-  resetHeartbeat?: boolean;
+  resetHeartbeat?: boolean | undefined;
   /** If activity is paused, it will remain paused after reset */
-  keepPaused?: boolean;
+  keepPaused?: boolean | undefined;
   /** If set, and activity is in backoff, the activity will start at a random time within the specified jitter duration. (unless it is paused and keep_paused is set) */
-  jitter?: string;
+  jitter?: string | undefined;
   /** If set, the activity options will be restored to the defaults. Default options are then options activity was created with. They are part of the first schedule event. */
-  restoreOriginalOptions?: boolean;
+  restoreOriginalOptions?: boolean | undefined;
   /** Resource ID for routing. Contains "workflow:{workflow_id}" for workflow activities or "activity:{activity_id}" for standalone activities. */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 export type ResetActivityExecutionResponse2 = unknown;
 /** Deprecated. Use `options`. Default: RESET_REAPPLY_TYPE_SIGNAL */
@@ -4675,33 +4757,33 @@ export type PostResetOperationSignalWorkflowLinksList = Array<Link>;
 /** SignalWorkflow represents sending a signal after a workflow reset. Keep the parameter in sync with temporal.api.workflowservice.v1.SignalWorkflowExecutionRequest. */
 export interface PostResetOperationSignalWorkflow {
   /** The workflow author-defined name of the signal to send to the workflow. */
-  signalName?: string;
+  signalName?: string | undefined;
   /** Serialized value(s) to provide with the signal. */
-  input?: Payloads;
+  input?: Payloads | undefined;
   /** Headers that are passed with the signal to the processing workflow. */
-  header?: Header;
+  header?: Header | undefined;
   /** Links to be associated with the WorkflowExecutionSignaled event. */
-  links?: PostResetOperationSignalWorkflowLinksList;
+  links?: PostResetOperationSignalWorkflowLinksList | undefined;
 }
 export interface WorkflowExecutionOptions {
   /** If set, takes precedence over the Versioning Behavior sent by the SDK on Workflow Task completion. */
-  versioningOverride?: VersioningOverride;
+  versioningOverride?: VersioningOverride | undefined;
   /** If set, overrides the workflow's priority sent by the SDK. */
-  priority?: Priority;
+  priority?: Priority | undefined;
   /** Time-skipping configuration for this workflow execution. If not set, the time-skipping configuration is not updated by this request; the existing configuration is preserved. */
-  timeSkippingConfig?: TimeSkippingConfig;
+  timeSkippingConfig?: TimeSkippingConfig | undefined;
 }
 /** UpdateWorkflowOptions represents updating workflow execution options after a workflow reset. Keep the parameters in sync with temporal.api.workflowservice.v1.UpdateWorkflowExecutionOptionsRequest. */
 export interface PostResetOperationUpdateWorkflowOptions {
   /** Update Workflow options that were originally specified via StartWorkflowExecution. Partial updates are accepted and controlled by update_mask. */
-  workflowExecutionOptions?: WorkflowExecutionOptions;
+  workflowExecutionOptions?: WorkflowExecutionOptions | undefined;
   /** Controls which fields from `workflow_execution_options` will be applied. To unset a field, set it to null and use the update mask to indicate that it should be mutated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
 }
 /** PostResetOperation represents an operation to be performed on the new workflow execution after a workflow reset. */
 export interface PostResetOperation {
-  signalWorkflow?: PostResetOperationSignalWorkflow;
-  updateWorkflowOptions?: PostResetOperationUpdateWorkflowOptions;
+  signalWorkflow?: PostResetOperationSignalWorkflow | undefined;
+  updateWorkflowOptions?: PostResetOperationUpdateWorkflowOptions | undefined;
 }
 /** Operations to perform after the workflow has been reset. These operations will be applied to the *new* run of the workflow execution in the order they are provided. All operations are applied to the workflow before the first new workflow task is generated */
 export type ResetWorkflowExecutionRequestPostResetOperationsList = Array<PostResetOperation>;
@@ -4709,40 +4791,40 @@ export interface ResetWorkflowExecutionRequest {
   namespace: string;
   workflow_execution_workflow_id: string;
   /** The workflow to reset. If this contains a run ID then the workflow will be reset back to the provided event ID in that run. Otherwise it will be reset to the provided event ID in the current run. In all cases the current run will be terminated and a new run started. */
-  workflowExecution?: WorkflowExecution;
-  reason?: string;
+  workflowExecution?: WorkflowExecution | undefined;
+  reason?: string | undefined;
   /** The id of a `WORKFLOW_TASK_COMPLETED`,`WORKFLOW_TASK_TIMED_OUT`, `WORKFLOW_TASK_FAILED`, or `WORKFLOW_TASK_STARTED` event to reset to. */
-  workflowTaskFinishEventId?: string;
+  workflowTaskFinishEventId?: string | undefined;
   /** Used to de-dupe reset requests */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Deprecated. Use `options`. Default: RESET_REAPPLY_TYPE_SIGNAL */
-  resetReapplyType?: ResetWorkflowExecutionRequestResetReapplyType | (string & {});
+  resetReapplyType?: ResetWorkflowExecutionRequestResetReapplyType | (string & {}) | undefined;
   /** Event types not to be reapplied */
-  resetReapplyExcludeTypes?: ResetWorkflowExecutionRequestResetReapplyExcludeTypesList;
+  resetReapplyExcludeTypes?: ResetWorkflowExecutionRequestResetReapplyExcludeTypesList | undefined;
   /** Operations to perform after the workflow has been reset. These operations will be applied to the *new* run of the workflow execution in the order they are provided. All operations are applied to the workflow before the first new workflow task is generated */
-  postResetOperations?: ResetWorkflowExecutionRequestPostResetOperationsList;
+  postResetOperations?: ResetWorkflowExecutionRequestPostResetOperationsList | undefined;
   /** The identity of the worker/client */
-  identity?: string;
+  identity?: string | undefined;
 }
 export interface ResetWorkflowExecutionResponse {
-  runId?: string;
+  runId?: string | undefined;
 }
 export interface RespondActivityTaskCanceledRequest {
   namespace: string;
   /** The task token as received in `PollActivityTaskQueueResponse` */
-  taskToken?: string;
+  taskToken?: string | undefined;
   /** Serialized additional information to attach to the cancellation */
-  details?: Payloads;
+  details?: Payloads | undefined;
   /** The identity of the worker/client */
-  identity?: string;
+  identity?: string | undefined;
   /** Resource ID for routing. Contains the workflow ID or activity ID for standalone activities. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Version info of the worker who processed this task. This message's `build_id` field should always be set by SDKs. Workers opting into versioning will also set the `use_versioning` field to true. See message docstrings for more. Deprecated. Use `deployment_options` instead. */
-  workerVersion?: WorkerVersionStamp;
+  workerVersion?: WorkerVersionStamp | undefined;
   /** Deployment info of the worker that completed this task. Must be present if user has set `WorkerDeploymentOptions` regardless of versioning being enabled or not. Deprecated. Replaced with `deployment_options`. */
-  deployment?: Deployment;
+  deployment?: Deployment | undefined;
   /** Worker deployment options that user has set in the worker. */
-  deploymentOptions?: WorkerDeploymentOptions;
+  deploymentOptions?: WorkerDeploymentOptions | undefined;
 }
 export type RespondActivityTaskCanceledResponse2 = unknown;
 export interface RespondActivityTaskCanceledByIdRequest {
@@ -4751,35 +4833,35 @@ export interface RespondActivityTaskCanceledByIdRequest {
   /** Id of the activity to confirm is cancelled */
   activityId: string;
   /** Id of the workflow which scheduled this activity, leave empty to target a standalone activity */
-  workflowId?: string;
+  workflowId?: string | undefined;
   /** For a workflow activity - the run ID of the workflow which scheduled this activity. For a standalone activity - the run ID of the activity. */
-  runId?: string;
+  runId?: string | undefined;
   /** Serialized additional information to attach to the cancellation */
-  details?: Payloads;
+  details?: Payloads | undefined;
   /** The identity of the worker/client */
-  identity?: string;
+  identity?: string | undefined;
   /** Worker deployment options that user has set in the worker. */
-  deploymentOptions?: WorkerDeploymentOptions;
+  deploymentOptions?: WorkerDeploymentOptions | undefined;
   /** Resource ID for routing. Contains "workflow:workflow_id" or "activity:activity_id" for standalone activities. */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 export type RespondActivityTaskCanceledByIdResponse2 = unknown;
 export interface RespondActivityTaskCompletedRequest {
   namespace: string;
   /** The task token as received in `PollActivityTaskQueueResponse` */
-  taskToken?: string;
+  taskToken?: string | undefined;
   /** The result of successfully executing the activity */
-  result?: Payloads;
+  result?: Payloads | undefined;
   /** The identity of the worker/client */
-  identity?: string;
+  identity?: string | undefined;
   /** Resource ID for routing. Contains the workflow ID or activity ID for standalone activities. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Version info of the worker who processed this task. This message's `build_id` field should always be set by SDKs. Workers opting into versioning will also set the `use_versioning` field to true. See message docstrings for more. Deprecated. Use `deployment_options` instead. */
-  workerVersion?: WorkerVersionStamp;
+  workerVersion?: WorkerVersionStamp | undefined;
   /** Deployment info of the worker that completed this task. Must be present if user has set `WorkerDeploymentOptions` regardless of versioning being enabled or not. Deprecated. Replaced with `deployment_options`. */
-  deployment?: Deployment;
+  deployment?: Deployment | undefined;
   /** Worker deployment options that user has set in the worker. */
-  deploymentOptions?: WorkerDeploymentOptions;
+  deploymentOptions?: WorkerDeploymentOptions | undefined;
 }
 export type RespondActivityTaskCompletedResponse2 = unknown;
 export interface RespondActivityTaskCompletedByIdRequest {
@@ -4788,41 +4870,41 @@ export interface RespondActivityTaskCompletedByIdRequest {
   /** Id of the activity to complete */
   activityId: string;
   /** Id of the workflow which scheduled this activity, leave empty to target a standalone activity */
-  workflowId?: string;
+  workflowId?: string | undefined;
   /** For a workflow activity - the run ID of the workflow which scheduled this activity. For a standalone activity - the run ID of the activity. */
-  runId?: string;
+  runId?: string | undefined;
   /** The serialized result of activity execution */
-  result?: Payloads;
+  result?: Payloads | undefined;
   /** The identity of the worker/client */
-  identity?: string;
+  identity?: string | undefined;
   /** Resource ID for routing. Contains "workflow:workflow_id" or "activity:activity_id" for standalone activities. */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 export type RespondActivityTaskCompletedByIdResponse2 = unknown;
 export interface RespondActivityTaskFailedRequest {
   namespace: string;
   /** The task token as received in `PollActivityTaskQueueResponse` */
-  taskToken?: string;
+  taskToken?: string | undefined;
   /** Detailed failure information */
-  failure?: Failure;
+  failure?: Failure | undefined;
   /** The identity of the worker/client */
-  identity?: string;
+  identity?: string | undefined;
   /** Resource ID for routing. Contains the workflow ID or activity ID for standalone activities. */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** Additional details to be stored as last activity heartbeat */
-  lastHeartbeatDetails?: Payloads;
+  lastHeartbeatDetails?: Payloads | undefined;
   /** Version info of the worker who processed this task. This message's `build_id` field should always be set by SDKs. Workers opting into versioning will also set the `use_versioning` field to true. See message docstrings for more. Deprecated. Use `deployment_options` instead. */
-  workerVersion?: WorkerVersionStamp;
+  workerVersion?: WorkerVersionStamp | undefined;
   /** Deployment info of the worker that completed this task. Must be present if user has set `WorkerDeploymentOptions` regardless of versioning being enabled or not. Deprecated. Replaced with `deployment_options`. */
-  deployment?: Deployment;
+  deployment?: Deployment | undefined;
   /** Worker deployment options that user has set in the worker. */
-  deploymentOptions?: WorkerDeploymentOptions;
+  deploymentOptions?: WorkerDeploymentOptions | undefined;
 }
 /** Server validation failures could include last_heartbeat_details payload is too large, request failure is too large */
 export type RespondActivityTaskFailedResponseFailuresList = Array<Failure>;
 export interface RespondActivityTaskFailedResponse {
   /** Server validation failures could include last_heartbeat_details payload is too large, request failure is too large */
-  failures?: RespondActivityTaskFailedResponseFailuresList;
+  failures?: RespondActivityTaskFailedResponseFailuresList | undefined;
 }
 export interface RespondActivityTaskFailedByIdRequest {
   /** Namespace of the workflow which scheduled this activity */
@@ -4830,117 +4912,117 @@ export interface RespondActivityTaskFailedByIdRequest {
   /** Id of the activity to fail */
   activityId: string;
   /** Id of the workflow which scheduled this activity, leave empty to target a standalone activity */
-  workflowId?: string;
+  workflowId?: string | undefined;
   /** For a workflow activity - the run ID of the workflow which scheduled this activity. For a standalone activity - the run ID of the activity. */
-  runId?: string;
+  runId?: string | undefined;
   /** Detailed failure information */
-  failure?: Failure;
+  failure?: Failure | undefined;
   /** The identity of the worker/client */
-  identity?: string;
+  identity?: string | undefined;
   /** Additional details to be stored as last activity heartbeat */
-  lastHeartbeatDetails?: Payloads;
+  lastHeartbeatDetails?: Payloads | undefined;
   /** Resource ID for routing. Contains "workflow:workflow_id" or "activity:activity_id" for standalone activities. */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 /** Server validation failures could include last_heartbeat_details payload is too large, request failure is too large */
 export type RespondActivityTaskFailedByIdResponseFailuresList = Array<Failure>;
 export interface RespondActivityTaskFailedByIdResponse {
   /** Server validation failures could include last_heartbeat_details payload is too large, request failure is too large */
-  failures?: RespondActivityTaskFailedByIdResponseFailuresList;
+  failures?: RespondActivityTaskFailedByIdResponseFailuresList | undefined;
 }
 export type UpdateDeploymentMetadataUpsertEntriesMap = { [key: string]: unknown | undefined };
 /** List of keys to remove from the metadata. */
 export type UpdateDeploymentMetadataRemoveEntriesList = Array<string>;
 /** Used as part of Deployment write APIs to update metadata attached to a deployment. Deprecated. */
 export interface UpdateDeploymentMetadata {
-  upsertEntries?: UpdateDeploymentMetadataUpsertEntriesMap;
+  upsertEntries?: UpdateDeploymentMetadataUpsertEntriesMap | undefined;
   /** List of keys to remove from the metadata. */
-  removeEntries?: UpdateDeploymentMetadataRemoveEntriesList;
+  removeEntries?: UpdateDeploymentMetadataRemoveEntriesList | undefined;
 }
 export interface SetCurrentDeploymentRequest {
   namespace: string;
   deployment_series_name: string;
-  deployment?: Deployment;
+  deployment?: Deployment | undefined;
   /** Optional. The identity of the client who initiated this request. */
-  identity?: string;
+  identity?: string | undefined;
   /** Optional. Use to add or remove user-defined metadata entries. Metadata entries are exposed when describing a deployment. It is a good place for information such as operator name, links to internal deployment pipelines, etc. */
-  updateMetadata?: UpdateDeploymentMetadata;
+  updateMetadata?: UpdateDeploymentMetadata | undefined;
 }
 /** [cleanup-wv-pre-release] Pre-release deployment APIs, clean up later */
 export interface SetCurrentDeploymentResponse {
-  currentDeploymentInfo?: DeploymentInfo;
+  currentDeploymentInfo?: DeploymentInfo | undefined;
   /** Info of the deployment that was current before executing this operation. */
-  previousDeploymentInfo?: DeploymentInfo;
+  previousDeploymentInfo?: DeploymentInfo | undefined;
 }
 export interface SetWorkerDeploymentCurrentVersionRequest {
   namespace: string;
   deploymentName: string;
   /** Deprecated. Use `build_id`. */
-  version?: string;
+  version?: string | undefined;
   /** The build id of the Version that you want to set as Current. Pass an empty value to set the Current Version to nil. A nil Current Version represents all the unversioned workers (those with `UNVERSIONED` (or unspecified) `WorkerVersioningMode`.) */
-  buildId?: string;
+  buildId?: string | undefined;
   /** Optional. This can be the value of conflict_token from a Describe, or another Worker Deployment API. Passing a non-nil conflict token will cause this request to fail if the Deployment's configuration has been modified between the API call that generated the token and this one. */
-  conflictToken?: string;
+  conflictToken?: string | undefined;
   /** Optional. The identity of the client who initiated this request. */
-  identity?: string;
+  identity?: string | undefined;
   /** Optional. By default this request would be rejected if not all the expected Task Queues are being polled by the new Version, to protect against accidental removal of Task Queues, or worker health issues. Pass `true` here to bypass this protection. The set of expected Task Queues is the set of all the Task Queues that were ever poller by the existing Current Version of the Deployment, with the following exclusions: - Task Queues that are not used anymore (inferred by having empty backlog and a task add_rate of 0.) - Task Queues that are moved to another Worker Deployment (inferred by the Task Queue having a different Current Version than the Current Version of this deployment.) WARNING: Do not set this flag unless you are sure that the missing task queue pollers are not needed. If the request is unexpectedly rejected due to missing pollers, then that means the pollers have not reached to the server yet. Only set this if you expect those pollers to never arrive. */
-  ignoreMissingTaskQueues?: boolean;
+  ignoreMissingTaskQueues?: boolean | undefined;
   /** Optional. By default this request will be rejected if no pollers have been seen for the proposed Current Version, in order to protect users from routing tasks to pollers that do not exist, leading to possible timeouts. Pass `true` here to bypass this protection. */
-  allowNoPollers?: boolean;
+  allowNoPollers?: boolean | undefined;
 }
 export interface SetWorkerDeploymentCurrentVersionResponse {
   /** This value is returned so that it can be optionally passed to APIs that write to the Worker Deployment state to ensure that the state did not change between this API call and a future write. */
-  conflictToken?: string;
+  conflictToken?: string | undefined;
   /** Deprecated. Use `previous_deployment_version`. */
-  previousVersion?: string;
+  previousVersion?: string | undefined;
   /** The version that was current before executing this operation. Deprecated in favor of idempotency of the API. Use `DescribeWorkerDeployment` to get the Current version info before calling this API. By passing the `conflict_token` got from the `DescribeWorkerDeployment` call to this API you can ensure there is no interfering changes between the two calls. */
-  previousDeploymentVersion?: WorkerDeploymentVersion;
+  previousDeploymentVersion?: WorkerDeploymentVersion | undefined;
 }
 export interface SetWorkerDeploymentManagerRequest {
   namespace: string;
   deploymentName: string;
   /** Arbitrary value for `manager_identity`. Empty will unset the field. */
-  managerIdentity?: string;
+  managerIdentity?: string | undefined;
   /** True will set `manager_identity` to `identity`. */
-  self?: boolean;
+  self?: boolean | undefined;
   /** Optional. This can be the value of conflict_token from a Describe, or another Worker Deployment API. Passing a non-nil conflict token will cause this request to fail if the Deployment's configuration has been modified between the API call that generated the token and this one. */
-  conflictToken?: string;
+  conflictToken?: string | undefined;
   /** Required. The identity of the client who initiated this request. */
-  identity?: string;
+  identity?: string | undefined;
 }
 export interface SetWorkerDeploymentManagerResponse {
   /** This value is returned so that it can be optionally passed to APIs that write to the Worker Deployment state to ensure that the state did not change between this API call and a future write. */
-  conflictToken?: string;
+  conflictToken?: string | undefined;
   /** What the `manager_identity` field was before this change. Deprecated in favor of idempotency of the API. Use `DescribeWorkerDeployment` to get the manager identity before calling this API. By passing the `conflict_token` got from the `DescribeWorkerDeployment` call to this API you can ensure there is no interfering changes between the two calls. */
-  previousManagerIdentity?: string;
+  previousManagerIdentity?: string | undefined;
 }
 export interface SetWorkerDeploymentRampingVersionRequest {
   namespace: string;
   deploymentName: string;
   /** Deprecated. Use `build_id`. */
-  version?: string;
+  version?: string | undefined;
   /** The build id of the Version that you want to ramp traffic to. Pass an empty value to set the Ramping Version to nil. A nil Ramping Version represents all the unversioned workers (those with `UNVERSIONED` (or unspecified) `WorkerVersioningMode`.) */
-  buildId?: string;
+  buildId?: string | undefined;
   /** Ramp percentage to set. Valid range: [0,100]. */
-  percentage?: number;
+  percentage?: number | undefined;
   /** Optional. This can be the value of conflict_token from a Describe, or another Worker Deployment API. Passing a non-nil conflict token will cause this request to fail if the Deployment's configuration has been modified between the API call that generated the token and this one. */
-  conflictToken?: string;
+  conflictToken?: string | undefined;
   /** Optional. The identity of the client who initiated this request. */
-  identity?: string;
+  identity?: string | undefined;
   /** Optional. By default this request would be rejected if not all the expected Task Queues are being polled by the new Version, to protect against accidental removal of Task Queues, or worker health issues. Pass `true` here to bypass this protection. The set of expected Task Queues equals to all the Task Queues ever polled from the existing Current Version of the Deployment, with the following exclusions: - Task Queues that are not used anymore (inferred by having empty backlog and a task add_rate of 0.) - Task Queues that are moved to another Worker Deployment (inferred by the Task Queue having a different Current Version than the Current Version of this deployment.) WARNING: Do not set this flag unless you are sure that the missing task queue poller are not needed. If the request is unexpectedly rejected due to missing pollers, then that means the pollers have not reached to the server yet. Only set this if you expect those pollers to never arrive. Note: this check only happens when the ramping version is about to change, not every time that the percentage changes. Also note that the check is against the deployment's Current Version, not the previous Ramping Version. */
-  ignoreMissingTaskQueues?: boolean;
+  ignoreMissingTaskQueues?: boolean | undefined;
   /** Optional. By default this request will be rejected if no pollers have been seen for the proposed Current Version, in order to protect users from routing tasks to pollers that do not exist, leading to possible timeouts. Pass `true` here to bypass this protection. */
-  allowNoPollers?: boolean;
+  allowNoPollers?: boolean | undefined;
 }
 export interface SetWorkerDeploymentRampingVersionResponse {
   /** This value is returned so that it can be optionally passed to APIs that write to the Worker Deployment state to ensure that the state did not change between this API call and a future write. */
-  conflictToken?: string;
+  conflictToken?: string | undefined;
   /** Deprecated. Use `previous_deployment_version`. */
-  previousVersion?: string;
+  previousVersion?: string | undefined;
   /** The version that was ramping before executing this operation. Deprecated in favor of idempotency of the API. Use `DescribeWorkerDeployment` to get the Ramping version info before calling this API. By passing the `conflict_token` got from the `DescribeWorkerDeployment` call to this API you can ensure there is no interfering changes between the two calls. */
-  previousDeploymentVersion?: WorkerDeploymentVersion;
+  previousDeploymentVersion?: WorkerDeploymentVersion | undefined;
   /** The ramping version percentage before executing this operation. Deprecated in favor of idempotency of the API. Use `DescribeWorkerDeployment` to get the Ramping version info before calling this API. By passing the `conflict_token` got from the `DescribeWorkerDeployment` call to this API you can ensure there is no interfering changes between the two calls. */
-  previousPercentage?: number;
+  previousPercentage?: number | undefined;
 }
 /** Defines whether to allow re-using the workflow id from a previously *closed* workflow. The default policy is WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE. See `workflow_id_reuse_policy` for handling a workflow id duplication with a *running* workflow. */
 export type SignalWithStartWorkflowExecutionRequestWorkflowIdReusePolicy =
@@ -4962,60 +5044,62 @@ export interface SignalWithStartWorkflowExecutionRequest {
   workflowId: string;
   /** The workflow author-defined name of the signal to send to the workflow */
   signalName: string;
-  workflowType?: WorkflowType;
+  workflowType?: WorkflowType | undefined;
   /** The task queue to start this workflow on, if it will be started */
-  taskQueue?: TaskQueue;
+  taskQueue?: TaskQueue | undefined;
   /** Serialized arguments to the workflow. These are passed as arguments to the workflow function. */
-  input?: Payloads;
+  input?: Payloads | undefined;
   /** Total workflow execution timeout including retries and continue as new */
-  workflowExecutionTimeout?: string;
+  workflowExecutionTimeout?: string | undefined;
   /** Timeout of a single workflow run */
-  workflowRunTimeout?: string;
+  workflowRunTimeout?: string | undefined;
   /** Timeout of a single workflow task */
-  workflowTaskTimeout?: string;
+  workflowTaskTimeout?: string | undefined;
   /** The identity of the worker/client */
-  identity?: string;
+  identity?: string | undefined;
   /** Used to de-dupe signal w/ start requests */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Defines whether to allow re-using the workflow id from a previously *closed* workflow. The default policy is WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE. See `workflow_id_reuse_policy` for handling a workflow id duplication with a *running* workflow. */
   workflowIdReusePolicy?:
     | SignalWithStartWorkflowExecutionRequestWorkflowIdReusePolicy
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Defines how to resolve a workflow id conflict with a *running* workflow. The default policy is WORKFLOW_ID_CONFLICT_POLICY_USE_EXISTING. Note that WORKFLOW_ID_CONFLICT_POLICY_FAIL is an invalid option. See `workflow_id_reuse_policy` for handling a workflow id duplication with a *closed* workflow. */
   workflowIdConflictPolicy?:
     | SignalWithStartWorkflowExecutionRequestWorkflowIdConflictPolicy
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Serialized value(s) to provide with the signal */
-  signalInput?: Payloads;
+  signalInput?: Payloads | undefined;
   /** Deprecated. */
-  control?: string;
+  control?: string | undefined;
   /** Retry policy for the workflow */
-  retryPolicy?: RetryPolicy;
+  retryPolicy?: RetryPolicy | undefined;
   /** See https://docs.temporal.io/docs/content/what-is-a-temporal-cron-job/ */
-  cronSchedule?: string;
-  memo?: Memo;
-  searchAttributes?: SearchAttributes;
-  header?: Header;
+  cronSchedule?: string | undefined;
+  memo?: Memo | undefined;
+  searchAttributes?: SearchAttributes | undefined;
+  header?: Header | undefined;
   /** Time to wait before dispatching the first workflow task. Cannot be used with `cron_schedule`. Note that the signal will be delivered with the first workflow task. If the workflow gets another SignalWithStartWorkflow before the delay a workflow task will be dispatched immediately and the rest of the delay period will be ignored, even if that request also had a delay. Signal via SignalWorkflowExecution will not unblock the workflow. */
-  workflowStartDelay?: string;
+  workflowStartDelay?: string | undefined;
   /** Metadata on the workflow if it is started. This is carried over to the WorkflowExecutionInfo for use by user interfaces to display the fixed as-of-start summary and details of the workflow. */
-  userMetadata?: UserMetadata;
+  userMetadata?: UserMetadata | undefined;
   /** Links to be associated with the WorkflowExecutionStarted and WorkflowExecutionSignaled events. */
-  links?: SignalWithStartWorkflowExecutionRequestLinksList;
+  links?: SignalWithStartWorkflowExecutionRequestLinksList | undefined;
   /** If set, takes precedence over the Versioning Behavior sent by the SDK on Workflow Task completion. To unset the override after the workflow is running, use UpdateWorkflowExecutionOptions. */
-  versioningOverride?: VersioningOverride;
+  versioningOverride?: VersioningOverride | undefined;
   /** Priority metadata */
-  priority?: Priority;
+  priority?: Priority | undefined;
   /** Time-skipping configuration. If not set, time skipping is disabled. */
-  timeSkippingConfig?: TimeSkippingConfig;
+  timeSkippingConfig?: TimeSkippingConfig | undefined;
 }
 export interface SignalWithStartWorkflowExecutionResponse {
   /** The run id of the workflow that was started - or just signaled, if it was already running. */
-  runId?: string;
+  runId?: string | undefined;
   /** If true, a new workflow was started. */
-  started?: boolean;
+  started?: boolean | undefined;
   /** Link to be associated with the WorkflowExecutionSignaled event. Added on the response to propagate the backlink. Available from Temporal server 1.31 and up. */
-  signalLink?: Link;
+  signalLink?: Link | undefined;
 }
 /** Links to be associated with the WorkflowExecutionSignaled event. */
 export type SignalWorkflowExecutionRequestLinksList = Array<Link>;
@@ -5024,23 +5108,23 @@ export interface SignalWorkflowExecutionRequest {
   workflow_execution_workflow_id: string;
   /** The workflow author-defined name of the signal to send to the workflow */
   signalName: string;
-  workflowExecution?: WorkflowExecution;
+  workflowExecution?: WorkflowExecution | undefined;
   /** Serialized value(s) to provide with the signal */
-  input?: Payloads;
+  input?: Payloads | undefined;
   /** The identity of the worker/client */
-  identity?: string;
+  identity?: string | undefined;
   /** Used to de-dupe sent signals */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Deprecated. */
-  control?: string;
+  control?: string | undefined;
   /** Headers that are passed with the signal to the processing workflow. These can include things like auth or tracing tokens. */
-  header?: Header;
+  header?: Header | undefined;
   /** Links to be associated with the WorkflowExecutionSignaled event. */
-  links?: SignalWorkflowExecutionRequestLinksList;
+  links?: SignalWorkflowExecutionRequestLinksList | undefined;
 }
 export interface SignalWorkflowExecutionResponse {
   /** Link to be associated with the WorkflowExecutionSignaled event. Added on the response to propagate the backlink. Available from Temporal server 1.31 and up. */
-  link?: Link;
+  link?: Link | undefined;
 }
 /** Defines whether to allow re-using the activity id from a previously *closed* activity. The default policy is ACTIVITY_ID_REUSE_POLICY_ALLOW_DUPLICATE. */
 export type StartActivityExecutionRequestIdReusePolicy =
@@ -5060,89 +5144,89 @@ export type StartActivityExecutionRequestLinksList = Array<Link>;
 /** When starting an execution with a conflict policy that uses an existing execution and there is already an existing running execution, OnConflictOptions defines actions to be taken on the existing running execution. */
 export interface OnConflictOptions {
   /** Attaches the request ID to the running execution. */
-  attachRequestId?: boolean;
+  attachRequestId?: boolean | undefined;
   /** Attaches the completion callbacks to the running execution. */
-  attachCompletionCallbacks?: boolean;
+  attachCompletionCallbacks?: boolean | undefined;
   /** Attaches the links to the running execution. */
-  attachLinks?: boolean;
+  attachLinks?: boolean | undefined;
 }
 export interface StartActivityExecutionRequest {
   namespace: string;
   /** Identifier for this activity. Required. This identifier should be meaningful in the user's own system. It must be unique among activities in the same namespace, subject to the rules imposed by id_reuse_policy and id_conflict_policy. */
   activityId: string;
   /** The identity of the client who initiated this request */
-  identity?: string;
+  identity?: string | undefined;
   /** A unique identifier for this start request. Typically UUIDv4. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** The type of the activity, a string that corresponds to a registered activity on a worker. */
-  activityType?: WorkflowType;
+  activityType?: WorkflowType | undefined;
   /** Task queue to schedule this activity on. */
-  taskQueue?: TaskQueue;
+  taskQueue?: TaskQueue | undefined;
   /** Indicates how long the caller is willing to wait for an activity completion. Limits how long retries will be attempted. Either this or `start_to_close_timeout` must be specified. (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: "to" is used to indicate interval. --) */
-  scheduleToCloseTimeout?: string;
+  scheduleToCloseTimeout?: string | undefined;
   /** Limits time an activity task can stay in a task queue before a worker picks it up. This timeout is always non retryable, as all a retry would achieve is to put it back into the same queue. Defaults to `schedule_to_close_timeout` if not specified. (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: "to" is used to indicate interval. --) */
-  scheduleToStartTimeout?: string;
+  scheduleToStartTimeout?: string | undefined;
   /** Maximum time an activity is allowed to execute after being picked up by a worker. This timeout is always retryable. Either this or `schedule_to_close_timeout` must be specified. (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: "to" is used to indicate interval. --) */
-  startToCloseTimeout?: string;
+  startToCloseTimeout?: string | undefined;
   /** Maximum permitted time between successful worker heartbeats. */
-  heartbeatTimeout?: string;
+  heartbeatTimeout?: string | undefined;
   /** The retry policy for the activity. Will never exceed `schedule_to_close_timeout`. */
-  retryPolicy?: RetryPolicy;
+  retryPolicy?: RetryPolicy | undefined;
   /** Serialized arguments to the activity. These are passed as arguments to the activity function. */
-  input?: Payloads;
+  input?: Payloads | undefined;
   /** Defines whether to allow re-using the activity id from a previously *closed* activity. The default policy is ACTIVITY_ID_REUSE_POLICY_ALLOW_DUPLICATE. */
-  idReusePolicy?: StartActivityExecutionRequestIdReusePolicy | (string & {});
+  idReusePolicy?: StartActivityExecutionRequestIdReusePolicy | (string & {}) | undefined;
   /** Defines how to resolve an activity id conflict with a *running* activity. The default policy is ACTIVITY_ID_CONFLICT_POLICY_FAIL. */
-  idConflictPolicy?: StartActivityExecutionRequestIdConflictPolicy | (string & {});
+  idConflictPolicy?: StartActivityExecutionRequestIdConflictPolicy | (string & {}) | undefined;
   /** Search attributes for indexing. */
-  searchAttributes?: SearchAttributes;
+  searchAttributes?: SearchAttributes | undefined;
   /** Header for context propagation and tracing purposes. */
-  header?: Header;
+  header?: Header | undefined;
   /** Metadata for use by user interfaces to display the fixed as-of-start summary and details of the activity. */
-  userMetadata?: UserMetadata;
+  userMetadata?: UserMetadata | undefined;
   /** Priority metadata. */
-  priority?: Priority;
+  priority?: Priority | undefined;
   /** Callbacks to be called by the server when this activity reaches a terminal state. Callback addresses must be whitelisted in the server's dynamic configuration. */
-  completionCallbacks?: StartActivityExecutionRequestCompletionCallbacksList;
+  completionCallbacks?: StartActivityExecutionRequestCompletionCallbacksList | undefined;
   /** Links to be associated with the activity. Callbacks may also have associated links; links already included with a callback should not be duplicated here. */
-  links?: StartActivityExecutionRequestLinksList;
+  links?: StartActivityExecutionRequestLinksList | undefined;
   /** Options for handling conflicts when using ACTIVITY_ID_CONFLICT_POLICY_USE_EXISTING. */
-  onConflictOptions?: OnConflictOptions;
+  onConflictOptions?: OnConflictOptions | undefined;
   /** Time to wait before dispatching the first activity task. This delay is not applied to retry attempts. */
-  startDelay?: string;
+  startDelay?: string | undefined;
 }
 export interface StartActivityExecutionResponse {
   /** The run ID of the activity that was started - or used (via ACTIVITY_ID_CONFLICT_POLICY_USE_EXISTING). */
-  runId?: string;
+  runId?: string | undefined;
   /** If true, a new activity was started. */
-  started?: boolean;
+  started?: boolean | undefined;
   /** Link to the started activity. */
-  link?: Link;
+  link?: Link | undefined;
 }
 /** Executions to apply the batch operation This field and `visibility_query` are mutually exclusive */
 export type StartBatchOperationRequestExecutionsList = Array<WorkflowExecution>;
 /** BatchOperationTermination sends terminate requests to batch workflows. Keep the parameter in sync with temporal.api.workflowservice.v1.TerminateWorkflowExecutionRequest. Ignore first_execution_run_id because this is used for single workflow operation. */
 export interface BatchOperationTermination {
   /** Serialized value(s) to provide to the termination event */
-  details?: Payloads;
+  details?: Payloads | undefined;
   /** The identity of the worker/client */
-  identity?: string;
+  identity?: string | undefined;
 }
 /** BatchOperationSignal sends signals to batch workflows. Keep the parameter in sync with temporal.api.workflowservice.v1.SignalWorkflowExecutionRequest. */
 export interface BatchOperationSignal {
   /** The workflow author-defined name of the signal to send to the workflow */
-  signal?: string;
+  signal?: string | undefined;
   /** Serialized value(s) to provide with the signal */
-  input?: Payloads;
+  input?: Payloads | undefined;
   /** Headers that are passed with the signal to the processing workflow. These can include things like auth or tracing tokens. */
-  header?: Header;
+  header?: Header | undefined;
   /** The identity of the worker/client */
-  identity?: string;
+  identity?: string | undefined;
 }
 /** BatchOperationCancellation sends cancel requests to batch workflows. Keep the parameter in sync with temporal.api.workflowservice.v1.RequestCancelWorkflowExecutionRequest. Ignore first_execution_run_id because this is used for single workflow operation. */
 export interface BatchOperationCancellation {
   /** The identity of the worker/client */
-  identity?: string;
+  identity?: string | undefined;
 }
 /** BatchOperationDeletion sends deletion requests to batch workflows. Keep the parameter in sync with temporal.api.workflowservice.v1.DeleteWorkflowExecutionRequest. */
 export type BatchOperationDeletion = BatchOperationCancellation;
@@ -5165,15 +5249,15 @@ export type ResetOptionsResetReapplyExcludeTypesList = Array<
 /** Describes where and how to reset a workflow, used for batch reset currently and may be used for single-workflow reset later. */
 export interface ResetOptions {
   /** The id of a specific `WORKFLOW_TASK_COMPLETED`,`WORKFLOW_TASK_TIMED_OUT`, `WORKFLOW_TASK_FAILED`, or `WORKFLOW_TASK_STARTED` event to reset to. Note that this option doesn't make sense when used as part of a batch request. */
-  workflowTaskId?: string;
+  workflowTaskId?: string | undefined;
   /** Resets to the first workflow task processed by this build id. If the workflow was not processed by the build id, or the workflow task can't be determined, no reset will be performed. Note that by default, this reset is allowed to be to a prior run in a chain of continue-as-new. */
-  buildId?: string;
+  buildId?: string | undefined;
   /** Deprecated. Use `options`. Default: RESET_REAPPLY_TYPE_SIGNAL */
-  resetReapplyType?: ResetOptionsResetReapplyType | (string & {});
+  resetReapplyType?: ResetOptionsResetReapplyType | (string & {}) | undefined;
   /** If true, limit the reset to only within the current run. (Applies to build_id targets and possibly others in the future.) */
-  currentRunOnly?: boolean;
+  currentRunOnly?: boolean | undefined;
   /** Event types not to be reapplied */
-  resetReapplyExcludeTypes?: ResetOptionsResetReapplyExcludeTypesList;
+  resetReapplyExcludeTypes?: ResetOptionsResetReapplyExcludeTypesList | undefined;
 }
 /** Deprecated. Use `options`. */
 export type BatchOperationResetResetType =
@@ -5191,67 +5275,67 @@ export type BatchOperationResetPostResetOperationsList = Array<PostResetOperatio
 /** BatchOperationReset sends reset requests to batch workflows. Keep the parameter in sync with temporal.api.workflowservice.v1.ResetWorkflowExecutionRequest. */
 export interface BatchOperationReset {
   /** The identity of the worker/client. */
-  identity?: string;
+  identity?: string | undefined;
   /** Describes what to reset to and how. If set, `reset_type` and `reset_reapply_type` are ignored. */
-  options?: ResetOptions;
+  options?: ResetOptions | undefined;
   /** Deprecated. Use `options`. */
-  resetType?: BatchOperationResetResetType | (string & {});
+  resetType?: BatchOperationResetResetType | (string & {}) | undefined;
   /** Deprecated. Use `options`. */
-  resetReapplyType?: BatchOperationResetResetReapplyType | (string & {});
+  resetReapplyType?: BatchOperationResetResetReapplyType | (string & {}) | undefined;
   /** Operations to perform after the workflow has been reset. These operations will be applied to the *new* run of the workflow execution in the order they are provided. All operations are applied to the workflow before the first new workflow task is generated */
-  postResetOperations?: BatchOperationResetPostResetOperationsList;
+  postResetOperations?: BatchOperationResetPostResetOperationsList | undefined;
 }
 /** BatchOperationUpdateWorkflowExecutionOptions sends UpdateWorkflowExecutionOptions requests to batch workflows. Keep the parameters in sync with temporal.api.workflowservice.v1.UpdateWorkflowExecutionOptionsRequest. */
 export interface BatchOperationUpdateWorkflowExecutionOptions {
   /** The identity of the worker/client. */
-  identity?: string;
+  identity?: string | undefined;
   /** Update Workflow options that were originally specified via StartWorkflowExecution. Partial updates are accepted and controlled by update_mask. */
-  workflowExecutionOptions?: WorkflowExecutionOptions;
+  workflowExecutionOptions?: WorkflowExecutionOptions | undefined;
   /** Controls which fields from `workflow_execution_options` will be applied. To unset a field, set it to null and use the update mask to indicate that it should be mutated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
 }
 /** BatchOperationUnpauseActivities sends unpause requests to batch workflows. */
 export interface BatchOperationUnpauseActivities {
   /** The identity of the worker/client. */
-  identity?: string;
-  type?: string;
-  matchAll?: boolean;
+  identity?: string | undefined;
+  type?: string | undefined;
+  matchAll?: boolean | undefined;
   /** Setting this flag will also reset the number of attempts. */
-  resetAttempts?: boolean;
+  resetAttempts?: boolean | undefined;
   /** Setting this flag will also reset the heartbeat details. */
-  resetHeartbeat?: boolean;
+  resetHeartbeat?: boolean | undefined;
   /** If set, the activity will start at a random time within the specified jitter duration, introducing variability to the start time. */
-  jitter?: string;
+  jitter?: string | undefined;
 }
 /** BatchOperationResetActivities sends activity reset requests in a batch. NOTE: keep in sync with temporal.api.workflowservice.v1.ResetActivityRequest */
 export interface BatchOperationResetActivities {
   /** The identity of the worker/client. */
-  identity?: string;
-  type?: string;
-  matchAll?: boolean;
+  identity?: string | undefined;
+  type?: string | undefined;
+  matchAll?: boolean | undefined;
   /** Setting this flag will also reset the number of attempts. */
-  resetAttempts?: boolean;
+  resetAttempts?: boolean | undefined;
   /** Setting this flag will also reset the heartbeat details. */
-  resetHeartbeat?: boolean;
+  resetHeartbeat?: boolean | undefined;
   /** If activity is paused, it will remain paused after reset */
-  keepPaused?: boolean;
+  keepPaused?: boolean | undefined;
   /** If set, the activity will start at a random time within the specified jitter duration, introducing variability to the start time. */
-  jitter?: string;
+  jitter?: string | undefined;
   /** If set, the activity options will be restored to the defaults. Default options are then options activity was created with. They are part of the first ActivityTaskScheduled event. */
-  restoreOriginalOptions?: boolean;
+  restoreOriginalOptions?: boolean | undefined;
 }
 /** BatchOperationUpdateActivityOptions sends an update-activity-options requests in a batch. NOTE: keep in sync with temporal.api.workflowservice.v1.UpdateActivityRequest */
 export interface BatchOperationUpdateActivityOptions {
   /** The identity of the worker/client. */
-  identity?: string;
-  type?: string;
-  matchAll?: boolean;
+  identity?: string | undefined;
+  type?: string | undefined;
+  matchAll?: boolean | undefined;
   /** Update Activity options. Partial updates are accepted and controlled by update_mask. */
-  activityOptions?: ActivityOptions;
+  activityOptions?: ActivityOptions | undefined;
   /** Controls which fields from `activity_options` will be applied */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** If set, the activity options will be restored to the default. Default options are then options activity was created with. They are part of the first ActivityTaskScheduled event. This flag cannot be combined with any other option; if you supply restore_original together with other options, the request will be rejected. */
-  restoreOriginal?: boolean;
+  restoreOriginal?: boolean | undefined;
 }
 export interface StartBatchOperationRequest {
   /** Namespace that contains the batch operation */
@@ -5259,22 +5343,22 @@ export interface StartBatchOperationRequest {
   /** Job ID defines the unique ID for the batch job */
   jobId: string;
   /** Visibility query defines the the group of workflow to apply the batch operation This field and `executions` are mutually exclusive */
-  visibilityQuery?: string;
+  visibilityQuery?: string | undefined;
   /** Reason to perform the batch operation */
-  reason?: string;
+  reason?: string | undefined;
   /** Executions to apply the batch operation This field and `visibility_query` are mutually exclusive */
-  executions?: StartBatchOperationRequestExecutionsList;
+  executions?: StartBatchOperationRequestExecutionsList | undefined;
   /** Limit for the number of operations processed per second within this batch. Its purpose is to reduce the stress on the system caused by batch operations, which helps to prevent system overload and minimize potential delays in executing ongoing tasks for user workers. Note that when no explicit limit is provided, the server will operate according to its limit defined by the dynamic configuration key `worker.batcherRPS`. This also applies if the value in this field exceeds the server's configured limit. */
-  maxOperationsPerSecond?: number;
-  terminationOperation?: BatchOperationTermination;
-  signalOperation?: BatchOperationSignal;
-  cancellationOperation?: BatchOperationCancellation;
-  deletionOperation?: BatchOperationCancellation;
-  resetOperation?: BatchOperationReset;
-  updateWorkflowOptionsOperation?: BatchOperationUpdateWorkflowExecutionOptions;
-  unpauseActivitiesOperation?: BatchOperationUnpauseActivities;
-  resetActivitiesOperation?: BatchOperationResetActivities;
-  updateActivityOptionsOperation?: BatchOperationUpdateActivityOptions;
+  maxOperationsPerSecond?: number | undefined;
+  terminationOperation?: BatchOperationTermination | undefined;
+  signalOperation?: BatchOperationSignal | undefined;
+  cancellationOperation?: BatchOperationCancellation | undefined;
+  deletionOperation?: BatchOperationCancellation | undefined;
+  resetOperation?: BatchOperationReset | undefined;
+  updateWorkflowOptionsOperation?: BatchOperationUpdateWorkflowExecutionOptions | undefined;
+  unpauseActivitiesOperation?: BatchOperationUnpauseActivities | undefined;
+  resetActivitiesOperation?: BatchOperationResetActivities | undefined;
+  updateActivityOptionsOperation?: BatchOperationUpdateActivityOptions | undefined;
 }
 export type StartBatchOperationResponse2 = unknown;
 /** Defines whether to allow re-using the operation id from a previously *closed* operation. The default policy is NEXUS_OPERATION_ID_REUSE_POLICY_ALLOW_DUPLICATE. */
@@ -5297,39 +5381,42 @@ export interface StartNexusOperationExecutionRequest {
   /** Identifier for this operation. This is a caller-side ID, distinct from any internal operation identifiers generated by the handler. Must be unique among operations in the same namespace, subject to the rules imposed by id_reuse_policy and id_conflict_policy. */
   operationId: string;
   /** The identity of the client who initiated this request. */
-  identity?: string;
+  identity?: string | undefined;
   /** A unique identifier for this caller-side start request. Typically UUIDv4. StartOperation requests sent to the handler will use a server-generated request ID. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Endpoint name, resolved to a URL via the cluster's endpoint registry. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** Service name. */
-  service?: string;
+  service?: string | undefined;
   /** Operation name. */
-  operation?: string;
+  operation?: string | undefined;
   /** Schedule-to-close timeout for this operation. Indicates how long the caller is willing to wait for operation completion. Calls are retried internally by the server. (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: "to" is used to indicate interval. --) */
-  scheduleToCloseTimeout?: string;
+  scheduleToCloseTimeout?: string | undefined;
   /** Schedule-to-start timeout for this operation. Indicates how long the caller is willing to wait for the operation to be started (or completed if synchronous) by the handler. If not set or zero, no schedule-to-start timeout is enforced. (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: "to" is used to indicate interval. --) */
-  scheduleToStartTimeout?: string;
+  scheduleToStartTimeout?: string | undefined;
   /** Start-to-close timeout for this operation. Indicates how long the caller is willing to wait for an asynchronous operation to complete after it has been started. Synchronous operations ignore this timeout. If not set or zero, no start-to-close timeout is enforced. (-- api-linter: core::0140::prepositions=disabled aip.dev/not-precedent: "to" is used to indicate interval. --) */
-  startToCloseTimeout?: string;
+  startToCloseTimeout?: string | undefined;
   /** Serialized input to the operation. Passed as the request payload. */
-  input?: unknown;
+  input?: unknown | undefined;
   /** Defines whether to allow re-using the operation id from a previously *closed* operation. The default policy is NEXUS_OPERATION_ID_REUSE_POLICY_ALLOW_DUPLICATE. */
-  idReusePolicy?: StartNexusOperationExecutionRequestIdReusePolicy | (string & {});
+  idReusePolicy?: StartNexusOperationExecutionRequestIdReusePolicy | (string & {}) | undefined;
   /** Defines how to resolve an operation id conflict with a *running* operation. The default policy is NEXUS_OPERATION_ID_CONFLICT_POLICY_FAIL. */
-  idConflictPolicy?: StartNexusOperationExecutionRequestIdConflictPolicy | (string & {});
+  idConflictPolicy?:
+    | StartNexusOperationExecutionRequestIdConflictPolicy
+    | (string & {})
+    | undefined;
   /** Search attributes for indexing. */
-  searchAttributes?: SearchAttributes;
+  searchAttributes?: SearchAttributes | undefined;
   /** Header to attach to the Nexus request. Users are responsible for encrypting sensitive data in this header as it is stored in workflow history and transmitted to external services as-is. This is useful for propagating tracing information. Note these headers are not the same as Temporal headers on internal activities and child workflows, these are transmitted to Nexus operations that may be external and are not traditional payloads. */
-  nexusHeader?: StartNexusOperationExecutionRequestNexusHeaderMap;
+  nexusHeader?: StartNexusOperationExecutionRequestNexusHeaderMap | undefined;
   /** Metadata for use by user interfaces to display the fixed as-of-start summary and details of the operation. */
-  userMetadata?: UserMetadata;
+  userMetadata?: UserMetadata | undefined;
 }
 export interface StartNexusOperationExecutionResponse {
   /** The run ID of the operation that was started - or used (via NEXUS_OPERATION_ID_CONFLICT_POLICY_USE_EXISTING). */
-  runId?: string;
+  runId?: string | undefined;
   /** If true, a new operation was started. */
-  started?: boolean;
+  started?: boolean | undefined;
 }
 /** Defines whether to allow re-using the workflow id from a previously *closed* workflow. The default policy is WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE. See `workflow_id_conflict_policy` for handling a workflow id duplication with a *running* workflow. */
 export type StartWorkflowExecutionRequestWorkflowIdReusePolicy =
@@ -5351,54 +5438,60 @@ export type StartWorkflowExecutionRequestLinksList = Array<Link>;
 export interface StartWorkflowExecutionRequest {
   namespace: string;
   workflowId: string;
-  workflowType?: WorkflowType;
-  taskQueue?: TaskQueue;
+  workflowType?: WorkflowType | undefined;
+  taskQueue?: TaskQueue | undefined;
   /** Serialized arguments to the workflow. These are passed as arguments to the workflow function. */
-  input?: Payloads;
+  input?: Payloads | undefined;
   /** Total workflow execution timeout including retries and continue as new. */
-  workflowExecutionTimeout?: string;
+  workflowExecutionTimeout?: string | undefined;
   /** Timeout of a single workflow run. */
-  workflowRunTimeout?: string;
+  workflowRunTimeout?: string | undefined;
   /** Timeout of a single workflow task. */
-  workflowTaskTimeout?: string;
+  workflowTaskTimeout?: string | undefined;
   /** The identity of the client who initiated this request */
-  identity?: string;
+  identity?: string | undefined;
   /** A unique identifier for this start request. Typically UUIDv4. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Defines whether to allow re-using the workflow id from a previously *closed* workflow. The default policy is WORKFLOW_ID_REUSE_POLICY_ALLOW_DUPLICATE. See `workflow_id_conflict_policy` for handling a workflow id duplication with a *running* workflow. */
-  workflowIdReusePolicy?: StartWorkflowExecutionRequestWorkflowIdReusePolicy | (string & {});
+  workflowIdReusePolicy?:
+    | StartWorkflowExecutionRequestWorkflowIdReusePolicy
+    | (string & {})
+    | undefined;
   /** Defines how to resolve a workflow id conflict with a *running* workflow. The default policy is WORKFLOW_ID_CONFLICT_POLICY_FAIL. See `workflow_id_reuse_policy` for handling a workflow id duplication with a *closed* workflow. */
-  workflowIdConflictPolicy?: StartWorkflowExecutionRequestWorkflowIdConflictPolicy | (string & {});
+  workflowIdConflictPolicy?:
+    | StartWorkflowExecutionRequestWorkflowIdConflictPolicy
+    | (string & {})
+    | undefined;
   /** The retry policy for the workflow. Will never exceed `workflow_execution_timeout`. */
-  retryPolicy?: RetryPolicy;
+  retryPolicy?: RetryPolicy | undefined;
   /** See https://docs.temporal.io/docs/content/what-is-a-temporal-cron-job/ */
-  cronSchedule?: string;
-  memo?: Memo;
-  searchAttributes?: SearchAttributes;
-  header?: Header;
+  cronSchedule?: string | undefined;
+  memo?: Memo | undefined;
+  searchAttributes?: SearchAttributes | undefined;
+  header?: Header | undefined;
   /** Request to get the first workflow task inline in the response bypassing matching service and worker polling. If set to `true` the caller is expected to have a worker available and capable of processing the task. The returned task will be marked as started and is expected to be completed by the specified `workflow_task_timeout`. */
-  requestEagerExecution?: boolean;
+  requestEagerExecution?: boolean | undefined;
   /** These values will be available as ContinuedFailure and LastCompletionResult in the WorkflowExecutionStarted event and through SDKs. The are currently only used by the server itself (for the schedules feature) and are not intended to be exposed in StartWorkflowExecution. */
-  continuedFailure?: Failure;
-  lastCompletionResult?: Payloads;
+  continuedFailure?: Failure | undefined;
+  lastCompletionResult?: Payloads | undefined;
   /** Time to wait before dispatching the first workflow task. Cannot be used with `cron_schedule`. If the workflow gets a signal before the delay, a workflow task will be dispatched and the rest of the delay will be ignored. */
-  workflowStartDelay?: string;
+  workflowStartDelay?: string | undefined;
   /** Callbacks to be called by the server when this workflow reaches a terminal state. If the workflow continues-as-new, these callbacks will be carried over to the new execution. Callback addresses must be whitelisted in the server's dynamic configuration. */
-  completionCallbacks?: StartWorkflowExecutionRequestCompletionCallbacksList;
+  completionCallbacks?: StartWorkflowExecutionRequestCompletionCallbacksList | undefined;
   /** Metadata on the workflow if it is started. This is carried over to the WorkflowExecutionInfo for use by user interfaces to display the fixed as-of-start summary and details of the workflow. */
-  userMetadata?: UserMetadata;
+  userMetadata?: UserMetadata | undefined;
   /** Links to be associated with the workflow. */
-  links?: StartWorkflowExecutionRequestLinksList;
+  links?: StartWorkflowExecutionRequestLinksList | undefined;
   /** If set, takes precedence over the Versioning Behavior sent by the SDK on Workflow Task completion. To unset the override after the workflow is running, use UpdateWorkflowExecutionOptions. */
-  versioningOverride?: VersioningOverride;
+  versioningOverride?: VersioningOverride | undefined;
   /** Defines actions to be done to the existing running workflow when the conflict policy WORKFLOW_ID_CONFLICT_POLICY_USE_EXISTING is used. If not set (ie., nil value) or set to a empty object (ie., all options with default value), it won't do anything to the existing running workflow. If set, it will add a history event to the running workflow. */
-  onConflictOptions?: OnConflictOptions;
+  onConflictOptions?: OnConflictOptions | undefined;
   /** Priority metadata */
-  priority?: Priority;
+  priority?: Priority | undefined;
   /** Deployment Options of the worker who will process the eager task. Passed when `request_eager_execution=true`. */
-  eagerWorkerDeploymentOptions?: WorkerDeploymentOptions;
+  eagerWorkerDeploymentOptions?: WorkerDeploymentOptions | undefined;
   /** Time-skipping configuration. If not set, time skipping is disabled. */
-  timeSkippingConfig?: TimeSkippingConfig;
+  timeSkippingConfig?: TimeSkippingConfig | undefined;
 }
 /** Current execution status of the workflow. Typically remains WORKFLOW_EXECUTION_STATUS_RUNNING unless a de-dupe occurs or in specific scenarios handled within the ExecuteMultiOperation (refer to its docs). */
 export type StartWorkflowExecutionResponseStatus =
@@ -5416,80 +5509,80 @@ export type PollWorkflowTaskQueueResponseQueriesMap = { [key: string]: WorkflowQ
 /** Contains an arbitrary serialized message along with a @type that describes the type of the serialized message. */
 export interface GoogleProtobufAny {
   /** The type of the serialized message. */
-  _type?: string;
+  _type?: string | undefined;
   [key: string]: unknown;
 }
 /** (-- api-linter: core::0146::any=disabled aip.dev/not-precedent: We want runtime extensibility for the body field --) */
 export interface Message {
   /** An ID for this specific message. */
-  id?: string;
+  id?: string | undefined;
   /** Identifies the specific instance of a protocol to which this message belongs. */
-  protocolInstanceId?: string;
-  eventId?: string;
-  commandIndex?: string;
+  protocolInstanceId?: string | undefined;
+  eventId?: string | undefined;
+  commandIndex?: string | undefined;
   /** The opaque data carried by this message. The protocol type can be extracted from the package name of the message carried inside the Any. */
-  body?: GoogleProtobufAny;
+  body?: GoogleProtobufAny | undefined;
 }
 /** Protocol messages piggybacking on a WFT as a transport */
 export type PollWorkflowTaskQueueResponseMessagesList = Array<Message>;
 /** Attached to task responses to give hints to the SDK about how it may adjust its number of pollers. */
 export interface PollerScalingDecision {
   /** How many poll requests to suggest should be added or removed, if any. As of now, server only scales up or down by 1. However, SDKs should allow for other values (while staying within defined min/max). The SDK is free to ignore this suggestion, EX: making more polls would not make sense because all slots are already occupied. */
-  pollRequestDeltaSuggestion?: number;
+  pollRequestDeltaSuggestion?: number | undefined;
 }
 export interface PollerGroupInfo {
-  id?: string;
-  weight?: number;
+  id?: string | undefined;
+  weight?: number | undefined;
 }
 /** The weighted list of poller groups IDs that client should use for future polls to this task queue. Client is expected to: 1. Maintain minimum number of pollers no less than the number of groups. 2. Try to assign the next poll to a group without any pending polls, 3. If every group has some pending polls, assign the next poll to a group randomly according to the weights. */
 export type PollWorkflowTaskQueueResponsePollerGroupInfosList = Array<PollerGroupInfo>;
 export interface PollWorkflowTaskQueueResponse {
   /** A unique identifier for this task */
-  taskToken?: string;
-  workflowExecution?: WorkflowExecution;
-  workflowType?: WorkflowType;
+  taskToken?: string | undefined;
+  workflowExecution?: WorkflowExecution | undefined;
+  workflowType?: WorkflowType | undefined;
   /** The last workflow task started event which was processed by some worker for this execution. Will be zero if no task has ever started. */
-  previousStartedEventId?: string;
+  previousStartedEventId?: string | undefined;
   /** The id of the most recent workflow task started event, which will have been generated as a result of this poll request being served. Will be zero if the task does not contain any events which would advance history (no new WFT started). Currently this can happen for queries. */
-  startedEventId?: string;
+  startedEventId?: string | undefined;
   /** Starting at 1, the number of attempts to complete this task by any worker. */
-  attempt?: number;
+  attempt?: number | undefined;
   /** A hint that there are more tasks already present in this task queue partition. Can be used to prioritize draining a sticky queue. Specifically, the returned number is the number of tasks remaining in the in-memory buffer for this partition, which is currently capped at 1000. Because sticky queues only have one partition, this number is more useful when draining them. Normal queues, typically having more than one partition, will return a number representing only some portion of the overall backlog. Subsequent RPCs may not hit the same partition as this call. */
-  backlogCountHint?: string;
+  backlogCountHint?: string | undefined;
   /** The history for this workflow, which will either be complete or partial. Partial histories are sent to workers who have signaled that they are using a sticky queue when completing a workflow task. */
-  history?: History;
+  history?: History | undefined;
   /** Will be set if there are more history events than were included in this response. Such events should be fetched via `GetWorkflowExecutionHistory`. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Legacy queries appear in this field. The query must be responded to via `RespondQueryTaskCompleted`. If the workflow is already closed (queries are permitted on closed workflows) then the `history` field will be populated with the entire history. It may also be populated if this task originates on a non-sticky queue. */
-  query?: WorkflowQuery;
+  query?: WorkflowQuery | undefined;
   /** The task queue this task originated from, which will always be the original non-sticky name for the queue, even if this response came from polling a sticky queue. */
-  workflowExecutionTaskQueue?: TaskQueue;
+  workflowExecutionTaskQueue?: TaskQueue | undefined;
   /** When this task was scheduled by the server */
-  scheduledTime?: string;
+  scheduledTime?: string | undefined;
   /** When the current workflow task started event was generated, meaning the current attempt. */
-  startedTime?: string;
+  startedTime?: string | undefined;
   /** Queries that should be executed after applying the history in this task. Responses should be attached to `RespondWorkflowTaskCompletedRequest::query_results` */
-  queries?: PollWorkflowTaskQueueResponseQueriesMap;
+  queries?: PollWorkflowTaskQueueResponseQueriesMap | undefined;
   /** Protocol messages piggybacking on a WFT as a transport */
-  messages?: PollWorkflowTaskQueueResponseMessagesList;
+  messages?: PollWorkflowTaskQueueResponseMessagesList | undefined;
   /** Server-advised information the SDK may use to adjust its poller count. */
-  pollerScalingDecision?: PollerScalingDecision;
+  pollerScalingDecision?: PollerScalingDecision | undefined;
   /** This poller group ID identifies the owner of the workflow task awaiting for query response. Corresponding RespondQueryTaskCompleted should pass this value for proper routing. */
-  pollerGroupId?: string;
+  pollerGroupId?: string | undefined;
   /** The weighted list of poller groups IDs that client should use for future polls to this task queue. Client is expected to: 1. Maintain minimum number of pollers no less than the number of groups. 2. Try to assign the next poll to a group without any pending polls, 3. If every group has some pending polls, assign the next poll to a group randomly according to the weights. */
-  pollerGroupInfos?: PollWorkflowTaskQueueResponsePollerGroupInfosList;
+  pollerGroupInfos?: PollWorkflowTaskQueueResponsePollerGroupInfosList | undefined;
 }
 export interface StartWorkflowExecutionResponse {
   /** The run id of the workflow that was started - or used (via WorkflowIdConflictPolicy USE_EXISTING). */
-  runId?: string;
+  runId?: string | undefined;
   /** If true, a new workflow was started. */
-  started?: boolean;
+  started?: boolean | undefined;
   /** Current execution status of the workflow. Typically remains WORKFLOW_EXECUTION_STATUS_RUNNING unless a de-dupe occurs or in specific scenarios handled within the ExecuteMultiOperation (refer to its docs). */
-  status?: StartWorkflowExecutionResponseStatus;
+  status?: StartWorkflowExecutionResponseStatus | undefined;
   /** When `request_eager_execution` is set on the `StartWorkflowExecutionRequest`, the server - if supported - will return the first workflow task to be eagerly executed. The caller is expected to have a worker available to process the task. */
-  eagerWorkflowTask?: PollWorkflowTaskQueueResponse;
+  eagerWorkflowTask?: PollWorkflowTaskQueueResponse | undefined;
   /** Link to the workflow event. */
-  link?: Link;
+  link?: Link | undefined;
 }
 export interface StopBatchOperationRequest {
   /** Namespace that contains the batch operation */
@@ -5497,35 +5590,35 @@ export interface StopBatchOperationRequest {
   /** Batch job id */
   jobId: string;
   /** Reason to stop a batch operation */
-  reason?: string;
+  reason?: string | undefined;
   /** Identity of the operator */
-  identity?: string;
+  identity?: string | undefined;
 }
 export type StopBatchOperationResponse2 = unknown;
 export interface TerminateActivityExecutionRequest {
   namespace: string;
   activityId: string;
   /** Activity run ID, targets the latest run if run_id is empty. */
-  runId?: string;
+  runId?: string | undefined;
   /** The identity of the worker/client. */
-  identity?: string;
+  identity?: string | undefined;
   /** Used to de-dupe termination requests. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Reason for requesting the termination, recorded in in the activity's result failure outcome. */
-  reason?: string;
+  reason?: string | undefined;
 }
 export type TerminateActivityExecutionResponse2 = unknown;
 export interface TerminateNexusOperationExecutionRequest {
   namespace: string;
   operationId: string;
   /** Operation run ID, targets the latest run if empty. */
-  runId?: string;
+  runId?: string | undefined;
   /** The identity of the client who initiated this request. */
-  identity?: string;
+  identity?: string | undefined;
   /** Used to de-dupe termination requests. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Reason for requesting the termination, recorded in the operation's result failure outcome. */
-  reason?: string;
+  reason?: string | undefined;
 }
 export type TerminateNexusOperationExecutionResponse2 = unknown;
 /** Links to be associated with the WorkflowExecutionTerminated event. */
@@ -5533,52 +5626,52 @@ export type TerminateWorkflowExecutionRequestLinksList = Array<Link>;
 export interface TerminateWorkflowExecutionRequest {
   namespace: string;
   workflow_execution_workflow_id: string;
-  workflowExecution?: WorkflowExecution;
-  reason?: string;
+  workflowExecution?: WorkflowExecution | undefined;
+  reason?: string | undefined;
   /** Serialized additional information to attach to the termination event */
-  details?: Payloads;
+  details?: Payloads | undefined;
   /** The identity of the worker/client */
-  identity?: string;
+  identity?: string | undefined;
   /** If set, this call will error if the most recent (if no run id is set on `workflow_execution`), or specified (if it is) workflow execution is not part of the same execution chain as this id. */
-  firstExecutionRunId?: string;
+  firstExecutionRunId?: string | undefined;
   /** Links to be associated with the WorkflowExecutionTerminated event. */
-  links?: TerminateWorkflowExecutionRequestLinksList;
+  links?: TerminateWorkflowExecutionRequestLinksList | undefined;
 }
 export type TerminateWorkflowExecutionResponse2 = unknown;
 export interface TriggerWorkflowRuleRequest {
   namespace: string;
   execution_workflow_id: string;
   /** Execution info of the workflow which scheduled this activity */
-  execution?: WorkflowExecution;
-  id?: string;
+  execution?: WorkflowExecution | undefined;
+  id?: string | undefined;
   /** Note: Rule ID and expiration date are not used in the trigger request. */
-  spec?: WorkflowRuleSpec;
+  spec?: WorkflowRuleSpec | undefined;
   /** The identity of the client who initiated this request */
-  identity?: string;
+  identity?: string | undefined;
 }
 export interface TriggerWorkflowRuleResponse {
   /** True is the rule was applied, based on the rule conditions (predicate/visibility_query). */
-  applied?: boolean;
+  applied?: boolean | undefined;
 }
 export interface UnpauseActivityRequest {
   /** Namespace of the workflow which scheduled this activity. */
   namespace: string;
   /** Execution info of the workflow which scheduled this activity */
-  execution?: WorkflowExecution;
+  execution?: WorkflowExecution | undefined;
   /** The identity of the client who initiated this request. */
-  identity?: string;
+  identity?: string | undefined;
   /** Only the activity with this ID will be unpaused. */
-  id?: string;
+  id?: string | undefined;
   /** Unpause all running activities with of this type. */
-  type?: string;
+  type?: string | undefined;
   /** Unpause all running activities. */
-  unpauseAll?: boolean;
+  unpauseAll?: boolean | undefined;
   /** Providing this flag will also reset the number of attempts. */
-  resetAttempts?: boolean;
+  resetAttempts?: boolean | undefined;
   /** Providing this flag will also reset the heartbeat details. */
-  resetHeartbeat?: boolean;
+  resetHeartbeat?: boolean | undefined;
   /** If set, the activity will start at a random time within the specified jitter duration. */
-  jitter?: string;
+  jitter?: string | undefined;
 }
 export type UnpauseActivityResponse2 = unknown;
 export interface UnpauseActivityExecutionRequest {
@@ -5587,21 +5680,21 @@ export interface UnpauseActivityExecutionRequest {
   /** The ID of the activity to target. */
   activityId: string;
   /** If provided, targets a workflow activity for the given workflow ID. If empty, targets a standalone activity. */
-  workflowId?: string;
+  workflowId?: string | undefined;
   /** Run ID of the workflow or standalone activity. */
-  runId?: string;
+  runId?: string | undefined;
   /** The identity of the client who initiated this request. */
-  identity?: string;
+  identity?: string | undefined;
   /** Providing this flag will also reset the number of attempts. */
-  resetAttempts?: boolean;
+  resetAttempts?: boolean | undefined;
   /** Providing this flag will also reset the heartbeat details. */
-  resetHeartbeat?: boolean;
+  resetHeartbeat?: boolean | undefined;
   /** Reason to unpause the activity. */
-  reason?: string;
+  reason?: string | undefined;
   /** If set, the activity will start at a random time within the specified jitter duration. */
-  jitter?: string;
+  jitter?: string | undefined;
   /** Resource ID for routing. Contains "workflow:{workflow_id}" for workflow activities or "activity:{activity_id}" for standalone activities. */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 export type UnpauseActivityExecutionResponse2 = unknown;
 export interface UnpauseWorkflowExecutionRequest {
@@ -5610,13 +5703,13 @@ export interface UnpauseWorkflowExecutionRequest {
   /** ID of the workflow execution to be paused. Required. */
   workflowId: string;
   /** Run ID of the workflow execution to be paused. Optional. If not provided, the current run of the workflow will be paused. */
-  runId?: string;
+  runId?: string | undefined;
   /** The identity of the client who initiated this request. */
-  identity?: string;
+  identity?: string | undefined;
   /** Reason to unpause the workflow execution. */
-  reason?: string;
+  reason?: string | undefined;
   /** A unique identifier for this unpause request for idempotence. Typically UUIDv4. */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export type UnpauseWorkflowExecutionResponse2 = unknown;
 export interface UpdateActivityExecutionOptionsRequest {
@@ -5625,48 +5718,48 @@ export interface UpdateActivityExecutionOptionsRequest {
   /** The ID of the activity to target. */
   activityId: string;
   /** If provided, targets a workflow activity for the given workflow ID. If empty, targets a standalone activity. */
-  workflowId?: string;
+  workflowId?: string | undefined;
   /** Run ID of the workflow or standalone activity. */
-  runId?: string;
+  runId?: string | undefined;
   /** The identity of the client who initiated this request */
-  identity?: string;
+  identity?: string | undefined;
   /** Activity options. Partial updates are accepted and controlled by update_mask */
-  activityOptions?: ActivityOptions;
+  activityOptions?: ActivityOptions | undefined;
   /** Controls which fields from `activity_options` will be applied */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** If set, the activity options will be restored to the default. Default options are then options activity was created with. They are part of the first schedule event. This flag cannot be combined with any other option; if you supply restore_original together with other options, the request will be rejected. */
-  restoreOriginal?: boolean;
+  restoreOriginal?: boolean | undefined;
   /** Resource ID for routing. Contains "workflow:{workflow_id}" for workflow activities or "activity:{activity_id}" for standalone activities. */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 export interface UpdateActivityExecutionOptionsResponse {
   /** Activity options after an update */
-  activityOptions?: ActivityOptions;
+  activityOptions?: ActivityOptions | undefined;
 }
 export interface UpdateActivityOptionsRequest {
   /** Namespace of the workflow which scheduled this activity */
   namespace: string;
   /** Execution info of the workflow which scheduled this activity */
-  execution?: WorkflowExecution;
+  execution?: WorkflowExecution | undefined;
   /** The identity of the client who initiated this request */
-  identity?: string;
+  identity?: string | undefined;
   /** Activity options. Partial updates are accepted and controlled by update_mask */
-  activityOptions?: ActivityOptions;
+  activityOptions?: ActivityOptions | undefined;
   /** Controls which fields from `activity_options` will be applied */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Only activity with this ID will be updated. */
-  id?: string;
+  id?: string | undefined;
   /** Update all running activities of this type. */
-  type?: string;
+  type?: string | undefined;
   /** Update all running activities. */
-  matchAll?: boolean;
+  matchAll?: boolean | undefined;
   /** If set, the activity options will be restored to the default. Default options are then options activity was created with. They are part of the first schedule event. This flag cannot be combined with any other option; if you supply restore_original together with other options, the request will be rejected. */
-  restoreOriginal?: boolean;
+  restoreOriginal?: boolean | undefined;
 }
 /** Deprecated. Use `UpdateActivityExecutionOptionsResponse`. */
 export interface UpdateActivityOptionsResponse {
   /** Activity options after an update */
-  activityOptions?: ActivityOptions;
+  activityOptions?: ActivityOptions | undefined;
 }
 /** A key-value map for any customized purpose. If data already exists on the namespace, this will merge with the existing key values. */
 export type UpdateNamespaceInfoDataMap = { [key: string]: string | undefined };
@@ -5677,40 +5770,40 @@ export type UpdateNamespaceInfoState =
   | "NAMESPACE_STATE_DEPRECATED"
   | "NAMESPACE_STATE_DELETED";
 export interface UpdateNamespaceInfo {
-  description?: string;
-  ownerEmail?: string;
+  description?: string | undefined;
+  ownerEmail?: string | undefined;
   /** A key-value map for any customized purpose. If data already exists on the namespace, this will merge with the existing key values. */
-  data?: UpdateNamespaceInfoDataMap;
+  data?: UpdateNamespaceInfoDataMap | undefined;
   /** New namespace state, server will reject if transition is not allowed. Allowed transitions are: Registered -> [ Deleted | Deprecated | Handover ] Handover -> [ Registered ] Default is NAMESPACE_STATE_UNSPECIFIED which is do not change state. */
-  state?: UpdateNamespaceInfoState | (string & {});
+  state?: UpdateNamespaceInfoState | (string & {}) | undefined;
 }
 export interface UpdateNamespaceRequest {
   namespace: string;
-  updateInfo?: UpdateNamespaceInfo;
-  config?: NamespaceConfig;
-  replicationConfig?: NamespaceReplicationConfig;
-  securityToken?: string;
-  deleteBadBinary?: string;
+  updateInfo?: UpdateNamespaceInfo | undefined;
+  config?: NamespaceConfig | undefined;
+  replicationConfig?: NamespaceReplicationConfig | undefined;
+  securityToken?: string | undefined;
+  deleteBadBinary?: string | undefined;
   /** promote local namespace to global namespace. Ignored if namespace is already global namespace. */
-  promoteNamespace?: boolean;
+  promoteNamespace?: boolean | undefined;
 }
 export interface UpdateNamespaceResponse {
-  namespaceInfo?: NamespaceInfo;
-  config?: NamespaceConfig;
-  replicationConfig?: NamespaceReplicationConfig;
-  failoverVersion?: string;
-  isGlobalNamespace?: boolean;
+  namespaceInfo?: NamespaceInfo | undefined;
+  config?: NamespaceConfig | undefined;
+  replicationConfig?: NamespaceReplicationConfig | undefined;
+  failoverVersion?: string | undefined;
+  isGlobalNamespace?: boolean | undefined;
 }
 export interface UpdateNexusEndpointRequest {
   /** Server-generated unique endpoint ID. */
   id: string;
   /** Data version for this endpoint. Must match current version. */
-  version?: string;
-  spec?: EndpointSpec;
+  version?: string | undefined;
+  spec?: EndpointSpec | undefined;
 }
 export interface UpdateNexusEndpointResponse {
   /** Data post acceptance. Can be used to issue additional updates to this record. */
-  endpoint?: Endpoint;
+  endpoint?: Endpoint | undefined;
 }
 export interface UpdateScheduleRequest {
   /** The namespace of the schedule to update. */
@@ -5718,17 +5811,17 @@ export interface UpdateScheduleRequest {
   /** The id of the schedule to update. */
   scheduleId: string;
   /** The new schedule. The four main fields of the schedule (spec, action, policies, state) are replaced completely by the values in this message. */
-  schedule?: Schedule;
+  schedule?: Schedule | undefined;
   /** This can be the value of conflict_token from a DescribeScheduleResponse, which will cause this request to fail if the schedule has been modified between the Describe and this Update. If missing, the schedule will be updated unconditionally. */
-  conflictToken?: string;
+  conflictToken?: string | undefined;
   /** The identity of the client who initiated this request. */
-  identity?: string;
+  identity?: string | undefined;
   /** A unique identifier for this update request for idempotence. Typically UUIDv4. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Schedule search attributes to be updated. Do not set this field if you do not want to update the search attributes. A non-null empty object will set the search attributes to an empty map. Note: you cannot only update the search attributes with `UpdateScheduleRequest`, you must also set the `schedule` field; otherwise, it will unset the schedule. */
-  searchAttributes?: SearchAttributes;
+  searchAttributes?: SearchAttributes | undefined;
   /** Schedule memo to replace. If set, replaces the entire memo. Do not set this field if you do not want to update the memo. A non-null empty object will clear the memo. */
-  memo?: Memo;
+  memo?: Memo | undefined;
 }
 export type UpdateScheduleResponse2 = unknown;
 export type UpdateTaskQueueConfigRequestTaskQueueType =
@@ -5738,9 +5831,9 @@ export type UpdateTaskQueueConfigRequestTaskQueueType =
   | "TASK_QUEUE_TYPE_NEXUS";
 export interface UpdateTaskQueueConfigRequestRateLimitUpdate {
   /** Rate Limit to be updated */
-  rateLimit?: RateLimit;
+  rateLimit?: RateLimit | undefined;
   /** Reason for why the rate limit was set. */
-  reason?: string;
+  reason?: string | undefined;
 }
 /** If set, overrides the fairness weight for each specified fairness key. Fairness keys not listed in this map will keep their existing overrides (if any). */
 export type UpdateTaskQueueConfigRequestSetFairnessWeightOverridesMap = {
@@ -5752,44 +5845,48 @@ export interface UpdateTaskQueueConfigRequest {
   namespace: string;
   /** Selects the task queue to update. */
   taskQueue: string;
-  identity?: string;
-  taskQueueType?: UpdateTaskQueueConfigRequestTaskQueueType | (string & {});
+  identity?: string | undefined;
+  taskQueueType?: UpdateTaskQueueConfigRequestTaskQueueType | (string & {}) | undefined;
   /** Update to queue-wide rate limit. If not set, this configuration is unchanged. NOTE: A limit set by the worker is overriden; and restored again when reset. If the `rate_limit` field in the `RateLimitUpdate` is missing, remove the existing rate limit. */
-  updateQueueRateLimit?: UpdateTaskQueueConfigRequestRateLimitUpdate;
+  updateQueueRateLimit?: UpdateTaskQueueConfigRequestRateLimitUpdate | undefined;
   /** Update to the default fairness key rate limit. If not set, this configuration is unchanged. If the `rate_limit` field in the `RateLimitUpdate` is missing, remove the existing rate limit. */
-  updateFairnessKeyRateLimitDefault?: UpdateTaskQueueConfigRequestRateLimitUpdate;
+  updateFairnessKeyRateLimitDefault?: UpdateTaskQueueConfigRequestRateLimitUpdate | undefined;
   /** If set, overrides the fairness weight for each specified fairness key. Fairness keys not listed in this map will keep their existing overrides (if any). */
-  setFairnessWeightOverrides?: UpdateTaskQueueConfigRequestSetFairnessWeightOverridesMap;
+  setFairnessWeightOverrides?:
+    | UpdateTaskQueueConfigRequestSetFairnessWeightOverridesMap
+    | undefined;
   /** If set, removes any existing fairness weight overrides for each specified fairness key. Fairness weights for corresponding keys fall back to the values set during task creation (if any), or to the default weight of 1.0. */
-  unsetFairnessWeightOverrides?: UpdateTaskQueueConfigRequestUnsetFairnessWeightOverridesList;
+  unsetFairnessWeightOverrides?:
+    | UpdateTaskQueueConfigRequestUnsetFairnessWeightOverridesList
+    | undefined;
 }
 export interface UpdateTaskQueueConfigResponse {
-  config?: TaskQueueConfig;
+  config?: TaskQueueConfig | undefined;
 }
 export interface UpdateWorkerConfigRequest {
   /** Namespace this worker belongs to. */
   namespace: string;
   /** The identity of the client who initiated this request. */
-  identity?: string;
+  identity?: string | undefined;
   /** Reason for sending worker command, can be used for audit purpose. */
-  reason?: string;
+  reason?: string | undefined;
   /** Partial updates are accepted and controlled by update_mask. The worker configuration to set. */
-  workerConfig?: WorkerConfig;
+  workerConfig?: WorkerConfig | undefined;
   /** Controls which fields from `worker_config` will be applied */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Defines which workers should receive this command. */
-  selector?: WorkerSelector;
+  selector?: WorkerSelector | undefined;
   /** Resource ID for routing. Contains the worker grouping key. */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 export interface UpdateWorkerConfigResponse {
   /** The worker configuration. Will be returned if the command was sent to a single worker. */
-  workerConfig?: WorkerConfig;
+  workerConfig?: WorkerConfig | undefined;
 }
 export interface ComputeConfigScalingGroupUpdate {
-  scalingGroup?: ComputeConfigScalingGroup;
+  scalingGroup?: ComputeConfigScalingGroup | undefined;
   /** Controls which fields from `scaling_group` will be applied. Semantics: - Mask is ignored for new scaling groups (only applicable when scaling group already exists). - Empty mask for an existing scaling group is no-op: no change. - Non-empty mask for an existing scaling group will update/unset only to the fields mentioned in the mask. - Accepted paths: "task_queue_types", "provider", "provider.type", "provider.details", "provider.nexus_endpoint", "scaler", "scaler.type", "scaler.details" */
-  updateMask?: string;
+  updateMask?: string | undefined;
 }
 /** Optional. Contains the compute config scaling groups to add or update for the Worker Deployment. */
 export type UpdateWorkerDeploymentVersionComputeConfigRequestComputeConfigScalingGroupsMap = {
@@ -5803,15 +5900,19 @@ export interface UpdateWorkerDeploymentVersionComputeConfigRequest {
   deployment_version_deployment_name: string;
   deployment_version_build_id: string;
   /** Required. */
-  deploymentVersion?: WorkerDeploymentVersion;
+  deploymentVersion?: WorkerDeploymentVersion | undefined;
   /** Optional. Contains the compute config scaling groups to add or update for the Worker Deployment. */
-  computeConfigScalingGroups?: UpdateWorkerDeploymentVersionComputeConfigRequestComputeConfigScalingGroupsMap;
+  computeConfigScalingGroups?:
+    | UpdateWorkerDeploymentVersionComputeConfigRequestComputeConfigScalingGroupsMap
+    | undefined;
   /** Optional. Contains the compute config scaling groups to remove from the Worker Deployment. */
-  removeComputeConfigScalingGroups?: UpdateWorkerDeploymentVersionComputeConfigRequestRemoveComputeConfigScalingGroupsList;
+  removeComputeConfigScalingGroups?:
+    | UpdateWorkerDeploymentVersionComputeConfigRequestRemoveComputeConfigScalingGroupsList
+    | undefined;
   /** Optional. The identity of the client who initiated this request. */
-  identity?: string;
+  identity?: string | undefined;
   /** A unique identifier for this create request for idempotence. Typically UUIDv4. If a second request with the same ID is recieved, it is considered a successful no-op. Retrying with a different request ID for the same deployment name + build ID is an error. */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export type UpdateWorkerDeploymentVersionComputeConfigResponse2 = unknown;
 export type UpdateWorkerDeploymentVersionMetadataRequestUpsertEntriesMap = {
@@ -5824,18 +5925,18 @@ export interface UpdateWorkerDeploymentVersionMetadataRequest {
   deployment_version_deployment_name: string;
   deployment_version_build_id: string;
   /** Deprecated. Use `deployment_version`. */
-  version?: string;
+  version?: string | undefined;
   /** Required. */
-  deploymentVersion?: WorkerDeploymentVersion;
-  upsertEntries?: UpdateWorkerDeploymentVersionMetadataRequestUpsertEntriesMap;
+  deploymentVersion?: WorkerDeploymentVersion | undefined;
+  upsertEntries?: UpdateWorkerDeploymentVersionMetadataRequestUpsertEntriesMap | undefined;
   /** List of keys to remove from the metadata. */
-  removeEntries?: UpdateWorkerDeploymentVersionMetadataRequestRemoveEntriesList;
+  removeEntries?: UpdateWorkerDeploymentVersionMetadataRequestRemoveEntriesList | undefined;
   /** Optional. The identity of the client who initiated this request. */
-  identity?: string;
+  identity?: string | undefined;
 }
 export interface UpdateWorkerDeploymentVersionMetadataResponse {
   /** Full metadata after performing the update. */
-  metadata?: VersionMetadata;
+  metadata?: VersionMetadata | undefined;
 }
 /** Indicates the Update lifecycle stage that the Update must reach before API call is returned. NOTE: This field works together with API call timeout which is limited by server timeout (maximum wait time). If server timeout is expired before user specified timeout, API call returns even if specified stage is not reached. */
 export type WaitPolicyLifecycleStage =
@@ -5846,7 +5947,7 @@ export type WaitPolicyLifecycleStage =
 /** Specifies client's intent to wait for Update results. */
 export interface WaitPolicy {
   /** Indicates the Update lifecycle stage that the Update must reach before API call is returned. NOTE: This field works together with API call timeout which is limited by server timeout (maximum wait time). If server timeout is expired before user specified timeout, API call returns even if specified stage is not reached. */
-  lifecycleStage?: WaitPolicyLifecycleStage | (string & {});
+  lifecycleStage?: WaitPolicyLifecycleStage | (string & {}) | undefined;
 }
 export interface UpdateWorkflowExecutionRequest {
   /** The namespace name of the target Workflow. */
@@ -5854,18 +5955,18 @@ export interface UpdateWorkflowExecutionRequest {
   workflow_execution_workflow_id: string;
   request_input_name: string;
   /** The target Workflow Id and (optionally) a specific Run Id thereof. (-- api-linter: core::0203::optional=disabled aip.dev/not-precedent: false positive triggered by the word "optional" --) */
-  workflowExecution?: WorkflowExecution;
+  workflowExecution?: WorkflowExecution | undefined;
   /** If set, this call will error if the most recent (if no Run Id is set on `workflow_execution`), or specified (if it is) Workflow Execution is not part of the same execution chain as this Id. */
-  firstExecutionRunId?: string;
+  firstExecutionRunId?: string | undefined;
   /** Specifies client's intent to wait for Update results. NOTE: This field works together with API call timeout which is limited by server timeout (maximum wait time). If server timeout is expired before user specified timeout, API call returns even if specified stage is not reached. Actual reached stage will be included in the response. */
-  waitPolicy?: WaitPolicy;
+  waitPolicy?: WaitPolicy | undefined;
   /** The request information that will be delivered all the way down to the Workflow Execution. */
-  request?: Request;
+  request?: Request | undefined;
 }
 /** The data needed by a client to refer to a previously invoked Workflow Update. */
 export interface UpdateRef {
-  workflowExecution?: WorkflowExecution;
-  updateId?: string;
+  workflowExecution?: WorkflowExecution | undefined;
+  updateId?: string | undefined;
 }
 /** The most advanced lifecycle stage that the Update is known to have reached, where lifecycle stages are ordered UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_UNSPECIFIED < UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_ADMITTED < UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_ACCEPTED < UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_COMPLETED. UNSPECIFIED will be returned if and only if the server's maximum wait time was reached before the Update reached the stage specified in the request WaitPolicy, and before the context deadline expired; clients may may then retry the call as needed. */
 export type UpdateWorkflowExecutionResponseStage =
@@ -5875,28 +5976,28 @@ export type UpdateWorkflowExecutionResponseStage =
   | "UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_COMPLETED";
 export interface UpdateWorkflowExecutionResponse {
   /** Enough information for subsequent poll calls if needed. Never null. */
-  updateRef?: UpdateRef;
+  updateRef?: UpdateRef | undefined;
   /** The outcome of the Update if and only if the Workflow Update has completed. If this response is being returned before the Update has completed then this field will not be set. */
-  outcome?: Outcome;
+  outcome?: Outcome | undefined;
   /** The most advanced lifecycle stage that the Update is known to have reached, where lifecycle stages are ordered UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_UNSPECIFIED < UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_ADMITTED < UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_ACCEPTED < UPDATE_WORKFLOW_EXECUTION_LIFECYCLE_STAGE_COMPLETED. UNSPECIFIED will be returned if and only if the server's maximum wait time was reached before the Update reached the stage specified in the request WaitPolicy, and before the context deadline expired; clients may may then retry the call as needed. */
-  stage?: UpdateWorkflowExecutionResponseStage;
+  stage?: UpdateWorkflowExecutionResponseStage | undefined;
 }
 export interface UpdateWorkflowExecutionOptionsRequest {
   /** The namespace name of the target Workflow. */
   namespace: string;
   workflow_execution_workflow_id: string;
   /** The target Workflow Id and (optionally) a specific Run Id thereof. (-- api-linter: core::0203::optional=disabled aip.dev/not-precedent: false positive triggered by the word "optional" --) */
-  workflowExecution?: WorkflowExecution;
+  workflowExecution?: WorkflowExecution | undefined;
   /** Workflow Execution options. Partial updates are accepted and controlled by update_mask. */
-  workflowExecutionOptions?: WorkflowExecutionOptions;
+  workflowExecutionOptions?: WorkflowExecutionOptions | undefined;
   /** Controls which fields from `workflow_execution_options` will be applied. To unset a field, set it to null and use the update mask to indicate that it should be mutated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. The identity of the client who initiated this request. */
-  identity?: string;
+  identity?: string | undefined;
 }
 export interface UpdateWorkflowExecutionOptionsResponse {
   /** Workflow Execution options after update. */
-  workflowExecutionOptions?: WorkflowExecutionOptions;
+  workflowExecutionOptions?: WorkflowExecutionOptions | undefined;
 }
 /** Optional. Contains the compute config scaling groups to add or update for the Worker Deployment. */
 export type ValidateWorkerDeploymentVersionComputeConfigRequestComputeConfigScalingGroupsMap = {
@@ -5910,13 +6011,17 @@ export interface ValidateWorkerDeploymentVersionComputeConfigRequest {
   deployment_version_deployment_name: string;
   deployment_version_build_id: string;
   /** Required. */
-  deploymentVersion?: WorkerDeploymentVersion;
+  deploymentVersion?: WorkerDeploymentVersion | undefined;
   /** Optional. Contains the compute config scaling groups to add or update for the Worker Deployment. */
-  computeConfigScalingGroups?: ValidateWorkerDeploymentVersionComputeConfigRequestComputeConfigScalingGroupsMap;
+  computeConfigScalingGroups?:
+    | ValidateWorkerDeploymentVersionComputeConfigRequestComputeConfigScalingGroupsMap
+    | undefined;
   /** Optional. Contains the compute config scaling groups to remove from the Worker Deployment. */
-  removeComputeConfigScalingGroups?: ValidateWorkerDeploymentVersionComputeConfigRequestRemoveComputeConfigScalingGroupsList;
+  removeComputeConfigScalingGroups?:
+    | ValidateWorkerDeploymentVersionComputeConfigRequestRemoveComputeConfigScalingGroupsList
+    | undefined;
   /** Optional. The identity of the client who initiated this request. */
-  identity?: string;
+  identity?: string | undefined;
 }
 export type ValidateWorkerDeploymentVersionComputeConfigResponse2 = unknown;
 export type CountActivityExecutionsError = TemporalOpError;

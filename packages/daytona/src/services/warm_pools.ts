@@ -54,13 +54,13 @@ export class WarmPoolsUnavailable
 
 export interface CreateWarmPoolRequest {
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
   /** The snapshot (id or name) to keep warm sandboxes for. A pool only serves sandbox creates that use this snapshot with the default OS user and no custom env, volumes or secrets. */
   snapshot: string;
   /** Number of warm sandboxes to keep ready (capped by the organization quota) */
   pool: number;
   /** Target region for the warm pool. Defaults to the organization default region. */
-  target?: string;
+  target?: string | undefined;
 }
 export type WarmPoolEnvMap = { [key: string]: string | undefined };
 export interface WarmPool {
@@ -77,7 +77,7 @@ export interface WarmPool {
   disk: number;
   osUser: string;
   env: WarmPoolEnvMap;
-  errorReason?: string | null;
+  errorReason?: string | null | undefined;
   createdAt: string;
   updatedAt: string;
 }
@@ -85,12 +85,12 @@ export interface DeleteWarmPoolRequest {
   /** Warm pool ID */
   id: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface DeleteWarmPoolResponse {}
 export interface ListWarmPoolsRequest {
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export type ListWarmPoolsResponseBodyList = Array<WarmPool>;
 export type ListWarmPoolsResponse = ListWarmPoolsResponseBodyList;
@@ -98,7 +98,7 @@ export interface UpdateWarmPoolRequest {
   /** Warm pool ID */
   id: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
   /** New desired number of warm sandboxes (0 drains the pool) */
   pool: number;
 }

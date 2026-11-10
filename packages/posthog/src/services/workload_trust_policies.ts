@@ -39,11 +39,11 @@ export interface CreateWorkloadTrustPolicyRequest {
   /** The workload's immutable ID, from the provider's subject claim, for example a repository ID. Matched exactly together with the name, so a deleted and re-created workload with the same name does not match. */
   subject: string;
   /** Claims the token must carry, as claim name to exact value, for example a branch or an environment. Only the provider's condition claims are allowed. An empty value removes the condition. */
-  conditions?: CreateWorkloadTrustPolicyRequestConditionsMap;
+  conditions?: CreateWorkloadTrustPolicyRequestConditionsMap | undefined;
   /** The scopes every token minted under this policy carries. Scopes that manage credentials or access are refused. */
   scopes: CreateWorkloadTrustPolicyRequestScopesList;
   /** Whether the policy can mint tokens. Disabling it cuts off its tokens. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** * `github_actions` - GitHub Actions * `gitlab` - GitLab * `depot_ci` - Depot CI */
 export type WorkloadProviderKeyEnum = "github_actions" | "gitlab" | "depot_ci";
@@ -78,13 +78,13 @@ export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
   id: number;
   uuid: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
   email: string;
-  is_email_verified?: boolean | null;
+  is_email_verified?: boolean | null | undefined;
   hedgehog_config: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export interface WorkloadTrustPolicy {
   id: string;
@@ -99,13 +99,13 @@ export interface WorkloadTrustPolicy {
   /** The workload's immutable ID, from the provider's subject claim, for example a repository ID. Matched exactly together with the name, so a deleted and re-created workload with the same name does not match. */
   subject: string;
   /** Claims the token must carry, as claim name to exact value, for example a branch or an environment. Only the provider's condition claims are allowed. An empty value removes the condition. */
-  conditions?: WorkloadTrustPolicyConditionsMap;
+  conditions?: WorkloadTrustPolicyConditionsMap | undefined;
   /** How the provider names the subject, the subject name and each condition claim, for display. */
   claim_labels: WorkloadClaimLabels;
   /** The scopes every token minted under this policy carries. Scopes that manage credentials or access are refused. */
   scopes: WorkloadTrustPolicyScopesList;
   /** Whether the policy can mint tokens. Disabling it cuts off its tokens. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   created_by: UserBasic | null;
   created_at: string;
   updated_at: string;
@@ -238,15 +238,15 @@ export interface ListWorkloadTrustPoliciesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedWorkloadTrustPolicyListResultsList = Array<WorkloadTrustPolicy>;
 export interface PaginatedWorkloadTrustPolicyList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedWorkloadTrustPolicyListResultsList;
 }
 /** Claims the token must carry, as claim name to exact value, for example a branch or an environment. Only the provider's condition claims are allowed. An empty value removes the condition. */
@@ -261,19 +261,19 @@ export interface UpdateWorkloadTrustPoliciesPartialRequest {
   /** A UUID string identifying this workload trust policy. */
   id: string;
   /** A name that says what the policy is for. */
-  name?: string;
+  name?: string | undefined;
   /** The OIDC issuer of the workload provider, from the list of supported providers. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** The workload's human-readable name, from the provider's subject name claim, for example a repository's full name. Matched exactly. */
-  subject_name?: string;
+  subject_name?: string | undefined;
   /** The workload's immutable ID, from the provider's subject claim, for example a repository ID. Matched exactly together with the name, so a deleted and re-created workload with the same name does not match. */
-  subject?: string;
+  subject?: string | undefined;
   /** Claims the token must carry, as claim name to exact value, for example a branch or an environment. Only the provider's condition claims are allowed. An empty value removes the condition. */
-  conditions?: UpdateWorkloadTrustPoliciesPartialRequestConditionsMap;
+  conditions?: UpdateWorkloadTrustPoliciesPartialRequestConditionsMap | undefined;
   /** The scopes every token minted under this policy carries. Scopes that manage credentials or access are refused. */
-  scopes?: UpdateWorkloadTrustPoliciesPartialRequestScopesList;
+  scopes?: UpdateWorkloadTrustPoliciesPartialRequestScopesList | undefined;
   /** Whether the policy can mint tokens. Disabling it cuts off its tokens. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Claims the token must carry, as claim name to exact value, for example a branch or an environment. Only the provider's condition claims are allowed. An empty value removes the condition. */
 export type UpdateWorkloadTrustPolicyRequestConditionsMap = { [key: string]: string | undefined };
@@ -293,11 +293,11 @@ export interface UpdateWorkloadTrustPolicyRequest {
   /** The workload's immutable ID, from the provider's subject claim, for example a repository ID. Matched exactly together with the name, so a deleted and re-created workload with the same name does not match. */
   subject: string;
   /** Claims the token must carry, as claim name to exact value, for example a branch or an environment. Only the provider's condition claims are allowed. An empty value removes the condition. */
-  conditions?: UpdateWorkloadTrustPolicyRequestConditionsMap;
+  conditions?: UpdateWorkloadTrustPolicyRequestConditionsMap | undefined;
   /** The scopes every token minted under this policy carries. Scopes that manage credentials or access are refused. */
   scopes: UpdateWorkloadTrustPolicyRequestScopesList;
   /** Whether the policy can mint tokens. Disabling it cuts off its tokens. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface WorkloadTrustPoliciesDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */

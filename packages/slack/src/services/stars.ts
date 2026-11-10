@@ -27,27 +27,27 @@ const TELEMETRY = {
 
 export interface AddStarRequest {
   /** Channel to add star to, or channel where the message to add star to was posted (used with `timestamp`). */
-  channel?: string;
+  channel?: string | undefined;
   /** File to add star to. */
-  file?: string;
+  file?: string | undefined;
   /** File comment to add star to. */
-  file_comment?: string;
+  file_comment?: string | undefined;
   /** Timestamp of the message to add star to. */
-  timestamp?: string;
+  timestamp?: string | undefined;
 }
 export interface AddStarResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
 }
 export interface ListStarsRequest {
-  count?: number;
+  count?: number | undefined;
   /** Parameter for pagination. Set `cursor` equal to the `next_cursor` attribute returned by the previous request's `response_metadata`. This parameter is optional, but pagination is mandatory: the default value simply fetches the first "page" of the collection. See [pagination](/apis/web-api/pagination) for more details. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the list hasn't been reached. */
-  limit?: number;
-  page?: number;
+  limit?: number | undefined;
+  page?: number | undefined;
   /** encoded team id to list stars in, required if org token is used */
-  team_id?: string;
+  team_id?: string | undefined;
 }
 export type ListStarsResponseItemsItemCase0Type = "message";
 export interface ListStarsResponseItemsItemCase0 {
@@ -98,25 +98,25 @@ export type ListStarsResponseItemsList = Array<ListStarsResponseItemsItem>;
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export interface ListStarsResponseResponseMetadata {
   /** Cursor for the next page -- pass as `cursor` on the next call. */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
 }
 export interface ListStarsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   items: ListStarsResponseItemsList;
-  paging?: unknown;
+  paging?: unknown | undefined;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: ListStarsResponseResponseMetadata;
+  response_metadata?: ListStarsResponseResponseMetadata | undefined;
 }
 export interface RemoveStarRequest {
   /** Channel to remove star from, or channel where the message to remove star from was posted (used with `timestamp`). */
-  channel?: string;
+  channel?: string | undefined;
   /** File to remove star from. */
-  file?: string;
+  file?: string | undefined;
   /** File comment to remove star from. */
-  file_comment?: string;
+  file_comment?: string | undefined;
   /** Timestamp of the message to remove star from. */
-  timestamp?: string;
+  timestamp?: string | undefined;
 }
 export interface RemoveStarResponse {
   /** Always `true` (a failed call raises a typed error instead). */

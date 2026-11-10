@@ -109,12 +109,12 @@ export type EventPropertyFilterValue =
   | number
   | boolean;
 export interface EventPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {}) | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | null | undefined;
   /** Event properties */
-  type?: string;
-  value?: EventPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: EventPropertyFilterValue | null | undefined;
 }
 export type PersonPropertyFilterValueCase0Item = string | number | boolean;
 export type PersonPropertyFilterValueCase0List = Array<PersonPropertyFilterValueCase0Item>;
@@ -124,12 +124,12 @@ export type PersonPropertyFilterValue =
   | number
   | boolean;
 export interface PersonPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
   /** Person properties */
-  type?: string;
-  value?: PersonPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: PersonPropertyFilterValue | null | undefined;
 }
 export type PersonMetadataPropertyFilterValueCase0Item = string | number | boolean;
 export type PersonMetadataPropertyFilterValueCase0List =
@@ -141,11 +141,11 @@ export type PersonMetadataPropertyFilterValue =
   | boolean;
 export interface PersonMetadataPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
   /** Top-level columns on the persons table (e.g. created_at), not properties JSON */
-  type?: string;
-  value?: PersonMetadataPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: PersonMetadataPropertyFilterValue | null | undefined;
 }
 export type Key10 = "tag_name" | "text" | "href" | "selector";
 export type ElementPropertyFilterValueCase0Item = string | number | boolean;
@@ -156,11 +156,11 @@ export type ElementPropertyFilterValue =
   | number
   | boolean;
 export interface ElementPropertyFilter {
-  key?: Key10 | (string & {});
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: ElementPropertyFilterValue | null;
+  key?: Key10 | (string & {}) | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: ElementPropertyFilterValue | null | undefined;
 }
 export type EventMetadataPropertyFilterValueCase0Item = string | number | boolean;
 export type EventMetadataPropertyFilterValueCase0List =
@@ -171,11 +171,11 @@ export type EventMetadataPropertyFilterValue =
   | number
   | boolean;
 export interface EventMetadataPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: EventMetadataPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: EventMetadataPropertyFilterValue | null | undefined;
 }
 export type SessionPropertyFilterValueCase0Item = string | number | boolean;
 export type SessionPropertyFilterValueCase0List = Array<SessionPropertyFilterValueCase0Item>;
@@ -185,23 +185,23 @@ export type SessionPropertyFilterValue =
   | number
   | boolean;
 export interface SessionPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: SessionPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: SessionPropertyFilterValue | null | undefined;
 }
 export interface CohortPropertyFilter {
   /** Set by the feature flag API when the cohort is deleted or does not exist. */
-  cohort_deleted?: boolean | null;
+  cohort_deleted?: boolean | null | undefined;
   /** Set by the feature flag API when the cohort does not exist, so it cannot be restored. */
-  cohort_missing?: boolean | null;
-  cohort_name?: string | null;
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {}) | null;
-  type?: string;
-  value?: number;
+  cohort_missing?: boolean | null | undefined;
+  cohort_name?: string | null | undefined;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | null | undefined;
+  type?: string | undefined;
+  value?: number | undefined;
 }
 export type DurationType = "duration" | "active_seconds" | "inactive_seconds";
 export type RecordingPropertyFilterKey = DurationType | string;
@@ -213,11 +213,11 @@ export type RecordingPropertyFilterValue =
   | number
   | boolean;
 export interface RecordingPropertyFilter {
-  key?: RecordingPropertyFilterKey;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: RecordingPropertyFilterValue | null;
+  key?: RecordingPropertyFilterKey | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: RecordingPropertyFilterValue | null | undefined;
 }
 export type LogEntryPropertyFilterValueCase0Item = string | number | boolean;
 export type LogEntryPropertyFilterValueCase0List = Array<LogEntryPropertyFilterValueCase0Item>;
@@ -227,11 +227,11 @@ export type LogEntryPropertyFilterValue =
   | number
   | boolean;
 export interface LogEntryPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: LogEntryPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: LogEntryPropertyFilterValue | null | undefined;
 }
 export type GroupPropertyFilterGroupKeyNamesMap = { [key: string]: string | undefined };
 export type GroupPropertyFilterValueCase0Item = string | number | boolean;
@@ -242,13 +242,13 @@ export type GroupPropertyFilterValue =
   | number
   | boolean;
 export interface GroupPropertyFilter {
-  group_key_names?: GroupPropertyFilterGroupKeyNamesMap | null;
-  group_type_index?: number | null;
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: GroupPropertyFilterValue | null;
+  group_key_names?: GroupPropertyFilterGroupKeyNamesMap | null | undefined;
+  group_type_index?: number | null | undefined;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: GroupPropertyFilterValue | null | undefined;
 }
 export type FeaturePropertyFilterValueCase0Item = string | number | boolean;
 export type FeaturePropertyFilterValueCase0List = Array<FeaturePropertyFilterValueCase0Item>;
@@ -258,25 +258,25 @@ export type FeaturePropertyFilterValue =
   | number
   | boolean;
 export interface FeaturePropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
   /** Event property with "$feature/" prepended */
-  type?: string;
-  value?: FeaturePropertyFilterValue | null;
+  type?: string | undefined;
+  value?: FeaturePropertyFilterValue | null | undefined;
 }
 /** The value can be true, false, or a variant name */
 export type FlagPropertyFilterValue = boolean | string;
 export interface FlagPropertyFilter {
   /** The key should be the flag ID */
-  key?: string;
-  label?: string | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
   /** Only flag_evaluates_to operator is allowed for flag dependencies */
-  operator?: string;
+  operator?: string | undefined;
   /** Feature flag dependency */
-  type?: string;
+  type?: string | undefined;
   /** The value can be true, false, or a variant name */
-  value?: FlagPropertyFilterValue;
+  value?: FlagPropertyFilterValue | undefined;
 }
 export type HogQLPropertyFilterValueCase0Item = string | number | boolean;
 export type HogQLPropertyFilterValueCase0List = Array<HogQLPropertyFilterValueCase0Item>;
@@ -286,13 +286,13 @@ export type HogQLPropertyFilterValue =
   | number
   | boolean;
 export interface HogQLPropertyFilter {
-  key?: string;
-  label?: string | null;
-  type?: string;
-  value?: HogQLPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  type?: string | undefined;
+  value?: HogQLPropertyFilterValue | null | undefined;
 }
 export interface EmptyPropertyFilter {
-  type?: string;
+  type?: string | undefined;
 }
 export type DataWarehousePropertyFilterValueCase0Item = string | number | boolean;
 export type DataWarehousePropertyFilterValueCase0List =
@@ -303,11 +303,11 @@ export type DataWarehousePropertyFilterValue =
   | number
   | boolean;
 export interface DataWarehousePropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: DataWarehousePropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: DataWarehousePropertyFilterValue | null | undefined;
 }
 export type DataWarehousePersonPropertyFilterValueCase0Item = string | number | boolean;
 export type DataWarehousePersonPropertyFilterValueCase0List =
@@ -318,11 +318,11 @@ export type DataWarehousePersonPropertyFilterValue =
   | number
   | boolean;
 export interface DataWarehousePersonPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: DataWarehousePersonPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: DataWarehousePersonPropertyFilterValue | null | undefined;
 }
 export type ErrorTrackingIssueFilterValueCase0Item = string | number | boolean;
 export type ErrorTrackingIssueFilterValueCase0List = Array<ErrorTrackingIssueFilterValueCase0Item>;
@@ -332,22 +332,22 @@ export type ErrorTrackingIssueFilterValue =
   | number
   | boolean;
 export interface ErrorTrackingIssueFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: ErrorTrackingIssueFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: ErrorTrackingIssueFilterValue | null | undefined;
 }
 export type LogPropertyFilterType = "log" | "log_attribute" | "log_resource_attribute";
 export type LogPropertyFilterValueCase0Item = string | number | boolean;
 export type LogPropertyFilterValueCase0List = Array<LogPropertyFilterValueCase0Item>;
 export type LogPropertyFilterValue = LogPropertyFilterValueCase0List | string | number | boolean;
 export interface LogPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: LogPropertyFilterType | (string & {});
-  value?: LogPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: LogPropertyFilterType | (string & {}) | undefined;
+  value?: LogPropertyFilterValue | null | undefined;
 }
 export type MetricPropertyFilterValueCase0Item = string | number | boolean;
 export type MetricPropertyFilterValueCase0List = Array<MetricPropertyFilterValueCase0Item>;
@@ -358,21 +358,21 @@ export type MetricPropertyFilterValue =
   | boolean;
 export interface MetricPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
-  type?: string;
-  value?: MetricPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: MetricPropertyFilterValue | null | undefined;
 }
 export type SpanPropertyFilterType = "span" | "span_attribute" | "span_resource_attribute";
 export type SpanPropertyFilterValueCase0Item = string | number | boolean;
 export type SpanPropertyFilterValueCase0List = Array<SpanPropertyFilterValueCase0Item>;
 export type SpanPropertyFilterValue = SpanPropertyFilterValueCase0List | string | number | boolean;
 export interface SpanPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: SpanPropertyFilterType | (string & {});
-  value?: SpanPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: SpanPropertyFilterType | (string & {}) | undefined;
+  value?: SpanPropertyFilterValue | null | undefined;
 }
 export type RevenueAnalyticsPropertyFilterValueCase0Item = string | number | boolean;
 export type RevenueAnalyticsPropertyFilterValueCase0List =
@@ -383,11 +383,11 @@ export type RevenueAnalyticsPropertyFilterValue =
   | number
   | boolean;
 export interface RevenueAnalyticsPropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: RevenueAnalyticsPropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: RevenueAnalyticsPropertyFilterValue | null | undefined;
 }
 export type AccountCustomPropertyFilterValueCase0Item = string | number | boolean;
 export type AccountCustomPropertyFilterValueCase0List =
@@ -399,11 +399,11 @@ export type AccountCustomPropertyFilterValue =
   | boolean;
 export interface AccountCustomPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
   /** Customer analytics account custom property -- the key is the property definition id */
-  type?: string;
-  value?: AccountCustomPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: AccountCustomPropertyFilterValue | null | undefined;
 }
 export type WorkflowVariablePropertyFilterValueCase0Item = string | number | boolean;
 export type WorkflowVariablePropertyFilterValueCase0List =
@@ -414,11 +414,11 @@ export type WorkflowVariablePropertyFilterValue =
   | number
   | boolean;
 export interface WorkflowVariablePropertyFilter {
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {});
-  type?: string;
-  value?: WorkflowVariablePropertyFilterValue | null;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | undefined;
+  type?: string | undefined;
+  value?: WorkflowVariablePropertyFilterValue | null | undefined;
 }
 export type BehavioralPropertyFilterEventFiltersItem =
   | EventPropertyFilter
@@ -433,25 +433,25 @@ export type TimeUnitType = "day" | "week" | "month" | "year";
 export type InlineBehavioralType = "performed_event" | "performed_event_multiple";
 export interface BehavioralPropertyFilter {
   /** Extra property filters the matching events must satisfy. Deliberately excludes nested behavioral/cohort filters and groups */
-  event_filters?: BehavioralPropertyFilterEventFiltersList | null;
+  event_filters?: BehavioralPropertyFilterEventFiltersList | null | undefined;
   event_type: BehavioralEventSource | (string & {});
   /** Absolute or relative (e.g. -30d) lower date bound -- alternative to time_value/time_interval */
-  explicit_datetime?: string | null;
-  explicit_datetime_to?: string | null;
+  explicit_datetime?: string | null | undefined;
+  explicit_datetime_to?: string | null | undefined;
   /** Event name, or action id when event_type is 'actions' */
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   /** Match persons who did NOT satisfy the criterion. Not the same as a low count -- zero-occurrence persons never match count operators */
-  negation?: boolean | null;
+  negation?: boolean | null | undefined;
   /** Count comparison for performed_event_multiple, defaults to exact */
-  operator?: PropertyOperator | (string & {}) | null;
+  operator?: PropertyOperator | (string & {}) | null | undefined;
   /** Count threshold for performed_event_multiple */
-  operator_value?: number | null;
-  time_interval?: TimeUnitType | (string & {}) | null;
+  operator_value?: number | null | undefined;
+  time_interval?: TimeUnitType | (string & {}) | null | undefined;
   /** Relative time window size, paired with time_interval */
-  time_value?: number | null;
+  time_value?: number | null | undefined;
   /** Person performed (or didn't perform) an event in a time window. ClickHouse-only -- not evaluable by flags or CDP */
-  type?: string;
+  type?: string | undefined;
   value: InlineBehavioralType | (string & {});
 }
 export type ConversionGoalFilter1FixedPropertiesItem =
@@ -688,8 +688,8 @@ export type CurrencyCode =
   | "ZAR"
   | "ZMW";
 export interface RevenueCurrencyPropertyConfig {
-  property?: string | null;
-  static?: CurrencyCode | (string & {}) | null;
+  property?: string | null | undefined;
+  static?: CurrencyCode | (string & {}) | null | undefined;
 }
 export type ConversionGoalFilter1OrderByList = Array<string>;
 export type ConversionGoalFilter1PropertiesItem =
@@ -724,36 +724,36 @@ export type ConversionGoalFilter1SchemaMapMap = {
   [key: string]: ConversionGoalFilter1SchemaMapValue | undefined;
 };
 export interface ConversionGoalFilter1 {
-  conversion_goal_id?: string;
-  conversion_goal_name?: string;
+  conversion_goal_id?: string | undefined;
+  conversion_goal_name?: string | undefined;
   /** Marks this goal as customer-defining: a conversion here means the person became a customer (e.g. a payment or subscription), not an intermediate step like a sign up. It gates customer-based metrics such as CAC, whose denominator is this goal's conversions -- its count, or its unique converters under dau math. That equals new customers only for a once-per-person moment: a repeatable event such as a monthly payment counts every time and understates cost per customer, and dedup under dau is per result row, so someone converting under two sources counts twice at channel level. Defaults to false. */
-  counts_as_customer?: boolean | null;
+  counts_as_customer?: boolean | null | undefined;
   /** Marks this goal as revenue-bearing: the value of a conversion is a monetary amount, not a count or an arbitrary numeric property. It gates revenue metrics such as ROAS and LTV:CAC. The amount itself comes from math_property, and its currency from math_property_revenue_currency, the same shape Revenue analytics uses for revenue events. Independent of counts_as_customer: a purchase is usually both, a trial signup neither. Defaults to false. */
-  counts_as_revenue?: boolean | null;
-  custom_name?: string | null;
+  counts_as_revenue?: boolean | null | undefined;
+  custom_name?: string | null | undefined;
   /** The event or `null` for all events. */
-  event?: string | null;
+  event?: string | null | undefined;
   /** Fixed properties in the query, can't be edited in the interface (e.g. scoping down by person) */
-  fixedProperties?: ConversionGoalFilter1FixedPropertiesList | null;
-  kind?: string;
-  limit?: number | null;
-  math?: ConversionGoalFilter1Math | null;
-  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null;
-  math_hogql?: string | null;
-  math_multiplier?: number | null;
-  math_property?: string | null;
-  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null;
-  math_property_type?: string | null;
-  name?: string | null;
-  optionalInFunnel?: boolean | null;
+  fixedProperties?: ConversionGoalFilter1FixedPropertiesList | null | undefined;
+  kind?: string | undefined;
+  limit?: number | null | undefined;
+  math?: ConversionGoalFilter1Math | null | undefined;
+  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null | undefined;
+  math_hogql?: string | null | undefined;
+  math_multiplier?: number | null | undefined;
+  math_property?: string | null | undefined;
+  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null | undefined;
+  math_property_type?: string | null | undefined;
+  name?: string | null | undefined;
+  optionalInFunnel?: boolean | null | undefined;
   /** Columns to order by */
-  orderBy?: ConversionGoalFilter1OrderByList | null;
+  orderBy?: ConversionGoalFilter1OrderByList | null | undefined;
   /** Properties configurable in the interface */
-  properties?: ConversionGoalFilter1PropertiesList | null;
-  response?: ConversionGoalFilter1ResponseMap | null;
-  schema_map?: ConversionGoalFilter1SchemaMapMap;
+  properties?: ConversionGoalFilter1PropertiesList | null | undefined;
+  response?: ConversionGoalFilter1ResponseMap | null | undefined;
+  schema_map?: ConversionGoalFilter1SchemaMapMap | undefined;
   /** version of the node, used for schema migrations */
-  version?: number | null;
+  version?: number | null | undefined;
 }
 export type ConversionGoalFilter2FixedPropertiesItem =
   | EventPropertyFilter
@@ -823,32 +823,32 @@ export type ConversionGoalFilter2SchemaMapMap = {
   [key: string]: ConversionGoalFilter2SchemaMapValue | undefined;
 };
 export interface ConversionGoalFilter2 {
-  conversion_goal_id?: string;
-  conversion_goal_name?: string;
+  conversion_goal_id?: string | undefined;
+  conversion_goal_name?: string | undefined;
   /** Marks this goal as customer-defining: a conversion here means the person became a customer (e.g. a payment or subscription), not an intermediate step like a sign up. It gates customer-based metrics such as CAC, whose denominator is this goal's conversions -- its count, or its unique converters under dau math. That equals new customers only for a once-per-person moment: a repeatable event such as a monthly payment counts every time and understates cost per customer, and dedup under dau is per result row, so someone converting under two sources counts twice at channel level. Defaults to false. */
-  counts_as_customer?: boolean | null;
+  counts_as_customer?: boolean | null | undefined;
   /** Marks this goal as revenue-bearing: the value of a conversion is a monetary amount, not a count or an arbitrary numeric property. It gates revenue metrics such as ROAS and LTV:CAC. The amount itself comes from math_property, and its currency from math_property_revenue_currency, the same shape Revenue analytics uses for revenue events. Independent of counts_as_customer: a purchase is usually both, a trial signup neither. Defaults to false. */
-  counts_as_revenue?: boolean | null;
-  custom_name?: string | null;
+  counts_as_revenue?: boolean | null | undefined;
+  custom_name?: string | null | undefined;
   /** Fixed properties in the query, can't be edited in the interface (e.g. scoping down by person) */
-  fixedProperties?: ConversionGoalFilter2FixedPropertiesList | null;
-  id?: number;
-  kind?: string;
-  math?: ConversionGoalFilter2Math | null;
-  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null;
-  math_hogql?: string | null;
-  math_multiplier?: number | null;
-  math_property?: string | null;
-  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null;
-  math_property_type?: string | null;
-  name?: string | null;
-  optionalInFunnel?: boolean | null;
+  fixedProperties?: ConversionGoalFilter2FixedPropertiesList | null | undefined;
+  id?: number | undefined;
+  kind?: string | undefined;
+  math?: ConversionGoalFilter2Math | null | undefined;
+  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null | undefined;
+  math_hogql?: string | null | undefined;
+  math_multiplier?: number | null | undefined;
+  math_property?: string | null | undefined;
+  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null | undefined;
+  math_property_type?: string | null | undefined;
+  name?: string | null | undefined;
+  optionalInFunnel?: boolean | null | undefined;
   /** Properties configurable in the interface */
-  properties?: ConversionGoalFilter2PropertiesList | null;
-  response?: ConversionGoalFilter2ResponseMap | null;
-  schema_map?: ConversionGoalFilter2SchemaMapMap;
+  properties?: ConversionGoalFilter2PropertiesList | null | undefined;
+  response?: ConversionGoalFilter2ResponseMap | null | undefined;
+  schema_map?: ConversionGoalFilter2SchemaMapMap | undefined;
   /** version of the node, used for schema migrations */
-  version?: number | null;
+  version?: number | null | undefined;
 }
 export type ConversionGoalFilter3FixedPropertiesItem =
   | EventPropertyFilter
@@ -918,37 +918,37 @@ export type ConversionGoalFilter3SchemaMapMap = {
   [key: string]: ConversionGoalFilter3SchemaMapValue | undefined;
 };
 export interface ConversionGoalFilter3 {
-  conversion_goal_id?: string;
-  conversion_goal_name?: string;
+  conversion_goal_id?: string | undefined;
+  conversion_goal_name?: string | undefined;
   /** Marks this goal as customer-defining: a conversion here means the person became a customer (e.g. a payment or subscription), not an intermediate step like a sign up. It gates customer-based metrics such as CAC, whose denominator is this goal's conversions -- its count, or its unique converters under dau math. That equals new customers only for a once-per-person moment: a repeatable event such as a monthly payment counts every time and understates cost per customer, and dedup under dau is per result row, so someone converting under two sources counts twice at channel level. Defaults to false. */
-  counts_as_customer?: boolean | null;
+  counts_as_customer?: boolean | null | undefined;
   /** Marks this goal as revenue-bearing: the value of a conversion is a monetary amount, not a count or an arbitrary numeric property. It gates revenue metrics such as ROAS and LTV:CAC. The amount itself comes from math_property, and its currency from math_property_revenue_currency, the same shape Revenue analytics uses for revenue events. Independent of counts_as_customer: a purchase is usually both, a trial signup neither. Defaults to false. */
-  counts_as_revenue?: boolean | null;
-  custom_name?: string | null;
-  distinct_id_field?: string;
-  dw_source_type?: string | null;
+  counts_as_revenue?: boolean | null | undefined;
+  custom_name?: string | null | undefined;
+  distinct_id_field?: string | undefined;
+  dw_source_type?: string | null | undefined;
   /** Fixed properties in the query, can't be edited in the interface (e.g. scoping down by person) */
-  fixedProperties?: ConversionGoalFilter3FixedPropertiesList | null;
-  id?: string;
-  id_field?: string;
-  kind?: string;
-  math?: ConversionGoalFilter3Math | null;
-  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null;
-  math_hogql?: string | null;
-  math_multiplier?: number | null;
-  math_property?: string | null;
-  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null;
-  math_property_type?: string | null;
-  name?: string | null;
-  optionalInFunnel?: boolean | null;
+  fixedProperties?: ConversionGoalFilter3FixedPropertiesList | null | undefined;
+  id?: string | undefined;
+  id_field?: string | undefined;
+  kind?: string | undefined;
+  math?: ConversionGoalFilter3Math | null | undefined;
+  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null | undefined;
+  math_hogql?: string | null | undefined;
+  math_multiplier?: number | null | undefined;
+  math_property?: string | null | undefined;
+  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null | undefined;
+  math_property_type?: string | null | undefined;
+  name?: string | null | undefined;
+  optionalInFunnel?: boolean | null | undefined;
   /** Properties configurable in the interface */
-  properties?: ConversionGoalFilter3PropertiesList | null;
-  response?: ConversionGoalFilter3ResponseMap | null;
-  schema_map?: ConversionGoalFilter3SchemaMapMap;
-  table_name?: string;
-  timestamp_field?: string;
+  properties?: ConversionGoalFilter3PropertiesList | null | undefined;
+  response?: ConversionGoalFilter3ResponseMap | null | undefined;
+  schema_map?: ConversionGoalFilter3SchemaMapMap | undefined;
+  table_name?: string | undefined;
+  timestamp_field?: string | undefined;
   /** version of the node, used for schema migrations */
-  version?: number | null;
+  version?: number | null | undefined;
 }
 /** Wrapper for OpenAPI schema generation - one goal, in any of the three node shapes. */
 export type ConversionGoal = ConversionGoalFilter1 | ConversionGoalFilter2 | ConversionGoalFilter3;
@@ -1036,15 +1036,15 @@ export type ConversionCandidatePropertyNamesList = Array<string>;
 export interface ConversionCandidate {
   source_ref: string;
   kind: ConversionCandidateKindEnum;
-  event?: string | null;
-  action_id?: number | null;
+  event?: string | null | undefined;
+  action_id?: number | null | undefined;
   name: string;
-  description?: string;
-  count?: number | null;
-  distinct_users?: number | null;
-  numeric_properties?: ConversionCandidateNumericPropertiesList;
-  property_names?: ConversionCandidatePropertyNamesList;
-  already_configured?: boolean;
+  description?: string | undefined;
+  count?: number | null | undefined;
+  distinct_users?: number | null | undefined;
+  numeric_properties?: ConversionCandidateNumericPropertiesList | undefined;
+  property_names?: ConversionCandidatePropertyNamesList | undefined;
+  already_configured?: boolean | undefined;
 }
 export interface ConversionRecommendation {
   source_ref: string;
@@ -1054,13 +1054,13 @@ export interface ConversionRecommendation {
   questions: ConversionRecommendationQuestionsList;
   candidate: ConversionCandidate;
   /** Observed numeric property proposed for revenue. Confirm its units and currency. */
-  amount_property?: string | null;
+  amount_property?: string | null | undefined;
 }
 export type ConversionRecommendationResultsRecommendationsList = Array<ConversionRecommendation>;
 export type ConversionRecommendationResultsLimitationsList = Array<string>;
 export interface ConversionRecommendationResults {
-  recommendations?: ConversionRecommendationResultsRecommendationsList;
-  limitations?: ConversionRecommendationResultsLimitationsList;
+  recommendations?: ConversionRecommendationResultsRecommendationsList | undefined;
+  limitations?: ConversionRecommendationResultsLimitationsList | undefined;
 }
 export interface ConversionRecommendationState {
   /** Why this user cannot start an analysis, or null when generation is available. */
@@ -1078,7 +1078,7 @@ export interface GetMarketingAnalyticsDataSourceRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Optional. Restrict to one integration (e.g. 'GoogleAds'). */
-  source_type?: string;
+  source_type?: string | undefined;
 }
 /** Schema columns currently mapped for this source */
 export type DataSourceHealthEntrySchemaColumnsMappedList = Array<string>;
@@ -1152,11 +1152,11 @@ export interface GetMarketingAnalyticsDiagnoseRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Lookback window for attribution health (1-365 days); defaults to 7 */
-  attribution_lookback_days?: number;
+  attribution_lookback_days?: number | undefined;
   /** Whether to include the conversion-goal summary in the diagnostic */
-  include_conversion_goals?: boolean;
+  include_conversion_goals?: boolean | undefined;
   /** Optional integration filter */
-  source_type?: string;
+  source_type?: string | undefined;
 }
 export interface UnmatchedUtmSample {
   /** A raw utm_source value that doesn't match the integration exactly */
@@ -1214,9 +1214,9 @@ export interface IntegrationDiagnostic {
   /** Human-readable cross-domain diagnosis */
   diagnosis: string;
   /** Data-source (sync) side health, or null if not connected */
-  data_source?: DataSourceHealthEntry | null;
+  data_source?: DataSourceHealthEntry | null | undefined;
   /** Attribution (UTM events) side health, or null if no data */
-  attribution?: AttributionHealthEntry | null;
+  attribution?: AttributionHealthEntry | null | undefined;
   /** Recommended next steps for this integration */
   recommended_actions: IntegrationDiagnosticRecommendedActionsList;
 }
@@ -1232,7 +1232,7 @@ export interface MarketingDiagnosticResponse {
   /** One-line plain-English summary of the diagnostic */
   summary: string;
   /** Conversion goal summary, when requested */
-  conversion_goals?: ConversionGoalsListResponse | null;
+  conversion_goals?: ConversionGoalsListResponse | null | undefined;
   /** Top global recommended actions across all integrations */
   recommended_actions: MarketingDiagnosticResponseRecommendedActionsList;
 }
@@ -1242,9 +1242,9 @@ export interface GetMarketingAnalyticsExplainConversionGoalRequest {
   /** conversion_goal_id of the goal to explain, as returned by the conversion_goals list endpoint. */
   conversion_goal_id: string;
   /** ISO start; defaults to 30 days ago */
-  date_from?: string;
+  date_from?: string | undefined;
   /** ISO end; defaults to now */
-  date_to?: string;
+  date_to?: string | undefined;
 }
 export interface GoalExplanationPeriod {
   /** Start of the analyzed period (ISO) */
@@ -1314,9 +1314,9 @@ export interface GetMarketingAnalyticsSetupPlanRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Window for campaign spend and the UTM catalogue, as a relative range (e.g. '-30d'); defaults to -30d */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Re-run every check instead of serving a recent result. Use right after changing something. */
-  refresh?: boolean;
+  refresh?: boolean | undefined;
 }
 /** Capabilities this unblocks: cost, attribution, roas, cac */
 export type SuggestionUnlocksList = Array<string>;
@@ -1407,9 +1407,9 @@ export interface GetMarketingAnalyticsSuggestConversionGoalRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Minimum 30d event count to be a candidate */
-  min_count?: number;
+  min_count?: number | undefined;
   /** Max candidates to return */
-  top_n?: number;
+  top_n?: number | undefined;
 }
 export type CandidateEventTopUtmSourcesItemList = Array<unknown>;
 /** List of [utm_source, count] pairs */
@@ -1448,9 +1448,9 @@ export interface GetMarketingAnalyticsSuggestUtmMappingRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Days of history to inspect (1-365); defaults to 90 */
-  lookback_days?: number;
+  lookback_days?: number | undefined;
   /** Only suggest for raw values with >= this many events */
-  min_event_count?: number;
+  min_event_count?: number | undefined;
 }
 export interface SourceMappingSuggestion {
   /** The raw utm_source value seen on events */
@@ -1550,9 +1550,9 @@ export interface GetMarketingAnalyticsUtmAuditRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Start date for the audit period */
-  date_from?: string;
+  date_from?: string | undefined;
   /** End date for the audit period */
-  date_to?: string;
+  date_to?: string | undefined;
 }
 /** * `error` - error * `warning` - warning */
 export type DiagnosticSeverityEnum = "error" | "warning";
@@ -1659,9 +1659,9 @@ export interface UtmAuditResponse {
 }
 export interface CompareFilter {
   /** Whether to compare the current date range to a previous date range. */
-  compare?: boolean | null;
+  compare?: boolean | null | undefined;
   /** The date range to compare to. The value is a relative date. Examples of relative dates are: `-1y` for 1 year ago, `-14m` for 14 months ago, `-100w` for 100 weeks ago, `-14d` for 14 days ago, `-30h` for 30 hours ago. */
-  compare_to?: string | null;
+  compare_to?: string | null | undefined;
 }
 export type ActionConversionGoalPropertiesItem =
   | EventPropertyFilter
@@ -1670,8 +1670,8 @@ export type ActionConversionGoalPropertiesItem =
   | CohortPropertyFilter;
 export type ActionConversionGoalPropertiesList = Array<ActionConversionGoalPropertiesItem>;
 export interface ActionConversionGoal {
-  actionId?: number;
-  properties?: ActionConversionGoalPropertiesList | null;
+  actionId?: number | undefined;
+  properties?: ActionConversionGoalPropertiesList | null | undefined;
 }
 export type CustomEventConversionGoalPropertiesItem =
   | EventPropertyFilter
@@ -1681,8 +1681,8 @@ export type CustomEventConversionGoalPropertiesItem =
 export type CustomEventConversionGoalPropertiesList =
   Array<CustomEventConversionGoalPropertiesItem>;
 export interface CustomEventConversionGoal {
-  customEventName?: string;
-  properties?: CustomEventConversionGoalPropertiesList | null;
+  customEventName?: string | undefined;
+  properties?: CustomEventConversionGoalPropertiesList | null | undefined;
 }
 export type MarketingAnalyticsTableQueryConversionGoal =
   | ActionConversionGoal
@@ -1691,15 +1691,15 @@ export type DaysOfWeekEnum = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 export type DateRangeDaysOfWeekList = Array<DaysOfWeekEnum | (number & {})>;
 export interface DateRange {
   /** Start of the date range. Accepts ISO 8601 timestamps (e.g., 2024-01-15T00:00:00Z) or relative formats: -7d (7 days ago), -2w (2 weeks ago), -1m (1 month ago), -1h (1 hour ago), -1mStart (start of last month), -1yStart (start of last year). */
-  date_from?: string | null;
+  date_from?: string | null | undefined;
   /** End of the date range. Same format as date_from. Omit or null for "now". A calendar day without a time (2024-01-15) is inclusive: it rounds to the last moment of that day in the project timezone, unless explicitDate is set. */
-  date_to?: string | null;
+  date_to?: string | null | undefined;
   /** Restrict the query to events occurring on these ISO days of week (1=Monday to 7=Sunday), evaluated in the project timezone. Omit or empty for all days. Only applied by insight queries. */
-  daysOfWeek?: DateRangeDaysOfWeekList | null;
+  daysOfWeek?: DateRangeDaysOfWeekList | null | undefined;
   /** Exclude the current, still-collecting period by clipping date_to to the end of the last complete interval (evaluated in the project timezone). No-op when the range contains no complete interval. Only applied by insight queries. */
-  excludeIncompletePeriods?: boolean | null;
+  excludeIncompletePeriods?: boolean | null | undefined;
   /** Whether the date_from and date_to should be used verbatim. Disables rounding to the start and end of period. */
-  explicitDate?: boolean | null;
+  explicitDate?: boolean | null | undefined;
 }
 /** Draft conversion goal that can be set in the UI without saving */
 export type MarketingAnalyticsTableQueryDraftConversionGoal =
@@ -1719,9 +1719,9 @@ export type MarketingAnalyticsDrillDownLevel =
 export type IntegrationFilterIntegrationSourceIdsList = Array<string>;
 export interface IntegrationFilter {
   /** Keep rows that no integration reports cost for, such as organic, email or an unmapped source. Defaults to true. */
-  includeNonIntegrated?: boolean | null;
+  includeNonIntegrated?: boolean | null | undefined;
   /** Selected integration source IDs to filter by (e.g., table IDs or source map IDs) */
-  integrationSourceIds?: IntegrationFilterIntegrationSourceIdsList | null;
+  integrationSourceIds?: IntegrationFilterIntegrationSourceIdsList | null | undefined;
 }
 export type IntervalType =
   | "second"
@@ -1764,7 +1764,7 @@ export interface CustomBotCondition {
 export type CustomBotRuleItemsList = Array<CustomBotCondition>;
 export interface CustomBotRule {
   /** Reported by `$virt_traffic_category`. Defaults to `custom`. */
-  category?: string | null;
+  category?: string | null | undefined;
   /** Whether every condition must match (AND) or any one of them (OR). */
   combiner: FilterLogicalOperator | (string & {});
   id: string;
@@ -1793,24 +1793,24 @@ export type CustomChannelOperator =
 export type CustomChannelConditionValueCase1List = Array<string>;
 export type CustomChannelConditionValue = string | CustomChannelConditionValueCase1List;
 export interface CustomChannelCondition {
-  id?: string;
-  key?: CustomChannelField | (string & {});
-  op?: CustomChannelOperator | (string & {});
-  value?: CustomChannelConditionValue | null;
+  id?: string | undefined;
+  key?: CustomChannelField | (string & {}) | undefined;
+  op?: CustomChannelOperator | (string & {}) | undefined;
+  value?: CustomChannelConditionValue | null | undefined;
 }
 export type CustomChannelRuleItemsList = Array<CustomChannelCondition>;
 export interface CustomChannelRule {
-  channel_type?: string;
-  combiner?: FilterLogicalOperator | (string & {});
-  id?: string;
-  items?: CustomChannelRuleItemsList;
+  channel_type?: string | undefined;
+  combiner?: FilterLogicalOperator | (string & {}) | undefined;
+  id?: string | undefined;
+  items?: CustomChannelRuleItemsList | undefined;
 }
 export type HogQLQueryModifiersCustomChannelTypeRulesList = Array<CustomChannelRule>;
 export interface DataWarehouseEventsModifier {
-  distinct_id_field?: string;
-  id_field?: string;
-  table_name?: string;
-  timestamp_field?: string;
+  distinct_id_field?: string | undefined;
+  id_field?: string | undefined;
+  table_name?: string | undefined;
+  timestamp_field?: string | undefined;
 }
 export type HogQLQueryModifiersDataWarehouseEventsModifiersList =
   Array<DataWarehouseEventsModifier>;
@@ -1842,60 +1842,70 @@ export type PropertyGroupsMode = "enabled" | "disabled" | "optimized";
 export type SessionTableVersion = "auto" | "v1" | "v2" | "v3";
 export type SessionsV2JoinMode = "string" | "uuid";
 export interface HogQLQueryModifiers {
-  bounceRateDurationSeconds?: number | null;
-  bounceRatePageViewMode?: BounceRatePageViewMode | (string & {}) | null;
-  convertToProjectTimezone?: boolean | null;
+  bounceRateDurationSeconds?: number | null | undefined;
+  bounceRatePageViewMode?: BounceRatePageViewMode | (string & {}) | null | undefined;
+  convertToProjectTimezone?: boolean | null | undefined;
   /** Do not treat a missing user agent as automation on cookieless events. Positive bot signals and custom project rules still apply. Resolved server-side; not intended to be set by clients. */
-  cookielessTrafficIsRegular?: boolean | null;
-  customBotDefinitions?: HogQLQueryModifiersCustomBotDefinitionsList | null;
-  customChannelTypeRules?: HogQLQueryModifiersCustomChannelTypeRulesList | null;
-  dataWarehouseEventsModifiers?: HogQLQueryModifiersDataWarehouseEventsModifiersList | null;
-  debug?: boolean | null;
+  cookielessTrafficIsRegular?: boolean | null | undefined;
+  customBotDefinitions?: HogQLQueryModifiersCustomBotDefinitionsList | null | undefined;
+  customChannelTypeRules?: HogQLQueryModifiersCustomChannelTypeRulesList | null | undefined;
+  dataWarehouseEventsModifiers?:
+    | HogQLQueryModifiersDataWarehouseEventsModifiersList
+    | null
+    | undefined;
+  debug?: boolean | null | undefined;
   /** If these are provided, the query will fail if these skip indexes are not used */
-  forceClickhouseDataSkippingIndexes?: HogQLQueryModifiersForceClickhouseDataSkippingIndexesList | null;
-  formatCsvAllowDoubleQuotes?: boolean | null;
-  inCohortVia?: InCohortVia | (string & {}) | null;
-  inlineCohortCalculation?: InlineCohortCalculation | (string & {}) | null;
-  materializationMode?: MaterializationMode | (string & {}) | null;
+  forceClickhouseDataSkippingIndexes?:
+    | HogQLQueryModifiersForceClickhouseDataSkippingIndexesList
+    | null
+    | undefined;
+  formatCsvAllowDoubleQuotes?: boolean | null | undefined;
+  inCohortVia?: InCohortVia | (string & {}) | null | undefined;
+  inlineCohortCalculation?: InlineCohortCalculation | (string & {}) | null | undefined;
+  materializationMode?: MaterializationMode | (string & {}) | null | undefined;
   /** Reuse eligible bounded event aggregates within one query execution. When unset, the server may enable it via the cloud feature flag. */
-  materializeRepeatedCTEs?: boolean | null;
-  materializedColumnsOptimizationMode?: MaterializedColumnsOptimizationMode | (string & {}) | null;
+  materializeRepeatedCTEs?: boolean | null | undefined;
+  materializedColumnsOptimizationMode?:
+    | MaterializedColumnsOptimizationMode
+    | (string & {})
+    | null
+    | undefined;
   /** Merge sibling aggregating LEFT JOINs over federated Postgres tables into one UNION ALL join, so their scans overlap */
-  mergeFederatedAggregateJoins?: boolean | null;
+  mergeFederatedAggregateJoins?: boolean | null | undefined;
   /** Replace negated person-property filters in the WHERE of an `events` query (such as `email not_icontains`) with `person_id NOT IN (SELECT id FROM persons WHERE <the filters fail>)`, so the query no longer joins every person. Applies only when every filtered person property has a materialized column, nothing else in the query reads that persons join, and the join would be a LEFT JOIN. */
-  negatedPersonFiltersNotIn?: boolean | null;
-  optimizeJoinedFilters?: boolean | null;
-  optimizeProjections?: boolean | null;
+  negatedPersonFiltersNotIn?: boolean | null | undefined;
+  optimizeJoinedFilters?: boolean | null | undefined;
+  optimizeProjections?: boolean | null | undefined;
   /** HogQL parser backend; absent -> `rust_py_with_cpp_shadow` (rust-py is primary, cpp runs as a sampled shadow). `*_shadow` modes return the primary result and sample-compare against the other parser, reporting divergences without failing the request. The `rust_py_*` modes drive the same hand-rolled Rust parser as `rust_*` but build `posthog.hogql.ast` dataclass instances directly via PyO3, skipping the JSON round-trip. */
-  parserMode?: ParserMode | (string & {}) | null;
+  parserMode?: ParserMode | (string & {}) | null | undefined;
   /** Push an `id IN (SELECT person_id FROM <left table> WHERE ...)` predicate into the joined persons subquery, so the latest-version lookup only reads persons that the outer query's left-table filters can reach. Applies only to a persons join from the query's own FROM table. */
-  personIdPushdown?: boolean | null;
-  personsArgMaxVersion?: PersonsArgMaxVersion | (string & {}) | null;
-  personsJoinMode?: PersonsJoinMode | (string & {}) | null;
-  personsOnEventsMode?: PersonsOnEventsMode | (string & {}) | null;
-  propertyGroupsMode?: PropertyGroupsMode | (string & {}) | null;
-  pushDownPredicates?: boolean | null;
-  s3TableUseInvalidColumns?: boolean | null;
+  personIdPushdown?: boolean | null | undefined;
+  personsArgMaxVersion?: PersonsArgMaxVersion | (string & {}) | null | undefined;
+  personsJoinMode?: PersonsJoinMode | (string & {}) | null | undefined;
+  personsOnEventsMode?: PersonsOnEventsMode | (string & {}) | null | undefined;
+  propertyGroupsMode?: PropertyGroupsMode | (string & {}) | null | undefined;
+  pushDownPredicates?: boolean | null | undefined;
+  s3TableUseInvalidColumns?: boolean | null | undefined;
   /** Push a `session_id_v7 IN (SELECT ... FROM events WHERE ...)` predicate into the raw_sessions subquery to limit aggregation to sessions that participate in the outer events filter. */
-  sessionIdPushdown?: boolean | null;
+  sessionIdPushdown?: boolean | null | undefined;
   /** Pre-filter raw_sessions aggregation by `session_id_v7 IN (cheap pre-aggregation that only materializes the columns referenced by the outer-WHERE session predicate)`. Useful when the breakdown/SELECT pulls in many session columns (e.g. `$channel_type`) but the filter only references one (e.g. `$entry_current_url`). */
-  sessionPropertyPreAggregation?: boolean | null;
-  sessionTableVersion?: SessionTableVersion | (string & {}) | null;
+  sessionPropertyPreAggregation?: boolean | null | undefined;
+  sessionTableVersion?: SessionTableVersion | (string & {}) | null | undefined;
   /** Padding, in minutes, on each side of the event time range when it filters the sessions table by session start. Defaults to 3 days. It can only narrow the range: values above the default are ignored. Lower it only for a query that keeps just the sessions that start inside its own time range. */
-  sessionTimestampBufferMinutes?: number | null;
-  sessionsV2JoinMode?: SessionsV2JoinMode | (string & {}) | null;
-  timings?: boolean | null;
+  sessionTimestampBufferMinutes?: number | null | undefined;
+  sessionsV2JoinMode?: SessionsV2JoinMode | (string & {}) | null | undefined;
+  timings?: boolean | null | undefined;
   /** Remove provably redundant casts and nullability wrappers (e.g. `toString(String)`, `assumeNotNull(non_nullable)`, dead `ifNull` fallbacks) using inferred expression types */
-  typeAwareCastSimplification?: boolean | null;
-  useMaterializedViews?: boolean | null;
+  typeAwareCastSimplification?: boolean | null | undefined;
+  useMaterializedViews?: boolean | null | undefined;
   /** Read events from the native JSON events table (`true`) or the legacy events table (`false`). When unset, a staff person's `ph_new_events_schema` cookie applies, then the project's listing in the `CLICKHOUSE_HOGQL_USE_NEW_EVENTS_SCHEMA_TEAMS` instance setting, then the `CLICKHOUSE_HOGQL_USE_NEW_EVENTS_SCHEMA` instance setting. This is an internal rollout switch, and the project settings API ignores it. */
-  useNewEventsSchema?: boolean | null;
-  usePreaggregatedIntermediateResults?: boolean | null;
+  useNewEventsSchema?: boolean | null | undefined;
+  usePreaggregatedIntermediateResults?: boolean | null | undefined;
   /** Try to automatically convert HogQL queries to use preaggregated tables at the AST level * */
-  usePreaggregatedTableTransforms?: boolean | null;
-  useWebAnalyticsPreAggregatedTables?: boolean | null;
+  usePreaggregatedTableTransforms?: boolean | null | undefined;
+  useWebAnalyticsPreAggregatedTables?: boolean | null | undefined;
   /** Serve filters on the stored session-entry attribution properties (`$channel_type`, `$entry_utm_*`, `$entry_referring_domain`) by recomputing the value from the session's first pageview. Resolved server-side; not intended to be set by clients. */
-  webAnalyticsFirstPageviewFilters?: boolean | null;
+  webAnalyticsFirstPageviewFilters?: boolean | null | undefined;
 }
 export type MarketingAnalyticsOrderByEnum = "ASC" | "DESC";
 export type MarketingAnalyticsTableQueryOrderByItemItem = string | MarketingAnalyticsOrderByEnum;
@@ -1913,11 +1923,11 @@ export type MarketingAnalyticsTableQueryPropertiesList =
 export type MarketingAnalyticsTableQueryResponseColumnsList = Array<unknown>;
 export type QueryStatusLabelsList = Array<string>;
 export interface ClickhouseQueryProgress {
-  active_cpu_time?: number;
-  bytes_read?: number;
-  estimated_rows_total?: number;
-  rows_read?: number;
-  time_elapsed?: number;
+  active_cpu_time?: number | undefined;
+  bytes_read?: number | undefined;
+  estimated_rows_total?: number | undefined;
+  rows_read?: number | undefined;
+  time_elapsed?: number | undefined;
 }
 export type QueryScanFixLocation =
   | "query"
@@ -1930,15 +1940,15 @@ export interface QueryScanWarning {
   /** Whether the person can change the query so it reads less and still answers the same question. Surfaces show the full advice and "Fix with AI" only when a finding is actionable. */
   actionable: boolean;
   /** True when the query reads this much on purpose, so reading less would change the answer. Absent means no. */
-  by_design?: boolean | null;
+  by_design?: boolean | null | undefined;
   /** A label for what in the query text kept the read wide, such as `in_or`. Only analytics and the assistant read it, and the labels can change. */
-  cause?: string | null;
+  cause?: string | null | undefined;
   /** The one fact the finding rests on. */
-  evidence?: string | null;
+  evidence?: string | null | undefined;
   /** What "Fix with AI" and the assistant are told to do. */
   fix: string;
   /** Where the change goes. Absent means the query itself. */
-  fix_location?: QueryScanFixLocation | (string & {}) | null;
+  fix_location?: QueryScanFixLocation | (string & {}) | null | undefined;
   kind: QueryScanFindingKind | (string & {});
   /** Shown to the person: what happened and what to do. */
   message: string;
@@ -1947,87 +1957,87 @@ export interface QueryScanWarning {
 export type QueryScanAnalysisFindingsList = Array<QueryScanWarning>;
 export interface QueryScanAnalysis {
   /** The message the Fix with AI button sends to the assistant. Absent when no finding can be fixed in the query. */
-  assistant_prompt?: string | null;
+  assistant_prompt?: string | null | undefined;
   /** Every finding, fixable or not. Empty when the analysis found none. */
   findings: QueryScanAnalysisFindingsList;
   /** How much of all the project's events the query read, 0 to 1. */
-  project_share?: number | null;
+  project_share?: number | null | undefined;
   /** How much of the project's events in the query's date range the query read, 0 to 1. */
-  range_share?: number | null;
+  range_share?: number | null | undefined;
 }
 export interface QueryScanSummary {
   /** The stored analysis, put on the response when it is served. Absent while the analysis runs, and when none was requested. */
-  analysis?: QueryScanAnalysis | null;
+  analysis?: QueryScanAnalysis | null | undefined;
   /** True when the run asked for an analysis, or found one stored. While `analysis` is absent, poll `GET /query/scan/{cache_key}` for it. */
-  analysis_requested?: boolean | null;
+  analysis_requested?: boolean | null | undefined;
   /** ClickHouse time for the last fresh run, summed over its ClickHouse queries. */
   duration_ms: number;
   /** True when ClickHouse stopped the run instead of finishing it. */
-  killed?: boolean | null;
+  killed?: boolean | null | undefined;
   /** Rows ClickHouse read for the last fresh run, all tables included. */
   rows_read: number;
 }
 export interface QueryStatus {
-  budget_remaining_bytes?: number | null;
-  bytes_read?: number | null;
+  budget_remaining_bytes?: number | null | undefined;
+  bytes_read?: number | null | undefined;
   /** Cache key of the run that failed, so clients can ask for its query scan. */
-  cache_key?: string | null;
+  cache_key?: string | null | undefined;
   /** Whether the query is still running. Will be true if the query is complete, even if it errored. Either result or error will be set. */
-  complete?: boolean | null;
-  dashboard_id?: number | null;
+  complete?: boolean | null | undefined;
+  dashboard_id?: number | null | undefined;
   /** When did the query execution task finish (whether successfully or not). */
-  end_time?: string | null;
+  end_time?: string | null | undefined;
   /** If the query failed, this will be set to true. More information can be found in the error_message field. */
-  error?: boolean | null;
+  error?: boolean | null | undefined;
   /** Stable machine-readable code for the error, when known: the DRF exception code, the ClickHouse error name, the HogQL error code, or `unhandled_<exception class>` for a failure that no handler classified. */
-  error_code?: string | null;
-  error_message?: string | null;
-  expiration_time?: string | null;
-  id?: string;
-  insight_id?: number | null;
-  labels?: QueryStatusLabelsList | null;
+  error_code?: string | null | undefined;
+  error_message?: string | null | undefined;
+  expiration_time?: string | null | undefined;
+  id?: string | undefined;
+  insight_id?: number | null | undefined;
+  labels?: QueryStatusLabelsList | null | undefined;
   /** When was the query execution task picked up by a worker. */
-  pickup_time?: string | null;
+  pickup_time?: string | null | undefined;
   /** ONLY async queries use QueryStatus. */
-  query_async?: boolean;
-  query_progress?: ClickhouseQueryProgress | null;
-  query_scan?: QueryScanSummary | null;
-  results?: unknown;
+  query_async?: boolean | undefined;
+  query_progress?: ClickhouseQueryProgress | null | undefined;
+  query_scan?: QueryScanSummary | null | undefined;
+  results?: unknown | undefined;
   /** When was query execution task enqueued. */
-  start_time?: string | null;
-  task_id?: string | null;
-  team_id?: number;
+  start_time?: string | null | undefined;
+  task_id?: string | null | undefined;
+  team_id?: number | undefined;
 }
 export interface ResolvedDateRangeResponse {
-  date_from?: string;
-  date_to?: string;
+  date_from?: string | undefined;
+  date_to?: string | undefined;
   /** The earliest timestamp the query reads, when only its first interval depends on rows from before date_from. Lifecycle sets it to the start of the interval before the range. */
-  read_from?: string | null;
+  read_from?: string | null | undefined;
 }
 export type WebAnalyticsItemKind = "unit" | "duration_s" | "percentage" | "currency";
 export type MarketingAnalyticsItemPrevious = number | string;
 export type MarketingAnalyticsItemValue = number | string;
 export interface MarketingAnalyticsItem {
-  changeFromPreviousPct?: number | null;
-  hasComparison?: boolean | null;
-  isIncreaseBad?: boolean | null;
-  key?: string;
-  kind?: WebAnalyticsItemKind | (string & {});
-  previous?: MarketingAnalyticsItemPrevious | null;
-  value?: MarketingAnalyticsItemValue | null;
+  changeFromPreviousPct?: number | null | undefined;
+  hasComparison?: boolean | null | undefined;
+  isIncreaseBad?: boolean | null | undefined;
+  key?: string | undefined;
+  kind?: WebAnalyticsItemKind | (string & {}) | undefined;
+  previous?: MarketingAnalyticsItemPrevious | null | undefined;
+  value?: MarketingAnalyticsItemValue | null | undefined;
 }
 export type MarketingAnalyticsTableQueryResponseResultsItemList = Array<MarketingAnalyticsItem>;
 export type MarketingAnalyticsTableQueryResponseResultsList =
   Array<MarketingAnalyticsTableQueryResponseResultsItemList>;
 export interface SamplingRate {
-  denominator?: number | null;
-  numerator?: number;
+  denominator?: number | null | undefined;
+  numerator?: number | undefined;
 }
 export interface QueryTiming {
   /** Key. Shortened to 'k' to save on data. */
-  k?: string;
+  k?: string | undefined;
   /** Time in seconds. Shortened to 't' to save on data. */
-  t?: number;
+  t?: number | undefined;
 }
 export type MarketingAnalyticsTableQueryResponseTimingsList = Array<QueryTiming>;
 export type MarketingAnalyticsTableQueryResponseTypesList = Array<unknown>;
@@ -2035,23 +2045,23 @@ export interface DataWarehouseSourceUsage {
   /** ExternalDataSource id */
   id: string;
   /** Connector type of the source (e.g. Stripe, Postgres), if known */
-  source_type?: string | null;
+  source_type?: string | null | undefined;
   /** Warehouse table name that was referenced */
   table_name: string;
   /** Whether the query read a history table of this source */
-  uses_history_table?: boolean | null;
+  uses_history_table?: boolean | null | undefined;
 }
 export type MarketingAnalyticsTableQueryResponseUsedDataWarehouseSourcesList =
   Array<DataWarehouseSourceUsage>;
 export interface DataWarehouseSyncWarning {
   /** True when the last sync is still within the table's sync interval, so the data is current and the warning only says it will stop updating (a sync paused recently). False or absent when the data is out of date. */
-  data_is_current?: boolean | null;
+  data_is_current?: boolean | null | undefined;
   /** Human-readable warning shown to the user */
   message: string;
   /** Name of the ExternalDataSchema responsible for syncing the table */
   schema_name: string;
   /** ID of the ExternalDataSource, used to link to its management page. Null for self-managed tables. */
-  source_id?: string | null;
+  source_id?: string | null | undefined;
   /** Source type, e.g. "Stripe", "Hubspot" */
   source_type: string;
   /** Sync status that triggered the warning, e.g. "Failed", "Paused", "BillingLimitReached" */
@@ -2059,7 +2069,7 @@ export interface DataWarehouseSyncWarning {
   /** Name of the warehouse table the warning refers to */
   table_name: string;
   /** Tells warning kinds apart in the shared `warnings` list */
-  type?: string;
+  type?: string | undefined;
 }
 /** Resource types the user has access restrictions on, referenced by the query, e.g. ["insight", "dashboard"] */
 export type AccessControlFilterWarningResourcesList = Array<string>;
@@ -2069,13 +2079,13 @@ export interface AccessControlFilterWarning {
   /** Resource types the user has access restrictions on, referenced by the query, e.g. ["insight", "dashboard"] */
   resources: AccessControlFilterWarningResourcesList;
   /** Tells warning kinds apart in the shared `warnings` list */
-  type?: string;
+  type?: string | undefined;
 }
 export interface BreakdownNotAppliedWarning {
   /** Human-readable warning shown to the user */
   message: string;
   /** Tells warning kinds apart in the shared `warnings` list */
-  type?: string;
+  type?: string | undefined;
 }
 export type MarketingAnalyticsTableQueryResponseWarningsItem =
   | DataWarehouseSyncWarning
@@ -2084,106 +2094,109 @@ export type MarketingAnalyticsTableQueryResponseWarningsItem =
 export type MarketingAnalyticsTableQueryResponseWarningsList =
   Array<MarketingAnalyticsTableQueryResponseWarningsItem>;
 export interface MarketingAnalyticsTableQueryResponse {
-  columns?: MarketingAnalyticsTableQueryResponseColumnsList | null;
+  columns?: MarketingAnalyticsTableQueryResponseColumnsList | null | undefined;
   /** ISO timestamp of the oldest precompute window backing this result. */
-  dataComputedAt?: string | null;
+  dataComputedAt?: string | null | undefined;
   /** Query error. Returned only if 'explain' or `modifiers.debug` is true. Throws an error otherwise. */
-  error?: string | null;
-  hasMore?: boolean | null;
+  error?: string | null | undefined;
+  hasMore?: boolean | null | undefined;
   /** Generated HogQL query. */
-  hogql?: string | null;
+  hogql?: string | null | undefined;
   /** ISO timestamp of when the numbers for the most recent day in the range were computed, at this time or later. It is the oldest stamp among the precompute windows that hold that day, across costs and conversion goals. Unset when no precompute was read or a window has no stamp. */
-  latestDayComputedAt?: string | null;
-  limit?: number | null;
+  latestDayComputedAt?: string | null | undefined;
+  limit?: number | null | undefined;
   /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
-  offset?: number | null;
+  modifiers?: HogQLQueryModifiers | null | undefined;
+  offset?: number | null | undefined;
   /** True when a conversion goal's precompute has not been warmed for this window yet -- the UI shows a "computing" state rather than empty results. Marketing analytics serves exclusively from precompute. */
-  precomputeNotReady?: boolean | null;
+  precomputeNotReady?: boolean | null | undefined;
   /** Query status indicates whether next to the provided data, a query is still running. */
-  query_status?: QueryStatus | null;
+  query_status?: QueryStatus | null | undefined;
   /** The resolved previous/comparison period date range, when comparing against another period */
-  resolved_compare_date_range?: ResolvedDateRangeResponse | null;
+  resolved_compare_date_range?: ResolvedDateRangeResponse | null | undefined;
   /** The date range used for the query */
-  resolved_date_range?: ResolvedDateRangeResponse | null;
-  results?: MarketingAnalyticsTableQueryResponseResultsList;
-  samplingRate?: SamplingRate | null;
+  resolved_date_range?: ResolvedDateRangeResponse | null | undefined;
+  results?: MarketingAnalyticsTableQueryResponseResultsList | undefined;
+  samplingRate?: SamplingRate | null | undefined;
   /** Measured timings for different parts of the query generation process */
-  timings?: MarketingAnalyticsTableQueryResponseTimingsList | null;
-  types?: MarketingAnalyticsTableQueryResponseTypesList | null;
+  timings?: MarketingAnalyticsTableQueryResponseTimingsList | null | undefined;
+  types?: MarketingAnalyticsTableQueryResponseTypesList | null | undefined;
   /** Connector-synced data warehouse sources referenced by this query, if any. */
-  used_data_warehouse_sources?: MarketingAnalyticsTableQueryResponseUsedDataWarehouseSourcesList | null;
+  used_data_warehouse_sources?:
+    | MarketingAnalyticsTableQueryResponseUsedDataWarehouseSourcesList
+    | null
+    | undefined;
   /** Warnings about data warehouse sources referenced by the query whose latest sync failed, is paused, hit a billing limit, or is otherwise stale. Results may not reflect current source data. Accumulated across every HogQL execution that contributes to this response -- so insights backed by warehouse tables (Trends, Funnels, etc.) receive the same warnings as raw HogQL queries. Also carries access control warnings when a system-table query filters out objects the user can't access, and a breakdown warning when the query ran without its requested breakdown. */
-  warnings?: MarketingAnalyticsTableQueryResponseWarningsList | null;
+  warnings?: MarketingAnalyticsTableQueryResponseWarningsList | null | undefined;
 }
 export interface WebAnalyticsSampling {
-  enabled?: boolean | null;
-  forceSamplingRate?: SamplingRate | null;
+  enabled?: boolean | null | undefined;
+  forceSamplingRate?: SamplingRate | null | undefined;
 }
 export type MarketingAnalyticsTableQuerySelectList = Array<string>;
 export interface QueryLogTags {
   /** Name of the query, preferably unique. For example web_analytics_vitals */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Short id of the saved Web analytics filter preset this query was run under, if any. */
-  presetId?: string | null;
+  presetId?: string | null | undefined;
   /** Product responsible for this query. Use string, there's no need to churn the Schema when we add a new product * */
-  productKey?: string | null;
+  productKey?: string | null | undefined;
   /** Scene where this query is shown in the UI. Use string, there's no need to churn the Schema when we add a new Scene * */
-  scene?: string | null;
+  scene?: string | null | undefined;
 }
 export interface WebAnalyticsQueryModifiers {
   /** Serve web overview and stats table queries from the dimensional precompute tables when they hold ready data for the whole date range. Falls back to the normal path otherwise. */
-  useDimensionalTables?: boolean | null;
+  useDimensionalTables?: boolean | null | undefined;
 }
 export interface MarketingAnalyticsTableQuery {
   /** Groups aggregation - not used in Web Analytics but required for type compatibility */
-  aggregation_group_type_index?: number | null;
+  aggregation_group_type_index?: number | null | undefined;
   /** Compare to date range */
-  compareFilter?: CompareFilter | null;
-  conversionGoal?: MarketingAnalyticsTableQueryConversionGoal | null;
+  compareFilter?: CompareFilter | null | undefined;
+  conversionGoal?: MarketingAnalyticsTableQueryConversionGoal | null | undefined;
   /** Colors used in the insight's visualization - not used in Web Analytics but required for type compatibility */
-  dataColorTheme?: number | null;
-  dateRange?: DateRange | null;
-  doPathCleaning?: boolean | null;
+  dataColorTheme?: number | null | undefined;
+  dateRange?: DateRange | null | undefined;
+  doPathCleaning?: boolean | null | undefined;
   /** Draft conversion goal that can be set in the UI without saving */
-  draftConversionGoal?: MarketingAnalyticsTableQueryDraftConversionGoal | null;
+  draftConversionGoal?: MarketingAnalyticsTableQueryDraftConversionGoal | null | undefined;
   /** Drill-down hierarchy level: channel, source, or campaign (default) */
-  drillDownLevel?: MarketingAnalyticsDrillDownLevel | (string & {}) | null;
+  drillDownLevel?: MarketingAnalyticsDrillDownLevel | (string & {}) | null | undefined;
   /** Filter test accounts */
-  filterTestAccounts?: boolean | null;
-  includeRevenue?: boolean | null;
+  filterTestAccounts?: boolean | null | undefined;
+  includeRevenue?: boolean | null | undefined;
   /** Filter by integration type */
-  integrationFilter?: IntegrationFilter | null;
+  integrationFilter?: IntegrationFilter | null | undefined;
   /** Interval for date range calculation (affects date_to rounding for hour vs day ranges) */
-  interval?: IntervalType | (string & {}) | null;
-  kind?: string;
+  interval?: IntervalType | (string & {}) | null | undefined;
+  kind?: string | undefined;
   /** Number of rows to return */
-  limit?: number | null;
+  limit?: number | null | undefined;
   /** Modifiers used when performing the query */
-  modifiers?: HogQLQueryModifiers | null;
+  modifiers?: HogQLQueryModifiers | null | undefined;
   /** Number of rows to skip before returning rows */
-  offset?: number | null;
+  offset?: number | null | undefined;
   /** Columns to order by - similar to EventsQuery format */
-  orderBy?: MarketingAnalyticsTableQueryOrderByList | null;
-  properties?: MarketingAnalyticsTableQueryPropertiesList;
-  response?: MarketingAnalyticsTableQueryResponse | null;
-  sampling?: WebAnalyticsSampling | null;
+  orderBy?: MarketingAnalyticsTableQueryOrderByList | null | undefined;
+  properties?: MarketingAnalyticsTableQueryPropertiesList | undefined;
+  response?: MarketingAnalyticsTableQueryResponse | null | undefined;
+  sampling?: WebAnalyticsSampling | null | undefined;
   /** Sampling rate */
-  samplingFactor?: number | null;
+  samplingFactor?: number | null | undefined;
   /** Return a limited set of data. Will use default columns if empty. */
-  select?: MarketingAnalyticsTableQuerySelectList | null;
-  tags?: QueryLogTags | null;
-  useSessionsTable?: boolean | null;
+  select?: MarketingAnalyticsTableQuerySelectList | null | undefined;
+  tags?: QueryLogTags | null | undefined;
+  useSessionsTable?: boolean | null | undefined;
   /** version of the node, used for schema migrations */
-  version?: number | null;
+  version?: number | null | undefined;
   /** Per-request switches for how web analytics serves this query. */
-  webQueryModifiers?: WebAnalyticsQueryModifiers | null;
+  webQueryModifiers?: WebAnalyticsQueryModifiers | null | undefined;
 }
 export interface ListMarketingAnalyticsConversionRecordingsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A unique query ID for tracing this request in query logs. */
-  client_query_id?: string;
+  client_query_id?: string | undefined;
   /** The table query whose conversion cell was selected. */
   source: MarketingAnalyticsTableQuery;
   /** The selected conversion goal ID. */
@@ -2191,13 +2204,13 @@ export interface ListMarketingAnalyticsConversionRecordingsRequest {
   /** The displayed row grouping value. */
   group: string;
   /** The displayed row source. */
-  source_name?: string;
+  source_name?: string | undefined;
   /** The displayed campaign ID, omitted for comparison rows. */
-  campaign_id?: string | null;
+  campaign_id?: string | null | undefined;
   /** The last session ID returned by the previous page. Omit for the first page. */
-  after?: string;
+  after?: string | undefined;
   /** The maximum number of conversion session IDs to return. */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** Sessions in which the attributed conversions occurred. A session might not have a recording. */
 export type ConversionRecordingsResponseSessionIdsList = Array<string>;
@@ -2219,7 +2232,7 @@ export interface MarketingAnalyticsApplySetupOpsCreateRequest {
   /** Operations to apply, in order. Send `apply` payloads returned verbatim by setup_plan -- never hand-craft one. Navigate-only ops (open_oauth, open_source_wizard, open_settings, fix_platform_urls) are rejected: they describe something a browser or a human does. */
   ops: MarketingAnalyticsApplySetupOpsCreateRequestOpsList;
   /** Where the request came from, recorded in the activity log * `setup_tab` - setup_tab * `apply_all_safe` - apply_all_safe * `mcp` - mcp */
-  source?: ApplySetupOpsSourceEnum | (string & {});
+  source?: ApplySetupOpsSourceEnum | (string & {}) | undefined;
 }
 /** The operations that were applied */
 export type ApplySetupOpsResponseAppliedList = Array<unknown>;
@@ -2310,29 +2323,29 @@ export type PartialConversionGoalFilter1SchemaMapMap = {
 };
 /** ConversionGoalFilter1 with every field optional - the fields you send are merged into the stored goal. */
 export interface PartialConversionGoalFilter1 {
-  conversion_goal_id?: string | null;
-  conversion_goal_name?: string | null;
-  counts_as_customer?: boolean | null;
-  counts_as_revenue?: boolean | null;
-  custom_name?: string | null;
-  event?: string | null;
-  fixedProperties?: PartialConversionGoalFilter1FixedPropertiesList | null;
-  kind?: string | null;
-  limit?: number | null;
-  math?: PartialConversionGoalFilter1Math | null;
-  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null;
-  math_hogql?: string | null;
-  math_multiplier?: number | null;
-  math_property?: string | null;
-  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null;
-  math_property_type?: string | null;
-  name?: string | null;
-  optionalInFunnel?: boolean | null;
-  orderBy?: PartialConversionGoalFilter1OrderByList | null;
-  properties?: PartialConversionGoalFilter1PropertiesList | null;
-  response?: PartialConversionGoalFilter1ResponseMap | null;
-  schema_map?: PartialConversionGoalFilter1SchemaMapMap | null;
-  version?: number | null;
+  conversion_goal_id?: string | null | undefined;
+  conversion_goal_name?: string | null | undefined;
+  counts_as_customer?: boolean | null | undefined;
+  counts_as_revenue?: boolean | null | undefined;
+  custom_name?: string | null | undefined;
+  event?: string | null | undefined;
+  fixedProperties?: PartialConversionGoalFilter1FixedPropertiesList | null | undefined;
+  kind?: string | null | undefined;
+  limit?: number | null | undefined;
+  math?: PartialConversionGoalFilter1Math | null | undefined;
+  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null | undefined;
+  math_hogql?: string | null | undefined;
+  math_multiplier?: number | null | undefined;
+  math_property?: string | null | undefined;
+  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null | undefined;
+  math_property_type?: string | null | undefined;
+  name?: string | null | undefined;
+  optionalInFunnel?: boolean | null | undefined;
+  orderBy?: PartialConversionGoalFilter1OrderByList | null | undefined;
+  properties?: PartialConversionGoalFilter1PropertiesList | null | undefined;
+  response?: PartialConversionGoalFilter1ResponseMap | null | undefined;
+  schema_map?: PartialConversionGoalFilter1SchemaMapMap | null | undefined;
+  version?: number | null | undefined;
 }
 export type PartialConversionGoalFilter2FixedPropertiesItem =
   | EventPropertyFilter
@@ -2404,27 +2417,27 @@ export type PartialConversionGoalFilter2SchemaMapMap = {
 };
 /** ConversionGoalFilter2 with every field optional - the fields you send are merged into the stored goal. */
 export interface PartialConversionGoalFilter2 {
-  conversion_goal_id?: string | null;
-  conversion_goal_name?: string | null;
-  counts_as_customer?: boolean | null;
-  counts_as_revenue?: boolean | null;
-  custom_name?: string | null;
-  fixedProperties?: PartialConversionGoalFilter2FixedPropertiesList | null;
-  id?: number | null;
-  kind?: string | null;
-  math?: PartialConversionGoalFilter2Math | null;
-  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null;
-  math_hogql?: string | null;
-  math_multiplier?: number | null;
-  math_property?: string | null;
-  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null;
-  math_property_type?: string | null;
-  name?: string | null;
-  optionalInFunnel?: boolean | null;
-  properties?: PartialConversionGoalFilter2PropertiesList | null;
-  response?: PartialConversionGoalFilter2ResponseMap | null;
-  schema_map?: PartialConversionGoalFilter2SchemaMapMap | null;
-  version?: number | null;
+  conversion_goal_id?: string | null | undefined;
+  conversion_goal_name?: string | null | undefined;
+  counts_as_customer?: boolean | null | undefined;
+  counts_as_revenue?: boolean | null | undefined;
+  custom_name?: string | null | undefined;
+  fixedProperties?: PartialConversionGoalFilter2FixedPropertiesList | null | undefined;
+  id?: number | null | undefined;
+  kind?: string | null | undefined;
+  math?: PartialConversionGoalFilter2Math | null | undefined;
+  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null | undefined;
+  math_hogql?: string | null | undefined;
+  math_multiplier?: number | null | undefined;
+  math_property?: string | null | undefined;
+  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null | undefined;
+  math_property_type?: string | null | undefined;
+  name?: string | null | undefined;
+  optionalInFunnel?: boolean | null | undefined;
+  properties?: PartialConversionGoalFilter2PropertiesList | null | undefined;
+  response?: PartialConversionGoalFilter2ResponseMap | null | undefined;
+  schema_map?: PartialConversionGoalFilter2SchemaMapMap | null | undefined;
+  version?: number | null | undefined;
 }
 export type PartialConversionGoalFilter3FixedPropertiesItem =
   | EventPropertyFilter
@@ -2496,32 +2509,32 @@ export type PartialConversionGoalFilter3SchemaMapMap = {
 };
 /** ConversionGoalFilter3 with every field optional - the fields you send are merged into the stored goal. */
 export interface PartialConversionGoalFilter3 {
-  conversion_goal_id?: string | null;
-  conversion_goal_name?: string | null;
-  counts_as_customer?: boolean | null;
-  counts_as_revenue?: boolean | null;
-  custom_name?: string | null;
-  distinct_id_field?: string | null;
-  dw_source_type?: string | null;
-  fixedProperties?: PartialConversionGoalFilter3FixedPropertiesList | null;
-  id?: string | null;
-  id_field?: string | null;
-  kind?: string | null;
-  math?: PartialConversionGoalFilter3Math | null;
-  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null;
-  math_hogql?: string | null;
-  math_multiplier?: number | null;
-  math_property?: string | null;
-  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null;
-  math_property_type?: string | null;
-  name?: string | null;
-  optionalInFunnel?: boolean | null;
-  properties?: PartialConversionGoalFilter3PropertiesList | null;
-  response?: PartialConversionGoalFilter3ResponseMap | null;
-  schema_map?: PartialConversionGoalFilter3SchemaMapMap | null;
-  table_name?: string | null;
-  timestamp_field?: string | null;
-  version?: number | null;
+  conversion_goal_id?: string | null | undefined;
+  conversion_goal_name?: string | null | undefined;
+  counts_as_customer?: boolean | null | undefined;
+  counts_as_revenue?: boolean | null | undefined;
+  custom_name?: string | null | undefined;
+  distinct_id_field?: string | null | undefined;
+  dw_source_type?: string | null | undefined;
+  fixedProperties?: PartialConversionGoalFilter3FixedPropertiesList | null | undefined;
+  id?: string | null | undefined;
+  id_field?: string | null | undefined;
+  kind?: string | null | undefined;
+  math?: PartialConversionGoalFilter3Math | null | undefined;
+  math_group_type_index?: MathGroupTypeIndex | (number & {}) | null | undefined;
+  math_hogql?: string | null | undefined;
+  math_multiplier?: number | null | undefined;
+  math_property?: string | null | undefined;
+  math_property_revenue_currency?: RevenueCurrencyPropertyConfig | null | undefined;
+  math_property_type?: string | null | undefined;
+  name?: string | null | undefined;
+  optionalInFunnel?: boolean | null | undefined;
+  properties?: PartialConversionGoalFilter3PropertiesList | null | undefined;
+  response?: PartialConversionGoalFilter3ResponseMap | null | undefined;
+  schema_map?: PartialConversionGoalFilter3SchemaMapMap | null | undefined;
+  table_name?: string | null | undefined;
+  timestamp_field?: string | null | undefined;
+  version?: number | null | undefined;
 }
 export type ConversionGoalPatch =
   | PartialConversionGoalFilter1
@@ -2532,13 +2545,13 @@ export interface MarketingAnalyticsConversionGoalsUpdatePartialUpdateRequest {
   project_id: string;
   conversion_goal_id: string;
   /** The fields to change, merged into the stored goal -- anything you leave out is kept, and the goal keeps its position in the list. schema_map is merged key by key. The merged result must still match one of the ConversionGoalFilter shapes. Send `kind` only to change the goal's shape, in which case the goal is replaced rather than merged and the whole new shape is required. conversion_goal_id comes from the URL and any value sent is ignored. */
-  goal?: ConversionGoalPatch;
+  goal?: ConversionGoalPatch | undefined;
 }
 export interface MarketingAnalyticsConversionRecommendationsStartCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** False starts the first 30-day analysis once. True requests a new 14-day analysis; use only after an explicit user request. */
-  refresh?: boolean;
+  refresh?: boolean | undefined;
 }
 export type CreateMarketingAnalyticsTestMappingError = PosthogOpError;
 export const createMarketingAnalyticsTestMapping: API.OperationMethod<

@@ -86,17 +86,17 @@ export class NotFound
 /** Activates the latest revision of the specified Consent by committing a new revision with `state` updated to `ACTIVE`. If the latest revision of the given Consent is in the `ACTIVE` state, no new revision is committed. A FAILED_PRECONDITION error occurs if the latest revision of the given consent is in the `REJECTED` or `REVOKED` state. */
 export interface ActivateConsentRequest {
   /** The time to live for this Consent from when it is marked as active. */
-  ttl?: string;
+  ttl?: string | undefined;
   /** Timestamp in UTC of when this Consent is considered expired. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** Required. The resource name of the Consent artifact that contains documentation of the user's consent, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consentArtifacts/{consent_artifact_id}`. If the draft Consent had a Consent artifact, this Consent artifact overwrites it. */
-  consentArtifact?: string;
+  consentArtifact?: string | undefined;
 }
 export interface ActivateProjectsLocationsDatasetsConsentStoresConsentsRequest {
   /** Required. The resource name of the Consent to activate, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consents/{consent_id}`. An INVALID_ARGUMENT error occurs if `revision_id` is specified in the name. */
   name: string;
   /** Request body */
-  body?: ActivateConsentRequest;
+  body?: ActivateConsentRequest | undefined;
 }
 export type ConsentStateEnum =
   | "STATE_UNSPECIFIED"
@@ -109,54 +109,54 @@ export type StringMap = { [key: string]: string | undefined };
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
+  title?: string | undefined;
   /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
+  expression?: string | undefined;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
+  location?: string | undefined;
 }
 export type StringList = Array<string>;
 /** An attribute value for a Consent or User data mapping. Each Attribute must have a corresponding AttributeDefinition in the consent store that defines the default and allowed values. */
 export interface Attribute {
   /** Indicates the name of an attribute defined in the consent store. */
-  attributeDefinitionId?: string;
+  attributeDefinitionId?: string | undefined;
   /** The value of the attribute. Must be an acceptable value as defined in the consent store. For example, if the consent store defines "data type" with acceptable values "questionnaire" and "step-count", when the attribute name is data type, this field must contain one of those values. */
-  values?: StringList;
+  values?: StringList | undefined;
 }
 export type AttributeList = Array<Attribute>;
 /** Represents a user's consent in terms of the resources that can be accessed and under what conditions. */
 export interface GoogleCloudHealthcareV1beta1ConsentPolicy {
   /** Required. The request conditions to meet to grant access. In addition to any supported comparison operators, authorization rules may have `IN` operator as well as at most 10 logical operators that are limited to `AND` (`&&`), `OR` (`||`). */
-  authorizationRule?: Expr;
+  authorizationRule?: Expr | undefined;
   /** The resources that this policy applies to. A resource is a match if it matches all the attributes listed here. If empty, this policy applies to all User data mappings for the given user. */
-  resourceAttributes?: AttributeList;
+  resourceAttributes?: AttributeList | undefined;
 }
 export type GoogleCloudHealthcareV1beta1ConsentPolicyList =
   Array<GoogleCloudHealthcareV1beta1ConsentPolicy>;
 /** Represents a user's consent. */
 export interface Consent {
   /** Identifier. Resource name of the Consent, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consents/{consent_id}`. Cannot be changed after creation. */
-  name?: string;
+  name?: string | undefined;
   /** Required. Indicates the current state of this Consent. */
-  state?: ConsentStateEnum | (string & {});
+  state?: ConsentStateEnum | (string & {}) | undefined;
   /** Required. The resource name of the Consent artifact that contains proof of the end user's consent, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consentArtifacts/{consent_artifact_id}`. */
-  consentArtifact?: string;
+  consentArtifact?: string | undefined;
   /** Output only. The timestamp that the revision was created. */
-  revisionCreateTime?: string;
+  revisionCreateTime?: string | undefined;
   /** Required. User's UUID provided by the client. */
-  userId?: string;
+  userId?: string | undefined;
   /** Optional. User-supplied key-value pairs used to organize Consent resources. Metadata keys must: - be between 1 and 63 characters long - have a UTF-8 encoding of maximum 128 bytes - begin with a letter - consist of up to 63 characters including lowercase letters, numeric characters, underscores, and dashes Metadata values must be: - be between 1 and 63 characters long - have a UTF-8 encoding of maximum 128 bytes - consist of up to 63 characters including lowercase letters, numeric characters, underscores, and dashes No more than 64 metadata entries can be associated with a given consent. */
-  metadata?: StringMap;
+  metadata?: StringMap | undefined;
   /** Optional. Represents a user's consent in terms of the resources that can be accessed and under what conditions. */
-  policies?: GoogleCloudHealthcareV1beta1ConsentPolicyList;
+  policies?: GoogleCloudHealthcareV1beta1ConsentPolicyList | undefined;
   /** Output only. The revision ID of the Consent. The format is an 8-character hexadecimal string. Refer to a specific revision of a Consent by appending `@{revision_id}` to the Consent's resource name. */
-  revisionId?: string;
+  revisionId?: string | undefined;
   /** Input only. The time to live for this Consent from when it is created. */
-  ttl?: string;
+  ttl?: string | undefined;
   /** Timestamp in UTC of when this Consent is considered expired. */
-  expireTime?: string;
+  expireTime?: string | undefined;
 }
 export type AnalyzeEntitiesRequestAlternativeOutputFormatEnum =
   | "ALTERNATIVE_OUTPUT_FORMAT_UNSPECIFIED"
@@ -171,160 +171,163 @@ export type AnalyzeEntitiesRequestLicensedVocabulariesItemEnumList = Array<
 /** The request to analyze healthcare entities in a document. */
 export interface AnalyzeEntitiesRequest {
   /** Optional. Alternative output format to be generated based on the results of analysis. */
-  alternativeOutputFormat?: AnalyzeEntitiesRequestAlternativeOutputFormatEnum | (string & {});
+  alternativeOutputFormat?:
+    | AnalyzeEntitiesRequestAlternativeOutputFormatEnum
+    | (string & {})
+    | undefined;
   /** document_content is a document to be annotated. */
-  documentContent?: string;
+  documentContent?: string | undefined;
   /** A list of licensed vocabularies to use in the request, in addition to the default unlicensed vocabularies. */
-  licensedVocabularies?: AnalyzeEntitiesRequestLicensedVocabulariesItemEnumList;
+  licensedVocabularies?: AnalyzeEntitiesRequestLicensedVocabulariesItemEnumList | undefined;
 }
 export interface AnalyzeEntitiesProjectsLocationsServicesNlpRequest {
   /** The resource name of the service of the form: "projects/{project_id}/locations/{location_id}/services/nlp". */
   nlpService: string;
   /** Request body */
-  body?: AnalyzeEntitiesRequest;
+  body?: AnalyzeEntitiesRequest | undefined;
 }
 /** EntityMentions can be linked to multiple entities using a LinkedEntity message lets us add other fields, e.g. confidence. */
 export interface LinkedEntity {
   /** entity_id is a concept unique identifier. These are prefixed by a string that identifies the entity coding system, followed by the unique identifier within that system. For example, "UMLS/C0000970". This also supports ad hoc entities, which are formed by normalizing entity mention content. */
-  entityId?: string;
+  entityId?: string | undefined;
 }
 export type LinkedEntityList = Array<LinkedEntity>;
 /** A feature of an entity mention. */
 export interface Feature {
   /** The model's confidence in this feature annotation. A number between 0 and 1. */
-  confidence?: number;
+  confidence?: number | undefined;
   /** The value of this feature annotation. Its range depends on the type of the feature. */
-  value?: string;
+  value?: string | undefined;
 }
 export type FeatureList = Array<Feature>;
 /** A span of text in the provided document. */
 export interface TextSpan {
   /** The unicode codepoint index of the beginning of this span. */
-  beginOffset?: number;
+  beginOffset?: number | undefined;
   /** The original text contained in this span. */
-  content?: string;
+  content?: string | undefined;
 }
 /** An entity mention in the document. */
 export interface EntityMention {
   /** The semantic type of the entity: UNKNOWN_ENTITY_TYPE, ALONE, ANATOMICAL_STRUCTURE, ASSISTED_LIVING, BF_RESULT, BM_RESULT, BM_UNIT, BM_VALUE, BODY_FUNCTION, BODY_MEASUREMENT, COMPLIANT, DOESNOT_FOLLOWUP, FAMILY, FOLLOWSUP, LABORATORY_DATA, LAB_RESULT, LAB_UNIT, LAB_VALUE, MEDICAL_DEVICE, MEDICINE, MED_DOSE, MED_DURATION, MED_FORM, MED_FREQUENCY, MED_ROUTE, MED_STATUS, MED_STRENGTH, MED_TOTALDOSE, MED_UNIT, NON_COMPLIANT, OTHER_LIVINGSTATUS, PROBLEM, PROCEDURE, PROCEDURE_RESULT, PROC_METHOD, REASON_FOR_NONCOMPLIANCE, SEVERITY, SUBSTANCE_ABUSE, UNCLEAR_FOLLOWUP. */
-  type?: string;
+  type?: string | undefined;
   /** linked_entities are candidate ontological concepts that this entity mention may refer to. They are sorted by decreasing confidence. */
-  linkedEntities?: LinkedEntityList;
+  linkedEntities?: LinkedEntityList | undefined;
   /** Additional information about the entity mention. For example, for an entity mention of type `DATE` this can be its more specific date types from the following list: `ADMISSION_DATE`, `CONSULTATION_DATE`, `DISCHARGE_DATE`, `SERVICE_DATE`, `VISIT_DATE`, `DIAGNOSIS_DATE`, `MED_STARTED_DATE`, `MED_ENDED_DATE`, `NOTE_DATE`, `PROCEDURE_DATE`, `RADIATION_STARTED_DATE`, `RADIATION_ENDED_DATE`, `STAGE_DATE` */
-  additionalInfo?: FeatureList;
+  additionalInfo?: FeatureList | undefined;
   /** The certainty assessment of the entity mention. Its value is one of: LIKELY, SOMEWHAT_LIKELY, UNCERTAIN, SOMEWHAT_UNLIKELY, UNLIKELY, CONDITIONAL */
-  certaintyAssessment?: Feature;
+  certaintyAssessment?: Feature | undefined;
   /** text is the location of the entity mention in the document. */
-  text?: TextSpan;
+  text?: TextSpan | undefined;
   /** mention_id uniquely identifies each entity mention in a single response. */
-  mentionId?: string;
+  mentionId?: string | undefined;
   /** How this entity mention relates to the subject temporally. Its value is one of: CURRENT, CLINICAL_HISTORY, FAMILY_HISTORY, UPCOMING, ALLERGY */
-  temporalAssessment?: Feature;
+  temporalAssessment?: Feature | undefined;
   /** The model's confidence in this entity mention annotation. A number between 0 and 1. */
-  confidence?: number;
+  confidence?: number | undefined;
   /** The subject this entity mention relates to. Its value is one of: PATIENT, FAMILY_MEMBER, OTHER */
-  subject?: Feature;
+  subject?: Feature | undefined;
 }
 export type EntityMentionList = Array<EntityMention>;
 /** Defines directed relationship from one entity mention to another. */
 export interface EntityMentionRelationship {
   /** subject_id is the id of the subject entity mention. */
-  subjectId?: string;
+  subjectId?: string | undefined;
   /** The model's confidence in this annotation. A number between 0 and 1. */
-  confidence?: number;
+  confidence?: number | undefined;
   /** object_id is the id of the object entity mention. */
-  objectId?: string;
+  objectId?: string | undefined;
 }
 export type EntityMentionRelationshipList = Array<EntityMentionRelationship>;
 /** The candidate entities that an entity mention could link to. */
 export interface Entity {
   /** preferred_term is the preferred term for this concept. For example, "Acetaminophen". For ad hoc entities formed by normalization, this is the most popular unnormalized string. */
-  preferredTerm?: string;
+  preferredTerm?: string | undefined;
   /** Vocabulary codes are first-class fields and differentiated from the concept unique identifier (entity_id). vocabulary_codes contains the representation of this concept in particular vocabularies, such as ICD-10, SNOMED-CT and RxNORM. These are prefixed by the name of the vocabulary, followed by the unique code within that vocabulary. For example, "RXNORM/A10334543". */
-  vocabularyCodes?: StringList;
+  vocabularyCodes?: StringList | undefined;
   /** entity_id is a first class field entity_id uniquely identifies this concept and its meta-vocabulary. For example, "UMLS/C0000970". */
-  entityId?: string;
+  entityId?: string | undefined;
 }
 export type EntityList = Array<Entity>;
 /** Includes recognized entity mentions and relationships between them. */
 export interface AnalyzeEntitiesResponse {
   /** The `entity_mentions` field contains all the annotated medical entities that were mentioned in the provided document. */
-  entityMentions?: EntityMentionList;
+  entityMentions?: EntityMentionList | undefined;
   /** relationships contains all the binary relationships that were identified between entity mentions within the provided document. */
-  relationships?: EntityMentionRelationshipList;
+  relationships?: EntityMentionRelationshipList | undefined;
   /** The union of all the candidate entities that the entity_mentions in this response could link to. These are UMLS concepts or normalized mention content. */
-  entities?: EntityList;
+  entities?: EntityList | undefined;
   /** The FHIR bundle ([`R4`](http://hl7.org/fhir/R4/bundle.html)) that includes all the entities, the entity mentions, and the relationships in JSON format. */
-  fhirBundle?: string;
+  fhirBundle?: string | undefined;
 }
 /** List of admin Consent resources to be applied. */
 export interface AdminConsents {
   /** The versioned names of the admin Consent resource(s), in the format `projects/{project_id}/locations/{location}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Consent/{resource_id}/_history/{version_id}`. For FHIR stores with `disable_resource_versioning=true`, the format is `projects/{project_id}/locations/{location}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Consent/{resource_id}`. */
-  names?: StringList;
+  names?: StringList | undefined;
 }
 /** Request to apply the admin Consent resources for the specified FHIR store. */
 export interface ApplyAdminConsentsRequest {
   /** If true, the method only validates Consent resources to make sure they are supported. Otherwise, the method applies the aggregate consent information to update the enforcement model and reindex the FHIR resources. If all Consent resources can be applied successfully, the ApplyAdminConsentsResponse is returned containing the following fields: * `consent_apply_success` to indicate the number of Consent resources applied. * `affected_resources` to indicate the number of resources that might have had their consent access changed. If, however, one or more Consent resources are unsupported or cannot be applied, the method fails and ApplyAdminConsentsErrorDetail is is returned with details about the unsupported Consent resources. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** A new list of admin Consent resources to be applied. Any existing enforced Consents, which are specified in `consent_config.enforced_admin_consents` of the FhirStore, that are not part of this list will be disabled. An empty list is equivalent to clearing or disabling all Consents enforced on the FHIR store. When a FHIR store has `disable_resource_versioning=true` and this list contains a Consent resource that exists in `consent_config.enforced_admin_consents`, the method enforces any updates to the existing resource since the last enforcement. If the existing resource hasn't been updated since the last enforcement, the resource is unaffected. After the method finishes, the resulting consent enforcement model is determined by the contents of the Consent resource(s) when the method was called: * When `disable_resource_versioning=true`, the result is identical to the current resource(s) in the FHIR store. * When `disable_resource_versioning=false`, the result is based on the historical version(s) of the Consent resource(s) at the point in time when the method was called. At most 200 Consents can be specified. */
-  newConsentsList?: AdminConsents;
+  newConsentsList?: AdminConsents | undefined;
 }
 export interface ApplyAdminConsentsProjectsLocationsDatasetsFhirStoresRequest {
   /** Required. The name of the FHIR store to enforce, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
   name: string;
   /** Request body */
-  body?: ApplyAdminConsentsRequest;
+  body?: ApplyAdminConsentsRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
 }
 /** Apply consents given by a list of patients. */
 export interface PatientScope {
   /** Optional. The list of patient IDs whose Consent resources will be enforced. At most 10,000 patients can be specified. An empty list is equivalent to all patients (meaning the entire FHIR store). */
-  patientIds?: StringList;
+  patientIds?: StringList | undefined;
 }
 /** Apply consents given by patients whose most recent consent changes are in the time range. Note that after identifying these patients, the server applies all Consent resources given by those patients, not just the Consent resources within the timestamp in the range. */
 export interface TimeRange {
   /** Optional. The earliest consent change time, in format YYYY-MM-DDThh:mm:ss.sss+zz:zz If not specified, the system uses the FHIR store creation time. */
-  start?: string;
+  start?: string | undefined;
   /** Optional. The latest consent change time, in format YYYY-MM-DDThh:mm:ss.sss+zz:zz If not specified, the system uses the time when ApplyConsents was called. */
-  end?: string;
+  end?: string | undefined;
 }
 /** Request to apply the Consent resources for the specified FHIR store. */
 export interface ApplyConsentsRequest {
   /** Optional. If true, the method only validates Consent resources to make sure they are supported. When the operation completes, ApplyConsentsResponse is returned where `consent_apply_success` and `consent_apply_failure` indicate supported and unsupported (or invalid) Consent resources, respectively. Otherwise, the method propagates the aggregate consensual information to the patient's resources. Upon success, `affected_resources` in the ApplyConsentsResponse indicates the number of resources that may have consensual access changed. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Optional. Scope down to a list of patients. */
-  patientScope?: PatientScope;
+  patientScope?: PatientScope | undefined;
   /** Optional. Scope down to patients whose most recent consent changes are in the time range. Can only be used with a versioning store (i.e. when disable_resource_versioning is set to false). */
-  timeRange?: TimeRange;
+  timeRange?: TimeRange | undefined;
 }
 export interface ApplyConsentsProjectsLocationsDatasetsFhirStoresRequest {
   /** Required. The name of the FHIR store to enforce, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
   name: string;
   /** Request body */
-  body?: ApplyConsentsRequest;
+  body?: ApplyConsentsRequest | undefined;
 }
 /** Archives the specified User data mapping. */
 export interface ArchiveUserDataMappingRequest {}
@@ -332,7 +335,7 @@ export interface ArchiveProjectsLocationsDatasetsConsentStoresUserDataMappingsRe
   /** Required. The resource name of the User data mapping to archive. */
   name: string;
   /** Request body */
-  body?: ArchiveUserDataMappingRequest;
+  body?: ArchiveUserDataMappingRequest | undefined;
 }
 /** Archives the specified User data mapping. */
 export interface ArchiveUserDataMappingResponse {}
@@ -345,69 +348,69 @@ export type BatchGetProjectsLocationsDatasetsHl7V2StoresMessagesViewEnum =
   | "BASIC";
 export interface BatchGetProjectsLocationsDatasetsHl7V2StoresMessagesRequest {
   /** The resource id of the HL7v2 messages to retrieve in the format: `{message_id}`, where the full resource name is `{parent}/messages/{message_id}` A maximum of 100 messages can be retrieved in a batch. All 'ids' have to be under parent. */
-  ids?: StringList;
+  ids?: StringList | undefined;
   /** Specifies the parts of the Messages resource to return in the response. When unspecified, equivalent to BASIC. */
-  view?: BatchGetProjectsLocationsDatasetsHl7V2StoresMessagesViewEnum | (string & {});
+  view?: BatchGetProjectsLocationsDatasetsHl7V2StoresMessagesViewEnum | (string & {}) | undefined;
   /** Required. Name of the HL7v2 store to retrieve messages from, in the format: `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7v2Stores/{hl7v2_store_id}`. */
   parent: string;
 }
 /** The content of an HL7v2 message in a structured format as specified by a schema. */
 export interface SchematizedData {
   /** The error output of the parser. */
-  error?: string;
+  error?: string | undefined;
   /** JSON output of the parser. */
-  data?: string;
+  data?: string | undefined;
 }
 /** A segment in a structured format. */
 export interface Segment {
   /** A string that indicates the type of segment. For example, EVN or PID. */
-  segmentId?: string;
+  segmentId?: string | undefined;
   /** Set ID for segments that can be in a set. This can be empty if it's missing or isn't applicable. */
-  setId?: string;
+  setId?: string | undefined;
   /** A mapping from the positional location to the value. The key string uses zero-based indexes separated by dots to identify Fields, components and sub-components. A bracket notation is also used to identify different instances of a repeated field. Regex for key: (\d+)(\[\d+\])?(.\d+)?(.\d+)? Examples of (key, value) pairs: * (0.1, "hemoglobin") denotes that the first component of Field 0 has the value "hemoglobin". * (1.1.2, "CBC") denotes that the second sub-component of the first component of Field 1 has the value "CBC". * (1[0].1, "HbA1c") denotes that the first component of the first Instance of Field 1, which is repeated, has the value "HbA1c". */
-  fields?: StringMap;
+  fields?: StringMap | undefined;
 }
 export type SegmentList = Array<Segment>;
 /** The content of an HL7v2 message in a structured format. */
 export interface ParsedData {
-  segments?: SegmentList;
+  segments?: SegmentList | undefined;
 }
 /** A patient identifier and associated type. */
 export interface PatientId {
   /** The patient's unique identifier. */
-  value?: string;
+  value?: string | undefined;
   /** ID type. For example, MRN or NHS. */
-  type?: string;
+  type?: string | undefined;
 }
 export type PatientIdList = Array<PatientId>;
 /** A complete HL7v2 message. See [Introduction to HL7 Standards] (https://www.hl7.org/implement/standards/index.cfm?ref=common) for details on the standard. */
 export interface Message {
   /** The hospital that this message came from. MSH-4. */
-  sendFacility?: string;
+  sendFacility?: string | undefined;
   /** The datetime the sending application sent this message. MSH-7. */
-  sendTime?: string;
+  sendTime?: string | undefined;
   /** The parsed version of the raw message data schematized according to this store's schemas and type definitions. */
-  schematizedData?: SchematizedData;
+  schematizedData?: SchematizedData | undefined;
   /** Output only. The parsed version of the raw message data. */
-  parsedData?: ParsedData;
+  parsedData?: ParsedData | undefined;
   /** The message type for this message. MSH-9.1. */
-  messageType?: string;
+  messageType?: string | undefined;
   /** All patient IDs listed in the PID-2, PID-3, and PID-4 segments of this message. */
-  patientIds?: PatientIdList;
+  patientIds?: PatientIdList | undefined;
   /** Output only. Resource name of the Message, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7V2Stores/{hl7_v2_store_id}/messages/{message_id}`. Assigned by the server. */
-  name?: string;
+  name?: string | undefined;
   /** User-supplied key-value pairs used to organize HL7v2 stores. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: \p{Ll}\p{Lo}{0,62} Label values are optional, must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: [\p{Ll}\p{Lo}\p{N}_-]{0,63} No more than 64 labels can be associated with a given store. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Required. Raw message bytes. */
-  data?: string;
+  data?: string | undefined;
   /** Output only. The datetime when the message was created. Set by the server. */
-  createTime?: string;
+  createTime?: string | undefined;
 }
 export type MessageList = Array<Message>;
 /** Gets multiple messages in a specified HL7v2 store. */
 export interface BatchGetMessagesResponse {
   /** The returned Messages. See `MessageView` for populated fields. */
-  messages?: MessageList;
+  messages?: MessageList | undefined;
 }
 export interface Binary_vreadProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Required. The name of the Binary resource version to retrieve. */
@@ -416,21 +419,21 @@ export interface Binary_vreadProjectsLocationsDatasetsFhirStoresFhirRequest {
 /** Message that represents an arbitrary HTTP body. It should only be used for payload formats that can't be represented as JSON, such as raw binary or an HTML page. This message can be used both in streaming and non-streaming API methods in the request as well as the response. It can be used as a top-level request field, which is convenient if one wants to extract parameters from either the URL or HTTP template into the request fields and also want access to the raw HTTP body. Example: message GetResourceRequest { // A unique request id. string request_id = 1; // The raw HTTP body is bound to this field. google.api.HttpBody http_body = 2; } service ResourceService { rpc GetResource(GetResourceRequest) returns (google.api.HttpBody); rpc UpdateResource(google.api.HttpBody) returns (google.protobuf.Empty); } Example with streaming methods: service CaldavService { rpc GetCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); rpc UpdateCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); } Use of this type only changes how the request and response bodies are handled, all other features will continue to work unchanged. */
 export interface HttpBody {
   /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string;
+  contentType?: string | undefined;
   /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList;
+  extensions?: DocumentMapList | undefined;
   /** The HTTP request/response body as raw binary. */
-  data?: string;
+  data?: string | undefined;
 }
 /** Specifies the configuration for importing data from Cloud Storage. */
 export interface GoogleCloudHealthcareV1beta1FhirGcsSource {
   /** Required. Points to a Cloud Storage URI containing file(s) to import. The URI must be in the following format: `gs://{bucket_id}/{object_id}`. The URI can include wildcards in `object_id` and thus identify multiple files. Supported wildcards: * `*` to match 0 or more non-separator characters * `**` to match 0 or more characters (including separators). Must be used at the end of a path and with no other wildcards in the path. Can also be used with a file extension (such as .ndjson), which imports all files with the extension in the specified directory and its sub-directories. For example, `gs://my-bucket/my-directory/**.ndjson` imports all files with `.ndjson` extensions in `my-directory/` and its sub-directories. * `?` to match 1 character Files matching the wildcard are expected to contain content only, no metadata. */
-  uri?: string;
+  uri?: string | undefined;
 }
 /** The configuration for exporting to Cloud Storage. */
 export interface GoogleCloudHealthcareV1beta1FhirGcsDestination {
   /** URI for a Cloud Storage directory where result files should be written (in the format `gs://{bucket-id}/{path/to/destination/dir}`). If there is no trailing slash, the service appends one when composing the object path. The Cloud Storage bucket referenced in `uri_prefix` must exist or an error occurs. */
-  uriPrefix?: string;
+  uriPrefix?: string | undefined;
 }
 export type BulkDeleteResourcesRequestVersionConfigEnum =
   | "VERSION_CONFIG_UNSPECIFIED"
@@ -440,57 +443,57 @@ export type BulkDeleteResourcesRequestVersionConfigEnum =
 /** Request to bulk delete FHIR resources. */
 export interface BulkDeleteResourcesRequest {
   /** Optional. If provided, only resources updated before or atthis time are deleted. The time uses the format YYYY-MM-DDThh:mm:ss.sss+zz:zz. For example, `2015-02-07T13:28:17.239+02:00` or `2017-01-01T00:00:00Z`. The time must be specified to the second and include a time zone. */
-  until?: string;
+  until?: string | undefined;
   /** Optional. Specifies the Cloud Storage source data location containing the list of resource IDs to delete. Each file inside `gcs_source` must contain newline-delimited strings in the format `{resourceType}/{resourceId}`. This field is mutually exclusive with filter parameters such as `type` and `until`. */
-  gcsSource?: GoogleCloudHealthcareV1beta1FhirGcsSource;
+  gcsSource?: GoogleCloudHealthcareV1beta1FhirGcsSource | undefined;
   /** Optional. String of comma-delimited FHIR resource types. If provided, only resources of the specified resource type(s) will be deleted. */
-  type?: string;
+  type?: string | undefined;
   /** Optional. The Cloud Storage output destination. The Healthcare Service Agent account requires the `roles/storage.objectAdmin` role on the Cloud Storage location. The deleted resources outputs are organized by FHIR resource types. The server creates one or more objects per resource type. Each object contains newline delimited strings in the format {resourceType}/{resourceId}. */
-  gcsDestination?: GoogleCloudHealthcareV1beta1FhirGcsDestination;
+  gcsDestination?: GoogleCloudHealthcareV1beta1FhirGcsDestination | undefined;
   /** Optional. If set to `true`, the request will only perform a dry run. By default this will default to `false`. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Optional. Specifies which version of the resources to delete. */
-  versionConfig?: BulkDeleteResourcesRequestVersionConfigEnum | (string & {});
+  versionConfig?: BulkDeleteResourcesRequestVersionConfigEnum | (string & {}) | undefined;
 }
 export interface BulkDeleteProjectsLocationsDatasetsFhirStoresRequest {
   /** Required. The name of the FHIR store to bulk delete resources from, in the format of `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
   name: string;
   /** Request body */
-  body?: BulkDeleteResourcesRequest;
+  body?: BulkDeleteResourcesRequest | undefined;
 }
 export interface BulkExportGroupPostProjectsLocationsDatasetsFhirStoresRequest {
   /** Required. Name of the `Group` resource that is exported, in format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Group/{group_id}`. */
   name: string;
   /** Optional. String of comma-delimited FHIR resource types. If provided, only resources of the specified resource type(s) are exported. */
-  _type?: string;
+  _type?: string | undefined;
   /** Optional. If provided, only resources updated after this time are exported. The time uses the format YYYY-MM-DDThh:mm:ss.sss+zz:zz. For example, `2015-02-07T13:28:17.239+02:00` or `2017-01-01T00:00:00Z`. The time must be specified to the second and include a time zone. */
-  _since?: string;
+  _since?: string | undefined;
   /** Optional. Output format of the export. This field is optional and only `application/fhir+ndjson` is supported. */
-  outputFormat?: string;
+  outputFormat?: string | undefined;
   /** Required. The FHIR resource type used to organize exported resources. Only supports "Patient". When organized by Patient resource, output files are grouped as follows: * Patient file(s) containing the Patient resources. Each Patient is sequentially followed by all resources the Patient references, and all resources that reference the Patient (equivalent to a GetPatientEverything request). * Individual files grouped by resource type for resources in the Group's member field and the Group resource itself. Resources may be duplicated across multiple Patients. For example, if two Patient resources reference the same Organization resource, it will appear twice, once after each Patient. The Group resource from the request does not appear in the Patient files. */
-  organizeOutputBy?: string;
+  organizeOutputBy?: string | undefined;
   /** Request body */
-  body?: HttpBody;
+  body?: HttpBody | undefined;
 }
 export interface BulkExportGroupProjectsLocationsDatasetsFhirStoresRequest {
   /** Required. Name of the `Group` resource that is exported, in format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Group/{group_id}`. */
   name: string;
   /** Optional. String of comma-delimited FHIR resource types. If provided, only resources of the specified resource type(s) are exported. */
-  _type?: string;
+  _type?: string | undefined;
   /** Optional. Output format of the export. This field is optional and only `application/fhir+ndjson` is supported. */
-  outputFormat?: string;
+  outputFormat?: string | undefined;
   /** Required. The FHIR resource type used to organize exported resources. Only supports "Patient". When organized by Patient resource, output files are grouped as follows: * Patient file(s) containing the Patient resources. Each Patient is sequentially followed by all resources the Patient references, and all resources that reference the Patient (equivalent to a GetPatientEverything request). * Individual files grouped by resource type for resources in the Group's member field and the Group resource itself. Resources may be duplicated across multiple Patients. For example, if two Patient resources reference the same Organization resource, it will appear twice, once after each Patient. The Group resource from the request does not appear in the Patient files. */
-  organizeOutputBy?: string;
+  organizeOutputBy?: string | undefined;
   /** Optional. If provided, only resources updated after this time are exported. The time uses the format YYYY-MM-DDThh:mm:ss.sss+zz:zz. For example, `2015-02-07T13:28:17.239+02:00` or `2017-01-01T00:00:00Z`. The time must be specified to the second and include a time zone. */
-  _since?: string;
+  _since?: string | undefined;
 }
 export interface BulkExportProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Optional. String of comma-delimited FHIR resource types. If provided, only resources of the specified resource type(s) are exported. */
-  _type?: string;
+  _type?: string | undefined;
   /** Optional. If provided, only resources updated after this time are exported. The time uses the format YYYY-MM-DDThh:mm:ss.sss+zz:zz. For example, `2015-02-07T13:28:17.239+02:00` or `2017-01-01T00:00:00Z`. The time must be specified to the second and include a time zone. */
-  _since?: string;
+  _since?: string | undefined;
   /** Optional. Output format of the export. This field is optional and only `application/fhir+ndjson` is supported. */
-  outputFormat?: string;
+  outputFormat?: string | undefined;
   /** Required. The name of the FHIR store to export resources from, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
   name: string;
 }
@@ -500,7 +503,7 @@ export interface CancelProjectsLocationsDatasetsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: ArchiveUserDataMappingRequest;
+  body?: ArchiveUserDataMappingRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -511,25 +514,25 @@ export interface CapabilitiesProjectsLocationsDatasetsFhirStoresFhirRequest {
 /** List of resource names of Consent resources. */
 export interface ConsentList {
   /** The resource names of the Consents to evaluate against, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consents/{consent_id}`. */
-  consents?: StringList;
+  consents?: StringList | undefined;
 }
 export type CheckDataAccessRequestResponseViewEnum = "RESPONSE_VIEW_UNSPECIFIED" | "BASIC" | "FULL";
 /** Checks if a particular data_id of a User data mapping in the given consent store is consented for a given use. */
 export interface CheckDataAccessRequest {
   /** Optional. Specific Consents to evaluate the access request against. These Consents must have the same `user_id` as the evaluated User data mapping, must exist in the current `consent_store`, and have a `state` of either `ACTIVE` or `DRAFT`. A maximum of 100 Consents can be provided here. If no selection is specified, the access request is evaluated against all `ACTIVE` unexpired Consents with the same `user_id` as the evaluated User data mapping. */
-  consentList?: ConsentList;
+  consentList?: ConsentList | undefined;
   /** The values of request attributes associated with this access request. */
-  requestAttributes?: StringMap;
+  requestAttributes?: StringMap | undefined;
   /** Required. The unique identifier of the resource to check access for. This identifier must correspond to a User data mapping in the given consent store. */
-  dataId?: string;
+  dataId?: string | undefined;
   /** Optional. The view for CheckDataAccessResponse. If unspecified, defaults to `BASIC` and returns `consented` as `TRUE` or `FALSE`. */
-  responseView?: CheckDataAccessRequestResponseViewEnum | (string & {});
+  responseView?: CheckDataAccessRequestResponseViewEnum | (string & {}) | undefined;
 }
 export interface CheckDataAccessProjectsLocationsDatasetsConsentStoresRequest {
   /** Required. Name of the consent store where the requested data_id is stored, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}`. */
   consentStore: string;
   /** Request body */
-  body?: CheckDataAccessRequest;
+  body?: CheckDataAccessRequest | undefined;
 }
 export type ConsentEvaluationEvaluationResultEnum =
   | "EVALUATION_RESULT_UNSPECIFIED"
@@ -540,25 +543,25 @@ export type ConsentEvaluationEvaluationResultEnum =
 /** The detailed evaluation of a particular Consent. */
 export interface ConsentEvaluation {
   /** The evaluation result. */
-  evaluationResult?: ConsentEvaluationEvaluationResultEnum;
+  evaluationResult?: ConsentEvaluationEvaluationResultEnum | undefined;
 }
 export type ConsentEvaluationMap = { [key: string]: ConsentEvaluation | undefined };
 /** Checks if a particular data_id of a User data mapping in the given consent store is consented for a given use. */
 export interface CheckDataAccessResponse {
   /** The resource names of all evaluated Consents mapped to their evaluation. */
-  consentDetails?: ConsentEvaluationMap;
+  consentDetails?: ConsentEvaluationMap | undefined;
   /** Whether the requested resource is consented for the given use. */
-  consented?: boolean;
+  consented?: boolean | undefined;
 }
 export interface ConceptMap_translateProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** The version of the concept map to use. If unset, the most current version is used. */
-  conceptMapVersion?: string;
+  conceptMapVersion?: string | undefined;
   /** Required. The URL for the concept map to use for the translation. */
   name: string;
   /** Required. The system for the code to be translated. */
-  system?: string;
+  system?: string | undefined;
   /** Required. The code to translate. */
-  code?: string;
+  code?: string | undefined;
 }
 export interface ConditionalDeleteProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Required. The FHIR resource type to delete, such as Patient or Observation. For a complete list, see the FHIR Resource Index ([DSTU2](https://hl7.org/fhir/DSTU2/resourcelist.html), [STU3](https://hl7.org/fhir/STU3/resourcelist.html), [R4](https://hl7.org/fhir/R4/resourcelist.html), [R5](https://hl7.org/fhir/R5/resourcelist.html)). */
@@ -572,7 +575,7 @@ export interface ConditionalPatchProjectsLocationsDatasetsFhirStoresFhirRequest 
   /** Required. The FHIR resource type to update, such as Patient or Observation. For a complete list, see the FHIR Resource Index ([DSTU2](https://hl7.org/fhir/DSTU2/resourcelist.html), [STU3](https://hl7.org/fhir/STU3/resourcelist.html), [R4](https://hl7.org/fhir/R4/resourcelist.html), [R5](https://hl7.org/fhir/R5/resourcelist.html)). */
   type: string;
   /** Request body */
-  body?: HttpBody;
+  body?: HttpBody | undefined;
 }
 export interface ConditionalUpdateProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Required. The name of the FHIR store this resource belongs to. */
@@ -580,20 +583,20 @@ export interface ConditionalUpdateProjectsLocationsDatasetsFhirStoresFhirRequest
   /** Required. The FHIR resource type to update, such as Patient or Observation. For a complete list, see the FHIR Resource Index ([DSTU2](https://hl7.org/fhir/DSTU2/resourcelist.html), [STU3](https://hl7.org/fhir/STU3/resourcelist.html), [R4](https://hl7.org/fhir/R4/resourcelist.html), [R5](https://hl7.org/fhir/R5/resourcelist.html)). Must match the resource type in the provided content. */
   type: string;
   /** Request body */
-  body?: HttpBody;
+  body?: HttpBody | undefined;
 }
 /** Request to configure the search parameters for the specified FHIR store. */
 export interface ConfigureSearchRequest {
   /** If `validate_only` is set to true, the method will compile all the search parameters without actually setting the search config for the store and triggering the reindex. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** The canonical URLs of the search parameters that are intended to be used for the FHIR store. See https://www.hl7.org/fhir/references.html#canonical for explanation on FHIR canonical urls */
-  canonicalUrls?: StringList;
+  canonicalUrls?: StringList | undefined;
 }
 export interface ConfigureSearchProjectsLocationsDatasetsFhirStoresRequest {
   /** Required. The name of the FHIR store to configure, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
   name: string;
   /** Request body */
-  body?: ConfigureSearchRequest;
+  body?: ConfigureSearchRequest | undefined;
 }
 export interface Consent_enforcement_statusProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Required. The name of the consent resource to find enforcement status, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Consent/{consent_id}` */
@@ -603,152 +606,152 @@ export interface CreateBinaryProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Required. The name of the FHIR store this resource belongs to. */
   parent: string;
   /** Request body */
-  body?: HttpBody;
+  body?: HttpBody | undefined;
 }
 /** Represents a customer-managed encryption key spec that can be applied to a resource. */
 export interface EncryptionSpec {
   /** Required. The resource name of customer-managed encryption key that is used to secure a resource and its sub-resources. Only the key in the same location as this dataset is allowed to be used for encryption. Format is: `projects/{project}/locations/{location}/keyRings/{keyRing}/cryptoKeys/{key}` */
-  kmsKeyName?: string;
+  kmsKeyName?: string | undefined;
 }
 /** A message representing a health dataset. A health dataset represents a collection of healthcare data pertaining to one or more patients. This may include multiple modalities of healthcare data, such as electronic medical records or medical imaging data. */
 export interface Dataset {
   /** Output only. Whether the dataset satisfies zone separation. */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** Identifier. Resource name of the dataset, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Whether the dataset satisfies zone isolation. */
-  satisfiesPzi?: boolean;
+  satisfiesPzi?: boolean | undefined;
   /** Customer-managed encryption key spec for a Dataset. If set, this Dataset and all of its sub-resources will be secured by this key. If empty, the Dataset is secured by the default Google encryption key. */
-  encryptionSpec?: EncryptionSpec;
+  encryptionSpec?: EncryptionSpec | undefined;
   /** The default timezone used by this dataset. Must be a either a valid IANA time zone name such as "America/New_York" or empty, which defaults to UTC. This is used for parsing times in resources, such as HL7 messages, where no explicit timezone is specified. */
-  timeZone?: string;
+  timeZone?: string | undefined;
 }
 export interface CreateProjectsLocationsDatasetsRequest {
   /** Required. The name of the project where the server creates the dataset. For example, `projects/{project_id}/locations/{location_id}`. */
   parent: string;
   /** Required. The ID of the dataset that is being created. The string must match the following regex: `[\p{L}\p{N}_\-\.]{1,256}`. */
-  datasetId?: string;
+  datasetId?: string | undefined;
   /** Request body */
-  body?: Dataset;
+  body?: Dataset | undefined;
 }
 /** Represents a consent store. */
 export interface ConsentStore {
   /** Optional. If `true`, UpdateConsent creates the Consent if it does not already exist. If unspecified, defaults to `false`. */
-  enableConsentCreateOnUpdate?: boolean;
+  enableConsentCreateOnUpdate?: boolean | undefined;
   /** Optional. Default time to live for Consents created in this store. Must be at least 24 hours. Updating this field will not affect the expiration time of existing consents. */
-  defaultConsentTtl?: string;
+  defaultConsentTtl?: string | undefined;
   /** Resource name of the consent store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}`. Cannot be changed after creation. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. User-supplied key-value pairs used to organize consent stores. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: \p{Ll}\p{Lo}{0,62}. Label values must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: [\p{Ll}\p{Lo}\p{N}_-]{0,63}. No more than 64 labels can be associated with a given store. For more information: https://cloud.google.com/healthcare/docs/how-tos/labeling-resources */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
 }
 export interface CreateProjectsLocationsDatasetsConsentStoresRequest {
   /** Required. The name of the dataset this consent store belongs to. */
   parent: string;
   /** Required. The ID of the consent store to create. The string must match the following regex: `[\p{L}\p{N}_\-\.]{1,256}`. Cannot be changed after creation. */
-  consentStoreId?: string;
+  consentStoreId?: string | undefined;
   /** Request body */
-  body?: ConsentStore;
+  body?: ConsentStore | undefined;
 }
 export type AttributeDefinitionCategoryEnum = "CATEGORY_UNSPECIFIED" | "RESOURCE" | "REQUEST";
 /** A client-defined consent attribute. */
 export interface AttributeDefinition {
   /** Required. Possible values for the attribute. The number of allowed values must not exceed 500. An empty list is invalid. The list can only be expanded after creation. */
-  allowedValues?: StringList;
+  allowedValues?: StringList | undefined;
   /** Optional. Default values of the attribute in Consents. If no default values are specified, it defaults to an empty value. */
-  consentDefaultValues?: StringList;
+  consentDefaultValues?: StringList | undefined;
   /** Optional. A description of the attribute. */
-  description?: string;
+  description?: string | undefined;
   /** Identifier. Resource name of the Attribute definition, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/attributeDefinitions/{attribute_definition_id}`. Cannot be changed after creation. */
-  name?: string;
+  name?: string | undefined;
   /** Required. The category of the attribute. The value of this field cannot be changed after creation. */
-  category?: AttributeDefinitionCategoryEnum | (string & {});
+  category?: AttributeDefinitionCategoryEnum | (string & {}) | undefined;
   /** Optional. Default value of the attribute in User data mappings. If no default value is specified, it defaults to an empty value. This field is only applicable to attributes of the category `RESOURCE`. */
-  dataMappingDefaultValue?: string;
+  dataMappingDefaultValue?: string | undefined;
 }
 export interface CreateProjectsLocationsDatasetsConsentStoresAttributeDefinitionsRequest {
   /** Required. The name of the consent store that this Attribute definition belongs to. */
   parent: string;
   /** Required. The ID of the Attribute definition to create. The string must match the following regex: `_a-zA-Z{0,255}` and must not be a reserved keyword within the Common Expression Language as listed on https://github.com/google/cel-spec/blob/master/doc/langdef.md. */
-  attributeDefinitionId?: string;
+  attributeDefinitionId?: string | undefined;
   /** Request body */
-  body?: AttributeDefinition;
+  body?: AttributeDefinition | undefined;
 }
 /** Raw bytes representing consent artifact content. */
 export interface Image {
   /** Consent artifact content represented as a stream of bytes. This field is populated when returned in GetConsentArtifact response, but not included in CreateConsentArtifact and ListConsentArtifact response. */
-  rawBytes?: string;
+  rawBytes?: string | undefined;
   /** Input only. Points to a Cloud Storage URI containing the consent artifact content. The URI must be in the following format: `gs://{bucket_id}/{object_id}`. The Cloud Healthcare API service account must have the `roles/storage.objectViewer` Cloud IAM role for this Cloud Storage location. The consent artifact content at this URI is copied to a Cloud Storage location managed by the Cloud Healthcare API. Responses to fetching requests return the consent artifact content in raw_bytes. */
-  gcsUri?: string;
+  gcsUri?: string | undefined;
 }
 export type ImageList = Array<Image>;
 /** User signature. */
 export interface Signature {
   /** Required. User's UUID provided by the client. */
-  userId?: string;
+  userId?: string | undefined;
   /** Optional. Metadata associated with the user's signature. For example, the user's name or the user's title. */
-  metadata?: StringMap;
+  metadata?: StringMap | undefined;
   /** Optional. Timestamp of the signature. */
-  signatureTime?: string;
+  signatureTime?: string | undefined;
   /** Optional. An image of the user's signature. */
-  image?: Image;
+  image?: Image | undefined;
 }
 /** Documentation of a user's consent. */
 export interface ConsentArtifact {
   /** Optional. Screenshots, PDFs, or other binary information documenting the user's consent. */
-  consentContentScreenshots?: ImageList;
+  consentContentScreenshots?: ImageList | undefined;
   /** Required. User's UUID provided by the client. */
-  userId?: string;
+  userId?: string | undefined;
   /** Optional. Metadata associated with the Consent artifact. For example, the consent locale or user agent version. */
-  metadata?: StringMap;
+  metadata?: StringMap | undefined;
   /** Optional. An string indicating the version of the consent information shown to the user. */
-  consentContentVersion?: string;
+  consentContentVersion?: string | undefined;
   /** Optional. User's signature. */
-  userSignature?: Signature;
+  userSignature?: Signature | undefined;
   /** Identifier. Resource name of the Consent artifact, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consentArtifacts/{consent_artifact_id}`. Cannot be changed after creation. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. A signature from a witness. */
-  witnessSignature?: Signature;
+  witnessSignature?: Signature | undefined;
   /** Optional. A signature from a guardian. */
-  guardianSignature?: Signature;
+  guardianSignature?: Signature | undefined;
 }
 export interface CreateProjectsLocationsDatasetsConsentStoresConsentArtifactsRequest {
   /** Required. The name of the consent store this Consent artifact belongs to. */
   parent: string;
   /** Request body */
-  body?: ConsentArtifact;
+  body?: ConsentArtifact | undefined;
 }
 export interface CreateProjectsLocationsDatasetsConsentStoresConsentsRequest {
   /** Required. Name of the consent store. */
   parent: string;
   /** Request body */
-  body?: Consent;
+  body?: Consent | undefined;
 }
 /** Maps a resource to the associated user and Attributes. */
 export interface UserDataMapping {
   /** Output only. Indicates whether this mapping is archived. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** Attributes of the resource. Only explicitly set attributes are displayed here. Attribute definitions with defaults set implicitly apply to these User data mappings. Attributes listed here must be single valued, that is, exactly one value is specified for the field "values" in each Attribute. */
-  resourceAttributes?: AttributeList;
+  resourceAttributes?: AttributeList | undefined;
   /** Required. A unique identifier for the mapped resource. */
-  dataId?: string;
+  dataId?: string | undefined;
   /** Required. User's UUID provided by the client. */
-  userId?: string;
+  userId?: string | undefined;
   /** Output only. Indicates the time when this mapping was archived. */
-  archiveTime?: string;
+  archiveTime?: string | undefined;
   /** Resource name of the User data mapping, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/userDataMappings/{user_data_mapping_id}`. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsDatasetsConsentStoresUserDataMappingsRequest {
   /** Required. Name of the consent store. */
   parent: string;
   /** Request body */
-  body?: UserDataMapping;
+  body?: UserDataMapping | undefined;
 }
 /** Contains the configuration for DICOM notifications. */
 export interface DicomNotificationConfig {
   /** Required. The [Pub/Sub](https://cloud.google.com/pubsub/docs/) topic that notifications of changes are published on. Supplied by the client. The notification is a `PubsubMessage` with the following fields: * `PubsubMessage.Data` contains the resource name. * `PubsubMessage.MessageId` is the ID of this notification. It is guaranteed to be unique within the topic. * `PubsubMessage.PublishTime` is the time when the message was published. * `PubsubMessage.Attributes` contains the following attributes: * `action`: The name of the endpoint that generated the notification. Possible values are `StoreInstances`, `SetBlobSettings`, `ImportDicomData`, etc. * `lastUpdatedTime`: The latest timestamp when the DICOM instance was updated. * `storeName`: The resource name of the DICOM store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. * `studyInstanceUID`: The study UID of the DICOM instance that was changed. * `seriesInstanceUID`: The series UID of the DICOM instance that was changed. * `sopInstanceUID`: The instance UID of the DICOM instance that was changed. * `versionId`: The version ID of the DICOM instance that was changed. * `modality`: The modality tag of the DICOM instance that was changed. * `previousStorageClass`: The storage class where the DICOM instance was previously stored if the storage class was changed. * `storageClass`: The storage class where the DICOM instance is currently stored. Note that notifications are only sent if the topic is non-empty. [Topic names](https://cloud.google.com/pubsub/docs/overview#names) must be scoped to a project. The Cloud Healthcare API service account, service-@gcp-sa-healthcare.iam.gserviceaccount.com, must have the `pubsub.topics.publish` permission (which is typically included in `roles/pubsub.publisher` role) on the given Pub/Sub topic. Not having adequate permissions causes the calls that send notifications to fail (https://cloud.google.com/healthcare-api/docs/permissions-healthcare-api-gcp-products#dicom_fhir_and_hl7v2_store_cloud_pubsub_permissions). If a notification can't be published to Pub/Sub, errors are logged to Cloud Logging. For more information, see [Viewing error logs in Cloud Logging](https://cloud.google.com/healthcare-api/docs/how-tos/logging). */
-  pubsubTopic?: string;
+  pubsubTopic?: string | undefined;
 }
 export type DicomNotificationConfigList = Array<DicomNotificationConfig>;
 /** Using this field will set the schema such that all DICOM tags will be included in the BigQuery table as a single JSON type column. The BigQuery table schema will include the following columns: * `StudyInstanceUID` (Type: STRING): DICOM Tag 0020000D. * `SeriesInstanceUID` (Type: STRING): DICOM Tag 0020000E. * `SOPInstanceUID` (Type: STRING): DICOM Tag 00080018. * `SourceDicomStore` (Type: STRING): The name of the source DICOM store. This field is only included if the `include_source_store` option is set to true. * `Metadata` (Type: JSON): All DICOM tags for the instance, stored in a single JSON object. * `StructuredStorageSize` (Type: INTEGER): Size of the structured storage in bytes. * `DroppedTags` (Type: STRING, Repeated: Yes): List of tags that were dropped during the conversion. * `StorageClass` (Type: STRING): The storage class of the instance. * `LastUpdated` (Type: TIMESTAMP): Timestamp of the last update to the instance. * `BlobStorageSize` (Type: INTEGER): Size of the blob storage in bytes. * `Type` (Type: STRING): Indicates the type of operation (e.g., INSERT, DELETE). This field is *omitted* if `ChangeDataCaptureConfig` is enabled. */
@@ -766,56 +769,57 @@ export type GoogleCloudHealthcareV1beta1DicomBigQueryDestinationWriteDisposition
 /** The BigQuery table where the server writes output. */
 export interface GoogleCloudHealthcareV1beta1DicomBigQueryDestination {
   /** Use `write_disposition` instead. If `write_disposition` is specified, this parameter is ignored. force=false is equivalent to write_disposition=WRITE_EMPTY and force=true is equivalent to write_disposition=WRITE_TRUNCATE. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Optional. Setting this field will store all the DICOM tags as a JSON type in a single column. */
-  schemaJson?: ArchiveUserDataMappingRequest;
+  schemaJson?: ArchiveUserDataMappingRequest | undefined;
   /** Optional. Setting this field will enable BigQuery's Change Data Capture (CDC) on the destination tables with JSON schema. Set this field if you want to only keep the latest version of each instance. Updates and deletes to an existing' instance will overwrite the corresponding row. See https://cloud.google.com/bigquery/docs/change-data-capture for details. Note that this field is only supported with the SchemaJSON option. The SchemaFlattened option is not compatible with CDC. */
-  changeDataCaptureConfig?: ArchiveUserDataMappingRequest;
+  changeDataCaptureConfig?: ArchiveUserDataMappingRequest | undefined;
   /** Optional. Setting this field will use flattened DICOM instances schema for the BigQuery table. The flattened schema will have one column for each DICOM tag. */
-  schemaFlattened?: ArchiveUserDataMappingRequest;
+  schemaFlattened?: ArchiveUserDataMappingRequest | undefined;
   /** Determines whether the existing table in the destination is to be overwritten or appended to. If a write_disposition is specified, the `force` parameter is ignored. */
   writeDisposition?:
     | GoogleCloudHealthcareV1beta1DicomBigQueryDestinationWriteDispositionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. If true, the source store name will be included as a column in the BigQuery schema. */
-  includeSourceStore?: boolean;
+  includeSourceStore?: boolean | undefined;
   /** BigQuery URI to a table, up to 2000 characters long, in the format `bq://projectId.bqDatasetId.tableId` */
-  tableUri?: string;
+  tableUri?: string | undefined;
 }
 /** StreamConfig specifies configuration for a streaming DICOM export. */
 export interface GoogleCloudHealthcareV1beta1DicomStreamConfig {
   /** Results are appended to this table. The server creates a new table in the given BigQuery dataset if the specified table does not exist. To enable the Cloud Healthcare API to write to your BigQuery table, you must give the Cloud Healthcare API service account the bigquery.dataEditor role. The service account is: `service-{PROJECT_NUMBER}@gcp-sa-healthcare.iam.gserviceaccount.com`. The PROJECT_NUMBER identifies the project that the DICOM store resides in. To get the project number, go to the Cloud Console Dashboard. It is recommended to not have a custom schema in the destination table which could conflict with the schema created by the Cloud Healthcare API. Instance deletions are not applied to the destination table. The destination's table schema will be automatically updated in case a new instance's data is incompatible with the current schema. The schema should not be updated manually as this can cause incompatibilies that cannot be resolved automatically. One resolution in this case is to delete the incompatible table and let the server recreate one, though the newly created table only contains data after the table recreation. BigQuery imposes a 1 MB limit on streaming insert row size, therefore any instance that generates more than 1 MB of BigQuery data will not be streamed. If an instance cannot be streamed to BigQuery, errors will be logged to Cloud Logging (see [Viewing error logs in Cloud Logging](https://cloud.google.com/healthcare/docs/how-tos/logging)). */
-  bigqueryDestination?: GoogleCloudHealthcareV1beta1DicomBigQueryDestination;
+  bigqueryDestination?: GoogleCloudHealthcareV1beta1DicomBigQueryDestination | undefined;
 }
 export type GoogleCloudHealthcareV1beta1DicomStreamConfigList =
   Array<GoogleCloudHealthcareV1beta1DicomStreamConfig>;
 /** Specifies where to send notifications upon changes to a data store. */
 export interface NotificationConfig {
   /** The [Pub/Sub](https://cloud.google.com/pubsub/docs/) topic that notifications of changes are published on. Supplied by the client. PubsubMessage.Data contains the resource name. PubsubMessage.MessageId is the ID of this message. It is guaranteed to be unique within the topic. PubsubMessage.PublishTime is the time at which the message was published. Notifications are only sent if the topic is non-empty. [Topic names](https://cloud.google.com/pubsub/docs/overview#names) must be scoped to a project. Cloud Healthcare API service account must have publisher permissions on the given Pub/Sub topic. Not having adequate permissions causes the calls that send notifications to fail. If a notification can't be published to Pub/Sub, errors are logged to Cloud Logging (see [Viewing error logs in Cloud Logging](https://cloud.google.com/healthcare/docs/how-tos/logging)). If the number of errors exceeds a certain rate, some aren't submitted. Note that not all operations trigger notifications, see [Configuring Pub/Sub notifications](https://cloud.google.com/healthcare/docs/how-tos/pubsub) for specific details. */
-  pubsubTopic?: string;
+  pubsubTopic?: string | undefined;
   /** Indicates whether or not to send Pub/Sub notifications on bulk import. Only supported for DICOM imports. */
-  sendForBulkImport?: boolean;
+  sendForBulkImport?: boolean | undefined;
 }
 /** Represents a DICOM store. */
 export interface DicomStore {
   /** Optional. Specifies where and whether to send notifications upon changes to a DICOM store. */
-  notificationConfigs?: DicomNotificationConfigList;
+  notificationConfigs?: DicomNotificationConfigList | undefined;
   /** User-supplied key-value pairs used to organize DICOM stores. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: \p{Ll}\p{Lo}{0,62} Label values are optional, must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: [\p{Ll}\p{Lo}\p{N}_-]{0,63} No more than 64 labels can be associated with a given store. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Optional. A list of streaming configs used to configure the destination of streaming exports for every DICOM instance insertion in this DICOM store. After a new config is added to `stream_configs`, DICOM instance insertions are streamed to the new destination. When a config is removed from `stream_configs`, the server stops streaming to that destination. Each config must contain a unique destination. */
-  streamConfigs?: GoogleCloudHealthcareV1beta1DicomStreamConfigList;
+  streamConfigs?: GoogleCloudHealthcareV1beta1DicomStreamConfigList | undefined;
   /** Identifier. Resource name of the DICOM store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** Notification destination for new DICOM instances. Supplied by the client. */
-  notificationConfig?: NotificationConfig;
+  notificationConfig?: NotificationConfig | undefined;
 }
 export interface CreateProjectsLocationsDatasetsDicomStoresRequest {
   /** Required. The name of the dataset this DICOM store belongs to. */
   parent: string;
   /** Required. The ID of the DICOM store that is being created. Any string value up to 256 characters in length. */
-  dicomStoreId?: string;
+  dicomStoreId?: string | undefined;
   /** Request body */
-  body?: DicomStore;
+  body?: DicomStore | undefined;
 }
 export type FhirStoreVersionEnum = "VERSION_UNSPECIFIED" | "DSTU2" | "STU3" | "R4" | "R5";
 export type GoogleCloudHealthcareV1beta1FhirChangeDataCaptureConfigHistoryModeEnum =
@@ -827,7 +831,8 @@ export interface GoogleCloudHealthcareV1beta1FhirChangeDataCaptureConfig {
   /** Optional. Configures how historical versions of FHIR resources will be reflected in the destination table through updates and deletes. Defaults to `HistoryMode.KEEP_LATEST_VERSION` if unspecified. */
   historyMode?:
     | GoogleCloudHealthcareV1beta1FhirChangeDataCaptureConfigHistoryModeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type SchemaConfigSchemaTypeEnum =
   | "SCHEMA_TYPE_UNSPECIFIED"
@@ -843,18 +848,18 @@ export type TimePartitioningTypeEnum =
 /** Configuration for FHIR BigQuery time-partitioned tables. */
 export interface TimePartitioning {
   /** Number of milliseconds for which to keep the storage for a partition. */
-  expirationMs?: string;
+  expirationMs?: string | undefined;
   /** Type of partitioning. */
-  type?: TimePartitioningTypeEnum | (string & {});
+  type?: TimePartitioningTypeEnum | (string & {}) | undefined;
 }
 /** Configuration for the FHIR BigQuery schema. Determines how the server generates the schema. */
 export interface SchemaConfig {
   /** The depth for all recursive structures in the output analytics schema. For example, `concept` in the CodeSystem resource is a recursive structure; when the depth is 2, the CodeSystem table will have a column called `concept.concept` but not `concept.concept.concept`. If not specified or set to 0, the server will use the default value 2. The maximum depth allowed is 5. */
-  recursiveStructureDepth?: string;
+  recursiveStructureDepth?: string | undefined;
   /** Specifies the output schema type. Schema type is required. */
-  schemaType?: SchemaConfigSchemaTypeEnum | (string & {});
+  schemaType?: SchemaConfigSchemaTypeEnum | (string & {}) | undefined;
   /** The configuration for exported BigQuery tables to be partitioned by FHIR resource's last updated time column. */
-  lastUpdatedPartitionConfig?: TimePartitioning;
+  lastUpdatedPartitionConfig?: TimePartitioning | undefined;
 }
 export type GoogleCloudHealthcareV1beta1FhirBigQueryDestinationWriteDispositionEnum =
   | "WRITE_DISPOSITION_UNSPECIFIED"
@@ -864,17 +869,18 @@ export type GoogleCloudHealthcareV1beta1FhirBigQueryDestinationWriteDispositionE
 /** The configuration for exporting to BigQuery. */
 export interface GoogleCloudHealthcareV1beta1FhirBigQueryDestination {
   /** Optional. Setting this field will enable BigQuery's Change Data Capture (CDC) on the destination tables. Use this field if you: - Want to only keep the latest version of each resource. Updates and deletes to an existing resource will overwrite the corresponding row. - Have a store with enabled history modifications and want to keep the entire history of resource versions but want the history to be mutable. Updates and deletes to a specific resource version will overwrite the corresponding row. See https://cloud.google.com/bigquery/docs/change-data-capture for details. */
-  changeDataCaptureConfig?: GoogleCloudHealthcareV1beta1FhirChangeDataCaptureConfig;
+  changeDataCaptureConfig?: GoogleCloudHealthcareV1beta1FhirChangeDataCaptureConfig | undefined;
   /** Use `write_disposition` instead. If `write_disposition` is specified, this parameter is ignored. force=false is equivalent to write_disposition=WRITE_EMPTY and force=true is equivalent to write_disposition=WRITE_TRUNCATE. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** The configuration for the exported BigQuery schema. */
-  schemaConfig?: SchemaConfig;
+  schemaConfig?: SchemaConfig | undefined;
   /** Determines if existing data in the destination dataset is overwritten, appended to, or not written if the tables contain data. If a write_disposition is specified, the `force` parameter is ignored. */
   writeDisposition?:
     | GoogleCloudHealthcareV1beta1FhirBigQueryDestinationWriteDispositionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** BigQuery URI to an existing dataset, up to 2000 characters long, in the format `bq://projectId.bqDatasetId`. */
-  datasetUri?: string;
+  datasetUri?: string | undefined;
 }
 export type ImageConfigTextRedactionModeEnum =
   | "TEXT_REDACTION_MODE_UNSPECIFIED"
@@ -886,21 +892,21 @@ export type IntegerList = Array<number>;
 /** Defines a custom regular expression pattern to detect and redact in the image. */
 export interface CustomRegex {
   /** Optional. The capturing group indexes to redact. skip_request_analyics: true */
-  groupIndexes?: IntegerList;
+  groupIndexes?: IntegerList | undefined;
   /** Optional. The regular expression pattern to match. */
-  pattern?: string;
+  pattern?: string | undefined;
 }
 export type CustomRegexList = Array<CustomRegex>;
 /** Specifies how to handle de-identification of image pixels. */
 export interface ImageConfig {
   /** Determines how to redact text from image. */
-  textRedactionMode?: ImageConfigTextRedactionModeEnum | (string & {});
+  textRedactionMode?: ImageConfigTextRedactionModeEnum | (string & {}) | undefined;
   /** Additional InfoTypes to redact in the images in addition to those used by `text_redaction_mode`. Can only be used when `text_redaction_mode` is set to `REDACT_SENSITIVE_TEXT`, `REDACT_SENSITIVE_TEXT_CLEAN_DESCRIPTORS` or `TEXT_REDACTION_MODE_UNSPECIFIED`. */
-  additionalInfoTypes?: StringList;
+  additionalInfoTypes?: StringList | undefined;
   /** Optional. Custom regex patterns to redact from the image. */
-  customRegexes?: CustomRegexList;
+  customRegexes?: CustomRegexList | undefined;
   /** InfoTypes to skip redacting, overriding those used by `text_redaction_mode`. Can only be used when `text_redaction_mode` is set to `REDACT_SENSITIVE_TEXT` or `REDACT_SENSITIVE_TEXT_CLEAN_DESCRIPTORS`. */
-  excludeInfoTypes?: StringList;
+  excludeInfoTypes?: StringList | undefined;
 }
 /** This option is based on the DICOM Standard's [Clean Descriptors Option](https://dicom.nema.org/medical/dicom/2018e/output/chtml/part15/sect_E.3.5.html), and the `CleanText` `Action` is applied to all the specified fields. When cleaning text, the process attempts to transform phrases matching any of the tags marked for removal (action codes D, Z, X, and U) in the [Basic Profile](https://dicom.nema.org/medical/dicom/2018e/output/chtml/part15/chapter_E.html). These contextual phrases are replaced with the token "[CTX]". This option uses an additional infoType during inspection. */
 export type CleanDescriptorsOption = ArchiveUserDataMappingRequest;
@@ -908,11 +914,11 @@ export type OptionsPrimaryIdsEnum = "PRIMARY_IDS_OPTION_UNSPECIFIED" | "KEEP" | 
 /** Specifies additional options to apply to the base profile. */
 export interface Options {
   /** Apply `Action.clean_image` to [`PixelData`](https://dicom.nema.org/medical/dicom/2018e/output/chtml/part06/chapter_6.html) as configured. */
-  cleanImage?: ImageConfig;
+  cleanImage?: ImageConfig | undefined;
   /** Set Clean Descriptors Option. */
-  cleanDescriptors?: ArchiveUserDataMappingRequest;
+  cleanDescriptors?: ArchiveUserDataMappingRequest | undefined;
   /** Set `Action` for [`StudyInstanceUID`, `SeriesInstanceUID`, `SOPInstanceUID`, and `MediaStorageSOPInstanceUID`](https://dicom.nema.org/medical/dicom/2018e/output/chtml/part06/chapter_6.html). */
-  primaryIds?: OptionsPrimaryIdsEnum | (string & {});
+  primaryIds?: OptionsPrimaryIdsEnum | (string & {}) | undefined;
 }
 export type DicomTagConfigProfileTypeEnum =
   | "PROFILE_TYPE_UNSPECIFIED"
@@ -937,33 +943,33 @@ export type KeepTag = ArchiveUserDataMappingRequest;
 /** Specifies a selection of tags and an `Action` to apply to each one. */
 export interface Action {
   /** Recursively apply DICOM de-id to tags nested in a sequence. Supported [Value Representation] (https://dicom.nema.org/medical/dicom/2018e/output/chtml/part05/sect_6.2.html#table_6.2-1): SQ */
-  recurseTag?: ArchiveUserDataMappingRequest;
+  recurseTag?: ArchiveUserDataMappingRequest | undefined;
   /** Inspect text and transform sensitive text. Configurable via TextConfig. Supported Value Representations: AE, LO, LT, PN, SH, ST, UC, UT, DA, DT, AS */
-  cleanTextTag?: ArchiveUserDataMappingRequest;
+  cleanTextTag?: ArchiveUserDataMappingRequest | undefined;
   /** Inspect image and transform sensitive burnt-in text. Doesn't apply to elements nested in a sequence, which revert to `Keep`. Supported [tags](https://dicom.nema.org/medical/dicom/2018e/output/chtml/part06/chapter_6.html): PixelData */
-  cleanImageTag?: ImageConfig;
+  cleanImageTag?: ImageConfig | undefined;
   /** Replace with empty tag. */
-  removeTag?: ArchiveUserDataMappingRequest;
+  removeTag?: ArchiveUserDataMappingRequest | undefined;
   /** Select all tags with the listed tag IDs, names, or Value Representations (VRs). Examples: ID: "00100010" Keyword: "PatientName" VR: "PN" */
-  queries?: StringList;
+  queries?: StringList | undefined;
   /** Delete tag. */
-  deleteTag?: ArchiveUserDataMappingRequest;
+  deleteTag?: ArchiveUserDataMappingRequest | undefined;
   /** Replace UID with a new generated UID. Supported [Value Representation] (https://dicom.nema.org/medical/dicom/2018e/output/chtml/part05/sect_6.2.html#table_6.2-1): UI */
-  regenUidTag?: ArchiveUserDataMappingRequest;
+  regenUidTag?: ArchiveUserDataMappingRequest | undefined;
   /** Reset tag to a placeholder value. */
-  resetTag?: ArchiveUserDataMappingRequest;
+  resetTag?: ArchiveUserDataMappingRequest | undefined;
   /** Keep tag unchanged. */
-  keepTag?: ArchiveUserDataMappingRequest;
+  keepTag?: ArchiveUserDataMappingRequest | undefined;
 }
 export type ActionList = Array<Action>;
 /** Specifies the parameters needed for the de-identification of DICOM stores. */
 export interface DicomTagConfig {
   /** Specifies additional options to apply, overriding the base `profile`. */
-  options?: Options;
+  options?: Options | undefined;
   /** Base profile type for handling DICOM tags. */
-  profileType?: DicomTagConfigProfileTypeEnum | (string & {});
+  profileType?: DicomTagConfigProfileTypeEnum | (string & {}) | undefined;
   /** Specifies custom tag selections and `Actions` to apply to them. Overrides `options` and `profile`. Conflicting `Actions` are applied in the order given. */
-  actions?: ActionList;
+  actions?: ActionList | undefined;
 }
 export type FieldMetadataActionEnum =
   | "ACTION_UNSPECIFIED"
@@ -973,22 +979,22 @@ export type FieldMetadataActionEnum =
 /** Specifies FHIR paths to match, and how to handle de-identification of matching fields. */
 export interface FieldMetadata {
   /** List of paths to FHIR fields to redact. Each path is a period-separated list where each component is either a field name or FHIR type name. All types begin with an upper case letter. For example, the resource field "Patient.Address.city", which uses a string type, can be matched by "Patient.Address.String". Path also supports partial matching. For example, "Patient.Address.city" can be matched by "Address.city" (Patient omitted). Partial matching and type matching can be combined. For example, "Patient.Address.city" can be matched by "Address.String". For "choice" types (those defined in the FHIR spec with the form: field[x]), use two separate components. For example, "deceasedAge.unit" is matched by "Deceased.Age.unit". Supported types are: AdministrativeGenderCode, Base64Binary, Boolean, Code, Date, DateTime, Decimal, HumanName, Id, Instant, Integer, LanguageCode, Markdown, Oid, PositiveInt, String, UnsignedInt, Uri, Uuid, Xhtml. The sub-type for HumanName(for example HumanName.given, HumanName.family) can be omitted. */
-  paths?: StringList;
+  paths?: StringList | undefined;
   /** Deidentify action for one field. */
-  action?: FieldMetadataActionEnum | (string & {});
+  action?: FieldMetadataActionEnum | (string & {}) | undefined;
 }
 export type FieldMetadataList = Array<FieldMetadata>;
 /** Specifies how to handle de-identification of a FHIR store. */
 export interface FhirConfig {
   /** Specifies FHIR paths to match and how to transform them. Any field that is not matched by a FieldMetadata is passed through to the output dataset unmodified. All extensions will be processed according to `default_keep_extensions`. If a field can be matched by more than one FieldMetadata, the first FieldMetadata.Action is applied. */
-  fieldMetadataList?: FieldMetadataList;
+  fieldMetadataList?: FieldMetadataList | undefined;
   /** The behaviour for handling FHIR extensions that aren't otherwise specified for de-identification. If true, all extensions are preserved during de-identification by default. If false or unspecified, all extensions are removed during de-identification by default. */
-  defaultKeepExtensions?: boolean;
+  defaultKeepExtensions?: boolean | undefined;
 }
 /** List of tags to be filtered. */
 export interface TagFilterList {
   /** Tags to be filtered. Tags must be DICOM Data Elements, File Meta Elements, or Directory Structuring Elements, as defined at: https://dicom.nema.org/medical/dicom/current/output/html/part06.html#table_6-1,. They may be provided by "Keyword" or "Tag". For example, "PatientID", "00100010". */
-  tags?: StringList;
+  tags?: StringList | undefined;
 }
 export type DicomConfigFilterProfileEnum =
   | "TAG_FILTER_PROFILE_UNSPECIFIED"
@@ -999,81 +1005,81 @@ export type DicomConfigFilterProfileEnum =
 /** Specifies the parameters needed for de-identification of DICOM stores. */
 export interface DicomConfig {
   /** If true, skip replacing StudyInstanceUID, SeriesInstanceUID, SOPInstanceUID, and MediaStorageSOPInstanceUID and leave them untouched. The Cloud Healthcare API regenerates these UIDs by default based on the DICOM Standard's reasoning: "Whilst these UIDs cannot be mapped directly to an individual out of context, given access to the original images, or to a database of the original images containing the UIDs, it would be possible to recover the individual's identity." https://dicom.nema.org/medical/dicom/current/output/chtml/part15/sect_E.3.9.html */
-  skipIdRedaction?: boolean;
+  skipIdRedaction?: boolean | undefined;
   /** List of tags to keep. Remove all other tags. */
-  keepList?: TagFilterList;
+  keepList?: TagFilterList | undefined;
   /** Tag filtering profile that determines which tags to keep/remove. */
-  filterProfile?: DicomConfigFilterProfileEnum | (string & {});
+  filterProfile?: DicomConfigFilterProfileEnum | (string & {}) | undefined;
   /** List of tags to remove. Keep all other tags. */
-  removeList?: TagFilterList;
+  removeList?: TagFilterList | undefined;
 }
 /** Include to use an existing data crypto key wrapped by KMS. The wrapped key must be a 128-, 192-, or 256-bit key. The key must grant the Cloud IAM permission `cloudkms.cryptoKeyVersions.useToDecrypt` to the project's Cloud Healthcare Service Agent service account. For more information, see [Creating a wrapped key] (https://cloud.google.com/dlp/docs/create-wrapped-key). */
 export interface KmsWrappedCryptoKey {
   /** Required. The wrapped data crypto key. */
-  wrappedKey?: string;
+  wrappedKey?: string | undefined;
   /** Required. The resource name of the KMS CryptoKey to use for unwrapping. For example, `projects/{project_id}/locations/{location_id}/keyRings/{keyring}/cryptoKeys/{key}`. */
-  cryptoKey?: string;
+  cryptoKey?: string | undefined;
 }
 /** Shift a date forward or backward in time by a random amount which is consistent for a given patient and crypto key combination. */
 export interface DateShiftConfig {
   /** An AES 128/192/256 bit key. The date shift is computed based on this key and the patient ID. If the patient ID is empty for a DICOM resource, the date shift is computed based on this key and the study instance UID. If crypto_key is not set, then kms_wrapped is used to calculate the date shift. If neither is set, a default key is generated for each de-identify operation. Must not be set if kms_wrapped is set. */
-  cryptoKey?: string;
+  cryptoKey?: string | undefined;
   /** KMS wrapped key. If kms_wrapped is not set, then crypto_key is used to calculate the date shift. If neither is set, a default key is generated for each de-identify operation. Must not be set if crypto_key is set. */
-  kmsWrapped?: KmsWrappedCryptoKey;
+  kmsWrapped?: KmsWrappedCryptoKey | undefined;
 }
 /** Mask a string by replacing its characters with a fixed character. */
 export interface CharacterMaskConfig {
   /** Character to mask the sensitive values. If not supplied, defaults to "*". */
-  maskingCharacter?: string;
+  maskingCharacter?: string | undefined;
 }
 /** When using the INSPECT_AND_TRANSFORM action, each match is replaced with the name of the info_type. For example, "My name is Jane" becomes "My name is [PERSON_NAME]." The TRANSFORM action is equivalent to redacting. */
 export type ReplaceWithInfoTypeConfig = ArchiveUserDataMappingRequest;
 /** Pseudonymization method that generates surrogates via cryptographic hashing. Uses SHA-256. Outputs a base64-encoded representation of the hashed output. For example, `L7k0BHmF1ha5U3NfGykjro4xWi1MPVQPjhMAZbSV9mM=`. */
 export interface CryptoHashConfig {
   /** An AES 128/192/256 bit key. Causes the hash to be computed based on this key. A default key is generated for each Deidentify operation and is used when neither crypto_key nor kms_wrapped is specified. Must not be set if kms_wrapped is set. */
-  cryptoKey?: string;
+  cryptoKey?: string | undefined;
   /** KMS wrapped key. Must not be set if crypto_key is set. */
-  kmsWrapped?: KmsWrappedCryptoKey;
+  kmsWrapped?: KmsWrappedCryptoKey | undefined;
 }
 /** Define how to redact sensitive values. Default behaviour is erase. For example, "My name is Jane." becomes "My name is ." */
 export type RedactConfig = ArchiveUserDataMappingRequest;
 /** A transformation to apply to text that is identified as a specific info_type. */
 export interface InfoTypeTransformation {
   /** Config for date shift. */
-  dateShiftConfig?: DateShiftConfig;
+  dateShiftConfig?: DateShiftConfig | undefined;
   /** Config for character mask. */
-  characterMaskConfig?: CharacterMaskConfig;
+  characterMaskConfig?: CharacterMaskConfig | undefined;
   /** Config for replace with InfoType. */
-  replaceWithInfoTypeConfig?: ArchiveUserDataMappingRequest;
+  replaceWithInfoTypeConfig?: ArchiveUserDataMappingRequest | undefined;
   /** Config for crypto hash. */
-  cryptoHashConfig?: CryptoHashConfig;
+  cryptoHashConfig?: CryptoHashConfig | undefined;
   /** Config for text redaction. */
-  redactConfig?: ArchiveUserDataMappingRequest;
+  redactConfig?: ArchiveUserDataMappingRequest | undefined;
   /** `InfoTypes` to apply this transformation to. If this is not specified, this transformation becomes the default transformation, and is used for any `info_type` that is not specified in another transformation. */
-  infoTypes?: StringList;
+  infoTypes?: StringList | undefined;
 }
 export type InfoTypeTransformationList = Array<InfoTypeTransformation>;
 export type TextConfigProfileTypeEnum = "PROFILE_TYPE_UNSPECIFIED" | "EMPTY" | "BASIC";
 /** Configures how to transform sensitive text `InfoTypes`. */
 export interface TextConfig {
   /** The transformations to apply to the detected data. Deprecated. Use `additional_transformations` instead. */
-  transformations?: InfoTypeTransformationList;
+  transformations?: InfoTypeTransformationList | undefined;
   /** InfoTypes to skip transforming, overriding `profile`. */
-  excludeInfoTypes?: StringList;
+  excludeInfoTypes?: StringList | undefined;
   /** Base profile type for text transformation. */
-  profileType?: TextConfigProfileTypeEnum | (string & {});
+  profileType?: TextConfigProfileTypeEnum | (string & {}) | undefined;
   /** Additional transformations to apply to the detected data, overriding `profile`. */
-  additionalTransformations?: InfoTypeTransformationList;
+  additionalTransformations?: InfoTypeTransformationList | undefined;
 }
 /** Details about the FHIR store to write the output to. */
 export interface FhirOutput {
   /** Name of the output FHIR store, which must already exist. You must grant the healthcare.fhirResources.update permission on the destination store to your project's **Cloud Healthcare Service Agent** [service account](https://cloud.google.com/healthcare/docs/how-tos/permissions-healthcare-api-gcp-products#the_cloud_healthcare_service_agent). The destination store must set enableUpdateCreate to true. The destination store must use FHIR version R4. Writing these resources will consume FHIR operations quota from the project containing the source data. De-identify operation metadata is only generated for DICOM de-identification operations. */
-  fhirStore?: string;
+  fhirStore?: string | undefined;
 }
 /** Details about the work the de-identify operation performed. */
 export interface DeidentifyOperationMetadata {
   /** Details about the FHIR store to write the output to. */
-  fhirOutput?: FhirOutput;
+  fhirOutput?: FhirOutput | undefined;
 }
 /** The behavior for handling FHIR extensions that aren't otherwise specified for de-identification. If provided, all extensions are preserved during de-identification by default. If unspecified, all extensions are removed during de-identification by default. */
 export type KeepExtensionsConfig = ArchiveUserDataMappingRequest;
@@ -1082,15 +1088,15 @@ export type ContextualDeidConfig = ArchiveUserDataMappingRequest;
 /** Specifies additional options to apply to the base ProfileType. */
 export interface GoogleCloudHealthcareV1beta1DeidentifyOptions {
   /** Configure keeping extensions by default. */
-  keepExtensions?: ArchiveUserDataMappingRequest;
+  keepExtensions?: ArchiveUserDataMappingRequest | undefined;
   /** Crypto hash config for CharacterMaskField. */
-  cryptoHashConfig?: CryptoHashConfig;
+  cryptoHashConfig?: CryptoHashConfig | undefined;
   /** Date shifting config for CharacterMaskField. */
-  dateShiftConfig?: DateShiftConfig;
+  dateShiftConfig?: DateShiftConfig | undefined;
   /** Character mask config for CharacterMaskField. */
-  characterMaskConfig?: CharacterMaskConfig;
+  characterMaskConfig?: CharacterMaskConfig | undefined;
   /** Configure contextual de-id. */
-  contextualDeid?: ArchiveUserDataMappingRequest;
+  contextualDeid?: ArchiveUserDataMappingRequest | undefined;
 }
 export type FhirFieldConfigProfileTypeEnum =
   | "PROFILE_TYPE_UNSPECIFIED"
@@ -1112,89 +1118,89 @@ export type KeepField = ArchiveUserDataMappingRequest;
 /** Specifies the FHIR paths to match and how to handle the de-identification of matching fields. */
 export interface GoogleCloudHealthcareV1beta1DeidentifyFieldMetadata {
   /** Replace field value with a hash of that value. Supported [types](https://www.hl7.org/fhir/datatypes.html): Code, Decimal, HumanName, Id, LanguageCode, Markdown, Oid, String, Uri, Uuid, Xhtml. */
-  cryptoHashField?: ArchiveUserDataMappingRequest;
+  cryptoHashField?: ArchiveUserDataMappingRequest | undefined;
   /** List of paths to FHIR fields to redact. Each path is a period-separated list where each component is either a field name or FHIR [type](https://www.hl7.org/fhir/datatypes.html) name. All types begin with an upper case letter. For example, the resource field `Patient.Address.city`, which uses a [string](https://www.hl7.org/fhir/datatypes-definitions.html#Address.city) type, can be matched by `Patient.Address.String`. Partial matching is supported. For example, `Patient.Address.city` can be matched by `Address.city` (with `Patient` omitted). Partial matching and type matching can be combined, for example `Patient.Address.city` can be matched by `Address.String`. For "choice" types (those defined in the FHIR spec with the format `field[x]`), use two separate components. For example, `deceasedAge.unit` is matched by `Deceased.Age.unit`. The following types are supported: AdministrativeGenderCode, Base64Binary, Boolean, Code, Date, DateTime, Decimal, HumanName, Id, Instant, Integer, LanguageCode, Markdown, Oid, PositiveInt, String, UnsignedInt, Uri, Uuid, Xhtml. The sub-type for HumanName (for example `HumanName.given`, `HumanName.family`) can be omitted. */
-  paths?: StringList;
+  paths?: StringList | undefined;
   /** Shift the date by a randomized number of days. See [date shifting](https://cloud.google.com/dlp/docs/concepts-date-shifting) for more information. Supported [types](https://www.hl7.org/fhir/datatypes.html): Date, DateTime. */
-  dateShiftField?: ArchiveUserDataMappingRequest;
+  dateShiftField?: ArchiveUserDataMappingRequest | undefined;
   /** Replace the field's value with a masking character. Supported [types](https://www.hl7.org/fhir/datatypes.html): Code, Decimal, HumanName, Id, LanguageCode, Markdown, Oid, String, Uri, Uuid, Xhtml. */
-  characterMaskField?: ArchiveUserDataMappingRequest;
+  characterMaskField?: ArchiveUserDataMappingRequest | undefined;
   /** Remove the field. */
-  removeField?: ArchiveUserDataMappingRequest;
+  removeField?: ArchiveUserDataMappingRequest | undefined;
   /** Inspect the field's text and transform sensitive text. Configure using TextConfig. Supported [types](https://www.hl7.org/fhir/datatypes.html): Code, Date, DateTime, Decimal, HumanName, Id, LanguageCode, Markdown, Oid, String, Uri, Uuid, Xhtml. */
-  cleanTextField?: ArchiveUserDataMappingRequest;
+  cleanTextField?: ArchiveUserDataMappingRequest | undefined;
   /** Keep the field unchanged. */
-  keepField?: ArchiveUserDataMappingRequest;
+  keepField?: ArchiveUserDataMappingRequest | undefined;
 }
 export type GoogleCloudHealthcareV1beta1DeidentifyFieldMetadataList =
   Array<GoogleCloudHealthcareV1beta1DeidentifyFieldMetadata>;
 /** Specifies how to handle the de-identification of a FHIR store. */
 export interface FhirFieldConfig {
   /** Specifies additional options, overriding the base ProfileType. */
-  options?: GoogleCloudHealthcareV1beta1DeidentifyOptions;
+  options?: GoogleCloudHealthcareV1beta1DeidentifyOptions | undefined;
   /** Base profile type for handling FHIR fields. */
-  profileType?: FhirFieldConfigProfileTypeEnum | (string & {});
+  profileType?: FhirFieldConfigProfileTypeEnum | (string & {}) | undefined;
   /** Specifies FHIR paths to match and how to transform them. Any field that is not matched by a FieldMetadata `action` is passed through to the output dataset unmodified. All extensions will be processed according to keep_extensions. If a field can be matched by more than one FieldMetadata `action`, the first `action` option is applied. Overrides options and the union field `profile` in FhirFieldConfig. */
-  fieldMetadataList?: GoogleCloudHealthcareV1beta1DeidentifyFieldMetadataList;
+  fieldMetadataList?: GoogleCloudHealthcareV1beta1DeidentifyFieldMetadataList | undefined;
 }
 /** Configures de-id options specific to different types of content. Each submessage customizes the handling of an https://tools.ietf.org/html/rfc6838 media type or subtype. Configs are applied in a nested manner at runtime. */
 export interface DeidentifyConfig {
   /** Configures the de-identification of image pixels in the source_dataset. Deprecated. Use `dicom_tag_config.options.clean_image` instead. */
-  image?: ImageConfig;
+  image?: ImageConfig | undefined;
   /** Configures de-id of application/DICOM content. */
-  dicomTagConfig?: DicomTagConfig;
+  dicomTagConfig?: DicomTagConfig | undefined;
   /** Configures de-id of application/FHIR content. Deprecated. Use `fhir_field_config` instead. */
-  fhir?: FhirConfig;
+  fhir?: FhirConfig | undefined;
   /** Configures de-id of application/DICOM content. Deprecated. Use `dicom_tag_config` instead. */
-  dicom?: DicomConfig;
+  dicom?: DicomConfig | undefined;
   /** Configures de-identification of text wherever it is found in the source_dataset. */
-  text?: TextConfig;
+  text?: TextConfig | undefined;
   /** Details about the work the de-identify operation performed. */
-  operationMetadata?: DeidentifyOperationMetadata;
+  operationMetadata?: DeidentifyOperationMetadata | undefined;
   /** Ensures in-flight data remains in the region of origin during de-identification. The default value is false. Using this option results in a significant reduction of throughput, and is not compatible with `LOCATION` or `ORGANIZATION_NAME` infoTypes. If the deprecated DicomConfig or FhirConfig are used, then `LOCATION` must be excluded within TextConfig, and must also be excluded within ImageConfig if image redaction is required. */
-  useRegionalDataProcessing?: boolean;
+  useRegionalDataProcessing?: boolean | undefined;
   /** Configures de-id of application/FHIR content. */
-  fhirFieldConfig?: FhirFieldConfig;
+  fhirFieldConfig?: FhirFieldConfig | undefined;
 }
 /** Contains configuration for streaming de-identified FHIR export. */
 export interface DeidentifiedStoreDestination {
   /** The configuration to use when de-identifying resources that are added to this store. */
-  config?: DeidentifyConfig;
+  config?: DeidentifyConfig | undefined;
   /** The full resource name of a Cloud Healthcare FHIR store, for example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
-  store?: string;
+  store?: string | undefined;
 }
 /** Contains configuration for streaming FHIR export. */
 export interface StreamConfig {
   /** Supply a FHIR resource type (such as "Patient" or "Observation"). See https://www.hl7.org/fhir/valueset-resource-types.html for a list of all FHIR resource types. The server treats an empty list as an intent to stream all the supported resource types in this FHIR store. */
-  resourceTypes?: StringList;
+  resourceTypes?: StringList | undefined;
   /** The destination BigQuery structure that contains both the dataset location and corresponding schema config. The output is organized in one table per resource type. The server reuses the existing tables (if any) that are named after the resource types, e.g. "Patient", "Observation". When there is no existing table for a given resource type, the server attempts to create one. When a table schema doesn't align with the schema config, either because of existing incompatible schema or out of band incompatible modification, the server does not stream in new data. One resolution in this case is to delete the incompatible table and let the server recreate one, though the newly created table only contains data after the table recreation. BigQuery imposes a 1 MB limit on streaming insert row size, therefore any resource mutation that generates more than 1 MB of BigQuery data will not be streamed. Results are written to BigQuery tables according to the parameters in BigQueryDestination.WriteDisposition. Different versions of the same resource are distinguishable by the meta.versionId and meta.lastUpdated columns. The operation (CREATE/UPDATE/DELETE) that results in the new version is recorded in the meta.tag. The tables contain all historical resource versions since streaming was enabled. For query convenience, the server also creates one view per table of the same name containing only the current resource version. The streamed data in the BigQuery dataset is not guaranteed to be completely unique. The combination of the id and meta.versionId columns should ideally identify a single unique row. But in rare cases, duplicates may exist. At query time, users may use the SQL select statement to keep only one of the duplicate rows given an id and meta.versionId pair. Alternatively, the server created view mentioned above also filters out duplicates. If a resource mutation cannot be streamed to BigQuery, errors will be logged to Cloud Logging (see [Viewing error logs in Cloud Logging](https://cloud.google.com/healthcare/docs/how-tos/logging)). */
-  bigqueryDestination?: GoogleCloudHealthcareV1beta1FhirBigQueryDestination;
+  bigqueryDestination?: GoogleCloudHealthcareV1beta1FhirBigQueryDestination | undefined;
   /** The destination FHIR store for de-identified resources. After this field is added, all subsequent creates/updates/patches to the source store will be de-identified using the provided configuration and applied to the destination store. Resources deleted from the source store will be deleted from the destination store. Importing resources to the source store will not trigger the streaming. If the source store already contains resources when this option is enabled, those resources will not be copied to the destination store unless they are subsequently updated. This may result in invalid references in the destination store. Before adding this config, you must grant the healthcare.fhirResources.update permission on the destination store to your project's **Cloud Healthcare Service Agent** [service account](https://cloud.google.com/healthcare/docs/how-tos/permissions-healthcare-api-gcp-products#the_cloud_healthcare_service_agent). The destination store must set enable_update_create to true. The destination store must have disable_referential_integrity set to true. If a resource cannot be de-identified, errors will be logged to Cloud Logging (see [Viewing error logs in Cloud Logging](https://cloud.google.com/healthcare/docs/how-tos/logging)). Not supported for R5 stores. */
-  deidentifiedStoreDestination?: DeidentifiedStoreDestination;
+  deidentifiedStoreDestination?: DeidentifiedStoreDestination | undefined;
 }
 export type StreamConfigList = Array<StreamConfig>;
 /** Contains the configuration for FHIR notifications. */
 export interface FhirNotificationConfig {
   /** Whether to send full FHIR resource to this Pub/Sub topic for Create and Update operation. The default value is false. Note that setting this to true does not guarantee that all resources will be sent in the format of full FHIR resource. When a resource change is too large or during heavy traffic, only the resource name will be sent. Clients should always check the "payloadType" label from a Pub/Sub message to determine whether it needs to fetch the full resource as a separate operation. */
-  sendFullResource?: boolean;
+  sendFullResource?: boolean | undefined;
   /** The [Pub/Sub](https://cloud.google.com/pubsub/docs/) topic that notifications of changes are published on. Supplied by the client. The notification is a `PubsubMessage` with the following fields: * `PubsubMessage.Data` contains the resource name. * `PubsubMessage.MessageId` is the ID of this notification. It is guaranteed to be unique within the topic. * `PubsubMessage.PublishTime` is the time when the message was published. Note that notifications are only sent if the topic is non-empty. [Topic names](https://cloud.google.com/pubsub/docs/overview#names) must be scoped to a project. The Cloud Healthcare API service account, service-@gcp-sa-healthcare.iam.gserviceaccount.com, must have publisher permissions on the given Pub/Sub topic. Not having adequate permissions causes the calls that send notifications to fail (https://cloud.google.com/healthcare-api/docs/permissions-healthcare-api-gcp-products#dicom_fhir_and_hl7v2_store_cloud_pubsub_permissions). If a notification can't be published to Pub/Sub, errors are logged to Cloud Logging. For more information, see [Viewing error logs in Cloud Logging](https://cloud.google.com/healthcare-api/docs/how-tos/logging). */
-  pubsubTopic?: string;
+  pubsubTopic?: string | undefined;
   /** Whether to send full FHIR resource to this Pub/Sub topic for deleting FHIR resource. The default value is false. Note that setting this to true does not guarantee that all previous resources will be sent in the format of full FHIR resource. When a resource change is too large or during heavy traffic, only the resource name will be sent. Clients should always check the "payloadType" label from a Pub/Sub message to determine whether it needs to fetch the full previous resource as a separate operation. */
-  sendPreviousResourceOnDelete?: boolean;
+  sendPreviousResourceOnDelete?: boolean | undefined;
 }
 export type FhirNotificationConfigList = Array<FhirNotificationConfig>;
 /** Contains the versioned name and the URL for one SearchParameter. */
 export interface SearchParameter {
   /** The versioned name of the search parameter resource. The format is projects/{project-id}/locations/{location}/datasets/{dataset-id}/fhirStores/{fhirStore-id}/fhir/SearchParameter/{resource-id}/_history/{version-id} For fhir stores with disable_resource_versioning=true, the format is projects/{project-id}/locations/{location}/datasets/{dataset-id}/fhirStores/{fhirStore-id}/fhir/SearchParameter/{resource-id}/ */
-  parameter?: string;
+  parameter?: string | undefined;
   /** The canonical url of the search parameter resource. */
-  canonicalUrl?: string;
+  canonicalUrl?: string | undefined;
 }
 export type SearchParameterList = Array<SearchParameter>;
 /** Contains the configuration for FHIR search. */
 export interface SearchConfig {
   /** A list of search parameters in this FHIR store that are used to configure this FHIR store. */
-  searchParameters?: SearchParameterList;
+  searchParameters?: SearchParameterList | undefined;
 }
 export type FhirStoreComplexDataTypeReferenceParsingEnum =
   | "COMPLEX_DATA_TYPE_REFERENCE_PARSING_UNSPECIFIED"
@@ -1207,7 +1213,7 @@ export type ConsentHeaderHandlingProfileEnum =
 /** How the server handles the consent header. */
 export interface ConsentHeaderHandling {
   /** Optional. Specifies the default server behavior when the header is empty. If not specified, the `ScopeProfile.PERMIT_EMPTY_SCOPE` option is used. */
-  profile?: ConsentHeaderHandlingProfileEnum | (string & {});
+  profile?: ConsentHeaderHandlingProfileEnum | (string & {}) | undefined;
 }
 export type ConsentConfigVersionEnum = "CONSENT_ENFORCEMENT_VERSION_UNSPECIFIED" | "V1";
 export type AccessDeterminationLogConfigLogLevelEnum =
@@ -1218,83 +1224,86 @@ export type AccessDeterminationLogConfigLogLevelEnum =
 /** Configures consent audit log config for FHIR create, read, update, and delete (CRUD) operations. Cloud audit log for healthcare API must be [enabled](https://cloud.google.com/logging/docs/audit/configure-data-access#config-console-enable). The consent-related logs are included as part of `protoPayload.metadata`. */
 export interface AccessDeterminationLogConfig {
   /** Optional. Controls the amount of detail to include as part of the audit logs. */
-  logLevel?: AccessDeterminationLogConfigLogLevelEnum | (string & {});
+  logLevel?: AccessDeterminationLogConfigLogLevelEnum | (string & {}) | undefined;
 }
 /** Configures whether to enforce consent for the FHIR store and which consent enforcement version is being used. */
 export interface ConsentConfig {
   /** Optional. Different options to configure the behaviour of the server when handling the `X-Consent-Scope` header. */
-  consentHeaderHandling?: ConsentHeaderHandling;
+  consentHeaderHandling?: ConsentHeaderHandling | undefined;
   /** Output only. The versioned names of the enforced admin Consent resource(s), in the format `projects/{project_id}/locations/{location}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Consent/{resource_id}/_history/{version_id}`. For FHIR stores with `disable_resource_versioning=true`, the format is `projects/{project_id}/locations/{location}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Consent/{resource_id}`. This field can only be updated using ApplyAdminConsents. */
-  enforcedAdminConsents?: StringList;
+  enforcedAdminConsents?: StringList | undefined;
   /** Required. Specifies which consent enforcement version is being used for this FHIR store. This field can only be set once by either CreateFhirStore or UpdateFhirStore. After that, you must call ApplyConsents to change the version. */
-  version?: ConsentConfigVersionEnum | (string & {});
+  version?: ConsentConfigVersionEnum | (string & {}) | undefined;
   /** Optional. Specifies how the server logs the consent-aware requests. If not specified, the `AccessDeterminationLogConfig.LogLevel.MINIMUM` option is used. */
-  accessDeterminationLogConfig?: AccessDeterminationLogConfig;
+  accessDeterminationLogConfig?: AccessDeterminationLogConfig | undefined;
   /** Optional. The default value is false. If set to true, when accessing FHIR resources, the consent headers will be verified against consents given by patients. See the ConsentEnforcementVersion for the supported consent headers. */
-  accessEnforced?: boolean;
+  accessEnforced?: boolean | undefined;
 }
 /** The configuration for exporting to Cloud Storage using the bulk export API. */
 export interface BulkExportGcsDestination {
   /** Optional. URI for a Cloud Storage directory where the server writes result files, in the format `gs://{bucket-id}/{path/to/destination/dir}`. If there is no trailing slash, the service appends one when composing the object path. The user is responsible for creating the Cloud Storage bucket referenced in `uri_prefix`. */
-  uriPrefix?: string;
+  uriPrefix?: string | undefined;
 }
 /** Contains the configuration for FHIR profiles and validation. */
 export interface ValidationConfig {
   /** A list of ImplementationGuide URLs in this FHIR store that are used to configure the profiles to use for validation. For example, to use the US Core profiles for validation, set `enabled_implementation_guides` to `["http://hl7.org/fhir/us/core/ImplementationGuide/ig"]`. If `enabled_implementation_guides` is empty or omitted, then incoming resources are only required to conform to the base FHIR profiles. Otherwise, a resource must conform to at least one profile listed in the `global` property of one of the enabled ImplementationGuides. The Cloud Healthcare API does not currently enforce all of the rules in a StructureDefinition. The following rules are supported: - min/max - minValue/maxValue - maxLength - type - fixed[x] - pattern[x] on simple types - slicing, when using "value" as the discriminator type - FHIRPath constraints (only when `enable_fhirpath_profile_validation` is true) When a URL cannot be resolved (for example, in a type assertion), the server does not return an error. */
-  enabledImplementationGuides?: StringList;
+  enabledImplementationGuides?: StringList | undefined;
   /** Whether to disable reference type validation for incoming resources. The default value is false. Set this to true to disable checking incoming resources for conformance against reference type requirement defined in the FHIR specification. This property only affects resource types that do not have profiles configured for them, any rules in enabled implementation guides will still be enforced. */
-  disableReferenceTypeValidation?: boolean;
+  disableReferenceTypeValidation?: boolean | undefined;
   /** Whether to disable profile validation for this FHIR store. The default value is false. Set this to true to disable checking incoming resources for conformance against StructureDefinitions in this FHIR store. */
-  disableProfileValidation?: boolean;
+  disableProfileValidation?: boolean | undefined;
   /** Optional. Whether to enable FHIRPath validation for incoming resource types that have profiles configured for them in the `enabled_implementation_guides` list. Set this to true to enable checking incoming resources for conformance against FHIRPath requirements defined in the configured profiles. */
-  enableFhirpathProfileValidation?: boolean;
+  enableFhirpathProfileValidation?: boolean | undefined;
   /** Whether to disable FHIRPath validation for incoming resources. The default value is false. Set this to true to disable checking incoming resources for conformance against FHIRPath requirement defined in the FHIR specification. This property only affects resource types that do not have profiles configured for them, any rules in enabled implementation guides will still be enforced. */
-  disableFhirpathValidation?: boolean;
+  disableFhirpathValidation?: boolean | undefined;
   /** Whether to disable required fields validation for incoming resources. The default value is false. Set this to true to disable checking incoming resources for conformance against required fields requirement defined in the FHIR specification. This property only affects resource types that do not have profiles configured for them, any rules in enabled implementation guides will still be enforced. */
-  disableRequiredFieldValidation?: boolean;
+  disableRequiredFieldValidation?: boolean | undefined;
 }
 /** Represents a FHIR store. */
 export interface FhirStore {
   /** Optional. Whether to allow the [ImportResourcesHistory] and [ExecuteBundle] APIs to accept history bundles, and directly insert and overwrite historical resource versions into the FHIR store. Changing resource histories creates resource interactions that have occurred in the past which clients might not allow. If set to false, [ImportResourcesHistory] and [ExecuteBundle] requests will return errors. */
-  enableHistoryModifications?: boolean;
+  enableHistoryModifications?: boolean | undefined;
   /** Immutable. Whether to disable resource versioning for this FHIR store. This field can not be changed after the creation of FHIR store. If set to false, all write operations cause historical versions to be recorded automatically. The historical versions can be fetched through the history APIs, but cannot be updated. If set to true, no historical versions are kept. The server sends errors for attempts to read the historical versions. Defaults to false. */
-  disableResourceVersioning?: boolean;
+  disableResourceVersioning?: boolean | undefined;
   /** User-supplied key-value pairs used to organize FHIR stores. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: \p{Ll}\p{Lo}{0,62} Label values are optional, must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: [\p{Ll}\p{Lo}\p{N}_-]{0,63} No more than 64 labels can be associated with a given store. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Deprecated. Use `notification_configs` instead. If non-empty, publish all resource modifications of this FHIR store to this destination. The Pub/Sub message attributes contain a map with a string describing the action that has triggered the notification. For example, "action":"CreateResource". Not supported in R5. Use `notification_configs` instead. */
-  notificationConfig?: NotificationConfig;
+  notificationConfig?: NotificationConfig | undefined;
   /** Required. Immutable. The FHIR specification version that this FHIR store supports natively. This field is immutable after store creation. Requests are rejected if they contain FHIR resources of a different version. Version is required for every FHIR store. */
-  version?: FhirStoreVersionEnum | (string & {});
+  version?: FhirStoreVersionEnum | (string & {}) | undefined;
   /** If true, overrides the default search behavior for this FHIR store to `handling=strict` which returns an error for unrecognized search parameters. If false, uses the FHIR specification default `handling=lenient` which ignores unrecognized search parameters. The handling can always be changed from the default on an individual API call by setting the HTTP header `Prefer: handling=strict` or `Prefer: handling=lenient`. Defaults to false. */
-  defaultSearchHandlingStrict?: boolean;
+  defaultSearchHandlingStrict?: boolean | undefined;
   /** A list of streaming configs that configure the destinations of streaming export for every resource mutation in this FHIR store. Each store is allowed to have up to 10 streaming configs. After a new config is added, the next resource mutation is streamed to the new location in addition to the existing ones. When a location is removed from the list, the server stops streaming to that location. Before adding a new config, you must add the required [`bigquery.dataEditor`](https://cloud.google.com/bigquery/docs/access-control#bigquery.dataEditor) role to your project's **Cloud Healthcare Service Agent** [service account](https://cloud.google.com/iam/docs/service-accounts). Some lag (typically on the order of dozens of seconds) is expected before the results show up in the streaming destination. */
-  streamConfigs?: StreamConfigList;
+  streamConfigs?: StreamConfigList | undefined;
   /** Specifies where and whether to send notifications upon changes to a Fhir store. */
-  notificationConfigs?: FhirNotificationConfigList;
+  notificationConfigs?: FhirNotificationConfigList | undefined;
   /** Whether this FHIR store has the [updateCreate capability](https://www.hl7.org/fhir/capabilitystatement-definitions.html#CapabilityStatement.rest.resource.updateCreate). This determines if the client can use an Update operation to create a new resource with a client-specified ID. If false, all IDs are server-assigned through the Create operation and attempts to update a non-existent resource return errors. It is strongly advised not to include or encode any sensitive data such as patient identifiers in client-specified resource IDs. Those IDs are part of the FHIR resource path recorded in Cloud audit logs and Pub/Sub notifications. Those IDs can also be contained in reference fields within other resources. Defaults to false. */
-  enableUpdateCreate?: boolean;
+  enableUpdateCreate?: boolean | undefined;
   /** Immutable. Whether to disable referential integrity in this FHIR store. This field is immutable after FHIR store creation. The default value is false, meaning that the API enforces referential integrity and fails the requests that result in inconsistent state in the FHIR store. When this field is set to true, the API skips referential integrity checks. Consequently, operations that rely on references, such as GetPatientEverything, do not return all the results if broken references exist. */
-  disableReferentialIntegrity?: boolean;
+  disableReferentialIntegrity?: boolean | undefined;
   /** Configuration for how FHIR resources can be searched. */
-  searchConfig?: SearchConfig;
+  searchConfig?: SearchConfig | undefined;
   /** Output only. Identifier. Resource name of the FHIR store, of the form `projects/{project_id}/locations/{location}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** Enable parsing of references within complex FHIR data types such as Extensions. If this value is set to ENABLED, then features like referential integrity and Bundle reference rewriting apply to all references. If this flag has not been specified the behavior of the FHIR store will not change, references in complex data types will not be parsed. New stores will have this value set to ENABLED after a notification period. Warning: turning on this flag causes processing existing resources to fail if they contain references to non-existent resources. Cannot be disabled in R5. */
-  complexDataTypeReferenceParsing?: FhirStoreComplexDataTypeReferenceParsingEnum | (string & {});
+  complexDataTypeReferenceParsing?:
+    | FhirStoreComplexDataTypeReferenceParsingEnum
+    | (string & {})
+    | undefined;
   /** Optional. Specifies whether this store has consent enforcement. Not available for DSTU2 FHIR version due to absence of Consent resources. Not supported for R5 FHIR version. */
-  consentConfig?: ConsentConfig;
+  consentConfig?: ConsentConfig | undefined;
   /** Optional. FHIR bulk export exports resources to the specified Cloud Storage destination. A Cloud Storage destination is a URI for a Cloud Storage directory where result files will be written. Only used in the spec-defined bulk $export methods. The Cloud Healthcare Service Agent requires the `roles/storage.objectAdmin` Cloud IAM role on the destination. */
-  bulkExportGcsDestination?: BulkExportGcsDestination;
+  bulkExportGcsDestination?: BulkExportGcsDestination | undefined;
   /** Configuration for how to validate incoming FHIR resources against configured profiles. */
-  validationConfig?: ValidationConfig;
+  validationConfig?: ValidationConfig | undefined;
 }
 export interface CreateProjectsLocationsDatasetsFhirStoresRequest {
   /** Required. The ID of the FHIR store that is being created. The string must match the following regex: `[\p{L}\p{N}_\-\.]{1,256}`. */
-  fhirStoreId?: string;
+  fhirStoreId?: string | undefined;
   /** Required. The name of the dataset this FHIR store belongs to. */
   parent: string;
   /** Request body */
-  body?: FhirStore;
+  body?: FhirStore | undefined;
 }
 export interface CreateProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Required. The name of the FHIR store this resource belongs to. */
@@ -1302,55 +1311,55 @@ export interface CreateProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Required. The FHIR resource type to create, such as Patient or Observation. For a complete list, see the FHIR Resource Index ([DSTU2](https://hl7.org/fhir/DSTU2/resourcelist.html), [STU3](https://hl7.org/fhir/STU3/resourcelist.html), [R4](https://hl7.org/fhir/R4/resourcelist.html), [R5](https://hl7.org/fhir/R5/resourcelist.html)). Must match the resource type in the provided content. */
   type: string;
   /** Request body */
-  body?: HttpBody;
+  body?: HttpBody | undefined;
 }
 /** Specifies where and whether to send notifications upon changes to a data store. */
 export interface Hl7V2NotificationConfig {
   /** Restricts notifications sent for messages matching a filter. If this is empty, all messages are matched. The following syntax is available: * A string field value can be written as text inside quotation marks, for example `"query text"`. The only valid relational operation for text fields is equality (`=`), where text is searched within the field, rather than having the field be equal to the text. For example, `"Comment = great"` returns messages with `great` in the comment field. * A number field value can be written as an integer, a decimal, or an exponential. The valid relational operators for number fields are the equality operator (`=`), along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * A date field value must be written in `yyyy-mm-dd` form. Fields with date and time use the RFC3339 time format. Leading zeros are required for one-digit months and days. The valid relational operators for date fields are the equality operator (`=`) , along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * Multiple field query expressions can be combined in one query by adding `AND` or `OR` operators between the expressions. If a boolean operator appears within a quoted string, it is not treated as special, it's just another part of the character string to be matched. You can prepend the `NOT` operator to an expression to negate it. Fields/functions available for filtering are: * `message_type`, from the MSH-9.1 field. For example, `NOT message_type = "ADT"`. * `send_date` or `sendDate`, the YYYY-MM-DD date the message was sent in the dataset's time_zone, from the MSH-7 segment. For example, `send_date < "2017-01-02"`. * `send_time`, the timestamp when the message was sent, using the RFC3339 time format for comparisons, from the MSH-7 segment. For example, `send_time < "2017-01-02T00:00:00-05:00"`. * `create_time`, the timestamp when the message was created in the HL7v2 store. Use the RFC3339 time format for comparisons. For example, `create_time < "2017-01-02T00:00:00-05:00"`. * `send_facility`, the care center that the message came from, from the MSH-4 segment. For example, `send_facility = "ABC"`. * `PatientId(value, type)`, which matches if the message lists a patient having an ID of the given value and type in the PID-2, PID-3, or PID-4 segments. For example, `PatientId("123456", "MRN")`. * `labels.x`, a string value of the label with key `x` as set using the Message.labels map. For example, `labels."priority"="high"`. The operator `:*` can be used to assert the existence of a label. For example, `labels."priority":*`. */
-  filter?: string;
+  filter?: string | undefined;
   /** The [Pub/Sub](https://cloud.google.com/pubsub/docs/) topic that notifications of changes are published on. Supplied by the client. The notification is a `PubsubMessage` with the following fields: * `PubsubMessage.Data` contains the resource name. * `PubsubMessage.MessageId` is the ID of this notification. It is guaranteed to be unique within the topic. * `PubsubMessage.PublishTime` is the time when the message was published. Note that notifications are only sent if the topic is non-empty. [Topic names](https://cloud.google.com/pubsub/docs/overview#names) must be scoped to a project. Cloud Healthcare API service account must have publisher permissions on the given Pub/Sub topic. Not having adequate permissions causes the calls that send notifications to fail. If a notification can't be published to Pub/Sub, errors are logged to Cloud Logging. For more information, see [Viewing error logs in Cloud Logging](https://cloud.google.com/healthcare/docs/how-tos/logging). */
-  pubsubTopic?: string;
+  pubsubTopic?: string | undefined;
 }
 export type Hl7V2NotificationConfigList = Array<Hl7V2NotificationConfig>;
 /** Describes a selector for extracting and matching an MSH field to a value. */
 export interface VersionSource {
   /** The field to extract from the MSH segment. For example, "3.1" or "18[1].1". */
-  mshField?: string;
+  mshField?: string | undefined;
   /** The value to match with the field. For example, "My Application Name" or "2.3". */
-  value?: string;
+  value?: string | undefined;
 }
 export type VersionSourceList = Array<VersionSource>;
 export type TypePrimitiveEnum = "PRIMITIVE_UNSPECIFIED" | "STRING" | "VARIES" | "UNESCAPED_STRING";
 /** A (sub) field of a type. */
 export interface Field {
   /** The maximum number of times this field can be repeated. 0 or -1 means unbounded. */
-  maxOccurs?: number;
+  maxOccurs?: number | undefined;
   /** The type of this field. A Type with this name must be defined in an Hl7TypesConfig. */
-  type?: string;
+  type?: string | undefined;
   /** The HL7v2 table this field refers to. For example, PID-15 (Patient's Primary Language) usually refers to table "0296". */
-  table?: string;
+  table?: string | undefined;
   /** The name of the field. For example, "PID-1" or just "1". */
-  name?: string;
+  name?: string | undefined;
   /** The minimum number of times this field must be present/repeated. */
-  minOccurs?: number;
+  minOccurs?: number | undefined;
 }
 export type FieldList = Array<Field>;
 /** A type definition for some HL7v2 type (incl. Segments and Datatypes). */
 export interface Type {
   /** If this is a primitive type then this field is the type of the primitive For example, STRING. Leave unspecified for composite types. */
-  primitive?: TypePrimitiveEnum | (string & {});
+  primitive?: TypePrimitiveEnum | (string & {}) | undefined;
   /** The name of this type. This would be the segment or datatype name. For example, "PID" or "XPN". */
-  name?: string;
+  name?: string | undefined;
   /** The (sub) fields this type has (if not primitive). */
-  fields?: FieldList;
+  fields?: FieldList | undefined;
 }
 export type TypeList = Array<Type>;
 /** Root config for HL7v2 datatype definitions for a specific HL7v2 version. */
 export interface Hl7TypesConfig {
   /** The version selectors that this config applies to. A message must match ALL version sources to apply. */
-  version?: VersionSourceList;
+  version?: VersionSourceList | undefined;
   /** The HL7v2 type definitions. */
-  type?: TypeList;
+  type?: TypeList | undefined;
 }
 export type Hl7TypesConfigList = Array<Hl7TypesConfig>;
 export type SchemaPackageSchematizedParsingTypeEnum =
@@ -1360,38 +1369,38 @@ export type SchemaPackageSchematizedParsingTypeEnum =
 /** An HL7v2 Segment. */
 export interface SchemaSegment {
   /** The maximum number of times this segment can be present in this group. 0 or -1 means unbounded. */
-  maxOccurs?: number;
+  maxOccurs?: number | undefined;
   /** The Segment type. For example, "PID". */
-  type?: string;
+  type?: string | undefined;
   /** The minimum number of times this segment can be present in this group. */
-  minOccurs?: number;
+  minOccurs?: number | undefined;
 }
 /** Construct representing a logical group or a segment. */
 export interface GroupOrSegment {
-  segment?: SchemaSegment;
-  group?: SchemaGroup;
+  segment?: SchemaSegment | undefined;
+  group?: SchemaGroup | undefined;
 }
 export type GroupOrSegmentList = Array<GroupOrSegment>;
 /** An HL7v2 logical group construct. */
 export interface SchemaGroup {
   /** The minimum number of times this group must be present/repeated. */
-  minOccurs?: number;
+  minOccurs?: number | undefined;
   /** True indicates that this is a choice group, meaning that only one of its segments can exist in a given message. */
-  choice?: boolean;
+  choice?: boolean | undefined;
   /** Nested groups and/or segments. */
-  members?: GroupOrSegmentList;
+  members?: GroupOrSegmentList | undefined;
   /** The name of this group. For example, "ORDER_DETAIL". */
-  name?: string;
+  name?: string | undefined;
   /** The maximum number of times this group can be repeated. 0 or -1 means unbounded. */
-  maxOccurs?: number;
+  maxOccurs?: number | undefined;
 }
 export type SchemaGroupMap = { [key: string]: SchemaGroup | undefined };
 /** Root config message for HL7v2 schema. This contains a schema structure of groups and segments, and filters that determine which messages to apply the schema structure to. */
 export interface Hl7SchemaConfig {
   /** Each VersionSource is tested and only if they all match is the schema used for the message. */
-  version?: VersionSourceList;
+  version?: VersionSourceList | undefined;
   /** Map from each HL7v2 message type and trigger event pair, such as ADT_A04, to its schema configuration root group. */
-  messageSchemaConfigs?: SchemaGroupMap;
+  messageSchemaConfigs?: SchemaGroupMap | undefined;
 }
 export type Hl7SchemaConfigList = Array<Hl7SchemaConfig>;
 export type SchemaPackageUnexpectedSegmentHandlingEnum =
@@ -1402,127 +1411,130 @@ export type SchemaPackageUnexpectedSegmentHandlingEnum =
 /** A schema package contains a set of schemas and type definitions. */
 export interface SchemaPackage {
   /** Schema type definitions that are layered based on their VersionSources that match the incoming message. Type definitions present in higher indices override those in lower indices with the same type name if their VersionSources all match an incoming message. */
-  types?: Hl7TypesConfigList;
+  types?: Hl7TypesConfigList | undefined;
   /** Determines how messages that fail to parse are handled. */
-  schematizedParsingType?: SchemaPackageSchematizedParsingTypeEnum | (string & {});
+  schematizedParsingType?: SchemaPackageSchematizedParsingTypeEnum | (string & {}) | undefined;
   /** Schema configs that are layered based on their VersionSources that match the incoming message. Schema configs present in higher indices override those in lower indices with the same message type and trigger event if their VersionSources all match an incoming message. */
-  schemas?: Hl7SchemaConfigList;
+  schemas?: Hl7SchemaConfigList | undefined;
   /** Determines how unexpected segments (segments not matched to the schema) are handled. */
-  unexpectedSegmentHandling?: SchemaPackageUnexpectedSegmentHandlingEnum | (string & {});
+  unexpectedSegmentHandling?:
+    | SchemaPackageUnexpectedSegmentHandlingEnum
+    | (string & {})
+    | undefined;
   /** Flag to ignore all min_occurs restrictions in the schema. This means that incoming messages can omit any group, segment, field, component, or subcomponent. */
-  ignoreMinOccurs?: boolean;
+  ignoreMinOccurs?: boolean | undefined;
 }
 export type ParserConfigVersionEnum = "PARSER_VERSION_UNSPECIFIED" | "V1" | "V2" | "V3";
 /** The configuration for the parser. It determines how the server parses the messages. */
 export interface ParserConfig {
   /** Determines whether messages with no header are allowed. */
-  allowNullHeader?: boolean;
+  allowNullHeader?: boolean | undefined;
   /** Schemas used to parse messages in this store, if schematized parsing is desired. */
-  schema?: SchemaPackage;
+  schema?: SchemaPackage | undefined;
   /** Byte(s) to use as the segment terminator. If this is unset, '\r' is used as segment terminator, matching the HL7 version 2 specification. */
-  segmentTerminator?: string;
+  segmentTerminator?: string | undefined;
   /** Immutable. Determines the version of both the default parser to be used when `schema` is not given, as well as the schematized parser used when `schema` is specified. This field is immutable after HL7v2 store creation. */
-  version?: ParserConfigVersionEnum | (string & {});
+  version?: ParserConfigVersionEnum | (string & {}) | undefined;
 }
 /** Represents an HL7v2 store. */
 export interface Hl7V2Store {
   /** A list of notification configs. Each configuration uses a filter to determine whether to publish a message (both Ingest & Create) on the corresponding notification destination. Only the message name is sent as part of the notification. Supplied by the client. */
-  notificationConfigs?: Hl7V2NotificationConfigList;
+  notificationConfigs?: Hl7V2NotificationConfigList | undefined;
   /** The configuration for the parser. It determines how the server parses the messages. */
-  parserConfig?: ParserConfig;
+  parserConfig?: ParserConfig | undefined;
   /** User-supplied key-value pairs used to organize HL7v2 stores. Label keys must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: \p{Ll}\p{Lo}{0,62} Label values are optional, must be between 1 and 63 characters long, have a UTF-8 encoding of maximum 128 bytes, and must conform to the following PCRE regular expression: [\p{Ll}\p{Lo}\p{N}_-]{0,63} No more than 64 labels can be associated with a given store. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Determines whether to reject duplicate messages. A duplicate message is a message with the same raw bytes as a message that has already been ingested/created in this HL7v2 store. The default value is false, meaning that the store accepts the duplicate messages and it also returns the same ACK message in the IngestMessageResponse as has been returned previously. Note that only one resource is created in the store. When this field is set to true, CreateMessage/IngestMessage requests with a duplicate message will be rejected by the store, and IngestMessageErrorDetail returns a NACK message upon rejection. */
-  rejectDuplicateMessage?: boolean;
+  rejectDuplicateMessage?: boolean | undefined;
   /** Identifier. Resource name of the HL7v2 store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7V2Stores/{hl7v2_store_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** The notification destination all messages (both Ingest & Create) are published on. Only the message name is sent as part of the notification. If this is unset, no notifications are sent. Supplied by the client. */
-  notificationConfig?: NotificationConfig;
+  notificationConfig?: NotificationConfig | undefined;
 }
 export interface CreateProjectsLocationsDatasetsHl7V2StoresRequest {
   /** Required. The name of the dataset this HL7v2 store belongs to. */
   parent: string;
   /** Required. The ID of the HL7v2 store that is being created. The string must match the following regex: `[\p{L}\p{N}_\-\.]{1,256}`. */
-  hl7V2StoreId?: string;
+  hl7V2StoreId?: string | undefined;
   /** Request body */
-  body?: Hl7V2Store;
+  body?: Hl7V2Store | undefined;
 }
 /** Creates a new message. */
 export interface CreateMessageRequest {
   /** Required. HL7v2 message. */
-  message?: Message;
+  message?: Message | undefined;
 }
 export interface CreateProjectsLocationsDatasetsHl7V2StoresMessagesRequest {
   /** Required. The name of the HL7v2 store this message belongs to. */
   parent: string;
   /** Request body */
-  body?: CreateMessageRequest;
+  body?: CreateMessageRequest | undefined;
 }
 /** Redacts identifying information from the specified dataset. */
 export interface DeidentifyDatasetRequest {
   /** Deidentify configuration. Only one of `config` and `gcs_config_uri` can be specified. */
-  config?: DeidentifyConfig;
+  config?: DeidentifyConfig | undefined;
   /** Required. The name of the dataset resource to create and write the redacted data to. * The destination dataset must not exist. * The destination dataset must be in the same location as the source dataset. De-identifying data across multiple locations is not supported. */
-  destinationDataset?: string;
+  destinationDataset?: string | undefined;
   /** Cloud Storage location to read the JSON cloud.healthcare.deidentify.DeidentifyConfig from, overriding the default config. Must be of the form `gs://{bucket_id}/path/to/object`. The Cloud Storage location must grant the Cloud IAM role `roles/storage.objectViewer` to the project's Cloud Healthcare Service Agent service account. Only one of `config` and `gcs_config_uri` can be specified. */
-  gcsConfigUri?: string;
+  gcsConfigUri?: string | undefined;
 }
 export interface DeidentifyProjectsLocationsDatasetsRequest {
   /** Required. Source dataset resource name. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}`. R5 FHIR stores are not supported and will be skipped. */
   sourceDataset: string;
   /** Request body */
-  body?: DeidentifyDatasetRequest;
+  body?: DeidentifyDatasetRequest | undefined;
 }
 /** Specifies the filter configuration for DICOM resources. */
 export interface DicomFilterConfig {
   /** The Cloud Storage location of the filter configuration file. The `gcs_uri` must be in the format `gs://bucket/path/to/object`. The filter configuration file must contain a list of resource paths separated by newline characters (\n or \r\n). Each resource path must be in the format "/studies/{studyUID}[/series/{seriesUID}[/instances/{instanceUID}]]" The Cloud Healthcare API service account must have the `roles/storage.objectViewer` Cloud IAM role for this Cloud Storage location. */
-  resourcePathsGcsUri?: string;
+  resourcePathsGcsUri?: string | undefined;
 }
 /** Creates a new DICOM store with sensitive information de-identified. */
 export interface DeidentifyDicomStoreRequest {
   /** Filter configuration. */
-  filterConfig?: DicomFilterConfig;
+  filterConfig?: DicomFilterConfig | undefined;
   /** Deidentify configuration. Only one of `config` and `gcs_config_uri` can be specified. */
-  config?: DeidentifyConfig;
+  config?: DeidentifyConfig | undefined;
   /** Required. The name of the DICOM store to write the redacted data to. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. * The destination dataset and DICOM store must exist. * The source dataset and destination dataset must both reside in the same location. De-identifying data across multiple locations is not supported. * The caller must have the healthcare.dicomStores.dicomWebWrite permission to write to the destination DICOM store. */
-  destinationStore?: string;
+  destinationStore?: string | undefined;
   /** Cloud Storage location to read the JSON cloud.healthcare.deidentify.DeidentifyConfig from, overriding the default config. Must be of the form `gs://{bucket_id}/path/to/object`. The Cloud Storage location must grant the Cloud IAM role `roles/storage.objectViewer` to the project's Cloud Healthcare Service Agent service account. Only one of `config` and `gcs_config_uri` can be specified. */
-  gcsConfigUri?: string;
+  gcsConfigUri?: string | undefined;
 }
 export interface DeidentifyProjectsLocationsDatasetsDicomStoresRequest {
   /** Required. Source DICOM store resource name. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
   sourceStore: string;
   /** Request body */
-  body?: DeidentifyDicomStoreRequest;
+  body?: DeidentifyDicomStoreRequest | undefined;
 }
 /** A list of FHIR resources. */
 export interface Resources {
   /** List of resources IDs. For example, "Patient/1234". */
-  resources?: StringList;
+  resources?: StringList | undefined;
 }
 /** Filter configuration. */
 export interface FhirFilter {
   /** List of resources to include in the output. If this list is empty or not specified, all resources are included in the output. */
-  resources?: Resources;
+  resources?: Resources | undefined;
 }
 /** Creates a new FHIR store with sensitive information de-identified. */
 export interface DeidentifyFhirStoreRequest {
   /** Cloud Storage location to read the JSON cloud.healthcare.deidentify.DeidentifyConfig from, overriding the default config. Must be of the form `gs://{bucket_id}/path/to/object`. The Cloud Storage location must grant the Cloud IAM role `roles/storage.objectViewer` to the project's Cloud Healthcare Service Agent service account. Only one of `config` and `gcs_config_uri` can be specified. */
-  gcsConfigUri?: string;
+  gcsConfigUri?: string | undefined;
   /** Required. The name of the FHIR store to write the redacted data to. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. * The destination dataset and FHIR store must exist. * The source dataset and destination dataset must both reside in the same location. De-identifying data across multiple locations is not supported. * The caller must have the healthcare.fhirResources.update permission to write to the destination FHIR store. */
-  destinationStore?: string;
+  destinationStore?: string | undefined;
   /** Deidentify configuration. Only one of `config` and `gcs_config_uri` can be specified. */
-  config?: DeidentifyConfig;
+  config?: DeidentifyConfig | undefined;
   /** A filter specifying the resources to include in the output. If not specified, all resources are included in the output. */
-  resourceFilter?: FhirFilter;
+  resourceFilter?: FhirFilter | undefined;
   /** If true, skips resources that are created or modified after the de-identify operation is created. */
-  skipModifiedResources?: boolean;
+  skipModifiedResources?: boolean | undefined;
 }
 export interface DeidentifyProjectsLocationsDatasetsFhirStoresRequest {
   /** Required. Source FHIR store resource name. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. R5 stores are not supported. */
   sourceStore: string;
   /** Request body */
-  body?: DeidentifyFhirStoreRequest;
+  body?: DeidentifyFhirStoreRequest | undefined;
 }
 export interface DeleteFhirOperationProjectsLocationsDatasetsFhirStoresOperationsRequest {
   /** Required. Name of the operation to be deleted, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/operations/{operation_id}`. */
@@ -1597,13 +1609,13 @@ export interface Encounter_everythingProjectsLocationsDatasetsFhirStoresFhirRequ
   /** Required. Name of the Encounter resource for which the information is required. */
   name: string;
   /** Optional. Maximum number of resources in a page. If not specified, 100 is used. May not be larger than 1000. */
-  _count?: number;
+  _count?: number | undefined;
   /** Optional. If provided, only resources updated after this time are returned. The time uses the format YYYY-MM-DDThh:mm:ss.sss+zz:zz. For example, `2015-02-07T13:28:17.239+02:00` or `2017-01-01T00:00:00Z`. The time must be specified to the second and include a time zone. */
-  _since?: string;
+  _since?: string | undefined;
   /** Optional. Used to retrieve the next or previous page of results when using pagination. Set `_page_token` to the value of _page_token set in next or previous page links' url. Next and previous page are returned in the response bundle's links field, where `link.relation` is "previous" or "next". Omit `_page_token` if no previous request has been made. */
-  _page_token?: string;
+  _page_token?: string | undefined;
   /** Optional. String of comma-delimited FHIR resource types. If provided, only resources of the specified resource type(s) are returned. Specifying multiple `_type` parameters isn't supported. For example, the result of `_type=Observation&_type=Encounter` is undefined. Use `_type=Observation,Encounter` instead. */
-  _type?: string;
+  _type?: string | undefined;
 }
 export type EvaluateUserConsentsRequestResponseViewEnum =
   | "RESPONSE_VIEW_UNSPECIFIED"
@@ -1612,85 +1624,85 @@ export type EvaluateUserConsentsRequestResponseViewEnum =
 /** Evaluate a user's Consents for all matching User data mappings. Note: User data mappings are indexed asynchronously, causing slight delays between the time mappings are created or updated and when they are included in EvaluateUserConsents results. */
 export interface EvaluateUserConsentsRequest {
   /** Required. User ID to evaluate consents for. */
-  userId?: string;
+  userId?: string | undefined;
   /** Required. The values of request attributes associated with this access request. */
-  requestAttributes?: StringMap;
+  requestAttributes?: StringMap | undefined;
   /** Optional. Specific Consents to evaluate the access request against. These Consents must have the same `user_id` as the User data mappings being evalauted, must exist in the current `consent_store`, and must have a `state` of either `ACTIVE` or `DRAFT`. A maximum of 100 Consents can be provided here. If unspecified, all `ACTIVE` unexpired Consents in the current `consent_store` will be evaluated. */
-  consentList?: ConsentList;
+  consentList?: ConsentList | undefined;
   /** Optional. The values of resource attributes associated with the resources being requested. If no values are specified, then all resources are queried. */
-  resourceAttributes?: StringMap;
+  resourceAttributes?: StringMap | undefined;
   /** Optional. Token to retrieve the next page of results, or empty to get the first page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Limit on the number of User data mappings to return in a single response. If not specified, 100 is used. May not be larger than 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The view for EvaluateUserConsentsResponse. If unspecified, defaults to `BASIC` and returns `consented` as `TRUE` or `FALSE`. */
-  responseView?: EvaluateUserConsentsRequestResponseViewEnum | (string & {});
+  responseView?: EvaluateUserConsentsRequestResponseViewEnum | (string & {}) | undefined;
 }
 export interface EvaluateUserConsentsProjectsLocationsDatasetsConsentStoresRequest {
   /** Required. Name of the consent store to retrieve User data mappings from. */
   consentStore: string;
   /** Request body */
-  body?: EvaluateUserConsentsRequest;
+  body?: EvaluateUserConsentsRequest | undefined;
 }
 /** The consent evaluation result for a single `data_id`. */
 export interface Result {
   /** Whether the resource is consented for the given use. */
-  consented?: boolean;
+  consented?: boolean | undefined;
   /** The unique identifier of the evaluated resource. */
-  dataId?: string;
+  dataId?: string | undefined;
   /** The resource names of all evaluated Consents mapped to their evaluation. */
-  consentDetails?: ConsentEvaluationMap;
+  consentDetails?: ConsentEvaluationMap | undefined;
 }
 export type ResultList = Array<Result>;
 export interface EvaluateUserConsentsResponse {
   /** The consent evaluation result for each `data_id`. */
-  results?: ResultList;
+  results?: ResultList | undefined;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. This token is valid for 72 hours after it is created. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ExecuteBundleProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Required. Name of the FHIR store in which this bundle will be executed. */
   parent: string;
   /** Request body */
-  body?: HttpBody;
+  body?: HttpBody | undefined;
 }
 /** A FHIRPath expression. */
 export interface Expression {
   /** Required. FHIRPath expression used for evaluation against FHIR resources. Must be in the format `[/"Resource"/"DomainResource"].[expression]` Expressions are applied per single FHIR resource, so they can't span multiple base resource types. For example, expressions like `Patient.union(Encounter)` are invalid. For expressions involving more than one resource or resource type, consider using the FHIRPath `resolve()` method. Expressions are only allowed to evaluate to a boolean type or a single or collection of [FHIR.Resource](https://hl7.org/fhir/resource.html) types. Expressions evaluating to boolean would include the base resource in the result if the expression evaluates to `true`. Expressions evaluating to one or more FHIR.Resource types will include those resources in the result, e.g. `CareTeam.member.resolve()`. */
-  fhirpathExpression?: string;
+  fhirpathExpression?: string | undefined;
   /** Optional. Expressions with the same label will be grouped together under the same directory when exporting to Cloud Storage. */
-  label?: string;
+  label?: string | undefined;
 }
 export type ExpressionList = Array<Expression>;
 /** A set of FHIRPath expressions that are used to filter the FHIR resources. These expressions do not maintain referential integrity on the resulting resources. Users are responsible for making sure the expressions are written in a way to ensure that if desired. */
 export interface FHIRPathQuery {
   /** Optional. FHIRPath engine version number, for example "1.0". Will use the latest version if not specified. For more details about the supported versions, see https://cloud.google.com/healthcare-api/private/docs/how-tos/fhir-execute-cohort#fhirpath-engine-versions. */
-  engineVersion?: string;
+  engineVersion?: string | undefined;
   /** Required. List of FHIRPath expressions used for filtering the data. */
-  expressions?: ExpressionList;
+  expressions?: ExpressionList | undefined;
 }
 /** Request to execute a cohort definition from a FHIR store based on provided queries and sending the resulting subset of data to a specified sink. */
 export interface ExecuteCohortRequest {
   /** Return resources that match the specified FHIRPath expressions. */
-  fhirpathQuery?: FHIRPathQuery;
+  fhirpathQuery?: FHIRPathQuery | undefined;
   /** The Cloud Storage output destination. The Healthcare Service Agent account requires the `roles/storage.objectAdmin` role on the Cloud Storage location. The exported outputs are organized by FHIR resource types. The server creates one or more objects per resource type depending on the volume of the resources exported. When there is only one object per resource type, the object name is in the form of `{operation_id}_{resource_type}`. When there are multiple objects for a given resource type, the object names are in the form of `{operation_id}_{resource_type}-{index}-of-{total}`. Each object contains newline delimited JSON, and each line is a FHIR resource. */
-  gcsDestination?: GoogleCloudHealthcareV1beta1FhirGcsDestination;
+  gcsDestination?: GoogleCloudHealthcareV1beta1FhirGcsDestination | undefined;
   /** Optional. If true, the request will be validated but no cohort execution will be run. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Optional. If provided, the queried resources will represent the state of the FHIR store at the given past timestamp. Runs the operation against the state of the store at this timestamp. State of the store is represented by the resource versions that were the current versions during the time specified or the resources that have not been updated since. Only works if the store has history enabled. Although users should be able to use this field to reproduce previous runs of the operation and get consistent results, there are a few cases where the past state of the store can be altered, thus resulting in no guarantee of reproducibility. For example, resource versions can be deleted using the purge method, or modified using ImportResourcesHistory. */
-  _at?: string;
+  _at?: string | undefined;
 }
 export interface ExecuteCohortProjectsLocationsDatasetsFhirStoresRequest {
   /** Required. The name of the FHIR store to query, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
   name: string;
   /** Request body */
-  body?: ExecuteCohortRequest;
+  body?: ExecuteCohortRequest | undefined;
 }
 export interface ExplainDataAccessProjectsLocationsDatasetsFhirStoresRequest {
   /** Required. The name of the FHIR store to enforce, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
   name: string;
   /** Required. The ID (`{resourceType}/{id}`) of the resource to explain data access on. */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 export type ExplainDataAccessConsentScopeDecisionEnum =
   | "CONSENT_DECISION_TYPE_UNSPECIFIED"
@@ -1699,11 +1711,11 @@ export type ExplainDataAccessConsentScopeDecisionEnum =
 /** The accessor scope that describes who can access, for what purpose, in which environment. */
 export interface ConsentAccessorScope {
   /** An individual, group, or access role that identifies the accessor or a characteristic of the accessor. This can be a resource ID (such as `{resourceType}/{id}`) or an external URI. This value must be present. */
-  actor?: string;
+  actor?: string | undefined;
   /** An abstract identifier that describes the environment or conditions under which the accessor is acting. If it's not specified, it applies to all environments. */
-  environment?: string;
+  environment?: string | undefined;
   /** The intent of data use. If it's not specified, it applies to all purposes. */
-  purpose?: string;
+  purpose?: string | undefined;
 }
 export type ExplainDataAccessConsentInfoVariantsItemEnum =
   | "CONSENT_VARIANT_UNSPECIFIED"
@@ -1719,100 +1731,100 @@ export type ExplainDataAccessConsentInfoTypeEnum =
 /** The enforcing consent's metadata. */
 export interface ExplainDataAccessConsentInfo {
   /** The consent's variant combinations. A single consent may have multiple variants. */
-  variants?: ExplainDataAccessConsentInfoVariantsItemEnumList;
+  variants?: ExplainDataAccessConsentInfoVariantsItemEnumList | undefined;
   /** A list of all the matching accessor scopes of this consent policy that enforced ExplainDataAccessConsentScope.accessor_scope. */
-  matchingAccessorScopes?: ConsentAccessorScopeList;
+  matchingAccessorScopes?: ConsentAccessorScopeList | undefined;
   /** The compartment base resources that matched a cascading policy. Each resource has the following format: `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/{resource_type}/{resource_id}` */
-  cascadeOrigins?: StringList;
+  cascadeOrigins?: StringList | undefined;
   /** The patient owning the consent (only applicable for patient consents), in the format: `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Patient/{patient_id}` */
-  patientConsentOwner?: string;
+  patientConsentOwner?: string | undefined;
   /** The resource name of this consent resource, in the format: `projects/{project_id}/locations/{location}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Consent/{resource_id}`. */
-  consentResource?: string;
+  consentResource?: string | undefined;
   /** Last enforcement timestamp of this consent resource. */
-  enforcementTime?: string;
+  enforcementTime?: string | undefined;
   /** The policy type of consent resource (e.g. PATIENT, ADMIN). */
-  type?: ExplainDataAccessConsentInfoTypeEnum;
+  type?: ExplainDataAccessConsentInfoTypeEnum | undefined;
 }
 export type ExplainDataAccessConsentInfoList = Array<ExplainDataAccessConsentInfo>;
 /** A single consent scope that provides info on who has access to the requested resource scope for a particular purpose and environment, enforced by which consent. */
 export interface ExplainDataAccessConsentScope {
   /** Whether the current consent scope is permitted or denied access on the requested resource. */
-  decision?: ExplainDataAccessConsentScopeDecisionEnum;
+  decision?: ExplainDataAccessConsentScopeDecisionEnum | undefined;
   /** Other consent scopes that created exceptions within this scope. */
-  exceptions?: ExplainDataAccessConsentScopeList;
+  exceptions?: ExplainDataAccessConsentScopeList | undefined;
   /** The accessor scope that describes who can access, for what purpose, and in which environment. */
-  accessorScope?: ConsentAccessorScope;
+  accessorScope?: ConsentAccessorScope | undefined;
   /** Metadata of the consent resources that enforce the consent scope's access. */
-  enforcingConsents?: ExplainDataAccessConsentInfoList;
+  enforcingConsents?: ExplainDataAccessConsentInfoList | undefined;
 }
 export type ExplainDataAccessConsentScopeList = Array<ExplainDataAccessConsentScope>;
 /** List of consent scopes that are applicable to the explained access on a given resource. */
 export interface ExplainDataAccessResponse {
   /** List of applicable consent scopes. Sorted in order of actor such that scopes belonging to the same actor will be adjacent to each other in the list. */
-  consentScopes?: ExplainDataAccessConsentScopeList;
+  consentScopes?: ExplainDataAccessConsentScopeList | undefined;
   /** Warnings associated with this response. It inform user with exceeded scope limit errors. */
-  warning?: string;
+  warning?: string | undefined;
 }
 /** Request to export the history of resources. */
 export interface ExportResourcesHistoryRequest {
   /** String of comma-delimited FHIR resource types. If provided, only resources of the specified resource type(s) are exported. */
-  _type?: string;
+  _type?: string | undefined;
   /** The Cloud Storage output destination. The Healthcare Service Agent account requires the `roles/storage.objectAdmin` role on the Cloud Storage location. The exported outputs are organized by FHIR resource types. The server creates one or more objects per resource type depending on the volume of the resources exported. When there is only one object per resource type, the object name is in the form of `{operation_id})_history_{resource_type}`. When there are multiple objects for a given resource type, the object names are in the form of `{operation_id}_history_{resource_type}-{index}-of-{total}`. Each object contains newline delimited JSON, and each line is a FHIR history bundle containing the history for a single resource. */
-  gcsDestination?: GoogleCloudHealthcareV1beta1FhirGcsDestination;
+  gcsDestination?: GoogleCloudHealthcareV1beta1FhirGcsDestination | undefined;
   /** If provided, only resources versions updated after this time are exported. The time uses the format YYYY-MM-DDThh:mm:ss.sss+zz:zz. For example, `2015-02-07T13:28:17.239+02:00` or `2017-01-01T00:00:00Z`. The time must be specified to the second and include a time zone. */
-  _since?: string;
+  _since?: string | undefined;
   /** If provided and non-zero, places a limit on the number of resource versions that are returned for a given resource. For example, if the limit is `100` and a resource has over 100 versions, only the 100 most recent versions will be returned. Must be positive. */
-  maxResourceVersions?: string;
+  maxResourceVersions?: string | undefined;
 }
 export interface ExportHistoryProjectsLocationsDatasetsFhirStoresRequest {
   /** Required. The name of the FHIR store to export resource from, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
   name: string;
   /** Request body */
-  body?: ExportResourcesHistoryRequest;
+  body?: ExportResourcesHistoryRequest | undefined;
 }
 /** The Cloud Storage location where the server writes the output and the export configuration. */
 export interface GoogleCloudHealthcareV1beta1DicomGcsDestination {
   /** The Cloud Storage destination to export to. URI for a Cloud Storage directory where the server writes the result files, in the format `gs://{bucket-id}/{path/to/destination/dir}`). If there is no trailing slash, the service appends one when composing the object path. The user is responsible for creating the Cloud Storage bucket referenced in `uri_prefix`. */
-  uriPrefix?: string;
+  uriPrefix?: string | undefined;
   /** MIME types supported by DICOM spec. Each file is written in the following format: `.../{study_id}/{series_id}/{instance_id}[/{frame_number}].{extension}` The frame_number component exists only for multi-frame instances. Supported MIME types are consistent with supported formats in DICOMweb: https://cloud.google.com/healthcare/docs/dicom#retrieve_transaction. Specifically, the following are supported: - application/dicom; transfer-syntax=1.2.840.10008.1.2 (DICOM Implicit VR Little Endian) - application/dicom; transfer-syntax=1.2.840.10008.1.2.1 (DICOM Explicit VR Little Endian) - application/dicom; transfer-syntax=1.2.840.10008.1.2.1.99 (DICOM Deflated Explicit VR Little Endian) - application/dicom; transfer-syntax=1.2.840.10008.1.2.4.50 (DICOM with embedded JPEG Baseline) - application/dicom; transfer-syntax=1.2.840.10008.1.2.4.51 (DICOM with embedded JPEG Extended) - application/dicom; transfer-syntax=1.2.840.10008.1.2.4.57 (DICOM with embedded JPEG Lossless) - application/dicom; transfer-syntax=1.2.840.10008.1.2.4.70 (DICOM with embedded JPEG Lossless First-Order Prediction) - application/dicom; transfer-syntax=1.2.840.10008.1.2.4.80 (DICOM with embedded JPEG-LS Lossless) - application/dicom; transfer-syntax=1.2.840.10008.1.2.4.81 (DICOM with embedded JPEG-LS Lossy (Near-Lossless)) - application/dicom; transfer-syntax=1.2.840.10008.1.2.4.90 (DICOM with embedded JPEG 2000 Lossless Only) - application/dicom; transfer-syntax=1.2.840.10008.1.2.4.91 (DICOM with embedded JPEG 2000) - application/dicom; transfer-syntax=1.2.840.10008.1.2.4.110 (DICOM with embedded JPEG XL Lossless) - application/dicom; transfer-syntax=1.2.840.10008.1.2.4.111 (DICOM with embedded JPEG XL JPEG Recompression) - application/dicom; transfer-syntax=1.2.840.10008.1.2.4.112 (DICOM with embedded JPEG XL) - application/dicom; transfer-syntax=1.2.840.10008.1.2.4.201 (DICOM with embedded High-Throughput JPEG 2000 Lossless) - application/dicom; transfer-syntax=1.2.840.10008.1.2.4.202 (DICOM with embedded High-Throughput JPEG 2000 with RPCL Options Lossless) - application/dicom; transfer-syntax=1.2.840.10008.1.2.4.203 (DICOM with embedded High-Throughput JPEG 2000) - application/dicom; transfer-syntax=1.2.840.10008.1.2.5 (DICOM with embedded RLE Lossless) - application/dicom; transfer-syntax=1.2.840.10008.1.2.8.1 (DICOM with embedded Deflated Image Frame Compression) - application/dicom; transfer-syntax=* (DICOM with no transcoding) - application/octet-stream; transfer-syntax=1.2.840.10008.1.2.1 (raw uncompressed PixelData) - application/octet-stream; transfer-syntax=* (raw PixelData in whatever format it was uploaded in) - image/jpeg; transfer-syntax=1.2.840.10008.1.2.4.50 (Consumer JPEG) - image/png The following extensions are used for output files: - application/dicom -> .dcm - image/jpeg -> .jpg - image/png -> .png - application/octet-stream -> no extension If unspecified, the instances are exported in the original DICOM format they were uploaded in. */
-  mimeType?: string;
+  mimeType?: string | undefined;
 }
 /** Exports data from the specified DICOM store. If a given resource, such as a DICOM object with the same SOPInstance UID, already exists in the output, it is overwritten with the version in the source dataset. Exported DICOM data persists when the DICOM store from which it was exported is deleted. */
 export interface ExportDicomDataRequest {
   /** The Cloud Storage output destination. The Cloud Healthcare Service Agent requires the `roles/storage.objectAdmin` Cloud IAM roles on the Cloud Storage location. */
-  gcsDestination?: GoogleCloudHealthcareV1beta1DicomGcsDestination;
+  gcsDestination?: GoogleCloudHealthcareV1beta1DicomGcsDestination | undefined;
   /** Specifies the filter configuration. */
-  filterConfig?: DicomFilterConfig;
+  filterConfig?: DicomFilterConfig | undefined;
   /** The BigQuery output destination. You can only export to a BigQuery dataset that's in the same project as the DICOM store you're exporting from. The Cloud Healthcare Service Agent requires two IAM roles on the BigQuery location: `roles/bigquery.dataEditor` and `roles/bigquery.jobUser`. */
-  bigqueryDestination?: GoogleCloudHealthcareV1beta1DicomBigQueryDestination;
+  bigqueryDestination?: GoogleCloudHealthcareV1beta1DicomBigQueryDestination | undefined;
 }
 export interface ExportProjectsLocationsDatasetsDicomStoresRequest {
   /** Required. The DICOM store resource name from which to export the data. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
   name: string;
   /** Request body */
-  body?: ExportDicomDataRequest;
+  body?: ExportDicomDataRequest | undefined;
 }
 /** Request to export resources. */
 export interface ExportResourcesRequest {
   /** String of comma-delimited FHIR resource types. If provided, only resources of the specified resource type(s) are exported. */
-  _type?: string;
+  _type?: string | undefined;
   /** The BigQuery output destination. The Cloud Healthcare Service Agent requires two IAM roles on the BigQuery location: `roles/bigquery.dataEditor` and `roles/bigquery.jobUser`. The output is one BigQuery table per resource type. Unlike when setting `BigQueryDestination` for `StreamConfig`, `ExportResources` does not create BigQuery views. */
-  bigqueryDestination?: GoogleCloudHealthcareV1beta1FhirBigQueryDestination;
+  bigqueryDestination?: GoogleCloudHealthcareV1beta1FhirBigQueryDestination | undefined;
   /** The Cloud Storage output destination. The Cloud Healthcare Service Agent requires the `roles/storage.objectAdmin` Cloud IAM roles on the Cloud Storage location. The exported outputs are organized by FHIR resource types. The server creates one object per resource type. Each object contains newline delimited JSON, and each line is a FHIR resource. */
-  gcsDestination?: GoogleCloudHealthcareV1beta1FhirGcsDestination;
+  gcsDestination?: GoogleCloudHealthcareV1beta1FhirGcsDestination | undefined;
   /** If provided, only resources updated after this time are exported. The time uses the format YYYY-MM-DDThh:mm:ss.sss+zz:zz. For example, `2015-02-07T13:28:17.239+02:00` or `2017-01-01T00:00:00Z`. The time must be specified to the second and include a time zone. */
-  _since?: string;
+  _since?: string | undefined;
 }
 export interface ExportProjectsLocationsDatasetsFhirStoresRequest {
   /** Required. The name of the FHIR store to export resource from, in the format of `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
   name: string;
   /** Request body */
-  body?: ExportResourcesRequest;
+  body?: ExportResourcesRequest | undefined;
 }
 /** The Pub/Sub output destination. The Cloud Healthcare Service Agent requires the `roles/pubsub.publisher` Cloud IAM role on the Pub/Sub topic. */
 export interface PubsubDestination {
   /** The [Pub/Sub](https://cloud.google.com/pubsub/docs/) topic that Pub/Sub messages are published on. Supplied by the client. The `PubsubMessage` contains the following fields: * `PubsubMessage.Data` contains the resource name. * `PubsubMessage.MessageId` is the ID of this notification. It is guaranteed to be unique within the topic. * `PubsubMessage.PublishTime` is the time when the message was published. [Topic names](https://cloud.google.com/pubsub/docs/overview#names) must be scoped to a project. The Cloud Healthcare API service account, service-PROJECT_NUMBER@gcp-sa-healthcare.iam.gserviceaccount.com, must have publisher permissions on the given Pub/Sub topic. Not having adequate permissions causes the calls that send notifications to fail. */
-  pubsubTopic?: string;
+  pubsubTopic?: string | undefined;
 }
 export type GcsDestinationMessageViewEnum =
   | "MESSAGE_VIEW_UNSPECIFIED"
@@ -1825,30 +1837,30 @@ export type GcsDestinationContentStructureEnum = "CONTENT_STRUCTURE_UNSPECIFIED"
 /** The Cloud Storage output destination. The Cloud Healthcare Service Agent requires the `roles/storage.objectAdmin` Cloud IAM roles on the Cloud Storage location. */
 export interface GcsDestination {
   /** Specifies the parts of the Message resource to include in the export. If not specified, FULL is used. */
-  messageView?: GcsDestinationMessageViewEnum | (string & {});
+  messageView?: GcsDestinationMessageViewEnum | (string & {}) | undefined;
   /** The format of the exported HL7v2 message files. */
-  contentStructure?: GcsDestinationContentStructureEnum | (string & {});
+  contentStructure?: GcsDestinationContentStructureEnum | (string & {}) | undefined;
   /** URI of an existing Cloud Storage directory where the server writes result files, in the format `gs://{bucket-id}/{path/to/destination/dir}`. If there is no trailing slash, the service appends one when composing the object path. */
-  uriPrefix?: string;
+  uriPrefix?: string | undefined;
 }
 /** Request to schedule an export. */
 export interface ExportMessagesRequest {
   /** Export messages to a Pub/Sub topic. */
-  pubsubDestination?: PubsubDestination;
+  pubsubDestination?: PubsubDestination | undefined;
   /** Restricts messages exported to those matching a filter, only applicable to PubsubDestination and GcsDestination. The following syntax is available: * A string field value can be written as text inside quotation marks, for example `"query text"`. The only valid relational operation for text fields is equality (`=`), where text is searched within the field, rather than having the field be equal to the text. For example, `"Comment = great"` returns messages with `great` in the comment field. * A number field value can be written as an integer, a decimal, or an exponential. The valid relational operators for number fields are the equality operator (`=`), along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * A date field value must be written in the `yyyy-mm-dd` format. Fields with date and time use the RFC3339 time format. Leading zeros are required for one-digit months and days. The valid relational operators for date fields are the equality operator (`=`) , along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * Multiple field query expressions can be combined in one query by adding `AND` or `OR` operators between the expressions. If a boolean operator appears within a quoted string, it is not treated as special, and is just another part of the character string to be matched. You can prepend the `NOT` operator to an expression to negate it. The following fields and functions are available for filtering: * `message_type`, from the MSH-9.1 field. For example, `NOT message_type = "ADT"`. * `send_date` or `sendDate`, the YYYY-MM-DD date the message was sent in the dataset's time_zone, from the MSH-7 segment. For example, `send_date < "2017-01-02"`. * `send_time`, the timestamp when the message was sent, using the RFC3339 time format for comparisons, from the MSH-7 segment. For example, `send_time < "2017-01-02T00:00:00-05:00"`. * `create_time`, the timestamp when the message was created in the HL7v2 store. Use the RFC3339 time format for comparisons. For example, `create_time < "2017-01-02T00:00:00-05:00"`. * `send_facility`, the care center that the message came from, from the MSH-4 segment. For example, `send_facility = "ABC"`. Note: The filter will be applied to every message in the HL7v2 store whose `send_time` lies in the range defined by the `start_time` and the `end_time`. Even if the filter only matches a small set of messages, the export operation can still take a long time to finish when a lot of messages are between the specified `start_time` and `end_time` range. */
-  filter?: string;
+  filter?: string | undefined;
   /** The start of the range in `send_time` (MSH.7, https://www.hl7.org/documentcenter/public_temp_2E58C1F9-1C23-BA17-0C6126475344DA9D/wg/conf/HL7MSH.htm) to process. If not specified, the UNIX epoch (1970-01-01T00:00:00Z) is used. This value has to come before the `end_time` defined below. Only messages whose `send_time` lies in the range `start_time` (inclusive) to `end_time` (exclusive) are exported. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Export to a Cloud Storage destination. */
-  gcsDestination?: GcsDestination;
+  gcsDestination?: GcsDestination | undefined;
   /** The end of the range in `send_time` (MSH.7, https://www.hl7.org/documentcenter/public_temp_2E58C1F9-1C23-BA17-0C6126475344DA9D/wg/conf/HL7MSH.htm) to process. If not specified, the time when the export is scheduled is used. This value has to come after the `start_time` defined below. Only messages whose `send_time` lies in the range `start_time` (inclusive) to `end_time` (exclusive) are exported. */
-  endTime?: string;
+  endTime?: string | undefined;
 }
 export interface ExportProjectsLocationsDatasetsHl7V2StoresRequest {
   /** Required. The name of the source HL7v2 store, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7v2Stores/{hl7v2_store_id}` */
   name: string;
   /** Request body */
-  body?: ExportMessagesRequest;
+  body?: ExportMessagesRequest | undefined;
 }
 export interface GetBulkdataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesBulkdataRequest {
   /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
@@ -1863,17 +1875,17 @@ export interface GetDICOMStoreMetricsProjectsLocationsDatasetsDicomStoresRequest
 /** DicomStoreMetrics contains metrics describing a DICOM store. */
 export interface DicomStoreMetrics {
   /** Number of series in the store. */
-  seriesCount?: string;
+  seriesCount?: string | undefined;
   /** Number of studies in the store. */
-  studyCount?: string;
+  studyCount?: string | undefined;
   /** Total structured storage bytes for all instances in the store. */
-  structuredStorageSizeBytes?: string;
+  structuredStorageSizeBytes?: string | undefined;
   /** Total blob storage bytes for all instances in the store. */
-  blobStorageSizeBytes?: string;
+  blobStorageSizeBytes?: string | undefined;
   /** Number of instances in the store. */
-  instanceCount?: string;
+  instanceCount?: string | undefined;
   /** Resource name of the DICOM store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetFhirOperationStatusProjectsLocationsDatasetsFhirStoresOperationsRequest {
   /** Required. Name of the operation to query, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/operations/{operation_id}`. */
@@ -1886,21 +1898,21 @@ export interface GetFHIRStoreMetricsProjectsLocationsDatasetsFhirStoresRequest {
 /** Count of resources and total storage size by type for a given FHIR store. */
 export interface FhirStoreMetric {
   /** The total amount of structured storage used by FHIR resources of this resource type in the store. */
-  structuredStorageSizeBytes?: string;
+  structuredStorageSizeBytes?: string | undefined;
   /** The total amount of versioned storage used by versioned FHIR resources of this resource type in the store. */
-  versionedStorageSizeBytes?: string;
+  versionedStorageSizeBytes?: string | undefined;
   /** The total count of FHIR resources in the store of this resource type. */
-  count?: string;
+  count?: string | undefined;
   /** The FHIR resource type this metric applies to. */
-  resourceType?: string;
+  resourceType?: string | undefined;
 }
 export type FhirStoreMetricList = Array<FhirStoreMetric>;
 /** List of metrics for a given FHIR store. */
 export interface FhirStoreMetrics {
   /** List of FhirStoreMetric by resource type. */
-  metrics?: FhirStoreMetricList;
+  metrics?: FhirStoreMetricList | undefined;
   /** The resource name of the FHIR store to get metrics for, in the format `projects/{project_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetFramesProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesRequest {
   /** Required. The path of the RetrieveFrames DICOMweb request. For example, `studies/{study_uid}/series/{series_uid}/instances/{instance_uid}/frames/{frame_list}`. */
@@ -1915,25 +1927,25 @@ export interface GetHL7v2StoreMetricsProjectsLocationsDatasetsHl7V2StoresRequest
 /** Count of messages and total storage size by type for a given HL7 store. */
 export interface Hl7V2StoreMetric {
   /** The Hl7v2 message type this metric applies to, such as `ADT` or `ORU`. */
-  messageType?: string;
+  messageType?: string | undefined;
   /** The total amount of structured storage used by HL7v2 messages of this message type in the store. */
-  structuredStorageSizeBytes?: string;
+  structuredStorageSizeBytes?: string | undefined;
   /** The total count of HL7v2 messages in the store for the given message type. */
-  count?: string;
+  count?: string | undefined;
 }
 export type Hl7V2StoreMetricList = Array<Hl7V2StoreMetric>;
 /** List of metrics for a given HL7v2 store. */
 export interface Hl7V2StoreMetrics {
   /** The resource name of the HL7v2 store to get metrics for, in the format `projects/{project_id}/datasets/{dataset_id}/hl7V2Stores/{hl7v2_store_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** List of HL7v2 store metrics by message type. */
-  metrics?: Hl7V2StoreMetricList;
+  metrics?: Hl7V2StoreMetricList | undefined;
 }
 export interface GetIamPolicyProjectsLocationsDatasetsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
@@ -1943,67 +1955,67 @@ export type AuditLogConfigLogTypeEnum =
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface AuditLogConfig {
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList;
+  exemptedMembers?: StringList | undefined;
   /** The log type that this config enables. */
-  logType?: AuditLogConfigLogTypeEnum | (string & {});
+  logType?: AuditLogConfigLogTypeEnum | (string & {}) | undefined;
 }
 export type AuditLogConfigList = Array<AuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
 export interface AuditConfig {
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
-  service?: string;
+  service?: string | undefined;
   /** The configuration for logging of each type of permission. */
-  auditLogConfigs?: AuditLogConfigList;
+  auditLogConfigs?: AuditLogConfigList | undefined;
 }
 export type AuditConfigList = Array<AuditConfig>;
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
   /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
+  condition?: Expr | undefined;
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
+  role?: string | undefined;
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
+  members?: StringList | undefined;
 }
 export type BindingList = Array<Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
+  etag?: string | undefined;
   /** Specifies cloud audit logging configuration for this policy. */
-  auditConfigs?: AuditConfigList;
+  auditConfigs?: AuditConfigList | undefined;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList;
+  bindings?: BindingList | undefined;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
+  version?: number | undefined;
 }
 export interface GetIamPolicyProjectsLocationsDatasetsConsentStoresRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export interface GetIamPolicyProjectsLocationsDatasetsDataMapperWorkspacesRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
 }
 export interface GetIamPolicyProjectsLocationsDatasetsDicomStoresRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
 }
 export interface GetIamPolicyProjectsLocationsDatasetsFhirStoresRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
 }
 export interface GetIamPolicyProjectsLocationsDatasetsHl7V2StoresRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
 }
@@ -2038,15 +2050,15 @@ export interface GetProjectsLocationsRequest {
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetProjectsLocationsDatasetsRequest {
   /** Required. The name of the dataset to read. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}`. */
@@ -2095,7 +2107,7 @@ export interface GetProjectsLocationsDatasetsHl7V2StoresMessagesRequest {
   /** Required. The resource name of the HL7v2 message to retrieve. */
   name: string;
   /** Specifies which parts of the Message resource to return in the response. When unspecified, equivalent to FULL. */
-  view?: GetProjectsLocationsDatasetsHl7V2StoresMessagesViewEnum | (string & {});
+  view?: GetProjectsLocationsDatasetsHl7V2StoresMessagesViewEnum | (string & {}) | undefined;
 }
 export interface GetProjectsLocationsDatasetsOperationsRequest {
   /** The name of the operation resource. */
@@ -2103,7 +2115,7 @@ export interface GetProjectsLocationsDatasetsOperationsRequest {
 }
 export interface GetRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest {
   /** Optional. The viewport setting to use as specified in https://dicom.nema.org/medical/dicom/current/output/chtml/part18/sect_8.3.5.html#sect_8.3.5.1.3 */
-  viewport?: string;
+  viewport?: string | undefined;
   /** Required. The path of the RetrieveRenderedInstance DICOMweb request. For example, `studies/{study_uid}/series/{series_uid}/instances/{instance_uid}/rendered`. */
   dicomWebPath: string;
   /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
@@ -2111,7 +2123,7 @@ export interface GetRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesIns
 }
 export interface GetRenderedProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesRequest {
   /** Optional. The viewport setting to use as specified in https://dicom.nema.org/medical/dicom/current/output/chtml/part18/sect_8.3.5.html#sect_8.3.5.1.3 */
-  viewport?: string;
+  viewport?: string | undefined;
   /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
   parent: string;
   /** Required. The path of the RetrieveRenderedFrames DICOMweb request. For example, `studies/{study_uid}/series/{series_uid}/instances/{instance_uid}/frames/{frame_list}/rendered`. */
@@ -2124,13 +2136,13 @@ export interface GetSeriesMetricsProjectsLocationsDatasetsDicomStoresDicomWebStu
 /** SeriesMetrics contains metrics describing a DICOM series. */
 export interface SeriesMetrics {
   /** The series resource path. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}/dicomWeb/studies/{study_uid}/series/{series_uid}`. */
-  series?: string;
+  series?: string | undefined;
   /** Total blob storage bytes for all instances in the series. */
-  blobStorageSizeBytes?: string;
+  blobStorageSizeBytes?: string | undefined;
   /** Number of instances in the series. */
-  instanceCount?: string;
+  instanceCount?: string | undefined;
   /** Total structured storage bytes for all instances in the series. */
-  structuredStorageSizeBytes?: string;
+  structuredStorageSizeBytes?: string | undefined;
 }
 export interface GetSeriesProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest {
   /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
@@ -2151,25 +2163,25 @@ export type BlobStorageInfoStorageClassEnum =
 /** BlobStorageInfo contains details about the data stored in Blob Storage for the referenced resource. Note: Storage class is only valid for DICOM and hence will only be populated for DICOM resources. */
 export interface BlobStorageInfo {
   /** The time at which the storage class was updated. This is used to compute early deletion fees of the resource. */
-  storageClassUpdateTime?: string;
+  storageClassUpdateTime?: string | undefined;
   /** Size in bytes of data stored in Blob Storage. */
-  sizeBytes?: string;
+  sizeBytes?: string | undefined;
   /** The storage class in which the Blob data is stored. */
-  storageClass?: BlobStorageInfoStorageClassEnum;
+  storageClass?: BlobStorageInfoStorageClassEnum | undefined;
 }
 /** StructuredStorageInfo contains details about the data stored in Structured Storage for the referenced resource. */
 export interface StructuredStorageInfo {
   /** Size in bytes of data stored in structured storage. */
-  sizeBytes?: string;
+  sizeBytes?: string | undefined;
 }
 /** StorageInfo encapsulates all the storage info of a resource. */
 export interface StorageInfo {
   /** Info about the data stored in blob storage for the resource. */
-  blobStorageInfo?: BlobStorageInfo;
+  blobStorageInfo?: BlobStorageInfo | undefined;
   /** Info about the data stored in structured storage for the resource. */
-  structuredStorageInfo?: StructuredStorageInfo;
+  structuredStorageInfo?: StructuredStorageInfo | undefined;
   /** The resource whose storage info is returned. For example: `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}/dicomWeb/studies/{studyUID}/series/{seriesUID}/instances/{instanceUID}` */
-  referencedResource?: string;
+  referencedResource?: string | undefined;
 }
 export interface GetStudyMetricsProjectsLocationsDatasetsDicomStoresDicomWebStudiesRequest {
   /** Required. The study resource path. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}/dicomWeb/studies/{study_uid}`. */
@@ -2178,15 +2190,15 @@ export interface GetStudyMetricsProjectsLocationsDatasetsDicomStoresDicomWebStud
 /** StudyMetrics contains metrics describing a DICOM study. */
 export interface StudyMetrics {
   /** The study resource path. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}/dicomWeb/studies/{study_uid}`. */
-  study?: string;
+  study?: string | undefined;
   /** Total structured storage bytes for all instances in the study. */
-  structuredStorageSizeBytes?: string;
+  structuredStorageSizeBytes?: string | undefined;
   /** Number of series in the study. */
-  seriesCount?: string;
+  seriesCount?: string | undefined;
   /** Number of instances in the study. */
-  instanceCount?: string;
+  instanceCount?: string | undefined;
   /** Total blob storage bytes for all instances in the study. */
-  blobStorageSizeBytes?: string;
+  blobStorageSizeBytes?: string | undefined;
 }
 export interface GetStudyProjectsLocationsDatasetsDicomStoresStudiesRequest {
   /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
@@ -2196,13 +2208,13 @@ export interface GetStudyProjectsLocationsDatasetsDicomStoresStudiesRequest {
 }
 export interface HistoryProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Used to retrieve the first, previous, next, or last page of resource versions when using pagination. Value should be set to the value of `_page_token` set in next or previous page links' URLs. Next and previous page are returned in the response bundle's links field, where `link.relation` is "previous" or "next". Omit `_page_token` if no previous request has been made. */
-  _page_token?: string;
+  _page_token?: string | undefined;
   /** Only include resource versions that were current at some point during the time period specified in the date time value. The date parameter format is yyyy-mm-ddThh:mm:ss[Z|(+|-)hh:mm] Clients may specify any of the following: * An entire year: `_at=2019` * An entire month: `_at=2019-01` * A specific day: `_at=2019-01-20` * A specific second: `_at=2018-12-31T23:59:58Z` */
-  _at?: string;
+  _at?: string | undefined;
   /** The maximum number of search results on a page. If not specified, 100 is used. May not be larger than 1000. */
-  _count?: number;
+  _count?: number | undefined;
   /** Only include resource versions that were created at or after the given instant in time. The instant in time uses the format YYYY-MM-DDThh:mm:ss.sss+zz:zz (for example 2015-02-07T13:28:17.239+02:00 or 2017-01-01T00:00:00Z). The time must be specified to the second and include a time zone. */
-  _since?: string;
+  _since?: string | undefined;
   /** Required. The name of the resource to retrieve. */
   name: string;
 }
@@ -2215,17 +2227,17 @@ export type ImportResourcesHistoryRequestContentStructureEnum =
 /** Request to import the history of resources. */
 export interface ImportResourcesHistoryRequest {
   /** The maximum number of errors before the server cancels the operation. If not specified or set to 0, defaults to 100. -1 means no maximum, the server tries to process all input. Since the server executes the operation in parallel, it might not stop the operation after exactly this number of errors occur. */
-  maxErrorCount?: string;
+  maxErrorCount?: string | undefined;
   /** Cloud Storage source data location and import configuration. The Cloud Healthcare Service Agent requires the `roles/storage.objectAdmin` Cloud IAM roles on the Cloud Storage location. The Healthcare Service Agent Each Cloud Storage object should be a text file that contains the format specified in ContentStructure. */
-  gcsSource?: GoogleCloudHealthcareV1beta1FhirGcsSource;
+  gcsSource?: GoogleCloudHealthcareV1beta1FhirGcsSource | undefined;
   /** The content structure in the source location. If not specified, the server treats the input source files as BUNDLE. */
-  contentStructure?: ImportResourcesHistoryRequestContentStructureEnum | (string & {});
+  contentStructure?: ImportResourcesHistoryRequestContentStructureEnum | (string & {}) | undefined;
 }
 export interface ImportHistoryProjectsLocationsDatasetsFhirStoresRequest {
   /** Required. The name of the FHIR store to import FHIR resources to, in the format of `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
   name: string;
   /** Request body */
-  body?: ImportResourcesHistoryRequest;
+  body?: ImportResourcesHistoryRequest | undefined;
 }
 export type BlobStorageSettingsBlobStorageClassEnum =
   | "BLOB_STORAGE_CLASS_UNSPECIFIED"
@@ -2236,25 +2248,25 @@ export type BlobStorageSettingsBlobStorageClassEnum =
 /** Settings for data stored in Blob storage. */
 export interface BlobStorageSettings {
   /** The Storage class in which the Blob data is stored. */
-  blobStorageClass?: BlobStorageSettingsBlobStorageClassEnum | (string & {});
+  blobStorageClass?: BlobStorageSettingsBlobStorageClassEnum | (string & {}) | undefined;
 }
 /** Specifies the configuration for importing data from Cloud Storage. */
 export interface GoogleCloudHealthcareV1beta1DicomGcsSource {
   /** Points to a Cloud Storage URI containing file(s) with content only. The URI must be in the following format: `gs://{bucket_id}/{object_id}`. The URI can include wildcards in `object_id` and thus identify multiple files. Supported wildcards: * '*' to match 0 or more non-separator characters * '**' to match 0 or more characters (including separators). Must be used at the end of a path and with no other wildcards in the path. Can also be used with a file extension (such as .dcm), which imports all files with the extension in the specified directory and its sub-directories. For example, `gs://my-bucket/my-directory/**.dcm` imports all files with .dcm extensions in `my-directory/` and its sub-directories. * '?' to match 1 character. All other URI formats are invalid. Files matching the wildcard are expected to contain content only, no metadata. */
-  uri?: string;
+  uri?: string | undefined;
 }
 /** Imports data into the specified DICOM store. Returns an error if any of the files to import are not DICOM files. This API accepts duplicate DICOM instances by ignoring the newly-pushed instance. It does not overwrite. */
 export interface ImportDicomDataRequest {
   /** Optional. The blob storage settings for the data imported by this operation. */
-  blobStorageSettings?: BlobStorageSettings;
+  blobStorageSettings?: BlobStorageSettings | undefined;
   /** Cloud Storage source data location and import configuration. The Cloud Healthcare Service Agent requires the `roles/storage.objectViewer` Cloud IAM roles on the Cloud Storage location. */
-  gcsSource?: GoogleCloudHealthcareV1beta1DicomGcsSource;
+  gcsSource?: GoogleCloudHealthcareV1beta1DicomGcsSource | undefined;
 }
 export interface ImportProjectsLocationsDatasetsDicomStoresRequest {
   /** Required. The name of the DICOM store resource into which the data is imported. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
   name: string;
   /** Request body */
-  body?: ImportDicomDataRequest;
+  body?: ImportDicomDataRequest | undefined;
 }
 export type ImportResourcesRequestContentStructureEnum =
   | "CONTENT_STRUCTURE_UNSPECIFIED"
@@ -2265,59 +2277,59 @@ export type ImportResourcesRequestContentStructureEnum =
 /** Request to import resources. */
 export interface ImportResourcesRequest {
   /** Cloud Storage source data location and import configuration. The Cloud Healthcare Service Agent requires the `roles/storage.objectViewer` Cloud IAM roles on the Cloud Storage location. The Healthcare Service Agent Each Cloud Storage object should be a text file that contains the format specified in ContentStructure. */
-  gcsSource?: GoogleCloudHealthcareV1beta1FhirGcsSource;
+  gcsSource?: GoogleCloudHealthcareV1beta1FhirGcsSource | undefined;
   /** The content structure in the source location. If not specified, the server treats the input source files as BUNDLE. */
-  contentStructure?: ImportResourcesRequestContentStructureEnum | (string & {});
+  contentStructure?: ImportResourcesRequestContentStructureEnum | (string & {}) | undefined;
 }
 export interface ImportProjectsLocationsDatasetsFhirStoresRequest {
   /** Required. The name of the FHIR store to import FHIR resources to, in the format of `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
   name: string;
   /** Request body */
-  body?: ImportResourcesRequest;
+  body?: ImportResourcesRequest | undefined;
 }
 /** Specifies the configuration for importing data from Cloud Storage. */
 export interface GcsSource {
   /** Points to a Cloud Storage URI containing file(s) to import. The URI must be in the following format: `gs://{bucket_id}/{object_id}`. The URI can include wildcards in `object_id` and thus identify multiple files. Supported wildcards: * `*` to match 0 or more non-separator characters * `**` to match 0 or more characters (including separators). Must be used at the end of a path and with no other wildcards in the path. Can also be used with a file extension (such as .ndjson), which imports all files with the extension in the specified directory and its sub-directories. For example, `gs://my-bucket/my-directory/**.ndjson` imports all files with `.ndjson` extensions in `my-directory/` and its sub-directories. * `?` to match 1 character Files matching the wildcard are expected to contain content only, no metadata. */
-  uri?: string;
+  uri?: string | undefined;
 }
 /** Request to import messages. */
 export interface ImportMessagesRequest {
   /** Cloud Storage source data location and import configuration. The Cloud Healthcare Service Agent requires the `roles/storage.objectViewer` Cloud IAM roles on the Cloud Storage location. */
-  gcsSource?: GcsSource;
+  gcsSource?: GcsSource | undefined;
 }
 export interface ImportProjectsLocationsDatasetsHl7V2StoresRequest {
   /** Required. The name of the target HL7v2 store, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7v2Stores/{hl7v2_store_id}` */
   name: string;
   /** Request body */
-  body?: ImportMessagesRequest;
+  body?: ImportMessagesRequest | undefined;
 }
 /** Ingests a message into the specified HL7v2 store. */
 export interface IngestMessageRequest {
   /** Required. HL7v2 message to ingest. */
-  message?: Message;
+  message?: Message | undefined;
 }
 export interface IngestProjectsLocationsDatasetsHl7V2StoresMessagesRequest {
   /** Required. The name of the HL7v2 store this message belongs to. */
   parent: string;
   /** Request body */
-  body?: IngestMessageRequest;
+  body?: IngestMessageRequest | undefined;
 }
 /** Acknowledges that a message has been ingested into the specified HL7v2 store. */
 export interface IngestMessageResponse {
   /** Created message resource. */
-  message?: Message;
+  message?: Message | undefined;
   /** HL7v2 ACK message. */
-  hl7Ack?: string;
+  hl7Ack?: string | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
 }
@@ -2325,154 +2337,154 @@ export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
 }
 export interface ListProjectsLocationsDatasetsRequest {
   /** The next_page_token value returned from a previous List request, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The name of the project whose datasets should be listed. For example, `projects/{project_id}/locations/{location_id}`. */
   parent: string;
   /** The maximum number of items to return. If not specified, 100 is used. May not be larger than 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type DatasetList = Array<Dataset>;
 /** Lists the available datasets. */
 export interface ListDatasetsResponse {
   /** The first page of datasets. */
-  datasets?: DatasetList;
+  datasets?: DatasetList | undefined;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsDatasetsConsentStoresRequest {
   /** Optional. Restricts the stores returned to those matching a filter. The following syntax is available: * A string field value can be written as text inside quotation marks, for example `"query text"`. The only valid relational operation for text fields is equality (`=`), where text is searched within the field, rather than having the field be equal to the text. For example, `"Comment = great"` returns messages with `great` in the comment field. * A number field value can be written as an integer, a decimal, or an exponential. The valid relational operators for number fields are the equality operator (`=`), along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * A date field value must be written in `yyyy-mm-dd` form. Fields with date and time use the RFC3339 time format. Leading zeros are required for one-digit months and days. The valid relational operators for date fields are the equality operator (`=`) , along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * Multiple field query expressions can be combined in one query by adding `AND` or `OR` operators between the expressions. If a boolean operator appears within a quoted string, it is not treated as special, it's just another part of the character string to be matched. You can prepend the `NOT` operator to an expression to negate it. Only filtering on labels is supported. For example, `filter=labels.key=value`. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Limit on the number of consent stores to return in a single response. If not specified, 100 is used. May not be larger than 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Name of the dataset. */
   parent: string;
   /** Optional. Token to retrieve the next page of results, or empty to get the first page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ConsentStoreList = Array<ConsentStore>;
 export interface ListConsentStoresResponse {
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The returned consent stores. The maximum number of stores returned is determined by the value of page_size in the ListConsentStoresRequest. */
-  consentStores?: ConsentStoreList;
+  consentStores?: ConsentStoreList | undefined;
 }
 export interface ListProjectsLocationsDatasetsConsentStoresAttributeDefinitionsRequest {
   /** Optional. Restricts the attributes returned to those matching a filter. The following syntax is available: * A string field value can be written as text inside quotation marks, for example `"query text"`. The only valid relational operation for text fields is equality (`=`), where text is searched within the field, rather than having the field be equal to the text. For example, `"Comment = great"` returns messages with `great` in the comment field. * A number field value can be written as an integer, a decimal, or an exponential. The valid relational operators for number fields are the equality operator (`=`), along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * A date field value must be written in `yyyy-mm-dd` form. Fields with date and time use the RFC3339 time format. Leading zeros are required for one-digit months and days. The valid relational operators for date fields are the equality operator (`=`) , along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * Multiple field query expressions can be combined in one query by adding `AND` or `OR` operators between the expressions. If a boolean operator appears within a quoted string, it is not treated as special, it's just another part of the character string to be matched. You can prepend the `NOT` operator to an expression to negate it. The only field available for filtering is `category`. For example, `filter=category=\"REQUEST\"`. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Token to retrieve the next page of results or empty to get the first page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Name of the consent store to retrieve Attribute definitions from. */
   parent: string;
   /** Optional. Limit on the number of Attribute definitions to return in a single response. If not specified, 100 is used. May not be larger than 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type AttributeDefinitionList = Array<AttributeDefinition>;
 export interface ListAttributeDefinitionsResponse {
   /** The returned Attribute definitions. The maximum number of attributes returned is determined by the value of page_size in the ListAttributeDefinitionsRequest. */
-  attributeDefinitions?: AttributeDefinitionList;
+  attributeDefinitions?: AttributeDefinitionList | undefined;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsDatasetsConsentStoresConsentArtifactsRequest {
   /** Optional. Restricts the artifacts returned to those matching a filter. The following syntax is available: * A string field value can be written as text inside quotation marks, for example `"query text"`. The only valid relational operation for text fields is equality (`=`), where text is searched within the field, rather than having the field be equal to the text. For example, `"Comment = great"` returns messages with `great` in the comment field. * A number field value can be written as an integer, a decimal, or an exponential. The valid relational operators for number fields are the equality operator (`=`), along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * A date field value must be written in `yyyy-mm-dd` form. Fields with date and time use the RFC3339 time format. Leading zeros are required for one-digit months and days. The valid relational operators for date fields are the equality operator (`=`) , along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * Multiple field query expressions can be combined in one query by adding `AND` or `OR` operators between the expressions. If a boolean operator appears within a quoted string, it is not treated as special, it's just another part of the character string to be matched. You can prepend the `NOT` operator to an expression to negate it. The fields available for filtering are: - user_id. For example, `filter=user_id=\"user123\"`. - consent_content_version - metadata. For example, `filter=Metadata(\"testkey\")=\"value\"` or `filter=HasMetadata(\"testkey\")`. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. Name of the consent store to retrieve consent artifacts from. */
   parent: string;
   /** Optional. Limit on the number of consent artifacts to return in a single response. If not specified, 100 is used. May not be larger than 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The next_page_token value returned from the previous List request, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ConsentArtifactList = Array<ConsentArtifact>;
 export interface ListConsentArtifactsResponse {
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The returned Consent artifacts. The maximum number of artifacts returned is determined by the value of page_size in the ListConsentArtifactsRequest. */
-  consentArtifacts?: ConsentArtifactList;
+  consentArtifacts?: ConsentArtifactList | undefined;
 }
 export interface ListProjectsLocationsDatasetsConsentStoresConsentsRequest {
   /** Optional. The next_page_token value returned from the previous List request, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Restricts the consents returned to those matching a filter. The following syntax is available: * A string field value can be written as text inside quotation marks, for example `"query text"`. The only valid relational operation for text fields is equality (`=`), where text is searched within the field, rather than having the field be equal to the text. For example, `"Comment = great"` returns messages with `great` in the comment field. * A number field value can be written as an integer, a decimal, or an exponential. The valid relational operators for number fields are the equality operator (`=`), along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * A date field value must be written in `yyyy-mm-dd` form. Fields with date and time use the RFC3339 time format. Leading zeros are required for one-digit months and days. The valid relational operators for date fields are the equality operator (`=`) , along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * Multiple field query expressions can be combined in one query by adding `AND` or `OR` operators between the expressions. If a boolean operator appears within a quoted string, it is not treated as special, it's just another part of the character string to be matched. You can prepend the `NOT` operator to an expression to negate it. The fields available for filtering are: - user_id. For example, `filter='user_id="user123"'`. - consent_artifact - state - revision_create_time - metadata. For example, `filter=Metadata(\"testkey\")=\"value\"` or `filter=HasMetadata(\"testkey\")`. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. Name of the consent store to retrieve Consents from. */
   parent: string;
   /** Optional. Limit on the number of Consents to return in a single response. If not specified, 100 is used. May not be larger than 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type ConsentList_ = Array<Consent>;
 export interface ListConsentsResponse {
   /** The returned Consents. The maximum number of Consents returned is determined by the value of page_size in the ListConsentsRequest. */
-  consents?: ConsentList_;
+  consents?: ConsentList_ | undefined;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsDatasetsConsentStoresUserDataMappingsRequest {
   /** Optional. Restricts the user data mappings returned to those matching a filter. The following syntax is available: * A string field value can be written as text inside quotation marks, for example `"query text"`. The only valid relational operation for text fields is equality (`=`), where text is searched within the field, rather than having the field be equal to the text. For example, `"Comment = great"` returns messages with `great` in the comment field. * A number field value can be written as an integer, a decimal, or an exponential. The valid relational operators for number fields are the equality operator (`=`), along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * A date field value must be written in `yyyy-mm-dd` form. Fields with date and time use the RFC3339 time format. Leading zeros are required for one-digit months and days. The valid relational operators for date fields are the equality operator (`=`) , along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * Multiple field query expressions can be combined in one query by adding `AND` or `OR` operators between the expressions. If a boolean operator appears within a quoted string, it is not treated as special, it's just another part of the character string to be matched. You can prepend the `NOT` operator to an expression to negate it. The fields available for filtering are: - data_id - user_id. For example, `filter=user_id=\"user123\"`. - archived - archive_time */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Limit on the number of User data mappings to return in a single response. If not specified, 100 is used. May not be larger than 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Token to retrieve the next page of results, or empty to get the first page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Name of the consent store to retrieve User data mappings from. */
   parent: string;
 }
 export type UserDataMappingList = Array<UserDataMapping>;
 export interface ListUserDataMappingsResponse {
   /** The returned User data mappings. The maximum number of User data mappings returned is determined by the value of page_size in the ListUserDataMappingsRequest. */
-  userDataMappings?: UserDataMappingList;
+  userDataMappings?: UserDataMappingList | undefined;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsDatasetsDicomStoresRequest {
   /** Required. Name of the dataset. */
   parent: string;
   /** The next_page_token value returned from the previous List request, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Restricts stores returned to those matching a filter. The following syntax is available: * A string field value can be written as text inside quotation marks, for example `"query text"`. The only valid relational operation for text fields is equality (`=`), where text is searched within the field, rather than having the field be equal to the text. For example, `"Comment = great"` returns messages with `great` in the comment field. * A number field value can be written as an integer, a decimal, or an exponential. The valid relational operators for number fields are the equality operator (`=`), along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * A date field value must be written in `yyyy-mm-dd` form. Fields with date and time use the RFC3339 time format. Leading zeros are required for one-digit months and days. The valid relational operators for date fields are the equality operator (`=`) , along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * Multiple field query expressions can be combined in one query by adding `AND` or `OR` operators between the expressions. If a boolean operator appears within a quoted string, it is not treated as special, it's just another part of the character string to be matched. You can prepend the `NOT` operator to an expression to negate it. Only filtering on labels is supported. For example, `labels.key=value`. */
-  filter?: string;
+  filter?: string | undefined;
   /** Limit on the number of DICOM stores to return in a single response. If not specified, 100 is used. May not be larger than 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type DicomStoreList = Array<DicomStore>;
 /** Lists the DICOM stores in the given dataset. */
 export interface ListDicomStoresResponse {
   /** The returned DICOM stores. Won't be more DICOM stores than the value of page_size in the request. */
-  dicomStores?: DicomStoreList;
+  dicomStores?: DicomStoreList | undefined;
   /** Token to retrieve the next page of results or empty if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsDatasetsFhirStoresRequest {
   /** Required. Name of the dataset. */
   parent: string;
   /** Limit on the number of FHIR stores to return in a single response. If not specified, 100 is used. May not be larger than 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The next_page_token value returned from the previous List request, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Restricts stores returned to those matching a filter. The following syntax is available: * A string field value can be written as text inside quotation marks, for example `"query text"`. The only valid relational operation for text fields is equality (`=`), where text is searched within the field, rather than having the field be equal to the text. For example, `"Comment = great"` returns messages with `great` in the comment field. * A number field value can be written as an integer, a decimal, or an exponential. The valid relational operators for number fields are the equality operator (`=`), along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * A date field value must be written in `yyyy-mm-dd` form. Fields with date and time use the RFC3339 time format. Leading zeros are required for one-digit months and days. The valid relational operators for date fields are the equality operator (`=`) , along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * Multiple field query expressions can be combined in one query by adding `AND` or `OR` operators between the expressions. If a boolean operator appears within a quoted string, it is not treated as special, it's just another part of the character string to be matched. You can prepend the `NOT` operator to an expression to negate it. Only filtering on labels is supported, for example `labels.key=value`. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type FhirStoreList = Array<FhirStore>;
 /** Lists the FHIR stores in the given dataset. */
 export interface ListFhirStoresResponse {
   /** The returned FHIR stores. Won't be more FHIR stores than the value of page_size in the request. */
-  fhirStores?: FhirStoreList;
+  fhirStores?: FhirStoreList | undefined;
   /** Token to retrieve the next page of results or empty if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsDatasetsHl7V2StoresRequest {
   /** The next_page_token value returned from the previous List request, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Restricts stores returned to those matching a filter. The following syntax is available: * A string field value can be written as text inside quotation marks, for example `"query text"`. The only valid relational operation for text fields is equality (`=`), where text is searched within the field, rather than having the field be equal to the text. For example, `"Comment = great"` returns messages with `great` in the comment field. * A number field value can be written as an integer, a decimal, or an exponential. The valid relational operators for number fields are the equality operator (`=`), along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * A date field value must be written in `yyyy-mm-dd` form. Fields with date and time use the RFC3339 time format. Leading zeros are required for one-digit months and days. The valid relational operators for date fields are the equality operator (`=`) , along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * Multiple field query expressions can be combined in one query by adding `AND` or `OR` operators between the expressions. If a boolean operator appears within a quoted string, it is not treated as special, it's just another part of the character string to be matched. You can prepend the `NOT` operator to an expression to negate it. Only filtering on labels is supported. For example, `labels.key=value`. */
-  filter?: string;
+  filter?: string | undefined;
   /** Limit on the number of HL7v2 stores to return in a single response. If not specified, 100 is used. May not be larger than 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Name of the dataset. */
   parent: string;
 }
@@ -2480,9 +2492,9 @@ export type Hl7V2StoreList = Array<Hl7V2Store>;
 /** Lists the HL7v2 stores in the given dataset. */
 export interface ListHl7V2StoresResponse {
   /** Token to retrieve the next page of results or empty if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The returned HL7v2 stores. Won't be more HL7v2 stores than the value of page_size in the request. */
-  hl7V2Stores?: Hl7V2StoreList;
+  hl7V2Stores?: Hl7V2StoreList | undefined;
 }
 export type ListProjectsLocationsDatasetsHl7V2StoresMessagesViewEnum =
   | "MESSAGE_VIEW_UNSPECIFIED"
@@ -2493,62 +2505,62 @@ export type ListProjectsLocationsDatasetsHl7V2StoresMessagesViewEnum =
   | "BASIC";
 export interface ListProjectsLocationsDatasetsHl7V2StoresMessagesRequest {
   /** Specifies the parts of the Message to return in the response. When unspecified, equivalent to BASIC. Setting this to anything other than BASIC with a `page_size` larger than the default can generate a large response, which impacts the performance of this method. */
-  view?: ListProjectsLocationsDatasetsHl7V2StoresMessagesViewEnum | (string & {});
+  view?: ListProjectsLocationsDatasetsHl7V2StoresMessagesViewEnum | (string & {}) | undefined;
   /** Required. Name of the HL7v2 store to retrieve messages from. */
   parent: string;
   /** Restricts messages returned to those matching a filter. The following syntax is available: * A string field value can be written as text inside quotation marks, for example `"query text"`. The only valid relational operation for text fields is equality (`=`), where text is searched within the field, rather than having the field be equal to the text. For example, `"Comment = great"` returns messages with `great` in the comment field. * A number field value can be written as an integer, a decimal, or an exponential. The valid relational operators for number fields are the equality operator (`=`), along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * A date field value must be written in `yyyy-mm-dd` form. Fields with date and time use the RFC3339 time format. Leading zeros are required for one-digit months and days. The valid relational operators for date fields are the equality operator (`=`) , along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * Multiple field query expressions can be combined in one query by adding `AND` or `OR` operators between the expressions. If a boolean operator appears within a quoted string, it is not treated as special, it's just another part of the character string to be matched. You can prepend the `NOT` operator to an expression to negate it. Fields/functions available for filtering are: * `message_type`, from the MSH-9.1 field. For example, `NOT message_type = "ADT"`. * `send_date` or `sendDate`, the YYYY-MM-DD date the message was sent in the dataset's time_zone, from the MSH-7 segment. For example, `send_date < "2017-01-02"`. * `send_time`, the timestamp when the message was sent, using the RFC3339 time format for comparisons, from the MSH-7 segment. For example, `send_time < "2017-01-02T00:00:00-05:00"`. * `create_time`, the timestamp when the message was created in the HL7v2 store. Use the RFC3339 time format for comparisons. For example, `create_time < "2017-01-02T00:00:00-05:00"`. * `send_facility`, the care center that the message came from, from the MSH-4 segment. For example, `send_facility = "ABC"`. * `PatientId(value, type)`, which matches if the message lists a patient having an ID of the given value and type in the PID-2, PID-3, or PID-4 segments. For example, `PatientId("123456", "MRN")`. * `labels.x`, a string value of the label with key `x` as set using the Message.labels map. For example, `labels."priority"="high"`. The operator `:*` can be used to assert the existence of a label. For example, `labels."priority":*`. */
-  filter?: string;
+  filter?: string | undefined;
   /** The next_page_token value returned from the previous List request, if any. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Orders messages returned by the specified order_by clause. Syntax: https://cloud.google.com/apis/design/design_patterns#sorting_order Fields available for ordering are: * `send_time` */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Limit on the number of messages to return in a single response. If not specified, 100 is used. May not be larger than 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** Lists the messages in the specified HL7v2 store. */
 export interface ListMessagesResponse {
   /** The returned Messages. Won't be more Messages than the value of page_size in the request. See view for populated fields. */
-  hl7V2Messages?: MessageList;
+  hl7V2Messages?: MessageList | undefined;
   /** Token to retrieve the next page of results or empty if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsDatasetsOperationsRequest {
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListRevisionsProjectsLocationsDatasetsConsentStoresConsentsRequest {
   /** Optional. Token to retrieve the next page of results or empty if there are no more results in the list. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Restricts the revisions returned to those matching a filter. The following syntax is available: * A string field value can be written as text inside quotation marks, for example `"query text"`. The only valid relational operation for text fields is equality (`=`), where text is searched within the field, rather than having the field be equal to the text. For example, `"Comment = great"` returns messages with `great` in the comment field. * A number field value can be written as an integer, a decimal, or an exponential. The valid relational operators for number fields are the equality operator (`=`), along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * A date field value must be written in `yyyy-mm-dd` form. Fields with date and time use the RFC3339 time format. Leading zeros are required for one-digit months and days. The valid relational operators for date fields are the equality operator (`=`) , along with the less than/greater than operators (`<`, `<=`, `>`, `>=`). Note that there is no inequality (`!=`) operator. You can prepend the `NOT` operator to an expression to negate it. * Multiple field query expressions can be combined in one query by adding `AND` or `OR` operators between the expressions. If a boolean operator appears within a quoted string, it is not treated as special, it's just another part of the character string to be matched. You can prepend the `NOT` operator to an expression to negate it. Fields/functions available for filtering are: - user_id. For example, `filter='user_id="user123"'`. - consent_artifact - state - revision_create_time - metadata. For example, `filter=Metadata(\"testkey\")=\"value\"` or `filter=HasMetadata(\"testkey\")`. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. The resource name of the Consent to retrieve revisions for. */
   name: string;
   /** Optional. Limit on the number of revisions to return in a single response. If not specified, 100 is used. May not be larger than 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export interface ListConsentRevisionsResponse {
   /** The returned Consent revisions. The maximum number of revisions returned is determined by the value of `page_size` in the ListConsentRevisionsRequest. */
-  consents?: ConsentList_;
+  consents?: ConsentList_ | undefined;
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface Observation_lastnProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Required. Name of the FHIR store to retrieve resources from. */
@@ -2558,103 +2570,103 @@ export interface PatchProjectsLocationsDatasetsRequest {
   /** Identifier. Resource name of the dataset, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}`. */
   name: string;
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Dataset;
+  body?: Dataset | undefined;
 }
 export interface PatchProjectsLocationsDatasetsConsentStoresRequest {
   /** Required. The update mask that applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. Only the `labels`, `default_consent_ttl`, and `enable_consent_create_on_update` fields are allowed to be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Resource name of the consent store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}`. Cannot be changed after creation. */
   name: string;
   /** Request body */
-  body?: ConsentStore;
+  body?: ConsentStore | undefined;
 }
 export interface PatchProjectsLocationsDatasetsConsentStoresAttributeDefinitionsRequest {
   /** Identifier. Resource name of the Attribute definition, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/attributeDefinitions/{attribute_definition_id}`. Cannot be changed after creation. */
   name: string;
   /** Required. The update mask that applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. Only the `description`, `allowed_values`, `consent_default_values` and `data_mapping_default_value` fields can be updated. The updated `allowed_values` must contain all values from the previous `allowed_values`. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: AttributeDefinition;
+  body?: AttributeDefinition | undefined;
 }
 export interface PatchProjectsLocationsDatasetsConsentStoresConsentsRequest {
   /** Required. The update mask to apply to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. Only the `user_id`, `policies`, `consent_artifact`, and `metadata` fields can be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. Resource name of the Consent, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consents/{consent_id}`. Cannot be changed after creation. */
   name: string;
   /** Request body */
-  body?: Consent;
+  body?: Consent | undefined;
 }
 export interface PatchProjectsLocationsDatasetsConsentStoresUserDataMappingsRequest {
   /** Required. The update mask that applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask. Only the `data_id`, `user_id` and `resource_attributes` fields can be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Resource name of the User data mapping, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/userDataMappings/{user_data_mapping_id}`. */
   name: string;
   /** Request body */
-  body?: UserDataMapping;
+  body?: UserDataMapping | undefined;
 }
 export interface PatchProjectsLocationsDatasetsDicomStoresRequest {
   /** Identifier. Resource name of the DICOM store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
   name: string;
   /** The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: DicomStore;
+  body?: DicomStore | undefined;
 }
 export interface PatchProjectsLocationsDatasetsFhirStoresRequest {
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Output only. Identifier. Resource name of the FHIR store, of the form `projects/{project_id}/locations/{location}/datasets/{dataset_id}/fhirStores/{fhir_store_id}`. */
   name: string;
   /** Request body */
-  body?: FhirStore;
+  body?: FhirStore | undefined;
 }
 export interface PatchProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Required. The name of the resource to update. */
   name: string;
   /** Request body */
-  body?: HttpBody;
+  body?: HttpBody | undefined;
 }
 export interface PatchProjectsLocationsDatasetsHl7V2StoresRequest {
   /** Identifier. Resource name of the HL7v2 store, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7V2Stores/{hl7v2_store_id}`. */
   name: string;
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Hl7V2Store;
+  body?: Hl7V2Store | undefined;
 }
 export interface PatchProjectsLocationsDatasetsHl7V2StoresMessagesRequest {
   /** Required. The update mask applies to the resource. For the `FieldMask` definition, see https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Output only. Resource name of the Message, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/hl7V2Stores/{hl7_v2_store_id}/messages/{message_id}`. Assigned by the server. */
   name: string;
   /** Request body */
-  body?: Message;
+  body?: Message | undefined;
 }
 export interface Patient_consent_enforcement_statusProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Optional. The maximum number of results on a page. If not specified, 100 is used. May not be larger than 1000. */
-  _count?: number;
+  _count?: number | undefined;
   /** Required. The name of the patient to find enforcement statuses, in the format `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/fhirStores/{fhir_store_id}/fhir/Patient/{patient_id}` */
   name: string;
   /** Optional. Used to retrieve the first, previous, next, or last page of consent enforcement statuses when using pagination. Value should be set to the value of `_page_token` set in next or previous page links' URLs. Next and previous page are returned in the response bundle's links field, where `link.relation` is "previous" or "next". Omit `_page_token` if no previous request has been made. */
-  _page_token?: string;
+  _page_token?: string | undefined;
 }
 export interface Patient_everythingProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Required. Name of the `Patient` resource for which the information is required. */
   name: string;
   /** The response includes records prior to the end date. The date uses the format YYYY-MM-DD. If no end date is provided, all records subsequent to the start date are in scope. */
-  end?: string;
+  end?: string | undefined;
   /** The response includes records subsequent to the start date. The date uses the format YYYY-MM-DD. If no start date is provided, all records prior to the end date are in scope. */
-  start?: string;
+  start?: string | undefined;
   /** Maximum number of resources in a page. If not specified, 100 is used. May not be larger than 1000. */
-  _count?: number;
+  _count?: number | undefined;
   /** If provided, only resources updated after this time are returned. The time uses the format YYYY-MM-DDThh:mm:ss.sss+zz:zz. For example, `2015-02-07T13:28:17.239+02:00` or `2017-01-01T00:00:00Z`. The time must be specified to the second and include a time zone. */
-  _since?: string;
+  _since?: string | undefined;
   /** Used to retrieve the next or previous page of results when using pagination. Set `_page_token` to the value of _page_token set in next or previous page links' url. Next and previous page are returned in the response bundle's links field, where `link.relation` is "previous" or "next". Omit `_page_token` if no previous request has been made. */
-  _page_token?: string;
+  _page_token?: string | undefined;
   /** String of comma-delimited FHIR resource types. If provided, only resources of the specified resource type(s) are returned. Specifying multiple `_type` parameters isn't supported. For example, the result of `_type=Observation&_type=Encounter` is undefined. Use `_type=Observation,Encounter` instead. */
-  _type?: string;
+  _type?: string | undefined;
 }
 export interface PurgeResourceProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Required. The name of the resource to purge. */
@@ -2663,22 +2675,22 @@ export interface PurgeResourceProjectsLocationsDatasetsFhirStoresFhirRequest {
 /** The Cloud Storage location for export. */
 export interface GoogleCloudHealthcareV1beta1ConsentGcsDestination {
   /** URI for a Cloud Storage directory where the server writes result files, in the format `gs://{bucket-id}/{path/to/destination/dir}`. If there is no trailing slash, the service appends one when composing the object path. The user is responsible for creating the Cloud Storage bucket and directory referenced in `uri_prefix`. */
-  uriPrefix?: string;
+  uriPrefix?: string | undefined;
 }
 /** Queries all data_ids that are consented for a given use in the given consent store and writes them to a specified destination. The returned Operation includes a progress counter for the number of User data mappings processed. Errors are logged to Cloud Logging (see [Viewing error logs in Cloud Logging] (https://cloud.google.com/healthcare/docs/how-tos/logging) and [QueryAccessibleData] for a sample log entry). */
 export interface QueryAccessibleDataRequest {
   /** The Cloud Storage destination. The Cloud Healthcare API service account must have the `roles/storage.objectAdmin` Cloud IAM role for this Cloud Storage location. The object name is in the following format: query-accessible-data-result-{operation_id}.txt where each line contains a single data_id. */
-  gcsDestination?: GoogleCloudHealthcareV1beta1ConsentGcsDestination;
+  gcsDestination?: GoogleCloudHealthcareV1beta1ConsentGcsDestination | undefined;
   /** The values of request attributes associated with this access request. */
-  requestAttributes?: StringMap;
+  requestAttributes?: StringMap | undefined;
   /** Optional. The values of resource attributes associated with the type of resources being requested. If no values are specified, then all resource types are included in the output. */
-  resourceAttributes?: StringMap;
+  resourceAttributes?: StringMap | undefined;
 }
 export interface QueryAccessibleDataProjectsLocationsDatasetsConsentStoresRequest {
   /** Required. Name of the consent store to retrieve User data mappings from. */
   consentStore: string;
   /** Request body */
-  body?: QueryAccessibleDataRequest;
+  body?: QueryAccessibleDataRequest | undefined;
 }
 export interface ReadBinaryProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Required. The name of the Binary resource to retrieve. */
@@ -2691,45 +2703,45 @@ export interface ReadProjectsLocationsDatasetsFhirStoresFhirRequest {
 /** Rejects the latest revision of the specified Consent by committing a new revision with `state` updated to `REJECTED`. If the latest revision of the given Consent is in the `REJECTED` state, no new revision is committed. */
 export interface RejectConsentRequest {
   /** Optional. The resource name of the Consent artifact that contains documentation of the user's rejection of the draft Consent, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consentArtifacts/{consent_artifact_id}`. If the draft Consent had a Consent artifact, this Consent artifact overwrites it. */
-  consentArtifact?: string;
+  consentArtifact?: string | undefined;
 }
 export interface RejectProjectsLocationsDatasetsConsentStoresConsentsRequest {
   /** Required. The resource name of the Consent to reject, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consents/{consent_id}`. An INVALID_ARGUMENT error occurs if `revision_id` is specified in the name. */
   name: string;
   /** Request body */
-  body?: RejectConsentRequest;
+  body?: RejectConsentRequest | undefined;
 }
 export interface Resource_incoming_referencesProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Required. The name of the FHIR store that holds the target resource. */
   parent: string;
   /** Used to simplify the representation of the returned resources. `_summary=text` returns only the `text`, `id`, and `meta` top-level fields. `_summary=data` removes the `text` field and returns all other fields. `_summary=false` returns all parts of the resource(s). Either not providing this parameter or providing an empty value to this parameter also returns all parts of the resource(s). */
-  _summary?: string;
+  _summary?: string | undefined;
   /** Maximum number of resources in a page. If not specified, 100 is used. May not be larger than 1000. */
-  _count?: number;
+  _count?: number | undefined;
   /** String of comma-delimited FHIR resource types. If provided, only resources of the specified resource type(s) are returned. If not provided or an empty value is provided, no filter on the returned resource type(s) is applied. */
-  _type?: string;
+  _type?: string | undefined;
   /** Required. The target whose incoming references are requested. This param is required and must not be empty. It uses the format "ResourceType/ResourceID", for example, target=ResourceType/ResourceID. */
-  target?: string;
+  target?: string | undefined;
   /** Used to retrieve the next page of results when using pagination. Set `_page_token` to the value of _page_token set in next page links' url. Next page are returned in the response bundle's links field, where `link.relation` is "next". Omit `_page_token` if no previous request has been made. */
-  _page_token?: string;
+  _page_token?: string | undefined;
 }
 /** Revokes the latest revision of the specified Consent by committing a new revision with `state` updated to `REVOKED`. If the latest revision of the given Consent is in the `REVOKED` state, no new revision is committed. */
 export interface RevokeConsentRequest {
   /** Optional. The resource name of the Consent artifact that contains proof of the user's revocation of the Consent, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consentArtifacts/{consent_artifact_id}`. */
-  consentArtifact?: string;
+  consentArtifact?: string | undefined;
 }
 export interface RevokeProjectsLocationsDatasetsConsentStoresConsentsRequest {
   /** Required. The resource name of the Consent to revoke, of the form `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/consentStores/{consent_store_id}/consents/{consent_id}`. An INVALID_ARGUMENT error occurs if `revision_id` is specified in the name. */
   name: string;
   /** Request body */
-  body?: RevokeConsentRequest;
+  body?: RevokeConsentRequest | undefined;
 }
 /** Filters to select resources that need to be rolled back. */
 export interface RollbackFhirResourceFilteringFields {
   /** Optional. A list of operation IDs to roll back. Only changes made by these operations will be rolled back. */
-  operationIds?: StringList;
+  operationIds?: StringList | undefined;
   /** Optional. A filter expression that matches data in the `Resource.meta` element. Supports all filters in [AIP-160](https://google.aip.dev/160) except the "has" (`:`) operator. Supports the following custom functions: * `tag("") = ""` for tag filtering. * `extension_value_ts("") = ` for filtering extensions with a timestamp, where `` is a Unix timestamp. Supports the `>`, `<`, `<=`, `>=`, and `!=` comparison operators. */
-  metadataFilter?: string;
+  metadataFilter?: string | undefined;
 }
 export type RollbackFhirResourcesRequestChangeTypeEnum =
   | "CHANGE_TYPE_UNSPECIFIED"
@@ -2740,27 +2752,27 @@ export type RollbackFhirResourcesRequestChangeTypeEnum =
 /** Request to roll back resources. */
 export interface RollbackFhirResourcesRequest {
   /** Optional. Cloud Storage object containing list of {resourceType}/{resourceId} lines, identifying resources to be reverted */
-  inputGcsObject?: string;
+  inputGcsObject?: string | undefined;
   /** Optional. When enabled, changes will be reverted without explicit confirmation */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Optional. Specifies whether to exclude earlier rollbacks. */
-  excludeRollbacks?: boolean;
+  excludeRollbacks?: boolean | undefined;
   /** Optional. If specified, revert only resources of these types */
-  type?: StringList;
+  type?: StringList | undefined;
   /** Optional. Tag represents fields that HDE needs to identify resources that will be reverted. Parameters for filtering resources */
-  filteringFields?: RollbackFhirResourceFilteringFields;
+  filteringFields?: RollbackFhirResourceFilteringFields | undefined;
   /** Required. Time point to rollback to. */
-  rollbackTime?: string;
+  rollbackTime?: string | undefined;
   /** Required. Bucket to deposit result */
-  resultGcsBucket?: string;
+  resultGcsBucket?: string | undefined;
   /** Optional. CREATE/UPDATE/DELETE/ALL for reverting all txns of a certain type. */
-  changeType?: RollbackFhirResourcesRequestChangeTypeEnum | (string & {});
+  changeType?: RollbackFhirResourcesRequestChangeTypeEnum | (string & {}) | undefined;
 }
 export interface RollbackProjectsLocationsDatasetsFhirStoresRequest {
   /** Required. The name of the FHIR store to rollback, in the format of "projects/{project_id}/locations/{location_id}/datasets/{dataset_id} /fhirStores/{fhir_store_id}". */
   name: string;
   /** Request body */
-  body?: RollbackFhirResourcesRequest;
+  body?: RollbackFhirResourcesRequest | undefined;
 }
 export type RollbackHl7V2MessagesRequestChangeTypeEnum =
   | "CHANGE_TYPE_UNSPECIFIED"
@@ -2771,46 +2783,46 @@ export type RollbackHl7V2MessagesRequestChangeTypeEnum =
 /** Filtering fields for an HL7v2 rollback. Currently only supports a list of operation ids to roll back. */
 export interface RollbackHL7MessagesFilteringFields {
   /** Optional. A list of operation IDs to roll back. */
-  operationIds?: StringList;
+  operationIds?: StringList | undefined;
 }
 /** Point in time recovery rollback request. */
 export interface RollbackHl7V2MessagesRequest {
   /** Required. Times point to rollback to. */
-  rollbackTime?: string;
+  rollbackTime?: string | undefined;
   /** Optional. Specifies whether to exclude earlier rollbacks. */
-  excludeRollbacks?: boolean;
+  excludeRollbacks?: boolean | undefined;
   /** Optional. When enabled, changes will be reverted without explicit confirmation. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Required. Bucket to deposit result */
-  resultGcsBucket?: string;
+  resultGcsBucket?: string | undefined;
   /** Optional. CREATE/UPDATE/DELETE/ALL for reverting all txns of a certain type. */
-  changeType?: RollbackHl7V2MessagesRequestChangeTypeEnum | (string & {});
+  changeType?: RollbackHl7V2MessagesRequestChangeTypeEnum | (string & {}) | undefined;
   /** Optional. Cloud storage object containing list of {resourceId} lines, identifying resources to be reverted */
-  inputGcsObject?: string;
+  inputGcsObject?: string | undefined;
   /** Optional. Parameters for filtering. */
-  filteringFields?: RollbackHL7MessagesFilteringFields;
+  filteringFields?: RollbackHL7MessagesFilteringFields | undefined;
 }
 export interface RollbackProjectsLocationsDatasetsHl7V2StoresRequest {
   /** Required. The name of the HL7v2 store to rollback, in the format of "projects/{project_id}/locations/{location_id}/datasets/{dataset_id} /hl7V2Stores/{hl7v2_store_id}". */
   name: string;
   /** Request body */
-  body?: RollbackHl7V2MessagesRequest;
+  body?: RollbackHl7V2MessagesRequest | undefined;
 }
 export interface SearchConceptMapTranslateProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** The canonical url of the concept map to use. If unset, the source and target is used to search for concept maps. */
-  url?: string;
+  url?: string | undefined;
   /** The source value set of the concept map to be used. If unset, target is used to search for concept maps. */
-  source?: string;
+  source?: string | undefined;
   /** The target value set of the concept map to be used. If unset, source is used to search for concept maps. */
-  target?: string;
+  target?: string | undefined;
   /** Required. The name for the FHIR store containing the concept map(s) to use for the translation. */
   parent: string;
   /** The version of the concept map to use. If unset, the most current version is used. */
-  conceptMapVersion?: string;
+  conceptMapVersion?: string | undefined;
   /** Required. The system for the code to be translated. */
-  system?: string;
+  system?: string | undefined;
   /** Required. The code to translate. */
-  code?: string;
+  code?: string | undefined;
 }
 export interface SearchForInstancesProjectsLocationsDatasetsDicomStoresRequest {
   /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
@@ -2852,9 +2864,9 @@ export interface SearchProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Required. Name of the FHIR store to retrieve resources from. */
   parent: string;
   /** Optional. The FHIR resource type to search, such as Patient or Observation. For a complete list, see the FHIR Resource Index ([DSTU2](https://hl7.org/fhir/DSTU2/resourcelist.html), [STU3](https://hl7.org/fhir/STU3/resourcelist.html), [R4](https://hl7.org/fhir/R4/resourcelist.html), [R5](https://hl7.org/fhir/R5/resourcelist.html)). */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** Request body */
-  body?: HttpBody;
+  body?: HttpBody | undefined;
 }
 export interface SearchTypeProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Optional. The FHIR resource type to search, such as Patient or Observation. For a complete list, see the FHIR Resource Index ([DSTU2](https://hl7.org/fhir/DSTU2/resourcelist.html), [STU3](https://hl7.org/fhir/STU3/resourcelist.html), [R4](https://hl7.org/fhir/R4/resourcelist.html), [R5](https://hl7.org/fhir/R5/resourcelist.html)). */
@@ -2862,69 +2874,69 @@ export interface SearchTypeProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Required. Name of the FHIR store to retrieve resources from. */
   parent: string;
   /** Request body */
-  body?: HttpBody;
+  body?: HttpBody | undefined;
 }
 /** Request message for `SetBlobStorageSettings` method. */
 export interface SetBlobStorageSettingsRequest {
   /** Optional. A filter configuration. If `filter_config` is specified, set the value of `resource` to the resource name of a DICOM store in the format `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}`. */
-  filterConfig?: DicomFilterConfig;
+  filterConfig?: DicomFilterConfig | undefined;
   /** The blob storage settings to update for the specified resources. Only fields listed in `update_mask` are applied. */
-  blobStorageSettings?: BlobStorageSettings;
+  blobStorageSettings?: BlobStorageSettings | undefined;
 }
 export interface SetBlobStorageSettingsProjectsLocationsDatasetsDicomStoresRequest {
   /** Required. The path of the resource to update the blob storage settings in the format of `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}/dicomWeb/studies/{studyUID}`, `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}/dicomWeb/studies/{studyUID}/series/{seriesUID}/`, or `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}/dicomWeb/studies/{studyUID}/series/{seriesUID}/instances/{instanceUID}`. If `filter_config` is specified, set the value of `resource` to the resource name of a DICOM store in the format `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}`. */
   resource: string;
   /** Request body */
-  body?: SetBlobStorageSettingsRequest;
+  body?: SetBlobStorageSettingsRequest | undefined;
 }
 export interface SetBlobStorageSettingsProjectsLocationsDatasetsDicomStoresDicomWebStudiesRequest {
   /** Required. The path of the resource to update the blob storage settings in the format of `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}/dicomWeb/studies/{studyUID}`, `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}/dicomWeb/studies/{studyUID}/series/{seriesUID}/`, or `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}/dicomWeb/studies/{studyUID}/series/{seriesUID}/instances/{instanceUID}`. If `filter_config` is specified, set the value of `resource` to the resource name of a DICOM store in the format `projects/{projectID}/locations/{locationID}/datasets/{datasetID}/dicomStores/{dicomStoreID}`. */
   resource: string;
   /** Request body */
-  body?: SetBlobStorageSettingsRequest;
+  body?: SetBlobStorageSettingsRequest | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy;
+  policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string;
+  updateMask?: string | undefined;
 }
 export interface SetIamPolicyProjectsLocationsDatasetsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsDatasetsConsentStoresRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsDatasetsDataMapperWorkspacesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsDatasetsDicomStoresRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsDatasetsFhirStoresRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsDatasetsHl7V2StoresRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface StoreInstancesProjectsLocationsDatasetsDicomStoresRequest {
   /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
@@ -2932,7 +2944,7 @@ export interface StoreInstancesProjectsLocationsDatasetsDicomStoresRequest {
   /** Required. The path of the StoreInstances DICOMweb request. For example, `studies/[{study_uid}]`. Note that the `study_uid` is optional. */
   dicomWebPath: string;
   /** Request body */
-  body?: HttpBody;
+  body?: HttpBody | undefined;
 }
 export interface StoreInstancesProjectsLocationsDatasetsDicomStoresStudiesRequest {
   /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
@@ -2940,59 +2952,59 @@ export interface StoreInstancesProjectsLocationsDatasetsDicomStoresStudiesReques
   /** Required. The path of the StoreInstances DICOMweb request. For example, `studies/[{study_uid}]`. Note that the `study_uid` is optional. */
   dicomWebPath: string;
   /** Request body */
-  body?: HttpBody;
+  body?: HttpBody | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsDatasetsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsDatasetsConsentStoresRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsDatasetsDataMapperWorkspacesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsDatasetsDicomStoresRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsDatasetsFhirStoresRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsDatasetsHl7V2StoresRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface UpdateBinaryProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Required. The name of the resource to update. */
   name: string;
   /** Request body */
-  body?: HttpBody;
+  body?: HttpBody | undefined;
 }
 export interface UpdateInstancesProjectsLocationsDatasetsDicomStoresRequest {
   /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
@@ -3000,7 +3012,7 @@ export interface UpdateInstancesProjectsLocationsDatasetsDicomStoresRequest {
   /** Required. The path of the UpdateInstances DICOMweb request. For example, `studies/[{study_uid}]`. Note that the `study_uid` is optional. */
   dicomWebPath: string;
   /** Request body */
-  body?: HttpBody;
+  body?: HttpBody | undefined;
 }
 export interface UpdateInstancesProjectsLocationsDatasetsDicomStoresStudiesRequest {
   /** Required. The path of the UpdateInstances DICOMweb request. For example, `studies/[{study_uid}]`. Note that the `study_uid` is optional. */
@@ -3008,7 +3020,7 @@ export interface UpdateInstancesProjectsLocationsDatasetsDicomStoresStudiesReque
   /** Required. The name of the DICOM store that is being accessed. For example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`. */
   parent: string;
   /** Request body */
-  body?: HttpBody;
+  body?: HttpBody | undefined;
 }
 export interface UpdateMetadataProjectsLocationsDatasetsDicomStoresStudiesRequest {
   /** Required. The path of the UpdateStudyMetadata request (for example, `studies/{study_uid}`). */
@@ -3016,7 +3028,7 @@ export interface UpdateMetadataProjectsLocationsDatasetsDicomStoresStudiesReques
   /** Required. The name of the DICOM store that is being accessed (for example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`). */
   parent: string;
   /** Request body */
-  body?: HttpBody;
+  body?: HttpBody | undefined;
 }
 export interface UpdateMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesRequest {
   /** Required. The name of the DICOM store that is being accessed (for example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`). */
@@ -3024,7 +3036,7 @@ export interface UpdateMetadataProjectsLocationsDatasetsDicomStoresStudiesSeries
   /** Required. The path of the UpdateSeriesMetadata request (for example, `studies/{study_uid}/series/{series_uid}`). */
   dicomWebPath: string;
   /** Request body */
-  body?: HttpBody;
+  body?: HttpBody | undefined;
 }
 export interface UpdateMetadataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesRequest {
   /** Required. The name of the DICOM store that is being accessed (for example, `projects/{project_id}/locations/{location_id}/datasets/{dataset_id}/dicomStores/{dicom_store_id}`). */
@@ -3032,23 +3044,23 @@ export interface UpdateMetadataProjectsLocationsDatasetsDicomStoresStudiesSeries
   /** Required. The path of the UpdateInstanceMetadata request (for example, `studies/{study_uid}/series/{series_uid}/instances/{instance_uid}`). */
   dicomWebPath: string;
   /** Request body */
-  body?: HttpBody;
+  body?: HttpBody | undefined;
 }
 export interface UpdateProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Required. The name of the resource to update. */
   name: string;
   /** Request body */
-  body?: HttpBody;
+  body?: HttpBody | undefined;
 }
 export interface ValidateResourceProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Optional. The canonical URL of a profile that this resource should be validated against. For example, to validate a Patient resource against the US Core Patient profile this parameter would be `http://hl7.org/fhir/us/core/StructureDefinition/us-core-patient`. A StructureDefinition with this canonical URL must exist in the FHIR store. */
-  profile?: string;
+  profile?: string | undefined;
   /** Required. The name of the FHIR store that holds the profiles being used for validation. */
   parent: string;
   /** Required. The FHIR resource type of the resource being validated. For a complete list, see the FHIR Resource Index ([DSTU2](https://hl7.org/fhir/DSTU2/resourcelist.html), [STU3](https://hl7.org/fhir/STU3/resourcelist.html), [R4](https://hl7.org/fhir/R4/resourcelist.html), or [R5](https://hl7.org/fhir/R5/resourcelist.html)). Must match the resource type in the provided content. */
   type: string;
   /** Request body */
-  body?: HttpBody;
+  body?: HttpBody | undefined;
 }
 export interface VreadProjectsLocationsDatasetsFhirStoresFhirRequest {
   /** Required. The name of the resource version to retrieve. */

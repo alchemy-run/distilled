@@ -69,7 +69,7 @@ export interface BuyDomainsRequestDomainsItem {
   years: number;
   expectedPrice: number;
   /** The language code for the domain. For punycode domains, this must be provided. The list of supported language codes for a TLD can be retrieved from the [Get TLD](https://vercel.com/docs/rest-api/reference/endpoints/domains-registrar/get-tld) endpoint. */
-  languageCode?: string;
+  languageCode?: string | undefined;
 }
 export type BuyDomainsRequestDomainsList = Array<BuyDomainsRequestDomainsItem>;
 /** The contact information for the domain. Some TLDs require additional contact information. Use the [Get contact info schema](https://vercel.com/docs/rest-api/reference/endpoints/domains-registrar/get-contact-info-schema) endpoint to retrieve the required fields. */
@@ -79,17 +79,17 @@ export interface BuyDomainsRequestContactInformation {
   email: string;
   phone: string;
   address1: string;
-  address2?: string;
+  address2?: string | undefined;
   city: string;
   state: string;
   zip: string;
   country: string;
-  companyName?: string;
-  fax?: string;
-  additional?: unknown;
+  companyName?: string | undefined;
+  fax?: string | undefined;
+  additional?: unknown | undefined;
 }
 export interface BuyDomainsRequest {
-  teamId?: string;
+  teamId?: string | undefined;
   domains: BuyDomainsRequestDomainsList;
   /** The contact information for the domain. Some TLDs require additional contact information. Use the [Get contact info schema](https://vercel.com/docs/rest-api/reference/endpoints/domains-registrar/get-contact-info-schema) endpoint to retrieve the required fields. */
   contactInformation: BuyDomainsRequestContactInformation;
@@ -110,7 +110,7 @@ export interface BuyDomainsResponse {
 export type BuySingleDomainRequestContactInformation = BuyDomainsRequestContactInformation;
 export interface BuySingleDomainRequest {
   domain: string;
-  teamId?: string;
+  teamId?: string | undefined;
   /** Whether the domain should be auto-renewed before it expires. This can be configured later through the Vercel Dashboard or the [Update auto-renew for a domain](https://vercel.com/docs/rest-api/reference/endpoints/domains-registrar/update-auto-renew-for-a-domain) endpoint. */
   autoRenew: boolean;
   /** The number of years to purchase the domain for. */
@@ -119,7 +119,7 @@ export interface BuySingleDomainRequest {
   /** The contact information for the domain. Some TLDs require additional contact information. Use the [Get contact info schema](https://vercel.com/docs/rest-api/reference/endpoints/domains-registrar/get-contact-info-schema) endpoint to retrieve the required fields. */
   contactInformation: BuyDomainsRequestContactInformation;
   /** The language code for the domain. For punycode domains, this must be provided. The list of supported language codes for a TLD can be retrieved from the [Get TLD](https://vercel.com/docs/rest-api/reference/endpoints/domains-registrar/get-tld) endpoint. */
-  languageCode?: string;
+  languageCode?: string | undefined;
 }
 export type BuySingleDomainResponseLinksValueMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 export interface BuySingleDomainResponseLinksValue {
@@ -136,7 +136,7 @@ export interface BuySingleDomainResponse {
 /** an array of at most 50 item(s) */
 export type GetBulkAvailabilityRequestDomainsList = Array<string>;
 export interface GetBulkAvailabilityRequest {
-  teamId?: string;
+  teamId?: string | undefined;
   /** an array of at most 50 item(s) */
   domains: GetBulkAvailabilityRequestDomainsList;
 }
@@ -151,11 +151,11 @@ export interface GetBulkAvailabilityResponse {
 /** an array of at most 50 item(s) */
 export type GetBulkPriceRequestDomainsList = Array<string>;
 export interface GetBulkPriceRequest {
-  teamId?: string;
+  teamId?: string | undefined;
   /** an array of at most 50 item(s) */
   domains: GetBulkPriceRequestDomainsList;
   /** The number of years to get the price for. If not provided, the minimum number of years for the TLD will be used. */
-  years?: number;
+  years?: number | undefined;
 }
 export type GetBulkPriceResponseResultsItemPurchasePrice = number | string;
 export type GetBulkPriceResponseResultsItemRenewalPrice = number | string;
@@ -173,26 +173,26 @@ export interface GetBulkPriceResponse {
 }
 export interface GetContactInfoSchemaRequest {
   domain: string;
-  teamId?: string;
+  teamId?: string | undefined;
 }
 export type GetContactInfoSchemaResponse = unknown;
 export interface GetDomainAuthCodeRequest {
   domain: string;
-  teamId?: string;
+  teamId?: string | undefined;
 }
 export interface GetDomainAuthCodeResponse {
   authCode: string;
 }
 export interface GetDomainAvailabilityRequest {
   domain: string;
-  teamId?: string;
+  teamId?: string | undefined;
 }
 export interface GetDomainAvailabilityResponse {
   available: boolean;
 }
 export interface GetDomainContactVerificationRequest {
   domain: string;
-  teamId?: string;
+  teamId?: string | undefined;
 }
 /** The registrant contact has been verified. */
 export interface ContactVerified {
@@ -209,8 +209,8 @@ export type GetDomainContactVerificationResponse = GetDomainContactVerificationR
 export interface GetDomainPriceRequest {
   domain: string;
   /** The number of years to get the price for. If not provided, the minimum number of years for the TLD will be used. */
-  years?: string;
-  teamId?: string;
+  years?: string | undefined;
+  teamId?: string | undefined;
 }
 export type GetDomainPriceResponsePurchasePrice = number | string;
 export type GetDomainPriceResponseRenewalPrice = number | string;
@@ -223,7 +223,7 @@ export interface GetDomainPriceResponse {
 }
 export interface GetDomainTransferInRequest {
   domain: string;
-  teamId?: string;
+  teamId?: string | undefined;
 }
 export type GetDomainTransferInResponseStatus =
   | "canceled"
@@ -244,7 +244,7 @@ export interface GetDomainTransferInResponse {
 }
 export interface GetOrderRequest {
   orderId: string;
-  teamId?: string;
+  teamId?: string | undefined;
 }
 export type GetOrderResponseDomainsItemCase0PurchaseType = "purchase";
 export type GetOrderResponseDomainsItemCase0Status =
@@ -315,7 +315,7 @@ export type GetOrderResponseDomainsItemCase0ErrorCase0Case9DetailsInvalidField =
   | "companyName"
   | "fax";
 export interface GetOrderResponseDomainsItemCase0ErrorCase0Case9Details {
-  invalidField?: GetOrderResponseDomainsItemCase0ErrorCase0Case9DetailsInvalidField;
+  invalidField?: GetOrderResponseDomainsItemCase0ErrorCase0Case9DetailsInvalidField | undefined;
 }
 export interface GetOrderResponseDomainsItemCase0ErrorCase0Case9 {
   code: GetOrderResponseDomainsItemCase0ErrorCase0Case9Code;
@@ -334,7 +334,7 @@ export type GetOrderResponseDomainsItemCase0ErrorCase0 =
   | GetOrderResponseDomainsItemCase0ErrorCase0Case9;
 export interface GetOrderResponseDomainsItemCase0ErrorCase1 {
   code: string;
-  details?: unknown;
+  details?: unknown | undefined;
 }
 export type GetOrderResponseDomainsItemCase0Error =
   | GetOrderResponseDomainsItemCase0ErrorCase0
@@ -347,7 +347,7 @@ export interface GetOrderResponseDomainsItemCase0 {
   domainName: string;
   status: GetOrderResponseDomainsItemCase0Status;
   price: number;
-  error?: GetOrderResponseDomainsItemCase0Error;
+  error?: GetOrderResponseDomainsItemCase0Error | undefined;
 }
 export type GetOrderResponseDomainsItemCase1PurchaseType = "renewal";
 export type GetOrderResponseDomainsItemCase1Status =
@@ -416,7 +416,7 @@ export type GetOrderResponseDomainsItemCase1ErrorCase0Case9DetailsInvalidField =
   | "companyName"
   | "fax";
 export interface GetOrderResponseDomainsItemCase1ErrorCase0Case9Details {
-  invalidField?: GetOrderResponseDomainsItemCase1ErrorCase0Case9DetailsInvalidField;
+  invalidField?: GetOrderResponseDomainsItemCase1ErrorCase0Case9DetailsInvalidField | undefined;
 }
 export interface GetOrderResponseDomainsItemCase1ErrorCase0Case9 {
   code: GetOrderResponseDomainsItemCase1ErrorCase0Case9Code;
@@ -444,7 +444,7 @@ export interface GetOrderResponseDomainsItemCase1 {
   domainName: string;
   status: GetOrderResponseDomainsItemCase1Status;
   price: number;
-  error?: GetOrderResponseDomainsItemCase1Error;
+  error?: GetOrderResponseDomainsItemCase1Error | undefined;
 }
 export type GetOrderResponseDomainsItemCase2PurchaseType = "transfer";
 export type GetOrderResponseDomainsItemCase2Status =
@@ -513,7 +513,7 @@ export type GetOrderResponseDomainsItemCase2ErrorCase0Case9DetailsInvalidField =
   | "companyName"
   | "fax";
 export interface GetOrderResponseDomainsItemCase2ErrorCase0Case9Details {
-  invalidField?: GetOrderResponseDomainsItemCase2ErrorCase0Case9DetailsInvalidField;
+  invalidField?: GetOrderResponseDomainsItemCase2ErrorCase0Case9DetailsInvalidField | undefined;
 }
 export interface GetOrderResponseDomainsItemCase2ErrorCase0Case9 {
   code: GetOrderResponseDomainsItemCase2ErrorCase0Case9Code;
@@ -542,7 +542,7 @@ export interface GetOrderResponseDomainsItemCase2 {
   domainName: string;
   status: GetOrderResponseDomainsItemCase2Status;
   price: number;
-  error?: GetOrderResponseDomainsItemCase2Error;
+  error?: GetOrderResponseDomainsItemCase2Error | undefined;
 }
 export type GetOrderResponseDomainsItem =
   | GetOrderResponseDomainsItemCase0
@@ -557,7 +557,7 @@ export interface GetOrderResponseErrorCase0Case0Details {
 }
 export interface GetOrderResponseErrorCase0Case0 {
   code: GetOrderResponseErrorCase0Case0Code;
-  details?: GetOrderResponseErrorCase0Case0Details;
+  details?: GetOrderResponseErrorCase0Case0Details | undefined;
 }
 export type GetOrderResponseErrorCase0Case1Code = "tld-outage";
 export interface GetOrderResponseErrorCase0Case1DetailsTldsItem {
@@ -576,7 +576,7 @@ export interface GetOrderResponseErrorCase0Case1 {
 export type GetOrderResponseErrorCase0Case2Code = "price-mismatch";
 export interface GetOrderResponseErrorCase0Case2Details {
   expectedPrice: number;
-  actualPrice?: number;
+  actualPrice?: number | undefined;
 }
 export interface GetOrderResponseErrorCase0Case2 {
   code: GetOrderResponseErrorCase0Case2Code;
@@ -615,17 +615,17 @@ export interface GetOrderResponse {
   orderId: string;
   domains: GetOrderResponseDomainsList;
   status: GetOrderResponseStatus;
-  error?: GetOrderResponseError;
+  error?: GetOrderResponseError | undefined;
 }
 export interface GetSupportedTldsRequest {
-  teamId?: string;
+  teamId?: string | undefined;
 }
 /** A list of the TLDs supported by Vercel. */
 export type GetSupportedTldsResponseBodyList = Array<string>;
 export type GetSupportedTldsResponse = GetSupportedTldsResponseBodyList;
 export interface GetTldRequest {
   tld: string;
-  teamId?: string;
+  teamId?: string | undefined;
 }
 /** The language codes that are supported for the TLD. The key is the language code, and the value is the name of the language. */
 export type GetTldResponseSupportedLanguageCodesMap = { [key: string]: string | undefined };
@@ -636,8 +636,8 @@ export interface GetTldResponse {
 export interface GetTldPriceRequest {
   tld: string;
   /** The number of years to get the price for. If not provided, the minimum number of years for the TLD will be used. */
-  years?: string;
-  teamId?: string;
+  years?: string | undefined;
+  teamId?: string | undefined;
 }
 export type GetTldPriceResponsePurchasePrice = number | string;
 export type GetTldPriceResponseRenewalPrice = number | string;
@@ -655,21 +655,21 @@ export interface RenewDomainRequestContactInformation {
   email: string;
   phone: string;
   address1: string;
-  address2?: string;
+  address2?: string | undefined;
   city: string;
   state: string;
   zip: string;
   country: string;
-  companyName?: string;
-  fax?: string;
+  companyName?: string | undefined;
+  fax?: string | undefined;
 }
 export interface RenewDomainRequest {
   domain: string;
-  teamId?: string;
+  teamId?: string | undefined;
   /** The number of years to renew the domain for. */
   years: number;
   expectedPrice: number;
-  contactInformation?: RenewDomainRequestContactInformation;
+  contactInformation?: RenewDomainRequestContactInformation | undefined;
 }
 export type RenewDomainResponseLinksValueMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 export interface RenewDomainResponseLinksValue {
@@ -686,7 +686,7 @@ export interface RenewDomainResponse {
 /** an array of at most 200 item(s) */
 export type SearchDomainsRequestDomainsList = Array<string>;
 export interface SearchDomainsRequest {
-  teamId?: string;
+  teamId?: string | undefined;
   /** an array of at most 200 item(s) */
   domains: SearchDomainsRequestDomainsList;
 }
@@ -713,7 +713,7 @@ export interface SearchDomainsResponse {
 export type TransferInDomainRequestContactInformation = RenewDomainRequestContactInformation;
 export interface TransferInDomainRequest {
   domain: string;
-  teamId?: string;
+  teamId?: string | undefined;
   /** The auth code for the domain. You must obtain this code from the losing registrar. */
   authCode: string;
   /** Whether the domain should be auto-renewed before it expires. This can be configured later through the Vercel Dashboard or the [Update auto-renew for a domain](https://vercel.com/docs/rest-api/reference/endpoints/domains-registrar/update-auto-renew-for-a-domain) endpoint. */
@@ -737,14 +737,14 @@ export interface TransferInDomainResponse {
 }
 export interface UpdateDomainAutoRenewRequest {
   domain: string;
-  teamId?: string;
+  teamId?: string | undefined;
   autoRenew: boolean;
 }
 export interface UpdateDomainAutoRenewResponse {}
 export type UpdateDomainNameserversRequestNameserversList = Array<string>;
 export interface UpdateDomainNameserversRequest {
   domain: string;
-  teamId?: string;
+  teamId?: string | undefined;
   nameservers: UpdateDomainNameserversRequestNameserversList;
 }
 export interface UpdateDomainNameserversResponse {}

@@ -136,8 +136,8 @@ export type CollectionIds = string[];
 export type CollectionName = string;
 export type CollectionNames = string[];
 export interface BatchGetCollectionRequest {
-  ids?: string[];
-  names?: string[];
+  ids?: string[] | undefined;
+  names?: string[] | undefined;
 }
 export type CollectionStatus = string;
 export type CollectionType = string;
@@ -148,48 +148,48 @@ export interface VectorOptions {
   ServerlessVectorAcceleration: string;
 }
 export interface FipsEndpoints {
-  collectionEndpoint?: string;
-  dashboardEndpoint?: string;
+  collectionEndpoint?: string | undefined;
+  dashboardEndpoint?: string | undefined;
 }
 export type CollectionGroupName = string;
 export interface CollectionDetail {
-  id?: string;
-  name?: string;
-  status?: string;
-  type?: string;
-  description?: string;
-  arn?: string;
-  kmsKeyArn?: string;
-  standbyReplicas?: string;
-  deletionProtection?: string;
-  vectorOptions?: VectorOptions;
-  createdDate?: number;
-  lastModifiedDate?: number;
-  collectionEndpoint?: string;
-  dashboardEndpoint?: string;
-  fipsEndpoints?: FipsEndpoints;
-  failureCode?: string;
-  failureMessage?: string;
-  collectionGroupName?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
+  type?: string | undefined;
+  description?: string | undefined;
+  arn?: string | undefined;
+  kmsKeyArn?: string | undefined;
+  standbyReplicas?: string | undefined;
+  deletionProtection?: string | undefined;
+  vectorOptions?: VectorOptions | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
+  collectionEndpoint?: string | undefined;
+  dashboardEndpoint?: string | undefined;
+  fipsEndpoints?: FipsEndpoints | undefined;
+  failureCode?: string | undefined;
+  failureMessage?: string | undefined;
+  collectionGroupName?: string | undefined;
 }
 export type CollectionDetails = CollectionDetail[];
 export interface CollectionErrorDetail {
-  id?: string;
-  name?: string;
-  errorMessage?: string;
-  errorCode?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  errorMessage?: string | undefined;
+  errorCode?: string | undefined;
 }
 export type CollectionErrorDetails = CollectionErrorDetail[];
 export interface BatchGetCollectionResponse {
-  collectionDetails?: CollectionDetail[];
-  collectionErrorDetails?: CollectionErrorDetail[];
+  collectionDetails?: CollectionDetail[] | undefined;
+  collectionErrorDetails?: CollectionErrorDetail[] | undefined;
 }
 export type CollectionGroupId = string;
 export type CollectionGroupIds = string[];
 export type CollectionGroupNames = string[];
 export interface BatchGetCollectionGroupRequest {
-  ids?: string[];
-  names?: string[];
+  ids?: string[] | undefined;
+  names?: string[] | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -203,45 +203,45 @@ export type CollectionGroupMaxSearchCapacityValue = number;
 export type CollectionGroupMinIndexingCapacityValue = number;
 export type CollectionGroupMinSearchCapacityValue = number;
 export interface CollectionGroupCapacityLimits {
-  maxIndexingCapacityInOCU?: number;
-  maxSearchCapacityInOCU?: number;
-  minIndexingCapacityInOCU?: number;
-  minSearchCapacityInOCU?: number;
+  maxIndexingCapacityInOCU?: number | undefined;
+  maxSearchCapacityInOCU?: number | undefined;
+  minIndexingCapacityInOCU?: number | undefined;
+  minSearchCapacityInOCU?: number | undefined;
 }
 export type AutoscalingStatus = string;
 export interface CapacityDetails {
-  capacityInOcu?: number;
-  autoscalingStatus?: string;
+  capacityInOcu?: number | undefined;
+  autoscalingStatus?: string | undefined;
 }
 export interface CurrentCapacity {
-  search?: CapacityDetails;
-  indexing?: CapacityDetails;
+  search?: CapacityDetails | undefined;
+  indexing?: CapacityDetails | undefined;
 }
 export type ServerlessGeneration = string;
 export interface CollectionGroupDetail {
-  id?: string;
-  arn?: string;
-  name?: string;
-  standbyReplicas?: string;
-  description?: string;
-  tags?: Tag[];
-  createdDate?: number;
-  capacityLimits?: CollectionGroupCapacityLimits;
-  currentCapacity?: CurrentCapacity;
-  numberOfCollections?: number;
-  generation?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  standbyReplicas?: string | undefined;
+  description?: string | undefined;
+  tags?: Tag[] | undefined;
+  createdDate?: number | undefined;
+  capacityLimits?: CollectionGroupCapacityLimits | undefined;
+  currentCapacity?: CurrentCapacity | undefined;
+  numberOfCollections?: number | undefined;
+  generation?: string | undefined;
 }
 export type CollectionGroupDetails = CollectionGroupDetail[];
 export interface CollectionGroupErrorDetail {
-  id?: string;
-  name?: string;
-  errorMessage?: string;
-  errorCode?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  errorMessage?: string | undefined;
+  errorCode?: string | undefined;
 }
 export type CollectionGroupErrorDetails = CollectionGroupErrorDetail[];
 export interface BatchGetCollectionGroupResponse {
-  collectionGroupDetails?: CollectionGroupDetail[];
-  collectionGroupErrorDetails?: CollectionGroupErrorDetail[];
+  collectionGroupDetails?: CollectionGroupDetail[] | undefined;
+  collectionGroupErrorDetails?: CollectionGroupErrorDetail[] | undefined;
 }
 export type LifecyclePolicyType = string;
 export type ResourceName = string;
@@ -257,24 +257,24 @@ export type Resource = string;
 export type PolicyName = string;
 export type ResourceType = string;
 export interface EffectiveLifecyclePolicyDetail {
-  type?: string;
-  resource?: string;
-  policyName?: string;
-  resourceType?: string;
-  retentionPeriod?: string;
-  noMinRetentionPeriod?: boolean;
+  type?: string | undefined;
+  resource?: string | undefined;
+  policyName?: string | undefined;
+  resourceType?: string | undefined;
+  retentionPeriod?: string | undefined;
+  noMinRetentionPeriod?: boolean | undefined;
 }
 export type EffectiveLifecyclePolicyDetails = EffectiveLifecyclePolicyDetail[];
 export interface EffectiveLifecyclePolicyErrorDetail {
-  type?: string;
-  resource?: string;
-  errorMessage?: string;
-  errorCode?: string;
+  type?: string | undefined;
+  resource?: string | undefined;
+  errorMessage?: string | undefined;
+  errorCode?: string | undefined;
 }
 export type EffectiveLifecyclePolicyErrorDetails = EffectiveLifecyclePolicyErrorDetail[];
 export interface BatchGetEffectiveLifecyclePolicyResponse {
-  effectiveLifecyclePolicyDetails?: EffectiveLifecyclePolicyDetail[];
-  effectiveLifecyclePolicyErrorDetails?: EffectiveLifecyclePolicyErrorDetail[];
+  effectiveLifecyclePolicyDetails?: EffectiveLifecyclePolicyDetail[] | undefined;
+  effectiveLifecyclePolicyErrorDetails?: EffectiveLifecyclePolicyErrorDetail[] | undefined;
 }
 export interface LifecyclePolicyIdentifier {
   type: string;
@@ -287,25 +287,25 @@ export interface BatchGetLifecyclePolicyRequest {
 export type PolicyVersion = string;
 export type PolicyDescription = string;
 export interface LifecyclePolicyDetail {
-  type?: string;
-  name?: string;
-  policyVersion?: string;
-  description?: string;
-  policy?: any;
-  createdDate?: number;
-  lastModifiedDate?: number;
+  type?: string | undefined;
+  name?: string | undefined;
+  policyVersion?: string | undefined;
+  description?: string | undefined;
+  policy?: any | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
 }
 export type LifecyclePolicyDetails = LifecyclePolicyDetail[];
 export interface LifecyclePolicyErrorDetail {
-  type?: string;
-  name?: string;
-  errorMessage?: string;
-  errorCode?: string;
+  type?: string | undefined;
+  name?: string | undefined;
+  errorMessage?: string | undefined;
+  errorCode?: string | undefined;
 }
 export type LifecyclePolicyErrorDetails = LifecyclePolicyErrorDetail[];
 export interface BatchGetLifecyclePolicyResponse {
-  lifecyclePolicyDetails?: LifecyclePolicyDetail[];
-  lifecyclePolicyErrorDetails?: LifecyclePolicyErrorDetail[];
+  lifecyclePolicyDetails?: LifecyclePolicyDetail[] | undefined;
+  lifecyclePolicyErrorDetails?: LifecyclePolicyErrorDetail[] | undefined;
 }
 export type VpcEndpointId = string;
 export type VpcEndpointIds = string[];
@@ -320,135 +320,135 @@ export type SecurityGroupId = string;
 export type SecurityGroupIds = string[];
 export type VpcEndpointStatus = string;
 export interface VpcEndpointDetail {
-  id?: string;
-  name?: string;
-  vpcId?: string;
-  subnetIds?: string[];
-  securityGroupIds?: string[];
-  status?: string;
-  createdDate?: number;
-  failureCode?: string;
-  failureMessage?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  vpcId?: string | undefined;
+  subnetIds?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  status?: string | undefined;
+  createdDate?: number | undefined;
+  failureCode?: string | undefined;
+  failureMessage?: string | undefined;
 }
 export type VpcEndpointDetails = VpcEndpointDetail[];
 export interface VpcEndpointErrorDetail {
-  id?: string;
-  errorMessage?: string;
-  errorCode?: string;
+  id?: string | undefined;
+  errorMessage?: string | undefined;
+  errorCode?: string | undefined;
 }
 export type VpcEndpointErrorDetails = VpcEndpointErrorDetail[];
 export interface BatchGetVpcEndpointResponse {
-  vpcEndpointDetails?: VpcEndpointDetail[];
-  vpcEndpointErrorDetails?: VpcEndpointErrorDetail[];
+  vpcEndpointDetails?: VpcEndpointDetail[] | undefined;
+  vpcEndpointErrorDetails?: VpcEndpointErrorDetail[] | undefined;
 }
 export type IngestionJobId = string;
 export type ClientToken = string;
 export interface CancelIngestionJobRequest {
   collectionId: string;
   ingestionJobId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type IngestionJobName = string;
 export type IngestionJobStatus = string;
 export interface CancelIngestionJobResponse {
-  ingestionJobId?: string;
-  collectionId?: string;
-  ingestionJobName?: string;
-  status?: string;
+  ingestionJobId?: string | undefined;
+  collectionId?: string | undefined;
+  ingestionJobName?: string | undefined;
+  status?: string | undefined;
 }
 export type AccessPolicyType = string;
 export type PolicyDocument = string;
 export interface CreateAccessPolicyRequest {
   type: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   policy: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface AccessPolicyDetail {
-  type?: string;
-  name?: string;
-  policyVersion?: string;
-  description?: string;
-  policy?: any;
-  createdDate?: number;
-  lastModifiedDate?: number;
+  type?: string | undefined;
+  name?: string | undefined;
+  policyVersion?: string | undefined;
+  description?: string | undefined;
+  policy?: any | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
 }
 export interface CreateAccessPolicyResponse {
-  accessPolicyDetail?: AccessPolicyDetail;
+  accessPolicyDetail?: AccessPolicyDetail | undefined;
 }
 export interface EncryptionConfig {
-  aWSOwnedKey?: boolean;
-  kmsKeyArn?: string;
+  aWSOwnedKey?: boolean | undefined;
+  kmsKeyArn?: string | undefined;
 }
 export interface CreateCollectionRequest {
   name: string;
-  type?: string;
-  description?: string;
-  tags?: Tag[];
-  standbyReplicas?: string;
-  vectorOptions?: VectorOptions;
-  collectionGroupName?: string;
-  encryptionConfig?: EncryptionConfig;
-  deletionProtection?: string;
-  clientToken?: string;
+  type?: string | undefined;
+  description?: string | undefined;
+  tags?: Tag[] | undefined;
+  standbyReplicas?: string | undefined;
+  vectorOptions?: VectorOptions | undefined;
+  collectionGroupName?: string | undefined;
+  encryptionConfig?: EncryptionConfig | undefined;
+  deletionProtection?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateCollectionDetail {
-  id?: string;
-  name?: string;
-  status?: string;
-  type?: string;
-  description?: string;
-  arn?: string;
-  kmsKeyArn?: string;
-  standbyReplicas?: string;
-  deletionProtection?: string;
-  vectorOptions?: VectorOptions;
-  createdDate?: number;
-  lastModifiedDate?: number;
-  collectionGroupName?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
+  type?: string | undefined;
+  description?: string | undefined;
+  arn?: string | undefined;
+  kmsKeyArn?: string | undefined;
+  standbyReplicas?: string | undefined;
+  deletionProtection?: string | undefined;
+  vectorOptions?: VectorOptions | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
+  collectionGroupName?: string | undefined;
 }
 export interface CreateCollectionResponse {
-  createCollectionDetail?: CreateCollectionDetail;
+  createCollectionDetail?: CreateCollectionDetail | undefined;
 }
 export interface CreateCollectionGroupRequest {
   name: string;
   standbyReplicas: string;
-  description?: string;
-  tags?: Tag[];
-  capacityLimits?: CollectionGroupCapacityLimits;
-  generation?: string;
-  clientToken?: string;
+  description?: string | undefined;
+  tags?: Tag[] | undefined;
+  capacityLimits?: CollectionGroupCapacityLimits | undefined;
+  generation?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateCollectionGroupDetail {
-  id?: string;
-  arn?: string;
-  name?: string;
-  standbyReplicas?: string;
-  description?: string;
-  tags?: Tag[];
-  createdDate?: number;
-  capacityLimits?: CollectionGroupCapacityLimits;
-  generation?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  standbyReplicas?: string | undefined;
+  description?: string | undefined;
+  tags?: Tag[] | undefined;
+  createdDate?: number | undefined;
+  capacityLimits?: CollectionGroupCapacityLimits | undefined;
+  generation?: string | undefined;
 }
 export interface CreateCollectionGroupResponse {
-  createCollectionGroupDetail?: CreateCollectionGroupDetail;
+  createCollectionGroupDetail?: CreateCollectionGroupDetail | undefined;
 }
 export type IndexName = string;
 export type IndexSchema = unknown;
 export interface CreateIndexRequest {
   id: string;
   indexName: string;
-  indexSchema?: any;
+  indexSchema?: any | undefined;
 }
 export interface CreateIndexResponse {}
 export type IngestionIndexName = string;
 export type S3BucketNameOrArn = string;
 export type BucketOwnerAccountId = string;
 export interface IngestionJobS3Source {
-  bucket?: string;
-  bucketOwnerAccountId?: string;
-  keyPrefix?: string;
+  bucket?: string | undefined;
+  bucketOwnerAccountId?: string | undefined;
+  keyPrefix?: string | undefined;
 }
 export interface IngestionJobSource {
   s3: IngestionJobS3Source;
@@ -457,65 +457,65 @@ export interface CreateIngestionJobRequest {
   collectionId: string;
   ingestionJobName: string;
   indexName: string;
-  failureIndexName?: string;
+  failureIndexName?: string | undefined;
   source: IngestionJobSource;
-  tags?: Tag[];
-  clientToken?: string;
+  tags?: Tag[] | undefined;
+  clientToken?: string | undefined;
 }
 export type IngestionJobResourceArn = string;
 export type IngestionState = string;
 export interface S3Statistics {
-  objectsDiscovered?: number;
-  objectsIngested?: number;
-  objectsFailed?: number;
+  objectsDiscovered?: number | undefined;
+  objectsIngested?: number | undefined;
+  objectsFailed?: number | undefined;
 }
 export interface IngestionStatistics {
-  s3?: S3Statistics;
+  s3?: S3Statistics | undefined;
 }
 export type IngestionFailureCode = string;
 export interface IngestionFailureReason {
-  code?: string;
-  message?: string;
+  code?: string | undefined;
+  message?: string | undefined;
 }
 export type IngestionFailureReasons = IngestionFailureReason[];
 export type IngestionAlertCode = string;
 export interface IngestionAlert {
-  code?: string;
-  message?: string;
+  code?: string | undefined;
+  message?: string | undefined;
 }
 export type IngestionAlerts = IngestionAlert[];
 export interface IngestionJobDetail {
-  ingestionJobId?: string;
-  arn?: string;
-  collectionId?: string;
-  ingestionJobName?: string;
-  indexName?: string;
-  failureIndexName?: string;
-  source?: IngestionJobSource;
-  status?: string;
-  state?: string;
-  statistics?: IngestionStatistics;
-  revision?: number;
-  createdAt?: Date;
-  updatedAt?: Date;
-  failureReasons?: IngestionFailureReason[];
-  activeAlerts?: IngestionAlert[];
+  ingestionJobId?: string | undefined;
+  arn?: string | undefined;
+  collectionId?: string | undefined;
+  ingestionJobName?: string | undefined;
+  indexName?: string | undefined;
+  failureIndexName?: string | undefined;
+  source?: IngestionJobSource | undefined;
+  status?: string | undefined;
+  state?: string | undefined;
+  statistics?: IngestionStatistics | undefined;
+  revision?: number | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  failureReasons?: IngestionFailureReason[] | undefined;
+  activeAlerts?: IngestionAlert[] | undefined;
 }
 export interface CreateIngestionJobResponse {
-  ingestionJobDetail?: IngestionJobDetail;
+  ingestionJobDetail?: IngestionJobDetail | undefined;
 }
 export type IngestionStreamName = string;
 export type SqsArn = string;
 export type InitialScan = string;
 export interface StreamBucketConfig {
   bucket: string;
-  bucketOwnerAccountId?: string;
-  initialScan?: string;
+  bucketOwnerAccountId?: string | undefined;
+  initialScan?: string | undefined;
 }
 export type StreamBucketConfigs = StreamBucketConfig[];
 export interface IngestionStreamS3Source {
   sqsArn: string;
-  buckets?: StreamBucketConfig[];
+  buckets?: StreamBucketConfig[] | undefined;
 }
 export interface IngestionStreamSource {
   s3: IngestionStreamS3Source;
@@ -525,45 +525,45 @@ export interface CreateIngestionStreamRequest {
   collectionId: string;
   ingestionStreamName: string;
   indexName: string;
-  failureIndexName?: string;
+  failureIndexName?: string | undefined;
   source: IngestionStreamSource;
   roleArn: string;
-  tags?: Tag[];
-  clientToken?: string;
+  tags?: Tag[] | undefined;
+  clientToken?: string | undefined;
 }
 export type IngestionStreamId = string;
 export type IngestionStreamResourceArn = string;
 export type IngestionStreamStatus = string;
 export interface IngestionStreamDetail {
-  ingestionStreamId?: string;
-  arn?: string;
-  collectionId?: string;
-  ingestionStreamName?: string;
-  indexName?: string;
-  failureIndexName?: string;
-  source?: IngestionStreamSource;
-  roleArn?: string;
-  status?: string;
-  state?: string;
-  statistics?: IngestionStatistics;
-  revision?: number;
-  createdAt?: Date;
-  updatedAt?: Date;
-  failureReasons?: IngestionFailureReason[];
-  activeAlerts?: IngestionAlert[];
+  ingestionStreamId?: string | undefined;
+  arn?: string | undefined;
+  collectionId?: string | undefined;
+  ingestionStreamName?: string | undefined;
+  indexName?: string | undefined;
+  failureIndexName?: string | undefined;
+  source?: IngestionStreamSource | undefined;
+  roleArn?: string | undefined;
+  status?: string | undefined;
+  state?: string | undefined;
+  statistics?: IngestionStatistics | undefined;
+  revision?: number | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  failureReasons?: IngestionFailureReason[] | undefined;
+  activeAlerts?: IngestionAlert[] | undefined;
 }
 export interface CreateIngestionStreamResponse {
-  ingestionStreamDetail?: IngestionStreamDetail;
+  ingestionStreamDetail?: IngestionStreamDetail | undefined;
 }
 export interface CreateLifecyclePolicyRequest {
   type: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   policy: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface CreateLifecyclePolicyResponse {
-  lifecyclePolicyDetail?: LifecyclePolicyDetail;
+  lifecyclePolicyDetail?: LifecyclePolicyDetail | undefined;
 }
 export type SecurityConfigType = string;
 export type ConfigName = string;
@@ -574,115 +574,115 @@ export type SamlGroupAttribute = string;
 export type OpenSearchServerlessEntityId = string;
 export interface SamlConfigOptions {
   metadata: string;
-  userAttribute?: string;
-  groupAttribute?: string;
-  openSearchServerlessEntityId?: string;
-  sessionTimeout?: number;
+  userAttribute?: string | undefined;
+  groupAttribute?: string | undefined;
+  openSearchServerlessEntityId?: string | undefined;
+  sessionTimeout?: number | undefined;
 }
 export type IamIdentityCenterInstanceArn = string;
 export type IamIdentityCenterUserAttribute = string;
 export type IamIdentityCenterGroupAttribute = string;
 export interface CreateIamIdentityCenterConfigOptions {
   instanceArn: string;
-  userAttribute?: string;
-  groupAttribute?: string;
+  userAttribute?: string | undefined;
+  groupAttribute?: string | undefined;
 }
 export type IamFederationGroupAttribute = string;
 export type IamFederationUserAttribute = string;
 export interface IamFederationConfigOptions {
-  groupAttribute?: string;
-  userAttribute?: string;
+  groupAttribute?: string | undefined;
+  userAttribute?: string | undefined;
 }
 export interface CreateSecurityConfigRequest {
   type: string;
   name: string;
-  description?: string;
-  samlOptions?: SamlConfigOptions;
-  iamIdentityCenterOptions?: CreateIamIdentityCenterConfigOptions;
-  iamFederationOptions?: IamFederationConfigOptions;
-  clientToken?: string;
+  description?: string | undefined;
+  samlOptions?: SamlConfigOptions | undefined;
+  iamIdentityCenterOptions?: CreateIamIdentityCenterConfigOptions | undefined;
+  iamFederationOptions?: IamFederationConfigOptions | undefined;
+  clientToken?: string | undefined;
 }
 export type SecurityConfigId = string;
 export type IamIdentityCenterApplicationArn = string;
 export interface IamIdentityCenterConfigOptions {
-  instanceArn?: string;
-  applicationArn?: string;
-  applicationName?: string;
-  applicationDescription?: string;
-  userAttribute?: string;
-  groupAttribute?: string;
+  instanceArn?: string | undefined;
+  applicationArn?: string | undefined;
+  applicationName?: string | undefined;
+  applicationDescription?: string | undefined;
+  userAttribute?: string | undefined;
+  groupAttribute?: string | undefined;
 }
 export interface SecurityConfigDetail {
-  id?: string;
-  type?: string;
-  configVersion?: string;
-  description?: string;
-  samlOptions?: SamlConfigOptions;
-  iamIdentityCenterOptions?: IamIdentityCenterConfigOptions;
-  iamFederationOptions?: IamFederationConfigOptions;
-  createdDate?: number;
-  lastModifiedDate?: number;
+  id?: string | undefined;
+  type?: string | undefined;
+  configVersion?: string | undefined;
+  description?: string | undefined;
+  samlOptions?: SamlConfigOptions | undefined;
+  iamIdentityCenterOptions?: IamIdentityCenterConfigOptions | undefined;
+  iamFederationOptions?: IamFederationConfigOptions | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
 }
 export interface CreateSecurityConfigResponse {
-  securityConfigDetail?: SecurityConfigDetail;
+  securityConfigDetail?: SecurityConfigDetail | undefined;
 }
 export type SecurityPolicyType = string;
 export interface CreateSecurityPolicyRequest {
   type: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   policy: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface SecurityPolicyDetail {
-  type?: string;
-  name?: string;
-  policyVersion?: string;
-  description?: string;
-  policy?: any;
-  createdDate?: number;
-  lastModifiedDate?: number;
+  type?: string | undefined;
+  name?: string | undefined;
+  policyVersion?: string | undefined;
+  description?: string | undefined;
+  policy?: any | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
 }
 export interface CreateSecurityPolicyResponse {
-  securityPolicyDetail?: SecurityPolicyDetail;
+  securityPolicyDetail?: SecurityPolicyDetail | undefined;
 }
 export interface CreateVpcEndpointRequest {
   name: string;
   vpcId: string;
   subnetIds: string[];
-  securityGroupIds?: string[];
-  clientToken?: string;
+  securityGroupIds?: string[] | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateVpcEndpointDetail {
-  id?: string;
-  name?: string;
-  status?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
 }
 export interface CreateVpcEndpointResponse {
-  createVpcEndpointDetail?: CreateVpcEndpointDetail;
+  createVpcEndpointDetail?: CreateVpcEndpointDetail | undefined;
 }
 export interface DeleteAccessPolicyRequest {
   type: string;
   name: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteAccessPolicyResponse {}
 export interface DeleteCollectionRequest {
   id: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteCollectionDetail {
-  id?: string;
-  name?: string;
-  status?: string;
-  deletionProtection?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
+  deletionProtection?: string | undefined;
 }
 export interface DeleteCollectionResponse {
-  deleteCollectionDetail?: DeleteCollectionDetail;
+  deleteCollectionDetail?: DeleteCollectionDetail | undefined;
 }
 export interface DeleteCollectionGroupRequest {
   id: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteCollectionGroupResponse {}
 export interface DeleteIndexRequest {
@@ -693,299 +693,299 @@ export interface DeleteIndexResponse {}
 export interface DeleteIngestionStreamRequest {
   collectionId: string;
   ingestionStreamId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteIngestionStreamResponse {
-  ingestionStreamId?: string;
-  collectionId?: string;
-  ingestionStreamName?: string;
-  status?: string;
+  ingestionStreamId?: string | undefined;
+  collectionId?: string | undefined;
+  ingestionStreamName?: string | undefined;
+  status?: string | undefined;
 }
 export interface DeleteLifecyclePolicyRequest {
   type: string;
   name: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteLifecyclePolicyResponse {}
 export interface DeleteSecurityConfigRequest {
   id: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteSecurityConfigResponse {}
 export interface DeleteSecurityPolicyRequest {
   type: string;
   name: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteSecurityPolicyResponse {}
 export interface DeleteVpcEndpointRequest {
   id: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteVpcEndpointDetail {
-  id?: string;
-  name?: string;
-  status?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
 }
 export interface DeleteVpcEndpointResponse {
-  deleteVpcEndpointDetail?: DeleteVpcEndpointDetail;
+  deleteVpcEndpointDetail?: DeleteVpcEndpointDetail | undefined;
 }
 export interface GetAccessPolicyRequest {
   type: string;
   name: string;
 }
 export interface GetAccessPolicyResponse {
-  accessPolicyDetail?: AccessPolicyDetail;
+  accessPolicyDetail?: AccessPolicyDetail | undefined;
 }
 export interface GetAccountSettingsRequest {}
 export type IndexingCapacityValue = number;
 export type SearchCapacityValue = number;
 export interface CapacityLimits {
-  maxIndexingCapacityInOCU?: number;
-  maxSearchCapacityInOCU?: number;
+  maxIndexingCapacityInOCU?: number | undefined;
+  maxSearchCapacityInOCU?: number | undefined;
 }
 export interface AccountSettingsDetail {
-  capacityLimits?: CapacityLimits;
+  capacityLimits?: CapacityLimits | undefined;
 }
 export interface GetAccountSettingsResponse {
-  accountSettingsDetail?: AccountSettingsDetail;
+  accountSettingsDetail?: AccountSettingsDetail | undefined;
 }
 export interface GetIndexRequest {
   id: string;
   indexName: string;
 }
 export interface GetIndexResponse {
-  indexSchema?: any;
+  indexSchema?: any | undefined;
 }
 export interface GetIngestionJobRequest {
   collectionId: string;
   ingestionJobId: string;
 }
 export interface GetIngestionJobResponse {
-  ingestionJobDetail?: IngestionJobDetail;
+  ingestionJobDetail?: IngestionJobDetail | undefined;
 }
 export interface GetIngestionStreamRequest {
   collectionId: string;
   ingestionStreamId: string;
 }
 export interface GetIngestionStreamResponse {
-  ingestionStreamDetail?: IngestionStreamDetail;
+  ingestionStreamDetail?: IngestionStreamDetail | undefined;
 }
 export interface GetPoliciesStatsRequest {}
 export interface AccessPolicyStats {
-  DataPolicyCount?: number;
+  DataPolicyCount?: number | undefined;
 }
 export interface SecurityPolicyStats {
-  EncryptionPolicyCount?: number;
-  NetworkPolicyCount?: number;
+  EncryptionPolicyCount?: number | undefined;
+  NetworkPolicyCount?: number | undefined;
 }
 export interface SecurityConfigStats {
-  SamlConfigCount?: number;
+  SamlConfigCount?: number | undefined;
 }
 export interface LifecyclePolicyStats {
-  RetentionPolicyCount?: number;
+  RetentionPolicyCount?: number | undefined;
 }
 export interface GetPoliciesStatsResponse {
-  AccessPolicyStats?: AccessPolicyStats;
-  SecurityPolicyStats?: SecurityPolicyStats;
-  SecurityConfigStats?: SecurityConfigStats;
-  LifecyclePolicyStats?: LifecyclePolicyStats;
-  TotalPolicyCount?: number;
+  AccessPolicyStats?: AccessPolicyStats | undefined;
+  SecurityPolicyStats?: SecurityPolicyStats | undefined;
+  SecurityConfigStats?: SecurityConfigStats | undefined;
+  LifecyclePolicyStats?: LifecyclePolicyStats | undefined;
+  TotalPolicyCount?: number | undefined;
 }
 export interface GetSecurityConfigRequest {
   id: string;
 }
 export interface GetSecurityConfigResponse {
-  securityConfigDetail?: SecurityConfigDetail;
+  securityConfigDetail?: SecurityConfigDetail | undefined;
 }
 export interface GetSecurityPolicyRequest {
   type: string;
   name: string;
 }
 export interface GetSecurityPolicyResponse {
-  securityPolicyDetail?: SecurityPolicyDetail;
+  securityPolicyDetail?: SecurityPolicyDetail | undefined;
 }
 export type ResourceFilter = string[];
 export interface ListAccessPoliciesRequest {
   type: string;
-  resource?: string[];
-  nextToken?: string;
-  maxResults?: number;
+  resource?: string[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AccessPolicySummary {
-  type?: string;
-  name?: string;
-  policyVersion?: string;
-  description?: string;
-  createdDate?: number;
-  lastModifiedDate?: number;
+  type?: string | undefined;
+  name?: string | undefined;
+  policyVersion?: string | undefined;
+  description?: string | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
 }
 export type AccessPolicySummaries = AccessPolicySummary[];
 export interface ListAccessPoliciesResponse {
-  accessPolicySummaries?: AccessPolicySummary[];
-  nextToken?: string;
+  accessPolicySummaries?: AccessPolicySummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListCollectionGroupsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface CollectionGroupSummary {
-  id?: string;
-  arn?: string;
-  name?: string;
-  numberOfCollections?: number;
-  createdDate?: number;
-  capacityLimits?: CollectionGroupCapacityLimits;
-  generation?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  numberOfCollections?: number | undefined;
+  createdDate?: number | undefined;
+  capacityLimits?: CollectionGroupCapacityLimits | undefined;
+  generation?: string | undefined;
 }
 export type CollectionGroupSummaries = CollectionGroupSummary[];
 export interface ListCollectionGroupsResponse {
-  collectionGroupSummaries?: CollectionGroupSummary[];
-  nextToken?: string;
+  collectionGroupSummaries?: CollectionGroupSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface CollectionFilters {
-  name?: string;
-  status?: string;
-  collectionGroupName?: string;
+  name?: string | undefined;
+  status?: string | undefined;
+  collectionGroupName?: string | undefined;
 }
 export interface ListCollectionsRequest {
-  collectionFilters?: CollectionFilters;
-  nextToken?: string;
-  maxResults?: number;
+  collectionFilters?: CollectionFilters | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface CollectionSummary {
-  id?: string;
-  name?: string;
-  status?: string;
-  arn?: string;
-  kmsKeyArn?: string;
-  collectionGroupName?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
+  arn?: string | undefined;
+  kmsKeyArn?: string | undefined;
+  collectionGroupName?: string | undefined;
 }
 export type CollectionSummaries = CollectionSummary[];
 export interface ListCollectionsResponse {
-  collectionSummaries?: CollectionSummary[];
-  nextToken?: string;
+  collectionSummaries?: CollectionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListIngestionJobsRequest {
   collectionId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface IngestionJobSummary {
-  ingestionJobId?: string;
-  arn?: string;
-  ingestionJobName?: string;
-  indexName?: string;
-  status?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  ingestionJobId?: string | undefined;
+  arn?: string | undefined;
+  ingestionJobName?: string | undefined;
+  indexName?: string | undefined;
+  status?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type IngestionJobSummaries = IngestionJobSummary[];
 export interface ListIngestionJobsResponse {
-  ingestionJobSummaries?: IngestionJobSummary[];
-  nextToken?: string;
+  ingestionJobSummaries?: IngestionJobSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListIngestionStreamsRequest {
   collectionId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface IngestionStreamSummary {
-  ingestionStreamId?: string;
-  arn?: string;
-  ingestionStreamName?: string;
-  indexName?: string;
-  status?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  ingestionStreamId?: string | undefined;
+  arn?: string | undefined;
+  ingestionStreamName?: string | undefined;
+  indexName?: string | undefined;
+  status?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type IngestionStreamSummaries = IngestionStreamSummary[];
 export interface ListIngestionStreamsResponse {
-  ingestionStreamSummaries?: IngestionStreamSummary[];
-  nextToken?: string;
+  ingestionStreamSummaries?: IngestionStreamSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type LifecycleResource = string;
 export type LifecycleResourceFilter = string[];
 export interface ListLifecyclePoliciesRequest {
   type: string;
-  resources?: string[];
-  nextToken?: string;
-  maxResults?: number;
+  resources?: string[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface LifecyclePolicySummary {
-  type?: string;
-  name?: string;
-  policyVersion?: string;
-  description?: string;
-  createdDate?: number;
-  lastModifiedDate?: number;
+  type?: string | undefined;
+  name?: string | undefined;
+  policyVersion?: string | undefined;
+  description?: string | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
 }
 export type LifecyclePolicySummaries = LifecyclePolicySummary[];
 export interface ListLifecyclePoliciesResponse {
-  lifecyclePolicySummaries?: LifecyclePolicySummary[];
-  nextToken?: string;
+  lifecyclePolicySummaries?: LifecyclePolicySummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSecurityConfigsRequest {
   type: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface SecurityConfigSummary {
-  id?: string;
-  type?: string;
-  configVersion?: string;
-  description?: string;
-  createdDate?: number;
-  lastModifiedDate?: number;
+  id?: string | undefined;
+  type?: string | undefined;
+  configVersion?: string | undefined;
+  description?: string | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
 }
 export type SecurityConfigSummaries = SecurityConfigSummary[];
 export interface ListSecurityConfigsResponse {
-  securityConfigSummaries?: SecurityConfigSummary[];
-  nextToken?: string;
+  securityConfigSummaries?: SecurityConfigSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSecurityPoliciesRequest {
   type: string;
-  resource?: string[];
-  nextToken?: string;
-  maxResults?: number;
+  resource?: string[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface SecurityPolicySummary {
-  type?: string;
-  name?: string;
-  policyVersion?: string;
-  description?: string;
-  createdDate?: number;
-  lastModifiedDate?: number;
+  type?: string | undefined;
+  name?: string | undefined;
+  policyVersion?: string | undefined;
+  description?: string | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
 }
 export type SecurityPolicySummaries = SecurityPolicySummary[];
 export interface ListSecurityPoliciesResponse {
-  securityPolicySummaries?: SecurityPolicySummary[];
-  nextToken?: string;
+  securityPolicySummaries?: SecurityPolicySummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type Arn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface VpcEndpointFilters {
-  status?: string;
+  status?: string | undefined;
 }
 export interface ListVpcEndpointsRequest {
-  vpcEndpointFilters?: VpcEndpointFilters;
-  nextToken?: string;
-  maxResults?: number;
+  vpcEndpointFilters?: VpcEndpointFilters | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface VpcEndpointSummary {
-  id?: string;
-  name?: string;
-  status?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
 }
 export type VpcEndpointSummaries = VpcEndpointSummary[];
 export interface ListVpcEndpointsResponse {
-  vpcEndpointSummaries?: VpcEndpointSummary[];
-  nextToken?: string;
+  vpcEndpointSummaries?: VpcEndpointSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -1002,124 +1002,124 @@ export interface UpdateAccessPolicyRequest {
   type: string;
   name: string;
   policyVersion: string;
-  description?: string;
-  policy?: string;
-  clientToken?: string;
+  description?: string | undefined;
+  policy?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateAccessPolicyResponse {
-  accessPolicyDetail?: AccessPolicyDetail;
+  accessPolicyDetail?: AccessPolicyDetail | undefined;
 }
 export interface UpdateAccountSettingsRequest {
-  capacityLimits?: CapacityLimits;
+  capacityLimits?: CapacityLimits | undefined;
 }
 export interface UpdateAccountSettingsResponse {
-  accountSettingsDetail?: AccountSettingsDetail;
+  accountSettingsDetail?: AccountSettingsDetail | undefined;
 }
 export interface UpdateCollectionRequest {
   id: string;
-  description?: string;
-  vectorOptions?: VectorOptions;
-  deletionProtection?: string;
-  encryptionConfig?: EncryptionConfig;
-  clientToken?: string;
+  description?: string | undefined;
+  vectorOptions?: VectorOptions | undefined;
+  deletionProtection?: string | undefined;
+  encryptionConfig?: EncryptionConfig | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateCollectionDetail {
-  id?: string;
-  name?: string;
-  status?: string;
-  type?: string;
-  description?: string;
-  vectorOptions?: VectorOptions;
-  kmsKeyArn?: string;
-  arn?: string;
-  createdDate?: number;
-  lastModifiedDate?: number;
-  deletionProtection?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
+  type?: string | undefined;
+  description?: string | undefined;
+  vectorOptions?: VectorOptions | undefined;
+  kmsKeyArn?: string | undefined;
+  arn?: string | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
+  deletionProtection?: string | undefined;
 }
 export interface UpdateCollectionResponse {
-  updateCollectionDetail?: UpdateCollectionDetail;
+  updateCollectionDetail?: UpdateCollectionDetail | undefined;
 }
 export interface UpdateCollectionGroupRequest {
   id: string;
-  description?: string;
-  capacityLimits?: CollectionGroupCapacityLimits;
-  clientToken?: string;
+  description?: string | undefined;
+  capacityLimits?: CollectionGroupCapacityLimits | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateCollectionGroupDetail {
-  id?: string;
-  arn?: string;
-  name?: string;
-  description?: string;
-  capacityLimits?: CollectionGroupCapacityLimits;
-  createdDate?: number;
-  lastModifiedDate?: number;
-  generation?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  capacityLimits?: CollectionGroupCapacityLimits | undefined;
+  createdDate?: number | undefined;
+  lastModifiedDate?: number | undefined;
+  generation?: string | undefined;
 }
 export interface UpdateCollectionGroupResponse {
-  updateCollectionGroupDetail?: UpdateCollectionGroupDetail;
+  updateCollectionGroupDetail?: UpdateCollectionGroupDetail | undefined;
 }
 export interface UpdateIndexRequest {
   id: string;
   indexName: string;
-  indexSchema?: any;
+  indexSchema?: any | undefined;
 }
 export interface UpdateIndexResponse {}
 export interface UpdateLifecyclePolicyRequest {
   type: string;
   name: string;
   policyVersion: string;
-  description?: string;
-  policy?: string;
-  clientToken?: string;
+  description?: string | undefined;
+  policy?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateLifecyclePolicyResponse {
-  lifecyclePolicyDetail?: LifecyclePolicyDetail;
+  lifecyclePolicyDetail?: LifecyclePolicyDetail | undefined;
 }
 export interface UpdateIamIdentityCenterConfigOptions {
-  userAttribute?: string;
-  groupAttribute?: string;
+  userAttribute?: string | undefined;
+  groupAttribute?: string | undefined;
 }
 export interface UpdateSecurityConfigRequest {
   id: string;
   configVersion: string;
-  description?: string;
-  samlOptions?: SamlConfigOptions;
-  iamIdentityCenterOptionsUpdates?: UpdateIamIdentityCenterConfigOptions;
-  iamFederationOptions?: IamFederationConfigOptions;
-  clientToken?: string;
+  description?: string | undefined;
+  samlOptions?: SamlConfigOptions | undefined;
+  iamIdentityCenterOptionsUpdates?: UpdateIamIdentityCenterConfigOptions | undefined;
+  iamFederationOptions?: IamFederationConfigOptions | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateSecurityConfigResponse {
-  securityConfigDetail?: SecurityConfigDetail;
+  securityConfigDetail?: SecurityConfigDetail | undefined;
 }
 export interface UpdateSecurityPolicyRequest {
   type: string;
   name: string;
   policyVersion: string;
-  description?: string;
-  policy?: string;
-  clientToken?: string;
+  description?: string | undefined;
+  policy?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateSecurityPolicyResponse {
-  securityPolicyDetail?: SecurityPolicyDetail;
+  securityPolicyDetail?: SecurityPolicyDetail | undefined;
 }
 export interface UpdateVpcEndpointRequest {
   id: string;
-  addSubnetIds?: string[];
-  removeSubnetIds?: string[];
-  addSecurityGroupIds?: string[];
-  removeSecurityGroupIds?: string[];
-  clientToken?: string;
+  addSubnetIds?: string[] | undefined;
+  removeSubnetIds?: string[] | undefined;
+  addSecurityGroupIds?: string[] | undefined;
+  removeSecurityGroupIds?: string[] | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateVpcEndpointDetail {
-  id?: string;
-  name?: string;
-  status?: string;
-  subnetIds?: string[];
-  securityGroupIds?: string[];
-  lastModifiedDate?: number;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
+  subnetIds?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  lastModifiedDate?: number | undefined;
 }
 export interface UpdateVpcEndpointResponse {
-  UpdateVpcEndpointDetail?: UpdateVpcEndpointDetail;
+  UpdateVpcEndpointDetail?: UpdateVpcEndpointDetail | undefined;
 }
 export type BatchGetCollectionError = InternalServerException | ValidationException | CommonErrors;
 /**

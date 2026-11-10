@@ -128,42 +128,42 @@ export class SchemaRegistryRequiresCluster
 /** Represents the access granted for a given Resource Pattern in an ACL. */
 export interface AclEntry {
   /** Required. The permission type. Accepted values are (case insensitive): ALLOW, DENY. */
-  permissionType?: string;
+  permissionType?: string | undefined;
   /** Required. The principal. Specified as Google Cloud account, with the Kafka StandardAuthorizer prefix "User:". For example: "User:test-kafka-client@test-project.iam.gserviceaccount.com". Can be the wildcard "User:*" to refer to all users. */
-  principal?: string;
+  principal?: string | undefined;
   /** Required. The operation type. Allowed values are (case insensitive): ALL, READ, WRITE, CREATE, DELETE, ALTER, DESCRIBE, CLUSTER_ACTION, DESCRIBE_CONFIGS, ALTER_CONFIGS, and IDEMPOTENT_WRITE. See https://kafka.apache.org/documentation/#operations_resources_and_protocols for valid combinations of resource_type and operation for different Kafka API requests. */
-  operation?: string;
+  operation?: string | undefined;
   /** Required. The host. Must be set to "*" for Managed Service for Apache Kafka. */
-  host?: string;
+  host?: string | undefined;
 }
 export interface AddAclEntryProjectsLocationsClustersAclsRequest {
   /** Required. The name of the acl to add the acl entry to. Structured like: `projects/{project}/locations/{location}/clusters/{cluster}/acls/{acl_id}`. The structure of `acl_id` defines the Resource Pattern (resource_type, resource_name, pattern_type) of the acl. See `Acl.name` for details. */
   acl: string;
   /** Request body */
-  body?: AclEntry;
+  body?: AclEntry | undefined;
 }
 export type AclEntryList = Array<AclEntry>;
 /** Represents the set of ACLs for a given Kafka Resource Pattern, which consists of resource_type, resource_name and pattern_type. */
 export interface Acl {
   /** Optional. `etag` is used for concurrency control. An `etag` is returned in the response to `GetAcl` and `CreateAcl`. Callers are required to put that etag in the request to `UpdateAcl` to ensure that their change will be applied to the same version of the acl that exists in the Kafka Cluster. A terminal 'T' character in the etag indicates that the AclEntries were truncated; more entries for the Acl exist on the Kafka Cluster, but can't be returned in the Acl due to repeated field limits. */
-  etag?: string;
+  etag?: string | undefined;
   /** Output only. The ACL resource name derived from the name. For cluster resource_type, this is always "kafka-cluster". Can be the wildcard literal "*". */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Required. The ACL entries that apply to the resource pattern. The maximum number of allowed entries 100. */
-  aclEntries?: AclEntryList;
+  aclEntries?: AclEntryList | undefined;
   /** Output only. The ACL pattern type derived from the name. One of: LITERAL, PREFIXED. */
-  patternType?: string;
+  patternType?: string | undefined;
   /** Identifier. The name for the acl. Represents a single Resource Pattern. Structured like: projects/{project}/locations/{location}/clusters/{cluster}/acls/{acl_id} The structure of `acl_id` defines the Resource Pattern (resource_type, resource_name, pattern_type) of the acl. `acl_id` is structured like one of the following: For acls on the cluster: `cluster` For acls on a single resource within the cluster: `topic/{resource_name}` `consumerGroup/{resource_name}` `transactionalId/{resource_name}` For acls on all resources that match a prefix: `topicPrefixed/{resource_name}` `consumerGroupPrefixed/{resource_name}` `transactionalIdPrefixed/{resource_name}` For acls on all resources of a given type (i.e. the wildcard literal "*"): `allTopics` (represents `topic/*`) `allConsumerGroups` (represents `consumerGroup/*`) `allTransactionalIds` (represents `transactionalId/*`) */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The ACL resource type derived from the name. One of: CLUSTER, TOPIC, GROUP, TRANSACTIONAL_ID. */
-  resourceType?: string;
+  resourceType?: string | undefined;
 }
 /** Response for AddAclEntry. */
 export interface AddAclEntryResponse {
   /** The updated acl. */
-  acl?: Acl;
+  acl?: Acl | undefined;
   /** Whether the acl was created as a result of adding the acl entry. */
-  aclCreated?: boolean;
+  aclCreated?: boolean | undefined;
 }
 /** The request message for Operations.CancelOperation. */
 export interface CancelOperationRequest {}
@@ -171,7 +171,7 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -183,72 +183,72 @@ export type CheckCompatibilityRequestSchemaTypeEnum =
 /** SchemaReference is a reference to a schema. */
 export interface SchemaReference {
   /** Required. The subject of the reference. */
-  subject?: string;
+  subject?: string | undefined;
   /** Required. The version of the reference. */
-  version?: number;
+  version?: number | undefined;
   /** Required. The name of the reference. */
-  name?: string;
+  name?: string | undefined;
 }
 export type SchemaReferenceList = Array<SchemaReference>;
 /** Request for CheckCompatibility. */
 export interface CheckCompatibilityRequest {
   /** Optional. The schema type of the schema. */
-  schemaType?: CheckCompatibilityRequestSchemaTypeEnum | (string & {});
+  schemaType?: CheckCompatibilityRequestSchemaTypeEnum | (string & {}) | undefined;
   /** Required. The schema payload */
-  schema?: string;
+  schema?: string | undefined;
   /** Optional. If true, the response will contain the compatibility check result with reasons for failed checks. The default is false. */
-  verbose?: boolean;
+  verbose?: boolean | undefined;
   /** Optional. The schema references used by the schema. */
-  references?: SchemaReferenceList;
+  references?: SchemaReferenceList | undefined;
 }
 export interface CheckCompatibilityProjectsLocationsSchemaRegistriesCompatibilityRequest {
   /** Required. The name of the resource to check compatibility for. The format is either of following: * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/compatibility/subjects/*\/versions: Check compatibility with one or more versions of the specified subject. * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/compatibility/subjects/{subject}/versions/{version}: Check compatibility with a specific version of the subject. */
   name: string;
   /** Request body */
-  body?: CheckCompatibilityRequest;
+  body?: CheckCompatibilityRequest | undefined;
 }
 export type StringList = Array<string>;
 /** Response for CheckCompatibility. */
 export interface CheckCompatibilityResponse {
   /** The compatibility check result. If true, the schema is compatible with the resource. */
-  is_compatible?: boolean;
+  is_compatible?: boolean | undefined;
   /** Failure reasons if verbose = true. */
-  messages?: StringList;
+  messages?: StringList | undefined;
 }
 export interface CheckCompatibilityProjectsLocationsSchemaRegistriesContextsCompatibilityRequest {
   /** Required. The name of the resource to check compatibility for. The format is either of following: * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/compatibility/subjects/*\/versions: Check compatibility with one or more versions of the specified subject. * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/compatibility/subjects/{subject}/versions/{version}: Check compatibility with a specific version of the subject. */
   name: string;
   /** Request body */
-  body?: CheckCompatibilityRequest;
+  body?: CheckCompatibilityRequest | undefined;
 }
 /** A capacity configuration of a Kafka cluster. */
 export interface CapacityConfig {
   /** Required. The memory to provision for the cluster in bytes. The CPU:memory ratio (vCPU:GiB) must be between 1:1 and 1:8. Minimum: 3221225472 (3 GiB). */
-  memoryBytes?: string;
+  memoryBytes?: string | undefined;
   /** Required. The number of vCPUs to provision for the cluster. Minimum: 3. */
-  vcpuCount?: string;
+  vcpuCount?: string | undefined;
 }
 /** Details of a broker in the Kafka cluster. */
 export interface BrokerDetails {
   /** Output only. The index of the broker. */
-  brokerIndex?: string;
+  brokerIndex?: string | undefined;
   /** Output only. The rack of the broker. */
-  rack?: string;
+  rack?: string | undefined;
   /** Output only. The node id of the broker. */
-  nodeId?: string;
+  nodeId?: string | undefined;
 }
 export type BrokerDetailsList = Array<BrokerDetails>;
 /** Describes the effective capacity configuration of a Kafka cluster, both cluster-wide and per-broker. */
 export interface EffectiveCapacityConfig {
   /** Output only. The number of brokers in the cluster. */
-  brokerCount?: string;
+  brokerCount?: string | undefined;
   /** Output only. The disk assigned to each broker in Gibibytes. */
-  brokerDiskSizeGib?: string;
+  brokerDiskSizeGib?: string | undefined;
 }
 /** UpdateOptions specifies options that influence how a cluster update is applied. These options control the behavior of the update process, rather than defining the desired end-state of a cluster. */
 export interface UpdateOptions {
   /** Optional. If true, allows an update operation that increases the total vCPU and/or memory allocation of the cluster to significantly decrease the per-broker vCPU and/or memory allocation. This can result in reduced performance and availability. By default, the update operation will fail if an upscale request results in a vCPU or memory allocation for the brokers that is smaller than 90% of the current broker size. */
-  allowBrokerDownscaleOnClusterUpscale?: boolean;
+  allowBrokerDownscaleOnClusterUpscale?: boolean | undefined;
 }
 export type RebalanceConfigModeEnum =
   | "MODE_UNSPECIFIED"
@@ -257,12 +257,12 @@ export type RebalanceConfigModeEnum =
 /** Defines rebalancing behavior of a Kafka cluster. */
 export interface RebalanceConfig {
   /** Optional. The rebalance behavior for the cluster. When not specified, defaults to `NO_REBALANCE`. */
-  mode?: RebalanceConfigModeEnum | (string & {});
+  mode?: RebalanceConfigModeEnum | (string & {}) | undefined;
 }
 /** Capacity configuration at a per-broker level within the Kafka cluster. The config will be appled to each broker in the cluster. */
 export interface BrokerCapacityConfig {
   /** Optional. The disk to provision for each broker in Gibibytes. Minimum: 100 GiB. */
-  diskSizeGib?: string;
+  diskSizeGib?: string | undefined;
 }
 export type ClusterStateEnum =
   | "STATE_UNSPECIFIED"
@@ -273,153 +273,153 @@ export type ClusterStateEnum =
 /** A configuration for the Google Certificate Authority Service. */
 export interface CertificateAuthorityServiceConfig {
   /** Required. The name of the CA pool to pull CA certificates from. Structured like: projects/{project}/locations/{location}/caPools/{ca_pool}. The CA pool does not need to be in the same project or location as the Kafka cluster. */
-  caPool?: string;
+  caPool?: string | undefined;
 }
 export type CertificateAuthorityServiceConfigList = Array<CertificateAuthorityServiceConfig>;
 /** Sources of CA certificates to install in the broker's truststore. */
 export interface TrustConfig {
   /** Optional. Configuration for the Google Certificate Authority Service. Maximum 10. */
-  casConfigs?: CertificateAuthorityServiceConfigList;
+  casConfigs?: CertificateAuthorityServiceConfigList | undefined;
 }
 /** The TLS configuration for the Kafka cluster. */
 export interface TlsConfig {
   /** Optional. The configuration of the broker truststore. If specified, clients can use mTLS for authentication. */
-  trustConfig?: TrustConfig;
+  trustConfig?: TrustConfig | undefined;
   /** Optional. A list of rules for mapping from SSL principal names to short names. These are applied in order by Kafka. Refer to the Apache Kafka documentation for `ssl.principal.mapping.rules` for the precise formatting details and syntax. Example: "RULE:^CN=(.*?),OU=ServiceUsers.*$/$1@example.com/,DEFAULT" This is a static Kafka broker configuration. Setting or modifying this field will trigger a rolling restart of the Kafka brokers to apply the change. An empty string means no rules are applied (Kafka default). */
-  sslPrincipalMappingRules?: string;
+  sslPrincipalMappingRules?: string | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 /** Details of the public cluster feature for the Kafka cluster. */
 export interface PublicClusterDetails {
   /** Output only. DNS discovery records that resolve to all of the external IP addresses associated with the public cluster. Used for configuring DNS-based egress firewall rules to a public cluster. discovery_dns_record can be added to this list if the cluster is scaled up. Must configure DNS based firewalls to resolve ALL DNS records in this list as large clusters have IP addresses sharded across records. Each record contains a maximum of 30 IP addresses. */
-  discoveryDnsRecords?: StringList;
+  discoveryDnsRecords?: StringList | undefined;
   /** Output only. All of the external IP addresses associated with the public cluster used for configuring egress firewall rules to a public cluster. external_ip_address can be added to this list if the cluster is scaled up. */
-  externalIpAddresses?: StringList;
+  externalIpAddresses?: StringList | undefined;
 }
 /** The configuration of a Virtual Private Cloud (VPC) network that can access the Kafka cluster. */
 export interface NetworkConfig {
   /** Required. Name of the VPC subnet in which to create Private Service Connect (PSC) endpoints for the Kafka brokers and bootstrap address. Structured like: projects/{project}/regions/{region}/subnetworks/{subnet_id} The subnet must be located in the same region as the Kafka cluster. The project may differ. Multiple subnets from the same parent network must not be specified. */
-  subnet?: string;
+  subnet?: string | undefined;
 }
 export type NetworkConfigList = Array<NetworkConfig>;
 /** The configuration for a public Kafka cluster */
 export interface PublicClusterConfig {
   /** Required. The list of IPv4 ranges in CIDR notation that are allowed to connect to the public Kafka broker endpoints. The Kafka cluster should only be exposed to trusted external ranges. A maximum of 500 IP ranges can be specified and no single range can be larger than a `/16`. This field is required if PublicClusterConfig is specified. */
-  allowedSourceIpRanges?: StringList;
+  allowedSourceIpRanges?: StringList | undefined;
 }
 /** The configuration of access to the Kafka cluster. */
 export interface AccessConfig {
   /** Required. Virtual Private Cloud (VPC) networks that must be granted direct access to the Kafka cluster. Minimum of 1 network is required. Maximum 10 networks can be specified. */
-  networkConfigs?: NetworkConfigList;
+  networkConfigs?: NetworkConfigList | undefined;
   /** Optional. The configuration for public connectivity to the Kafka cluster. */
-  publicClusterConfig?: PublicClusterConfig;
+  publicClusterConfig?: PublicClusterConfig | undefined;
 }
 /** Configuration properties for a Kafka cluster deployed to Google Cloud Platform. */
 export interface GcpConfig {
   /** Optional. Immutable. The Cloud KMS Key name to use for encryption. The key must be located in the same region as the cluster and cannot be changed. Structured like: projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{crypto_key}. */
-  kmsKey?: string;
+  kmsKey?: string | undefined;
   /** Required. Access configuration for the Kafka cluster. */
-  accessConfig?: AccessConfig;
+  accessConfig?: AccessConfig | undefined;
 }
 /** An Apache Kafka cluster deployed in a location. */
 export interface Cluster {
   /** Required. Capacity configuration for the Kafka cluster. */
-  capacityConfig?: CapacityConfig;
+  capacityConfig?: CapacityConfig | undefined;
   /** Output only. Only populated when FULL view is requested. Details of each broker in the cluster. */
-  brokerDetails?: BrokerDetailsList;
+  brokerDetails?: BrokerDetailsList | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** Output only. Only populated when FULL view is requested. The effective capacity configuration of the cluster. */
-  effectiveCapacityConfig?: EffectiveCapacityConfig;
+  effectiveCapacityConfig?: EffectiveCapacityConfig | undefined;
   /** Optional. UpdateOptions represents options that control how updates to the cluster are applied. */
-  updateOptions?: UpdateOptions;
+  updateOptions?: UpdateOptions | undefined;
   /** Optional. Rebalance configuration for the Kafka cluster. */
-  rebalanceConfig?: RebalanceConfig;
+  rebalanceConfig?: RebalanceConfig | undefined;
   /** Optional. Capacity configuration at a per-broker level within the Kafka cluster. The config will be appled to each broker in the cluster. */
-  brokerCapacityConfig?: BrokerCapacityConfig;
+  brokerCapacityConfig?: BrokerCapacityConfig | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean;
+  satisfiesPzi?: boolean | undefined;
   /** Output only. The bootstrap address of the Kafka cluster. The returned address format is: `bootstrap-...managedkafka.s.cloud.goog` or `bootstrap...managedkafka..cloud.goog` (legacy format). ## Examples: `bootstrap-nol2mecj8p94jhx2ge2rg54579a.c0aad26f.europe-west1.managedkafka.s.cloud.goog` - `bootstrap.my-cluster.us-central1.managedkafka.my-project.cloud.goog` The port number is omitted so clients can connect to their target listener (for example, `:9092` for TLS or `:9094` for mTLS). */
-  bootstrapAddress?: string;
+  bootstrapAddress?: string | undefined;
   /** Output only. The current state of the cluster. */
-  state?: ClusterStateEnum | (string & {});
+  state?: ClusterStateEnum | (string & {}) | undefined;
   /** Output only. The time when the cluster was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. The Apache Kafka version of the cluster. Specifically, this value is the finalized metadata version. If not specified during cluster creation, defaults to `3.7.x`. Supported values: `3.7.x`. */
-  kafkaVersion?: string;
+  kafkaVersion?: string | undefined;
   /** Optional. TLS configuration for the Kafka cluster. */
-  tlsConfig?: TlsConfig;
+  tlsConfig?: TlsConfig | undefined;
   /** Output only. The time when the cluster was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Identifier. The name of the cluster. Structured like: projects/{project_number}/locations/{location}/clusters/{cluster_id} */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Labels as key value pairs. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. Details of the public cluster feature for the Kafka cluster. */
-  publicClusterDetails?: PublicClusterDetails;
+  publicClusterDetails?: PublicClusterDetails | undefined;
   /** Required. Configuration properties for a Kafka cluster deployed to Google Cloud Platform. */
-  gcpConfig?: GcpConfig;
+  gcpConfig?: GcpConfig | undefined;
 }
 export interface CreateProjectsLocationsClustersRequest {
   /** Required. The parent region in which to create the cluster. Structured like `projects/{project}/locations/{location}`. */
   parent: string;
   /** Required. The ID to use for the cluster, which will become the final component of the cluster's name. The ID must be 1-63 characters long, and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` to comply with RFC 1035. This value is structured like: `my-cluster-id`. */
-  clusterId?: string;
+  clusterId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID to avoid duplication of requests. If a request times out or fails, retrying with the same ID allows the server to recognize the previous attempt. For at least 60 minutes, the server ignores duplicate requests bearing the same ID. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID within 60 minutes of the last request, the server checks if an original operation with the same request ID was received. If so, the server ignores the second request. The request ID must be a valid UUID. A zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Request body */
-  body?: Cluster;
+  body?: Cluster | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
 }
 export interface CreateProjectsLocationsClustersAclsRequest {
   /** Required. The ID to use for the acl, which will become the final component of the acl's name. The structure of `acl_id` defines the Resource Pattern (resource_type, resource_name, pattern_type) of the acl. `acl_id` is structured like one of the following: For acls on the cluster: `cluster` For acls on a single resource within the cluster: `topic/{resource_name}` `consumerGroup/{resource_name}` `transactionalId/{resource_name}` For acls on all resources that match a prefix: `topicPrefixed/{resource_name}` `consumerGroupPrefixed/{resource_name}` `transactionalIdPrefixed/{resource_name}` For acls on all resources of a given type (i.e. the wildcard literal "*"): `allTopics` (represents `topic/*`) `allConsumerGroups` (represents `consumerGroup/*`) `allTransactionalIds` (represents `transactionalId/*`) */
-  aclId?: string;
+  aclId?: string | undefined;
   /** Required. The parent cluster in which to create the acl. Structured like `projects/{project}/locations/{location}/clusters/{cluster}`. */
   parent: string;
   /** Request body */
-  body?: Acl;
+  body?: Acl | undefined;
 }
 /** A Kafka topic in a given cluster. */
 export interface Topic {
   /** Identifier. The name of the topic. The `topic` segment is used when connecting directly to the cluster. Structured like: projects/{project}/locations/{location}/clusters/{cluster}/topics/{topic} */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Configurations for the topic that are overridden from the cluster defaults. The key of the map is a Kafka topic property name, for example: `cleanup.policy`, `compression.type`. */
-  configs?: StringMap;
+  configs?: StringMap | undefined;
   /** Required. Immutable. The number of replicas of each partition. A replication factor of 3 is recommended for high availability. */
-  replicationFactor?: number;
+  replicationFactor?: number | undefined;
   /** Required. The number of partitions this topic has. The partition count can only be increased, not decreased. Please note that if partitions are increased for a topic that has a key, the partitioning logic or the ordering of the messages will be affected. */
-  partitionCount?: number;
+  partitionCount?: number | undefined;
 }
 export interface CreateProjectsLocationsClustersTopicsRequest {
   /** Required. The ID to use for the topic, which will become the final component of the topic's name. This value is structured like: `my-topic-name`. */
-  topicId?: string;
+  topicId?: string | undefined;
   /** Required. The parent cluster in which to create the topic. Structured like `projects/{project}/locations/{location}/clusters/{cluster}`. */
   parent: string;
   /** Request body */
-  body?: Topic;
+  body?: Topic | undefined;
 }
 export type ConnectClusterStateEnum =
   | "STATE_UNSPECIFIED"
@@ -430,59 +430,59 @@ export type ConnectClusterStateEnum =
 /** The configuration of a Virtual Private Cloud (VPC) network that can access the Kafka Connect cluster. */
 export interface ConnectNetworkConfig {
   /** Optional. Additional DNS domain names from the subnet's network to be made visible to the Connect Cluster. When using MirrorMaker2, it's necessary to add the bootstrap address's dns domain name of the target cluster to make it visible to the connector. For example: my-kafka-cluster.us-central1.managedkafka.my-project.cloud.goog */
-  dnsDomainNames?: StringList;
+  dnsDomainNames?: StringList | undefined;
   /** Required. VPC subnet to make available to the Kafka Connect cluster. Structured like: projects/{project}/regions/{region}/subnetworks/{subnet_id} It is used to create a Private Service Connect (PSC) interface for the Kafka Connect workers. It must be located in the same region as the Kafka Connect cluster. The CIDR range of the subnet must be within the IPv4 address ranges for private networks, as specified in RFC 1918. The primary subnet CIDR range must have a minimum size of /22 (1024 addresses). */
-  primarySubnet?: string;
+  primarySubnet?: string | undefined;
   /** Optional. Deprecated: Managed Kafka Connect clusters can now reach any endpoint accessible from the primary subnet without the need to define additional subnets. Please see https://cloud.google.com/managed-service-for-apache-kafka/docs/connect-cluster/create-connect-cluster#worker-subnet for more information. */
-  additionalSubnets?: StringList;
+  additionalSubnets?: StringList | undefined;
 }
 export type ConnectNetworkConfigList = Array<ConnectNetworkConfig>;
 /** The configuration of access to the Kafka Connect cluster. */
 export interface ConnectAccessConfig {
   /** Required. Virtual Private Cloud (VPC) networks that must be granted direct access to the Kafka Connect cluster. Minimum of 1 network is required. Maximum 10 networks can be specified. */
-  networkConfigs?: ConnectNetworkConfigList;
+  networkConfigs?: ConnectNetworkConfigList | undefined;
 }
 /** Configuration properties for a Kafka Connect cluster deployed to Google Cloud Platform. */
 export interface ConnectGcpConfig {
   /** Optional. Secrets to load into workers. Exact SecretVersions from Secret Manager must be provided -- aliases are not supported. Up to 32 secrets may be loaded into one cluster. Format: projects//secrets//versions/ */
-  secretPaths?: StringList;
+  secretPaths?: StringList | undefined;
   /** Required. Access configuration for the Kafka Connect cluster. */
-  accessConfig?: ConnectAccessConfig;
+  accessConfig?: ConnectAccessConfig | undefined;
 }
 /** An Apache Kafka Connect cluster deployed in a location. */
 export interface ConnectCluster {
   /** Optional. Reserved for future use. This field is meant for worker config overrides, but is unsupported for now. */
-  config?: StringMap;
+  config?: StringMap | undefined;
   /** Output only. The time when the cluster was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Required. Capacity configuration for the Kafka Connect cluster. */
-  capacityConfig?: CapacityConfig;
+  capacityConfig?: CapacityConfig | undefined;
   /** Optional. Labels as key value pairs. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. The current state of the Kafka Connect cluster. */
-  state?: ConnectClusterStateEnum | (string & {});
+  state?: ConnectClusterStateEnum | (string & {}) | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** Identifier. The name of the Kafka Connect cluster. Structured like: projects/{project_number}/locations/{location}/connectClusters/{connect_cluster_id} */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The time when the cluster was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Required. Immutable. The name of the Kafka cluster this Kafka Connect cluster is attached to. Structured like: projects/{project}/locations/{location}/clusters/{cluster} */
-  kafkaCluster?: string;
+  kafkaCluster?: string | undefined;
   /** Required. Configuration properties for a Kafka Connect cluster deployed to Google Cloud Platform. */
-  gcpConfig?: ConnectGcpConfig;
+  gcpConfig?: ConnectGcpConfig | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean;
+  satisfiesPzi?: boolean | undefined;
 }
 export interface CreateProjectsLocationsConnectClustersRequest {
   /** Required. The parent project/location in which to create the Kafka Connect cluster. Structured like `projects/{project}/locations/{location}/`. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID to avoid duplication of requests. If a request times out or fails, retrying with the same ID allows the server to recognize the previous attempt. For at least 60 minutes, the server ignores duplicate requests bearing the same ID. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID within 60 minutes of the last request, the server checks if an original operation with the same request ID was received. If so, the server ignores the second request. The request ID must be a valid UUID. A zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The ID to use for the Connect cluster, which will become the final component of the cluster's name. The ID must be 1-63 characters long, and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` to comply with RFC 1035. This value is structured like: `my-cluster-id`. */
-  connectClusterId?: string;
+  connectClusterId?: string | undefined;
   /** Request body */
-  body?: ConnectCluster;
+  body?: ConnectCluster | undefined;
 }
 export type ConnectorStateEnum =
   | "STATE_UNSPECIFIED"
@@ -495,50 +495,50 @@ export type ConnectorStateEnum =
 /** Task Retry Policy is implemented on a best-effort basis. The default policy retries tasks with a minimum_backoff of 60 seconds, and a maximum_backoff of 12 hours. You can disable the policy by setting the task_retry_disabled field to true. Retry delay will be exponential based on provided minimum and maximum backoffs. https://en.wikipedia.org/wiki/Exponential_backoff. Note that the delay between consecutive task restarts may not always precisely match the configured settings. This can happen when the ConnectCluster is in rebalancing state or if the ConnectCluster is unresponsive etc. The default values for minimum and maximum backoffs are 60 seconds and 12 hours respectively. */
 export interface TaskRetryPolicy {
   /** Optional. If true, task retry is disabled. */
-  taskRetryDisabled?: boolean;
+  taskRetryDisabled?: boolean | undefined;
   /** Optional. The maximum amount of time to wait before retrying a failed task. This sets an upper bound for the backoff delay. */
-  maximumBackoff?: string;
+  maximumBackoff?: string | undefined;
   /** Optional. The minimum amount of time to wait before retrying a failed task. This sets a lower bound for the backoff delay. */
-  minimumBackoff?: string;
+  minimumBackoff?: string | undefined;
 }
 /** A Kafka Connect connector in a given ConnectCluster. */
 export interface Connector {
   /** Output only. The current state of the connector. */
-  state?: ConnectorStateEnum | (string & {});
+  state?: ConnectorStateEnum | (string & {}) | undefined;
   /** Identifier. The name of the connector. Structured like: projects/{project}/locations/{location}/connectClusters/{connect_cluster}/connectors/{connector} */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Connector config as keys/values. The keys of the map are connector property names, for example: `connector.class`, `tasks.max`, `key.converter`. */
-  configs?: StringMap;
+  configs?: StringMap | undefined;
   /** Optional. Restarts the individual tasks of a Connector. */
-  taskRestartPolicy?: TaskRetryPolicy;
+  taskRestartPolicy?: TaskRetryPolicy | undefined;
 }
 export interface CreateProjectsLocationsConnectClustersConnectorsRequest {
   /** Required. The parent Connect cluster in which to create the connector. Structured like `projects/{project}/locations/{location}/connectClusters/{connect_cluster_id}`. */
   parent: string;
   /** Required. The ID to use for the connector, which will become the final component of the connector's name. The ID must be 1-63 characters long, and match the regular expression `[a-z]([-a-z0-9]*[a-z0-9])?` to comply with RFC 1035. This value is structured like: `my-connector-id`. */
-  connectorId?: string;
+  connectorId?: string | undefined;
   /** Request body */
-  body?: Connector;
+  body?: Connector | undefined;
 }
 /** SchemaRegistry is a schema registry instance. */
 export interface SchemaRegistry {
   /** Output only. The contexts of the schema registry instance. */
-  contexts?: StringList;
+  contexts?: StringList | undefined;
   /** Identifier. The name of the schema registry instance. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}` The instance name {schema_registry} can contain the following: * Up to 255 characters. * Letters (uppercase or lowercase), numbers, and underscores. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Request to create a schema registry instance. */
 export interface CreateSchemaRegistryRequest {
   /** Required. The schema registry instance ID to use for this schema registry. The ID must contain only letters (a-z, A-Z), numbers (0-9), and underscores (-). The maximum length is 63 characters. The ID must not start with a number. */
-  schemaRegistryId?: string;
+  schemaRegistryId?: string | undefined;
   /** Required. The schema registry instance to create. The name field is ignored. */
-  schemaRegistry?: SchemaRegistry;
+  schemaRegistry?: SchemaRegistry | undefined;
 }
 export interface CreateProjectsLocationsSchemaRegistriesRequest {
   /** Required. The parent whose schema registry instance is to be created. Structured like: `projects/{project}/locations/{location}` */
   parent: string;
   /** Request body */
-  body?: CreateSchemaRegistryRequest;
+  body?: CreateSchemaRegistryRequest | undefined;
 }
 export type CreateVersionRequestSchemaTypeEnum =
   | "SCHEMA_TYPE_UNSPECIFIED"
@@ -548,38 +548,38 @@ export type CreateVersionRequestSchemaTypeEnum =
 /** Request for CreateVersion. */
 export interface CreateVersionRequest {
   /** Optional. The version to create. It is optional. If not specified, the version will be created with the max version ID of the subject increased by 1. If the version ID is specified, it will be used as the new version ID and must not be used by an existing version of the subject. */
-  version?: number;
+  version?: number | undefined;
   /** Optional. The type of the schema. It is optional. If not specified, the schema type will be AVRO. */
-  schemaType?: CreateVersionRequestSchemaTypeEnum | (string & {});
+  schemaType?: CreateVersionRequestSchemaTypeEnum | (string & {}) | undefined;
   /** Optional. The schema ID of the schema. If not specified, the schema ID will be generated by the server. If the schema ID is specified, it must not be used by an existing schema that is different from the schema to be created. */
-  id?: number;
+  id?: number | undefined;
   /** Optional. The schema references used by the schema. */
-  references?: SchemaReferenceList;
+  references?: SchemaReferenceList | undefined;
   /** Required. The schema payload */
-  schema?: string;
+  schema?: string | undefined;
   /** Optional. If true, the schema will be normalized before being stored. The default is false. */
-  normalize?: boolean;
+  normalize?: boolean | undefined;
 }
 export interface CreateProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest {
   /** Required. The subject to create the version for. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}` */
   parent: string;
   /** Request body */
-  body?: CreateVersionRequest;
+  body?: CreateVersionRequest | undefined;
 }
 /** Response for CreateVersion. */
 export interface CreateVersionResponse {
   /** The unique identifier of the schema created. */
-  id?: number;
+  id?: number | undefined;
 }
 export interface CreateProjectsLocationsSchemaRegistriesSubjectsVersionsRequest {
   /** Required. The subject to create the version for. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}` */
   parent: string;
   /** Request body */
-  body?: CreateVersionRequest;
+  body?: CreateVersionRequest | undefined;
 }
 export interface DeleteProjectsLocationsClustersRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID to avoid duplication of requests. If a request times out or fails, retrying with the same ID allows the server to recognize the previous attempt. For at least 60 minutes, the server ignores duplicate requests bearing the same ID. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID within 60 minutes of the last request, the server checks if an original operation with the same request ID was received. If so, the server ignores the second request. The request ID must be a valid UUID. A zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The name of the cluster to delete. */
   name: string;
 }
@@ -599,7 +599,7 @@ export interface DeleteProjectsLocationsConnectClustersRequest {
   /** Required. The name of the Kafka Connect cluster to delete. Structured like `projects/{project}/locations/{location}/connectClusters/{connect_cluster_id}`. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID to avoid duplication of requests. If a request times out or fails, retrying with the same ID allows the server to recognize the previous attempt. For at least 60 minutes, the server ignores duplicate requests bearing the same ID. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID within 60 minutes of the last request, the server checks if an original operation with the same request ID was received. If so, the server ignores the second request. The request ID must be a valid UUID. A zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsConnectClustersConnectorsRequest {
   /** Required. The name of the connector to delete. Structured like: projects/{project}/locations/{location}/connectClusters/{connectCluster}/connectors/{connector} */
@@ -628,11 +628,11 @@ export type SchemaConfigCompatibilityEnum =
 /** SchemaConfig represents configuration for a schema registry or a specific subject. */
 export interface SchemaConfig {
   /** Optional. If true, the schema will be normalized before being stored or looked up. The default is false. If unset in a SchemaSubject-level SchemaConfig, the global value will be used. If unset in a SchemaRegistry-level SchemaConfig, reverts to the default value. */
-  normalize?: boolean;
+  normalize?: boolean | undefined;
   /** Optional. The subject to which this subject is an alias of. Only applicable for subject config. */
-  alias?: string;
+  alias?: string | undefined;
   /** Required. The compatibility type of the schema. The default value is BACKWARD. If unset in a SchemaSubject-level SchemaConfig, defaults to the global value. If unset in a SchemaRegistry-level SchemaConfig, reverts to the default value. */
-  compatibility?: SchemaConfigCompatibilityEnum;
+  compatibility?: SchemaConfigCompatibilityEnum | undefined;
 }
 export interface DeleteProjectsLocationsSchemaRegistriesContextsConfigRequest {
   /** Required. The resource name of subject to delete the config for. The format is * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/config/{subject} */
@@ -646,28 +646,28 @@ export type SchemaModeModeEnum = "NONE" | "READONLY" | "READWRITE" | "IMPORT";
 /** SchemaMode represents the mode of a schema registry or a specific subject. Four modes are supported: * NONE: deprecated. This was the default mode for a subject, but now the default is unset (which means use the global schema registry setting) * READONLY: The schema registry is in read-only mode. * READWRITE: The schema registry is in read-write mode, which allows limited write operations on the schema. * IMPORT: The schema registry is in import mode, which allows more editing operations on the schema for data importing purposes. */
 export interface SchemaMode {
   /** Required. The mode type of a schema registry (READWRITE by default) or of a subject (unset by default, which means use the global schema registry setting). */
-  mode?: SchemaModeModeEnum;
+  mode?: SchemaModeModeEnum | undefined;
 }
 export interface DeleteProjectsLocationsSchemaRegistriesContextsSubjectsRequest {
   /** Required. The name of the subject to delete. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}` */
   name: string;
   /** Optional. If true, the subject and all associated metadata including the schema ID will be deleted permanently. Otherwise, only the subject is soft-deleted. The default is false. Soft-deleted subjects can still be searched in ListSubjects API call with deleted=true query parameter. A soft-delete of a subject must be performed before a hard-delete. */
-  permanent?: boolean;
+  permanent?: boolean | undefined;
 }
 /** Message that represents an arbitrary HTTP body. It should only be used for payload formats that can't be represented as JSON, such as raw binary or an HTML page. This message can be used both in streaming and non-streaming API methods in the request as well as the response. It can be used as a top-level request field, which is convenient if one wants to extract parameters from either the URL or HTTP template into the request fields and also want access to the raw HTTP body. Example: message GetResourceRequest { // A unique request id. string request_id = 1; // The raw HTTP body is bound to this field. google.api.HttpBody http_body = 2; } service ResourceService { rpc GetResource(GetResourceRequest) returns (google.api.HttpBody); rpc UpdateResource(google.api.HttpBody) returns (google.protobuf.Empty); } Example with streaming methods: service CaldavService { rpc GetCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); rpc UpdateCalendar(stream google.api.HttpBody) returns (stream google.api.HttpBody); } Use of this type only changes how the request and response bodies are handled, all other features will continue to work unchanged. */
 export interface HttpBody {
   /** The HTTP request/response body as raw binary. */
-  data?: string;
+  data?: string | undefined;
   /** Application specific response metadata. Must be set in the first response for streaming APIs. */
-  extensions?: DocumentMapList;
+  extensions?: DocumentMapList | undefined;
   /** The HTTP Content-Type header value specifying the content type of the body. */
-  contentType?: string;
+  contentType?: string | undefined;
 }
 export interface DeleteProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest {
   /** Required. The name of the subject version to delete. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}/versions/{version}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}/versions/{version}` */
   name: string;
   /** Optional. If true, both the version and the referenced schema ID will be permanently deleted. The default is false. If false, the version will be deleted but the schema ID will be retained. Soft-deleted versions can still be searched in ListVersions API call with deleted=true query parameter. A soft-delete of a version must be performed before a hard-delete. */
-  permanent?: boolean;
+  permanent?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsSchemaRegistriesModeRequest {
   /** Required. The resource name of subject to delete the mode for. The format is * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/mode/{subject} * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/mode/{subject} */
@@ -675,7 +675,7 @@ export interface DeleteProjectsLocationsSchemaRegistriesModeRequest {
 }
 export interface DeleteProjectsLocationsSchemaRegistriesSubjectsRequest {
   /** Optional. If true, the subject and all associated metadata including the schema ID will be deleted permanently. Otherwise, only the subject is soft-deleted. The default is false. Soft-deleted subjects can still be searched in ListSubjects API call with deleted=true query parameter. A soft-delete of a subject must be performed before a hard-delete. */
-  permanent?: boolean;
+  permanent?: boolean | undefined;
   /** Required. The name of the subject to delete. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}` */
   name: string;
 }
@@ -683,7 +683,7 @@ export interface DeleteProjectsLocationsSchemaRegistriesSubjectsVersionsRequest 
   /** Required. The name of the subject version to delete. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}/versions/{version}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}/versions/{version}` */
   name: string;
   /** Optional. If true, both the version and the referenced schema ID will be permanently deleted. The default is false. If false, the version will be deleted but the schema ID will be retained. Soft-deleted versions can still be searched in ListVersions API call with deleted=true query parameter. A soft-delete of a version must be performed before a hard-delete. */
-  permanent?: boolean;
+  permanent?: boolean | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -692,15 +692,15 @@ export interface GetProjectsLocationsRequest {
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
 }
 export type GetProjectsLocationsClustersViewEnum =
   | "CLUSTER_VIEW_UNSPECIFIED"
@@ -710,7 +710,7 @@ export interface GetProjectsLocationsClustersRequest {
   /** Required. The name of the cluster whose configuration to return. */
   name: string;
   /** Optional. Specifies the view of the Cluster resource to be returned. Defaults to CLUSTER_VIEW_BASIC. See the ClusterView enum for possible values. */
-  view?: GetProjectsLocationsClustersViewEnum | (string & {});
+  view?: GetProjectsLocationsClustersViewEnum | (string & {}) | undefined;
 }
 export interface GetProjectsLocationsClustersAclsRequest {
   /** Required. The name of the acl to return. Structured like: `projects/{project}/locations/{location}/clusters/{cluster}/acls/{acl_id}`. The structure of `acl_id` defines the Resource Pattern (resource_type, resource_name, pattern_type) of the acl. See `Acl.name` for details. */
@@ -723,23 +723,23 @@ export interface GetProjectsLocationsClustersConsumerGroupsRequest {
 /** Metadata for a consumer group corresponding to a specific partition. */
 export interface ConsumerPartitionMetadata {
   /** Optional. The associated metadata for this partition, or empty if it does not exist. */
-  metadata?: string;
+  metadata?: string | undefined;
   /** Required. The current offset for this partition, or 0 if no offset has been committed. */
-  offset?: string;
+  offset?: string | undefined;
 }
 export type ConsumerPartitionMetadataMap = { [key: string]: ConsumerPartitionMetadata | undefined };
 /** Metadata for a consumer group corresponding to a specific topic. */
 export interface ConsumerTopicMetadata {
   /** Optional. Metadata for this consumer group and topic for all partition indexes it has metadata for. */
-  partitions?: ConsumerPartitionMetadataMap;
+  partitions?: ConsumerPartitionMetadataMap | undefined;
 }
 export type ConsumerTopicMetadataMap = { [key: string]: ConsumerTopicMetadata | undefined };
 /** A Kafka consumer group in a given cluster. */
 export interface ConsumerGroup {
   /** Optional. Metadata for this consumer group for all topics it has metadata for. The key of the map is a topic name, structured like: projects/{project}/locations/{location}/clusters/{cluster}/topics/{topic} */
-  topics?: ConsumerTopicMetadataMap;
+  topics?: ConsumerTopicMetadataMap | undefined;
   /** Identifier. The name of the consumer group. The `consumer_group` segment is used when connecting directly to the cluster. Structured like: projects/{project}/locations/{location}/clusters/{cluster}/consumerGroups/{consumer_group} */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetProjectsLocationsClustersTopicsRequest {
   /** Required. The name of the topic whose configuration to return. Structured like: projects/{project}/locations/{location}/clusters/{cluster}/topics/{topic}. */
@@ -765,7 +765,7 @@ export interface GetProjectsLocationsSchemaRegistriesConfigRequest {
   /** Required. The resource name to get the config for. It can be either of following: * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/config: Get config at global level. * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/config/{subject}: Get config for a specific subject. */
   name: string;
   /** Optional. If true, the config will fall back to the config at the global level if no subject level config is found. */
-  defaultToGlobal?: boolean;
+  defaultToGlobal?: boolean | undefined;
 }
 export interface GetProjectsLocationsSchemaRegistriesContextsRequest {
   /** Required. The name of the context to return. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}` */
@@ -774,15 +774,15 @@ export interface GetProjectsLocationsSchemaRegistriesContextsRequest {
 /** Context represents an independent schema grouping in a schema registry instance. */
 export interface Context {
   /** Optional. The subjects of the context. */
-  subjects?: StringList;
+  subjects?: StringList | undefined;
   /** Identifier. The name of the context. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}` The context name {context} can contain the following: * Up to 255 characters. * Allowed characters: letters (uppercase or lowercase), numbers, and the following special characters: `.`, `-`, `_`, `+`, `%`, and `~`. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetProjectsLocationsSchemaRegistriesContextsConfigRequest {
   /** Required. The resource name to get the config for. It can be either of following: * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/config: Get config at global level. * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/config/{subject}: Get config for a specific subject. */
   name: string;
   /** Optional. If true, the config will fall back to the config at the global level if no subject level config is found. */
-  defaultToGlobal?: boolean;
+  defaultToGlobal?: boolean | undefined;
 }
 export interface GetProjectsLocationsSchemaRegistriesContextsModeRequest {
   /** Required. The resource name of the mode. The format is * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/mode/{subject}: mode for a schema registry, or * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/mode/{subject}: mode for a specific subject in a specific context */
@@ -792,7 +792,7 @@ export interface GetProjectsLocationsSchemaRegistriesContextsSchemasRequest {
   /** Required. The name of the schema to return. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/schemas/ids/{schema}` */
   name: string;
   /** Optional. Used to limit the search for the schema ID to a specific subject, otherwise the schema ID will be searched for in all subjects in the given specified context. */
-  subject?: string;
+  subject?: string | undefined;
 }
 export type Managedkafka_SchemaSchemaTypeEnum =
   | "SCHEMA_TYPE_UNSPECIFIED"
@@ -802,15 +802,15 @@ export type Managedkafka_SchemaSchemaTypeEnum =
 /** Schema for a Kafka message. */
 export interface Managedkafka_Schema {
   /** Optional. The schema references used by the schema. */
-  references?: SchemaReferenceList;
+  references?: SchemaReferenceList | undefined;
   /** The schema payload. */
-  schema?: string;
+  schema?: string | undefined;
   /** Optional. The schema type of the schema. */
-  schemaType?: Managedkafka_SchemaSchemaTypeEnum;
+  schemaType?: Managedkafka_SchemaSchemaTypeEnum | undefined;
 }
 export interface GetProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest {
   /** Optional. If true, no matter if the subject/version is soft-deleted or not, it returns the version details. If false, it returns NOT_FOUND error if the subject/version is soft-deleted. The default is false. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Required. The name of the subject to return versions. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}/versions/{version}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}/versions/{version}` */
   name: string;
 }
@@ -818,17 +818,17 @@ export type SchemaVersionSchemaTypeEnum = "SCHEMA_TYPE_UNSPECIFIED" | "AVRO" | "
 /** Version of a schema. */
 export interface SchemaVersion {
   /** Optional. The schema references used by the schema. */
-  references?: SchemaReferenceList;
+  references?: SchemaReferenceList | undefined;
   /** Required. The schema ID. */
-  id?: number;
+  id?: number | undefined;
   /** Optional. The schema type of the schema. */
-  schemaType?: SchemaVersionSchemaTypeEnum;
+  schemaType?: SchemaVersionSchemaTypeEnum | undefined;
   /** Required. The schema payload. */
-  schema?: string;
+  schema?: string | undefined;
   /** Required. The subject of the version. */
-  subject?: string;
+  subject?: string | undefined;
   /** Required. The version ID */
-  version?: number;
+  version?: number | undefined;
 }
 export interface GetProjectsLocationsSchemaRegistriesModeRequest {
   /** Required. The resource name of the mode. The format is * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/mode/{subject}: mode for a schema registry, or * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/mode/{subject}: mode for a specific subject in a specific context */
@@ -836,7 +836,7 @@ export interface GetProjectsLocationsSchemaRegistriesModeRequest {
 }
 export interface GetProjectsLocationsSchemaRegistriesSchemasRequest {
   /** Optional. Used to limit the search for the schema ID to a specific subject, otherwise the schema ID will be searched for in all subjects in the given specified context. */
-  subject?: string;
+  subject?: string | undefined;
   /** Required. The name of the schema to return. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/schemas/ids/{schema}` */
   name: string;
 }
@@ -844,61 +844,61 @@ export interface GetProjectsLocationsSchemaRegistriesSubjectsVersionsRequest {
   /** Required. The name of the subject to return versions. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}/versions/{version}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}/versions/{version}` */
   name: string;
   /** Optional. If true, no matter if the subject/version is soft-deleted or not, it returns the version details. If false, it returns NOT_FOUND error if the subject/version is soft-deleted. The default is false. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface GetSchemaProjectsLocationsSchemaRegistriesContextsSchemasRequest {
   /** Required. The name of the schema to return. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/schemas/ids/{schema}` */
   name: string;
   /** Optional. Used to limit the search for the schema ID to a specific subject, otherwise the schema ID will be searched for in all subjects in the given specified context. */
-  subject?: string;
+  subject?: string | undefined;
 }
 export interface GetSchemaProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRequest {
   /** Optional. If true, no matter if the subject/version is soft-deleted or not, it returns the version details. If false, it returns NOT_FOUND error if the subject/version is soft-deleted. The default is false. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Required. The name of the subject to return versions. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}/versions/{version}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}/versions/{version}` */
   name: string;
 }
 export interface GetSchemaProjectsLocationsSchemaRegistriesSchemasRequest {
   /** Optional. Used to limit the search for the schema ID to a specific subject, otherwise the schema ID will be searched for in all subjects in the given specified context. */
-  subject?: string;
+  subject?: string | undefined;
   /** Required. The name of the schema to return. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/schemas/ids/{schema}` */
   name: string;
 }
 export interface GetSchemaProjectsLocationsSchemaRegistriesSubjectsVersionsRequest {
   /** Optional. If true, no matter if the subject/version is soft-deleted or not, it returns the version details. If false, it returns NOT_FOUND error if the subject/version is soft-deleted. The default is false. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Required. The name of the subject to return versions. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}/versions/{version}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}/versions/{version}` */
   name: string;
 }
 export interface ListProjectsLocationsRequest {
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsClustersRequest {
   /** Optional. A page token, received from a previous `ListClusters` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListClusters` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Filter expression for the result. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. The maximum number of clusters to return. The service may return fewer than this value. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Order by fields for the result. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The parent location whose clusters are to be listed. Structured like `projects/{project}/locations/{location}`. */
   parent: string;
 }
@@ -906,27 +906,27 @@ export type ClusterList = Array<Cluster>;
 /** Response for ListClusters. */
 export interface ListClustersResponse {
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The list of Clusters in the requested parent. */
-  clusters?: ClusterList;
+  clusters?: ClusterList | undefined;
   /** A token that can be sent as `page_token` to retrieve the next page of results. If this field is omitted, there are no more results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsClustersAclsRequest {
   /** Optional. A page token, received from a previous `ListAcls` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListAcls` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent cluster whose acls are to be listed. Structured like `projects/{project}/locations/{location}/clusters/{cluster}`. */
   parent: string;
   /** Optional. The maximum number of acls to return. The service may return fewer than this value. If unset or zero, all acls for the parent is returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type AclList = Array<Acl>;
 /** Response for ListAcls. */
 export interface ListAclsResponse {
   /** The list of acls in the requested parent. The order of the acls is unspecified. */
-  acls?: AclList;
+  acls?: AclList | undefined;
   /** A token that can be sent as `page_token` to retrieve the next page of results. If this field is omitted, there are no more results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListProjectsLocationsClustersConsumerGroupsViewEnum =
   | "CONSUMER_GROUP_VIEW_UNSPECIFIED"
@@ -934,99 +934,99 @@ export type ListProjectsLocationsClustersConsumerGroupsViewEnum =
   | "CONSUMER_GROUP_VIEW_FULL";
 export interface ListProjectsLocationsClustersConsumerGroupsRequest {
   /** Optional. Filter expression for the result. Only supports filtering by topic name as a key in the `topics` map. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. The parent cluster whose consumer groups are to be listed. Structured like `projects/{project}/locations/{location}/clusters/{cluster}`. */
   parent: string;
   /** Optional. A page token, received from a previous `ListConsumerGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListConsumerGroups` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of consumer groups to return. The service may return fewer than this value. If unset or zero, all consumer groups for the parent is returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Specifies the view (BASIC or FULL) of the ConsumerGroup resource to be returned in the response. Defaults to FULL view. */
-  view?: ListProjectsLocationsClustersConsumerGroupsViewEnum | (string & {});
+  view?: ListProjectsLocationsClustersConsumerGroupsViewEnum | (string & {}) | undefined;
 }
 export type ConsumerGroupList = Array<ConsumerGroup>;
 /** Response for ListConsumerGroups. */
 export interface ListConsumerGroupsResponse {
   /** The list of consumer group in the requested parent. The order of the consumer groups is unspecified. */
-  consumerGroups?: ConsumerGroupList;
+  consumerGroups?: ConsumerGroupList | undefined;
   /** A token that can be sent as `page_token` to retrieve the next page of results. If this field is omitted, there are no more results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsClustersTopicsRequest {
   /** Optional. A page token, received from a previous `ListTopics` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListTopics` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent cluster whose topics are to be listed. Structured like `projects/{project}/locations/{location}/clusters/{cluster}`. */
   parent: string;
   /** Optional. The maximum number of topics to return. The service may return fewer than this value. If unset or zero, all topics for the parent is returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type TopicList = Array<Topic>;
 /** Response for ListTopics. */
 export interface ListTopicsResponse {
   /** A token that can be sent as `page_token` to retrieve the next page of results. If this field is omitted, there are no more results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of topics in the requested parent. The order of the topics is unspecified. */
-  topics?: TopicList;
+  topics?: TopicList | undefined;
 }
 export interface ListProjectsLocationsConnectClustersRequest {
   /** Optional. A page token, received from a previous `ListConnectClusters` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListConnectClusters` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Order by fields for the result. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The parent project/location whose Connect clusters are to be listed. Structured like `projects/{project}/locations/{location}`. */
   parent: string;
   /** Optional. Filter expression for the result. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. The maximum number of Connect clusters to return. The service may return fewer than this value. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type ConnectClusterList = Array<ConnectCluster>;
 /** Response for ListConnectClusters. */
 export interface ListConnectClustersResponse {
   /** A token that can be sent as `page_token` to retrieve the next page of results. If this field is omitted, there are no more results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The list of Connect clusters in the requested parent. */
-  connectClusters?: ConnectClusterList;
+  connectClusters?: ConnectClusterList | undefined;
 }
 export interface ListProjectsLocationsConnectClustersConnectorsRequest {
   /** Required. The parent Connect cluster whose connectors are to be listed. Structured like `projects/{project}/locations/{location}/connectClusters/{connect_cluster_id}`. */
   parent: string;
   /** Optional. The maximum number of connectors to return. The service may return fewer than this value. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListConnectors` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListConnectors` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ConnectorList = Array<Connector>;
 /** Response for ListConnectors. */
 export interface ListConnectorsResponse {
   /** The list of connectors in the requested parent. */
-  connectors?: ConnectorList;
+  connectors?: ConnectorList | undefined;
   /** A token that can be sent as `page_token` to retrieve the next page of results. If this field is omitted, there are no more results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListProjectsLocationsSchemaRegistriesViewEnum =
   | "SCHEMA_REGISTRY_VIEW_UNSPECIFIED"
@@ -1036,13 +1036,13 @@ export interface ListProjectsLocationsSchemaRegistriesRequest {
   /** Required. The parent whose schema registry instances are to be listed. Structured like: `projects/{project}/locations/{location}` */
   parent: string;
   /** Optional. Specifies the view to return for the schema registry instances. If not specified, the default view is SCHEMA_REGISTRY_VIEW_BASIC. */
-  view?: ListProjectsLocationsSchemaRegistriesViewEnum | (string & {});
+  view?: ListProjectsLocationsSchemaRegistriesViewEnum | (string & {}) | undefined;
 }
 export type SchemaRegistryList = Array<SchemaRegistry>;
 /** Request for ListSchemaRegistries. */
 export interface ListSchemaRegistriesResponse {
   /** The schema registry instances. */
-  schemaRegistries?: SchemaRegistryList;
+  schemaRegistries?: SchemaRegistryList | undefined;
 }
 export interface ListProjectsLocationsSchemaRegistriesContextsRequest {
   /** Required. The parent of the contexts. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}` */
@@ -1050,11 +1050,11 @@ export interface ListProjectsLocationsSchemaRegistriesContextsRequest {
 }
 export interface ListProjectsLocationsSchemaRegistriesContextsSchemasSubjectsRequest {
   /** Optional. If true, the response will include soft-deleted subjects. The default is false. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Required. The schema resource whose associated subjects are to be listed. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/schemas/ids/{schema}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/schemas/ids/{schema}` */
   parent: string;
   /** Optional. The subject to filter the subjects by. */
-  subject?: string;
+  subject?: string | undefined;
 }
 export interface ListProjectsLocationsSchemaRegistriesContextsSchemasTypesRequest {
   /** Required. The parent schema registry whose schema types are to be listed. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}` */
@@ -1064,15 +1064,15 @@ export interface ListProjectsLocationsSchemaRegistriesContextsSchemasVersionsReq
   /** Required. The schema whose schema versions are to be listed. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/schemas/ids/{schema}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/schemas/ids/{schema}` */
   parent: string;
   /** Optional. The subject to filter the subjects by. */
-  subject?: string;
+  subject?: string | undefined;
   /** Optional. If true, the response will include soft-deleted versions of the schema, even if the subject is soft-deleted. The default is false. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface ListProjectsLocationsSchemaRegistriesContextsSubjectsRequest {
   /** Optional. If true, the response will include soft-deleted subjects. The default is false. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Optional. The context to filter the subjects by, in the format of `:.{context}:`. If unset, all subjects in the registry are returned. Set to empty string or add as '?subjectPrefix=' at the end of this request to list subjects in the default context. */
-  subjectPrefix?: string;
+  subjectPrefix?: string | undefined;
   /** Required. The parent schema registry/context whose subjects are to be listed. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}` */
   parent: string;
 }
@@ -1080,7 +1080,7 @@ export interface ListProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRe
   /** Required. The subject whose versions are to be listed. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}` */
   parent: string;
   /** Optional. If true, the response will include soft-deleted versions of an active or soft-deleted subject. The default is false. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface ListProjectsLocationsSchemaRegistriesContextsSubjectsVersionsReferencedbyRequest {
   /** Required. The version to list referenced by. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}/versions/{version}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}/versions/{version}` */
@@ -1088,11 +1088,11 @@ export interface ListProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRe
 }
 export interface ListProjectsLocationsSchemaRegistriesSchemasSubjectsRequest {
   /** Optional. If true, the response will include soft-deleted subjects. The default is false. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Required. The schema resource whose associated subjects are to be listed. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/schemas/ids/{schema}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/schemas/ids/{schema}` */
   parent: string;
   /** Optional. The subject to filter the subjects by. */
-  subject?: string;
+  subject?: string | undefined;
 }
 export interface ListProjectsLocationsSchemaRegistriesSchemasTypesRequest {
   /** Required. The parent schema registry whose schema types are to be listed. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}` */
@@ -1102,21 +1102,21 @@ export interface ListProjectsLocationsSchemaRegistriesSchemasVersionsRequest {
   /** Required. The schema whose schema versions are to be listed. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/schemas/ids/{schema}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/schemas/ids/{schema}` */
   parent: string;
   /** Optional. If true, the response will include soft-deleted versions of the schema, even if the subject is soft-deleted. The default is false. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Optional. The subject to filter the subjects by. */
-  subject?: string;
+  subject?: string | undefined;
 }
 export interface ListProjectsLocationsSchemaRegistriesSubjectsRequest {
   /** Required. The parent schema registry/context whose subjects are to be listed. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}` */
   parent: string;
   /** Optional. If true, the response will include soft-deleted subjects. The default is false. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Optional. The context to filter the subjects by, in the format of `:.{context}:`. If unset, all subjects in the registry are returned. Set to empty string or add as '?subjectPrefix=' at the end of this request to list subjects in the default context. */
-  subjectPrefix?: string;
+  subjectPrefix?: string | undefined;
 }
 export interface ListProjectsLocationsSchemaRegistriesSubjectsVersionsRequest {
   /** Optional. If true, the response will include soft-deleted versions of an active or soft-deleted subject. The default is false. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Required. The subject whose versions are to be listed. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}` */
   parent: string;
 }
@@ -1132,79 +1132,79 @@ export type LookupVersionRequestSchemaTypeEnum =
 /** Request for LookupVersion. */
 export interface LookupVersionRequest {
   /** Required. The schema payload */
-  schema?: string;
+  schema?: string | undefined;
   /** Optional. The schema type of the schema. */
-  schemaType?: LookupVersionRequestSchemaTypeEnum | (string & {});
+  schemaType?: LookupVersionRequestSchemaTypeEnum | (string & {}) | undefined;
   /** Optional. The schema references used by the schema. */
-  references?: SchemaReferenceList;
+  references?: SchemaReferenceList | undefined;
   /** Optional. If true, soft-deleted versions will be included in lookup, no matter if the subject is active or soft-deleted. If false, soft-deleted versions will be excluded. The default is false. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Optional. If true, the schema will be normalized before being looked up. The default is false. */
-  normalize?: boolean;
+  normalize?: boolean | undefined;
 }
 export interface LookupVersionProjectsLocationsSchemaRegistriesContextsSubjectsRequest {
   /** Required. The subject to lookup the schema in. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}` */
   parent: string;
   /** Request body */
-  body?: LookupVersionRequest;
+  body?: LookupVersionRequest | undefined;
 }
 export interface LookupVersionProjectsLocationsSchemaRegistriesSubjectsRequest {
   /** Required. The subject to lookup the schema in. Structured like: `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/subjects/{subject}` or `projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/subjects/{subject}` */
   parent: string;
   /** Request body */
-  body?: LookupVersionRequest;
+  body?: LookupVersionRequest | undefined;
 }
 export interface PatchProjectsLocationsClustersRequest {
   /** Identifier. The name of the cluster. Structured like: projects/{project_number}/locations/{location}/clusters/{cluster_id} */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the cluster resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The mask is required and a value of * will update all fields. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID to avoid duplication of requests. If a request times out or fails, retrying with the same ID allows the server to recognize the previous attempt. For at least 60 minutes, the server ignores duplicate requests bearing the same ID. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID within 60 minutes of the last request, the server checks if an original operation with the same request ID was received. If so, the server ignores the second request. The request ID must be a valid UUID. A zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Request body */
-  body?: Cluster;
+  body?: Cluster | undefined;
 }
 export interface PatchProjectsLocationsClustersAclsRequest {
   /** Optional. Field mask is used to specify the fields to be overwritten in the Acl resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. The name for the acl. Represents a single Resource Pattern. Structured like: projects/{project}/locations/{location}/clusters/{cluster}/acls/{acl_id} The structure of `acl_id` defines the Resource Pattern (resource_type, resource_name, pattern_type) of the acl. `acl_id` is structured like one of the following: For acls on the cluster: `cluster` For acls on a single resource within the cluster: `topic/{resource_name}` `consumerGroup/{resource_name}` `transactionalId/{resource_name}` For acls on all resources that match a prefix: `topicPrefixed/{resource_name}` `consumerGroupPrefixed/{resource_name}` `transactionalIdPrefixed/{resource_name}` For acls on all resources of a given type (i.e. the wildcard literal "*"): `allTopics` (represents `topic/*`) `allConsumerGroups` (represents `consumerGroup/*`) `allTransactionalIds` (represents `transactionalId/*`) */
   name: string;
   /** Request body */
-  body?: Acl;
+  body?: Acl | undefined;
 }
 export interface PatchProjectsLocationsClustersConsumerGroupsRequest {
   /** Required. Field mask is used to specify the fields to be overwritten in the ConsumerGroup resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The mask is required and a value of * will update all fields. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. The name of the consumer group. The `consumer_group` segment is used when connecting directly to the cluster. Structured like: projects/{project}/locations/{location}/clusters/{cluster}/consumerGroups/{consumer_group} */
   name: string;
   /** Request body */
-  body?: ConsumerGroup;
+  body?: ConsumerGroup | undefined;
 }
 export interface PatchProjectsLocationsClustersTopicsRequest {
   /** Identifier. The name of the topic. The `topic` segment is used when connecting directly to the cluster. Structured like: projects/{project}/locations/{location}/clusters/{cluster}/topics/{topic} */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the Topic resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The mask is required and a value of * will update all fields. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Topic;
+  body?: Topic | undefined;
 }
 export interface PatchProjectsLocationsConnectClustersRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID to avoid duplication of requests. If a request times out or fails, retrying with the same ID allows the server to recognize the previous attempt. For at least 60 minutes, the server ignores duplicate requests bearing the same ID. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID within 60 minutes of the last request, the server checks if an original operation with the same request ID was received. If so, the server ignores the second request. The request ID must be a valid UUID. A zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Identifier. The name of the Kafka Connect cluster. Structured like: projects/{project_number}/locations/{location}/connectClusters/{connect_cluster_id} */
   name: string;
   /** Required. Field mask is used to specify the fields to be overwritten in the cluster resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The mask is required and a value of * will update all fields. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: ConnectCluster;
+  body?: ConnectCluster | undefined;
 }
 export interface PatchProjectsLocationsConnectClustersConnectorsRequest {
   /** Required. Field mask is used to specify the fields to be overwritten in the cluster resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. The mask is required and a value of * will update all fields. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. The name of the connector. Structured like: projects/{project}/locations/{location}/connectClusters/{connect_cluster}/connectors/{connector} */
   name: string;
   /** Request body */
-  body?: Connector;
+  body?: Connector | undefined;
 }
 /** Request for PauseConnector. */
 export type PauseConnectorRequest = CancelOperationRequest;
@@ -1212,7 +1212,7 @@ export interface PauseProjectsLocationsConnectClustersConnectorsRequest {
   /** Required. The name of the connector to pause. Structured like: projects/{project}/locations/{location}/connectClusters/{connectCluster}/connectors/{connector} */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** Response for PauseConnector. */
 export interface PauseConnectorResponse {}
@@ -1220,14 +1220,14 @@ export interface RemoveAclEntryProjectsLocationsClustersAclsRequest {
   /** Required. The name of the acl to remove the acl entry from. Structured like: `projects/{project}/locations/{location}/clusters/{cluster}/acls/{acl_id}`. The structure of `acl_id` defines the Resource Pattern (resource_type, resource_name, pattern_type) of the acl. See `Acl.name` for details. */
   acl: string;
   /** Request body */
-  body?: AclEntry;
+  body?: AclEntry | undefined;
 }
 /** Response for RemoveAclEntry. */
 export interface RemoveAclEntryResponse {
   /** Returned with value true if the removed acl entry was the last entry in the acl, resulting in acl deletion. */
-  aclDeleted?: boolean;
+  aclDeleted?: boolean | undefined;
   /** The updated acl. Returned if the removed acl entry was not the last entry in the acl. */
-  acl?: Acl;
+  acl?: Acl | undefined;
 }
 /** Request for RestartConnector. */
 export type RestartConnectorRequest = CancelOperationRequest;
@@ -1235,7 +1235,7 @@ export interface RestartProjectsLocationsConnectClustersConnectorsRequest {
   /** Required. The name of the connector to restart. Structured like: projects/{project}/locations/{location}/connectClusters/{connectCluster}/connectors/{connector} */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** Response for RestartConnector. */
 export interface RestartConnectorResponse {}
@@ -1245,7 +1245,7 @@ export interface ResumeProjectsLocationsConnectClustersConnectorsRequest {
   /** Required. The name of the connector to pause. Structured like: projects/{project}/locations/{location}/connectClusters/{connectCluster}/connectors/{connector} */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** Response for ResumeConnector. */
 export interface ResumeConnectorResponse {}
@@ -1255,7 +1255,7 @@ export interface StopProjectsLocationsConnectClustersConnectorsRequest {
   /** Required. The name of the connector to stop. Structured like: projects/{project}/locations/{location}/connectClusters/{connectCluster}/connectors/{connector} */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** Response for StopConnector. */
 export interface StopConnectorResponse {}
@@ -1270,39 +1270,39 @@ export type UpdateSchemaConfigRequestCompatibilityEnum =
 /** Request for updating schema config. On a SchemaSubject-level SchemaConfig, an unset field will be removed from the SchemaConfig. */
 export interface UpdateSchemaConfigRequest {
   /** Required. The compatibility type of the schemas. Cannot be unset for a SchemaRegistry-level SchemaConfig. If unset on a SchemaSubject-level SchemaConfig, removes the compatibility field for the SchemaConfig. */
-  compatibility?: UpdateSchemaConfigRequestCompatibilityEnum | (string & {});
+  compatibility?: UpdateSchemaConfigRequestCompatibilityEnum | (string & {}) | undefined;
   /** Optional. If true, the schema will be normalized before being stored or looked up. The default is false. Cannot be unset for a SchemaRegistry-level SchemaConfig. If unset on a SchemaSubject-level SchemaConfig, removes the normalize field for the SchemaConfig. */
-  normalize?: boolean;
+  normalize?: boolean | undefined;
 }
 export interface UpdateProjectsLocationsSchemaRegistriesConfigRequest {
   /** Required. The resource name to update the config for. It can be either of following: * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/config: Update config at global level. * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/config/{subject}: Update config for a specific subject. */
   name: string;
   /** Request body */
-  body?: UpdateSchemaConfigRequest;
+  body?: UpdateSchemaConfigRequest | undefined;
 }
 export interface UpdateProjectsLocationsSchemaRegistriesContextsConfigRequest {
   /** Required. The resource name to update the config for. It can be either of following: * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/config: Update config at global level. * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/config/{subject}: Update config for a specific subject. */
   name: string;
   /** Request body */
-  body?: UpdateSchemaConfigRequest;
+  body?: UpdateSchemaConfigRequest | undefined;
 }
 export type UpdateSchemaModeRequestModeEnum = "NONE" | "READONLY" | "READWRITE" | "IMPORT";
 /** Request for updating schema registry or subject mode. */
 export interface UpdateSchemaModeRequest {
   /** Required. The mode type. */
-  mode?: UpdateSchemaModeRequestModeEnum | (string & {});
+  mode?: UpdateSchemaModeRequestModeEnum | (string & {}) | undefined;
 }
 export interface UpdateProjectsLocationsSchemaRegistriesContextsModeRequest {
   /** Required. The resource name of the mode. The format is * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/mode/{subject}: mode for a schema registry, or * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/mode/{subject}: mode for a specific subject in a specific context */
   name: string;
   /** Request body */
-  body?: UpdateSchemaModeRequest;
+  body?: UpdateSchemaModeRequest | undefined;
 }
 export interface UpdateProjectsLocationsSchemaRegistriesModeRequest {
   /** Required. The resource name of the mode. The format is * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/mode/{subject}: mode for a schema registry, or * projects/{project}/locations/{location}/schemaRegistries/{schema_registry}/contexts/{context}/mode/{subject}: mode for a specific subject in a specific context */
   name: string;
   /** Request body */
-  body?: UpdateSchemaModeRequest;
+  body?: UpdateSchemaModeRequest | undefined;
 }
 export type AddAclEntryProjectsLocationsClustersAclsError =
   | NotFound

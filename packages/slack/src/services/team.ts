@@ -29,15 +29,15 @@ export type AccessLogsRequestBeforeCase0 = "now";
 export type AccessLogsRequestBefore = AccessLogsRequestBeforeCase0 | (string & {}) | string;
 export interface AccessLogsRequest {
   /** End of time range of logs to include in results (inclusive). */
-  before?: AccessLogsRequestBefore;
-  count?: string;
-  page?: string;
+  before?: AccessLogsRequestBefore | undefined;
+  count?: string | undefined;
+  page?: string | undefined;
   /** Parameter for pagination. Set `cursor` equal to the `next_cursor` attribute returned by the previous request's `response_metadata`. This parameter is optional, but pagination is mandatory: the default value simply fetches the first "page" of the collection. See [pagination](/apis/web-api/pagination) for more details. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. Fewer than the requested number of items may be returned, even if the end of the list hasn't been reached. If specified, result is returned using a cursor-based approach instead of a classic one. */
-  limit?: number;
+  limit?: number | undefined;
   /** encoded team id to get logs from, required if org token is used */
-  team_id?: string;
+  team_id?: string | undefined;
 }
 export interface AccessLogsResponseLoginsItem {
   username: string;
@@ -61,25 +61,25 @@ export interface AccessLogsResponsePaging {
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export interface AccessLogsResponseResponseMetadata {
   /** Cursor for the next page -- pass as `cursor` on the next call. */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
 }
 export interface AccessLogsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   logins: AccessLogsResponseLoginsList;
-  paging?: AccessLogsResponsePaging;
+  paging?: AccessLogsResponsePaging | undefined;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: AccessLogsResponseResponseMetadata;
+  response_metadata?: AccessLogsResponseResponseMetadata | undefined;
 }
 export interface BillableInfoRequest {
   /** Set `cursor` to `next_cursor` returned by previous call, to indicate from where you want to list next page of users list. Default value fetches the first page. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** A user to retrieve the billable information for. Defaults to all users. */
-  user?: string;
+  user?: string | undefined;
   /** encoded team id to get the billable information from, required if org token is used */
-  team_id?: string;
+  team_id?: string | undefined;
 }
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export type BillableInfoResponseResponseMetadata = AccessLogsResponseResponseMetadata;
@@ -88,7 +88,7 @@ export interface BillableInfoResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: AccessLogsResponseResponseMetadata;
+  response_metadata?: AccessLogsResponseResponseMetadata | undefined;
   billable_info: BillableInfoResponseBillableInfoMap;
 }
 export interface BillingInfoRequest {}
@@ -109,13 +109,13 @@ export interface DisconnectExternalTeamResponse {
 export type GetProfileRequestVisibility = "all" | "visible" | "hidden";
 export interface GetProfileRequest {
   /** Filter by visibility. */
-  visibility?: GetProfileRequestVisibility | (string & {});
+  visibility?: GetProfileRequestVisibility | (string & {}) | undefined;
 }
 export type GetProfileResponseProfileFieldsList = Array<unknown>;
 export type GetProfileResponseProfileSectionsList = Array<unknown>;
 export interface GetProfileResponseProfile {
-  fields?: GetProfileResponseProfileFieldsList;
-  sections?: GetProfileResponseProfileSectionsList;
+  fields?: GetProfileResponseProfileFieldsList | undefined;
+  sections?: GetProfileResponseProfileSectionsList | undefined;
 }
 export interface GetProfileResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -130,17 +130,17 @@ export type IntegrationLogsRequestChangeType =
   | "updated";
 export interface IntegrationLogsRequest {
   /** Filter logs to this Slack app. Defaults to all logs. */
-  app_id?: string;
+  app_id?: string | undefined;
   /** Filter logs with this change type. Possible values are `added`, `removed`, `enabled`, `disabled`, and `updated`. Defaults to all logs. */
-  change_type?: IntegrationLogsRequestChangeType | (string & {});
-  count?: string;
-  page?: string;
+  change_type?: IntegrationLogsRequestChangeType | (string & {}) | undefined;
+  count?: string | undefined;
+  page?: string | undefined;
   /** Filter logs to this service. Defaults to all logs. */
-  service_id?: string;
+  service_id?: string | undefined;
   /** encoded team id to get logs from, required if org token is used */
-  team_id?: string;
+  team_id?: string | undefined;
   /** Filter logs generated by this user's actions. Defaults to all logs. */
-  user?: string;
+  user?: string | undefined;
 }
 export type IntegrationLogsResponseLogsItemMap = { [key: string]: unknown | undefined };
 export type IntegrationLogsResponseLogsList = Array<IntegrationLogsResponseLogsItemMap>;
@@ -176,19 +176,22 @@ export type ListExternalTeamsRequestConnectionStatusFilter =
   | "IN_REVIEW";
 export interface ListExternalTeamsRequest {
   /** The maximum number of items to return per page */
-  limit?: number;
+  limit?: number | undefined;
   /** Paginate through collections of data by setting parameter to the `team_id` attribute returned by a previous request's `response_metadata`. If not provided, the first page of the collection is returned. See [pagination](/apis/web-api/pagination#cursors) for more detail. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Name of the parameter that we are sorting by */
-  sort_field?: ListExternalTeamsRequestSortField | (string & {});
+  sort_field?: ListExternalTeamsRequestSortField | (string & {}) | undefined;
   /** Direction to sort in asc or desc */
-  sort_direction?: ListExternalTeamsRequestSortDirection | (string & {});
+  sort_direction?: ListExternalTeamsRequestSortDirection | (string & {}) | undefined;
   /** Filters connected orgs by Slack Connect pref override(s). Value can be: `approved_orgs_only` `allow_sc_file_uploads` `profile_visibility` `away_team_sc_invite_permissions` `accept_sc_invites` `sc_mpdm_to_private` `require_sc_channel_for_sc_dm` `external_awareness_context_bar` */
-  slack_connect_pref_filter?: ListExternalTeamsRequestSlackConnectPrefFilterList;
+  slack_connect_pref_filter?: ListExternalTeamsRequestSlackConnectPrefFilterList | undefined;
   /** Shows connected orgs which are connected on a specified encoded workspace ID */
-  workspace_filter?: ListExternalTeamsRequestWorkspaceFilterList;
+  workspace_filter?: ListExternalTeamsRequestWorkspaceFilterList | undefined;
   /** Status of the connected team. */
-  connection_status_filter?: ListExternalTeamsRequestConnectionStatusFilter | (string & {});
+  connection_status_filter?:
+    | ListExternalTeamsRequestConnectionStatusFilter
+    | (string & {})
+    | undefined;
 }
 export interface ListExternalTeamsResponseOrganizationsItemConnectedWorkspacesItem {
   workspace_id: string;
@@ -244,8 +247,8 @@ export interface ListExternalTeamsResponseOrganizationsItem {
   last_active_timestamp: number;
   /** True when team is on a free plan. False otherwise. */
   is_sponsored: boolean;
-  canvas?: ListExternalTeamsResponseOrganizationsItemCanvas;
-  lists?: ListExternalTeamsResponseOrganizationsItemLists;
+  canvas?: ListExternalTeamsResponseOrganizationsItemCanvas | undefined;
+  lists?: ListExternalTeamsResponseOrganizationsItemLists | undefined;
 }
 export type ListExternalTeamsResponseOrganizationsList =
   Array<ListExternalTeamsResponseOrganizationsItem>;
@@ -257,7 +260,7 @@ export interface ListExternalTeamsResponse {
   organizations: ListExternalTeamsResponseOrganizationsList;
   total_count: number;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: AccessLogsResponseResponseMetadata;
+  response_metadata?: AccessLogsResponseResponseMetadata | undefined;
 }
 export interface ListPreferencesRequest {}
 export interface ListPreferencesResponse {
@@ -270,11 +273,11 @@ export interface ListPreferencesResponse {
 }
 export interface TeamInfoRequest {
   /** Query by domain instead of team (only when team is null). This only works for domains in the same enterprise as the querying team token. This also expects the domain to belong to a team and not the enterprise itself. This is the value set up for the 'Joining This Workspace' workspace setting. If it contains more than one domain, the field will contain multiple comma-separated domain values. If no domain is set, the field is empty. */
-  domain?: string;
+  domain?: string | undefined;
   /** Team to get info about; if omitted, will return information about the current team. */
-  team?: string;
+  team?: string | undefined;
   /** Include advisory Slackbot availability for the returned workspace or organization. Only applies to a single team in the caller's own workspace or organization; omitted for external teams. Does not guarantee individual eligibility, remaining usage, or access to a particular app. */
-  include_slackbot_availability?: boolean;
+  include_slackbot_availability?: boolean | undefined;
 }
 export interface TeamInfoResponse {
   /** Always `true` (a failed call raises a typed error instead). */

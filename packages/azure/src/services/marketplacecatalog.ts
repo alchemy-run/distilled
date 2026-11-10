@@ -37,17 +37,17 @@ export interface GetProductGetByBillingAccountRequest {
   /** The ID of the product */
   productId: string;
   /** Indicates whether to include plans that are no longer available for purchase in the response. By default, includeStopSoldPlans is set to FALSE. */
-  includeStopSoldPlans?: boolean;
+  includeStopSoldPlans?: boolean | undefined;
   /** Language to search, ISO 639-1 two-letter code, possible values - 'en,cs,de,es,fr,hu,it,ja,ko,nl,pl,pt-br,pt-pt,ru,sv,tr,id,zh-hans,zh-hant'. Default is "en" */
-  language?: string;
+  language?: string | undefined;
   /** Indicates whether to include hidden plans in the response. By default, includeHiddenPlans is set to FALSE. */
-  includeHiddenPlans?: boolean;
+  includeHiddenPlans?: boolean | undefined;
   /** Indicates whether to include the product's service instruction templates in the response. By default, includeServiceInstructionTemplates is set to FALSE. */
-  includeServiceInstructionTemplates?: boolean;
+  includeServiceInstructionTemplates?: boolean | undefined;
   /** Optional to pass the plan id to filter to a specific plan within the product. If not specified, the response will include all plans of the product. */
-  planId?: string;
+  planId?: string | undefined;
   /** Optional to pass the sku id to filter to a specific sku within the product. If not specified, the response will include all skus of the product. */
-  skuId?: string;
+  skuId?: string | undefined;
 }
 /** Array of product categories */
 export type ProductDetailsCategoryIdsList = Array<string>;
@@ -70,51 +70,51 @@ export type ProductDetailsLocationsList = Array<string>;
 /** Represents a SKU attribute, which consists of a key and value. The attributes may differ across various services. */
 export interface Attribute {
   /** The attribute key */
-  key?: string;
+  key?: string | undefined;
   /** The attribute value */
-  value?: string;
+  value?: string | undefined;
 }
 /** Set of products attributes */
 export type ProductDetailsAttributesList = Array<Attribute>;
 /** Video preview image */
 export interface PreviewImage_2 {
   /** Image caption */
-  caption?: string;
+  caption?: string | undefined;
   /** Image uri */
-  uri?: string;
+  uri?: string | undefined;
   /** Purpose of the image */
-  imagePurpose?: string;
+  imagePurpose?: string | undefined;
 }
 /** Product Video */
 export interface ProductVideo_2 {
   /** Video Caption */
-  caption?: string;
+  caption?: string | undefined;
   /** Video uri */
-  uri?: string;
+  uri?: string | undefined;
   /** Video purpose */
-  videoPurpose?: string;
+  videoPurpose?: string | undefined;
   /** Preview image */
-  previewImage?: PreviewImage_2;
+  previewImage?: PreviewImage_2 | undefined;
 }
 /** List of product videos */
 export type ProductDetailsVideosList = Array<ProductVideo_2>;
 /** Includes link to the product image */
 export interface Image_2 {
   /** Image id */
-  id?: string;
+  id?: string | undefined;
   /** Image uri */
-  uri?: string;
+  uri?: string | undefined;
   /** Image type */
-  type?: string;
+  type?: string | undefined;
 }
 /** List of images */
 export type ImageGroupItemsList_2 = Array<Image_2>;
 /** List of image objects */
 export interface ImageGroup_2 {
   /** Context of the image group */
-  context?: string;
+  context?: string | undefined;
   /** List of images */
-  items?: ImageGroupItemsList_2;
+  items?: ImageGroupItemsList_2 | undefined;
 }
 /** List of Images */
 export type ProductDetailsImagesList = Array<ImageGroup_2>;
@@ -123,11 +123,11 @@ export type ProductDetailsLinkedAddInsList = Array<string>;
 /** Represents a link item read from the gallery item package */
 export interface LinkProperties_2 {
   /** Id of the link */
-  id?: string;
+  id?: string | undefined;
   /** Display name of the link */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Uri of the link */
-  uri?: string;
+  uri?: string | undefined;
 }
 /** List of Links provided for the item */
 export type ProductDetailsLinksList = Array<LinkProperties_2>;
@@ -136,27 +136,27 @@ export type ProductDetailsScreenshotUrisList = Array<string>;
 /** Represents a model for stop sell related information */
 export interface StopSellInfo_2 {
   /** A value indicating when the sale of this item is going to be stopped */
-  startDate?: string;
+  startDate?: string | undefined;
   /** Specifies the business or technical justification for discontinuing product sales in the marketplace. - `EndOfSupport` - Product lifecycle has reached end-of-support status with no further updates or maintenance - `SecurityIssue` - Critical security vulnerability or compliance issue requiring immediate sales suspension - `Other` - Alternative business reason not covered by standard discontinuation categories */
-  reason?: string;
+  reason?: string | undefined;
   /** A value indicating an ID of an alternative offer provided by the same publisher */
-  alternativeOfferId?: string;
+  alternativeOfferId?: string | undefined;
   /** A value indicating an ID of an alternative plan of the same offer */
-  alternativePlanId?: string;
+  alternativePlanId?: string | undefined;
 }
 /** Includes links to the learning and marketing materials as configured by the publisher */
 export interface MarketingMaterial_2 {
   /** Path to the marketing site */
-  path?: string;
+  path?: string | undefined;
   /** Path to the learn site */
-  learnUri?: string;
+  learnUri?: string | undefined;
 }
 /** Plan level resources and configuration files */
 export interface Artifact_2 {
   /** Artifact name */
-  name?: string;
+  name?: string | undefined;
   /** Artifact uri */
-  uri?: string;
+  uri?: string | undefined;
   /** Defines the artifact resource type and its role in the marketplace offering deployment process. - `Template` - Primary Azure Resource Manager template containing the main deployment configuration - `Fragment` - Nested Azure Resource Manager template referenced by the primary template for modular deployments - `Custom` - Publisher-defined artifact with specialized deployment or configuration requirements - `Metadata` - Supplementary information and configuration data supporting the deployment process */
   artifactType: string;
 }
@@ -165,9 +165,9 @@ export type ProductDetailsArtifactsList = Array<Artifact_2>;
 /** Additional metadata */
 export interface PlanMetadata {
   /** The VM image generation (applicable to Virtual Machine products only) */
-  generation?: string;
+  generation?: string | undefined;
   /** Pointing to a planId which holds the alternative stack reference */
-  altStackReference?: string;
+  altStackReference?: string | undefined;
 }
 /** Plan CategoryIds */
 export type PlanDetailsCategoryIdsList = Array<string>;
@@ -180,7 +180,7 @@ export type AvailabilityActionsList = Array<string>;
 /** Retail price with currency */
 export interface Price_2 {
   /** Currency code i.e. 'USD' */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
   /** A value indicating whether a payment instrument is required */
   isPiRequired: boolean;
   /** Retail price for the item */
@@ -191,183 +191,183 @@ export interface Price_2 {
 /** Included quantity properties */
 export interface IncludedQuantityProperty_2 {
   /** Term id */
-  termId?: string;
+  termId?: string | undefined;
   /** Included quantity */
-  quantity?: string;
+  quantity?: string | undefined;
 }
 /** Included quantity properties */
 export type MeterIncludedQuantityPropertiesList_2 = Array<IncludedQuantityProperty_2>;
 /** Applicable billing meter information */
 export interface Meter_2 {
   /** Meter id */
-  meterId?: string;
+  meterId?: string | undefined;
   /** Compute part number */
-  partNumber?: string;
+  partNumber?: string | undefined;
   /** Consumption resource id */
-  consumptionResourceId?: string;
+  consumptionResourceId?: string | undefined;
   /** Retail price with currency */
-  price?: Price_2;
+  price?: Price_2 | undefined;
   /** Type of this meter */
-  type?: string;
+  type?: string | undefined;
   /** Included quantity properties */
-  includedQuantityProperties?: MeterIncludedQuantityPropertiesList_2;
+  includedQuantityProperties?: MeterIncludedQuantityPropertiesList_2 | undefined;
 }
 /** Term description parameters */
 export interface TermDescriptionParameter_2 {
   /** Description parameter */
-  parameter?: string;
+  parameter?: string | undefined;
   /** Parameter's value */
-  value?: string;
+  value?: string | undefined;
 }
 /** Term description parameters */
 export type TermTermDescriptionParametersList_2 = Array<TermDescriptionParameter_2>;
 /** Proration policy */
 export interface ProrationPolicy_2 {
   /** Minimum prorated units */
-  minimumProratedUnits?: string;
+  minimumProratedUnits?: string | undefined;
 }
 /** Renew Billing Plan */
 export interface BillingPlan_2 {
   /** Billing period */
-  billingPeriod?: string;
+  billingPeriod?: string | undefined;
   /** Title of the billing plan */
-  title?: string;
+  title?: string | undefined;
   /** Description of the billing plan */
-  description?: string;
+  description?: string | undefined;
   /** Retail price with currency */
-  price?: Price_2;
+  price?: Price_2 | undefined;
 }
 /** Defines lifecycle management policy */
 export interface LifecyclePolicy {
   /** Grace period duration where customers retain access to their product. Examples: 'P1M' (1 month), 'P30D' (30 days), 'P0D' (0 days) */
-  graceDuration?: string;
+  graceDuration?: string | undefined;
   /** Inactive period duration */
-  inactiveDuration?: string;
+  inactiveDuration?: string | undefined;
   /** Lockout period duration */
-  lockoutDuration?: string;
+  lockoutDuration?: string | undefined;
 }
 /** Term Actions */
 export type TermActionsList = Array<string>;
 /** Applicable term */
 export interface Term_2 {
   /** Term description parameters */
-  termDescriptionParameters?: TermTermDescriptionParametersList_2;
+  termDescriptionParameters?: TermTermDescriptionParametersList_2 | undefined;
   /** Term id */
-  termId?: string;
+  termId?: string | undefined;
   /** Term unit */
-  termUnit?: string;
+  termUnit?: string | undefined;
   /** Defines the rules for calculating prorated charges or refunds for a subscription. */
-  prorationPolicy?: ProrationPolicy_2;
+  prorationPolicy?: ProrationPolicy_2 | undefined;
   /** Term description */
-  termDescription?: string;
+  termDescription?: string | undefined;
   /** Retail price with currency */
-  price?: Price_2;
+  price?: Price_2 | undefined;
   /** Renew term id */
-  renewTermId?: string;
+  renewTermId?: string | undefined;
   /** Renew term units */
-  renewTermUnits?: string;
+  renewTermUnits?: string | undefined;
   /** Billing Plan */
-  billingPlan?: BillingPlan_2;
+  billingPlan?: BillingPlan_2 | undefined;
   /** Renew Billing Plan */
-  renewToTermBillingPlan?: string;
+  renewToTermBillingPlan?: string | undefined;
   /** Indicates if autorenew is enabled */
-  isAutorenewable?: boolean;
+  isAutorenewable?: boolean | undefined;
   /** Defines the lifecycle management policy for the term */
-  lifecyclePolicy?: LifecyclePolicy;
+  lifecyclePolicy?: LifecyclePolicy | undefined;
   /** Product code for this term */
-  productCode?: string;
+  productCode?: string | undefined;
   /** Term state */
-  state?: string;
+  state?: string | undefined;
   /** Term Actions */
-  actions?: TermActionsList;
+  actions?: TermActionsList | undefined;
 }
 /** List of applicable terms */
 export type AvailabilityTermsList = Array<Term_2>;
 /** A prerequisite product */
 export interface PrerequisiteProduct {
   /** Base plan id */
-  basePlanId?: string;
+  basePlanId?: string | undefined;
   /** Minimum seats */
-  minSeats?: number;
+  minSeats?: number | undefined;
   /** Maximum seats */
-  maxSeats?: number;
+  maxSeats?: number | undefined;
 }
 /** Prerequisite products */
 export type PrerequisiteConstraintProductsList = Array<PrerequisiteProduct>;
 /** Defines minimum and maximum seat limits for a specific constraint type */
 export interface MinMaxSeatsConstraint {
   /** Constraint type */
-  type?: string;
+  type?: string | undefined;
   /** Minimum seats */
-  minSeats?: number;
+  minSeats?: number | undefined;
   /** Maximum seats */
-  maxSeats?: number;
+  maxSeats?: number | undefined;
 }
 /** Lookback window for a prerequisite constraint */
 export interface LookbackWindow {
   /** Lookback window type */
-  type?: string;
+  type?: string | undefined;
   /** Lookback window period */
-  period?: string;
+  period?: string | undefined;
 }
 /** A single prerequisite constraint */
 export interface PrerequisiteConstraint {
   /** Prerequisite products */
-  products?: PrerequisiteConstraintProductsList;
+  products?: PrerequisiteConstraintProductsList | undefined;
   /** Seat constraint */
-  seatConstraint?: MinMaxSeatsConstraint;
+  seatConstraint?: MinMaxSeatsConstraint | undefined;
   /** Lookback window */
-  lookbackWindow?: LookbackWindow;
+  lookbackWindow?: LookbackWindow | undefined;
 }
 /** Prerequisite constraints for the availability */
 export interface PrerequisiteConstraints {
   /** Constraint requiring all of the specified prerequisites to be met */
-  mustHaveAll?: PrerequisiteConstraint;
+  mustHaveAll?: PrerequisiteConstraint | undefined;
   /** Constraint requiring any of the specified prerequisites to be met */
-  mustHaveAny?: PrerequisiteConstraint;
+  mustHaveAny?: PrerequisiteConstraint | undefined;
   /** Constraint requiring none of the specified prerequisites to be met */
-  mustHaveNone?: PrerequisiteConstraint;
+  mustHaveNone?: PrerequisiteConstraint | undefined;
 }
 /** List of subscription statuses of which any must be satisfied */
 export type SubscriptionStatusConstraintsRequireAnyOfList = Array<string>;
 /** Subscription status eligibility constraints for the availability */
 export interface SubscriptionStatusConstraints {
   /** List of subscription statuses of which any must be satisfied */
-  requireAnyOf?: SubscriptionStatusConstraintsRequireAnyOfList;
+  requireAnyOf?: SubscriptionStatusConstraintsRequireAnyOfList | undefined;
 }
 /** Pricing benefit applicable to the availability (e.g. percent discounts) */
 export interface PricingBenefit {
   /** Rank of the pricing benefit */
-  rank?: number;
+  rank?: number | undefined;
   /** Type of the pricing benefit (e.g. PercentDiscount) */
-  type?: string;
+  type?: string | undefined;
   /** Value of the pricing benefit (e.g. 0.2 for a 20% discount) */
-  value?: number;
+  value?: number | undefined;
 }
 /** Availability for a given plan */
 export interface Availability {
   /** The document id */
-  id?: string;
+  id?: string | undefined;
   /** List of allowed actions */
-  actions?: AvailabilityActionsList;
+  actions?: AvailabilityActionsList | undefined;
   /** Applicable billing meter information */
-  meter?: Meter_2;
+  meter?: Meter_2 | undefined;
   /** Specifies the distribution channel and customer segment for product pricing and availability. Possible values: - `Direct-Commercial` - Available through direct Azure Marketplace purchases for commercial customers without intermediaries like partners or resellers - `Partner-Commercial` - Available through Cloud Solution Provider partner channel for reseller distribution */
   pricingAudience: string;
   /** List of applicable terms */
-  terms?: AvailabilityTermsList;
+  terms?: AvailabilityTermsList | undefined;
   /** A value indicating whether it has free trials */
   hasFreeTrials: boolean;
   /** Consumption unit type */
-  consumptionUnitType?: string;
+  consumptionUnitType?: string | undefined;
   /** Display rank */
   displayRank: number;
   /** Prerequisite constraints for the availability */
-  prerequisiteConstraints?: PrerequisiteConstraints;
+  prerequisiteConstraints?: PrerequisiteConstraints | undefined;
   /** Subscription status eligibility constraints for the availability */
-  subscriptionStatusConstraints?: SubscriptionStatusConstraints;
+  subscriptionStatusConstraints?: SubscriptionStatusConstraints | undefined;
   /** Pricing benefit applicable to the availability (e.g. percent discounts) */
-  pricingBenefit?: PricingBenefit;
+  pricingBenefit?: PricingBenefit | undefined;
 }
 /** List of availabilities for this plan */
 export type PlanDetailsAvailabilitiesList = Array<Availability>;
@@ -376,14 +376,14 @@ export type PlanDetailsArtifactsList = Array<Artifact_2>;
 /** Represents a billing component model */
 export interface BillingComponent_2 {
   /** Billing Tag */
-  billingTag?: string;
+  billingTag?: string | undefined;
 }
 /** Billing components */
 export type PlanDetailsBillingComponentsList = Array<BillingComponent_2>;
 /** The percentage discount for 3rd party virtual machines software reservations */
 export interface PurchaseDurationDiscount_2 {
   /** The duration */
-  duration?: string;
+  duration?: string | undefined;
   /** The discount percentage */
   discountPercentage: number;
 }
@@ -398,78 +398,78 @@ export type PlanDetailsSkuAttributesList = Array<Attribute>;
 /** The SKU properties, contains some of the attributes for faster OData filter */
 export interface SkuProperties {
   /** The sku category */
-  category?: string;
+  category?: string | undefined;
   /** The data disk type, such as 'Ssd' */
-  dataDiskType?: string;
+  dataDiskType?: string | undefined;
   /** The disk type, such as 'Ssd' */
-  diskType?: string;
+  diskType?: string | undefined;
   /** The number of cores */
-  numberOfCores?: string;
+  numberOfCores?: string | undefined;
   /** The RAM */
-  ram?: string;
+  ram?: string | undefined;
   /** The number of virtual CPUs */
-  vCpu?: string;
+  vCpu?: string | undefined;
   /** The ARM SKU name */
-  armSkuName?: string;
+  armSkuName?: string | undefined;
   /** The access tier, such as 'Standard' */
-  accessTier?: string;
+  accessTier?: string | undefined;
 }
 /** SKU price related properties */
 export interface OfferingProperties {
   /** The product code (UPN) */
-  productCode?: string;
+  productCode?: string | undefined;
   /** The term id */
-  termId?: string;
+  termId?: string | undefined;
   /** The meter type */
-  meterType?: string;
+  meterType?: string | undefined;
   /** The billing meter id */
-  billingMeterId?: string;
+  billingMeterId?: string | undefined;
   /** The offering id */
-  offeringId?: string;
+  offeringId?: string | undefined;
   /** Entitlement, Consumption or Reservation */
-  type?: string;
+  type?: string | undefined;
 }
 /** SKU price related properties. */
 export type PlanDetailsOfferingPropertiesList = Array<OfferingProperties>;
 /** Attributes that define fulfillment timing and delay handling */
 export interface FulfillmentAttributes {
   /** Timing configuration for product fulfillment */
-  fulfillmentTiming?: string;
+  fulfillmentTiming?: string | undefined;
   /** Mitigation explanation for delayed fulfillment */
-  fulfillmentDelayMitigation?: string;
+  fulfillmentDelayMitigation?: string | undefined;
 }
 /** Configuration for additional products bundled with early access pass SKUs */
 export interface ProductFulfillmentConfig {
   /** Product and SKU ID for bundled products included with the license */
-  productSkuId?: string;
+  productSkuId?: string | undefined;
   /** Quantity of the bundled product per license */
-  defaultKeyActivationCount?: number;
+  defaultKeyActivationCount?: number | undefined;
 }
 /** Bundled products included defining additional product/SKU combinations */
 export type FulfillmentDataAdditionalProductsList = Array<ProductFulfillmentConfig>;
 /** Contains fulfillment configuration and instructions */
 export interface FulfillmentData {
   /** Differentiates between fulfillment types */
-  fulfillmentType?: string;
+  fulfillmentType?: string | undefined;
   /** Fulfillment attributes */
-  attributes?: FulfillmentAttributes;
+  attributes?: FulfillmentAttributes | undefined;
   /** Bundled products included defining additional product/SKU combinations */
-  additionalProducts?: FulfillmentDataAdditionalProductsList;
+  additionalProducts?: FulfillmentDataAdditionalProductsList | undefined;
 }
 /** Benefit information for a plan */
 export interface Benefit {
   /** Benefit type */
-  benefitType?: string;
+  benefitType?: string | undefined;
   /** Base plan ID */
-  basePlanId?: string;
+  basePlanId?: string | undefined;
   /** Billing plan */
-  billingPlan?: string;
+  billingPlan?: string | undefined;
   /** Term duration. Examples: 'P1M' (1 month), 'P30D' (30 days) */
-  termDuration?: string;
+  termDuration?: string | undefined;
   /** Meter type */
-  meterType?: string;
+  meterType?: string | undefined;
   /** Base product code */
-  baseProductCode?: string;
+  baseProductCode?: string | undefined;
 }
 /** Provides promotion data */
 export type PlanDetailsBenefitsList = Array<Benefit>;
@@ -478,11 +478,11 @@ export type ConstraintsDataSeatConstraintsList = Array<MinMaxSeatsConstraint>;
 /** Defines ownership restrictions and limits for SKU assets */
 export interface AssetOwnershipLimit {
   /** Limit type */
-  type?: string;
+  type?: string | undefined;
   /** Minimum number of assets */
-  minAssets?: number;
+  minAssets?: number | undefined;
   /** Maximum number of assets */
-  maxAssets?: number;
+  maxAssets?: number | undefined;
 }
 /** Asset ownership limits */
 export type ConstraintsDataAssetOwnershipLimitsList = Array<AssetOwnershipLimit>;
@@ -491,9 +491,9 @@ export type PrerequisiteSetSkuIdsList = Array<string>;
 /** Prerequisite set */
 export interface PrerequisiteSet {
   /** Product ID */
-  productId?: string;
+  productId?: string | undefined;
   /** SKU IDs */
-  skuIds?: PrerequisiteSetSkuIdsList;
+  skuIds?: PrerequisiteSetSkuIdsList | undefined;
 }
 /** Prerequisite sets where all specified SKUs must be owned */
 export type PrerequisitesMustHaveAllList = Array<PrerequisiteSet>;
@@ -502,313 +502,313 @@ export type PrerequisitesMustHaveAnyList = Array<PrerequisiteSet>;
 /** Minimum and maximum percentage seats constraint */
 export interface MinMaxPercentageSeatsConstraint {
   /** Constraint type */
-  type?: string;
+  type?: string | undefined;
   /** Minimum percent seats */
-  minPercentSeats?: number;
+  minPercentSeats?: number | undefined;
   /** Maximum percent seats */
-  maxPercentSeats?: number;
+  maxPercentSeats?: number | undefined;
 }
 /** Percentage-based seat constraints for prerequisite SKUs */
 export type PrerequisitesSeatConstraintsList = Array<MinMaxPercentageSeatsConstraint>;
 /** Defines prerequisite SKU requirements and seat constraints */
 export interface Prerequisites {
   /** Prerequisite sets where all specified SKUs must be owned */
-  mustHaveAll?: PrerequisitesMustHaveAllList;
+  mustHaveAll?: PrerequisitesMustHaveAllList | undefined;
   /** Prerequisite sets where any one of the specified SKUs must be owned */
-  mustHaveAny?: PrerequisitesMustHaveAnyList;
+  mustHaveAny?: PrerequisitesMustHaveAnyList | undefined;
   /** Percentage-based seat constraints for prerequisite SKUs */
-  seatConstraints?: PrerequisitesSeatConstraintsList;
+  seatConstraints?: PrerequisitesSeatConstraintsList | undefined;
 }
 /** Constraints data for a plan */
 export interface ConstraintsData {
   /** Seat constraint configurations defining minimum and maximum seat limits */
-  seatConstraints?: ConstraintsDataSeatConstraintsList;
+  seatConstraints?: ConstraintsDataSeatConstraintsList | undefined;
   /** Asset ownership limits */
-  assetOwnershipLimits?: ConstraintsDataAssetOwnershipLimitsList;
+  assetOwnershipLimits?: ConstraintsDataAssetOwnershipLimitsList | undefined;
   /** Lists eligible prerequisite SKUs */
-  prerequisiteSkus?: Prerequisites;
+  prerequisiteSkus?: Prerequisites | undefined;
 }
 /** Meter type description value */
 export interface MeterTypeDescriptionValue {
   /** The type of meter */
-  meterType?: string;
+  meterType?: string | undefined;
   /** The unit of measurement for the meter */
-  unitOfMeasure?: string;
+  unitOfMeasure?: string | undefined;
 }
 /** Meter type description */
 export interface MeterTypeDescription {
   /** Meter Type Description key */
-  key?: string;
+  key?: string | undefined;
   /** Meter type description value */
-  value?: MeterTypeDescriptionValue;
+  value?: MeterTypeDescriptionValue | undefined;
 }
 /** Meter type descriptions */
 export type PlanDetailsMeterTypeDescriptionsList = Array<MeterTypeDescription>;
 /** Returns the full set of Plan attributes */
 export interface PlanDetails {
   /** Plan identifier */
-  planId?: string;
+  planId?: string | undefined;
   /** Unique plan identifier which is prefixed by combining uniqueProductId and PlanId with no separator in between */
-  uniquePlanId?: string;
+  uniquePlanId?: string | undefined;
   /** Display name of the plan / sku */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Specifies the virtual machine processor architecture and generation. Applies exclusively to Virtual Machine product types. - `X64Gen1` - x64 processor architecture with Generation 1 virtual machine firmware and BIOS support - `X64Gen2` - x64 processor architecture with Generation 2 virtual machine firmware and UEFI support - `Arm64` - ARM 64-bit processor architecture optimized for energy efficiency and cloud-native workloads */
-  vmArchitectureType?: string;
+  vmArchitectureType?: string | undefined;
   /** Controls plan availability and partner access within the Microsoft Cloud Solution Provider (CSP) program. - `OptIn` - Enables all authorized Cloud Solution Provider partners to resell and deploy the product to customers - `OptOut` - Excluded from Cloud Solution Provider program, available only through direct channels - `SelectiveOptIn` - Available only to selected Cloud Solution Provider partners for resale and customer deployment */
-  cspState?: string;
+  cspState?: string | undefined;
   /** Expanded plan/SKU metadata. */
-  metadata?: PlanMetadata;
+  metadata?: PlanMetadata | undefined;
   /** Alternative stack reference */
-  altStackReference?: string;
+  altStackReference?: string | undefined;
   /** Stack type : Classic, Gen1, Gen2 */
-  stackType?: string;
+  stackType?: string | undefined;
   /** The alternative architecture reference */
-  altArchitectureReference?: string;
+  altArchitectureReference?: string | undefined;
   /** Plan CategoryIds */
-  categoryIds?: PlanDetailsCategoryIdsList;
+  categoryIds?: PlanDetailsCategoryIdsList | undefined;
   /** Set to true if plan has artifacts that are to be hidden for non authenticated users */
-  hasProtectedArtifacts?: boolean;
+  hasProtectedArtifacts?: boolean | undefined;
   /** Indicates the billing models and cost structures available for the plan. - `Free` - No charge for plan usage, typically for community editions or basic service tiers - `FreeTrial` - Time-limited free access period before transitioning to paid billing model - `Byol` - Bring Your Own License model where customers provide existing software licenses - `Payg` - Pay As You Go consumption-based billing calculated on actual resource usage - `Ri` - Reserved Instance billing with upfront commitment for discounted long-term pricing - `ContactPublisher` - Pricing is not listed and the customer must contact the publisher to obtain pricing details - `Freemium` - Free base tier with paid upgrades, applies to Microsoft managed products - `RequestPrivateOffer` - Customer must request a private offer to obtain pricing, applies to Marketplace products - `PrivateOffer` - Indicates the plan is a promo plan tied to a private offer */
-  pricingTypes?: PlanDetailsPricingTypesList;
+  pricingTypes?: PlanDetailsPricingTypesList | undefined;
   /** Defines the security enhancement level for virtual machine deployments. Applies exclusively to Virtual Machine product types. - `None` - Standard virtual machine security without additional protection features - `Trusted` - Trusted Launch security with secure boot and virtual Trusted Platform Module capabilities - `Confidential` - Confidential computing with memory encryption and attestation for sensitive workloads */
-  vmSecuritytypes?: PlanDetailsVmSecuritytypesList;
+  vmSecuritytypes?: PlanDetailsVmSecuritytypesList | undefined;
   /** The plan summary text */
-  summary?: string;
+  summary?: string | undefined;
   /** Plan / sku description */
-  description?: string;
+  description?: string | undefined;
   /** The SKU id */
-  skuId?: string;
+  skuId?: string | undefined;
   /** Specifies the primary deployment model and hosting architecture for the marketplace product. Currently supported values are: - `None` - Unspecified product type, typically used for products without a defined deployment model - `DevService` - Development-focused services and tools for software creation workflows - `ManagedApplication` - Azure Managed Applications that deploy and manage resources in customer subscriptions - `VirtualMachine` - Pre-configured virtual machine images deployable to Azure compute infrastructure - `AzureApplication` - Native Azure applications leveraging platform services and APIs - `Container` - Containerized applications deployed through Azure Container Instances or similar services - `SaaS` - Software as a Service solutions hosted and managed by the publisher - `SolutionTemplate` - Azure Resource Manager templates that provision multiple Azure resources - `IotEdgeModules` - Modules designed for deployment to Azure IoT Edge runtime environments - `ManagedServices` - Fully managed services where the publisher handles infrastructure and operations - `ContainerApps` - Applications built for Azure Container Apps serverless container platform - `VisualStudioExtension` - Extensions that integrate with Visual Studio IDE functionality - `DynamicsOps` - Microsoft Dynamics 365 Finance and Operations applications and extensions - `DynamicsCE` - Microsoft Dynamics 365 Customer Engagement applications and customizations - `DynamicsBC` - Microsoft Dynamics 365 Business Central applications and add-ons - `PowerBI` - Microsoft Power BI reports, dashboards, and data visualization components - `ConsultingServices` - Professional services offerings including implementation and advisory services - `CosellOnly` - Products available exclusively through Microsoft co-sell partner programs - `CoreVirtualMachine` - Core virtual machine offerings with baseline Azure compute capabilities - `PowerBIVisuals` - Custom visualizations for Microsoft Power BI reporting platform - `Office365` - Microsoft 365 and Office 365 applications, add-ins, and integrations - `AADApps` - Azure Active Directory integrated applications supporting organizational identity - `AzureServices` - Native Azure platform services and resource providers - `AppService` - Web applications hosted on Azure App Service platform - `LogAnalytics` - Azure Monitor Log Analytics solutions and workspace configurations - `MicrosoftProduct` - First-party Microsoft products available through marketplace channels */
   planType: string;
   /** The order the plan is displayed in the 'Plans' table */
-  displayRank?: string;
+  displayRank?: string | undefined;
   /** Indication that the plan is accessible to restricted audience only */
-  isPrivate?: boolean;
+  isPrivate?: boolean | undefined;
   /** Indication whether the SKU supports reservations */
-  hasRi?: boolean;
+  hasRi?: boolean | undefined;
   /** The id */
-  id?: string;
+  id?: string | undefined;
   /** List of availabilities for this plan */
-  availabilities?: PlanDetailsAvailabilitiesList;
+  availabilities?: PlanDetailsAvailabilitiesList | undefined;
   /** What blade to open when someone wants to create a marketplace item */
-  uiDefinitionUri?: string;
+  uiDefinitionUri?: string | undefined;
   /** Files related to the marketplace item */
-  artifacts?: PlanDetailsArtifactsList;
+  artifacts?: PlanDetailsArtifactsList | undefined;
   /** Version of the marketplace item */
-  version?: string;
+  version?: string | undefined;
   /** A value indicating whether the plan is hidden */
   isHidden: boolean;
   /** A value indicating whether plan has been stopped from selling */
   isStopSell: boolean;
   /** A StopSellInfo object providing stop sell related data */
-  stopSellInfo?: StopSellInfo_2;
+  stopSellInfo?: StopSellInfo_2 | undefined;
   /** Min quantity */
-  minQuantity?: number;
+  minQuantity?: number | undefined;
   /** Max quantity */
-  maxQuantity?: number;
+  maxQuantity?: number | undefined;
   /** A value indicating whether the plan is quantifiable */
   isQuantifiable: boolean;
   /** Billing components */
-  billingComponents?: PlanDetailsBillingComponentsList;
+  billingComponents?: PlanDetailsBillingComponentsList | undefined;
   /** List of purchase duration discounts */
-  purchaseDurationDiscounts?: PlanDetailsPurchaseDurationDiscountsList;
+  purchaseDurationDiscounts?: PlanDetailsPurchaseDurationDiscountsList | undefined;
   /** A value indicating whether the plan is used as hidden private offer requiring a quote */
-  isHiddenPrivateOffer?: boolean;
+  isHiddenPrivateOffer?: boolean | undefined;
   /** List of certifications */
-  certifications?: PlanDetailsCertificationsList;
+  certifications?: PlanDetailsCertificationsList | undefined;
   /** Plan's customer instruction for purchasing */
-  customerInstruction?: string;
+  customerInstruction?: string | undefined;
   /** Plan labels */
-  planLabels?: PlanDetailsPlanLabelsList;
+  planLabels?: PlanDetailsPlanLabelsList | undefined;
   /** SKU type */
-  skuType?: string;
+  skuType?: string | undefined;
   /** Sku title localized */
-  skuTitle?: string;
+  skuTitle?: string | undefined;
   /** SKU location */
-  location?: string;
+  location?: string | undefined;
   /** The Arm region name */
-  armRegionName?: string;
+  armRegionName?: string | undefined;
   /** Applicable cloud, such as 'Global' */
-  cloud?: string;
+  cloud?: string | undefined;
   /** The location type, such as 'Region' */
-  locationType?: string;
+  locationType?: string | undefined;
   /** The region */
-  region?: string;
+  region?: string | undefined;
   /** The sku group id */
-  skuGroupId?: string;
+  skuGroupId?: string | undefined;
   /** The zone, such as 'Zone 1' */
-  zone?: string;
+  zone?: string | undefined;
   /** The feature, such as 'Spot' */
-  feature?: string;
+  feature?: string | undefined;
   /** The service type */
-  serviceType?: string;
+  serviceType?: string | undefined;
   /** Set of SKU attributes (varies per sku type), where each attribute is represented by a pair of key (attribute name) and value(attribute value) */
-  skuAttributes?: PlanDetailsSkuAttributesList;
+  skuAttributes?: PlanDetailsSkuAttributesList | undefined;
   /** The sku properties */
-  skuProperties?: SkuProperties;
+  skuProperties?: SkuProperties | undefined;
   /** SKU price related properties. */
-  offeringProperties?: PlanDetailsOfferingPropertiesList;
+  offeringProperties?: PlanDetailsOfferingPropertiesList | undefined;
   /** Indicates if this SKU has consumption components */
-  hasConsumptionComponents?: boolean;
+  hasConsumptionComponents?: boolean | undefined;
   /** Indicates if this SKU is available for end users */
-  isEndUserEligible?: boolean;
+  isEndUserEligible?: boolean | undefined;
   /** Indicates if this SKU is available for admins */
-  isAdminEligible?: boolean;
+  isAdminEligible?: boolean | undefined;
   /** The entra id version for products that come with entra id support */
-  entraIdVersion?: string;
+  entraIdVersion?: string | undefined;
   /** Technical Requirements */
-  technicalRequirements?: string;
+  technicalRequirements?: string | undefined;
   /** The URI to the FAQ page */
-  faqUri?: string;
+  faqUri?: string | undefined;
   /** Fulfillment instructions for this SKU */
-  fulfillmentData?: FulfillmentData;
+  fulfillmentData?: FulfillmentData | undefined;
   /** Provides promotion data */
-  benefits?: PlanDetailsBenefitsList;
+  benefits?: PlanDetailsBenefitsList | undefined;
   /** Contains constraint product properties to determine eligibility */
-  constraintsData?: ConstraintsData;
+  constraintsData?: ConstraintsData | undefined;
   /** Meter type descriptions */
-  meterTypeDescriptions?: PlanDetailsMeterTypeDescriptionsList;
+  meterTypeDescriptions?: PlanDetailsMeterTypeDescriptionsList | undefined;
   /** Usage unit */
-  usageUnit?: string;
+  usageUnit?: string | undefined;
   /** Sku name */
-  skuName?: string;
+  skuName?: string | undefined;
 }
 /** Full set of plan/SKU attributes */
 export type ProductDetailsPlansList = Array<PlanDetails>;
 /** Returns the full set of Product attributes */
 export interface ProductDetails {
   /** Product display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Popularity of the product */
-  popularity?: number;
+  popularity?: number | undefined;
   /** Array of product categories */
-  categoryIds?: ProductDetailsCategoryIdsList;
+  categoryIds?: ProductDetailsCategoryIdsList | undefined;
   /** List of industry IDs the item belongs to */
-  industryIds?: ProductDetailsIndustryIdsList;
+  industryIds?: ProductDetailsIndustryIdsList | undefined;
   /** Publisher id */
-  publisherId?: string;
+  publisherId?: string | undefined;
   /** Indicates whether product purchases count toward Azure consumption commitment benefits for enterprise customers. - `Eligible` - Product costs apply to Azure consumption commitment benefit calculations and credits - `NotEligible` - Product costs do not qualify for Azure consumption commitment benefit programs */
-  azureBenefit?: string;
+  azureBenefit?: string | undefined;
   /** Displays certification and qualification badges earned by the product for marketplace visibility. - `PreferredSolution` - Microsoft-recognized solution meeting specific quality and partnership criteria - `PowerBICertified` - Certified compatibility and integration with Microsoft Power BI platform - `AdditionalPurchaseRequirement` - Product requires additional purchases or subscriptions for full functionality */
-  badges?: ProductDetailsBadgesList;
+  badges?: ProductDetailsBadgesList | undefined;
   /** Identifies the publisher relationship to Microsoft for support and partnership classification. - `Microsoft` - First-party Microsoft product with direct Microsoft support and development - `ThirdParty` - Independent software vendor product with publisher-provided support and maintenance */
-  publisherType?: string;
+  publisherType?: string | undefined;
   /** Indicates the product availability status and customer access level within Azure Marketplace. - `Preview` - Limited availability to selected customers for testing and early access evaluation - `Public` - General availability to all Azure Marketplace customers for production deployment */
-  publishingStage?: string;
+  publishingStage?: string | undefined;
   /** Unique product identifier */
   uniqueProductId: string;
   /** Specifies the primary deployment model and hosting architecture for the marketplace product stored in the Marketplace Catalog. - `None` - Unspecified product type, typically used for products without a defined deployment model - `ManagedApplication` - Azure Managed Applications that deploy and manage resources in customer subscriptions - `VirtualMachine` - Pre-configured virtual machine images deployable to Azure compute infrastructure - `AzureApplication` - Native Azure applications leveraging platform services and APIs - `Container` - Containerized applications deployed through Azure Container Instances or similar services - `SaaS` - Software as a Service solutions hosted and managed by the publisher - `SolutionTemplate` - Azure Resource Manager templates that provision multiple Azure resources - `IotEdgeModules` - Modules designed for deployment to Azure IoT Edge runtime environments - `ManagedServices` - Fully managed services where the publisher handles infrastructure and operations - `ContainerApps` - Applications built for Azure Container Apps serverless container platform - `DynamicsOps` - Microsoft Dynamics 365 Finance and Operations applications and extensions - `DynamicsCE` - Microsoft Dynamics 365 Customer Engagement applications and customizations - `DynamicsBC` - Microsoft Dynamics 365 Business Central applications and add-ons - `PowerBI` - Microsoft Power BI reports, dashboards, and data visualization components - `ConsultingServices` - Professional services offerings including implementation and advisory services - `CosellOnly` - Products available exclusively through Microsoft co-sell partner programs - `CoreVirtualMachine` - Core virtual machine offerings with baseline Azure compute capabilities - `PowerBIVisuals` - Custom visualizations for Microsoft Power BI reporting platform - `Office365` - Microsoft 365 and Office 365 applications, add-ins, and integrations - `AADApps` - Azure Active Directory integrated applications supporting organizational identity - `AzureServices` - Native Azure platform services and resource providers - `AppService` - Web applications hosted on Azure App Service platform - `LogAnalytics` - Azure Monitor Log Analytics solutions and workspace configurations - `MicrosoftProduct` - First-party Microsoft products available through marketplace channels */
   productType: string;
   /** Product sub type */
-  productSubType?: string;
+  productSubType?: string | undefined;
   /** Product Family */
-  productFamily?: string;
+  productFamily?: string | undefined;
   /** Operating system info for this product */
-  operatingSystems?: ProductDetailsOperatingSystemsList;
+  operatingSystems?: ProductDetailsOperatingSystemsList | undefined;
   /** Indicates the billing models and cost structures available for the plan. - `Free` - No charge for plan usage, typically for community editions or basic service tiers - `FreeTrial` - Time-limited free access period before transitioning to paid billing model - `Byol` - Bring Your Own License model where customers provide existing software licenses - `Payg` - Pay As You Go consumption-based billing calculated on actual resource usage - `Ri` - Reserved Instance billing with upfront commitment for discounted long-term pricing - `ContactPublisher` - Pricing is not listed and the customer must contact the publisher to obtain pricing details - `Freemium` - Free base tier with paid upgrades, applies to Microsoft managed products - `RequestPrivateOffer` - Customer must request a private offer to obtain pricing, applies to Marketplace products - `PrivateOffer` - Indicates the plan is a promo plan tied to a private offer */
-  pricingTypes?: ProductDetailsPricingTypesList;
+  pricingTypes?: ProductDetailsPricingTypesList | undefined;
   /** Publisher display name */
-  publisherDisplayName?: string;
+  publisherDisplayName?: string | undefined;
   /** Product long summary */
-  longSummary?: string;
+  longSummary?: string | undefined;
   /** Product summary */
-  summary?: string;
+  summary?: string | undefined;
   /** URI to the small product icon */
-  smallIconUri?: string;
+  smallIconUri?: string | undefined;
   /** The product description text */
-  description?: string;
+  description?: string | undefined;
   /** The legal terms of the product for the CSP */
-  cspLegalTermsUri?: string;
+  cspLegalTermsUri?: string | undefined;
   /** The privacy policy of the product */
-  privacyPolicyUri?: string;
+  privacyPolicyUri?: string | undefined;
   /** Categorizes products by customer rating thresholds for marketplace filtering and discovery. - `AboveOne` - Products with customer ratings exceeding 1.0 stars based on marketplace reviews - `AboveTwo` - Products with customer ratings exceeding 2.0 stars based on marketplace reviews - `AboveThree` - Products with customer ratings exceeding 3.0 stars based on marketplace reviews - `AboveFour` - Products with customer ratings exceeding 4.0 stars based on marketplace reviews */
-  ratingBuckets?: ProductDetailsRatingBucketsList;
+  ratingBuckets?: ProductDetailsRatingBucketsList | undefined;
   /** Average rating for the offer */
-  ratingAverage?: number;
+  ratingAverage?: number | undefined;
   /** Total number of ratings for the offer */
-  ratingCount?: number;
+  ratingCount?: number | undefined;
   /** Maps to the list of compatible products */
-  supportedProducts?: ProductDetailsSupportedProductsList;
+  supportedProducts?: ProductDetailsSupportedProductsList | undefined;
   /** Product categories the offer belongs to */
-  applicableProducts?: ProductDetailsApplicableProductsList;
+  applicableProducts?: ProductDetailsApplicableProductsList | undefined;
   /** Latest update date of the product */
-  lastModifiedDateTime?: string;
+  lastModifiedDateTime?: string | undefined;
   /** List of locations which are available on the SKUs */
-  locations?: ProductDetailsLocationsList;
+  locations?: ProductDetailsLocationsList | undefined;
   /** The service family of the product, such as 'Compute' */
-  serviceFamily?: string;
+  serviceFamily?: string | undefined;
   /** The service name of the product, such as 'Virtual Machines' */
-  service?: string;
+  service?: string | undefined;
   /** The unique id of the product */
-  productId?: string;
+  productId?: string | undefined;
   /** Indication whether the product has plans with reservations */
-  hasRiPlans?: boolean;
+  hasRiPlans?: boolean | undefined;
   /** Indication if product has a representation in the marketplace */
-  hasMarketplaceFootprint?: boolean;
+  hasMarketplaceFootprint?: boolean | undefined;
   /** Set of products attributes */
-  attributes?: ProductDetailsAttributesList;
+  attributes?: ProductDetailsAttributesList | undefined;
   /** Offering type of product family Offers */
-  offeringType?: string;
+  offeringType?: string | undefined;
   /** List of product videos */
-  videos?: ProductDetailsVideosList;
+  videos?: ProductDetailsVideosList | undefined;
   /** List of Images */
-  images?: ProductDetailsImagesList;
+  images?: ProductDetailsImagesList | undefined;
   /** List of linked add ins provided for the item */
-  linkedAddIns?: ProductDetailsLinkedAddInsList;
+  linkedAddIns?: ProductDetailsLinkedAddInsList | undefined;
   /** List of Links provided for the item */
-  links?: ProductDetailsLinksList;
+  links?: ProductDetailsLinksList | undefined;
   /** The product language */
-  language?: string;
+  language?: string | undefined;
   /** A value indicating whether standard contract amendments are present */
-  hasStandardContractAmendments?: boolean;
+  hasStandardContractAmendments?: boolean | undefined;
   /** The offer id */
-  offerId?: string;
+  offerId?: string | undefined;
   /** Standard contract amendments for the product */
-  standardContractAmendmentsRevisionId?: string;
+  standardContractAmendmentsRevisionId?: string | undefined;
   /** The universal amendment link for an enterprise contract */
-  universalAmendmentUrl?: string;
+  universalAmendmentUrl?: string | undefined;
   /** Indicates if a product is private */
   isPrivate: boolean;
   /** Indicates if a product is no longer available for sale */
   isStopSell: boolean;
   /** Legal terms URI */
-  legalTermsUri?: string;
+  legalTermsUri?: string | undefined;
   /** Identifies the legal agreement framework governing product licensing and usage terms. - `None` - Standard marketplace terms apply without additional legal agreement requirements - `EA` - Microsoft Enterprise Agreement terms for volume licensing and enterprise customer deployments */
-  legalTermsType?: string;
+  legalTermsType?: string | undefined;
   /** Support uri of the product */
-  supportUri?: string;
+  supportUri?: string | undefined;
   /** User interface definition uri */
-  uiDefinitionUri?: string;
+  uiDefinitionUri?: string | undefined;
   /** List of screenshot image URIs */
-  screenshotUris?: ProductDetailsScreenshotUrisList;
+  screenshotUris?: ProductDetailsScreenshotUrisList | undefined;
   /** URI to the medium product icon */
-  mediumIconUri?: string;
+  mediumIconUri?: string | undefined;
   /** URI to the large product icon */
-  largeIconUri?: string;
+  largeIconUri?: string | undefined;
   /** URI to the wide product icon */
-  wideIconUri?: string;
+  wideIconUri?: string | undefined;
   /** Pricing details uri of the product */
-  pricingDetailsUri?: string;
+  pricingDetailsUri?: string | undefined;
   /** A value indicating whether microsoft is acting as a reseller */
-  isReseller?: boolean;
+  isReseller?: boolean | undefined;
   /** Product ownership selling motion */
-  productOwnershipSellingMotion?: string;
+  productOwnershipSellingMotion?: string | undefined;
   /** Indication to disable sending email on purchase */
-  disableSendEmailOnPurchase?: boolean;
+  disableSendEmailOnPurchase?: boolean | undefined;
   /** Indicates if VM was originally a Core Virtual Machine */
-  isCoreVm?: boolean;
+  isCoreVm?: boolean | undefined;
   /** A StopSellInfo object providing stop sell related data */
-  stopSellInfo?: StopSellInfo_2;
+  stopSellInfo?: StopSellInfo_2 | undefined;
   /** Includes links to the learning and marketing materials as configured by the publisher */
-  marketingMaterial?: MarketingMaterial_2;
+  marketingMaterial?: MarketingMaterial_2 | undefined;
   /** List of artifacts */
-  artifacts?: ProductDetailsArtifactsList;
+  artifacts?: ProductDetailsArtifactsList | undefined;
   /** Full set of plan/SKU attributes */
-  plans?: ProductDetailsPlansList;
+  plans?: ProductDetailsPlansList | undefined;
   /** Indicates that the SKU has add-ons */
-  hasAddOns?: boolean;
+  hasAddOns?: boolean | undefined;
   /** The product code */
-  productCode?: string;
+  productCode?: string | undefined;
 }
 export interface GetProductGetByBillingProfileRequest {
   /** The ID of the target billing account. */
@@ -818,17 +818,17 @@ export interface GetProductGetByBillingProfileRequest {
   /** The ID of the product */
   productId: string;
   /** Indicates whether to include plans that are no longer available for purchase in the response. By default, includeStopSoldPlans is set to FALSE. */
-  includeStopSoldPlans?: boolean;
+  includeStopSoldPlans?: boolean | undefined;
   /** Language to search, ISO 639-1 two-letter code, possible values - 'en,cs,de,es,fr,hu,it,ja,ko,nl,pl,pt-br,pt-pt,ru,sv,tr,id,zh-hans,zh-hant'. Default is "en" */
-  language?: string;
+  language?: string | undefined;
   /** Indicates whether to include hidden plans in the response. By default, includeHiddenPlans is set to FALSE. */
-  includeHiddenPlans?: boolean;
+  includeHiddenPlans?: boolean | undefined;
   /** Indicates whether to include the product's service instruction templates in the response. By default, includeServiceInstructionTemplates is set to FALSE. */
-  includeServiceInstructionTemplates?: boolean;
+  includeServiceInstructionTemplates?: boolean | undefined;
   /** Optional to pass the plan id to filter to a specific plan within the product. If not specified, the response will include all plans of the product. */
-  planId?: string;
+  planId?: string | undefined;
   /** Optional to pass the sku id to filter to a specific sku within the product. If not specified, the response will include all skus of the product. */
-  skuId?: string;
+  skuId?: string | undefined;
 }
 export interface GetProductGetBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -836,19 +836,19 @@ export interface GetProductGetBySubscriptionRequest {
   /** The ID of the product */
   productId: string;
   /** Indicates whether to include plans that are no longer available for purchase in the response. By default, includeStopSoldPlans is set to FALSE. */
-  includeStopSoldPlans?: boolean;
+  includeStopSoldPlans?: boolean | undefined;
   /** Language to search, ISO 639-1 two-letter code, possible values - 'en,cs,de,es,fr,hu,it,ja,ko,nl,pl,pt-br,pt-pt,ru,sv,tr,id,zh-hans,zh-hant'. Default is "en" */
-  language?: string;
+  language?: string | undefined;
   /** Indicates whether to include hidden plans in the response. By default, includeHiddenPlans is set to FALSE. */
-  includeHiddenPlans?: boolean;
+  includeHiddenPlans?: boolean | undefined;
   /** Indicates whether to include the product's service instruction templates in the response. By default, includeServiceInstructionTemplates is set to FALSE. */
-  includeServiceInstructionTemplates?: boolean;
+  includeServiceInstructionTemplates?: boolean | undefined;
   /** Optional to pass the plan id to filter to a specific plan within the product. If not specified, the response will include all plans of the product. */
-  planId?: string;
+  planId?: string | undefined;
   /** Optional to pass the sku id to filter to a specific sku within the product. If not specified, the response will include all skus of the product. */
-  skuId?: string;
+  skuId?: string | undefined;
   /** Indicates whether to use the tenant in context to fetch the product. By default, lookUpOfferInTenantLevel is set to FALSE. */
-  lookUpOfferInTenantLevel?: boolean;
+  lookUpOfferInTenantLevel?: boolean | undefined;
 }
 export interface GetProductGetByTenantRequest {
   /** The ID of the product */
@@ -856,19 +856,19 @@ export interface GetProductGetByTenantRequest {
   /** Product market value that will be used to fetch the product and affect the returning result.Possible values can be found at https://docs.microsoft.com/en-us/azure/marketplace/marketplace-geo-availability-currencies. Example: 'US' */
   market: string;
   /** Indicates whether to include plans that are no longer available for purchase in the response. By default, includeStopSoldPlans is set to FALSE. */
-  includeStopSoldPlans?: boolean;
+  includeStopSoldPlans?: boolean | undefined;
   /** Language to search, ISO 639-1 two-letter code, possible values - 'en,cs,de,es,fr,hu,it,ja,ko,nl,pl,pt-br,pt-pt,ru,sv,tr,id,zh-hans,zh-hant'. Default is "en" */
-  language?: string;
+  language?: string | undefined;
   /** Direct-Commercial or Partner-Commercial. This value is used to determine the pricing audience for the product. If not specified, the default value is Direct-Commercial. */
-  pricingAudience?: string;
+  pricingAudience?: string | undefined;
   /** Indicates whether to include hidden plans in the response. By default, includeHiddenPlans is set to FALSE. */
-  includeHiddenPlans?: boolean;
+  includeHiddenPlans?: boolean | undefined;
   /** Indicates whether to include the product's service instruction templates in the response. By default, includeServiceInstructionTemplates is set to FALSE. */
-  includeServiceInstructionTemplates?: boolean;
+  includeServiceInstructionTemplates?: boolean | undefined;
   /** Optional to pass the plan id to filter to a specific plan within the product. If not specified, the response will include all plans of the product. */
-  planId?: string;
+  planId?: string | undefined;
   /** Optional to pass the sku id to filter to a specific sku within the product. If not specified, the response will include all skus of the product. */
-  skuId?: string;
+  skuId?: string | undefined;
 }
 export interface GetSkusByBillingAccountRequest {
   /** The ID of the target billing account. */
@@ -876,18 +876,18 @@ export interface GetSkusByBillingAccountRequest {
   /** The ID of the SKU */
   skuId: string;
   /** Language to search, ISO 639-1 two-letter code, possible values - 'en,cs,de,es,fr,hu,it,ja,ko,nl,pl,pt-br,pt-pt,ru,sv,tr,id,zh-hans,zh-hant'. Default is 'en'. */
-  language?: string;
+  language?: string | undefined;
   /** Include stop-sold SKUs in the response. Default is false. */
-  includeStopSold?: boolean;
+  includeStopSold?: boolean | undefined;
   /** Include availabilities whose start date is in the future. Default is false. */
-  includeFutureAvailabilities?: boolean;
+  includeFutureAvailabilities?: boolean | undefined;
 }
 /** Key-value attribute pair. */
 export interface Attribute_2 {
   /** The attribute key. */
-  key?: string;
+  key?: string | undefined;
   /** The attribute value. */
-  value?: string;
+  value?: string | undefined;
 }
 /** The product attributes. */
 export type GetSkusByBillingAccountResponseProductAttributesList = Array<Attribute_2>;
@@ -896,36 +896,36 @@ export type GetSkusByBillingAccountResponseSkuAttributesList = Array<Attribute_2
 /** SKU properties, can be different per each service family. */
 export interface SkuProperties_2 {
   /** The SKU category. */
-  category?: string;
+  category?: string | undefined;
   /** The data disk type, such as 'Ssd'. */
-  dataDiskType?: string;
+  dataDiskType?: string | undefined;
   /** The disk type, such as 'Ssd'. */
-  diskType?: string;
+  diskType?: string | undefined;
   /** The number of cores. */
-  numberOfCores?: string;
+  numberOfCores?: string | undefined;
   /** The RAM. */
-  ram?: string;
+  ram?: string | undefined;
   /** The number of virtual CPUs. */
-  vCpu?: string;
+  vCpu?: string | undefined;
   /** The ARM SKU name. */
-  armSkuName?: string;
+  armSkuName?: string | undefined;
   /** The access tier, such as 'Standard'. */
-  accessTier?: string;
+  accessTier?: string | undefined;
 }
 /** Offering properties such as: product code (UPN), term id, meter type, offering id. */
 export interface OfferingProperties_2 {
   /** The meter type. */
-  meterType?: string;
+  meterType?: string | undefined;
   /** The billing meter id. */
-  billingMeterId?: string;
+  billingMeterId?: string | undefined;
   /** The offering id. */
-  offeringId?: string;
+  offeringId?: string | undefined;
   /** The product code (UPN). */
-  productCode?: string;
+  productCode?: string | undefined;
   /** The term id. */
-  termId?: string;
+  termId?: string | undefined;
   /** The pricing property type (e.g., Consumption, Reservation, Entitlement). */
-  type?: string;
+  type?: string | undefined;
 }
 /** Offering properties such as: product code (UPN), term id, meter type, offering id. */
 export type GetSkusByBillingAccountResponseOfferingPropertiesList = Array<OfferingProperties_2>;
@@ -960,38 +960,40 @@ export type ProductAlternateIdsAssociatedSkuList = Array<string>;
 /** Product-level alternate ids (product id without SKU id), used for OData lookup on SKUs of a specific product. */
 export interface ProductAlternateIds {
   /** Applicable promotion product identifiers. */
-  applicablePromotion?: ProductAlternateIdsApplicablePromotionList;
+  applicablePromotion?: ProductAlternateIdsApplicablePromotionList | undefined;
   /** Add-on parent product identifiers. */
-  addOnParent?: ProductAlternateIdsAddOnParentList;
+  addOnParent?: ProductAlternateIdsAddOnParentList | undefined;
   /** Applicable future price concession product identifiers. */
-  applicableFuturePriceConcession?: ProductAlternateIdsApplicableFuturePriceConcessionList;
+  applicableFuturePriceConcession?:
+    | ProductAlternateIdsApplicableFuturePriceConcessionList
+    | undefined;
   /** Benefit SKU product identifiers. */
-  benefitSku?: ProductAlternateIdsBenefitSkuList;
+  benefitSku?: ProductAlternateIdsBenefitSkuList | undefined;
   /** Included in bundle product identifiers. */
-  includedInBundle?: ProductAlternateIdsIncludedInBundleList;
+  includedInBundle?: ProductAlternateIdsIncludedInBundleList | undefined;
   /** Associated SKU product identifiers. */
-  associatedSku?: ProductAlternateIdsAssociatedSkuList;
+  associatedSku?: ProductAlternateIdsAssociatedSkuList | undefined;
 }
 /** Alternate ids for the SKU. */
 export interface SkuAlternateIds {
   /** AAD SKU identifiers. */
-  aadSkuId?: SkuAlternateIdsAadSkuIdList;
+  aadSkuId?: SkuAlternateIdsAadSkuIdList | undefined;
   /** Legacy offer GUID identifiers. */
-  legacyOfferGuid?: SkuAlternateIdsLegacyOfferGuidList;
+  legacyOfferGuid?: SkuAlternateIdsLegacyOfferGuidList | undefined;
   /** Applicable promotion identifiers. */
-  applicablePromotion?: SkuAlternateIdsApplicablePromotionList;
+  applicablePromotion?: SkuAlternateIdsApplicablePromotionList | undefined;
   /** Add-on parent identifiers. */
-  addOnParent?: SkuAlternateIdsAddOnParentList;
+  addOnParent?: SkuAlternateIdsAddOnParentList | undefined;
   /** Applicable future price concession identifiers. */
-  applicableFuturePriceConcession?: SkuAlternateIdsApplicableFuturePriceConcessionList;
+  applicableFuturePriceConcession?: SkuAlternateIdsApplicableFuturePriceConcessionList | undefined;
   /** Benefit SKU identifiers. */
-  benefitSku?: SkuAlternateIdsBenefitSkuList;
+  benefitSku?: SkuAlternateIdsBenefitSkuList | undefined;
   /** Included in bundle identifiers. */
-  includedInBundle?: SkuAlternateIdsIncludedInBundleList;
+  includedInBundle?: SkuAlternateIdsIncludedInBundleList | undefined;
   /** Associated SKU identifiers. */
-  associatedSku?: SkuAlternateIdsAssociatedSkuList;
+  associatedSku?: SkuAlternateIdsAssociatedSkuList | undefined;
   /** Product-level alternate ids (product id without SKU id), used for OData lookup on SKUs of a specific product. */
-  products?: ProductAlternateIds;
+  products?: ProductAlternateIds | undefined;
 }
 /** Category IDs for this SKU. */
 export type GetSkusByBillingAccountResponseCategoryIdsList = Array<string>;
@@ -1006,17 +1008,17 @@ export type MeterIncludedQuantityPropertiesList_3 = Array<IncludedQuantityProper
 /** Applicable billing meter information */
 export interface Meter_3 {
   /** Meter id */
-  meterId?: string;
+  meterId?: string | undefined;
   /** Compute part number */
-  partNumber?: string;
+  partNumber?: string | undefined;
   /** Consumption resource id */
-  consumptionResourceId?: string;
+  consumptionResourceId?: string | undefined;
   /** Retail price with currency */
-  price?: Price_2;
+  price?: Price_2 | undefined;
   /** Type of this meter */
-  type?: string;
+  type?: string | undefined;
   /** Included quantity properties */
-  includedQuantityProperties?: MeterIncludedQuantityPropertiesList_3;
+  includedQuantityProperties?: MeterIncludedQuantityPropertiesList_3 | undefined;
 }
 /** Term description parameters */
 export type TermDescriptionParameter_3 = TermDescriptionParameter_2;
@@ -1031,54 +1033,54 @@ export type LifecyclePolicy_2 = LifecyclePolicy;
 /** Applicable term */
 export interface Term_3 {
   /** Term description parameters */
-  termDescriptionParameters?: TermTermDescriptionParametersList_3;
+  termDescriptionParameters?: TermTermDescriptionParametersList_3 | undefined;
   /** Term id */
-  termId?: string;
+  termId?: string | undefined;
   /** Term unit */
-  termUnit?: string;
+  termUnit?: string | undefined;
   /** Defines the rules for calculating prorated charges or refunds for a subscription. */
-  prorationPolicy?: ProrationPolicy_2;
+  prorationPolicy?: ProrationPolicy_2 | undefined;
   /** Term description */
-  termDescription?: string;
+  termDescription?: string | undefined;
   /** Retail price with currency */
-  price?: Price_2;
+  price?: Price_2 | undefined;
   /** Renew term id */
-  renewTermId?: string;
+  renewTermId?: string | undefined;
   /** Renew term units */
-  renewTermUnits?: string;
+  renewTermUnits?: string | undefined;
   /** Billing Plan */
-  billingPlan?: BillingPlan_2;
+  billingPlan?: BillingPlan_2 | undefined;
   /** Renew Billing Plan */
-  renewToTermBillingPlan?: string;
+  renewToTermBillingPlan?: string | undefined;
   /** Indicates if autorenew is enabled */
-  isAutorenewable?: boolean;
+  isAutorenewable?: boolean | undefined;
   /** Defines the lifecycle management policy for the term */
-  lifecyclePolicy?: LifecyclePolicy;
+  lifecyclePolicy?: LifecyclePolicy | undefined;
   /** Product code for this term */
-  productCode?: string;
+  productCode?: string | undefined;
   /** Term state */
-  state?: string;
+  state?: string | undefined;
   /** Term Actions */
-  actions?: TermActionsList;
+  actions?: TermActionsList | undefined;
 }
 /** List of applicable terms */
 export type AvailabilityTermsList_2 = Array<Term_3>;
 /** Availability for a given plan */
 export interface Availability_2 {
   /** The document id */
-  id?: string;
+  id?: string | undefined;
   /** List of allowed actions */
-  actions?: AvailabilityActionsList;
+  actions?: AvailabilityActionsList | undefined;
   /** Applicable billing meter information */
-  meter?: Meter_3;
+  meter?: Meter_3 | undefined;
   /** Specifies the distribution channel and customer segment for product pricing and availability. Possible values:\n- `Direct-Commercial` - Available through direct Azure Marketplace purchases for commercial customers without intermediaries like partners or resellers\n- `Partner-Commercial` - Available through Cloud Solution Provider partner channel for reseller distribution */
   pricingAudience: string;
   /** List of applicable terms */
-  terms?: AvailabilityTermsList_2;
+  terms?: AvailabilityTermsList_2 | undefined;
   /** A value indicating whether it has free trials */
   hasFreeTrials: boolean;
   /** Consumption unit type */
-  consumptionUnitType?: string;
+  consumptionUnitType?: string | undefined;
   /** Display rank */
   displayRank: number;
 }
@@ -1088,25 +1090,25 @@ export interface GetSkusByBillingAccountResponse {
   /** The unique id of the product. */
   productId: string;
   /** Product display name. */
-  productDisplayName?: string;
+  productDisplayName?: string | undefined;
   /** The product description text. */
-  productDescription?: string;
+  productDescription?: string | undefined;
   /** The service family of the product, such as 'Compute'. */
-  serviceFamily?: string;
+  serviceFamily?: string | undefined;
   /** The service name of the product, such as 'Virtual Machines'. */
-  service?: string;
+  service?: string | undefined;
   /** Publisher id. */
-  publisherId?: string;
+  publisherId?: string | undefined;
   /** Identifies the publisher relationship to Microsoft for support and partnership classification.\n- `Microsoft` - First-party Microsoft product with direct Microsoft support and development\n- `ThirdParty` - Independent software vendor product with publisher-provided support and maintenance */
-  publisherType?: string;
+  publisherType?: string | undefined;
   /** Offer type. */
-  productType?: string;
+  productType?: string | undefined;
   /** Product sub type. */
-  productSubType?: string;
+  productSubType?: string | undefined;
   /** Product summary. */
-  summary?: string;
+  summary?: string | undefined;
   /** The product attributes. */
-  productAttributes?: GetSkusByBillingAccountResponseProductAttributesList;
+  productAttributes?: GetSkusByBillingAccountResponseProductAttributesList | undefined;
   /** SKU name. */
   skuName: string;
   /** SKU id. */
@@ -1120,49 +1122,49 @@ export interface GetSkusByBillingAccountResponse {
   /** SKU title localized. */
   skuTitle: string;
   /** Latest update date of the SKU. */
-  lastModifiedDateTime?: string;
+  lastModifiedDateTime?: string | undefined;
   /** Location (region). */
   location: string;
   /** The ARM region name. */
-  armRegionName?: string;
+  armRegionName?: string | undefined;
   /** The cloud, such as 'Global'. */
   cloud: string;
   /** The location type, such as 'Region'. */
   locationType: string;
   /** The region. */
-  region?: string;
+  region?: string | undefined;
   /** The SKU group id. */
-  skuGroupId?: string;
+  skuGroupId?: string | undefined;
   /** The zone, such as 'Zone 1'. */
-  zone?: string;
+  zone?: string | undefined;
   /** The feature. */
-  feature?: string;
+  feature?: string | undefined;
   /** The service type. */
-  serviceType?: string;
+  serviceType?: string | undefined;
   /** Minimum order quantity. */
-  minQuantity?: number;
+  minQuantity?: number | undefined;
   /** Maximum order quantity. */
-  maxQuantity?: number;
+  maxQuantity?: number | undefined;
   /** Controls plan availability and partner access within the Microsoft Cloud Solution Provider (CSP) program.\n- `OptIn` - Enables all authorized Cloud Solution Provider partners to resell and deploy the product to customers\n- `OptOut` - Excluded from Cloud Solution Provider program, available only through direct channels\n- `SelectiveOptIn` - Available only to selected Cloud Solution Provider partners for resale and customer deployment */
-  cspState?: string;
+  cspState?: string | undefined;
   /** A value indicating whether the SKU supports reservations. */
-  hasRi?: boolean;
+  hasRi?: boolean | undefined;
   /** The SKU attributes. */
-  skuAttributes?: GetSkusByBillingAccountResponseSkuAttributesList;
+  skuAttributes?: GetSkusByBillingAccountResponseSkuAttributesList | undefined;
   /** The SKU properties. */
-  skuProperties?: SkuProperties_2;
+  skuProperties?: SkuProperties_2 | undefined;
   /** Offering properties such as: product code (UPN), term id, meter type, offering id. */
-  offeringProperties?: GetSkusByBillingAccountResponseOfferingPropertiesList;
+  offeringProperties?: GetSkusByBillingAccountResponseOfferingPropertiesList | undefined;
   /** Alternate ids for the SKU. */
-  alternateIds?: SkuAlternateIds;
+  alternateIds?: SkuAlternateIds | undefined;
   /** Offering type of product family Offers. */
-  offeringType?: string;
+  offeringType?: string | undefined;
   /** Category IDs for this SKU. */
-  categoryIds?: GetSkusByBillingAccountResponseCategoryIdsList;
+  categoryIds?: GetSkusByBillingAccountResponseCategoryIdsList | undefined;
   /** Pricing audiences for the SKU. */
-  pricingAudiences?: GetSkusByBillingAccountResponsePricingAudiencesList;
+  pricingAudiences?: GetSkusByBillingAccountResponsePricingAudiencesList | undefined;
   /** Availabilities for this SKU. */
-  availabilities?: GetSkusByBillingAccountResponseAvailabilitiesList;
+  availabilities?: GetSkusByBillingAccountResponseAvailabilitiesList | undefined;
 }
 export interface GetSkusByBillingProfileRequest {
   /** The ID of the target billing account. */
@@ -1172,11 +1174,11 @@ export interface GetSkusByBillingProfileRequest {
   /** The ID of the SKU */
   skuId: string;
   /** Language to search, ISO 639-1 two-letter code, possible values - 'en,cs,de,es,fr,hu,it,ja,ko,nl,pl,pt-br,pt-pt,ru,sv,tr,id,zh-hans,zh-hant'. Default is 'en'. */
-  language?: string;
+  language?: string | undefined;
   /** Include stop-sold SKUs in the response. Default is false. */
-  includeStopSold?: boolean;
+  includeStopSold?: boolean | undefined;
   /** Include availabilities whose start date is in the future. Default is false. */
-  includeFutureAvailabilities?: boolean;
+  includeFutureAvailabilities?: boolean | undefined;
 }
 /** The product attributes. */
 export type GetSkusByBillingProfileResponseProductAttributesList = Array<Attribute_2>;
@@ -1194,25 +1196,25 @@ export interface GetSkusByBillingProfileResponse {
   /** The unique id of the product. */
   productId: string;
   /** Product display name. */
-  productDisplayName?: string;
+  productDisplayName?: string | undefined;
   /** The product description text. */
-  productDescription?: string;
+  productDescription?: string | undefined;
   /** The service family of the product, such as 'Compute'. */
-  serviceFamily?: string;
+  serviceFamily?: string | undefined;
   /** The service name of the product, such as 'Virtual Machines'. */
-  service?: string;
+  service?: string | undefined;
   /** Publisher id. */
-  publisherId?: string;
+  publisherId?: string | undefined;
   /** Identifies the publisher relationship to Microsoft for support and partnership classification.\n- `Microsoft` - First-party Microsoft product with direct Microsoft support and development\n- `ThirdParty` - Independent software vendor product with publisher-provided support and maintenance */
-  publisherType?: string;
+  publisherType?: string | undefined;
   /** Offer type. */
-  productType?: string;
+  productType?: string | undefined;
   /** Product sub type. */
-  productSubType?: string;
+  productSubType?: string | undefined;
   /** Product summary. */
-  summary?: string;
+  summary?: string | undefined;
   /** The product attributes. */
-  productAttributes?: GetSkusByBillingProfileResponseProductAttributesList;
+  productAttributes?: GetSkusByBillingProfileResponseProductAttributesList | undefined;
   /** SKU name. */
   skuName: string;
   /** SKU id. */
@@ -1226,49 +1228,49 @@ export interface GetSkusByBillingProfileResponse {
   /** SKU title localized. */
   skuTitle: string;
   /** Latest update date of the SKU. */
-  lastModifiedDateTime?: string;
+  lastModifiedDateTime?: string | undefined;
   /** Location (region). */
   location: string;
   /** The ARM region name. */
-  armRegionName?: string;
+  armRegionName?: string | undefined;
   /** The cloud, such as 'Global'. */
   cloud: string;
   /** The location type, such as 'Region'. */
   locationType: string;
   /** The region. */
-  region?: string;
+  region?: string | undefined;
   /** The SKU group id. */
-  skuGroupId?: string;
+  skuGroupId?: string | undefined;
   /** The zone, such as 'Zone 1'. */
-  zone?: string;
+  zone?: string | undefined;
   /** The feature. */
-  feature?: string;
+  feature?: string | undefined;
   /** The service type. */
-  serviceType?: string;
+  serviceType?: string | undefined;
   /** Minimum order quantity. */
-  minQuantity?: number;
+  minQuantity?: number | undefined;
   /** Maximum order quantity. */
-  maxQuantity?: number;
+  maxQuantity?: number | undefined;
   /** Controls plan availability and partner access within the Microsoft Cloud Solution Provider (CSP) program.\n- `OptIn` - Enables all authorized Cloud Solution Provider partners to resell and deploy the product to customers\n- `OptOut` - Excluded from Cloud Solution Provider program, available only through direct channels\n- `SelectiveOptIn` - Available only to selected Cloud Solution Provider partners for resale and customer deployment */
-  cspState?: string;
+  cspState?: string | undefined;
   /** A value indicating whether the SKU supports reservations. */
-  hasRi?: boolean;
+  hasRi?: boolean | undefined;
   /** The SKU attributes. */
-  skuAttributes?: GetSkusByBillingProfileResponseSkuAttributesList;
+  skuAttributes?: GetSkusByBillingProfileResponseSkuAttributesList | undefined;
   /** The SKU properties. */
-  skuProperties?: SkuProperties_2;
+  skuProperties?: SkuProperties_2 | undefined;
   /** Offering properties such as: product code (UPN), term id, meter type, offering id. */
-  offeringProperties?: GetSkusByBillingProfileResponseOfferingPropertiesList;
+  offeringProperties?: GetSkusByBillingProfileResponseOfferingPropertiesList | undefined;
   /** Alternate ids for the SKU. */
-  alternateIds?: SkuAlternateIds;
+  alternateIds?: SkuAlternateIds | undefined;
   /** Offering type of product family Offers. */
-  offeringType?: string;
+  offeringType?: string | undefined;
   /** Category IDs for this SKU. */
-  categoryIds?: GetSkusByBillingProfileResponseCategoryIdsList;
+  categoryIds?: GetSkusByBillingProfileResponseCategoryIdsList | undefined;
   /** Pricing audiences for the SKU. */
-  pricingAudiences?: GetSkusByBillingProfileResponsePricingAudiencesList;
+  pricingAudiences?: GetSkusByBillingProfileResponsePricingAudiencesList | undefined;
   /** Availabilities for this SKU. */
-  availabilities?: GetSkusByBillingProfileResponseAvailabilitiesList;
+  availabilities?: GetSkusByBillingProfileResponseAvailabilitiesList | undefined;
 }
 export interface ListEdgeZonesProductsRequest {
   /** Subscription id of the caller */
@@ -1278,13 +1280,13 @@ export interface ListEdgeZonesProductsRequest {
   /** Required edge zone */
   edgeZone: string;
   /** The language of the free texts */
-  language?: string;
+  language?: string | undefined;
   /** The required market */
-  market?: string;
+  market?: string | undefined;
   /** Properties to be returned in the response. */
-  _select?: string;
+  _select?: string | undefined;
   /** The optional page continuation token that is used in the event of paginated result. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 export type Store = "Appsource" | "AMP" | "Ibiza" | "Cosell" | "DakotaDownstream";
 /** The list of the storefronts for which this offer is designated */
@@ -1315,19 +1317,19 @@ export type OfferType =
 export type StopSellReason = "EndOfSupport" | "SecurityIssue" | "Other";
 export interface StopSellInfo {
   /** A value indicating when the sale of this item is going to be stopped */
-  startDate?: string | null;
+  startDate?: string | null | undefined;
   /** A value indicating the reason for stopping to sell this item */
-  reason?: StopSellReason | null;
+  reason?: StopSellReason | null | undefined;
   /** A value indicating an ID of an alternative offer provided by the same publisher */
-  alternativeOfferId?: string | null;
+  alternativeOfferId?: string | null | undefined;
   /** A value indicating an ID of an alternative plan of the same offer */
-  alternativePlanId?: string | null;
+  alternativePlanId?: string | null | undefined;
 }
 export interface MarketingMaterial {
   /** Path to the marketing site */
-  path?: string | null;
+  path?: string | null | undefined;
   /** Path to the learn site */
-  learnUri?: string | null;
+  learnUri?: string | null | undefined;
 }
 /** Markets for the item */
 export type CatalogItemMarketsList = Array<string>;
@@ -1354,46 +1356,46 @@ export type CatalogItemSupportedProductsList = Array<string>;
 export type CatalogItemApplicableProductsList = Array<string>;
 export interface Competency {
   /** Competency name */
-  competencyName?: string | null;
+  competencyName?: string | null | undefined;
   /** Competency level */
-  competencyLevel?: string | null;
+  competencyLevel?: string | null | undefined;
 }
 /** Competencies that apply to the offer */
 export type CatalogItemCompetenciesList = Array<Competency>;
 export type ServiceDurationUnit = "Days" | "Hours" | "Weeks" | "Months";
 export interface Duration {
   /** Duration value */
-  durationValue?: number;
+  durationValue?: number | undefined;
   /** Duration unit */
-  durationUnit?: ServiceDurationUnit;
+  durationUnit?: ServiceDurationUnit | undefined;
 }
 /** 0 = Fixed 1 = Estimated */
 export type CurrencyDecorator = 0 | 1;
 export interface PlanPrice {
   /** Plan id */
-  planId?: string | null;
+  planId?: string | null | undefined;
   /** Currency decorator */
-  currencyDecorator?: CurrencyDecorator;
+  currencyDecorator?: CurrencyDecorator | undefined;
   /** Price of the item */
-  price?: number;
+  price?: number | undefined;
 }
 /** Plan prices */
 export type PricingPlanPricesList = Array<PlanPrice>;
 export interface Pricing {
   /** Currency code */
-  currencyCode?: string | null;
+  currencyCode?: string | null | undefined;
   /** Plan prices */
-  planPrices?: PricingPlanPricesList | null;
+  planPrices?: PricingPlanPricesList | null | undefined;
 }
 /** Market states of a service offer */
 export type MarketPricingDetailsItemMarketStatesList = Array<string>;
 export interface MarketPricingDetailsItem {
   /** Pricing that applies to the item */
-  pricing?: Pricing | null;
+  pricing?: Pricing | null | undefined;
   /** Market code of a service offer */
-  marketCode?: string | null;
+  marketCode?: string | null | undefined;
   /** Market states of a service offer */
-  marketStates?: MarketPricingDetailsItemMarketStatesList | null;
+  marketStates?: MarketPricingDetailsItemMarketStatesList | null | undefined;
 }
 /** The pricing details of each market to the item */
 export type CatalogItemMarketPricingDetailsList = Array<MarketPricingDetailsItem>;
@@ -1401,13 +1403,13 @@ export interface MarketStartPrice {
   /** The market. */
   market: string;
   /** The terms pricing model units. */
-  termUnits?: string | null;
+  termUnits?: string | null | undefined;
   /** The meters pricing model units. */
-  meterUnits?: string | null;
+  meterUnits?: string | null | undefined;
   /** Starting (minimal) terms price. */
-  minTermPrice?: number | null;
+  minTermPrice?: number | null | undefined;
   /** Starting (minimal) meters price. */
-  minMeterPrice?: number | null;
+  minMeterPrice?: number | null | undefined;
   /** Currency for price. */
   currency: string;
 }
@@ -1417,19 +1419,19 @@ export type CatalogItemSolutionAreasList = Array<string>;
 export type CatalogItemScreenshotUrisList = Array<string>;
 export interface LinkProperties {
   /** Id of the link */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Display name of the link */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** URI of the link */
-  uri?: string | null;
+  uri?: string | null | undefined;
 }
 /** List of Links provided for the item */
 export type CatalogItemLinksList = Array<LinkProperties>;
 export interface Filter {
   /** Filter type */
-  type?: string | null;
+  type?: string | null | undefined;
   /** Filter value */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 /** List of filters for the item */
 export type CatalogItemFiltersList = Array<Filter>;
@@ -1438,81 +1440,81 @@ export type CatalogItemIconFileUrisMap = { [key: string]: string | undefined };
 export type ArtifactType = "Template" | "Fragment" | "Custom" | "Metadata";
 export interface Artifact {
   /** Artifact name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Artifact uri */
-  uri?: string | null;
+  uri?: string | null | undefined;
   /** Artifact type */
-  type?: ArtifactType;
+  type?: ArtifactType | undefined;
 }
 /** List of artifacts */
 export type CatalogItemArtifactsList = Array<Artifact>;
 export interface LeadGeneration {
   /** Product Id */
-  productId?: string | null;
+  productId?: string | null | undefined;
   /** An indicator if lead generation is enabled */
-  leadGenEnabled?: boolean | null;
+  leadGenEnabled?: boolean | null | undefined;
 }
 export interface PreviewImage {
   /** Caption of preview image */
-  caption?: string | null;
+  caption?: string | null | undefined;
   /** Image uri */
-  uri?: string | null;
+  uri?: string | null | undefined;
   /** Image purpose */
-  imagePurpose?: string | null;
+  imagePurpose?: string | null | undefined;
 }
 export interface ProductVideo {
   /** Caption of the product video */
-  caption?: string | null;
+  caption?: string | null | undefined;
   /** Video uri */
-  uri?: string | null;
+  uri?: string | null | undefined;
   /** Video purpose */
-  videoPurpose?: string | null;
+  videoPurpose?: string | null | undefined;
   /** Preview image */
-  previewImage?: PreviewImage | null;
+  previewImage?: PreviewImage | null | undefined;
 }
 export interface TestDrive {
   /** Test drive description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** User manual */
-  userManual?: string | null;
+  userManual?: string | null | undefined;
   /** Test Drive Duration */
-  testDriveDuration?: string | null;
+  testDriveDuration?: string | null | undefined;
   /** Access Information */
-  accessInformation?: string | null;
+  accessInformation?: string | null | undefined;
   /** Orchestration Type */
-  orchestrationType?: string | null;
+  orchestrationType?: string | null | undefined;
   /** Lab identifier */
-  labId?: string | null;
+  labId?: string | null | undefined;
   /** Demo identifier */
-  demoId?: string | null;
+  demoId?: string | null | undefined;
   /** Walk-through video */
-  video?: ProductVideo | null;
+  video?: ProductVideo | null | undefined;
   /** Power Bi dashboard link */
-  powerBiDashboardLink?: string | null;
+  powerBiDashboardLink?: string | null | undefined;
 }
 export interface OfferMetadata {
   /** Lead generation info */
-  leadGeneration?: LeadGeneration | null;
+  leadGeneration?: LeadGeneration | null | undefined;
   /** Test Drive info */
-  testDrive?: TestDrive | null;
+  testDrive?: TestDrive | null | undefined;
 }
 /** Dictionary of properties provided for the item */
 export type CatalogItemPropertiesMap = { [key: string]: string | undefined };
 export interface Image {
   /** Image id */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Image uri */
-  uri?: string | null;
+  uri?: string | null | undefined;
   /** Image type */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 /** List of images */
 export type ImageGroupItemsList = Array<Image>;
 export interface ImageGroup {
   /** context of the image group */
-  context?: string | null;
+  context?: string | null | undefined;
   /** List of images */
-  items?: ImageGroupItemsList | null;
+  items?: ImageGroupItemsList | null | undefined;
 }
 /** List of Images */
 export type CatalogItemImagesList = Array<ImageGroup>;
@@ -1528,13 +1530,13 @@ export type RestrictedAudienceUsersList = Array<string>;
 export type RestrictedAudienceGroupsList = Array<string>;
 export interface RestrictedAudience {
   /** Subscription based restricted audience */
-  subscriptions?: RestrictedAudienceSubscriptionsList | null;
+  subscriptions?: RestrictedAudienceSubscriptionsList | null | undefined;
   /** Tenant based restricted audience */
-  tenants?: RestrictedAudienceTenantsList | null;
+  tenants?: RestrictedAudienceTenantsList | null | undefined;
   /** User based restricted audience */
-  users?: RestrictedAudienceUsersList | null;
+  users?: RestrictedAudienceUsersList | null | undefined;
   /** User groups restricted audience */
-  groups?: RestrictedAudienceGroupsList | null;
+  groups?: RestrictedAudienceGroupsList | null | undefined;
 }
 /** List of keywords */
 export type PlanKeywordsList = Array<string>;
@@ -1542,35 +1544,35 @@ export type PlanKeywordsList = Array<string>;
 export type AvailabilityEntityActionsList = Array<string>;
 export interface Price {
   /** Currency code i.e. 'USD' */
-  currencyCode?: string | null;
+  currencyCode?: string | null | undefined;
   /** A value indicating whether a payment instrument is required */
-  isPIRequired?: boolean;
+  isPIRequired?: boolean | undefined;
   /** Retail price for the item */
-  listPrice?: number;
+  listPrice?: number | undefined;
   /** Manufacturer's suggested retail price for the item */
-  msrp?: number;
+  msrp?: number | undefined;
 }
 export interface IncludedQuantityProperty {
   /** Term id */
-  termId?: string | null;
+  termId?: string | null | undefined;
   /** Quantity of terms */
-  quantity?: string | null;
+  quantity?: string | null | undefined;
 }
 /** Included quantity properties */
 export type MeterIncludedQuantityPropertiesList = Array<IncludedQuantityProperty>;
 export interface Meter {
   /** Meter id */
-  meterId?: string | null;
+  meterId?: string | null | undefined;
   /** Compute part number */
-  partNumber?: string | null;
+  partNumber?: string | null | undefined;
   /** Consumption resource id */
-  consumptionResourceId?: string | null;
+  consumptionResourceId?: string | null | undefined;
   /** Price for this meter */
-  price?: Price | null;
+  price?: Price | null | undefined;
   /** Type for this meter */
-  type?: string | null;
+  type?: string | null | undefined;
   /** Included quantity properties */
-  includedQuantityProperties?: MeterIncludedQuantityPropertiesList | null;
+  includedQuantityProperties?: MeterIncludedQuantityPropertiesList | null | undefined;
 }
 export type PricingAudience =
   | "None"
@@ -1584,47 +1586,47 @@ export type PricingAudience =
   | "DirectRock";
 export interface TermDescriptionParameter {
   /** Term description parameter */
-  parameter?: string | null;
+  parameter?: string | null | undefined;
   /** Term description parameter value */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 /** Term description parameters */
 export type TermTermDescriptionParametersList = Array<TermDescriptionParameter>;
 export interface ProrationPolicy {
   /** Minimum prorated units */
-  minimumProratedUnits?: string | null;
+  minimumProratedUnits?: string | null | undefined;
 }
 export interface BillingPlan {
   /** Billing period */
-  billingPeriod?: string | null;
+  billingPeriod?: string | null | undefined;
   /** Billing plan title */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Billing plan description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Billing plan price */
-  price?: Price | null;
+  price?: Price | null | undefined;
 }
 export interface Term {
   /** Term description parameters */
-  termDescriptionParameters?: TermTermDescriptionParametersList | null;
+  termDescriptionParameters?: TermTermDescriptionParametersList | null | undefined;
   /** Term id */
-  termId?: string | null;
+  termId?: string | null | undefined;
   /** Term unit */
-  termUnits?: string | null;
+  termUnits?: string | null | undefined;
   /** Proration policy */
-  prorationPolicy?: ProrationPolicy | null;
+  prorationPolicy?: ProrationPolicy | null | undefined;
   /** Term description */
-  termDescription?: string | null;
+  termDescription?: string | null | undefined;
   /** Price for the term */
-  price?: Price | null;
+  price?: Price | null | undefined;
   /** Renew term id */
-  renewTermId?: string | null;
+  renewTermId?: string | null | undefined;
   /** Renew term units */
-  renewTermUnits?: string | null;
+  renewTermUnits?: string | null | undefined;
   /** Billing Plan */
-  billingPlan?: BillingPlan | null;
+  billingPlan?: BillingPlan | null | undefined;
   /** Renew Billing Plan */
-  renewToTermBillingPlan?: string | null;
+  renewToTermBillingPlan?: string | null | undefined;
 }
 /** List of applicable terms */
 export type AvailabilityEntityTermsList = Array<Term>;
@@ -1634,67 +1636,67 @@ export type PIFilterExclusionPropertiesList = Array<string>;
 export type PIFilterInclusionPropertiesList = Array<string>;
 export interface PIFilter {
   /** List of exclusion properties */
-  exclusionProperties?: PIFilterExclusionPropertiesList | null;
+  exclusionProperties?: PIFilterExclusionPropertiesList | null | undefined;
   /** List of inclusion properties */
-  inclusionProperties?: PIFilterInclusionPropertiesList | null;
+  inclusionProperties?: PIFilterInclusionPropertiesList | null | undefined;
 }
 /** Asset behaviors */
 export type AvailabilityEntityAssetBehaviorsList = Array<string>;
 export interface Remediation {
   /** Remediation identifier */
-  remediationId?: string | null;
+  remediationId?: string | null | undefined;
   /** Remediation type */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 /** Remediation actions for acquiring availability if RemediationRequired is true */
 export type AvailabilityEntityRemediationsList = Array<Remediation>;
 /** Plan availabilities */
 export type AvailabilityEntityPlanAvailabilitiesList = Array<AvailabilityEntity>;
 export interface AvailabilityEntity {
-  id?: string | null;
+  id?: string | null | undefined;
   /** Partition key */
-  partitionKey?: string | null;
-  ts?: number;
+  partitionKey?: string | null | undefined;
+  ts?: number | undefined;
   /** List of allowed actions */
-  actions?: AvailabilityEntityActionsList | null;
+  actions?: AvailabilityEntityActionsList | null | undefined;
   /** Market for the availability collection */
-  market?: string | null;
+  market?: string | null | undefined;
   /** A value indicating whether a payment instrument is required */
-  isPIRequired?: boolean;
+  isPIRequired?: boolean | undefined;
   /** App id of the availability collection */
-  appId?: string | null;
+  appId?: string | null | undefined;
   /** Plan Id of the availability collection */
-  planID?: string | null;
+  planID?: string | null | undefined;
   /** Applicable billing meter Id */
-  meterId?: string | null;
+  meterId?: string | null | undefined;
   /** Applicable billing meter information */
-  meter?: Meter | null;
+  meter?: Meter | null | undefined;
   /** Pricing audience */
-  pricingAudience?: PricingAudience;
+  pricingAudience?: PricingAudience | undefined;
   /** List of applicable terms */
-  terms?: AvailabilityEntityTermsList | null;
+  terms?: AvailabilityEntityTermsList | null | undefined;
   /** Applicable billing meter information */
-  piFilter?: PIFilter | null;
+  piFilter?: PIFilter | null | undefined;
   /** A value indicating whether it has been stopped from sell in a market */
-  isStopSell?: boolean;
+  isStopSell?: boolean | undefined;
   /** A value indicating whether it has free trials */
-  hasFreeTrials?: boolean;
+  hasFreeTrials?: boolean | undefined;
   /** Asset behaviors */
-  assetBehaviors?: AvailabilityEntityAssetBehaviorsList | null;
+  assetBehaviors?: AvailabilityEntityAssetBehaviorsList | null | undefined;
   /** Consumption unit type */
-  consumptionUnitType?: string | null;
+  consumptionUnitType?: string | null | undefined;
   /** Display rank */
-  displayRank?: number;
+  displayRank?: number | undefined;
   /** A value indicating whether remediation is required to acquire availability */
-  remediationRequired?: boolean;
+  remediationRequired?: boolean | undefined;
   /** Remediation actions for acquiring availability if RemediationRequired is true */
-  remediations?: AvailabilityEntityRemediationsList | null;
+  remediations?: AvailabilityEntityRemediationsList | null | undefined;
   /** Availability effectiveness start date - in epoch minutes */
-  startDate?: number | null;
+  startDate?: number | null | undefined;
   /** Availability effectiveness end date - in epoch minutes */
-  endDate?: number | null;
+  endDate?: number | null | undefined;
   /** Plan availabilities */
-  planAvailabilities?: AvailabilityEntityPlanAvailabilitiesList | null;
+  planAvailabilities?: AvailabilityEntityPlanAvailabilitiesList | null | undefined;
 }
 /** List of availabilities for this plan */
 export type PlanAvailabilitiesList = Array<AvailabilityEntity>;
@@ -1704,15 +1706,15 @@ export type PlanCategoryIdsList = Array<string>;
 export type PlanConversionPathsList = Array<string>;
 export type OpenPropertyPropertiesMap = { [key: string]: unknown | undefined };
 export interface OpenProperty {
-  properties?: OpenPropertyPropertiesMap | null;
+  properties?: OpenPropertyPropertiesMap | null | undefined;
 }
 export interface OperatingSystem {
   /** Operating system family */
-  family?: string | null;
+  family?: string | null | undefined;
   /** Operating system type */
-  type?: string | null;
+  type?: string | null | undefined;
   /** Operating system name */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 /** Files related to the marketplace item */
 export type PlanArtifactsList = Array<Artifact>;
@@ -1725,21 +1727,21 @@ export type BillingComponentCustomMeterIdsMap = {
 };
 export interface BillingComponent {
   /** Billing Tag */
-  billingTag?: string | null;
+  billingTag?: string | null | undefined;
   /** Custom Meter Ids */
-  customMeterIds?: BillingComponentCustomMeterIdsMap | null;
+  customMeterIds?: BillingComponentCustomMeterIdsMap | null | undefined;
 }
 /** Billing components */
 export type PlanBillingComponentsList = Array<BillingComponent>;
 export interface PurchaseDurationDiscount {
-  duration?: string | null;
-  discountPercentage?: number;
+  duration?: string | null | undefined;
+  discountPercentage?: number | undefined;
 }
 /** List of purchase duration discounts */
 export type PlanPurchaseDurationDiscountsList = Array<PurchaseDurationDiscount>;
 export interface TermUpn {
-  termId?: string | null;
-  upn?: string | null;
+  termId?: string | null | undefined;
+  upn?: string | null | undefined;
 }
 /** List of user principal names(UPNs) */
 export type PlanUpnsList = Array<TermUpn>;
@@ -1750,105 +1752,105 @@ export type PricingType = "Free" | "FreeTrial" | "Byol" | "Payg" | "Ri";
 export type PlanPricingTypesList = Array<PricingType>;
 export interface Plan {
   /** Plan id */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Display name of the plan */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Summary of the plan */
-  summary?: string | null;
+  summary?: string | null | undefined;
   /** Description of the plan */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Restricted audience */
-  restrictedAudience?: RestrictedAudience | null;
+  restrictedAudience?: RestrictedAudience | null | undefined;
   /** Sku id */
-  skuId?: string | null;
+  skuId?: string | null | undefined;
   /** Plan id */
-  planId?: string | null;
+  planId?: string | null | undefined;
   /** Legacy plan Id which is obtained by combining Offer->LegacyId and PlanId with no separator in between */
-  legacyPlanId?: string | null;
+  legacyPlanId?: string | null | undefined;
   /** List of keywords */
-  keywords?: PlanKeywordsList | null;
+  keywords?: PlanKeywordsList | null | undefined;
   /** Offer type */
-  type?: OfferType;
+  type?: OfferType | undefined;
   /** Lead generation info */
-  leadGeneration?: LeadGeneration | null;
+  leadGeneration?: LeadGeneration | null | undefined;
   /** Test Drive info */
-  testDrive?: TestDrive | null;
+  testDrive?: TestDrive | null | undefined;
   /** List of availabilities for this plan */
-  availabilities?: PlanAvailabilitiesList | null;
+  availabilities?: PlanAvailabilitiesList | null | undefined;
   /** Category IDs for this plan */
-  categoryIds?: PlanCategoryIdsList | null;
+  categoryIds?: PlanCategoryIdsList | null | undefined;
   /** Conversion paths for this plan */
-  conversionPaths?: PlanConversionPathsList | null;
+  conversionPaths?: PlanConversionPathsList | null | undefined;
   /** Metadata for this plan */
-  metadata?: OpenProperty | null;
+  metadata?: OpenProperty | null | undefined;
   /** Operating system info for this plan */
-  operatingSystem?: OperatingSystem | null;
+  operatingSystem?: OperatingSystem | null | undefined;
   /** What blade to open when someone wants to create a marketplace item */
-  uiDefinitionUri?: string | null;
+  uiDefinitionUri?: string | null | undefined;
   /** Files related to the marketplace item */
-  artifacts?: PlanArtifactsList | null;
+  artifacts?: PlanArtifactsList | null | undefined;
   /** Version of the marketplace item */
-  version?: string | null;
+  version?: string | null | undefined;
   /** Item name */
-  itemName?: string | null;
+  itemName?: string | null | undefined;
   /** A value indicating whether the item is private */
-  isPrivate?: boolean;
+  isPrivate?: boolean | undefined;
   /** A value indicating whether the plan is hidden */
-  isHidden?: boolean;
+  isHidden?: boolean | undefined;
   /** A value indicating whether it has free trials */
-  hasFreeTrials?: boolean;
+  hasFreeTrials?: boolean | undefined;
   /** A value indicating whether it has licensed plans */
-  isByol?: boolean;
+  isByol?: boolean | undefined;
   /** A value indicating whether it has at least one free availability in any market */
-  isFree?: boolean;
+  isFree?: boolean | undefined;
   /** A value indicating whether the plan is 'Pay As You Go' */
-  isPayg?: boolean;
+  isPayg?: boolean | undefined;
   /** A value indicating whether plan has been stopped from selling */
-  isStopSell?: boolean;
+  isStopSell?: boolean | undefined;
   /** A StopSellInfo object providing stop sell related data */
-  stopSellInfo?: StopSellInfo | null;
+  stopSellInfo?: StopSellInfo | null | undefined;
   /** Alternative stack reference */
-  altStackReference?: string | null;
+  altStackReference?: string | null | undefined;
   /** Stack type : Classic, Gen1, Gen2 */
-  stackType?: string | null;
-  altArchitectureReference?: string | null;
-  architectureType?: string | null;
+  stackType?: string | null | undefined;
+  altArchitectureReference?: string | null | undefined;
+  architectureType?: string | null | undefined;
   /** A value indicating whether the product is available for purchase through CSP channel */
-  cspState?: CSPState | null;
+  cspState?: CSPState | null | undefined;
   /** Resource Provider Namespace */
-  resourceProviderNamespace?: string | null;
+  resourceProviderNamespace?: string | null | undefined;
   /** Resource Provider type */
-  resourceType?: string | null;
+  resourceType?: string | null | undefined;
   /** Min quantity */
-  minQuantity?: number | null;
+  minQuantity?: number | null | undefined;
   /** Max quantity */
-  maxQuantity?: number | null;
+  maxQuantity?: number | null | undefined;
   /** A value indicating whether the plan is quantifiable */
-  isQuantifiable?: boolean;
+  isQuantifiable?: boolean | undefined;
   /** The action that can be performed on this plan, on the storefronts */
-  callToAction?: string | null;
+  callToAction?: string | null | undefined;
   /** URL to redirect the user to post the performed action on the storefronts */
-  redirectUrl?: string | null;
+  redirectUrl?: string | null | undefined;
   /** Service identifier */
-  serviceIdentifier?: string | null;
+  serviceIdentifier?: string | null | undefined;
   /** VM security type */
-  vmSecurityType?: VmSecurityType | null;
+  vmSecurityType?: VmSecurityType | null | undefined;
   /** Display rank */
-  displayRank?: string | null;
+  displayRank?: string | null | undefined;
   /** Billing components */
-  billingComponents?: PlanBillingComponentsList | null;
+  billingComponents?: PlanBillingComponentsList | null | undefined;
   /** List of purchase duration discounts */
-  purchaseDurationDiscounts?: PlanPurchaseDurationDiscountsList | null;
+  purchaseDurationDiscounts?: PlanPurchaseDurationDiscountsList | null | undefined;
   /** List of user principal names(UPNs) */
-  upns?: PlanUpnsList | null;
+  upns?: PlanUpnsList | null | undefined;
   /** A value indicating whether the plan supports reservations */
-  hasRI?: boolean;
+  hasRI?: boolean | undefined;
   /** A value indicating whether the plan is used as hidden private offer requiring a quote */
-  isHiddenPrivateOffer?: boolean | null;
+  isHiddenPrivateOffer?: boolean | null | undefined;
   /** List of certifications */
-  certifications?: PlanCertificationsList | null;
+  certifications?: PlanCertificationsList | null | undefined;
   /** The list of the pricing types for which this plan is designated */
-  pricingTypes?: PlanPricingTypesList | null;
+  pricingTypes?: PlanPricingTypesList | null | undefined;
 }
 /** Plans available for the offer details */
 export type CatalogItemPlansList = Array<Plan>;
@@ -1862,13 +1864,13 @@ export type DefinitionTemplatesDeploymentFragmentFileUrisMap = {
 };
 export interface DefinitionTemplates {
   /** UI definition file URI */
-  uiDefinitionFileUri?: string | null;
+  uiDefinitionFileUri?: string | null | undefined;
   /** Default deployment template id */
-  defaultDeploymentTemplateId?: string | null;
+  defaultDeploymentTemplateId?: string | null | undefined;
   /** A dictionary containing the deployment template file IDs defined in the package manifest and corresponding URIs */
-  deploymentTemplateFileUris?: DefinitionTemplatesDeploymentTemplateFileUrisMap | null;
+  deploymentTemplateFileUris?: DefinitionTemplatesDeploymentTemplateFileUrisMap | null | undefined;
   /** a dictionary containing the deployment fragment file IDs defined in the package manifest and corresponding URIs */
-  deploymentFragmentFileUris?: DefinitionTemplatesDeploymentFragmentFileUrisMap | null;
+  deploymentFragmentFileUris?: DefinitionTemplatesDeploymentFragmentFileUrisMap | null | undefined;
 }
 /** Dictionary of additional properties provided for the item */
 export type CatalogItemAdditionalPropertiesMap = { [key: string]: string | undefined };
@@ -1891,54 +1893,54 @@ export type CatalogItemPbiServicePrincipalIdsList = Array<string>;
 export type CertificationType = 0 | 1 | 2 | 3;
 export interface M365CertificationInfo {
   /** M365 Certification Type */
-  m365CertificationType?: CertificationType;
+  m365CertificationType?: CertificationType | undefined;
   /** M365 Certification Url */
-  m365CertificationDetailsUrl?: string | null;
+  m365CertificationDetailsUrl?: string | null | undefined;
   /** M365 Certification Id */
-  m365CertificationId?: string | null;
+  m365CertificationId?: string | null | undefined;
 }
 /** 0 = None 1 = Free 2 = FreeTrial 4 = Paid 8 = Byol */
 export type PricingOptions = 0 | 1 | 2 | 4 | 8;
 export interface UIPricing {
   /** A value indicating what pricing options are available on the application */
-  pricingOptions?: PricingOptions;
+  pricingOptions?: PricingOptions | undefined;
   /** Has prices */
-  hasPrices?: boolean | null;
+  hasPrices?: boolean | null | undefined;
 }
 /** storefront pricings parameters for AppSource and AMP */
 export type CatalogItemStoreFrontPricingsMap = { [key: string]: UIPricing | undefined };
 export type EnrichedDataTagsList = Array<string>;
 export interface PopularityEnrichedData {
-  appSourceCs?: number;
-  appSourceApps?: number;
-  ampCs?: number;
-  ampApps?: number;
-  azurePortalApps?: number;
+  appSourceCs?: number | undefined;
+  appSourceApps?: number | undefined;
+  ampCs?: number | undefined;
+  ampApps?: number | undefined;
+  azurePortalApps?: number | undefined;
 }
 export type ReviewSource = "None" | "AppSource" | "Amp" | "Ibiza" | "G2" | "Internal" | "All";
 export type RatingSummaryStarsDistributionMap = { [key: string]: number | undefined };
 export type RatingSummaryBucketsList = Array<string>;
 export interface RatingSummary {
-  totalRatings?: number;
-  source?: ReviewSource;
-  averageRating?: number;
-  createdAt?: string;
-  externalOfferReference?: string | null;
-  starsDistribution?: RatingSummaryStarsDistributionMap | null;
-  buckets?: RatingSummaryBucketsList | null;
+  totalRatings?: number | undefined;
+  source?: ReviewSource | undefined;
+  averageRating?: number | undefined;
+  createdAt?: string | undefined;
+  externalOfferReference?: string | null | undefined;
+  starsDistribution?: RatingSummaryStarsDistributionMap | null | undefined;
+  buckets?: RatingSummaryBucketsList | null | undefined;
 }
 export interface RatingEnrichedData {
-  appSource?: RatingSummary | null;
-  amp?: RatingSummary | null;
-  azurePortal?: RatingSummary | null;
-  g2?: RatingSummary | null;
+  appSource?: RatingSummary | null | undefined;
+  amp?: RatingSummary | null | undefined;
+  azurePortal?: RatingSummary | null | undefined;
+  g2?: RatingSummary | null | undefined;
 }
 export interface EnrichedData {
-  tags?: EnrichedDataTagsList | null;
-  popularity?: PopularityEnrichedData | null;
-  rating?: RatingEnrichedData | null;
-  isAzureBenefitEligible?: boolean;
-  isSolutionMap?: boolean;
+  tags?: EnrichedDataTagsList | null | undefined;
+  popularity?: PopularityEnrichedData | null | undefined;
+  rating?: RatingEnrichedData | null | undefined;
+  isAzureBenefitEligible?: boolean | undefined;
+  isSolutionMap?: boolean | undefined;
 }
 /** 1 = Capability1 2 = Capability2 3 = Capability3 4 = Capability4 5 = Capability5 6 = Capability6 7 = Capability7 8 = Capability8 9 = Capability9 10 = Capability10 11 = Capability11 */
 export type OfficeCapabilityType = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
@@ -1954,265 +1956,265 @@ export interface CatalogItem {
   /** Language of the offer */
   language: string;
   /** Display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** A value indicating whether standard contract amendments are present for this product */
-  hasStandardContractAmendments?: boolean;
+  hasStandardContractAmendments?: boolean | undefined;
   /** The publisher's Microsoft Partner Network (MPN) Id */
-  publisherMpnId?: string | null;
+  publisherMpnId?: string | null | undefined;
   /** Partner Center Seller Id */
-  sellerId?: string | null;
+  sellerId?: string | null | undefined;
   /** Publisher id */
-  publisherId?: string | null;
+  publisherId?: string | null | undefined;
   /** Partner center id */
-  partnerCenterId?: string | null;
+  partnerCenterId?: string | null | undefined;
   /** Publisher display name */
-  publisherDisplayName?: string | null;
+  publisherDisplayName?: string | null | undefined;
   /** Offer id */
   offerId: string;
   /** Offer legacy id */
   legacyId: string;
   /** The list of the storefronts for which this offer is designated */
-  determinedStorefronts?: CatalogItemDeterminedStorefrontsList | null;
+  determinedStorefronts?: CatalogItemDeterminedStorefrontsList | null | undefined;
   /** Standard contract amendments for this product */
-  standardContractAmendmentsRevisionId?: string;
+  standardContractAmendmentsRevisionId?: string | undefined;
   /** The universal amendment link for an enterprise contract. */
-  universalAmendmentUrl?: string | null;
+  universalAmendmentUrl?: string | null | undefined;
   /** Summary of the catalog item */
-  summary?: string | null;
+  summary?: string | null | undefined;
   /** Long summary */
-  longSummary?: string | null;
+  longSummary?: string | null | undefined;
   /** Description of the catalog item */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Offer type */
-  offerType?: OfferType;
+  offerType?: OfferType | undefined;
   /** A value indicating whether the item is private */
-  isPrivate?: boolean;
+  isPrivate?: boolean | undefined;
   /** A value indicating whether the item is preview */
-  isPreview?: boolean;
+  isPreview?: boolean | undefined;
   /** A value indicating whether sale of this item is stopped */
-  isStopSell?: boolean;
+  isStopSell?: boolean | undefined;
   /** A StopSellInfo object providing stop sell related data */
-  stopSellInfo?: StopSellInfo | null;
+  stopSellInfo?: StopSellInfo | null | undefined;
   /** A value indicating whether this item is eligible for fulfill before charge */
-  fulfillBeforeChargeEligible?: boolean;
+  fulfillBeforeChargeEligible?: boolean | undefined;
   /** Marketing material added by the publisher */
-  marketingMaterial?: MarketingMaterial | null;
+  marketingMaterial?: MarketingMaterial | null | undefined;
   /** Markets for the item */
-  markets?: CatalogItemMarketsList | null;
+  markets?: CatalogItemMarketsList | null | undefined;
   /** ISV contact details */
-  isvContactDetails?: CatalogItemIsvContactDetailsMap | null;
+  isvContactDetails?: CatalogItemIsvContactDetailsMap | null | undefined;
   /** Big catalog id */
   bigId: string;
   /** OCP solution id of the product */
-  ocpSolutionId?: string | null;
+  ocpSolutionId?: string | null | undefined;
   /** Legal terms URI */
-  legalTermsUri?: string | null;
+  legalTermsUri?: string | null | undefined;
   /** CSP legal terms URI */
-  cspLegalTermsUri?: string | null;
+  cspLegalTermsUri?: string | null | undefined;
   /** Type of to the legal terms */
-  legalTermsType?: LegalTermsType;
+  legalTermsType?: LegalTermsType | undefined;
   /** Uri to the privacy policy of the product */
-  privacyPolicyUri?: string | null;
+  privacyPolicyUri?: string | null | undefined;
   /** Help link for the product */
-  helpLink?: string | null;
+  helpLink?: string | null | undefined;
   /** Support uri of the product */
-  supportUri?: string | null;
+  supportUri?: string | null | undefined;
   /** Big Cat submission version */
-  version?: string | null;
+  version?: string | null | undefined;
   /** User interface definition uri */
-  uiDefinitionUri?: string | null;
+  uiDefinitionUri?: string | null | undefined;
   /** List of category IDs the marketplace item belongs to */
-  categoryIds?: CatalogItemCategoryIdsList | null;
+  categoryIds?: CatalogItemCategoryIdsList | null | undefined;
   /** List of operating systems the marketplace item supports */
-  operatingSystems?: CatalogItemOperatingSystemsList | null;
+  operatingSystems?: CatalogItemOperatingSystemsList | null | undefined;
   /** Market code of a service offer */
-  marketCode?: string | null;
+  marketCode?: string | null | undefined;
   /** Market states of a service offer */
-  marketStates?: CatalogItemMarketStatesList | null;
+  marketStates?: CatalogItemMarketStatesList | null | undefined;
   /** List of industry IDs the item belongs to */
-  industryIds?: CatalogItemIndustryIdsList | null;
+  industryIds?: CatalogItemIndustryIdsList | null | undefined;
   /** List of industry IDs the item belongs to */
-  primaryIndustry?: CatalogItemPrimaryIndustryList | null;
+  primaryIndustry?: CatalogItemPrimaryIndustryList | null | undefined;
   /** List of category IDs the item belongs to */
-  primaryCategories?: CatalogItemPrimaryCategoriesList | null;
+  primaryCategories?: CatalogItemPrimaryCategoriesList | null | undefined;
   /** List of cloud industry IDs the item belongs to */
-  cloudIndustryCategories?: CatalogItemCloudIndustryCategoriesList | null;
+  cloudIndustryCategories?: CatalogItemCloudIndustryCategoriesList | null | undefined;
   /** Primary product for the offer */
-  primaryProduct?: string | null;
+  primaryProduct?: string | null | undefined;
   /** It maps to the list of products the publisher provides with which their offer works */
-  supportedProducts?: CatalogItemSupportedProductsList | null;
+  supportedProducts?: CatalogItemSupportedProductsList | null | undefined;
   /** Product categories the offer belongs to */
-  applicableProducts?: CatalogItemApplicableProductsList | null;
+  applicableProducts?: CatalogItemApplicableProductsList | null | undefined;
   /** Service type that applies to the offer */
-  serviceType?: string | null;
+  serviceType?: string | null | undefined;
   /** Competencies that apply to the offer */
-  competencies?: CatalogItemCompetenciesList | null;
+  competencies?: CatalogItemCompetenciesList | null | undefined;
   /** A value indicating whether the item has prices */
-  hasPrices?: boolean | null;
+  hasPrices?: boolean | null | undefined;
   /** The duration that applies to the item */
-  duration?: Duration | null;
+  duration?: Duration | null | undefined;
   /** The pricing details of each market to the item */
-  marketPricingDetails?: CatalogItemMarketPricingDetailsList | null;
-  startingPrice?: MarketStartPrice | null;
+  marketPricingDetails?: CatalogItemMarketPricingDetailsList | null | undefined;
+  startingPrice?: MarketStartPrice | null | undefined;
   /** The pricing that applies to the item */
-  pricing?: Pricing | null;
+  pricing?: Pricing | null | undefined;
   /** The states that apply to the item */
-  solutionAreas?: CatalogItemSolutionAreasList | null;
+  solutionAreas?: CatalogItemSolutionAreasList | null | undefined;
   /** List of screenshot image URIs provided for the item */
-  screenshotUris?: CatalogItemScreenshotUrisList | null;
+  screenshotUris?: CatalogItemScreenshotUrisList | null | undefined;
   /** List of Links provided for the item */
-  links?: CatalogItemLinksList | null;
+  links?: CatalogItemLinksList | null | undefined;
   /** List of filters for the item */
-  filters?: CatalogItemFiltersList | null;
+  filters?: CatalogItemFiltersList | null | undefined;
   /** Dictionary of icon image URIs by icon type */
-  iconFileUris?: CatalogItemIconFileUrisMap | null;
+  iconFileUris?: CatalogItemIconFileUrisMap | null | undefined;
   /** List of artifacts */
-  artifacts?: CatalogItemArtifactsList | null;
+  artifacts?: CatalogItemArtifactsList | null | undefined;
   /** Custom item metadata */
-  metadata?: OfferMetadata | null;
+  metadata?: OfferMetadata | null | undefined;
   /** Dictionary of properties provided for the item */
-  properties?: CatalogItemPropertiesMap | null;
+  properties?: CatalogItemPropertiesMap | null | undefined;
   /** List of Images */
-  images?: CatalogItemImagesList | null;
+  images?: CatalogItemImagesList | null | undefined;
   /** List of product videos */
-  videos?: CatalogItemVideosList | null;
+  videos?: CatalogItemVideosList | null | undefined;
   /** Plans available for the offer details */
-  plans?: CatalogItemPlansList | null;
+  plans?: CatalogItemPlansList | null | undefined;
   /** Resource group name the gallery item belongs to */
-  resourceGroupName?: string | null;
+  resourceGroupName?: string | null | undefined;
   /** Definition templates */
-  definitionTemplates?: DefinitionTemplates | null;
+  definitionTemplates?: DefinitionTemplates | null | undefined;
   /** Dictionary of additional properties provided for the item */
-  additionalProperties?: CatalogItemAdditionalPropertiesMap | null;
+  additionalProperties?: CatalogItemAdditionalPropertiesMap | null | undefined;
   /** This fields supports setting explicit audience like subscription, tenant or user */
-  restrictedAudience?: RestrictedAudience | null;
+  restrictedAudience?: RestrictedAudience | null | undefined;
   /** A value indicating is the marketplace item deleted */
-  isDeleted?: boolean;
+  isDeleted?: boolean | undefined;
   /** A value indicating whether the product is third party offer or not */
-  isThirdParty?: boolean;
+  isThirdParty?: boolean | undefined;
   /** This value is used to merge different entities to a single item */
-  groupId?: string | null;
+  groupId?: string | null | undefined;
   /** List of hide keys provided for the item */
-  hideKeys?: CatalogItemHideKeysList | null;
+  hideKeys?: CatalogItemHideKeysList | null | undefined;
   /** List of keywords provided for the item */
-  keywords?: CatalogItemKeywordsList | null;
+  keywords?: CatalogItemKeywordsList | null | undefined;
   /** Popularity of the product */
-  popularity?: number;
+  popularity?: number | undefined;
   /** Pricing details uri of the product */
-  pricingDetailsUri?: string | null;
+  pricingDetailsUri?: string | null | undefined;
   /** A value indicating whether it has free trials */
-  hasFreeTrials?: boolean;
+  hasFreeTrials?: boolean | undefined;
   /** A value indicating whether it has licensed plans */
-  isByol?: boolean;
+  isByol?: boolean | undefined;
   /** A value indicating whether it is MACC eligible */
-  isMacc?: boolean;
+  isMacc?: boolean | undefined;
   /** A value indicating whether it has free plans */
-  hasFreePlans?: boolean;
+  hasFreePlans?: boolean | undefined;
   /** A value indicating whether product is quantifiable */
-  isQuantifiable?: boolean;
+  isQuantifiable?: boolean | undefined;
   /** Alternative stack reference */
-  altStackReference?: string | null;
+  altStackReference?: string | null | undefined;
   /** A value indicating whether an offer has a 'Pay As You Go' plan */
-  hasPaygPlans?: boolean;
+  hasPaygPlans?: boolean | undefined;
   /** A value indicating whether microsoft is acting as a reseller */
-  isReseller?: boolean;
+  isReseller?: boolean | undefined;
   /** Expiration policy in seconds */
-  ttl?: number | null;
+  ttl?: number | null | undefined;
   /** A value indicating whether the offer should be excluded from search */
-  isExcludedFromSearch?: boolean;
+  isExcludedFromSearch?: boolean | undefined;
   /** A value indicating which storefront this offer should surface on */
-  applicableStoreFronts?: StoreFrontOptions | null;
+  applicableStoreFronts?: StoreFrontOptions | null | undefined;
   /** Offer version specified by the publisher on publishing portal */
-  offerVersion?: string | null;
+  offerVersion?: string | null | undefined;
   /** A value indicating whether it is a microsoft product */
-  isMicrosoftProduct?: boolean | null;
+  isMicrosoftProduct?: boolean | null | undefined;
   /** Product ownership selling motion */
-  productOwnershipSellingMotion?: string | null;
+  productOwnershipSellingMotion?: string | null | undefined;
   /** The list of document links provided for the item */
-  documentLinks?: CatalogItemDocumentLinksList | null;
+  documentLinks?: CatalogItemDocumentLinksList | null | undefined;
   /** A value indicating offer's environment */
-  offerEnvironment?: EnvironmentInfo;
+  offerEnvironment?: EnvironmentInfo | undefined;
   /** List of linked Add Ins provided for the item */
-  linkedAddIns?: CatalogItemLinkedAddInsList | null;
-  linkedAddInsTypes?: CatalogItemLinkedAddInsTypesMap | null;
+  linkedAddIns?: CatalogItemLinkedAddInsList | null | undefined;
+  linkedAddInsTypes?: CatalogItemLinkedAddInsTypesMap | null | undefined;
   /** A value indicating whether the offer should not be re-ingest during bootstrap session */
-  excludeFromBootstrap?: boolean;
+  excludeFromBootstrap?: boolean | undefined;
   /** Notification creation time */
-  hydrationNotificationReceivedAt?: string | null;
+  hydrationNotificationReceivedAt?: string | null | undefined;
   /** Last modified date */
-  bigCatLastModifiedDate?: string | null;
+  bigCatLastModifiedDate?: string | null | undefined;
   /** Indication to disable sending email on purchase */
-  disableSendEmailOnPurchase?: boolean;
+  disableSendEmailOnPurchase?: boolean | undefined;
   /** Indication to hide from SaaS blade */
-  hideFromSaasBlade?: boolean;
+  hideFromSaasBlade?: boolean | undefined;
   /** Indication if there is integrated with Microsoft graph API */
-  integratedWithMicrosoftGraphApi?: boolean;
+  integratedWithMicrosoftGraphApi?: boolean | undefined;
   /** Multi tenant AAD app id */
-  multiTenantAadAppId?: string | null;
+  multiTenantAadAppId?: string | null | undefined;
   /** License management type */
-  licenseManagementType?: string | null;
+  licenseManagementType?: string | null | undefined;
   /** License model */
-  licenseModel?: string | null;
+  licenseModel?: string | null | undefined;
   /** PBI service principals */
-  pbiServicePrincipalIds?: CatalogItemPbiServicePrincipalIdsList | null;
+  pbiServicePrincipalIds?: CatalogItemPbiServicePrincipalIdsList | null | undefined;
   /** Set to true only for offers of OfferType.VirtualMachine to indicate that it was originally of OfferType.CoreVirtualMachine */
-  isCoreVm?: boolean | null;
+  isCoreVm?: boolean | null | undefined;
   /** M365 Certification info */
-  m365CertificationInfo?: M365CertificationInfo | null;
+  m365CertificationInfo?: M365CertificationInfo | null | undefined;
   /** Download link for offers of type OfferType.PowerBIVisuals */
-  downloadLink?: string | null;
+  downloadLink?: string | null | undefined;
   /** Download sample report link for offers of type OfferType.PowerBIVisuals */
-  downloadSampleLink?: string | null;
+  downloadSampleLink?: string | null | undefined;
   /** Asset ID for offers of type OfferType.PowerBIVisuals */
-  omexAssetId?: string | null;
+  omexAssetId?: string | null | undefined;
   /** Product ID for offers of type OfferType.PowerBIVisuals */
-  mixProductId?: string | null;
+  mixProductId?: string | null | undefined;
   /** Whether an offer has additional purchases required */
-  appFreeType?: string | null;
+  appFreeType?: string | null | undefined;
   /** storefront pricings parameters for AppSource and AMP */
-  storeFrontPricings?: CatalogItemStoreFrontPricingsMap | null;
+  storeFrontPricings?: CatalogItemStoreFrontPricingsMap | null | undefined;
   /** Has plans with reservations */
-  hasRIPlans?: boolean;
+  hasRIPlans?: boolean | undefined;
   /** Enriched offer data */
-  enrichedData?: EnrichedData | null;
+  enrichedData?: EnrichedData | null | undefined;
   /** Office capabilities */
-  capabilities?: CatalogItemCapabilitiesList | null;
+  capabilities?: CatalogItemCapabilitiesList | null | undefined;
   /** release date */
-  releaseDate?: string | null;
+  releaseDate?: string | null | undefined;
   /** the flag is used in embedded views */
-  hideFromAdminPortal?: boolean;
+  hideFromAdminPortal?: boolean | undefined;
   /** the flag is used in embedded views */
-  awards?: CatalogItemAwardsList | null;
+  awards?: CatalogItemAwardsList | null | undefined;
   /** the ID is used to correlate to a Visual for PowerBI */
-  powerBIVisualId?: string | null;
+  powerBIVisualId?: string | null | undefined;
   /** The list of the pricing types for which this offer is designated */
-  pricingTypes?: CatalogItemPricingTypesList | null;
+  pricingTypes?: CatalogItemPricingTypesList | null | undefined;
   /** A list of auto run launch events for office products */
-  autoRunLaunchEvents?: CatalogItemAutoRunLaunchEventsList | null;
+  autoRunLaunchEvents?: CatalogItemAutoRunLaunchEventsList | null | undefined;
   /** BigCat Service */
-  service?: string | null;
+  service?: string | null | undefined;
   /** BigCat Service Id */
-  serviceId?: string | null;
+  serviceId?: string | null | undefined;
   /** BigCat Product Type */
-  productType?: string | null;
+  productType?: string | null | undefined;
   /** BigCat Product Family */
-  productFamily?: string | null;
-  id?: string | null;
-  partitionKey?: string | null;
-  ts?: number;
+  productFamily?: string | null | undefined;
+  id?: string | null | undefined;
+  partitionKey?: string | null | undefined;
+  ts?: number | undefined;
   /** Gets or sets the search relevance score when it is linked to a search score */
-  searchScore?: number | null;
+  searchScore?: number | null | undefined;
 }
 /** Gets the collection of entities for this feed. */
 export type PageResultOfCatalogItemItemsList = Array<CatalogItem>;
 /** Represents a feed of entities that includes additional information that OData formats support. */
 export interface PageResultOfCatalogItem {
   /** Gets the link for the next page of items in the feed. */
-  nextPageLink?: string | null;
+  nextPageLink?: string | null | undefined;
   /** Gets the total count of items in the feed. */
-  count?: number | null;
+  count?: number | null | undefined;
   /** Gets the collection of entities for this feed. */
-  items?: PageResultOfCatalogItemItemsList | null;
+  items?: PageResultOfCatalogItemItemsList | null | undefined;
   [key: string]: unknown;
 }
 export interface ListGetApiKeysRequest {
@@ -2222,28 +2224,28 @@ export interface ListGetApiKeysRequest {
 /** ApiKey object containing both the key and its alias. */
 export interface ApiKey {
   /** The API key alias. */
-  keyAlias?: string;
+  keyAlias?: string | undefined;
   /** The API key to be used when calling relevant Discovery endpoints. */
-  key?: string;
+  key?: string | undefined;
 }
 export type ApiKeysValueList = Array<ApiKey>;
 /** List of ApiKey objects. */
 export interface ApiKeys {
-  value?: ApiKeysValueList;
+  value?: ApiKeysValueList | undefined;
   /** Next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -2252,43 +2254,43 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProductListByBillingAccountRequest {
   /** The ID of the target billing account. */
   billingAccountId: string;
   /** Language to search, ISO 639-1 two-letter code, possible values - 'en,cs,de,es,fr,hu,it,ja,ko,nl,pl,pt-br,pt-pt,ru,sv,tr,id,zh-hans,zh-hant'. Default is "en" */
-  language?: string;
+  language?: string | undefined;
   /** Whether to exclude public offers and public plans from the response. Default is false, which means that public offers and public plans are included in the response. If set to true, only private plans will be returned. */
-  excludePublicOffersAndPublicPlans?: boolean;
+  excludePublicOffersAndPublicPlans?: boolean | undefined;
   /** Return products available in selected location. Enumeration of the Azure datacenter regions. See https://azure.microsoft.com/regions/ */
-  locations?: string;
+  locations?: string | undefined;
   /** Filters the results, based on a Boolean condition. Example: $filter=productType eq 'VirtualMachine'. Fields that can be filtered by are: - `displayName` - `productId` - `popularity` - `categoryIds` - `industryIds` - `publisherId` - `uniqueProductId` - `productType` - `operatingSystems` - `pricingTypes` - `publisherDisplayName` - `longSummary` - `summary` - `linkedAddinsTypes` - `description` - `supportedProducts` - `applicableProducts` - `lastModifiedDateTime` - `plan.planId` - `plan.displayName` - `plan.cspState` - `plan.altStackReference` - `plan.stackType` - `plan.categoryIds` - `plan.hasProtectedArtifacts` - `plan.pricingTypes` - `plan.summary` - `plan.description` - `plan.skuId` - `plan.displayRank` - `plan.isPrivate` */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Selects which properties to include in the results. Example: $select=displayName */
-  _select?: string;
+  _select?: string | undefined;
   /** Expands related entities inline */
-  _expand?: string;
+  _expand?: string | undefined;
   /** Ordering expression for the results using OData notation. Avoid using orderby unless essential as this may impact the latency of your request. Example: $orderby=displayName desc.This API only supports ordering by a single field. Fields that can be ordered by are: - `lastModifiedDateTime` - `uniqueProductId` - `productType` - `displayName` - `publisherId`' */
-  _orderBy?: string;
+  _orderBy?: string | undefined;
   /** Optional search by display name, publisher display name, or keywords. Example $search=Microsoft */
-  _search?: string;
+  _search?: string | undefined;
 }
 /** Array of product categories */
 export type ProductSummaryCategoryIdsList = Array<string>;
@@ -2319,124 +2321,124 @@ export type PlanSummaryVmSecuritytypesList = Array<string>;
 /** Returns a subset of Plan attributes */
 export interface PlanSummary {
   /** Plan identifier */
-  planId?: string;
+  planId?: string | undefined;
   /** Unique plan identifier which is prefixed by combining uniqueProductId and PlanId with no separator in between */
-  uniquePlanId?: string;
+  uniquePlanId?: string | undefined;
   /** Display name of the plan / sku */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Specifies the virtual machine processor architecture and generation. Applies exclusively to Virtual Machine product types. - `X64Gen1` - x64 processor architecture with Generation 1 virtual machine firmware and BIOS support - `X64Gen2` - x64 processor architecture with Generation 2 virtual machine firmware and UEFI support - `Arm64` - ARM 64-bit processor architecture optimized for energy efficiency and cloud-native workloads */
-  vmArchitectureType?: string;
+  vmArchitectureType?: string | undefined;
   /** Controls plan availability and partner access within the Microsoft Cloud Solution Provider (CSP) program. - `OptIn` - Enables all authorized Cloud Solution Provider partners to resell and deploy the product to customers - `OptOut` - Excluded from Cloud Solution Provider program, available only through direct channels - `SelectiveOptIn` - Available only to selected Cloud Solution Provider partners for resale and customer deployment */
-  cspState?: string;
+  cspState?: string | undefined;
   /** Expanded plan/SKU metadata. */
-  metadata?: PlanMetadata;
+  metadata?: PlanMetadata | undefined;
   /** Alternative stack reference */
-  altStackReference?: string;
+  altStackReference?: string | undefined;
   /** Stack type : Classic, Gen1, Gen2 */
-  stackType?: string;
+  stackType?: string | undefined;
   /** The alternative architecture reference */
-  altArchitectureReference?: string;
+  altArchitectureReference?: string | undefined;
   /** Plan CategoryIds */
-  categoryIds?: PlanSummaryCategoryIdsList;
+  categoryIds?: PlanSummaryCategoryIdsList | undefined;
   /** Set to true if plan has artifacts that are to be hidden for non authenticated users */
-  hasProtectedArtifacts?: boolean;
+  hasProtectedArtifacts?: boolean | undefined;
   /** Indicates the billing models and cost structures available for the plan. - `Free` - No charge for plan usage, typically for community editions or basic service tiers - `FreeTrial` - Time-limited free access period before transitioning to paid billing model - `Byol` - Bring Your Own License model where customers provide existing software licenses - `Payg` - Pay As You Go consumption-based billing calculated on actual resource usage - `Ri` - Reserved Instance billing with upfront commitment for discounted long-term pricing - `ContactPublisher` - Pricing is not listed and the customer must contact the publisher to obtain pricing details - `Freemium` - Free base tier with paid upgrades, applies to Microsoft managed products - `RequestPrivateOffer` - Customer must request a private offer to obtain pricing, applies to Marketplace products - `PrivateOffer` - Indicates the plan is a promo plan tied to a private offer */
-  pricingTypes?: PlanSummaryPricingTypesList;
+  pricingTypes?: PlanSummaryPricingTypesList | undefined;
   /** Defines the security enhancement level for virtual machine deployments. Applies exclusively to Virtual Machine product types. - `None` - Standard virtual machine security without additional protection features - `Trusted` - Trusted Launch security with secure boot and virtual Trusted Platform Module capabilities - `Confidential` - Confidential computing with memory encryption and attestation for sensitive workloads */
-  vmSecuritytypes?: PlanSummaryVmSecuritytypesList;
+  vmSecuritytypes?: PlanSummaryVmSecuritytypesList | undefined;
   /** The plan summary text */
-  summary?: string;
+  summary?: string | undefined;
   /** Plan / sku description */
-  description?: string;
+  description?: string | undefined;
   /** The SKU id */
-  skuId?: string;
+  skuId?: string | undefined;
   /** Specifies the primary deployment model and hosting architecture for the marketplace product. Currently supported values are: - `None` - Unspecified product type, typically used for products without a defined deployment model - `DevService` - Development-focused services and tools for software creation workflows - `ManagedApplication` - Azure Managed Applications that deploy and manage resources in customer subscriptions - `VirtualMachine` - Pre-configured virtual machine images deployable to Azure compute infrastructure - `AzureApplication` - Native Azure applications leveraging platform services and APIs - `Container` - Containerized applications deployed through Azure Container Instances or similar services - `SaaS` - Software as a Service solutions hosted and managed by the publisher - `SolutionTemplate` - Azure Resource Manager templates that provision multiple Azure resources - `IotEdgeModules` - Modules designed for deployment to Azure IoT Edge runtime environments - `ManagedServices` - Fully managed services where the publisher handles infrastructure and operations - `ContainerApps` - Applications built for Azure Container Apps serverless container platform - `VisualStudioExtension` - Extensions that integrate with Visual Studio IDE functionality - `DynamicsOps` - Microsoft Dynamics 365 Finance and Operations applications and extensions - `DynamicsCE` - Microsoft Dynamics 365 Customer Engagement applications and customizations - `DynamicsBC` - Microsoft Dynamics 365 Business Central applications and add-ons - `PowerBI` - Microsoft Power BI reports, dashboards, and data visualization components - `ConsultingServices` - Professional services offerings including implementation and advisory services - `CosellOnly` - Products available exclusively through Microsoft co-sell partner programs - `CoreVirtualMachine` - Core virtual machine offerings with baseline Azure compute capabilities - `PowerBIVisuals` - Custom visualizations for Microsoft Power BI reporting platform - `Office365` - Microsoft 365 and Office 365 applications, add-ins, and integrations - `AADApps` - Azure Active Directory integrated applications supporting organizational identity - `AzureServices` - Native Azure platform services and resource providers - `AppService` - Web applications hosted on Azure App Service platform - `LogAnalytics` - Azure Monitor Log Analytics solutions and workspace configurations - `MicrosoftProduct` - First-party Microsoft products available through marketplace channels */
   planType: string;
   /** The order the plan is displayed in the 'Plans' table */
-  displayRank?: string;
+  displayRank?: string | undefined;
   /** Indication that the plan is accessible to restricted audience only */
-  isPrivate?: boolean;
+  isPrivate?: boolean | undefined;
   /** Indication whether the SKU supports reservations */
-  hasRi?: boolean;
+  hasRi?: boolean | undefined;
 }
 /** Full set of plan/SKU attributes */
 export type ProductSummaryPlansList = Array<PlanSummary>;
 /** Returns a subset of Product attributes */
 export interface ProductSummary {
   /** Product display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Popularity of the product */
-  popularity?: number;
+  popularity?: number | undefined;
   /** Array of product categories */
-  categoryIds?: ProductSummaryCategoryIdsList;
+  categoryIds?: ProductSummaryCategoryIdsList | undefined;
   /** List of industry IDs the item belongs to */
-  industryIds?: ProductSummaryIndustryIdsList;
+  industryIds?: ProductSummaryIndustryIdsList | undefined;
   /** Publisher id */
-  publisherId?: string;
+  publisherId?: string | undefined;
   /** Indicates whether product purchases count toward Azure consumption commitment benefits for enterprise customers. - `Eligible` - Product costs apply to Azure consumption commitment benefit calculations and credits - `NotEligible` - Product costs do not qualify for Azure consumption commitment benefit programs */
-  azureBenefit?: string;
+  azureBenefit?: string | undefined;
   /** Displays certification and qualification badges earned by the product for marketplace visibility. - `PreferredSolution` - Microsoft-recognized solution meeting specific quality and partnership criteria - `PowerBICertified` - Certified compatibility and integration with Microsoft Power BI platform - `AdditionalPurchaseRequirement` - Product requires additional purchases or subscriptions for full functionality */
-  badges?: ProductSummaryBadgesList;
+  badges?: ProductSummaryBadgesList | undefined;
   /** Identifies the publisher relationship to Microsoft for support and partnership classification. - `Microsoft` - First-party Microsoft product with direct Microsoft support and development - `ThirdParty` - Independent software vendor product with publisher-provided support and maintenance */
-  publisherType?: string;
+  publisherType?: string | undefined;
   /** Indicates the product availability status and customer access level within Azure Marketplace. - `Preview` - Limited availability to selected customers for testing and early access evaluation - `Public` - General availability to all Azure Marketplace customers for production deployment */
-  publishingStage?: string;
+  publishingStage?: string | undefined;
   /** Unique product identifier */
   uniqueProductId: string;
   /** Specifies the primary deployment model and hosting architecture for the marketplace product stored in the Marketplace Catalog. - `None` - Unspecified product type, typically used for products without a defined deployment model - `ManagedApplication` - Azure Managed Applications that deploy and manage resources in customer subscriptions - `VirtualMachine` - Pre-configured virtual machine images deployable to Azure compute infrastructure - `AzureApplication` - Native Azure applications leveraging platform services and APIs - `Container` - Containerized applications deployed through Azure Container Instances or similar services - `SaaS` - Software as a Service solutions hosted and managed by the publisher - `SolutionTemplate` - Azure Resource Manager templates that provision multiple Azure resources - `IotEdgeModules` - Modules designed for deployment to Azure IoT Edge runtime environments - `ManagedServices` - Fully managed services where the publisher handles infrastructure and operations - `ContainerApps` - Applications built for Azure Container Apps serverless container platform - `DynamicsOps` - Microsoft Dynamics 365 Finance and Operations applications and extensions - `DynamicsCE` - Microsoft Dynamics 365 Customer Engagement applications and customizations - `DynamicsBC` - Microsoft Dynamics 365 Business Central applications and add-ons - `PowerBI` - Microsoft Power BI reports, dashboards, and data visualization components - `ConsultingServices` - Professional services offerings including implementation and advisory services - `CosellOnly` - Products available exclusively through Microsoft co-sell partner programs - `CoreVirtualMachine` - Core virtual machine offerings with baseline Azure compute capabilities - `PowerBIVisuals` - Custom visualizations for Microsoft Power BI reporting platform - `Office365` - Microsoft 365 and Office 365 applications, add-ins, and integrations - `AADApps` - Azure Active Directory integrated applications supporting organizational identity - `AzureServices` - Native Azure platform services and resource providers - `AppService` - Web applications hosted on Azure App Service platform - `LogAnalytics` - Azure Monitor Log Analytics solutions and workspace configurations - `MicrosoftProduct` - First-party Microsoft products available through marketplace channels */
   productType: string;
   /** Product sub type */
-  productSubType?: string;
+  productSubType?: string | undefined;
   /** Product Family */
-  productFamily?: string;
+  productFamily?: string | undefined;
   /** Operating system info for this product */
-  operatingSystems?: ProductSummaryOperatingSystemsList;
+  operatingSystems?: ProductSummaryOperatingSystemsList | undefined;
   /** Indicates the billing models and cost structures available for the plan. - `Free` - No charge for plan usage, typically for community editions or basic service tiers - `FreeTrial` - Time-limited free access period before transitioning to paid billing model - `Byol` - Bring Your Own License model where customers provide existing software licenses - `Payg` - Pay As You Go consumption-based billing calculated on actual resource usage - `Ri` - Reserved Instance billing with upfront commitment for discounted long-term pricing - `ContactPublisher` - Pricing is not listed and the customer must contact the publisher to obtain pricing details - `Freemium` - Free base tier with paid upgrades, applies to Microsoft managed products - `RequestPrivateOffer` - Customer must request a private offer to obtain pricing, applies to Marketplace products - `PrivateOffer` - Indicates the plan is a promo plan tied to a private offer */
-  pricingTypes?: ProductSummaryPricingTypesList;
+  pricingTypes?: ProductSummaryPricingTypesList | undefined;
   /** Publisher display name */
-  publisherDisplayName?: string;
+  publisherDisplayName?: string | undefined;
   /** Product long summary */
-  longSummary?: string;
+  longSummary?: string | undefined;
   /** Product summary */
-  summary?: string;
+  summary?: string | undefined;
   /** URI to the small product icon */
-  smallIconUri?: string;
+  smallIconUri?: string | undefined;
   /** The product description text */
-  description?: string;
+  description?: string | undefined;
   /** The legal terms of the product for the CSP */
-  cspLegalTermsUri?: string;
+  cspLegalTermsUri?: string | undefined;
   /** The privacy policy of the product */
-  privacyPolicyUri?: string;
+  privacyPolicyUri?: string | undefined;
   /** Categorizes products by customer rating thresholds for marketplace filtering and discovery. - `AboveOne` - Products with customer ratings exceeding 1.0 stars based on marketplace reviews - `AboveTwo` - Products with customer ratings exceeding 2.0 stars based on marketplace reviews - `AboveThree` - Products with customer ratings exceeding 3.0 stars based on marketplace reviews - `AboveFour` - Products with customer ratings exceeding 4.0 stars based on marketplace reviews */
-  ratingBuckets?: ProductSummaryRatingBucketsList;
+  ratingBuckets?: ProductSummaryRatingBucketsList | undefined;
   /** Average rating for the offer */
-  ratingAverage?: number;
+  ratingAverage?: number | undefined;
   /** Total number of ratings for the offer */
-  ratingCount?: number;
+  ratingCount?: number | undefined;
   /** Maps to the list of compatible products */
-  supportedProducts?: ProductSummarySupportedProductsList;
+  supportedProducts?: ProductSummarySupportedProductsList | undefined;
   /** Product categories the offer belongs to */
-  applicableProducts?: ProductSummaryApplicableProductsList;
+  applicableProducts?: ProductSummaryApplicableProductsList | undefined;
   /** Latest update date of the product */
-  lastModifiedDateTime?: string;
+  lastModifiedDateTime?: string | undefined;
   /** List of locations which are available on the SKUs */
-  locations?: ProductSummaryLocationsList;
+  locations?: ProductSummaryLocationsList | undefined;
   /** The service family of the product, such as 'Compute' */
-  serviceFamily?: string;
+  serviceFamily?: string | undefined;
   /** The service name of the product, such as 'Virtual Machines' */
-  service?: string;
+  service?: string | undefined;
   /** The unique id of the product */
-  productId?: string;
+  productId?: string | undefined;
   /** Indication whether the product has plans with reservations */
-  hasRiPlans?: boolean;
+  hasRiPlans?: boolean | undefined;
   /** Indication if product has a representation in the marketplace */
-  hasMarketplaceFootprint?: boolean;
+  hasMarketplaceFootprint?: boolean | undefined;
   /** Set of products attributes */
-  attributes?: ProductSummaryAttributesList;
+  attributes?: ProductSummaryAttributesList | undefined;
   /** Offering type of product family Offers */
-  offeringType?: string;
+  offeringType?: string | undefined;
   /** Full set of plan/SKU attributes */
-  plans?: ProductSummaryPlansList;
+  plans?: ProductSummaryPlansList | undefined;
 }
 /** The items on this page */
 export type ProductSummaryListResultValueList = Array<ProductSummary>;
@@ -2445,7 +2447,7 @@ export interface ProductSummaryListResult {
   /** The items on this page */
   value: ProductSummaryListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProductListByBillingProfileRequest {
   /** The ID of the target billing account. */
@@ -2453,57 +2455,57 @@ export interface ListProductListByBillingProfileRequest {
   /** The ID of the target billing account. */
   billingProfileId: string;
   /** Language to search, ISO 639-1 two-letter code, possible values - 'en,cs,de,es,fr,hu,it,ja,ko,nl,pl,pt-br,pt-pt,ru,sv,tr,id,zh-hans,zh-hant'. Default is "en" */
-  language?: string;
+  language?: string | undefined;
   /** Whether to exclude public offers and public plans from the response. Default is false, which means that public offers and public plans are included in the response. If set to true, only private plans will be returned. */
-  excludePublicOffersAndPublicPlans?: boolean;
+  excludePublicOffersAndPublicPlans?: boolean | undefined;
   /** Return products available in selected location. Enumeration of the Azure datacenter regions. See https://azure.microsoft.com/regions/ */
-  locations?: string;
+  locations?: string | undefined;
   /** Filters the results, based on a Boolean condition. Example: $filter=productType eq 'VirtualMachine'. Fields that can be filtered by are: - `displayName` - `productId` - `popularity` - `categoryIds` - `industryIds` - `publisherId` - `uniqueProductId` - `productType` - `operatingSystems` - `pricingTypes` - `publisherDisplayName` - `longSummary` - `summary` - `linkedAddinsTypes` - `description` - `supportedProducts` - `applicableProducts` - `lastModifiedDateTime` - `plan.planId` - `plan.displayName` - `plan.cspState` - `plan.altStackReference` - `plan.stackType` - `plan.categoryIds` - `plan.hasProtectedArtifacts` - `plan.pricingTypes` - `plan.summary` - `plan.description` - `plan.skuId` - `plan.displayRank` - `plan.isPrivate` */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Selects which properties to include in the results. Example: $select=displayName */
-  _select?: string;
+  _select?: string | undefined;
   /** Expands related entities inline */
-  _expand?: string;
+  _expand?: string | undefined;
   /** Ordering expression for the results using OData notation. Avoid using orderby unless essential as this may impact the latency of your request. Example: $orderby=displayName desc.This API only supports ordering by a single field. Fields that can be ordered by are: - `lastModifiedDateTime` - `uniqueProductId` - `productType` - `displayName` - `publisherId`' */
-  _orderBy?: string;
+  _orderBy?: string | undefined;
   /** Optional search by display name, publisher display name, or keywords. Example $search=Microsoft */
-  _search?: string;
+  _search?: string | undefined;
 }
 export interface ListProductListBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** Language to search, ISO 639-1 two-letter code, possible values - 'en,cs,de,es,fr,hu,it,ja,ko,nl,pl,pt-br,pt-pt,ru,sv,tr,id,zh-hans,zh-hant'. Default is "en" */
-  language?: string;
+  language?: string | undefined;
   /** Whether to exclude public offers and public plans from the response. Default is false, which means that public offers and public plans are included in the response. If set to true, only private plans will be returned. */
-  excludePublicOffersAndPublicPlans?: boolean;
+  excludePublicOffersAndPublicPlans?: boolean | undefined;
   /** Filters the results, based on a Boolean condition. Example: $filter=productType eq 'VirtualMachine'. Fields that can be filtered by are: - `displayName` - `productId` - `popularity` - `categoryIds` - `industryIds` - `publisherId` - `uniqueProductId` - `productType` - `operatingSystems` - `pricingTypes` - `publisherDisplayName` - `longSummary` - `summary` - `linkedAddinsTypes` - `description` - `supportedProducts` - `applicableProducts` - `lastModifiedDateTime` - `plan.planId` - `plan.displayName` - `plan.cspState` - `plan.altStackReference` - `plan.stackType` - `plan.categoryIds` - `plan.hasProtectedArtifacts` - `plan.pricingTypes` - `plan.summary` - `plan.description` - `plan.skuId` - `plan.displayRank` - `plan.isPrivate` */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Selects which properties to include in the results. Example: $select=displayName */
-  _select?: string;
+  _select?: string | undefined;
   /** Expands related entities inline */
-  _expand?: string;
+  _expand?: string | undefined;
   /** Ordering expression for the results using OData notation. Avoid using orderby unless essential as this may impact the latency of your request. Example: $orderby=displayName desc.This API only supports ordering by a single field. Fields that can be ordered by are: - `lastModifiedDateTime` - `uniqueProductId` - `productType` - `displayName` - `publisherId`' */
-  _orderBy?: string;
+  _orderBy?: string | undefined;
   /** Optional search by display name, publisher display name, or keywords. Example $search=Microsoft */
-  _search?: string;
+  _search?: string | undefined;
 }
 export interface ListProductListByTenantRequest {
   /** Product market value (the response will include only products that can be sold in the specified market) Possible values can be found at https://docs.microsoft.com/en-us/azure/marketplace/marketplace-geo-availability-currencies. Example: 'US' */
-  market?: string;
+  market?: string | undefined;
   /** Language to search, ISO 639-1 two-letter code, possible values - 'en,cs,de,es,fr,hu,it,ja,ko,nl,pl,pt-br,pt-pt,ru,sv,tr,id,zh-hans,zh-hant'. Default is "en" */
-  language?: string;
+  language?: string | undefined;
   /** Whether to exclude public offers and public plans from the response. Default is false, which means that public offers and public plans are included in the response. If set to true, only private plans will be returned. */
-  excludePublicOffersAndPublicPlans?: boolean;
+  excludePublicOffersAndPublicPlans?: boolean | undefined;
   /** Filters the results, based on a Boolean condition. Example: $filter=productType eq 'VirtualMachine'. Fields that can be filtered by are: - `displayName` - `productId` - `popularity` - `categoryIds` - `industryIds` - `publisherId` - `uniqueProductId` - `productType` - `operatingSystems` - `pricingTypes` - `publisherDisplayName` - `longSummary` - `summary` - `linkedAddinsTypes` - `description` - `supportedProducts` - `applicableProducts` - `lastModifiedDateTime` - `plan.planId` - `plan.displayName` - `plan.cspState` - `plan.altStackReference` - `plan.stackType` - `plan.categoryIds` - `plan.hasProtectedArtifacts` - `plan.pricingTypes` - `plan.summary` - `plan.description` - `plan.skuId` - `plan.displayRank` - `plan.isPrivate` */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Selects which properties to include in the results. Example: $select=displayName */
-  _select?: string;
+  _select?: string | undefined;
   /** Expands related entities inline */
-  _expand?: string;
+  _expand?: string | undefined;
   /** Ordering expression for the results using OData notation. Avoid using orderby unless essential as this may impact the latency of your request. Example: $orderby=displayName desc.This API only supports ordering by a single field. Fields that can be ordered by are: - `lastModifiedDateTime` - `uniqueProductId` - `productType` - `displayName` - `publisherId`' */
-  _orderBy?: string;
+  _orderBy?: string | undefined;
   /** Optional search by display name, publisher display name, or keywords. Example $search=Microsoft */
-  _search?: string;
+  _search?: string | undefined;
 }
 export type ListSkusByBillingAccountRequestLocationsList = Array<string>;
 export interface ListSkusByBillingAccountRequest {
@@ -2514,17 +2516,17 @@ export interface ListSkusByBillingAccountRequest {
   /** The service to filter by, such as 'Virtual Machines'. */
   service: string;
   /** Language to search, ISO 639-1 two-letter code, possible values - 'en,cs,de,es,fr,hu,it,ja,ko,nl,pl,pt-br,pt-pt,ru,sv,tr,id,zh-hans,zh-hant'. Default is 'en'. */
-  language?: string;
+  language?: string | undefined;
   /** Return SKUs available in the selected locations. Enumeration of the Azure datacenter regions. See https://azure.microsoft.com/regions/. */
-  locations?: ListSkusByBillingAccountRequestLocationsList;
+  locations?: ListSkusByBillingAccountRequestLocationsList | undefined;
   /** Filters the results, based on a Boolean condition. Example: $filter=serviceFamily eq 'Compute'. Fields that can be filtered by are: - `productId` - `serviceFamily` - `service` - `skuId` - `skuName` - `skuType` - `armRegionName` - `location` - `publisherId` - `productType` */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Selects which properties to include in the results. Example: $select=skuName,skuId */
-  _select?: string;
+  _select?: string | undefined;
   /** Expands related entities inline. */
-  _expand?: string;
+  _expand?: string | undefined;
   /** Ordering expression for the results using OData notation. Avoid using orderBy unless essential as this may impact the latency of your request. Example: $orderBy=skuName desc. This API only supports ordering by a single field. Fields that can be ordered by are: - `lastModifiedDateTime` - `skuName` - `skuId` - `productId` - `serviceFamily` - `service` */
-  _orderBy?: string;
+  _orderBy?: string | undefined;
 }
 /** The product attributes. */
 export type SkuSummaryProductAttributesList = Array<Attribute_2>;
@@ -2541,25 +2543,25 @@ export interface SkuSummary {
   /** The unique id of the product. */
   productId: string;
   /** Product display name. */
-  productDisplayName?: string;
+  productDisplayName?: string | undefined;
   /** The product description text. */
-  productDescription?: string;
+  productDescription?: string | undefined;
   /** The service family of the product, such as 'Compute'. */
-  serviceFamily?: string;
+  serviceFamily?: string | undefined;
   /** The service name of the product, such as 'Virtual Machines'. */
-  service?: string;
+  service?: string | undefined;
   /** Publisher id. */
-  publisherId?: string;
+  publisherId?: string | undefined;
   /** Identifies the publisher relationship to Microsoft for support and partnership classification.\n- `Microsoft` - First-party Microsoft product with direct Microsoft support and development\n- `ThirdParty` - Independent software vendor product with publisher-provided support and maintenance */
-  publisherType?: string;
+  publisherType?: string | undefined;
   /** Offer type. */
-  productType?: string;
+  productType?: string | undefined;
   /** Product sub type. */
-  productSubType?: string;
+  productSubType?: string | undefined;
   /** Product summary. */
-  summary?: string;
+  summary?: string | undefined;
   /** The product attributes. */
-  productAttributes?: SkuSummaryProductAttributesList;
+  productAttributes?: SkuSummaryProductAttributesList | undefined;
   /** SKU name. */
   skuName: string;
   /** SKU id. */
@@ -2573,47 +2575,47 @@ export interface SkuSummary {
   /** SKU title localized. */
   skuTitle: string;
   /** Latest update date of the SKU. */
-  lastModifiedDateTime?: string;
+  lastModifiedDateTime?: string | undefined;
   /** Location (region). */
   location: string;
   /** The ARM region name. */
-  armRegionName?: string;
+  armRegionName?: string | undefined;
   /** The cloud, such as 'Global'. */
   cloud: string;
   /** The location type, such as 'Region'. */
   locationType: string;
   /** The region. */
-  region?: string;
+  region?: string | undefined;
   /** The SKU group id. */
-  skuGroupId?: string;
+  skuGroupId?: string | undefined;
   /** The zone, such as 'Zone 1'. */
-  zone?: string;
+  zone?: string | undefined;
   /** The feature. */
-  feature?: string;
+  feature?: string | undefined;
   /** The service type. */
-  serviceType?: string;
+  serviceType?: string | undefined;
   /** Minimum order quantity. */
-  minQuantity?: number;
+  minQuantity?: number | undefined;
   /** Maximum order quantity. */
-  maxQuantity?: number;
+  maxQuantity?: number | undefined;
   /** Controls plan availability and partner access within the Microsoft Cloud Solution Provider (CSP) program.\n- `OptIn` - Enables all authorized Cloud Solution Provider partners to resell and deploy the product to customers\n- `OptOut` - Excluded from Cloud Solution Provider program, available only through direct channels\n- `SelectiveOptIn` - Available only to selected Cloud Solution Provider partners for resale and customer deployment */
-  cspState?: string;
+  cspState?: string | undefined;
   /** A value indicating whether the SKU supports reservations. */
-  hasRi?: boolean;
+  hasRi?: boolean | undefined;
   /** The SKU attributes. */
-  skuAttributes?: SkuSummarySkuAttributesList;
+  skuAttributes?: SkuSummarySkuAttributesList | undefined;
   /** The SKU properties. */
-  skuProperties?: SkuProperties_2;
+  skuProperties?: SkuProperties_2 | undefined;
   /** Offering properties such as: product code (UPN), term id, meter type, offering id. */
-  offeringProperties?: SkuSummaryOfferingPropertiesList;
+  offeringProperties?: SkuSummaryOfferingPropertiesList | undefined;
   /** Alternate ids for the SKU. */
-  alternateIds?: SkuAlternateIds;
+  alternateIds?: SkuAlternateIds | undefined;
   /** Offering type of product family Offers. */
-  offeringType?: string;
+  offeringType?: string | undefined;
   /** Category IDs for this SKU. */
-  categoryIds?: SkuSummaryCategoryIdsList;
+  categoryIds?: SkuSummaryCategoryIdsList | undefined;
   /** Pricing audiences for the SKU. */
-  pricingAudiences?: SkuSummaryPricingAudiencesList;
+  pricingAudiences?: SkuSummaryPricingAudiencesList | undefined;
 }
 /** The SkuSummary items on this page */
 export type SkuSummaryListResultValueList = Array<SkuSummary>;
@@ -2622,7 +2624,7 @@ export interface SkuSummaryListResult {
   /** The SkuSummary items on this page */
   value: SkuSummaryListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListSkusByBillingProfileRequestLocationsList = Array<string>;
 export interface ListSkusByBillingProfileRequest {
@@ -2635,17 +2637,17 @@ export interface ListSkusByBillingProfileRequest {
   /** The service to filter by, such as 'Virtual Machines'. */
   service: string;
   /** Language to search, ISO 639-1 two-letter code, possible values - 'en,cs,de,es,fr,hu,it,ja,ko,nl,pl,pt-br,pt-pt,ru,sv,tr,id,zh-hans,zh-hant'. Default is 'en'. */
-  language?: string;
+  language?: string | undefined;
   /** Return SKUs available in the selected locations. Enumeration of the Azure datacenter regions. See https://azure.microsoft.com/regions/. */
-  locations?: ListSkusByBillingProfileRequestLocationsList;
+  locations?: ListSkusByBillingProfileRequestLocationsList | undefined;
   /** Filters the results, based on a Boolean condition. Example: $filter=serviceFamily eq 'Compute'. Fields that can be filtered by are: - `productId` - `serviceFamily` - `service` - `skuId` - `skuName` - `skuType` - `armRegionName` - `location` - `publisherId` - `productType` */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Selects which properties to include in the results. Example: $select=skuName,skuId */
-  _select?: string;
+  _select?: string | undefined;
   /** Expands related entities inline. */
-  _expand?: string;
+  _expand?: string | undefined;
   /** Ordering expression for the results using OData notation. Avoid using orderBy unless essential as this may impact the latency of your request. Example: $orderBy=skuName desc. This API only supports ordering by a single field. Fields that can be ordered by are: - `lastModifiedDateTime` - `skuName` - `skuId` - `productId` - `serviceFamily` - `service` */
-  _orderBy?: string;
+  _orderBy?: string | undefined;
 }
 export interface PostCreateApiKeyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2678,41 +2680,41 @@ export type SearchPostArmRequestAzureCategoriesList = Array<string>;
 export type SearchPostArmRequestAzurePortalCategoriesList = Array<string>;
 export type SearchPostArmRequestFacetsList = Array<string>;
 export interface SearchPostArmRequest {
-  searchQuery?: string;
-  publisherName?: string;
-  skip?: number;
-  take?: number;
-  isAzureBenefitEligible?: boolean;
-  isMicrosoftProduct?: boolean;
-  isThirdParty?: boolean;
-  isCoreVm?: boolean;
-  isPreferredSolution?: boolean;
-  isAdditionalPurchaseRequired?: boolean;
-  isPowerBICertified?: boolean;
-  isIndustryCloud?: boolean;
+  searchQuery?: string | undefined;
+  publisherName?: string | undefined;
+  skip?: number | undefined;
+  take?: number | undefined;
+  isAzureBenefitEligible?: boolean | undefined;
+  isMicrosoftProduct?: boolean | undefined;
+  isThirdParty?: boolean | undefined;
+  isCoreVm?: boolean | undefined;
+  isPreferredSolution?: boolean | undefined;
+  isAdditionalPurchaseRequired?: boolean | undefined;
+  isPowerBICertified?: boolean | undefined;
+  isIndustryCloud?: boolean | undefined;
   languages: SearchPostArmRequestLanguagesList;
   stores: SearchPostArmRequestStoresList;
-  select?: SearchPostArmRequestSelectList;
-  sortBy?: SearchPostArmRequestSortByList;
-  offerTypes?: SearchPostArmRequestOfferTypesList;
-  pricingTypes?: SearchPostArmRequestPricingTypesList;
-  privateStoreAllowances?: SearchPostArmRequestPrivateStoreAllowancesList;
-  appSourceIndustries?: SearchPostArmRequestAppSourceIndustriesList;
-  operatingSystems?: SearchPostArmRequestOperatingSystemsList;
-  appSourceCategories?: SearchPostArmRequestAppSourceCategoriesList;
-  azureIndustries?: SearchPostArmRequestAzureIndustriesList;
-  azureCategories?: SearchPostArmRequestAzureCategoriesList;
-  azurePortalCategories?: SearchPostArmRequestAzurePortalCategoriesList;
-  facets?: SearchPostArmRequestFacetsList;
+  select?: SearchPostArmRequestSelectList | undefined;
+  sortBy?: SearchPostArmRequestSortByList | undefined;
+  offerTypes?: SearchPostArmRequestOfferTypesList | undefined;
+  pricingTypes?: SearchPostArmRequestPricingTypesList | undefined;
+  privateStoreAllowances?: SearchPostArmRequestPrivateStoreAllowancesList | undefined;
+  appSourceIndustries?: SearchPostArmRequestAppSourceIndustriesList | undefined;
+  operatingSystems?: SearchPostArmRequestOperatingSystemsList | undefined;
+  appSourceCategories?: SearchPostArmRequestAppSourceCategoriesList | undefined;
+  azureIndustries?: SearchPostArmRequestAzureIndustriesList | undefined;
+  azureCategories?: SearchPostArmRequestAzureCategoriesList | undefined;
+  azurePortalCategories?: SearchPostArmRequestAzurePortalCategoriesList | undefined;
+  facets?: SearchPostArmRequestFacetsList | undefined;
 }
 export interface FacetValueDto {
-  value?: string;
-  count?: number;
+  value?: string | undefined;
+  count?: number | undefined;
 }
 export type FacetsItemDtoFacetValuesList = Array<FacetValueDto>;
 export interface FacetsItemDto {
-  facetName?: string;
-  facetValues?: FacetsItemDtoFacetValuesList;
+  facetName?: string | undefined;
+  facetValues?: FacetsItemDtoFacetValuesList | undefined;
 }
 export type SearchResponseDtoFacetsList = Array<FacetsItemDto>;
 export type SearchItemDtoApplicableProductsList = Array<string>;
@@ -2725,20 +2727,20 @@ export type SearchItemDtoCspStatesList = Array<string>;
 export type SearchItemDtoDeterminedStorefrontsList = Array<string>;
 export type SearchItemDtoOperatingSystemsList = Array<string>;
 export interface PlanMetadataDto {
-  generation?: string;
+  generation?: string | undefined;
 }
 export interface OperatingSystemDto {
-  family?: string;
-  type?: string;
-  name?: string;
+  family?: string | undefined;
+  type?: string | undefined;
+  name?: string | undefined;
 }
 export interface PlanDto {
-  cspState?: string;
-  legacyPlanId?: string;
-  displayName?: string;
-  architectureType?: string;
-  metadata?: PlanMetadataDto;
-  operatingSystem?: OperatingSystemDto;
+  cspState?: string | undefined;
+  legacyPlanId?: string | undefined;
+  displayName?: string | undefined;
+  architectureType?: string | undefined;
+  metadata?: PlanMetadataDto | undefined;
+  operatingSystem?: OperatingSystemDto | undefined;
 }
 export type SearchItemDtoPlansList = Array<PlanDto>;
 export type SearchItemDtoPricingTypesList = Array<string>;
@@ -2746,50 +2748,50 @@ export type SearchItemDtoVmGenerationsList = Array<string>;
 export type SearchItemDtoVmImageTypesList = Array<string>;
 export type SearchItemDtoVmSecurityTypesList = Array<string>;
 export interface SearchItemDto {
-  ampAppsPopularity?: number;
-  ampCsPopularity?: number;
-  applicableProducts?: SearchItemDtoApplicableProductsList;
-  appSourceAppsPopularity?: number;
-  appSourceCategories?: SearchItemDtoAppSourceCategoriesList;
-  appSourceCsPopularity?: number;
-  appSourceIndustries?: SearchItemDtoAppSourceIndustriesList;
-  azureCategories?: SearchItemDtoAzureCategoriesList;
-  azurePortalCategories?: SearchItemDtoAzurePortalCategoriesList;
-  azureIndustries?: SearchItemDtoAzureIndustriesList;
-  bigId?: string;
-  cspStates?: SearchItemDtoCspStatesList;
-  determinedStorefronts?: SearchItemDtoDeterminedStorefrontsList;
-  displayName?: string;
-  isAzureBenefitEligible?: boolean;
-  isCoreVm?: boolean;
-  isPreferredSolution?: boolean;
-  isAdditionalPurchaseRequired?: boolean;
-  isPowerBICertified?: boolean;
-  isIndustryCloud?: boolean;
-  isMicrosoftProduct?: boolean;
-  isPreview?: boolean;
-  language?: string;
-  legacyId?: string;
-  offerType?: string;
-  operatingSystems?: SearchItemDtoOperatingSystemsList;
-  plans?: SearchItemDtoPlansList;
-  pricingTypes?: SearchItemDtoPricingTypesList;
-  publisherDisplayName?: string;
-  summary?: string;
-  vmGenerations?: SearchItemDtoVmGenerationsList;
-  vmImageTypes?: SearchItemDtoVmImageTypesList;
-  vmSecurityTypes?: SearchItemDtoVmSecurityTypesList;
-  smallIconUri?: string;
-  mediumIconUri?: string;
-  largeIconUri?: string;
-  wideIconUri?: string;
-  heroIconUri?: string;
+  ampAppsPopularity?: number | undefined;
+  ampCsPopularity?: number | undefined;
+  applicableProducts?: SearchItemDtoApplicableProductsList | undefined;
+  appSourceAppsPopularity?: number | undefined;
+  appSourceCategories?: SearchItemDtoAppSourceCategoriesList | undefined;
+  appSourceCsPopularity?: number | undefined;
+  appSourceIndustries?: SearchItemDtoAppSourceIndustriesList | undefined;
+  azureCategories?: SearchItemDtoAzureCategoriesList | undefined;
+  azurePortalCategories?: SearchItemDtoAzurePortalCategoriesList | undefined;
+  azureIndustries?: SearchItemDtoAzureIndustriesList | undefined;
+  bigId?: string | undefined;
+  cspStates?: SearchItemDtoCspStatesList | undefined;
+  determinedStorefronts?: SearchItemDtoDeterminedStorefrontsList | undefined;
+  displayName?: string | undefined;
+  isAzureBenefitEligible?: boolean | undefined;
+  isCoreVm?: boolean | undefined;
+  isPreferredSolution?: boolean | undefined;
+  isAdditionalPurchaseRequired?: boolean | undefined;
+  isPowerBICertified?: boolean | undefined;
+  isIndustryCloud?: boolean | undefined;
+  isMicrosoftProduct?: boolean | undefined;
+  isPreview?: boolean | undefined;
+  language?: string | undefined;
+  legacyId?: string | undefined;
+  offerType?: string | undefined;
+  operatingSystems?: SearchItemDtoOperatingSystemsList | undefined;
+  plans?: SearchItemDtoPlansList | undefined;
+  pricingTypes?: SearchItemDtoPricingTypesList | undefined;
+  publisherDisplayName?: string | undefined;
+  summary?: string | undefined;
+  vmGenerations?: SearchItemDtoVmGenerationsList | undefined;
+  vmImageTypes?: SearchItemDtoVmImageTypesList | undefined;
+  vmSecurityTypes?: SearchItemDtoVmSecurityTypesList | undefined;
+  smallIconUri?: string | undefined;
+  mediumIconUri?: string | undefined;
+  largeIconUri?: string | undefined;
+  wideIconUri?: string | undefined;
+  heroIconUri?: string | undefined;
 }
 export type SearchResponseDtoResultsList = Array<SearchItemDto>;
 export interface SearchResponseDto {
-  facets?: SearchResponseDtoFacetsList;
-  results?: SearchResponseDtoResultsList;
-  totalCount?: number;
+  facets?: SearchResponseDtoFacetsList | undefined;
+  results?: SearchResponseDtoResultsList | undefined;
+  totalCount?: number | undefined;
 }
 export type GetProductGetByBillingAccountError = AzureOpError;
 /** Gets a single product by billing account. */

@@ -110,11 +110,11 @@ export type EventPropertyFilterValue =
   | boolean;
 export interface EventPropertyFilter {
   key: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {}) | null;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | null | undefined;
   /** Event properties */
-  type?: string;
-  value?: EventPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: EventPropertyFilterValue | null | undefined;
 }
 export type PersonPropertyFilterValueCase0Item = string | number | boolean;
 export type PersonPropertyFilterValueCase0List = Array<PersonPropertyFilterValueCase0Item>;
@@ -125,11 +125,11 @@ export type PersonPropertyFilterValue =
   | boolean;
 export interface PersonPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
   /** Person properties */
-  type?: string;
-  value?: PersonPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: PersonPropertyFilterValue | null | undefined;
 }
 export type PersonMetadataPropertyFilterValueCase0Item = string | number | boolean;
 export type PersonMetadataPropertyFilterValueCase0List =
@@ -141,11 +141,11 @@ export type PersonMetadataPropertyFilterValue =
   | boolean;
 export interface PersonMetadataPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
   /** Top-level columns on the persons table (e.g. created_at), not properties JSON */
-  type?: string;
-  value?: PersonMetadataPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: PersonMetadataPropertyFilterValue | null | undefined;
 }
 export type Key10 = "tag_name" | "text" | "href" | "selector";
 export type ElementPropertyFilterValueCase0Item = string | number | boolean;
@@ -157,10 +157,10 @@ export type ElementPropertyFilterValue =
   | boolean;
 export interface ElementPropertyFilter {
   key: Key10 | (string & {});
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
-  type?: string;
-  value?: ElementPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: ElementPropertyFilterValue | null | undefined;
 }
 export type EventMetadataPropertyFilterValueCase0Item = string | number | boolean;
 export type EventMetadataPropertyFilterValueCase0List =
@@ -172,10 +172,10 @@ export type EventMetadataPropertyFilterValue =
   | boolean;
 export interface EventMetadataPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
-  type?: string;
-  value?: EventMetadataPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: EventMetadataPropertyFilterValue | null | undefined;
 }
 export type SessionPropertyFilterValueCase0Item = string | number | boolean;
 export type SessionPropertyFilterValueCase0List = Array<SessionPropertyFilterValueCase0Item>;
@@ -186,21 +186,21 @@ export type SessionPropertyFilterValue =
   | boolean;
 export interface SessionPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
-  type?: string;
-  value?: SessionPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: SessionPropertyFilterValue | null | undefined;
 }
 export interface CohortPropertyFilter {
   /** Set by the feature flag API when the cohort is deleted or does not exist. */
-  cohort_deleted?: boolean | null;
+  cohort_deleted?: boolean | null | undefined;
   /** Set by the feature flag API when the cohort does not exist, so it cannot be restored. */
-  cohort_missing?: boolean | null;
-  cohort_name?: string | null;
-  key?: string;
-  label?: string | null;
-  operator?: PropertyOperator | (string & {}) | null;
-  type?: string;
+  cohort_missing?: boolean | null | undefined;
+  cohort_name?: string | null | undefined;
+  key?: string | undefined;
+  label?: string | null | undefined;
+  operator?: PropertyOperator | (string & {}) | null | undefined;
+  type?: string | undefined;
   value: number;
 }
 export type DurationType = "duration" | "active_seconds" | "inactive_seconds";
@@ -214,10 +214,10 @@ export type RecordingPropertyFilterValue =
   | boolean;
 export interface RecordingPropertyFilter {
   key: RecordingPropertyFilterKey;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
-  type?: string;
-  value?: RecordingPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: RecordingPropertyFilterValue | null | undefined;
 }
 export type LogEntryPropertyFilterValueCase0Item = string | number | boolean;
 export type LogEntryPropertyFilterValueCase0List = Array<LogEntryPropertyFilterValueCase0Item>;
@@ -228,10 +228,10 @@ export type LogEntryPropertyFilterValue =
   | boolean;
 export interface LogEntryPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
-  type?: string;
-  value?: LogEntryPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: LogEntryPropertyFilterValue | null | undefined;
 }
 export type GroupPropertyFilterGroupKeyNamesMap = { [key: string]: string | undefined };
 export type GroupPropertyFilterValueCase0Item = string | number | boolean;
@@ -242,13 +242,13 @@ export type GroupPropertyFilterValue =
   | number
   | boolean;
 export interface GroupPropertyFilter {
-  group_key_names?: GroupPropertyFilterGroupKeyNamesMap | null;
-  group_type_index?: number | null;
+  group_key_names?: GroupPropertyFilterGroupKeyNamesMap | null | undefined;
+  group_type_index?: number | null | undefined;
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
-  type?: string;
-  value?: GroupPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: GroupPropertyFilterValue | null | undefined;
 }
 export type FeaturePropertyFilterValueCase0Item = string | number | boolean;
 export type FeaturePropertyFilterValueCase0List = Array<FeaturePropertyFilterValueCase0Item>;
@@ -259,22 +259,22 @@ export type FeaturePropertyFilterValue =
   | boolean;
 export interface FeaturePropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
   /** Event property with "$feature/" prepended */
-  type?: string;
-  value?: FeaturePropertyFilterValue | null;
+  type?: string | undefined;
+  value?: FeaturePropertyFilterValue | null | undefined;
 }
 /** The value can be true, false, or a variant name */
 export type FlagPropertyFilterValue = boolean | string;
 export interface FlagPropertyFilter {
   /** The key should be the flag ID */
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   /** Only flag_evaluates_to operator is allowed for flag dependencies */
-  operator?: string;
+  operator?: string | undefined;
   /** Feature flag dependency */
-  type?: string;
+  type?: string | undefined;
   /** The value can be true, false, or a variant name */
   value: FlagPropertyFilterValue;
 }
@@ -287,12 +287,12 @@ export type HogQLPropertyFilterValue =
   | boolean;
 export interface HogQLPropertyFilter {
   key: string;
-  label?: string | null;
-  type?: string;
-  value?: HogQLPropertyFilterValue | null;
+  label?: string | null | undefined;
+  type?: string | undefined;
+  value?: HogQLPropertyFilterValue | null | undefined;
 }
 export interface EmptyPropertyFilter {
-  type?: string;
+  type?: string | undefined;
 }
 export type DataWarehousePropertyFilterValueCase0Item = string | number | boolean;
 export type DataWarehousePropertyFilterValueCase0List =
@@ -304,10 +304,10 @@ export type DataWarehousePropertyFilterValue =
   | boolean;
 export interface DataWarehousePropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
-  type?: string;
-  value?: DataWarehousePropertyFilterValue | null;
+  type?: string | undefined;
+  value?: DataWarehousePropertyFilterValue | null | undefined;
 }
 export type DataWarehousePersonPropertyFilterValueCase0Item = string | number | boolean;
 export type DataWarehousePersonPropertyFilterValueCase0List =
@@ -319,10 +319,10 @@ export type DataWarehousePersonPropertyFilterValue =
   | boolean;
 export interface DataWarehousePersonPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
-  type?: string;
-  value?: DataWarehousePersonPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: DataWarehousePersonPropertyFilterValue | null | undefined;
 }
 export type ErrorTrackingIssueFilterValueCase0Item = string | number | boolean;
 export type ErrorTrackingIssueFilterValueCase0List = Array<ErrorTrackingIssueFilterValueCase0Item>;
@@ -333,10 +333,10 @@ export type ErrorTrackingIssueFilterValue =
   | boolean;
 export interface ErrorTrackingIssueFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
-  type?: string;
-  value?: ErrorTrackingIssueFilterValue | null;
+  type?: string | undefined;
+  value?: ErrorTrackingIssueFilterValue | null | undefined;
 }
 export type LogPropertyFilterType = "log" | "log_attribute" | "log_resource_attribute";
 export type LogPropertyFilterValueCase0Item = string | number | boolean;
@@ -344,10 +344,10 @@ export type LogPropertyFilterValueCase0List = Array<LogPropertyFilterValueCase0I
 export type LogPropertyFilterValue = LogPropertyFilterValueCase0List | string | number | boolean;
 export interface LogPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
   type: LogPropertyFilterType | (string & {});
-  value?: LogPropertyFilterValue | null;
+  value?: LogPropertyFilterValue | null | undefined;
 }
 export type MetricPropertyFilterValueCase0Item = string | number | boolean;
 export type MetricPropertyFilterValueCase0List = Array<MetricPropertyFilterValueCase0Item>;
@@ -358,10 +358,10 @@ export type MetricPropertyFilterValue =
   | boolean;
 export interface MetricPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
-  type?: string;
-  value?: MetricPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: MetricPropertyFilterValue | null | undefined;
 }
 export type SpanPropertyFilterType = "span" | "span_attribute" | "span_resource_attribute";
 export type SpanPropertyFilterValueCase0Item = string | number | boolean;
@@ -369,10 +369,10 @@ export type SpanPropertyFilterValueCase0List = Array<SpanPropertyFilterValueCase
 export type SpanPropertyFilterValue = SpanPropertyFilterValueCase0List | string | number | boolean;
 export interface SpanPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
   type: SpanPropertyFilterType | (string & {});
-  value?: SpanPropertyFilterValue | null;
+  value?: SpanPropertyFilterValue | null | undefined;
 }
 export type RevenueAnalyticsPropertyFilterValueCase0Item = string | number | boolean;
 export type RevenueAnalyticsPropertyFilterValueCase0List =
@@ -384,10 +384,10 @@ export type RevenueAnalyticsPropertyFilterValue =
   | boolean;
 export interface RevenueAnalyticsPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
-  type?: string;
-  value?: RevenueAnalyticsPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: RevenueAnalyticsPropertyFilterValue | null | undefined;
 }
 export type AccountCustomPropertyFilterValueCase0Item = string | number | boolean;
 export type AccountCustomPropertyFilterValueCase0List =
@@ -399,11 +399,11 @@ export type AccountCustomPropertyFilterValue =
   | boolean;
 export interface AccountCustomPropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
   /** Customer analytics account custom property -- the key is the property definition id */
-  type?: string;
-  value?: AccountCustomPropertyFilterValue | null;
+  type?: string | undefined;
+  value?: AccountCustomPropertyFilterValue | null | undefined;
 }
 export type WorkflowVariablePropertyFilterValueCase0Item = string | number | boolean;
 export type WorkflowVariablePropertyFilterValueCase0List =
@@ -415,10 +415,10 @@ export type WorkflowVariablePropertyFilterValue =
   | boolean;
 export interface WorkflowVariablePropertyFilter {
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   operator: PropertyOperator | (string & {});
-  type?: string;
-  value?: WorkflowVariablePropertyFilterValue | null;
+  type?: string | undefined;
+  value?: WorkflowVariablePropertyFilterValue | null | undefined;
 }
 export type BehavioralPropertyFilterEventFiltersItem =
   | EventPropertyFilter
@@ -433,25 +433,25 @@ export type TimeUnitType = "day" | "week" | "month" | "year";
 export type InlineBehavioralType = "performed_event" | "performed_event_multiple";
 export interface BehavioralPropertyFilter {
   /** Extra property filters the matching events must satisfy. Deliberately excludes nested behavioral/cohort filters and groups */
-  event_filters?: BehavioralPropertyFilterEventFiltersList | null;
+  event_filters?: BehavioralPropertyFilterEventFiltersList | null | undefined;
   event_type: BehavioralEventSource | (string & {});
   /** Absolute or relative (e.g. -30d) lower date bound -- alternative to time_value/time_interval */
-  explicit_datetime?: string | null;
-  explicit_datetime_to?: string | null;
+  explicit_datetime?: string | null | undefined;
+  explicit_datetime_to?: string | null | undefined;
   /** Event name, or action id when event_type is 'actions' */
   key: string;
-  label?: string | null;
+  label?: string | null | undefined;
   /** Match persons who did NOT satisfy the criterion. Not the same as a low count -- zero-occurrence persons never match count operators */
-  negation?: boolean | null;
+  negation?: boolean | null | undefined;
   /** Count comparison for performed_event_multiple, defaults to exact */
-  operator?: PropertyOperator | (string & {}) | null;
+  operator?: PropertyOperator | (string & {}) | null | undefined;
   /** Count threshold for performed_event_multiple */
-  operator_value?: number | null;
-  time_interval?: TimeUnitType | (string & {}) | null;
+  operator_value?: number | null | undefined;
+  time_interval?: TimeUnitType | (string & {}) | null | undefined;
   /** Relative time window size, paired with time_interval */
-  time_value?: number | null;
+  time_value?: number | null | undefined;
   /** Person performed (or didn't perform) an event in a time window. ClickHouse-only -- not evaluable by flags or CDP */
-  type?: string;
+  type?: string | undefined;
   value: InlineBehavioralType | (string & {});
 }
 export type PropertyGroupFilterValueValuesItem =
@@ -494,9 +494,9 @@ export type LogsAlertFiltersServiceNamesList = Array<string>;
 export type LogSeverityLevel = "trace" | "debug" | "info" | "warn" | "error" | "fatal";
 export type LogsAlertFiltersSeverityLevelsList = Array<LogSeverityLevel | (string & {})>;
 export interface LogsAlertFilters {
-  filterGroup?: PropertyGroupFilter | null;
-  serviceNames?: LogsAlertFiltersServiceNamesList | null;
-  severityLevels?: LogsAlertFiltersSeverityLevelsList | null;
+  filterGroup?: PropertyGroupFilter | null | undefined;
+  serviceNames?: LogsAlertFiltersServiceNamesList | null | undefined;
+  severityLevels?: LogsAlertFiltersSeverityLevelsList | null | undefined;
 }
 export type ThresholdOperator = "above" | "below";
 export type WindowMinutesEnum = 5 | 10 | 15 | 30 | 60;
@@ -524,23 +524,23 @@ export interface Grouping {
   /** single keeps one instance for the whole alert. by_result_labels keeps one instance per distinct value of the labels in keys, so each group fires and resolves on its own. * `single` - Single * `by_result_labels` - By result labels */
   mode: GroupingModeEnum | (string & {});
   /** Result labels whose values make a group, such as service_name. Empty for mode single, required for by_result_labels. Changing them deletes the existing instances and closes their notification threads without a message. */
-  keys?: GroupingKeysList;
+  keys?: GroupingKeysList | undefined;
   /** Most instances the alert keeps at once. Groups past it are not tracked, and the last message says how many were left out. */
-  max_instances?: number;
+  max_instances?: number | undefined;
   /** What happens to groups past max_instances. degrade_visible names how many were left out. * `degrade_visible` - Degrade visible */
-  on_overflow?: OnOverflowEnum | (string & {});
+  on_overflow?: OnOverflowEnum | (string & {}) | undefined;
 }
 export interface AlertScheduleRestrictionWindow {
   /** Start time HH:MM (24-hour, project timezone). Inclusive. Each window must span >= 30 minutes on the local daily timeline (half-open [start, end)). */
-  start?: string;
+  start?: string | undefined;
   /** End time HH:MM (24-hour). Exclusive (half-open interval). Each window must span >= 30 minutes locally. */
-  end?: string;
+  end?: string | undefined;
 }
 /** Blocked local time windows when the alert must not run. Overlapping or identical windows are merged when saved. At most five windows before normalization; empty array clears quiet hours. */
 export type AlertScheduleRestrictionBlockedWindowsList = Array<AlertScheduleRestrictionWindow>;
 export interface AlertScheduleRestriction {
   /** Blocked local time windows when the alert must not run. Overlapping or identical windows are merged when saved. At most five windows before normalization; empty array clears quiet hours. */
-  blocked_windows?: AlertScheduleRestrictionBlockedWindowsList;
+  blocked_windows?: AlertScheduleRestrictionBlockedWindowsList | undefined;
 }
 /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
 export type LogsPlatformAlertConfigurationCreateLabelsMap = { [key: string]: string | undefined };
@@ -553,35 +553,35 @@ export interface LogsPlatformAlertConfigurationCreate {
   /** Product whose data the alert evaluates. It cannot change after the create. */
   source_kind: string;
   /** Human-readable name of the alert. Defaults to 'Untitled alert'. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the alert is evaluated on schedule. Defaults to true. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Settings for a logs alert. The bound the alert is evaluated against is under condition. */
   source_config: LogsPlatformAlertSourceConfig;
   /** How the alert splits its results into instances. Defaults to mode single. */
-  grouping?: Grouping;
+  grouping?: Grouping | undefined;
   /** Blocked local time windows (HH:MM in the project timezone) when the alert does not notify. Null means no quiet hours. Defaults to null. */
-  schedule_restriction?: AlertScheduleRestriction | null;
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
   /** Number of recent checks considered when deciding to fire. Defaults to 1. */
-  evaluation_periods?: number;
+  evaluation_periods?: number | undefined;
   /** Number of breaching checks within evaluation_periods required to fire. Cannot exceed evaluation_periods. Defaults to 1. */
-  datapoints_to_alarm?: number;
+  datapoints_to_alarm?: number | undefined;
   /** Minimum minutes between notifications for the same alert. Defaults to 0. */
-  cooldown_minutes?: number;
+  cooldown_minutes?: number | undefined;
   /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
-  labels?: LogsPlatformAlertConfigurationCreateLabelsMap;
+  labels?: LogsPlatformAlertConfigurationCreateLabelsMap | undefined;
   /** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
-  annotations?: LogsPlatformAlertConfigurationCreateAnnotationsMap;
+  annotations?: LogsPlatformAlertConfigurationCreateAnnotationsMap | undefined;
 }
 export type MetricsPlatformAlertConditionKindEnum = "threshold" | "present";
 export type MetricsPlatformAlertConditionOperator = "gt" | "gte" | "lt" | "lte" | "eq" | "ne";
 export interface MetricsPlatformAlertCondition {
   /** threshold compares each series' latest value with `threshold`. present fires for every series the query returns, for a query that already filters to the series in breach. */
-  kind?: MetricsPlatformAlertConditionKindEnum | (string & {});
+  kind?: MetricsPlatformAlertConditionKindEnum | (string & {}) | undefined;
   /** How a series' value compares with `threshold`. Required for a threshold. */
-  operator?: MetricsPlatformAlertConditionOperator | (string & {}) | null;
+  operator?: MetricsPlatformAlertConditionOperator | (string & {}) | null | undefined;
   /** The value a series is compared with. Required for a threshold. */
-  threshold?: number | null;
+  threshold?: number | null | undefined;
 }
 export interface MetricsPlatformAlertConfig {
   /** A PromQL expression over this project's metrics. Each series it returns is one group. For a threshold condition, leave the comparison out of the expression. */
@@ -602,33 +602,33 @@ export interface MetricsPlatformAlertConfigurationCreate {
   /** Product whose data the alert evaluates. It cannot change after the create. */
   source_kind: string;
   /** Human-readable name of the alert. Defaults to 'Untitled alert'. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the alert is evaluated on schedule. Defaults to true. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Settings for a metrics alert. The bound the alert is evaluated against is under condition. */
   source_config: MetricsPlatformAlertConfig;
   /** How the alert splits its results into instances. Defaults to mode single. */
-  grouping?: Grouping;
+  grouping?: Grouping | undefined;
   /** Blocked local time windows (HH:MM in the project timezone) when the alert does not notify. Null means no quiet hours. Defaults to null. */
-  schedule_restriction?: AlertScheduleRestriction | null;
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
   /** Number of recent checks considered when deciding to fire. Defaults to 1. */
-  evaluation_periods?: number;
+  evaluation_periods?: number | undefined;
   /** Number of breaching checks within evaluation_periods required to fire. Cannot exceed evaluation_periods. Defaults to 1. */
-  datapoints_to_alarm?: number;
+  datapoints_to_alarm?: number | undefined;
   /** Minimum minutes between notifications for the same alert. Defaults to 0. */
-  cooldown_minutes?: number;
+  cooldown_minutes?: number | undefined;
   /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
-  labels?: MetricsPlatformAlertConfigurationCreateLabelsMap;
+  labels?: MetricsPlatformAlertConfigurationCreateLabelsMap | undefined;
   /** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
-  annotations?: MetricsPlatformAlertConfigurationCreateAnnotationsMap;
+  annotations?: MetricsPlatformAlertConfigurationCreateAnnotationsMap | undefined;
 }
 /** Warehouse destinations the alert watches. Empty watches every destination in the project, including destinations added later. The grouping must be by_result_labels with keys [destination_id]. */
 export type WarehouseDestinationAlertConfigDestinationIdsList = Array<string>;
 export interface WarehouseDestinationAlertConfig {
   /** Warehouse destinations the alert watches. Empty watches every destination in the project, including destinations added later. The grouping must be by_result_labels with keys [destination_id]. */
-  destination_ids?: WarehouseDestinationAlertConfigDestinationIdsList;
+  destination_ids?: WarehouseDestinationAlertConfigDestinationIdsList | undefined;
   /** Whether project members who get data pipeline error emails also get an email when this alert fires or resolves. */
-  email_project_members?: boolean;
+  email_project_members?: boolean | undefined;
 }
 /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
 export type WarehouseDestinationPlatformAlertConfigurationCreateLabelsMap = {
@@ -643,38 +643,38 @@ export interface WarehouseDestinationPlatformAlertConfigurationCreate {
   /** Product whose data the alert evaluates. It cannot change after the create. */
   source_kind: string;
   /** Human-readable name of the alert. Defaults to 'Untitled alert'. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the alert is evaluated on schedule. Defaults to true. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Settings for a warehouse_destination alert. The bound the alert is evaluated against is under condition. */
   source_config: WarehouseDestinationAlertConfig;
   /** How the alert splits its results into instances. Defaults to mode single. */
-  grouping?: Grouping;
+  grouping?: Grouping | undefined;
   /** Blocked local time windows (HH:MM in the project timezone) when the alert does not notify. Null means no quiet hours. Defaults to null. */
-  schedule_restriction?: AlertScheduleRestriction | null;
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
   /** Number of recent checks considered when deciding to fire. Defaults to 1. */
-  evaluation_periods?: number;
+  evaluation_periods?: number | undefined;
   /** Number of breaching checks within evaluation_periods required to fire. Cannot exceed evaluation_periods. Defaults to 1. */
-  datapoints_to_alarm?: number;
+  datapoints_to_alarm?: number | undefined;
   /** Minimum minutes between notifications for the same alert. Defaults to 0. */
-  cooldown_minutes?: number;
+  cooldown_minutes?: number | undefined;
   /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
-  labels?: WarehouseDestinationPlatformAlertConfigurationCreateLabelsMap;
+  labels?: WarehouseDestinationPlatformAlertConfigurationCreateLabelsMap | undefined;
   /** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
-  annotations?: WarehouseDestinationPlatformAlertConfigurationCreateAnnotationsMap;
+  annotations?: WarehouseDestinationPlatformAlertConfigurationCreateAnnotationsMap | undefined;
 }
 /** Warehouse sources the alert watches. Empty watches every source in the project, including sources added later. */
 export type WarehouseSourceAlertConfigSourceIdsList = Array<string>;
 export type WarehouseAlertGroupByEnum = "schema" | "source";
 export interface WarehouseSourceAlertConfig {
   /** Warehouse sources the alert watches. Empty watches every source in the project, including sources added later. */
-  source_ids?: WarehouseSourceAlertConfigSourceIdsList;
+  source_ids?: WarehouseSourceAlertConfigSourceIdsList | undefined;
   /** schema keeps one alert instance, and sends one message, per failing table. source keeps one per source, whatever number of its tables fail. The grouping must be by_result_labels with keys [schema_id] or [source_id] to match. */
-  group_by?: WarehouseAlertGroupByEnum | (string & {});
+  group_by?: WarehouseAlertGroupByEnum | (string & {}) | undefined;
   /** Whether a table that stops syncing at the project's billing limit also fires the alert. */
-  include_billing_limits?: boolean;
+  include_billing_limits?: boolean | undefined;
   /** Whether project members who get data pipeline error emails also get an email when this alert fires or resolves. */
-  email_project_members?: boolean;
+  email_project_members?: boolean | undefined;
 }
 /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
 export type WarehouseSourcePlatformAlertConfigurationCreateLabelsMap = {
@@ -689,25 +689,25 @@ export interface WarehouseSourcePlatformAlertConfigurationCreate {
   /** Product whose data the alert evaluates. It cannot change after the create. */
   source_kind: string;
   /** Human-readable name of the alert. Defaults to 'Untitled alert'. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the alert is evaluated on schedule. Defaults to true. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Settings for a warehouse_source alert. The bound the alert is evaluated against is under condition. */
   source_config: WarehouseSourceAlertConfig;
   /** How the alert splits its results into instances. Defaults to mode single. */
-  grouping?: Grouping;
+  grouping?: Grouping | undefined;
   /** Blocked local time windows (HH:MM in the project timezone) when the alert does not notify. Null means no quiet hours. Defaults to null. */
-  schedule_restriction?: AlertScheduleRestriction | null;
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
   /** Number of recent checks considered when deciding to fire. Defaults to 1. */
-  evaluation_periods?: number;
+  evaluation_periods?: number | undefined;
   /** Number of breaching checks within evaluation_periods required to fire. Cannot exceed evaluation_periods. Defaults to 1. */
-  datapoints_to_alarm?: number;
+  datapoints_to_alarm?: number | undefined;
   /** Minimum minutes between notifications for the same alert. Defaults to 0. */
-  cooldown_minutes?: number;
+  cooldown_minutes?: number | undefined;
   /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
-  labels?: WarehouseSourcePlatformAlertConfigurationCreateLabelsMap;
+  labels?: WarehouseSourcePlatformAlertConfigurationCreateLabelsMap | undefined;
   /** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
-  annotations?: WarehouseSourcePlatformAlertConfigurationCreateAnnotationsMap;
+  annotations?: WarehouseSourcePlatformAlertConfigurationCreateAnnotationsMap | undefined;
 }
 export type PlatformAlertConfigurationCreate =
   | LogsPlatformAlertConfigurationCreate
@@ -717,7 +717,7 @@ export type PlatformAlertConfigurationCreate =
 export interface CreatePlatformAlertRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  body?: PlatformAlertConfigurationCreate;
+  body?: PlatformAlertConfigurationCreate | undefined;
 }
 /** * `logs` - Logs * `insight` - Insight * `warehouse_source` - Warehouse source * `warehouse_destination` - Warehouse destination * `metrics` - Metrics */
 export type PlatformAlertConfigurationSourceKindEnum =
@@ -843,21 +843,21 @@ export interface CreatePlatformAlertsDestinationRequest {
   /** Notification destination type. * `slack` - Slack * `webhook` - Webhook * `teams` - Microsoft Teams * `discord` - Discord * `pagerduty` - PagerDuty */
   type: PlatformAlertDestinationTypeEnum | (string & {});
   /** Integration ID for the Slack workspace. Required when type=slack. */
-  slack_workspace_id?: number;
+  slack_workspace_id?: number | undefined;
   /** Slack channel ID. Required when type=slack. */
-  slack_channel_id?: string;
+  slack_channel_id?: string | undefined;
   /** Human-readable channel name for display. */
-  slack_channel_name?: string;
+  slack_channel_name?: string | undefined;
   /** HTTPS endpoint to post to. Required for webhook, teams and discord. */
-  webhook_url?: string;
+  webhook_url?: string | undefined;
   /** Integration key of a PagerDuty Events API v2 integration. Required when type=pagerduty. */
-  pagerduty_routing_key?: string;
+  pagerduty_routing_key?: string | undefined;
   /** Severity PagerDuty records on the incident. Used when type=pagerduty. * `critical` - critical * `error` - error * `warning` - warning * `info` - info */
-  pagerduty_severity?: PagerDutySeverityEnum | (string & {});
+  pagerduty_severity?: PagerDutySeverityEnum | (string & {}) | undefined;
   /** PagerDuty service region of the account. Used when type=pagerduty. * `us` - us * `eu` - eu */
-  pagerduty_region?: PagerDutyRegionEnum | (string & {});
+  pagerduty_region?: PagerDutyRegionEnum | (string & {}) | undefined;
   /** The alert transitions to send about. Defaults to every kind, or to firing and resolved for PagerDuty, which then hears each incident's trigger and resolve. */
-  event_kinds?: CreatePlatformAlertsDestinationRequestEventKindsList;
+  event_kinds?: CreatePlatformAlertsDestinationRequestEventKindsList | undefined;
 }
 /** The alert transitions the destination hears about. A PagerDuty destination hears the incident trigger and resolve of every firing. */
 export type PlatformAlertDestinationEventKindsList = Array<PlatformAlertDestinationEventKindEnum>;
@@ -871,19 +871,19 @@ export interface PlatformAlertDestination {
   /** The alert transitions the destination hears about. A PagerDuty destination hears the incident trigger and resolve of every firing. */
   event_kinds: PlatformAlertDestinationEventKindsList;
   /** Integration ID of the Slack workspace. Set when type=slack. */
-  slack_workspace_id?: number;
+  slack_workspace_id?: number | undefined;
   /** Slack channel ID. Set when type=slack. */
-  slack_channel_id?: string;
+  slack_channel_id?: string | undefined;
   /** Human-readable Slack channel name. Set when type=slack. */
-  slack_channel_name?: string;
+  slack_channel_name?: string | undefined;
   /** Webhook endpoint reduced to scheme and host. The path, query and userinfo carry the secret. */
-  webhook_url?: string;
+  webhook_url?: string | undefined;
   /** PagerDuty integration key reduced to its last four characters. */
-  pagerduty_routing_key?: string;
+  pagerduty_routing_key?: string | undefined;
   /** Severity of the PagerDuty incident. * `critical` - critical * `error` - error * `warning` - warning * `info` - info */
-  pagerduty_severity?: PagerDutySeverityEnum;
+  pagerduty_severity?: PagerDutySeverityEnum | undefined;
   /** PagerDuty service region the events go to. * `us` - us * `eu` - eu */
-  pagerduty_region?: PagerDutyRegionEnum;
+  pagerduty_region?: PagerDutyRegionEnum | undefined;
 }
 export interface CreatePlatformAlertsSnoozeGroupRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -903,17 +903,17 @@ export interface ListPlatformAlertsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Only the alert copied from, or created with, this source configuration, such as a logs alert's id. */
-  legacy_configuration_id?: string;
+  legacy_configuration_id?: string | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedPlatformAlertConfigurationListResultsList = Array<PlatformAlertConfiguration>;
 export interface PaginatedPlatformAlertConfigurationList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedPlatformAlertConfigurationListResultsList;
 }
 export interface ListPlatformAlertsDestinationsRequest {
@@ -941,13 +941,13 @@ export interface PlatformAlertsDestroyRequest {
 export interface PlatformAlertsDestroyResponse {}
 export interface InsightsThresholdBounds {
   /** Alert fires when the value drops below this number. */
-  lower?: number | null;
+  lower?: number | null | undefined;
   /** Alert fires when the value exceeds this number. */
-  upper?: number | null;
+  upper?: number | null | undefined;
 }
 export type InsightThresholdType = "absolute" | "percentage";
 export interface InsightThreshold {
-  bounds?: InsightsThresholdBounds | null;
+  bounds?: InsightsThresholdBounds | null | undefined;
   /** Whether bounds are compared as absolute values or as percentage change from the previous interval. */
   type: InsightThresholdType | (string & {});
 }
@@ -962,7 +962,7 @@ export interface InsightPlatformAlertCondition {
   /** How the value is compared: as it is, or as an increase or decrease from the previous interval. */
   comparison: AlertCondition;
   /** The anomaly detector the alert uses in place of its threshold, or null for a threshold alert. It can't change through this API. */
-  detector?: InsightPlatformAlertConditionDetectorMap | null;
+  detector?: InsightPlatformAlertConditionDetectorMap | null | undefined;
 }
 export interface InsightPlatformAlertSourceConfig {
   /** The insight the alert checks. It cannot change through this API. */
@@ -997,9 +997,9 @@ export interface InsightPlatformAlertConfigurationEdit {
   /** Minimum minutes between notifications for the same alert. */
   cooldown_minutes: number;
   /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
-  labels?: InsightPlatformAlertConfigurationEditLabelsMap;
+  labels?: InsightPlatformAlertConfigurationEditLabelsMap | undefined;
   /** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
-  annotations?: InsightPlatformAlertConfigurationEditAnnotationsMap;
+  annotations?: InsightPlatformAlertConfigurationEditAnnotationsMap | undefined;
 }
 /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
 export type LogsPlatformAlertConfigurationEditLabelsMap = { [key: string]: string | undefined };
@@ -1028,9 +1028,9 @@ export interface LogsPlatformAlertConfigurationEdit {
   /** Minimum minutes between notifications for the same alert. */
   cooldown_minutes: number;
   /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
-  labels?: LogsPlatformAlertConfigurationEditLabelsMap;
+  labels?: LogsPlatformAlertConfigurationEditLabelsMap | undefined;
   /** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
-  annotations?: LogsPlatformAlertConfigurationEditAnnotationsMap;
+  annotations?: LogsPlatformAlertConfigurationEditAnnotationsMap | undefined;
 }
 /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
 export type MetricsPlatformAlertConfigurationEditLabelsMap = { [key: string]: string | undefined };
@@ -1059,9 +1059,9 @@ export interface MetricsPlatformAlertConfigurationEdit {
   /** Minimum minutes between notifications for the same alert. */
   cooldown_minutes: number;
   /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
-  labels?: MetricsPlatformAlertConfigurationEditLabelsMap;
+  labels?: MetricsPlatformAlertConfigurationEditLabelsMap | undefined;
   /** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
-  annotations?: MetricsPlatformAlertConfigurationEditAnnotationsMap;
+  annotations?: MetricsPlatformAlertConfigurationEditAnnotationsMap | undefined;
 }
 /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
 export type WarehouseDestinationPlatformAlertConfigurationEditLabelsMap = {
@@ -1092,9 +1092,9 @@ export interface WarehouseDestinationPlatformAlertConfigurationEdit {
   /** Minimum minutes between notifications for the same alert. */
   cooldown_minutes: number;
   /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
-  labels?: WarehouseDestinationPlatformAlertConfigurationEditLabelsMap;
+  labels?: WarehouseDestinationPlatformAlertConfigurationEditLabelsMap | undefined;
   /** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
-  annotations?: WarehouseDestinationPlatformAlertConfigurationEditAnnotationsMap;
+  annotations?: WarehouseDestinationPlatformAlertConfigurationEditAnnotationsMap | undefined;
 }
 /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
 export type WarehouseSourcePlatformAlertConfigurationEditLabelsMap = {
@@ -1125,9 +1125,9 @@ export interface WarehouseSourcePlatformAlertConfigurationEdit {
   /** Minimum minutes between notifications for the same alert. */
   cooldown_minutes: number;
   /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
-  labels?: WarehouseSourcePlatformAlertConfigurationEditLabelsMap;
+  labels?: WarehouseSourcePlatformAlertConfigurationEditLabelsMap | undefined;
   /** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
-  annotations?: WarehouseSourcePlatformAlertConfigurationEditAnnotationsMap;
+  annotations?: WarehouseSourcePlatformAlertConfigurationEditAnnotationsMap | undefined;
 }
 export type PlatformAlertConfigurationEdit =
   | InsightPlatformAlertConfigurationEdit
@@ -1139,7 +1139,7 @@ export interface UpdatePlatformAlertRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
-  body?: PlatformAlertConfigurationEdit;
+  body?: PlatformAlertConfigurationEdit | undefined;
 }
 /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
 export type PatchedInsightPlatformAlertConfigurationEditLabelsMap = {
@@ -1152,27 +1152,27 @@ export type PatchedInsightPlatformAlertConfigurationEditAnnotationsMap = {
 /** The settings an edit can change. Each source kind subclasses it with a typed `source_config`. */
 export interface PatchedInsightPlatformAlertConfigurationEdit {
   /** Product whose data the alert evaluates. It cannot change, so it must match the stored value. */
-  source_kind?: string;
+  source_kind?: string | undefined;
   /** Human-readable name of the alert. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the alert is evaluated on schedule. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Settings for a insight alert. The bound the alert is evaluated against is under condition. */
-  source_config?: InsightPlatformAlertSourceConfig;
+  source_config?: InsightPlatformAlertSourceConfig | undefined;
   /** How the alert splits its results into instances. */
-  grouping?: Grouping;
+  grouping?: Grouping | undefined;
   /** Blocked local time windows (HH:MM in the project timezone) when the alert does not notify. Null means no quiet hours. */
-  schedule_restriction?: AlertScheduleRestriction | null;
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
   /** Number of recent checks considered when deciding to fire. */
-  evaluation_periods?: number;
+  evaluation_periods?: number | undefined;
   /** Number of breaching checks within evaluation_periods required to fire. Cannot exceed evaluation_periods. */
-  datapoints_to_alarm?: number;
+  datapoints_to_alarm?: number | undefined;
   /** Minimum minutes between notifications for the same alert. */
-  cooldown_minutes?: number;
+  cooldown_minutes?: number | undefined;
   /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
-  labels?: PatchedInsightPlatformAlertConfigurationEditLabelsMap;
+  labels?: PatchedInsightPlatformAlertConfigurationEditLabelsMap | undefined;
   /** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
-  annotations?: PatchedInsightPlatformAlertConfigurationEditAnnotationsMap;
+  annotations?: PatchedInsightPlatformAlertConfigurationEditAnnotationsMap | undefined;
 }
 /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
 export type PatchedLogsPlatformAlertConfigurationEditLabelsMap = {
@@ -1185,27 +1185,27 @@ export type PatchedLogsPlatformAlertConfigurationEditAnnotationsMap = {
 /** The settings an edit can change. Each source kind subclasses it with a typed `source_config`. */
 export interface PatchedLogsPlatformAlertConfigurationEdit {
   /** Product whose data the alert evaluates. It cannot change, so it must match the stored value. */
-  source_kind?: string;
+  source_kind?: string | undefined;
   /** Human-readable name of the alert. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the alert is evaluated on schedule. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Settings for a logs alert. The bound the alert is evaluated against is under condition. */
-  source_config?: LogsPlatformAlertSourceConfig;
+  source_config?: LogsPlatformAlertSourceConfig | undefined;
   /** How the alert splits its results into instances. */
-  grouping?: Grouping;
+  grouping?: Grouping | undefined;
   /** Blocked local time windows (HH:MM in the project timezone) when the alert does not notify. Null means no quiet hours. */
-  schedule_restriction?: AlertScheduleRestriction | null;
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
   /** Number of recent checks considered when deciding to fire. */
-  evaluation_periods?: number;
+  evaluation_periods?: number | undefined;
   /** Number of breaching checks within evaluation_periods required to fire. Cannot exceed evaluation_periods. */
-  datapoints_to_alarm?: number;
+  datapoints_to_alarm?: number | undefined;
   /** Minimum minutes between notifications for the same alert. */
-  cooldown_minutes?: number;
+  cooldown_minutes?: number | undefined;
   /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
-  labels?: PatchedLogsPlatformAlertConfigurationEditLabelsMap;
+  labels?: PatchedLogsPlatformAlertConfigurationEditLabelsMap | undefined;
   /** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
-  annotations?: PatchedLogsPlatformAlertConfigurationEditAnnotationsMap;
+  annotations?: PatchedLogsPlatformAlertConfigurationEditAnnotationsMap | undefined;
 }
 /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
 export type PatchedMetricsPlatformAlertConfigurationEditLabelsMap = {
@@ -1218,27 +1218,27 @@ export type PatchedMetricsPlatformAlertConfigurationEditAnnotationsMap = {
 /** The settings an edit can change. Each source kind subclasses it with a typed `source_config`. */
 export interface PatchedMetricsPlatformAlertConfigurationEdit {
   /** Product whose data the alert evaluates. It cannot change, so it must match the stored value. */
-  source_kind?: string;
+  source_kind?: string | undefined;
   /** Human-readable name of the alert. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the alert is evaluated on schedule. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Settings for a metrics alert. The bound the alert is evaluated against is under condition. */
-  source_config?: MetricsPlatformAlertConfig;
+  source_config?: MetricsPlatformAlertConfig | undefined;
   /** How the alert splits its results into instances. */
-  grouping?: Grouping;
+  grouping?: Grouping | undefined;
   /** Blocked local time windows (HH:MM in the project timezone) when the alert does not notify. Null means no quiet hours. */
-  schedule_restriction?: AlertScheduleRestriction | null;
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
   /** Number of recent checks considered when deciding to fire. */
-  evaluation_periods?: number;
+  evaluation_periods?: number | undefined;
   /** Number of breaching checks within evaluation_periods required to fire. Cannot exceed evaluation_periods. */
-  datapoints_to_alarm?: number;
+  datapoints_to_alarm?: number | undefined;
   /** Minimum minutes between notifications for the same alert. */
-  cooldown_minutes?: number;
+  cooldown_minutes?: number | undefined;
   /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
-  labels?: PatchedMetricsPlatformAlertConfigurationEditLabelsMap;
+  labels?: PatchedMetricsPlatformAlertConfigurationEditLabelsMap | undefined;
   /** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
-  annotations?: PatchedMetricsPlatformAlertConfigurationEditAnnotationsMap;
+  annotations?: PatchedMetricsPlatformAlertConfigurationEditAnnotationsMap | undefined;
 }
 /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
 export type PatchedWarehouseDestinationPlatformAlertConfigurationEditLabelsMap = {
@@ -1251,27 +1251,27 @@ export type PatchedWarehouseDestinationPlatformAlertConfigurationEditAnnotations
 /** The settings an edit can change. Each source kind subclasses it with a typed `source_config`. */
 export interface PatchedWarehouseDestinationPlatformAlertConfigurationEdit {
   /** Product whose data the alert evaluates. It cannot change, so it must match the stored value. */
-  source_kind?: string;
+  source_kind?: string | undefined;
   /** Human-readable name of the alert. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the alert is evaluated on schedule. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Settings for a warehouse_destination alert. The bound the alert is evaluated against is under condition. */
-  source_config?: WarehouseDestinationAlertConfig;
+  source_config?: WarehouseDestinationAlertConfig | undefined;
   /** How the alert splits its results into instances. */
-  grouping?: Grouping;
+  grouping?: Grouping | undefined;
   /** Blocked local time windows (HH:MM in the project timezone) when the alert does not notify. Null means no quiet hours. */
-  schedule_restriction?: AlertScheduleRestriction | null;
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
   /** Number of recent checks considered when deciding to fire. */
-  evaluation_periods?: number;
+  evaluation_periods?: number | undefined;
   /** Number of breaching checks within evaluation_periods required to fire. Cannot exceed evaluation_periods. */
-  datapoints_to_alarm?: number;
+  datapoints_to_alarm?: number | undefined;
   /** Minimum minutes between notifications for the same alert. */
-  cooldown_minutes?: number;
+  cooldown_minutes?: number | undefined;
   /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
-  labels?: PatchedWarehouseDestinationPlatformAlertConfigurationEditLabelsMap;
+  labels?: PatchedWarehouseDestinationPlatformAlertConfigurationEditLabelsMap | undefined;
   /** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
-  annotations?: PatchedWarehouseDestinationPlatformAlertConfigurationEditAnnotationsMap;
+  annotations?: PatchedWarehouseDestinationPlatformAlertConfigurationEditAnnotationsMap | undefined;
 }
 /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
 export type PatchedWarehouseSourcePlatformAlertConfigurationEditLabelsMap = {
@@ -1284,27 +1284,27 @@ export type PatchedWarehouseSourcePlatformAlertConfigurationEditAnnotationsMap =
 /** The settings an edit can change. Each source kind subclasses it with a typed `source_config`. */
 export interface PatchedWarehouseSourcePlatformAlertConfigurationEdit {
   /** Product whose data the alert evaluates. It cannot change, so it must match the stored value. */
-  source_kind?: string;
+  source_kind?: string | undefined;
   /** Human-readable name of the alert. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the alert is evaluated on schedule. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Settings for a warehouse_source alert. The bound the alert is evaluated against is under condition. */
-  source_config?: WarehouseSourceAlertConfig;
+  source_config?: WarehouseSourceAlertConfig | undefined;
   /** How the alert splits its results into instances. */
-  grouping?: Grouping;
+  grouping?: Grouping | undefined;
   /** Blocked local time windows (HH:MM in the project timezone) when the alert does not notify. Null means no quiet hours. */
-  schedule_restriction?: AlertScheduleRestriction | null;
+  schedule_restriction?: AlertScheduleRestriction | null | undefined;
   /** Number of recent checks considered when deciding to fire. */
-  evaluation_periods?: number;
+  evaluation_periods?: number | undefined;
   /** Number of breaching checks within evaluation_periods required to fire. Cannot exceed evaluation_periods. */
-  datapoints_to_alarm?: number;
+  datapoints_to_alarm?: number | undefined;
   /** Minimum minutes between notifications for the same alert. */
-  cooldown_minutes?: number;
+  cooldown_minutes?: number | undefined;
   /** Labels that say who owns the alert and how urgent it is, such as {"team": "checkout", "severity": "critical"}. Names use letters, digits and underscores. alertname and names that start with posthog_ are reserved. Values cannot use templates. */
-  labels?: PatchedWarehouseSourcePlatformAlertConfigurationEditLabelsMap;
+  labels?: PatchedWarehouseSourcePlatformAlertConfigurationEditLabelsMap | undefined;
   /** Context for whoever responds, such as {"runbook_url": "https://..."}. Values can use {{ $labels.<name> }} for a grouping key or label of the alert, and {{ $value }}. An annotation whose name ends in _url must start with https://. */
-  annotations?: PatchedWarehouseSourcePlatformAlertConfigurationEditAnnotationsMap;
+  annotations?: PatchedWarehouseSourcePlatformAlertConfigurationEditAnnotationsMap | undefined;
 }
 export type PatchedPlatformAlertConfigurationEdit =
   | PatchedInsightPlatformAlertConfigurationEdit
@@ -1316,7 +1316,7 @@ export interface UpdatePlatformAlertsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
-  body?: PatchedPlatformAlertConfigurationEdit;
+  body?: PatchedPlatformAlertConfigurationEdit | undefined;
 }
 export type CreatePlatformAlertError = BadRequest | Forbidden | Conflict | PosthogOpError;
 export const createPlatformAlert: API.OperationMethod<

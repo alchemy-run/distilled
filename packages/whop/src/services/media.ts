@@ -79,19 +79,19 @@ export type GenerateMediaAssetRequestResolution = "480p" | "720p" | "1080p" | "4
 export type GenerateMediaAssetRequestType = "video" | "image";
 export interface GenerateMediaAssetRequest {
   /** Account ID, prefixed `biz_`. Defaults to the account the API key belongs to. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Video length in seconds. Video only; defaults to 5. */
-  duration_seconds?: GenerateMediaAssetRequestDurationSeconds | (number & {});
+  duration_seconds?: GenerateMediaAssetRequestDurationSeconds | (number & {}) | undefined;
   /** What to generate. Up to 2,000 characters. */
   prompt: string;
   /** Optional reference image file IDs (`file_` prefixed), up to 4. For video, a single reference seeds the opening frame; multiple references guide subject and style instead. */
-  reference_media?: GenerateMediaAssetRequestReferenceMediaList;
+  reference_media?: GenerateMediaAssetRequestReferenceMediaList | undefined;
   /** Video resolution. Video only; defaults to `1080p`. `1080p` is not supported by Seedance 2.0 Fast or Mini; `4k` is only supported by Seedance 2.0. */
-  resolution?: GenerateMediaAssetRequestResolution | (string & {});
+  resolution?: GenerateMediaAssetRequestResolution | (string & {}) | undefined;
   /** The kind of media to generate. */
   type: GenerateMediaAssetRequestType | (string & {});
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface MediaAssetFile {
   /** File ID, prefixed `file_`. */

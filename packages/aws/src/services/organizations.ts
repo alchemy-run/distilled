@@ -518,23 +518,23 @@ export type HandshakeResourceType =
   | "MANAGEMENT_NAME"
   | (string & {});
 export interface HandshakeResource {
-  Value?: string | redacted.Redacted<string>;
-  Type?: HandshakeResourceType;
-  Resources?: HandshakeResource[];
+  Value?: string | redacted.Redacted<string> | undefined;
+  Type?: HandshakeResourceType | undefined;
+  Resources?: HandshakeResource[] | undefined;
 }
 export type HandshakeResources = HandshakeResource[];
 export interface Handshake {
-  Id?: string;
-  Arn?: string;
-  Parties?: HandshakeParty[];
-  State?: HandshakeState;
-  RequestedTimestamp?: Date;
-  ExpirationTimestamp?: Date;
-  Action?: ActionType;
-  Resources?: HandshakeResource[];
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Parties?: HandshakeParty[] | undefined;
+  State?: HandshakeState | undefined;
+  RequestedTimestamp?: Date | undefined;
+  ExpirationTimestamp?: Date | undefined;
+  Action?: ActionType | undefined;
+  Resources?: HandshakeResource[] | undefined;
 }
 export interface AcceptHandshakeResponse {
-  Handshake?: Handshake;
+  Handshake?: Handshake | undefined;
 }
 export type PolicyId = string;
 export type PolicyTargetId = string;
@@ -547,7 +547,7 @@ export interface CancelHandshakeRequest {
   HandshakeId: string;
 }
 export interface CancelHandshakeResponse {
-  Handshake?: Handshake;
+  Handshake?: Handshake | undefined;
 }
 export type AccountId = string;
 export interface CloseAccountRequest {
@@ -568,9 +568,9 @@ export type Tags = Tag[];
 export interface CreateAccountRequest {
   Email: string | redacted.Redacted<string>;
   AccountName: string | redacted.Redacted<string>;
-  RoleName?: string;
-  IamUserAccessToBilling?: IAMUserAccessToBilling;
-  Tags?: Tag[];
+  RoleName?: string | undefined;
+  IamUserAccessToBilling?: IAMUserAccessToBilling | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type CreateAccountRequestId = string;
 export type CreateAccountState = "IN_PROGRESS" | "SUCCEEDED" | "FAILED" | (string & {});
@@ -592,31 +592,31 @@ export type CreateAccountFailureReason =
   | "UPDATE_EXISTING_RESOURCE_POLICY_WITH_TAGS_NOT_SUPPORTED"
   | (string & {});
 export interface CreateAccountStatus {
-  Id?: string;
-  AccountName?: string | redacted.Redacted<string>;
-  State?: CreateAccountState;
-  RequestedTimestamp?: Date;
-  CompletedTimestamp?: Date;
-  AccountId?: string;
-  GovCloudAccountId?: string;
-  FailureReason?: CreateAccountFailureReason;
+  Id?: string | undefined;
+  AccountName?: string | redacted.Redacted<string> | undefined;
+  State?: CreateAccountState | undefined;
+  RequestedTimestamp?: Date | undefined;
+  CompletedTimestamp?: Date | undefined;
+  AccountId?: string | undefined;
+  GovCloudAccountId?: string | undefined;
+  FailureReason?: CreateAccountFailureReason | undefined;
 }
 export interface CreateAccountResponse {
-  CreateAccountStatus?: CreateAccountStatus;
+  CreateAccountStatus?: CreateAccountStatus | undefined;
 }
 export interface CreateGovCloudAccountRequest {
   Email: string | redacted.Redacted<string>;
   AccountName: string | redacted.Redacted<string>;
-  RoleName?: string;
-  IamUserAccessToBilling?: IAMUserAccessToBilling;
-  Tags?: Tag[];
+  RoleName?: string | undefined;
+  IamUserAccessToBilling?: IAMUserAccessToBilling | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateGovCloudAccountResponse {
-  CreateAccountStatus?: CreateAccountStatus;
+  CreateAccountStatus?: CreateAccountStatus | undefined;
 }
 export type OrganizationFeatureSet = "ALL" | "CONSOLIDATED_BILLING" | (string & {});
 export interface CreateOrganizationRequest {
-  FeatureSet?: OrganizationFeatureSet;
+  FeatureSet?: OrganizationFeatureSet | undefined;
 }
 export type OrganizationId = string;
 export type OrganizationArn = string;
@@ -639,40 +639,40 @@ export type PolicyType =
   | (string & {});
 export type PolicyTypeStatus = "ENABLED" | "PENDING_ENABLE" | "PENDING_DISABLE" | (string & {});
 export interface PolicyTypeSummary {
-  Type?: PolicyType;
-  Status?: PolicyTypeStatus;
+  Type?: PolicyType | undefined;
+  Status?: PolicyTypeStatus | undefined;
 }
 export type PolicyTypes = PolicyTypeSummary[];
 export interface Organization {
-  Id?: string;
-  Arn?: string;
-  FeatureSet?: OrganizationFeatureSet;
-  MasterAccountArn?: string;
-  MasterAccountId?: string;
-  MasterAccountEmail?: string | redacted.Redacted<string>;
-  AvailablePolicyTypes?: PolicyTypeSummary[];
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  FeatureSet?: OrganizationFeatureSet | undefined;
+  MasterAccountArn?: string | undefined;
+  MasterAccountId?: string | undefined;
+  MasterAccountEmail?: string | redacted.Redacted<string> | undefined;
+  AvailablePolicyTypes?: PolicyTypeSummary[] | undefined;
 }
 export interface CreateOrganizationResponse {
-  Organization?: Organization;
+  Organization?: Organization | undefined;
 }
 export type ParentId = string;
 export type OrganizationalUnitName = string;
 export interface CreateOrganizationalUnitRequest {
   ParentId: string;
   Name: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type OrganizationalUnitId = string;
 export type OrganizationalUnitArn = string;
 export type Path = string;
 export interface OrganizationalUnit {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  Path?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Path?: string | undefined;
 }
 export interface CreateOrganizationalUnitResponse {
-  OrganizationalUnit?: OrganizationalUnit;
+  OrganizationalUnit?: OrganizationalUnit | undefined;
 }
 export type PolicyContent = string;
 export type PolicyDescription = string;
@@ -682,30 +682,30 @@ export interface CreatePolicyRequest {
   Description: string;
   Name: string;
   Type: PolicyType;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type PolicyArn = string;
 export type AwsManagedPolicy = boolean;
 export interface PolicySummary {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  Description?: string;
-  Type?: PolicyType;
-  AwsManaged?: boolean;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Type?: PolicyType | undefined;
+  AwsManaged?: boolean | undefined;
 }
 export interface Policy {
-  PolicySummary?: PolicySummary;
-  Content?: string;
+  PolicySummary?: PolicySummary | undefined;
+  Content?: string | undefined;
 }
 export interface CreatePolicyResponse {
-  Policy?: Policy;
+  Policy?: Policy | undefined;
 }
 export interface DeclineHandshakeRequest {
   HandshakeId: string;
 }
 export interface DeclineHandshakeResponse {
-  Handshake?: Handshake;
+  Handshake?: Handshake | undefined;
 }
 export interface DeleteOrganizationRequest {}
 export interface DeleteOrganizationResponse {}
@@ -740,24 +740,24 @@ export type AccountState =
 export type Paths = string[];
 export type AccountJoinedMethod = "INVITED" | "CREATED" | (string & {});
 export interface Account {
-  Id?: string;
-  Arn?: string;
-  Email?: string | redacted.Redacted<string>;
-  Name?: string | redacted.Redacted<string>;
-  Status?: AccountStatus;
-  State?: AccountState;
-  Paths?: string[];
-  JoinedMethod?: AccountJoinedMethod;
-  JoinedTimestamp?: Date;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Email?: string | redacted.Redacted<string> | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Status?: AccountStatus | undefined;
+  State?: AccountState | undefined;
+  Paths?: string[] | undefined;
+  JoinedMethod?: AccountJoinedMethod | undefined;
+  JoinedTimestamp?: Date | undefined;
 }
 export interface DescribeAccountResponse {
-  Account?: Account;
+  Account?: Account | undefined;
 }
 export interface DescribeCreateAccountStatusRequest {
   CreateAccountRequestId: string;
 }
 export interface DescribeCreateAccountStatusResponse {
-  CreateAccountStatus?: CreateAccountStatus;
+  CreateAccountStatus?: CreateAccountStatus | undefined;
 }
 export type EffectivePolicyType =
   | "TAG_POLICY"
@@ -775,53 +775,53 @@ export type EffectivePolicyType =
   | (string & {});
 export interface DescribeEffectivePolicyRequest {
   PolicyType: EffectivePolicyType;
-  TargetId?: string;
+  TargetId?: string | undefined;
 }
 export interface EffectivePolicy {
-  PolicyContent?: string;
-  LastUpdatedTimestamp?: Date;
-  TargetId?: string;
-  PolicyType?: EffectivePolicyType;
+  PolicyContent?: string | undefined;
+  LastUpdatedTimestamp?: Date | undefined;
+  TargetId?: string | undefined;
+  PolicyType?: EffectivePolicyType | undefined;
 }
 export interface DescribeEffectivePolicyResponse {
-  EffectivePolicy?: EffectivePolicy;
+  EffectivePolicy?: EffectivePolicy | undefined;
 }
 export interface DescribeHandshakeRequest {
   HandshakeId: string;
 }
 export interface DescribeHandshakeResponse {
-  Handshake?: Handshake;
+  Handshake?: Handshake | undefined;
 }
 export interface DescribeOrganizationRequest {}
 export interface DescribeOrganizationResponse {
-  Organization?: Organization;
+  Organization?: Organization | undefined;
 }
 export interface DescribeOrganizationalUnitRequest {
   OrganizationalUnitId: string;
 }
 export interface DescribeOrganizationalUnitResponse {
-  OrganizationalUnit?: OrganizationalUnit;
+  OrganizationalUnit?: OrganizationalUnit | undefined;
 }
 export interface DescribePolicyRequest {
   PolicyId: string;
 }
 export interface DescribePolicyResponse {
-  Policy?: Policy;
+  Policy?: Policy | undefined;
 }
 export interface DescribeResourcePolicyRequest {}
 export type ResourcePolicyId = string;
 export type ResourcePolicyArn = string;
 export interface ResourcePolicySummary {
-  Id?: string;
-  Arn?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
 }
 export type ResourcePolicyContent = string;
 export interface ResourcePolicy {
-  ResourcePolicySummary?: ResourcePolicySummary;
-  Content?: string;
+  ResourcePolicySummary?: ResourcePolicySummary | undefined;
+  Content?: string | undefined;
 }
 export interface DescribeResourcePolicyResponse {
-  ResourcePolicy?: ResourcePolicy;
+  ResourcePolicy?: ResourcePolicy | undefined;
 }
 export type ResponsibilityTransferId = string;
 export interface DescribeResponsibilityTransferRequest {
@@ -839,23 +839,23 @@ export type ResponsibilityTransferStatus =
   | "WITHDRAWN"
   | (string & {});
 export interface TransferParticipant {
-  ManagementAccountId?: string;
-  ManagementAccountEmail?: string | redacted.Redacted<string>;
+  ManagementAccountId?: string | undefined;
+  ManagementAccountEmail?: string | redacted.Redacted<string> | undefined;
 }
 export interface ResponsibilityTransfer {
-  Arn?: string;
-  Name?: string | redacted.Redacted<string>;
-  Id?: string;
-  Type?: ResponsibilityTransferType;
-  Status?: ResponsibilityTransferStatus;
-  Source?: TransferParticipant;
-  Target?: TransferParticipant;
-  StartTimestamp?: Date;
-  EndTimestamp?: Date;
-  ActiveHandshakeId?: string;
+  Arn?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Id?: string | undefined;
+  Type?: ResponsibilityTransferType | undefined;
+  Status?: ResponsibilityTransferStatus | undefined;
+  Source?: TransferParticipant | undefined;
+  Target?: TransferParticipant | undefined;
+  StartTimestamp?: Date | undefined;
+  EndTimestamp?: Date | undefined;
+  ActiveHandshakeId?: string | undefined;
 }
 export interface DescribeResponsibilityTransferResponse {
-  ResponsibilityTransfer?: ResponsibilityTransfer;
+  ResponsibilityTransfer?: ResponsibilityTransfer | undefined;
 }
 export interface DetachPolicyRequest {
   PolicyId: string;
@@ -874,17 +874,17 @@ export interface DisablePolicyTypeRequest {
 export type RootArn = string;
 export type RootName = string;
 export interface Root {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  PolicyTypes?: PolicyTypeSummary[];
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  PolicyTypes?: PolicyTypeSummary[] | undefined;
 }
 export interface DisablePolicyTypeResponse {
-  Root?: Root;
+  Root?: Root | undefined;
 }
 export interface EnableAllFeaturesRequest {}
 export interface EnableAllFeaturesResponse {
-  Handshake?: Handshake;
+  Handshake?: Handshake | undefined;
 }
 export interface EnableAWSServiceAccessRequest {
   ServicePrincipal: string;
@@ -895,285 +895,285 @@ export interface EnablePolicyTypeRequest {
   PolicyType: PolicyType;
 }
 export interface EnablePolicyTypeResponse {
-  Root?: Root;
+  Root?: Root | undefined;
 }
 export type HandshakeNotes = string | redacted.Redacted<string>;
 export interface InviteAccountToOrganizationRequest {
   Target: HandshakeParty;
-  Notes?: string | redacted.Redacted<string>;
-  Tags?: Tag[];
+  Notes?: string | redacted.Redacted<string> | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface InviteAccountToOrganizationResponse {
-  Handshake?: Handshake;
+  Handshake?: Handshake | undefined;
 }
 export interface InviteOrganizationToTransferResponsibilityRequest {
   Type: ResponsibilityTransferType;
   Target: HandshakeParty;
-  Notes?: string | redacted.Redacted<string>;
+  Notes?: string | redacted.Redacted<string> | undefined;
   StartTimestamp: Date;
   SourceName: string | redacted.Redacted<string>;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface InviteOrganizationToTransferResponsibilityResponse {
-  Handshake?: Handshake;
+  Handshake?: Handshake | undefined;
 }
 export interface LeaveOrganizationRequest {}
 export interface LeaveOrganizationResponse {}
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListAccountsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type Accounts = Account[];
 export interface ListAccountsResponse {
-  Accounts?: Account[];
-  NextToken?: string;
+  Accounts?: Account[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAccountsForParentRequest {
   ParentId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListAccountsForParentResponse {
-  Accounts?: Account[];
-  NextToken?: string;
+  Accounts?: Account[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAccountsWithInvalidEffectivePolicyRequest {
   PolicyType: EffectivePolicyType;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListAccountsWithInvalidEffectivePolicyResponse {
-  Accounts?: Account[];
-  PolicyType?: EffectivePolicyType;
-  NextToken?: string;
+  Accounts?: Account[] | undefined;
+  PolicyType?: EffectivePolicyType | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAWSServiceAccessForOrganizationRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface EnabledServicePrincipal {
-  ServicePrincipal?: string;
-  DateEnabled?: Date;
+  ServicePrincipal?: string | undefined;
+  DateEnabled?: Date | undefined;
 }
 export type EnabledServicePrincipals = EnabledServicePrincipal[];
 export interface ListAWSServiceAccessForOrganizationResponse {
-  EnabledServicePrincipals?: EnabledServicePrincipal[];
-  NextToken?: string;
+  EnabledServicePrincipals?: EnabledServicePrincipal[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ChildType = "ACCOUNT" | "ORGANIZATIONAL_UNIT" | (string & {});
 export interface ListChildrenRequest {
   ParentId: string;
   ChildType: ChildType;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ChildId = string;
 export interface Child {
-  Id?: string;
-  Type?: ChildType;
+  Id?: string | undefined;
+  Type?: ChildType | undefined;
 }
 export type Children = Child[];
 export interface ListChildrenResponse {
-  Children?: Child[];
-  NextToken?: string;
+  Children?: Child[] | undefined;
+  NextToken?: string | undefined;
 }
 export type CreateAccountStates = CreateAccountState[];
 export interface ListCreateAccountStatusRequest {
-  States?: CreateAccountState[];
-  NextToken?: string;
-  MaxResults?: number;
+  States?: CreateAccountState[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type CreateAccountStatuses = CreateAccountStatus[];
 export interface ListCreateAccountStatusResponse {
-  CreateAccountStatuses?: CreateAccountStatus[];
-  NextToken?: string;
+  CreateAccountStatuses?: CreateAccountStatus[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDelegatedAdministratorsRequest {
-  ServicePrincipal?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  ServicePrincipal?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface DelegatedAdministrator {
-  Id?: string;
-  Arn?: string;
-  Email?: string | redacted.Redacted<string>;
-  Name?: string | redacted.Redacted<string>;
-  Status?: AccountStatus;
-  State?: AccountState;
-  JoinedMethod?: AccountJoinedMethod;
-  JoinedTimestamp?: Date;
-  DelegationEnabledDate?: Date;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Email?: string | redacted.Redacted<string> | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Status?: AccountStatus | undefined;
+  State?: AccountState | undefined;
+  JoinedMethod?: AccountJoinedMethod | undefined;
+  JoinedTimestamp?: Date | undefined;
+  DelegationEnabledDate?: Date | undefined;
 }
 export type DelegatedAdministrators = DelegatedAdministrator[];
 export interface ListDelegatedAdministratorsResponse {
-  DelegatedAdministrators?: DelegatedAdministrator[];
-  NextToken?: string;
+  DelegatedAdministrators?: DelegatedAdministrator[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListDelegatedServicesForAccountRequest {
   AccountId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface DelegatedService {
-  ServicePrincipal?: string;
-  DelegationEnabledDate?: Date;
+  ServicePrincipal?: string | undefined;
+  DelegationEnabledDate?: Date | undefined;
 }
 export type DelegatedServices = DelegatedService[];
 export interface ListDelegatedServicesForAccountResponse {
-  DelegatedServices?: DelegatedService[];
-  NextToken?: string;
+  DelegatedServices?: DelegatedService[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListEffectivePolicyValidationErrorsRequest {
   AccountId: string;
   PolicyType: EffectivePolicyType;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ErrorCode = string;
 export type ErrorMessage = string;
 export type PathToError = string;
 export type PolicyIds = string[];
 export interface EffectivePolicyValidationError {
-  ErrorCode?: string;
-  ErrorMessage?: string;
-  PathToError?: string;
-  ContributingPolicies?: string[];
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
+  PathToError?: string | undefined;
+  ContributingPolicies?: string[] | undefined;
 }
 export type EffectivePolicyValidationErrors = EffectivePolicyValidationError[];
 export interface ListEffectivePolicyValidationErrorsResponse {
-  AccountId?: string;
-  PolicyType?: EffectivePolicyType;
-  Path?: string;
-  EvaluationTimestamp?: Date;
-  NextToken?: string;
-  EffectivePolicyValidationErrors?: EffectivePolicyValidationError[];
+  AccountId?: string | undefined;
+  PolicyType?: EffectivePolicyType | undefined;
+  Path?: string | undefined;
+  EvaluationTimestamp?: Date | undefined;
+  NextToken?: string | undefined;
+  EffectivePolicyValidationErrors?: EffectivePolicyValidationError[] | undefined;
 }
 export interface HandshakeFilter {
-  ActionType?: ActionType;
-  ParentHandshakeId?: string;
+  ActionType?: ActionType | undefined;
+  ParentHandshakeId?: string | undefined;
 }
 export interface ListHandshakesForAccountRequest {
-  Filter?: HandshakeFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: HandshakeFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type Handshakes = Handshake[];
 export interface ListHandshakesForAccountResponse {
-  Handshakes?: Handshake[];
-  NextToken?: string;
+  Handshakes?: Handshake[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListHandshakesForOrganizationRequest {
-  Filter?: HandshakeFilter;
-  NextToken?: string;
-  MaxResults?: number;
+  Filter?: HandshakeFilter | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListHandshakesForOrganizationResponse {
-  Handshakes?: Handshake[];
-  NextToken?: string;
+  Handshakes?: Handshake[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListInboundResponsibilityTransfersRequest {
   Type: ResponsibilityTransferType;
-  Id?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  Id?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ResponsibilityTransfers = ResponsibilityTransfer[];
 export interface ListInboundResponsibilityTransfersResponse {
-  ResponsibilityTransfers?: ResponsibilityTransfer[];
-  NextToken?: string;
+  ResponsibilityTransfers?: ResponsibilityTransfer[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListOrganizationalUnitsForParentRequest {
   ParentId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type OrganizationalUnits = OrganizationalUnit[];
 export interface ListOrganizationalUnitsForParentResponse {
-  OrganizationalUnits?: OrganizationalUnit[];
-  NextToken?: string;
+  OrganizationalUnits?: OrganizationalUnit[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListOutboundResponsibilityTransfersRequest {
   Type: ResponsibilityTransferType;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListOutboundResponsibilityTransfersResponse {
-  ResponsibilityTransfers?: ResponsibilityTransfer[];
-  NextToken?: string;
+  ResponsibilityTransfers?: ResponsibilityTransfer[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListParentsRequest {
   ChildId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ParentType = "ROOT" | "ORGANIZATIONAL_UNIT" | (string & {});
 export interface Parent {
-  Id?: string;
-  Type?: ParentType;
+  Id?: string | undefined;
+  Type?: ParentType | undefined;
 }
 export type Parents = Parent[];
 export interface ListParentsResponse {
-  Parents?: Parent[];
-  NextToken?: string;
+  Parents?: Parent[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPoliciesRequest {
   Filter: PolicyType;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type Policies = PolicySummary[];
 export interface ListPoliciesResponse {
-  Policies?: PolicySummary[];
-  NextToken?: string;
+  Policies?: PolicySummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPoliciesForTargetRequest {
   TargetId: string;
   Filter: PolicyType;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListPoliciesForTargetResponse {
-  Policies?: PolicySummary[];
-  NextToken?: string;
+  Policies?: PolicySummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListRootsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type Roots = Root[];
 export interface ListRootsResponse {
-  Roots?: Root[];
-  NextToken?: string;
+  Roots?: Root[] | undefined;
+  NextToken?: string | undefined;
 }
 export type TaggableResourceId = string;
 export interface ListTagsForResourceRequest {
   ResourceId: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
-  NextToken?: string;
+  Tags?: Tag[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTargetsForPolicyRequest {
   PolicyId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type GenericArn = string;
 export type TargetName = string;
 export type TargetType = "ACCOUNT" | "ORGANIZATIONAL_UNIT" | "ROOT" | (string & {});
 export interface PolicyTargetSummary {
-  TargetId?: string;
-  Arn?: string;
-  Name?: string;
-  Type?: TargetType;
+  TargetId?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Type?: TargetType | undefined;
 }
 export type PolicyTargets = PolicyTargetSummary[];
 export interface ListTargetsForPolicyResponse {
-  Targets?: PolicyTargetSummary[];
-  NextToken?: string;
+  Targets?: PolicyTargetSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface MoveAccountRequest {
   AccountId: string;
@@ -1183,10 +1183,10 @@ export interface MoveAccountRequest {
 export interface MoveAccountResponse {}
 export interface PutResourcePolicyRequest {
   Content: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface PutResourcePolicyResponse {
-  ResourcePolicy?: ResourcePolicy;
+  ResourcePolicy?: ResourcePolicy | undefined;
 }
 export interface RegisterDelegatedAdministratorRequest {
   AccountId: string;
@@ -1204,10 +1204,10 @@ export interface TagResourceRequest {
 export interface TagResourceResponse {}
 export interface TerminateResponsibilityTransferRequest {
   Id: string;
-  EndTimestamp?: Date;
+  EndTimestamp?: Date | undefined;
 }
 export interface TerminateResponsibilityTransferResponse {
-  ResponsibilityTransfer?: ResponsibilityTransfer;
+  ResponsibilityTransfer?: ResponsibilityTransfer | undefined;
 }
 export type TagKeys = string[];
 export interface UntagResourceRequest {
@@ -1217,26 +1217,26 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateOrganizationalUnitRequest {
   OrganizationalUnitId: string;
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface UpdateOrganizationalUnitResponse {
-  OrganizationalUnit?: OrganizationalUnit;
+  OrganizationalUnit?: OrganizationalUnit | undefined;
 }
 export interface UpdatePolicyRequest {
   PolicyId: string;
-  Name?: string;
-  Description?: string;
-  Content?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Content?: string | undefined;
 }
 export interface UpdatePolicyResponse {
-  Policy?: Policy;
+  Policy?: Policy | undefined;
 }
 export interface UpdateResponsibilityTransferRequest {
   Id: string;
   Name: string | redacted.Redacted<string>;
 }
 export interface UpdateResponsibilityTransferResponse {
-  ResponsibilityTransfer?: ResponsibilityTransfer;
+  ResponsibilityTransfer?: ResponsibilityTransfer | undefined;
 }
 export type ExceptionMessage = string;
 export type AccessDeniedForDependencyExceptionReason =

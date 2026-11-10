@@ -44,11 +44,11 @@ export type NameUnavailabilityReason = "Invalid" | "AlreadyExists";
 /** Description of name availability. */
 export interface NameAvailabilityInfo {
   /** specifies if a name is available or not */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** specifies the reason a name is unavailable */
-  reason?: NameUnavailabilityReason;
+  reason?: NameUnavailabilityReason | undefined;
   /** message containing a detailed reason name is unavailable */
-  message?: string;
+  message?: string | undefined;
 }
 export type DeleteDpsCertificateRequestCertificatePurpose =
   | "clientAuthentication"
@@ -63,21 +63,21 @@ export interface DeleteDpsCertificateRequest {
   /** Name of the certificate to retrieve. */
   certificateName: string;
   /** This is optional, and it is the Common Name of the certificate. */
-  certificate_name?: string;
+  certificate_name?: string | undefined;
   /** Raw data within the certificate. */
-  certificate_rawBytes?: string;
+  certificate_rawBytes?: string | undefined;
   /** Indicates if certificate has been verified by owner of the private key. */
-  certificate_isVerified?: boolean;
+  certificate_isVerified?: boolean | undefined;
   /** A description that mentions the purpose of the certificate. */
-  certificate_purpose?: DeleteDpsCertificateRequestCertificatePurpose | (string & {});
+  certificate_purpose?: DeleteDpsCertificateRequestCertificatePurpose | (string & {}) | undefined;
   /** Time the certificate is created. */
-  certificate_created?: string;
+  certificate_created?: string | undefined;
   /** Certificate last updated time. */
-  certificate_lastUpdated?: string;
+  certificate_lastUpdated?: string | undefined;
   /** Indicates if the certificate contains a private key. */
-  certificate_hasPrivateKey?: boolean;
+  certificate_hasPrivateKey?: boolean | undefined;
   /** Random number generated to indicate Proof of Possession. */
-  certificate_nonce?: string;
+  certificate_nonce?: string | undefined;
   /** ETag of the certificate. A value of "*" applies to any version. */
   ifMatch: string;
 }
@@ -92,9 +92,9 @@ export interface DeleteIotDpsResourceRequest {
 }
 export interface DeleteIotDpsResourceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteIotDpsResourcePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. */
@@ -113,22 +113,22 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The private endpoint property of a private endpoint connection */
 export interface PrivateEndpoint {
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The status of a private endpoint connection */
 export type PrivateLinkServiceConnectionStatus =
@@ -143,37 +143,37 @@ export interface PrivateLinkServiceConnectionState {
   /** The description for the current state of a private endpoint connection */
   description: string;
   /** Actions required for a private endpoint connection */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** The properties of a private endpoint connection */
 export interface PrivateEndpointConnectionProperties {
   /** The private endpoint property of a private endpoint connection */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** The current state of a private endpoint connection */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
 }
 export interface DeleteIotDpsResourcePrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a private endpoint connection */
   properties: PrivateEndpointConnectionProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The description of an X509 CA Certificate. */
 export interface CertificatePropertiesInput {
   /** Determines whether certificate has been verified. */
-  isVerified?: boolean;
+  isVerified?: boolean | undefined;
   /** base-64 representation of X509 certificate .cer file or just .pem file content. */
-  certificate?: string;
+  certificate?: string | undefined;
 }
 export interface DpsCertificateCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -185,40 +185,40 @@ export interface DpsCertificateCreateOrUpdateRequest {
   /** Name of the certificate to retrieve. */
   certificateName: string;
   /** properties of a certificate */
-  properties?: CertificatePropertiesInput;
+  properties?: CertificatePropertiesInput | undefined;
   /** ETag of the certificate. Do not specify for creating a brand new certificate. Required to update an existing certificate. */
-  ifMatch?: string;
+  ifMatch?: string | undefined;
 }
 /** The description of an X509 CA Certificate. */
 export interface CertificateProperties {
   /** The certificate's subject name. */
-  subject?: string;
+  subject?: string | undefined;
   /** The certificate's expiration date and time. */
-  expiry?: string;
+  expiry?: string | undefined;
   /** The certificate's thumbprint. */
-  thumbprint?: string;
+  thumbprint?: string | undefined;
   /** Determines whether certificate has been verified. */
-  isVerified?: boolean;
+  isVerified?: boolean | undefined;
   /** base-64 representation of X509 certificate .cer file or just .pem file content. */
-  certificate?: string;
+  certificate?: string | undefined;
   /** The certificate's creation date and time. */
-  created?: string;
+  created?: string | undefined;
   /** The certificate's last update date and time. */
-  updated?: string;
+  updated?: string | undefined;
 }
 export interface DpsCertificateCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** properties of a certificate */
-  properties?: CertificateProperties;
+  properties?: CertificateProperties | undefined;
   /** The entity tag. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export type GenerateDpsCertificateVerificationCodeRequestCertificatePurpose =
   | "clientAuthentication"
@@ -233,53 +233,54 @@ export interface GenerateDpsCertificateVerificationCodeRequest {
   /** Name of the certificate to retrieve. */
   certificateName: string;
   /** Common Name for the certificate. */
-  certificate_name?: string;
+  certificate_name?: string | undefined;
   /** Raw data of certificate. */
-  certificate_rawBytes?: string;
+  certificate_rawBytes?: string | undefined;
   /** Indicates if the certificate has been verified by owner of the private key. */
-  certificate_isVerified?: boolean;
+  certificate_isVerified?: boolean | undefined;
   /** Description mentioning the purpose of the certificate. */
   certificate_purpose?:
     | GenerateDpsCertificateVerificationCodeRequestCertificatePurpose
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Time the certificate is created. */
-  certificate_created?: string;
+  certificate_created?: string | undefined;
   /** Certificate last updated time. */
-  certificate_lastUpdated?: string;
+  certificate_lastUpdated?: string | undefined;
   /** Indicates if the certificate contains private key. */
-  certificate_hasPrivateKey?: boolean;
+  certificate_hasPrivateKey?: boolean | undefined;
   /** Random number generated to indicate Proof of Possession. */
-  certificate_nonce?: string;
+  certificate_nonce?: string | undefined;
 }
 export interface VerificationCodeResponseProperties {
   /** Verification code. */
-  verificationCode?: string;
+  verificationCode?: string | undefined;
   /** Certificate subject. */
-  subject?: string;
+  subject?: string | undefined;
   /** Code expiry. */
-  expiry?: string;
+  expiry?: string | undefined;
   /** Certificate thumbprint. */
-  thumbprint?: string;
+  thumbprint?: string | undefined;
   /** Indicate if the certificate is verified by owner of private key. */
-  isVerified?: boolean;
+  isVerified?: boolean | undefined;
   /** base-64 representation of X509 certificate .cer file or just .pem file content. */
-  certificate?: string;
+  certificate?: string | undefined;
   /** Certificate created time. */
-  created?: string;
+  created?: string | undefined;
   /** Certificate updated time. */
-  updated?: string;
+  updated?: string | undefined;
 }
 /** Description of the response of the verification code. */
 export interface VerificationCodeResponse {
   /** Name of certificate. */
-  name?: string;
+  name?: string | undefined;
   /** Request etag. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** The resource type. */
-  type?: string;
-  properties?: VerificationCodeResponseProperties;
+  type?: string | undefined;
+  properties?: VerificationCodeResponseProperties | undefined;
 }
 export interface GetDpsCertificateRequest {
   /** The ID of the target subscription. */
@@ -293,17 +294,17 @@ export interface GetDpsCertificateRequest {
 }
 export interface GetDpsCertificateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** properties of a certificate */
-  properties?: CertificateProperties;
+  properties?: CertificateProperties | undefined;
   /** The entity tag. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface GetIotDpsResourceRequest {
   /** The ID of the target subscription. */
@@ -344,20 +345,20 @@ export interface IpFilterRule {
   /** A string that contains the IP address range in CIDR notation for the rule. */
   ipMask: string;
   /** Target for requests captured by this rule. */
-  target?: IpFilterTargetType | (string & {});
+  target?: IpFilterTargetType | (string & {}) | undefined;
 }
 /** The IP filter rules. */
 export type IotDpsPropertiesDescriptionIpFilterRulesList = Array<IpFilterRule>;
 /** The private endpoint connection of a provisioning service */
 export interface PrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a private endpoint connection */
   properties: PrivateEndpointConnectionProperties;
 }
@@ -369,19 +370,19 @@ export type IotHubAuthenticationType = "KeyBased" | "UserAssigned" | "SystemAssi
 /** Description of the IoT hub. */
 export interface IotHubDefinitionDescription {
   /** flag for applying allocationPolicy or not for a given iot hub. */
-  applyAllocationPolicy?: boolean;
+  applyAllocationPolicy?: boolean | undefined;
   /** weight to apply for a given iot h. */
-  allocationWeight?: number;
+  allocationWeight?: number | undefined;
   /** Host name of the IoT hub. */
-  name?: string;
+  name?: string | undefined;
   /** Host name of the IoT hub. This is required when connectionString is not provided. */
-  hostName?: string;
+  hostName?: string | undefined;
   /** IotHub MI authentication type: KeyBased, UserAssigned, SystemAssigned. */
-  authenticationType?: IotHubAuthenticationType;
+  authenticationType?: IotHubAuthenticationType | undefined;
   /** The selected user-assigned identity resource Id associated with IoT hub. This is required when authenticationType is UserAssigned. */
-  selectedUserAssignedIdentityResourceId?: string;
+  selectedUserAssignedIdentityResourceId?: string | undefined;
   /** Connection string of the IoT hub. This is required when authenticationType is KeyBased. */
-  connectionString?: string | Redacted.Redacted<string>;
+  connectionString?: string | Redacted.Redacted<string> | undefined;
   /** ARM region of the IoT hub. */
   location: string;
 }
@@ -398,15 +399,15 @@ export interface DeviceRegistryNamespaceDescription {
   /** Device Registry Namespace MI authentication type: UserAssigned, SystemAssigned. */
   authenticationType: DeviceRegistryNamespaceAuthenticationType;
   /** The selected user-assigned identity resource Id associated with Device Registry namespace. This is required when authenticationType is UserAssigned. */
-  selectedUserAssignedIdentityResourceId?: string;
+  selectedUserAssignedIdentityResourceId?: string | undefined;
   /** Unique identifier of the linked Device Registry namespace. */
-  namespaceUuid?: string;
+  namespaceUuid?: string | undefined;
   /** The data plane address of the linked Azure Device Registry namespace. */
-  dataAddress?: string;
+  dataAddress?: string | undefined;
   /** Azure location of the linked Device Registry namespace. */
-  location?: string;
+  location?: string | undefined;
   /** The linking state of this namespace. */
-  linkingState?: LinkingState;
+  linkingState?: LinkingState | undefined;
 }
 /** The Device Registry namespaces linked to the provisioning service. */
 export type IotDpsPropertiesDescriptionDeviceRegistryNamespacesList =
@@ -426,9 +427,9 @@ export interface SharedAccessSignatureAuthorizationRuleAccessRightsDescription {
   /** Name of the key. */
   keyName: string;
   /** Primary SAS key value. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** Secondary SAS key value. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
   /** Rights that this key has. */
   rights: AccessRightsDescription | (string & {});
 }
@@ -438,46 +439,48 @@ export type IotDpsPropertiesDescriptionAuthorizationPoliciesList =
 /** the service specific properties of a provisioning service, including keys, linked iot hubs, current state, and system generated properties such as hostname and idScope */
 export interface IotDpsPropertiesDescription {
   /** Current state of the provisioning service. */
-  state?: State;
+  state?: State | undefined;
   /** Whether requests from Public Network are allowed */
-  publicNetworkAccess?: PublicNetworkAccess;
+  publicNetworkAccess?: PublicNetworkAccess | undefined;
   /** The IP filter rules. */
-  ipFilterRules?: IotDpsPropertiesDescriptionIpFilterRulesList;
+  ipFilterRules?: IotDpsPropertiesDescriptionIpFilterRulesList | undefined;
   /** Private endpoint connections created on this IotHub */
-  privateEndpointConnections?: IotDpsPropertiesDescriptionPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | IotDpsPropertiesDescriptionPrivateEndpointConnectionsList
+    | undefined;
   /** The ARM provisioning state of the provisioning service. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** List of IoT hubs associated with this provisioning service. */
-  iotHubs?: IotDpsPropertiesDescriptionIotHubsList;
+  iotHubs?: IotDpsPropertiesDescriptionIotHubsList | undefined;
   /** The Device Registry namespaces linked to the provisioning service. */
-  deviceRegistryNamespaces?: IotDpsPropertiesDescriptionDeviceRegistryNamespacesList;
+  deviceRegistryNamespaces?: IotDpsPropertiesDescriptionDeviceRegistryNamespacesList | undefined;
   /** Allocation policy to be used by this provisioning service. */
-  allocationPolicy?: AllocationPolicy;
+  allocationPolicy?: AllocationPolicy | undefined;
   /** Service endpoint for provisioning service. */
-  serviceOperationsHostName?: string;
+  serviceOperationsHostName?: string | undefined;
   /** Device endpoint for this provisioning service. */
-  deviceProvisioningHostName?: string;
+  deviceProvisioningHostName?: string | undefined;
   /** Unique identifier of this provisioning service. */
-  idScope?: string;
+  idScope?: string | undefined;
   /** List of authorization keys for a provisioning service. */
-  authorizationPolicies?: IotDpsPropertiesDescriptionAuthorizationPoliciesList;
+  authorizationPolicies?: IotDpsPropertiesDescriptionAuthorizationPoliciesList | undefined;
   /** Optional. Indicates if the DPS instance has Data Residency enabled, removing the cross geo-pair disaster recovery. */
-  enableDataResidency?: boolean;
+  enableDataResidency?: boolean | undefined;
   /** Portal endpoint to enable CORS for this provisioning service. */
-  portalOperationsHostName?: string;
+  portalOperationsHostName?: string | undefined;
   /** Disables all authentication methods other than Azure RBAC. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
 }
 /** Sku name. */
 export type IotDpsSku = "S1";
 /** List of possible provisioning service SKUs. */
 export interface IotDpsSkuInfo {
   /** Sku name. */
-  name?: IotDpsSku;
+  name?: IotDpsSku | undefined;
   /** Pricing tier name of the provisioning service. */
-  tier?: string;
+  tier?: string | undefined;
   /** The number of units to provision */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -488,46 +491,46 @@ export type ManagedServiceIdentityType =
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetIotDpsResourceResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities | null;
+  userAssignedIdentities?: UserAssignedIdentities | null | undefined;
 }
 export interface GetIotDpsResourceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetIotDpsResourceResponseTagsMap;
+  tags?: GetIotDpsResourceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource group of the resource. */
-  resourcegroup?: string;
+  resourcegroup?: string | undefined;
   /** The subscription id of the resource. */
-  subscriptionid?: string;
+  subscriptionid?: string | undefined;
   /** Service specific properties for a provisioning service */
   properties: IotDpsPropertiesDescription;
   /** Sku info for a provisioning Service. */
   sku: IotDpsSkuInfo;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetIotDpsResourceResponseIdentity;
+  identity?: GetIotDpsResourceResponseIdentity | undefined;
 }
 export interface GetIotDpsResourceOperationResultRequest {
   /** The ID of the target subscription. */
@@ -544,18 +547,18 @@ export interface GetIotDpsResourceOperationResultRequest {
 /** Error response containing message and code. */
 export interface ErrorMessage {
   /** standard error code */
-  code?: string;
+  code?: string | undefined;
   /** standard error description */
-  message?: string;
+  message?: string | undefined;
   /** detailed summary of error */
-  details?: string;
+  details?: string | undefined;
 }
 /** Result of a long running operation. */
 export interface AsyncOperationResult {
   /** current status of a long running operation. */
-  status?: string;
+  status?: string | undefined;
   /** Error message containing code, description and details */
-  error?: ErrorMessage;
+  error?: ErrorMessage | undefined;
 }
 export interface GetIotDpsResourcePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. */
@@ -569,13 +572,13 @@ export interface GetIotDpsResourcePrivateEndpointConnectionRequest {
 }
 export interface GetIotDpsResourcePrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a private endpoint connection */
   properties: PrivateEndpointConnectionProperties;
 }
@@ -596,21 +599,21 @@ export type GroupIdInformationPropertiesRequiredZoneNamesList = Array<string>;
 /** The properties for a group information object */
 export interface GroupIdInformationProperties {
   /** The group id */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The required members for a specific group id */
-  requiredMembers?: GroupIdInformationPropertiesRequiredMembersList;
+  requiredMembers?: GroupIdInformationPropertiesRequiredMembersList | undefined;
   /** The required DNS zones for a specific group id */
-  requiredZoneNames?: GroupIdInformationPropertiesRequiredZoneNamesList;
+  requiredZoneNames?: GroupIdInformationPropertiesRequiredZoneNamesList | undefined;
 }
 export interface GetIotDpsResourcePrivateLinkResourcesResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties for a group information object */
   properties: GroupIdInformationProperties;
 }
@@ -623,7 +626,7 @@ export interface PrivateEndpointInput {}
 /** The properties of a private endpoint connection */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** The private endpoint property of a private endpoint connection */
-  privateEndpoint?: PrivateEndpointInput;
+  privateEndpoint?: PrivateEndpointInput | undefined;
   /** The current state of a private endpoint connection */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
 }
@@ -638,17 +641,17 @@ export type IotDpsPropertiesDescriptionInputPrivateEndpointConnectionsList =
 /** Description of the IoT hub. */
 export interface IotHubDefinitionDescriptionInput {
   /** flag for applying allocationPolicy or not for a given iot hub. */
-  applyAllocationPolicy?: boolean;
+  applyAllocationPolicy?: boolean | undefined;
   /** weight to apply for a given iot h. */
-  allocationWeight?: number;
+  allocationWeight?: number | undefined;
   /** Host name of the IoT hub. This is required when connectionString is not provided. */
-  hostName?: string;
+  hostName?: string | undefined;
   /** IotHub MI authentication type: KeyBased, UserAssigned, SystemAssigned. */
-  authenticationType?: IotHubAuthenticationType | (string & {});
+  authenticationType?: IotHubAuthenticationType | (string & {}) | undefined;
   /** The selected user-assigned identity resource Id associated with IoT hub. This is required when authenticationType is UserAssigned. */
-  selectedUserAssignedIdentityResourceId?: string;
+  selectedUserAssignedIdentityResourceId?: string | undefined;
   /** Connection string of the IoT hub. This is required when authenticationType is KeyBased. */
-  connectionString?: string | Redacted.Redacted<string>;
+  connectionString?: string | Redacted.Redacted<string> | undefined;
   /** ARM region of the IoT hub. */
   location: string;
 }
@@ -660,34 +663,36 @@ export type IotDpsPropertiesDescriptionInputAuthorizationPoliciesList =
 /** the service specific properties of a provisioning service, including keys, linked iot hubs, current state, and system generated properties such as hostname and idScope */
 export interface IotDpsPropertiesDescriptionInput {
   /** Current state of the provisioning service. */
-  state?: State | (string & {});
+  state?: State | (string & {}) | undefined;
   /** Whether requests from Public Network are allowed */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
   /** The IP filter rules. */
-  ipFilterRules?: IotDpsPropertiesDescriptionInputIpFilterRulesList;
+  ipFilterRules?: IotDpsPropertiesDescriptionInputIpFilterRulesList | undefined;
   /** Private endpoint connections created on this IotHub */
-  privateEndpointConnections?: IotDpsPropertiesDescriptionInputPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | IotDpsPropertiesDescriptionInputPrivateEndpointConnectionsList
+    | undefined;
   /** The ARM provisioning state of the provisioning service. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** List of IoT hubs associated with this provisioning service. */
-  iotHubs?: IotDpsPropertiesDescriptionInputIotHubsList;
+  iotHubs?: IotDpsPropertiesDescriptionInputIotHubsList | undefined;
   /** Allocation policy to be used by this provisioning service. */
-  allocationPolicy?: AllocationPolicy | (string & {});
+  allocationPolicy?: AllocationPolicy | (string & {}) | undefined;
   /** List of authorization keys for a provisioning service. */
-  authorizationPolicies?: IotDpsPropertiesDescriptionInputAuthorizationPoliciesList;
+  authorizationPolicies?: IotDpsPropertiesDescriptionInputAuthorizationPoliciesList | undefined;
   /** Optional. Indicates if the DPS instance has Data Residency enabled, removing the cross geo-pair disaster recovery. */
-  enableDataResidency?: boolean;
+  enableDataResidency?: boolean | undefined;
   /** Portal endpoint to enable CORS for this provisioning service. */
-  portalOperationsHostName?: string;
+  portalOperationsHostName?: string | undefined;
   /** Disables all authentication methods other than Azure RBAC. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
 }
 /** List of possible provisioning service SKUs. */
 export interface IotDpsSkuInfoInput {
   /** Sku name. */
-  name?: IotDpsSku | (string & {});
+  name?: IotDpsSku | (string & {}) | undefined;
   /** The number of units to provision */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** User assigned identity properties */
 export type UserAssignedIdentityInput = PrivateEndpointInput;
@@ -696,7 +701,7 @@ export type UserAssignedIdentitiesInput = { [key: string]: PrivateEndpointInput 
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface IotDpsResourceCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput | null;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | null | undefined;
 }
 export interface IotDpsResourceCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -706,21 +711,21 @@ export interface IotDpsResourceCreateOrUpdateRequest {
   /** Name of the provisioning service to retrieve. */
   provisioningServiceName: string;
   /** Resource tags. */
-  tags?: IotDpsResourceCreateOrUpdateRequestTagsMap;
+  tags?: IotDpsResourceCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource group of the resource. */
-  resourcegroup?: string;
+  resourcegroup?: string | undefined;
   /** The subscription id of the resource. */
-  subscriptionid?: string;
+  subscriptionid?: string | undefined;
   /** Service specific properties for a provisioning service */
   properties: IotDpsPropertiesDescriptionInput;
   /** Sku info for a provisioning Service. */
   sku: IotDpsSkuInfoInput;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: IotDpsResourceCreateOrUpdateRequestIdentity;
+  identity?: IotDpsResourceCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type IotDpsResourceCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -728,33 +733,33 @@ export type IotDpsResourceCreateOrUpdateResponseTagsMap = { [key: string]: strin
 export type IotDpsResourceCreateOrUpdateResponseIdentity = GetIotDpsResourceResponseIdentity;
 export interface IotDpsResourceCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: IotDpsResourceCreateOrUpdateResponseTagsMap;
+  tags?: IotDpsResourceCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource group of the resource. */
-  resourcegroup?: string;
+  resourcegroup?: string | undefined;
   /** The subscription id of the resource. */
-  subscriptionid?: string;
+  subscriptionid?: string | undefined;
   /** Service specific properties for a provisioning service */
   properties: IotDpsPropertiesDescription;
   /** Sku info for a provisioning Service. */
   sku: IotDpsSkuInfo;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetIotDpsResourceResponseIdentity;
+  identity?: GetIotDpsResourceResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface IotDpsResourceCreateOrUpdatePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. */
@@ -770,19 +775,19 @@ export interface IotDpsResourceCreateOrUpdatePrivateEndpointConnectionRequest {
 }
 export interface IotDpsResourceCreateOrUpdatePrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of a private endpoint connection */
   properties: PrivateEndpointConnectionProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ListDpsCertificateRequest {
   /** The ID of the target subscription. */
@@ -795,24 +800,24 @@ export interface ListDpsCertificateRequest {
 /** The X509 Certificate. */
 export interface CertificateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** properties of a certificate */
-  properties?: CertificateProperties;
+  properties?: CertificateProperties | undefined;
   /** The entity tag. */
-  etag?: string;
+  etag?: string | undefined;
 }
 /** The array of Certificate objects. */
 export type CertificateListDescriptionValueList = Array<CertificateResponse>;
 /** The JSON-serialized array of Certificate objects. */
 export interface CertificateListDescription {
   /** The array of Certificate objects. */
-  value?: CertificateListDescriptionValueList;
+  value?: CertificateListDescriptionValueList | undefined;
 }
 export interface ListIotDpsResourceByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -827,29 +832,29 @@ export type ProvisioningServiceDescriptionIdentity = GetIotDpsResourceResponseId
 /** The description of the provisioning service. */
 export interface ProvisioningServiceDescription {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ProvisioningServiceDescriptionTagsMap;
+  tags?: ProvisioningServiceDescriptionTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource group of the resource. */
-  resourcegroup?: string;
+  resourcegroup?: string | undefined;
   /** The subscription id of the resource. */
-  subscriptionid?: string;
+  subscriptionid?: string | undefined;
   /** Service specific properties for a provisioning service */
   properties: IotDpsPropertiesDescription;
   /** Sku info for a provisioning Service. */
   sku: IotDpsSkuInfo;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetIotDpsResourceResponseIdentity;
+  identity?: GetIotDpsResourceResponseIdentity | undefined;
 }
 /** The ProvisioningServiceDescription items on this page */
 export type ProvisioningServiceDescriptionListResultValueList =
@@ -859,7 +864,7 @@ export interface ProvisioningServiceDescriptionListResult {
   /** The ProvisioningServiceDescription items on this page */
   value: ProvisioningServiceDescriptionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIotDpsResourceBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -881,7 +886,7 @@ export interface SharedAccessSignatureAuthorizationRuleListResult {
   /** The SharedAccessSignatureAuthorizationRuleAccessRightsDescription items on this page */
   value: SharedAccessSignatureAuthorizationRuleListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIotDpsResourceKeysForKeyNameRequest {
   /** The ID of the target subscription. */
@@ -915,13 +920,13 @@ export interface ListIotDpsResourcePrivateLinkResourcesRequest {
 /** The group information for creating a private endpoint on a provisioning service */
 export interface GroupIdInformation {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties for a group information object */
   properties: GroupIdInformationProperties;
 }
@@ -930,7 +935,7 @@ export type PrivateLinkResourcesValueList = Array<GroupIdInformation>;
 /** The available private link resources for a provisioning service */
 export interface PrivateLinkResources {
   /** The list of available private link resources for a provisioning service */
-  value?: PrivateLinkResourcesValueList;
+  value?: PrivateLinkResourcesValueList | undefined;
 }
 export interface ListIotDpsResourceValidSkusRequest {
   /** The ID of the target subscription. */
@@ -943,7 +948,7 @@ export interface ListIotDpsResourceValidSkusRequest {
 /** Available SKUs of tier and units. */
 export interface IotDpsSkuDefinition {
   /** Sku name. */
-  name?: IotDpsSku;
+  name?: IotDpsSku | undefined;
 }
 /** The IotDpsSkuDefinition items on this page */
 export type IotDpsSkuDefinitionListResultValueList = Array<IotDpsSkuDefinition>;
@@ -952,24 +957,24 @@ export interface IotDpsSkuDefinitionListResult {
   /** The IotDpsSkuDefinition items on this page */
   value: IotDpsSkuDefinitionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** The display information for the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft Devices. */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource Type: ProvisioningServices. */
-  resource?: string;
+  resource?: string | undefined;
   /** Name of the operation. */
-  operation?: string;
+  operation?: string | undefined;
 }
 /** Represents an operation. */
 export interface Operation {
   /** The name of the operation. */
-  name?: string;
+  name?: string | undefined;
   /** The display information for the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
 }
 /** [Placeholder] Description for value property */
 export type OperationListResultValueList = Array<Operation>;
@@ -977,7 +982,7 @@ export interface OperationListResult {
   /** [Placeholder] Description for value property */
   value: OperationListResultValueList;
   /** [Placeholder] Description for nextLink property. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Resource tags */
 export type UpdateIotDpsResourceRequestTagsMap = { [key: string]: string | undefined };
@@ -989,7 +994,7 @@ export interface UpdateIotDpsResourceRequest {
   /** Name of the provisioning service to retrieve. */
   provisioningServiceName: string;
   /** Resource tags */
-  tags?: UpdateIotDpsResourceRequestTagsMap;
+  tags?: UpdateIotDpsResourceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateIotDpsResourceResponseTagsMap = { [key: string]: string | undefined };
@@ -997,31 +1002,31 @@ export type UpdateIotDpsResourceResponseTagsMap = { [key: string]: string | unde
 export type UpdateIotDpsResourceResponseIdentity = GetIotDpsResourceResponseIdentity;
 export interface UpdateIotDpsResourceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateIotDpsResourceResponseTagsMap;
+  tags?: UpdateIotDpsResourceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The Etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal ETag convention. */
-  etag?: string;
+  etag?: string | undefined;
   /** The resource group of the resource. */
-  resourcegroup?: string;
+  resourcegroup?: string | undefined;
   /** The subscription id of the resource. */
-  subscriptionid?: string;
+  subscriptionid?: string | undefined;
   /** Service specific properties for a provisioning service */
   properties: IotDpsPropertiesDescription;
   /** Sku info for a provisioning Service. */
   sku: IotDpsSkuInfo;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetIotDpsResourceResponseIdentity;
+  identity?: GetIotDpsResourceResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 export type VerifyDpsCertificateCertificateRequestCertificatePurpose =
   | "clientAuthentication"
@@ -1036,37 +1041,40 @@ export interface VerifyDpsCertificateCertificateRequest {
   /** Name of the certificate to retrieve. */
   certificateName: string;
   /** Common Name for the certificate. */
-  certificate_name?: string;
+  certificate_name?: string | undefined;
   /** Raw data of certificate. */
-  certificate_rawBytes?: string;
+  certificate_rawBytes?: string | undefined;
   /** Indicates if the certificate has been verified by owner of the private key. */
-  certificate_isVerified?: boolean;
+  certificate_isVerified?: boolean | undefined;
   /** Describe the purpose of the certificate. */
-  certificate_purpose?: VerifyDpsCertificateCertificateRequestCertificatePurpose | (string & {});
+  certificate_purpose?:
+    | VerifyDpsCertificateCertificateRequestCertificatePurpose
+    | (string & {})
+    | undefined;
   /** Time the certificate is created. */
-  certificate_created?: string;
+  certificate_created?: string | undefined;
   /** Certificate last updated time. */
-  certificate_lastUpdated?: string;
+  certificate_lastUpdated?: string | undefined;
   /** Indicates if the certificate contains private key. */
-  certificate_hasPrivateKey?: boolean;
+  certificate_hasPrivateKey?: boolean | undefined;
   /** Random number generated to indicate Proof of Possession. */
-  certificate_nonce?: string;
+  certificate_nonce?: string | undefined;
   /** base-64 representation of X509 certificate .cer file or just .pem file content. */
-  certificate?: string;
+  certificate?: string | undefined;
 }
 export interface VerifyDpsCertificateCertificateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** properties of a certificate */
-  properties?: CertificateProperties;
+  properties?: CertificateProperties | undefined;
   /** The entity tag. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export type CheckIotDpsResourceProvisioningServiceNameAvailabilityError = AzureOpError;
 /** Check if a provisioning service name is available. Check if a provisioning service name is available. This will validate if the name is syntactically valid and if the name is usable */

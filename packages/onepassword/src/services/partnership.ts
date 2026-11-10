@@ -73,27 +73,27 @@ export interface CreatePartnerAccountRequest {
   /** Specifies the 1Password domain to provision the account for. For testing it can be one of 'b5test.com', 'b5test.ca', or 'b5test.eu'. For production, it can be one of '1password.com', '1password.ca', or '1password.eu'. Note that domains can only be used after promotions have been created for a given partnership in the specific domain. */
   domain: string;
   /** Specifies when the 1Password account will be frozen, formatted in RFC-3339. */
-  ends_at?: string;
+  ends_at?: string | undefined;
 }
 export interface Account {
   /** The unique identifier for the end user's account. It can be up to 80 chars long and consist of alphanumeric characters and hyphens. */
-  customer_account_uid?: string;
+  customer_account_uid?: string | undefined;
   /** The current type of the 1Password account - 'I' for Individual, or 'F' for family. */
-  account_type?: string;
+  account_type?: string | undefined;
   /** The activation token is a coupon code to link a new or existing 1Password account to a partnership promotion. For example, it can be used for 1Password account creation at `https://start.{{1password_domain}}/partnership/redeem?t={{account_type}}&c={{activation_token}}` during end-user signup. */
-  activation_token?: string;
+  activation_token?: string | undefined;
   /** The 1Password domain for which the account was provisioned for. For testing domains, it can be one of 'b5test.com', 'b5test.ca', or 'b5test.eu'. For production, it can be one of '1password.com', '1password.ca', or '1password.eu'. */
-  domain?: string;
+  domain?: string | undefined;
   /** The provisioning status of the partner account. It can be either 'entitled' for accounts that have been initialized but have not completed 1Password signup, or 'provisioned' for accounts that have completed the 1Password signup process. */
-  status?: string;
+  status?: string | undefined;
   /** The number of provisioned users for the 1Password account. */
-  deployed_members?: number;
+  deployed_members?: number | undefined;
   /** The timestamp of when the partnership account was created, formatted in RFC-3339. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The timestamp of when the partner account was last updated, formatted in RFC-3339. This field will be updated during account status changes. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The timestamp of when the partner account will be frozen, formatted in RFC-3339. */
-  ends_at?: string;
+  ends_at?: string | undefined;
 }
 export interface DeleteAccountRequest {
   /** Unique ID of partner_account to delete. */

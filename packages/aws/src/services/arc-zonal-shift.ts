@@ -186,21 +186,21 @@ export type AllowedWindows = string[];
 export type OutcomeAlarms = ControlCondition[];
 export interface CreatePracticeRunConfigurationRequest {
   resourceIdentifier: string;
-  blockedWindows?: string[];
-  blockedDates?: string[];
-  blockingAlarms?: ControlCondition[];
-  allowedWindows?: string[];
+  blockedWindows?: string[] | undefined;
+  blockedDates?: string[] | undefined;
+  blockingAlarms?: ControlCondition[] | undefined;
+  allowedWindows?: string[] | undefined;
   outcomeAlarms: ControlCondition[];
 }
 export type ResourceArn = string;
 export type ResourceName = string;
 export type ZonalAutoshiftStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface PracticeRunConfiguration {
-  blockingAlarms?: ControlCondition[];
+  blockingAlarms?: ControlCondition[] | undefined;
   outcomeAlarms: ControlCondition[];
-  blockedWindows?: string[];
-  allowedWindows?: string[];
-  blockedDates?: string[];
+  blockedWindows?: string[] | undefined;
+  allowedWindows?: string[] | undefined;
+  blockedDates?: string[] | undefined;
 }
 export interface CreatePracticeRunConfigurationResponse {
   arn: string;
@@ -248,8 +248,8 @@ export interface ZonalShiftInResource {
   expiryTime: Date;
   startTime: Date;
   comment: string;
-  shiftType?: ShiftType;
-  practiceRunOutcome?: PracticeRunOutcome;
+  shiftType?: ShiftType | undefined;
+  practiceRunOutcome?: PracticeRunOutcome | undefined;
 }
 export type ZonalShiftsInResource = ZonalShiftInResource[];
 export type AutoshiftAppliedStatus = "APPLIED" | "NOT_APPLIED" | (string & {});
@@ -260,57 +260,57 @@ export interface AutoshiftInResource {
 }
 export type AutoshiftsInResource = AutoshiftInResource[];
 export interface GetManagedResourceResponse {
-  arn?: string;
-  name?: string;
+  arn?: string | undefined;
+  name?: string | undefined;
   appliedWeights: { [key: string]: number | undefined };
   zonalShifts: ZonalShiftInResource[];
-  autoshifts?: AutoshiftInResource[];
-  practiceRunConfiguration?: PracticeRunConfiguration;
-  zonalAutoshiftStatus?: ZonalAutoshiftStatus;
+  autoshifts?: AutoshiftInResource[] | undefined;
+  practiceRunConfiguration?: PracticeRunConfiguration | undefined;
+  zonalAutoshiftStatus?: ZonalAutoshiftStatus | undefined;
 }
 export type AutoshiftExecutionStatus = "ACTIVE" | "COMPLETED" | (string & {});
 export type MaxResults = number;
 export interface ListAutoshiftsRequest {
-  nextToken?: string;
-  status?: AutoshiftExecutionStatus;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  status?: AutoshiftExecutionStatus | undefined;
+  maxResults?: number | undefined;
 }
 export interface AutoshiftSummary {
   awayFrom: string;
-  endTime?: Date;
+  endTime?: Date | undefined;
   startTime: Date;
   status: AutoshiftExecutionStatus;
 }
 export type AutoshiftSummaries = AutoshiftSummary[];
 export interface ListAutoshiftsResponse {
-  items?: AutoshiftSummary[];
-  nextToken?: string;
+  items?: AutoshiftSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListManagedResourcesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type AvailabilityZones = string[];
 export interface ManagedResourceSummary {
-  arn?: string;
-  name?: string;
+  arn?: string | undefined;
+  name?: string | undefined;
   availabilityZones: string[];
-  appliedWeights?: { [key: string]: number | undefined };
-  zonalShifts?: ZonalShiftInResource[];
-  autoshifts?: AutoshiftInResource[];
-  zonalAutoshiftStatus?: ZonalAutoshiftStatus;
-  practiceRunStatus?: ZonalAutoshiftStatus;
+  appliedWeights?: { [key: string]: number | undefined } | undefined;
+  zonalShifts?: ZonalShiftInResource[] | undefined;
+  autoshifts?: AutoshiftInResource[] | undefined;
+  zonalAutoshiftStatus?: ZonalAutoshiftStatus | undefined;
+  practiceRunStatus?: ZonalAutoshiftStatus | undefined;
 }
 export type ManagedResourceSummaries = ManagedResourceSummary[];
 export interface ListManagedResourcesResponse {
   items: ManagedResourceSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListZonalShiftsRequest {
-  nextToken?: string;
-  status?: ZonalShiftStatus;
-  maxResults?: number;
-  resourceIdentifier?: string;
+  nextToken?: string | undefined;
+  status?: ZonalShiftStatus | undefined;
+  maxResults?: number | undefined;
+  resourceIdentifier?: string | undefined;
 }
 export interface ZonalShiftSummary {
   zonalShiftId: string;
@@ -320,13 +320,13 @@ export interface ZonalShiftSummary {
   startTime: Date;
   status: ZonalShiftStatus;
   comment: string;
-  shiftType?: ShiftType;
-  practiceRunOutcome?: PracticeRunOutcome;
+  shiftType?: ShiftType | undefined;
+  practiceRunOutcome?: PracticeRunOutcome | undefined;
 }
 export type ZonalShiftSummaries = ZonalShiftSummary[];
 export interface ListZonalShiftsResponse {
-  items?: ZonalShiftSummary[];
-  nextToken?: string;
+  items?: ZonalShiftSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface StartPracticeRunRequest {
   resourceIdentifier: string;
@@ -357,11 +357,11 @@ export interface UpdateAutoshiftObserverNotificationStatusResponse {
 }
 export interface UpdatePracticeRunConfigurationRequest {
   resourceIdentifier: string;
-  blockedWindows?: string[];
-  blockedDates?: string[];
-  blockingAlarms?: ControlCondition[];
-  allowedWindows?: string[];
-  outcomeAlarms?: ControlCondition[];
+  blockedWindows?: string[] | undefined;
+  blockedDates?: string[] | undefined;
+  blockingAlarms?: ControlCondition[] | undefined;
+  allowedWindows?: string[] | undefined;
+  outcomeAlarms?: ControlCondition[] | undefined;
 }
 export interface UpdatePracticeRunConfigurationResponse {
   arn: string;
@@ -379,8 +379,8 @@ export interface UpdateZonalAutoshiftConfigurationResponse {
 }
 export interface UpdateZonalShiftRequest {
   zonalShiftId: string;
-  comment?: string;
-  expiresIn?: string;
+  comment?: string | undefined;
+  expiresIn?: string | undefined;
 }
 export type ConflictExceptionReason =
   | "ZonalShiftAlreadyExists"

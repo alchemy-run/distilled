@@ -931,44 +931,44 @@ export class UserQuotaExceededFault
     ),
   ).pipe(C.withBadRequestError) {}
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface AddTagsToResourceMessage {
-  ResourceName?: string;
-  Tags?: Tag[];
+  ResourceName?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface TagListMessage {
-  TagList?: Tag[];
+  TagList?: Tag[] | undefined;
 }
 export interface AuthorizeCacheSecurityGroupIngressMessage {
-  CacheSecurityGroupName?: string;
-  EC2SecurityGroupName?: string;
-  EC2SecurityGroupOwnerId?: string;
+  CacheSecurityGroupName?: string | undefined;
+  EC2SecurityGroupName?: string | undefined;
+  EC2SecurityGroupOwnerId?: string | undefined;
 }
 export interface EC2SecurityGroup {
-  Status?: string;
-  EC2SecurityGroupName?: string;
-  EC2SecurityGroupOwnerId?: string;
+  Status?: string | undefined;
+  EC2SecurityGroupName?: string | undefined;
+  EC2SecurityGroupOwnerId?: string | undefined;
 }
 export type EC2SecurityGroupList = EC2SecurityGroup[];
 export interface CacheSecurityGroup {
-  OwnerId?: string;
-  CacheSecurityGroupName?: string;
-  Description?: string;
-  EC2SecurityGroups?: EC2SecurityGroup[];
-  ARN?: string;
+  OwnerId?: string | undefined;
+  CacheSecurityGroupName?: string | undefined;
+  Description?: string | undefined;
+  EC2SecurityGroups?: EC2SecurityGroup[] | undefined;
+  ARN?: string | undefined;
 }
 export interface AuthorizeCacheSecurityGroupIngressResult {
-  CacheSecurityGroup?: CacheSecurityGroup;
+  CacheSecurityGroup?: CacheSecurityGroup | undefined;
 }
 export type ReplicationGroupIdList = string[];
 export type CacheClusterIdList = string[];
 export interface BatchApplyUpdateActionMessage {
-  ReplicationGroupIds?: string[];
-  CacheClusterIds?: string[];
-  ServiceUpdateName?: string;
+  ReplicationGroupIds?: string[] | undefined;
+  CacheClusterIds?: string[] | undefined;
+  ServiceUpdateName?: string | undefined;
 }
 export type UpdateActionStatus =
   | "not-applied"
@@ -982,107 +982,107 @@ export type UpdateActionStatus =
   | "not-applicable"
   | (string & {});
 export interface ProcessedUpdateAction {
-  ReplicationGroupId?: string;
-  CacheClusterId?: string;
-  ServiceUpdateName?: string;
-  UpdateActionStatus?: UpdateActionStatus;
+  ReplicationGroupId?: string | undefined;
+  CacheClusterId?: string | undefined;
+  ServiceUpdateName?: string | undefined;
+  UpdateActionStatus?: UpdateActionStatus | undefined;
 }
 export type ProcessedUpdateActionList = ProcessedUpdateAction[];
 export interface UnprocessedUpdateAction {
-  ReplicationGroupId?: string;
-  CacheClusterId?: string;
-  ServiceUpdateName?: string;
-  ErrorType?: string;
-  ErrorMessage?: string;
+  ReplicationGroupId?: string | undefined;
+  CacheClusterId?: string | undefined;
+  ServiceUpdateName?: string | undefined;
+  ErrorType?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type UnprocessedUpdateActionList = UnprocessedUpdateAction[];
 export interface UpdateActionResultsMessage {
-  ProcessedUpdateActions?: ProcessedUpdateAction[];
-  UnprocessedUpdateActions?: UnprocessedUpdateAction[];
+  ProcessedUpdateActions?: ProcessedUpdateAction[] | undefined;
+  UnprocessedUpdateActions?: UnprocessedUpdateAction[] | undefined;
 }
 export interface BatchStopUpdateActionMessage {
-  ReplicationGroupIds?: string[];
-  CacheClusterIds?: string[];
-  ServiceUpdateName?: string;
+  ReplicationGroupIds?: string[] | undefined;
+  CacheClusterIds?: string[] | undefined;
+  ServiceUpdateName?: string | undefined;
 }
 export interface CompleteMigrationMessage {
-  ReplicationGroupId?: string;
-  ServerlessCacheName?: string;
-  Force?: boolean;
+  ReplicationGroupId?: string | undefined;
+  ServerlessCacheName?: string | undefined;
+  Force?: boolean | undefined;
 }
 export interface GlobalReplicationGroupInfo {
-  GlobalReplicationGroupId?: string;
-  GlobalReplicationGroupMemberRole?: string;
+  GlobalReplicationGroupId?: string | undefined;
+  GlobalReplicationGroupMemberRole?: string | undefined;
 }
 export type PendingAutomaticFailoverStatus = "enabled" | "disabled" | (string & {});
 export interface SlotMigration {
-  ProgressPercentage?: number;
+  ProgressPercentage?: number | undefined;
 }
 export interface ReshardingStatus {
-  SlotMigration?: SlotMigration;
+  SlotMigration?: SlotMigration | undefined;
 }
 export type AuthTokenUpdateStatus = "SETTING" | "ROTATING" | (string & {});
 export type UserGroupId = string;
 export type UserGroupIdList = string[];
 export interface UserGroupsUpdateStatus {
-  UserGroupIdsToAdd?: string[];
-  UserGroupIdsToRemove?: string[];
+  UserGroupIdsToAdd?: string[] | undefined;
+  UserGroupIdsToRemove?: string[] | undefined;
 }
 export type LogType = "slow-log" | "engine-log" | (string & {});
 export type DestinationType = "cloudwatch-logs" | "kinesis-firehose" | (string & {});
 export interface CloudWatchLogsDestinationDetails {
-  LogGroup?: string;
+  LogGroup?: string | undefined;
 }
 export interface KinesisFirehoseDestinationDetails {
-  DeliveryStream?: string;
+  DeliveryStream?: string | undefined;
 }
 export interface DestinationDetails {
-  CloudWatchLogsDetails?: CloudWatchLogsDestinationDetails;
-  KinesisFirehoseDetails?: KinesisFirehoseDestinationDetails;
+  CloudWatchLogsDetails?: CloudWatchLogsDestinationDetails | undefined;
+  KinesisFirehoseDetails?: KinesisFirehoseDestinationDetails | undefined;
 }
 export type LogFormat = "text" | "json" | (string & {});
 export interface PendingLogDeliveryConfiguration {
-  LogType?: LogType;
-  DestinationType?: DestinationType;
-  DestinationDetails?: DestinationDetails;
-  LogFormat?: LogFormat;
+  LogType?: LogType | undefined;
+  DestinationType?: DestinationType | undefined;
+  DestinationDetails?: DestinationDetails | undefined;
+  LogFormat?: LogFormat | undefined;
 }
 export type PendingLogDeliveryConfigurationList = PendingLogDeliveryConfiguration[];
 export type TransitEncryptionMode = "preferred" | "required" | (string & {});
 export type ClusterMode = "enabled" | "disabled" | "compatible" | (string & {});
 export interface ReplicationGroupPendingModifiedValues {
-  PrimaryClusterId?: string;
-  AutomaticFailoverStatus?: PendingAutomaticFailoverStatus;
-  Resharding?: ReshardingStatus;
-  AuthTokenStatus?: AuthTokenUpdateStatus;
-  UserGroups?: UserGroupsUpdateStatus;
-  LogDeliveryConfigurations?: PendingLogDeliveryConfiguration[];
-  TransitEncryptionEnabled?: boolean;
-  TransitEncryptionMode?: TransitEncryptionMode;
-  ClusterMode?: ClusterMode;
+  PrimaryClusterId?: string | undefined;
+  AutomaticFailoverStatus?: PendingAutomaticFailoverStatus | undefined;
+  Resharding?: ReshardingStatus | undefined;
+  AuthTokenStatus?: AuthTokenUpdateStatus | undefined;
+  UserGroups?: UserGroupsUpdateStatus | undefined;
+  LogDeliveryConfigurations?: PendingLogDeliveryConfiguration[] | undefined;
+  TransitEncryptionEnabled?: boolean | undefined;
+  TransitEncryptionMode?: TransitEncryptionMode | undefined;
+  ClusterMode?: ClusterMode | undefined;
 }
 export type ClusterIdList = string[];
 export interface Endpoint {
-  Address?: string;
-  Port?: number;
+  Address?: string | undefined;
+  Port?: number | undefined;
 }
 const Endpoint = /*@__PURE__*/ __L.at(__c65, 0) as any as S.Schema<Endpoint>;
 export interface NodeGroupMember {
-  CacheClusterId?: string;
-  CacheNodeId?: string;
-  ReadEndpoint?: Endpoint;
-  PreferredAvailabilityZone?: string;
-  PreferredOutpostArn?: string;
-  CurrentRole?: string;
+  CacheClusterId?: string | undefined;
+  CacheNodeId?: string | undefined;
+  ReadEndpoint?: Endpoint | undefined;
+  PreferredAvailabilityZone?: string | undefined;
+  PreferredOutpostArn?: string | undefined;
+  CurrentRole?: string | undefined;
 }
 export type NodeGroupMemberList = NodeGroupMember[];
 export interface NodeGroup {
-  NodeGroupId?: string;
-  Status?: string;
-  PrimaryEndpoint?: Endpoint;
-  ReaderEndpoint?: Endpoint;
-  Slots?: string;
-  NodeGroupMembers?: NodeGroupMember[];
+  NodeGroupId?: string | undefined;
+  Status?: string | undefined;
+  PrimaryEndpoint?: Endpoint | undefined;
+  ReaderEndpoint?: Endpoint | undefined;
+  Slots?: string | undefined;
+  NodeGroupMembers?: NodeGroupMember[] | undefined;
 }
 export type NodeGroupList = NodeGroup[];
 export type AutomaticFailoverStatus =
@@ -1102,12 +1102,12 @@ export type LogDeliveryConfigurationStatus =
   | "error"
   | (string & {});
 export interface LogDeliveryConfiguration {
-  LogType?: LogType;
-  DestinationType?: DestinationType;
-  DestinationDetails?: DestinationDetails;
-  LogFormat?: LogFormat;
-  Status?: LogDeliveryConfigurationStatus;
-  Message?: string;
+  LogType?: LogType | undefined;
+  DestinationType?: DestinationType | undefined;
+  DestinationDetails?: DestinationDetails | undefined;
+  LogFormat?: LogFormat | undefined;
+  Status?: LogDeliveryConfigurationStatus | undefined;
+  Message?: string | undefined;
 }
 export type LogDeliveryConfigurationList = LogDeliveryConfiguration[];
 export type DataTieringStatus = "enabled" | "disabled" | (string & {});
@@ -1116,180 +1116,184 @@ export type IpDiscovery = "ipv4" | "ipv6" | (string & {});
 export type Durability = "default" | "async" | "sync" | "disabled" | (string & {});
 export type EffectiveDurability = "async" | "sync" | "disabled" | (string & {});
 export interface ReplicationGroup {
-  ReplicationGroupId?: string;
-  Description?: string;
-  GlobalReplicationGroupInfo?: GlobalReplicationGroupInfo;
-  Status?: string;
-  PendingModifiedValues?: ReplicationGroupPendingModifiedValues;
-  MemberClusters?: string[];
-  NodeGroups?: NodeGroup[];
-  SnapshottingClusterId?: string;
-  AutomaticFailover?: AutomaticFailoverStatus;
-  MultiAZ?: MultiAZStatus;
-  ConfigurationEndpoint?: Endpoint;
-  SnapshotRetentionLimit?: number;
-  SnapshotWindow?: string;
-  ClusterEnabled?: boolean;
-  CacheNodeType?: string;
-  AuthTokenEnabled?: boolean;
-  AuthTokenLastModifiedDate?: Date;
-  TransitEncryptionEnabled?: boolean;
-  AtRestEncryptionEnabled?: boolean;
-  MemberClustersOutpostArns?: string[];
-  KmsKeyId?: string;
-  StorageEncryptionType?: StorageEncryptionType;
-  ARN?: string;
-  UserGroupIds?: string[];
-  LogDeliveryConfigurations?: LogDeliveryConfiguration[];
-  ReplicationGroupCreateTime?: Date;
-  DataTiering?: DataTieringStatus;
-  AutoMinorVersionUpgrade?: boolean;
-  NetworkType?: NetworkType;
-  IpDiscovery?: IpDiscovery;
-  TransitEncryptionMode?: TransitEncryptionMode;
-  ClusterMode?: ClusterMode;
-  Engine?: string;
-  Durability?: Durability;
-  EffectiveDurability?: EffectiveDurability;
+  ReplicationGroupId?: string | undefined;
+  Description?: string | undefined;
+  GlobalReplicationGroupInfo?: GlobalReplicationGroupInfo | undefined;
+  Status?: string | undefined;
+  PendingModifiedValues?: ReplicationGroupPendingModifiedValues | undefined;
+  MemberClusters?: string[] | undefined;
+  NodeGroups?: NodeGroup[] | undefined;
+  SnapshottingClusterId?: string | undefined;
+  AutomaticFailover?: AutomaticFailoverStatus | undefined;
+  MultiAZ?: MultiAZStatus | undefined;
+  ConfigurationEndpoint?: Endpoint | undefined;
+  SnapshotRetentionLimit?: number | undefined;
+  SnapshotWindow?: string | undefined;
+  ClusterEnabled?: boolean | undefined;
+  CacheNodeType?: string | undefined;
+  AuthTokenEnabled?: boolean | undefined;
+  AuthTokenLastModifiedDate?: Date | undefined;
+  TransitEncryptionEnabled?: boolean | undefined;
+  AtRestEncryptionEnabled?: boolean | undefined;
+  MemberClustersOutpostArns?: string[] | undefined;
+  KmsKeyId?: string | undefined;
+  StorageEncryptionType?: StorageEncryptionType | undefined;
+  ARN?: string | undefined;
+  UserGroupIds?: string[] | undefined;
+  LogDeliveryConfigurations?: LogDeliveryConfiguration[] | undefined;
+  ReplicationGroupCreateTime?: Date | undefined;
+  DataTiering?: DataTieringStatus | undefined;
+  AutoMinorVersionUpgrade?: boolean | undefined;
+  NetworkType?: NetworkType | undefined;
+  IpDiscovery?: IpDiscovery | undefined;
+  TransitEncryptionMode?: TransitEncryptionMode | undefined;
+  ClusterMode?: ClusterMode | undefined;
+  Engine?: string | undefined;
+  Durability?: Durability | undefined;
+  EffectiveDurability?: EffectiveDurability | undefined;
 }
 export type DataStorageUnit = "GB" | (string & {});
 export interface DataStorage {
-  Maximum?: number;
-  Minimum?: number;
-  Unit?: DataStorageUnit;
+  Maximum?: number | undefined;
+  Minimum?: number | undefined;
+  Unit?: DataStorageUnit | undefined;
 }
 export interface ECPUPerSecond {
-  Maximum?: number;
-  Minimum?: number;
+  Maximum?: number | undefined;
+  Minimum?: number | undefined;
 }
 export interface CacheUsageLimits {
-  DataStorage?: DataStorage;
-  ECPUPerSecond?: ECPUPerSecond;
+  DataStorage?: DataStorage | undefined;
+  ECPUPerSecond?: ECPUPerSecond | undefined;
 }
 export type SecurityGroupIdsList = string[];
 export type SubnetIdsList = string[];
 export type ConnectionType = "vpc" | "public" | (string & {});
 export interface MigrationSummary {
-  Status?: string;
-  MigrationEndpoint?: Endpoint;
-  CutoverMode?: string;
+  Status?: string | undefined;
+  MigrationEndpoint?: Endpoint | undefined;
+  CutoverMode?: string | undefined;
 }
 export interface ServerlessCache {
-  ServerlessCacheName?: string;
-  Description?: string;
-  CreateTime?: Date;
-  Status?: string;
-  Engine?: string;
-  MajorEngineVersion?: string;
-  FullEngineVersion?: string;
-  CacheUsageLimits?: CacheUsageLimits;
-  KmsKeyId?: string;
-  StorageEncryptionType?: StorageEncryptionType;
-  SecurityGroupIds?: string[];
-  Endpoint?: Endpoint;
-  ReaderEndpoint?: Endpoint;
-  ARN?: string;
-  UserGroupId?: string;
-  SubnetIds?: string[];
-  SnapshotRetentionLimit?: number;
-  DailySnapshotTime?: string;
-  NetworkType?: NetworkType;
-  ConnectionType?: ConnectionType;
-  Migration?: MigrationSummary;
+  ServerlessCacheName?: string | undefined;
+  Description?: string | undefined;
+  CreateTime?: Date | undefined;
+  Status?: string | undefined;
+  Engine?: string | undefined;
+  MajorEngineVersion?: string | undefined;
+  FullEngineVersion?: string | undefined;
+  CacheUsageLimits?: CacheUsageLimits | undefined;
+  KmsKeyId?: string | undefined;
+  StorageEncryptionType?: StorageEncryptionType | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  Endpoint?: Endpoint | undefined;
+  ReaderEndpoint?: Endpoint | undefined;
+  ARN?: string | undefined;
+  UserGroupId?: string | undefined;
+  SubnetIds?: string[] | undefined;
+  SnapshotRetentionLimit?: number | undefined;
+  DailySnapshotTime?: string | undefined;
+  NetworkType?: NetworkType | undefined;
+  ConnectionType?: ConnectionType | undefined;
+  Migration?: MigrationSummary | undefined;
 }
 export interface CompleteMigrationResponse {
-  ReplicationGroup?: ReplicationGroup;
-  ServerlessCache?: ServerlessCache & {
-    CacheUsageLimits: CacheUsageLimits & { DataStorage: DataStorage & { Unit: DataStorageUnit } };
-  };
+  ReplicationGroup?: ReplicationGroup | undefined;
+  ServerlessCache?:
+    | (ServerlessCache & {
+        CacheUsageLimits: CacheUsageLimits & {
+          DataStorage: DataStorage & { Unit: DataStorageUnit };
+        };
+      })
+    | undefined;
 }
 export interface CopyServerlessCacheSnapshotRequest {
-  SourceServerlessCacheSnapshotName?: string;
-  TargetServerlessCacheSnapshotName?: string;
-  KmsKeyId?: string;
-  Tags?: Tag[];
+  SourceServerlessCacheSnapshotName?: string | undefined;
+  TargetServerlessCacheSnapshotName?: string | undefined;
+  KmsKeyId?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface ServerlessCacheConfiguration {
-  ServerlessCacheName?: string;
-  Engine?: string;
-  MajorEngineVersion?: string;
+  ServerlessCacheName?: string | undefined;
+  Engine?: string | undefined;
+  MajorEngineVersion?: string | undefined;
 }
 export interface ServerlessCacheSnapshot {
-  ServerlessCacheSnapshotName?: string;
-  ARN?: string;
-  KmsKeyId?: string;
-  SnapshotType?: string;
-  Status?: string;
-  CreateTime?: Date;
-  ExpiryTime?: Date;
-  BytesUsedForCache?: string;
-  ServerlessCacheConfiguration?: ServerlessCacheConfiguration;
+  ServerlessCacheSnapshotName?: string | undefined;
+  ARN?: string | undefined;
+  KmsKeyId?: string | undefined;
+  SnapshotType?: string | undefined;
+  Status?: string | undefined;
+  CreateTime?: Date | undefined;
+  ExpiryTime?: Date | undefined;
+  BytesUsedForCache?: string | undefined;
+  ServerlessCacheConfiguration?: ServerlessCacheConfiguration | undefined;
 }
 export interface CopyServerlessCacheSnapshotResponse {
-  ServerlessCacheSnapshot?: ServerlessCacheSnapshot;
+  ServerlessCacheSnapshot?: ServerlessCacheSnapshot | undefined;
 }
 export interface CopySnapshotMessage {
-  SourceSnapshotName?: string;
-  TargetSnapshotName?: string;
-  TargetBucket?: string;
-  KmsKeyId?: string;
-  Tags?: Tag[];
+  SourceSnapshotName?: string | undefined;
+  TargetSnapshotName?: string | undefined;
+  TargetBucket?: string | undefined;
+  KmsKeyId?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type AllowedNodeGroupId = string;
 export type AvailabilityZonesList = string[];
 export type OutpostArnsList = string[];
 export interface NodeGroupConfiguration {
-  NodeGroupId?: string;
-  Slots?: string;
-  ReplicaCount?: number;
-  PrimaryAvailabilityZone?: string;
-  ReplicaAvailabilityZones?: string[];
-  PrimaryOutpostArn?: string;
-  ReplicaOutpostArns?: string[];
+  NodeGroupId?: string | undefined;
+  Slots?: string | undefined;
+  ReplicaCount?: number | undefined;
+  PrimaryAvailabilityZone?: string | undefined;
+  ReplicaAvailabilityZones?: string[] | undefined;
+  PrimaryOutpostArn?: string | undefined;
+  ReplicaOutpostArns?: string[] | undefined;
 }
 export interface NodeSnapshot {
-  CacheClusterId?: string;
-  NodeGroupId?: string;
-  CacheNodeId?: string;
-  NodeGroupConfiguration?: NodeGroupConfiguration;
-  CacheSize?: string;
-  CacheNodeCreateTime?: Date;
-  SnapshotCreateTime?: Date;
+  CacheClusterId?: string | undefined;
+  NodeGroupId?: string | undefined;
+  CacheNodeId?: string | undefined;
+  NodeGroupConfiguration?: NodeGroupConfiguration | undefined;
+  CacheSize?: string | undefined;
+  CacheNodeCreateTime?: Date | undefined;
+  SnapshotCreateTime?: Date | undefined;
 }
 export type NodeSnapshotList = NodeSnapshot[];
 export interface Snapshot {
-  SnapshotName?: string;
-  ReplicationGroupId?: string;
-  ReplicationGroupDescription?: string;
-  CacheClusterId?: string;
-  SnapshotStatus?: string;
-  SnapshotSource?: string;
-  CacheNodeType?: string;
-  Engine?: string;
-  EngineVersion?: string;
-  NumCacheNodes?: number;
-  PreferredAvailabilityZone?: string;
-  PreferredOutpostArn?: string;
-  CacheClusterCreateTime?: Date;
-  PreferredMaintenanceWindow?: string;
-  TopicArn?: string;
-  Port?: number;
-  CacheParameterGroupName?: string;
-  CacheSubnetGroupName?: string;
-  VpcId?: string;
-  AutoMinorVersionUpgrade?: boolean;
-  SnapshotRetentionLimit?: number;
-  SnapshotWindow?: string;
-  NumNodeGroups?: number;
-  AutomaticFailover?: AutomaticFailoverStatus;
-  NodeSnapshots?: NodeSnapshot[];
-  KmsKeyId?: string;
-  ARN?: string;
-  DataTiering?: DataTieringStatus;
-  Durability?: Durability;
+  SnapshotName?: string | undefined;
+  ReplicationGroupId?: string | undefined;
+  ReplicationGroupDescription?: string | undefined;
+  CacheClusterId?: string | undefined;
+  SnapshotStatus?: string | undefined;
+  SnapshotSource?: string | undefined;
+  CacheNodeType?: string | undefined;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  NumCacheNodes?: number | undefined;
+  PreferredAvailabilityZone?: string | undefined;
+  PreferredOutpostArn?: string | undefined;
+  CacheClusterCreateTime?: Date | undefined;
+  PreferredMaintenanceWindow?: string | undefined;
+  TopicArn?: string | undefined;
+  Port?: number | undefined;
+  CacheParameterGroupName?: string | undefined;
+  CacheSubnetGroupName?: string | undefined;
+  VpcId?: string | undefined;
+  AutoMinorVersionUpgrade?: boolean | undefined;
+  SnapshotRetentionLimit?: number | undefined;
+  SnapshotWindow?: string | undefined;
+  NumNodeGroups?: number | undefined;
+  AutomaticFailover?: AutomaticFailoverStatus | undefined;
+  NodeSnapshots?: NodeSnapshot[] | undefined;
+  KmsKeyId?: string | undefined;
+  ARN?: string | undefined;
+  DataTiering?: DataTieringStatus | undefined;
+  Durability?: Durability | undefined;
 }
 export interface CopySnapshotResult {
-  Snapshot?: Snapshot;
+  Snapshot?: Snapshot | undefined;
 }
 export type AZMode = "single-az" | "cross-az" | (string & {});
 export type PreferredAvailabilityZoneList = string[];
@@ -1298,309 +1302,313 @@ export type SnapshotArnsList = string[];
 export type OutpostMode = "single-outpost" | "cross-outpost" | (string & {});
 export type PreferredOutpostArnList = string[];
 export interface LogDeliveryConfigurationRequest {
-  LogType?: LogType;
-  DestinationType?: DestinationType;
-  DestinationDetails?: DestinationDetails;
-  LogFormat?: LogFormat;
-  Enabled?: boolean;
+  LogType?: LogType | undefined;
+  DestinationType?: DestinationType | undefined;
+  DestinationDetails?: DestinationDetails | undefined;
+  LogFormat?: LogFormat | undefined;
+  Enabled?: boolean | undefined;
 }
 export type LogDeliveryConfigurationRequestList = LogDeliveryConfigurationRequest[];
 export interface CreateCacheClusterMessage {
-  CacheClusterId?: string;
-  ReplicationGroupId?: string;
-  AZMode?: AZMode;
-  PreferredAvailabilityZone?: string;
-  PreferredAvailabilityZones?: string[];
-  NumCacheNodes?: number;
-  CacheNodeType?: string;
-  Engine?: string;
-  EngineVersion?: string;
-  CacheParameterGroupName?: string;
-  CacheSubnetGroupName?: string;
-  CacheSecurityGroupNames?: string[];
-  SecurityGroupIds?: string[];
-  Tags?: Tag[];
-  SnapshotArns?: string[];
-  SnapshotName?: string;
-  PreferredMaintenanceWindow?: string;
-  Port?: number;
-  NotificationTopicArn?: string;
-  AutoMinorVersionUpgrade?: boolean;
-  SnapshotRetentionLimit?: number;
-  SnapshotWindow?: string;
-  AuthToken?: string | redacted.Redacted<string>;
-  OutpostMode?: OutpostMode;
-  PreferredOutpostArn?: string;
-  PreferredOutpostArns?: string[];
-  LogDeliveryConfigurations?: LogDeliveryConfigurationRequest[];
-  TransitEncryptionEnabled?: boolean;
-  NetworkType?: NetworkType;
-  IpDiscovery?: IpDiscovery;
+  CacheClusterId?: string | undefined;
+  ReplicationGroupId?: string | undefined;
+  AZMode?: AZMode | undefined;
+  PreferredAvailabilityZone?: string | undefined;
+  PreferredAvailabilityZones?: string[] | undefined;
+  NumCacheNodes?: number | undefined;
+  CacheNodeType?: string | undefined;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  CacheParameterGroupName?: string | undefined;
+  CacheSubnetGroupName?: string | undefined;
+  CacheSecurityGroupNames?: string[] | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  Tags?: Tag[] | undefined;
+  SnapshotArns?: string[] | undefined;
+  SnapshotName?: string | undefined;
+  PreferredMaintenanceWindow?: string | undefined;
+  Port?: number | undefined;
+  NotificationTopicArn?: string | undefined;
+  AutoMinorVersionUpgrade?: boolean | undefined;
+  SnapshotRetentionLimit?: number | undefined;
+  SnapshotWindow?: string | undefined;
+  AuthToken?: string | redacted.Redacted<string> | undefined;
+  OutpostMode?: OutpostMode | undefined;
+  PreferredOutpostArn?: string | undefined;
+  PreferredOutpostArns?: string[] | undefined;
+  LogDeliveryConfigurations?: LogDeliveryConfigurationRequest[] | undefined;
+  TransitEncryptionEnabled?: boolean | undefined;
+  NetworkType?: NetworkType | undefined;
+  IpDiscovery?: IpDiscovery | undefined;
 }
 export type CacheNodeIdsList = string[];
 export interface ScaleConfig {
-  ScalePercentage?: number;
-  ScaleIntervalMinutes?: number;
+  ScalePercentage?: number | undefined;
+  ScaleIntervalMinutes?: number | undefined;
 }
 export interface PendingModifiedValues {
-  NumCacheNodes?: number;
-  CacheNodeIdsToRemove?: string[];
-  EngineVersion?: string;
-  CacheNodeType?: string;
-  AuthTokenStatus?: AuthTokenUpdateStatus;
-  LogDeliveryConfigurations?: PendingLogDeliveryConfiguration[];
-  TransitEncryptionEnabled?: boolean;
-  TransitEncryptionMode?: TransitEncryptionMode;
-  ScaleConfig?: ScaleConfig;
+  NumCacheNodes?: number | undefined;
+  CacheNodeIdsToRemove?: string[] | undefined;
+  EngineVersion?: string | undefined;
+  CacheNodeType?: string | undefined;
+  AuthTokenStatus?: AuthTokenUpdateStatus | undefined;
+  LogDeliveryConfigurations?: PendingLogDeliveryConfiguration[] | undefined;
+  TransitEncryptionEnabled?: boolean | undefined;
+  TransitEncryptionMode?: TransitEncryptionMode | undefined;
+  ScaleConfig?: ScaleConfig | undefined;
 }
 export interface NotificationConfiguration {
-  TopicArn?: string;
-  TopicStatus?: string;
+  TopicArn?: string | undefined;
+  TopicStatus?: string | undefined;
 }
 export interface CacheSecurityGroupMembership {
-  CacheSecurityGroupName?: string;
-  Status?: string;
+  CacheSecurityGroupName?: string | undefined;
+  Status?: string | undefined;
 }
 export type CacheSecurityGroupMembershipList = CacheSecurityGroupMembership[];
 export interface CacheParameterGroupStatus {
-  CacheParameterGroupName?: string;
-  ParameterApplyStatus?: string;
-  CacheNodeIdsToReboot?: string[];
+  CacheParameterGroupName?: string | undefined;
+  ParameterApplyStatus?: string | undefined;
+  CacheNodeIdsToReboot?: string[] | undefined;
 }
 export interface CacheNode {
-  CacheNodeId?: string;
-  CacheNodeStatus?: string;
-  CacheNodeCreateTime?: Date;
-  Endpoint?: Endpoint;
-  ParameterGroupStatus?: string;
-  SourceCacheNodeId?: string;
-  CustomerAvailabilityZone?: string;
-  CustomerOutpostArn?: string;
+  CacheNodeId?: string | undefined;
+  CacheNodeStatus?: string | undefined;
+  CacheNodeCreateTime?: Date | undefined;
+  Endpoint?: Endpoint | undefined;
+  ParameterGroupStatus?: string | undefined;
+  SourceCacheNodeId?: string | undefined;
+  CustomerAvailabilityZone?: string | undefined;
+  CustomerOutpostArn?: string | undefined;
 }
 export type CacheNodeList = CacheNode[];
 export interface SecurityGroupMembership {
-  SecurityGroupId?: string;
-  Status?: string;
+  SecurityGroupId?: string | undefined;
+  Status?: string | undefined;
 }
 export type SecurityGroupMembershipList = SecurityGroupMembership[];
 export interface CacheCluster {
-  CacheClusterId?: string;
-  ConfigurationEndpoint?: Endpoint;
-  ClientDownloadLandingPage?: string;
-  CacheNodeType?: string;
-  Engine?: string;
-  EngineVersion?: string;
-  CacheClusterStatus?: string;
-  NumCacheNodes?: number;
-  PreferredAvailabilityZone?: string;
-  PreferredOutpostArn?: string;
-  CacheClusterCreateTime?: Date;
-  PreferredMaintenanceWindow?: string;
-  PendingModifiedValues?: PendingModifiedValues;
-  NotificationConfiguration?: NotificationConfiguration;
-  CacheSecurityGroups?: CacheSecurityGroupMembership[];
-  CacheParameterGroup?: CacheParameterGroupStatus;
-  CacheSubnetGroupName?: string;
-  CacheNodes?: CacheNode[];
-  AutoMinorVersionUpgrade?: boolean;
-  SecurityGroups?: SecurityGroupMembership[];
-  ReplicationGroupId?: string;
-  SnapshotRetentionLimit?: number;
-  SnapshotWindow?: string;
-  AuthTokenEnabled?: boolean;
-  AuthTokenLastModifiedDate?: Date;
-  TransitEncryptionEnabled?: boolean;
-  AtRestEncryptionEnabled?: boolean;
-  ARN?: string;
-  ReplicationGroupLogDeliveryEnabled?: boolean;
-  LogDeliveryConfigurations?: LogDeliveryConfiguration[];
-  NetworkType?: NetworkType;
-  IpDiscovery?: IpDiscovery;
-  TransitEncryptionMode?: TransitEncryptionMode;
+  CacheClusterId?: string | undefined;
+  ConfigurationEndpoint?: Endpoint | undefined;
+  ClientDownloadLandingPage?: string | undefined;
+  CacheNodeType?: string | undefined;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  CacheClusterStatus?: string | undefined;
+  NumCacheNodes?: number | undefined;
+  PreferredAvailabilityZone?: string | undefined;
+  PreferredOutpostArn?: string | undefined;
+  CacheClusterCreateTime?: Date | undefined;
+  PreferredMaintenanceWindow?: string | undefined;
+  PendingModifiedValues?: PendingModifiedValues | undefined;
+  NotificationConfiguration?: NotificationConfiguration | undefined;
+  CacheSecurityGroups?: CacheSecurityGroupMembership[] | undefined;
+  CacheParameterGroup?: CacheParameterGroupStatus | undefined;
+  CacheSubnetGroupName?: string | undefined;
+  CacheNodes?: CacheNode[] | undefined;
+  AutoMinorVersionUpgrade?: boolean | undefined;
+  SecurityGroups?: SecurityGroupMembership[] | undefined;
+  ReplicationGroupId?: string | undefined;
+  SnapshotRetentionLimit?: number | undefined;
+  SnapshotWindow?: string | undefined;
+  AuthTokenEnabled?: boolean | undefined;
+  AuthTokenLastModifiedDate?: Date | undefined;
+  TransitEncryptionEnabled?: boolean | undefined;
+  AtRestEncryptionEnabled?: boolean | undefined;
+  ARN?: string | undefined;
+  ReplicationGroupLogDeliveryEnabled?: boolean | undefined;
+  LogDeliveryConfigurations?: LogDeliveryConfiguration[] | undefined;
+  NetworkType?: NetworkType | undefined;
+  IpDiscovery?: IpDiscovery | undefined;
+  TransitEncryptionMode?: TransitEncryptionMode | undefined;
 }
 export interface CreateCacheClusterResult {
-  CacheCluster?: CacheCluster;
+  CacheCluster?: CacheCluster | undefined;
 }
 export interface CreateCacheParameterGroupMessage {
-  CacheParameterGroupName?: string;
-  CacheParameterGroupFamily?: string;
-  Description?: string;
-  Tags?: Tag[];
+  CacheParameterGroupName?: string | undefined;
+  CacheParameterGroupFamily?: string | undefined;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CacheParameterGroup {
-  CacheParameterGroupName?: string;
-  CacheParameterGroupFamily?: string;
-  Description?: string;
-  IsGlobal?: boolean;
-  ARN?: string;
+  CacheParameterGroupName?: string | undefined;
+  CacheParameterGroupFamily?: string | undefined;
+  Description?: string | undefined;
+  IsGlobal?: boolean | undefined;
+  ARN?: string | undefined;
 }
 export interface CreateCacheParameterGroupResult {
-  CacheParameterGroup?: CacheParameterGroup;
+  CacheParameterGroup?: CacheParameterGroup | undefined;
 }
 export interface CreateCacheSecurityGroupMessage {
-  CacheSecurityGroupName?: string;
-  Description?: string;
-  Tags?: Tag[];
+  CacheSecurityGroupName?: string | undefined;
+  Description?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateCacheSecurityGroupResult {
-  CacheSecurityGroup?: CacheSecurityGroup;
+  CacheSecurityGroup?: CacheSecurityGroup | undefined;
 }
 export type SubnetIdentifierList = string[];
 export interface CreateCacheSubnetGroupMessage {
-  CacheSubnetGroupName?: string;
-  CacheSubnetGroupDescription?: string;
-  SubnetIds?: string[];
-  Tags?: Tag[];
+  CacheSubnetGroupName?: string | undefined;
+  CacheSubnetGroupDescription?: string | undefined;
+  SubnetIds?: string[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface AvailabilityZone {
-  Name?: string;
+  Name?: string | undefined;
 }
 export interface SubnetOutpost {
-  SubnetOutpostArn?: string;
+  SubnetOutpostArn?: string | undefined;
 }
 export type NetworkTypeList = NetworkType[];
 export interface Subnet {
-  SubnetIdentifier?: string;
-  SubnetAvailabilityZone?: AvailabilityZone;
-  SubnetOutpost?: SubnetOutpost;
-  SupportedNetworkTypes?: NetworkType[];
+  SubnetIdentifier?: string | undefined;
+  SubnetAvailabilityZone?: AvailabilityZone | undefined;
+  SubnetOutpost?: SubnetOutpost | undefined;
+  SupportedNetworkTypes?: NetworkType[] | undefined;
 }
 export type SubnetList = Subnet[];
 export interface CacheSubnetGroup {
-  CacheSubnetGroupName?: string;
-  CacheSubnetGroupDescription?: string;
-  VpcId?: string;
-  Subnets?: Subnet[];
-  ARN?: string;
-  SupportedNetworkTypes?: NetworkType[];
+  CacheSubnetGroupName?: string | undefined;
+  CacheSubnetGroupDescription?: string | undefined;
+  VpcId?: string | undefined;
+  Subnets?: Subnet[] | undefined;
+  ARN?: string | undefined;
+  SupportedNetworkTypes?: NetworkType[] | undefined;
 }
 export interface CreateCacheSubnetGroupResult {
-  CacheSubnetGroup?: CacheSubnetGroup;
+  CacheSubnetGroup?: CacheSubnetGroup | undefined;
 }
 export interface CreateGlobalReplicationGroupMessage {
-  GlobalReplicationGroupIdSuffix?: string;
-  GlobalReplicationGroupDescription?: string;
-  PrimaryReplicationGroupId?: string;
-  Tags?: Tag[];
+  GlobalReplicationGroupIdSuffix?: string | undefined;
+  GlobalReplicationGroupDescription?: string | undefined;
+  PrimaryReplicationGroupId?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface GlobalReplicationGroupMember {
-  ReplicationGroupId?: string;
-  ReplicationGroupRegion?: string;
-  Role?: string;
-  AutomaticFailover?: AutomaticFailoverStatus;
-  Status?: string;
+  ReplicationGroupId?: string | undefined;
+  ReplicationGroupRegion?: string | undefined;
+  Role?: string | undefined;
+  AutomaticFailover?: AutomaticFailoverStatus | undefined;
+  Status?: string | undefined;
 }
 export type GlobalReplicationGroupMemberList = GlobalReplicationGroupMember[];
 export interface GlobalNodeGroup {
-  GlobalNodeGroupId?: string;
-  Slots?: string;
+  GlobalNodeGroupId?: string | undefined;
+  Slots?: string | undefined;
 }
 export type GlobalNodeGroupList = GlobalNodeGroup[];
 export interface GlobalReplicationGroup {
-  GlobalReplicationGroupId?: string;
-  GlobalReplicationGroupDescription?: string;
-  Status?: string;
-  CacheNodeType?: string;
-  Engine?: string;
-  EngineVersion?: string;
-  Members?: GlobalReplicationGroupMember[];
-  ClusterEnabled?: boolean;
-  GlobalNodeGroups?: GlobalNodeGroup[];
-  AuthTokenEnabled?: boolean;
-  TransitEncryptionEnabled?: boolean;
-  AtRestEncryptionEnabled?: boolean;
-  ARN?: string;
+  GlobalReplicationGroupId?: string | undefined;
+  GlobalReplicationGroupDescription?: string | undefined;
+  Status?: string | undefined;
+  CacheNodeType?: string | undefined;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  Members?: GlobalReplicationGroupMember[] | undefined;
+  ClusterEnabled?: boolean | undefined;
+  GlobalNodeGroups?: GlobalNodeGroup[] | undefined;
+  AuthTokenEnabled?: boolean | undefined;
+  TransitEncryptionEnabled?: boolean | undefined;
+  AtRestEncryptionEnabled?: boolean | undefined;
+  ARN?: string | undefined;
 }
 export interface CreateGlobalReplicationGroupResult {
-  GlobalReplicationGroup?: GlobalReplicationGroup;
+  GlobalReplicationGroup?: GlobalReplicationGroup | undefined;
 }
 export type NodeGroupConfigurationList = NodeGroupConfiguration[];
 export type UserGroupIdListInput = string[];
 export interface CreateReplicationGroupMessage {
-  ReplicationGroupId?: string;
-  ReplicationGroupDescription?: string;
-  GlobalReplicationGroupId?: string;
-  PrimaryClusterId?: string;
-  AutomaticFailoverEnabled?: boolean;
-  MultiAZEnabled?: boolean;
-  NumCacheClusters?: number;
-  PreferredCacheClusterAZs?: string[];
-  NumNodeGroups?: number;
-  ReplicasPerNodeGroup?: number;
-  NodeGroupConfiguration?: NodeGroupConfiguration[];
-  CacheNodeType?: string;
-  Engine?: string;
-  EngineVersion?: string;
-  CacheParameterGroupName?: string;
-  CacheSubnetGroupName?: string;
-  CacheSecurityGroupNames?: string[];
-  SecurityGroupIds?: string[];
-  Tags?: Tag[];
-  SnapshotArns?: string[];
-  SnapshotName?: string;
-  PreferredMaintenanceWindow?: string;
-  Port?: number;
-  NotificationTopicArn?: string;
-  AutoMinorVersionUpgrade?: boolean;
-  SnapshotRetentionLimit?: number;
-  SnapshotWindow?: string;
-  AuthToken?: string | redacted.Redacted<string>;
-  TransitEncryptionEnabled?: boolean;
-  AtRestEncryptionEnabled?: boolean;
-  KmsKeyId?: string;
-  UserGroupIds?: string[];
-  LogDeliveryConfigurations?: LogDeliveryConfigurationRequest[];
-  DataTieringEnabled?: boolean;
-  NetworkType?: NetworkType;
-  IpDiscovery?: IpDiscovery;
-  TransitEncryptionMode?: TransitEncryptionMode;
-  ClusterMode?: ClusterMode;
-  ServerlessCacheSnapshotName?: string;
-  Durability?: Durability;
+  ReplicationGroupId?: string | undefined;
+  ReplicationGroupDescription?: string | undefined;
+  GlobalReplicationGroupId?: string | undefined;
+  PrimaryClusterId?: string | undefined;
+  AutomaticFailoverEnabled?: boolean | undefined;
+  MultiAZEnabled?: boolean | undefined;
+  NumCacheClusters?: number | undefined;
+  PreferredCacheClusterAZs?: string[] | undefined;
+  NumNodeGroups?: number | undefined;
+  ReplicasPerNodeGroup?: number | undefined;
+  NodeGroupConfiguration?: NodeGroupConfiguration[] | undefined;
+  CacheNodeType?: string | undefined;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  CacheParameterGroupName?: string | undefined;
+  CacheSubnetGroupName?: string | undefined;
+  CacheSecurityGroupNames?: string[] | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  Tags?: Tag[] | undefined;
+  SnapshotArns?: string[] | undefined;
+  SnapshotName?: string | undefined;
+  PreferredMaintenanceWindow?: string | undefined;
+  Port?: number | undefined;
+  NotificationTopicArn?: string | undefined;
+  AutoMinorVersionUpgrade?: boolean | undefined;
+  SnapshotRetentionLimit?: number | undefined;
+  SnapshotWindow?: string | undefined;
+  AuthToken?: string | redacted.Redacted<string> | undefined;
+  TransitEncryptionEnabled?: boolean | undefined;
+  AtRestEncryptionEnabled?: boolean | undefined;
+  KmsKeyId?: string | undefined;
+  UserGroupIds?: string[] | undefined;
+  LogDeliveryConfigurations?: LogDeliveryConfigurationRequest[] | undefined;
+  DataTieringEnabled?: boolean | undefined;
+  NetworkType?: NetworkType | undefined;
+  IpDiscovery?: IpDiscovery | undefined;
+  TransitEncryptionMode?: TransitEncryptionMode | undefined;
+  ClusterMode?: ClusterMode | undefined;
+  ServerlessCacheSnapshotName?: string | undefined;
+  Durability?: Durability | undefined;
 }
 export interface CreateReplicationGroupResult {
-  ReplicationGroup?: ReplicationGroup;
+  ReplicationGroup?: ReplicationGroup | undefined;
 }
 export interface CreateServerlessCacheRequest {
-  ServerlessCacheName?: string;
-  Description?: string;
-  Engine?: string;
-  MajorEngineVersion?: string;
-  CacheUsageLimits?: CacheUsageLimits;
-  KmsKeyId?: string;
-  SecurityGroupIds?: string[];
-  SnapshotArnsToRestore?: string[];
-  Tags?: Tag[];
-  UserGroupId?: string;
-  SubnetIds?: string[];
-  SnapshotRetentionLimit?: number;
-  DailySnapshotTime?: string;
-  NetworkType?: NetworkType;
-  ConnectionType?: ConnectionType;
+  ServerlessCacheName?: string | undefined;
+  Description?: string | undefined;
+  Engine?: string | undefined;
+  MajorEngineVersion?: string | undefined;
+  CacheUsageLimits?: CacheUsageLimits | undefined;
+  KmsKeyId?: string | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  SnapshotArnsToRestore?: string[] | undefined;
+  Tags?: Tag[] | undefined;
+  UserGroupId?: string | undefined;
+  SubnetIds?: string[] | undefined;
+  SnapshotRetentionLimit?: number | undefined;
+  DailySnapshotTime?: string | undefined;
+  NetworkType?: NetworkType | undefined;
+  ConnectionType?: ConnectionType | undefined;
 }
 export interface CreateServerlessCacheResponse {
-  ServerlessCache?: ServerlessCache & {
-    CacheUsageLimits: CacheUsageLimits & { DataStorage: DataStorage & { Unit: DataStorageUnit } };
-  };
+  ServerlessCache?:
+    | (ServerlessCache & {
+        CacheUsageLimits: CacheUsageLimits & {
+          DataStorage: DataStorage & { Unit: DataStorageUnit };
+        };
+      })
+    | undefined;
 }
 export interface CreateServerlessCacheSnapshotRequest {
-  ServerlessCacheSnapshotName?: string;
-  ServerlessCacheName?: string;
-  KmsKeyId?: string;
-  Tags?: Tag[];
+  ServerlessCacheSnapshotName?: string | undefined;
+  ServerlessCacheName?: string | undefined;
+  KmsKeyId?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateServerlessCacheSnapshotResponse {
-  ServerlessCacheSnapshot?: ServerlessCacheSnapshot;
+  ServerlessCacheSnapshot?: ServerlessCacheSnapshot | undefined;
 }
 export interface CreateSnapshotMessage {
-  ReplicationGroupId?: string;
-  CacheClusterId?: string;
-  SnapshotName?: string;
-  KmsKeyId?: string;
-  Tags?: Tag[];
+  ReplicationGroupId?: string | undefined;
+  CacheClusterId?: string | undefined;
+  SnapshotName?: string | undefined;
+  KmsKeyId?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateSnapshotResult {
-  Snapshot?: Snapshot;
+  Snapshot?: Snapshot | undefined;
 }
 export type UserId = string;
 export type UserName = string;
@@ -1609,266 +1617,270 @@ export type PasswordListInput = string[];
 export type AccessString = string;
 export type InputAuthenticationType = "password" | "no-password-required" | "iam" | (string & {});
 export interface AuthenticationMode {
-  Type?: InputAuthenticationType;
-  Passwords?: Array<string | redacted.Redacted<string>>;
+  Type?: InputAuthenticationType | undefined;
+  Passwords?: Array<string | redacted.Redacted<string>> | undefined;
 }
 export interface CreateUserMessage {
-  UserId?: string;
-  UserName?: string;
-  Engine?: string;
-  Passwords?: Array<string | redacted.Redacted<string>>;
-  AccessString?: string;
-  NoPasswordRequired?: boolean;
-  Tags?: Tag[];
-  AuthenticationMode?: AuthenticationMode;
+  UserId?: string | undefined;
+  UserName?: string | undefined;
+  Engine?: string | undefined;
+  Passwords?: Array<string | redacted.Redacted<string>> | undefined;
+  AccessString?: string | undefined;
+  NoPasswordRequired?: boolean | undefined;
+  Tags?: Tag[] | undefined;
+  AuthenticationMode?: AuthenticationMode | undefined;
 }
 export type AuthenticationType = "password" | "no-password" | "iam" | (string & {});
 export interface Authentication {
-  Type?: AuthenticationType;
-  PasswordCount?: number;
+  Type?: AuthenticationType | undefined;
+  PasswordCount?: number | undefined;
 }
 export interface User {
-  UserId?: string;
-  UserName?: string;
-  Status?: string;
-  Engine?: string;
-  MinimumEngineVersion?: string;
-  AccessString?: string;
-  UserGroupIds?: string[];
-  Authentication?: Authentication;
-  ARN?: string;
+  UserId?: string | undefined;
+  UserName?: string | undefined;
+  Status?: string | undefined;
+  Engine?: string | undefined;
+  MinimumEngineVersion?: string | undefined;
+  AccessString?: string | undefined;
+  UserGroupIds?: string[] | undefined;
+  Authentication?: Authentication | undefined;
+  ARN?: string | undefined;
 }
 export type UserIdListInput = string[];
 export interface CreateUserGroupMessage {
-  UserGroupId?: string;
-  Engine?: string;
-  UserIds?: string[];
-  Tags?: Tag[];
+  UserGroupId?: string | undefined;
+  Engine?: string | undefined;
+  UserIds?: string[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type UserIdList = string[];
 export interface UserGroupPendingChanges {
-  UserIdsToRemove?: string[];
-  UserIdsToAdd?: string[];
+  UserIdsToRemove?: string[] | undefined;
+  UserIdsToAdd?: string[] | undefined;
 }
 export type UGReplicationGroupIdList = string[];
 export type UGServerlessCacheIdList = string[];
 export interface UserGroup {
-  UserGroupId?: string;
-  Status?: string;
-  Engine?: string;
-  UserIds?: string[];
-  MinimumEngineVersion?: string;
-  PendingChanges?: UserGroupPendingChanges;
-  ReplicationGroups?: string[];
-  ServerlessCaches?: string[];
-  ARN?: string;
+  UserGroupId?: string | undefined;
+  Status?: string | undefined;
+  Engine?: string | undefined;
+  UserIds?: string[] | undefined;
+  MinimumEngineVersion?: string | undefined;
+  PendingChanges?: UserGroupPendingChanges | undefined;
+  ReplicationGroups?: string[] | undefined;
+  ServerlessCaches?: string[] | undefined;
+  ARN?: string | undefined;
 }
 export type GlobalNodeGroupIdList = string[];
 export interface DecreaseNodeGroupsInGlobalReplicationGroupMessage {
-  GlobalReplicationGroupId?: string;
-  NodeGroupCount?: number;
-  GlobalNodeGroupsToRemove?: string[];
-  GlobalNodeGroupsToRetain?: string[];
-  ApplyImmediately?: boolean;
+  GlobalReplicationGroupId?: string | undefined;
+  NodeGroupCount?: number | undefined;
+  GlobalNodeGroupsToRemove?: string[] | undefined;
+  GlobalNodeGroupsToRetain?: string[] | undefined;
+  ApplyImmediately?: boolean | undefined;
 }
 export interface DecreaseNodeGroupsInGlobalReplicationGroupResult {
-  GlobalReplicationGroup?: GlobalReplicationGroup;
+  GlobalReplicationGroup?: GlobalReplicationGroup | undefined;
 }
 export interface ConfigureShard {
-  NodeGroupId?: string;
-  NewReplicaCount?: number;
-  PreferredAvailabilityZones?: string[];
-  PreferredOutpostArns?: string[];
+  NodeGroupId?: string | undefined;
+  NewReplicaCount?: number | undefined;
+  PreferredAvailabilityZones?: string[] | undefined;
+  PreferredOutpostArns?: string[] | undefined;
 }
 export type ReplicaConfigurationList = ConfigureShard[];
 export type RemoveReplicasList = string[];
 export interface DecreaseReplicaCountMessage {
-  ReplicationGroupId?: string;
-  NewReplicaCount?: number;
-  ReplicaConfiguration?: ConfigureShard[];
-  ReplicasToRemove?: string[];
-  ApplyImmediately?: boolean;
+  ReplicationGroupId?: string | undefined;
+  NewReplicaCount?: number | undefined;
+  ReplicaConfiguration?: ConfigureShard[] | undefined;
+  ReplicasToRemove?: string[] | undefined;
+  ApplyImmediately?: boolean | undefined;
 }
 export interface DecreaseReplicaCountResult {
-  ReplicationGroup?: ReplicationGroup;
+  ReplicationGroup?: ReplicationGroup | undefined;
 }
 export interface DeleteCacheClusterMessage {
-  CacheClusterId?: string;
-  FinalSnapshotIdentifier?: string;
+  CacheClusterId?: string | undefined;
+  FinalSnapshotIdentifier?: string | undefined;
 }
 export interface DeleteCacheClusterResult {
-  CacheCluster?: CacheCluster;
+  CacheCluster?: CacheCluster | undefined;
 }
 export interface DeleteCacheParameterGroupMessage {
-  CacheParameterGroupName?: string;
+  CacheParameterGroupName?: string | undefined;
 }
 export interface DeleteCacheParameterGroupResponse {}
 export interface DeleteCacheSecurityGroupMessage {
-  CacheSecurityGroupName?: string;
+  CacheSecurityGroupName?: string | undefined;
 }
 export interface DeleteCacheSecurityGroupResponse {}
 export interface DeleteCacheSubnetGroupMessage {
-  CacheSubnetGroupName?: string;
+  CacheSubnetGroupName?: string | undefined;
 }
 export interface DeleteCacheSubnetGroupResponse {}
 export interface DeleteGlobalReplicationGroupMessage {
-  GlobalReplicationGroupId?: string;
-  RetainPrimaryReplicationGroup?: boolean;
+  GlobalReplicationGroupId?: string | undefined;
+  RetainPrimaryReplicationGroup?: boolean | undefined;
 }
 export interface DeleteGlobalReplicationGroupResult {
-  GlobalReplicationGroup?: GlobalReplicationGroup;
+  GlobalReplicationGroup?: GlobalReplicationGroup | undefined;
 }
 export interface DeleteReplicationGroupMessage {
-  ReplicationGroupId?: string;
-  RetainPrimaryCluster?: boolean;
-  FinalSnapshotIdentifier?: string;
+  ReplicationGroupId?: string | undefined;
+  RetainPrimaryCluster?: boolean | undefined;
+  FinalSnapshotIdentifier?: string | undefined;
 }
 export interface DeleteReplicationGroupResult {
-  ReplicationGroup?: ReplicationGroup;
+  ReplicationGroup?: ReplicationGroup | undefined;
 }
 export interface DeleteServerlessCacheRequest {
-  ServerlessCacheName?: string;
-  FinalSnapshotName?: string;
+  ServerlessCacheName?: string | undefined;
+  FinalSnapshotName?: string | undefined;
 }
 export interface DeleteServerlessCacheResponse {
-  ServerlessCache?: ServerlessCache & {
-    CacheUsageLimits: CacheUsageLimits & { DataStorage: DataStorage & { Unit: DataStorageUnit } };
-  };
+  ServerlessCache?:
+    | (ServerlessCache & {
+        CacheUsageLimits: CacheUsageLimits & {
+          DataStorage: DataStorage & { Unit: DataStorageUnit };
+        };
+      })
+    | undefined;
 }
 export interface DeleteServerlessCacheSnapshotRequest {
-  ServerlessCacheSnapshotName?: string;
+  ServerlessCacheSnapshotName?: string | undefined;
 }
 export interface DeleteServerlessCacheSnapshotResponse {
-  ServerlessCacheSnapshot?: ServerlessCacheSnapshot;
+  ServerlessCacheSnapshot?: ServerlessCacheSnapshot | undefined;
 }
 export interface DeleteSnapshotMessage {
-  SnapshotName?: string;
+  SnapshotName?: string | undefined;
 }
 export interface DeleteSnapshotResult {
-  Snapshot?: Snapshot;
+  Snapshot?: Snapshot | undefined;
 }
 export interface DeleteUserMessage {
-  UserId?: string;
+  UserId?: string | undefined;
 }
 export interface DeleteUserGroupMessage {
-  UserGroupId?: string;
+  UserGroupId?: string | undefined;
 }
 export interface DescribeCacheClustersMessage {
-  CacheClusterId?: string;
-  MaxRecords?: number;
-  Marker?: string;
-  ShowCacheNodeInfo?: boolean;
-  ShowCacheClustersNotInReplicationGroups?: boolean;
+  CacheClusterId?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
+  ShowCacheNodeInfo?: boolean | undefined;
+  ShowCacheClustersNotInReplicationGroups?: boolean | undefined;
 }
 export type CacheClusterList = CacheCluster[];
 export interface CacheClusterMessage {
-  Marker?: string;
-  CacheClusters?: CacheCluster[];
+  Marker?: string | undefined;
+  CacheClusters?: CacheCluster[] | undefined;
 }
 export interface DescribeCacheEngineVersionsMessage {
-  Engine?: string;
-  EngineVersion?: string;
-  CacheParameterGroupFamily?: string;
-  MaxRecords?: number;
-  Marker?: string;
-  DefaultOnly?: boolean;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  CacheParameterGroupFamily?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
+  DefaultOnly?: boolean | undefined;
 }
 export interface CacheEngineVersion {
-  Engine?: string;
-  EngineVersion?: string;
-  CacheParameterGroupFamily?: string;
-  CacheEngineDescription?: string;
-  CacheEngineVersionDescription?: string;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  CacheParameterGroupFamily?: string | undefined;
+  CacheEngineDescription?: string | undefined;
+  CacheEngineVersionDescription?: string | undefined;
 }
 export type CacheEngineVersionList = CacheEngineVersion[];
 export interface CacheEngineVersionMessage {
-  Marker?: string;
-  CacheEngineVersions?: CacheEngineVersion[];
+  Marker?: string | undefined;
+  CacheEngineVersions?: CacheEngineVersion[] | undefined;
 }
 export interface DescribeCacheParameterGroupsMessage {
-  CacheParameterGroupName?: string;
-  MaxRecords?: number;
-  Marker?: string;
+  CacheParameterGroupName?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type CacheParameterGroupList = CacheParameterGroup[];
 export interface CacheParameterGroupsMessage {
-  Marker?: string;
-  CacheParameterGroups?: CacheParameterGroup[];
+  Marker?: string | undefined;
+  CacheParameterGroups?: CacheParameterGroup[] | undefined;
 }
 export interface DescribeCacheParametersMessage {
-  CacheParameterGroupName?: string;
-  Source?: string;
-  MaxRecords?: number;
-  Marker?: string;
+  CacheParameterGroupName?: string | undefined;
+  Source?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type ChangeType = "immediate" | "requires-reboot" | (string & {});
 export interface Parameter {
-  ParameterName?: string;
-  ParameterValue?: string;
-  Description?: string;
-  Source?: string;
-  DataType?: string;
-  AllowedValues?: string;
-  IsModifiable?: boolean;
-  MinimumEngineVersion?: string;
-  ChangeType?: ChangeType;
+  ParameterName?: string | undefined;
+  ParameterValue?: string | undefined;
+  Description?: string | undefined;
+  Source?: string | undefined;
+  DataType?: string | undefined;
+  AllowedValues?: string | undefined;
+  IsModifiable?: boolean | undefined;
+  MinimumEngineVersion?: string | undefined;
+  ChangeType?: ChangeType | undefined;
 }
 export type ParametersList = Parameter[];
 export interface CacheNodeTypeSpecificValue {
-  CacheNodeType?: string;
-  Value?: string;
+  CacheNodeType?: string | undefined;
+  Value?: string | undefined;
 }
 export type CacheNodeTypeSpecificValueList = CacheNodeTypeSpecificValue[];
 export interface CacheNodeTypeSpecificParameter {
-  ParameterName?: string;
-  Description?: string;
-  Source?: string;
-  DataType?: string;
-  AllowedValues?: string;
-  IsModifiable?: boolean;
-  MinimumEngineVersion?: string;
-  CacheNodeTypeSpecificValues?: CacheNodeTypeSpecificValue[];
-  ChangeType?: ChangeType;
+  ParameterName?: string | undefined;
+  Description?: string | undefined;
+  Source?: string | undefined;
+  DataType?: string | undefined;
+  AllowedValues?: string | undefined;
+  IsModifiable?: boolean | undefined;
+  MinimumEngineVersion?: string | undefined;
+  CacheNodeTypeSpecificValues?: CacheNodeTypeSpecificValue[] | undefined;
+  ChangeType?: ChangeType | undefined;
 }
 export type CacheNodeTypeSpecificParametersList = CacheNodeTypeSpecificParameter[];
 export interface CacheParameterGroupDetails {
-  Marker?: string;
-  Parameters?: Parameter[];
-  CacheNodeTypeSpecificParameters?: CacheNodeTypeSpecificParameter[];
+  Marker?: string | undefined;
+  Parameters?: Parameter[] | undefined;
+  CacheNodeTypeSpecificParameters?: CacheNodeTypeSpecificParameter[] | undefined;
 }
 export interface DescribeCacheSecurityGroupsMessage {
-  CacheSecurityGroupName?: string;
-  MaxRecords?: number;
-  Marker?: string;
+  CacheSecurityGroupName?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type CacheSecurityGroups = CacheSecurityGroup[];
 export interface CacheSecurityGroupMessage {
-  Marker?: string;
-  CacheSecurityGroups?: CacheSecurityGroup[];
+  Marker?: string | undefined;
+  CacheSecurityGroups?: CacheSecurityGroup[] | undefined;
 }
 export interface DescribeCacheSubnetGroupsMessage {
-  CacheSubnetGroupName?: string;
-  MaxRecords?: number;
-  Marker?: string;
+  CacheSubnetGroupName?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type CacheSubnetGroups = CacheSubnetGroup[];
 export interface CacheSubnetGroupMessage {
-  Marker?: string;
-  CacheSubnetGroups?: CacheSubnetGroup[];
+  Marker?: string | undefined;
+  CacheSubnetGroups?: CacheSubnetGroup[] | undefined;
 }
 export interface DescribeEngineDefaultParametersMessage {
-  CacheParameterGroupFamily?: string;
-  MaxRecords?: number;
-  Marker?: string;
+  CacheParameterGroupFamily?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface EngineDefaults {
-  CacheParameterGroupFamily?: string;
-  Marker?: string;
-  Parameters?: Parameter[];
-  CacheNodeTypeSpecificParameters?: CacheNodeTypeSpecificParameter[];
+  CacheParameterGroupFamily?: string | undefined;
+  Marker?: string | undefined;
+  Parameters?: Parameter[] | undefined;
+  CacheNodeTypeSpecificParameters?: CacheNodeTypeSpecificParameter[] | undefined;
 }
 export interface DescribeEngineDefaultParametersResult {
-  EngineDefaults?: EngineDefaults;
+  EngineDefaults?: EngineDefaults | undefined;
 }
 export type SourceType =
   | "cache-cluster"
@@ -1882,188 +1894,192 @@ export type SourceType =
   | "user-group"
   | (string & {});
 export interface DescribeEventsMessage {
-  SourceIdentifier?: string;
-  SourceType?: SourceType;
-  StartTime?: Date;
-  EndTime?: Date;
-  Duration?: number;
-  MaxRecords?: number;
-  Marker?: string;
+  SourceIdentifier?: string | undefined;
+  SourceType?: SourceType | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Duration?: number | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface Event {
-  SourceIdentifier?: string;
-  SourceType?: SourceType;
-  Message?: string;
-  Date?: Date;
+  SourceIdentifier?: string | undefined;
+  SourceType?: SourceType | undefined;
+  Message?: string | undefined;
+  Date?: Date | undefined;
 }
 export type EventList = Event[];
 export interface EventsMessage {
-  Marker?: string;
-  Events?: Event[];
+  Marker?: string | undefined;
+  Events?: Event[] | undefined;
 }
 export interface DescribeGlobalReplicationGroupsMessage {
-  GlobalReplicationGroupId?: string;
-  MaxRecords?: number;
-  Marker?: string;
-  ShowMemberInfo?: boolean;
+  GlobalReplicationGroupId?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
+  ShowMemberInfo?: boolean | undefined;
 }
 export type GlobalReplicationGroupList = GlobalReplicationGroup[];
 export interface DescribeGlobalReplicationGroupsResult {
-  Marker?: string;
-  GlobalReplicationGroups?: GlobalReplicationGroup[];
+  Marker?: string | undefined;
+  GlobalReplicationGroups?: GlobalReplicationGroup[] | undefined;
 }
 export interface DescribeReplicationGroupsMessage {
-  ReplicationGroupId?: string;
-  MaxRecords?: number;
-  Marker?: string;
+  ReplicationGroupId?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type ReplicationGroupList = ReplicationGroup[];
 export interface ReplicationGroupMessage {
-  Marker?: string;
-  ReplicationGroups?: ReplicationGroup[];
+  Marker?: string | undefined;
+  ReplicationGroups?: ReplicationGroup[] | undefined;
 }
 export interface DescribeReservedCacheNodesMessage {
-  ReservedCacheNodeId?: string;
-  ReservedCacheNodesOfferingId?: string;
-  CacheNodeType?: string;
-  Duration?: string;
-  ProductDescription?: string;
-  OfferingType?: string;
-  MaxRecords?: number;
-  Marker?: string;
+  ReservedCacheNodeId?: string | undefined;
+  ReservedCacheNodesOfferingId?: string | undefined;
+  CacheNodeType?: string | undefined;
+  Duration?: string | undefined;
+  ProductDescription?: string | undefined;
+  OfferingType?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface RecurringCharge {
-  RecurringChargeAmount?: number;
-  RecurringChargeFrequency?: string;
+  RecurringChargeAmount?: number | undefined;
+  RecurringChargeFrequency?: string | undefined;
 }
 export type RecurringChargeList = RecurringCharge[];
 export interface ReservedCacheNode {
-  ReservedCacheNodeId?: string;
-  ReservedCacheNodesOfferingId?: string;
-  CacheNodeType?: string;
-  StartTime?: Date;
-  Duration?: number;
-  FixedPrice?: number;
-  UsagePrice?: number;
-  CacheNodeCount?: number;
-  ProductDescription?: string;
-  OfferingType?: string;
-  State?: string;
-  RecurringCharges?: RecurringCharge[];
-  ReservationARN?: string;
+  ReservedCacheNodeId?: string | undefined;
+  ReservedCacheNodesOfferingId?: string | undefined;
+  CacheNodeType?: string | undefined;
+  StartTime?: Date | undefined;
+  Duration?: number | undefined;
+  FixedPrice?: number | undefined;
+  UsagePrice?: number | undefined;
+  CacheNodeCount?: number | undefined;
+  ProductDescription?: string | undefined;
+  OfferingType?: string | undefined;
+  State?: string | undefined;
+  RecurringCharges?: RecurringCharge[] | undefined;
+  ReservationARN?: string | undefined;
 }
 export type ReservedCacheNodeList = ReservedCacheNode[];
 export interface ReservedCacheNodeMessage {
-  Marker?: string;
-  ReservedCacheNodes?: ReservedCacheNode[];
+  Marker?: string | undefined;
+  ReservedCacheNodes?: ReservedCacheNode[] | undefined;
 }
 export interface DescribeReservedCacheNodesOfferingsMessage {
-  ReservedCacheNodesOfferingId?: string;
-  CacheNodeType?: string;
-  Duration?: string;
-  ProductDescription?: string;
-  OfferingType?: string;
-  MaxRecords?: number;
-  Marker?: string;
+  ReservedCacheNodesOfferingId?: string | undefined;
+  CacheNodeType?: string | undefined;
+  Duration?: string | undefined;
+  ProductDescription?: string | undefined;
+  OfferingType?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export interface ReservedCacheNodesOffering {
-  ReservedCacheNodesOfferingId?: string;
-  CacheNodeType?: string;
-  Duration?: number;
-  FixedPrice?: number;
-  UsagePrice?: number;
-  ProductDescription?: string;
-  OfferingType?: string;
-  RecurringCharges?: RecurringCharge[];
+  ReservedCacheNodesOfferingId?: string | undefined;
+  CacheNodeType?: string | undefined;
+  Duration?: number | undefined;
+  FixedPrice?: number | undefined;
+  UsagePrice?: number | undefined;
+  ProductDescription?: string | undefined;
+  OfferingType?: string | undefined;
+  RecurringCharges?: RecurringCharge[] | undefined;
 }
 export type ReservedCacheNodesOfferingList = ReservedCacheNodesOffering[];
 export interface ReservedCacheNodesOfferingMessage {
-  Marker?: string;
-  ReservedCacheNodesOfferings?: ReservedCacheNodesOffering[];
+  Marker?: string | undefined;
+  ReservedCacheNodesOfferings?: ReservedCacheNodesOffering[] | undefined;
 }
 export interface DescribeServerlessCachesRequest {
-  ServerlessCacheName?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ServerlessCacheName?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ServerlessCacheList = ServerlessCache[];
 export interface DescribeServerlessCachesResponse {
-  NextToken?: string;
-  ServerlessCaches?: (ServerlessCache & {
-    CacheUsageLimits: CacheUsageLimits & { DataStorage: DataStorage & { Unit: DataStorageUnit } };
-  })[];
+  NextToken?: string | undefined;
+  ServerlessCaches?:
+    | (ServerlessCache & {
+        CacheUsageLimits: CacheUsageLimits & {
+          DataStorage: DataStorage & { Unit: DataStorageUnit };
+        };
+      })[]
+    | undefined;
 }
 export interface DescribeServerlessCacheSnapshotsRequest {
-  ServerlessCacheName?: string;
-  ServerlessCacheSnapshotName?: string;
-  SnapshotType?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  ServerlessCacheName?: string | undefined;
+  ServerlessCacheSnapshotName?: string | undefined;
+  SnapshotType?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ServerlessCacheSnapshotList = ServerlessCacheSnapshot[];
 export interface DescribeServerlessCacheSnapshotsResponse {
-  NextToken?: string;
-  ServerlessCacheSnapshots?: ServerlessCacheSnapshot[];
+  NextToken?: string | undefined;
+  ServerlessCacheSnapshots?: ServerlessCacheSnapshot[] | undefined;
 }
 export type ServiceUpdateStatus = "available" | "cancelled" | "expired" | (string & {});
 export type ServiceUpdateStatusList = ServiceUpdateStatus[];
 export interface DescribeServiceUpdatesMessage {
-  ServiceUpdateName?: string;
-  ServiceUpdateStatus?: ServiceUpdateStatus[];
-  MaxRecords?: number;
-  Marker?: string;
+  ServiceUpdateName?: string | undefined;
+  ServiceUpdateStatus?: ServiceUpdateStatus[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type ServiceUpdateSeverity = "critical" | "important" | "medium" | "low" | (string & {});
 export type ServiceUpdateType = "security-update" | (string & {});
 export interface ServiceUpdate {
-  ServiceUpdateName?: string;
-  ServiceUpdateReleaseDate?: Date;
-  ServiceUpdateEndDate?: Date;
-  ServiceUpdateSeverity?: ServiceUpdateSeverity;
-  ServiceUpdateRecommendedApplyByDate?: Date;
-  ServiceUpdateStatus?: ServiceUpdateStatus;
-  ServiceUpdateDescription?: string;
-  ServiceUpdateType?: ServiceUpdateType;
-  Engine?: string;
-  EngineVersion?: string;
-  AutoUpdateAfterRecommendedApplyByDate?: boolean;
-  EstimatedUpdateTime?: string;
+  ServiceUpdateName?: string | undefined;
+  ServiceUpdateReleaseDate?: Date | undefined;
+  ServiceUpdateEndDate?: Date | undefined;
+  ServiceUpdateSeverity?: ServiceUpdateSeverity | undefined;
+  ServiceUpdateRecommendedApplyByDate?: Date | undefined;
+  ServiceUpdateStatus?: ServiceUpdateStatus | undefined;
+  ServiceUpdateDescription?: string | undefined;
+  ServiceUpdateType?: ServiceUpdateType | undefined;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  AutoUpdateAfterRecommendedApplyByDate?: boolean | undefined;
+  EstimatedUpdateTime?: string | undefined;
 }
 export type ServiceUpdateList = ServiceUpdate[];
 export interface ServiceUpdatesMessage {
-  Marker?: string;
-  ServiceUpdates?: ServiceUpdate[];
+  Marker?: string | undefined;
+  ServiceUpdates?: ServiceUpdate[] | undefined;
 }
 export interface DescribeSnapshotsMessage {
-  ReplicationGroupId?: string;
-  CacheClusterId?: string;
-  SnapshotName?: string;
-  SnapshotSource?: string;
-  Marker?: string;
-  MaxRecords?: number;
-  ShowNodeGroupConfig?: boolean;
+  ReplicationGroupId?: string | undefined;
+  CacheClusterId?: string | undefined;
+  SnapshotName?: string | undefined;
+  SnapshotSource?: string | undefined;
+  Marker?: string | undefined;
+  MaxRecords?: number | undefined;
+  ShowNodeGroupConfig?: boolean | undefined;
 }
 export type SnapshotList = Snapshot[];
 export interface DescribeSnapshotsListMessage {
-  Marker?: string;
-  Snapshots?: Snapshot[];
+  Marker?: string | undefined;
+  Snapshots?: Snapshot[] | undefined;
 }
 export interface TimeRangeFilter {
-  StartTime?: Date;
-  EndTime?: Date;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
 export type UpdateActionStatusList = UpdateActionStatus[];
 export interface DescribeUpdateActionsMessage {
-  ServiceUpdateName?: string;
-  ReplicationGroupIds?: string[];
-  CacheClusterIds?: string[];
-  Engine?: string;
-  ServiceUpdateStatus?: ServiceUpdateStatus[];
-  ServiceUpdateTimeRange?: TimeRangeFilter;
-  UpdateActionStatus?: UpdateActionStatus[];
-  ShowNodeLevelUpdateStatus?: boolean;
-  MaxRecords?: number;
-  Marker?: string;
+  ServiceUpdateName?: string | undefined;
+  ReplicationGroupIds?: string[] | undefined;
+  CacheClusterIds?: string[] | undefined;
+  Engine?: string | undefined;
+  ServiceUpdateStatus?: ServiceUpdateStatus[] | undefined;
+  ServiceUpdateTimeRange?: TimeRangeFilter | undefined;
+  UpdateActionStatus?: UpdateActionStatus[] | undefined;
+  ShowNodeLevelUpdateStatus?: boolean | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type SlaMet = "yes" | "no" | "n/a" | (string & {});
 export type NodeUpdateStatus =
@@ -2076,396 +2092,412 @@ export type NodeUpdateStatus =
   | (string & {});
 export type NodeUpdateInitiatedBy = "system" | "customer" | (string & {});
 export interface NodeGroupMemberUpdateStatus {
-  CacheClusterId?: string;
-  CacheNodeId?: string;
-  NodeUpdateStatus?: NodeUpdateStatus;
-  NodeDeletionDate?: Date;
-  NodeUpdateStartDate?: Date;
-  NodeUpdateEndDate?: Date;
-  NodeUpdateInitiatedBy?: NodeUpdateInitiatedBy;
-  NodeUpdateInitiatedDate?: Date;
-  NodeUpdateStatusModifiedDate?: Date;
+  CacheClusterId?: string | undefined;
+  CacheNodeId?: string | undefined;
+  NodeUpdateStatus?: NodeUpdateStatus | undefined;
+  NodeDeletionDate?: Date | undefined;
+  NodeUpdateStartDate?: Date | undefined;
+  NodeUpdateEndDate?: Date | undefined;
+  NodeUpdateInitiatedBy?: NodeUpdateInitiatedBy | undefined;
+  NodeUpdateInitiatedDate?: Date | undefined;
+  NodeUpdateStatusModifiedDate?: Date | undefined;
 }
 export type NodeGroupMemberUpdateStatusList = NodeGroupMemberUpdateStatus[];
 export interface NodeGroupUpdateStatus {
-  NodeGroupId?: string;
-  NodeGroupMemberUpdateStatus?: NodeGroupMemberUpdateStatus[];
+  NodeGroupId?: string | undefined;
+  NodeGroupMemberUpdateStatus?: NodeGroupMemberUpdateStatus[] | undefined;
 }
 export type NodeGroupUpdateStatusList = NodeGroupUpdateStatus[];
 export interface CacheNodeUpdateStatus {
-  CacheNodeId?: string;
-  NodeUpdateStatus?: NodeUpdateStatus;
-  NodeDeletionDate?: Date;
-  NodeUpdateStartDate?: Date;
-  NodeUpdateEndDate?: Date;
-  NodeUpdateInitiatedBy?: NodeUpdateInitiatedBy;
-  NodeUpdateInitiatedDate?: Date;
-  NodeUpdateStatusModifiedDate?: Date;
+  CacheNodeId?: string | undefined;
+  NodeUpdateStatus?: NodeUpdateStatus | undefined;
+  NodeDeletionDate?: Date | undefined;
+  NodeUpdateStartDate?: Date | undefined;
+  NodeUpdateEndDate?: Date | undefined;
+  NodeUpdateInitiatedBy?: NodeUpdateInitiatedBy | undefined;
+  NodeUpdateInitiatedDate?: Date | undefined;
+  NodeUpdateStatusModifiedDate?: Date | undefined;
 }
 export type CacheNodeUpdateStatusList = CacheNodeUpdateStatus[];
 export interface UpdateAction {
-  ReplicationGroupId?: string;
-  CacheClusterId?: string;
-  ServiceUpdateName?: string;
-  ServiceUpdateReleaseDate?: Date;
-  ServiceUpdateSeverity?: ServiceUpdateSeverity;
-  ServiceUpdateStatus?: ServiceUpdateStatus;
-  ServiceUpdateRecommendedApplyByDate?: Date;
-  ServiceUpdateType?: ServiceUpdateType;
-  UpdateActionAvailableDate?: Date;
-  UpdateActionStatus?: UpdateActionStatus;
-  NodesUpdated?: string;
-  UpdateActionStatusModifiedDate?: Date;
-  SlaMet?: SlaMet;
-  NodeGroupUpdateStatus?: NodeGroupUpdateStatus[];
-  CacheNodeUpdateStatus?: CacheNodeUpdateStatus[];
-  EstimatedUpdateTime?: string;
-  Engine?: string;
+  ReplicationGroupId?: string | undefined;
+  CacheClusterId?: string | undefined;
+  ServiceUpdateName?: string | undefined;
+  ServiceUpdateReleaseDate?: Date | undefined;
+  ServiceUpdateSeverity?: ServiceUpdateSeverity | undefined;
+  ServiceUpdateStatus?: ServiceUpdateStatus | undefined;
+  ServiceUpdateRecommendedApplyByDate?: Date | undefined;
+  ServiceUpdateType?: ServiceUpdateType | undefined;
+  UpdateActionAvailableDate?: Date | undefined;
+  UpdateActionStatus?: UpdateActionStatus | undefined;
+  NodesUpdated?: string | undefined;
+  UpdateActionStatusModifiedDate?: Date | undefined;
+  SlaMet?: SlaMet | undefined;
+  NodeGroupUpdateStatus?: NodeGroupUpdateStatus[] | undefined;
+  CacheNodeUpdateStatus?: CacheNodeUpdateStatus[] | undefined;
+  EstimatedUpdateTime?: string | undefined;
+  Engine?: string | undefined;
 }
 export type UpdateActionList = UpdateAction[];
 export interface UpdateActionsMessage {
-  Marker?: string;
-  UpdateActions?: UpdateAction[];
+  Marker?: string | undefined;
+  UpdateActions?: UpdateAction[] | undefined;
 }
 export interface DescribeUserGroupsMessage {
-  UserGroupId?: string;
-  MaxRecords?: number;
-  Marker?: string;
+  UserGroupId?: string | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type UserGroupList = UserGroup[];
 export interface DescribeUserGroupsResult {
-  UserGroups?: UserGroup[];
-  Marker?: string;
+  UserGroups?: UserGroup[] | undefined;
+  Marker?: string | undefined;
 }
 export type FilterName = string;
 export type FilterValue = string;
 export type FilterValueList = string[];
 export interface Filter {
-  Name?: string;
-  Values?: string[];
+  Name?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type FilterList = Filter[];
 export interface DescribeUsersMessage {
-  Engine?: string;
-  UserId?: string;
-  Filters?: Filter[];
-  MaxRecords?: number;
-  Marker?: string;
+  Engine?: string | undefined;
+  UserId?: string | undefined;
+  Filters?: Filter[] | undefined;
+  MaxRecords?: number | undefined;
+  Marker?: string | undefined;
 }
 export type UserList = User[];
 export interface DescribeUsersResult {
-  Users?: User[];
-  Marker?: string;
+  Users?: User[] | undefined;
+  Marker?: string | undefined;
 }
 export interface DisassociateGlobalReplicationGroupMessage {
-  GlobalReplicationGroupId?: string;
-  ReplicationGroupId?: string;
-  ReplicationGroupRegion?: string;
+  GlobalReplicationGroupId?: string | undefined;
+  ReplicationGroupId?: string | undefined;
+  ReplicationGroupRegion?: string | undefined;
 }
 export interface DisassociateGlobalReplicationGroupResult {
-  GlobalReplicationGroup?: GlobalReplicationGroup;
+  GlobalReplicationGroup?: GlobalReplicationGroup | undefined;
 }
 export interface ExportServerlessCacheSnapshotRequest {
-  ServerlessCacheSnapshotName?: string;
-  S3BucketName?: string;
+  ServerlessCacheSnapshotName?: string | undefined;
+  S3BucketName?: string | undefined;
 }
 export interface ExportServerlessCacheSnapshotResponse {
-  ServerlessCacheSnapshot?: ServerlessCacheSnapshot;
+  ServerlessCacheSnapshot?: ServerlessCacheSnapshot | undefined;
 }
 export interface FailoverGlobalReplicationGroupMessage {
-  GlobalReplicationGroupId?: string;
-  PrimaryRegion?: string;
-  PrimaryReplicationGroupId?: string;
+  GlobalReplicationGroupId?: string | undefined;
+  PrimaryRegion?: string | undefined;
+  PrimaryReplicationGroupId?: string | undefined;
 }
 export interface FailoverGlobalReplicationGroupResult {
-  GlobalReplicationGroup?: GlobalReplicationGroup;
+  GlobalReplicationGroup?: GlobalReplicationGroup | undefined;
 }
 export interface ReshardingConfiguration {
-  NodeGroupId?: string;
-  PreferredAvailabilityZones?: string[];
+  NodeGroupId?: string | undefined;
+  PreferredAvailabilityZones?: string[] | undefined;
 }
 export type ReshardingConfigurationList = ReshardingConfiguration[];
 export interface RegionalConfiguration {
-  ReplicationGroupId?: string;
-  ReplicationGroupRegion?: string;
-  ReshardingConfiguration?: ReshardingConfiguration[];
+  ReplicationGroupId?: string | undefined;
+  ReplicationGroupRegion?: string | undefined;
+  ReshardingConfiguration?: ReshardingConfiguration[] | undefined;
 }
 export type RegionalConfigurationList = RegionalConfiguration[];
 export interface IncreaseNodeGroupsInGlobalReplicationGroupMessage {
-  GlobalReplicationGroupId?: string;
-  NodeGroupCount?: number;
-  RegionalConfigurations?: RegionalConfiguration[];
-  ApplyImmediately?: boolean;
+  GlobalReplicationGroupId?: string | undefined;
+  NodeGroupCount?: number | undefined;
+  RegionalConfigurations?: RegionalConfiguration[] | undefined;
+  ApplyImmediately?: boolean | undefined;
 }
 export interface IncreaseNodeGroupsInGlobalReplicationGroupResult {
-  GlobalReplicationGroup?: GlobalReplicationGroup;
+  GlobalReplicationGroup?: GlobalReplicationGroup | undefined;
 }
 export interface IncreaseReplicaCountMessage {
-  ReplicationGroupId?: string;
-  NewReplicaCount?: number;
-  ReplicaConfiguration?: ConfigureShard[];
-  ApplyImmediately?: boolean;
+  ReplicationGroupId?: string | undefined;
+  NewReplicaCount?: number | undefined;
+  ReplicaConfiguration?: ConfigureShard[] | undefined;
+  ApplyImmediately?: boolean | undefined;
 }
 export interface IncreaseReplicaCountResult {
-  ReplicationGroup?: ReplicationGroup;
+  ReplicationGroup?: ReplicationGroup | undefined;
 }
 export interface ListAllowedNodeTypeModificationsMessage {
-  CacheClusterId?: string;
-  ReplicationGroupId?: string;
+  CacheClusterId?: string | undefined;
+  ReplicationGroupId?: string | undefined;
 }
 export type NodeTypeList = string[];
 export interface AllowedNodeTypeModificationsMessage {
-  ScaleUpModifications?: string[];
-  ScaleDownModifications?: string[];
+  ScaleUpModifications?: string[] | undefined;
+  ScaleDownModifications?: string[] | undefined;
 }
 export interface ListTagsForResourceMessage {
-  ResourceName?: string;
+  ResourceName?: string | undefined;
 }
 export type AuthTokenUpdateStrategyType = "SET" | "ROTATE" | "DELETE" | (string & {});
 export interface ModifyCacheClusterMessage {
-  CacheClusterId?: string;
-  NumCacheNodes?: number;
-  CacheNodeIdsToRemove?: string[];
-  AZMode?: AZMode;
-  NewAvailabilityZones?: string[];
-  CacheSecurityGroupNames?: string[];
-  SecurityGroupIds?: string[];
-  PreferredMaintenanceWindow?: string;
-  NotificationTopicArn?: string;
-  CacheParameterGroupName?: string;
-  NotificationTopicStatus?: string;
-  ApplyImmediately?: boolean;
-  Engine?: string;
-  EngineVersion?: string;
-  AutoMinorVersionUpgrade?: boolean;
-  SnapshotRetentionLimit?: number;
-  SnapshotWindow?: string;
-  CacheNodeType?: string;
-  AuthToken?: string | redacted.Redacted<string>;
-  AuthTokenUpdateStrategy?: AuthTokenUpdateStrategyType;
-  LogDeliveryConfigurations?: LogDeliveryConfigurationRequest[];
-  IpDiscovery?: IpDiscovery;
-  ScaleConfig?: ScaleConfig;
+  CacheClusterId?: string | undefined;
+  NumCacheNodes?: number | undefined;
+  CacheNodeIdsToRemove?: string[] | undefined;
+  AZMode?: AZMode | undefined;
+  NewAvailabilityZones?: string[] | undefined;
+  CacheSecurityGroupNames?: string[] | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  PreferredMaintenanceWindow?: string | undefined;
+  NotificationTopicArn?: string | undefined;
+  CacheParameterGroupName?: string | undefined;
+  NotificationTopicStatus?: string | undefined;
+  ApplyImmediately?: boolean | undefined;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  AutoMinorVersionUpgrade?: boolean | undefined;
+  SnapshotRetentionLimit?: number | undefined;
+  SnapshotWindow?: string | undefined;
+  CacheNodeType?: string | undefined;
+  AuthToken?: string | redacted.Redacted<string> | undefined;
+  AuthTokenUpdateStrategy?: AuthTokenUpdateStrategyType | undefined;
+  LogDeliveryConfigurations?: LogDeliveryConfigurationRequest[] | undefined;
+  IpDiscovery?: IpDiscovery | undefined;
+  ScaleConfig?: ScaleConfig | undefined;
 }
 export interface ModifyCacheClusterResult {
-  CacheCluster?: CacheCluster;
+  CacheCluster?: CacheCluster | undefined;
 }
 export interface ParameterNameValue {
-  ParameterName?: string;
-  ParameterValue?: string;
+  ParameterName?: string | undefined;
+  ParameterValue?: string | undefined;
 }
 export type ParameterNameValueList = ParameterNameValue[];
 export interface ModifyCacheParameterGroupMessage {
-  CacheParameterGroupName?: string;
-  ParameterNameValues?: ParameterNameValue[];
+  CacheParameterGroupName?: string | undefined;
+  ParameterNameValues?: ParameterNameValue[] | undefined;
 }
 export interface CacheParameterGroupNameMessage {
-  CacheParameterGroupName?: string;
+  CacheParameterGroupName?: string | undefined;
 }
 export interface ModifyCacheSubnetGroupMessage {
-  CacheSubnetGroupName?: string;
-  CacheSubnetGroupDescription?: string;
-  SubnetIds?: string[];
+  CacheSubnetGroupName?: string | undefined;
+  CacheSubnetGroupDescription?: string | undefined;
+  SubnetIds?: string[] | undefined;
 }
 export interface ModifyCacheSubnetGroupResult {
-  CacheSubnetGroup?: CacheSubnetGroup;
+  CacheSubnetGroup?: CacheSubnetGroup | undefined;
 }
 export interface ModifyGlobalReplicationGroupMessage {
-  GlobalReplicationGroupId?: string;
-  ApplyImmediately?: boolean;
-  CacheNodeType?: string;
-  Engine?: string;
-  EngineVersion?: string;
-  CacheParameterGroupName?: string;
-  GlobalReplicationGroupDescription?: string;
-  AutomaticFailoverEnabled?: boolean;
+  GlobalReplicationGroupId?: string | undefined;
+  ApplyImmediately?: boolean | undefined;
+  CacheNodeType?: string | undefined;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  CacheParameterGroupName?: string | undefined;
+  GlobalReplicationGroupDescription?: string | undefined;
+  AutomaticFailoverEnabled?: boolean | undefined;
 }
 export interface ModifyGlobalReplicationGroupResult {
-  GlobalReplicationGroup?: GlobalReplicationGroup;
+  GlobalReplicationGroup?: GlobalReplicationGroup | undefined;
 }
 export interface ModifyReplicationGroupMessage {
-  ReplicationGroupId?: string;
-  ReplicationGroupDescription?: string;
-  PrimaryClusterId?: string;
-  SnapshottingClusterId?: string;
-  AutomaticFailoverEnabled?: boolean;
-  MultiAZEnabled?: boolean;
-  NodeGroupId?: string;
-  CacheSecurityGroupNames?: string[];
-  SecurityGroupIds?: string[];
-  PreferredMaintenanceWindow?: string;
-  NotificationTopicArn?: string;
-  CacheParameterGroupName?: string;
-  NotificationTopicStatus?: string;
-  ApplyImmediately?: boolean;
-  Engine?: string;
-  EngineVersion?: string;
-  AutoMinorVersionUpgrade?: boolean;
-  SnapshotRetentionLimit?: number;
-  SnapshotWindow?: string;
-  CacheNodeType?: string;
-  AuthToken?: string | redacted.Redacted<string>;
-  AuthTokenUpdateStrategy?: AuthTokenUpdateStrategyType;
-  UserGroupIdsToAdd?: string[];
-  UserGroupIdsToRemove?: string[];
-  RemoveUserGroups?: boolean;
-  LogDeliveryConfigurations?: LogDeliveryConfigurationRequest[];
-  IpDiscovery?: IpDiscovery;
-  TransitEncryptionEnabled?: boolean;
-  TransitEncryptionMode?: TransitEncryptionMode;
-  ClusterMode?: ClusterMode;
-  Durability?: Durability;
+  ReplicationGroupId?: string | undefined;
+  ReplicationGroupDescription?: string | undefined;
+  PrimaryClusterId?: string | undefined;
+  SnapshottingClusterId?: string | undefined;
+  AutomaticFailoverEnabled?: boolean | undefined;
+  MultiAZEnabled?: boolean | undefined;
+  NodeGroupId?: string | undefined;
+  CacheSecurityGroupNames?: string[] | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  PreferredMaintenanceWindow?: string | undefined;
+  NotificationTopicArn?: string | undefined;
+  CacheParameterGroupName?: string | undefined;
+  NotificationTopicStatus?: string | undefined;
+  ApplyImmediately?: boolean | undefined;
+  Engine?: string | undefined;
+  EngineVersion?: string | undefined;
+  AutoMinorVersionUpgrade?: boolean | undefined;
+  SnapshotRetentionLimit?: number | undefined;
+  SnapshotWindow?: string | undefined;
+  CacheNodeType?: string | undefined;
+  AuthToken?: string | redacted.Redacted<string> | undefined;
+  AuthTokenUpdateStrategy?: AuthTokenUpdateStrategyType | undefined;
+  UserGroupIdsToAdd?: string[] | undefined;
+  UserGroupIdsToRemove?: string[] | undefined;
+  RemoveUserGroups?: boolean | undefined;
+  LogDeliveryConfigurations?: LogDeliveryConfigurationRequest[] | undefined;
+  IpDiscovery?: IpDiscovery | undefined;
+  TransitEncryptionEnabled?: boolean | undefined;
+  TransitEncryptionMode?: TransitEncryptionMode | undefined;
+  ClusterMode?: ClusterMode | undefined;
+  Durability?: Durability | undefined;
 }
 export interface ModifyReplicationGroupResult {
-  ReplicationGroup?: ReplicationGroup;
+  ReplicationGroup?: ReplicationGroup | undefined;
 }
 export type NodeGroupsToRemoveList = string[];
 export type NodeGroupsToRetainList = string[];
 export interface ModifyReplicationGroupShardConfigurationMessage {
-  ReplicationGroupId?: string;
-  NodeGroupCount?: number;
-  ApplyImmediately?: boolean;
-  ReshardingConfiguration?: ReshardingConfiguration[];
-  NodeGroupsToRemove?: string[];
-  NodeGroupsToRetain?: string[];
+  ReplicationGroupId?: string | undefined;
+  NodeGroupCount?: number | undefined;
+  ApplyImmediately?: boolean | undefined;
+  ReshardingConfiguration?: ReshardingConfiguration[] | undefined;
+  NodeGroupsToRemove?: string[] | undefined;
+  NodeGroupsToRetain?: string[] | undefined;
 }
 export interface ModifyReplicationGroupShardConfigurationResult {
-  ReplicationGroup?: ReplicationGroup;
+  ReplicationGroup?: ReplicationGroup | undefined;
 }
 export interface ModifyServerlessCacheRequest {
-  ServerlessCacheName?: string;
-  Description?: string;
-  CacheUsageLimits?: CacheUsageLimits;
-  RemoveUserGroup?: boolean;
-  UserGroupId?: string;
-  SecurityGroupIds?: string[];
-  SnapshotRetentionLimit?: number;
-  DailySnapshotTime?: string;
-  Engine?: string;
-  MajorEngineVersion?: string;
+  ServerlessCacheName?: string | undefined;
+  Description?: string | undefined;
+  CacheUsageLimits?: CacheUsageLimits | undefined;
+  RemoveUserGroup?: boolean | undefined;
+  UserGroupId?: string | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  SnapshotRetentionLimit?: number | undefined;
+  DailySnapshotTime?: string | undefined;
+  Engine?: string | undefined;
+  MajorEngineVersion?: string | undefined;
 }
 export interface ModifyServerlessCacheResponse {
-  ServerlessCache?: ServerlessCache & {
-    CacheUsageLimits: CacheUsageLimits & { DataStorage: DataStorage & { Unit: DataStorageUnit } };
-  };
+  ServerlessCache?:
+    | (ServerlessCache & {
+        CacheUsageLimits: CacheUsageLimits & {
+          DataStorage: DataStorage & { Unit: DataStorageUnit };
+        };
+      })
+    | undefined;
 }
 export interface ModifyUserMessage {
-  UserId?: string;
-  AccessString?: string;
-  AppendAccessString?: string;
-  Passwords?: Array<string | redacted.Redacted<string>>;
-  NoPasswordRequired?: boolean;
-  AuthenticationMode?: AuthenticationMode;
-  Engine?: string;
+  UserId?: string | undefined;
+  AccessString?: string | undefined;
+  AppendAccessString?: string | undefined;
+  Passwords?: Array<string | redacted.Redacted<string>> | undefined;
+  NoPasswordRequired?: boolean | undefined;
+  AuthenticationMode?: AuthenticationMode | undefined;
+  Engine?: string | undefined;
 }
 export interface ModifyUserGroupMessage {
-  UserGroupId?: string;
-  UserIdsToAdd?: string[];
-  UserIdsToRemove?: string[];
-  Engine?: string;
+  UserGroupId?: string | undefined;
+  UserIdsToAdd?: string[] | undefined;
+  UserIdsToRemove?: string[] | undefined;
+  Engine?: string | undefined;
 }
 export interface CustomerNodeEndpoint {
-  Address?: string;
-  Port?: number;
+  Address?: string | undefined;
+  Port?: number | undefined;
 }
 export type CustomerNodeEndpointList = CustomerNodeEndpoint[];
 export interface SecretManagerAuthConfig {
-  SecretArn?: string;
+  SecretArn?: string | undefined;
 }
 export interface SourceAuthenticationConfiguration {
-  SecretManagerConfig?: SecretManagerAuthConfig;
+  SecretManagerConfig?: SecretManagerAuthConfig | undefined;
 }
 export type TlsMode = "none" | "verify-ca" | (string & {});
 export interface SourceTlsConfiguration {
-  SourceTlsMode?: TlsMode;
-  SourceTlsCertificate?: string;
+  SourceTlsMode?: TlsMode | undefined;
+  SourceTlsCertificate?: string | undefined;
 }
 export interface PrepareMigrationRequest {
-  ServerlessCacheName?: string;
-  CustomerNodeEndpointList?: CustomerNodeEndpoint[];
-  SourceAuthenticationConfiguration?: SourceAuthenticationConfiguration;
-  SourceTlsConfiguration?: SourceTlsConfiguration;
+  ServerlessCacheName?: string | undefined;
+  CustomerNodeEndpointList?: CustomerNodeEndpoint[] | undefined;
+  SourceAuthenticationConfiguration?: SourceAuthenticationConfiguration | undefined;
+  SourceTlsConfiguration?: SourceTlsConfiguration | undefined;
 }
 export interface PrepareMigrationResponse {
-  ServerlessCache?: ServerlessCache & {
-    CacheUsageLimits: CacheUsageLimits & { DataStorage: DataStorage & { Unit: DataStorageUnit } };
-  };
+  ServerlessCache?:
+    | (ServerlessCache & {
+        CacheUsageLimits: CacheUsageLimits & {
+          DataStorage: DataStorage & { Unit: DataStorageUnit };
+        };
+      })
+    | undefined;
 }
 export interface PurchaseReservedCacheNodesOfferingMessage {
-  ReservedCacheNodesOfferingId?: string;
-  ReservedCacheNodeId?: string;
-  CacheNodeCount?: number;
-  Tags?: Tag[];
+  ReservedCacheNodesOfferingId?: string | undefined;
+  ReservedCacheNodeId?: string | undefined;
+  CacheNodeCount?: number | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface PurchaseReservedCacheNodesOfferingResult {
-  ReservedCacheNode?: ReservedCacheNode;
+  ReservedCacheNode?: ReservedCacheNode | undefined;
 }
 export interface RebalanceSlotsInGlobalReplicationGroupMessage {
-  GlobalReplicationGroupId?: string;
-  ApplyImmediately?: boolean;
+  GlobalReplicationGroupId?: string | undefined;
+  ApplyImmediately?: boolean | undefined;
 }
 export interface RebalanceSlotsInGlobalReplicationGroupResult {
-  GlobalReplicationGroup?: GlobalReplicationGroup;
+  GlobalReplicationGroup?: GlobalReplicationGroup | undefined;
 }
 export interface RebootCacheClusterMessage {
-  CacheClusterId?: string;
-  CacheNodeIdsToReboot?: string[];
+  CacheClusterId?: string | undefined;
+  CacheNodeIdsToReboot?: string[] | undefined;
 }
 export interface RebootCacheClusterResult {
-  CacheCluster?: CacheCluster;
+  CacheCluster?: CacheCluster | undefined;
 }
 export type KeyList = string[];
 export interface RemoveTagsFromResourceMessage {
-  ResourceName?: string;
-  TagKeys?: string[];
+  ResourceName?: string | undefined;
+  TagKeys?: string[] | undefined;
 }
 export interface ResetCacheParameterGroupMessage {
-  CacheParameterGroupName?: string;
-  ResetAllParameters?: boolean;
-  ParameterNameValues?: ParameterNameValue[];
+  CacheParameterGroupName?: string | undefined;
+  ResetAllParameters?: boolean | undefined;
+  ParameterNameValues?: ParameterNameValue[] | undefined;
 }
 export interface RevokeCacheSecurityGroupIngressMessage {
-  CacheSecurityGroupName?: string;
-  EC2SecurityGroupName?: string;
-  EC2SecurityGroupOwnerId?: string;
+  CacheSecurityGroupName?: string | undefined;
+  EC2SecurityGroupName?: string | undefined;
+  EC2SecurityGroupOwnerId?: string | undefined;
 }
 export interface RevokeCacheSecurityGroupIngressResult {
-  CacheSecurityGroup?: CacheSecurityGroup;
+  CacheSecurityGroup?: CacheSecurityGroup | undefined;
 }
 export interface StartMigrationMessage {
-  ServerlessCacheName?: string;
-  ReplicationGroupId?: string;
-  CustomerNodeEndpointList?: CustomerNodeEndpoint[];
-  AutoCutover?: boolean;
-  ClearTargetCacheData?: boolean;
+  ServerlessCacheName?: string | undefined;
+  ReplicationGroupId?: string | undefined;
+  CustomerNodeEndpointList?: CustomerNodeEndpoint[] | undefined;
+  AutoCutover?: boolean | undefined;
+  ClearTargetCacheData?: boolean | undefined;
 }
 export interface StartMigrationResponse {
-  ReplicationGroup?: ReplicationGroup;
-  ServerlessCache?: ServerlessCache & {
-    CacheUsageLimits: CacheUsageLimits & { DataStorage: DataStorage & { Unit: DataStorageUnit } };
-  };
+  ReplicationGroup?: ReplicationGroup | undefined;
+  ServerlessCache?:
+    | (ServerlessCache & {
+        CacheUsageLimits: CacheUsageLimits & {
+          DataStorage: DataStorage & { Unit: DataStorageUnit };
+        };
+      })
+    | undefined;
 }
 export interface StopMigrationRequest {
-  ServerlessCacheName?: string;
+  ServerlessCacheName?: string | undefined;
 }
 export interface StopMigrationResponse {
-  ServerlessCache?: ServerlessCache & {
-    CacheUsageLimits: CacheUsageLimits & { DataStorage: DataStorage & { Unit: DataStorageUnit } };
-  };
+  ServerlessCache?:
+    | (ServerlessCache & {
+        CacheUsageLimits: CacheUsageLimits & {
+          DataStorage: DataStorage & { Unit: DataStorageUnit };
+        };
+      })
+    | undefined;
 }
 export interface TestFailoverMessage {
-  ReplicationGroupId?: string;
-  NodeGroupId?: string;
+  ReplicationGroupId?: string | undefined;
+  NodeGroupId?: string | undefined;
 }
 export interface TestFailoverResult {
-  ReplicationGroup?: ReplicationGroup;
+  ReplicationGroup?: ReplicationGroup | undefined;
 }
 export interface TestMigrationMessage {
-  ReplicationGroupId?: string;
-  CustomerNodeEndpointList?: CustomerNodeEndpoint[];
+  ReplicationGroupId?: string | undefined;
+  CustomerNodeEndpointList?: CustomerNodeEndpoint[] | undefined;
 }
 export interface TestMigrationResponse {
-  ReplicationGroup?: ReplicationGroup;
+  ReplicationGroup?: ReplicationGroup | undefined;
 }
 export type ExceptionMessage = string;
 export type AwsQueryErrorMessage = string;

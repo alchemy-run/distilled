@@ -68,69 +68,69 @@ export type ListWebfontsSortEnum =
   | "TRENDING";
 export interface ListWebfontsRequest {
   /** Controls the font urls in `Webfont.files`, by default, static ttf fonts are sent. */
-  capability?: ListWebfontsCapabilityEnumList;
+  capability?: ListWebfontsCapabilityEnumList | undefined;
   /** Filters by Webfont.subset, if subset is found in Webfont.subsets. If not set, returns all families. */
-  subset?: string;
+  subset?: string | undefined;
   /** Filters by Webfont.family, using literal match. If not set, returns all families */
-  family?: StringList;
+  family?: StringList | undefined;
   /** Enables sorting of the list. */
-  sort?: ListWebfontsSortEnum | (string & {});
+  sort?: ListWebfontsSortEnum | (string & {}) | undefined;
   /** Filters by Webfont.category, if category is found in Webfont.categories. If not set, returns all families. */
-  category?: string;
+  category?: string | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 /** Metadata for a variable font axis. */
 export interface Axis {
   /** tag name. */
-  tag?: string;
+  tag?: string | undefined;
   /** maximum value */
-  end?: number;
+  end?: number | undefined;
   /** minimum value */
-  start?: number;
+  start?: number | undefined;
 }
 export type AxisList = Array<Axis>;
 /** Metadata for a tag. */
 export interface Tag {
   /** The weight of the tag. */
-  weight?: number;
+  weight?: number | undefined;
   /** The name of the tag. */
-  name?: string;
+  name?: string | undefined;
 }
 export type TagList = Array<Tag>;
 /** Metadata describing a family of fonts. */
 export interface Webfont {
   /** The font version. */
-  version?: string;
+  version?: string | undefined;
   /** The font files (with all supported scripts) for each one of the available variants, as a key : value map. */
-  files?: StringMap;
+  files?: StringMap | undefined;
   /** The date (format "yyyy-MM-dd") the font was modified for the last time. */
-  lastModified?: string;
+  lastModified?: string | undefined;
   /** The scripts supported by the font. */
-  subsets?: StringList;
+  subsets?: StringList | undefined;
   /** The color format(s) available for this family. */
-  colorCapabilities?: StringList;
+  colorCapabilities?: StringList | undefined;
   /** Font URL for menu subset, a subset of the font that is enough to display the font name */
-  menu?: string;
+  menu?: string | undefined;
   /** The available variants for the font. */
-  variants?: StringList;
+  variants?: StringList | undefined;
   /** Axis for variable fonts. */
-  axes?: AxisList;
+  axes?: AxisList | undefined;
   /** The name of the font. */
-  family?: string;
+  family?: string | undefined;
   /** The tags that apply to this family. */
-  tags?: TagList;
+  tags?: TagList | undefined;
   /** The category of the font. */
-  category?: string;
+  category?: string | undefined;
   /** This kind represents a webfont object in the webfonts service. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type WebfontList_ = Array<Webfont>;
 /** Response containing the list of fonts currently served by the Google Fonts API. */
 export interface WebfontList {
   /** This kind represents a list of webfont objects in the webfonts service. */
-  kind?: string;
+  kind?: string | undefined;
   /** The list of fonts currently served by the Google Fonts API. */
-  items?: WebfontList_;
+  items?: WebfontList_ | undefined;
 }
 export type ListWebfontsError = NotFound | Forbidden | GcpOpError;
 /** Retrieves the list of fonts currently served by the Google Fonts Developer API. */

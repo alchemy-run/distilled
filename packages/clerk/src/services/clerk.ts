@@ -77,7 +77,7 @@ export interface AddDomainRequest {
   /** Marks the new domain as satellite. Set to `false` only when migrating a production instance from an active provider domain to a custom domain. */
   is_satellite: boolean;
   /** The full URL of the proxy which will forward requests to the Clerk Frontend API for this domain. Applicable only to production instances. */
-  proxy_url?: string | null;
+  proxy_url?: string | null | undefined;
 }
 export type DomainObject = "domain";
 export interface CNameTarget {
@@ -97,7 +97,7 @@ export interface DNSTarget {
   host: string;
   value: string;
   record_type: DNSTargetRecordType;
-  automation_disposition?: DNSTargetAutomationDisposition;
+  automation_disposition?: DNSTargetAutomationDisposition | undefined;
   /** Denotes whether this DNS target is required to be set in order for the domain to be considered deployed. */
   required: boolean;
 }
@@ -110,13 +110,13 @@ export interface Domain {
   is_satellite: boolean;
   frontend_api_url: string;
   /** Null for satellite domains. */
-  accounts_portal_url?: string | null;
-  proxy_url?: string | null;
+  accounts_portal_url?: string | null | undefined;
+  proxy_url?: string | null | undefined;
   development_origin: string;
   /** Legacy CNAME-only DNS targets. Prefer `dns_targets` when present. */
-  cname_targets?: DomainCnameTargetsList | null;
+  cname_targets?: DomainCnameTargetsList | null | undefined;
   /** The complete typed DNS contract. Consumers should use this field instead of merging it with `cname_targets`. */
-  dns_targets?: DomainDnsTargetsList | null;
+  dns_targets?: DomainDnsTargetsList | null | undefined;
 }
 /** Array of role keys to add to the role set. Must contain at least one role and no more than 10 roles. */
 export type AddRolesToRoleSetRequestRoleKeysList = Array<string>;
@@ -126,9 +126,9 @@ export interface AddRolesToRoleSetRequest {
   /** Array of role keys to add to the role set. Must contain at least one role and no more than 10 roles. */
   role_keys: AddRolesToRoleSetRequestRoleKeysList;
   /** Optionally update the default role to one of the newly added roles. */
-  default_role_key?: string;
+  default_role_key?: string | undefined;
   /** Optionally update the creator role to one of the newly added roles. */
-  creator_role_key?: string;
+  creator_role_key?: string | undefined;
 }
 export type RoleSetObject = "role_set";
 export type RoleSetItemObject = "role_set_item";
@@ -144,9 +144,9 @@ export interface RoleSetItem {
   /** Optional description of the role */
   description: string | null;
   /** The number of members assigned to this role within the role set */
-  members_count?: number | null;
+  members_count?: number | null | undefined;
   /** Whether this role has any members assigned within the role set */
-  has_members?: boolean | null;
+  has_members?: boolean | null | undefined;
   /** Unix timestamp of role creation */
   created_at: number;
   /** Unix timestamp of last role update */
@@ -165,13 +165,13 @@ export interface RoleSetMigration {
   /** The unique identifier of the migration */
   id: string;
   /** The organization ID if the migration is scoped to a specific organization */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** The instance ID this migration belongs to */
   instance_id: string;
   /** The ID of the source role set being migrated from */
   source_role_set_id: string;
   /** The ID of the destination role set being migrated to */
-  dest_role_set_id?: string | null;
+  dest_role_set_id?: string | null | undefined;
   /** What triggered this migration (e.g., "role_set_deletion", "role_removal") */
   trigger_type: string;
   /** Current status of the migration (e.g., "enqueued", "in_progress", "completed") */
@@ -179,11 +179,11 @@ export interface RoleSetMigration {
   /** Number of members that have been migrated so far */
   migrated_members: number;
   /** Role key mappings from source to destination roles */
-  mappings?: RoleSetMigrationMappingsMap | null;
+  mappings?: RoleSetMigrationMappingsMap | null | undefined;
   /** Unix timestamp when the migration started */
-  started_at?: number | null;
+  started_at?: number | null | undefined;
   /** Unix timestamp when the migration completed */
-  completed_at?: number | null;
+  completed_at?: number | null | undefined;
   /** Unix timestamp of migration creation */
   created_at: number;
   /** Unix timestamp of last migration update */
@@ -203,13 +203,13 @@ export interface RoleSet {
   /** The list of roles in this role set */
   roles: RoleSetRolesList;
   /** The default role assigned to new organization members */
-  default_role?: RoleSetItem | null;
+  default_role?: RoleSetItem | null | undefined;
   /** The role assigned to the creator of an organization */
-  creator_role?: RoleSetItem | null;
+  creator_role?: RoleSetItem | null | undefined;
   /** The type of the role set ("initial" or "custom") */
   type: RoleSetType;
   /** Active migration information, only present when status is "enqueued" or "in_progress" */
-  role_set_migration?: RoleSetMigration | null;
+  role_set_migration?: RoleSetMigration | null | undefined;
   /** Unix timestamp of role set creation */
   created_at: number;
   /** Unix timestamp of last role set update */
@@ -225,11 +225,11 @@ export interface AdjustOrganizationBillingCreditBalanceRequest {
   /** Whether to increase or decrease the credit balance. */
   action: AdjustOrganizationBillingCreditBalanceRequestAction | (string & {});
   /** The currency code (e.g. "USD"). Defaults to USD if not provided. */
-  currency?: string;
+  currency?: string | undefined;
   /** A unique key to ensure the adjustment is applied only once. Repeated requests with the same key return the original ledger entry. */
   idempotency_key: string;
   /** An optional note to attach to the ledger entry. */
-  note?: string;
+  note?: string | undefined;
 }
 export interface CommerceMoneyResponse {
   /** The amount in cents. */
@@ -255,7 +255,7 @@ export interface CommerceCreditLedgerResponse {
   /** The ID of the source that originated the adjustment. */
   source_id: string;
   /** An optional note attached to the ledger entry. */
-  note?: string | null;
+  note?: string | null | undefined;
   /** Timestamp when the ledger entry was created. */
   created_at: string;
 }
@@ -269,11 +269,11 @@ export interface AdjustUserBillingCreditBalanceRequest {
   /** Whether to increase or decrease the credit balance. */
   action: AdjustUserBillingCreditBalanceRequestAction | (string & {});
   /** The currency code (e.g. "USD"). Defaults to USD if not provided. */
-  currency?: string;
+  currency?: string | undefined;
   /** A unique key to ensure the adjustment is applied only once. Repeated requests with the same key return the original ledger entry. */
   idempotency_key: string;
   /** An optional note to attach to the ledger entry. */
-  note?: string;
+  note?: string | undefined;
 }
 export interface ApplyBillingSubscriptionItemDiscountRequest {
   /** The ID of the subscription item to apply the discount to */
@@ -299,25 +299,25 @@ export interface CommerceDiscountRedemptionResponse {
   /** Unique identifier for the discount that was applied. */
   discount_id: string;
   /** The display name of the discount. */
-  name?: string;
+  name?: string | undefined;
   /** How the discount was applied to the subscription item. */
   source: CommerceDiscountRedemptionResponseSource;
   /** The promo code used to redeem the discount, when applicable. */
-  promo_code?: string;
+  promo_code?: string | undefined;
   /** The snapshotted discount effect. */
-  effect?: CommerceDiscountRedemptionResponseEffect;
+  effect?: CommerceDiscountRedemptionResponseEffect | undefined;
   /** Percent off when the effect is percentage. */
-  percent_off?: number | null;
+  percent_off?: number | null | undefined;
   /** Fixed amount off when the effect is fixed_amount. */
-  amount_off?: CommerceMoneyResponse | null;
+  amount_off?: CommerceMoneyResponse | null | undefined;
   /** How much this discount takes off the subscription item's next renewal charge. Present for either effect when next-payment data is available. */
-  amount?: CommerceMoneyResponse | null;
+  amount?: CommerceMoneyResponse | null | undefined;
   /** Remaining billing cycles the discount applies to. Null means the discount lasts forever. */
   cycles_remaining: number | null;
   /** Number of billing cycles the discount has already been applied to. */
   cycles_applied: number;
   /** Current status of the discount redemption. */
-  status?: CommerceDiscountRedemptionResponseStatus;
+  status?: CommerceDiscountRedemptionResponseStatus | undefined;
   /** Unix timestamp (in milliseconds) when the discount was redeemed. */
   redeemed_at: number;
   /** Identifier of the actor that redeemed the discount, when available. */
@@ -366,23 +366,23 @@ export interface AttemptEmailAddressVerificationRequest {
   /** The verification code that was sent to the email address */
   code: string;
   /** When `true`, a wrong code counts toward the user's lockout, and a locked user is rejected with a `user_locked` error before the code is checked. Has no effect on instances with user lockout disabled. To enforce lockout across a password check and a sign-in token, set this parameter on both requests. */
-  honor_lockout?: boolean;
+  honor_lockout?: boolean | undefined;
 }
 export interface AttemptEmailAddressVerificationResponse {
   /** The type of the verification object. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the verification. Pass this to attempt_verification. */
-  id?: string;
+  id?: string | undefined;
   /** The status of the verification (unverified, verified, expired, or failed). */
-  status?: string;
+  status?: string | undefined;
   /** The verification strategy (email_code or phone_code). */
-  strategy?: string;
+  strategy?: string | undefined;
   /** The number of attempts made against this verification. */
-  attempts?: number | null;
+  attempts?: number | null | undefined;
   /** Unix timestamp (milliseconds) at which the code expires. */
-  expire_at?: number | null;
+  expire_at?: number | null | undefined;
   /** The channel the code was sent over (phone numbers only). */
-  channel?: string | null;
+  channel?: string | null | undefined;
 }
 export interface AttemptPhoneNumberVerificationRequest {
   /** The ID of the phone number whose code is being verified */
@@ -392,23 +392,23 @@ export interface AttemptPhoneNumberVerificationRequest {
   /** The verification code that was sent to the phone number */
   code: string;
   /** When `true`, a wrong code counts toward the user's lockout, and a locked user is rejected with a `user_locked` error before the code is checked. Has no effect on instances with user lockout disabled. To enforce lockout across a password check and a sign-in token, set this parameter on both requests. */
-  honor_lockout?: boolean;
+  honor_lockout?: boolean | undefined;
 }
 export interface AttemptPhoneNumberVerificationResponse {
   /** The type of the verification object. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the verification. Pass this to attempt_verification. */
-  id?: string;
+  id?: string | undefined;
   /** The status of the verification (unverified, verified, expired, or failed). */
-  status?: string;
+  status?: string | undefined;
   /** The verification strategy (email_code or phone_code). */
-  strategy?: string;
+  strategy?: string | undefined;
   /** The number of attempts made against this verification. */
-  attempts?: number | null;
+  attempts?: number | null | undefined;
   /** Unix timestamp (milliseconds) at which the code expires. */
-  expire_at?: number | null;
+  expire_at?: number | null | undefined;
   /** The channel the code was sent over (phone numbers only). */
-  channel?: string | null;
+  channel?: string | null | undefined;
 }
 export interface BanUserRequest {
   /** The ID of the user to ban */
@@ -425,25 +425,25 @@ export type VerificationOtpObject = "verification_otp";
 export type VerificationOtpStatus = "unverified" | "verified" | "failed" | "expired";
 export type VerificationOtpStrategy = "phone_code" | "email_code" | "reset_password_email_code";
 export interface VerificationOtp {
-  object?: VerificationOtpObject;
+  object?: VerificationOtpObject | undefined;
   status: VerificationOtpStatus;
   strategy: VerificationOtpStrategy;
   attempts: number | null;
   expire_at: number | null;
   /** The delivery channel of the code (phone codes only). */
-  channel?: string | null;
-  verified_at_client?: string | null;
+  channel?: string | null | undefined;
+  verified_at_client?: string | null | undefined;
 }
 export type VerificationAdminObject = "verification_admin";
 export type VerificationAdminStatus = "verified";
 export type VerificationAdminStrategy = "admin";
 export interface VerificationAdmin {
-  object?: VerificationAdminObject;
+  object?: VerificationAdminObject | undefined;
   status: VerificationAdminStatus;
   strategy: VerificationAdminStrategy;
   attempts: number | null;
   expire_at: number | null;
-  verified_at_client?: string | null;
+  verified_at_client?: string | null | undefined;
 }
 export type VerificationFromOauthObject = "verification_from_oauth";
 export type VerificationFromOauthStatus = "unverified" | "verified";
@@ -452,27 +452,27 @@ export interface ClerkError {
   message: string;
   long_message: string;
   code: string;
-  meta?: ClerkErrorMetaMap;
+  meta?: ClerkErrorMetaMap | undefined;
 }
 export interface VerificationFromOauth {
-  object?: VerificationFromOauthObject;
+  object?: VerificationFromOauthObject | undefined;
   status: VerificationFromOauthStatus;
   strategy: string;
-  error?: ClerkError | null;
+  error?: ClerkError | null | undefined;
   expire_at: number | null;
   attempts: number | null;
-  verified_at_client?: string | null;
+  verified_at_client?: string | null | undefined;
 }
 export type VerificationTicketObject = "verification_ticket";
 export type VerificationTicketStatus = "unverified" | "verified" | "expired";
 export type VerificationTicketStrategy = "ticket";
 export interface VerificationTicket {
-  object?: VerificationTicketObject;
+  object?: VerificationTicketObject | undefined;
   status: VerificationTicketStatus;
   strategy: VerificationTicketStrategy;
   attempts: number | null;
   expire_at: number | null;
-  verified_at_client?: string | null;
+  verified_at_client?: string | null | undefined;
 }
 export type VerificationSamlObject = "verification_saml";
 export type VerificationSamlStatus =
@@ -483,31 +483,31 @@ export type VerificationSamlStatus =
   | "transferable";
 export type VerificationSamlStrategy = "saml";
 export interface VerificationSaml {
-  object?: VerificationSamlObject;
+  object?: VerificationSamlObject | undefined;
   status: VerificationSamlStatus;
   strategy: VerificationSamlStrategy;
-  external_verification_redirect_url?: string | null;
-  error?: ClerkError | null;
-  expire_at?: number | null;
+  external_verification_redirect_url?: string | null | undefined;
+  error?: ClerkError | null | undefined;
+  expire_at?: number | null | undefined;
   attempts: number | null;
-  verified_at_client?: string | null;
+  verified_at_client?: string | null | undefined;
 }
 export type VerificationEmailLinkObject = "verification_email_link";
 export type VerificationEmailLinkStatus = "unverified" | "verified" | "failed" | "expired";
 export type VerificationEmailLinkStrategy = "email_link";
 export interface VerificationEmailLink {
-  object?: VerificationEmailLinkObject;
+  object?: VerificationEmailLinkObject | undefined;
   status: VerificationEmailLinkStatus;
   strategy: VerificationEmailLinkStrategy;
   attempts: number | null;
   expire_at: number | null;
-  verified_at_client?: string | null;
+  verified_at_client?: string | null | undefined;
 }
 export type VerificationScimObject = "verification_scim";
 export type VerificationScimStatus = "verified";
 export type VerificationScimStrategy = "scim";
 export interface VerificationScim {
-  object?: VerificationScimObject;
+  object?: VerificationScimObject | undefined;
   status: VerificationScimStatus;
   strategy: VerificationScimStrategy;
   attempts: number | null;
@@ -527,7 +527,7 @@ export interface IdentificationLink {
 }
 export type EmailAddressLinkedToList = Array<IdentificationLink>;
 export interface EmailAddress {
-  id?: string;
+  id?: string | undefined;
   /** String representing the object's type. Objects of the same type share the same value. */
   object: EmailAddressObject;
   email_address: string;
@@ -535,7 +535,7 @@ export interface EmailAddress {
   verification: EmailAddressVerification | null;
   linked_to: EmailAddressLinkedToList;
   /** Indicates whether this email address domain matches an active enterprise connection. */
-  matches_sso_connection?: boolean;
+  matches_sso_connection?: boolean | undefined;
   /** Unix timestamp of creation */
   created_at: number;
   /** Unix timestamp of creation */
@@ -548,16 +548,16 @@ export type PhoneNumberVerification = VerificationOtp | VerificationAdmin;
 export type PhoneNumberLinkedToList = Array<IdentificationLink>;
 export type PhoneNumberBackupCodesList = Array<string>;
 export interface PhoneNumber {
-  id?: string;
+  id?: string | undefined;
   /** String representing the object's type. Objects of the same type share the same value. */
   object: PhoneNumberObject;
   phone_number: string;
-  reserved_for_second_factor?: boolean;
-  default_second_factor?: boolean;
+  reserved_for_second_factor?: boolean | undefined;
+  default_second_factor?: boolean | undefined;
   reserved: boolean;
   verification: PhoneNumberVerification | null;
   linked_to: PhoneNumberLinkedToList;
-  backup_codes?: PhoneNumberBackupCodesList | null;
+  backup_codes?: PhoneNumberBackupCodesList | null | undefined;
   /** Unix timestamp of creation */
   created_at: number;
   /** Unix timestamp of creation */
@@ -575,18 +575,18 @@ export type VerificationWeb3Strategy =
   | "web3_okx_wallet_signature"
   | "web3_solana_signature";
 export interface VerificationWeb3 {
-  object?: VerificationWeb3Object;
+  object?: VerificationWeb3Object | undefined;
   status: VerificationWeb3Status;
   strategy: VerificationWeb3Strategy;
-  nonce?: string | null;
-  message?: string | null;
+  nonce?: string | null | undefined;
+  message?: string | null | undefined;
   attempts: number | null;
   expire_at: number | null;
-  verified_at_client?: string | null;
+  verified_at_client?: string | null | undefined;
 }
 export type Web3WalletVerification = VerificationWeb3 | VerificationAdmin;
 export interface Web3Wallet {
-  id?: string;
+  id?: string | undefined;
   /** String representing the object's type. Objects of the same type share the same value. */
   object: Web3WalletObject;
   web3_wallet: string;
@@ -604,17 +604,17 @@ export type VerificationPasskeyStatus = "verified";
 export type VerificationPasskeyStrategy = "passkey";
 export type VerificationPasskeyNonce = "nonce";
 export interface VerificationPasskey {
-  object?: VerificationPasskeyObject;
+  object?: VerificationPasskeyObject | undefined;
   status: VerificationPasskeyStatus;
   strategy: VerificationPasskeyStrategy;
-  nonce?: VerificationPasskeyNonce;
-  message?: string | null;
+  nonce?: VerificationPasskeyNonce | undefined;
+  message?: string | null | undefined;
   attempts: number | null;
   expire_at: number | null;
-  verified_at_client?: string | null;
+  verified_at_client?: string | null | undefined;
 }
 export interface Passkey {
-  id?: string;
+  id?: string | undefined;
   /** String representing the object's type. Objects of the same type share the same value. */
   object: PasskeyObject;
   name: string;
@@ -639,26 +639,26 @@ export type VerificationOauthStatus =
   | "expired"
   | "transferable";
 export interface VerificationOauth {
-  object?: VerificationOauthObject;
+  object?: VerificationOauthObject | undefined;
   status: VerificationOauthStatus;
   strategy: string;
-  external_verification_redirect_url?: string;
-  error?: ClerkError | null;
+  external_verification_redirect_url?: string | undefined;
+  error?: ClerkError | null | undefined;
   expire_at: number;
   attempts: number | null;
-  verified_at_client?: string | null;
+  verified_at_client?: string | null | undefined;
 }
 export type VerificationGoogleOneTapObject = "verification_google_one_tap";
 export type VerificationGoogleOneTapStatus = "unverified" | "verified";
 export type VerificationGoogleOneTapStrategy = "google_one_tap";
 export interface VerificationGoogleOneTap {
-  object?: VerificationGoogleOneTapObject;
+  object?: VerificationGoogleOneTapObject | undefined;
   status: VerificationGoogleOneTapStatus;
   strategy: VerificationGoogleOneTapStrategy;
   expire_at: number | null;
   attempts: number | null;
-  verified_at_client?: string | null;
-  error?: ClerkError | null;
+  verified_at_client?: string | null | undefined;
+  error?: ClerkError | null | undefined;
 }
 export type ExternalAccountWithVerificationVerification =
   | VerificationOauth
@@ -674,16 +674,16 @@ export interface ExternalAccountWithVerification {
   approved_scopes: string;
   email_address: string;
   /** Whether the email was verified by the OAuth provider at creation time. null = unknown (pre-migration data or custom OAuth providers), true = provider confirmed email was verified, false = provider confirmed email was NOT verified */
-  email_address_verified?: boolean | null;
+  email_address_verified?: boolean | null | undefined;
   first_name: string;
   last_name: string;
   /** Please use `image_url` instead */
-  avatar_url?: string;
-  image_url?: string | null;
-  username?: string | null;
-  phone_number?: string | null;
+  avatar_url?: string | undefined;
+  image_url?: string | null | undefined;
+  username?: string | null | undefined;
+  phone_number?: string | null | undefined;
   public_metadata: ExternalAccountWithVerificationPublicMetadataMap;
-  label?: string | null;
+  label?: string | null | undefined;
   /** Unix timestamp of creation */
   created_at: number;
   /** Unix timestamp of creation */
@@ -703,14 +703,14 @@ export interface SAMLAccount {
   provider: string;
   active: boolean;
   email_address: string;
-  first_name?: string | null;
-  last_name?: string | null;
-  provider_user_id?: string | null;
+  first_name?: string | null | undefined;
+  last_name?: string | null | undefined;
+  provider_user_id?: string | null | undefined;
   /** Unix timestamp of last authentication. */
-  last_authenticated_at?: number | null;
-  public_metadata?: SAMLAccountPublicMetadataMap;
+  last_authenticated_at?: number | null | undefined;
+  public_metadata?: SAMLAccountPublicMetadataMap | undefined;
   verification: SAMLAccountVerification | null;
-  saml_connection?: unknown | null;
+  saml_connection?: unknown | null | undefined;
 }
 export type UserSamlAccountsList = Array<SAMLAccount>;
 /** String representing the object's type. Objects of the same type share the same value. */
@@ -727,20 +727,20 @@ export interface EnterpriseAccount {
   /** String representing the object's type. Objects of the same type share the same value. */
   object: EnterpriseAccountObject;
   /** The authentication protocol used to sign in. */
-  protocol?: EnterpriseAccountProtocol;
+  protocol?: EnterpriseAccountProtocol | undefined;
   provider: string;
   active: boolean;
   email_address: string;
-  first_name?: string | null;
-  last_name?: string | null;
+  first_name?: string | null | undefined;
+  last_name?: string | null | undefined;
   /** The unique ID of the user in the external provider's system */
-  provider_user_id?: string | null;
-  enterprise_connection_id?: string | null;
-  public_metadata?: EnterpriseAccountPublicMetadataMap;
+  provider_user_id?: string | null | undefined;
+  enterprise_connection_id?: string | null | undefined;
+  public_metadata?: EnterpriseAccountPublicMetadataMap | undefined;
   verification: EnterpriseAccountVerification | null;
-  enterprise_connection?: unknown | null;
+  enterprise_connection?: unknown | null | undefined;
   /** Unix timestamp of last authentication. */
-  last_authenticated_at?: number | null;
+  last_authenticated_at?: number | null | undefined;
 }
 export type UserEnterpriseAccountsList = Array<EnterpriseAccount>;
 /** String representing the object's type. Objects of the same type share the same value. */
@@ -758,28 +758,28 @@ export interface Organization {
   id: string;
   name: string;
   slug: string;
-  image_url?: string;
+  image_url?: string | undefined;
   has_image: boolean;
-  members_count?: number;
-  missing_member_with_elevated_permissions?: boolean;
-  pending_invitations_count?: number;
+  members_count?: number | undefined;
+  missing_member_with_elevated_permissions?: boolean | undefined;
+  pending_invitations_count?: number | undefined;
   max_allowed_memberships: number;
   admin_delete_enabled: boolean;
   /** Whether this organization can configure self-serve enterprise SSO. */
-  self_serve_sso_enabled?: boolean;
+  self_serve_sso_enabled?: boolean | undefined;
   /** Whether this organization can configure self-serve Directory Sync (SCIM). */
-  self_serve_directory_sync_enabled?: boolean;
+  self_serve_directory_sync_enabled?: boolean | undefined;
   public_metadata: OrganizationPublicMetadataMap;
-  private_metadata?: OrganizationPrivateMetadataMap;
-  created_by?: string;
+  private_metadata?: OrganizationPrivateMetadataMap | undefined;
+  created_by?: string | undefined;
   /** Unix timestamp of creation. */
   created_at: number;
   /** Unix timestamp of last update. */
   updated_at: number;
   /** Unix timestamp of last activity. */
-  last_active_at?: number;
+  last_active_at?: number | undefined;
   /** The key of the [role set](https://clerk.com/docs/guides/organizations/control-access/role-sets) assigned to this organization. */
-  role_set_key?: string | null;
+  role_set_key?: string | null | undefined;
 }
 /** An organization membership with public user data populated */
 export interface OrganizationMembershipPublicUserData {
@@ -789,10 +789,10 @@ export interface OrganizationMembershipPublicUserData {
   profile_image_url: string | null;
   image_url: string;
   has_image: boolean;
-  identifier?: string | null;
-  username?: string | null;
-  banned?: boolean;
-  deprovisioned?: boolean;
+  identifier?: string | null | undefined;
+  username?: string | null | undefined;
+  banned?: boolean | undefined;
+  deprovisioned?: boolean | undefined;
 }
 /** A user's membership in an organization */
 export interface OrganizationMembership {
@@ -800,14 +800,14 @@ export interface OrganizationMembership {
   /** String representing the object's type. Objects of the same type share the same value. */
   object: OrganizationMembershipObject;
   role: string;
-  role_name?: string;
+  role_name?: string | undefined;
   permissions: OrganizationMembershipPermissionsList;
   /** Metadata saved on the organization membership, accessible from both Frontend and Backend APIs */
   public_metadata: OrganizationMembershipPublicMetadataMap;
   /** Metadata saved on the organization membership, accessible only from the Backend API */
-  private_metadata?: OrganizationMembershipPrivateMetadataMap;
+  private_metadata?: OrganizationMembershipPrivateMetadataMap | undefined;
   organization: Organization;
-  public_user_data?: OrganizationMembershipPublicUserData;
+  public_user_data?: OrganizationMembershipPublicUserData | undefined;
   /** Unix timestamp of creation. */
   created_at: number;
   /** Unix timestamp of last update. */
@@ -828,7 +828,7 @@ export interface SCIMUserMetadata {
   provider: string;
   enterprise_connection_id: string | null;
   /** Omitted when groups were not loaded; an empty array means no group memberships. */
-  groups?: SCIMUserMetadataGroupsList;
+  groups?: SCIMUserMetadataGroupsList | undefined;
   /** The ID of the directory the user is provisioned from. */
   directory_id: string;
   /** Whether the directory is currently enabled. */
@@ -849,14 +849,14 @@ export interface User {
   username: string | null;
   first_name: string | null;
   last_name: string | null;
-  locale?: string | null;
-  timezone?: string | null;
-  profile_image_url?: string;
-  image_url?: string;
+  locale?: string | null | undefined;
+  timezone?: string | null | undefined;
+  profile_image_url?: string | undefined;
+  image_url?: string | undefined;
   has_image: boolean;
   public_metadata: UserPublicMetadataMap;
-  private_metadata?: UserPrivateMetadataMap | null;
-  unsafe_metadata?: UserUnsafeMetadataMap;
+  private_metadata?: UserPrivateMetadataMap | null | undefined;
+  unsafe_metadata?: UserUnsafeMetadataMap | undefined;
   email_addresses: UserEmailAddressesList;
   phone_numbers: UserPhoneNumbersList;
   web3_wallets: UserWeb3WalletsList;
@@ -870,11 +870,11 @@ export interface User {
   /** Unix timestamp of when MFA was last disabled for this user. It should be noted that this field is not nullified if MFA is enabled again. */
   mfa_disabled_at: number | null;
   /** Unix timestamp of when the user's password was last updated. */
-  password_last_updated_at?: number | null;
+  password_last_updated_at?: number | null | undefined;
   external_accounts: UserExternalAccountsList;
   saml_accounts: UserSamlAccountsList;
   enterprise_accounts: UserEnterpriseAccountsList;
-  organization_memberships?: UserOrganizationMembershipsList;
+  organization_memberships?: UserOrganizationMembershipsList | undefined;
   /** Unix timestamp of last sign-in. */
   last_sign_in_at: number | null;
   /** Flag to denote whether user is banned or not. */
@@ -882,7 +882,7 @@ export interface User {
   /** Flag to denote whether user is currently locked, i.e. restricted from signing in or not. */
   locked: boolean;
   /** Flag to denote whether user has been deprovisioned and is restricted from signing in. */
-  deprovisioned?: boolean;
+  deprovisioned?: boolean | undefined;
   /** The number of seconds remaining until the lockout period expires for a locked user. A null value for a locked user indicates that lockout never expires. */
   lockout_expires_in_seconds: number | null;
   /** The number of verification attempts remaining until the user is locked. Null if account lockout is not enabled. Note: if a user is locked explicitly via the Backend API, they may still have verification attempts remaining. */
@@ -896,19 +896,19 @@ export interface User {
   /** If enabled, user can create organizations via FAPI. */
   create_organization_enabled: boolean;
   /** The maximum number of organizations the user can create. 0 means unlimited. */
-  create_organizations_limit?: number | null;
+  create_organizations_limit?: number | null | undefined;
   /** Unix timestamp of the latest session activity, with day precision. */
   last_active_at: number | null;
   /** Unix timestamp of when the user accepted the legal requirements. */
   legal_accepted_at: number | null;
   /** When set to `true`, the user will bypass Device Trust checks during sign-in. */
-  bypass_client_trust?: boolean;
+  bypass_client_trust?: boolean | undefined;
   /** All loaded directory links. Omitted when links were not loaded; an empty array means the user has no directory links. */
-  directories?: UserDirectoriesList;
+  directories?: UserDirectoriesList | undefined;
   /** The most recently updated directory link. Use directories for all links. */
-  directory?: SCIMUserMetadata;
+  directory?: SCIMUserMetadata | undefined;
   /** Alias of directory. Use directories for all links. */
-  scim?: SCIMUserMetadata | null;
+  scim?: SCIMUserMetadata | null | undefined;
 }
 /** Array of user IDs to ban */
 export type BanUserRequestUserIdsList = Array<string>;
@@ -922,7 +922,7 @@ export interface CancelCommerceSubscriptionItemRequest {
   /** The ID of the subscription item to cancel */
   subscription_item_id: string;
   /** Whether to cancel the subscription immediately (true) or at the end of the current billing period (false, default) */
-  end_now?: boolean;
+  end_now?: boolean | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type CommerceSubscriptionItemObject = "commerce_subscription_item";
@@ -938,9 +938,9 @@ export type CommerceSubscriptionItemStatus =
   | "abandoned";
 export interface CommerceSubscriptionCreditResponse {
   /** Credit amount. */
-  amount?: CommerceMoneyResponse | null;
+  amount?: CommerceMoneyResponse | null | undefined;
   /** Percentage of the billing cycle remaining. */
-  cycle_remaining_percent?: number;
+  cycle_remaining_percent?: number | undefined;
 }
 export interface CommerceProrationCreditDetailResponse {
   amount: CommerceMoneyResponse;
@@ -981,7 +981,7 @@ export interface CommercePlanUnitPriceTier {
   /** Start block (inclusive) for this tier */
   starts_at_block: number;
   /** End block (inclusive) for this tier; null means unlimited */
-  ends_after_block?: number | null;
+  ends_after_block?: number | null | undefined;
   /** Price charged per block in this tier */
   fee_per_block: CommerceMoneyResponse;
 }
@@ -1026,13 +1026,13 @@ export interface CommercePlan {
   /** The URL of the plan's avatar image. */
   avatar_url: string | null;
   /** The features included in this plan. */
-  features?: CommercePlanFeaturesList;
+  features?: CommercePlanFeaturesList | undefined;
   /** Whether free trial is enabled for this plan. */
   free_trial_enabled: boolean;
   /** Number of free trial days for this plan. */
   free_trial_days: number | null;
   /** Per-unit pricing tiers for this plan (for example, seats) */
-  unit_prices?: CommercePlanUnitPricesList;
+  unit_prices?: CommercePlanUnitPricesList | undefined;
 }
 /** The billing period for this subscription item. */
 export type CommerceSubscriptionItemPlanPeriod = "month" | "annual";
@@ -1052,7 +1052,7 @@ export interface CommercePaymentMethodResponse {
   /** The payment method type. */
   payment_type: CommercePaymentMethodResponsePaymentType;
   /** Whether this is the default payment method for the payer. */
-  is_default?: boolean;
+  is_default?: boolean | undefined;
   /** The payment gateway. */
   gateway: string;
   /** External ID in the payment gateway. */
@@ -1064,23 +1064,23 @@ export interface CommercePaymentMethodResponse {
   /** Status of the payment method. */
   status: CommercePaymentMethodResponseStatus;
   /** Type of wallet (if applicable). */
-  wallet_type?: string | null;
+  wallet_type?: string | null | undefined;
   /** Type of card (if applicable). */
   card_type: string | null;
   /** Card expiration year (for card payment methods). */
-  expiry_year?: number | null;
+  expiry_year?: number | null | undefined;
   /** Card expiration month (for card payment methods). */
-  expiry_month?: number | null;
+  expiry_month?: number | null | undefined;
   /** Unix timestamp (in milliseconds) when the payment method was created. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** Unix timestamp (in milliseconds) when the payment method was last updated. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** Whether this payment method can be removed. */
-  is_removable?: boolean;
+  is_removable?: boolean | undefined;
 }
 export interface CommercePerUnitTotalTier {
   /** Units billed in this tier; null means unlimited. */
-  quantity?: number | null;
+  quantity?: number | null | undefined;
   /** Price charged per block in this tier. */
   fee_per_block: CommerceMoneyResponse;
   /** Total charge for this tier. */
@@ -1115,19 +1115,19 @@ export interface CommerceTotalsResponse {
   base_fee: CommerceMoneyResponse;
   tax_total: CommerceMoneyResponse;
   grand_total: CommerceMoneyResponse;
-  per_unit_totals?: CommerceTotalsResponsePerUnitTotalsList;
-  credits?: CommerceCreditsResponse | null;
-  discounts?: CommerceDiscountsResponse | null;
+  per_unit_totals?: CommerceTotalsResponsePerUnitTotalsList | undefined;
+  credits?: CommerceCreditsResponse | null | undefined;
+  discounts?: CommerceDiscountsResponse | null | undefined;
 }
 export interface CommerceSubscriptionItemNextPaymentResponse {
   /** Base plan fee for the next payment. Does not include per-unit (e.g. seat) charges; see `totals.grand_total` for the full amount. */
-  amount?: CommerceMoneyResponse | null;
+  amount?: CommerceMoneyResponse | null | undefined;
   /** Unix timestamp (in milliseconds) for the next payment date. */
-  date?: number | null;
+  date?: number | null | undefined;
   /** Per-unit total breakdown (for example, seats) for the next payment. */
-  per_unit_totals?: CommerceSubscriptionItemNextPaymentResponsePerUnitTotalsList;
+  per_unit_totals?: CommerceSubscriptionItemNextPaymentResponsePerUnitTotalsList | undefined;
   /** Breakdown of the recurring amount that will be billed at renewal (base fee + per-unit charges). Tax and credits are not previewed. */
-  totals?: CommerceTotalsResponse | null;
+  totals?: CommerceTotalsResponse | null | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type CommercePayerResponseObject = "commerce_payer";
@@ -1139,29 +1139,29 @@ export interface CommercePayerResponse {
   /** Unique identifier for the Clerk instance. */
   instance_id: string;
   /** User ID for user-type payers. */
-  user_id?: string | null;
+  user_id?: string | null | undefined;
   /** First name of the payer. */
-  first_name?: string | null;
+  first_name?: string | null | undefined;
   /** Last name of the payer. */
-  last_name?: string | null;
+  last_name?: string | null | undefined;
   /** Email address of the payer. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Organization ID for org-type payers. */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** Organization name for org-type payers. */
-  organization_name?: string | null;
+  organization_name?: string | null | undefined;
   /** URL of the payer's image/avatar. */
-  image_url?: string;
+  image_url?: string | undefined;
   /** Current credits balance for the payer. */
-  credits_balance?: CommerceMoneyResponse;
+  credits_balance?: CommerceMoneyResponse | undefined;
   /** Unix timestamp (in milliseconds) when the payer was created. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** Unix timestamp (in milliseconds) when the payer was last updated. */
-  updated_at?: number;
+  updated_at?: number | undefined;
 }
 export interface CommercePerUnitTotalTier2 {
   /** Units billed in this tier; null means unlimited */
-  quantity?: number | null;
+  quantity?: number | null | undefined;
   /** Price charged per block in this tier */
   fee_per_block: CommerceMoneyResponse;
   /** Total charge for this tier */
@@ -1173,7 +1173,7 @@ export interface CommerceSubscriptionItemSeatsResponse {
   /** Seat quantity being billed; null means unlimited */
   quantity: number | null;
   /** Per-unit cost breakdown by pricing tier */
-  tiers?: CommerceSubscriptionItemSeatsResponseTiersList;
+  tiers?: CommerceSubscriptionItemSeatsResponseTiersList | undefined;
 }
 /** Computed totals for each pricing tier */
 export type CommercePerUnitTotal2TiersList = Array<CommercePerUnitTotalTier2>;
@@ -1207,10 +1207,10 @@ export interface CommerceTotalsResponse2 {
   base_fee: CommerceMoneyResponse;
   tax_total: CommerceMoneyResponse;
   grand_total: CommerceMoneyResponse;
-  per_unit_totals?: CommerceTotalsResponse2PerUnitTotalsList;
-  credits?: CommerceCreditsResponse | null;
+  per_unit_totals?: CommerceTotalsResponse2PerUnitTotalsList | undefined;
+  credits?: CommerceCreditsResponse | null | undefined;
   /** Information about the discounts applied to the payment */
-  discounts?: BillingDiscountsResponse | null;
+  discounts?: BillingDiscountsResponse | null | undefined;
 }
 export interface CommerceSubscriptionItem {
   /** String representing the object's type. Objects of the same type share the same value. */
@@ -1222,27 +1222,27 @@ export interface CommerceSubscriptionItem {
   /** Current status of the subscription item. */
   status: CommerceSubscriptionItemStatus;
   /** Credit information (only available in PaymentAttempt events). */
-  credit?: CommerceSubscriptionCreditResponse;
+  credit?: CommerceSubscriptionCreditResponse | undefined;
   /** Unified credits breakdown for this subscription item. */
-  credits?: CommerceCreditsResponse | null;
+  credits?: CommerceCreditsResponse | null | undefined;
   /** Unique identifier for the associated plan. */
   plan_id: string | null;
   /** Unique identifier for the associated price */
-  price_id?: string;
+  price_id?: string | undefined;
   /** The associated plan. */
-  plan?: CommercePlan | null;
+  plan?: CommercePlan | null | undefined;
   /** The billing period for this subscription item. */
   plan_period: CommerceSubscriptionItemPlanPeriod;
   /** The payment method used for this subscription item. */
-  payment_method?: CommercePaymentMethodResponse;
+  payment_method?: CommercePaymentMethodResponse | undefined;
   /** Total amount paid over the lifetime of this subscription item. */
-  lifetime_paid?: CommerceMoneyResponse;
+  lifetime_paid?: CommerceMoneyResponse | undefined;
   /** Information about the next payment. */
-  next_payment?: CommerceSubscriptionItemNextPaymentResponse | null;
+  next_payment?: CommerceSubscriptionItemNextPaymentResponse | null | undefined;
   /** Unique identifier for the payer. */
   payer_id: string;
   /** The payer associated with this subscription item. */
-  payer?: CommercePayerResponse;
+  payer?: CommercePayerResponse | undefined;
   /** Whether this subscription item includes a free trial. */
   is_free_trial: boolean;
   /** Unix timestamp (in milliseconds) when the current period started. */
@@ -1250,7 +1250,7 @@ export interface CommerceSubscriptionItem {
   /** Unix timestamp (in milliseconds) when the current period ends. */
   period_end: number | null;
   /** The day the subscription item was prorated from. Only available in some responses. */
-  proration_date?: string;
+  proration_date?: string | undefined;
   /** Unix timestamp (in milliseconds) when the subscription item was canceled. */
   canceled_at: number | null;
   /** Unix timestamp (in milliseconds) when the subscription item became past due. */
@@ -1258,19 +1258,19 @@ export interface CommerceSubscriptionItem {
   /** Unix timestamp (in milliseconds) when the subscription item ended. */
   ended_at: number | null;
   /** Unix timestamp (in milliseconds) when the subscription item was created. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** Unix timestamp (in milliseconds) when the subscription item was last updated. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** Seat quantity for seat-based billing. */
-  seats?: CommerceSubscriptionItemSeatsResponse | null;
+  seats?: CommerceSubscriptionItemSeatsResponse | null | undefined;
   /** Totals for this subscription item. */
-  totals?: CommerceTotalsResponse2 | null;
+  totals?: CommerceTotalsResponse2 | null | undefined;
 }
 export interface ChangeProductionInstanceDomainRequest {
   /** The new home URL of the production instance e.g. https://www.example.com */
-  home_url?: string;
+  home_url?: string | undefined;
   /** Whether this is a domain for a secondary app, meaning that any subdomain provided is significant and will be stored as part of the domain. This is useful for supporting multiple apps (one primary and multiple secondaries) on the same root domain (eTLD+1). */
-  is_secondary?: boolean;
+  is_secondary?: boolean | undefined;
 }
 export interface ChangeProductionInstanceDomainResponse {}
 /** The actor payload. It needs to include a sub property which should contain the ID of the actor. This whole payload will be also included in the JWT session token. */
@@ -1285,9 +1285,9 @@ export interface CreateActorTokenRequest {
   /** The actor payload. It needs to include a sub property which should contain the ID of the actor. This whole payload will be also included in the JWT session token. */
   actor: CreateActorTokenRequestActor;
   /** Optional parameter to specify the life duration of the actor token in seconds. By default, the duration is 1 hour. */
-  expires_in_seconds?: number;
+  expires_in_seconds?: number | undefined;
   /** The maximum duration that the session which will be created by the generated actor token should last. By default, the duration of a session created via an actor token, lasts 30 minutes. */
-  session_max_duration_in_seconds?: number;
+  session_max_duration_in_seconds?: number | undefined;
 }
 export type ActorTokenObject = "actor_token";
 export type ActorTokenStatus = "pending" | "accepted" | "revoked";
@@ -1297,8 +1297,8 @@ export interface ActorToken {
   status: ActorTokenStatus;
   user_id: string;
   actor: unknown;
-  token?: string;
-  url?: string;
+  token?: string | undefined;
+  url?: string | undefined;
   /** Unix timestamp of creation. */
   created_at: number;
   /** Unix timestamp of last update. */
@@ -1306,10 +1306,10 @@ export interface ActorToken {
 }
 export type CreateAdminPortalLinkTokenRequestScopesList = Array<string>;
 export interface CreateAdminPortalLinkTokenRequest {
-  organization_id?: string;
-  it_contact_id?: string;
-  scopes?: CreateAdminPortalLinkTokenRequestScopesList;
-  seconds_until_expiration?: number;
+  organization_id?: string | undefined;
+  it_contact_id?: string | undefined;
+  scopes?: CreateAdminPortalLinkTokenRequestScopesList | undefined;
+  seconds_until_expiration?: number | undefined;
 }
 export type CreateAdminPortalLinkTokenResponseObject = "admin_portal_link_token";
 /** Caller-provided scopes for this token. */
@@ -1341,9 +1341,9 @@ export interface CreateAdminPortalLinkTokenResponse {
 /** Identifies the user on whose behalf the agent task is created. Exactly one of user_id or identifier must be provided. */
 export interface CreateAgentTaskRequestOnBehalfOf {
   /** The ID of the user. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** A verified identifier (e.g. email address) belonging to the user. */
-  identifier?: string;
+  identifier?: string | undefined;
 }
 /** The permissions granted to the agent task. Must be "*" (all permissions). */
 export type CreateAgentTaskRequestPermissions = "*";
@@ -1359,7 +1359,7 @@ export interface CreateAgentTaskRequest {
   /** The URL the user is redirected to after the agent task is accepted. Must be a valid absolute URL with an `https` scheme in production instances. In development instances, `http` is also permitted. The URL's domain must belong to one of the instance's associated domains (primary or satellite); otherwise the redirect will be rejected when the task ticket is consumed. */
   redirect_url: string;
   /** The maximum duration that the session which will be created by the generated agent task should last. By default, the duration of a session created via an agent task lasts 30 minutes. */
-  session_max_duration_in_seconds?: number;
+  session_max_duration_in_seconds?: number | undefined;
 }
 export type AgentTaskObject = "agent_task";
 export interface AgentTask {
@@ -1371,41 +1371,41 @@ export interface AgentTask {
   /** A unique identifier for this agent task. Deprecated: use agent_task_id instead. */
   task_id: string;
   /** The URL that, when visited, creates a session for the user. Only present in the response to a create request. */
-  url?: string;
+  url?: string | undefined;
 }
 export interface CreateAllowlistIdentifierRequest {
   /** The identifier to be added in the allow-list. This can be an email address, a phone number, or a web3 wallet. */
   identifier: string;
   /** This flag denotes whether the given identifier will receive an invitation to join the application. Note that this only works for email address and phone number identifiers. */
-  notify?: boolean;
+  notify?: boolean | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type AllowlistIdentifierObject = "allowlist_identifier";
 export type AllowlistIdentifierIdentifierType = "email_address" | "phone_number" | "web3_wallet";
 export interface AllowlistIdentifier {
   /** String representing the object's type. Objects of the same type share the same value. */
-  object?: AllowlistIdentifierObject;
-  id?: string;
-  invitation_id?: string;
+  object?: AllowlistIdentifierObject | undefined;
+  id?: string | undefined;
+  invitation_id?: string | undefined;
   /** An email address or a phone number. */
-  identifier?: string;
-  identifier_type?: AllowlistIdentifierIdentifierType;
-  instance_id?: string;
+  identifier?: string | undefined;
+  identifier_type?: AllowlistIdentifierIdentifierType | undefined;
+  instance_id?: string | undefined;
   /** Unix timestamp of creation */
-  created_at?: number;
+  created_at?: number | undefined;
   /** Unix timestamp of last update. */
-  updated_at?: number;
+  updated_at?: number | undefined;
 }
 export type CreateApiKeyRequestScopesList = Array<string>;
 export interface CreateApiKeyRequest {
-  type?: string;
+  type?: string | undefined;
   name: string;
-  description?: string | null;
+  description?: string | null | undefined;
   subject: string;
-  claims?: unknown | null;
-  scopes?: CreateApiKeyRequestScopesList;
-  created_by?: string | null;
-  seconds_until_expiration?: number | null;
+  claims?: unknown | null | undefined;
+  scopes?: CreateApiKeyRequestScopesList | undefined;
+  created_by?: string | null | undefined;
+  seconds_until_expiration?: number | null | undefined;
 }
 export type CreateApiKeyResponseObject = "api_key";
 export type CreateApiKeyResponseScopesList = Array<string>;
@@ -1415,7 +1415,7 @@ export interface CreateApiKeyResponse {
   type: string;
   subject: string;
   name: string;
-  description?: string | null;
+  description?: string | null | undefined;
   claims: unknown | null;
   scopes: CreateApiKeyResponseScopesList;
   secret: string | Redacted.Redacted<string>;
@@ -1438,15 +1438,18 @@ export interface CreateBillingPriceRequest {
   /** The ID of the plan this price belongs to. */
   plan_id: string;
   /** The currency code (e.g., "USD"). Defaults to USD. */
-  currency?: string;
+  currency?: string | undefined;
   /** The monthly amount in cents. Use `0` for a complimentary price. Positive amounts must be at least $1 (100 cents). */
   amount: number | null;
   /** The monthly amount in cents when billed annually. Use `0` for a complimentary price. Positive amounts must be at least $1 (100 cents). */
-  annual_monthly_amount?: number | null;
+  annual_monthly_amount?: number | null | undefined;
   /** An optional description for this custom price. */
-  description?: string;
+  description?: string | undefined;
   /** Which billing periods this price supports. Inferred from amounts if omitted. */
-  supported_billing_periods?: CreateBillingPriceRequestSupportedBillingPeriods | (string & {});
+  supported_billing_periods?:
+    | CreateBillingPriceRequestSupportedBillingPeriods
+    | (string & {})
+    | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type BillingPriceResponseObject = "commerce_price";
@@ -1472,7 +1475,7 @@ export interface BillingPriceResponse {
   fee: CommerceMoneyResponse | null;
   annual_monthly_fee: CommerceMoneyResponse | null;
   /** The description of the price. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether this price is the default price for its plan. */
   is_default: boolean;
   /** Unix timestamp (milliseconds) of creation. */
@@ -1569,15 +1572,15 @@ export interface CommercePlan2 {
   /** The URL of the plan's avatar image. */
   avatar_url: string;
   /** The billing period for the plan. */
-  period?: string;
+  period?: string | undefined;
   /** The billing interval. */
-  interval?: number;
+  interval?: number | undefined;
   /** The features included in this plan. */
   features: CommercePlan2FeaturesList;
   /** Whether free trial is enabled for this plan. */
-  free_trial_enabled?: boolean;
+  free_trial_enabled?: boolean | undefined;
   /** Number of free trial days for this plan. */
-  free_trial_days?: number | null;
+  free_trial_days?: number | null | undefined;
 }
 /** The billing period for this subscription. */
 export type CommerceSubscriptionItem2PlanPeriod = "month" | "annual";
@@ -1597,13 +1600,13 @@ export interface CommercePaymentSourceResponse {
   /** The payment method type. */
   payment_method: CommercePaymentSourceResponsePaymentMethod;
   /** Whether this is the default payment source for the payer. */
-  is_default?: boolean | null;
+  is_default?: boolean | null | undefined;
   /** The payment gateway. */
   gateway: string;
   /** External ID in the payment gateway. */
   gateway_external_id: string;
   /** External account ID in the payment gateway. */
-  gateway_external_account_id?: string | null;
+  gateway_external_account_id?: string | null | undefined;
   /** Last 4 digits of the card (for card payment sources). */
   last4: string;
   /** Status of the payment source. */
@@ -1613,15 +1616,15 @@ export interface CommercePaymentSourceResponse {
   /** Type of card (if applicable). */
   card_type: string;
   /** Card expiration year (for card payment sources). */
-  expiry_year?: number;
+  expiry_year?: number | undefined;
   /** Card expiration month (for card payment sources). */
-  expiry_month?: number;
+  expiry_month?: number | undefined;
   /** Unix timestamp (in milliseconds) when the payment source was created. */
   created_at: number;
   /** Unix timestamp (in milliseconds) when the payment source was last updated. */
   updated_at: number;
   /** Whether this payment source can be removed. */
-  is_removable?: boolean | null;
+  is_removable?: boolean | null | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type CommercePayerResponse2Object = "commerce_payer";
@@ -1633,7 +1636,7 @@ export interface CommercePayerResponse2 {
   /** Unique identifier for the Clerk instance. */
   instance_id: string;
   /** User ID for user-type payers. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** First name of the payer. */
   first_name: string;
   /** Last name of the payer. */
@@ -1641,13 +1644,13 @@ export interface CommercePayerResponse2 {
   /** Email address of the payer. */
   email: string;
   /** Organization ID for org-type payers. */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** Organization name for org-type payers. */
-  organization_name?: string;
+  organization_name?: string | undefined;
   /** URL of the payer's image/avatar. */
   image_url: string;
   /** Current credits balance for the payer. */
-  credits_balance?: CommerceMoneyResponse;
+  credits_balance?: CommerceMoneyResponse | undefined;
   /** Unix timestamp (in milliseconds) when the payer was created. */
   created_at: number;
   /** Unix timestamp (in milliseconds) when the payer was last updated. */
@@ -1663,11 +1666,11 @@ export interface CommerceSubscriptionItem2 {
   /** Current status of the subscription item. */
   status: CommerceSubscriptionItem2Status;
   /** Credit information (only available in PaymentAttempt events). */
-  credit?: CommerceSubscriptionCreditResponse | null;
+  credit?: CommerceSubscriptionCreditResponse | null | undefined;
   /** Unique identifier for the associated plan. */
   plan_id: string;
   /** Unique identifier for the associated price */
-  price_id?: string;
+  price_id?: string | undefined;
   /** The associated commerce plan. */
   plan: CommercePlan2 | null;
   /** The billing period for this subscription. */
@@ -1675,33 +1678,33 @@ export interface CommerceSubscriptionItem2 {
   /** Unique identifier for the payment source. */
   payment_source_id: string;
   /** The payment source associated with this subscription. */
-  payment_source?: CommercePaymentSourceResponse | null;
+  payment_source?: CommercePaymentSourceResponse | null | undefined;
   /** Total amount paid over the lifetime of this subscription. */
-  lifetime_paid?: CommerceMoneyResponse | null;
+  lifetime_paid?: CommerceMoneyResponse | null | undefined;
   /** Current amount for this subscription. */
-  amount?: CommerceMoneyResponse | null;
+  amount?: CommerceMoneyResponse | null | undefined;
   /** Information about the next invoice. */
-  next_invoice?: CommerceSubscriptionItemNextPaymentResponse | null;
+  next_invoice?: CommerceSubscriptionItemNextPaymentResponse | null | undefined;
   /** Information about the next payment. */
-  next_payment?: CommerceSubscriptionItemNextPaymentResponse | null;
+  next_payment?: CommerceSubscriptionItemNextPaymentResponse | null | undefined;
   /** Unique identifier for the payer. */
   payer_id: string;
   /** The payer associated with this subscription. */
-  payer?: CommercePayerResponse2 | null;
+  payer?: CommercePayerResponse2 | null | undefined;
   /** Whether this subscription is currently on a free trial. */
   is_free_trial: boolean;
   /** Unix timestamp (in milliseconds) when the current period started. */
-  period_start?: number | null;
+  period_start?: number | null | undefined;
   /** Unix timestamp (in milliseconds) when the current period ends. */
-  period_end?: number | null;
+  period_end?: number | null | undefined;
   /** Date used for proration calculations. */
   proration_date: string;
   /** Unix timestamp (in milliseconds) when the subscription was canceled. */
-  canceled_at?: number | null;
+  canceled_at?: number | null | undefined;
   /** Unix timestamp (in milliseconds) when the subscription became past due. */
-  past_due_at?: number | null;
+  past_due_at?: number | null | undefined;
   /** Unix timestamp (in milliseconds) when the subscription ended. */
-  ended_at?: number | null;
+  ended_at?: number | null | undefined;
   /** Unix timestamp (in milliseconds) when the subscription was created. */
   created_at: number;
   /** Unix timestamp (in milliseconds) when the subscription was last updated. */
@@ -1722,11 +1725,11 @@ export interface CommercePriceTransitionDetails {
   /** When the new price takes effect. */
   effective_mode: CommercePriceTransitionDetailsEffectiveMode;
   /** Unix timestamp (milliseconds) for the next billing date. */
-  next_billing_date?: number | null;
+  next_billing_date?: number | null | undefined;
   /** Whether an immediate charge was made. */
   charged_immediately: boolean;
   /** Amount charged immediately, if any. */
-  immediate_charge?: CommerceMoneyResponse | null;
+  immediate_charge?: CommerceMoneyResponse | null | undefined;
   /** The status of the previous subscription item after transition. */
   previous_subscription_item_status: CommercePriceTransitionDetailsPreviousSubscriptionItemStatus;
   /** The ID of the previous subscription item. */
@@ -1747,16 +1750,16 @@ export type BlocklistIdentifierObject = "blocklist_identifier";
 export type BlocklistIdentifierIdentifierType = "email_address" | "phone_number" | "web3_wallet";
 export interface BlocklistIdentifier {
   /** String representing the object's type. Objects of the same type share the same value. */
-  object?: BlocklistIdentifierObject;
-  id?: string;
+  object?: BlocklistIdentifierObject | undefined;
+  id?: string | undefined;
   /** An email address, email domain, phone number or web3 wallet. */
-  identifier?: string;
-  identifier_type?: BlocklistIdentifierIdentifierType;
-  instance_id?: string;
+  identifier?: string | undefined;
+  identifier_type?: BlocklistIdentifierIdentifierType | undefined;
+  instance_id?: string | undefined;
   /** Unix timestamp of creation */
-  created_at?: number;
+  created_at?: number | undefined;
   /** Unix timestamp of last update. */
-  updated_at?: number;
+  updated_at?: number | undefined;
 }
 /** Metadata that will be attached to the newly created invitation. The value of this property should be a well-formed JSON object. Once the user accepts the invitation and signs up, these metadata will end up in the user's public metadata. */
 export type CreateBulkInvitationsRequestBodyItemPublicMetadataMap = {
@@ -1768,21 +1771,21 @@ export interface CreateBulkInvitationsRequestBodyItem {
   /** The email address the invitation will be sent to */
   email_address: string;
   /** Metadata that will be attached to the newly created invitation. The value of this property should be a well-formed JSON object. Once the user accepts the invitation and signs up, these metadata will end up in the user's public metadata. */
-  public_metadata?: CreateBulkInvitationsRequestBodyItemPublicMetadataMap | null;
+  public_metadata?: CreateBulkInvitationsRequestBodyItemPublicMetadataMap | null | undefined;
   /** The URL where the user is redirected upon visiting the invitation link, where they can accept the invitation. Required if you have implemented a [custom flow for handling application invitations](/docs/custom-flows/invitations). */
-  redirect_url?: string | null;
+  redirect_url?: string | null | undefined;
   /** Optional flag which denotes whether an email invitation should be sent to the given email address. Defaults to true. */
-  notify?: boolean | null;
+  notify?: boolean | null | undefined;
   /** Whether an invitation should be created if there is already an existing invitation for this email address, or it's claimed by another user. */
-  ignore_existing?: boolean | null;
+  ignore_existing?: boolean | null | undefined;
   /** The number of days the invitation will be valid for. By default, the invitation expires after 30 days. */
-  expires_in_days?: number | null;
+  expires_in_days?: number | null | undefined;
   /** The slug of the email template to use for the invitation email. */
-  template_slug?: CreateBulkInvitationsRequestBodyItemTemplateSlug | (string & {});
+  template_slug?: CreateBulkInvitationsRequestBodyItemTemplateSlug | (string & {}) | undefined;
 }
 export type CreateBulkInvitationsRequestBodyList = Array<CreateBulkInvitationsRequestBodyItem>;
 export interface CreateBulkInvitationsRequest {
-  body?: CreateBulkInvitationsRequestBodyList;
+  body?: CreateBulkInvitationsRequestBodyList | undefined;
 }
 export type InvitationObject = "invitation";
 export type InvitationPublicMetadataMap = { [key: string]: unknown | undefined };
@@ -1792,11 +1795,11 @@ export interface Invitation {
   id: string;
   email_address: string;
   public_metadata: InvitationPublicMetadataMap;
-  revoked?: boolean;
+  revoked?: boolean | undefined;
   status: InvitationStatus;
-  url?: string;
+  url?: string | undefined;
   /** Unix timestamp of expiration. */
-  expires_at?: number | null;
+  expires_at?: number | null | undefined;
   /** Unix timestamp of creation. */
   created_at: number;
   /** Unix timestamp of last update. */
@@ -1808,12 +1811,12 @@ export interface CreateBulkWaitlistEntriesRequestBodyItem {
   /** The email address to add to the waitlist */
   email_address: string;
   /** Optional flag which denotes whether a confirmation email should be sent to the given email address. Defaults to `true`. */
-  notify?: boolean | null;
+  notify?: boolean | null | undefined;
 }
 export type CreateBulkWaitlistEntriesRequestBodyList =
   Array<CreateBulkWaitlistEntriesRequestBodyItem>;
 export interface CreateBulkWaitlistEntriesRequest {
-  body?: CreateBulkWaitlistEntriesRequestBodyList;
+  body?: CreateBulkWaitlistEntriesRequestBodyList | undefined;
 }
 export type WaitlistEntryObject = "waitlist_entry";
 export type WaitlistEntryStatus = "pending" | "invited" | "rejected" | "completed";
@@ -1823,28 +1826,28 @@ export interface WaitlistEntry {
   email_address: string;
   status: WaitlistEntryStatus;
   /** Indicates if the waitlist entry is locked. Locked entries are being processed in a batch action and are unavailable for other actions. */
-  is_locked?: boolean;
+  is_locked?: boolean | undefined;
   /** Unix timestamp of creation. */
   created_at: number;
   /** Unix timestamp of last update. */
   updated_at: number;
-  invitation?: Invitation | null;
+  invitation?: Invitation | null | undefined;
 }
 export type CreateBulkWaitlistEntriesResponseBodyList = Array<WaitlistEntry>;
 export type CreateBulkWaitlistEntriesResponse = CreateBulkWaitlistEntriesResponseBodyList;
 export interface CreateDirectoryRequestGroupRoleMappingsItem {
   /** The group ID from the identity provider. Exactly one of `directory_group_id` or `scim_group_id` is required. */
-  directory_group_id?: string;
+  directory_group_id?: string | undefined;
   /** The legacy name for `directory_group_id`. Send either one, or both with the same value; sending both with different values is rejected. */
-  scim_group_id?: string;
+  scim_group_id?: string | undefined;
   /** Optional display name for the group. */
-  directory_group_display_name?: string;
+  directory_group_display_name?: string | undefined;
   /** The legacy name for `directory_group_display_name`. Send either one, or both with the same value; sending both with different values is rejected. */
-  scim_group_display_name?: string;
+  scim_group_display_name?: string | undefined;
   /** The organization role ID to assign to members of the group. */
   role_id: string;
   /** The precedence for this mapping. If omitted, precedence is assigned by array order. */
-  precedence?: number;
+  precedence?: number | undefined;
 }
 /** Optional directory group to organization role mappings to create with the directory. */
 export type CreateDirectoryRequestGroupRoleMappingsList =
@@ -1853,11 +1856,11 @@ export interface CreateDirectoryRequest {
   /** The ID of the enterprise connection to associate with this directory. */
   enterprise_connection_id: string;
   /** A human-friendly name for the directory. */
-  name?: string;
+  name?: string | undefined;
   /** The identity provider for this directory. */
   provider: string;
   /** Optional directory group to organization role mappings to create with the directory. */
-  group_role_mappings?: CreateDirectoryRequestGroupRoleMappingsList;
+  group_role_mappings?: CreateDirectoryRequestGroupRoleMappingsList | undefined;
 }
 /** String representing the object's type. Always "directory". */
 export type DirectoryObject = "directory";
@@ -1865,17 +1868,17 @@ export type DirectoryObject = "directory";
 export type DirectoryAttributeMappingMap = { [key: string]: string | undefined };
 export interface DirectoryCustomAttributesItem {
   /** Display name for the custom attribute */
-  name?: string;
+  name?: string | undefined;
   /** Key used to store the attribute in the user's public/private/unsafe metadata */
-  key?: string;
+  key?: string | undefined;
   /** Path to extract the attribute value from SSO claims (SAML assertions or OIDC claims) */
-  sso_path?: string;
+  sso_path?: string | undefined;
   /** The legacy name for `directory_path`. Carries the same value. */
-  scim_path?: string;
+  scim_path?: string | undefined;
   /** GJSON path to extract the attribute value from directory sync user resources */
-  directory_path?: string;
+  directory_path?: string | undefined;
   /** When true, the attribute supports multiple values; values from the IdP are written to public_metadata as an array. Defaults to false. */
-  multi_valued?: boolean;
+  multi_valued?: boolean | undefined;
 }
 /** Custom attributes to map from the IdP to the user's profile via directory sync. Requires the custom attributes feature to be enabled for the instance. */
 export type DirectoryCustomAttributesList = Array<DirectoryCustomAttributesItem>;
@@ -1888,7 +1891,7 @@ export interface Directory {
   /** A human-friendly name for the directory. */
   name: string;
   /** The ID of the associated enterprise connection. */
-  enterprise_connection_id?: string | null;
+  enterprise_connection_id?: string | null | undefined;
   /** The provisioning endpoint URL for this directory. */
   endpoint_url: string;
   /** The identity provider for this directory. */
@@ -1902,9 +1905,9 @@ export interface Directory {
   /** Mapping of user attributes to the directory attribute paths they are extracted from. */
   attribute_mapping: DirectoryAttributeMappingMap;
   /** Custom attributes to map from the IdP to the user's profile via directory sync. Requires the custom attributes feature to be enabled for the instance. */
-  custom_attributes?: DirectoryCustomAttributesList;
+  custom_attributes?: DirectoryCustomAttributesList | undefined;
   /** The API key for authenticating provisioning requests. Only returned when the directory is created or the key is rotated. */
-  api_key?: string | Redacted.Redacted<string> | null;
+  api_key?: string | Redacted.Redacted<string> | null | undefined;
   /** Unix timestamp when the directory was created. */
   created_at: number;
   /** Unix timestamp when the directory was last updated. */
@@ -1914,13 +1917,13 @@ export interface CreateDirectoryGroupRoleMappingRequest {
   /** The ID of the directory. */
   directory_id: string;
   /** The group ID from the identity provider. Exactly one of `directory_group_id` or `scim_group_id` is required. */
-  directory_group_id?: string;
+  directory_group_id?: string | undefined;
   /** The legacy name for `directory_group_id`. Send either one, or both with the same value; sending both with different values is rejected. */
-  scim_group_id?: string;
+  scim_group_id?: string | undefined;
   /** The ID of the organization role to assign to members of the group. */
   role_id: string;
   /** The precedence for this mapping. Lower values take priority when a user belongs to multiple mapped groups. If omitted, the mapping is appended with the next-highest precedence. */
-  precedence?: number;
+  precedence?: number | undefined;
 }
 /** String representing the object's type. Always "directory_group_role_mapping". */
 export type DirectoryGroupRoleMappingObject = "directory_group_role_mapping";
@@ -1942,7 +1945,7 @@ export interface DirectoryGroupRoleMapping {
   directory_group_display_name: string;
   /** The legacy name for `directory_group_display_name`. Carries the same value. */
   scim_group_display_name: string;
-  role?: Role;
+  role?: Role | undefined;
   /** Mapping precedence, starting at 1. Lower values take priority when a user belongs to multiple mapped groups. */
   precedence: number;
   /** Unix timestamp (milliseconds) of when the mapping was created. */
@@ -1956,11 +1959,11 @@ export interface CreateEmailAddressRequest {
   /** The new email address. Must adhere to the RFC 5322 specification for email address format. */
   email_address: string;
   /** When created, the email address will be marked as verified. */
-  verified?: boolean | null;
+  verified?: boolean | null | undefined;
   /** Create this email address as the primary email address for the user. Default: false, unless it is the first email address. */
-  primary?: boolean | null;
+  primary?: boolean | null | undefined;
   /** If set to `true` and the email address is created as the user's new primary, the previous primary email address is notified of the change. By default, no notification is sent. */
-  notify_primary_email_address_changed?: boolean | null;
+  notify_primary_email_address_changed?: boolean | null | undefined;
 }
 /** The identity provider (e.g. saml_custom, oidc_custom, oidc_github_enterprise, oidc_gitlab) */
 export type CreateEnterpriseConnectionRequestProvider =
@@ -1977,10 +1980,10 @@ export type CreateEnterpriseConnectionRequestDomainsList = Array<string>;
 export type CreateEnterpriseConnectionRequestSamlIdpCertificatesList = Array<string>;
 /** Attribute mapping for SAML attributes */
 export interface CreateEnterpriseConnectionRequestSamlAttributeMapping {
-  user_id?: string | null;
-  email_address?: string | null;
-  first_name?: string | null;
-  last_name?: string | null;
+  user_id?: string | null | undefined;
+  email_address?: string | null | undefined;
+  first_name?: string | null | undefined;
+  last_name?: string | null | undefined;
 }
 /** Controls the login_hint sent to the IdP on SSO sign-in */
 export type CreateEnterpriseConnectionRequestSamlLoginHintMode =
@@ -1992,46 +1995,46 @@ export interface CreateEnterpriseConnectionRequestSamlLoginHint {
   /** Controls the login_hint sent to the IdP on SSO sign-in */
   mode: CreateEnterpriseConnectionRequestSamlLoginHintMode | (string & {});
   /** The user public_metadata key whose value is sent as the login_hint when mode is custom_attribute */
-  source?: string;
+  source?: string | undefined;
 }
 /** SAML connection-specific properties. Only applied when the enterprise connection uses SAML (e.g. provider is saml_custom). Use this to set IdP configuration, attribute mapping, and other SAML-specific settings at creation time. */
 export interface CreateEnterpriseConnectionRequestSaml {
   /** IdP entity ID */
-  idp_entity_id?: string | null;
+  idp_entity_id?: string | null | undefined;
   /** IdP SSO URL */
-  idp_sso_url?: string | null;
+  idp_sso_url?: string | null | undefined;
   /** Deprecated, use idp_certificates. One X.509 certificate, PEM or bare base64, or several concatenated PEM certificates; replaces the connection's whole certificate set */
-  idp_certificate?: string | null;
+  idp_certificate?: string | null | undefined;
   /** The IdP X.509 signing certificates the connection trusts, one per entry, in PEM or bare base64. Replaces the connection's whole certificate set and takes precedence over idp_certificate */
-  idp_certificates?: CreateEnterpriseConnectionRequestSamlIdpCertificatesList;
+  idp_certificates?: CreateEnterpriseConnectionRequestSamlIdpCertificatesList | undefined;
   /** URL to IdP metadata */
-  idp_metadata_url?: string | null;
+  idp_metadata_url?: string | null | undefined;
   /** Raw IdP metadata XML */
-  idp_metadata?: string | null;
+  idp_metadata?: string | null | undefined;
   /** Attribute mapping for SAML attributes */
-  attribute_mapping?: CreateEnterpriseConnectionRequestSamlAttributeMapping | null;
-  allow_subdomains?: boolean | null;
-  allow_idp_initiated?: boolean | null;
-  force_authn?: boolean | null;
+  attribute_mapping?: CreateEnterpriseConnectionRequestSamlAttributeMapping | null | undefined;
+  allow_subdomains?: boolean | null | undefined;
+  allow_idp_initiated?: boolean | null | undefined;
+  force_authn?: boolean | null | undefined;
   /** Configuration for the login_hint sent to the IdP on SSO sign-in */
-  login_hint?: CreateEnterpriseConnectionRequestSamlLoginHint | null;
+  login_hint?: CreateEnterpriseConnectionRequestSamlLoginHint | null | undefined;
 }
 /** OIDC connection-specific properties. Only applied when the enterprise connection uses OIDC (e.g. provider is oidc_custom, oidc_github_enterprise, or oidc_gitlab). */
 export interface CreateEnterpriseConnectionRequestOidc {
   /** OIDC client ID */
-  client_id?: string | null;
+  client_id?: string | null | undefined;
   /** OIDC client secret */
-  client_secret?: string | Redacted.Redacted<string> | null;
+  client_secret?: string | Redacted.Redacted<string> | null | undefined;
   /** OIDC discovery URL */
-  discovery_url?: string | null;
+  discovery_url?: string | null | undefined;
   /** OIDC authorization URL */
-  auth_url?: string | null;
+  auth_url?: string | null | undefined;
   /** OIDC token URL */
-  token_url?: string | null;
+  token_url?: string | null | undefined;
   /** OIDC userinfo URL */
-  user_info_url?: string | null;
+  user_info_url?: string | null | undefined;
   /** Whether PKCE is required (must be true for public clients with no client secret) */
-  requires_pkce?: boolean | null;
+  requires_pkce?: boolean | null | undefined;
 }
 export interface CreateEnterpriseConnectionRequestCustomAttributesItem {
   /** Display name for the custom attribute */
@@ -2039,13 +2042,13 @@ export interface CreateEnterpriseConnectionRequestCustomAttributesItem {
   /** Key used to store the attribute in the user's metadata */
   key: string;
   /** Path to extract the attribute value from SSO claims */
-  sso_path?: string;
+  sso_path?: string | undefined;
   /** GJSON path to extract the attribute value from SCIM user resources */
-  scim_path?: string;
+  scim_path?: string | undefined;
   /** The new name for `scim_path`. Send either one, or both with the same value; sending both with different values is rejected. */
-  directory_path?: string;
+  directory_path?: string | undefined;
   /** When true, the attribute supports multiple values; values from the IdP are written to public_metadata as an array. Defaults to false. */
-  multi_valued?: boolean;
+  multi_valued?: boolean | undefined;
 }
 /** Custom attributes to map from the IdP to the user's profile via SSO or SCIM provisioning. Requires the custom attributes feature to be enabled for the instance. */
 export type CreateEnterpriseConnectionRequestCustomAttributesList =
@@ -2058,17 +2061,17 @@ export interface CreateEnterpriseConnectionRequest {
   /** Domains associated with the enterprise connection (required; at least one). Values are normalized to lowercase. Each domain must be a valid fully qualified domain name. */
   domains: CreateEnterpriseConnectionRequestDomainsList;
   /** Organization ID when the connection is linked to an organization */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** Whether this connection supports account linking via organization membership */
-  allow_organization_account_linking?: boolean | null;
+  allow_organization_account_linking?: boolean | null | undefined;
   /** Whether the enterprise connection is active. When true, IdP metadata must be provided via the `saml` object. */
-  active?: boolean | null;
+  active?: boolean | null | undefined;
   /** SAML connection-specific properties. Only applied when the enterprise connection uses SAML (e.g. provider is saml_custom). Use this to set IdP configuration, attribute mapping, and other SAML-specific settings at creation time. */
-  saml?: CreateEnterpriseConnectionRequestSaml | null;
+  saml?: CreateEnterpriseConnectionRequestSaml | null | undefined;
   /** OIDC connection-specific properties. Only applied when the enterprise connection uses OIDC (e.g. provider is oidc_custom, oidc_github_enterprise, or oidc_gitlab). */
-  oidc?: CreateEnterpriseConnectionRequestOidc | null;
+  oidc?: CreateEnterpriseConnectionRequestOidc | null | undefined;
   /** Custom attributes to map from the IdP to the user's profile via SSO or SCIM provisioning. Requires the custom attributes feature to be enabled for the instance. */
-  custom_attributes?: CreateEnterpriseConnectionRequestCustomAttributesList;
+  custom_attributes?: CreateEnterpriseConnectionRequestCustomAttributesList | undefined;
 }
 export type EnterpriseConnectionObject = "enterprise_connection";
 /** Domains associated with the enterprise connection */
@@ -2079,13 +2082,13 @@ export interface EnterpriseConnectionCustomAttributesItem {
   /** Key used to store the attribute in the user's public/private/unsafe metadata */
   key: string;
   /** Path to extract the attribute value from SSO claims (SAML assertions or OIDC claims) */
-  sso_path?: string;
+  sso_path?: string | undefined;
   /** GJSON path to extract the attribute value from SCIM user resources */
-  scim_path?: string;
+  scim_path?: string | undefined;
   /** GJSON path to extract the attribute value from directory sync user resources. Same value as `scim_path`. */
-  directory_path?: string;
+  directory_path?: string | undefined;
   /** When true, the attribute supports multiple values; values from the IdP are written to public_metadata as an array. Defaults to false. */
-  multi_valued?: boolean;
+  multi_valued?: boolean | undefined;
 }
 /** Custom attributes to map from the IdP to the user's profile via SSO or SCIM provisioning */
 export type EnterpriseConnectionCustomAttributesList =
@@ -2111,71 +2114,71 @@ export interface EnterpriseConnectionSamlConnectionLoginHint {
   /** Controls the login_hint sent to the IdP on SSO sign-in */
   mode: EnterpriseConnectionSamlConnectionLoginHintMode;
   /** The user public_metadata key whose value is sent as the login_hint when mode is custom_attribute */
-  source?: string;
+  source?: string | undefined;
 }
 /** Present when the enterprise connection uses SAML */
 export interface EnterpriseConnectionSamlConnection {
   /** SAML connection ID */
-  id?: string;
+  id?: string | undefined;
   /** SAML connection display name */
-  name?: string;
+  name?: string | undefined;
   /** IdP entity ID (optional, when connection details are loaded) */
-  idp_entity_id?: string | null;
+  idp_entity_id?: string | null | undefined;
   /** IdP SSO URL (optional, when connection details are loaded) */
-  idp_sso_url?: string | null;
+  idp_sso_url?: string | null | undefined;
   /** Primary IdP X.509 signing certificate (optional, when connection details are loaded) */
-  idp_certificate?: string | null;
+  idp_certificate?: string | null | undefined;
   /** Unix timestamp (milliseconds) of the primary certificate's X.509 NotBefore */
-  idp_certificate_issued_at?: number | null;
+  idp_certificate_issued_at?: number | null | undefined;
   /** Unix timestamp (milliseconds) of the primary certificate's X.509 NotAfter */
-  idp_certificate_expires_at?: number | null;
+  idp_certificate_expires_at?: number | null | undefined;
   /** Every IdP signing certificate the connection trusts, primary first. A SAML response verifies against any of them. */
-  idp_certificates?: EnterpriseConnectionSamlConnectionIdpCertificatesList;
+  idp_certificates?: EnterpriseConnectionSamlConnectionIdpCertificatesList | undefined;
   /** IdP metadata URL (optional, when connection details are loaded) */
-  idp_metadata_url?: string | null;
+  idp_metadata_url?: string | null | undefined;
   /** Assertion Consumer Service URL */
-  acs_url?: string | null;
+  acs_url?: string | null | undefined;
   /** Service Provider entity ID */
-  sp_entity_id?: string | null;
+  sp_entity_id?: string | null | undefined;
   /** Service Provider metadata URL */
-  sp_metadata_url?: string | null;
+  sp_metadata_url?: string | null | undefined;
   /** Whether the SAML connection is active */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Whether IdP-initiated SSO is allowed */
-  allow_idp_initiated?: boolean;
+  allow_idp_initiated?: boolean | undefined;
   /** Whether subdomains are allowed for domain matching */
-  allow_subdomains?: boolean;
+  allow_subdomains?: boolean | undefined;
   /** Whether to force re-authentication */
-  force_authn?: boolean;
+  force_authn?: boolean | undefined;
   /** Configuration for the login_hint sent to the IdP on SSO sign-in */
-  login_hint?: EnterpriseConnectionSamlConnectionLoginHint;
+  login_hint?: EnterpriseConnectionSamlConnectionLoginHint | undefined;
 }
 /** Present when the enterprise connection uses OIDC or EASIE */
 export interface EnterpriseConnectionOauthConfig {
   /** OAuth config ID */
-  id?: string;
+  id?: string | undefined;
   /** Custom OIDC provider display name */
-  name?: string;
+  name?: string | undefined;
   /** OAuth provider key (e.g. oidc_custom, oidc_ghe_*, oidc_gitlab_ent_*) */
-  provider_key?: string;
+  provider_key?: string | undefined;
   /** OAuth client ID */
-  client_id?: string | null;
+  client_id?: string | null | undefined;
   /** OIDC discovery URL */
-  discovery_url?: string | null;
+  discovery_url?: string | null | undefined;
   /** OAuth authorization endpoint URL (present when configured or resolved from discovery) */
-  auth_url?: string | null;
+  auth_url?: string | null | undefined;
   /** OAuth token endpoint URL (present when configured or resolved from discovery) */
-  token_url?: string | null;
+  token_url?: string | null | undefined;
   /** OIDC userinfo endpoint URL (present when configured or resolved from discovery) */
-  user_info_url?: string | null;
+  user_info_url?: string | null | undefined;
   /** Whether PKCE is required for this OAuth client */
-  requires_pkce?: boolean;
+  requires_pkce?: boolean | undefined;
   /** Logo URL for the provider */
-  logo_public_url?: string | null;
+  logo_public_url?: string | null | undefined;
   /** Unix timestamp in milliseconds when the config was created */
-  created_at?: number;
+  created_at?: number | undefined;
   /** Unix timestamp in milliseconds when the config was last updated */
-  updated_at?: number;
+  updated_at?: number | undefined;
 }
 export interface EnterpriseConnection {
   object: EnterpriseConnectionObject;
@@ -2184,25 +2187,25 @@ export interface EnterpriseConnection {
   /** The display name of the connection */
   name: string;
   provider: string;
-  logo_public_url?: string | null;
+  logo_public_url?: string | null | undefined;
   /** Whether the enterprise connection is active */
   active: boolean;
   /** Domains associated with the enterprise connection */
   domains: EnterpriseConnectionDomainsList;
   /** Organization ID when the connection is linked to an organization */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** Controls whether to update the user's attributes on each sign-in */
-  sync_user_attributes?: boolean;
+  sync_user_attributes?: boolean | undefined;
   /** When true, users cannot add additional identifications when using this connection */
-  disable_additional_identifications?: boolean;
+  disable_additional_identifications?: boolean | undefined;
   /** Whether this connection supports account linking via organization membership */
-  allow_organization_account_linking?: boolean;
+  allow_organization_account_linking?: boolean | undefined;
   /** Custom attributes to map from the IdP to the user's profile via SSO or SCIM provisioning */
-  custom_attributes?: EnterpriseConnectionCustomAttributesList;
+  custom_attributes?: EnterpriseConnectionCustomAttributesList | undefined;
   /** Present when the enterprise connection uses SAML */
-  saml_connection?: EnterpriseConnectionSamlConnection | null;
+  saml_connection?: EnterpriseConnectionSamlConnection | null | undefined;
   /** Present when the enterprise connection uses OIDC or EASIE */
-  oauth_config?: EnterpriseConnectionOauthConfig | null;
+  oauth_config?: EnterpriseConnectionOauthConfig | null | undefined;
   /** Unix timestamp in milliseconds when the connection was created */
   created_at: number;
   /** Unix timestamp in milliseconds when the connection was last updated */
@@ -2224,17 +2227,17 @@ export interface CreateInvitationRequest {
   /** The email address the invitation will be sent to */
   email_address: string;
   /** Metadata that will be attached to the newly created invitation. The value of this property should be a well-formed JSON object. Once the user accepts the invitation and signs up, these metadata will end up in the user's public metadata. */
-  public_metadata?: CreateInvitationRequestPublicMetadataMap;
+  public_metadata?: CreateInvitationRequestPublicMetadataMap | undefined;
   /** Optional URL which specifies where to redirect the user once they click the invitation link. This is only required if you have implemented a [custom flow](https://clerk.com/docs/authentication/invitations#custom-flow) and you're not using Clerk Hosted Pages or Clerk Components. */
-  redirect_url?: string;
+  redirect_url?: string | undefined;
   /** Optional flag which denotes whether an email invitation should be sent to the given email address. Defaults to `true`. */
-  notify?: boolean | null;
+  notify?: boolean | null | undefined;
   /** Whether an invitation should be created if there is already an existing invitation for this email address, or it's claimed by another user. */
-  ignore_existing?: boolean | null;
+  ignore_existing?: boolean | null | undefined;
   /** The number of days the invitation will be valid for. By default, the invitation expires after 30 days. */
-  expires_in_days?: number | null;
+  expires_in_days?: number | null | undefined;
   /** The slug of the email template to use for the invitation email. */
-  template_slug?: CreateInvitationRequestTemplateSlug | (string & {});
+  template_slug?: CreateInvitationRequestTemplateSlug | (string & {}) | undefined;
 }
 export interface CreateJWTTemplateRequest {
   /** JWT template name */
@@ -2242,15 +2245,15 @@ export interface CreateJWTTemplateRequest {
   /** JWT template claims in JSON format */
   claims: unknown;
   /** JWT lifetime */
-  lifetime?: number | null;
+  lifetime?: number | null | undefined;
   /** JWT allowed clock skew */
-  allowed_clock_skew?: number | null;
+  allowed_clock_skew?: number | null | undefined;
   /** Whether a custom signing key/algorithm is also provided for this template */
-  custom_signing_key?: boolean;
+  custom_signing_key?: boolean | undefined;
   /** The custom signing algorithm to use when minting JWTs. Required if `custom_signing_key` is `true`. */
-  signing_algorithm?: string | null;
+  signing_algorithm?: string | null | undefined;
   /** The custom signing private key to use when minting JWTs. Required if `custom_signing_key` is `true`. */
-  signing_key?: string | null;
+  signing_key?: string | null | undefined;
 }
 export type JWTTemplateObject = "jwt_template";
 export interface JWTTemplate {
@@ -2269,11 +2272,11 @@ export interface JWTTemplate {
 }
 export type CreateM2MTokenRequestTokenFormat = "opaque" | "jwt";
 export interface CreateM2MTokenRequest {
-  token_format?: CreateM2MTokenRequestTokenFormat | (string & {});
-  seconds_until_expiration?: number | null;
-  claims?: unknown | null;
+  token_format?: CreateM2MTokenRequestTokenFormat | (string & {}) | undefined;
+  seconds_until_expiration?: number | null | undefined;
+  claims?: unknown | null | undefined;
   /** Enables server-side token reuse for opaque-format tokens. When set, if a non-revoked, non-expired M2M token already exists for this machine with identical `claims` and `scopes` and at least this many seconds of remaining lifetime, that existing token is returned and no new token is minted. Use this when caching tokens in application memory across requests is impractical -- for example, in serverless functions, short-lived job workers, or autoscaling containers that churn faster than the token TTL. Pooling at the server collapses many redundant create calls into reuse of a single live token, which is the recommended pattern for high-volume M2M traffic. Must be strictly less than the effective token lifetime -- that is, `seconds_until_expiration` when provided, or the machine's default TTL otherwise. A value greater than or equal to the lifetime is rejected with a 400, since no freshly-minted token would ever satisfy the requirement. Only applies to opaque-format tokens (`token_format` defaults to `opaque`). JWT-format tokens are stateless and are never deduplicated. */
-  min_remaining_ttl_seconds?: number;
+  min_remaining_ttl_seconds?: number | undefined;
 }
 export type CreateM2MTokenResponseObject = "machine_to_machine_token";
 export type CreateM2MTokenResponseScopesList = Array<string>;
@@ -2281,8 +2284,8 @@ export interface CreateM2MTokenResponse {
   object: CreateM2MTokenResponseObject;
   id: string;
   subject: string;
-  claims?: unknown | null;
-  scopes?: CreateM2MTokenResponseScopesList;
+  claims?: unknown | null | undefined;
+  scopes?: CreateM2MTokenResponseScopesList | undefined;
   token: string;
   revoked: boolean;
   revocation_reason: string | null;
@@ -2302,9 +2305,9 @@ export interface CreateMachineRequest {
   /** The name of the machine */
   name: string;
   /** Array of machine IDs that this machine will have access to. Maximum of 150 scopes per machine. */
-  scoped_machines?: CreateMachineRequestScopedMachinesList;
+  scoped_machines?: CreateMachineRequestScopedMachinesList | undefined;
   /** The default time-to-live (TTL) in seconds for tokens created by this machine. Must be at least 1 second. */
-  default_token_ttl?: number;
+  default_token_ttl?: number | undefined;
 }
 export type CreateMachineResponseObject = "machine";
 export type MachineWithoutScopedMachinesObject = "machine";
@@ -2321,7 +2324,7 @@ export interface MachineWithoutScopedMachines {
   /** Unix timestamp of last update. */
   updated_at: number;
   /** The default time-to-live (TTL) in seconds for tokens created by this machine. */
-  default_token_ttl?: number;
+  default_token_ttl?: number | undefined;
 }
 /** Array of machines this machine has access to. */
 export type CreateMachineResponseScopedMachinesList = Array<MachineWithoutScopedMachines>;
@@ -2338,7 +2341,7 @@ export interface CreateMachineResponse {
   /** Unix timestamp of last update. */
   updated_at: number;
   /** The default time-to-live (TTL) in seconds for tokens created by this machine. */
-  default_token_ttl?: number;
+  default_token_ttl?: number | undefined;
   /** Array of machines this machine has access to. */
   scoped_machines: CreateMachineResponseScopedMachinesList;
   /** The secret key for the machine, only returned upon creation. */
@@ -2366,25 +2369,25 @@ export interface CreateOAuthApplicationRequest {
   /** The name of the new OAuth application. Max length: 256 */
   name: string;
   /** An array of redirect URIs of the new OAuth application */
-  redirect_uris?: CreateOAuthApplicationRequestRedirectUrisList | null;
+  redirect_uris?: CreateOAuthApplicationRequestRedirectUrisList | null | undefined;
   /** The callback URL of the new OAuth application */
-  callback_url?: string | null;
+  callback_url?: string | null | undefined;
   /** Define the application's built-in and custom scope ceiling. Provide scope keys as a space-delimited string. Custom keys must exist in the instance OAuth scope catalog. */
-  scopes?: string | null;
+  scopes?: string | null | undefined;
   /** True to enable a consent screen to display in the authentication flow. */
-  consent_screen_enabled?: boolean | null;
+  consent_screen_enabled?: boolean | null | undefined;
   /** True to require the Proof Key of Code Exchange (PKCE) flow. */
-  pkce_required?: boolean | null;
+  pkce_required?: boolean | null | undefined;
   /** An absolute resource URI for a confidential application (RFC 8707 section 2). Registers a resource with no accepted scopes, or adopts an unowned resource with confirmation. Every claimed URI remains permanently reserved to this app, including retirement and deletion, and counts toward the instance resource quota. Changing it stops new exchanges from the old audience immediately. Already-issued tokens retain their lifetime. Clearing requires exchange disabled in an earlier update. */
-  audience_uri?: string | null;
+  audience_uri?: string | null | undefined;
   /** Enable exchanges from the active audience. Requires an audience URI. Disabling preserves target configuration. */
-  token_exchange_enabled?: boolean;
+  token_exchange_enabled?: boolean | undefined;
   /** Confirm adoption of an existing unowned resource, preserving its accepted scopes and target references. Does not override another application's reservation. */
-  adopt_audience_resource?: boolean;
+  adopt_audience_resource?: boolean | undefined;
   /** True to enable the OAuth Device Authorization Grant for this application. Enabling requires the new OAuth IdP and a reachable device verification page. */
-  device_authorization_grant_enabled?: boolean | null;
+  device_authorization_grant_enabled?: boolean | null | undefined;
   /** If true, this client is public and you can use the Proof Key of Code Exchange (PKCE) flow. */
-  public?: boolean | null;
+  public?: boolean | null | undefined;
 }
 export type CreateOAuthApplicationResponseObject = "oauth_application";
 export type CreateOAuthApplicationResponseRedirectUrisList = Array<string>;
@@ -2420,7 +2423,7 @@ export interface CreateOAuthApplicationResponse {
   /** Unix timestamp of last update. */
   updated_at: number;
   /** Empty if public client. */
-  client_secret?: string | Redacted.Redacted<string>;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
 }
 /** Metadata saved on the organization, accessible only from the Backend API */
 export type CreateOrganizationRequestPrivateMetadataMap = { [key: string]: unknown | undefined };
@@ -2430,29 +2433,29 @@ export interface CreateOrganizationRequest {
   /** The name of the new organization. May not contain URLs or HTML. Max length: 256 */
   name: string;
   /** The ID of the User who will become the administrator for the new organization */
-  created_by?: string | null;
+  created_by?: string | null | undefined;
   /** Metadata saved on the organization, accessible only from the Backend API */
-  private_metadata?: CreateOrganizationRequestPrivateMetadataMap | null;
+  private_metadata?: CreateOrganizationRequestPrivateMetadataMap | null | undefined;
   /** Metadata saved on the organization, read-only from the Frontend API and fully accessible (read/write) from the Backend API */
-  public_metadata?: CreateOrganizationRequestPublicMetadataMap | null;
+  public_metadata?: CreateOrganizationRequestPublicMetadataMap | null | undefined;
   /** A slug for the new organization. Can contain only lowercase alphanumeric characters and the dash "-". Must be unique for the instance. This field should only be included when slugs are enabled in the organization settings, refer to our [documentation](https://clerk.com/docs/guides/organizations/overview#organization-slugs). */
-  slug?: string | null;
+  slug?: string | null | undefined;
   /** The maximum number of memberships allowed for this organization */
-  max_allowed_memberships?: number | null;
+  max_allowed_memberships?: number | null | undefined;
   /** A custom date/time denoting _when_ the organization was created, specified in RFC3339 format (e.g. `2012-10-20T07:15:20.902Z`). */
-  created_at?: string | null;
+  created_at?: string | null | undefined;
   /** The key of the [role set](https://clerk.com/docs/guides/organizations/control-access/role-sets) to assign to this organization. */
-  role_set_key?: string | null;
+  role_set_key?: string | null | undefined;
 }
 export interface CreateOrganizationDomainRequest {
   /** The ID of the organization where the new domain will be created. */
   organization_id: string;
   /** The name of the new domain */
-  name?: string;
+  name?: string | undefined;
   /** The enrollment_mode for the new domain. This can be `automatic_invitation`, `automatic_suggestion`, `manual_invitation` or `enterprise_sso` */
-  enrollment_mode?: string;
+  enrollment_mode?: string | undefined;
   /** The status of domain's verification. Defaults to true */
-  verified?: boolean | null;
+  verified?: boolean | null | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. Always `organization_domain` */
 export type OrganizationDomainObject = "organization_domain";
@@ -2479,7 +2482,7 @@ export interface OrganizationInvitationPublicOrganizationData {
   id: string;
   name: string;
   slug: string;
-  image_url?: string;
+  image_url?: string | undefined;
   has_image: boolean;
 }
 /** An organization domain */
@@ -2507,7 +2510,7 @@ export interface OrganizationDomain {
   /** Total number of pending suggestions associated with this domain */
   total_pending_suggestions: number;
   /** Public organization data associated with this domain */
-  public_organization_data?: OrganizationInvitationPublicOrganizationData | null;
+  public_organization_data?: OrganizationInvitationPublicOrganizationData | null | undefined;
   /** Unix timestamp when the domain was created */
   created_at: number;
   /** Unix timestamp of the last update to the domain */
@@ -2527,19 +2530,19 @@ export interface CreateOrganizationInvitationRequest {
   /** The email address of the new member that is going to be invited to the organization */
   email_address: string;
   /** The ID of the user that invites the new member to the organization. Must be an administrator in the organization. */
-  inviter_user_id?: string | null;
+  inviter_user_id?: string | null | undefined;
   /** The role of the new member in the organization */
   role: string;
   /** Metadata saved on the organization invitation, read-only from the Frontend API and fully accessible (read/write) from the Backend API. When the organization invitation is accepted, the metadata will be transferred to the newly created organization membership. */
-  public_metadata?: CreateOrganizationInvitationRequestPublicMetadataMap | null;
+  public_metadata?: CreateOrganizationInvitationRequestPublicMetadataMap | null | undefined;
   /** Metadata saved on the organization invitation, fully accessible (read/write) from the Backend API but not visible from the Frontend API. When the organization invitation is accepted, the metadata will be transferred to the newly created organization membership. */
-  private_metadata?: CreateOrganizationInvitationRequestPrivateMetadataMap | null;
+  private_metadata?: CreateOrganizationInvitationRequestPrivateMetadataMap | null | undefined;
   /** Optional URL that the invitee will be redirected to once they accept the invitation by clicking the join link in the invitation email. */
-  redirect_url?: string | null;
+  redirect_url?: string | null | undefined;
   /** The number of days the invitation will be valid for. By default, the invitation has a 30 days expire. */
-  expires_in_days?: number | null;
+  expires_in_days?: number | null | undefined;
   /** Optional flag which denotes whether an email invitation should be sent to the given email address. Defaults to `true`. */
-  notify?: boolean | null;
+  notify?: boolean | null | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type OrganizationInvitationObject = "organization_invitation";
@@ -2562,12 +2565,12 @@ export interface OrganizationInvitation {
   email_address: string;
   role: string;
   role_name: string;
-  organization_id?: string;
+  organization_id?: string | undefined;
   inviter_id: string | null;
   public_inviter_data: OrganizationInvitationPublicUserData | null;
-  status?: string;
+  status?: string | undefined;
   public_metadata: OrganizationInvitationPublicMetadataMap;
-  private_metadata?: OrganizationInvitationPrivateMetadataMap;
+  private_metadata?: OrganizationInvitationPrivateMetadataMap | undefined;
   url: string | null;
   /** Unix timestamp of expiration. */
   expires_at: number | null;
@@ -2588,19 +2591,25 @@ export interface CreateOrganizationInvitationBulkRequestBodyItem {
   /** The email address of the new member that is going to be invited to the organization */
   email_address: string;
   /** The ID of the user that invites the new member to the organization. Must be an administrator in the organization. */
-  inviter_user_id?: string | null;
+  inviter_user_id?: string | null | undefined;
   /** The role of the new member in the organization */
   role: string;
   /** Metadata saved on the organization invitation, read-only from the Frontend API and fully accessible (read/write) from the Backend API. When the organization invitation is accepted, the metadata will be transferred to the newly created organization membership. */
-  public_metadata?: CreateOrganizationInvitationBulkRequestBodyItemPublicMetadataMap | null;
+  public_metadata?:
+    | CreateOrganizationInvitationBulkRequestBodyItemPublicMetadataMap
+    | null
+    | undefined;
   /** Metadata saved on the organization invitation, fully accessible (read/write) from the Backend API but not visible from the Frontend API. When the organization invitation is accepted, the metadata will be transferred to the newly created organization membership. */
-  private_metadata?: CreateOrganizationInvitationBulkRequestBodyItemPrivateMetadataMap | null;
+  private_metadata?:
+    | CreateOrganizationInvitationBulkRequestBodyItemPrivateMetadataMap
+    | null
+    | undefined;
   /** Optional URL that the invitee will be redirected to once they accept the invitation by clicking the join link in the invitation email. */
-  redirect_url?: string | null;
+  redirect_url?: string | null | undefined;
   /** The number of days the invitation will be valid for. By default, the invitation has a 30 days expire. */
-  expires_in_days?: number | null;
+  expires_in_days?: number | null | undefined;
   /** Optional flag which denotes whether an email invitation should be sent to the given email address. Defaults to `true`. */
-  notify?: boolean | null;
+  notify?: boolean | null | undefined;
 }
 export type CreateOrganizationInvitationBulkRequestBodyList =
   Array<CreateOrganizationInvitationBulkRequestBodyItem>;
@@ -2631,9 +2640,9 @@ export interface CreateOrganizationMembershipRequest {
   /** The role that the new member will have in the organization. */
   role: string;
   /** Metadata saved on the organization membership, that is visible to both your frontend and backend. */
-  public_metadata?: CreateOrganizationMembershipRequestPublicMetadataMap | null;
+  public_metadata?: CreateOrganizationMembershipRequestPublicMetadataMap | null | undefined;
   /** Metadata saved on the organization membership that is only visible to your backend. */
-  private_metadata?: CreateOrganizationMembershipRequestPrivateMetadataMap | null;
+  private_metadata?: CreateOrganizationMembershipRequestPrivateMetadataMap | null | undefined;
 }
 export interface CreateOrganizationPermissionRequest {
   /** The name of the permission. */
@@ -2641,7 +2650,7 @@ export interface CreateOrganizationPermissionRequest {
   /** The key of the permission. Must have the format "org:feature:action" where feature and action are segments consisting of lowercase letters, digits, or underscores, for example "org:billing:manage" or "org:team:read". Cannot begin with "org:sys_" as that prefix is reserved for system permissions. */
   key: string;
   /** A description of the permission. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Array of permission IDs to assign to the role */
 export type CreateOrganizationRoleRequestPermissionsList = Array<string>;
@@ -2651,11 +2660,11 @@ export interface CreateOrganizationRoleRequest {
   /** A unique key for the organization role. Must start with 'org:' and contain only lowercase alphanumeric characters and underscores. */
   key: string;
   /** Optional description for the role */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Array of permission IDs to assign to the role */
-  permissions?: CreateOrganizationRoleRequestPermissionsList | null;
+  permissions?: CreateOrganizationRoleRequestPermissionsList | null | undefined;
   /** Whether this role should be included in the initial role set */
-  include_in_initial_role_set?: boolean | null;
+  include_in_initial_role_set?: boolean | null | undefined;
 }
 export interface CreatePhoneNumberRequest {
   /** The ID representing the user */
@@ -2663,11 +2672,11 @@ export interface CreatePhoneNumberRequest {
   /** The new phone number. Must adhere to the E.164 standard for phone number format. */
   phone_number: string;
   /** When created, the phone number will be marked as verified. */
-  verified?: boolean | null;
+  verified?: boolean | null | undefined;
   /** Create this phone number as the primary phone number for the user. Default: false, unless it is the first phone number. */
-  primary?: boolean | null;
+  primary?: boolean | null | undefined;
   /** Create this phone number as reserved for multi-factor authentication. The phone number must also be verified. If there are no other reserved second factors, the phone number will be set as the default second factor. */
-  reserved_for_second_factor?: boolean | null;
+  reserved_for_second_factor?: boolean | null | undefined;
 }
 export interface CreateRedirectURLRequest {
   /** The full URL value prefixed with `https://` or a custom scheme e.g. `"https://my-app.com/oauth-callback"` or `"my-app://oauth-callback"` */
@@ -2691,15 +2700,15 @@ export interface CreateRoleSetRequest {
   /** The name of the new role set */
   name: string;
   /** A unique key for the role set. Must start with 'role_set:' and contain only lowercase alphanumeric characters and underscores. If not provided, a key will be generated from the name. */
-  key?: string;
+  key?: string | undefined;
   /** Optional description for the role set */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The key of the role to use as the default role for new organization members. Must be one of the roles in the `roles` array. */
   default_role_key: string;
   /** The key of the role to assign to organization creators. Must be one of the roles in the `roles` array. */
   creator_role_key: string;
   /** The type of the role set. "initial" role sets are the default for new organizations. Only one role set can be "initial" per instance. */
-  type?: CreateRoleSetRequestType | (string & {});
+  type?: CreateRoleSetRequestType | (string & {}) | undefined;
   /** Array of role keys to include in the role set. Must contain at least one role and no more than 10 roles. */
   roles: CreateRoleSetRequestRolesList;
 }
@@ -2707,11 +2716,11 @@ export interface CreateSCIMDirectoryRequestGroupRoleMappingsItem {
   /** The SCIM group ID from the identity provider. */
   scim_group_id: string;
   /** Optional display name for the SCIM group. */
-  scim_group_display_name?: string;
+  scim_group_display_name?: string | undefined;
   /** The organization role ID to assign to members of the SCIM group. */
   role_id: string;
   /** The precedence for this mapping. If omitted, precedence is assigned by array order. */
-  precedence?: number;
+  precedence?: number | undefined;
 }
 /** Optional SCIM group to organization role mappings to create with the directory. */
 export type CreateSCIMDirectoryRequestGroupRoleMappingsList =
@@ -2720,11 +2729,11 @@ export interface CreateSCIMDirectoryRequest {
   /** The ID of the enterprise connection to associate with this directory. */
   enterprise_connection_id: string;
   /** A human-friendly name for the directory. */
-  name?: string;
+  name?: string | undefined;
   /** The identity provider for this directory. */
   provider: string;
   /** Optional SCIM group to organization role mappings to create with the directory. */
-  group_role_mappings?: CreateSCIMDirectoryRequestGroupRoleMappingsList;
+  group_role_mappings?: CreateSCIMDirectoryRequestGroupRoleMappingsList | undefined;
 }
 /** String representing the object's type. Always "scim_directory". */
 export type SCIMDirectoryObject = "scim_directory";
@@ -2732,17 +2741,17 @@ export type SCIMDirectoryObject = "scim_directory";
 export type SCIMDirectoryAttributeMappingMap = { [key: string]: string | undefined };
 export interface SCIMDirectoryCustomAttributesItem {
   /** Display name for the custom attribute */
-  name?: string;
+  name?: string | undefined;
   /** Key used to store the attribute in the user's public/private/unsafe metadata */
-  key?: string;
+  key?: string | undefined;
   /** Path to extract the attribute value from SSO claims (SAML assertions or OIDC claims) */
-  sso_path?: string;
+  sso_path?: string | undefined;
   /** GJSON path to extract the attribute value from SCIM user resources */
-  scim_path?: string;
+  scim_path?: string | undefined;
   /** GJSON path to extract the attribute value from directory sync user resources. Same value as `scim_path`. */
-  directory_path?: string;
+  directory_path?: string | undefined;
   /** When true, the attribute supports multiple values; values from the IdP are written to public_metadata as an array. Defaults to false. */
-  multi_valued?: boolean;
+  multi_valued?: boolean | undefined;
 }
 /** Custom attributes to map from the IdP to the user's profile via SCIM provisioning. Requires the custom attributes feature to be enabled for the instance. */
 export type SCIMDirectoryCustomAttributesList = Array<SCIMDirectoryCustomAttributesItem>;
@@ -2755,7 +2764,7 @@ export interface SCIMDirectory {
   /** A human-friendly name for the directory. */
   name: string;
   /** The ID of the associated enterprise connection. */
-  enterprise_connection_id?: string | null;
+  enterprise_connection_id?: string | null | undefined;
   /** The SCIM endpoint URL for this directory. */
   endpoint_url: string;
   /** The identity provider for this directory. */
@@ -2769,9 +2778,9 @@ export interface SCIMDirectory {
   /** Mapping of user attributes to the SCIM attribute paths they are extracted from. */
   attribute_mapping: SCIMDirectoryAttributeMappingMap;
   /** Custom attributes to map from the IdP to the user's profile via SCIM provisioning. Requires the custom attributes feature to be enabled for the instance. */
-  custom_attributes?: SCIMDirectoryCustomAttributesList;
+  custom_attributes?: SCIMDirectoryCustomAttributesList | undefined;
   /** The API key for authenticating SCIM requests. Only returned when the directory is created or the key is rotated. */
-  api_key?: string | Redacted.Redacted<string> | null;
+  api_key?: string | Redacted.Redacted<string> | null | undefined;
   /** Unix timestamp when the directory was created. */
   created_at: number;
   /** Unix timestamp when the directory was last updated. */
@@ -2785,7 +2794,7 @@ export interface CreateSCIMGroupRoleMappingRequest {
   /** The ID of the organization role to assign to members of the SCIM group. */
   role_id: string;
   /** The precedence for this mapping. Lower values take priority when a user belongs to multiple mapped groups. If omitted, the mapping is appended with the next-highest precedence. */
-  precedence?: number;
+  precedence?: number | undefined;
 }
 /** String representing the object's type. Always "scim_group_role_mapping". */
 export type SCIMGroupRoleMappingObject = "scim_group_role_mapping";
@@ -2807,7 +2816,7 @@ export interface SCIMGroupRoleMapping {
   scim_group_display_name: string;
   /** The display name of the group, as reported by the identity provider. Same value as `scim_group_display_name`. */
   directory_group_display_name: string;
-  role?: Role;
+  role?: Role | undefined;
   /** Mapping precedence, starting at 1. Lower values take priority when a user belongs to multiple mapped groups. */
   precedence: number;
   /** Unix timestamp (milliseconds) of when the mapping was created. */
@@ -2819,7 +2828,7 @@ export interface CreateSessionRequest {
   /** The ID representing the user */
   user_id: string;
   /** The ID of the organization to set as active for this session */
-  active_organization_id?: string;
+  active_organization_id?: string | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type SessionObject = "session";
@@ -2835,13 +2844,13 @@ export type SessionStatus =
 export interface SessionActivityResponse {
   object: string;
   id: string;
-  device_type?: string;
+  device_type?: string | undefined;
   is_mobile: boolean;
-  browser_name?: string;
-  browser_version?: string;
-  ip_address?: string;
-  city?: string;
-  country?: string;
+  browser_name?: string | undefined;
+  browser_version?: string | undefined;
+  ip_address?: string | undefined;
+  city?: string | undefined;
+  country?: string | undefined;
 }
 export interface SessionTask {
   key: string;
@@ -2853,11 +2862,11 @@ export interface Session {
   id: string;
   user_id: string;
   client_id: string;
-  actor?: unknown | null;
+  actor?: unknown | null | undefined;
   status: SessionStatus;
-  last_active_organization_id?: string | null;
+  last_active_organization_id?: string | null | undefined;
   last_active_at: number;
-  latest_activity?: SessionActivityResponse | null;
+  latest_activity?: SessionActivityResponse | null | undefined;
   /** Unix timestamp in milliseconds of expiration. */
   expire_at: number;
   /** Unix timestamp in milliseconds of abandonment. */
@@ -2866,18 +2875,18 @@ export interface Session {
   updated_at: number;
   /** Unix timestamp of creation. */
   created_at: number;
-  tasks?: SessionTasksList | null;
+  tasks?: SessionTasksList | null | undefined;
 }
 export interface CreateSessionTokenRequest {
   /** The ID of the session */
   session_id: string;
   /** Use this parameter to override the default session token lifetime. */
-  expires_in_seconds?: number | null;
+  expires_in_seconds?: number | null | undefined;
 }
 export type CreateSessionTokenResponseObject = "token";
 export interface CreateSessionTokenResponse {
-  object?: CreateSessionTokenResponseObject;
-  jwt?: string;
+  object?: CreateSessionTokenResponseObject | undefined;
+  jwt?: string | undefined;
 }
 export interface CreateSessionTokenFromTemplateRequest {
   /** The ID of the session */
@@ -2885,12 +2894,12 @@ export interface CreateSessionTokenFromTemplateRequest {
   /** The name of the JWT template defined in your instance (e.g. `custom_hasura`). */
   template_name: string;
   /** Use this parameter to override the JWT lifetime. */
-  expires_in_seconds?: number | null;
+  expires_in_seconds?: number | null | undefined;
 }
 export type CreateSessionTokenFromTemplateResponseObject = "token";
 export interface CreateSessionTokenFromTemplateResponse {
-  object?: CreateSessionTokenFromTemplateResponseObject;
-  jwt?: string;
+  object?: CreateSessionTokenFromTemplateResponseObject | undefined;
+  jwt?: string | undefined;
 }
 /** Optional parameter that lets a user with a second factor enabled complete the sign in without being prompted for it. When omitted, redeeming the token completes only the first factor, and the user must still complete their second factor. `fresh`: the second factor is treated as verified at sign in. The session token's `fva` claim reports a second factor age of 0. `stale`: the second factor is treated as unverified. The session token's `fva` claim reports the maximum second factor age of 99999, so any reverification that requires a second factor prompts the user to complete one. Has no effect for users without a second factor enabled. A token created with this parameter signs in a user with a second factor enabled without prompting for it, so `expires_in_seconds` defaults to 10 minutes. We recommend keeping it short. */
 export type CreateSignInTokenRequestSecondFactorVerification = "fresh" | "stale";
@@ -2898,16 +2907,17 @@ export interface CreateSignInTokenRequest {
   /** The ID of the user that can use the newly created sign in token */
   user_id: string;
   /** The ID of the organization to activate when the user signs in. Organizations must be enabled for the instance, and the user must be a member of the organization. */
-  org_id?: string | null;
+  org_id?: string | null | undefined;
   /** Optional parameter to specify the life duration of the sign in token in seconds. By default, the duration is 30 days, or 10 minutes when `second_factor_verification` is set. */
-  expires_in_seconds?: number | null;
+  expires_in_seconds?: number | null | undefined;
   /** Optional parameter that lets a user with a second factor enabled complete the sign in without being prompted for it. When omitted, redeeming the token completes only the first factor, and the user must still complete their second factor. `fresh`: the second factor is treated as verified at sign in. The session token's `fva` claim reports a second factor age of 0. `stale`: the second factor is treated as unverified. The session token's `fva` claim reports the maximum second factor age of 99999, so any reverification that requires a second factor prompts the user to complete one. Has no effect for users without a second factor enabled. A token created with this parameter signs in a user with a second factor enabled without prompting for it, so `expires_in_seconds` defaults to 10 minutes. We recommend keeping it short. */
   second_factor_verification?:
     | CreateSignInTokenRequestSecondFactorVerification
     | (string & {})
-    | null;
+    | null
+    | undefined;
   /** When `true`, creating the token is rejected with a `user_locked` error if the user is locked, and so is redeeming it. A token rejected on redemption stays pending and can be redeemed once the user is unlocked. Has no effect on instances with user lockout disabled. To enforce lockout across a password check and a sign-in token, set this parameter on both requests. */
-  honor_lockout?: boolean;
+  honor_lockout?: boolean | undefined;
 }
 export type SignInTokenObject = "sign_in_token";
 export type SignInTokenStatus = "pending" | "accepted" | "revoked";
@@ -2916,8 +2926,8 @@ export interface SignInToken {
   id: string;
   status: SignInTokenStatus;
   user_id: string;
-  token?: string;
-  url?: string | null;
+  token?: string | undefined;
+  url?: string | null | undefined;
   /** Unix timestamp of creation. */
   created_at: number;
   /** Unix timestamp of last update. */
@@ -2932,7 +2942,7 @@ export type SSOBypassAllowlistUserObject = "sso_bypass_allowlist_user";
 export interface SSOBypassAllowlistPublicUserData {
   first_name: string | null;
   last_name: string | null;
-  image_url?: string;
+  image_url?: string | undefined;
   has_image: boolean;
   identifier: string;
   username: string | null;
@@ -2989,74 +2999,78 @@ export type CreateUserRequestPrivateMetadataMap = { [key: string]: unknown | und
 export type CreateUserRequestUnsafeMetadataMap = { [key: string]: unknown | undefined };
 export interface CreateUserRequest {
   /** The ID of the user as used in your external systems or your previous authentication solution. Must be unique across your instance. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The first name to assign to the user */
-  first_name?: string | null;
+  first_name?: string | null | undefined;
   /** The last name to assign to the user */
-  last_name?: string | null;
+  last_name?: string | null | undefined;
   /** The locale to assign to the user (e.g., "en-US", "fr-FR") */
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** The IANA timezone to assign to the user (e.g., "America/New_York", "Europe/Paris"). Set to null to clear it and allow automatic capture on a later trusted sign-in. */
-  timezone?: string | null;
+  timezone?: string | null | undefined;
   /** Email addresses to add to the user. Must be unique across your instance. The first email address will be set as the user's primary email address. Created verified by default; see `email_address_identification_status` to create them reserved. */
-  email_address?: CreateUserRequestEmailAddressList;
+  email_address?: CreateUserRequestEmailAddressList | undefined;
   /** Controls the status each email address is created with. Runs parallel to `email_address`: when provided, it must contain exactly one item per email address, applied by position. When omitted or empty, every email address is created `verified`. Set an item to `reserved` to create the corresponding email address reserved instead (unverified but usable for sign-in and locked so no other user can claim it). */
-  email_address_identification_status?: CreateUserRequestEmailAddressIdentificationStatusList;
+  email_address_identification_status?:
+    | CreateUserRequestEmailAddressIdentificationStatusList
+    | undefined;
   /** Phone numbers to add to the user. Must be unique across your instance. The first phone number will be set as the user's primary phone number. Created verified by default; see `phone_number_identification_status` to create them reserved. */
-  phone_number?: CreateUserRequestPhoneNumberList;
+  phone_number?: CreateUserRequestPhoneNumberList | undefined;
   /** Controls the status each phone number is created with. Runs parallel to `phone_number`: when provided, it must contain exactly one item per phone number, applied by position. When omitted or empty, every phone number is created `verified`. Set an item to `reserved` to create the corresponding phone number reserved instead (unverified but usable for sign-in and locked so no other user can claim it). */
-  phone_number_identification_status?: CreateUserRequestPhoneNumberIdentificationStatusList;
+  phone_number_identification_status?:
+    | CreateUserRequestPhoneNumberIdentificationStatusList
+    | undefined;
   /** Web3 wallets to add to the user. Must be unique across your instance. The first wallet will be set as the user's primary wallet. */
-  web3_wallet?: CreateUserRequestWeb3WalletList;
+  web3_wallet?: CreateUserRequestWeb3WalletList | undefined;
   /** The username to give to the user. It must be unique across your instance. */
-  username?: string | null;
+  username?: string | null | undefined;
   /** The plaintext password to give the user. Must be at least 8 characters long, and cannot be in any list of hacked passwords. */
-  password?: string | Redacted.Redacted<string> | null;
+  password?: string | Redacted.Redacted<string> | null | undefined;
   /** In case you already have the password digests and not the passwords, you can use them for the newly created user via this property. The digests should be generated with one of the supported algorithms. The hashing algorithm can be specified using the `password_hasher` property. */
-  password_digest?: string | Redacted.Redacted<string> | null;
-  password_hasher?: string | Redacted.Redacted<string>;
+  password_digest?: string | Redacted.Redacted<string> | null | undefined;
+  password_hasher?: string | Redacted.Redacted<string> | undefined;
   /** When set to `true` all password checks are skipped. It is recommended to use this method only when migrating plaintext passwords to Clerk. Upon migration the user base should be prompted to pick stronger password. */
-  skip_password_checks?: boolean | null;
+  skip_password_checks?: boolean | null | undefined;
   /** When set to `true`, `password` is not required anymore when creating the user and can be omitted. This is useful when you are trying to create a user that doesn't have a password, in an instance that is using passwords. Please note that you cannot use this flag if password is the only way for a user to sign into your instance. */
-  skip_password_requirement?: boolean | null;
+  skip_password_requirement?: boolean | null | undefined;
   /** When set to `true`, the instance's restrictions are not applied to this user. Those settings are the allowlist, the blocklist, blocked disposable email domains and blocked email subaddresses, and they normally reject a matching identifier here just as they do at sign-up. Use this when your backend is creating a user it already trusts, such as during a migration or from an admin tool. */
-  skip_restriction_checks?: boolean | null;
+  skip_restriction_checks?: boolean | null | undefined;
   /** In case TOTP is configured on the instance, you can provide the secret to enable it on the newly created user without the need to reset it. Please note that currently the supported options are: * Period: 30 seconds * Code length: 6 digits * Algorithm: SHA1 */
-  totp_secret?: string | Redacted.Redacted<string> | null;
+  totp_secret?: string | Redacted.Redacted<string> | null | undefined;
   /** If Backup Codes are configured on the instance, you can provide them to enable it on the newly created user without the need to reset them. You must provide the backup codes in plain format or the corresponding bcrypt digest. */
-  backup_codes?: CreateUserRequestBackupCodesList;
+  backup_codes?: CreateUserRequestBackupCodesList | undefined;
   /** Metadata saved on the user, that is visible to both your Frontend and Backend APIs */
-  public_metadata?: CreateUserRequestPublicMetadataMap;
+  public_metadata?: CreateUserRequestPublicMetadataMap | undefined;
   /** Metadata saved on the user, that is only visible to your Backend API */
-  private_metadata?: CreateUserRequestPrivateMetadataMap;
+  private_metadata?: CreateUserRequestPrivateMetadataMap | undefined;
   /** Metadata saved on the user, that can be updated from both the Frontend and Backend APIs. Note: Since this data can be modified from the frontend, it is not guaranteed to be safe. */
-  unsafe_metadata?: CreateUserRequestUnsafeMetadataMap;
+  unsafe_metadata?: CreateUserRequestUnsafeMetadataMap | undefined;
   /** If enabled, user can delete themselves via FAPI. */
-  delete_self_enabled?: boolean | null;
+  delete_self_enabled?: boolean | null | undefined;
   /** A custom timestamp denoting _when_ the user accepted legal requirements, specified in RFC3339 format (e.g. `2012-10-20T07:15:20.902Z`). */
-  legal_accepted_at?: string | null;
+  legal_accepted_at?: string | null | undefined;
   /** When set to `true` all legal checks are skipped. It is not recommended to skip legal checks unless you are migrating a user to Clerk. */
-  skip_legal_checks?: boolean | null;
+  skip_legal_checks?: boolean | null | undefined;
   /** When set to `true`, identification types are not enforced. At least one identification type must be enabled and provided on your instance (email, phone, web3 wallet, or username). Users created without required identification types cannot use those authentication strategies It is not recommended to use this flag unless you need to allow Clerk UI components to prompt for required fields while BAPI creates users with minimal data, or for migration a user to Clerk. */
-  skip_user_requirement?: boolean | null;
+  skip_user_requirement?: boolean | null | undefined;
   /** If enabled, user can create organizations via FAPI. */
-  create_organization_enabled?: boolean | null;
+  create_organization_enabled?: boolean | null | undefined;
   /** The maximum number of organizations the user can create. 0 means unlimited. */
-  create_organizations_limit?: number | null;
+  create_organizations_limit?: number | null | undefined;
   /** A custom date/time denoting _when_ the user signed up to the application, specified in RFC3339 format (e.g. `2012-10-20T07:15:20.902Z`). */
-  created_at?: string | null;
+  created_at?: string | null | undefined;
   /** When set to `true`, the user will bypass Device Trust checks during sign-in. */
-  bypass_client_trust?: boolean | null;
+  bypass_client_trust?: boolean | null | undefined;
   /** When set to `true`, the user is created already banned and cannot sign in. Requires the same plan support as the ban user endpoint. */
-  banned?: boolean | null;
+  banned?: boolean | null | undefined;
   /** When set to `true`, the user is created already locked. Requires the user lockout feature to be enabled on the instance. */
-  locked?: boolean | null;
+  locked?: boolean | null | undefined;
 }
 export interface CreateWaitlistEntryRequest {
   /** The email address to add to the waitlist */
   email_address: string;
   /** Optional flag which denotes whether a confirmation email should be sent to the given email address. Defaults to `true`. */
-  notify?: boolean | null;
+  notify?: boolean | null | undefined;
 }
 export interface DeleteAllowlistIdentifierRequest {
   /** The ID of the identifier to delete from the allow-list */
@@ -3064,10 +3078,10 @@ export interface DeleteAllowlistIdentifierRequest {
 }
 export interface DeletedObject {
   object: string;
-  id?: string;
-  slug?: string;
+  id?: string | undefined;
+  slug?: string | undefined;
   deleted: boolean;
-  external_id?: string;
+  external_id?: string | undefined;
 }
 export interface DeleteApiKeyRequest {
   apiKeyID: string;
@@ -3083,7 +3097,7 @@ export interface DeleteBackupCodeRequest {
   user_id: string;
 }
 export interface DeleteBackupCodeResponse {
-  user_id?: string;
+  user_id?: string | undefined;
 }
 export interface DeleteBlocklistIdentifierRequest {
   /** The ID of the identifier to delete from the block-list */
@@ -3238,7 +3252,7 @@ export interface DeleteTOTPRequest {
   user_id: string;
 }
 export interface DeleteTOTPResponse {
-  user_id?: string;
+  user_id?: string | undefined;
 }
 export interface DeleteUserRequest {
   /** The ID of the user to delete */
@@ -3269,7 +3283,7 @@ export interface DisableMFARequest {
   user_id: string;
 }
 export interface DisableMFAResponse {
-  user_id?: string;
+  user_id?: string | undefined;
 }
 export interface ExtendBillingSubscriptionItemFreeTrialRequest {
   /** The ID of the subscription item to extend the free trial for */
@@ -3289,7 +3303,7 @@ export interface GetApiKeyResponse {
   type: string;
   subject: string;
   name: string;
-  description?: string | null;
+  description?: string | null | undefined;
   claims: unknown | null;
   scopes: GetApiKeyResponseScopesList;
   revoked: boolean;
@@ -3306,12 +3320,12 @@ export interface GetApiKeyResponse {
   updated_at: number;
 }
 export interface GetApiKeysRequest {
-  type?: string;
+  type?: string | undefined;
   subject: string;
-  include_invalid?: boolean;
-  limit?: number;
-  offset?: number;
-  query?: string;
+  include_invalid?: boolean | undefined;
+  limit?: number | undefined;
+  offset?: number | undefined;
+  query?: string | undefined;
 }
 export type GetApiKeysResponseDataItemObject = "api_key";
 export type GetApiKeysResponseDataItemScopesList = Array<string>;
@@ -3321,7 +3335,7 @@ export interface GetApiKeysResponseDataItem {
   type: string;
   subject: string;
   name: string;
-  description?: string | null;
+  description?: string | null | undefined;
   claims: unknown | null;
   scopes: GetApiKeysResponseDataItemScopesList;
   revoked: boolean;
@@ -3350,13 +3364,13 @@ export interface GetApiKeySecretResponse {
 }
 export interface GetBillingPriceListRequest {
   /** Whether to paginate the results. If true, the results will be paginated. If false, the results will not be paginated. */
-  paginated?: boolean;
+  paginated?: boolean | undefined;
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `offset`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Skip the first `offset` results when paginating. Needs to be an integer greater or equal to zero. To be used in conjunction with `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter prices by plan ID */
-  plan_id?: string;
+  plan_id?: string | undefined;
 }
 /** Array of prices. */
 export type PaginatedBillingPriceResponseDataList = Array<BillingPriceResponse>;
@@ -3411,13 +3425,13 @@ export interface BillingPaymentAttempt {
   /** The payer associated with this payment attempt. */
   payer: CommercePayerResponse;
   /** Unique identifier for the associated subscription item. */
-  subscription_item_id?: string;
+  subscription_item_id?: string | undefined;
   /** The subscription item associated with this payment attempt. */
-  subscription_item?: unknown;
+  subscription_item?: unknown | undefined;
   /** The amount for this payment attempt. */
   amount: CommerceMoneyResponse;
   /** Totals breakdown for this payment attempt. */
-  totals?: CommerceTotalsResponse2 | null;
+  totals?: CommerceTotalsResponse2 | null | undefined;
   /** Unique identifier for the payment method. */
   payment_method_id: string;
   /** The payment method used for this payment attempt. */
@@ -3472,11 +3486,11 @@ export interface BillingStatement {
 }
 export interface GetBillingStatementListRequest {
   /** Whether to paginate the results. If true, the results will be paginated. If false, the results will not be paginated. */
-  paginated?: boolean;
+  paginated?: boolean | undefined;
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `offset`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Skip the first `offset` results when paginating. Needs to be an integer greater or equal to zero. To be used in conjunction with `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** Array of billing statements. */
 export type PaginatedBillingStatementResponseDataList = Array<BillingStatement>;
@@ -3490,11 +3504,11 @@ export interface GetBillingStatementPaymentAttemptsRequest {
   /** The ID of the statement to retrieve payment attempts for. */
   statementID: string;
   /** Whether to paginate the results. If true, the results will be paginated. If false, the results will not be paginated. */
-  paginated?: boolean;
+  paginated?: boolean | undefined;
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `offset`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Skip the first `offset` results when paginating. Needs to be an integer greater or equal to zero. To be used in conjunction with `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** Array of billing payment attempts. */
 export type PaginatedBillingPaymentAttemptResponseDataList = Array<BillingPaymentAttempt>;
@@ -3533,13 +3547,13 @@ export interface Client {
 export type GetCommercePlanListRequestPayerType = "user" | "org";
 export interface GetCommercePlanListRequest {
   /** Whether to paginate the results. If true, the results will be paginated. If false, the results will not be paginated. */
-  paginated?: boolean;
+  paginated?: boolean | undefined;
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `offset`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Skip the first `offset` results when paginating. Needs to be an integer greater or equal to zero. To be used in conjunction with `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter plans by payer type */
-  payer_type?: GetCommercePlanListRequestPayerType | (string & {});
+  payer_type?: GetCommercePlanListRequestPayerType | (string & {}) | undefined;
 }
 /** Array of plans. */
 export type PaginatedCommercePlanResponseDataList = Array<CommercePlan>;
@@ -3558,21 +3572,21 @@ export type GetCommerceSubscriptionItemListRequestStatus =
 export type GetCommerceSubscriptionItemListRequestPayerType = "user" | "org";
 export interface GetCommerceSubscriptionItemListRequest {
   /** Whether to paginate the results. If true, the results will be paginated. If false, the results will not be paginated. */
-  paginated?: boolean;
+  paginated?: boolean | undefined;
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `offset`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Skip the first `offset` results when paginating. Needs to be an integer greater or equal to zero. To be used in conjunction with `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter subscription items by status */
-  status?: GetCommerceSubscriptionItemListRequestStatus | (string & {});
+  status?: GetCommerceSubscriptionItemListRequestStatus | (string & {}) | undefined;
   /** Filter subscription items by payer type */
-  payer_type?: GetCommerceSubscriptionItemListRequestPayerType | (string & {});
+  payer_type?: GetCommerceSubscriptionItemListRequestPayerType | (string & {}) | undefined;
   /** Filter subscription items by plan ID */
-  plan_id?: string;
+  plan_id?: string | undefined;
   /** Whether to include free plan subscription items */
-  include_free?: boolean;
+  include_free?: boolean | undefined;
   /** Search query to filter subscription items */
-  query?: string;
+  query?: string | undefined;
 }
 /** Array of subscription items. */
 export type PaginatedCommerceSubscriptionItemResponseDataList = Array<CommerceSubscriptionItem>;
@@ -3657,7 +3671,10 @@ export interface OAuthApplicationSettings {
   /** Whether dynamic OAuth client registration is enabled for the instance (RFC 7591). */
   dynamic_oauth_client_registration: boolean;
   /** Administrator-selected scope ceiling for dynamically registered and automatically admitted CIMD clients. Null preserves registered client limits; defaults must be a subset. Fresh user consent is required for expansion. */
-  dynamic_client_allowed_scopes?: OAuthApplicationSettingsDynamicClientAllowedScopesList | null;
+  dynamic_client_allowed_scopes?:
+    | OAuthApplicationSettingsDynamicClientAllowedScopesList
+    | null
+    | undefined;
   /** Default scopes assigned when a dynamically registered or first-contact CIMD client omits `scope`. Contains built-in keys and custom catalog keys. Null means Clerk-provided defaults. `advertised` does not affect eligibility. An empty input array is stored and returned as null. */
   default_scopes: OAuthApplicationSettingsDefaultScopesList | null;
   /** Whether OAuth JWT access tokens are enabled for the instance (disabled indicates opaque access tokens). */
@@ -3690,21 +3707,21 @@ export interface OrganizationSettings {
   enabled: boolean;
   max_allowed_memberships: number;
   max_allowed_roles: number;
-  max_role_sets_allowed?: number;
+  max_role_sets_allowed?: number | undefined;
   max_allowed_domains: number;
   /** max_allowed_permissions is now a no-op, as permissions are now unlimited */
-  max_allowed_permissions?: number;
+  max_allowed_permissions?: number | undefined;
   /** The role key that a user will be assigned after creating an organization. */
   creator_role: string;
   /** The default for whether an admin can delete an organization with the Frontend API. */
   admin_delete_enabled: boolean;
   domains_enabled: boolean;
-  slug_disabled?: boolean;
+  slug_disabled?: boolean | undefined;
   domains_enrollment_modes: OrganizationSettingsDomainsEnrollmentModesList;
   /** The role key that it will be used in order to create an organization invitation or suggestion. */
   domains_default_role: string;
   /** The role set key that it will be used to create new organizations. */
-  initial_role_set_key?: string | null;
+  initial_role_set_key?: string | null | undefined;
 }
 export interface GetInstanceProtectRequest {}
 export type InstanceProtectObject = "instance_protect";
@@ -3723,19 +3740,19 @@ export interface InstanceProtect {
 }
 export interface GetInterstitialRequest {
   /** Please use `frontend_api` instead */
-  frontendApi?: string;
+  frontendApi?: string | undefined;
   /** The Frontend API key of your instance */
-  frontend_api?: string;
+  frontend_api?: string | undefined;
   /** The publishable key of your instance */
-  publishable_key?: string;
+  publishable_key?: string | undefined;
   /** The proxy URL of your instance */
-  proxy_url?: string;
+  proxy_url?: string | undefined;
   /** The domain of your instance */
-  domain?: string;
+  domain?: string | undefined;
   /** The sign in URL of your instance */
-  sign_in_url?: string;
+  sign_in_url?: string | undefined;
   /** Whether to use the domain for the script URL */
-  use_domain_for_script?: boolean;
+  use_domain_for_script?: boolean | undefined;
 }
 export interface GetInterstitialResponse {}
 export interface GetJWKSRequest {}
@@ -3749,10 +3766,10 @@ export interface JWKSEd25519PublicKey {
   kty: JWKSEd25519PublicKeyKty;
   crv: JWKSEd25519PublicKeyCrv;
   x: string;
-  x5c?: JWKSEd25519PublicKeyX5cList;
-  x5t?: string;
-  x5t_S256?: string;
-  x5u?: string;
+  x5c?: JWKSEd25519PublicKeyX5cList | undefined;
+  x5t?: string | undefined;
+  x5t_S256?: string | undefined;
+  x5u?: string | undefined;
 }
 export type JWKSEcdsaPublicKeyKty = "EC";
 export type JWKSEcdsaPublicKeyX5cList = Array<string>;
@@ -3764,10 +3781,10 @@ export interface JWKSEcdsaPublicKey {
   crv: string;
   x: string;
   y: string;
-  x5c?: JWKSEcdsaPublicKeyX5cList;
-  x5t?: string;
-  x5t_S256?: string;
-  x5u?: string;
+  x5c?: JWKSEcdsaPublicKeyX5cList | undefined;
+  x5t?: string | undefined;
+  x5t_S256?: string | undefined;
+  x5u?: string | undefined;
 }
 export type JWKSRsaPublicKeyKty = "RSA";
 export type JWKSRsaPublicKeyX5cList = Array<string>;
@@ -3778,10 +3795,10 @@ export interface JWKSRsaPublicKey {
   kty: JWKSRsaPublicKeyKty;
   n: string;
   e: string;
-  x5c?: JWKSRsaPublicKeyX5cList;
-  x5t?: string;
-  x5t_S256?: string;
-  x5u?: string;
+  x5c?: JWKSRsaPublicKeyX5cList | undefined;
+  x5t?: string | undefined;
+  x5t_S256?: string | undefined;
+  x5u?: string | undefined;
 }
 export type JWKSEd25519PrivateKeyKty = "OKP";
 export type JWKSEd25519PrivateKeyCrv = "Ed25519";
@@ -3794,10 +3811,10 @@ export interface JWKSEd25519PrivateKey {
   crv: JWKSEd25519PrivateKeyCrv;
   x: string;
   d: string;
-  x5c?: JWKSEd25519PrivateKeyX5cList;
-  x5t?: string;
-  x5t_S256?: string;
-  x5u?: string;
+  x5c?: JWKSEd25519PrivateKeyX5cList | undefined;
+  x5t?: string | undefined;
+  x5t_S256?: string | undefined;
+  x5u?: string | undefined;
 }
 export type JWKSEcdsaPrivateKeyKty = "EC";
 export type JWKSEcdsaPrivateKeyX5cList = Array<string>;
@@ -3810,10 +3827,10 @@ export interface JWKSEcdsaPrivateKey {
   x: string;
   y: string;
   d: string;
-  x5c?: JWKSEcdsaPrivateKeyX5cList;
-  x5t?: string;
-  x5t_S256?: string;
-  x5u?: string;
+  x5c?: JWKSEcdsaPrivateKeyX5cList | undefined;
+  x5t?: string | undefined;
+  x5t_S256?: string | undefined;
+  x5u?: string | undefined;
 }
 export type JWKSRsaPrivateKeyKty = "RSA";
 export type JWKSRsaPrivateKeyX5cList = Array<string>;
@@ -3827,13 +3844,13 @@ export interface JWKSRsaPrivateKey {
   d: string;
   p: string;
   q: string;
-  dp?: string;
-  dq?: string;
-  qi?: string;
-  x5c?: JWKSRsaPrivateKeyX5cList;
-  x5t?: string;
-  x5t_S256?: string;
-  x5u?: string;
+  dp?: string | undefined;
+  dq?: string | undefined;
+  qi?: string | undefined;
+  x5c?: JWKSRsaPrivateKeyX5cList | undefined;
+  x5t?: string | undefined;
+  x5t_S256?: string | undefined;
+  x5u?: string | undefined;
 }
 export type JWKSSymmetricKeyKty = "oct";
 export type JWKSSymmetricKeyX5cList = Array<string>;
@@ -3843,10 +3860,10 @@ export interface JWKSSymmetricKey {
   use: string;
   kty: JWKSSymmetricKeyKty;
   k: string;
-  x5c?: JWKSSymmetricKeyX5cList;
-  x5t?: string;
-  x5t_S256?: string;
-  x5u?: string;
+  x5c?: JWKSSymmetricKeyX5cList | undefined;
+  x5t?: string | undefined;
+  x5t_S256?: string | undefined;
+  x5u?: string | undefined;
 }
 export type JWKSKeysItem =
   | JWKSEd25519PublicKey
@@ -3858,7 +3875,7 @@ export type JWKSKeysItem =
   | JWKSSymmetricKey;
 export type JWKSKeysList = Array<JWKSKeysItem>;
 export interface JWKS {
-  keys?: JWKSKeysList;
+  keys?: JWKSKeysList | undefined;
 }
 export interface GetJWTTemplateRequest {
   /** JWT Template ID */
@@ -3871,67 +3888,67 @@ export interface GetLogRequest {
 /** The impersonator that performed the action. */
 export interface GetLogResponseImpersonator {
   /** The user ID of the impersonator. */
-  user_id?: string | null;
+  user_id?: string | null | undefined;
 }
 /** Application context information. */
 export interface LogApplicationContext {
   /** The application ID. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The application name. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 /** Domain context information. */
 export interface LogDomainContext {
   /** The domain ID. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The domain name. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 /** Environment context for the log event. */
 export interface LogEnvironmentContext {
   /** The environment type (e.g., "development", "production"). */
-  type?: string | null;
-  application?: LogApplicationContext;
-  domain?: LogDomainContext;
-  primary_domain?: LogDomainContext;
+  type?: string | null | undefined;
+  application?: LogApplicationContext | undefined;
+  domain?: LogDomainContext | undefined;
+  primary_domain?: LogDomainContext | undefined;
 }
 /** Browser information. */
 export interface LogBrowserContext {
   /** The browser name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The browser version. */
-  version?: string | null;
+  version?: string | null | undefined;
 }
 /** Geographic location information. */
 export interface LogLocationContext {
   /** The city name. */
-  city?: string | null;
+  city?: string | null | undefined;
   /** The country, as recorded for the event. */
-  country?: string | null;
+  country?: string | null | undefined;
   /** The ISO 3166-1 alpha-2 code of `country`. Omitted when the country cannot be resolved to a known code. */
-  country_code?: string;
+  country_code?: string | undefined;
 }
 /** Device information for the log event. */
 export interface LogDeviceContext {
   /** The IP address of the client. */
-  ip_address?: string | null;
+  ip_address?: string | null | undefined;
   /** The user agent string of the client. */
-  user_agent?: string | null;
-  browser?: LogBrowserContext;
+  user_agent?: string | null | undefined;
+  browser?: LogBrowserContext | undefined;
   /** The type of device (e.g., "desktop", "mobile", "tablet"). */
-  device_type?: string | null;
+  device_type?: string | null | undefined;
   /** Whether the device is a mobile device. */
-  is_mobile?: boolean | null;
-  location?: LogLocationContext;
+  is_mobile?: boolean | null | undefined;
+  location?: LogLocationContext | undefined;
   /** The version of Clerk.js used by the client. */
-  clerk_js_version?: string | null;
+  clerk_js_version?: string | null | undefined;
   /** Whether the client is a native application. */
-  is_native?: boolean | null;
+  is_native?: boolean | null | undefined;
 }
 /** Context information about the environment and device where the event occurred. */
 export interface LogContext {
-  environment?: LogEnvironmentContext;
-  device?: LogDeviceContext | null;
+  environment?: LogEnvironmentContext | undefined;
+  device?: LogDeviceContext | null | undefined;
 }
 /** Present only when the request selected payload fields via `payload_fields`. Partial by construction: contains just the requested fields, keyed by their dot-paths, with fields absent from this event's payload omitted (an empty object when the event carries none of them). Use the single-event endpoint for the full payload. */
 export type GetLogResponsePayloadMap = { [key: string]: unknown | undefined };
@@ -3945,32 +3962,32 @@ export interface GetLogResponse {
   /** The actor that performed the action (e.g., user ID). */
   actor: string;
   /** The kind of principal the `actor` identifies, classified when the event was recorded: `user` (an end user of your application), `dashboard_user` (a member of your Clerk Dashboard workspace), `instance_key`, `api_key`, `integration`, or `clerk_system`. */
-  actor_type?: string;
+  actor_type?: string | undefined;
   /** The impersonator that performed the action. */
-  impersonator?: GetLogResponseImpersonator | null;
+  impersonator?: GetLogResponseImpersonator | null | undefined;
   /** The subject of the event (e.g., user ID, resource ID). */
   subject: string;
   /** The type of the log event. */
   type: string;
   /** The client ID of the request. Set on FAPI requests, unset on BAPI requests. */
-  client_id?: string | null;
+  client_id?: string | null | undefined;
   /** The source service that generated the event. */
   source: string | null;
   /** The ID of the session the event occurred in, if any. */
-  session_id?: string | null;
+  session_id?: string | null | undefined;
   /** Trace ID for distributed tracing (32 hex characters). */
   trace_id: string;
   /** Span ID for distributed tracing (16 hex characters). */
   span_id: string;
   /** Parent span ID for hierarchical tracing. */
-  parent_span_id?: string | null;
+  parent_span_id?: string | null | undefined;
   event_context: LogContext;
   /** The ID of the event group (a flow such as a sign-in) the event belongs to, e.g. a sign-in ID. Null for an event outside any group. */
-  group_id?: string | null;
+  group_id?: string | null | undefined;
   /** The kind of event group the event belongs to, e.g. `sign_in`. Null for an event outside any group. */
-  group_type?: string | null;
+  group_type?: string | null | undefined;
   /** When the event's group started (Unix timestamp in milliseconds). Null for an event outside any group. */
-  group_started_at?: number | null;
+  group_started_at?: number | null | undefined;
   /** Present only when the request selected payload fields via `payload_fields`. Partial by construction: contains just the requested fields, keyed by their dot-paths, with fields absent from this event's payload omitted (an empty object when the event carries none of them). Use the single-event endpoint for the full payload. */
   payload: GetLogResponsePayloadMap;
 }
@@ -3993,7 +4010,7 @@ export interface LogSchemaField {
   /** Whether the field is optional in the payload. Note that even non-optional fields can be absent from a stored event when they held their zero value at record time. */
   optional: boolean;
   /** The accepted values, present for enum-backed fields (which have type `string`). */
-  enum?: LogSchemaFieldEnumList;
+  enum?: LogSchemaFieldEnumList | undefined;
 }
 export type LogSchemaFieldsList = Array<LogSchemaField>;
 /** The payload schema of a log event type: the fields its payload carries, addressed by the dot-paths that `payload_filter` and `payload_fields` accept. Field entries use JSON Schema vocabulary (`type` is the data type, `enum` the accepted values); the event type identifier lives in `event_type`. */
@@ -4003,21 +4020,21 @@ export interface LogSchema {
   /** The event type this schema describes: a concrete type (`sign_in.completed`) or a trailing-`*` wildcard (`sign_in.*`). A bare family name in the request (`sign_in`) is normalized to its wildcard form here. */
   event_type: string;
   /** Human-readable description of the event type. Present only for concrete types. */
-  description?: string;
+  description?: string | undefined;
   /** Severity of the event type (e.g. `info`, `success`, `warning_external`). Present only for concrete types. */
-  severity?: string;
+  severity?: string | undefined;
   /** The documentation group the event type belongs to. Present only for concrete types. */
-  docs_group?: string;
+  docs_group?: string | undefined;
   /** The concrete event types a wildcard expanded to. Present only for wildcard lookups, whose `fields` are the intersection across these types. */
-  matched_event_types?: LogSchemaMatchedEventTypesList;
+  matched_event_types?: LogSchemaMatchedEventTypesList | undefined;
   fields: LogSchemaFieldsList;
 }
 export interface GetM2MTokensRequest {
   subject: string;
-  revoked?: boolean;
-  expired?: boolean;
-  limit?: number;
-  offset?: number;
+  revoked?: boolean | undefined;
+  expired?: boolean | undefined;
+  limit?: number | undefined;
+  offset?: number | undefined;
 }
 export type GetM2MTokensResponseM2mTokensItemObject = "machine_to_machine_token";
 export type GetM2MTokensResponseM2mTokensItemScopesList = Array<string>;
@@ -4025,8 +4042,8 @@ export interface GetM2MTokensResponseM2mTokensItem {
   object: GetM2MTokensResponseM2mTokensItemObject;
   id: string;
   subject: string;
-  claims?: unknown | null;
-  scopes?: GetM2MTokensResponseM2mTokensItemScopesList;
+  claims?: unknown | null | undefined;
+  scopes?: GetM2MTokensResponseM2mTokensItemScopesList | undefined;
   revoked: boolean;
   revocation_reason: string | null;
   expired: boolean;
@@ -4064,7 +4081,7 @@ export interface GetMachineResponse {
   /** Unix timestamp of last update. */
   updated_at: number;
   /** The default time-to-live (TTL) in seconds for tokens created by this machine. */
-  default_token_ttl?: number;
+  default_token_ttl?: number | undefined;
   /** Array of machines this machine has access to. */
   scoped_machines: GetMachineResponseScopedMachinesList;
 }
@@ -4086,11 +4103,11 @@ export interface GetOAuthAccessTokenRequest {
   /** The ID of the OAuth provider (e.g. `oauth_google`) */
   provider: string;
   /** Whether to paginate the results. If true, the results will be paginated. If false, the results will not be paginated. */
-  paginated?: boolean;
+  paginated?: boolean | undefined;
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `offset`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Skip the first `offset` results when paginating. Needs to be an integer greater or equal to zero. To be used in conjunction with `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type OAuthAccessTokenItemObject = "oauth_access_token";
 export type OAuthAccessTokenItemPublicMetadataMap = { [key: string]: unknown | undefined };
@@ -4111,11 +4128,11 @@ export interface OAuthAccessTokenItem {
   public_metadata: OAuthAccessTokenItemPublicMetadataMap;
   label: string | null;
   /** The list of scopes that the token is valid for. Only present for OAuth 2.0 tokens. */
-  scopes?: OAuthAccessTokenItemScopesList;
+  scopes?: OAuthAccessTokenItemScopesList | undefined;
   /** The ID token retrieved from the OIDC provider. Only present for OIDC-compliant OAuth 2.0 providers when available. */
-  id_token?: string;
+  id_token?: string | undefined;
   /** The token secret. Only present for OAuth 1.0 tokens. */
-  token_secret?: string | Redacted.Redacted<string>;
+  token_secret?: string | Redacted.Redacted<string> | undefined;
 }
 export type OAuthAccessToken = Array<OAuthAccessTokenItem>;
 export type GetOAuthAccessTokenResponse = OAuthAccessToken;
@@ -4161,9 +4178,9 @@ export interface GetOrganizationRequest {
   /** The ID or slug of the organization */
   organization_id: string;
   /** Flag to denote whether or not the organization's members count should be included in the response. */
-  include_members_count?: boolean;
+  include_members_count?: boolean | undefined;
   /** Flag to denote whether or not to include a member with elevated permissions who is not currently a member of the organization. */
-  include_missing_member_with_elevated_permissions?: boolean;
+  include_missing_member_with_elevated_permissions?: boolean | undefined;
 }
 export interface GetOrganizationBillingCreditBalanceRequest {
   /** The ID of the organization whose credit balance to retrieve */
@@ -4199,9 +4216,9 @@ export interface CommerceSubscriptionNextPayment {
   /** The base plan fee for the next payment. Does not include per-unit charges; see `totals.grand_total` for the full amount. */
   amount: CommerceMoneyResponse;
   /** Per-unit total breakdown (for example, seats) for the next payment. */
-  per_unit_totals?: CommerceSubscriptionNextPaymentPerUnitTotalsList;
+  per_unit_totals?: CommerceSubscriptionNextPaymentPerUnitTotalsList | undefined;
   /** Breakdown of the recurring amount that will be billed at renewal (base fee + per-unit charges). Tax and credits are not previewed. */
-  totals?: CommerceTotalsResponse2 | null;
+  totals?: CommerceTotalsResponse2 | null | undefined;
 }
 export interface CommerceSubscription {
   /** String representing the object's type. Objects of the same type share the same value. */
@@ -4225,9 +4242,9 @@ export interface CommerceSubscription {
   /** Array of subscription items in this subscription. */
   subscription_items: CommerceSubscriptionSubscriptionItemsList;
   /** Information about the next scheduled payment. */
-  next_payment?: CommerceSubscriptionNextPayment;
+  next_payment?: CommerceSubscriptionNextPayment | undefined;
   /** Whether the payer is eligible for a free trial. */
-  eligible_for_free_trial?: boolean;
+  eligible_for_free_trial?: boolean | undefined;
 }
 export interface GetOrganizationInvitationRequest {
   /** The organization ID. */
@@ -4303,17 +4320,17 @@ export type GetSessionListRequestStatus =
   | "revoked";
 export interface GetSessionListRequest {
   /** List sessions for the given client */
-  client_id?: string;
+  client_id?: string | undefined;
   /** List sessions for the given user */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Filter sessions by the provided status */
-  status?: GetSessionListRequestStatus | (string & {});
+  status?: GetSessionListRequestStatus | (string & {}) | undefined;
   /** Whether to paginate the results. If true, the results will be paginated. If false, the results will not be paginated. */
-  paginated?: boolean;
+  paginated?: boolean | undefined;
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `offset`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Skip the first `offset` results when paginating. Needs to be an integer greater or equal to zero. To be used in conjunction with `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type GetSessionListResponseBodyList = Array<Session>;
 export type GetSessionListResponse = GetSessionListResponseBodyList;
@@ -4330,8 +4347,8 @@ export type SignUpUnverifiedFieldsList = Array<string>;
 export type SignUpVerificationNextAction = "needs_prepare" | "needs_attempt" | "";
 export type SignUpVerificationSupportedStrategiesList = Array<string>;
 export interface SignUpVerification {
-  next_action?: SignUpVerificationNextAction;
-  supported_strategies?: SignUpVerificationSupportedStrategiesList;
+  next_action?: SignUpVerificationNextAction | undefined;
+  supported_strategies?: SignUpVerificationSupportedStrategiesList | undefined;
   [key: string]: unknown;
 }
 export interface SignUpVerifications {
@@ -4358,8 +4375,8 @@ export interface SignUp {
   password_enabled: boolean;
   first_name: string | null;
   last_name: string | null;
-  unsafe_metadata?: SignUpUnsafeMetadataMap;
-  public_metadata?: SignUpPublicMetadataMap;
+  unsafe_metadata?: SignUpUnsafeMetadataMap | undefined;
+  public_metadata?: SignUpPublicMetadataMap | undefined;
   custom_action: boolean;
   external_id: string | null;
   created_session_id: string | null;
@@ -4369,10 +4386,10 @@ export interface SignUp {
   /** Unix timestamp at which the user accepted the legal requirements. */
   legal_accepted_at: number | null;
   /** The IANA timezone associated with the sign-up attempt. */
-  timezone?: string | null;
+  timezone?: string | null | undefined;
   /** The user locale preference for the sign-up specified as a BCP-47 language tag. */
-  locale?: string | null;
-  external_account?: unknown;
+  locale?: string | null | undefined;
+  external_account?: unknown | undefined;
 }
 export interface GetUserRequest {
   /** The ID of the user to retrieve */
@@ -4396,57 +4413,57 @@ export type GetUserListRequestOrganizationIdList = Array<string>;
 export type GetUserListRequestProviderUserIdList = Array<string>;
 export interface GetUserListRequest {
   /** Returns users with the specified email addresses. Accepts up to 100 email addresses. Any email addresses not found are ignored. */
-  email_address?: GetUserListRequestEmailAddressList;
+  email_address?: GetUserListRequestEmailAddressList | undefined;
   /** Returns users with the specified phone numbers. Accepts up to 100 phone numbers. Any phone numbers not found are ignored. */
-  phone_number?: GetUserListRequestPhoneNumberList;
+  phone_number?: GetUserListRequestPhoneNumberList | undefined;
   /** Returns users with the specified external IDs. For each external ID, the `+` and `-` can be prepended to the ID, which denote whether the respective external ID should be included or excluded from the result set. Accepts up to 100 external IDs. Any external IDs not found are ignored. */
-  external_id?: GetUserListRequestExternalIdList;
+  external_id?: GetUserListRequestExternalIdList | undefined;
   /** Returns users with the specified usernames. Accepts up to 100 usernames. Any usernames not found are ignored. */
-  username?: GetUserListRequestUsernameList;
+  username?: GetUserListRequestUsernameList | undefined;
   /** Returns users with the specified web3 wallet addresses. Accepts up to 100 web3 wallet addresses. Any web3 wallet addresses not found are ignored. */
-  web3_wallet?: GetUserListRequestWeb3WalletList;
+  web3_wallet?: GetUserListRequestWeb3WalletList | undefined;
   /** Returns users with the user IDs specified. For each user ID, the `+` and `-` can be prepended to the ID, which denote whether the respective user ID should be included or excluded from the result set. Accepts up to 100 user IDs. Any user IDs not found are ignored. */
-  user_id?: GetUserListRequestUserIdList;
+  user_id?: GetUserListRequestUserIdList | undefined;
   /** Returns users that have memberships to the given organizations. For each organization ID, the `+` and `-` can be prepended to the ID, which denote whether the respective organization should be included or excluded from the result set. Accepts up to 100 organization IDs. */
-  organization_id?: GetUserListRequestOrganizationIdList;
+  organization_id?: GetUserListRequestOrganizationIdList | undefined;
   /** Returns users that match the given query. For possible matches, we check the email addresses, phone numbers, usernames, web3 wallets, user IDs, first and last names. The query value doesn't need to match the exact value you are looking for, it is capable of partial matches as well. */
-  query?: string;
+  query?: string | undefined;
   /** Returns users with emails that match the given query, via case-insensitive partial match. For example, `email_address_query=ello` will match a user with the email `HELLO@example.com`. */
-  email_address_query?: string;
+  email_address_query?: string | undefined;
   /** Returns users with phone numbers that match the given query, via case-insensitive partial match. For example, `phone_number_query=555` will match a user with the phone number `+1555xxxxxxx`. */
-  phone_number_query?: string;
+  phone_number_query?: string | undefined;
   /** Returns users with usernames that match the given query, via case-insensitive partial match. For example, `username_query=CoolUser` will match a user with the username `SomeCoolUser`. */
-  username_query?: string;
+  username_query?: string | undefined;
   /** Returns users with names that match the given query, via case-insensitive partial match. */
-  name_query?: string;
+  name_query?: string | undefined;
   /** Returns users which are either banned (`banned=true`) or not banned (`banned=false`). */
-  banned?: boolean;
+  banned?: boolean | undefined;
   /** Returns users whose last session activity was before the given date (with millisecond precision). Example: use 1700690400000 to retrieve users whose last session activity was before 2023-11-23. */
-  last_active_at_before?: number;
+  last_active_at_before?: number | undefined;
   /** Returns users whose last session activity was after the given date (with millisecond precision). Example: use 1700690400000 to retrieve users whose last session activity was after 2023-11-23. */
-  last_active_at_after?: number;
+  last_active_at_after?: number | undefined;
   /** Returns users that had session activity since the given date. Example: use 1700690400000 to retrieve users that had session activity from 2023-11-23 until the current day. Deprecated in favor of `last_active_at_after`. */
-  last_active_at_since?: number;
+  last_active_at_since?: number | undefined;
   /** Returns users who have been created before the given date (with millisecond precision). Example: use 1730160000000 to retrieve users who have been created before 2024-10-29. */
-  created_at_before?: number;
+  created_at_before?: number | undefined;
   /** Returns users who have been created after the given date (with millisecond precision). Example: use 1730160000000 to retrieve users who have been created after 2024-10-29. */
-  created_at_after?: number;
+  created_at_after?: number | undefined;
   /** Returns users whose last sign-in was before the given date (with millisecond precision). Example: use 1700690400000 to retrieve users whose last sign-in was before 2023-11-23. */
-  last_sign_in_at_before?: number;
+  last_sign_in_at_before?: number | undefined;
   /** Returns users whose last sign-in was after the given date (with millisecond precision). Example: use 1700690400000 to retrieve users whose last sign-in was after 2023-11-23. */
-  last_sign_in_at_after?: number;
+  last_sign_in_at_after?: number | undefined;
   /** Returns users with external accounts for the specified OAuth provider. Must be used in combination with the `provider_user_id` parameter. For example, use `provider=oauth_google&provider_user_id=12345` to retrieve a user with Google provider user ID 12345. */
-  provider?: string;
+  provider?: string | undefined;
   /** Returns users with the specified provider user IDs for a specific provider. Must be used in combination with the `provider` parameter. For example, use `provider=oauth_google&provider_user_id=12345` to retrieve a user with Google provider user ID 12345. Accepts up to 100 provider user IDs. Any provider user IDs not found are ignored. */
-  provider_user_id?: GetUserListRequestProviderUserIdList;
+  provider_user_id?: GetUserListRequestProviderUserIdList | undefined;
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `offset`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Skip the first `offset` results when paginating. Needs to be an integer greater or equal to zero. To be used in conjunction with `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** A cursor for pagination: the `id` of the last user on the previous page. Returns the users that follow it. **Requires ordering by `created_at`** -- that is, `order_by` omitted, or set to `created_at`, `+created_at` or `-created_at`. Any other `order_by` value is rejected with a 422: the other orderings sort by a value that is neither unique per user nor immutable, so a cursor over them would skip or repeat users. Cannot be combined with a non-zero `offset`, which is also a 422. Keep every other parameter identical across requests, and stop when a page returns fewer than `limit` users. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Allows to return users in a particular order. At the moment, you can order the returned users by their `created_at`,`updated_at`,`email_address`,`web3wallet`,`first_name`,`last_name`,`phone_number`,`username`,`last_active_at`,`last_sign_in_at`. In order to specify the direction, you can use the `+/-` symbols prepended in the property to order by. For example, if you want users to be returned in descending order according to their `created_at` property, you can use `-created_at`. If you don't use `+` or `-`, then `+` is implied. We only support one `order_by` parameter, and if multiple `order_by` parameters are provided, we will only keep the first one. For example, if you pass `order_by=username&order_by=created_at`, we will consider only the first `order_by` parameter, which is `username`. The `created_at` parameter will be ignored in this case. Only the `created_at` orderings can be combined with `starting_after` cursor pagination; see that parameter. */
-  order_by?: string;
+  order_by?: string | undefined;
 }
 export type GetUserListResponseBodyList = Array<User>;
 export type GetUserListResponse = GetUserListResponseBodyList;
@@ -4460,49 +4477,49 @@ export type GetUsersCountRequestOrganizationIdList = Array<string>;
 export type GetUsersCountRequestProviderUserIdList = Array<string>;
 export interface GetUsersCountRequest {
   /** Counts users with the specified email addresses. Accepts up to 100 email addresses. Any email addresses not found are ignored. */
-  email_address?: GetUsersCountRequestEmailAddressList;
+  email_address?: GetUsersCountRequestEmailAddressList | undefined;
   /** Counts users with the specified phone numbers. Accepts up to 100 phone numbers. Any phone numbers not found are ignored. */
-  phone_number?: GetUsersCountRequestPhoneNumberList;
+  phone_number?: GetUsersCountRequestPhoneNumberList | undefined;
   /** Counts users with the specified external IDs. Accepts up to 100 external IDs. Any external IDs not found are ignored. */
-  external_id?: GetUsersCountRequestExternalIdList;
+  external_id?: GetUsersCountRequestExternalIdList | undefined;
   /** Counts users with the specified usernames. Accepts up to 100 usernames. Any usernames not found are ignored. */
-  username?: GetUsersCountRequestUsernameList;
+  username?: GetUsersCountRequestUsernameList | undefined;
   /** Counts users with the specified web3 wallet addresses. Accepts up to 100 web3 wallet addresses. Any web3 wallet addresses not found are ignored. */
-  web3_wallet?: GetUsersCountRequestWeb3WalletList;
+  web3_wallet?: GetUsersCountRequestWeb3WalletList | undefined;
   /** Counts users with the user IDs specified. Accepts up to 100 user IDs. Any user IDs not found are ignored. */
-  user_id?: GetUsersCountRequestUserIdList;
+  user_id?: GetUsersCountRequestUserIdList | undefined;
   /** Returns users that have memberships to the given organizations. For each organization ID, the `+` and `-` can be prepended to the ID, which denote whether the respective organization should be included or excluded from the result set. Accepts up to 100 organization IDs. */
-  organization_id?: GetUsersCountRequestOrganizationIdList;
+  organization_id?: GetUsersCountRequestOrganizationIdList | undefined;
   /** Counts users that match the given query. For possible matches, we check the email addresses, phone numbers, usernames, web3 wallets, user IDs, first and last names. The query value doesn't need to match the exact value you are looking for, it is capable of partial matches as well. */
-  query?: string;
+  query?: string | undefined;
   /** Counts users with emails that match the given query, via case-insensitive partial match. For example, `email_address_query=ello` will match a user with the email `HELLO@example.com`, and will be included in the resulting count. */
-  email_address_query?: string;
+  email_address_query?: string | undefined;
   /** Counts users with phone numbers that match the given query, via case-insensitive partial match. For example, `phone_number_query=555` will match a user with the phone number `+1555xxxxxxx`, and will be included in the resulting count. */
-  phone_number_query?: string;
+  phone_number_query?: string | undefined;
   /** Counts users with usernames that match the given query, via case-insensitive partial match. For example, `username_query=CoolUser` will match a user with the username `SomeCoolUser`, and will be included in the resulting count. */
-  username_query?: string;
+  username_query?: string | undefined;
   /** Returns users with names that match the given query, via case-insensitive partial match. */
-  name_query?: string;
+  name_query?: string | undefined;
   /** Counts users which are either banned (`banned=true`) or not banned (`banned=false`). */
-  banned?: boolean;
+  banned?: boolean | undefined;
   /** Returns users whose last session activity was before the given date (with millisecond precision). Example: use 1700690400000 to retrieve users whose last session activity was before 2023-11-23. */
-  last_active_at_before?: number;
+  last_active_at_before?: number | undefined;
   /** Returns users whose last session activity was after the given date (with millisecond precision). Example: use 1700690400000 to retrieve users whose last session activity was after 2023-11-23. */
-  last_active_at_after?: number;
+  last_active_at_after?: number | undefined;
   /** Returns users that had session activity since the given date. Example: use 1700690400000 to retrieve users that had session activity from 2023-11-23 until the current day. Deprecated in favor of `last_active_at_after`. */
-  last_active_at_since?: number;
+  last_active_at_since?: number | undefined;
   /** Returns users who have been created before the given date (with millisecond precision). Example: use 1730160000000 to retrieve users who have been created before 2024-10-29. */
-  created_at_before?: number;
+  created_at_before?: number | undefined;
   /** Returns users who have been created after the given date (with millisecond precision). Example: use 1730160000000 to retrieve users who have been created after 2024-10-29. */
-  created_at_after?: number;
+  created_at_after?: number | undefined;
   /** Counts users whose last sign-in was before the given date (with millisecond precision). Example: use 1700690400000 to count users whose last sign-in was before 2023-11-23. */
-  last_sign_in_at_before?: number;
+  last_sign_in_at_before?: number | undefined;
   /** Counts users whose last sign-in was after the given date (with millisecond precision). Example: use 1700690400000 to count users whose last sign-in was after 2023-11-23. */
-  last_sign_in_at_after?: number;
+  last_sign_in_at_after?: number | undefined;
   /** Counts users with external accounts for the specified OAuth provider. Must be used in combination with the `provider_user_id` parameter. For example, use `provider=oauth_google&provider_user_id=12345` to count users with Google provider user ID 12345. Accepts up to 100 providers. */
-  provider?: string;
+  provider?: string | undefined;
   /** Counts users with the specified provider user IDs for a specific provider. Must be used in combination with the `provider` parameter. For example, use `provider=oauth_google&provider_user_id=12345` to count users with Google provider user ID 12345. Accepts up to 100 provider user IDs. Any provider user IDs not found are ignored. */
-  provider_user_id?: GetUsersCountRequestProviderUserIdList;
+  provider_user_id?: GetUsersCountRequestProviderUserIdList | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type TotalCountObject = "total_count";
@@ -4513,11 +4530,11 @@ export interface TotalCount {
 }
 export interface InstanceGetOrganizationMembershipsRequest {
   /** Sorts organizations memberships by phone_number, email_address, created_at, first_name, last_name or username. By prepending one of those values with + or -, we can choose to sort in ascending (ASC) or descending (DESC) order. */
-  order_by?: string;
+  order_by?: string | undefined;
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `offset`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Skip the first `offset` results when paginating. Needs to be an integer greater or equal to zero. To be used in conjunction with `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type OrganizationMembershipsDataList = Array<OrganizationMembership>;
 export interface OrganizationMemberships {
@@ -4529,7 +4546,7 @@ export interface InviteWaitlistEntryRequest {
   /** The ID of the waitlist entry to invite */
   waitlist_entry_id: string;
   /** Whether an invitation should be created if there is already an existing invitation for this email address, or it's claimed by another user. */
-  ignore_existing?: boolean | null;
+  ignore_existing?: boolean | null | undefined;
 }
 export type ListAllOrganizationDomainsRequestEnrollmentModeItem =
   | "manual_invitation"
@@ -4546,21 +4563,21 @@ export type ListAllOrganizationDomainsRequestEnrollmentModeList = Array<
 export type ListAllOrganizationDomainsRequestDomainsList = Array<string>;
 export interface ListAllOrganizationDomainsRequest {
   /** The ID of the organization to filter domains by */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** Filter by verification status */
-  verified?: boolean;
+  verified?: boolean | undefined;
   /** Filter by enrollment mode. Prefix a value with `-` to exclude it instead (e.g. `-enterprise_sso`). Include and exclude filters can be combined and compose as AND. */
-  enrollment_mode?: ListAllOrganizationDomainsRequestEnrollmentModeList;
+  enrollment_mode?: ListAllOrganizationDomainsRequestEnrollmentModeList | undefined;
   /** Search domains by name or organization ID. If the query starts with "org_", it will search by exact organization ID match. Otherwise, it performs a case-insensitive partial match on the domain name. Note: An empty string or whitespace-only value is not allowed and will result in a validation error. */
-  query?: string;
+  query?: string | undefined;
   /** Filter by exact domain names. Accepts multiple values (e.g. domains=example.com&domains=test.org). */
-  domains?: ListAllOrganizationDomainsRequestDomainsList;
+  domains?: ListAllOrganizationDomainsRequestDomainsList | undefined;
   /** Allows to return organization domains in a particular order. At the moment, you can order the returned domains by their `name` or `created_at`. In order to specify the direction, you can use the `+/-` symbols prepended to the property to order by. For example, if you want domains to be returned in descending order according to their `created_at` property, you can use `-created_at`. If you don't use `+` or `-`, then `+` is implied. Defaults to `-created_at`. */
-  order_by?: string;
+  order_by?: string | undefined;
   /** Skip the first `offset` results when paginating. Needs to be an integer greater or equal to zero. To be used in conjunction with `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `offset`. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type OrganizationDomainsDataList = Array<OrganizationDomain>;
 export interface OrganizationDomains {
@@ -4570,11 +4587,11 @@ export interface OrganizationDomains {
 }
 export interface ListAllowlistIdentifiersRequest {
   /** Whether to paginate the results. If true, the results will be paginated. If false, the results will not be paginated. */
-  paginated?: boolean;
+  paginated?: boolean | undefined;
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `offset`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Skip the first `offset` results when paginating. Needs to be an integer greater or equal to zero. To be used in conjunction with `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type ListAllowlistIdentifiersResponseBodyList = Array<AllowlistIdentifier>;
 export type ListAllowlistIdentifiersResponse = ListAllowlistIdentifiersResponseBodyList;
@@ -4587,9 +4604,9 @@ export interface BlocklistIdentifiers {
 }
 export interface ListDirectoriesRequest {
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `offset`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Skip the first `offset` results when paginating. Needs to be an integer greater or equal to zero. To be used in conjunction with `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type Directories = Array<Directory>;
 export interface ListDirectoriesResponse {
@@ -4603,9 +4620,9 @@ export interface ListDirectoryGroupMembersRequest {
   /** The ID of the group, as assigned by the directory. */
   group_id: string;
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `starting_after`. */
-  limit?: number;
+  limit?: number | undefined;
   /** A cursor for pagination. Provide the `starting_after` cursor from a previous response to fetch the next page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
 }
 /** String representing the object's type. Always "directory_group_member". */
 export type DirectoryGroupMemberObject = "directory_group_member";
@@ -4622,9 +4639,9 @@ export type ListDirectoryGroupMembersResponseDataList = Array<DirectoryGroupMemb
 /** Cursor information for pagination. */
 export interface ListDirectoryGroupMembersResponseCursor {
   /** Cursor to fetch the next page of results. Pass it back as `starting_after` on the next request. */
-  starting_after?: string | null;
+  starting_after?: string | null | undefined;
   /** Cursor to fetch the previous page of results. Pass it back as `ending_before` on the next request. */
-  ending_before?: string | null;
+  ending_before?: string | null | undefined;
   /** Whether more results can be fetched using the `starting_after` cursor. */
   has_next_page: boolean;
 }
@@ -4652,13 +4669,13 @@ export interface Domains {
 }
 export interface ListEnterpriseConnectionsRequest {
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `offset`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Skip the first `offset` results when paginating. Needs to be an integer greater or equal to zero. To be used in conjunction with `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter enterprise connections by organization ID */
-  organization_id?: string;
+  organization_id?: string | undefined;
   /** Filter by active status. If true, only active connections are returned. If false, only inactive connections are returned. If omitted, all connections are returned. */
-  active?: boolean;
+  active?: boolean | undefined;
 }
 export type EnterpriseConnectionsDataList = Array<EnterpriseConnection>;
 export interface EnterpriseConnections {
@@ -4674,11 +4691,11 @@ export interface ListEnterpriseConnectionTestRunsRequest {
   /** The ID of the enterprise connection */
   enterprise_connection_id: string;
   /** Filter test runs by status (may be repeated) */
-  status?: ListEnterpriseConnectionTestRunsRequestStatusList;
+  status?: ListEnterpriseConnectionTestRunsRequestStatusList | undefined;
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `offset`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Skip the first `offset` results when paginating. Needs to be an integer greater or equal to zero. To be used in conjunction with `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** The status of the test run */
 export type EnterpriseConnectionTestRunStatus = "pending" | "success" | "failed";
@@ -4686,30 +4703,30 @@ export type EnterpriseConnectionTestRunStatus = "pending" | "success" | "failed"
 export type EnterpriseConnectionTestRunConnectionType = "saml" | "oauth";
 /** The user information parsed from the IdP response */
 export interface EnterpriseConnectionTestRunParsedUserInfo {
-  email_address?: string;
-  first_name?: string;
-  last_name?: string;
-  user_id?: string;
+  email_address?: string | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  user_id?: string | undefined;
 }
 export interface EnterpriseConnectionTestRunLogsItem {
   level: string;
-  code?: string;
-  short_message?: string;
+  code?: string | undefined;
+  short_message?: string | undefined;
   message: string;
 }
 /** Log entries captured during the test run */
 export type EnterpriseConnectionTestRunLogsList = Array<EnterpriseConnectionTestRunLogsItem>;
 /** SAML-specific metadata, present for SAML connections */
 export interface EnterpriseConnectionTestRunSaml {
-  saml_request?: string;
-  saml_response?: string;
-  relay_state?: string;
+  saml_request?: string | undefined;
+  saml_response?: string | undefined;
+  relay_state?: string | undefined;
 }
 /** OAuth-specific metadata, present for OIDC connections */
 export interface EnterpriseConnectionTestRunOauth {
-  id_token?: string;
-  access_token?: string | Redacted.Redacted<string>;
-  user_info?: string;
+  id_token?: string | undefined;
+  access_token?: string | Redacted.Redacted<string> | undefined;
+  user_info?: string | undefined;
 }
 export interface EnterpriseConnectionTestRun {
   /** The test run ID */
@@ -4719,13 +4736,13 @@ export interface EnterpriseConnectionTestRun {
   /** The type of enterprise connection the test run was performed against */
   connection_type: EnterpriseConnectionTestRunConnectionType;
   /** The user information parsed from the IdP response */
-  parsed_user_info?: EnterpriseConnectionTestRunParsedUserInfo | null;
+  parsed_user_info?: EnterpriseConnectionTestRunParsedUserInfo | null | undefined;
   /** Log entries captured during the test run */
-  logs?: EnterpriseConnectionTestRunLogsList;
+  logs?: EnterpriseConnectionTestRunLogsList | undefined;
   /** SAML-specific metadata, present for SAML connections */
-  saml?: EnterpriseConnectionTestRunSaml | null;
+  saml?: EnterpriseConnectionTestRunSaml | null | undefined;
   /** OAuth-specific metadata, present for OIDC connections */
-  oauth?: EnterpriseConnectionTestRunOauth | null;
+  oauth?: EnterpriseConnectionTestRunOauth | null | undefined;
   /** Unix timestamp in milliseconds when the test run was created */
   created_at: number;
 }
@@ -4742,15 +4759,15 @@ export type ListInstanceOrganizationInvitationsRequestStatus =
   | "expired";
 export interface ListInstanceOrganizationInvitationsRequest {
   /** Allows to return organization invitations in a particular order. At the moment, you can order the returned organization invitations either by their `created_at` or `email_address`. In order to specify the direction, you can use the `+/-` symbols prepended in the property to order by. For example, if you want organization invitations to be returned in descending order according to their `created_at` property, you can use `-created_at`. If you don't use `+` or `-`, then `+` is implied. Defaults to `-created_at`. */
-  order_by?: string;
+  order_by?: string | undefined;
   /** Filter organization invitations based on their status */
-  status?: ListInstanceOrganizationInvitationsRequestStatus | (string & {});
+  status?: ListInstanceOrganizationInvitationsRequestStatus | (string & {}) | undefined;
   /** Filter organization invitations based on their `email_address` */
-  query?: string;
+  query?: string | undefined;
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `offset`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Skip the first `offset` results when paginating. Needs to be an integer greater or equal to zero. To be used in conjunction with `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type OrganizationInvitationWithPublicOrganizationDataObject = "organization_invitation";
@@ -4768,12 +4785,12 @@ export interface OrganizationInvitationWithPublicOrganizationData {
   email_address: string;
   role: string;
   role_name: string;
-  organization_id?: string;
+  organization_id?: string | undefined;
   inviter_id: string | null;
   public_inviter_data: OrganizationInvitationPublicUserData | null;
-  status?: string;
+  status?: string | undefined;
   public_metadata: OrganizationInvitationWithPublicOrganizationDataPublicMetadataMap;
-  private_metadata?: OrganizationInvitationWithPublicOrganizationDataPrivateMetadataMap;
+  private_metadata?: OrganizationInvitationWithPublicOrganizationDataPrivateMetadataMap | undefined;
   url: string | null;
   /** Unix timestamp of expiration. */
   expires_at: number | null;
@@ -4781,7 +4798,7 @@ export interface OrganizationInvitationWithPublicOrganizationData {
   created_at: number;
   /** Unix timestamp of last update. */
   updated_at: number;
-  public_organization_data?: OrganizationInvitationPublicOrganizationData;
+  public_organization_data?: OrganizationInvitationPublicOrganizationData | undefined;
 }
 export type OrganizationInvitationsWithPublicOrganizationDataDataList =
   Array<OrganizationInvitationWithPublicOrganizationData>;
@@ -4794,29 +4811,29 @@ export type ListInvitationsRequestStatus = "pending" | "accepted" | "revoked" | 
 export type ListInvitationsRequestEmailAddressList = Array<string>;
 export interface ListInvitationsRequest {
   /** Filter invitations based on their status */
-  status?: ListInvitationsRequestStatus | (string & {});
+  status?: ListInvitationsRequestStatus | (string & {}) | undefined;
   /** Filter invitations based on their `email_address` or `id` */
-  query?: string;
+  query?: string | undefined;
   /** Returns invitations with the specified email addresses. Accepts up to 100 email addresses. */
-  email_address?: ListInvitationsRequestEmailAddressList;
+  email_address?: ListInvitationsRequestEmailAddressList | undefined;
   /** Allows to return invitations in a particular order. At the moment, you can order the returned invitations either by their `created_at`, `email_address` or `expires_at`. In order to specify the direction, you can use the `+/-` symbols prepended in the property to order by. For example, if you want invitations to be returned in descending order according to their `created_at` property, you can use `-created_at`. If you don't use `+` or `-`, then `+` is implied. Defaults to `-created_at`. */
-  order_by?: string;
+  order_by?: string | undefined;
   /** Whether to paginate the results. If true, the results will be paginated. If false, the results will not be paginated. */
-  paginated?: boolean;
+  paginated?: boolean | undefined;
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `offset`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Skip the first `offset` results when paginating. Needs to be an integer greater or equal to zero. To be used in conjunction with `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type ListInvitationsResponseBodyList = Array<Invitation>;
 export type ListInvitationsResponse = ListInvitationsResponseBodyList;
 export interface ListJWTTemplatesRequest {
   /** Whether to paginate the results. If true, the results will be paginated. If false, the results will not be paginated. */
-  paginated?: boolean;
+  paginated?: boolean | undefined;
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `offset`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Skip the first `offset` results when paginating. Needs to be an integer greater or equal to zero. To be used in conjunction with `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type ListJWTTemplatesResponseBodyList = Array<JWTTemplate>;
 export type ListJWTTemplatesResponse = ListJWTTemplatesResponseBodyList;
@@ -4826,9 +4843,9 @@ export interface ListLogGroupEventsRequest {
   /** When the group started (Unix timestamp in milliseconds), the `started_at` of the group item. It bounds the time range searched. */
   started_at: number;
   /** Applies a limit to the number of results returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** The group's `events_cursor` from the grouped view, or the `starting_after` cursor this endpoint returned. Only forward pagination is supported. */
-  starting_after?: string;
+  starting_after?: string | undefined;
 }
 /** The impersonator that performed the action. */
 export type LogImpersonator = GetLogResponseImpersonator;
@@ -4845,34 +4862,34 @@ export interface Log {
   /** The actor that performed the action (e.g., user ID). */
   actor: string;
   /** The kind of principal the `actor` identifies, classified when the event was recorded: `user` (an end user of your application), `dashboard_user` (a member of your Clerk Dashboard workspace), `instance_key`, `api_key`, `integration`, or `clerk_system`. */
-  actor_type?: string;
+  actor_type?: string | undefined;
   /** The impersonator that performed the action. */
-  impersonator?: GetLogResponseImpersonator | null;
+  impersonator?: GetLogResponseImpersonator | null | undefined;
   /** The subject of the event (e.g., user ID, resource ID). */
   subject: string;
   /** The type of the log event. */
   type: string;
   /** The client ID of the request. Set on FAPI requests, unset on BAPI requests. */
-  client_id?: string | null;
+  client_id?: string | null | undefined;
   /** The source service that generated the event. */
   source: string | null;
   /** The ID of the session the event occurred in, if any. */
-  session_id?: string | null;
+  session_id?: string | null | undefined;
   /** Trace ID for distributed tracing (32 hex characters). */
   trace_id: string;
   /** Span ID for distributed tracing (16 hex characters). */
   span_id: string;
   /** Parent span ID for hierarchical tracing. */
-  parent_span_id?: string | null;
+  parent_span_id?: string | null | undefined;
   event_context: LogContext;
   /** The ID of the event group (a flow such as a sign-in) the event belongs to, e.g. a sign-in ID. Null for an event outside any group. */
-  group_id?: string | null;
+  group_id?: string | null | undefined;
   /** The kind of event group the event belongs to, e.g. `sign_in`. Null for an event outside any group. */
-  group_type?: string | null;
+  group_type?: string | null | undefined;
   /** When the event's group started (Unix timestamp in milliseconds). Null for an event outside any group. */
-  group_started_at?: number | null;
+  group_started_at?: number | null | undefined;
   /** Present only when the request selected payload fields via `payload_fields`. Partial by construction: contains just the requested fields, keyed by their dot-paths, with fields absent from this event's payload omitted (an empty object when the event carries none of them). Use the single-event endpoint for the full payload. */
-  payload?: LogPayloadMap;
+  payload?: LogPayloadMap | undefined;
 }
 /** String representing the object's type. Always "log_group". */
 export type LogGroupObject = "log_group";
@@ -4891,7 +4908,7 @@ export interface LogGroup {
   /** The number of events in the group. */
   event_count: number;
   /** How many of the group's events matched the request's event filters. Present only when event filters were applied. */
-  matched_event_count?: number;
+  matched_event_count?: number | undefined;
   /** How the flow ended, `completed` or `failed`. Null while the flow has not concluded: no status is recorded for a flow that is still going or was given up. */
   status: string | null;
   /** A display label for `status`. Null when `status` is. */
@@ -4915,29 +4932,29 @@ export type ListLogGroupEventsResponseCursorNextPageStatus = "true" | "false" | 
 /** Cursor information for pagination. */
 export interface ListLogGroupEventsResponseCursor {
   /** Cursor to fetch the next page of results. */
-  starting_after?: string | null;
+  starting_after?: string | null | undefined;
   /** Cursor to fetch the previous page of results. */
-  ending_before?: string | null;
+  ending_before?: string | null | undefined;
   /** Deprecated: use next_page_status instead. If true, more results may be fetched using the starting_after cursor. True when next_page_status is "true", or when it is "unknown" and the page returned data. */
-  has_next_page?: boolean;
+  has_next_page?: boolean | undefined;
   /** Pagination status. "true" means more results exist, "false" means no more results, "unknown" means the query was time-windowed and more results may exist beyond the window. */
-  next_page_status?: ListLogGroupEventsResponseCursorNextPageStatus;
+  next_page_status?: ListLogGroupEventsResponseCursorNextPageStatus | undefined;
   /** When true, next_page_status is "false" because event_time_after was clamped to the plan's retention floor. Extending event_time_after further back will not yield additional results. */
-  retention_limit_reached?: boolean;
+  retention_limit_reached?: boolean | undefined;
   /** The plan's log retention window, in days. Events older than this are not kept and cannot be returned at any page size. */
-  retention_days?: number;
+  retention_days?: number | undefined;
   /** The oldest timestamp this plan can return, in Unix milliseconds: `retention_days` before the time the request was served. `searched_from` is never earlier than this, whatever `event_time_after` asked for. Compare your own `event_time_after` against it to tell whether part of the range you asked for is unavailable. */
-  retention_floor?: number;
+  retention_floor?: number | undefined;
   /** Lower bound of the time range this page was actually read from, in Unix milliseconds. A request is not served by scanning the whole range you ask for. The endpoint picks a sub-window of it per request and pages through your range one sub-window at a time, which is why `next_page_status` can be `"unknown"` on a page that looks short. `searched_from` and `searched_to` are that sub-window, so you can tell where in your requested range a page sits without decoding the cursor. Never earlier than `event_time_after`, or than the plan's retention floor when that is later. */
-  searched_from?: number;
+  searched_from?: number | undefined;
   /** Upper bound of the time range this page was actually read from, in Unix milliseconds. See `searched_from`. On a first page with no `event_time_before`, this sits a few minutes ahead of the current time on purpose: events can arrive with timestamps marginally ahead of the service clock, and this is the bound the query ran with. */
-  searched_to?: number;
+  searched_to?: number | undefined;
 }
 export interface ListLogGroupEventsResponse {
   /** The log entries. In the grouped view (the default), each item is either an event group or a log entry outside any group, told apart by `object`. With `view=flat`, every item is a log entry. */
   data: ListLogGroupEventsResponseDataList;
   /** Cursor information for pagination. */
-  cursor?: ListLogGroupEventsResponseCursor;
+  cursor?: ListLogGroupEventsResponseCursor | undefined;
 }
 export type ListLogsRequestPayloadFilterMap = { [key: string]: string | undefined };
 export type ListLogsRequestFilterMatch = "all" | "any";
@@ -4946,49 +4963,49 @@ export type ListLogsRequestGroupTypeList = Array<string>;
 export type ListLogsRequestStatusList = Array<string>;
 export interface ListLogsRequest {
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `starting_after` or `ending_before`. At most 100 in the grouped view (the default), and up to 500 with `view=flat`. */
-  limit?: number;
+  limit?: number | undefined;
   /** A cursor for pagination. Provide the starting_after cursor from a previous response to fetch the next page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** A cursor for pagination. Provide the ending_before cursor from a previous response to fetch the previous page. Only with `view=flat`, since the grouped view only pages forward. */
-  ending_before?: string;
+  ending_before?: string | undefined;
   /** Filter logs by subject. */
-  subject?: string;
+  subject?: string | undefined;
   /** Filter logs by actor */
-  actor?: string;
+  actor?: string | undefined;
   /** Filter logs to events involving one user, as either the actor or the subject. Takes the user's ID. Returns a 422 if the value is not a user ID (use `identifier` to filter by email address, phone number, username, or web3 wallet) or if `actor`, `subject`, or `identifier` is also set. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Filter logs to events where the user is the actor or the subject. Takes an identifier associated with a user: an email address, phone number, username, or web3 wallet. The value must exactly match an identifier stored on a user; it is not a partial or fuzzy match. Verification status is not considered, so an identifier associated with several users matches events for all of them. If it is associated with no user in the instance, the response is an empty page, not an error. Returns a 422 if the value is a user ID (use `user_id` instead) or if `actor`, `subject`, or `user_id` is also set. */
-  identifier?: string;
+  identifier?: string | undefined;
   /** Filter logs by trace ID (32 hex characters). */
-  trace_id?: string;
+  trace_id?: string | undefined;
   /** Filter logs by event type (e.g., `sign_in.completed`). A trailing `*` matches an event-type family by prefix (e.g. `sign_in.*` matches `sign_in.created`, `sign_in.completed`, ...); the wildcard is only allowed as the last character. */
-  type?: string;
+  type?: string | undefined;
   /** Filter logs by client ID. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** Filter logs to events produced by one session: the session that was authenticated on the request behind the event. This is the acting session, not the session an event is about. A sign-in creates a session on a request that had none, so `session.created` carries no `session_id` and names the new session in its payload instead. Use `payload_filter[session_id]` with a `type` to filter on that. Events with no authenticated session behind them, such as sign-in, sign-up and verification requests, or anything originating from the Backend API or a background job, carry no `session_id` and never match. */
-  session_id?: string;
+  session_id?: string | undefined;
   /** Filter logs by impersonator user ID. */
-  impersonator_user_id?: string;
+  impersonator_user_id?: string | undefined;
   /** Filter logs by the client IP address recorded on the event. */
-  ip_address?: string;
+  ip_address?: string | undefined;
   /** Exact-match filters on event payload fields, keyed by the field's dot-path: `payload_filter[user_id]=user_123` or `payload_filter[captcha_attempt_payload.provider]=turnstile`. Requires `type`. Fields are validated against the payload schema of that event type (discoverable via `GET /logs/schemas`); for a trailing-`*` type the valid fields are those common to every matching event type. An unknown field returns a 422 listing the allowed fields. One value per field -- repeating a field is a 422. Values must parse as the field's type (a non-numeric value against an integer field is a 422) and match exactly; an event whose payload lacks the field never matches. At most 10 filters per request, paths at most 4 segments deep, values at most 256 characters. Payload filters join the same `filter_match` group as the string filters above. */
-  payload_filter?: ListLogsRequestPayloadFilterMap;
+  payload_filter?: ListLogsRequestPayloadFilterMap | undefined;
   /** Comma-separated payload field dot-paths to include per returned log: `payload_fields=user_id,strategy`. Requires `type`, and the fields are validated against that event type's payload schema the same way as `payload_filter` (with the same caps). Each returned log gains a `payload` object containing only the requested fields, keyed by their dot-paths, with fields absent from an event's payload omitted. Without this parameter, list responses carry no `payload` key. Not allowed together with `filter_match=any`: the fields are validated against `type`'s schema, and with `any` the type filter no longer constrains every returned row. */
-  payload_fields?: string;
+  payload_fields?: string | undefined;
   /** Controls how `subject`, `type`, `actor`, `user_id`, `identifier`, `trace_id`, `client_id`, `session_id`, `impersonator_user_id`, `ip_address`, and `payload_filter` entries are combined: `all` (default) requires every supplied filter to match; `any` returns events that match at least one of the supplied filters. `event_time_after`, `event_time_before`, and `end_user_facing_only` are always ANDed with the (possibly OR-ed) string filter group. */
-  filter_match?: ListLogsRequestFilterMatch | (string & {});
+  filter_match?: ListLogsRequestFilterMatch | (string & {}) | undefined;
   /** Sets a lower time boundary for the query (Unix timestamp in milliseconds). Only events on or after this timestamp are eligible to be returned. This parameter constrains the search range but does not guarantee that every matching event within the range is returned in a single response. The server may use an internal time window smaller than the requested range to keep query latency predictable. When this happens, `next_page_status` will be `"unknown"` and a continuation cursor is provided so the caller can paginate through the full range. The window that was actually read is reported as `searched_from` and `searched_to`. */
-  event_time_after?: number;
+  event_time_after?: number | undefined;
   /** Sets an upper time boundary for the query (Unix timestamp in milliseconds). Only events on or before this timestamp are eligible to be returned. This parameter constrains the search range but does not guarantee that every matching event within the range is returned in a single response. The server may use an internal time window smaller than the requested range to keep query latency predictable. When this happens, `next_page_status` will be `"unknown"` and a continuation cursor is provided so the caller can paginate through the full range. */
-  event_time_before?: number;
+  event_time_before?: number | undefined;
   /** When set to true, only returns events that are marked as end-user facing. When set to false or omitted, returns all events. */
-  end_user_facing_only?: boolean;
+  end_user_facing_only?: boolean | undefined;
   /** `grouped`, the default, lists each event group (a flow such as a sign-in) as a single item, next to the logs that belong to no group, newest first: a group sorts by when it started, a log by when it happened. Groups and logs are told apart by `object`. `flat` lists every log on its own. Parameters that only work in one view are rejected with a 422 rather than ignored: - The grouped view only pages forward: `ending_before` is not allowed, and `starting_after` takes only a cursor from a grouped page. - The flat list takes only flat cursors. - `group_type` and `status` aren't allowed with `view=flat`. - The grouped view takes a `limit` of at most 100, since each group brings its first logs along. In the grouped view, event filters keep the groups with at least one matching log, each group lists only its matching logs, and time filters pick groups by when they started. */
-  view?: ListLogsRequestView | (string & {});
+  view?: ListLogsRequestView | (string & {}) | undefined;
   /** Not allowed with `view=flat`. Group types to keep, e.g. `sign_in`, repeated for several (`group_type=sign_in&group_type=sign_up`). Drops the logs outside any group. */
-  group_type?: ListLogsRequestGroupTypeList;
+  group_type?: ListLogsRequestGroupTypeList | undefined;
   /** Not allowed with `view=flat`. Group statuses to keep, e.g. `failed`, repeated for several (`status=failed&status=completed`). Keeps only groups that concluded that way and drops the logs outside any group. A status is a conclusion (`completed`, `failed`), so groups that haven't concluded never match. */
-  status?: ListLogsRequestStatusList;
+  status?: ListLogsRequestStatusList | undefined;
 }
 export type ListLogsResponseDataItem = Log | LogGroup;
 /** The log entries. In the grouped view (the default), each item is either an event group or a log entry outside any group, told apart by `object`. With `view=flat`, every item is a log entry. */
@@ -4998,39 +5015,39 @@ export type ListLogsResponseCursorNextPageStatus = "true" | "false" | "unknown";
 /** Cursor information for pagination. */
 export interface ListLogsResponseCursor {
   /** Cursor to fetch the next page of results. */
-  starting_after?: string | null;
+  starting_after?: string | null | undefined;
   /** Cursor to fetch the previous page of results. */
-  ending_before?: string | null;
+  ending_before?: string | null | undefined;
   /** Deprecated: use next_page_status instead. If true, more results may be fetched using the starting_after cursor. True when next_page_status is "true", or when it is "unknown" and the page returned data. */
-  has_next_page?: boolean;
+  has_next_page?: boolean | undefined;
   /** Pagination status. "true" means more results exist, "false" means no more results, "unknown" means the query was time-windowed and more results may exist beyond the window. */
-  next_page_status?: ListLogsResponseCursorNextPageStatus;
+  next_page_status?: ListLogsResponseCursorNextPageStatus | undefined;
   /** When true, next_page_status is "false" because event_time_after was clamped to the plan's retention floor. Extending event_time_after further back will not yield additional results. */
-  retention_limit_reached?: boolean;
+  retention_limit_reached?: boolean | undefined;
   /** The plan's log retention window, in days. Events older than this are not kept and cannot be returned at any page size. */
-  retention_days?: number;
+  retention_days?: number | undefined;
   /** The oldest timestamp this plan can return, in Unix milliseconds: `retention_days` before the time the request was served. `searched_from` is never earlier than this, whatever `event_time_after` asked for. Compare your own `event_time_after` against it to tell whether part of the range you asked for is unavailable. */
-  retention_floor?: number;
+  retention_floor?: number | undefined;
   /** Lower bound of the time range this page was actually read from, in Unix milliseconds. A request is not served by scanning the whole range you ask for. The endpoint picks a sub-window of it per request and pages through your range one sub-window at a time, which is why `next_page_status` can be `"unknown"` on a page that looks short. `searched_from` and `searched_to` are that sub-window, so you can tell where in your requested range a page sits without decoding the cursor. Never earlier than `event_time_after`, or than the plan's retention floor when that is later. */
-  searched_from?: number;
+  searched_from?: number | undefined;
   /** Upper bound of the time range this page was actually read from, in Unix milliseconds. See `searched_from`. On a first page with no `event_time_before`, this sits a few minutes ahead of the current time on purpose: events can arrive with timestamps marginally ahead of the service clock, and this is the bound the query ran with. */
-  searched_to?: number;
+  searched_to?: number | undefined;
 }
 export interface ListLogsResponse {
   /** The log entries. In the grouped view (the default), each item is either an event group or a log entry outside any group, told apart by `object`. With `view=flat`, every item is a log entry. */
   data: ListLogsResponseDataList;
   /** Cursor information for pagination. */
-  cursor?: ListLogsResponseCursor;
+  cursor?: ListLogsResponseCursor | undefined;
 }
 export interface ListMachinesRequest {
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `offset`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Skip the first `offset` results when paginating. Needs to be an integer greater or equal to zero. To be used in conjunction with `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** Returns machines with ID or name that match the given query. Uses exact match for machine ID and partial match for name. */
-  query?: string;
+  query?: string | undefined;
   /** Allows to return machines in a particular order. You can order the returned machines by their `name` or `created_at`. To specify the direction, use the `+` or `-` symbols prepended to the property to order by. For example, to return machines in descending order by `created_at`, use `-created_at`. If you don't use `+` or `-`, then `+` is implied. Defaults to `-created_at`. */
-  order_by?: string;
+  order_by?: string | undefined;
 }
 export type MachineObject = "machine";
 /** Array of machines this machine has access to. */
@@ -5048,7 +5065,7 @@ export interface Machine {
   /** Unix timestamp of last update. */
   updated_at: number;
   /** The default time-to-live (TTL) in seconds for tokens created by this machine. */
-  default_token_ttl?: number;
+  default_token_ttl?: number | undefined;
   /** Array of machines this machine has access to. */
   scoped_machines: MachineScopedMachinesList;
 }
@@ -5060,13 +5077,13 @@ export interface ListMachinesResponse {
 }
 export interface ListOAuthApplicationsRequest {
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `offset`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Skip the first `offset` results when paginating. Needs to be an integer greater or equal to zero. To be used in conjunction with `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** Allows to return OAuth applications in a particular order. At the moment, you can order the returned OAuth applications by their `created_at` and `name`. In order to specify the direction, you can use the `+/-` symbols prepended in the property to order by. For example, if you want OAuth applications to be returned in descending order according to their `created_at` property, you can use `-created_at`. If you don't use `+` or `-`, then `+` is implied. We only support one `order_by` parameter, and if multiple `order_by` parameters are provided, we will only keep the first one. For example, if you pass `order_by=name&order_by=created_at`, we will consider only the first `order_by` parameter, which is `name`. The `created_at` parameter will be ignored in this case. */
-  order_by?: string;
+  order_by?: string | undefined;
   /** Returns OAuth applications with names that match the given query, via case-insensitive partial match. Also returns the OAuth application whose `client_id` is exactly the given query, which is useful for resolving a `client_id` to the OAuth application `id` required by the read, update and delete endpoints. */
-  name_query?: string;
+  name_query?: string | undefined;
 }
 export type OAuthApplicationsDataList = Array<OAuthApplication>;
 export interface OAuthApplications {
@@ -5078,13 +5095,13 @@ export interface ListOrganizationDomainsRequest {
   /** The organization ID. */
   organization_id: string;
   /** Filter domains by their verification status. `true` or `false` */
-  verified?: string;
+  verified?: string | undefined;
   /** Filter domains by their enrollment mode. Accepts `automatic_invitation`, `automatic_suggestion`, `manual_invitation` or `enterprise_sso`. Prefix a value with `-` to exclude it instead (e.g. `-enterprise_sso`). Include and exclude filters can be combined and compose as AND. */
-  enrollment_mode?: string;
+  enrollment_mode?: string | undefined;
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `offset`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Skip the first `offset` results when paginating. Needs to be an integer greater or equal to zero. To be used in conjunction with `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type ListOrganizationInvitationsRequestStatus =
   | "pending"
@@ -5095,15 +5112,15 @@ export interface ListOrganizationInvitationsRequest {
   /** The organization ID. */
   organization_id: string;
   /** Filter organization invitations based on their status */
-  status?: ListOrganizationInvitationsRequestStatus | (string & {});
+  status?: ListOrganizationInvitationsRequestStatus | (string & {}) | undefined;
   /** Returns organization invitations inviting the specified email address. */
-  email_address?: string;
+  email_address?: string | undefined;
   /** Allows to return organization invitations in a particular order. You can order the returned organization invitations either by their `created_at` or `email_address`. In order to specify the direction, you can use the `+/-` symbols prepended in the property to order by. For example, if you want organization invitations to be returned in descending order according to their `created_at` property, you can use `-created_at`. If you don't use `+` or `-`, then `+` is implied. Defaults to `-created_at`. */
-  order_by?: string;
+  order_by?: string | undefined;
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `offset`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Skip the first `offset` results when paginating. Needs to be an integer greater or equal to zero. To be used in conjunction with `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type ListOrganizationMembershipsRequestUserIdList = Array<string>;
 export type ListOrganizationMembershipsRequestEmailAddressList = Array<string>;
@@ -5115,51 +5132,51 @@ export interface ListOrganizationMembershipsRequest {
   /** The organization ID. */
   organization_id: string;
   /** Sorts organizations memberships by phone_number, email_address, created_at, first_name, last_name or username. By prepending one of those values with + or -, we can choose to sort in ascending (ASC) or descending (DESC) order." */
-  order_by?: string;
+  order_by?: string | undefined;
   /** Returns users with the user IDs specified. For each user ID, the `+` and `-` can be prepended to the ID, which denote whether the respective user ID should be included or excluded from the result set. Accepts up to 100 user IDs. Any user IDs not found are ignored. */
-  user_id?: ListOrganizationMembershipsRequestUserIdList;
+  user_id?: ListOrganizationMembershipsRequestUserIdList | undefined;
   /** Returns users with the specified email addresses. Accepts up to 100 email addresses. Any email addresses not found are ignored. */
-  email_address?: ListOrganizationMembershipsRequestEmailAddressList;
+  email_address?: ListOrganizationMembershipsRequestEmailAddressList | undefined;
   /** Returns users with the specified phone numbers. Accepts up to 100 phone numbers. Any phone numbers not found are ignored. */
-  phone_number?: ListOrganizationMembershipsRequestPhoneNumberList;
+  phone_number?: ListOrganizationMembershipsRequestPhoneNumberList | undefined;
   /** Returns users with the specified usernames. Accepts up to 100 usernames. Any usernames not found are ignored. */
-  username?: ListOrganizationMembershipsRequestUsernameList;
+  username?: ListOrganizationMembershipsRequestUsernameList | undefined;
   /** Returns users with the specified web3 wallet addresses. Accepts up to 100 web3 wallet addresses. Any web3 wallet addresses not found are ignored. */
-  web3_wallet?: ListOrganizationMembershipsRequestWeb3WalletList;
+  web3_wallet?: ListOrganizationMembershipsRequestWeb3WalletList | undefined;
   /** Returns users with the specified roles. Accepts up to 100 roles. Any roles not found are ignored. */
-  role?: ListOrganizationMembershipsRequestRoleList;
+  role?: ListOrganizationMembershipsRequestRoleList | undefined;
   /** Returns users that match the given query. For possible matches, we check the email addresses, phone numbers, usernames, web3 wallets, user IDs, first and last names. The query value doesn't need to match the exact value you are looking for, it is capable of partial matches as well. */
-  query?: string;
+  query?: string | undefined;
   /** Returns users with emails that match the given query, via case-insensitive partial match. For example, `email_address_query=ello` will match a user with the email `HELLO@example.com`. */
-  email_address_query?: string;
+  email_address_query?: string | undefined;
   /** Returns users with phone numbers that match the given query, via case-insensitive partial match. For example, `phone_number_query=555` will match a user with the phone number `+1555xxxxxxx`. */
-  phone_number_query?: string;
+  phone_number_query?: string | undefined;
   /** Returns users with usernames that match the given query, via case-insensitive partial match. For example, `username_query=CoolUser` will match a user with the username `SomeCoolUser`. */
-  username_query?: string;
+  username_query?: string | undefined;
   /** Returns users with names that match the given query, via case-insensitive partial match. */
-  name_query?: string;
+  name_query?: string | undefined;
   /** Returns users whose last session activity was before the given date (with millisecond precision). Example: use 1700690400000 to retrieve users whose last session activity was before 2023-11-23. */
-  last_active_at_before?: number;
+  last_active_at_before?: number | undefined;
   /** Returns users whose last session activity was after the given date (with millisecond precision). Example: use 1700690400000 to retrieve users whose last session activity was after 2023-11-23. */
-  last_active_at_after?: number;
+  last_active_at_after?: number | undefined;
   /** Returns users who have been created before the given date (with millisecond precision). Example: use 1730160000000 to retrieve users who have been created before 2024-10-29. */
-  created_at_before?: number;
+  created_at_before?: number | undefined;
   /** Returns users who have been created after the given date (with millisecond precision). Example: use 1730160000000 to retrieve users who have been created after 2024-10-29. */
-  created_at_after?: number;
+  created_at_after?: number | undefined;
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `offset`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Skip the first `offset` results when paginating. Needs to be an integer greater or equal to zero. To be used in conjunction with `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface ListOrganizationPermissionsRequest {
   /** Returns organization permissions with ID, name, or key that match the given query. Uses exact match for permission ID and partial match for name and key. */
-  query?: string;
+  query?: string | undefined;
   /** Allows to return organization permissions in a particular order. At the moment, you can order the returned permissions by their `created_at`, `name`, or `key`. In order to specify the direction, you can use the `+/-` symbols prepended in the property to order by. For example, if you want permissions to be returned in descending order according to their `created_at` property, you can use `-created_at`. */
-  order_by?: string;
+  order_by?: string | undefined;
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `offset`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Skip the first `offset` results when paginating. Needs to be an integer greater or equal to zero. To be used in conjunction with `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PermissionsDataList = Array<Permission>;
 export interface Permissions {
@@ -5169,13 +5186,13 @@ export interface Permissions {
 }
 export interface ListOrganizationRolesRequest {
   /** Returns organization roles with ID, name, or key that match the given query. Uses exact match for organization role ID and partial match for name and key. */
-  query?: string;
+  query?: string | undefined;
   /** Allows to return organization roles in a particular order. At the moment, you can order the returned organization roles by their `created_at`, `name`, or `key`. In order to specify the direction, you can use the `+/-` symbols prepended in the property to order by. For example, if you want organization roles to be returned in descending order according to their `created_at` property, you can use `-created_at`. If you don't use `+` or `-`, then `+` is implied. Defaults to `-created_at`. */
-  order_by?: string;
+  order_by?: string | undefined;
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `offset`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Skip the first `offset` results when paginating. Needs to be an integer greater or equal to zero. To be used in conjunction with `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type RolesDataList = Array<Role>;
 export interface Roles {
@@ -5187,21 +5204,21 @@ export type ListOrganizationsRequestUserIdList = Array<string>;
 export type ListOrganizationsRequestOrganizationIdList = Array<string>;
 export interface ListOrganizationsRequest {
   /** Flag to denote whether the member counts of each organization should be included in the response or not. */
-  include_members_count?: boolean;
+  include_members_count?: boolean | undefined;
   /** Flag to denote whether or not to include a member with elevated permissions who is not currently a member of the organization. */
-  include_missing_member_with_elevated_permissions?: boolean;
+  include_missing_member_with_elevated_permissions?: boolean | undefined;
   /** Returns organizations with ID, name, or slug that match the given query. Uses exact match for organization ID and partial match for name and slug. */
-  query?: string;
+  query?: string | undefined;
   /** Returns organizations that include any of the specified user IDs as members. Any user IDs not found are ignored. For each user ID, the `+` and `-` can be prepended to the ID, which denote whether the respective organization should be included or excluded from the result set. */
-  user_id?: ListOrganizationsRequestUserIdList;
+  user_id?: ListOrganizationsRequestUserIdList | undefined;
   /** Returns organizations with the organization IDs specified. Any organization IDs not found are ignored. For each organization ID, the `+` and `-` can be prepended to the ID, which denote whether the respective organization should be included or excluded from the result set. Accepts up to 100 organization IDs. Example: ?organization_id=+org_1&organization_id=-org_2 */
-  organization_id?: ListOrganizationsRequestOrganizationIdList;
+  organization_id?: ListOrganizationsRequestOrganizationIdList | undefined;
   /** Allows to return organizations in a particular order. At the moment, you can order the returned organizations either by their `name`, `created_at` or `members_count`. In order to specify the direction, you can use the `+/-` symbols prepended in the property to order by. For example, if you want organizations to be returned in descending order according to their `created_at` property, you can use `-created_at`. If you don't use `+` or `-`, then `+` is implied. Defaults to `-created_at`. */
-  order_by?: string;
+  order_by?: string | undefined;
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `offset`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Skip the first `offset` results when paginating. Needs to be an integer greater or equal to zero. To be used in conjunction with `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type OrganizationsDataList = Array<Organization>;
 export interface Organizations {
@@ -5211,23 +5228,23 @@ export interface Organizations {
 }
 export interface ListRedirectURLsRequest {
   /** Whether to paginate the results. If true, the results will be paginated. If false, the results will not be paginated. */
-  paginated?: boolean;
+  paginated?: boolean | undefined;
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `offset`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Skip the first `offset` results when paginating. Needs to be an integer greater or equal to zero. To be used in conjunction with `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type ListRedirectURLsResponseBodyList = Array<RedirectURL>;
 export type ListRedirectURLsResponse = ListRedirectURLsResponseBodyList;
 export interface ListRoleSetsRequest {
   /** Returns role sets with ID, name, or key that match the given query. Uses exact match for role set ID and partial match for name and key. */
-  query?: string;
+  query?: string | undefined;
   /** Allows to return role sets in a particular order. At the moment, you can order the returned role sets by their `created_at`, `name`, or `key`. In order to specify the direction, you can use the `+/-` symbols prepended in the property to order by. For example, if you want role sets to be returned in descending order according to their `created_at` property, you can use `-created_at`. If you don't use `+` or `-`, then `+` is implied. Defaults to `-created_at`. */
-  order_by?: string;
+  order_by?: string | undefined;
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `offset`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Skip the first `offset` results when paginating. Needs to be an integer greater or equal to zero. To be used in conjunction with `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type RoleSetsDataList = Array<RoleSet>;
 export interface RoleSets {
@@ -5237,9 +5254,9 @@ export interface RoleSets {
 }
 export interface ListSCIMDirectoriesRequest {
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `offset`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Skip the first `offset` results when paginating. Needs to be an integer greater or equal to zero. To be used in conjunction with `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type SCIMDirectories = Array<SCIMDirectory>;
 export interface ListSCIMDirectoriesResponse {
@@ -5259,7 +5276,7 @@ export interface ListSCIMGroupRoleMappingsResponse {
 }
 export interface ListSSOBypassAllowlistUsersRequest {
   /** Restrict the list to the users this enterprise connection serves. */
-  enterprise_connection_id?: string;
+  enterprise_connection_id?: string | undefined;
 }
 /** The instance's SSO bypass allowlist, deduplicated by user. */
 export type SSOBypassAllowlistUsers = Array<SSOBypassAllowlistUser>;
@@ -5279,7 +5296,7 @@ export interface BiometricCredential {
   id: string;
   platform: BiometricCredentialPlatform;
   app_identifier: string;
-  name?: string | null;
+  name?: string | null | undefined;
   algorithm: BiometricCredentialAlgorithm;
   status: BiometricCredentialStatus;
   /** Unix timestamp of creation in milliseconds. */
@@ -5287,9 +5304,9 @@ export interface BiometricCredential {
   /** Unix timestamp of the last update in milliseconds. */
   updated_at: number;
   /** Unix timestamp of the last use in milliseconds. */
-  last_used_at?: number | null;
+  last_used_at?: number | null | undefined;
   /** Unix timestamp of revocation in milliseconds. */
-  revoked_at?: number | null;
+  revoked_at?: number | null | undefined;
 }
 export type ListUserBiometricCredentialsResponseDataList = Array<BiometricCredential>;
 export interface ListUserBiometricCredentialsResponse {
@@ -5300,15 +5317,15 @@ export interface ListUserBiometricCredentialsResponse {
 export type ListWaitlistEntriesRequestStatus = "pending" | "invited" | "completed" | "rejected";
 export interface ListWaitlistEntriesRequest {
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `offset`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Skip the first `offset` results when paginating. Needs to be an integer greater or equal to zero. To be used in conjunction with `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter waitlist entries by `email_address` or `id` */
-  query?: string;
+  query?: string | undefined;
   /** Filter waitlist entries by their status */
-  status?: ListWaitlistEntriesRequestStatus | (string & {});
+  status?: ListWaitlistEntriesRequestStatus | (string & {}) | undefined;
   /** Specify the order of results. Supported values are: - `created_at` - `email_address` - `invited_at` Use `+` for ascending or `-` for descending order. Defaults to `-created_at`. */
-  order_by?: string;
+  order_by?: string | undefined;
 }
 export type ListWaitlistEntriesResponseDataList = Array<WaitlistEntry>;
 export interface ListWaitlistEntriesResponse {
@@ -5332,9 +5349,9 @@ export interface MergeOrganizationMetadataRequest {
   /** The ID of the organization for which metadata will be merged or updated */
   organization_id: string;
   /** Metadata saved on the organization, that is visible to both your frontend and backend. The new object will be merged with the existing value. */
-  public_metadata?: MergeOrganizationMetadataRequestPublicMetadataMap;
+  public_metadata?: MergeOrganizationMetadataRequestPublicMetadataMap | undefined;
   /** Metadata saved on the organization that is only visible to your backend. The new object will be merged with the existing value. */
-  private_metadata?: MergeOrganizationMetadataRequestPrivateMetadataMap;
+  private_metadata?: MergeOrganizationMetadataRequestPrivateMetadataMap | undefined;
 }
 export interface MergeUserRequest {
   /** The ID of the user that remains after the merge */
@@ -5342,7 +5359,7 @@ export interface MergeUserRequest {
   /** The ID of the user to merge into the user in the path. This user is deleted. */
   from_user_id: string;
   /** Return the merged user without changing anything. */
-  dry_run?: boolean;
+  dry_run?: boolean | undefined;
 }
 export interface MergeUserResponse {
   user: User;
@@ -5354,19 +5371,19 @@ export interface PrepareEmailAddressVerificationRequest {
 }
 export interface PrepareEmailAddressVerificationResponse {
   /** The type of the verification object. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the verification. Pass this to attempt_verification. */
-  id?: string;
+  id?: string | undefined;
   /** The status of the verification (unverified, verified, expired, or failed). */
-  status?: string;
+  status?: string | undefined;
   /** The verification strategy (email_code or phone_code). */
-  strategy?: string;
+  strategy?: string | undefined;
   /** The number of attempts made against this verification. */
-  attempts?: number | null;
+  attempts?: number | null | undefined;
   /** Unix timestamp (milliseconds) at which the code expires. */
-  expire_at?: number | null;
+  expire_at?: number | null | undefined;
   /** The channel the code was sent over (phone numbers only). */
-  channel?: string | null;
+  channel?: string | null | undefined;
 }
 export interface PreparePhoneNumberVerificationRequest {
   /** The ID of the phone number to send the verification code to */
@@ -5374,19 +5391,19 @@ export interface PreparePhoneNumberVerificationRequest {
 }
 export interface PreparePhoneNumberVerificationResponse {
   /** The type of the verification object. */
-  object?: string;
+  object?: string | undefined;
   /** The ID of the verification. Pass this to attempt_verification. */
-  id?: string;
+  id?: string | undefined;
   /** The status of the verification (unverified, verified, expired, or failed). */
-  status?: string;
+  status?: string | undefined;
   /** The verification strategy (email_code or phone_code). */
-  strategy?: string;
+  strategy?: string | undefined;
   /** The number of attempts made against this verification. */
-  attempts?: number | null;
+  attempts?: number | null | undefined;
   /** Unix timestamp (milliseconds) at which the code expires. */
-  expire_at?: number | null;
+  expire_at?: number | null | undefined;
   /** The channel the code was sent over (phone numbers only). */
-  channel?: string | null;
+  channel?: string | null | undefined;
 }
 /** The headers of the request. */
 export type RefreshSessionRequestRequestHeadersMap = { [key: string]: unknown | undefined };
@@ -5402,11 +5419,11 @@ export interface RefreshSessionRequest {
   /** The origin of the request. */
   request_origin: string;
   /** The headers of the request. */
-  request_headers?: RefreshSessionRequestRequestHeadersMap | null;
+  request_headers?: RefreshSessionRequestRequestHeadersMap | null | undefined;
   /** The format of the response. */
-  format?: RefreshSessionRequestFormat | (string & {}) | null;
+  format?: RefreshSessionRequestFormat | (string & {}) | null | undefined;
   /** The IP address of the request. */
-  request_originating_ip?: string | null;
+  request_originating_ip?: string | null | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type TokenObject = "token";
@@ -5448,13 +5465,13 @@ export interface RemoveUserPasswordRequest {
   /** The ID of the user whose password to remove */
   user_id: string;
   /** Set to `true` to revoke all of the user's active sessions after removing the password. */
-  sign_out_of_other_sessions?: boolean;
+  sign_out_of_other_sessions?: boolean | undefined;
 }
 export interface ReplaceDirectoryGroupRoleMappingsRequestMappingsItem {
   /** The group ID from the identity provider. Exactly one of `directory_group_id` or `scim_group_id` is required. */
-  directory_group_id?: string;
+  directory_group_id?: string | undefined;
   /** The legacy name for `directory_group_id`. Send either one, or both with the same value; sending both with different values is rejected. */
-  scim_group_id?: string;
+  scim_group_id?: string | undefined;
   /** The ID of the organization role to assign to members of the group. */
   role_id: string;
 }
@@ -5484,9 +5501,9 @@ export interface ReplaceOrganizationMetadataRequest {
   /** The ID of the organization whose metadata will be replaced */
   organization_id: string;
   /** Metadata saved on the organization, that is visible to both your frontend and backend. The existing value will be replaced entirely with the new object. */
-  public_metadata?: ReplaceOrganizationMetadataRequestPublicMetadataMap;
+  public_metadata?: ReplaceOrganizationMetadataRequestPublicMetadataMap | undefined;
   /** Metadata saved on the organization that is only visible to your backend. The existing value will be replaced entirely with the new object. */
-  private_metadata?: ReplaceOrganizationMetadataRequestPrivateMetadataMap;
+  private_metadata?: ReplaceOrganizationMetadataRequestPrivateMetadataMap | undefined;
 }
 export interface ReplaceRoleInRoleSetRequest {
   /** The key or ID of the role set */
@@ -5504,7 +5521,7 @@ export interface ReplaceRoleSetRequest {
   /** The key of the destination role set */
   dest_role_set_key: string;
   /** Mappings from source role keys to destination role keys. Required if members have roles that need to be reassigned. */
-  reassignment_mappings?: ReassignmentMappings;
+  reassignment_mappings?: ReassignmentMappings | undefined;
 }
 export interface ReplaceSCIMGroupRoleMappingsRequestMappingsItem {
   /** The SCIM group ID from the identity provider. */
@@ -5537,9 +5554,12 @@ export interface ReplaceUserEmailAddressRequest {
   /** The new email address. Must adhere to the RFC 5322 specification for email address format. */
   email_address: string;
   /** Controls the status of the replacement email address. Defaults to `verified`. Set to `reserved` to create it reserved (unverified but usable for sign-in and locked so no other user can claim it), or to `unverified` to create it neither usable for sign-in nor locked. **Warning:** `unverified` can lock the user out of their account. An unverified email address cannot be used to sign in, so if the user has no other verified or reserved identifier, they will be unable to authenticate and unable to verify this address. Prefer `reserved` unless you specifically need the address left unclaimed -- for example so that another user can also hold it until one of them verifies it. */
-  identification_status?: ReplaceUserEmailAddressRequestIdentificationStatus | (string & {});
+  identification_status?:
+    | ReplaceUserEmailAddressRequestIdentificationStatus
+    | (string & {})
+    | undefined;
   /** If set to `true`, the user's previous primary email address is notified that the primary email address has changed. No notification is sent when the replacement is the user's current primary email address. By default, no notification is sent. */
-  notify_primary_email_address_changed?: boolean | null;
+  notify_primary_email_address_changed?: boolean | null | undefined;
 }
 /** Metadata saved on the user, that is visible to both your frontend and backend. The existing value will be replaced entirely with the new object. */
 export type ReplaceUserMetadataRequestPublicMetadataMap = { [key: string]: unknown | undefined };
@@ -5551,11 +5571,11 @@ export interface ReplaceUserMetadataRequest {
   /** The ID of the user whose metadata will be replaced */
   user_id: string;
   /** Metadata saved on the user, that is visible to both your frontend and backend. The existing value will be replaced entirely with the new object. */
-  public_metadata?: ReplaceUserMetadataRequestPublicMetadataMap;
+  public_metadata?: ReplaceUserMetadataRequestPublicMetadataMap | undefined;
   /** Metadata saved on the user that is only visible to your backend. The existing value will be replaced entirely with the new object. */
-  private_metadata?: ReplaceUserMetadataRequestPrivateMetadataMap;
+  private_metadata?: ReplaceUserMetadataRequestPrivateMetadataMap | undefined;
   /** Metadata saved on the user, that can be updated from both the Frontend and Backend APIs. The existing value will be replaced entirely with the new object. Note: Since this data can be modified from the frontend, it is not guaranteed to be safe. */
-  unsafe_metadata?: ReplaceUserMetadataRequestUnsafeMetadataMap;
+  unsafe_metadata?: ReplaceUserMetadataRequestUnsafeMetadataMap | undefined;
 }
 /** Controls the status of the replacement phone number. Defaults to `verified`. Set to `reserved` to create it reserved (unverified but usable for sign-in and locked so no other user can claim it), or to `unverified` to create it neither usable for sign-in nor locked. **Warning:** `unverified` can lock the user out of their account. An unverified phone number cannot be used to sign in, so if the user has no other verified or reserved identifier, they will be unable to authenticate and unable to verify this number. Prefer `reserved` unless you specifically need the number left unclaimed -- for example so that another user can also hold it until one of them verifies it. */
 export type ReplaceUserPhoneNumberRequestIdentificationStatus =
@@ -5568,7 +5588,10 @@ export interface ReplaceUserPhoneNumberRequest {
   /** The new phone number. Must adhere to the E.164 standard for phone number format. */
   phone_number: string;
   /** Controls the status of the replacement phone number. Defaults to `verified`. Set to `reserved` to create it reserved (unverified but usable for sign-in and locked so no other user can claim it), or to `unverified` to create it neither usable for sign-in nor locked. **Warning:** `unverified` can lock the user out of their account. An unverified phone number cannot be used to sign in, so if the user has no other verified or reserved identifier, they will be unable to authenticate and unable to verify this number. Prefer `reserved` unless you specifically need the number left unclaimed -- for example so that another user can also hold it until one of them verifies it. */
-  identification_status?: ReplaceUserPhoneNumberRequestIdentificationStatus | (string & {});
+  identification_status?:
+    | ReplaceUserPhoneNumberRequestIdentificationStatus
+    | (string & {})
+    | undefined;
 }
 export interface RevokeActorTokenRequest {
   /** The ID of the actor token to be revoked. */
@@ -5576,7 +5599,7 @@ export interface RevokeActorTokenRequest {
 }
 export interface RevokeAdminPortalLinkTokenRequest {
   adminPortalLinkTokenID: string;
-  revocation_reason?: string | null;
+  revocation_reason?: string | null | undefined;
 }
 export type RevokeAdminPortalLinkTokenResponseObject = "admin_portal_link_token";
 /** Caller-provided scopes for this token. */
@@ -5609,7 +5632,7 @@ export interface RevokeAgentTaskRequest {
 }
 export interface RevokeApiKeyRequest {
   apiKeyID: string;
-  revocation_reason?: string | null;
+  revocation_reason?: string | null | undefined;
 }
 export type RevokeApiKeyResponseObject = "api_key";
 export type RevokeApiKeyResponseScopesList = Array<string>;
@@ -5619,7 +5642,7 @@ export interface RevokeApiKeyResponse {
   type: string;
   subject: string;
   name: string;
-  description?: string | null;
+  description?: string | null | undefined;
   claims: unknown | null;
   scopes: RevokeApiKeyResponseScopesList;
   revoked: boolean;
@@ -5647,11 +5670,11 @@ export interface RevokeInvitationResponse {
   id: string;
   email_address: string;
   public_metadata: RevokeInvitationResponsePublicMetadataMap;
-  revoked?: boolean;
+  revoked?: boolean | undefined;
   status: RevokeInvitationResponseStatus;
-  url?: string;
+  url?: string | undefined;
   /** Unix timestamp of expiration. */
-  expires_at?: number | null;
+  expires_at?: number | null | undefined;
   /** Unix timestamp of creation. */
   created_at: number;
   /** Unix timestamp of last update. */
@@ -5659,7 +5682,7 @@ export interface RevokeInvitationResponse {
 }
 export interface RevokeM2MTokenRequest {
   m2m_token_id: string;
-  revocation_reason?: string | null;
+  revocation_reason?: string | null | undefined;
 }
 export type RevokeM2MTokenResponseObject = "machine_to_machine_token";
 export type RevokeM2MTokenResponseScopesList = Array<string>;
@@ -5667,8 +5690,8 @@ export interface RevokeM2MTokenResponse {
   object: RevokeM2MTokenResponseObject;
   id: string;
   subject: string;
-  claims?: unknown | null;
-  scopes?: RevokeM2MTokenResponseScopesList;
+  claims?: unknown | null | undefined;
+  scopes?: RevokeM2MTokenResponseScopesList | undefined;
   revoked: boolean;
   revocation_reason: string | null;
   expired: boolean;
@@ -5694,13 +5717,13 @@ export interface RevokeOrganizationInvitationRequest {
   /** The organization invitation ID. */
   invitation_id: string;
   /** The ID of the user that revokes the invitation. Must be an administrator in the organization. */
-  requesting_user_id?: string | null;
+  requesting_user_id?: string | null | undefined;
 }
 export interface RevokeSessionRequest {
   /** The ID of the session */
   session_id: string;
   /** When set to `true`, also clears Device Trust for the session's user and client, including when the session is already revoked. Trust belongs to the user and client rather than the session, so this applies to the whole device, including any other session the user has on that client. Other users on the same client are unaffected. For a session a native application received through hosted auth, this also clears the browser client the user signed in on. The next sign-in by this user on the client counts as a new device: it can require a Device Trust challenge and sends the new device email. A value that is not a boolean returns a 422 and does not revoke the session. */
-  reset_client_trust?: boolean;
+  reset_client_trust?: boolean | undefined;
 }
 export interface RevokeSignInTokenRequest {
   /** The ID of the sign-in token to be revoked */
@@ -5768,7 +5791,7 @@ export interface RotateOAuthApplicationSecretResponse {
   /** Unix timestamp of last update. */
   updated_at: number;
   /** Empty if public client. */
-  client_secret?: string | Redacted.Redacted<string>;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface RotateSCIMDirectoryAPIKeyRequest {
   /** The ID of the directory whose API key to rotate */
@@ -5777,12 +5800,12 @@ export interface RotateSCIMDirectoryAPIKeyRequest {
 export interface SetUserPasswordCompromisedRequest {
   /** The ID of the user to set the password as compromised */
   user_id: string;
-  revoke_all_sessions?: boolean | null;
+  revoke_all_sessions?: boolean | null | undefined;
 }
 export interface SetUserProfileImageRequest {
   /** The ID of the user to update the profile image for */
   user_id: string;
-  file?: string;
+  file?: string | undefined;
 }
 export interface UnbanUserRequest {
   /** The ID of the user to unban */
@@ -5807,11 +5830,11 @@ export interface UnsetUserPasswordCompromisedRequest {
 export type UpdateApiKeyRequestScopesList = Array<string>;
 export interface UpdateApiKeyRequest {
   apiKeyID: string;
-  claims?: unknown | null;
-  scopes?: UpdateApiKeyRequestScopesList;
-  description?: string | null;
-  subject?: string;
-  seconds_until_expiration?: number | null;
+  claims?: unknown | null | undefined;
+  scopes?: UpdateApiKeyRequestScopesList | undefined;
+  description?: string | null | undefined;
+  subject?: string | undefined;
+  seconds_until_expiration?: number | null | undefined;
 }
 export type UpdateApiKeyResponseObject = "api_key";
 export type UpdateApiKeyResponseScopesList = Array<string>;
@@ -5821,7 +5844,7 @@ export interface UpdateApiKeyResponse {
   type: string;
   subject: string;
   name: string;
-  description?: string | null;
+  description?: string | null | undefined;
   claims: unknown | null;
   scopes: UpdateApiKeyResponseScopesList;
   revoked: boolean;
@@ -5845,37 +5868,37 @@ export interface UpdateDirectoryRequest {
   /** The ID of the directory to update */
   directory_id: string;
   /** A human-friendly name for the directory. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the directory is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Pause or resume syncing. Pausing rejects provisioning requests and skips scheduled syncs while keeping the organization memberships the directory granted, so sync picks up where it left off. Disabling removes them instead. */
-  paused?: boolean;
+  paused?: boolean | undefined;
   /** The identity provider for this directory. */
-  provider?: string;
+  provider?: string | undefined;
   /** Attribute-to-directory-path entries to merge into the directory's attribute mapping. Set a key to `null` to remove it from the mapping. */
-  attribute_mapping?: UpdateDirectoryRequestAttributeMappingMap;
+  attribute_mapping?: UpdateDirectoryRequestAttributeMappingMap | undefined;
   /** Whether group-to-role mapping is enabled for this directory. */
-  group_role_mapping_enabled?: boolean;
+  group_role_mapping_enabled?: boolean | undefined;
 }
 export interface UpdateDomainRequest {
   /** The ID of the domain that will be updated. */
   domain_id: string;
   /** The new domain name. For development instances, can contain the port, i.e `myhostname:3000`. For production instances, must be a valid FQDN, i.e `mysite.com`. Cannot contain protocol scheme. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The full URL of the proxy that will forward requests to Clerk's Frontend API. Can only be updated for production instances. */
-  proxy_url?: string | null;
+  proxy_url?: string | null | undefined;
   /** Whether this is a domain for a secondary app, meaning that any subdomain provided is significant and will be stored as part of the domain. This is useful for supporting multiple apps (one primary and multiple secondaries) on the same root domain (eTLD+1). */
-  is_secondary?: boolean | null;
+  is_secondary?: boolean | null | undefined;
 }
 export interface UpdateEmailAddressRequest {
   /** The ID of the email address to update */
   email_address_id: string;
   /** The email address will be marked as verified. */
-  verified?: boolean | null;
+  verified?: boolean | null | undefined;
   /** Set this email address as the primary email address for the user. */
-  primary?: boolean | null;
+  primary?: boolean | null | undefined;
   /** If set to `true` and this update makes the email address the user's new primary, the previous primary email address is notified of the change. By default, no notification is sent. */
-  notify_primary_email_address_changed?: boolean | null;
+  notify_primary_email_address_changed?: boolean | null | undefined;
 }
 /** Domains associated with the enterprise connection. Values are normalized to lowercase. Empty array means ignored (no change); non-empty array means set domains to the given list (replaces existing). */
 export type UpdateEnterpriseConnectionRequestDomainsList = Array<string>;
@@ -5894,31 +5917,31 @@ export interface UpdateEnterpriseConnectionRequestSamlLoginHint {
   /** Controls the login_hint sent to the IdP on SSO sign-in */
   mode: UpdateEnterpriseConnectionRequestSamlLoginHintMode | (string & {});
   /** The user public_metadata key whose value is sent as the login_hint when mode is custom_attribute */
-  source?: string;
+  source?: string | undefined;
 }
 /** SAML connection-specific properties. Only applied when the enterprise connection uses SAML. Use this to update IdP configuration, attribute mapping, and other SAML-specific settings. */
 export interface UpdateEnterpriseConnectionRequestSaml {
   /** Display name of the SAML connection */
-  name?: string | null;
+  name?: string | null | undefined;
   /** IdP entity ID */
-  idp_entity_id?: string | null;
+  idp_entity_id?: string | null | undefined;
   /** IdP SSO URL */
-  idp_sso_url?: string | null;
+  idp_sso_url?: string | null | undefined;
   /** Deprecated, use idp_certificates. One X.509 certificate, PEM or bare base64, or several concatenated PEM certificates; replaces the connection's whole certificate set */
-  idp_certificate?: string | null;
+  idp_certificate?: string | null | undefined;
   /** The IdP X.509 signing certificates the connection trusts, one per entry, in PEM or bare base64. Replaces the connection's whole certificate set and takes precedence over idp_certificate */
-  idp_certificates?: UpdateEnterpriseConnectionRequestSamlIdpCertificatesList;
+  idp_certificates?: UpdateEnterpriseConnectionRequestSamlIdpCertificatesList | undefined;
   /** URL to IdP metadata */
-  idp_metadata_url?: string | null;
+  idp_metadata_url?: string | null | undefined;
   /** Raw IdP metadata XML */
-  idp_metadata?: string | null;
+  idp_metadata?: string | null | undefined;
   /** Attribute mapping for SAML attributes */
-  attribute_mapping?: CreateEnterpriseConnectionRequestSamlAttributeMapping | null;
-  allow_subdomains?: boolean | null;
-  allow_idp_initiated?: boolean | null;
-  force_authn?: boolean | null;
+  attribute_mapping?: CreateEnterpriseConnectionRequestSamlAttributeMapping | null | undefined;
+  allow_subdomains?: boolean | null | undefined;
+  allow_idp_initiated?: boolean | null | undefined;
+  force_authn?: boolean | null | undefined;
   /** Configuration for the login_hint sent to the IdP on SSO sign-in */
-  login_hint?: UpdateEnterpriseConnectionRequestSamlLoginHint | null;
+  login_hint?: UpdateEnterpriseConnectionRequestSamlLoginHint | null | undefined;
 }
 /** OIDC connection-specific properties. Only applied when the enterprise connection uses OIDC (e.g. oidc_custom, oidc_github_enterprise, or oidc_gitlab). */
 export type UpdateEnterpriseConnectionRequestOidc = CreateEnterpriseConnectionRequestOidc;
@@ -5931,25 +5954,25 @@ export interface UpdateEnterpriseConnectionRequest {
   /** The ID of the enterprise connection to update */
   enterprise_connection_id: string;
   /** The display name of the enterprise connection */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Domains associated with the enterprise connection. Values are normalized to lowercase. Empty array means ignored (no change); non-empty array means set domains to the given list (replaces existing). */
-  domains?: UpdateEnterpriseConnectionRequestDomainsList | null;
+  domains?: UpdateEnterpriseConnectionRequestDomainsList | null | undefined;
   /** Whether the enterprise connection is active. When set to true (enabling), any existing verified organization domains for the same domain(s) will be removed so the connection can be enabled. */
-  active?: boolean | null;
+  active?: boolean | null | undefined;
   /** Whether to sync user attributes on sign-in */
-  sync_user_attributes?: boolean | null;
+  sync_user_attributes?: boolean | null | undefined;
   /** Whether to disable additional identifications */
-  disable_additional_identifications?: boolean | null;
+  disable_additional_identifications?: boolean | null | undefined;
   /** Whether this connection supports account linking via organization membership */
-  allow_organization_account_linking?: boolean | null;
+  allow_organization_account_linking?: boolean | null | undefined;
   /** Organization ID to link to this enterprise connection. Only linking is supported; sending this field sets or changes the linked organization. There is no way to unlink an organization once linked. */
-  organization_id?: string | null;
+  organization_id?: string | null | undefined;
   /** SAML connection-specific properties. Only applied when the enterprise connection uses SAML. Use this to update IdP configuration, attribute mapping, and other SAML-specific settings. */
-  saml?: UpdateEnterpriseConnectionRequestSaml | null;
+  saml?: UpdateEnterpriseConnectionRequestSaml | null | undefined;
   /** OIDC connection-specific properties. Only applied when the enterprise connection uses OIDC (e.g. oidc_custom, oidc_github_enterprise, or oidc_gitlab). */
-  oidc?: CreateEnterpriseConnectionRequestOidc | null;
+  oidc?: CreateEnterpriseConnectionRequestOidc | null | undefined;
   /** Custom attributes to map from the IdP to the user's profile via SSO or SCIM provisioning. Requires the custom attributes feature to be enabled for the instance. */
-  custom_attributes?: UpdateEnterpriseConnectionRequestCustomAttributesList | null;
+  custom_attributes?: UpdateEnterpriseConnectionRequestCustomAttributesList | null | undefined;
 }
 /** For browser-like stacks such as browser extensions, Electron, or Capacitor.js (not officially supported), the instance allowed origins need to be updated with the request origin value. For Chrome extensions popup, background, or service worker pages, the origin is chrome-extension://extension_uuid. For Electron apps using `@clerk/electron`, the origins are the custom renderer scheme registered with `createClerkBridge()`, for example `my-app://renderer`, and, during development, the renderer's dev server origin, for example `http://localhost:5173`. For Capacitor, the origin is capacitor://localhost. Send an empty array to remove all allowed origins. A null value leaves the current list unchanged. */
 export type UpdateInstanceRequestAllowedOriginsList = Array<string>;
@@ -5962,56 +5985,60 @@ export type UpdateInstanceRequestPreferredSignInStrategyWhenPasswordRequired =
   | "";
 export interface UpdateInstanceRequest {
   /** Toggles test mode for this instance, allowing the use of test email addresses and phone numbers. Defaults to true for development instances. */
-  test_mode?: boolean | null;
+  test_mode?: boolean | null | undefined;
   /** Whether the instance should be using the HIBP service to check passwords for breaches */
-  hibp?: boolean | null;
-  support_email?: string | null;
-  clerk_js_version?: string | null;
-  development_origin?: string | null;
+  hibp?: boolean | null | undefined;
+  support_email?: string | null | undefined;
+  clerk_js_version?: string | null | undefined;
+  development_origin?: string | null | undefined;
   /** For browser-like stacks such as browser extensions, Electron, or Capacitor.js (not officially supported), the instance allowed origins need to be updated with the request origin value. For Chrome extensions popup, background, or service worker pages, the origin is chrome-extension://extension_uuid. For Electron apps using `@clerk/electron`, the origins are the custom renderer scheme registered with `createClerkBridge()`, for example `my-app://renderer`, and, during development, the renderer's dev server origin, for example `http://localhost:5173`. For Capacitor, the origin is capacitor://localhost. Send an empty array to remove all allowed origins. A null value leaves the current list unchanged. */
-  allowed_origins?: UpdateInstanceRequestAllowedOriginsList | null;
+  allowed_origins?: UpdateInstanceRequestAllowedOriginsList | null | undefined;
   /** Subdomains of the instance's own domains that may originate requests while `subdomain_allowlist_enabled` is true. Each entry is either an exact host (`app.example.com`) or a wildcard anchored on a host beneath one of the instance's domains (`*.preview.example.com`), which covers every host under that anchor but not the anchor itself. Entries are stored folded to lower case with any trailing dot removed, the form the origin check compares against, so entries differing only in those respects are one entry. Entries already stored are not validated again, so a list read back from the instance can always be written again unchanged. Send an empty array to remove all entries. A null value leaves the current list unchanged. Production instances only. */
-  allowed_subdomains?: UpdateInstanceRequestAllowedSubdomainsList | null;
+  allowed_subdomains?: UpdateInstanceRequestAllowedSubdomainsList | null | undefined;
   /** Whether requests from subdomains of the instance's own domains are restricted to `allowed_subdomains`. When false, every subdomain of the instance's domain is accepted. Production instances only. */
-  subdomain_allowlist_enabled?: boolean | null;
+  subdomain_allowlist_enabled?: boolean | null | undefined;
   /** Whether the instance should operate in cookieless development mode (i.e. without third-party cookies). Deprecated: Please use `url_based_session_syncing` instead. */
-  cookieless_dev?: boolean | null;
+  cookieless_dev?: boolean | null | undefined;
   /** Whether the instance should use URL-based session syncing in development mode (i.e. without third-party cookies). */
-  url_based_session_syncing?: boolean | null;
+  url_based_session_syncing?: boolean | null | undefined;
   /** When password is required at the instance level, sets the preferred sign-in strategy surfaced to Clerk components. Has no effect when password is not required. Defaults to `password`. Set to an empty string to clear the override. */
   preferred_sign_in_strategy_when_password_required?:
     | UpdateInstanceRequestPreferredSignInStrategyWhenPasswordRequired
     | (string & {})
-    | null;
+    | null
+    | undefined;
 }
 export interface UpdateInstanceResponse {}
 export interface UpdateInstanceAuthConfigRequest {
   /** Whether sign up is restricted to email addresses, phone numbers and usernames that are on the allowlist. */
-  restricted_to_allowlist?: boolean | null;
+  restricted_to_allowlist?: boolean | null | undefined;
   /** The local part of the email address from which authentication-related emails (e.g. OTP code, magic links) will be sent. Only alphanumeric values are allowed. Note that this value should contain only the local part of the address (e.g. `foo` for `foo@example.com`). */
-  from_email_address?: string | null;
+  from_email_address?: string | null | undefined;
   /** Enable the Progressive Sign Up algorithm. This feature is deprecated, please contact support if you need assistance. */
-  progressive_sign_up?: boolean | null;
+  progressive_sign_up?: boolean | null | undefined;
   /** Toggles test mode for this instance, allowing the use of test email addresses and phone numbers. Defaults to true for development instances. */
-  test_mode?: boolean | null;
+  test_mode?: boolean | null | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type UpdateInstanceAuthConfigResponseObject = "instance_settings";
 export interface UpdateInstanceAuthConfigResponse {
   /** String representing the object's type. Objects of the same type share the same value. */
-  object?: UpdateInstanceAuthConfigResponseObject;
-  id?: string;
-  restricted_to_allowlist?: boolean;
-  from_email_address?: string;
-  progressive_sign_up?: boolean;
+  object?: UpdateInstanceAuthConfigResponseObject | undefined;
+  id?: string | undefined;
+  restricted_to_allowlist?: boolean | undefined;
+  from_email_address?: string | undefined;
+  progressive_sign_up?: boolean | undefined;
   /** Deprecated. This setting is retired and no longer affects email delivery; all email is sent through the instance's configured email sending domain. The field is preserved for API compatibility only and will be removed in a future version. */
-  enhanced_email_deliverability?: boolean;
+  enhanced_email_deliverability?: boolean | undefined;
 }
 /** ISO 3166-1 alpha-2 country codes to block for SMS delivery. Whole-list replacement. Codes must be uppercase, 2-letter, and unique within the array. */
 export type UpdateInstanceCommunicationRequestBlockedCountryCodesList = Array<string>;
 export interface UpdateInstanceCommunicationRequest {
   /** ISO 3166-1 alpha-2 country codes to block for SMS delivery. Whole-list replacement. Codes must be uppercase, 2-letter, and unique within the array. */
-  blocked_country_codes?: UpdateInstanceCommunicationRequestBlockedCountryCodesList | null;
+  blocked_country_codes?:
+    | UpdateInstanceCommunicationRequestBlockedCountryCodesList
+    | null
+    | undefined;
 }
 /** Administrator-selected scope ceiling for dynamically registered and automatically admitted CIMD clients. Null preserves registered client limits; defaults must be a subset. Fresh user consent is required for expansion. */
 export type UpdateInstanceOAuthApplicationSettingsRequestDynamicClientAllowedScopesList =
@@ -6020,51 +6047,59 @@ export type UpdateInstanceOAuthApplicationSettingsRequestDynamicClientAllowedSco
 export type UpdateInstanceOAuthApplicationSettingsRequestDefaultScopesList = Array<string>;
 export interface UpdateInstanceOAuthApplicationSettingsRequest {
   /** Whether dynamic OAuth client registration is enabled for the instance (RFC 7591). */
-  dynamic_oauth_client_registration?: boolean | null;
+  dynamic_oauth_client_registration?: boolean | null | undefined;
   /** Administrator-selected scope ceiling for dynamically registered and automatically admitted CIMD clients. Null preserves registered client limits; defaults must be a subset. Fresh user consent is required for expansion. */
-  dynamic_client_allowed_scopes?: UpdateInstanceOAuthApplicationSettingsRequestDynamicClientAllowedScopesList | null;
+  dynamic_client_allowed_scopes?:
+    | UpdateInstanceOAuthApplicationSettingsRequestDynamicClientAllowedScopesList
+    | null
+    | undefined;
   /** Default scopes assigned when a dynamically registered or first-contact CIMD client omits `scope`. Accepts built-in keys and current custom catalog keys. `advertised` does not affect eligibility. Duplicate keys, unknown keys, and `offline_access` are rejected. An empty array or null resets to Clerk-provided defaults. */
-  default_scopes?: UpdateInstanceOAuthApplicationSettingsRequestDefaultScopesList | null;
+  default_scopes?:
+    | UpdateInstanceOAuthApplicationSettingsRequestDefaultScopesList
+    | null
+    | undefined;
   /** Whether OAuth JWT access tokens are enabled for the instance (disabled indicates opaque access tokens). */
-  oauth_jwt_access_tokens?: boolean | null;
+  oauth_jwt_access_tokens?: boolean | null | undefined;
   /** Whether OAuth access tokens can include an aud claim derived from the RFC 8707 resource parameter. */
-  aud_claim_enabled?: boolean | null;
+  aud_claim_enabled?: boolean | null | undefined;
   /** Whether refresh grants without a resource can adopt the requested resource when audience claims are enabled. */
-  aud_claim_refresh_backfill_enabled?: boolean | null;
+  aud_claim_refresh_backfill_enabled?: boolean | null | undefined;
   /** Whether all new OAuth authorization-code requests must use PKCE with the S256 challenge method. */
-  pkce_required?: boolean | null;
+  pkce_required?: boolean | null | undefined;
   /** Whether the instance advertises support for Client ID Metadata Documents in its OAuth authorization server metadata. */
-  client_id_metadata_documents_advertised?: boolean | null;
+  client_id_metadata_documents_advertised?: boolean | null | undefined;
   /** When true, new unknown CIMD clients are rejected. Previously auto-connected and pre-registered clients remain admitted; deleting a client makes it unknown again. */
-  client_id_metadata_documents_only_allow_pre_registered_clients?: boolean | null;
+  client_id_metadata_documents_only_allow_pre_registered_clients?: boolean | null | undefined;
   /** When true, recorded implicitly allowed CIMD clients are rejected on future client lookups. Explicitly allowed clients remain accepted. This does not revoke previously issued access tokens. */
-  client_id_metadata_documents_block_implicitly_allowed_clients?: boolean | null;
+  client_id_metadata_documents_block_implicitly_allowed_clients?: boolean | null | undefined;
 }
 /** Specify which enrollment modes to enable for your Organization Domains. Supported modes are 'automatic_invitation' & 'automatic_suggestion'. */
 export type UpdateInstanceOrganizationSettingsRequestDomainsEnrollmentModesList = Array<string>;
 export interface UpdateInstanceOrganizationSettingsRequest {
-  enabled?: boolean | null;
-  max_allowed_memberships?: number | null;
-  admin_delete_enabled?: boolean | null;
-  domains_enabled?: boolean | null;
-  slug_disabled?: boolean | null;
+  enabled?: boolean | null | undefined;
+  max_allowed_memberships?: number | null | undefined;
+  admin_delete_enabled?: boolean | null | undefined;
+  domains_enabled?: boolean | null | undefined;
+  slug_disabled?: boolean | null | undefined;
   /** Specify which enrollment modes to enable for your Organization Domains. Supported modes are 'automatic_invitation' & 'automatic_suggestion'. */
-  domains_enrollment_modes?: UpdateInstanceOrganizationSettingsRequestDomainsEnrollmentModesList;
+  domains_enrollment_modes?:
+    | UpdateInstanceOrganizationSettingsRequestDomainsEnrollmentModesList
+    | undefined;
   /** Specify what the default organization role is for an organization creator. */
-  creator_role_id?: string | null;
+  creator_role_id?: string | null | undefined;
   /** Specify what the default organization role is for the organization domains. */
-  domains_default_role_id?: string | null;
+  domains_default_role_id?: string | null | undefined;
 }
 export interface UpdateInstanceProtectRequest {
   /** Set true to enforce Protect rules on this instance. Set false to stop enforcing and return the instance to its default posture, where traffic is still evaluated in shadow but nothing is blocked. This does not remove the instance from Protect. */
-  rules_enabled?: boolean | null;
+  rules_enabled?: boolean | null | undefined;
 }
 export interface UpdateInstanceRestrictionsRequest {
-  allowlist?: boolean | null;
-  blocklist?: boolean | null;
-  allowlist_blocklist_disabled_on_sign_in?: boolean | null;
-  block_email_subaddresses?: boolean | null;
-  block_disposable_email_domains?: boolean | null;
+  allowlist?: boolean | null | undefined;
+  blocklist?: boolean | null | undefined;
+  allowlist_blocklist_disabled_on_sign_in?: boolean | null | undefined;
+  block_email_subaddresses?: boolean | null | undefined;
+  block_disposable_email_domains?: boolean | null | undefined;
 }
 /** String representing the object's type. Objects of the same type share the same value. */
 export type InstanceRestrictionsObject = "instance_restrictions";
@@ -6085,23 +6120,23 @@ export interface UpdateJWTTemplateRequest {
   /** JWT template claims in JSON format */
   claims: unknown;
   /** JWT lifetime */
-  lifetime?: number | null;
+  lifetime?: number | null | undefined;
   /** JWT allowed clock skew */
-  allowed_clock_skew?: number | null;
+  allowed_clock_skew?: number | null | undefined;
   /** Whether a custom signing key/algorithm is also provided for this template */
-  custom_signing_key?: boolean;
+  custom_signing_key?: boolean | undefined;
   /** The custom signing algorithm to use when minting JWTs. Required if `custom_signing_key` is `true`. */
-  signing_algorithm?: string | null;
+  signing_algorithm?: string | null | undefined;
   /** The custom signing private key to use when minting JWTs. Required if `custom_signing_key` is `true`. */
-  signing_key?: string | null;
+  signing_key?: string | null | undefined;
 }
 export interface UpdateMachineRequest {
   /** The ID of the machine to update */
   machine_id: string;
   /** The name of the machine */
-  name?: string;
+  name?: string | undefined;
   /** The default time-to-live (TTL) in seconds for tokens created by this machine. Must be at least 1 second. */
-  default_token_ttl?: number;
+  default_token_ttl?: number | undefined;
 }
 export type UpdateMachineResponseObject = "machine";
 /** Array of machines this machine has access to. */
@@ -6119,7 +6154,7 @@ export interface UpdateMachineResponse {
   /** Unix timestamp of last update. */
   updated_at: number;
   /** The default time-to-live (TTL) in seconds for tokens created by this machine. */
-  default_token_ttl?: number;
+  default_token_ttl?: number | undefined;
   /** Array of machines this machine has access to. */
   scoped_machines: UpdateMachineResponseScopedMachinesList;
 }
@@ -6129,49 +6164,49 @@ export interface UpdateOAuthApplicationRequest {
   /** The ID of the OAuth application to update */
   oauth_application_id: string;
   /** The new name of the OAuth application. Max length: 256 */
-  name?: string | null;
+  name?: string | null | undefined;
   /** An array of redirect URIs of the new OAuth application */
-  redirect_uris?: UpdateOAuthApplicationRequestRedirectUrisList | null;
+  redirect_uris?: UpdateOAuthApplicationRequestRedirectUrisList | null | undefined;
   /** The new callback URL of the OAuth application */
-  callback_url?: string | null;
+  callback_url?: string | null | undefined;
   /** Replace the application's complete built-in and custom scope ceiling. Provide scope keys as a space-delimited string. Custom keys must exist in the instance OAuth scope catalog. Required built-in scopes, such as `offline_access`, must be included in the replacement set, otherwise the request is rejected. Omit this field to leave all scope assignments unchanged. */
-  scopes?: string | null;
+  scopes?: string | null | undefined;
   /** True to enable a consent screen to display in the authentication flow. This cannot be disabled for dynamically registered OAuth Applications. */
-  consent_screen_enabled?: boolean | null;
+  consent_screen_enabled?: boolean | null | undefined;
   /** True to require the Proof Key of Code Exchange (PKCE) flow. */
-  pkce_required?: boolean | null;
+  pkce_required?: boolean | null | undefined;
   /** An absolute resource URI for a confidential application (RFC 8707 section 2). Registers a resource with no accepted scopes, or adopts an unowned resource with confirmation. Every claimed URI remains permanently reserved to this app, including retirement and deletion, and counts toward the instance resource quota. Changing it stops new exchanges from the old audience immediately. Already-issued tokens retain their lifetime. Clearing requires exchange disabled in an earlier update. */
-  audience_uri?: string | null;
+  audience_uri?: string | null | undefined;
   /** Enable exchanges from the active audience. Requires an audience URI. Disabling preserves target configuration. */
-  token_exchange_enabled?: boolean;
+  token_exchange_enabled?: boolean | undefined;
   /** Confirm adoption of an existing unowned resource, preserving its accepted scopes and target references. Does not override another application's reservation. */
-  adopt_audience_resource?: boolean;
+  adopt_audience_resource?: boolean | undefined;
   /** True to enable the OAuth Device Authorization Grant for this application. Enabling requires the new OAuth IdP and a reachable device verification page. Omit this field to leave the setting unchanged. */
-  device_authorization_grant_enabled?: boolean | null;
+  device_authorization_grant_enabled?: boolean | null | undefined;
   /** If true, this client is public and you can use the Proof Key of Code Exchange (PKCE) flow. */
-  public?: boolean | null;
+  public?: boolean | null | undefined;
 }
 export interface UpdateOrganizationRequest {
   /** The ID of the organization to update */
   organization_id: string;
   /** The new name of the organization. May not contain URLs or HTML. Max length: 256 */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The new slug of the organization, which needs to be unique in the instance */
-  slug?: string | null;
+  slug?: string | null | undefined;
   /** The maximum number of memberships allowed for this organization */
-  max_allowed_memberships?: number | null;
+  max_allowed_memberships?: number | null | undefined;
   /** If true, an admin can delete this organization with the Frontend API. */
-  admin_delete_enabled?: boolean | null;
+  admin_delete_enabled?: boolean | null | undefined;
   /** Whether this organization can configure self-serve enterprise SSO. */
-  self_serve_sso_enabled?: boolean | null;
+  self_serve_sso_enabled?: boolean | null | undefined;
   /** Whether this organization can configure self-serve Directory Sync (SCIM). */
-  self_serve_directory_sync_enabled?: boolean | null;
+  self_serve_directory_sync_enabled?: boolean | null | undefined;
   /** A custom date/time denoting _when_ the organization was created, specified in RFC3339 format (e.g. `2012-10-20T07:15:20.902Z`). */
-  created_at?: string | null;
+  created_at?: string | null | undefined;
   /** The key of the [role set](https://clerk.com/docs/guides/organizations/control-access/role-sets) to assign to this organization. */
-  role_set_key?: string | null;
+  role_set_key?: string | null | undefined;
   /** Maps role keys in the organization's current role set to role keys in the new role set. Only applies when `role_set_key` changes the role set. Every role that a member holds and that the new role set does not include must be mapped, otherwise the request fails with a 422. Mapping a role that both role sets include moves its members to the destination role. Memberships are reassigned asynchronously after the response. */
-  reassignment_mappings?: ReassignmentMappings | null;
+  reassignment_mappings?: ReassignmentMappings | null | undefined;
 }
 export interface UpdateOrganizationDomainRequest {
   /** The ID of the organization to which the domain belongs */
@@ -6179,9 +6214,9 @@ export interface UpdateOrganizationDomainRequest {
   /** The ID of the domain */
   domain_id: string;
   /** The enrollment_mode for the new domain. This can be `automatic_invitation`, `automatic_suggestion`, `manual_invitation` or `enterprise_sso` */
-  enrollment_mode?: string | null;
+  enrollment_mode?: string | null | undefined;
   /** The status of the domain's verification */
-  verified?: boolean | null;
+  verified?: boolean | null | undefined;
 }
 export interface UpdateOrganizationMembershipRequest {
   /** The ID of the organization to which this membership belongs */
@@ -6205,19 +6240,19 @@ export interface UpdateOrganizationMembershipMetadataRequest {
   /** The ID of the user to which this membership belongs */
   user_id: string;
   /** Metadata saved on the organization membership, that is visible to both your frontend and backend. The new object will be merged with the existing value. */
-  public_metadata?: UpdateOrganizationMembershipMetadataRequestPublicMetadataMap;
+  public_metadata?: UpdateOrganizationMembershipMetadataRequestPublicMetadataMap | undefined;
   /** Metadata saved on the organization membership that is only visible to your backend. The new object will be merged with the existing value. */
-  private_metadata?: UpdateOrganizationMembershipMetadataRequestPrivateMetadataMap;
+  private_metadata?: UpdateOrganizationMembershipMetadataRequestPrivateMetadataMap | undefined;
 }
 export interface UpdateOrganizationPermissionRequest {
   /** The ID of the permission to update */
   permission_id: string;
   /** The name of the permission. */
-  name?: string;
+  name?: string | undefined;
   /** The key of the permission. Must have the format "org:feature:action" where feature and action are segments consisting of lowercase letters, digits, or underscores. Cannot begin with "org:sys_" as that prefix is reserved for system permissions. */
-  key?: string;
+  key?: string | undefined;
   /** A description of the permission. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Array of permission IDs to assign to the role. If provided, this will replace the existing permissions. */
 export type UpdateOrganizationRoleRequestPermissionsList = Array<string>;
@@ -6225,23 +6260,23 @@ export interface UpdateOrganizationRoleRequest {
   /** The ID of the organization role to update */
   organization_role_id: string;
   /** The new name for the organization role */
-  name?: string | null;
+  name?: string | null | undefined;
   /** A unique key for the organization role. Must start with 'org:' and contain only lowercase alphanumeric characters and underscores. */
-  key?: string | null;
+  key?: string | null | undefined;
   /** Optional description for the role */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Array of permission IDs to assign to the role. If provided, this will replace the existing permissions. */
-  permissions?: UpdateOrganizationRoleRequestPermissionsList | null;
+  permissions?: UpdateOrganizationRoleRequestPermissionsList | null | undefined;
 }
 export interface UpdatePhoneNumberRequest {
   /** The ID of the phone number to update */
   phone_number_id: string;
   /** The phone number will be marked as verified. */
-  verified?: boolean | null;
+  verified?: boolean | null | undefined;
   /** Set this phone number as the primary phone number for the user. */
-  primary?: boolean | null;
+  primary?: boolean | null | undefined;
   /** Set this phone number as reserved for multi-factor authentication. The phone number must also be verified. If there are no other reserved second factors, the phone number will be set as the default second factor. */
-  reserved_for_second_factor?: boolean | null;
+  reserved_for_second_factor?: boolean | null | undefined;
 }
 /** Set to "initial" to make this the default role set for new organizations. Only one role set can be "initial" per instance; setting this will change any existing initial role set to "custom". */
 export type UpdateRoleSetRequestType = "initial";
@@ -6249,17 +6284,17 @@ export interface UpdateRoleSetRequest {
   /** The key or ID of the role set to update */
   role_set_key_or_id: string;
   /** The new name for the role set */
-  name?: string | null;
+  name?: string | null | undefined;
   /** A unique key for the role set. Must start with 'role_set:' and contain only lowercase alphanumeric characters and underscores. */
-  key?: string | null;
+  key?: string | null | undefined;
   /** Optional description for the role set */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Set to "initial" to make this the default role set for new organizations. Only one role set can be "initial" per instance; setting this will change any existing initial role set to "custom". */
-  type?: UpdateRoleSetRequestType | (string & {}) | null;
+  type?: UpdateRoleSetRequestType | (string & {}) | null | undefined;
   /** The key of the role to use as the default role for new organization members. Must be an existing role in the role set. */
-  default_role_key?: string | null;
+  default_role_key?: string | null | undefined;
   /** The key of the role to assign to organization creators. Must be an existing role in the role set. */
-  creator_role_key?: string | null;
+  creator_role_key?: string | null | undefined;
 }
 /** Attribute-to-SCIM-path entries to merge into the directory's attribute mapping. Set a key to `null` to remove it from the mapping. */
 export type UpdateSCIMDirectoryRequestAttributeMappingMap = {
@@ -6269,17 +6304,17 @@ export interface UpdateSCIMDirectoryRequest {
   /** The ID of the directory to update */
   scim_directory_id: string;
   /** A human-friendly name for the directory. */
-  name?: string;
+  name?: string | undefined;
   /** Whether the directory is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Pause or resume syncing. Pausing rejects provisioning requests and skips scheduled syncs while keeping the organization memberships the directory granted, so sync picks up where it left off. Disabling removes them instead. */
-  paused?: boolean;
+  paused?: boolean | undefined;
   /** The identity provider for this directory. */
-  provider?: string;
+  provider?: string | undefined;
   /** Attribute-to-SCIM-path entries to merge into the directory's attribute mapping. Set a key to `null` to remove it from the mapping. */
-  attribute_mapping?: UpdateSCIMDirectoryRequestAttributeMappingMap;
+  attribute_mapping?: UpdateSCIMDirectoryRequestAttributeMappingMap | undefined;
   /** Whether group-to-role mapping is enabled for this directory. */
-  group_role_mapping_enabled?: boolean;
+  group_role_mapping_enabled?: boolean | undefined;
 }
 export interface UpdateSessionRequest {
   /** The ID of the session */
@@ -6291,9 +6326,9 @@ export interface UpdateSignUpRequest {
   /** The ID of the sign-up to update */
   id: string;
   /** The ID of the guest attempting to sign up as used in your external systems or your previous authentication solution. This will be copied to the resulting user when the sign-up is completed. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** If true, the sign-up will be marked as a custom action. */
-  custom_action?: boolean | null;
+  custom_action?: boolean | null | undefined;
 }
 /** If Backup Codes are configured on the instance, you can provide them to enable it on the specific user without the need to reset them. */
 export type UpdateUserRequestBackupCodesList = Array<string>;
@@ -6301,54 +6336,54 @@ export interface UpdateUserRequest {
   /** The ID of the user to update */
   user_id: string;
   /** The ID of the user as used in your external systems or your previous authentication solution. Must be unique across your instance. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The first name to assign to the user */
-  first_name?: string | null;
+  first_name?: string | null | undefined;
   /** The last name to assign to the user */
-  last_name?: string | null;
+  last_name?: string | null | undefined;
   /** The locale to assign to the user (e.g., "en-US", "fr-FR") */
-  locale?: string | null;
+  locale?: string | null | undefined;
   /** The IANA timezone to assign to the user (e.g., "America/New_York", "Europe/Paris"). Set to null to clear it and allow automatic capture on a later trusted sign-in. */
-  timezone?: string | null;
+  timezone?: string | null | undefined;
   /** The ID of the email address to set as primary. It must be verified, and present on the current user. */
-  primary_email_address_id?: string | null;
+  primary_email_address_id?: string | null | undefined;
   /** If set to `true`, the user will be notified that their primary email address has changed. By default, no notification is sent. */
-  notify_primary_email_address_changed?: boolean | null;
+  notify_primary_email_address_changed?: boolean | null | undefined;
   /** The ID of the phone number to set as primary. It must be verified, and present on the current user. */
-  primary_phone_number_id?: string | null;
+  primary_phone_number_id?: string | null | undefined;
   /** The ID of the web3 wallets to set as primary. It must be verified, and present on the current user. */
-  primary_web3_wallet_id?: string | null;
+  primary_web3_wallet_id?: string | null | undefined;
   /** The username to give to the user. It must be unique across your instance. */
-  username?: string | null;
+  username?: string | null | undefined;
   /** The ID of the image to set as the user's profile image */
-  profile_image_id?: string | null;
+  profile_image_id?: string | null | undefined;
   /** The plaintext password to give the user. Must be at least 8 characters long, and cannot be in any list of hacked passwords. */
-  password?: string | Redacted.Redacted<string> | null;
+  password?: string | Redacted.Redacted<string> | null | undefined;
   /** In case you already have the password digests and not the passwords, you can use them for the newly created user via this property. The digests should be generated with one of the supported algorithms. The hashing algorithm can be specified using the `password_hasher` property. */
-  password_digest?: string | Redacted.Redacted<string>;
-  password_hasher?: string | Redacted.Redacted<string>;
+  password_digest?: string | Redacted.Redacted<string> | undefined;
+  password_hasher?: string | Redacted.Redacted<string> | undefined;
   /** Set it to `true` if you're updating the user's password and want to skip any password policy settings check. This parameter can only be used when providing a `password`. */
-  skip_password_checks?: boolean | null;
+  skip_password_checks?: boolean | null | undefined;
   /** Set to `true` to sign out the user from all their active sessions once their password is updated. This parameter can only be used when providing a `password`. */
-  sign_out_of_other_sessions?: boolean | null;
+  sign_out_of_other_sessions?: boolean | null | undefined;
   /** In case TOTP is configured on the instance, you can provide the secret to enable it on the specific user without the need to reset it. */
-  totp_secret?: string | Redacted.Redacted<string> | null;
+  totp_secret?: string | Redacted.Redacted<string> | null | undefined;
   /** If Backup Codes are configured on the instance, you can provide them to enable it on the specific user without the need to reset them. */
-  backup_codes?: UpdateUserRequestBackupCodesList;
+  backup_codes?: UpdateUserRequestBackupCodesList | undefined;
   /** If true, the user can delete themselves with the Frontend API. */
-  delete_self_enabled?: boolean | null;
+  delete_self_enabled?: boolean | null | undefined;
   /** If true, the user can create organizations with the Frontend API. */
-  create_organization_enabled?: boolean | null;
+  create_organization_enabled?: boolean | null | undefined;
   /** A custom timestamp denoting _when_ the user accepted legal requirements, specified in RFC3339 format. */
-  legal_accepted_at?: string | null;
+  legal_accepted_at?: string | null | undefined;
   /** When set to `true` all legal checks are skipped. */
-  skip_legal_checks?: boolean | null;
+  skip_legal_checks?: boolean | null | undefined;
   /** The maximum number of organizations the user can create. 0 means unlimited. */
-  create_organizations_limit?: number | null;
+  create_organizations_limit?: number | null | undefined;
   /** A custom date/time denoting _when_ the user signed up to the application. */
-  created_at?: string | null;
+  created_at?: string | null | undefined;
   /** When set to `true`, the user will bypass Device Trust checks during sign-in. */
-  bypass_client_trust?: boolean | null;
+  bypass_client_trust?: boolean | null | undefined;
 }
 /** Metadata saved on the user, that is visible to both your frontend and backend. The new object will be merged with the existing value. */
 export type UpdateUserMetadataRequestPublicMetadataMap = { [key: string]: unknown | undefined };
@@ -6360,24 +6395,24 @@ export interface UpdateUserMetadataRequest {
   /** The ID of the user whose metadata will be updated and merged */
   user_id: string;
   /** Metadata saved on the user, that is visible to both your frontend and backend. The new object will be merged with the existing value. */
-  public_metadata?: UpdateUserMetadataRequestPublicMetadataMap;
+  public_metadata?: UpdateUserMetadataRequestPublicMetadataMap | undefined;
   /** Metadata saved on the user that is only visible to your backend. The new object will be merged with the existing value. */
-  private_metadata?: UpdateUserMetadataRequestPrivateMetadataMap;
+  private_metadata?: UpdateUserMetadataRequestPrivateMetadataMap | undefined;
   /** Metadata saved on the user, that can be updated from both the Frontend and Backend APIs. The new object will be merged with the existing value. Note: Since this data can be modified from the frontend, it is not guaranteed to be safe. */
-  unsafe_metadata?: UpdateUserMetadataRequestUnsafeMetadataMap;
+  unsafe_metadata?: UpdateUserMetadataRequestUnsafeMetadataMap | undefined;
 }
 export interface UploadOAuthApplicationLogoRequest {
   /** The ID of the OAuth application for which to upload a logo */
   oauth_application_id: string;
   /** The ID of the user that will be credited with the image upload. */
-  uploader_user_id?: string;
+  uploader_user_id?: string | undefined;
   file: string;
 }
 export interface UploadOrganizationLogoRequest {
   /** The ID of the organization for which to upload a logo */
   organization_id: string;
   /** The ID of the user that will be credited with the image upload. */
-  uploader_user_id?: string;
+  uploader_user_id?: string | undefined;
   file: string;
 }
 export type UploadOrganizationLogoResponseObject = "organization";
@@ -6394,27 +6429,27 @@ export interface UploadOrganizationLogoResponse {
   slug: string;
   image_url: string;
   has_image: boolean;
-  members_count?: number;
-  missing_member_with_elevated_permissions?: boolean;
-  pending_invitations_count?: number;
+  members_count?: number | undefined;
+  missing_member_with_elevated_permissions?: boolean | undefined;
+  pending_invitations_count?: number | undefined;
   max_allowed_memberships: number;
   admin_delete_enabled: boolean;
   /** Whether this organization can configure self-serve enterprise SSO. */
-  self_serve_sso_enabled?: boolean;
+  self_serve_sso_enabled?: boolean | undefined;
   /** Whether this organization can configure self-serve Directory Sync (SCIM). */
-  self_serve_directory_sync_enabled?: boolean;
+  self_serve_directory_sync_enabled?: boolean | undefined;
   public_metadata: UploadOrganizationLogoResponsePublicMetadataMap;
-  private_metadata?: UploadOrganizationLogoResponsePrivateMetadataMap;
-  created_by?: string;
+  private_metadata?: UploadOrganizationLogoResponsePrivateMetadataMap | undefined;
+  created_by?: string | undefined;
   /** Unix timestamp of creation. */
   created_at: number;
   /** Unix timestamp of last update. */
   updated_at: number;
   /** Unix timestamp of last activity. */
-  last_active_at?: number;
+  last_active_at?: number | undefined;
   /** The key of the [role set](https://clerk.com/docs/guides/organizations/control-access/role-sets) assigned to this organization. */
-  role_set_key?: string | null;
-  logo_url?: string;
+  role_set_key?: string | null | undefined;
+  logo_url?: string | undefined;
 }
 export type UsersGetOrganizationInvitationsRequestStatus =
   | "pending"
@@ -6425,19 +6460,19 @@ export interface UsersGetOrganizationInvitationsRequest {
   /** The ID of the user whose organization invitations we want to retrieve */
   user_id: string;
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `offset`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Skip the first `offset` results when paginating. Needs to be an integer greater or equal to zero. To be used in conjunction with `limit`. */
-  offset?: number;
+  offset?: number | undefined;
   /** Filter organization invitations based on their status */
-  status?: UsersGetOrganizationInvitationsRequestStatus | (string & {});
+  status?: UsersGetOrganizationInvitationsRequestStatus | (string & {}) | undefined;
 }
 export interface UsersGetOrganizationMembershipsRequest {
   /** The ID of the user whose organization memberships we want to retrieve */
   user_id: string;
   /** Applies a limit to the number of results returned. Can be used for paginating the results together with `offset`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Skip the first `offset` results when paginating. Needs to be an integer greater or equal to zero. To be used in conjunction with `limit`. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface VerifyApiKeyRequest {
   secret: string | Redacted.Redacted<string>;
@@ -6450,7 +6485,7 @@ export interface VerifyApiKeyResponse {
   type: string;
   subject: string;
   name: string;
-  description?: string | null;
+  description?: string | null | undefined;
   claims: unknown | null;
   scopes: VerifyApiKeyResponseScopesList;
   revoked: boolean;
@@ -6472,9 +6507,9 @@ export interface VerifyClientRequest {
 }
 export interface VerifyDomainProxyRequest {
   /** The ID of the domain that will be updated. */
-  domain_id?: string;
+  domain_id?: string | undefined;
   /** The full URL of the proxy which will forward requests to the Clerk Frontend API for this domain. e.g. https://example.com/__clerk */
-  proxy_url?: string;
+  proxy_url?: string | undefined;
 }
 export type ProxyCheckObject = "proxy_check";
 export interface ProxyCheck {
@@ -6499,8 +6534,8 @@ export interface VerifyM2MTokenResponse {
   object: VerifyM2MTokenResponseObject;
   id: string;
   subject: string;
-  claims?: unknown | null;
-  scopes?: VerifyM2MTokenResponseScopesList;
+  claims?: unknown | null | undefined;
+  scopes?: VerifyM2MTokenResponseScopesList | undefined;
   revoked: boolean;
   revocation_reason: string | null;
   expired: boolean;
@@ -6515,23 +6550,23 @@ export interface VerifyM2MTokenResponse {
 }
 export interface VerifyOAuthAccessTokenRequest {
   /** The access token to verify. */
-  access_token?: string | Redacted.Redacted<string>;
+  access_token?: string | Redacted.Redacted<string> | undefined;
   /** The access token to verify. This is deprecated, use `access_token` instead. */
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 export type VerifyOAuthAccessTokenResponseBodyCase0Object = "clerk_idp_oauth_access_token";
 export type VerifyOAuthAccessTokenResponseBodyCase0ScopesList = Array<string>;
 /** The audiences of the access token. Omitted when no audience is set. */
 export type VerifyOAuthAccessTokenResponseBodyCase0AudList = Array<string>;
 export interface VerifyOAuthAccessTokenResponseBodyCase0ActAct {
-  iss?: string;
+  iss?: string | undefined;
   sub: string;
 }
 /** The actor chain of an access token issued by an OAuth 2.0 Token Exchange (RFC 8693 section 4.1). Omitted for other access tokens. */
 export interface VerifyOAuthAccessTokenResponseBodyCase0Act {
-  iss?: string;
+  iss?: string | undefined;
   sub: string;
-  act?: VerifyOAuthAccessTokenResponseBodyCase0ActAct;
+  act?: VerifyOAuthAccessTokenResponseBodyCase0ActAct | undefined;
 }
 export interface VerifyOAuthAccessTokenResponseBodyCase0 {
   object: VerifyOAuthAccessTokenResponseBodyCase0Object;
@@ -6540,9 +6575,9 @@ export interface VerifyOAuthAccessTokenResponseBodyCase0 {
   subject: string;
   scopes: VerifyOAuthAccessTokenResponseBodyCase0ScopesList;
   /** The audiences of the access token. Omitted when no audience is set. */
-  aud?: VerifyOAuthAccessTokenResponseBodyCase0AudList;
+  aud?: VerifyOAuthAccessTokenResponseBodyCase0AudList | undefined;
   /** The actor chain of an access token issued by an OAuth 2.0 Token Exchange (RFC 8693 section 4.1). Omitted for other access tokens. */
-  act?: VerifyOAuthAccessTokenResponseBodyCase0Act;
+  act?: VerifyOAuthAccessTokenResponseBodyCase0Act | undefined;
   revoked: boolean;
   revocation_reason: string | null;
   expired: boolean;
@@ -6570,10 +6605,10 @@ export interface VerifyPasswordRequest {
   /** The user password to verify */
   password: string | Redacted.Redacted<string>;
   /** When `true`, a wrong password counts toward the user's lockout, and a locked user is rejected with a `user_locked` error before the password is checked. Has no effect on instances with user lockout disabled. To enforce lockout across a password check and a sign-in token, set this parameter on both requests. */
-  honor_lockout?: boolean;
+  honor_lockout?: boolean | undefined;
 }
 export interface VerifyPasswordResponse {
-  verified?: boolean;
+  verified?: boolean | undefined;
 }
 export interface VerifyTOTPRequest {
   /** The ID of the user for whom to verify the TOTP */
@@ -6581,12 +6616,12 @@ export interface VerifyTOTPRequest {
   /** The TOTP or backup code to verify */
   code: string;
   /** When `true`, a wrong code counts toward the user's lockout, and a locked user is rejected with a `user_locked` error before the code is checked. Has no effect on instances with user lockout disabled. To enforce lockout across a password check and a sign-in token, set this parameter on both requests. */
-  honor_lockout?: boolean;
+  honor_lockout?: boolean | undefined;
 }
 export type VerifyTOTPResponseCodeType = "totp" | "backup_code";
 export interface VerifyTOTPResponse {
-  verified?: boolean;
-  code_type?: VerifyTOTPResponseCodeType;
+  verified?: boolean | undefined;
+  code_type?: VerifyTOTPResponseCodeType | undefined;
 }
 export type AddDomainError = BadRequest | Forbidden | UnprocessableEntity | ClerkOpError;
 /** Add a domain Add a new domain for your instance. Useful in the case of multi-domain instances, allows adding satellite domains to an instance. The new domain must have a `name`. The domain name can contain the port for development instances, like `localhost:3000`. Set `is_satellite` to `true` to add a satellite domain. To migrate a production instance from an active provider domain to its first custom primary domain, set `is_satellite` to `false`. The custom domain becomes active and the provider domain stays attached. Additional custom primary domains are not supported. If you're planning to configure the new satellite domain to run behind a proxy, pass the `proxy_url` parameter accordingly. Adding a custom primary domain returns 403 `domain_managed_by_integration` for applications in a Vercel-managed workspace; change the domain from the Vercel integration instead. */

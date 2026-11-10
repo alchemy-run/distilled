@@ -105,80 +105,80 @@ export type IssueSeverityEnum = "SEVERITY_UNSPECIFIED" | "ERROR" | "WARNING" | "
 /** Product issue. */
 export interface Issue {
   /** What needs to happen to resolve the issue. */
-  resolution?: IssueResolutionEnum | (string & {});
+  resolution?: IssueResolutionEnum | (string & {}) | undefined;
   /** The destination this issue applies to. */
-  destination?: string;
+  destination?: string | undefined;
   /** The timestamp when this issue appeared. */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** The server-generated type of the issue, for example, "INCORRECT_TEXT_FORMATTING", "IMAGE_NOT_SERVEABLE", etc. */
-  type?: string;
+  type?: string | undefined;
   /** The severity of the issue. */
-  severity?: IssueSeverityEnum | (string & {});
+  severity?: IssueSeverityEnum | (string & {}) | undefined;
   /** Output only. List of country codes (ISO 3166-1 alpha-2) where issue applies to the manufacturer product. */
-  applicableCountries?: StringList;
+  applicableCountries?: StringList | undefined;
   /** Longer description of the issue focused on how to resolve it. */
-  description?: string;
+  description?: string | undefined;
   /** If present, the attribute that triggered the issue. For more information about attributes, see https://support.google.com/manufacturers/answer/6124116. */
-  attribute?: string;
+  attribute?: string | undefined;
   /** Short title describing the nature of the issue. */
-  title?: string;
+  title?: string | undefined;
 }
 export type IssueList = Array<Issue>;
 export type DestinationStatusStatusEnum = "UNKNOWN" | "ACTIVE" | "PENDING" | "DISAPPROVED";
 /** The destination status. */
 export interface DestinationStatus {
   /** Output only. List of country codes (ISO 3166-1 alpha-2) where the offer is approved. */
-  approvedCountries?: StringList;
+  approvedCountries?: StringList | undefined;
   /** The status of the destination. */
-  status?: DestinationStatusStatusEnum | (string & {});
+  status?: DestinationStatusStatusEnum | (string & {}) | undefined;
   /** The name of the destination. */
-  destination?: string;
+  destination?: string | undefined;
   /** Output only. List of country codes (ISO 3166-1 alpha-2) where the offer is pending approval. */
-  pendingCountries?: StringList;
+  pendingCountries?: StringList | undefined;
   /** Output only. List of country codes (ISO 3166-1 alpha-2) where the offer is disapproved. */
-  disapprovedCountries?: StringList;
+  disapprovedCountries?: StringList | undefined;
 }
 export type DestinationStatusList = Array<DestinationStatus>;
 /** Description of a certification. */
 export interface Certification {
   /** Optional. A unique code to identify the certification. */
-  code?: string;
+  code?: string | undefined;
   /** Optional. A URL link to the certification. */
-  link?: string;
+  link?: string | undefined;
   /** Optional. The expiration date (UTC). */
-  validUntil?: string;
+  validUntil?: string | undefined;
   /** Required. Name of the certification body. */
-  authority?: string;
+  authority?: string | undefined;
   /** Required. Name of the certification. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. A custom value of the certification. */
-  value?: string;
+  value?: string | undefined;
   /** Optional. A URL link to the certification logo. */
-  logo?: string;
+  logo?: string | undefined;
 }
 export type CertificationList = Array<Certification>;
 /** Product certification data. */
 export interface ProductCertification {
   /** Optional. A 2-letter country code (ISO 3166-1 Alpha 2). */
-  countryCode?: StringList;
+  countryCode?: StringList | undefined;
   /** Output only. A server-generated list of issues associated with the product. */
-  issues?: IssueList;
+  issues?: IssueList | undefined;
   /** Output only. The statuses of the destinations. */
-  destinationStatuses?: DestinationStatusList;
+  destinationStatuses?: DestinationStatusList | undefined;
   /** Required. This is the product's brand name. The brand is used to help identify your product. */
-  brand?: string;
+  brand?: string | undefined;
   /** Optional. Another name for GTIN. */
-  productCode?: StringList;
+  productCode?: StringList | undefined;
   /** Optional. These are the Manufacturer Part Numbers (MPN). MPNs are used to uniquely identify a specific product among all products from the same manufacturer */
-  mpn?: StringList;
+  mpn?: StringList | undefined;
   /** Required. This is to clearly identify the product you are certifying. */
-  title?: string;
+  title?: string | undefined;
   /** Required. The unique name identifier of a product certification Format: accounts/{account}/languages/{language_code}/productCertifications/{id} Where `id` is a some unique identifier and `language_code` is a 2-letter ISO 639-1 code of a Shopping supported language according to https://support.google.com/merchants/answer/160637. */
-  name?: string;
+  name?: string | undefined;
   /** Required. A list of certifications to link to the described product. */
-  certification?: CertificationList;
+  certification?: CertificationList | undefined;
   /** Optional. These are your own product categorization system in your product data. */
-  productType?: StringList;
+  productType?: StringList | undefined;
 }
 export type GetAccountsProductsIncludeEnum =
   | "UNKNOWN"
@@ -194,41 +194,41 @@ export interface GetAccountsProductsRequest {
   /** Name in the format `{target_country}:{content_language}:{product_id}`. `target_country` - The target country of the product as a CLDR territory code (for example, US). `content_language` - The content language of the product as a two-letter ISO 639-1 language code (for example, en). `product_id` - The ID of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#id. */
   name: string;
   /** The information to be included in the response. Only sections listed here will be returned. */
-  include?: GetAccountsProductsIncludeEnumList;
+  include?: GetAccountsProductsIncludeEnumList | undefined;
 }
 export interface Grocery {
   /** Allergens. */
-  allergens?: string;
+  allergens?: string | undefined;
   /** Active ingredients. */
-  activeIngredients?: string;
+  activeIngredients?: string | undefined;
   /** Nutrition claim. */
-  nutritionClaim?: StringList;
+  nutritionClaim?: StringList | undefined;
   /** Alcohol by volume. */
-  alcoholByVolume?: number;
+  alcoholByVolume?: number | undefined;
   /** Indications. */
-  indications?: string;
+  indications?: string | undefined;
   /** Ingredients. */
-  ingredients?: string;
+  ingredients?: string | undefined;
   /** Storage instructions. */
-  storageInstructions?: string;
+  storageInstructions?: string | undefined;
   /** Directions. */
-  directions?: string;
+  directions?: string | undefined;
   /** Derived nutrition claim. */
-  derivedNutritionClaim?: StringList;
+  derivedNutritionClaim?: StringList | undefined;
 }
 /** A price. */
 export interface Price {
   /** The numeric value of the price. */
-  amount?: string;
+  amount?: string | undefined;
   /** The currency in which the price is denoted. */
-  currency?: string;
+  currency?: string | undefined;
 }
 /** The capacity of a product. For more information, see https://support.google.com/manufacturers/answer/6124116#capacity. */
 export interface Capacity {
   /** The numeric value of the capacity. */
-  value?: string;
+  value?: string | undefined;
   /** The unit of the capacity, i.e., MB, GB, or TB. */
-  unit?: string;
+  unit?: string | undefined;
 }
 export type ImageStatusEnum =
   | "STATUS_UNSPECIFIED"
@@ -248,277 +248,277 @@ export type ImageTypeEnum = "TYPE_UNSPECIFIED" | "CRAWLED" | "UPLOADED";
 /** An image. */
 export interface Image {
   /** The status of the image. @OutputOnly */
-  status?: ImageStatusEnum | (string & {});
+  status?: ImageStatusEnum | (string & {}) | undefined;
   /** The type of the image, i.e., crawled or uploaded. @OutputOnly */
-  type?: ImageTypeEnum | (string & {});
+  type?: ImageTypeEnum | (string & {}) | undefined;
   /** The URL of the image. For crawled images, this is the provided URL. For uploaded images, this is a serving URL from Google if the image has been processed successfully. */
-  imageUrl?: string;
+  imageUrl?: string | undefined;
 }
 /** Description of a certification. */
 export interface GoogleShoppingManufacturersV1ProductCertification {
   /** Optional. A custom value of the certification. */
-  value?: string;
+  value?: string | undefined;
   /** Required. Name of the certification body. */
-  authority?: string;
+  authority?: string | undefined;
   /** Optional. A URL link to the certification logo. */
-  logo?: string;
+  logo?: string | undefined;
   /** Optional. A unique code to identify the certification. */
-  code?: string;
+  code?: string | undefined;
   /** Optional. A URL link to the certification. */
-  link?: string;
+  link?: string | undefined;
   /** Optional. The expiration date (UTC). */
-  validUntil?: string;
+  validUntil?: string | undefined;
   /** Required. Name of the certification. */
-  name?: string;
+  name?: string | undefined;
 }
 export type GoogleShoppingManufacturersV1ProductCertificationList =
   Array<GoogleShoppingManufacturersV1ProductCertification>;
 /** Combination of float amount and unit. */
 export interface FloatUnit {
   /** unit. */
-  unit?: string;
+  unit?: string | undefined;
   /** amount. */
-  amount?: number;
+  amount?: number | undefined;
 }
 /** Voluntary Nutrition Facts. */
 export interface VoluntaryNutritionFact {
   /** Name. */
-  name?: string;
+  name?: string | undefined;
   /** Value. */
-  value?: FloatUnit;
+  value?: FloatUnit | undefined;
   /** Daily percentage. */
-  dailyPercentage?: number;
+  dailyPercentage?: number | undefined;
 }
 export type VoluntaryNutritionFactList = Array<VoluntaryNutritionFact>;
 export interface Nutrition {
   /** Cholesterol. */
-  cholesterol?: FloatUnit;
+  cholesterol?: FloatUnit | undefined;
   /** Serving size measure. */
-  servingSizeMeasure?: FloatUnit;
+  servingSizeMeasure?: FloatUnit | undefined;
   /** Total fat. */
-  totalFat?: FloatUnit;
+  totalFat?: FloatUnit | undefined;
   /** Polyols. */
-  polyols?: FloatUnit;
+  polyols?: FloatUnit | undefined;
   /** Cholesterol daily percentage. */
-  cholesterolDailyPercentage?: number;
+  cholesterolDailyPercentage?: number | undefined;
   /** Monounsaturated fat. */
-  monounsaturatedFat?: FloatUnit;
+  monounsaturatedFat?: FloatUnit | undefined;
   /** Total carbohydrate. */
-  totalCarbohydrate?: FloatUnit;
+  totalCarbohydrate?: FloatUnit | undefined;
   /** Total sugars daily percentage. */
-  totalSugarsDailyPercentage?: number;
+  totalSugarsDailyPercentage?: number | undefined;
   /** Saturated fat. */
-  saturatedFat?: FloatUnit;
+  saturatedFat?: FloatUnit | undefined;
   /** Added sugars. */
-  addedSugars?: FloatUnit;
+  addedSugars?: FloatUnit | undefined;
   /** Iron daily percentage. */
-  ironDailyPercentage?: number;
+  ironDailyPercentage?: number | undefined;
   /** Mandatory Nutrition Facts. Energy. */
-  energy?: FloatUnit;
+  energy?: FloatUnit | undefined;
   /** Protein daily percentage. */
-  proteinDailyPercentage?: number;
+  proteinDailyPercentage?: number | undefined;
   /** Prepared size description. */
-  preparedSizeDescription?: string;
+  preparedSizeDescription?: string | undefined;
   /** Trans fat daily percentage. */
-  transFatDailyPercentage?: number;
+  transFatDailyPercentage?: number | undefined;
   /** Nutrition fact measure. */
-  nutritionFactMeasure?: string;
+  nutritionFactMeasure?: string | undefined;
   /** Total sugars. */
-  totalSugars?: FloatUnit;
+  totalSugars?: FloatUnit | undefined;
   /** Dietary fiber daily percentage. */
-  dietaryFiberDailyPercentage?: number;
+  dietaryFiberDailyPercentage?: number | undefined;
   /** Total fat daily percentage. */
-  totalFatDailyPercentage?: number;
+  totalFatDailyPercentage?: number | undefined;
   /** Saturated fat daily percentage. */
-  saturatedFatDailyPercentage?: number;
+  saturatedFatDailyPercentage?: number | undefined;
   /** Iron. */
-  iron?: FloatUnit;
+  iron?: FloatUnit | undefined;
   /** Folate daily percentage. */
-  folateDailyPercentage?: number;
+  folateDailyPercentage?: number | undefined;
   /** Servings per container. */
-  servingsPerContainer?: string;
+  servingsPerContainer?: string | undefined;
   /** Vitamin D daily percentage. */
-  vitaminDDailyPercentage?: number;
+  vitaminDDailyPercentage?: number | undefined;
   /** Trans fat. */
-  transFat?: FloatUnit;
+  transFat?: FloatUnit | undefined;
   /** Added sugars daily percentage. */
-  addedSugarsDailyPercentage?: number;
+  addedSugarsDailyPercentage?: number | undefined;
   /** Polyunsaturated fat. */
-  polyunsaturatedFat?: FloatUnit;
+  polyunsaturatedFat?: FloatUnit | undefined;
   /** Folate folic acid. */
-  folateFolicAcid?: FloatUnit;
+  folateFolicAcid?: FloatUnit | undefined;
   /** Starch. */
-  starch?: FloatUnit;
+  starch?: FloatUnit | undefined;
   /** Vitamin D. */
-  vitaminD?: FloatUnit;
+  vitaminD?: FloatUnit | undefined;
   /** Sodium daily percentage. */
-  sodiumDailyPercentage?: number;
+  sodiumDailyPercentage?: number | undefined;
   /** Dietary fiber. */
-  dietaryFiber?: FloatUnit;
+  dietaryFiber?: FloatUnit | undefined;
   /** Sodium. */
-  sodium?: FloatUnit;
+  sodium?: FloatUnit | undefined;
   /** Potassium daily percentage. */
-  potassiumDailyPercentage?: number;
+  potassiumDailyPercentage?: number | undefined;
   /** Calcium daily percentage. */
-  calciumDailyPercentage?: number;
+  calciumDailyPercentage?: number | undefined;
   /** Folate mcg DFE. */
-  folateMcgDfe?: number;
+  folateMcgDfe?: number | undefined;
   /** Protein. */
-  protein?: FloatUnit;
+  protein?: FloatUnit | undefined;
   /** Voluntary nutrition fact. */
-  voluntaryNutritionFact?: VoluntaryNutritionFactList;
+  voluntaryNutritionFact?: VoluntaryNutritionFactList | undefined;
   /** Energy from fat. */
-  energyFromFat?: FloatUnit;
+  energyFromFat?: FloatUnit | undefined;
   /** Food Serving Size. Serving size description. */
-  servingSizeDescription?: string;
+  servingSizeDescription?: string | undefined;
   /** Total carbohydrate daily percentage. */
-  totalCarbohydrateDailyPercentage?: number;
+  totalCarbohydrateDailyPercentage?: number | undefined;
   /** Calcium. */
-  calcium?: FloatUnit;
+  calcium?: FloatUnit | undefined;
   /** Potassium. */
-  potassium?: FloatUnit;
+  potassium?: FloatUnit | undefined;
 }
 /** A feature description of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#featuredesc. */
 export interface FeatureDescription {
   /** An optional image describing the feature. */
-  image?: Image;
+  image?: Image | undefined;
   /** A detailed description of the feature. */
-  text?: string;
+  text?: string | undefined;
   /** A short description of the feature. */
-  headline?: string;
+  headline?: string | undefined;
 }
 export type FeatureDescriptionList = Array<FeatureDescription>;
 /** A product detail of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#productdetail. */
 export interface ProductDetail {
   /** A short section name that can be reused between multiple product details. */
-  sectionName?: string;
+  sectionName?: string | undefined;
   /** The name of the attribute. */
-  attributeName?: string;
+  attributeName?: string | undefined;
   /** The value of the attribute. */
-  attributeValue?: string;
+  attributeValue?: string | undefined;
 }
 export type ProductDetailList = Array<ProductDetail>;
 /** The number of products in a single package. For more information, see https://support.google.com/manufacturers/answer/6124116#count. */
 export interface Count {
   /** The numeric value of the number of products in a package. */
-  value?: string;
+  value?: string | undefined;
   /** The unit in which these products are counted. */
-  unit?: string;
+  unit?: string | undefined;
 }
 export type ImageList = Array<Image>;
 /** Attributes of the product. For more information, see https://support.google.com/manufacturers/answer/6124116. */
 export interface Attributes {
   /** Rich product content. For more information, see https://support.google.com/manufacturers/answer/9389865 */
-  richProductContent?: StringList;
+  richProductContent?: StringList | undefined;
   /** The name of the group of products related to the product. For more information, see https://support.google.com/manufacturers/answer/6124116#productline. */
-  productLine?: string;
+  productLine?: string | undefined;
   /** Grocery Attributes. See more at https://support.google.com/manufacturers/answer/12098458#grocery. */
-  grocery?: Grocery;
+  grocery?: Grocery | undefined;
   /** The suggested retail price (MSRP) of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#price. */
-  suggestedRetailPrice?: Price;
+  suggestedRetailPrice?: Price | undefined;
   /** The release date of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#release. */
-  releaseDate?: string;
+  releaseDate?: string | undefined;
   /** The description of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#description. */
-  description?: string;
+  description?: string | undefined;
   /** The capacity of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#capacity. */
-  capacity?: Capacity;
+  capacity?: Capacity | undefined;
   /** The material of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#material. */
-  material?: string;
+  material?: string | undefined;
   /** The target client id. Should only be used in the accounts of the data partners. For more information, see https://support.google.com/manufacturers/answer/10857344 */
-  targetClientId?: string;
+  targetClientId?: string | undefined;
   /** The color of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#color. */
-  color?: string;
+  color?: string | undefined;
   /** The item group id of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#itemgroupid. */
-  itemGroupId?: string;
+  itemGroupId?: string | undefined;
   /** The image of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#image. */
-  imageLink?: Image;
+  imageLink?: Image | undefined;
   /** The target age group of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#agegroup. */
-  ageGroup?: string;
+  ageGroup?: string | undefined;
   /** Optional. List of certifications claimed by this product. */
-  certification?: GoogleShoppingManufacturersV1ProductCertificationList;
+  certification?: GoogleShoppingManufacturersV1ProductCertificationList | undefined;
   /** Optional. List of countries to show this product in. Countries provided in this attribute will override any of the countries configured at feed level. The values should be: the [CLDR territory code](http://www.unicode.org/repos/cldr/tags/latest/common/main/en.xml) of the countries in which this item will be shown. */
-  intendedCountry?: StringList;
+  intendedCountry?: StringList | undefined;
   /** The pattern of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#pattern. */
-  pattern?: string;
+  pattern?: string | undefined;
   /** The product highlights. For more information, see https://support.google.com/manufacturers/answer/10066942 */
-  productHighlight?: StringList;
+  productHighlight?: StringList | undefined;
   /** The disclosure date of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#disclosure. */
-  disclosureDate?: string;
+  disclosureDate?: string | undefined;
   /** The size of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#size. */
-  size?: string;
+  size?: string | undefined;
   /** The format of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#format. */
-  format?: string;
+  format?: string | undefined;
   /** The theme of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#theme. */
-  theme?: string;
+  theme?: string | undefined;
   /** Nutrition Attributes. See more at https://support.google.com/manufacturers/answer/12098458#food-servings. */
-  nutrition?: Nutrition;
+  nutrition?: Nutrition | undefined;
   /** The Manufacturer Part Number (MPN) of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#mpn. */
-  mpn?: string;
+  mpn?: string | undefined;
   /** The rich format description of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#featuredesc. */
-  featureDescription?: FeatureDescriptionList;
+  featureDescription?: FeatureDescriptionList | undefined;
   /** The scent of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#scent. */
-  scent?: string;
+  scent?: string | undefined;
   /** The size type of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#sizetype. */
-  sizeType?: StringList;
+  sizeType?: StringList | undefined;
   /** The videos of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#video. */
-  videoLink?: StringList;
+  videoLink?: StringList | undefined;
   /** The details of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#productdetail. */
-  productDetail?: ProductDetailList;
+  productDetail?: ProductDetailList | undefined;
   /** The flavor of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#flavor. */
-  flavor?: string;
+  flavor?: string | undefined;
   /** The canonical name of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#productname. */
-  productName?: string;
+  productName?: string | undefined;
   /** The title of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#title. */
-  title?: string;
+  title?: string | undefined;
   /** Virtual Model (3d) asset link. */
-  virtualModelLink?: string;
+  virtualModelLink?: string | undefined;
   /** The target gender of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#gender. */
-  gender?: string;
+  gender?: string | undefined;
   /** The brand name of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#brand. */
-  brand?: string;
+  brand?: string | undefined;
   /** The count of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#count. */
-  count?: Count;
+  count?: Count | undefined;
   /** The size system of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#sizesystem. */
-  sizeSystem?: string;
+  sizeSystem?: string | undefined;
   /** The Global Trade Item Number (GTIN) of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#gtin. */
-  gtin?: StringList;
+  gtin?: StringList | undefined;
   /** A list of excluded destinations such as "ClientExport", "ClientShoppingCatalog" or "PartnerShoppingCatalog". For more information, see https://support.google.com/manufacturers/answer/7443550 */
-  excludedDestination?: StringList;
+  excludedDestination?: StringList | undefined;
   /** The type or category of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#producttype. */
-  productType?: StringList;
+  productType?: StringList | undefined;
   /** The URL of the detail page of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#productpage. */
-  productPageUrl?: string;
+  productPageUrl?: string | undefined;
   /** The additional images of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#addlimage. */
-  additionalImageLink?: ImageList;
+  additionalImageLink?: ImageList | undefined;
   /** A list of included destinations such as "ClientExport", "ClientShoppingCatalog" or "PartnerShoppingCatalog". For more information, see https://support.google.com/manufacturers/answer/7443550 */
-  includedDestination?: StringList;
+  includedDestination?: StringList | undefined;
 }
 /** Product data. */
 export interface Product {
   /** Optional. The feed label for the product. */
-  feedLabel?: string;
+  feedLabel?: string | undefined;
   /** The status of the destinations. */
-  destinationStatuses?: DestinationStatusList;
+  destinationStatuses?: DestinationStatusList | undefined;
   /** Parent ID in the format `accounts/{account_id}`. `account_id` - The ID of the Manufacturer Center account. */
-  parent?: string;
+  parent?: string | undefined;
   /** Name in the format `{target_country}:{content_language}:{product_id}`. `target_country` - The target country of the product as a CLDR territory code (for example, US). `content_language` - The content language of the product as a two-letter ISO 639-1 language code (for example, en). `product_id` - The ID of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#id. */
-  name?: string;
+  name?: string | undefined;
   /** The target country of the product as a CLDR territory code (for example, US). */
-  targetCountry?: string;
+  targetCountry?: string | undefined;
   /** Attributes of the product uploaded to the Manufacturer Center. Manually edited attributes are taken into account. */
-  attributes?: Attributes;
+  attributes?: Attributes | undefined;
   /** A server-generated list of issues associated with the product. */
-  issues?: IssueList;
+  issues?: IssueList | undefined;
   /** The content language of the product as a two-letter ISO 639-1 language code (for example, en). */
-  contentLanguage?: string;
+  contentLanguage?: string | undefined;
   /** The ID of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#id. */
-  productId?: string;
+  productId?: string | undefined;
 }
 export interface ListAccountsLanguagesProductCertificationsRequest {
   /** Optional. The maximum number of product certifications to return. The service may return fewer than this value. If unspecified, at most 50 product certifications will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListProductCertifications` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListProductCertifications` must match the call that provided the page token. Required if requesting the second or higher page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent, which owns this collection of product certifications. Format: accounts/{account}/languages/{language_code} */
   parent: string;
 }
@@ -526,9 +526,9 @@ export type ProductCertificationList = Array<ProductCertification>;
 /** Response for ListProductCertifications method. */
 export interface ListProductCertificationsResponse {
   /** The product certifications from the specified certification body. */
-  productCertifications?: ProductCertificationList;
+  productCertifications?: ProductCertificationList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListAccountsProductsIncludeEnum =
   | "UNKNOWN"
@@ -540,28 +540,28 @@ export type ListAccountsProductsIncludeEnumList = Array<
 >;
 export interface ListAccountsProductsRequest {
   /** Maximum number of product statuses to return in the response, used for paging. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Parent ID in the format `accounts/{account_id}`. `account_id` - The ID of the Manufacturer Center account. */
   parent: string;
   /** The information to be included in the response. Only sections listed here will be returned. */
-  include?: ListAccountsProductsIncludeEnumList;
+  include?: ListAccountsProductsIncludeEnumList | undefined;
   /** The token returned by the previous request. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ProductList = Array<Product>;
 export interface ListProductsResponse {
   /** List of the products. */
-  products?: ProductList;
+  products?: ProductList | undefined;
   /** The token for the retrieval of the next page of product statuses. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface PatchAccountsLanguagesProductCertificationsRequest {
   /** Optional. The list of fields to update according to aip.dev/134. However, only full update is supported as of right now. Therefore, it can be either ignored or set to "*". Setting any other values will returns UNIMPLEMENTED error. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Required. The unique name identifier of a product certification Format: accounts/{account}/languages/{language_code}/productCertifications/{id} Where `id` is a some unique identifier and `language_code` is a 2-letter ISO 639-1 code of a Shopping supported language according to https://support.google.com/merchants/answer/160637. */
   name: string;
   /** Request body */
-  body?: ProductCertification;
+  body?: ProductCertification | undefined;
 }
 export interface UpdateAccountsProductsRequest {
   /** Parent ID in the format `accounts/{account_id}`. `account_id` - The ID of the Manufacturer Center account. */
@@ -569,7 +569,7 @@ export interface UpdateAccountsProductsRequest {
   /** Name in the format `{target_country}:{content_language}:{product_id}`. `target_country` - The target country of the product as a CLDR territory code (for example, US). `content_language` - The content language of the product as a two-letter ISO 639-1 language code (for example, en). `product_id` - The ID of the product. For more information, see https://support.google.com/manufacturers/answer/6124116#id. */
   name: string;
   /** Request body */
-  body?: Attributes;
+  body?: Attributes | undefined;
 }
 export type DeleteAccountsLanguagesProductCertificationsError =
   | NotFound

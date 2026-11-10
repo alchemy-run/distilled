@@ -31,11 +31,11 @@ export interface AppendStreamRequest {
   /** An encoded ID that represents a channel, private group, or DM */
   channel: string;
   /** Array of streaming chunks that can contain either markdown text or task updates */
-  chunks?: AppendStreamRequestChunksList;
+  chunks?: AppendStreamRequestChunksList | undefined;
   /** The timestamp of the streaming message. */
   ts: string;
   /** Accepts message text formatted in markdown. Limit this field to 12,000 characters. This text is what will be appended to the message received so far. */
-  markdown_text?: string;
+  markdown_text?: string | undefined;
 }
 export interface AppendStreamResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -47,23 +47,23 @@ export interface AppendStreamResponse {
 export type ChatUnfurlRequestSource = "composer" | "conversations_history";
 export interface ChatUnfurlRequest {
   /** Channel ID of the message. Both `channel` and `ts` must be provided together, *or* `unfurl_id` and `source` must be provided together. Required for public channels. */
-  channel?: string;
+  channel?: string | undefined;
   /** Timestamp of the message to add unfurl behavior to. Required for public channels. */
-  ts?: string;
+  ts?: string | undefined;
   /** URL-encoded JSON map with keys set to URLs featured in the message, pointing to their unfurl blocks or message attachments. Required for public channels. */
-  unfurls?: string;
+  unfurls?: string | undefined;
   /** Provide a simply-formatted string to send as an ephemeral message to the user as invitation to authenticate further and enable full unfurling behavior. Provides two buttons, `Not now` or `Never ask me again`. */
-  user_auth_message?: string | null;
+  user_auth_message?: string | null | undefined;
   /** Set to `true` or `1` to indicate the user must install your Slack app to trigger unfurls for this domain */
-  user_auth_required?: boolean;
+  user_auth_required?: boolean | undefined;
   /** Send users to this custom URL where they will complete authentication in your app to fully trigger unfurling. Value should be properly URL-encoded. */
-  user_auth_url?: string | null;
+  user_auth_url?: string | null | undefined;
   /** Provide a JSON based array of structured blocks presented as URL-encoded string to send as an ephemeral message to the user as invitation to authenticate further and enable full unfurling behavior */
-  user_auth_blocks?: unknown;
+  user_auth_blocks?: unknown | undefined;
   /** The ID of the link to unfurl. Both `unfurl_id` and `source` must be provided together, *or* `channel` and `ts` must be provided together. */
-  unfurl_id?: string;
+  unfurl_id?: string | undefined;
   /** The source of the link to unfurl. The source may either be `composer`, when the link is inside the message composer, or `conversations_history`, when the link has been posted to a conversation. */
-  source?: ChatUnfurlRequestSource | (string & {});
+  source?: ChatUnfurlRequestSource | (string & {}) | undefined;
 }
 export interface ChatUnfurlResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -71,7 +71,7 @@ export interface ChatUnfurlResponse {
 }
 export interface DeleteChatRequest {
   /** (Legacy) Pass true to delete the message as the authed user with `chat:write:user` scope. Bot users in this context are considered authed users. See [legacy `as_user` parameter](#legacy_as_user) below. */
-  as_user?: boolean;
+  as_user?: boolean | undefined;
   /** Channel containing the message to be deleted. */
   channel: string;
   /** Timestamp of the message to be deleted. */
@@ -85,7 +85,7 @@ export interface DeleteChatResponse {
 }
 export interface DeleteScheduledMessageRequest {
   /** Pass true to delete the message as the authed user with `chat:write:user` scope. Bot users in this context are considered authed users. If unused or false, the message will be deleted with `chat:write:bot` scope. */
-  as_user?: boolean;
+  as_user?: boolean | undefined;
   /** The channel the scheduled_message is posting to */
   channel: string;
   /** `scheduled_message_id` returned from call to chat.scheduleMessage */
@@ -109,38 +109,38 @@ export interface GetPermalinkResponse {
 }
 export interface ListScheduledMessagesRequest {
   /** The channel of the scheduled messages */
-  channel?: string;
+  channel?: string | undefined;
   /** For pagination purposes, this is the `cursor` value returned from a previous call to `chat.scheduledmessages.list` indicating where you want to start this call from. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** A Unix timestamp of the latest value in the time range */
-  latest?: string;
+  latest?: string | undefined;
   /** Maximum number of original entries to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** A Unix timestamp of the oldest value in the time range */
-  oldest?: string;
+  oldest?: string | undefined;
   /** encoded team id to list channels in, required if org token is used */
-  team_id?: string;
+  team_id?: string | undefined;
 }
 export interface ListScheduledMessagesResponseScheduledMessagesItem {
   id: string;
   channel_id: string;
   post_at: number;
   date_created: number;
-  text?: string;
+  text?: string | undefined;
 }
 export type ListScheduledMessagesResponseScheduledMessagesList =
   Array<ListScheduledMessagesResponseScheduledMessagesItem>;
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export interface ListScheduledMessagesResponseResponseMetadata {
   /** Cursor for the next page -- pass as `cursor` on the next call. */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
 }
 export interface ListScheduledMessagesResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   scheduled_messages: ListScheduledMessagesResponseScheduledMessagesList;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: ListScheduledMessagesResponseResponseMetadata;
+  response_metadata?: ListScheduledMessagesResponseResponseMetadata | undefined;
 }
 export interface MeMessageRequest {
   /** Channel to send message to. Can be a public channel, private group or IM channel. Can be an encoded ID, or a name. */
@@ -151,8 +151,8 @@ export interface MeMessageRequest {
 export interface MeMessageResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  ts?: string;
-  channel?: string;
+  ts?: string | undefined;
+  channel?: string | undefined;
 }
 export type PostEphemeralRequestAttachmentsCase1ItemMap = { [key: string]: unknown | undefined };
 export type PostEphemeralRequestAttachmentsCase1List =
@@ -166,33 +166,33 @@ export type PostEphemeralRequestBlocks = string | PostEphemeralRequestBlocksCase
 export type PostEphemeralRequestParse = "" | "none" | "full" | "mrkdwn" | "false";
 export interface PostEphemeralRequest {
   /** (Legacy) Pass true to post the message as the authed user. Defaults to true if the chat:write:bot scope is not included. Otherwise, defaults to false. */
-  as_user?: boolean;
+  as_user?: boolean | undefined;
   /** A JSON-based array of structured attachments, presented as a URL-encoded string. */
-  attachments?: PostEphemeralRequestAttachments;
+  attachments?: PostEphemeralRequestAttachments | undefined;
   /** A JSON-based array of structured blocks, presented as a URL-encoded string. */
-  blocks?: PostEphemeralRequestBlocks;
+  blocks?: PostEphemeralRequestBlocks | undefined;
   /** Channel, private group, or IM channel to send message to. Can be an encoded ID, or a name. */
   channel: string;
   /** Emoji to use as the icon for this message. Overrides `icon_url`. */
-  icon_emoji?: string;
+  icon_emoji?: string | undefined;
   /** URL to an image to use as the icon for this message. */
-  icon_url?: string;
+  icon_url?: string | undefined;
   /** Find and link channel names and usernames. */
-  link_names?: boolean;
+  link_names?: boolean | undefined;
   /** Accepts message text formatted in markdown. This argument should not be used in conjunction with `blocks` or `text`. Limit this field to 12,000 characters. */
-  markdown_text?: string;
+  markdown_text?: string | undefined;
   /** JSON object with an `entities` array of work object entity metadata, presented as a URL-encoded string. Only entity metadata is supported: ephemeral messages are not persisted and never dispatch `message_metadata_*` events, so `event_type`/`event_payload` message metadata is ignored here. Each entity requires `entity_type`, `entity_payload`, `external_ref`, and `url`. */
-  metadata?: string | null;
+  metadata?: string | null | undefined;
   /** Change how messages are treated. Defaults to `none`. See [below](#formatting). */
-  parse?: PostEphemeralRequestParse | (string & {}) | null;
+  parse?: PostEphemeralRequestParse | (string & {}) | null | undefined;
   /** How this field works and whether it is required depends on other fields you use in your API call. [See below](#text_usage) for more detail. */
-  text?: string | null;
+  text?: string | null | undefined;
   /** Provide another message's `ts` value to post this message in a thread. Avoid using a reply's `ts` value; use its parent's value instead. Ephemeral messages in threads are only shown if there is already an active thread. */
-  thread_ts?: string | null;
+  thread_ts?: string | null | undefined;
   /** `id` of the user who will receive the ephemeral message. The user should be in the channel specified by the `channel` argument. */
   user: string;
   /** Set your bot's user name. */
-  username?: string;
+  username?: string | undefined;
 }
 export interface PostEphemeralResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -210,52 +210,52 @@ export type PostMessageRequestBlocksCase1List = Array<PostMessageRequestBlocksCa
 export type PostMessageRequestBlocks = string | PostMessageRequestBlocksCase1List;
 export interface PostMessageRequest {
   /** (Legacy) Pass true to post the message as the authed user instead of as a bot. Defaults to false. Can only be used by classic apps. See [legacy `as_user` parameter](#legacy_as_user) below. */
-  as_user?: boolean;
+  as_user?: boolean | undefined;
   /** A JSON-based array of structured attachments, presented as a URL-encoded string. */
-  attachments?: PostMessageRequestAttachments;
+  attachments?: PostMessageRequestAttachments | undefined;
   /** A JSON-based array of structured blocks, presented as a URL-encoded string. */
-  blocks?: PostMessageRequestBlocks;
+  blocks?: PostMessageRequestBlocks | undefined;
   /** An encoded ID or channel name that represents a channel, private group, or IM channel to send the message to. See [below](#channels) for more details. */
   channel: string;
   /** This field represents the timestamp of the draft's last update at the time this API is called. If the current message is a draft, this field can be provided to ensure synchronization with the server. */
-  current_draft_last_updated_ts?: string;
+  current_draft_last_updated_ts?: string | undefined;
   /** Emoji to use as the icon for this message. Overrides `icon_url`. */
-  icon_emoji?: string | null;
+  icon_emoji?: string | null | undefined;
   /** URL to an image to use as the icon for this message. */
-  icon_url?: string | null;
+  icon_url?: string | null | undefined;
   /** Find and link user groups. No longer supports linking individual users; use syntax shown in [Mentioning Users](/messaging/formatting-message-text#mentioning-users) instead. */
-  link_names?: boolean;
+  link_names?: boolean | undefined;
   /** Accepts message text formatted in markdown. This argument should not be used in conjunction with `blocks` or `text`. Limit this field to 12,000 characters. */
-  markdown_text?: string;
+  markdown_text?: string | undefined;
   /** JSON object with event_type and event_payload fields, presented as a URL-encoded string. You can also provide Work Object entity metadata using this parameter. Metadata you post to Slack is accessible to any app or user who is a member of that workspace. */
-  metadata?: string | null;
+  metadata?: string | null | undefined;
   /** Disable Slack markup parsing by setting to `false`. Enabled by default. */
-  mrkdwn?: boolean;
+  mrkdwn?: boolean | undefined;
   /** Change how messages are treated. See [below](#formatting). */
-  parse?: string | null;
+  parse?: string | null | undefined;
   /** Used in conjunction with `thread_ts` and indicates whether reply should be made visible to everyone in the channel or conversation. Defaults to `false`. */
-  reply_broadcast?: boolean;
+  reply_broadcast?: boolean | undefined;
   /** How this field works and whether it is required depends on other fields you use in your API call. [See below](#text_usage) for more detail. */
-  text?: string | null;
+  text?: string | null | undefined;
   /** Provide another message's `ts` value to make this message a reply. Avoid using a reply's `ts` value; use its parent instead. */
-  thread_ts?: string | null;
+  thread_ts?: string | null | undefined;
   /** Pass true to enable unfurling of primarily text-based content. */
-  unfurl_links?: boolean;
+  unfurl_links?: boolean | undefined;
   /** Pass false to disable unfurling of media content. */
-  unfurl_media?: boolean;
+  unfurl_media?: boolean | undefined;
   /** Set your bot's user name. */
-  username?: string | null;
+  username?: string | null | undefined;
   /** Pass true to unfurl links from installed apps, or false to prevent app links from unfurling. When omitted, app links follow the `unfurl_links` setting. */
-  unfurl_app_links?: boolean;
+  unfurl_app_links?: boolean | undefined;
 }
 export interface PostMessageResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   channel: string;
   ts: string;
-  message?: unknown;
+  message?: unknown | undefined;
   /** Pass true if duplicate message is attempted to be sent. */
-  is_duplicate?: boolean;
+  is_duplicate?: boolean | undefined;
 }
 export type ScheduleMessageRequestAttachmentsCase1ItemMap = { [key: string]: unknown | undefined };
 export type ScheduleMessageRequestAttachmentsCase1List =
@@ -270,33 +270,33 @@ export type ScheduleMessageRequestBlocks = string | ScheduleMessageRequestBlocks
 export type ScheduleMessageRequestParse = "none" | "full";
 export interface ScheduleMessageRequest {
   /** Set to `true` to post the message as the authed user, instead of as a bot. Defaults to false. Cannot be used by [new Slack apps](/quickstart). See [chat.postMessage](chat.postMessage#authorship). */
-  as_user?: boolean;
+  as_user?: boolean | undefined;
   /** A JSON-based array of structured attachments, presented as a URL-encoded string. */
-  attachments?: ScheduleMessageRequestAttachments;
+  attachments?: ScheduleMessageRequestAttachments | undefined;
   /** A JSON-based array of structured blocks, presented as a URL-encoded string. */
-  blocks?: ScheduleMessageRequestBlocks;
+  blocks?: ScheduleMessageRequestBlocks | undefined;
   /** Channel, private group, or DM channel to send message to. Can be an encoded ID, or a name. See [below](#channels) for more details. */
   channel: string;
   /** Find and link user groups. No longer supports linking individual users; use syntax shown in [Mentioning Users](/messaging/formatting-message-text#mentioning-users) instead. */
-  link_names?: boolean;
+  link_names?: boolean | undefined;
   /** Accepts message text formatted in markdown. This argument should not be used in conjunction with `blocks` or `text`. Limit this field to 12,000 characters. */
-  markdown_text?: string;
+  markdown_text?: string | undefined;
   /** Change how messages are treated. See [chat.postMessage](chat.postMessage#formatting). */
-  parse?: ScheduleMessageRequestParse | (string & {});
+  parse?: ScheduleMessageRequestParse | (string & {}) | undefined;
   /** Unix timestamp representing the future time the message should post to Slack. */
   post_at: number;
   /** Used in conjunction with `thread_ts` and indicates whether reply should be made visible to everyone in the channel or conversation. Defaults to `false`. */
-  reply_broadcast?: boolean;
+  reply_broadcast?: boolean | undefined;
   /** How this field works and whether it is required depends on other fields you use in your API call. [See below](#text_usage) for more detail. */
-  text?: string;
+  text?: string | undefined;
   /** Provide another message's `ts` value to make this message a reply. Avoid using a reply's `ts` value; use its parent instead. */
-  thread_ts?: string;
+  thread_ts?: string | undefined;
   /** Pass true to enable unfurling of primarily text-based content. */
-  unfurl_links?: boolean;
+  unfurl_links?: boolean | undefined;
   /** Pass false to disable unfurling of media content. */
-  unfurl_media?: boolean;
+  unfurl_media?: boolean | undefined;
   /** JSON object with event_type and event_payload fields, presented as a URL-encoded string. Metadata you post to Slack is accessible to any app or user who is a member of that workspace. */
-  metadata?: string | null;
+  metadata?: string | null | undefined;
 }
 export type ScheduleMessageResponseMessageMap = { [key: string]: unknown | undefined };
 export interface ScheduleMessageResponse {
@@ -315,23 +315,23 @@ export interface StartStreamRequest {
   /** An encoded ID that represents a channel, thread, or DM. */
   channel: string;
   /** Array of streaming chunks. Can include [markdown text chunk](#markdown_text-chunks) objects, [task update chunk](#task_update-chunks) objects, [plan update chunks](#plan_update-chunks), or [blocks chunks](#blocks-chunks). */
-  chunks?: StartStreamRequestChunksList;
+  chunks?: StartStreamRequestChunksList | undefined;
   /** Accepts message text formatted in markdown. Limit this field to 12,000 characters. */
-  markdown_text?: string;
+  markdown_text?: string | undefined;
   /** Provide another message's `ts` value to reply to. Omit it to stream a top-level message instead of a thread reply; this is only supported in channels where the whole channel is one session, such as Slack Code, and returns `invalid_thread_ts` elsewhere. Passing `"0"` is equivalent to omitting it. */
-  thread_ts?: string;
+  thread_ts?: string | undefined;
   /** The encoded ID of the user to receive the streaming text. Required when streaming to channels. */
-  recipient_user_id?: string;
+  recipient_user_id?: string | undefined;
   /** The encoded ID of the team the user receiving the streaming text belongs to. Required when streaming to channels. */
-  recipient_team_id?: string;
+  recipient_team_id?: string | undefined;
   /** Specifies how tasks are displayed in the message. `timeline` task updates render as individual task cards interleaved with streamed text. `plan` task updates render together in a plan block. */
-  task_display_mode?: StartStreamRequestTaskDisplayMode | (string & {});
+  task_display_mode?: StartStreamRequestTaskDisplayMode | (string & {}) | undefined;
   /** Emoji to use as the icon for this message. Overrides `icon_url`. */
-  icon_emoji?: string | null;
+  icon_emoji?: string | null | undefined;
   /** Image URL to use as the icon for this message. */
-  icon_url?: string | null;
+  icon_url?: string | null | undefined;
   /** The bot's username to display. */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export interface StartStreamResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -346,17 +346,17 @@ export interface StopStreamRequest {
   /** An encoded ID that represents a channel, private group, or DM */
   channel: string;
   /** Array of streaming chunks. Can include [markdown text chunk](#markdown_text-chunks) objects, [task update chunk](#task_update-chunks) objects, [plan update chunks](#plan_update-chunks), or [blocks chunks](#blocks-chunks). */
-  chunks?: unknown;
+  chunks?: unknown | undefined;
   /** The timestamp of the streaming message. */
   ts: string;
   /** Accepts message text formatted in markdown. Limit this field to 12,000 characters. */
-  markdown_text?: string;
+  markdown_text?: string | undefined;
   /** A list of blocks that will be rendered at the bottom of the finalized message. */
-  blocks?: unknown;
+  blocks?: unknown | undefined;
   /** JSON object with event_type and event_payload fields, presented as a URL-encoded string. Metadata you post to Slack is accessible to any app or user who is a member of that workspace. */
-  metadata?: string | null;
+  metadata?: string | null | undefined;
   /** The session status to set after stopping the stream. */
-  session_status?: StopStreamRequestSessionStatus | (string & {});
+  session_status?: StopStreamRequestSessionStatus | (string & {}) | undefined;
 }
 export interface StopStreamResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -381,31 +381,31 @@ export type UpdateChatRequestLinkNames = boolean | string;
 export type UpdateChatRequestFileIdsList = Array<string>;
 export interface UpdateChatRequest {
   /** Pass true to update the message as the authed user. Bot users in this context are considered authed users. */
-  as_user?: UpdateChatRequestAsUser | null;
+  as_user?: UpdateChatRequestAsUser | null | undefined;
   /** A JSON-based array of structured attachments, presented as a URL-encoded string. */
-  attachments?: UpdateChatRequestAttachments;
+  attachments?: UpdateChatRequestAttachments | undefined;
   /** A JSON-based array of structured attachments, presented as a URL-encoded string. */
-  unfurled_attachments?: string | null;
+  unfurled_attachments?: string | null | undefined;
   /** A JSON-based array of structured blocks, presented as a URL-encoded string. */
-  blocks?: UpdateChatRequestBlocks;
+  blocks?: UpdateChatRequestBlocks | undefined;
   /** Accepts message text formatted in markdown. This argument should not be used in conjunction with `blocks` or `text`. Limit this field to 12,000 characters. */
-  markdown_text?: string;
+  markdown_text?: string | undefined;
   /** JSON object with event_type and event_payload fields, presented as a URL-encoded string. If you don't include this field, the message's previous `metadata` will be retained. To remove previous `metadata`, include an empty object for this field. Metadata you post to Slack is accessible to any app or user who is a member of that workspace. */
-  metadata?: string | null;
+  metadata?: string | null | undefined;
   /** Channel containing the message to be updated. For direct messages, ensure that this value is a DM ID (starts with `D`) instead of a User ID (starts with either `U` or `W`). */
   channel: string;
   /** Find and link channel names and usernames. Defaults to `none`. If you do not specify a value for this field, the original value set for the message will be overwritten with the default, `none`. */
-  link_names?: UpdateChatRequestLinkNames | null;
+  link_names?: UpdateChatRequestLinkNames | null | undefined;
   /** Change how messages are treated. Defaults to `client`, unlike `chat.postMessage`. Accepts either `none` or `full`. If you do not specify a value for this field, the original value set for the message will be overwritten with the default, `client`. */
-  parse?: string | null;
+  parse?: string | null | undefined;
   /** How this field works and whether it is required depends on other fields you use in your API call. [See below](#text_usage) for more detail. */
-  text?: string | null;
+  text?: string | null | undefined;
   /** Timestamp of the message to be updated. */
   ts: string;
   /** Broadcast an existing thread reply to make it visible to everyone in the channel or conversation. */
-  reply_broadcast?: boolean;
+  reply_broadcast?: boolean | undefined;
   /** Array of new file ids that will be sent with this message. */
-  file_ids?: UpdateChatRequestFileIdsList;
+  file_ids?: UpdateChatRequestFileIdsList | undefined;
 }
 export type UpdateChatResponseMessageAttachmentsItemMap = { [key: string]: unknown | undefined };
 export type UpdateChatResponseMessageAttachmentsList =
@@ -413,9 +413,9 @@ export type UpdateChatResponseMessageAttachmentsList =
 export type UpdateChatResponseMessageMetadataMap = { [key: string]: unknown | undefined };
 export interface UpdateChatResponseMessage {
   text: string;
-  blocks?: unknown;
-  attachments?: UpdateChatResponseMessageAttachmentsList;
-  metadata?: UpdateChatResponseMessageMetadataMap;
+  blocks?: unknown | undefined;
+  attachments?: UpdateChatResponseMessageAttachmentsList | undefined;
+  metadata?: UpdateChatResponseMessageMetadataMap | undefined;
 }
 export interface UpdateChatResponse {
   /** Always `true` (a failed call raises a typed error instead). */

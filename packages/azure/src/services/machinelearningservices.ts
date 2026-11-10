@@ -38,7 +38,7 @@ export type BatchDeploymentsCreateOrUpdateRequestTagsMap = { [key: string]: stri
 /** Configuration for a scoring code asset. */
 export interface CodeConfiguration {
   /** ARM resource ID of the code asset. */
-  codeId?: string | null;
+  codeId?: string | null | undefined;
   /** [Required] The script to execute on startup. eg. "score.py" */
   scoringScript: string;
 }
@@ -66,13 +66,13 @@ export interface AssetReferenceBase {
   /** [Required] Specifies the type of asset reference. */
   referenceType: ReferenceType | (string & {});
   /** Id: ARM resource ID of the asset. */
-  assetId?: string;
+  assetId?: string | undefined;
   /** DataPath: ARM resource ID of the datastore. */
-  datastoreId?: string;
+  datastoreId?: string | undefined;
   /** DataPath/OutputPath: the path. */
-  path?: string;
+  path?: string | undefined;
   /** OutputPath: ARM resource ID of the job. */
-  jobId?: string;
+  jobId?: string | undefined;
 }
 /** Enum to determine how batch inferencing will handle output */
 export type BatchDeploymentPropertiesInputOutputAction = "SummaryOnly" | "AppendRow";
@@ -80,53 +80,53 @@ export type BatchDeploymentPropertiesInputOutputAction = "SummaryOnly" | "Append
 export type ResourceConfigurationPropertiesMap = { [key: string]: unknown | null | undefined };
 export interface ResourceConfiguration {
   /** Optional number of instances or nodes used by the compute target. */
-  instanceCount?: number;
+  instanceCount?: number | undefined;
   /** Optional type of VM used as supported by the compute target. */
-  instanceType?: string | null;
+  instanceType?: string | null | undefined;
   /** Additional properties bag. */
-  properties?: ResourceConfigurationPropertiesMap | null;
+  properties?: ResourceConfigurationPropertiesMap | null | undefined;
 }
 /** Retry settings for a batch inference operation. */
 export interface BatchRetrySettings {
   /** Maximum retry count for a mini-batch */
-  maxRetries?: number;
+  maxRetries?: number | undefined;
   /** Invocation timeout for a mini-batch, in ISO 8601 format. */
-  timeout?: string;
+  timeout?: string | undefined;
 }
 /** Batch inference settings per deployment. */
 export interface BatchDeploymentPropertiesInput {
   /** Code configuration for the endpoint deployment. */
-  codeConfiguration?: CodeConfiguration | null;
+  codeConfiguration?: CodeConfiguration | null | undefined;
   /** Description of the endpoint deployment. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** ARM resource ID or AssetId of the environment specification for the endpoint deployment. */
-  environmentId?: string | null;
+  environmentId?: string | null | undefined;
   /** Environment variables configuration for the deployment. */
-  environmentVariables?: BatchDeploymentPropertiesInputEnvironmentVariablesMap | null;
+  environmentVariables?: BatchDeploymentPropertiesInputEnvironmentVariablesMap | null | undefined;
   /** Property dictionary. Properties can be added, but not removed or altered. */
-  properties?: BatchDeploymentPropertiesInputPropertiesMap | null;
+  properties?: BatchDeploymentPropertiesInputPropertiesMap | null | undefined;
   /** Compute target for batch inference operation. */
-  compute?: string | null;
+  compute?: string | null | undefined;
   /** Properties relevant to different deployment types. */
-  deploymentConfiguration?: BatchDeploymentConfiguration | null;
+  deploymentConfiguration?: BatchDeploymentConfiguration | null | undefined;
   /** Error threshold, if the error count for the entire input goes above this value, the batch inference will be aborted. Range is [-1, int.MaxValue]. For FileDataset, this value is the count of file failures. For TabularDataset, this value is the count of record failures. If set to -1 (the lower bound), all failures during batch inference will be ignored. */
-  errorThreshold?: number;
+  errorThreshold?: number | undefined;
   /** Log verbosity for batch inferencing. Increasing verbosity order for logging is : Warning, Info and Debug. The default value is Info. */
-  loggingLevel?: BatchDeploymentPropertiesInputLoggingLevel | (string & {});
+  loggingLevel?: BatchDeploymentPropertiesInputLoggingLevel | (string & {}) | undefined;
   /** Indicates maximum number of parallelism per instance. */
-  maxConcurrencyPerInstance?: number;
+  maxConcurrencyPerInstance?: number | undefined;
   /** Size of the mini-batch passed to each batch invocation. For FileDataset, this is the number of files per mini-batch. For TabularDataset, this is the size of the records in bytes, per mini-batch. */
-  miniBatchSize?: number;
+  miniBatchSize?: number | undefined;
   /** Reference to the model asset for the endpoint deployment. */
-  model?: AssetReferenceBase | null;
+  model?: AssetReferenceBase | null | undefined;
   /** Enum to determine how batch inferencing will handle output */
-  outputAction?: BatchDeploymentPropertiesInputOutputAction | (string & {});
+  outputAction?: BatchDeploymentPropertiesInputOutputAction | (string & {}) | undefined;
   /** Customized output file name for append_row output action. */
-  outputFileName?: string;
+  outputFileName?: string | undefined;
   /** Indicates compute configuration for the job. If not provided, will default to the defaults defined in ResourceConfiguration. */
-  resources?: ResourceConfiguration | null;
+  resources?: ResourceConfiguration | null | undefined;
   /** Retry Settings for the batch inference operation. If not provided, will default to the defaults defined in BatchRetrySettings. */
-  retrySettings?: BatchRetrySettings | null;
+  retrySettings?: BatchRetrySettings | null | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -141,7 +141,7 @@ export type UserAssignedIdentitiesInput = { [key: string]: UserAssignedIdentityI
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface BatchDeploymentsCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput | null;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | null | undefined;
 }
 /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
 export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
@@ -149,13 +149,13 @@ export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
 export interface BatchDeploymentsCreateOrUpdateRequestSku {
   /** The name of the SKU. Ex - P3. It is typically a letter+number code */
   name: string;
-  tier?: SkuTier | (string & {});
+  tier?: SkuTier | (string & {}) | undefined;
   /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
-  size?: string;
+  size?: string | undefined;
   /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string;
+  family?: string | undefined;
   /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 export interface BatchDeploymentsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -169,17 +169,17 @@ export interface BatchDeploymentsCreateOrUpdateRequest {
   /** The identifier for the Batch deployments. */
   deploymentName: string;
   /** Resource tags. */
-  tags?: BatchDeploymentsCreateOrUpdateRequestTagsMap;
+  tags?: BatchDeploymentsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: BatchDeploymentPropertiesInput;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateRequestIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateRequestIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateRequestSku;
+  sku?: BatchDeploymentsCreateOrUpdateRequestSku | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -188,17 +188,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Resource tags. */
 export type BatchDeploymentsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -224,95 +224,95 @@ export type DeploymentProvisioningState =
 /** Batch inference settings per deployment. */
 export interface BatchDeploymentProperties {
   /** Code configuration for the endpoint deployment. */
-  codeConfiguration?: CodeConfiguration | null;
+  codeConfiguration?: CodeConfiguration | null | undefined;
   /** Description of the endpoint deployment. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** ARM resource ID or AssetId of the environment specification for the endpoint deployment. */
-  environmentId?: string | null;
+  environmentId?: string | null | undefined;
   /** Environment variables configuration for the deployment. */
-  environmentVariables?: BatchDeploymentPropertiesEnvironmentVariablesMap | null;
+  environmentVariables?: BatchDeploymentPropertiesEnvironmentVariablesMap | null | undefined;
   /** Property dictionary. Properties can be added, but not removed or altered. */
-  properties?: BatchDeploymentPropertiesPropertiesMap | null;
+  properties?: BatchDeploymentPropertiesPropertiesMap | null | undefined;
   /** Compute target for batch inference operation. */
-  compute?: string | null;
+  compute?: string | null | undefined;
   /** Properties relevant to different deployment types. */
-  deploymentConfiguration?: BatchDeploymentConfiguration | null;
+  deploymentConfiguration?: BatchDeploymentConfiguration | null | undefined;
   /** Error threshold, if the error count for the entire input goes above this value, the batch inference will be aborted. Range is [-1, int.MaxValue]. For FileDataset, this value is the count of file failures. For TabularDataset, this value is the count of record failures. If set to -1 (the lower bound), all failures during batch inference will be ignored. */
-  errorThreshold?: number;
+  errorThreshold?: number | undefined;
   /** Log verbosity for batch inferencing. Increasing verbosity order for logging is : Warning, Info and Debug. The default value is Info. */
-  loggingLevel?: BatchDeploymentPropertiesLoggingLevel;
+  loggingLevel?: BatchDeploymentPropertiesLoggingLevel | undefined;
   /** Indicates maximum number of parallelism per instance. */
-  maxConcurrencyPerInstance?: number;
+  maxConcurrencyPerInstance?: number | undefined;
   /** Size of the mini-batch passed to each batch invocation. For FileDataset, this is the number of files per mini-batch. For TabularDataset, this is the size of the records in bytes, per mini-batch. */
-  miniBatchSize?: number;
+  miniBatchSize?: number | undefined;
   /** Reference to the model asset for the endpoint deployment. */
-  model?: AssetReferenceBase | null;
+  model?: AssetReferenceBase | null | undefined;
   /** Enum to determine how batch inferencing will handle output */
-  outputAction?: BatchDeploymentPropertiesOutputAction;
+  outputAction?: BatchDeploymentPropertiesOutputAction | undefined;
   /** Customized output file name for append_row output action. */
-  outputFileName?: string;
+  outputFileName?: string | undefined;
   /** Provisioning state for the endpoint deployment. */
-  provisioningState?: DeploymentProvisioningState;
+  provisioningState?: DeploymentProvisioningState | undefined;
   /** Indicates compute configuration for the job. If not provided, will default to the defaults defined in ResourceConfiguration. */
-  resources?: ResourceConfiguration | null;
+  resources?: ResourceConfiguration | null | undefined;
   /** Retry Settings for the batch inference operation. If not provided, will default to the defaults defined in BatchRetrySettings. */
-  retrySettings?: BatchRetrySettings | null;
+  retrySettings?: BatchRetrySettings | null | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface BatchDeploymentsCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities | null;
+  userAssignedIdentities?: UserAssignedIdentities | null | undefined;
 }
 /** The resource model definition representing SKU */
 export interface BatchDeploymentsCreateOrUpdateResponseSku {
   /** The name of the SKU. Ex - P3. It is typically a letter+number code */
   name: string;
-  tier?: SkuTier;
+  tier?: SkuTier | undefined;
   /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
-  size?: string;
+  size?: string | undefined;
   /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string;
+  family?: string | undefined;
   /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 export interface BatchDeploymentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: BatchDeploymentsCreateOrUpdateResponseTagsMap;
+  tags?: BatchDeploymentsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: BatchDeploymentProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type BatchEndpointsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -321,9 +321,9 @@ export type EndpointAuthMode = "AMLToken" | "Key" | "AADToken";
 /** Keys for endpoint authentication. */
 export interface EndpointAuthKeys {
   /** The primary key. */
-  primaryKey?: string | null;
+  primaryKey?: string | null | undefined;
   /** The secondary key. */
-  secondaryKey?: string | null;
+  secondaryKey?: string | null | undefined;
 }
 /** Property dictionary. Properties can be added, but not removed or altered. */
 export type BatchEndpointPropertiesInputPropertiesMap = {
@@ -332,20 +332,20 @@ export type BatchEndpointPropertiesInputPropertiesMap = {
 /** Batch endpoint default values */
 export interface BatchEndpointDefaults {
   /** Name of the deployment that will be default for the endpoint. This deployment will end up getting 100% traffic when the endpoint scoring URL is invoked. */
-  deploymentName?: string | null;
+  deploymentName?: string | null | undefined;
 }
 /** Batch endpoint configuration. */
 export interface BatchEndpointPropertiesInput {
   /** [Required] The authentication method for invoking the endpoint (data plane operation). Use 'Key' for key-based authentication. Use 'AMLToken' for Azure Machine Learning token-based authentication. Use 'AADToken' for Microsoft Entra token-based authentication. */
   authMode: EndpointAuthMode | (string & {});
   /** Description of the inference endpoint. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** EndpointAuthKeys to set initially on an Endpoint. This property will always be returned as null. AuthKey values must be retrieved using the ListKeys API. */
-  keys?: EndpointAuthKeys | null;
+  keys?: EndpointAuthKeys | null | undefined;
   /** Property dictionary. Properties can be added, but not removed or altered. */
-  properties?: BatchEndpointPropertiesInputPropertiesMap | null;
+  properties?: BatchEndpointPropertiesInputPropertiesMap | null | undefined;
   /** Default values for Batch Endpoint */
-  defaults?: BatchEndpointDefaults | null;
+  defaults?: BatchEndpointDefaults | null | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type BatchEndpointsCreateOrUpdateRequestIdentity =
@@ -362,17 +362,17 @@ export interface BatchEndpointsCreateOrUpdateRequest {
   /** Name for the Batch Endpoint. */
   endpointName: string;
   /** Resource tags. */
-  tags?: BatchEndpointsCreateOrUpdateRequestTagsMap;
+  tags?: BatchEndpointsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: BatchEndpointPropertiesInput;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateRequestIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateRequestIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateRequestSku;
+  sku?: BatchDeploymentsCreateOrUpdateRequestSku | undefined;
 }
 /** Resource tags. */
 export type BatchEndpointsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -391,19 +391,19 @@ export interface BatchEndpointProperties {
   /** [Required] The authentication method for invoking the endpoint (data plane operation). Use 'Key' for key-based authentication. Use 'AMLToken' for Azure Machine Learning token-based authentication. Use 'AADToken' for Microsoft Entra token-based authentication. */
   authMode: EndpointAuthMode;
   /** Description of the inference endpoint. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** EndpointAuthKeys to set initially on an Endpoint. This property will always be returned as null. AuthKey values must be retrieved using the ListKeys API. */
-  keys?: EndpointAuthKeys | null;
+  keys?: EndpointAuthKeys | null | undefined;
   /** Property dictionary. Properties can be added, but not removed or altered. */
-  properties?: BatchEndpointPropertiesPropertiesMap | null;
+  properties?: BatchEndpointPropertiesPropertiesMap | null | undefined;
   /** Endpoint URI. */
-  scoringUri?: string | null;
+  scoringUri?: string | null | undefined;
   /** Endpoint Swagger URI. */
-  swaggerUri?: string | null;
+  swaggerUri?: string | null | undefined;
   /** Default values for Batch Endpoint */
-  defaults?: BatchEndpointDefaults | null;
+  defaults?: BatchEndpointDefaults | null | undefined;
   /** Provisioning state for the endpoint. */
-  provisioningState?: EndpointProvisioningState;
+  provisioningState?: EndpointProvisioningState | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type BatchEndpointsCreateOrUpdateResponseIdentity =
@@ -412,29 +412,29 @@ export type BatchEndpointsCreateOrUpdateResponseIdentity =
 export type BatchEndpointsCreateOrUpdateResponseSku = BatchDeploymentsCreateOrUpdateResponseSku;
 export interface BatchEndpointsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: BatchEndpointsCreateOrUpdateResponseTagsMap;
+  tags?: BatchEndpointsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: BatchEndpointProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CancelJobRequest {
   /** The ID of the target subscription. */
@@ -448,9 +448,9 @@ export interface CancelJobRequest {
 }
 export interface CancelJobResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The asset property dictionary. */
 export type CapabilityHostPropertiesInputPropertiesMap = {
@@ -472,25 +472,34 @@ export type CapabilityHostPropertiesInputThreadStorageConnectionsList = Array<st
 export type CapabilityHostPropertiesInputVectorStoreConnectionsList = Array<string>;
 export interface CapabilityHostPropertiesInput {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: CapabilityHostPropertiesInputPropertiesMap | null;
+  properties?: CapabilityHostPropertiesInputPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: CapabilityHostPropertiesInputTagsMap | null;
+  tags?: CapabilityHostPropertiesInputTagsMap | null | undefined;
   /** List of Aca Environment connections. */
-  acaEnvironmentConnections?: CapabilityHostPropertiesInputAcaEnvironmentConnectionsList | null;
+  acaEnvironmentConnections?:
+    | CapabilityHostPropertiesInputAcaEnvironmentConnectionsList
+    | null
+    | undefined;
   /** List of AI services connections. */
-  aiServicesConnections?: CapabilityHostPropertiesInputAiServicesConnectionsList | null;
+  aiServicesConnections?: CapabilityHostPropertiesInputAiServicesConnectionsList | null | undefined;
   /** Kind of this capability host. */
-  capabilityHostKind?: CapabilityHostPropertiesInputCapabilityHostKind | (string & {});
+  capabilityHostKind?: CapabilityHostPropertiesInputCapabilityHostKind | (string & {}) | undefined;
   /** Customer subnet info to help set up this capability host. */
-  customerSubnet?: string | null;
+  customerSubnet?: string | null | undefined;
   /** List of Storage connections. */
-  storageConnections?: CapabilityHostPropertiesInputStorageConnectionsList | null;
+  storageConnections?: CapabilityHostPropertiesInputStorageConnectionsList | null | undefined;
   /** List of Thread storage connections. */
-  threadStorageConnections?: CapabilityHostPropertiesInputThreadStorageConnectionsList | null;
+  threadStorageConnections?:
+    | CapabilityHostPropertiesInputThreadStorageConnectionsList
+    | null
+    | undefined;
   /** List of VectorStore connections. */
-  vectorStoreConnections?: CapabilityHostPropertiesInputVectorStoreConnectionsList | null;
+  vectorStoreConnections?:
+    | CapabilityHostPropertiesInputVectorStoreConnectionsList
+    | null
+    | undefined;
 }
 export interface CapabilityHostsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -532,45 +541,51 @@ export type CapabilityHostPropertiesVectorStoreConnectionsList = Array<string>;
 export type CapabilityHostPropertiesMessagesList = Array<string>;
 export interface CapabilityHostProperties {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: CapabilityHostPropertiesPropertiesMap | null;
+  properties?: CapabilityHostPropertiesPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: CapabilityHostPropertiesTagsMap | null;
+  tags?: CapabilityHostPropertiesTagsMap | null | undefined;
   /** List of Aca Environment connections. */
-  acaEnvironmentConnections?: CapabilityHostPropertiesAcaEnvironmentConnectionsList | null;
+  acaEnvironmentConnections?:
+    | CapabilityHostPropertiesAcaEnvironmentConnectionsList
+    | null
+    | undefined;
   /** List of AI services connections. */
-  aiServicesConnections?: CapabilityHostPropertiesAiServicesConnectionsList | null;
+  aiServicesConnections?: CapabilityHostPropertiesAiServicesConnectionsList | null | undefined;
   /** Kind of this capability host. */
-  capabilityHostKind?: CapabilityHostPropertiesCapabilityHostKind;
+  capabilityHostKind?: CapabilityHostPropertiesCapabilityHostKind | undefined;
   /** Customer subnet info to help set up this capability host. */
-  customerSubnet?: string | null;
+  customerSubnet?: string | null | undefined;
   /** Provisioning state for the CapabilityHost. */
-  provisioningState?: CapabilityHostProvisioningState;
+  provisioningState?: CapabilityHostProvisioningState | undefined;
   /** List of Storage connections. */
-  storageConnections?: CapabilityHostPropertiesStorageConnectionsList | null;
+  storageConnections?: CapabilityHostPropertiesStorageConnectionsList | null | undefined;
   /** List of Thread storage connections. */
-  threadStorageConnections?: CapabilityHostPropertiesThreadStorageConnectionsList | null;
+  threadStorageConnections?:
+    | CapabilityHostPropertiesThreadStorageConnectionsList
+    | null
+    | undefined;
   /** List of VectorStore connections. */
-  vectorStoreConnections?: CapabilityHostPropertiesVectorStoreConnectionsList | null;
+  vectorStoreConnections?: CapabilityHostPropertiesVectorStoreConnectionsList | null | undefined;
   /** List of messages containing errors. */
-  messages?: CapabilityHostPropertiesMessagesList | null;
+  messages?: CapabilityHostPropertiesMessagesList | null | undefined;
 }
 export interface CapabilityHostsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: CapabilityHostProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The asset property dictionary. */
 export type CodeContainerPropertiesInputPropertiesMap = {
@@ -581,13 +596,13 @@ export type CodeContainerPropertiesInputTagsMap = { [key: string]: string | null
 /** Container for code asset versions. */
 export interface CodeContainerPropertiesInput {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: CodeContainerPropertiesInputPropertiesMap | null;
+  properties?: CodeContainerPropertiesInputPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: CodeContainerPropertiesInputTagsMap | null;
+  tags?: CodeContainerPropertiesInputTagsMap | null | undefined;
   /** Is the asset archived? */
-  isArchived?: boolean;
+  isArchived?: boolean | undefined;
 }
 export interface CodeContainersCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -616,29 +631,29 @@ export type AssetProvisioningState =
 /** Container for code asset versions. */
 export interface CodeContainerProperties {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: CodeContainerPropertiesPropertiesMap | null;
+  properties?: CodeContainerPropertiesPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: CodeContainerPropertiesTagsMap | null;
+  tags?: CodeContainerPropertiesTagsMap | null | undefined;
   /** Is the asset archived? */
-  isArchived?: boolean;
+  isArchived?: boolean | undefined;
   /** The latest version inside this container. */
-  latestVersion?: string | null;
+  latestVersion?: string | null | undefined;
   /** The next auto incremental version */
-  nextVersion?: string | null;
+  nextVersion?: string | null | undefined;
   /** Provisioning state for the code container. */
-  provisioningState?: AssetProvisioningState;
+  provisioningState?: AssetProvisioningState | undefined;
 }
 export interface CodeContainersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: CodeContainerProperties;
 }
@@ -658,11 +673,12 @@ export interface CodeVersionsCreateOrGetStartPendingUploadRequest {
   /** Version identifier. This is case-sensitive. */
   version: string;
   /** If PendingUploadId = null then random guid will be used. */
-  pendingUploadId?: string | null;
+  pendingUploadId?: string | null | undefined;
   /** Type of storage to use for the pending upload location */
   pendingUploadType?:
     | CodeVersionsCreateOrGetStartPendingUploadRequestPendingUploadType
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Enum to determine the PendingUpload credentials type. */
 export type PendingUploadCredentialType = "SAS";
@@ -672,21 +688,21 @@ export interface PendingUploadCredentialDto {
 }
 export interface BlobReferenceForConsumptionDto {
   /** Blob URI path for client to upload data. Example: https://blob.windows.core.net/Container/Path */
-  blobUri?: string | null;
+  blobUri?: string | null | undefined;
   /** Credential info to access storage account */
-  credential?: PendingUploadCredentialDto | null;
+  credential?: PendingUploadCredentialDto | null | undefined;
   /** Arm ID of the storage account to use */
-  storageAccountArmId?: string | null;
+  storageAccountArmId?: string | null | undefined;
 }
 /** Type of storage to use for the pending upload location */
 export type PendingUploadResponseDtoPendingUploadType = "None" | "TemporaryBlobReference";
 export interface PendingUploadResponseDto {
   /** Container level read, write, list SAS */
-  blobReferenceForConsumption?: BlobReferenceForConsumptionDto | null;
+  blobReferenceForConsumption?: BlobReferenceForConsumptionDto | null | undefined;
   /** ID for this upload request */
-  pendingUploadId?: string | null;
+  pendingUploadId?: string | null | undefined;
   /** Type of storage to use for the pending upload location */
-  pendingUploadType?: PendingUploadResponseDtoPendingUploadType;
+  pendingUploadType?: PendingUploadResponseDtoPendingUploadType | undefined;
 }
 /** The asset property dictionary. */
 export type CodeVersionPropertiesInputPropertiesMap = { [key: string]: string | null | undefined };
@@ -695,17 +711,17 @@ export type CodeVersionPropertiesInputTagsMap = { [key: string]: string | null |
 /** Code asset version details. */
 export interface CodeVersionPropertiesInput {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: CodeVersionPropertiesInputPropertiesMap | null;
+  properties?: CodeVersionPropertiesInputPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: CodeVersionPropertiesInputTagsMap | null;
+  tags?: CodeVersionPropertiesInputTagsMap | null | undefined;
   /** If the name version are system generated (anonymous registration). */
-  isAnonymous?: boolean;
+  isAnonymous?: boolean | undefined;
   /** Is the asset archived? */
-  isArchived?: boolean;
+  isArchived?: boolean | undefined;
   /** Uri where code is located */
-  codeUri?: string | null;
+  codeUri?: string | null | undefined;
 }
 export interface CodeVersionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -728,29 +744,29 @@ export type CodeVersionPropertiesTagsMap = { [key: string]: string | null | unde
 /** Code asset version details. */
 export interface CodeVersionProperties {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: CodeVersionPropertiesPropertiesMap | null;
+  properties?: CodeVersionPropertiesPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: CodeVersionPropertiesTagsMap | null;
+  tags?: CodeVersionPropertiesTagsMap | null | undefined;
   /** If the name version are system generated (anonymous registration). */
-  isAnonymous?: boolean;
+  isAnonymous?: boolean | undefined;
   /** Is the asset archived? */
-  isArchived?: boolean;
+  isArchived?: boolean | undefined;
   /** Uri where code is located */
-  codeUri?: string | null;
+  codeUri?: string | null | undefined;
   /** Provisioning state for the code version. */
-  provisioningState?: AssetProvisioningState;
+  provisioningState?: AssetProvisioningState | undefined;
 }
 export interface CodeVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: CodeVersionProperties;
 }
@@ -763,13 +779,13 @@ export type ComponentContainerPropertiesInputTagsMap = { [key: string]: string |
 /** Component container definition. <see href="https://docs.microsoft.com/en-us/azure/machine-learning/reference-yaml-component-command" /> */
 export interface ComponentContainerPropertiesInput {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: ComponentContainerPropertiesInputPropertiesMap | null;
+  properties?: ComponentContainerPropertiesInputPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: ComponentContainerPropertiesInputTagsMap | null;
+  tags?: ComponentContainerPropertiesInputTagsMap | null | undefined;
   /** Is the asset archived? */
-  isArchived?: boolean;
+  isArchived?: boolean | undefined;
 }
 export interface ComponentContainersCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -792,29 +808,29 @@ export type ComponentContainerPropertiesTagsMap = { [key: string]: string | null
 /** Component container definition. <see href="https://docs.microsoft.com/en-us/azure/machine-learning/reference-yaml-component-command" /> */
 export interface ComponentContainerProperties {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: ComponentContainerPropertiesPropertiesMap | null;
+  properties?: ComponentContainerPropertiesPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: ComponentContainerPropertiesTagsMap | null;
+  tags?: ComponentContainerPropertiesTagsMap | null | undefined;
   /** Is the asset archived? */
-  isArchived?: boolean;
+  isArchived?: boolean | undefined;
   /** The latest version inside this container. */
-  latestVersion?: string | null;
+  latestVersion?: string | null | undefined;
   /** The next auto incremental version */
-  nextVersion?: string | null;
+  nextVersion?: string | null | undefined;
   /** Provisioning state for the component container. */
-  provisioningState?: AssetProvisioningState;
+  provisioningState?: AssetProvisioningState | undefined;
 }
 export interface ComponentContainersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: ComponentContainerProperties;
 }
@@ -827,17 +843,17 @@ export type ComponentVersionPropertiesInputTagsMap = { [key: string]: string | n
 /** Definition of a component version: defines resources that span component types. */
 export interface ComponentVersionPropertiesInput {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: ComponentVersionPropertiesInputPropertiesMap | null;
+  properties?: ComponentVersionPropertiesInputPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: ComponentVersionPropertiesInputTagsMap | null;
+  tags?: ComponentVersionPropertiesInputTagsMap | null | undefined;
   /** If the name version are system generated (anonymous registration). */
-  isAnonymous?: boolean;
+  isAnonymous?: boolean | undefined;
   /** Is the asset archived? */
-  isArchived?: boolean;
+  isArchived?: boolean | undefined;
   /** Defines Component definition details. <see href="https://docs.microsoft.com/en-us/azure/machine-learning/reference-yaml-component-command" /> */
-  componentSpec?: unknown | null;
+  componentSpec?: unknown | null | undefined;
 }
 export interface ComponentVersionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -860,29 +876,29 @@ export type ComponentVersionPropertiesTagsMap = { [key: string]: string | null |
 /** Definition of a component version: defines resources that span component types. */
 export interface ComponentVersionProperties {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: ComponentVersionPropertiesPropertiesMap | null;
+  properties?: ComponentVersionPropertiesPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: ComponentVersionPropertiesTagsMap | null;
+  tags?: ComponentVersionPropertiesTagsMap | null | undefined;
   /** If the name version are system generated (anonymous registration). */
-  isAnonymous?: boolean;
+  isAnonymous?: boolean | undefined;
   /** Is the asset archived? */
-  isArchived?: boolean;
+  isArchived?: boolean | undefined;
   /** Defines Component definition details. <see href="https://docs.microsoft.com/en-us/azure/machine-learning/reference-yaml-component-command" /> */
-  componentSpec?: unknown | null;
+  componentSpec?: unknown | null | undefined;
   /** Provisioning state for the component version. */
-  provisioningState?: AssetProvisioningState;
+  provisioningState?: AssetProvisioningState | undefined;
 }
 export interface ComponentVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: ComponentVersionProperties;
 }
@@ -903,15 +919,15 @@ export interface ComputeInput {
   /** The type of compute */
   computeType: ComputeType | (string & {});
   /** Location for the underlying compute */
-  computeLocation?: string;
+  computeLocation?: string | undefined;
   /** The description of the Machine Learning compute. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** ARM resource id of the underlying compute */
-  resourceId?: string | null;
+  resourceId?: string | null | undefined;
   /** Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for authentication. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** Per-computeType properties (e.g. AmlCompute: vmSize, vmPriority, scaleSettings). */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** Contains resource tags defined as key/value pairs. */
 export type ComputeCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -929,15 +945,15 @@ export interface ComputeCreateOrUpdateRequest {
   /** Name of the Azure Machine Learning compute. */
   computeName: string;
   /** The resource-specific properties for this resource. */
-  properties?: ComputeInput;
+  properties?: ComputeInput | undefined;
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Contains resource tags defined as key/value pairs. */
-  tags?: ComputeCreateOrUpdateRequestTagsMap | null;
+  tags?: ComputeCreateOrUpdateRequestTagsMap | null | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateRequestSku;
+  sku?: BatchDeploymentsCreateOrUpdateRequestSku | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateRequestIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateRequestIdentity | undefined;
 }
 /** The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and Failed. */
 export type ProvisioningState =
@@ -953,29 +969,29 @@ export type ErrorDetailDetailsList = Array<ErrorDetail>;
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfo {
   /** The additional info type. */
-  type?: string;
+  type?: string | undefined;
   /** The additional info. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ErrorDetail {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ErrorDetailDetailsList;
+  details?: ErrorDetailDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ErrorDetailAdditionalInfoList;
+  additionalInfo?: ErrorDetailAdditionalInfoList | undefined;
 }
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
 export interface ComputeProvisioningErrorsItem {
   /** The error object. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** Errors during provisioning */
 export type ComputeProvisioningErrorsList = Array<ComputeProvisioningErrorsItem>;
@@ -984,25 +1000,25 @@ export interface Compute {
   /** The type of compute */
   computeType: ComputeType;
   /** Location for the underlying compute */
-  computeLocation?: string;
+  computeLocation?: string | undefined;
   /** The provision state of the cluster. Valid values are Unknown, Updating, Provisioning, Succeeded, and Failed. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The description of the Machine Learning compute. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The time at which the compute was created. */
-  createdOn?: string;
+  createdOn?: string | undefined;
   /** The time at which the compute was last modified. */
-  modifiedOn?: string;
+  modifiedOn?: string | undefined;
   /** ARM resource id of the underlying compute */
-  resourceId?: string | null;
+  resourceId?: string | null | undefined;
   /** Errors during provisioning */
-  provisioningErrors?: ComputeProvisioningErrorsList | null;
+  provisioningErrors?: ComputeProvisioningErrorsList | null | undefined;
   /** Indicating whether the compute was provisioned by user and brought from outside if true, or machine learning service provisioned it if false. */
-  isAttachedCompute?: boolean;
+  isAttachedCompute?: boolean | undefined;
   /** Opt-out of local authentication and ensure customers can use only MSI and AAD exclusively for authentication. */
-  disableLocalAuth?: boolean;
+  disableLocalAuth?: boolean | undefined;
   /** Per-computeType properties (e.g. AmlCompute: vmSize, vmPriority, scaleSettings, currentNodeCount). */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** Contains resource tags defined as key/value pairs. */
 export type ComputeCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -1012,27 +1028,27 @@ export type ComputeCreateOrUpdateResponseSku = BatchDeploymentsCreateOrUpdateRes
 export type ComputeCreateOrUpdateResponseIdentity = BatchDeploymentsCreateOrUpdateResponseIdentity;
 export interface ComputeCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: Compute;
+  properties?: Compute | undefined;
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Contains resource tags defined as key/value pairs. */
-  tags?: ComputeCreateOrUpdateResponseTagsMap | null;
+  tags?: ComputeCreateOrUpdateResponseTagsMap | null | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Authentication type of the connection target */
 export type ConnectionAuthType =
@@ -1186,19 +1202,19 @@ export interface WorkspaceConnectionPropertiesV2Input {
   /** Authentication type of the connection target */
   authType: ConnectionAuthType | (string & {});
   /** Category of the connection */
-  category?: ConnectionCategory | (string & {});
-  error?: string;
-  expiryTime?: string;
-  isSharedToAll?: boolean;
+  category?: ConnectionCategory | (string & {}) | undefined;
+  error?: string | undefined;
+  expiryTime?: string | undefined;
+  isSharedToAll?: boolean | undefined;
   /** Store user metadata for this connection */
-  metadata?: WorkspaceConnectionPropertiesV2InputMetadataMap;
-  peRequirement?: ManagedPERequirement | (string & {});
-  peStatus?: ManagedPEStatus | (string & {});
-  sharedUserList?: WorkspaceConnectionPropertiesV2InputSharedUserListList;
-  target?: string;
-  useWorkspaceManagedIdentity?: boolean;
+  metadata?: WorkspaceConnectionPropertiesV2InputMetadataMap | undefined;
+  peRequirement?: ManagedPERequirement | (string & {}) | undefined;
+  peStatus?: ManagedPEStatus | (string & {}) | undefined;
+  sharedUserList?: WorkspaceConnectionPropertiesV2InputSharedUserListList | undefined;
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
   /** Credentials for the authType (ApiKey: {key}; CustomKeys: {keys}; AccessKey: {accessKeyId, secretAccessKey}; ...). */
-  credentials?: unknown;
+  credentials?: unknown | undefined;
 }
 export interface CreateWorkspaceConnectionRequest {
   /** The ID of the target subscription. */
@@ -1227,33 +1243,33 @@ export interface WorkspaceConnectionPropertiesV2 {
   /** Authentication type of the connection target */
   authType: ConnectionAuthType;
   /** Category of the connection */
-  category?: ConnectionCategory;
+  category?: ConnectionCategory | undefined;
   /** A type definition that refers the id to an Azure Resource Manager resource. */
-  createdByWorkspaceArmId?: string;
-  error?: string;
-  expiryTime?: string;
+  createdByWorkspaceArmId?: string | undefined;
+  error?: string | undefined;
+  expiryTime?: string | undefined;
   /** Group based on connection category */
-  group?: ConnectionGroup;
-  isSharedToAll?: boolean;
+  group?: ConnectionGroup | undefined;
+  isSharedToAll?: boolean | undefined;
   /** Store user metadata for this connection */
-  metadata?: WorkspaceConnectionPropertiesV2MetadataMap;
-  peRequirement?: ManagedPERequirement;
-  peStatus?: ManagedPEStatus;
-  sharedUserList?: WorkspaceConnectionPropertiesV2SharedUserListList;
-  target?: string;
-  useWorkspaceManagedIdentity?: boolean;
+  metadata?: WorkspaceConnectionPropertiesV2MetadataMap | undefined;
+  peRequirement?: ManagedPERequirement | undefined;
+  peStatus?: ManagedPEStatus | undefined;
+  sharedUserList?: WorkspaceConnectionPropertiesV2SharedUserListList | undefined;
+  target?: string | undefined;
+  useWorkspaceManagedIdentity?: boolean | undefined;
   /** Credentials for the authType; only returned by listSecrets. */
-  credentials?: unknown;
+  credentials?: unknown | undefined;
 }
 export interface CreateWorkspaceConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   properties: WorkspaceConnectionPropertiesV2;
 }
 /** The asset property dictionary. */
@@ -1267,13 +1283,13 @@ export type DataType = "uri_file" | "uri_folder" | "mltable";
 /** Container for data asset versions. */
 export interface DataContainerPropertiesInput {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: DataContainerPropertiesInputPropertiesMap | null;
+  properties?: DataContainerPropertiesInputPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: DataContainerPropertiesInputTagsMap | null;
+  tags?: DataContainerPropertiesInputTagsMap | null | undefined;
   /** Is the asset archived? */
-  isArchived?: boolean;
+  isArchived?: boolean | undefined;
   /** [Required] Specifies the type of data. */
   dataType: DataType | (string & {});
 }
@@ -1296,29 +1312,29 @@ export type DataContainerPropertiesTagsMap = { [key: string]: string | null | un
 /** Container for data asset versions. */
 export interface DataContainerProperties {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: DataContainerPropertiesPropertiesMap | null;
+  properties?: DataContainerPropertiesPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: DataContainerPropertiesTagsMap | null;
+  tags?: DataContainerPropertiesTagsMap | null | undefined;
   /** Is the asset archived? */
-  isArchived?: boolean;
+  isArchived?: boolean | undefined;
   /** The latest version inside this container. */
-  latestVersion?: string | null;
+  latestVersion?: string | null | undefined;
   /** The next auto incremental version */
-  nextVersion?: string | null;
+  nextVersion?: string | null | undefined;
   /** [Required] Specifies the type of data. */
   dataType: DataType;
 }
 export interface DataContainersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: DataContainerProperties;
 }
@@ -1333,15 +1349,15 @@ export interface DatastoreCredentials {
   /** [Required] Credential type used to authentication with storage. */
   credentialsType: CredentialsType | (string & {});
   /** Credential secrets (AccountKey: {secretsType,key}; Sas: {secretsType,sasToken}; ServicePrincipal: {secretsType,clientSecret}). */
-  secrets?: unknown;
+  secrets?: unknown | undefined;
   /** ServicePrincipal/Certificate: client ID. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** ServicePrincipal/Certificate: tenant ID. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** ServicePrincipal/Certificate: authority URL. */
-  authorityUrl?: string;
+  authorityUrl?: string | undefined;
   /** ServicePrincipal/Certificate: resource URL. */
-  resourceUrl?: string;
+  resourceUrl?: string | undefined;
 }
 /** Enum to determine the datastore contents type. */
 export type DatastoreType =
@@ -1353,35 +1369,35 @@ export type DatastoreType =
 /** Base definition for datastore contents configuration. */
 export interface DatastorePropertiesInput {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: DatastorePropertiesInputPropertiesMap | null;
+  properties?: DatastorePropertiesInputPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: DatastorePropertiesInputTagsMap | null;
+  tags?: DatastorePropertiesInputTagsMap | null | undefined;
   /** [Required] Account credentials. */
   credentials: DatastoreCredentials;
   /** Enum to determine the datastore contents type. */
   datastoreType: DatastoreType | (string & {});
   /** accountName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  accountName?: string;
+  accountName?: string | undefined;
   /** containerName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  containerName?: string;
+  containerName?: string | undefined;
   /** fileShareName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  fileShareName?: string;
+  fileShareName?: string | undefined;
   /** filesystem (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  filesystem?: string;
+  filesystem?: string | undefined;
   /** storeName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  storeName?: string;
+  storeName?: string | undefined;
   /** endpoint (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** protocol (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  protocol?: string;
+  protocol?: string | undefined;
   /** serviceDataAccessAuthIdentity (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  serviceDataAccessAuthIdentity?: string;
+  serviceDataAccessAuthIdentity?: string | undefined;
   /** resourceGroup (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
   /** subscriptionId (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
 }
 export interface DatastoresCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1393,7 +1409,7 @@ export interface DatastoresCreateOrUpdateRequest {
   /** Datastore name. */
   name: string;
   /** Flag to skip validation. */
-  skipValidation?: boolean;
+  skipValidation?: boolean | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: DatastorePropertiesInput;
 }
@@ -1404,47 +1420,47 @@ export type DatastorePropertiesTagsMap = { [key: string]: string | null | undefi
 /** Base definition for datastore contents configuration. */
 export interface DatastoreProperties {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: DatastorePropertiesPropertiesMap | null;
+  properties?: DatastorePropertiesPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: DatastorePropertiesTagsMap | null;
+  tags?: DatastorePropertiesTagsMap | null | undefined;
   /** [Required] Account credentials. */
   credentials: DatastoreCredentials;
   /** Enum to determine the datastore contents type. */
   datastoreType: DatastoreType;
   /** Readonly property to indicate if datastore is the workspace default datastore */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   /** accountName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  accountName?: string;
+  accountName?: string | undefined;
   /** containerName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  containerName?: string;
+  containerName?: string | undefined;
   /** fileShareName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  fileShareName?: string;
+  fileShareName?: string | undefined;
   /** filesystem (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  filesystem?: string;
+  filesystem?: string | undefined;
   /** storeName (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  storeName?: string;
+  storeName?: string | undefined;
   /** endpoint (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** protocol (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  protocol?: string;
+  protocol?: string | undefined;
   /** serviceDataAccessAuthIdentity (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  serviceDataAccessAuthIdentity?: string;
+  serviceDataAccessAuthIdentity?: string | undefined;
   /** resourceGroup (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  resourceGroup?: string;
+  resourceGroup?: string | undefined;
   /** subscriptionId (AzureBlob/AzureFile/AzureDataLakeGen1/AzureDataLakeGen2 subtypes). */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
 }
 export interface DatastoresCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: DatastoreProperties;
 }
@@ -1455,15 +1471,15 @@ export type DataVersionBasePropertiesTagsMap = { [key: string]: string | null | 
 /** Data version base definition */
 export interface DataVersionBaseProperties {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: DataVersionBasePropertiesPropertiesMap | null;
+  properties?: DataVersionBasePropertiesPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: DataVersionBasePropertiesTagsMap | null;
+  tags?: DataVersionBasePropertiesTagsMap | null | undefined;
   /** If the name version are system generated (anonymous registration). */
-  isAnonymous?: boolean;
+  isAnonymous?: boolean | undefined;
   /** Is the asset archived? */
-  isArchived?: boolean;
+  isArchived?: boolean | undefined;
   /** [Required] Specifies the type of data. */
   dataType: DataType | (string & {});
   /** [Required] Uri of the data. Example: https://go.microsoft.com/fwlink/?linkid=2202330 */
@@ -1485,13 +1501,13 @@ export interface DataVersionsCreateOrUpdateRequest {
 }
 export interface DataVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: DataVersionBaseProperties;
 }
@@ -1509,9 +1525,9 @@ export interface DeleteBatchDeploymentRequest {
 }
 export interface DeleteBatchDeploymentResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteBatchEndpointRequest {
   /** The ID of the target subscription. */
@@ -1525,9 +1541,9 @@ export interface DeleteBatchEndpointRequest {
 }
 export interface DeleteBatchEndpointResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteCapabilityHostRequest {
   /** The ID of the target subscription. */
@@ -1541,9 +1557,9 @@ export interface DeleteCapabilityHostRequest {
 }
 export interface DeleteCapabilityHostResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteCodeContainerRequest {
   /** The ID of the target subscription. */
@@ -1608,9 +1624,9 @@ export interface DeleteComputeRequest {
 }
 export interface DeleteComputeResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteDataContainerRequest {
   /** The ID of the target subscription. */
@@ -1683,9 +1699,9 @@ export interface DeleteFeaturesetContainerRequest {
 }
 export interface DeleteFeaturesetContainerResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteFeaturesetVersionRequest {
   /** The ID of the target subscription. */
@@ -1701,9 +1717,9 @@ export interface DeleteFeaturesetVersionRequest {
 }
 export interface DeleteFeaturesetVersionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteFeaturestoreEntityContainerRequest {
   /** The ID of the target subscription. */
@@ -1717,9 +1733,9 @@ export interface DeleteFeaturestoreEntityContainerRequest {
 }
 export interface DeleteFeaturestoreEntityContainerResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteFeaturestoreEntityVersionRequest {
   /** The ID of the target subscription. */
@@ -1735,9 +1751,9 @@ export interface DeleteFeaturestoreEntityVersionRequest {
 }
 export interface DeleteFeaturestoreEntityVersionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteJobRequest {
   /** The ID of the target subscription. */
@@ -1751,9 +1767,9 @@ export interface DeleteJobRequest {
 }
 export interface DeleteJobResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteManagedNetworkSettingsRuleRequest {
   /** The ID of the target subscription. */
@@ -1767,9 +1783,9 @@ export interface DeleteManagedNetworkSettingsRuleRequest {
 }
 export interface DeleteManagedNetworkSettingsRuleResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteMarketplaceSubscriptionRequest {
   /** The ID of the target subscription. */
@@ -1783,9 +1799,9 @@ export interface DeleteMarketplaceSubscriptionRequest {
 }
 export interface DeleteMarketplaceSubscriptionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteModelContainerRequest {
   /** The ID of the target subscription. */
@@ -1825,9 +1841,9 @@ export interface DeleteOnlineDeploymentRequest {
 }
 export interface DeleteOnlineDeploymentResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteOnlineEndpointRequest {
   /** The ID of the target subscription. */
@@ -1841,9 +1857,9 @@ export interface DeleteOnlineEndpointRequest {
 }
 export interface DeleteOnlineEndpointResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeletePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. */
@@ -1866,9 +1882,9 @@ export interface DeleteRegistryRequest {
 }
 export interface DeleteRegistryResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteRegistryCodeContainerRequest {
   /** The ID of the target subscription. */
@@ -1882,9 +1898,9 @@ export interface DeleteRegistryCodeContainerRequest {
 }
 export interface DeleteRegistryCodeContainerResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteRegistryCodeVersionRequest {
   /** The ID of the target subscription. */
@@ -1900,9 +1916,9 @@ export interface DeleteRegistryCodeVersionRequest {
 }
 export interface DeleteRegistryCodeVersionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteRegistryComponentContainerRequest {
   /** The ID of the target subscription. */
@@ -1916,9 +1932,9 @@ export interface DeleteRegistryComponentContainerRequest {
 }
 export interface DeleteRegistryComponentContainerResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteRegistryComponentVersionRequest {
   /** The ID of the target subscription. */
@@ -1934,9 +1950,9 @@ export interface DeleteRegistryComponentVersionRequest {
 }
 export interface DeleteRegistryComponentVersionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteRegistryDataContainerRequest {
   /** The ID of the target subscription. */
@@ -1950,9 +1966,9 @@ export interface DeleteRegistryDataContainerRequest {
 }
 export interface DeleteRegistryDataContainerResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteRegistryDataVersionRequest {
   /** The ID of the target subscription. */
@@ -1968,9 +1984,9 @@ export interface DeleteRegistryDataVersionRequest {
 }
 export interface DeleteRegistryDataVersionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteRegistryEnvironmentContainerRequest {
   /** The ID of the target subscription. */
@@ -1984,9 +2000,9 @@ export interface DeleteRegistryEnvironmentContainerRequest {
 }
 export interface DeleteRegistryEnvironmentContainerResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteRegistryEnvironmentVersionRequest {
   /** The ID of the target subscription. */
@@ -2002,9 +2018,9 @@ export interface DeleteRegistryEnvironmentVersionRequest {
 }
 export interface DeleteRegistryEnvironmentVersionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteRegistryModelContainerRequest {
   /** The ID of the target subscription. */
@@ -2018,9 +2034,9 @@ export interface DeleteRegistryModelContainerRequest {
 }
 export interface DeleteRegistryModelContainerResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteRegistryModelVersionRequest {
   /** The ID of the target subscription. */
@@ -2036,9 +2052,9 @@ export interface DeleteRegistryModelVersionRequest {
 }
 export interface DeleteRegistryModelVersionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteScheduleRequest {
   /** The ID of the target subscription. */
@@ -2052,9 +2068,9 @@ export interface DeleteScheduleRequest {
 }
 export interface DeleteScheduleResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteServerlessEndpointRequest {
   /** The ID of the target subscription. */
@@ -2068,9 +2084,9 @@ export interface DeleteServerlessEndpointRequest {
 }
 export interface DeleteServerlessEndpointResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteWorkspaceRequest {
   /** The ID of the target subscription. */
@@ -2080,13 +2096,13 @@ export interface DeleteWorkspaceRequest {
   /** Azure Machine Learning Workspace Name */
   workspaceName: string;
   /** Flag to indicate delete is a purge request. */
-  forceToPurge?: boolean;
+  forceToPurge?: boolean | undefined;
 }
 export interface DeleteWorkspaceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteWorkspaceConnectionRequest {
   /** The ID of the target subscription. */
@@ -2110,13 +2126,13 @@ export type EnvironmentContainerPropertiesInputTagsMap = {
 /** Container for environment specification versions. */
 export interface EnvironmentContainerPropertiesInput {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: EnvironmentContainerPropertiesInputPropertiesMap | null;
+  properties?: EnvironmentContainerPropertiesInputPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: EnvironmentContainerPropertiesInputTagsMap | null;
+  tags?: EnvironmentContainerPropertiesInputTagsMap | null | undefined;
   /** Is the asset archived? */
-  isArchived?: boolean;
+  isArchived?: boolean | undefined;
 }
 export interface EnvironmentContainersCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2139,29 +2155,29 @@ export type EnvironmentContainerPropertiesTagsMap = { [key: string]: string | nu
 /** Container for environment specification versions. */
 export interface EnvironmentContainerProperties {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: EnvironmentContainerPropertiesPropertiesMap | null;
+  properties?: EnvironmentContainerPropertiesPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: EnvironmentContainerPropertiesTagsMap | null;
+  tags?: EnvironmentContainerPropertiesTagsMap | null | undefined;
   /** Is the asset archived? */
-  isArchived?: boolean;
+  isArchived?: boolean | undefined;
   /** The latest version inside this container. */
-  latestVersion?: string | null;
+  latestVersion?: string | null | undefined;
   /** The next auto incremental version */
-  nextVersion?: string | null;
+  nextVersion?: string | null | undefined;
   /** Provisioning state for the environment container. */
-  provisioningState?: AssetProvisioningState;
+  provisioningState?: AssetProvisioningState | undefined;
 }
 export interface EnvironmentContainersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: EnvironmentContainerProperties;
 }
@@ -2178,7 +2194,7 @@ export interface BuildContext {
   /** [Required] URI of the Docker build context used to build the image. Supports blob URIs on environment creation and may return blob or Git URIs. <seealso href="https://docs.docker.com/engine/reference/commandline/build/#extended-description" /> */
   contextUri: string;
   /** Path to the Dockerfile in the build context. <seealso href="https://docs.docker.com/engine/reference/builder/" /> */
-  dockerfilePath?: string;
+  dockerfilePath?: string | undefined;
 }
 export interface Route {
   /** [Required] The path for the route. */
@@ -2188,42 +2204,42 @@ export interface Route {
 }
 export interface InferenceContainerProperties {
   /** The route to check the liveness of the inference server container. */
-  livenessRoute?: Route;
+  livenessRoute?: Route | undefined;
   /** The route to check the readiness of the inference server container. */
-  readinessRoute?: Route;
+  readinessRoute?: Route | undefined;
   /** The port to send the scoring requests to, within the inference server container. */
-  scoringRoute?: Route;
+  scoringRoute?: Route | undefined;
   /** The route to check the startup of the application in the container. */
-  startupRoute?: Route | null;
+  startupRoute?: Route | null | undefined;
 }
 /** The type of operating system. */
 export type EnvironmentVersionPropertiesInputOsType = "Linux" | "Windows";
 /** Environment version details. */
 export interface EnvironmentVersionPropertiesInput {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: EnvironmentVersionPropertiesInputPropertiesMap | null;
+  properties?: EnvironmentVersionPropertiesInputPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: EnvironmentVersionPropertiesInputTagsMap | null;
+  tags?: EnvironmentVersionPropertiesInputTagsMap | null | undefined;
   /** If the name version are system generated (anonymous registration). */
-  isAnonymous?: boolean;
+  isAnonymous?: boolean | undefined;
   /** Is the asset archived? */
-  isArchived?: boolean;
+  isArchived?: boolean | undefined;
   /** AutoRebuild setting for the derived image */
-  autoRebuild?: EnvironmentVersionPropertiesInputAutoRebuild | (string & {});
+  autoRebuild?: EnvironmentVersionPropertiesInputAutoRebuild | (string & {}) | undefined;
   /** Configuration settings for Docker build context. */
-  build?: BuildContext;
+  build?: BuildContext | undefined;
   /** Standard configuration file used by Conda that lets you install any kind of package, including Python, R, and C/C++ packages. <see href="https://repo2docker.readthedocs.io/en/latest/config_files.html#environment-yml-install-a-conda-environment" /> */
-  condaFile?: string;
+  condaFile?: string | undefined;
   /** Name of the image that will be used for the environment. <seealso href="https://docs.microsoft.com/en-us/azure/machine-learning/how-to-deploy-custom-docker-image#use-a-custom-base-image" /> */
-  image?: string;
+  image?: string | undefined;
   /** Defines configuration specific to inference. */
-  inferenceConfig?: InferenceContainerProperties;
+  inferenceConfig?: InferenceContainerProperties | undefined;
   /** The type of operating system. */
-  osType?: EnvironmentVersionPropertiesInputOsType | (string & {});
+  osType?: EnvironmentVersionPropertiesInputOsType | (string & {}) | undefined;
   /** Stage in the environment lifecycle assigned to this environment */
-  stage?: string | null;
+  stage?: string | null | undefined;
 }
 export interface EnvironmentVersionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2254,43 +2270,43 @@ export type EnvironmentVersionPropertiesOsType = "Linux" | "Windows";
 /** Environment version details. */
 export interface EnvironmentVersionProperties {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: EnvironmentVersionPropertiesPropertiesMap | null;
+  properties?: EnvironmentVersionPropertiesPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: EnvironmentVersionPropertiesTagsMap | null;
+  tags?: EnvironmentVersionPropertiesTagsMap | null | undefined;
   /** If the name version are system generated (anonymous registration). */
-  isAnonymous?: boolean;
+  isAnonymous?: boolean | undefined;
   /** Is the asset archived? */
-  isArchived?: boolean;
+  isArchived?: boolean | undefined;
   /** AutoRebuild setting for the derived image */
-  autoRebuild?: EnvironmentVersionPropertiesAutoRebuild;
+  autoRebuild?: EnvironmentVersionPropertiesAutoRebuild | undefined;
   /** Configuration settings for Docker build context. */
-  build?: BuildContext;
+  build?: BuildContext | undefined;
   /** Standard configuration file used by Conda that lets you install any kind of package, including Python, R, and C/C++ packages. <see href="https://repo2docker.readthedocs.io/en/latest/config_files.html#environment-yml-install-a-conda-environment" /> */
-  condaFile?: string;
+  condaFile?: string | undefined;
   /** Environment type is either user managed or curated by the Azure ML service <see href="https://docs.microsoft.com/en-us/azure/machine-learning/resource-curated-environments" /> */
-  environmentType?: EnvironmentType;
+  environmentType?: EnvironmentType | undefined;
   /** Name of the image that will be used for the environment. <seealso href="https://docs.microsoft.com/en-us/azure/machine-learning/how-to-deploy-custom-docker-image#use-a-custom-base-image" /> */
-  image?: string;
+  image?: string | undefined;
   /** Defines configuration specific to inference. */
-  inferenceConfig?: InferenceContainerProperties;
+  inferenceConfig?: InferenceContainerProperties | undefined;
   /** The type of operating system. */
-  osType?: EnvironmentVersionPropertiesOsType;
+  osType?: EnvironmentVersionPropertiesOsType | undefined;
   /** Provisioning state for the environment version. */
-  provisioningState?: AssetProvisioningState;
+  provisioningState?: AssetProvisioningState | undefined;
   /** Stage in the environment lifecycle assigned to this environment */
-  stage?: string | null;
+  stage?: string | null | undefined;
 }
 export interface EnvironmentVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: EnvironmentVersionProperties;
 }
@@ -2305,13 +2321,13 @@ export type FeaturesetContainerPropertiesInputTagsMap = {
 /** DTO object representing feature set */
 export interface FeaturesetContainerPropertiesInput {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: FeaturesetContainerPropertiesInputPropertiesMap | null;
+  properties?: FeaturesetContainerPropertiesInputPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: FeaturesetContainerPropertiesInputTagsMap | null;
+  tags?: FeaturesetContainerPropertiesInputTagsMap | null | undefined;
   /** Is the asset archived? */
-  isArchived?: boolean;
+  isArchived?: boolean | undefined;
 }
 export interface FeaturesetContainersCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2334,35 +2350,35 @@ export type FeaturesetContainerPropertiesTagsMap = { [key: string]: string | nul
 /** DTO object representing feature set */
 export interface FeaturesetContainerProperties {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: FeaturesetContainerPropertiesPropertiesMap | null;
+  properties?: FeaturesetContainerPropertiesPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: FeaturesetContainerPropertiesTagsMap | null;
+  tags?: FeaturesetContainerPropertiesTagsMap | null | undefined;
   /** Is the asset archived? */
-  isArchived?: boolean;
+  isArchived?: boolean | undefined;
   /** The latest version inside this container. */
-  latestVersion?: string | null;
+  latestVersion?: string | null | undefined;
   /** The next auto incremental version */
-  nextVersion?: string | null;
+  nextVersion?: string | null | undefined;
   /** Provisioning state for the featureset container. */
-  provisioningState?: AssetProvisioningState;
+  provisioningState?: AssetProvisioningState | undefined;
 }
 export interface FeaturesetContainersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: FeaturesetContainerProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type DataAvailabilityStatus = "None" | "Pending" | "Incomplete" | "Complete";
 /** Specified the data availability status that you want to backfill */
@@ -2372,9 +2388,9 @@ export type FeaturesetVersionsBackfillRequestDataAvailabilityStatusList = Array<
 /** Specifies the feature window */
 export interface FeatureWindow {
   /** Specifies the feature window end time */
-  featureWindowEnd?: string | null;
+  featureWindowEnd?: string | null | undefined;
   /** Specifies the feature window start time */
-  featureWindowStart?: string | null;
+  featureWindowStart?: string | null | undefined;
 }
 /** Specifies the properties */
 export type FeaturesetVersionsBackfillRequestPropertiesMap = {
@@ -2383,7 +2399,7 @@ export type FeaturesetVersionsBackfillRequestPropertiesMap = {
 /** DTO object representing compute resource */
 export interface MaterializationComputeResource {
   /** Specifies the instance type */
-  instanceType?: string | null;
+  instanceType?: string | null | undefined;
 }
 /** Specifies the spark compute settings */
 export type FeaturesetVersionsBackfillRequestSparkConfigurationMap = {
@@ -2403,34 +2419,34 @@ export interface FeaturesetVersionsBackfillRequest {
   /** Version identifier. This is case-sensitive. */
   version: string;
   /** Specified the data availability status that you want to backfill */
-  dataAvailabilityStatus?: FeaturesetVersionsBackfillRequestDataAvailabilityStatusList;
+  dataAvailabilityStatus?: FeaturesetVersionsBackfillRequestDataAvailabilityStatusList | undefined;
   /** Specifies description */
-  description?: string;
+  description?: string | undefined;
   /** Specifies description */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Specifies the backfill feature window to be materialized */
-  featureWindow?: FeatureWindow | null;
+  featureWindow?: FeatureWindow | null | undefined;
   /** Specify the jobId to retry the failed materialization */
-  jobId?: string;
+  jobId?: string | undefined;
   /** Specifies the properties */
-  properties?: FeaturesetVersionsBackfillRequestPropertiesMap;
+  properties?: FeaturesetVersionsBackfillRequestPropertiesMap | undefined;
   /** Specifies the compute resource settings */
-  resource?: MaterializationComputeResource;
+  resource?: MaterializationComputeResource | undefined;
   /** Specifies the spark compute settings */
-  sparkConfiguration?: FeaturesetVersionsBackfillRequestSparkConfigurationMap;
+  sparkConfiguration?: FeaturesetVersionsBackfillRequestSparkConfigurationMap | undefined;
   /** Specifies the tags */
-  tags?: FeaturesetVersionsBackfillRequestTagsMap;
+  tags?: FeaturesetVersionsBackfillRequestTagsMap | undefined;
 }
 /** List of jobs submitted as part of the backfill request. */
 export type FeaturesetVersionBackfillResponseJobIdsList = Array<string>;
 /** Response payload for creating a backfill request for a given feature set version */
 export interface FeaturesetVersionBackfillResponse {
   /** List of jobs submitted as part of the backfill request. */
-  jobIds?: FeaturesetVersionBackfillResponseJobIdsList | null;
+  jobIds?: FeaturesetVersionBackfillResponseJobIdsList | null | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The asset property dictionary. */
 export type FeaturesetVersionPropertiesInputPropertiesMap = {
@@ -2451,7 +2467,7 @@ export type WebhookType = "AzureDevOps";
 /** Webhook base */
 export interface Webhook {
   /** Send callback on a specified notification event */
-  eventType?: string | null;
+  eventType?: string | null | undefined;
   /** [Required] Specifies the type of service to send a callback */
   webhookType: WebhookType | (string & {});
 }
@@ -2460,11 +2476,11 @@ export type NotificationSettingWebhooksMap = { [key: string]: Webhook | null | u
 /** Configuration for notification. */
 export interface NotificationSetting {
   /** Send email notification to user on specified notification type */
-  emailOn?: NotificationSettingEmailOnList | null;
+  emailOn?: NotificationSettingEmailOnList | null | undefined;
   /** This is the email recipient list which has a limitation of 499 characters in total concat with comma separator */
-  emails?: NotificationSettingEmailsList | null;
+  emails?: NotificationSettingEmailsList | null | undefined;
   /** Send webhook callback to a service. Key is a user-provided name for the webhook. */
-  webhooks?: NotificationSettingWebhooksMap | null;
+  webhooks?: NotificationSettingWebhooksMap | null | undefined;
 }
 export type TriggerType = "Recurrence" | "Cron";
 /** Enum to describe the frequency of a recurrence schedule */
@@ -2492,17 +2508,17 @@ export interface RecurrenceSchedule {
   /** [Required] List of minutes for the schedule. */
   minutes: RecurrenceScheduleMinutesList;
   /** List of month days for the schedule */
-  monthDays?: RecurrenceScheduleMonthDaysList | null;
+  monthDays?: RecurrenceScheduleMonthDaysList | null | undefined;
   /** List of days for the schedule. */
-  weekDays?: RecurrenceScheduleWeekDaysList | null;
+  weekDays?: RecurrenceScheduleWeekDaysList | null | undefined;
 }
 export interface RecurrenceTrigger {
   /** Specifies end time of schedule in ISO 8601, but without a UTC offset. Refer https://en.wikipedia.org/wiki/ISO_8601. Recommented format would be "2022-06-01T00:00:01" If not present, the schedule will run indefinitely */
-  endTime?: string | null;
+  endTime?: string | null | undefined;
   /** Specifies start time of schedule in ISO 8601 format, but without a UTC offset. */
-  startTime?: string | null;
+  startTime?: string | null | undefined;
   /** Specifies time zone in which the schedule runs. TimeZone should follow Windows time zone format. Refer: https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/default-time-zones?view=windows-11 */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** [Required] */
   triggerType: TriggerType | (string & {});
   /** [Required] The frequency to trigger schedule. */
@@ -2510,7 +2526,7 @@ export interface RecurrenceTrigger {
   /** [Required] Specifies schedule interval in conjunction with frequency */
   interval: number;
   /** The recurrence schedule. */
-  schedule?: RecurrenceSchedule | null;
+  schedule?: RecurrenceSchedule | null | undefined;
 }
 /** Specifies the spark compute settings */
 export type MaterializationSettingsSparkConfigurationMap = {
@@ -2520,41 +2536,41 @@ export type MaterializationSettingsSparkConfigurationMap = {
 export type MaterializationSettingsStoreType = "None" | "Online" | "Offline" | "OnlineAndOffline";
 export interface MaterializationSettings {
   /** Specifies the notification details */
-  notification?: NotificationSetting | null;
+  notification?: NotificationSetting | null | undefined;
   /** Specifies the compute resource settings */
-  resource?: MaterializationComputeResource | null;
+  resource?: MaterializationComputeResource | null | undefined;
   /** Specifies the schedule details */
-  schedule?: RecurrenceTrigger | null;
+  schedule?: RecurrenceTrigger | null | undefined;
   /** Specifies the spark compute settings */
-  sparkConfiguration?: MaterializationSettingsSparkConfigurationMap | null;
+  sparkConfiguration?: MaterializationSettingsSparkConfigurationMap | null | undefined;
   /** Specifies the stores to which materialization should happen */
-  storeType?: MaterializationSettingsStoreType | (string & {});
+  storeType?: MaterializationSettingsStoreType | (string & {}) | undefined;
 }
 /** DTO object representing specification */
 export interface FeaturesetSpecification {
   /** Specifies the spec path */
-  path?: string | null;
+  path?: string | null | undefined;
 }
 /** DTO object representing feature set version */
 export interface FeaturesetVersionPropertiesInput {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: FeaturesetVersionPropertiesInputPropertiesMap | null;
+  properties?: FeaturesetVersionPropertiesInputPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: FeaturesetVersionPropertiesInputTagsMap | null;
+  tags?: FeaturesetVersionPropertiesInputTagsMap | null | undefined;
   /** If the name version are system generated (anonymous registration). */
-  isAnonymous?: boolean;
+  isAnonymous?: boolean | undefined;
   /** Is the asset archived? */
-  isArchived?: boolean;
+  isArchived?: boolean | undefined;
   /** Specifies list of entities */
-  entities?: FeaturesetVersionPropertiesInputEntitiesList | null;
+  entities?: FeaturesetVersionPropertiesInputEntitiesList | null | undefined;
   /** Specifies the materialization settings */
-  materializationSettings?: MaterializationSettings | null;
+  materializationSettings?: MaterializationSettings | null | undefined;
   /** Specifies the feature spec details */
-  specification?: FeaturesetSpecification | null;
+  specification?: FeaturesetSpecification | null | undefined;
   /** Specifies the asset stage */
-  stage?: string | null;
+  stage?: string | null | undefined;
 }
 export interface FeaturesetVersionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2579,41 +2595,41 @@ export type FeaturesetVersionPropertiesEntitiesList = Array<string>;
 /** DTO object representing feature set version */
 export interface FeaturesetVersionProperties {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: FeaturesetVersionPropertiesPropertiesMap | null;
+  properties?: FeaturesetVersionPropertiesPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: FeaturesetVersionPropertiesTagsMap | null;
+  tags?: FeaturesetVersionPropertiesTagsMap | null | undefined;
   /** If the name version are system generated (anonymous registration). */
-  isAnonymous?: boolean;
+  isAnonymous?: boolean | undefined;
   /** Is the asset archived? */
-  isArchived?: boolean;
+  isArchived?: boolean | undefined;
   /** Specifies list of entities */
-  entities?: FeaturesetVersionPropertiesEntitiesList | null;
+  entities?: FeaturesetVersionPropertiesEntitiesList | null | undefined;
   /** Specifies the materialization settings */
-  materializationSettings?: MaterializationSettings | null;
+  materializationSettings?: MaterializationSettings | null | undefined;
   /** Provisioning state for the featureset version container. */
-  provisioningState?: AssetProvisioningState;
+  provisioningState?: AssetProvisioningState | undefined;
   /** Specifies the feature spec details */
-  specification?: FeaturesetSpecification | null;
+  specification?: FeaturesetSpecification | null | undefined;
   /** Specifies the asset stage */
-  stage?: string | null;
+  stage?: string | null | undefined;
 }
 export interface FeaturesetVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: FeaturesetVersionProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The asset property dictionary. */
 export type FeaturestoreEntityContainerPropertiesInputPropertiesMap = {
@@ -2626,13 +2642,13 @@ export type FeaturestoreEntityContainerPropertiesInputTagsMap = {
 /** DTO object representing feature entity */
 export interface FeaturestoreEntityContainerPropertiesInput {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: FeaturestoreEntityContainerPropertiesInputPropertiesMap | null;
+  properties?: FeaturestoreEntityContainerPropertiesInputPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: FeaturestoreEntityContainerPropertiesInputTagsMap | null;
+  tags?: FeaturestoreEntityContainerPropertiesInputTagsMap | null | undefined;
   /** Is the asset archived? */
-  isArchived?: boolean;
+  isArchived?: boolean | undefined;
 }
 export interface FeaturestoreEntityContainersCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2657,35 +2673,35 @@ export type FeaturestoreEntityContainerPropertiesTagsMap = {
 /** DTO object representing feature entity */
 export interface FeaturestoreEntityContainerProperties {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: FeaturestoreEntityContainerPropertiesPropertiesMap | null;
+  properties?: FeaturestoreEntityContainerPropertiesPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: FeaturestoreEntityContainerPropertiesTagsMap | null;
+  tags?: FeaturestoreEntityContainerPropertiesTagsMap | null | undefined;
   /** Is the asset archived? */
-  isArchived?: boolean;
+  isArchived?: boolean | undefined;
   /** The latest version inside this container. */
-  latestVersion?: string | null;
+  latestVersion?: string | null | undefined;
   /** The next auto incremental version */
-  nextVersion?: string | null;
+  nextVersion?: string | null | undefined;
   /** Provisioning state for the featurestore entity container. */
-  provisioningState?: AssetProvisioningState;
+  provisioningState?: AssetProvisioningState | undefined;
 }
 export interface FeaturestoreEntityContainersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: FeaturestoreEntityContainerProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The asset property dictionary. */
 export type FeaturestoreEntityVersionPropertiesInputPropertiesMap = {
@@ -2708,28 +2724,28 @@ export type IndexColumnDataType =
 /** DTO object representing index column */
 export interface IndexColumn {
   /** Specifies the column name */
-  columnName?: string | null;
+  columnName?: string | null | undefined;
   /** Specifies the data type */
-  dataType?: IndexColumnDataType | (string & {});
+  dataType?: IndexColumnDataType | (string & {}) | undefined;
 }
 /** Specifies index columns */
 export type FeaturestoreEntityVersionPropertiesInputIndexColumnsList = Array<IndexColumn>;
 /** DTO object representing feature entity version */
 export interface FeaturestoreEntityVersionPropertiesInput {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: FeaturestoreEntityVersionPropertiesInputPropertiesMap | null;
+  properties?: FeaturestoreEntityVersionPropertiesInputPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: FeaturestoreEntityVersionPropertiesInputTagsMap | null;
+  tags?: FeaturestoreEntityVersionPropertiesInputTagsMap | null | undefined;
   /** If the name version are system generated (anonymous registration). */
-  isAnonymous?: boolean;
+  isAnonymous?: boolean | undefined;
   /** Is the asset archived? */
-  isArchived?: boolean;
+  isArchived?: boolean | undefined;
   /** Specifies index columns */
-  indexColumns?: FeaturestoreEntityVersionPropertiesInputIndexColumnsList | null;
+  indexColumns?: FeaturestoreEntityVersionPropertiesInputIndexColumnsList | null | undefined;
   /** Specifies the asset stage */
-  stage?: string | null;
+  stage?: string | null | undefined;
 }
 export interface FeaturestoreEntityVersionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2758,37 +2774,37 @@ export type FeaturestoreEntityVersionPropertiesIndexColumnsList = Array<IndexCol
 /** DTO object representing feature entity version */
 export interface FeaturestoreEntityVersionProperties {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: FeaturestoreEntityVersionPropertiesPropertiesMap | null;
+  properties?: FeaturestoreEntityVersionPropertiesPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: FeaturestoreEntityVersionPropertiesTagsMap | null;
+  tags?: FeaturestoreEntityVersionPropertiesTagsMap | null | undefined;
   /** If the name version are system generated (anonymous registration). */
-  isAnonymous?: boolean;
+  isAnonymous?: boolean | undefined;
   /** Is the asset archived? */
-  isArchived?: boolean;
+  isArchived?: boolean | undefined;
   /** Specifies index columns */
-  indexColumns?: FeaturestoreEntityVersionPropertiesIndexColumnsList | null;
+  indexColumns?: FeaturestoreEntityVersionPropertiesIndexColumnsList | null | undefined;
   /** Provisioning state for the featurestore entity version. */
-  provisioningState?: AssetProvisioningState;
+  provisioningState?: AssetProvisioningState | undefined;
   /** Specifies the asset stage */
-  stage?: string | null;
+  stage?: string | null | undefined;
 }
 export interface FeaturestoreEntityVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: FeaturestoreEntityVersionProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetBatchDeploymentRequest {
   /** The ID of the target subscription. */
@@ -2810,25 +2826,25 @@ export type GetBatchDeploymentResponseIdentity = BatchDeploymentsCreateOrUpdateR
 export type GetBatchDeploymentResponseSku = BatchDeploymentsCreateOrUpdateResponseSku;
 export interface GetBatchDeploymentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetBatchDeploymentResponseTagsMap;
+  tags?: GetBatchDeploymentResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: BatchDeploymentProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
 }
 export interface GetBatchEndpointRequest {
   /** The ID of the target subscription. */
@@ -2848,25 +2864,25 @@ export type GetBatchEndpointResponseIdentity = BatchDeploymentsCreateOrUpdateRes
 export type GetBatchEndpointResponseSku = BatchDeploymentsCreateOrUpdateResponseSku;
 export interface GetBatchEndpointResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetBatchEndpointResponseTagsMap;
+  tags?: GetBatchEndpointResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: BatchEndpointProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
 }
 export interface GetCapabilityHostRequest {
   /** The ID of the target subscription. */
@@ -2880,13 +2896,13 @@ export interface GetCapabilityHostRequest {
 }
 export interface GetCapabilityHostResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: CapabilityHostProperties;
 }
@@ -2902,13 +2918,13 @@ export interface GetCodeContainerRequest {
 }
 export interface GetCodeContainerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: CodeContainerProperties;
 }
@@ -2926,13 +2942,13 @@ export interface GetCodeVersionRequest {
 }
 export interface GetCodeVersionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: CodeVersionProperties;
 }
@@ -2948,13 +2964,13 @@ export interface GetComponentContainerRequest {
 }
 export interface GetComponentContainerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: ComponentContainerProperties;
 }
@@ -2972,13 +2988,13 @@ export interface GetComponentVersionRequest {
 }
 export interface GetComponentVersionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: ComponentVersionProperties;
 }
@@ -3000,23 +3016,23 @@ export type GetComputeResponseSku = BatchDeploymentsCreateOrUpdateResponseSku;
 export type GetComputeResponseIdentity = BatchDeploymentsCreateOrUpdateResponseIdentity;
 export interface GetComputeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: Compute;
+  properties?: Compute | undefined;
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Contains resource tags defined as key/value pairs. */
-  tags?: GetComputeResponseTagsMap | null;
+  tags?: GetComputeResponseTagsMap | null | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
 }
 export interface GetDataContainerRequest {
   /** The ID of the target subscription. */
@@ -3030,13 +3046,13 @@ export interface GetDataContainerRequest {
 }
 export interface GetDataContainerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: DataContainerProperties;
 }
@@ -3052,13 +3068,13 @@ export interface GetDatastoreRequest {
 }
 export interface GetDatastoreResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: DatastoreProperties;
 }
@@ -3076,13 +3092,13 @@ export interface GetDataVersionRequest {
 }
 export interface GetDataVersionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: DataVersionBaseProperties;
 }
@@ -3098,13 +3114,13 @@ export interface GetEnvironmentContainerRequest {
 }
 export interface GetEnvironmentContainerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: EnvironmentContainerProperties;
 }
@@ -3122,13 +3138,13 @@ export interface GetEnvironmentVersionRequest {
 }
 export interface GetEnvironmentVersionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: EnvironmentVersionProperties;
 }
@@ -3163,25 +3179,25 @@ export type FeaturePropertiesDataType =
 /** DTO object representing feature */
 export interface FeatureProperties {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: FeaturePropertiesPropertiesMap | null;
+  properties?: FeaturePropertiesPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: FeaturePropertiesTagsMap | null;
+  tags?: FeaturePropertiesTagsMap | null | undefined;
   /** Specifies type */
-  dataType?: FeaturePropertiesDataType;
+  dataType?: FeaturePropertiesDataType | undefined;
   /** Specifies name */
-  featureName?: string | null;
+  featureName?: string | null | undefined;
 }
 export interface GetFeatureResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: FeatureProperties;
 }
@@ -3197,13 +3213,13 @@ export interface GetFeaturesetContainerEntityRequest {
 }
 export interface GetFeaturesetContainerEntityResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: FeaturesetContainerProperties;
 }
@@ -3221,13 +3237,13 @@ export interface GetFeaturesetVersionRequest {
 }
 export interface GetFeaturesetVersionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: FeaturesetVersionProperties;
 }
@@ -3243,13 +3259,13 @@ export interface GetFeaturestoreEntityContainerEntityRequest {
 }
 export interface GetFeaturestoreEntityContainerEntityResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: FeaturestoreEntityContainerProperties;
 }
@@ -3267,13 +3283,13 @@ export interface GetFeaturestoreEntityVersionRequest {
 }
 export interface GetFeaturestoreEntityVersionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: FeaturestoreEntityVersionProperties;
 }
@@ -3312,19 +3328,19 @@ export type JobServicePropertiesMap = { [key: string]: string | null | undefined
 /** Job endpoint definition */
 export interface JobService {
   /** Url for endpoint. */
-  endpoint?: string | null;
+  endpoint?: string | null | undefined;
   /** Any error in the service. */
-  errorMessage?: string | null;
+  errorMessage?: string | null | undefined;
   /** Endpoint type. */
-  jobServiceType?: string | null;
+  jobServiceType?: string | null | undefined;
   /** Nodes that user would like to start the service on. If Nodes is not set or set to null, the service will only be started on leader node. */
-  nodes?: Nodes | null;
+  nodes?: Nodes | null | undefined;
   /** Port for endpoint. */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Additional properties to set on the endpoint. */
-  properties?: JobServicePropertiesMap | null;
+  properties?: JobServicePropertiesMap | null | undefined;
   /** Status of endpoint. */
-  status?: string | null;
+  status?: string | null | undefined;
 }
 /** List of JobEndpoints. For local jobs, a job endpoint will have an endpoint value of FileStreamObject. */
 export type JobBasePropertiesServicesMap = { [key: string]: JobService | null | undefined };
@@ -3347,41 +3363,41 @@ export type JobStatus =
 /** Base definition for a job. */
 export interface JobBaseProperties {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: JobBasePropertiesPropertiesMap | null;
+  properties?: JobBasePropertiesPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: JobBasePropertiesTagsMap | null;
+  tags?: JobBasePropertiesTagsMap | null | undefined;
   /** ARM resource ID of the component resource. */
-  componentId?: string | null;
+  componentId?: string | null | undefined;
   /** ARM resource ID of the compute resource. */
-  computeId?: string | null;
+  computeId?: string | null | undefined;
   /** Display name of job. */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** The name of the experiment the job belongs to. If not set, the job is placed in the "Default" experiment. */
-  experimentName?: string;
+  experimentName?: string | undefined;
   /** Identity configuration. If set, this should be one of AmlToken, ManagedIdentity, UserIdentity or null. Defaults to AmlToken if null. */
-  identity?: IdentityConfiguration | null;
+  identity?: IdentityConfiguration | null | undefined;
   /** Is the asset archived? */
-  isArchived?: boolean;
+  isArchived?: boolean | undefined;
   /** [Required] Specifies the type of job. */
   jobType: JobType;
   /** Notification setting for the job */
-  notificationSetting?: NotificationSetting | null;
+  notificationSetting?: NotificationSetting | null | undefined;
   /** List of JobEndpoints. For local jobs, a job endpoint will have an endpoint value of FileStreamObject. */
-  services?: JobBasePropertiesServicesMap | null;
+  services?: JobBasePropertiesServicesMap | null | undefined;
   /** Status of the job. */
-  status?: JobStatus;
+  status?: JobStatus | undefined;
 }
 export interface GetJobResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: JobBaseProperties;
 }
@@ -3405,26 +3421,26 @@ export type OutboundRuleParentRuleNamesList = Array<string>;
 /** Outbound Rule for the managed network of a machine learning workspace. */
 export interface OutboundRule {
   /** Category of a managed network Outbound Rule of a machine learning workspace. */
-  category?: RuleCategory;
+  category?: RuleCategory | undefined;
   /** Type of a managed network Outbound Rule of a machine learning workspace. */
-  status?: RuleStatus;
+  status?: RuleStatus | undefined;
   /** Type of a managed network Outbound Rule of a machine learning workspace. */
   type: RuleType;
   /** Error information about an outbound rule of a machine learning workspace if RuleStatus is failed. */
-  errorInformation?: string;
-  parentRuleNames?: OutboundRuleParentRuleNamesList;
+  errorInformation?: string | undefined;
+  parentRuleNames?: OutboundRuleParentRuleNamesList | undefined;
   /** FQDN: the host name; PrivateEndpoint: {serviceResourceId, subresourceTarget, sparkEnabled}; ServiceTag: {serviceTag, protocol, portRanges, action}. */
-  destination?: unknown;
+  destination?: unknown | undefined;
 }
 export interface GetManagedNetworkSettingsRuleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Outbound Rule for the managed network of a machine learning workspace. */
   properties: OutboundRule;
 }
@@ -3440,11 +3456,11 @@ export interface GetMarketplaceSubscriptionRequest {
 }
 export interface MarketplacePlan {
   /** The identifying name of the Offer of the Marketplace Plan. */
-  offerId?: string | null;
+  offerId?: string | null | undefined;
   /** The identifying name of the Plan of the Marketplace Plan. */
-  planId?: string | null;
+  planId?: string | null | undefined;
   /** The identifying name of the Publisher of the Marketplace Plan. */
-  publisherId?: string | null;
+  publisherId?: string | null | undefined;
 }
 export type MarketplaceSubscriptionStatus = "Subscribed" | "Suspended" | "Unsubscribed";
 export type MarketplaceSubscriptionProvisioningState =
@@ -3456,23 +3472,23 @@ export type MarketplaceSubscriptionProvisioningState =
   | "Canceled";
 export interface MarketplaceSubscriptionProperties {
   /** Marketplace Plan associated with the Marketplace Subscription. */
-  marketplacePlan?: MarketplacePlan | null;
+  marketplacePlan?: MarketplacePlan | null | undefined;
   /** Current status of the Marketplace Subscription. */
-  marketplaceSubscriptionStatus?: MarketplaceSubscriptionStatus;
+  marketplaceSubscriptionStatus?: MarketplaceSubscriptionStatus | undefined;
   /** [Required] Target Marketplace Model ID to create a Marketplace Subscription for. */
   modelId: string;
   /** Provisioning State of the Marketplace Subscription. */
-  provisioningState?: MarketplaceSubscriptionProvisioningState;
+  provisioningState?: MarketplaceSubscriptionProvisioningState | undefined;
 }
 export interface GetMarketplaceSubscriptionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: MarketplaceSubscriptionProperties;
 }
@@ -3492,29 +3508,29 @@ export type ModelContainerPropertiesPropertiesMap = { [key: string]: string | nu
 export type ModelContainerPropertiesTagsMap = { [key: string]: string | null | undefined };
 export interface ModelContainerProperties {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: ModelContainerPropertiesPropertiesMap | null;
+  properties?: ModelContainerPropertiesPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: ModelContainerPropertiesTagsMap | null;
+  tags?: ModelContainerPropertiesTagsMap | null | undefined;
   /** Is the asset archived? */
-  isArchived?: boolean;
+  isArchived?: boolean | undefined;
   /** The latest version inside this container. */
-  latestVersion?: string | null;
+  latestVersion?: string | null | undefined;
   /** The next auto incremental version */
-  nextVersion?: string | null;
+  nextVersion?: string | null | undefined;
   /** Provisioning state for the model container. */
-  provisioningState?: AssetProvisioningState;
+  provisioningState?: AssetProvisioningState | undefined;
 }
 export interface GetModelContainerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: ModelContainerProperties;
 }
@@ -3538,55 +3554,55 @@ export type ModelVersionPropertiesTagsMap = { [key: string]: string | null | und
 export type FlavorDataDataMap = { [key: string]: string | null | undefined };
 export interface FlavorData {
   /** Model flavor-specific data. */
-  data?: FlavorDataDataMap | null;
+  data?: FlavorDataDataMap | null | undefined;
 }
 /** Mapping of model flavors to their properties. */
 export type ModelVersionPropertiesFlavorsMap = { [key: string]: FlavorData | null | undefined };
 /** Dataset reference object. */
 export interface DatasetReference {
   /** The name of the dataset reference. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The fully qualified ARM id of the dataset reference. */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 /** Array of dataset references */
 export type ModelVersionPropertiesDatasetsList = Array<DatasetReference>;
 /** Model asset version details. */
 export interface ModelVersionProperties {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: ModelVersionPropertiesPropertiesMap | null;
+  properties?: ModelVersionPropertiesPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: ModelVersionPropertiesTagsMap | null;
+  tags?: ModelVersionPropertiesTagsMap | null | undefined;
   /** If the name version are system generated (anonymous registration). */
-  isAnonymous?: boolean;
+  isAnonymous?: boolean | undefined;
   /** Is the asset archived? */
-  isArchived?: boolean;
+  isArchived?: boolean | undefined;
   /** Mapping of model flavors to their properties. */
-  flavors?: ModelVersionPropertiesFlavorsMap | null;
+  flavors?: ModelVersionPropertiesFlavorsMap | null | undefined;
   /** Name of the training job which produced this model */
-  jobName?: string | null;
+  jobName?: string | null | undefined;
   /** The storage format for this entity. Used for NCD. */
-  modelType?: string | null;
+  modelType?: string | null | undefined;
   /** The URI path to the model contents. */
-  modelUri?: string | null;
+  modelUri?: string | null | undefined;
   /** Provisioning state for the model version. */
-  provisioningState?: AssetProvisioningState;
+  provisioningState?: AssetProvisioningState | undefined;
   /** Stage in the model lifecycle assigned to this model */
-  stage?: string | null;
+  stage?: string | null | undefined;
   /** Array of dataset references */
-  datasets?: ModelVersionPropertiesDatasetsList | null;
+  datasets?: ModelVersionPropertiesDatasetsList | null | undefined;
 }
 export interface GetModelVersionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: ModelVersionProperties;
 }
@@ -3614,13 +3630,13 @@ export type OnlineDeploymentPropertiesPropertiesMap = { [key: string]: string | 
 export type CollectionDataCollectionMode = "Enabled" | "Disabled";
 export interface Collection {
   /** The msi client id used to collect logging to blob storage. If it's null,backend will pick a registered endpoint identity to auth. */
-  clientId?: string | null;
+  clientId?: string | null | undefined;
   /** Enable or disable data collection. */
-  dataCollectionMode?: CollectionDataCollectionMode | (string & {});
+  dataCollectionMode?: CollectionDataCollectionMode | (string & {}) | undefined;
   /** The data asset arm resource id. Client side will ensure data asset is pointing to the blob storage, and backend will collect data to the blob storage. */
-  dataId?: string | null;
+  dataId?: string | null | undefined;
   /** The sampling rate for collection. Sampling rate 1.0 means we collect 100% of data by default. */
-  samplingRate?: number;
+  samplingRate?: number | undefined;
 }
 /** [Required] The collection configuration. Each collection has it own configuration to collect model data and the name of collection can be arbitrary string. Model data collector can be used for either payload logging or custom logging or both of them. Collection request and response are reserved for payload logging, others are for custom logging. */
 export type DataCollectorCollectionsMap = { [key: string]: Collection | null | undefined };
@@ -3628,7 +3644,7 @@ export type DataCollectorCollectionsMap = { [key: string]: Collection | null | u
 export type RequestLoggingCaptureHeadersList = Array<string>;
 export interface RequestLogging {
   /** For payload logging, we only collect payload by default. If customers also want to collect the specified headers, they can set them in captureHeaders so that backend will collect those headers along with payload. */
-  captureHeaders?: RequestLoggingCaptureHeadersList | null;
+  captureHeaders?: RequestLoggingCaptureHeadersList | null | undefined;
 }
 /** When model data is collected to blob storage, we need to roll the data to different path to avoid logging all of them in a single blob file. If the rolling rate is hour, all data will be collected in the blob path /yyyy/MM/dd/HH/. If it's day, all data will be collected in blob path /yyyy/MM/dd/. The other benefit of rolling path is that model monitoring ui is able to select a time range of data very quickly. */
 export type DataCollectorRollingRate = "Year" | "Month" | "Day" | "Hour" | "Minute";
@@ -3636,9 +3652,9 @@ export interface DataCollector {
   /** [Required] The collection configuration. Each collection has it own configuration to collect model data and the name of collection can be arbitrary string. Model data collector can be used for either payload logging or custom logging or both of them. Collection request and response are reserved for payload logging, others are for custom logging. */
   collections: DataCollectorCollectionsMap;
   /** The request logging configuration for mdc, it includes advanced logging settings for all collections. It's optional. */
-  requestLogging?: RequestLogging | null;
+  requestLogging?: RequestLogging | null | undefined;
   /** When model data is collected to blob storage, we need to roll the data to different path to avoid logging all of them in a single blob file. If the rolling rate is hour, all data will be collected in the blob path /yyyy/MM/dd/HH/. If it's day, all data will be collected in blob path /yyyy/MM/dd/. The other benefit of rolling path is that model monitoring ui is able to select a time range of data very quickly. */
-  rollingRate?: DataCollectorRollingRate | (string & {});
+  rollingRate?: DataCollectorRollingRate | (string & {}) | undefined;
 }
 /** Enum to determine whether PublicNetworkAccess is Enabled or Disabled for egress of a deployment. */
 export type OnlineDeploymentPropertiesEgressPublicNetworkAccess = "Enabled" | "Disabled";
@@ -3647,24 +3663,24 @@ export type EndpointComputeType = "Managed" | "Kubernetes" | "AzureMLCompute";
 /** Deployment container liveness/readiness probe configuration. */
 export interface ProbeSettings {
   /** The number of failures to allow before returning an unhealthy status. */
-  failureThreshold?: number;
+  failureThreshold?: number | undefined;
   /** The delay before the first probe in ISO 8601 format. */
-  initialDelay?: string | null;
+  initialDelay?: string | null | undefined;
   /** The length of time between probes in ISO 8601 format. */
-  period?: string;
+  period?: string | undefined;
   /** The number of successful probes before returning a healthy status. */
-  successThreshold?: number;
+  successThreshold?: number | undefined;
   /** The probe timeout in ISO 8601 format. */
-  timeout?: string;
+  timeout?: string | undefined;
 }
 /** Online deployment scoring requests configuration. */
 export interface OnlineRequestSettings {
   /** The number of maximum concurrent requests per node allowed per deployment. Defaults to 1. */
-  maxConcurrentRequestsPerInstance?: number;
+  maxConcurrentRequestsPerInstance?: number | undefined;
   /** (Deprecated for Managed Online Endpoints) The maximum amount of time a request will stay in the queue in ISO 8601 format. Defaults to 500ms. (Now increase `request_timeout_ms` to account for any networking/queue delays) */
-  maxQueueWait?: string;
+  maxQueueWait?: string | undefined;
   /** The scoring timeout in ISO 8601 format. Defaults to 5000ms. */
-  requestTimeout?: string;
+  requestTimeout?: string | undefined;
 }
 export type ScaleType = "Default" | "TargetUtilization";
 /** Online deployment scaling configuration. */
@@ -3672,53 +3688,53 @@ export interface OnlineScaleSettings {
   /** [Required] Type of deployment scaling algorithm */
   scaleType: ScaleType | (string & {});
   /** TargetUtilization: minimum instances. */
-  minInstances?: number;
+  minInstances?: number | undefined;
   /** TargetUtilization: maximum instances. */
-  maxInstances?: number;
+  maxInstances?: number | undefined;
   /** TargetUtilization: polling interval (ISO 8601). */
-  pollingInterval?: string;
+  pollingInterval?: string | undefined;
   /** TargetUtilization: scale-down delay. */
-  scaleDownDelay?: string;
+  scaleDownDelay?: string | undefined;
   /** TargetUtilization: target CPU utilization percentage. */
-  targetUtilizationPercentage?: number;
+  targetUtilizationPercentage?: number | undefined;
 }
 export interface OnlineDeploymentProperties {
   /** Code configuration for the endpoint deployment. */
-  codeConfiguration?: CodeConfiguration | null;
+  codeConfiguration?: CodeConfiguration | null | undefined;
   /** Description of the endpoint deployment. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** ARM resource ID or AssetId of the environment specification for the endpoint deployment. */
-  environmentId?: string | null;
+  environmentId?: string | null | undefined;
   /** Environment variables configuration for the deployment. */
-  environmentVariables?: OnlineDeploymentPropertiesEnvironmentVariablesMap | null;
+  environmentVariables?: OnlineDeploymentPropertiesEnvironmentVariablesMap | null | undefined;
   /** Property dictionary. Properties can be added, but not removed or altered. */
-  properties?: OnlineDeploymentPropertiesPropertiesMap | null;
+  properties?: OnlineDeploymentPropertiesPropertiesMap | null | undefined;
   /** If true, enables Application Insights logging. */
-  appInsightsEnabled?: boolean;
+  appInsightsEnabled?: boolean | undefined;
   /** The mdc configuration, we disable mdc when it's null. */
-  dataCollector?: DataCollector | null;
+  dataCollector?: DataCollector | null | undefined;
   /** Enum to determine whether PublicNetworkAccess is Enabled or Disabled for egress of a deployment. */
-  egressPublicNetworkAccess?: OnlineDeploymentPropertiesEgressPublicNetworkAccess;
+  egressPublicNetworkAccess?: OnlineDeploymentPropertiesEgressPublicNetworkAccess | undefined;
   /** [Required] The compute type of the endpoint. */
   endpointComputeType: EndpointComputeType;
   /** Compute instance type. Default: Standard_F4s_v2. */
-  instanceType?: string | null;
+  instanceType?: string | null | undefined;
   /** Liveness probe monitors the health of the container regularly. */
-  livenessProbe?: ProbeSettings | null;
+  livenessProbe?: ProbeSettings | null | undefined;
   /** The URI path to the model. */
-  model?: string | null;
+  model?: string | null | undefined;
   /** The path to mount the model in custom container. */
-  modelMountPath?: string | null;
+  modelMountPath?: string | null | undefined;
   /** Provisioning state for the endpoint deployment. */
-  provisioningState?: DeploymentProvisioningState;
+  provisioningState?: DeploymentProvisioningState | undefined;
   /** Readiness probe validates if the container is ready to serve traffic. The properties and defaults are the same as liveness probe. */
-  readinessProbe?: ProbeSettings | null;
+  readinessProbe?: ProbeSettings | null | undefined;
   /** Request settings for the deployment. */
-  requestSettings?: OnlineRequestSettings | null;
+  requestSettings?: OnlineRequestSettings | null | undefined;
   /** Scale settings for the deployment. If it is null or not provided, it defaults to TargetUtilizationScaleSettings for KubernetesOnlineDeployment and to DefaultScaleSettings for ManagedOnlineDeployment. */
-  scaleSettings?: OnlineScaleSettings | null;
+  scaleSettings?: OnlineScaleSettings | null | undefined;
   /** Startup probe verify whether an application within a container has started successfully. */
-  startupProbe?: ProbeSettings | null;
+  startupProbe?: ProbeSettings | null | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type GetOnlineDeploymentResponseIdentity = BatchDeploymentsCreateOrUpdateResponseIdentity;
@@ -3726,25 +3742,25 @@ export type GetOnlineDeploymentResponseIdentity = BatchDeploymentsCreateOrUpdate
 export type GetOnlineDeploymentResponseSku = BatchDeploymentsCreateOrUpdateResponseSku;
 export interface GetOnlineDeploymentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetOnlineDeploymentResponseTagsMap;
+  tags?: GetOnlineDeploymentResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: OnlineDeploymentProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
 }
 /** The type of container to retrieve logs from. */
 export type GetOnlineDeploymentLogsRequestContainerType = "StorageInitializer" | "InferenceServer";
@@ -3760,13 +3776,13 @@ export interface GetOnlineDeploymentLogsRequest {
   /** Inference Endpoint Deployment name. */
   deploymentName: string;
   /** The type of container to retrieve logs from. */
-  containerType?: GetOnlineDeploymentLogsRequestContainerType | (string & {});
+  containerType?: GetOnlineDeploymentLogsRequestContainerType | (string & {}) | undefined;
   /** The maximum number of lines to tail. */
-  tail?: number | null;
+  tail?: number | null | undefined;
 }
 export interface DeploymentLogs {
   /** The retrieved online deployment logs. */
-  content?: string | null;
+  content?: string | null | undefined;
 }
 export interface GetOnlineEndpointRequest {
   /** The ID of the target subscription. */
@@ -3793,25 +3809,25 @@ export interface OnlineEndpointProperties {
   /** [Required] The authentication method for invoking the endpoint (data plane operation). Use 'Key' for key-based authentication. Use 'AMLToken' for Azure Machine Learning token-based authentication. Use 'AADToken' for Microsoft Entra token-based authentication. */
   authMode: EndpointAuthMode;
   /** Description of the inference endpoint. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** EndpointAuthKeys to set initially on an Endpoint. This property will always be returned as null. AuthKey values must be retrieved using the ListKeys API. */
-  keys?: EndpointAuthKeys | null;
+  keys?: EndpointAuthKeys | null | undefined;
   /** Property dictionary. Properties can be added, but not removed or altered. */
-  properties?: OnlineEndpointPropertiesPropertiesMap | null;
+  properties?: OnlineEndpointPropertiesPropertiesMap | null | undefined;
   /** Endpoint URI. */
-  scoringUri?: string | null;
+  scoringUri?: string | null | undefined;
   /** Endpoint Swagger URI. */
-  swaggerUri?: string | null;
+  swaggerUri?: string | null | undefined;
   /** ARM resource ID of the compute if it exists. optional */
-  compute?: string | null;
+  compute?: string | null | undefined;
   /** Percentage of traffic to be mirrored to each deployment without using returned scoring. Traffic values need to sum to utmost 50. */
-  mirrorTraffic?: OnlineEndpointPropertiesMirrorTrafficMap | null;
+  mirrorTraffic?: OnlineEndpointPropertiesMirrorTrafficMap | null | undefined;
   /** Provisioning state for the endpoint. */
-  provisioningState?: EndpointProvisioningState;
+  provisioningState?: EndpointProvisioningState | undefined;
   /** Enum to determine whether PublicNetworkAccess is Enabled or Disabled. */
-  publicNetworkAccess?: OnlineEndpointPropertiesPublicNetworkAccess;
+  publicNetworkAccess?: OnlineEndpointPropertiesPublicNetworkAccess | undefined;
   /** Percentage of traffic from endpoint to divert to each deployment. Traffic values need to sum to 100. */
-  traffic?: OnlineEndpointPropertiesTrafficMap | null;
+  traffic?: OnlineEndpointPropertiesTrafficMap | null | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type GetOnlineEndpointResponseIdentity = BatchDeploymentsCreateOrUpdateResponseIdentity;
@@ -3819,25 +3835,25 @@ export type GetOnlineEndpointResponseIdentity = BatchDeploymentsCreateOrUpdateRe
 export type GetOnlineEndpointResponseSku = BatchDeploymentsCreateOrUpdateResponseSku;
 export interface GetOnlineEndpointResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetOnlineEndpointResponseTagsMap;
+  tags?: GetOnlineEndpointResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: OnlineEndpointProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
 }
 export interface GetOnlineEndpointTokenRequest {
   /** The ID of the target subscription. */
@@ -3852,13 +3868,13 @@ export interface GetOnlineEndpointTokenRequest {
 /** Service Token */
 export interface EndpointAuthToken {
   /** Access token for endpoint authentication. */
-  accessToken?: string | Redacted.Redacted<string> | null;
+  accessToken?: string | Redacted.Redacted<string> | null | undefined;
   /** Access token expiry time (UTC). */
-  expiryTimeUtc?: number;
+  expiryTimeUtc?: number | undefined;
   /** Refresh access token after time (UTC). */
-  refreshAfterTimeUtc?: number;
+  refreshAfterTimeUtc?: number | undefined;
   /** Access token type. */
-  tokenType?: string | null;
+  tokenType?: string | null | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. */
@@ -3873,9 +3889,9 @@ export interface GetPrivateEndpointConnectionRequest {
 /** The Private Endpoint resource. */
 export interface WorkspacePrivateEndpointResource {
   /** e.g. /subscriptions/{networkSubscriptionId}/resourceGroups/{rgName}/providers/Microsoft.Network/privateEndpoints/{privateEndpointName} */
-  id?: string;
+  id?: string | undefined;
   /** The subnetId that the private endpoint is connected to. */
-  subnetArmId?: string;
+  subnetArmId?: string | undefined;
 }
 /** Connection status of the service consumer with the service provider */
 export type EndpointServiceConnectionStatus =
@@ -3887,11 +3903,11 @@ export type EndpointServiceConnectionStatus =
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateLinkServiceConnectionState {
   /** Some RP chose "None". Other RPs use this for region expansion. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
   /** User-defined message that, per NRP doc, may be used for approval-related message. */
-  description?: string;
+  description?: string | undefined;
   /** Connection status of the service consumer with the service provider\r\nPossible state transitions\r\nPending -> Approved (Service provider approves the connection request)\r\nPending -> Rejected (Service provider rejects the connection request)\r\nPending -> Disconnected (Service provider deletes the connection)\r\nApproved -> Rejected (Service provider rejects the approved connection)\r\nApproved -> Disconnected (Service provider deletes the connection)\r\nRejected -> Pending (Service consumer re-initiates the connection request that was rejected)\r\nRejected -> Disconnected (Service provider deletes the connection) */
-  status?: EndpointServiceConnectionStatus | (string & {});
+  status?: EndpointServiceConnectionStatus | (string & {}) | undefined;
 }
 /** The current provisioning state. */
 export type PrivateEndpointConnectionProvisioningState =
@@ -3901,11 +3917,11 @@ export type PrivateEndpointConnectionProvisioningState =
   | "Failed";
 /** Private endpoint connection properties. */
 export interface PrivateEndpointConnectionProperties {
-  privateEndpoint?: WorkspacePrivateEndpointResource;
+  privateEndpoint?: WorkspacePrivateEndpointResource | undefined;
   /** The connection state. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState | undefined;
   /** The current provisioning state. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type GetPrivateEndpointConnectionResponseIdentity =
@@ -3915,22 +3931,22 @@ export type GetPrivateEndpointConnectionResponseSku = BatchDeploymentsCreateOrUp
 export type GetPrivateEndpointConnectionResponseTagsMap = { [key: string]: string | undefined };
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Private endpoint connection properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
   /** *Same as workspace location. */
-  location?: string;
-  tags?: GetPrivateEndpointConnectionResponseTagsMap;
+  location?: string | undefined;
+  tags?: GetPrivateEndpointConnectionResponseTagsMap | undefined;
 }
 export interface GetRegistryRequest {
   /** The ID of the target subscription. */
@@ -3945,12 +3961,12 @@ export type GetRegistryResponseTagsMap = { [key: string]: string | undefined };
 /** ARM ResourceId of a resource */
 export interface ArmResourceId {
   /** Arm ResourceId is in the format "/subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/providers/Microsoft.Storage/storageAccounts/{StorageAccountName}" or "/subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/providers/Microsoft.ContainerRegistry/registries/{AcrName}" */
-  resourceId?: string | null;
+  resourceId?: string | null | undefined;
 }
 /** Details for managed resource group assigned identities. */
 export interface ManagedResourceGroupAssignedIdentities {
   /** Identity principal Id */
-  principalId?: string;
+  principalId?: string | undefined;
 }
 /** List of assigned identities for the managed resource group */
 export type ManagedResourceGroupSettingsAssignedIdentitiesList =
@@ -3958,112 +3974,118 @@ export type ManagedResourceGroupSettingsAssignedIdentitiesList =
 /** Managed resource group settings */
 export interface ManagedResourceGroupSettings {
   /** List of assigned identities for the managed resource group */
-  assignedIdentities?: ManagedResourceGroupSettingsAssignedIdentitiesList | null;
+  assignedIdentities?: ManagedResourceGroupSettingsAssignedIdentitiesList | null | undefined;
 }
 /** The group ids */
 export type RegistryPrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
 /** The PE network resource that is linked to this PE connection. */
 export interface PrivateEndpointResource {
   /** The ARM identifier for Private Endpoint */
-  id?: string;
+  id?: string | undefined;
   /** The subnetId that the private endpoint is connected to. */
-  subnetArmId?: string | null;
+  subnetArmId?: string | null | undefined;
 }
 /** The connection state. */
 export interface RegistryPrivateLinkServiceConnectionState {
   /** Some RP chose "None". Other RPs use this for region expansion. */
-  actionsRequired?: string | null;
+  actionsRequired?: string | null | undefined;
   /** User-defined message that, per NRP doc, may be used for approval-related message. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Connection status of the service consumer with the service provider */
-  status?: EndpointServiceConnectionStatus | (string & {});
+  status?: EndpointServiceConnectionStatus | (string & {}) | undefined;
 }
 /** Properties of the Private Endpoint Connection */
 export interface RegistryPrivateEndpointConnectionProperties {
   /** The group ids */
-  groupIds?: RegistryPrivateEndpointConnectionPropertiesGroupIdsList | null;
+  groupIds?: RegistryPrivateEndpointConnectionPropertiesGroupIdsList | null | undefined;
   /** The PE network resource that is linked to this PE connection. */
-  privateEndpoint?: PrivateEndpointResource | null;
+  privateEndpoint?: PrivateEndpointResource | null | undefined;
   /** The connection state. */
-  registryPrivateLinkServiceConnectionState?: RegistryPrivateLinkServiceConnectionState | null;
+  registryPrivateLinkServiceConnectionState?:
+    | RegistryPrivateLinkServiceConnectionState
+    | null
+    | undefined;
   /** One of null, "Succeeded", "Provisioning", "Failed". While not approved, it's null. */
-  provisioningState?: string | null;
+  provisioningState?: string | null | undefined;
 }
 /** Private endpoint connection definition. */
 export interface RegistryPrivateEndpointConnection {
   /** This is the private endpoint connection name created on SRP Full resource id: /subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.MachineLearningServices/{resourceType}/{resourceName}/registryPrivateEndpointConnections/{peConnectionName} */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Same as workspace location. */
-  location?: string | null;
+  location?: string | null | undefined;
   /** Properties of the Private Endpoint Connection */
-  properties?: RegistryPrivateEndpointConnectionProperties | null;
+  properties?: RegistryPrivateEndpointConnectionProperties | null | undefined;
 }
 /** Private endpoint connections info used for pending connections in private link portal */
 export type RegistryPropertiesRegistryPrivateEndpointConnectionsList =
   Array<RegistryPrivateEndpointConnection>;
 export interface SystemCreatedAcrAccount {
   /** Name of the ACR account */
-  acrAccountName?: string | null;
+  acrAccountName?: string | null | undefined;
   /** SKU of the ACR account */
-  acrAccountSku?: string | null;
+  acrAccountSku?: string | null | undefined;
   /** This is populated once the ACR account is created. */
-  armResourceId?: ArmResourceId | null;
+  armResourceId?: ArmResourceId | null | undefined;
 }
 /** Details of ACR account to be used for the Registry */
 export interface AcrDetails {
   /** Details of system created ACR account to be used for the Registry */
-  systemCreatedAcrAccount?: SystemCreatedAcrAccount | null;
+  systemCreatedAcrAccount?: SystemCreatedAcrAccount | null | undefined;
 }
 /** List of ACR accounts */
 export type RegistryRegionArmDetailsAcrDetailsList = Array<AcrDetails>;
 export interface SystemCreatedStorageAccount {
   /** Public blob access allowed */
-  allowBlobPublicAccess?: boolean;
+  allowBlobPublicAccess?: boolean | undefined;
   /** This is populated once the storage account is created. */
-  armResourceId?: ArmResourceId | null;
+  armResourceId?: ArmResourceId | null | undefined;
   /** HNS enabled for storage account */
-  storageAccountHnsEnabled?: boolean;
+  storageAccountHnsEnabled?: boolean | undefined;
   /** Name of the storage account */
-  storageAccountName?: string | null;
+  storageAccountName?: string | null | undefined;
   /** Allowed values: "Standard_LRS", "Standard_GRS", "Standard_RAGRS", "Standard_ZRS", "Standard_GZRS", "Standard_RAGZRS", "Premium_LRS", "Premium_ZRS" */
-  storageAccountType?: string | null;
+  storageAccountType?: string | null | undefined;
 }
 /** Details of storage account to be used for the Registry */
 export interface StorageAccountDetails {
   /** Details of system created storage account to be used for the registry */
-  systemCreatedStorageAccount?: SystemCreatedStorageAccount | null;
+  systemCreatedStorageAccount?: SystemCreatedStorageAccount | null | undefined;
 }
 /** List of storage accounts */
 export type RegistryRegionArmDetailsStorageAccountDetailsList = Array<StorageAccountDetails>;
 /** Details for each region the registry is in */
 export interface RegistryRegionArmDetails {
   /** List of ACR accounts */
-  acrDetails?: RegistryRegionArmDetailsAcrDetailsList | null;
+  acrDetails?: RegistryRegionArmDetailsAcrDetailsList | null | undefined;
   /** The location where the registry exists */
-  location?: string | null;
+  location?: string | null | undefined;
   /** List of storage accounts */
-  storageAccountDetails?: RegistryRegionArmDetailsStorageAccountDetailsList | null;
+  storageAccountDetails?: RegistryRegionArmDetailsStorageAccountDetailsList | null | undefined;
 }
 /** Details of each region the registry is in */
 export type RegistryPropertiesRegionDetailsList = Array<RegistryRegionArmDetails>;
 /** Details of the Registry */
 export interface RegistryProperties {
   /** Discovery URL for the Registry */
-  discoveryUrl?: string | null;
+  discoveryUrl?: string | null | undefined;
   /** IntellectualPropertyPublisher for the registry */
-  intellectualPropertyPublisher?: string | null;
+  intellectualPropertyPublisher?: string | null | undefined;
   /** ResourceId of the managed RG if the registry has system created resources */
-  managedResourceGroup?: ArmResourceId | null;
+  managedResourceGroup?: ArmResourceId | null | undefined;
   /** Managed resource group specific settings */
-  managedResourceGroupSettings?: ManagedResourceGroupSettings | null;
+  managedResourceGroupSettings?: ManagedResourceGroupSettings | null | undefined;
   /** MLFlow Registry URI for the Registry */
-  mlFlowRegistryUri?: string | null;
+  mlFlowRegistryUri?: string | null | undefined;
   /** Private endpoint connections info used for pending connections in private link portal */
-  registryPrivateEndpointConnections?: RegistryPropertiesRegistryPrivateEndpointConnectionsList | null;
+  registryPrivateEndpointConnections?:
+    | RegistryPropertiesRegistryPrivateEndpointConnectionsList
+    | null
+    | undefined;
   /** Is the Registry accessible from the internet? Possible values: "Enabled" or "Disabled" */
-  publicNetworkAccess?: string | null;
+  publicNetworkAccess?: string | null | undefined;
   /** Details of each region the registry is in */
-  regionDetails?: RegistryPropertiesRegionDetailsList | null;
+  regionDetails?: RegistryPropertiesRegionDetailsList | null | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type GetRegistryResponseIdentity = BatchDeploymentsCreateOrUpdateResponseIdentity;
@@ -4071,25 +4093,25 @@ export type GetRegistryResponseIdentity = BatchDeploymentsCreateOrUpdateResponse
 export type GetRegistryResponseSku = BatchDeploymentsCreateOrUpdateResponseSku;
 export interface GetRegistryResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetRegistryResponseTagsMap;
+  tags?: GetRegistryResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: RegistryProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
 }
 export interface GetRegistryCodeContainerRequest {
   /** The ID of the target subscription. */
@@ -4103,13 +4125,13 @@ export interface GetRegistryCodeContainerRequest {
 }
 export interface GetRegistryCodeContainerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: CodeContainerProperties;
 }
@@ -4127,13 +4149,13 @@ export interface GetRegistryCodeVersionRequest {
 }
 export interface GetRegistryCodeVersionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: CodeVersionProperties;
 }
@@ -4149,13 +4171,13 @@ export interface GetRegistryComponentContainerRequest {
 }
 export interface GetRegistryComponentContainerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: ComponentContainerProperties;
 }
@@ -4173,13 +4195,13 @@ export interface GetRegistryComponentVersionRequest {
 }
 export interface GetRegistryComponentVersionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: ComponentVersionProperties;
 }
@@ -4195,13 +4217,13 @@ export interface GetRegistryDataContainerRequest {
 }
 export interface GetRegistryDataContainerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: DataContainerProperties;
 }
@@ -4217,9 +4239,9 @@ export interface GetRegistryDataReferenceBlobReferenceSASRequest {
   /** Version identifier. */
   version: string;
   /** Id of the asset to be accessed */
-  assetId?: string | null;
+  assetId?: string | null | undefined;
   /** Blob uri of the asset to be accessed */
-  blobUri?: string | null;
+  blobUri?: string | null | undefined;
 }
 /** Enum to determine the DataReference credentials type. */
 export type DataReferenceCredentialType =
@@ -4234,16 +4256,16 @@ export interface DataReferenceCredential {
 }
 export interface GetBlobReferenceForConsumptionDto {
   /** Blob uri, example: https://blob.windows.core.net/Container/Path */
-  blobUri?: string | null;
+  blobUri?: string | null | undefined;
   /** Credential info to access storage account */
-  credential?: DataReferenceCredential | null;
+  credential?: DataReferenceCredential | null | undefined;
   /** The ARM id of the storage account */
-  storageAccountArmId?: string | null;
+  storageAccountArmId?: string | null | undefined;
 }
 /** BlobReferenceSASResponse for getBlobReferenceSAS API */
 export interface GetBlobReferenceSASResponseDto {
   /** Blob reference for consumption details */
-  blobReferenceForConsumption?: GetBlobReferenceForConsumptionDto | null;
+  blobReferenceForConsumption?: GetBlobReferenceForConsumptionDto | null | undefined;
 }
 export interface GetRegistryDataVersionRequest {
   /** The ID of the target subscription. */
@@ -4259,13 +4281,13 @@ export interface GetRegistryDataVersionRequest {
 }
 export interface GetRegistryDataVersionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: DataVersionBaseProperties;
 }
@@ -4281,13 +4303,13 @@ export interface GetRegistryEnvironmentContainerRequest {
 }
 export interface GetRegistryEnvironmentContainerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: EnvironmentContainerProperties;
 }
@@ -4305,13 +4327,13 @@ export interface GetRegistryEnvironmentVersionRequest {
 }
 export interface GetRegistryEnvironmentVersionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: EnvironmentVersionProperties;
 }
@@ -4327,13 +4349,13 @@ export interface GetRegistryModelContainerRequest {
 }
 export interface GetRegistryModelContainerResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: ModelContainerProperties;
 }
@@ -4351,13 +4373,13 @@ export interface GetRegistryModelVersionRequest {
 }
 export interface GetRegistryModelVersionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: ModelVersionProperties;
 }
@@ -4380,11 +4402,11 @@ export interface ScheduleActionBase {
   /** [Required] Specifies the action type of the schedule */
   actionType: ScheduleActionType | (string & {});
   /** CreateJob: the job definition. */
-  jobDefinition?: unknown;
+  jobDefinition?: unknown | undefined;
   /** CreateMonitor: the monitor definition. */
-  createMonitorRequest?: unknown;
+  createMonitorRequest?: unknown | undefined;
   /** InvokeBatchEndpoint: the endpoint invocation definition. */
-  endpointInvocationDefinition?: unknown;
+  endpointInvocationDefinition?: unknown | undefined;
 }
 export type ScheduleProvisioningStatus =
   | "Creating"
@@ -4395,50 +4417,50 @@ export type ScheduleProvisioningStatus =
   | "Canceled";
 export interface TriggerBase {
   /** Specifies end time of schedule in ISO 8601, but without a UTC offset. Refer https://en.wikipedia.org/wiki/ISO_8601. Recommented format would be "2022-06-01T00:00:01" If not present, the schedule will run indefinitely */
-  endTime?: string | null;
+  endTime?: string | null | undefined;
   /** Specifies start time of schedule in ISO 8601 format, but without a UTC offset. */
-  startTime?: string | null;
+  startTime?: string | null | undefined;
   /** Specifies time zone in which the schedule runs. TimeZone should follow Windows time zone format. Refer: https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/default-time-zones?view=windows-11 */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** [Required] */
   triggerType: TriggerType | (string & {});
   /** Cron: the cron expression. */
-  expression?: string;
+  expression?: string | undefined;
   /** Recurrence: frequency (Minute, Hour, Day, Week, Month). */
-  frequency?: string;
+  frequency?: string | undefined;
   /** Recurrence: interval. */
-  interval?: number;
+  interval?: number | undefined;
   /** Recurrence: the recurrence schedule (hours, minutes, weekDays, monthDays). */
-  schedule?: unknown;
+  schedule?: unknown | undefined;
 }
 /** Base definition of a schedule */
 export interface ScheduleProperties {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: SchedulePropertiesPropertiesMap | null;
+  properties?: SchedulePropertiesPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: SchedulePropertiesTagsMap | null;
+  tags?: SchedulePropertiesTagsMap | null | undefined;
   /** [Required] Specifies the action of the schedule */
   action: ScheduleActionBase;
   /** Display name of schedule. */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Is the schedule enabled? */
-  isEnabled?: boolean;
+  isEnabled?: boolean | undefined;
   /** Provisioning state for the schedule. */
-  provisioningState?: ScheduleProvisioningStatus;
+  provisioningState?: ScheduleProvisioningStatus | undefined;
   /** [Required] Specifies the trigger details */
   trigger: TriggerBase;
 }
 export interface GetScheduleResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: ScheduleProperties;
 }
@@ -4476,29 +4498,29 @@ export type ServerlessEndpointState =
 export type ServerlessInferenceEndpointHeadersMap = { [key: string]: string | null | undefined };
 export interface ServerlessInferenceEndpoint {
   /** Specifies any required headers to target this serverless endpoint. */
-  headers?: ServerlessInferenceEndpointHeadersMap | null;
+  headers?: ServerlessInferenceEndpointHeadersMap | null | undefined;
   /** [Required] The inference uri to target when making requests against the Serverless Endpoint. */
   uri: string;
 }
 export interface ModelSettings {
   /** The unique model identifier that this ServerlessEndpoint should provision. */
-  modelId?: string | null;
+  modelId?: string | null | undefined;
 }
 export interface ServerlessEndpointProperties {
   /** [Required] Specifies the authentication mode for the Serverless endpoint. */
   authMode: ServerlessInferenceEndpointAuthMode;
   /** Specifies the content safety options. If omitted, the default content safety settings will be configured */
-  contentSafety?: ContentSafety | null;
+  contentSafety?: ContentSafety | null | undefined;
   /** The current state of the ServerlessEndpoint. */
-  endpointState?: ServerlessEndpointState;
+  endpointState?: ServerlessEndpointState | undefined;
   /** The inference uri to target when making requests against the serverless endpoint */
-  inferenceEndpoint?: ServerlessInferenceEndpoint | null;
+  inferenceEndpoint?: ServerlessInferenceEndpoint | null | undefined;
   /** The MarketplaceSubscription Azure ID associated to this ServerlessEndpoint. */
-  marketplaceSubscriptionId?: string | null;
+  marketplaceSubscriptionId?: string | null | undefined;
   /** The model settings (model id) for the model being serviced on the ServerlessEndpoint. */
-  modelSettings?: ModelSettings | null;
+  modelSettings?: ModelSettings | null | undefined;
   /** State of endpoint provisioning. */
-  provisioningState?: EndpointProvisioningState;
+  provisioningState?: EndpointProvisioningState | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type GetServerlessEndpointResponseIdentity = BatchDeploymentsCreateOrUpdateResponseIdentity;
@@ -4506,25 +4528,25 @@ export type GetServerlessEndpointResponseIdentity = BatchDeploymentsCreateOrUpda
 export type GetServerlessEndpointResponseSku = BatchDeploymentsCreateOrUpdateResponseSku;
 export interface GetServerlessEndpointResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetServerlessEndpointResponseTagsMap;
+  tags?: GetServerlessEndpointResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: ServerlessEndpointProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
 }
 export interface GetWorkspaceRequest {
   /** The ID of the target subscription. */
@@ -4538,12 +4560,12 @@ export type WorkspacePropertiesAssociatedWorkspacesList = Array<string>;
 /** Identity object used for encryption. */
 export interface IdentityForCmk {
   /** UserAssignedIdentity to be used to fetch the encryption key from keyVault */
-  userAssignedIdentity?: string;
+  userAssignedIdentity?: string | undefined;
 }
 /** Customer Key vault properties. */
 export interface KeyVaultProperties {
   /** Currently, we support only SystemAssigned MSI. We need this when we support UserAssignedIdentities */
-  identityClientId?: string;
+  identityClientId?: string | undefined;
   /** KeyVault key identifier to encrypt the data */
   keyIdentifier: string;
   /** KeyVault Arm Id that contains the data encryption key */
@@ -4553,25 +4575,25 @@ export interface KeyVaultProperties {
 export type EncryptionStatus = "Enabled" | "Disabled";
 export interface EncryptionProperty {
   /** The byok cosmosdb account that customer brings to store customer's data with encryption */
-  cosmosDbResourceId?: string;
+  cosmosDbResourceId?: string | undefined;
   /** Identity to be used with the keyVault */
-  identity?: IdentityForCmk;
+  identity?: IdentityForCmk | undefined;
   /** KeyVault details to do the encryption */
   keyVaultProperties: KeyVaultProperties;
   /** The byok search account that customer brings to store customer's data with encryption */
-  searchAccountResourceId?: string;
+  searchAccountResourceId?: string | undefined;
   /** Indicates whether or not the encryption is enabled for the workspace. */
   status: EncryptionStatus | (string & {});
   /** The byok storage account that customer brings to store customer's data with encryption */
-  storageAccountResourceId?: string;
+  storageAccountResourceId?: string | undefined;
 }
 export interface ComputeRuntimeDto {
-  sparkRuntimeVersion?: string;
+  sparkRuntimeVersion?: string | undefined;
 }
 export interface FeatureStoreSettings {
-  computeRuntime?: ComputeRuntimeDto;
-  offlineStoreConnectionName?: string;
-  onlineStoreConnectionName?: string;
+  computeRuntime?: ComputeRuntimeDto | undefined;
+  offlineStoreConnectionName?: string | undefined;
+  onlineStoreConnectionName?: string | undefined;
 }
 /** Isolation mode for the managed network of a machine learning workspace. */
 export type IsolationMode = "Disabled" | "AllowInternetOutbound" | "AllowOnlyApprovedOutbound";
@@ -4581,9 +4603,9 @@ export type ManagedNetworkSettingsOutboundRulesMap = { [key: string]: OutboundRu
 export type ManagedNetworkStatus = "Inactive" | "Active";
 /** Status of the Provisioning for the managed network of a machine learning workspace. */
 export interface ManagedNetworkProvisionStatus {
-  sparkReady?: boolean;
+  sparkReady?: boolean | undefined;
   /** Status for the managed network of a machine learning workspace. */
-  status?: ManagedNetworkStatus | (string & {});
+  status?: ManagedNetworkStatus | (string & {}) | undefined;
 }
 /** Firewall Sku used for FQDN Rules */
 export type FirewallSku = "Standard" | "Basic";
@@ -4592,32 +4614,32 @@ export type ManagedNetworkKind = "V1" | "V2";
 /** Managed Network settings for a machine learning workspace. */
 export interface ManagedNetworkSettings {
   /** A flag to indicate if monitoring needs to be enabled for the managed network. */
-  enableNetworkMonitor?: boolean;
+  enableNetworkMonitor?: boolean | undefined;
   /** Isolation mode for the managed network of a machine learning workspace. */
-  isolationMode?: IsolationMode;
-  networkId?: string;
+  isolationMode?: IsolationMode | undefined;
+  networkId?: string | undefined;
   /** Dictionary of <OutboundRule> */
-  outboundRules?: ManagedNetworkSettingsOutboundRulesMap | null;
+  outboundRules?: ManagedNetworkSettingsOutboundRulesMap | null | undefined;
   /** Status of the Provisioning for the managed network of a machine learning workspace. */
-  status?: ManagedNetworkProvisionStatus;
+  status?: ManagedNetworkProvisionStatus | undefined;
   /** Firewall Sku used for FQDN Rules */
-  firewallSku?: FirewallSku;
+  firewallSku?: FirewallSku | undefined;
   /** The Kind of the managed network. Users can switch from V1 to V2 for granular access controls, but cannot switch back to V1 once V2 is enabled. */
-  managedNetworkKind?: ManagedNetworkKind;
+  managedNetworkKind?: ManagedNetworkKind | undefined;
   /** Public IP address assigned to the Azure Firewall. */
-  firewallPublicIpAddress?: string | null;
+  firewallPublicIpAddress?: string | null | undefined;
 }
 export interface NotebookPreparationError {
-  errorMessage?: string;
-  statusCode?: number;
+  errorMessage?: string | undefined;
+  statusCode?: number | undefined;
 }
 export interface NotebookResourceInfo {
-  fqdn?: string;
-  isPrivateLinkEnabled?: boolean;
+  fqdn?: string | undefined;
+  isPrivateLinkEnabled?: boolean | undefined;
   /** The error that occurs when preparing notebook. */
-  notebookPreparationError?: NotebookPreparationError;
+  notebookPreparationError?: NotebookPreparationError | undefined;
   /** the data plane resourceId that used to initialize notebook component */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type PrivateEndpointConnectionIdentity = BatchDeploymentsCreateOrUpdateResponseIdentity;
@@ -4627,22 +4649,22 @@ export type PrivateEndpointConnectionTagsMap = { [key: string]: string | undefin
 /** The Private Endpoint Connection resource. */
 export interface PrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Private endpoint connection properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
   /** *Same as workspace location. */
-  location?: string;
-  tags?: PrivateEndpointConnectionTagsMap;
+  location?: string | undefined;
+  tags?: PrivateEndpointConnectionTagsMap | undefined;
 }
 /** The list of private endpoint connections in the workspace. */
 export type WorkspacePropertiesPrivateEndpointConnectionsList = Array<PrivateEndpointConnection>;
@@ -4650,32 +4672,32 @@ export type WorkspacePropertiesPrivateEndpointConnectionsList = Array<PrivateEnd
 export type PublicNetworkAccessType = "Enabled" | "Disabled";
 export interface ServerlessComputeSettings {
   /** The resource ID of an existing virtual network subnet in which serverless compute nodes should be deployed */
-  serverlessComputeCustomSubnet?: string;
+  serverlessComputeCustomSubnet?: string | undefined;
   /** The flag to signal if serverless compute nodes deployed in custom vNet would have no public IP addresses for a workspace with private endpoint */
-  serverlessComputeNoPublicIP?: boolean;
+  serverlessComputeNoPublicIP?: boolean | undefined;
 }
 export interface CosmosDbSettings {
-  collectionsThroughput?: number;
+  collectionsThroughput?: number | undefined;
 }
 export interface ServiceManagedResourcesSettings {
-  cosmosDb?: CosmosDbSettings;
+  cosmosDb?: CosmosDbSettings | undefined;
 }
 /** Properties of a shared private link resource. */
 export interface SharedPrivateLinkResourceProperty {
   /** group id of the private link */
-  groupId?: string;
+  groupId?: string | undefined;
   /** the resource id that private link links to */
-  privateLinkResourceId?: string;
+  privateLinkResourceId?: string | undefined;
   /** Request message */
-  requestMessage?: string;
+  requestMessage?: string | undefined;
   /** Connection status of the service consumer with the service provider\r\nPossible state transitions\r\nPending -> Approved (Service provider approves the connection request)\r\nPending -> Rejected (Service provider rejects the connection request)\r\nPending -> Disconnected (Service provider deletes the connection)\r\nApproved -> Rejected (Service provider rejects the approved connection)\r\nApproved -> Disconnected (Service provider deletes the connection)\r\nRejected -> Pending (Service consumer re-initiates the connection request that was rejected)\r\nRejected -> Disconnected (Service provider deletes the connection) */
-  status?: EndpointServiceConnectionStatus | (string & {});
+  status?: EndpointServiceConnectionStatus | (string & {}) | undefined;
 }
 export interface SharedPrivateLinkResource {
   /** Unique name of the private link */
-  name?: string;
+  name?: string | undefined;
   /** Properties of a shared private link resource. */
-  properties?: SharedPrivateLinkResourceProperty;
+  properties?: SharedPrivateLinkResourceProperty | undefined;
 }
 /** The list of shared private link resources in this workspace. */
 export type WorkspacePropertiesSharedPrivateLinkResourcesList = Array<SharedPrivateLinkResource>;
@@ -4684,75 +4706,77 @@ export type SystemDatastoresAuthMode = "AccessKey" | "Identity" | "UserDelegatio
 export type WorkspaceHubConfigAdditionalWorkspaceStorageAccountsList = Array<string>;
 /** WorkspaceHub's configuration object. */
 export interface WorkspaceHubConfig {
-  additionalWorkspaceStorageAccounts?: WorkspaceHubConfigAdditionalWorkspaceStorageAccountsList;
-  defaultWorkspaceResourceGroup?: string;
+  additionalWorkspaceStorageAccounts?:
+    | WorkspaceHubConfigAdditionalWorkspaceStorageAccountsList
+    | undefined;
+  defaultWorkspaceResourceGroup?: string | undefined;
 }
 /** The properties of a machine learning workspace. */
 export interface WorkspaceProperties {
   /** The flag to indicate whether to allow public access when behind VNet. */
-  allowPublicAccessWhenBehindVnet?: boolean;
+  allowPublicAccessWhenBehindVnet?: boolean | undefined;
   /** ARM id of the application insights associated with this workspace. */
-  applicationInsights?: string;
-  associatedWorkspaces?: WorkspacePropertiesAssociatedWorkspacesList;
+  applicationInsights?: string | undefined;
+  associatedWorkspaces?: WorkspacePropertiesAssociatedWorkspacesList | undefined;
   /** ARM id of the container registry associated with this workspace. */
-  containerRegistry?: string;
+  containerRegistry?: string | undefined;
   /** The description of this workspace. */
-  description?: string;
+  description?: string | undefined;
   /** Url for the discovery service to identify regional endpoints for machine learning experimentation services */
-  discoveryUrl?: string;
-  enableDataIsolation?: boolean;
-  enableServiceSideCMKEncryption?: boolean;
-  encryption?: EncryptionProperty;
+  discoveryUrl?: string | undefined;
+  enableDataIsolation?: boolean | undefined;
+  enableServiceSideCMKEncryption?: boolean | undefined;
+  encryption?: EncryptionProperty | undefined;
   /** Settings for feature store type workspace. */
-  featureStoreSettings?: FeatureStoreSettings;
+  featureStoreSettings?: FeatureStoreSettings | undefined;
   /** The friendly name for this workspace. This name in mutable */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** The flag to signal HBI data in the workspace and reduce diagnostic data collected by the service */
-  hbiWorkspace?: boolean;
-  hubResourceId?: string;
+  hbiWorkspace?: boolean | undefined;
+  hubResourceId?: string | undefined;
   /** The compute name for image build */
-  imageBuildCompute?: string;
+  imageBuildCompute?: string | undefined;
   /** ARM id of the key vault associated with this workspace. This cannot be changed once the workspace has been created */
-  keyVault?: string;
-  managedNetwork?: ManagedNetworkSettings;
+  keyVault?: string | undefined;
+  managedNetwork?: ManagedNetworkSettings | undefined;
   /** The URI associated with this workspace that machine learning flow must point at to set up tracking. */
-  mlFlowTrackingUri?: string;
+  mlFlowTrackingUri?: string | undefined;
   /** The notebook info of Azure ML workspace. */
-  notebookInfo?: NotebookResourceInfo;
+  notebookInfo?: NotebookResourceInfo | undefined;
   /** The user assigned identity resource id that represents the workspace identity. */
-  primaryUserAssignedIdentity?: string;
+  primaryUserAssignedIdentity?: string | undefined;
   /** The list of private endpoint connections in the workspace. */
-  privateEndpointConnections?: WorkspacePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: WorkspacePropertiesPrivateEndpointConnectionsList | undefined;
   /** Count of private connections in the workspace */
-  privateLinkCount?: number;
+  privateLinkCount?: number | undefined;
   /** Set to trigger the provisioning of the managed VNet with the default Options when creating a Workspace with the managed VNet enabled, or else it does nothing. */
-  provisionNetworkNow?: boolean;
+  provisionNetworkNow?: boolean | undefined;
   /** The current deployment state of workspace resource. The provisioningState is to indicate states for resource provisioning. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Whether requests from Public Network are allowed. */
-  publicNetworkAccess?: PublicNetworkAccessType;
+  publicNetworkAccess?: PublicNetworkAccessType | undefined;
   /** Settings for serverless compute in a workspace */
-  serverlessComputeSettings?: ServerlessComputeSettings;
+  serverlessComputeSettings?: ServerlessComputeSettings | undefined;
   /** The service managed resource settings. */
-  serviceManagedResourcesSettings?: ServiceManagedResourcesSettings;
+  serviceManagedResourcesSettings?: ServiceManagedResourcesSettings | undefined;
   /** The name of the managed resource group created by workspace RP in customer subscription if the workspace is CMK workspace */
-  serviceProvisionedResourceGroup?: string;
+  serviceProvisionedResourceGroup?: string | undefined;
   /** The list of shared private link resources in this workspace. */
-  sharedPrivateLinkResources?: WorkspacePropertiesSharedPrivateLinkResourcesList;
+  sharedPrivateLinkResources?: WorkspacePropertiesSharedPrivateLinkResourcesList | undefined;
   /** ARM id of the storage account associated with this workspace. This cannot be changed once the workspace has been created */
-  storageAccount?: string;
+  storageAccount?: string | undefined;
   /** If the storage associated with the workspace has hierarchical namespace(HNS) enabled. */
-  storageHnsEnabled?: boolean;
+  storageHnsEnabled?: boolean | undefined;
   /** The auth mode used for accessing the system datastores of the workspace. */
-  systemDatastoresAuthMode?: SystemDatastoresAuthMode;
+  systemDatastoresAuthMode?: SystemDatastoresAuthMode | undefined;
   /** The tenant id associated with this workspace. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Enabling v1_legacy_mode may prevent you from using features provided by the v2 API. */
-  v1LegacyMode?: boolean;
+  v1LegacyMode?: boolean | undefined;
   /** WorkspaceHub's configuration object. */
-  workspaceHubConfig?: WorkspaceHubConfig;
+  workspaceHubConfig?: WorkspaceHubConfig | undefined;
   /** The immutable id associated with this workspace. */
-  workspaceId?: string;
+  workspaceId?: string | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type GetWorkspaceResponseIdentity = BatchDeploymentsCreateOrUpdateResponseIdentity;
@@ -4761,22 +4785,22 @@ export type GetWorkspaceResponseSku = BatchDeploymentsCreateOrUpdateResponseSku;
 export type GetWorkspaceResponseTagsMap = { [key: string]: string | undefined };
 export interface GetWorkspaceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Additional attributes of the entity. */
   properties: WorkspaceProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
-  kind?: string;
-  location?: string;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
+  kind?: string | undefined;
+  location?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
-  tags?: GetWorkspaceResponseTagsMap;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
+  tags?: GetWorkspaceResponseTagsMap | undefined;
 }
 export interface GetWorkspaceConnectionRequest {
   /** The ID of the target subscription. */
@@ -4790,13 +4814,13 @@ export interface GetWorkspaceConnectionRequest {
 }
 export interface GetWorkspaceConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   properties: WorkspaceConnectionPropertiesV2;
 }
 /** The asset property dictionary. */
@@ -4808,15 +4832,15 @@ export type JobServiceInputPropertiesMap = { [key: string]: string | null | unde
 /** Job endpoint definition */
 export interface JobServiceInput {
   /** Url for endpoint. */
-  endpoint?: string | null;
+  endpoint?: string | null | undefined;
   /** Endpoint type. */
-  jobServiceType?: string | null;
+  jobServiceType?: string | null | undefined;
   /** Nodes that user would like to start the service on. If Nodes is not set or set to null, the service will only be started on leader node. */
-  nodes?: Nodes | null;
+  nodes?: Nodes | null | undefined;
   /** Port for endpoint. */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Additional properties to set on the endpoint. */
-  properties?: JobServiceInputPropertiesMap | null;
+  properties?: JobServiceInputPropertiesMap | null | undefined;
 }
 /** List of JobEndpoints. For local jobs, a job endpoint will have an endpoint value of FileStreamObject. */
 export type JobBasePropertiesInputServicesMap = {
@@ -4825,29 +4849,29 @@ export type JobBasePropertiesInputServicesMap = {
 /** Base definition for a job. */
 export interface JobBasePropertiesInput {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: JobBasePropertiesInputPropertiesMap | null;
+  properties?: JobBasePropertiesInputPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: JobBasePropertiesInputTagsMap | null;
+  tags?: JobBasePropertiesInputTagsMap | null | undefined;
   /** ARM resource ID of the component resource. */
-  componentId?: string | null;
+  componentId?: string | null | undefined;
   /** ARM resource ID of the compute resource. */
-  computeId?: string | null;
+  computeId?: string | null | undefined;
   /** Display name of job. */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** The name of the experiment the job belongs to. If not set, the job is placed in the "Default" experiment. */
-  experimentName?: string;
+  experimentName?: string | undefined;
   /** Identity configuration. If set, this should be one of AmlToken, ManagedIdentity, UserIdentity or null. Defaults to AmlToken if null. */
-  identity?: IdentityConfiguration | null;
+  identity?: IdentityConfiguration | null | undefined;
   /** Is the asset archived? */
-  isArchived?: boolean;
+  isArchived?: boolean | undefined;
   /** [Required] Specifies the type of job. */
   jobType: JobType | (string & {});
   /** Notification setting for the job */
-  notificationSetting?: NotificationSetting | null;
+  notificationSetting?: NotificationSetting | null | undefined;
   /** List of JobEndpoints. For local jobs, a job endpoint will have an endpoint value of FileStreamObject. */
-  services?: JobBasePropertiesInputServicesMap | null;
+  services?: JobBasePropertiesInputServicesMap | null | undefined;
 }
 export interface JobsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -4863,13 +4887,13 @@ export interface JobsCreateOrUpdateRequest {
 }
 export interface JobsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: JobBaseProperties;
 }
@@ -4883,11 +4907,11 @@ export interface ListBatchDeploymentsRequest {
   /** Name for the Batch Endpoint. */
   endpointName: string;
   /** Ordering of list. */
-  _orderBy?: string;
+  _orderBy?: string | undefined;
   /** Top of list. */
-  _top?: number;
+  _top?: number | undefined;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
 }
 /** Resource tags. */
 export type BatchDeploymentTagsMap = { [key: string]: string | undefined };
@@ -4898,25 +4922,25 @@ export type BatchDeploymentSku = BatchDeploymentsCreateOrUpdateResponseSku;
 /** Concrete tracked resource types can be created by aliasing this type using a specific property type. */
 export interface BatchDeployment {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: BatchDeploymentTagsMap;
+  tags?: BatchDeploymentTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: BatchDeploymentProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
 }
 /** The BatchDeployment items on this page */
 export type BatchDeploymentTrackedResourceArmPaginatedResultValueList = Array<BatchDeployment>;
@@ -4925,7 +4949,7 @@ export interface BatchDeploymentTrackedResourceArmPaginatedResult {
   /** The BatchDeployment items on this page */
   value: BatchDeploymentTrackedResourceArmPaginatedResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBatchEndpointKeysRequest {
   /** The ID of the target subscription. */
@@ -4945,9 +4969,9 @@ export interface ListBatchEndpointsRequest {
   /** Azure Machine Learning Workspace Name */
   workspaceName: string;
   /** Number of endpoints to be retrieved in a page of results. */
-  count?: number;
+  count?: number | undefined;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
 }
 /** Resource tags. */
 export type BatchEndpointTagsMap = { [key: string]: string | undefined };
@@ -4958,25 +4982,25 @@ export type BatchEndpointSku = BatchDeploymentsCreateOrUpdateResponseSku;
 /** Concrete tracked resource types can be created by aliasing this type using a specific property type. */
 export interface BatchEndpoint {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: BatchEndpointTagsMap;
+  tags?: BatchEndpointTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: BatchEndpointProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
 }
 /** The BatchEndpoint items on this page */
 export type BatchEndpointTrackedResourceArmPaginatedResultValueList = Array<BatchEndpoint>;
@@ -4985,7 +5009,7 @@ export interface BatchEndpointTrackedResourceArmPaginatedResult {
   /** The BatchEndpoint items on this page */
   value: BatchEndpointTrackedResourceArmPaginatedResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCapabilityHostsRequest {
   /** The ID of the target subscription. */
@@ -4998,13 +5022,13 @@ export interface ListCapabilityHostsRequest {
 /** Azure Resource Manager resource envelope. */
 export interface CapabilityHost {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: CapabilityHostProperties;
 }
@@ -5015,7 +5039,7 @@ export interface CapabilityHostListResult {
   /** The CapabilityHost items on this page */
   value: CapabilityHostListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCodeContainersRequest {
   /** The ID of the target subscription. */
@@ -5025,18 +5049,18 @@ export interface ListCodeContainersRequest {
   /** Name of Azure Machine Learning workspace. */
   workspaceName: string;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface CodeContainer {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: CodeContainerProperties;
 }
@@ -5047,7 +5071,7 @@ export interface CodeContainerResourceArmPaginatedResult {
   /** The CodeContainer items on this page */
   value: CodeContainerResourceArmPaginatedResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListCodeVersionsRequest {
   /** The ID of the target subscription. */
@@ -5059,26 +5083,26 @@ export interface ListCodeVersionsRequest {
   /** Container name. This is case-sensitive. */
   name: string;
   /** Ordering of list. */
-  _orderBy?: string;
+  _orderBy?: string | undefined;
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
   /** If specified, return CodeVersion assets with specified content hash value, regardless of name */
-  hash?: string;
+  hash?: string | undefined;
   /** Hash algorithm version when listing by hash */
-  hashVersion?: string;
+  hashVersion?: string | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface CodeVersion {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: CodeVersionProperties;
 }
@@ -5089,7 +5113,7 @@ export interface CodeVersionResourceArmPaginatedResult {
   /** The CodeVersion items on this page */
   value: CodeVersionResourceArmPaginatedResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListComponentContainersRequestListViewType = "ActiveOnly" | "ArchivedOnly" | "All";
 export interface ListComponentContainersRequest {
@@ -5100,20 +5124,20 @@ export interface ListComponentContainersRequest {
   /** Name of Azure Machine Learning workspace. */
   workspaceName: string;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
   /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListComponentContainersRequestListViewType | (string & {});
+  listViewType?: ListComponentContainersRequestListViewType | (string & {}) | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface ComponentContainer {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: ComponentContainerProperties;
 }
@@ -5124,7 +5148,7 @@ export interface ComponentContainerResourceArmPaginatedResult {
   /** The ComponentContainer items on this page */
   value: ComponentContainerResourceArmPaginatedResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListComponentVersionsRequestListViewType = "ActiveOnly" | "ArchivedOnly" | "All";
 export interface ListComponentVersionsRequest {
@@ -5137,24 +5161,24 @@ export interface ListComponentVersionsRequest {
   /** Container name. */
   name: string;
   /** Ordering of list. */
-  _orderBy?: string;
+  _orderBy?: string | undefined;
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
   /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListComponentVersionsRequestListViewType | (string & {});
+  listViewType?: ListComponentVersionsRequestListViewType | (string & {}) | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface ComponentVersion {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: ComponentVersionProperties;
 }
@@ -5165,7 +5189,7 @@ export interface ComponentVersionResourceArmPaginatedResult {
   /** The ComponentVersion items on this page */
   value: ComponentVersionResourceArmPaginatedResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListComputeRequest {
   /** The ID of the target subscription. */
@@ -5175,7 +5199,7 @@ export interface ListComputeRequest {
   /** Azure Machine Learning Workspace Name */
   workspaceName: string;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
 }
 /** Contains resource tags defined as key/value pairs. */
 export type ComputeResourceTagsMap = { [key: string]: string | undefined };
@@ -5186,23 +5210,23 @@ export type ComputeResourceIdentity = BatchDeploymentsCreateOrUpdateResponseIden
 /** Machine Learning compute object wrapped into ARM resource envelope. */
 export interface ComputeResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: Compute;
+  properties?: Compute | undefined;
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Contains resource tags defined as key/value pairs. */
-  tags?: ComputeResourceTagsMap | null;
+  tags?: ComputeResourceTagsMap | null | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
 }
 /** The ComputeResource items on this page */
 export type PaginatedComputeResourcesListValueList = Array<ComputeResource>;
@@ -5211,7 +5235,7 @@ export interface PaginatedComputeResourcesList {
   /** The ComputeResource items on this page */
   value: PaginatedComputeResourcesListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListComputeKeysRequest {
   /** The ID of the target subscription. */
@@ -5243,26 +5267,26 @@ export type NodeState = "idle" | "running" | "preparing" | "unusable" | "leaving
 /** Compute node information related to a AmlCompute. */
 export interface AmlComputeNodeInformation {
   /** ID of the compute node. */
-  nodeId?: string;
+  nodeId?: string | undefined;
   /** Private IP address of the compute node. */
-  privateIpAddress?: string | null;
+  privateIpAddress?: string | null | undefined;
   /** Public IP address of the compute node. */
-  publicIpAddress?: string | null;
+  publicIpAddress?: string | null | undefined;
   /** SSH port number of the node. */
-  port?: number;
+  port?: number | undefined;
   /** State of the compute node. Values are idle, running, preparing, unusable, leaving and preempted. */
-  nodeState?: NodeState;
+  nodeState?: NodeState | undefined;
   /** ID of the Experiment running on the node, if any else null. */
-  runId?: string | null;
+  runId?: string | null | undefined;
 }
 /** The collection of returned AmlCompute nodes details. */
 export type AmlComputeNodesInformationNodesList = Array<AmlComputeNodeInformation>;
 /** Result of AmlCompute Nodes */
 export interface AmlComputeNodesInformation {
   /** The collection of returned AmlCompute nodes details. */
-  nodes?: AmlComputeNodesInformationNodesList;
+  nodes?: AmlComputeNodesInformationNodesList | undefined;
   /** The continuation token. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListDataContainersRequestListViewType = "ActiveOnly" | "ArchivedOnly" | "All";
 export interface ListDataContainersRequest {
@@ -5273,20 +5297,20 @@ export interface ListDataContainersRequest {
   /** Name of Azure Machine Learning workspace. */
   workspaceName: string;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
   /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListDataContainersRequestListViewType | (string & {});
+  listViewType?: ListDataContainersRequestListViewType | (string & {}) | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface DataContainer {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: DataContainerProperties;
 }
@@ -5297,7 +5321,7 @@ export interface DataContainerResourceArmPaginatedResult {
   /** The DataContainer items on this page */
   value: DataContainerResourceArmPaginatedResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListDatastoresRequestNamesList = Array<string>;
 export interface ListDatastoresRequest {
@@ -5308,30 +5332,30 @@ export interface ListDatastoresRequest {
   /** Azure Machine Learning Workspace Name */
   workspaceName: string;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
   /** Maximum number of results to return. */
-  count?: number;
+  count?: number | undefined;
   /** Filter down to the workspace default datastore. */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   /** Names of datastores to return. */
-  names?: ListDatastoresRequestNamesList;
+  names?: ListDatastoresRequestNamesList | undefined;
   /** Text to search for in the datastore names. */
-  searchText?: string;
+  searchText?: string | undefined;
   /** Order by property (createdtime | modifiedtime | name). */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Order by property in ascending order. */
-  orderByAsc?: boolean;
+  orderByAsc?: boolean | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface Datastore {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: DatastoreProperties;
 }
@@ -5342,7 +5366,7 @@ export interface DatastoreResourceArmPaginatedResult {
   /** The Datastore items on this page */
   value: DatastoreResourceArmPaginatedResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDatastoreSecretsRequest {
   /** The ID of the target subscription. */
@@ -5354,9 +5378,9 @@ export interface ListDatastoreSecretsRequest {
   /** Datastore name. */
   name: string;
   /** Indicates if the secret is expirable. */
-  expirableSecret?: boolean;
+  expirableSecret?: boolean | undefined;
   /** Number of hours after which the secret will expire. */
-  expireAfterHours?: number;
+  expireAfterHours?: number | undefined;
 }
 /** Enum to determine the datastore secrets type. */
 export type SecretsType = "AccountKey" | "Certificate" | "Sas" | "ServicePrincipal";
@@ -5376,26 +5400,26 @@ export interface ListDataVersionsRequest {
   /** Container name. */
   name: string;
   /** Please choose OrderBy value from ['createdtime', 'modifiedtime'] */
-  _orderBy?: string;
+  _orderBy?: string | undefined;
   /** Top count of results, top count cannot be greater than the page size. If topCount > page size, results with be default page size count will be returned */
-  _top?: number;
+  _top?: number | undefined;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
   /** Comma-separated list of tag names (and optionally values). Example: tag1,tag2=value2 */
-  _tags?: string;
+  _tags?: string | undefined;
   /** [ListViewType.ActiveOnly, ListViewType.ArchivedOnly, ListViewType.All]View type for including/excluding (for example) archived entities. */
-  listViewType?: ListDataVersionsRequestListViewType | (string & {});
+  listViewType?: ListDataVersionsRequestListViewType | (string & {}) | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface DataVersionBase {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: DataVersionBaseProperties;
 }
@@ -5406,7 +5430,7 @@ export interface DataVersionBaseResourceArmPaginatedResult {
   /** The DataVersionBase items on this page */
   value: DataVersionBaseResourceArmPaginatedResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListEnvironmentContainersRequestListViewType = "ActiveOnly" | "ArchivedOnly" | "All";
 export interface ListEnvironmentContainersRequest {
@@ -5417,20 +5441,20 @@ export interface ListEnvironmentContainersRequest {
   /** Name of Azure Machine Learning workspace. */
   workspaceName: string;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
   /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListEnvironmentContainersRequestListViewType | (string & {});
+  listViewType?: ListEnvironmentContainersRequestListViewType | (string & {}) | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface EnvironmentContainer {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: EnvironmentContainerProperties;
 }
@@ -5441,7 +5465,7 @@ export interface EnvironmentContainerResourceArmPaginatedResult {
   /** The EnvironmentContainer items on this page */
   value: EnvironmentContainerResourceArmPaginatedResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListEnvironmentVersionsRequestListViewType = "ActiveOnly" | "ArchivedOnly" | "All";
 export interface ListEnvironmentVersionsRequest {
@@ -5454,24 +5478,24 @@ export interface ListEnvironmentVersionsRequest {
   /** Container name. This is case-sensitive. */
   name: string;
   /** Ordering of list. */
-  _orderBy?: string;
+  _orderBy?: string | undefined;
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
   /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListEnvironmentVersionsRequestListViewType | (string & {});
+  listViewType?: ListEnvironmentVersionsRequestListViewType | (string & {}) | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface EnvironmentVersion {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: EnvironmentVersionProperties;
 }
@@ -5482,7 +5506,7 @@ export interface EnvironmentVersionResourceArmPaginatedResult {
   /** The EnvironmentVersion items on this page */
   value: EnvironmentVersionResourceArmPaginatedResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListFeaturesRequestListViewType = "ActiveOnly" | "ArchivedOnly" | "All";
 export interface ListFeaturesRequest {
@@ -5497,28 +5521,28 @@ export interface ListFeaturesRequest {
   /** Inference Version name. */
   featuresetVersion: string;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
   /** Comma-separated list of tag names (and optionally values). Example: tag1,tag2=value2 */
-  tags?: string;
+  tags?: string | undefined;
   /** feature name. */
-  featureName?: string;
+  featureName?: string | undefined;
   /** Description of the featureset. */
-  description?: string;
+  description?: string | undefined;
   /** [ListViewType.ActiveOnly, ListViewType.ArchivedOnly, ListViewType.All]View type for including/excluding (for example) archived entities. */
-  listViewType?: ListFeaturesRequestListViewType | (string & {});
+  listViewType?: ListFeaturesRequestListViewType | (string & {}) | undefined;
   /** Page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface Feature {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: FeatureProperties;
 }
@@ -5529,7 +5553,7 @@ export interface FeatureResourceArmPaginatedResult {
   /** The Feature items on this page */
   value: FeatureResourceArmPaginatedResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListFeaturesetContainersRequestListViewType = "ActiveOnly" | "ArchivedOnly" | "All";
 export interface ListFeaturesetContainersRequest {
@@ -5540,30 +5564,30 @@ export interface ListFeaturesetContainersRequest {
   /** Azure Machine Learning Workspace Name */
   workspaceName: string;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
   /** Comma-separated list of tag names (and optionally values). Example: tag1,tag2=value2 */
-  tags?: string;
+  tags?: string | undefined;
   /** [ListViewType.ActiveOnly, ListViewType.ArchivedOnly, ListViewType.All]View type for including/excluding (for example) archived entities. */
-  listViewType?: ListFeaturesetContainersRequestListViewType | (string & {});
+  listViewType?: ListFeaturesetContainersRequestListViewType | (string & {}) | undefined;
   /** page size */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** name for the featureset */
-  name?: string;
+  name?: string | undefined;
   /** description for the feature set */
-  description?: string;
+  description?: string | undefined;
   /** createdBy user name */
-  createdBy?: string;
+  createdBy?: string | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface FeaturesetContainer {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: FeaturesetContainerProperties;
 }
@@ -5574,7 +5598,7 @@ export interface FeaturesetContainerResourceArmPaginatedResult {
   /** The FeaturesetContainer items on this page */
   value: FeaturesetContainerResourceArmPaginatedResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListFeaturesetVersionsRequestListViewType = "ActiveOnly" | "ArchivedOnly" | "All";
 export interface ListFeaturesetVersionsRequest {
@@ -5587,34 +5611,34 @@ export interface ListFeaturesetVersionsRequest {
   /** Container name. This is case-sensitive. */
   name: string;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
   /** Comma-separated list of tag names (and optionally values). Example: tag1,tag2=value2 */
-  tags?: string;
+  tags?: string | undefined;
   /** [ListViewType.ActiveOnly, ListViewType.ArchivedOnly, ListViewType.All]View type for including/excluding (for example) archived entities. */
-  listViewType?: ListFeaturesetVersionsRequestListViewType | (string & {});
+  listViewType?: ListFeaturesetVersionsRequestListViewType | (string & {}) | undefined;
   /** page size */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** name for the featureset version */
-  versionName?: string;
+  versionName?: string | undefined;
   /** featureset version */
-  version?: string;
+  version?: string | undefined;
   /** description for the feature set version */
-  description?: string;
+  description?: string | undefined;
   /** createdBy user name */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** Specifies the featurestore stage */
-  stage?: string;
+  stage?: string | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface FeaturesetVersion {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: FeaturesetVersionProperties;
 }
@@ -5625,7 +5649,7 @@ export interface FeaturesetVersionResourceArmPaginatedResult {
   /** The FeaturesetVersion items on this page */
   value: FeaturesetVersionResourceArmPaginatedResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListFeaturestoreEntityContainersRequestListViewType =
   | "ActiveOnly"
@@ -5639,30 +5663,30 @@ export interface ListFeaturestoreEntityContainersRequest {
   /** Azure Machine Learning Workspace Name */
   workspaceName: string;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
   /** Comma-separated list of tag names (and optionally values). Example: tag1,tag2=value2 */
-  tags?: string;
+  tags?: string | undefined;
   /** [ListViewType.ActiveOnly, ListViewType.ArchivedOnly, ListViewType.All]View type for including/excluding (for example) archived entities. */
-  listViewType?: ListFeaturestoreEntityContainersRequestListViewType | (string & {});
+  listViewType?: ListFeaturestoreEntityContainersRequestListViewType | (string & {}) | undefined;
   /** page size */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** name for the featurestore entity */
-  name?: string;
+  name?: string | undefined;
   /** description for the featurestore entity */
-  description?: string;
+  description?: string | undefined;
   /** createdBy user name */
-  createdBy?: string;
+  createdBy?: string | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface FeaturestoreEntityContainer {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: FeaturestoreEntityContainerProperties;
 }
@@ -5674,7 +5698,7 @@ export interface FeaturestoreEntityContainerResourceArmPaginatedResult {
   /** The FeaturestoreEntityContainer items on this page */
   value: FeaturestoreEntityContainerResourceArmPaginatedResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListFeaturestoreEntityVersionsRequestListViewType =
   | "ActiveOnly"
@@ -5690,34 +5714,34 @@ export interface ListFeaturestoreEntityVersionsRequest {
   /** Container name. This is case-sensitive. */
   name: string;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
   /** Comma-separated list of tag names (and optionally values). Example: tag1,tag2=value2 */
-  tags?: string;
+  tags?: string | undefined;
   /** [ListViewType.ActiveOnly, ListViewType.ArchivedOnly, ListViewType.All]View type for including/excluding (for example) archived entities. */
-  listViewType?: ListFeaturestoreEntityVersionsRequestListViewType | (string & {});
+  listViewType?: ListFeaturestoreEntityVersionsRequestListViewType | (string & {}) | undefined;
   /** page size */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** name for the featurestore entity version */
-  versionName?: string;
+  versionName?: string | undefined;
   /** featurestore entity version */
-  version?: string;
+  version?: string | undefined;
   /** description for the feature entity version */
-  description?: string;
+  description?: string | undefined;
   /** createdBy user name */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** Specifies the featurestore stage */
-  stage?: string;
+  stage?: string | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface FeaturestoreEntityVersion {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: FeaturestoreEntityVersionProperties;
 }
@@ -5729,7 +5753,7 @@ export interface FeaturestoreEntityVersionResourceArmPaginatedResult {
   /** The FeaturestoreEntityVersion items on this page */
   value: FeaturestoreEntityVersionResourceArmPaginatedResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListJobsRequestListViewType = "ActiveOnly" | "ArchivedOnly" | "All";
 export interface ListJobsRequest {
@@ -5740,26 +5764,26 @@ export interface ListJobsRequest {
   /** Azure Machine Learning Workspace Name */
   workspaceName: string;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
   /** Type of job to be returned. */
-  jobType?: string;
+  jobType?: string | undefined;
   /** Jobs returned will have this tag key. */
-  tag?: string;
+  tag?: string | undefined;
   /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListJobsRequestListViewType | (string & {});
+  listViewType?: ListJobsRequestListViewType | (string & {}) | undefined;
   /** Comma-separated list of user property names (and optionally values). Example: prop1,prop2=value2 */
-  properties?: string;
+  properties?: string | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface JobBase {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: JobBaseProperties;
 }
@@ -5770,7 +5794,7 @@ export interface JobBaseResourceArmPaginatedResult {
   /** The JobBase items on this page */
   value: JobBaseResourceArmPaginatedResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListManagedNetworkSettingsRuleRequest {
   /** The ID of the target subscription. */
@@ -5783,13 +5807,13 @@ export interface ListManagedNetworkSettingsRuleRequest {
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface OutboundRuleBasicResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Outbound Rule for the managed network of a machine learning workspace. */
   properties: OutboundRule;
 }
@@ -5800,7 +5824,7 @@ export interface OutboundRuleListResult {
   /** The OutboundRuleBasicResource items on this page */
   value: OutboundRuleListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListMarketplaceSubscriptionsRequest {
   /** The ID of the target subscription. */
@@ -5810,18 +5834,18 @@ export interface ListMarketplaceSubscriptionsRequest {
   /** Azure Machine Learning Workspace Name */
   workspaceName: string;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface MarketplaceSubscription {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: MarketplaceSubscriptionProperties;
 }
@@ -5833,7 +5857,7 @@ export interface MarketplaceSubscriptionResourceArmPaginatedResult {
   /** The MarketplaceSubscription items on this page */
   value: MarketplaceSubscriptionResourceArmPaginatedResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListModelContainersRequestListViewType = "ActiveOnly" | "ArchivedOnly" | "All";
 export interface ListModelContainersRequest {
@@ -5844,22 +5868,22 @@ export interface ListModelContainersRequest {
   /** Name of Azure Machine Learning workspace. */
   workspaceName: string;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
   /** Maximum number of results to return. */
-  count?: number;
+  count?: number | undefined;
   /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListModelContainersRequestListViewType | (string & {});
+  listViewType?: ListModelContainersRequestListViewType | (string & {}) | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface ModelContainer {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: ModelContainerProperties;
 }
@@ -5870,7 +5894,7 @@ export interface ModelContainerResourceArmPaginatedResult {
   /** The ModelContainer items on this page */
   value: ModelContainerResourceArmPaginatedResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type ListModelVersionsRequestListViewType = "ActiveOnly" | "ArchivedOnly" | "All";
 export interface ListModelVersionsRequest {
@@ -5883,36 +5907,36 @@ export interface ListModelVersionsRequest {
   /** Container name. This is case-sensitive. */
   name: string;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
   /** Ordering of list. */
-  _orderBy?: string;
+  _orderBy?: string | undefined;
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Model version. */
-  version?: string;
+  version?: string | undefined;
   /** Model description. */
-  description?: string;
+  description?: string | undefined;
   /** Number of initial results to skip. */
-  offset?: number;
+  offset?: number | undefined;
   /** Comma-separated list of tag names (and optionally values). Example: tag1,tag2=value2 */
-  tags?: string;
+  tags?: string | undefined;
   /** Comma-separated list of property names (and optionally values). Example: prop1,prop2=value2 */
-  properties?: string;
+  properties?: string | undefined;
   /** Name of the feed. */
-  feed?: string;
+  feed?: string | undefined;
   /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListModelVersionsRequestListViewType | (string & {});
+  listViewType?: ListModelVersionsRequestListViewType | (string & {}) | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface ModelVersion {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: ModelVersionProperties;
 }
@@ -5923,7 +5947,7 @@ export interface ModelVersionResourceArmPaginatedResult {
   /** The ModelVersion items on this page */
   value: ModelVersionResourceArmPaginatedResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOnlineDeploymentsRequest {
   /** The ID of the target subscription. */
@@ -5935,11 +5959,11 @@ export interface ListOnlineDeploymentsRequest {
   /** Online Endpoint name. */
   endpointName: string;
   /** Ordering of list. */
-  _orderBy?: string;
+  _orderBy?: string | undefined;
   /** Top of list. */
-  _top?: number;
+  _top?: number | undefined;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
 }
 /** Resource tags. */
 export type OnlineDeploymentTagsMap = { [key: string]: string | undefined };
@@ -5950,25 +5974,25 @@ export type OnlineDeploymentSku = BatchDeploymentsCreateOrUpdateResponseSku;
 /** Concrete tracked resource types can be created by aliasing this type using a specific property type. */
 export interface OnlineDeployment {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: OnlineDeploymentTagsMap;
+  tags?: OnlineDeploymentTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: OnlineDeploymentProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
 }
 /** The OnlineDeployment items on this page */
 export type OnlineDeploymentTrackedResourceArmPaginatedResultValueList = Array<OnlineDeployment>;
@@ -5977,7 +6001,7 @@ export interface OnlineDeploymentTrackedResourceArmPaginatedResult {
   /** The OnlineDeployment items on this page */
   value: OnlineDeploymentTrackedResourceArmPaginatedResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOnlineDeploymentSkusRequest {
   /** The ID of the target subscription. */
@@ -5991,22 +6015,22 @@ export interface ListOnlineDeploymentSkusRequest {
   /** Inference Endpoint Deployment name. */
   deploymentName: string;
   /** Number of Skus to be retrieved in a page of results. */
-  count?: number;
+  count?: number | undefined;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
 }
 /** Node scaling setting for the compute sku. */
 export type SkuCapacityScaleType = "Automatic" | "Manual" | "None";
 /** SKU capacity information */
 export interface SkuCapacity {
   /** Gets or sets the default capacity. */
-  default?: number;
+  default?: number | undefined;
   /** Gets or sets the maximum. */
-  maximum?: number;
+  maximum?: number | undefined;
   /** Gets or sets the minimum. */
-  minimum?: number;
+  minimum?: number | undefined;
   /** Node scaling setting for the compute sku. */
-  scaleType?: SkuCapacityScaleType;
+  scaleType?: SkuCapacityScaleType | undefined;
 }
 /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
 export type SkuSettingTier = "Free" | "Basic" | "Standard" | "Premium";
@@ -6015,16 +6039,16 @@ export interface SkuSetting {
   /** [Required] The name of the SKU. Ex - P3. It is typically a letter+number code. */
   name: string;
   /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
-  tier?: SkuSettingTier;
+  tier?: SkuSettingTier | undefined;
 }
 /** Fulfills ARM Contract requirement to list all available SKUS for a resource. */
 export interface SkuResource {
   /** Gets or sets the Sku Capacity. */
-  capacity?: SkuCapacity | null;
+  capacity?: SkuCapacity | null | undefined;
   /** The resource type name. */
-  resourceType?: string | null;
+  resourceType?: string | null | undefined;
   /** Gets or sets the Sku. */
-  sku?: SkuSetting | null;
+  sku?: SkuSetting | null | undefined;
 }
 /** The SkuResource items on this page */
 export type SkuResourceArmPaginatedResultValueList = Array<SkuResource>;
@@ -6033,7 +6057,7 @@ export interface SkuResourceArmPaginatedResult {
   /** The SkuResource items on this page */
   value: SkuResourceArmPaginatedResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOnlineEndpointKeysRequest {
   /** The ID of the target subscription. */
@@ -6059,19 +6083,19 @@ export interface ListOnlineEndpointsRequest {
   /** Azure Machine Learning Workspace Name */
   workspaceName: string;
   /** Name of the endpoint. */
-  name?: string;
+  name?: string | undefined;
   /** Number of endpoints to be retrieved in a page of results. */
-  count?: number;
+  count?: number | undefined;
   /** EndpointComputeType to be filtered by. */
-  computeType?: ListOnlineEndpointsRequestComputeType | (string & {});
+  computeType?: ListOnlineEndpointsRequestComputeType | (string & {}) | undefined;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
   /** A set of tags with which to filter the returned models. It is a comma separated string of tags key or tags key=value. Example: tagKey1,tagKey2,tagKey3=value3 . */
-  tags?: string;
+  tags?: string | undefined;
   /** A set of properties with which to filter the returned models. It is a comma separated string of properties key and/or properties key=value Example: propKey1,propKey2,propKey3=value3 . */
-  properties?: string;
+  properties?: string | undefined;
   /** The option to order the response. */
-  orderBy?: ListOnlineEndpointsRequestOrderBy | (string & {});
+  orderBy?: ListOnlineEndpointsRequestOrderBy | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type OnlineEndpointTagsMap = { [key: string]: string | undefined };
@@ -6082,25 +6106,25 @@ export type OnlineEndpointSku = BatchDeploymentsCreateOrUpdateResponseSku;
 /** Concrete tracked resource types can be created by aliasing this type using a specific property type. */
 export interface OnlineEndpoint {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: OnlineEndpointTagsMap;
+  tags?: OnlineEndpointTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: OnlineEndpointProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
 }
 /** The OnlineEndpoint items on this page */
 export type OnlineEndpointTrackedResourceArmPaginatedResultValueList = Array<OnlineEndpoint>;
@@ -6109,19 +6133,19 @@ export interface OnlineEndpointTrackedResourceArmPaginatedResult {
   /** The OnlineEndpoint items on this page */
   value: OnlineEndpointTrackedResourceArmPaginatedResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -6130,23 +6154,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. */
@@ -6161,8 +6185,8 @@ export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpoint
 /** List of private endpoint connection associated with the specified workspace */
 export interface PrivateEndpointConnectionListResult {
   /** Array of private endpoint connections */
-  value?: PrivateEndpointConnectionListResultValueList;
-  nextLink?: string;
+  value?: PrivateEndpointConnectionListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourcesRequest {
   /** The ID of the target subscription. */
@@ -6181,11 +6205,11 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource Private link DNS zone name. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 /** The resource model definition representing SKU */
 export type PrivateLinkResourceSku = BatchDeploymentsCreateOrUpdateResponseSku;
@@ -6193,30 +6217,30 @@ export type PrivateLinkResourceTagsMap = { [key: string]: string | undefined };
 /** A private link resource */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
   /** Same as workspace location. */
-  location?: string;
+  location?: string | undefined;
   /** Properties of a private link resource. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
-  tags?: PrivateLinkResourceTagsMap;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
+  tags?: PrivateLinkResourceTagsMap | undefined;
 }
 /** A list of private link resources */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
 /** A list of private link resources */
 export interface PrivateLinkResourceListResult {
   /** A list of private link resources */
-  value?: PrivateLinkResourceListResultValueList;
-  nextLink?: string;
+  value?: PrivateLinkResourceListResultValueList | undefined;
+  nextLink?: string | undefined;
 }
 export interface ListQuotasRequest {
   /** The ID of the target subscription. */
@@ -6227,26 +6251,26 @@ export interface ListQuotasRequest {
 /** The Resource Name. */
 export interface ResourceName {
   /** The name of the resource. */
-  value?: string;
+  value?: string | undefined;
   /** The localized name of the resource. */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
 }
 /** An enum describing the unit of quota measurement. */
 export type QuotaUnit = "Count";
 /** The quota assigned to a resource. */
 export interface ResourceQuota {
   /** Specifies the resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Region of the AML workspace in the id. */
-  amlWorkspaceLocation?: string;
+  amlWorkspaceLocation?: string | undefined;
   /** Specifies the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Name of the resource. */
-  name?: ResourceName;
+  name?: ResourceName | undefined;
   /** The maximum permitted quota of the resource. */
-  limit?: number;
+  limit?: number | undefined;
   /** An enum describing the unit of quota measurement. */
-  unit?: QuotaUnit;
+  unit?: QuotaUnit | undefined;
 }
 /** The ResourceQuota items on this page */
 export type ListWorkspaceQuotasValueList = Array<ResourceQuota>;
@@ -6255,7 +6279,7 @@ export interface ListWorkspaceQuotas {
   /** The ResourceQuota items on this page */
   value: ListWorkspaceQuotasValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRegistriesRequest {
   /** The ID of the target subscription. */
@@ -6272,25 +6296,25 @@ export type RegistrySku = BatchDeploymentsCreateOrUpdateResponseSku;
 /** Concrete tracked resource types can be created by aliasing this type using a specific property type. */
 export interface Registry {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: RegistryTagsMap;
+  tags?: RegistryTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: RegistryProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
 }
 /** The Registry items on this page */
 export type RegistryTrackedResourceArmPaginatedResultValueList = Array<Registry>;
@@ -6299,7 +6323,7 @@ export interface RegistryTrackedResourceArmPaginatedResult {
   /** The Registry items on this page */
   value: RegistryTrackedResourceArmPaginatedResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRegistryBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -6313,7 +6337,7 @@ export interface ListRegistryCodeContainersRequest {
   /** Name of Azure Machine Learning registry. This is case-insensitive */
   registryName: string;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
 }
 export interface ListRegistryCodeVersionsRequest {
   /** The ID of the target subscription. */
@@ -6325,11 +6349,11 @@ export interface ListRegistryCodeVersionsRequest {
   /** Container name. */
   codeName: string;
   /** Ordering of list. */
-  _orderBy?: string;
+  _orderBy?: string | undefined;
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
 }
 export interface ListRegistryComponentContainersRequest {
   /** The ID of the target subscription. */
@@ -6339,7 +6363,7 @@ export interface ListRegistryComponentContainersRequest {
   /** Name of Azure Machine Learning registry. This is case-insensitive */
   registryName: string;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
 }
 export interface ListRegistryComponentVersionsRequest {
   /** The ID of the target subscription. */
@@ -6351,11 +6375,11 @@ export interface ListRegistryComponentVersionsRequest {
   /** Container name. */
   componentName: string;
   /** Ordering of list. */
-  _orderBy?: string;
+  _orderBy?: string | undefined;
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
 }
 export type ListRegistryDataContainersRequestListViewType = "ActiveOnly" | "ArchivedOnly" | "All";
 export interface ListRegistryDataContainersRequest {
@@ -6366,9 +6390,9 @@ export interface ListRegistryDataContainersRequest {
   /** Name of Azure Machine Learning registry. This is case-insensitive */
   registryName: string;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
   /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListRegistryDataContainersRequestListViewType | (string & {});
+  listViewType?: ListRegistryDataContainersRequestListViewType | (string & {}) | undefined;
 }
 export type ListRegistryDataVersionsRequestListViewType = "ActiveOnly" | "ArchivedOnly" | "All";
 export interface ListRegistryDataVersionsRequest {
@@ -6381,15 +6405,15 @@ export interface ListRegistryDataVersionsRequest {
   /** Container name. */
   name: string;
   /** Please choose OrderBy value from ['createdtime', 'modifiedtime'] */
-  _orderBy?: string;
+  _orderBy?: string | undefined;
   /** Top count of results, top count cannot be greater than the page size. If topCount > page size, results with be default page size count will be returned */
-  _top?: number;
+  _top?: number | undefined;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
   /** Comma-separated list of tag names (and optionally values). Example: tag1,tag2=value2 */
-  _tags?: string;
+  _tags?: string | undefined;
   /** [ListViewType.ActiveOnly, ListViewType.ArchivedOnly, ListViewType.All]View type for including/excluding (for example) archived entities. */
-  listViewType?: ListRegistryDataVersionsRequestListViewType | (string & {});
+  listViewType?: ListRegistryDataVersionsRequestListViewType | (string & {}) | undefined;
 }
 export type ListRegistryEnvironmentContainersRequestListViewType =
   | "ActiveOnly"
@@ -6403,9 +6427,9 @@ export interface ListRegistryEnvironmentContainersRequest {
   /** Name of Azure Machine Learning registry. This is case-insensitive */
   registryName: string;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
   /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListRegistryEnvironmentContainersRequestListViewType | (string & {});
+  listViewType?: ListRegistryEnvironmentContainersRequestListViewType | (string & {}) | undefined;
 }
 export type ListRegistryEnvironmentVersionsRequestListViewType =
   | "ActiveOnly"
@@ -6421,13 +6445,13 @@ export interface ListRegistryEnvironmentVersionsRequest {
   /** Container name. This is case-sensitive. */
   environmentName: string;
   /** Ordering of list. */
-  _orderBy?: string;
+  _orderBy?: string | undefined;
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
   /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListRegistryEnvironmentVersionsRequestListViewType | (string & {});
+  listViewType?: ListRegistryEnvironmentVersionsRequestListViewType | (string & {}) | undefined;
 }
 export type ListRegistryModelContainersRequestListViewType = "ActiveOnly" | "ArchivedOnly" | "All";
 export interface ListRegistryModelContainersRequest {
@@ -6438,9 +6462,9 @@ export interface ListRegistryModelContainersRequest {
   /** Name of Azure Machine Learning registry. This is case-insensitive */
   registryName: string;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
   /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListRegistryModelContainersRequestListViewType | (string & {});
+  listViewType?: ListRegistryModelContainersRequestListViewType | (string & {}) | undefined;
 }
 export type ListRegistryModelVersionsRequestListViewType = "ActiveOnly" | "ArchivedOnly" | "All";
 export interface ListRegistryModelVersionsRequest {
@@ -6453,21 +6477,21 @@ export interface ListRegistryModelVersionsRequest {
   /** Container name. This is case-sensitive. */
   modelName: string;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
   /** Ordering of list. */
-  _orderBy?: string;
+  _orderBy?: string | undefined;
   /** Maximum number of records to return. */
-  _top?: number;
+  _top?: number | undefined;
   /** Version identifier. */
-  version?: string;
+  version?: string | undefined;
   /** Model description. */
-  description?: string;
+  description?: string | undefined;
   /** Comma-separated list of tag names (and optionally values). Example: tag1,tag2=value2 */
-  tags?: string;
+  tags?: string | undefined;
   /** Comma-separated list of property names (and optionally values). Example: prop1,prop2=value2 */
-  properties?: string;
+  properties?: string | undefined;
   /** View type for including/excluding (for example) archived entities. */
-  listViewType?: ListRegistryModelVersionsRequestListViewType | (string & {});
+  listViewType?: ListRegistryModelVersionsRequestListViewType | (string & {}) | undefined;
 }
 export type ListSchedulesRequestListViewType = "EnabledOnly" | "DisabledOnly" | "All";
 export interface ListSchedulesRequest {
@@ -6478,20 +6502,20 @@ export interface ListSchedulesRequest {
   /** Azure Machine Learning Workspace Name */
   workspaceName: string;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
   /** Status filter for schedule. */
-  listViewType?: ListSchedulesRequestListViewType | (string & {});
+  listViewType?: ListSchedulesRequestListViewType | (string & {}) | undefined;
 }
 /** Azure Resource Manager resource envelope. */
 export interface Schedule {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: ScheduleProperties;
 }
@@ -6502,7 +6526,7 @@ export interface ScheduleResourceArmPaginatedResult {
   /** The Schedule items on this page */
   value: ScheduleResourceArmPaginatedResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListServerlessEndpointKeysRequest {
   /** The ID of the target subscription. */
@@ -6522,7 +6546,7 @@ export interface ListServerlessEndpointsRequest {
   /** Azure Machine Learning Workspace Name */
   workspaceName: string;
   /** Continuation token for pagination. */
-  _skip?: string;
+  _skip?: string | undefined;
 }
 /** Resource tags. */
 export type ServerlessEndpointTagsMap = { [key: string]: string | undefined };
@@ -6533,25 +6557,25 @@ export type ServerlessEndpointSku = BatchDeploymentsCreateOrUpdateResponseSku;
 /** Concrete tracked resource types can be created by aliasing this type using a specific property type. */
 export interface ServerlessEndpoint {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ServerlessEndpointTagsMap;
+  tags?: ServerlessEndpointTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: ServerlessEndpointProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
 }
 /** The ServerlessEndpoint items on this page */
 export type ServerlessEndpointTrackedResourceArmPaginatedResultValueList =
@@ -6561,7 +6585,7 @@ export interface ServerlessEndpointTrackedResourceArmPaginatedResult {
   /** The ServerlessEndpoint items on this page */
   value: ServerlessEndpointTrackedResourceArmPaginatedResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListUsagesRequest {
   /** The ID of the target subscription. */
@@ -6576,19 +6600,19 @@ export type UsageName = ResourceName;
 /** Describes AML Resource Usage. */
 export interface Usage {
   /** Specifies the resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Region of the AML workspace in the id. */
-  amlWorkspaceLocation?: string;
+  amlWorkspaceLocation?: string | undefined;
   /** Specifies the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** An enum describing the unit of usage measurement. */
-  unit?: UsageUnit;
+  unit?: UsageUnit | undefined;
   /** The current usage of the resource. */
-  currentValue?: number;
+  currentValue?: number | undefined;
   /** The maximum permitted usage of the resource. */
-  limit?: number;
+  limit?: number | undefined;
   /** The name of the type of usage. */
-  name?: ResourceName;
+  name?: ResourceName | undefined;
 }
 /** The Usage items on this page */
 export type ListUsagesResultValueList = Array<Usage>;
@@ -6597,7 +6621,7 @@ export interface ListUsagesResult {
   /** The Usage items on this page */
   value: ListUsagesResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListVirtualMachineSizesRequest {
   /** The ID of the target subscription. */
@@ -6638,34 +6662,34 @@ export type VirtualMachineSizeSupportedComputeTypesList = Array<string>;
 /** Describes the properties of a VM size. */
 export interface VirtualMachineSize {
   /** The name of the virtual machine size. */
-  name?: string;
+  name?: string | undefined;
   /** The family name of the virtual machine size. */
-  family?: string;
+  family?: string | undefined;
   /** The number of vCPUs supported by the virtual machine size. */
-  vCPUs?: number;
+  vCPUs?: number | undefined;
   /** The number of gPUs supported by the virtual machine size. */
-  gpus?: number;
+  gpus?: number | undefined;
   /** The OS VHD disk size, in MB, allowed by the virtual machine size. */
-  osVhdSizeMB?: number;
+  osVhdSizeMB?: number | undefined;
   /** The resource volume size, in MB, allowed by the virtual machine size. */
-  maxResourceVolumeMB?: number;
+  maxResourceVolumeMB?: number | undefined;
   /** The amount of memory, in GB, supported by the virtual machine size. */
-  memoryGB?: number;
+  memoryGB?: number | undefined;
   /** Specifies if the virtual machine size supports low priority VMs. */
-  lowPriorityCapable?: boolean;
+  lowPriorityCapable?: boolean | undefined;
   /** Specifies if the virtual machine size supports premium IO. */
-  premiumIO?: boolean;
+  premiumIO?: boolean | undefined;
   /** The estimated price information for using a VM. */
-  estimatedVMPrices?: EstimatedVMPrices;
+  estimatedVMPrices?: EstimatedVMPrices | undefined;
   /** Specifies the compute types supported by the virtual machine size. */
-  supportedComputeTypes?: VirtualMachineSizeSupportedComputeTypesList;
+  supportedComputeTypes?: VirtualMachineSizeSupportedComputeTypesList | undefined;
 }
 /** The list of virtual machine sizes supported by AmlCompute. */
 export type VirtualMachineSizeListResultValueList = Array<VirtualMachineSize>;
 /** The List Virtual Machine size operation response. */
 export interface VirtualMachineSizeListResult {
   /** The list of virtual machine sizes supported by AmlCompute. */
-  value?: VirtualMachineSizeListResultValueList;
+  value?: VirtualMachineSizeListResultValueList | undefined;
 }
 export interface ListWorkspaceByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -6673,10 +6697,10 @@ export interface ListWorkspaceByResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** Kind of workspace. */
-  kind?: string;
+  kind?: string | undefined;
   /** Continuation token for pagination. */
-  _skip?: string;
-  aiCapabilities?: string;
+  _skip?: string | undefined;
+  aiCapabilities?: string | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type WorkspaceIdentity = BatchDeploymentsCreateOrUpdateResponseIdentity;
@@ -6686,22 +6710,22 @@ export type WorkspaceTagsMap = { [key: string]: string | undefined };
 /** An object that represents a machine learning workspace. */
 export interface Workspace {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Additional attributes of the entity. */
   properties: WorkspaceProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
-  kind?: string;
-  location?: string;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
+  kind?: string | undefined;
+  location?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
-  tags?: WorkspaceTagsMap;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
+  tags?: WorkspaceTagsMap | undefined;
 }
 /** The Workspace items on this page */
 export type WorkspaceListResultValueList = Array<Workspace>;
@@ -6710,16 +6734,16 @@ export interface WorkspaceListResult {
   /** The Workspace items on this page */
   value: WorkspaceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** Kind of workspace. */
-  kind?: string;
+  kind?: string | undefined;
   /** Continuation token for pagination. */
-  _skip?: string;
-  aiCapabilities?: string;
+  _skip?: string | undefined;
+  aiCapabilities?: string | undefined;
 }
 export interface ListWorkspaceConnectionsRequest {
   /** The ID of the target subscription. */
@@ -6729,22 +6753,22 @@ export interface ListWorkspaceConnectionsRequest {
   /** Azure Machine Learning Workspace Name */
   workspaceName: string;
   /** Target of the workspace connection. */
-  target?: string;
+  target?: string | undefined;
   /** Category of the workspace connection. */
-  category?: string;
+  category?: string | undefined;
   /** query parameter that indicates if get connection call should return both connections and datastores */
-  includeAll?: boolean;
+  includeAll?: boolean | undefined;
 }
 /** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
 export interface WorkspaceConnectionPropertiesV2BasicResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   properties: WorkspaceConnectionPropertiesV2;
 }
 /** The WorkspaceConnectionPropertiesV2BasicResource items on this page */
@@ -6755,7 +6779,7 @@ export interface WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult 
   /** The WorkspaceConnectionPropertiesV2BasicResource items on this page */
   value: WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceConnectionSecretsRequest {
   /** The ID of the target subscription. */
@@ -6769,13 +6793,13 @@ export interface ListWorkspaceConnectionSecretsRequest {
 }
 export interface ListWorkspaceConnectionSecretsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   properties: WorkspaceConnectionPropertiesV2;
 }
 export interface ListWorkspaceFeaturesRequest {
@@ -6789,11 +6813,11 @@ export interface ListWorkspaceFeaturesRequest {
 /** Features enabled for a workspace */
 export interface AmlUserFeature {
   /** Specifies the feature ID */
-  id?: string;
+  id?: string | undefined;
   /** Specifies the feature name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Describes the feature for user experience */
-  description?: string;
+  description?: string | undefined;
 }
 /** The AmlUserFeature items on this page */
 export type ListAmlUserFeatureResultValueList = Array<AmlUserFeature>;
@@ -6802,7 +6826,7 @@ export interface ListAmlUserFeatureResult {
   /** The AmlUserFeature items on this page */
   value: ListAmlUserFeatureResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceKeysRequest {
   /** The ID of the target subscription. */
@@ -6813,32 +6837,32 @@ export interface ListWorkspaceKeysRequest {
   workspaceName: string;
 }
 export interface Password {
-  name?: string;
-  value?: string;
+  name?: string | undefined;
+  value?: string | undefined;
 }
 export type RegistryListCredentialsResultPasswordsList = Array<Password>;
 export interface RegistryListCredentialsResult {
   /** The location of the workspace ACR */
-  location?: string;
-  passwords?: RegistryListCredentialsResultPasswordsList;
+  location?: string | undefined;
+  passwords?: RegistryListCredentialsResultPasswordsList | undefined;
   /** The username of the workspace ACR */
-  username?: string;
+  username?: string | undefined;
 }
 export interface ListNotebookKeysResult {
   /** The primary access key of the Notebook */
-  primaryAccessKey?: string;
+  primaryAccessKey?: string | undefined;
   /** The secondary access key of the Notebook */
-  secondaryAccessKey?: string;
+  secondaryAccessKey?: string | undefined;
 }
 export interface ListWorkspaceKeysResult {
   /** The access key of the workspace app insights */
-  appInsightsInstrumentationKey?: string;
-  containerRegistryCredentials?: RegistryListCredentialsResult;
-  notebookAccessKeys?: ListNotebookKeysResult;
+  appInsightsInstrumentationKey?: string | undefined;
+  containerRegistryCredentials?: RegistryListCredentialsResult | undefined;
+  notebookAccessKeys?: ListNotebookKeysResult | undefined;
   /** The arm Id key of the workspace storage */
-  userStorageArmId?: string;
+  userStorageArmId?: string | undefined;
   /** The access key of the workspace storage */
-  userStorageKey?: string;
+  userStorageKey?: string | undefined;
 }
 export interface ListWorkspaceNotebookAccessTokenRequest {
   /** The ID of the target subscription. */
@@ -6849,14 +6873,14 @@ export interface ListWorkspaceNotebookAccessTokenRequest {
   workspaceName: string;
 }
 export interface NotebookAccessTokenResult {
-  accessToken?: string | Redacted.Redacted<string>;
-  expiresIn?: number;
-  hostName?: string;
-  notebookResourceId?: string;
-  publicDns?: string;
-  refreshToken?: string | Redacted.Redacted<string>;
-  scope?: string;
-  tokenType?: string;
+  accessToken?: string | Redacted.Redacted<string> | undefined;
+  expiresIn?: number | undefined;
+  hostName?: string | undefined;
+  notebookResourceId?: string | undefined;
+  publicDns?: string | undefined;
+  refreshToken?: string | Redacted.Redacted<string> | undefined;
+  scope?: string | undefined;
+  tokenType?: string | undefined;
 }
 export interface ListWorkspaceNotebookKeysRequest {
   /** The ID of the target subscription. */
@@ -6875,25 +6899,25 @@ export interface ListWorkspaceOutboundNetworkDependenciesEndpointsRequest {
   workspaceName: string;
 }
 export interface FQDNEndpointDetail {
-  port?: number;
+  port?: number | undefined;
 }
 export type FQDNEndpointEndpointDetailsList = Array<FQDNEndpointDetail>;
 export interface FQDNEndpoint {
-  domainName?: string;
-  endpointDetails?: FQDNEndpointEndpointDetailsList;
+  domainName?: string | undefined;
+  endpointDetails?: FQDNEndpointEndpointDetailsList | undefined;
 }
 export type FQDNEndpointsEndpointsList = Array<FQDNEndpoint>;
 export interface FQDNEndpoints {
-  category?: string;
-  endpoints?: FQDNEndpointsEndpointsList;
+  category?: string | undefined;
+  endpoints?: FQDNEndpointsEndpointsList | undefined;
 }
 /** Property bag for FQDN endpoints result */
 export interface FQDNEndpointsPropertyBag {
-  properties?: FQDNEndpoints;
+  properties?: FQDNEndpoints | undefined;
 }
 export type ExternalFQDNResponseValueList = Array<FQDNEndpointsPropertyBag>;
 export interface ExternalFQDNResponse {
-  value?: ExternalFQDNResponseValueList;
+  value?: ExternalFQDNResponseValueList | undefined;
 }
 export interface ListWorkspaceStorageAccountKeysRequest {
   /** The ID of the target subscription. */
@@ -6905,18 +6929,18 @@ export interface ListWorkspaceStorageAccountKeysRequest {
 }
 export interface ListStorageAccountKeysResult {
   /** The access key of the storage */
-  userStorageKey?: string;
+  userStorageKey?: string | undefined;
 }
 /** Outbound Rule for the managed network of a machine learning workspace. */
 export interface OutboundRuleInput {
   /** Category of a managed network Outbound Rule of a machine learning workspace. */
-  category?: RuleCategory | (string & {});
+  category?: RuleCategory | (string & {}) | undefined;
   /** Type of a managed network Outbound Rule of a machine learning workspace. */
-  status?: RuleStatus | (string & {});
+  status?: RuleStatus | (string & {}) | undefined;
   /** Type of a managed network Outbound Rule of a machine learning workspace. */
   type: RuleType | (string & {});
   /** FQDN: the host name; PrivateEndpoint: {serviceResourceId, subresourceTarget, sparkEnabled}; ServiceTag: {serviceTag, protocol, portRanges, action}. */
-  destination?: unknown;
+  destination?: unknown | undefined;
 }
 export interface ManagedNetworkSettingsRuleCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -6932,19 +6956,19 @@ export interface ManagedNetworkSettingsRuleCreateOrUpdateRequest {
 }
 export interface ManagedNetworkSettingsRuleCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Outbound Rule for the managed network of a machine learning workspace. */
   properties: OutboundRule;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface MarketplaceSubscriptionPropertiesInput {
   /** [Required] Target Marketplace Model ID to create a Marketplace Subscription for. */
@@ -6964,17 +6988,17 @@ export interface MarketplaceSubscriptionsCreateOrUpdateRequest {
 }
 export interface MarketplaceSubscriptionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: MarketplaceSubscriptionProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** The asset property dictionary. */
 export type ModelContainerPropertiesInputPropertiesMap = {
@@ -6984,13 +7008,13 @@ export type ModelContainerPropertiesInputPropertiesMap = {
 export type ModelContainerPropertiesInputTagsMap = { [key: string]: string | null | undefined };
 export interface ModelContainerPropertiesInput {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: ModelContainerPropertiesInputPropertiesMap | null;
+  properties?: ModelContainerPropertiesInputPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: ModelContainerPropertiesInputTagsMap | null;
+  tags?: ModelContainerPropertiesInputTagsMap | null | undefined;
   /** Is the asset archived? */
-  isArchived?: boolean;
+  isArchived?: boolean | undefined;
 }
 export interface ModelContainersCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -7006,13 +7030,13 @@ export interface ModelContainersCreateOrUpdateRequest {
 }
 export interface ModelContainersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: ModelContainerProperties;
 }
@@ -7029,27 +7053,27 @@ export type ModelVersionPropertiesInputDatasetsList = Array<DatasetReference>;
 /** Model asset version details. */
 export interface ModelVersionPropertiesInput {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: ModelVersionPropertiesInputPropertiesMap | null;
+  properties?: ModelVersionPropertiesInputPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: ModelVersionPropertiesInputTagsMap | null;
+  tags?: ModelVersionPropertiesInputTagsMap | null | undefined;
   /** If the name version are system generated (anonymous registration). */
-  isAnonymous?: boolean;
+  isAnonymous?: boolean | undefined;
   /** Is the asset archived? */
-  isArchived?: boolean;
+  isArchived?: boolean | undefined;
   /** Mapping of model flavors to their properties. */
-  flavors?: ModelVersionPropertiesInputFlavorsMap | null;
+  flavors?: ModelVersionPropertiesInputFlavorsMap | null | undefined;
   /** Name of the training job which produced this model */
-  jobName?: string | null;
+  jobName?: string | null | undefined;
   /** The storage format for this entity. Used for NCD. */
-  modelType?: string | null;
+  modelType?: string | null | undefined;
   /** The URI path to the model contents. */
-  modelUri?: string | null;
+  modelUri?: string | null | undefined;
   /** Stage in the model lifecycle assigned to this model */
-  stage?: string | null;
+  stage?: string | null | undefined;
   /** Array of dataset references */
-  datasets?: ModelVersionPropertiesInputDatasetsList | null;
+  datasets?: ModelVersionPropertiesInputDatasetsList | null | undefined;
 }
 export interface ModelVersionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -7067,13 +7091,13 @@ export interface ModelVersionsCreateOrUpdateRequest {
 }
 export interface ModelVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: ModelVersionProperties;
 }
@@ -7091,41 +7115,42 @@ export type OnlineDeploymentPropertiesInputPropertiesMap = {
 export type OnlineDeploymentPropertiesInputEgressPublicNetworkAccess = "Enabled" | "Disabled";
 export interface OnlineDeploymentPropertiesInput {
   /** Code configuration for the endpoint deployment. */
-  codeConfiguration?: CodeConfiguration | null;
+  codeConfiguration?: CodeConfiguration | null | undefined;
   /** Description of the endpoint deployment. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** ARM resource ID or AssetId of the environment specification for the endpoint deployment. */
-  environmentId?: string | null;
+  environmentId?: string | null | undefined;
   /** Environment variables configuration for the deployment. */
-  environmentVariables?: OnlineDeploymentPropertiesInputEnvironmentVariablesMap | null;
+  environmentVariables?: OnlineDeploymentPropertiesInputEnvironmentVariablesMap | null | undefined;
   /** Property dictionary. Properties can be added, but not removed or altered. */
-  properties?: OnlineDeploymentPropertiesInputPropertiesMap | null;
+  properties?: OnlineDeploymentPropertiesInputPropertiesMap | null | undefined;
   /** If true, enables Application Insights logging. */
-  appInsightsEnabled?: boolean;
+  appInsightsEnabled?: boolean | undefined;
   /** The mdc configuration, we disable mdc when it's null. */
-  dataCollector?: DataCollector | null;
+  dataCollector?: DataCollector | null | undefined;
   /** Enum to determine whether PublicNetworkAccess is Enabled or Disabled for egress of a deployment. */
   egressPublicNetworkAccess?:
     | OnlineDeploymentPropertiesInputEgressPublicNetworkAccess
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** [Required] The compute type of the endpoint. */
   endpointComputeType: EndpointComputeType | (string & {});
   /** Compute instance type. Default: Standard_F4s_v2. */
-  instanceType?: string | null;
+  instanceType?: string | null | undefined;
   /** Liveness probe monitors the health of the container regularly. */
-  livenessProbe?: ProbeSettings | null;
+  livenessProbe?: ProbeSettings | null | undefined;
   /** The URI path to the model. */
-  model?: string | null;
+  model?: string | null | undefined;
   /** The path to mount the model in custom container. */
-  modelMountPath?: string | null;
+  modelMountPath?: string | null | undefined;
   /** Readiness probe validates if the container is ready to serve traffic. The properties and defaults are the same as liveness probe. */
-  readinessProbe?: ProbeSettings | null;
+  readinessProbe?: ProbeSettings | null | undefined;
   /** Request settings for the deployment. */
-  requestSettings?: OnlineRequestSettings | null;
+  requestSettings?: OnlineRequestSettings | null | undefined;
   /** Scale settings for the deployment. If it is null or not provided, it defaults to TargetUtilizationScaleSettings for KubernetesOnlineDeployment and to DefaultScaleSettings for ManagedOnlineDeployment. */
-  scaleSettings?: OnlineScaleSettings | null;
+  scaleSettings?: OnlineScaleSettings | null | undefined;
   /** Startup probe verify whether an application within a container has started successfully. */
-  startupProbe?: ProbeSettings | null;
+  startupProbe?: ProbeSettings | null | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type OnlineDeploymentsCreateOrUpdateRequestIdentity =
@@ -7144,17 +7169,17 @@ export interface OnlineDeploymentsCreateOrUpdateRequest {
   /** Inference Endpoint Deployment name. */
   deploymentName: string;
   /** Resource tags. */
-  tags?: OnlineDeploymentsCreateOrUpdateRequestTagsMap;
+  tags?: OnlineDeploymentsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: OnlineDeploymentPropertiesInput;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateRequestIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateRequestIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateRequestSku;
+  sku?: BatchDeploymentsCreateOrUpdateRequestSku | undefined;
 }
 /** Resource tags. */
 export type OnlineDeploymentsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -7165,27 +7190,27 @@ export type OnlineDeploymentsCreateOrUpdateResponseIdentity =
 export type OnlineDeploymentsCreateOrUpdateResponseSku = BatchDeploymentsCreateOrUpdateResponseSku;
 export interface OnlineDeploymentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: OnlineDeploymentsCreateOrUpdateResponseTagsMap;
+  tags?: OnlineDeploymentsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: OnlineDeploymentProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** Resource tags. */
 export type OnlineEndpointsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -7204,19 +7229,22 @@ export interface OnlineEndpointPropertiesInput {
   /** [Required] The authentication method for invoking the endpoint (data plane operation). Use 'Key' for key-based authentication. Use 'AMLToken' for Azure Machine Learning token-based authentication. Use 'AADToken' for Microsoft Entra token-based authentication. */
   authMode: EndpointAuthMode | (string & {});
   /** Description of the inference endpoint. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** EndpointAuthKeys to set initially on an Endpoint. This property will always be returned as null. AuthKey values must be retrieved using the ListKeys API. */
-  keys?: EndpointAuthKeys | null;
+  keys?: EndpointAuthKeys | null | undefined;
   /** Property dictionary. Properties can be added, but not removed or altered. */
-  properties?: OnlineEndpointPropertiesInputPropertiesMap | null;
+  properties?: OnlineEndpointPropertiesInputPropertiesMap | null | undefined;
   /** ARM resource ID of the compute if it exists. optional */
-  compute?: string | null;
+  compute?: string | null | undefined;
   /** Percentage of traffic to be mirrored to each deployment without using returned scoring. Traffic values need to sum to utmost 50. */
-  mirrorTraffic?: OnlineEndpointPropertiesInputMirrorTrafficMap | null;
+  mirrorTraffic?: OnlineEndpointPropertiesInputMirrorTrafficMap | null | undefined;
   /** Enum to determine whether PublicNetworkAccess is Enabled or Disabled. */
-  publicNetworkAccess?: OnlineEndpointPropertiesInputPublicNetworkAccess | (string & {});
+  publicNetworkAccess?:
+    | OnlineEndpointPropertiesInputPublicNetworkAccess
+    | (string & {})
+    | undefined;
   /** Percentage of traffic from endpoint to divert to each deployment. Traffic values need to sum to 100. */
-  traffic?: OnlineEndpointPropertiesInputTrafficMap | null;
+  traffic?: OnlineEndpointPropertiesInputTrafficMap | null | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type OnlineEndpointsCreateOrUpdateRequestIdentity =
@@ -7233,17 +7261,17 @@ export interface OnlineEndpointsCreateOrUpdateRequest {
   /** Online Endpoint name. */
   endpointName: string;
   /** Resource tags. */
-  tags?: OnlineEndpointsCreateOrUpdateRequestTagsMap;
+  tags?: OnlineEndpointsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: OnlineEndpointPropertiesInput;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateRequestIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateRequestIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateRequestSku;
+  sku?: BatchDeploymentsCreateOrUpdateRequestSku | undefined;
 }
 /** Resource tags. */
 export type OnlineEndpointsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -7254,35 +7282,35 @@ export type OnlineEndpointsCreateOrUpdateResponseIdentity =
 export type OnlineEndpointsCreateOrUpdateResponseSku = BatchDeploymentsCreateOrUpdateResponseSku;
 export interface OnlineEndpointsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: OnlineEndpointsCreateOrUpdateResponseTagsMap;
+  tags?: OnlineEndpointsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: OnlineEndpointProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** The Private Endpoint resource. */
 export type WorkspacePrivateEndpointResourceInput = UserAssignedIdentityInput;
 /** Private endpoint connection properties. */
 export interface PrivateEndpointConnectionPropertiesInput {
-  privateEndpoint?: UserAssignedIdentityInput;
+  privateEndpoint?: UserAssignedIdentityInput | undefined;
   /** The connection state. */
-  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
+  privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type PrivateEndpointConnectionsCreateOrUpdateRequestIdentity =
@@ -7303,14 +7331,14 @@ export interface PrivateEndpointConnectionsCreateOrUpdateRequest {
   /** NRP Private Endpoint Connection Name */
   privateEndpointConnectionName: string;
   /** Private endpoint connection properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateRequestIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateRequestIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateRequestSku;
+  sku?: BatchDeploymentsCreateOrUpdateRequestSku | undefined;
   /** *Same as workspace location. */
-  location?: string;
-  tags?: PrivateEndpointConnectionsCreateOrUpdateRequestTagsMap;
+  location?: string | undefined;
+  tags?: PrivateEndpointConnectionsCreateOrUpdateRequestTagsMap | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type PrivateEndpointConnectionsCreateOrUpdateResponseIdentity =
@@ -7323,22 +7351,22 @@ export type PrivateEndpointConnectionsCreateOrUpdateResponseTagsMap = {
 };
 export interface PrivateEndpointConnectionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Private endpoint connection properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
   /** *Same as workspace location. */
-  location?: string;
-  tags?: PrivateEndpointConnectionsCreateOrUpdateResponseTagsMap;
+  location?: string | undefined;
+  tags?: PrivateEndpointConnectionsCreateOrUpdateResponseTagsMap | undefined;
 }
 export interface ProvisionManagedNetworkProvisionManagedNetworkRequest {
   /** The ID of the target subscription. */
@@ -7347,17 +7375,17 @@ export interface ProvisionManagedNetworkProvisionManagedNetworkRequest {
   resourceGroupName: string;
   /** Azure Machine Learning Workspace Name */
   workspaceName: string;
-  includeSpark?: boolean;
+  includeSpark?: boolean | undefined;
 }
 /** Status of the Provisioning for the managed network of a machine learning workspace. */
 export interface ProvisionManagedNetworkProvisionManagedNetworkResponse {
-  sparkReady?: boolean;
+  sparkReady?: boolean | undefined;
   /** Status for the managed network of a machine learning workspace. */
-  status?: ManagedNetworkStatus;
+  status?: ManagedNetworkStatus | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface PublishCodeVersionRequest {
   /** The ID of the target subscription. */
@@ -7371,17 +7399,17 @@ export interface PublishCodeVersionRequest {
   /** Version identifier. This is case-sensitive. */
   version: string;
   /** Destination asset name */
-  destinationName?: string | null;
+  destinationName?: string | null | undefined;
   /** Destination asset version */
-  destinationVersion?: string | null;
+  destinationVersion?: string | null | undefined;
   /** Destination registry name */
-  registryName?: string | null;
+  registryName?: string | null | undefined;
 }
 export interface PublishCodeVersionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface PublishComponentVersionRequest {
   /** The ID of the target subscription. */
@@ -7395,17 +7423,17 @@ export interface PublishComponentVersionRequest {
   /** Version identifier. */
   version: string;
   /** Destination asset name */
-  destinationName?: string | null;
+  destinationName?: string | null | undefined;
   /** Destination asset version */
-  destinationVersion?: string | null;
+  destinationVersion?: string | null | undefined;
   /** Destination registry name */
-  registryName?: string | null;
+  registryName?: string | null | undefined;
 }
 export interface PublishComponentVersionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface PublishDataVersionRequest {
   /** The ID of the target subscription. */
@@ -7419,17 +7447,17 @@ export interface PublishDataVersionRequest {
   /** Version identifier. */
   version: string;
   /** Destination asset name */
-  destinationName?: string | null;
+  destinationName?: string | null | undefined;
   /** Destination asset version */
-  destinationVersion?: string | null;
+  destinationVersion?: string | null | undefined;
   /** Destination registry name */
-  registryName?: string | null;
+  registryName?: string | null | undefined;
 }
 export interface PublishDataVersionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface PublishEnvironmentVersionRequest {
   /** The ID of the target subscription. */
@@ -7443,17 +7471,17 @@ export interface PublishEnvironmentVersionRequest {
   /** Version identifier. This is case-sensitive. */
   version: string;
   /** Destination asset name */
-  destinationName?: string | null;
+  destinationName?: string | null | undefined;
   /** Destination asset version */
-  destinationVersion?: string | null;
+  destinationVersion?: string | null | undefined;
   /** Destination registry name */
-  registryName?: string | null;
+  registryName?: string | null | undefined;
 }
 export interface PublishEnvironmentVersionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface PublishModelVersionRequest {
   /** The ID of the target subscription. */
@@ -7467,17 +7495,17 @@ export interface PublishModelVersionRequest {
   /** Version identifier. This is case-sensitive. */
   version: string;
   /** Destination asset name */
-  destinationName?: string | null;
+  destinationName?: string | null | undefined;
   /** Destination asset version */
-  destinationVersion?: string | null;
+  destinationVersion?: string | null | undefined;
   /** Destination registry name */
-  registryName?: string | null;
+  registryName?: string | null | undefined;
 }
 export interface PublishModelVersionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type KeyType = "Primary" | "Secondary";
 export interface RegenerateOnlineEndpointKeysRequest {
@@ -7492,13 +7520,13 @@ export interface RegenerateOnlineEndpointKeysRequest {
   /** [Required] Specification for which type of key to generate. Primary or Secondary. */
   keyType: KeyType | (string & {});
   /** The value the key is set to. */
-  keyValue?: string | null;
+  keyValue?: string | null | undefined;
 }
 export interface RegenerateOnlineEndpointKeysResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RegenerateServerlessEndpointKeysRequest {
   /** The ID of the target subscription. */
@@ -7512,18 +7540,18 @@ export interface RegenerateServerlessEndpointKeysRequest {
   /** [Required] Specification for which type of key to generate. Primary or Secondary. */
   keyType: KeyType | (string & {});
   /** The value the key is set to. */
-  keyValue?: string | null;
+  keyValue?: string | null | undefined;
 }
 /** Keys for endpoint authentication. */
 export interface RegenerateServerlessEndpointKeysResponse {
   /** The primary key. */
-  primaryKey?: string | null;
+  primaryKey?: string | null | undefined;
   /** The secondary key. */
-  secondaryKey?: string | null;
+  secondaryKey?: string | null | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type RegistriesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -7532,27 +7560,30 @@ export type RegistryPrivateEndpointConnectionPropertiesInputGroupIdsList = Array
 /** The PE network resource that is linked to this PE connection. */
 export interface PrivateEndpointResourceInput {
   /** The subnetId that the private endpoint is connected to. */
-  subnetArmId?: string | null;
+  subnetArmId?: string | null | undefined;
 }
 /** Properties of the Private Endpoint Connection */
 export interface RegistryPrivateEndpointConnectionPropertiesInput {
   /** The group ids */
-  groupIds?: RegistryPrivateEndpointConnectionPropertiesInputGroupIdsList | null;
+  groupIds?: RegistryPrivateEndpointConnectionPropertiesInputGroupIdsList | null | undefined;
   /** The PE network resource that is linked to this PE connection. */
-  privateEndpoint?: PrivateEndpointResourceInput | null;
+  privateEndpoint?: PrivateEndpointResourceInput | null | undefined;
   /** The connection state. */
-  registryPrivateLinkServiceConnectionState?: RegistryPrivateLinkServiceConnectionState | null;
+  registryPrivateLinkServiceConnectionState?:
+    | RegistryPrivateLinkServiceConnectionState
+    | null
+    | undefined;
   /** One of null, "Succeeded", "Provisioning", "Failed". While not approved, it's null. */
-  provisioningState?: string | null;
+  provisioningState?: string | null | undefined;
 }
 /** Private endpoint connection definition. */
 export interface RegistryPrivateEndpointConnectionInput {
   /** This is the private endpoint connection name created on SRP Full resource id: /subscriptions/{subId}/resourceGroups/{rgName}/providers/Microsoft.MachineLearningServices/{resourceType}/{resourceName}/registryPrivateEndpointConnections/{peConnectionName} */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Same as workspace location. */
-  location?: string | null;
+  location?: string | null | undefined;
   /** Properties of the Private Endpoint Connection */
-  properties?: RegistryPrivateEndpointConnectionPropertiesInput | null;
+  properties?: RegistryPrivateEndpointConnectionPropertiesInput | null | undefined;
 }
 /** Private endpoint connections info used for pending connections in private link portal */
 export type RegistryPropertiesInputRegistryPrivateEndpointConnectionsList =
@@ -7562,21 +7593,24 @@ export type RegistryPropertiesInputRegionDetailsList = Array<RegistryRegionArmDe
 /** Details of the Registry */
 export interface RegistryPropertiesInput {
   /** Discovery URL for the Registry */
-  discoveryUrl?: string | null;
+  discoveryUrl?: string | null | undefined;
   /** IntellectualPropertyPublisher for the registry */
-  intellectualPropertyPublisher?: string | null;
+  intellectualPropertyPublisher?: string | null | undefined;
   /** ResourceId of the managed RG if the registry has system created resources */
-  managedResourceGroup?: ArmResourceId | null;
+  managedResourceGroup?: ArmResourceId | null | undefined;
   /** Managed resource group specific settings */
-  managedResourceGroupSettings?: ManagedResourceGroupSettings | null;
+  managedResourceGroupSettings?: ManagedResourceGroupSettings | null | undefined;
   /** MLFlow Registry URI for the Registry */
-  mlFlowRegistryUri?: string | null;
+  mlFlowRegistryUri?: string | null | undefined;
   /** Private endpoint connections info used for pending connections in private link portal */
-  registryPrivateEndpointConnections?: RegistryPropertiesInputRegistryPrivateEndpointConnectionsList | null;
+  registryPrivateEndpointConnections?:
+    | RegistryPropertiesInputRegistryPrivateEndpointConnectionsList
+    | null
+    | undefined;
   /** Is the Registry accessible from the internet? Possible values: "Enabled" or "Disabled" */
-  publicNetworkAccess?: string | null;
+  publicNetworkAccess?: string | null | undefined;
   /** Details of each region the registry is in */
-  regionDetails?: RegistryPropertiesInputRegionDetailsList | null;
+  regionDetails?: RegistryPropertiesInputRegionDetailsList | null | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type RegistriesCreateOrUpdateRequestIdentity = BatchDeploymentsCreateOrUpdateRequestIdentity;
@@ -7590,17 +7624,17 @@ export interface RegistriesCreateOrUpdateRequest {
   /** Name of Azure Machine Learning registry. This is case-insensitive */
   registryName: string;
   /** Resource tags. */
-  tags?: RegistriesCreateOrUpdateRequestTagsMap;
+  tags?: RegistriesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: RegistryPropertiesInput;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateRequestIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateRequestIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateRequestSku;
+  sku?: BatchDeploymentsCreateOrUpdateRequestSku | undefined;
 }
 /** Resource tags. */
 export type RegistriesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -7611,29 +7645,29 @@ export type RegistriesCreateOrUpdateResponseIdentity =
 export type RegistriesCreateOrUpdateResponseSku = BatchDeploymentsCreateOrUpdateResponseSku;
 export interface RegistriesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: RegistriesCreateOrUpdateResponseTagsMap;
+  tags?: RegistriesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: RegistryProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RegistryCodeContainersCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -7649,17 +7683,17 @@ export interface RegistryCodeContainersCreateOrUpdateRequest {
 }
 export interface RegistryCodeContainersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: CodeContainerProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** Type of storage to use for the pending upload location */
 export type RegistryCodeVersionsCreateOrGetStartPendingUploadRequestPendingUploadType =
@@ -7677,11 +7711,12 @@ export interface RegistryCodeVersionsCreateOrGetStartPendingUploadRequest {
   /** Version identifier. */
   version: string;
   /** If PendingUploadId = null then random guid will be used. */
-  pendingUploadId?: string | null;
+  pendingUploadId?: string | null | undefined;
   /** Type of storage to use for the pending upload location */
   pendingUploadType?:
     | RegistryCodeVersionsCreateOrGetStartPendingUploadRequestPendingUploadType
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface RegistryCodeVersionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -7699,17 +7734,17 @@ export interface RegistryCodeVersionsCreateOrUpdateRequest {
 }
 export interface RegistryCodeVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: CodeVersionProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface RegistryComponentContainersCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -7725,17 +7760,17 @@ export interface RegistryComponentContainersCreateOrUpdateRequest {
 }
 export interface RegistryComponentContainersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: ComponentContainerProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface RegistryComponentVersionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -7753,17 +7788,17 @@ export interface RegistryComponentVersionsCreateOrUpdateRequest {
 }
 export interface RegistryComponentVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: ComponentVersionProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface RegistryDataContainersCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -7779,19 +7814,19 @@ export interface RegistryDataContainersCreateOrUpdateRequest {
 }
 export interface RegistryDataContainersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: DataContainerProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Type of storage to use for the pending upload location */
 export type RegistryDataVersionsCreateOrGetStartPendingUploadRequestPendingUploadType =
@@ -7809,11 +7844,12 @@ export interface RegistryDataVersionsCreateOrGetStartPendingUploadRequest {
   /** Version identifier. */
   version: string;
   /** If PendingUploadId = null then random guid will be used. */
-  pendingUploadId?: string | null;
+  pendingUploadId?: string | null | undefined;
   /** Type of storage to use for the pending upload location */
   pendingUploadType?:
     | RegistryDataVersionsCreateOrGetStartPendingUploadRequestPendingUploadType
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface RegistryDataVersionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -7831,19 +7867,19 @@ export interface RegistryDataVersionsCreateOrUpdateRequest {
 }
 export interface RegistryDataVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: DataVersionBaseProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RegistryEnvironmentContainersCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -7859,19 +7895,19 @@ export interface RegistryEnvironmentContainersCreateOrUpdateRequest {
 }
 export interface RegistryEnvironmentContainersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: EnvironmentContainerProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RegistryEnvironmentVersionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -7889,17 +7925,17 @@ export interface RegistryEnvironmentVersionsCreateOrUpdateRequest {
 }
 export interface RegistryEnvironmentVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: EnvironmentVersionProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface RegistryModelContainersCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -7915,17 +7951,17 @@ export interface RegistryModelContainersCreateOrUpdateRequest {
 }
 export interface RegistryModelContainersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: ModelContainerProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** Type of storage to use for the pending upload location */
 export type RegistryModelVersionsCreateOrGetStartPendingUploadRequestPendingUploadType =
@@ -7943,11 +7979,12 @@ export interface RegistryModelVersionsCreateOrGetStartPendingUploadRequest {
   /** Version identifier. This is case-sensitive. */
   version: string;
   /** If PendingUploadId = null then random guid will be used. */
-  pendingUploadId?: string | null;
+  pendingUploadId?: string | null | undefined;
   /** Type of storage to use for the pending upload location */
   pendingUploadType?:
     | RegistryModelVersionsCreateOrGetStartPendingUploadRequestPendingUploadType
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface RegistryModelVersionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -7965,17 +8002,17 @@ export interface RegistryModelVersionsCreateOrUpdateRequest {
 }
 export interface RegistryModelVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: ModelVersionProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** Resource tags. */
 export type RemoveRegistryRegionsRequestTagsMap = { [key: string]: string | undefined };
@@ -7991,17 +8028,17 @@ export interface RemoveRegistryRegionsRequest {
   /** Name of Azure Machine Learning registry. This is case-insensitive */
   registryName: string;
   /** Resource tags. */
-  tags?: RemoveRegistryRegionsRequestTagsMap;
+  tags?: RemoveRegistryRegionsRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: RegistryPropertiesInput;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateRequestIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateRequestIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateRequestSku;
+  sku?: BatchDeploymentsCreateOrUpdateRequestSku | undefined;
 }
 /** Resource tags. */
 export type RemoveRegistryRegionsResponseTagsMap = { [key: string]: string | undefined };
@@ -8011,29 +8048,29 @@ export type RemoveRegistryRegionsResponseIdentity = BatchDeploymentsCreateOrUpda
 export type RemoveRegistryRegionsResponseSku = BatchDeploymentsCreateOrUpdateResponseSku;
 export interface RemoveRegistryRegionsResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: RemoveRegistryRegionsResponseTagsMap;
+  tags?: RemoveRegistryRegionsResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: RegistryProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RestartComputeRequest {
   /** The ID of the target subscription. */
@@ -8047,9 +8084,9 @@ export interface RestartComputeRequest {
 }
 export interface RestartComputeResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The asset property dictionary. */
 export type SchedulePropertiesInputPropertiesMap = { [key: string]: string | null | undefined };
@@ -8058,17 +8095,17 @@ export type SchedulePropertiesInputTagsMap = { [key: string]: string | null | un
 /** Base definition of a schedule */
 export interface SchedulePropertiesInput {
   /** The asset description text. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: SchedulePropertiesInputPropertiesMap | null;
+  properties?: SchedulePropertiesInputPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: SchedulePropertiesInputTagsMap | null;
+  tags?: SchedulePropertiesInputTagsMap | null | undefined;
   /** [Required] Specifies the action of the schedule */
   action: ScheduleActionBase;
   /** Display name of schedule. */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Is the schedule enabled? */
-  isEnabled?: boolean;
+  isEnabled?: boolean | undefined;
   /** [Required] Specifies the trigger details */
   trigger: TriggerBase;
 }
@@ -8086,17 +8123,17 @@ export interface SchedulesCreateOrUpdateRequest {
 }
 export interface SchedulesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** [Required] Additional attributes of the entity. */
   properties: ScheduleProperties;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** Resource tags. */
 export type ServerlessEndpointsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -8104,9 +8141,9 @@ export interface ServerlessEndpointPropertiesInput {
   /** [Required] Specifies the authentication mode for the Serverless endpoint. */
   authMode: ServerlessInferenceEndpointAuthMode | (string & {});
   /** Specifies the content safety options. If omitted, the default content safety settings will be configured */
-  contentSafety?: ContentSafety | null;
+  contentSafety?: ContentSafety | null | undefined;
   /** The model settings (model id) for the model being serviced on the ServerlessEndpoint. */
-  modelSettings?: ModelSettings | null;
+  modelSettings?: ModelSettings | null | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type ServerlessEndpointsCreateOrUpdateRequestIdentity =
@@ -8123,17 +8160,17 @@ export interface ServerlessEndpointsCreateOrUpdateRequest {
   /** Serverless Endpoint name. */
   name: string;
   /** Resource tags. */
-  tags?: ServerlessEndpointsCreateOrUpdateRequestTagsMap;
+  tags?: ServerlessEndpointsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: ServerlessEndpointPropertiesInput;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateRequestIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateRequestIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateRequestSku;
+  sku?: BatchDeploymentsCreateOrUpdateRequestSku | undefined;
 }
 /** Resource tags. */
 export type ServerlessEndpointsCreateOrUpdateResponseTagsMap = {
@@ -8147,27 +8184,27 @@ export type ServerlessEndpointsCreateOrUpdateResponseSku =
   BatchDeploymentsCreateOrUpdateResponseSku;
 export interface ServerlessEndpointsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ServerlessEndpointsCreateOrUpdateResponseTagsMap;
+  tags?: ServerlessEndpointsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: ServerlessEndpointProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface StartComputeRequest {
   /** The ID of the target subscription. */
@@ -8181,9 +8218,9 @@ export interface StartComputeRequest {
 }
 export interface StartComputeResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface StopComputeRequest {
   /** The ID of the target subscription. */
@@ -8197,14 +8234,14 @@ export interface StopComputeRequest {
 }
 export interface StopComputeResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Mutable batch inference settings per deployment. */
 export interface PartialBatchDeployment {
   /** Description of the endpoint deployment. */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 /** Resource tags. */
 export type UpdateBatchDeploymentRequestTagsMap = { [key: string]: string | null | undefined };
@@ -8220,9 +8257,9 @@ export interface UpdateBatchDeploymentRequest {
   /** The identifier for the Batch deployments. */
   deploymentName: string;
   /** Additional attributes of the entity. */
-  properties?: PartialBatchDeployment;
+  properties?: PartialBatchDeployment | undefined;
   /** Resource tags. */
-  tags?: UpdateBatchDeploymentRequestTagsMap;
+  tags?: UpdateBatchDeploymentRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateBatchDeploymentResponseTagsMap = { [key: string]: string | undefined };
@@ -8232,29 +8269,29 @@ export type UpdateBatchDeploymentResponseIdentity = BatchDeploymentsCreateOrUpda
 export type UpdateBatchDeploymentResponseSku = BatchDeploymentsCreateOrUpdateResponseSku;
 export interface UpdateBatchDeploymentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateBatchDeploymentResponseTagsMap;
+  tags?: UpdateBatchDeploymentResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: BatchDeploymentProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateBatchEndpointRequestTagsMap = { [key: string]: string | null | undefined };
@@ -8271,9 +8308,9 @@ export type PartialManagedServiceIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface PartialManagedServiceIdentity {
   /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
-  type?: PartialManagedServiceIdentityType | (string & {});
+  type?: PartialManagedServiceIdentityType | (string & {}) | undefined;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: PartialManagedServiceIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: PartialManagedServiceIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface UpdateBatchEndpointRequest {
   /** The ID of the target subscription. */
@@ -8285,9 +8322,9 @@ export interface UpdateBatchEndpointRequest {
   /** Name for the Batch Endpoint. */
   endpointName: string;
   /** Resource tags. */
-  tags?: UpdateBatchEndpointRequestTagsMap;
+  tags?: UpdateBatchEndpointRequestTagsMap | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: PartialManagedServiceIdentity;
+  identity?: PartialManagedServiceIdentity | undefined;
 }
 /** Resource tags. */
 export type UpdateBatchEndpointResponseTagsMap = { [key: string]: string | undefined };
@@ -8297,47 +8334,47 @@ export type UpdateBatchEndpointResponseIdentity = BatchDeploymentsCreateOrUpdate
 export type UpdateBatchEndpointResponseSku = BatchDeploymentsCreateOrUpdateResponseSku;
 export interface UpdateBatchEndpointResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateBatchEndpointResponseTagsMap;
+  tags?: UpdateBatchEndpointResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: BatchEndpointProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** scale settings for AML Compute */
 export interface ScaleSettings {
   /** Max number of nodes to use */
   maxNodeCount: number;
   /** Min number of nodes to use */
-  minNodeCount?: number;
+  minNodeCount?: number | undefined;
   /** Node Idle Time before scaling down amlCompute. This string needs to be in the RFC Format. */
-  nodeIdleTimeBeforeScaleDown?: string;
+  nodeIdleTimeBeforeScaleDown?: string | undefined;
 }
 /** Desired scale settings for the amlCompute. */
 export interface ScaleSettingsInformation {
-  scaleSettings?: ScaleSettings;
+  scaleSettings?: ScaleSettings | undefined;
 }
 /** The properties of a amlCompute that need to be updated. */
 export interface ClusterUpdateProperties {
   /** Properties of ClusterUpdate */
-  properties?: ScaleSettingsInformation;
+  properties?: ScaleSettingsInformation | undefined;
 }
 export interface UpdateComputeRequest {
   /** The ID of the target subscription. */
@@ -8349,7 +8386,7 @@ export interface UpdateComputeRequest {
   /** Name of the Azure Machine Learning compute. */
   computeName: string;
   /** The properties of the amlCompute. */
-  properties?: ClusterUpdateProperties;
+  properties?: ClusterUpdateProperties | undefined;
 }
 /** Contains resource tags defined as key/value pairs. */
 export type UpdateComputeResponseTagsMap = { [key: string]: string | undefined };
@@ -8359,27 +8396,27 @@ export type UpdateComputeResponseSku = BatchDeploymentsCreateOrUpdateResponseSku
 export type UpdateComputeResponseIdentity = BatchDeploymentsCreateOrUpdateResponseIdentity;
 export interface UpdateComputeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: Compute;
+  properties?: Compute | undefined;
   /** Specifies the location of the resource. */
-  location?: string;
+  location?: string | undefined;
   /** Contains resource tags defined as key/value pairs. */
-  tags?: UpdateComputeResponseTagsMap | null;
+  tags?: UpdateComputeResponseTagsMap | null | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** Resource tags. */
 export type UpdateOnlineDeploymentRequestTagsMap = { [key: string]: string | null | undefined };
@@ -8388,15 +8425,15 @@ export type PartialSkuTier = "Free" | "Basic" | "Standard" | "Premium";
 /** Common SKU definition. */
 export interface PartialSku {
   /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
-  capacity?: number;
+  capacity?: number | undefined;
   /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string;
+  family?: string | undefined;
   /** The name of the SKU. Ex - P3. It is typically a letter+number code. */
-  name?: string;
+  name?: string | undefined;
   /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
-  size?: string;
+  size?: string | undefined;
   /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
-  tier?: PartialSkuTier | (string & {});
+  tier?: PartialSkuTier | (string & {}) | undefined;
 }
 export interface UpdateOnlineDeploymentRequest {
   /** The ID of the target subscription. */
@@ -8410,9 +8447,9 @@ export interface UpdateOnlineDeploymentRequest {
   /** Inference Endpoint Deployment name. */
   deploymentName: string;
   /** Resource tags. */
-  tags?: UpdateOnlineDeploymentRequestTagsMap;
+  tags?: UpdateOnlineDeploymentRequestTagsMap | undefined;
   /** Sku details required for ARM contract for Autoscaling. */
-  sku?: PartialSku;
+  sku?: PartialSku | undefined;
 }
 /** Resource tags. */
 export type UpdateOnlineDeploymentResponseTagsMap = { [key: string]: string | undefined };
@@ -8422,29 +8459,29 @@ export type UpdateOnlineDeploymentResponseIdentity = BatchDeploymentsCreateOrUpd
 export type UpdateOnlineDeploymentResponseSku = BatchDeploymentsCreateOrUpdateResponseSku;
 export interface UpdateOnlineDeploymentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateOnlineDeploymentResponseTagsMap;
+  tags?: UpdateOnlineDeploymentResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: OnlineDeploymentProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateOnlineEndpointRequestTagsMap = { [key: string]: string | null | undefined };
@@ -8458,9 +8495,9 @@ export interface UpdateOnlineEndpointRequest {
   /** Online Endpoint name. */
   endpointName: string;
   /** Resource tags. */
-  tags?: UpdateOnlineEndpointRequestTagsMap;
+  tags?: UpdateOnlineEndpointRequestTagsMap | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: PartialManagedServiceIdentity;
+  identity?: PartialManagedServiceIdentity | undefined;
 }
 /** Resource tags. */
 export type UpdateOnlineEndpointResponseTagsMap = { [key: string]: string | undefined };
@@ -8470,40 +8507,40 @@ export type UpdateOnlineEndpointResponseIdentity = BatchDeploymentsCreateOrUpdat
 export type UpdateOnlineEndpointResponseSku = BatchDeploymentsCreateOrUpdateResponseSku;
 export interface UpdateOnlineEndpointResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateOnlineEndpointResponseTagsMap;
+  tags?: UpdateOnlineEndpointResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: OnlineEndpointProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The properties for Quota update or retrieval. */
 export interface QuotaBaseProperties {
   /** Specifies the resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Specifies the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The maximum permitted quota of the resource. */
-  limit?: number;
+  limit?: number | undefined;
   /** An enum describing the unit of quota measurement. */
-  unit?: QuotaUnit | (string & {});
+  unit?: QuotaUnit | (string & {}) | undefined;
 }
 /** The list for update quota. */
 export type UpdateQuotasRequestValueList = Array<QuotaBaseProperties>;
@@ -8513,7 +8550,7 @@ export interface UpdateQuotasRequest {
   /** The location name. */
   location: string;
   /** The list for update quota. */
-  value?: UpdateQuotasRequestValueList;
+  value?: UpdateQuotasRequestValueList | undefined;
 }
 /** Status of update workspace quota. */
 export type Status =
@@ -8528,24 +8565,24 @@ export type Status =
 /** The properties for update Quota response. */
 export interface UpdateWorkspaceQuotas {
   /** Specifies the resource ID. */
-  id?: string;
+  id?: string | undefined;
   /** Specifies the resource type. */
-  type?: string;
+  type?: string | undefined;
   /** The maximum permitted quota of the resource. */
-  limit?: number;
+  limit?: number | undefined;
   /** An enum describing the unit of quota measurement. */
-  unit?: QuotaUnit;
+  unit?: QuotaUnit | undefined;
   /** Status of update workspace quota. */
-  status?: Status;
+  status?: Status | undefined;
 }
 /** The list of workspace quota update result. */
 export type UpdateWorkspaceQuotasResultValueList = Array<UpdateWorkspaceQuotas>;
 /** The result of update workspace quota. */
 export interface UpdateWorkspaceQuotasResult {
   /** The list of workspace quota update result. */
-  value?: UpdateWorkspaceQuotasResultValueList;
+  value?: UpdateWorkspaceQuotasResultValueList | undefined;
   /** The URI to fetch the next page of workspace quota update result. Call ListNext() with this to fetch the next page of Workspace Quota update result. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type RegistryPartialManagedServiceIdentityInput =
@@ -8560,11 +8597,11 @@ export interface UpdateRegistryRequest {
   /** Name of Azure Machine Learning registry. This is case-insensitive */
   registryName: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateRequestIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateRequestIdentity | undefined;
   /** Sku details required for ARM contract for Autoscaling. */
-  sku?: PartialSku;
+  sku?: PartialSku | undefined;
   /** Resource tags. */
-  tags?: UpdateRegistryRequestTagsMap;
+  tags?: UpdateRegistryRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateRegistryResponseTagsMap = { [key: string]: string | undefined };
@@ -8574,25 +8611,25 @@ export type UpdateRegistryResponseIdentity = BatchDeploymentsCreateOrUpdateRespo
 export type UpdateRegistryResponseSku = BatchDeploymentsCreateOrUpdateResponseSku;
 export interface UpdateRegistryResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateRegistryResponseTagsMap;
+  tags?: UpdateRegistryResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: RegistryProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
 }
 /** Resource tags. */
 export type UpdateServerlessEndpointRequestTagsMap = { [key: string]: string | null | undefined };
@@ -8606,11 +8643,11 @@ export interface UpdateServerlessEndpointRequest {
   /** Serverless Endpoint name. */
   name: string;
   /** Resource tags. */
-  tags?: UpdateServerlessEndpointRequestTagsMap;
+  tags?: UpdateServerlessEndpointRequestTagsMap | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: PartialManagedServiceIdentity;
+  identity?: PartialManagedServiceIdentity | undefined;
   /** Sku details required for ARM contract for Autoscaling. */
-  sku?: PartialSku;
+  sku?: PartialSku | undefined;
 }
 /** Resource tags. */
 export type UpdateServerlessEndpointResponseTagsMap = { [key: string]: string | undefined };
@@ -8621,29 +8658,29 @@ export type UpdateServerlessEndpointResponseIdentity =
 export type UpdateServerlessEndpointResponseSku = BatchDeploymentsCreateOrUpdateResponseSku;
 export interface UpdateServerlessEndpointResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateServerlessEndpointResponseTagsMap;
+  tags?: UpdateServerlessEndpointResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
   properties: ServerlessEndpointProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
-  kind?: string;
+  kind?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type UpdateWorkspaceRequestIdentity = BatchDeploymentsCreateOrUpdateRequestIdentity;
@@ -8660,47 +8697,47 @@ export type ManagedNetworkSettingsInputOutboundRulesMap = {
 /** Managed Network settings for a machine learning workspace. */
 export interface ManagedNetworkSettingsInput {
   /** A flag to indicate if monitoring needs to be enabled for the managed network. */
-  enableNetworkMonitor?: boolean;
+  enableNetworkMonitor?: boolean | undefined;
   /** Isolation mode for the managed network of a machine learning workspace. */
-  isolationMode?: IsolationMode | (string & {});
+  isolationMode?: IsolationMode | (string & {}) | undefined;
   /** Dictionary of <OutboundRule> */
-  outboundRules?: ManagedNetworkSettingsInputOutboundRulesMap | null;
+  outboundRules?: ManagedNetworkSettingsInputOutboundRulesMap | null | undefined;
   /** Status of the Provisioning for the managed network of a machine learning workspace. */
-  status?: ManagedNetworkProvisionStatus;
+  status?: ManagedNetworkProvisionStatus | undefined;
   /** Firewall Sku used for FQDN Rules */
-  firewallSku?: FirewallSku | (string & {});
+  firewallSku?: FirewallSku | (string & {}) | undefined;
   /** The Kind of the managed network. Users can switch from V1 to V2 for granular access controls, but cannot switch back to V1 once V2 is enabled. */
-  managedNetworkKind?: ManagedNetworkKind | (string & {});
+  managedNetworkKind?: ManagedNetworkKind | (string & {}) | undefined;
 }
 /** The parameters for updating a machine learning workspace. */
 export interface WorkspacePropertiesUpdateParametersInput {
   /** ARM id of the application insights associated with this workspace. */
-  applicationInsights?: string;
+  applicationInsights?: string | undefined;
   /** ARM id of the container registry associated with this workspace. */
-  containerRegistry?: string;
+  containerRegistry?: string | undefined;
   /** The description of this workspace. */
-  description?: string;
-  enableDataIsolation?: boolean;
-  encryption?: EncryptionUpdateProperties;
+  description?: string | undefined;
+  enableDataIsolation?: boolean | undefined;
+  encryption?: EncryptionUpdateProperties | undefined;
   /** Settings for feature store type workspace. */
-  featureStoreSettings?: FeatureStoreSettings;
+  featureStoreSettings?: FeatureStoreSettings | undefined;
   /** The friendly name for this workspace. This name in mutable */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** The compute name for image build */
-  imageBuildCompute?: string;
-  managedNetwork?: ManagedNetworkSettingsInput;
+  imageBuildCompute?: string | undefined;
+  managedNetwork?: ManagedNetworkSettingsInput | undefined;
   /** The user assigned identity resource id that represents the workspace identity. */
-  primaryUserAssignedIdentity?: string;
+  primaryUserAssignedIdentity?: string | undefined;
   /** Whether requests from Public Network are allowed. */
-  publicNetworkAccess?: PublicNetworkAccessType | (string & {});
+  publicNetworkAccess?: PublicNetworkAccessType | (string & {}) | undefined;
   /** Settings for serverless compute in a workspace */
-  serverlessComputeSettings?: ServerlessComputeSettings;
+  serverlessComputeSettings?: ServerlessComputeSettings | undefined;
   /** The service managed resource settings. */
-  serviceManagedResourcesSettings?: ServiceManagedResourcesSettings;
+  serviceManagedResourcesSettings?: ServiceManagedResourcesSettings | undefined;
   /** The auth mode used for accessing the system datastores of the workspace. */
-  systemDatastoresAuthMode?: SystemDatastoresAuthMode | (string & {});
+  systemDatastoresAuthMode?: SystemDatastoresAuthMode | (string & {}) | undefined;
   /** Enabling v1_legacy_mode may prevent you from using features provided by the v2 API. */
-  v1LegacyMode?: boolean;
+  v1LegacyMode?: boolean | undefined;
 }
 /** The resource model definition representing SKU */
 export type UpdateWorkspaceRequestSku = BatchDeploymentsCreateOrUpdateRequestSku;
@@ -8714,13 +8751,13 @@ export interface UpdateWorkspaceRequest {
   /** Azure Machine Learning Workspace Name */
   workspaceName: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateRequestIdentity;
+  identity?: BatchDeploymentsCreateOrUpdateRequestIdentity | undefined;
   /** The properties that the machine learning workspace will be updated with. */
-  properties?: WorkspacePropertiesUpdateParametersInput;
+  properties?: WorkspacePropertiesUpdateParametersInput | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateRequestSku;
+  sku?: BatchDeploymentsCreateOrUpdateRequestSku | undefined;
   /** The resource tags for the machine learning workspace. */
-  tags?: UpdateWorkspaceRequestTagsMap;
+  tags?: UpdateWorkspaceRequestTagsMap | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type UpdateWorkspaceResponseIdentity = BatchDeploymentsCreateOrUpdateResponseIdentity;
@@ -8729,26 +8766,26 @@ export type UpdateWorkspaceResponseSku = BatchDeploymentsCreateOrUpdateResponseS
 export type UpdateWorkspaceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateWorkspaceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Additional attributes of the entity. */
   properties: WorkspaceProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
-  kind?: string;
-  location?: string;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
+  kind?: string | undefined;
+  location?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
-  tags?: UpdateWorkspaceResponseTagsMap;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
+  tags?: UpdateWorkspaceResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface UpdateWorkspaceConnectionRequest {
   /** The ID of the target subscription. */
@@ -8760,17 +8797,17 @@ export interface UpdateWorkspaceConnectionRequest {
   /** Friendly name of the workspace connection */
   connectionName: string;
   /** The properties that the machine learning workspace connection will be updated with. */
-  properties?: WorkspaceConnectionPropertiesV2Input;
+  properties?: WorkspaceConnectionPropertiesV2Input | undefined;
 }
 export interface UpdateWorkspaceConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   properties: WorkspaceConnectionPropertiesV2;
 }
 export type WorkspacePropertiesInputAssociatedWorkspacesList = Array<string>;
@@ -8780,51 +8817,51 @@ export type WorkspacePropertiesInputSharedPrivateLinkResourcesList =
 /** The properties of a machine learning workspace. */
 export interface WorkspacePropertiesInput {
   /** The flag to indicate whether to allow public access when behind VNet. */
-  allowPublicAccessWhenBehindVnet?: boolean;
+  allowPublicAccessWhenBehindVnet?: boolean | undefined;
   /** ARM id of the application insights associated with this workspace. */
-  applicationInsights?: string;
-  associatedWorkspaces?: WorkspacePropertiesInputAssociatedWorkspacesList;
+  applicationInsights?: string | undefined;
+  associatedWorkspaces?: WorkspacePropertiesInputAssociatedWorkspacesList | undefined;
   /** ARM id of the container registry associated with this workspace. */
-  containerRegistry?: string;
+  containerRegistry?: string | undefined;
   /** The description of this workspace. */
-  description?: string;
+  description?: string | undefined;
   /** Url for the discovery service to identify regional endpoints for machine learning experimentation services */
-  discoveryUrl?: string;
-  enableDataIsolation?: boolean;
-  enableServiceSideCMKEncryption?: boolean;
-  encryption?: EncryptionProperty;
+  discoveryUrl?: string | undefined;
+  enableDataIsolation?: boolean | undefined;
+  enableServiceSideCMKEncryption?: boolean | undefined;
+  encryption?: EncryptionProperty | undefined;
   /** Settings for feature store type workspace. */
-  featureStoreSettings?: FeatureStoreSettings;
+  featureStoreSettings?: FeatureStoreSettings | undefined;
   /** The friendly name for this workspace. This name in mutable */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** The flag to signal HBI data in the workspace and reduce diagnostic data collected by the service */
-  hbiWorkspace?: boolean;
-  hubResourceId?: string;
+  hbiWorkspace?: boolean | undefined;
+  hubResourceId?: string | undefined;
   /** The compute name for image build */
-  imageBuildCompute?: string;
+  imageBuildCompute?: string | undefined;
   /** ARM id of the key vault associated with this workspace. This cannot be changed once the workspace has been created */
-  keyVault?: string;
-  managedNetwork?: ManagedNetworkSettingsInput;
+  keyVault?: string | undefined;
+  managedNetwork?: ManagedNetworkSettingsInput | undefined;
   /** The user assigned identity resource id that represents the workspace identity. */
-  primaryUserAssignedIdentity?: string;
+  primaryUserAssignedIdentity?: string | undefined;
   /** Set to trigger the provisioning of the managed VNet with the default Options when creating a Workspace with the managed VNet enabled, or else it does nothing. */
-  provisionNetworkNow?: boolean;
+  provisionNetworkNow?: boolean | undefined;
   /** Whether requests from Public Network are allowed. */
-  publicNetworkAccess?: PublicNetworkAccessType | (string & {});
+  publicNetworkAccess?: PublicNetworkAccessType | (string & {}) | undefined;
   /** Settings for serverless compute in a workspace */
-  serverlessComputeSettings?: ServerlessComputeSettings;
+  serverlessComputeSettings?: ServerlessComputeSettings | undefined;
   /** The service managed resource settings. */
-  serviceManagedResourcesSettings?: ServiceManagedResourcesSettings;
+  serviceManagedResourcesSettings?: ServiceManagedResourcesSettings | undefined;
   /** The list of shared private link resources in this workspace. */
-  sharedPrivateLinkResources?: WorkspacePropertiesInputSharedPrivateLinkResourcesList;
+  sharedPrivateLinkResources?: WorkspacePropertiesInputSharedPrivateLinkResourcesList | undefined;
   /** ARM id of the storage account associated with this workspace. This cannot be changed once the workspace has been created */
-  storageAccount?: string;
+  storageAccount?: string | undefined;
   /** The auth mode used for accessing the system datastores of the workspace. */
-  systemDatastoresAuthMode?: SystemDatastoresAuthMode | (string & {});
+  systemDatastoresAuthMode?: SystemDatastoresAuthMode | (string & {}) | undefined;
   /** Enabling v1_legacy_mode may prevent you from using features provided by the v2 API. */
-  v1LegacyMode?: boolean;
+  v1LegacyMode?: boolean | undefined;
   /** WorkspaceHub's configuration object. */
-  workspaceHubConfig?: WorkspaceHubConfig;
+  workspaceHubConfig?: WorkspaceHubConfig | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type WorkspacesCreateOrUpdateRequestIdentity = BatchDeploymentsCreateOrUpdateRequestIdentity;
@@ -8841,12 +8878,12 @@ export interface WorkspacesCreateOrUpdateRequest {
   /** Additional attributes of the entity. */
   properties: WorkspacePropertiesInput;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateRequestIdentity;
-  kind?: string;
-  location?: string;
+  identity?: BatchDeploymentsCreateOrUpdateRequestIdentity | undefined;
+  kind?: string | undefined;
+  location?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateRequestSku;
-  tags?: WorkspacesCreateOrUpdateRequestTagsMap;
+  sku?: BatchDeploymentsCreateOrUpdateRequestSku | undefined;
+  tags?: WorkspacesCreateOrUpdateRequestTagsMap | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type WorkspacesCreateOrUpdateResponseIdentity =
@@ -8856,26 +8893,26 @@ export type WorkspacesCreateOrUpdateResponseSku = BatchDeploymentsCreateOrUpdate
 export type WorkspacesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface WorkspacesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Additional attributes of the entity. */
   properties: WorkspaceProperties;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity;
-  kind?: string;
-  location?: string;
+  identity?: BatchDeploymentsCreateOrUpdateResponseIdentity | undefined;
+  kind?: string | undefined;
+  location?: string | undefined;
   /** The resource model definition representing SKU */
-  sku?: BatchDeploymentsCreateOrUpdateResponseSku;
-  tags?: WorkspacesCreateOrUpdateResponseTagsMap;
+  sku?: BatchDeploymentsCreateOrUpdateResponseSku | undefined;
+  tags?: WorkspacesCreateOrUpdateResponseTagsMap | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Setting for diagnosing dependent application insights */
 export type DiagnoseRequestPropertiesApplicationInsightsMap = {
@@ -8903,25 +8940,25 @@ export type DiagnoseRequestPropertiesStorageAccountMap = { [key: string]: unknow
 export type DiagnoseRequestPropertiesUdrMap = { [key: string]: unknown | undefined };
 export interface DiagnoseRequestProperties {
   /** Setting for diagnosing dependent application insights */
-  applicationInsights?: DiagnoseRequestPropertiesApplicationInsightsMap;
+  applicationInsights?: DiagnoseRequestPropertiesApplicationInsightsMap | undefined;
   /** Setting for diagnosing dependent container registry */
-  containerRegistry?: DiagnoseRequestPropertiesContainerRegistryMap;
+  containerRegistry?: DiagnoseRequestPropertiesContainerRegistryMap | undefined;
   /** Setting for diagnosing dns resolution */
-  dnsResolution?: DiagnoseRequestPropertiesDnsResolutionMap;
+  dnsResolution?: DiagnoseRequestPropertiesDnsResolutionMap | undefined;
   /** Setting for diagnosing dependent key vault */
-  keyVault?: DiagnoseRequestPropertiesKeyVaultMap;
+  keyVault?: DiagnoseRequestPropertiesKeyVaultMap | undefined;
   /** Setting for diagnosing network security group */
-  nsg?: DiagnoseRequestPropertiesNsgMap;
+  nsg?: DiagnoseRequestPropertiesNsgMap | undefined;
   /** Setting for diagnosing unclassified category of problems */
-  others?: DiagnoseRequestPropertiesOthersMap;
+  others?: DiagnoseRequestPropertiesOthersMap | undefined;
   /** Setting for diagnosing the presence of required resource providers in the workspace. */
-  requiredResourceProviders?: DiagnoseRequestPropertiesRequiredResourceProvidersMap;
+  requiredResourceProviders?: DiagnoseRequestPropertiesRequiredResourceProvidersMap | undefined;
   /** Setting for diagnosing resource lock */
-  resourceLock?: DiagnoseRequestPropertiesResourceLockMap;
+  resourceLock?: DiagnoseRequestPropertiesResourceLockMap | undefined;
   /** Setting for diagnosing dependent storage account */
-  storageAccount?: DiagnoseRequestPropertiesStorageAccountMap;
+  storageAccount?: DiagnoseRequestPropertiesStorageAccountMap | undefined;
   /** Setting for diagnosing user defined routing */
-  udr?: DiagnoseRequestPropertiesUdrMap;
+  udr?: DiagnoseRequestPropertiesUdrMap | undefined;
 }
 export interface WorkspacesDiagnoseRequest {
   /** The ID of the target subscription. */
@@ -8930,18 +8967,18 @@ export interface WorkspacesDiagnoseRequest {
   resourceGroupName: string;
   /** Azure Machine Learning Workspace Name */
   workspaceName: string;
-  value?: DiagnoseRequestProperties;
+  value?: DiagnoseRequestProperties | undefined;
 }
 /** Level of workspace setup error */
 export type DiagnoseResultLevel = "Warning" | "Error" | "Information";
 /** Result of Diagnose */
 export interface DiagnoseResult {
   /** Code for workspace setup error */
-  code?: string;
+  code?: string | undefined;
   /** Level of workspace setup error */
-  level?: DiagnoseResultLevel;
+  level?: DiagnoseResultLevel | undefined;
   /** Message of workspace setup error */
-  message?: string;
+  message?: string | undefined;
 }
 export type DiagnoseResponseResultValueUserDefinedRouteResultsList = Array<DiagnoseResult>;
 export type DiagnoseResponseResultValueNetworkSecurityRuleResultsList = Array<DiagnoseResult>;
@@ -8953,22 +8990,26 @@ export type DiagnoseResponseResultValueContainerRegistryResultsList = Array<Diag
 export type DiagnoseResponseResultValueApplicationInsightsResultsList = Array<DiagnoseResult>;
 export type DiagnoseResponseResultValueOtherResultsList = Array<DiagnoseResult>;
 export interface DiagnoseResponseResultValue {
-  userDefinedRouteResults?: DiagnoseResponseResultValueUserDefinedRouteResultsList;
-  networkSecurityRuleResults?: DiagnoseResponseResultValueNetworkSecurityRuleResultsList;
-  resourceLockResults?: DiagnoseResponseResultValueResourceLockResultsList;
-  dnsResolutionResults?: DiagnoseResponseResultValueDnsResolutionResultsList;
-  storageAccountResults?: DiagnoseResponseResultValueStorageAccountResultsList;
-  keyVaultResults?: DiagnoseResponseResultValueKeyVaultResultsList;
-  containerRegistryResults?: DiagnoseResponseResultValueContainerRegistryResultsList;
-  applicationInsightsResults?: DiagnoseResponseResultValueApplicationInsightsResultsList;
-  otherResults?: DiagnoseResponseResultValueOtherResultsList;
+  userDefinedRouteResults?: DiagnoseResponseResultValueUserDefinedRouteResultsList | undefined;
+  networkSecurityRuleResults?:
+    | DiagnoseResponseResultValueNetworkSecurityRuleResultsList
+    | undefined;
+  resourceLockResults?: DiagnoseResponseResultValueResourceLockResultsList | undefined;
+  dnsResolutionResults?: DiagnoseResponseResultValueDnsResolutionResultsList | undefined;
+  storageAccountResults?: DiagnoseResponseResultValueStorageAccountResultsList | undefined;
+  keyVaultResults?: DiagnoseResponseResultValueKeyVaultResultsList | undefined;
+  containerRegistryResults?: DiagnoseResponseResultValueContainerRegistryResultsList | undefined;
+  applicationInsightsResults?:
+    | DiagnoseResponseResultValueApplicationInsightsResultsList
+    | undefined;
+  otherResults?: DiagnoseResponseResultValueOtherResultsList | undefined;
 }
 export interface DiagnoseResponseResult {
-  value?: DiagnoseResponseResultValue;
+  value?: DiagnoseResponseResultValue | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface WorkspacesPrepareNotebookRequest {
   /** The ID of the target subscription. */
@@ -8979,16 +9020,16 @@ export interface WorkspacesPrepareNotebookRequest {
   workspaceName: string;
 }
 export interface WorkspacesPrepareNotebookResponse {
-  fqdn?: string;
-  isPrivateLinkEnabled?: boolean;
+  fqdn?: string | undefined;
+  isPrivateLinkEnabled?: boolean | undefined;
   /** The error that occurs when preparing notebook. */
-  notebookPreparationError?: NotebookPreparationError;
+  notebookPreparationError?: NotebookPreparationError | undefined;
   /** the data plane resourceId that used to initialize notebook component */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface WorkspacesResyncKeysRequest {
   /** The ID of the target subscription. */
@@ -9000,9 +9041,9 @@ export interface WorkspacesResyncKeysRequest {
 }
 export interface WorkspacesResyncKeysResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type BatchDeploymentsCreateOrUpdateError = AzureOpError;
 /** Creates/updates a batch inference deployment (asynchronous). Creates/updates a batch inference deployment (asynchronous). */

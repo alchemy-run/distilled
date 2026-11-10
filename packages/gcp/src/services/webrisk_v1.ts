@@ -89,7 +89,7 @@ export interface CancelProjectsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: GoogleLongrunningCancelOperationRequest;
+  body?: GoogleLongrunningCancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface GoogleProtobufEmpty {}
@@ -108,54 +108,56 @@ export type ComputeDiffThreatListsConstraints_supportedCompressionsEnumList = Ar
 >;
 export interface ComputeDiffThreatListsRequest {
   /** Required. The threat list to update. Only a single ThreatType should be specified per request. If you want to handle multiple ThreatTypes, you must make one request per ThreatType. */
-  threatType?: ComputeDiffThreatListsThreatTypeEnum | (string & {});
+  threatType?: ComputeDiffThreatListsThreatTypeEnum | (string & {}) | undefined;
   /** The maximum size in number of entries. The diff will not contain more entries than this value. This should be a power of 2 between 2**10 and 2**20. If zero, no diff size limit is set. */
-  "constraints.maxDiffEntries"?: number;
+  "constraints.maxDiffEntries"?: number | undefined;
   /** The current version token of the client for the requested list (the client version that was received from the last successful diff). If the client does not have a version token (this is the first time calling ComputeThreatListDiff), this may be left empty and a full database snapshot will be returned. */
-  versionToken?: string;
+  versionToken?: string | undefined;
   /** Sets the maximum number of entries that the client is willing to have in the local database. This should be a power of 2 between 2**10 and 2**20. If zero, no database size limit is set. */
-  "constraints.maxDatabaseEntries"?: number;
+  "constraints.maxDatabaseEntries"?: number | undefined;
   /** The compression types supported by the client. */
-  "constraints.supportedCompressions"?: ComputeDiffThreatListsConstraints_supportedCompressionsEnumList;
+  "constraints.supportedCompressions"?:
+    | ComputeDiffThreatListsConstraints_supportedCompressionsEnumList
+    | undefined;
 }
 export type IntegerList = Array<number>;
 /** A set of raw indices to remove from a local list. */
 export interface GoogleCloudWebriskV1RawIndices {
   /** The indices to remove from a lexicographically-sorted local list. */
-  indices?: IntegerList;
+  indices?: IntegerList | undefined;
 }
 /** The Rice-Golomb encoded data. Used for sending compressed 4-byte hashes or compressed removal indices. */
 export interface GoogleCloudWebriskV1RiceDeltaEncoding {
   /** The encoded deltas that are encoded using the Golomb-Rice coder. */
-  encodedData?: string;
+  encodedData?: string | undefined;
   /** The offset of the first entry in the encoded data, or, if only a single integer was encoded, that single integer's value. If the field is empty or missing, assume zero. */
-  firstValue?: string;
+  firstValue?: string | undefined;
   /** The Golomb-Rice parameter, which is a number between 2 and 28. This field is missing (that is, zero) if `num_entries` is zero. */
-  riceParameter?: number;
+  riceParameter?: number | undefined;
   /** The number of entries that are delta encoded in the encoded data. If only a single integer was encoded, this will be zero and the single value will be stored in `first_value`. */
-  entryCount?: number;
+  entryCount?: number | undefined;
 }
 /** Contains the set of entries to remove from a local database. */
 export interface GoogleCloudWebriskV1ThreatEntryRemovals {
   /** The raw removal indices for a local list. */
-  rawIndices?: GoogleCloudWebriskV1RawIndices;
+  rawIndices?: GoogleCloudWebriskV1RawIndices | undefined;
   /** The encoded local, lexicographically-sorted list indices, using a Golomb-Rice encoding. Used for sending compressed removal indices. The removal indices (uint32) are sorted in ascending order, then delta encoded and stored as encoded_data. */
-  riceIndices?: GoogleCloudWebriskV1RiceDeltaEncoding;
+  riceIndices?: GoogleCloudWebriskV1RiceDeltaEncoding | undefined;
 }
 /** The uncompressed threat entries in hash format. Hashes can be anywhere from 4 to 32 bytes in size. A large majority are 4 bytes, but some hashes are lengthened if they collide with the hash of a popular URI. Used for sending ThreatEntryAdditons to clients that do not support compression, or when sending non-4-byte hashes to clients that do support compression. */
 export interface GoogleCloudWebriskV1RawHashes {
   /** The hashes, in binary format, concatenated into one long string. Hashes are sorted in lexicographic order. For JSON API users, hashes are base64-encoded. */
-  rawHashes?: string;
+  rawHashes?: string | undefined;
   /** The number of bytes for each prefix encoded below. This field can be anywhere from 4 (shortest prefix) to 32 (full SHA256 hash). In practice this is almost always 4, except in exceptional circumstances. */
-  prefixSize?: number;
+  prefixSize?: number | undefined;
 }
 export type GoogleCloudWebriskV1RawHashesList = Array<GoogleCloudWebriskV1RawHashes>;
 /** Contains the set of entries to add to a local database. May contain a combination of compressed and raw data in a single response. */
 export interface GoogleCloudWebriskV1ThreatEntryAdditions {
   /** The encoded 4-byte prefixes of SHA256-formatted entries, using a Golomb-Rice encoding. The hashes are converted to uint32, sorted in ascending order, then delta encoded and stored as encoded_data. */
-  riceHashes?: GoogleCloudWebriskV1RiceDeltaEncoding;
+  riceHashes?: GoogleCloudWebriskV1RiceDeltaEncoding | undefined;
   /** The raw SHA256-formatted entries. Repeated to allow returning sets of hashes with different prefix sizes. */
-  rawHashes?: GoogleCloudWebriskV1RawHashesList;
+  rawHashes?: GoogleCloudWebriskV1RawHashesList | undefined;
 }
 export type GoogleCloudWebriskV1ComputeThreatListDiffResponseResponseTypeEnum =
   | "RESPONSE_TYPE_UNSPECIFIED"
@@ -164,32 +166,32 @@ export type GoogleCloudWebriskV1ComputeThreatListDiffResponseResponseTypeEnum =
 /** The expected state of a client's local database. */
 export interface GoogleCloudWebriskV1ComputeThreatListDiffResponseChecksum {
   /** The SHA256 hash of the client state; that is, of the sorted list of all hashes present in the database. */
-  sha256?: string;
+  sha256?: string | undefined;
 }
 export interface GoogleCloudWebriskV1ComputeThreatListDiffResponse {
   /** A set of entries to remove from a local threat type's list. This field may be empty. */
-  removals?: GoogleCloudWebriskV1ThreatEntryRemovals;
+  removals?: GoogleCloudWebriskV1ThreatEntryRemovals | undefined;
   /** A set of entries to add to a local threat type's list. */
-  additions?: GoogleCloudWebriskV1ThreatEntryAdditions;
+  additions?: GoogleCloudWebriskV1ThreatEntryAdditions | undefined;
   /** The new opaque client version token. This should be retained by the client and passed into the next call of ComputeThreatListDiff as 'version_token'. A separate version token should be stored and used for each threatList. */
-  newVersionToken?: string;
+  newVersionToken?: string | undefined;
   /** The soonest the client should wait before issuing any diff request. Querying sooner is unlikely to produce a meaningful diff. Waiting longer is acceptable considering the use case. If this field is not set clients may update as soon as they want. */
-  recommendedNextDiff?: string;
+  recommendedNextDiff?: string | undefined;
   /** The type of response. This may indicate that an action must be taken by the client when the response is received. */
-  responseType?: GoogleCloudWebriskV1ComputeThreatListDiffResponseResponseTypeEnum;
+  responseType?: GoogleCloudWebriskV1ComputeThreatListDiffResponseResponseTypeEnum | undefined;
   /** The expected SHA256 hash of the client state; that is, of the sorted list of all hashes present in the database after applying the provided diff. If the client state doesn't match the expected state, the client must discard this diff and retry later. */
-  checksum?: GoogleCloudWebriskV1ComputeThreatListDiffResponseChecksum;
+  checksum?: GoogleCloudWebriskV1ComputeThreatListDiffResponseChecksum | undefined;
 }
 /** Wraps a URI that might be displaying malicious content. */
 export interface GoogleCloudWebriskV1Submission {
   /** Required. The URI that is being reported for malicious content to be analyzed. */
-  uri?: string;
+  uri?: string | undefined;
 }
 export interface CreateProjectsSubmissionsRequest {
   /** Required. The name of the project that is making the submission. This string is in the format "projects/{project_number}". */
   parent: string;
   /** Request body */
-  body?: GoogleCloudWebriskV1Submission;
+  body?: GoogleCloudWebriskV1Submission | undefined;
 }
 export interface DeleteProjectsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -204,34 +206,34 @@ export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface GoogleRpcStatus {
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunningOperation {
   /** Matches the `/v1/{project-name}/operations/{operation-id}` pattern. */
-  name?: string;
+  name?: string | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** Contains a `SubmitUriMetadata` object. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: GoogleRpcStatus;
+  error?: GoogleRpcStatus | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
 }
 export interface ListProjectsOperationsRequest {
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
 }
@@ -240,11 +242,11 @@ export type GoogleLongrunningOperationList = Array<GoogleLongrunningOperation>;
 /** The response message for Operations.ListOperations. */
 export interface GoogleLongrunningListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A list of operations that matches the specified filter in the request. */
-  operations?: GoogleLongrunningOperationList;
+  operations?: GoogleLongrunningOperationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type SearchHashesThreatTypesEnum =
   | "THREAT_TYPE_UNSPECIFIED"
@@ -255,9 +257,9 @@ export type SearchHashesThreatTypesEnum =
 export type SearchHashesThreatTypesEnumList = Array<SearchHashesThreatTypesEnum | (string & {})>;
 export interface SearchHashesRequest {
   /** Required. The ThreatLists to search in. Multiple ThreatLists may be specified. */
-  threatTypes?: SearchHashesThreatTypesEnumList;
+  threatTypes?: SearchHashesThreatTypesEnumList | undefined;
   /** A hash prefix, consisting of the most significant 4-32 bytes of a SHA256 hash. For JSON requests, this field is base64-encoded. Note that if this parameter is provided by a URI, it must be encoded using the web safe base64 variant (RFC 4648). */
-  hashPrefix?: string;
+  hashPrefix?: string | undefined;
 }
 export type GoogleCloudWebriskV1SearchHashesResponseThreatHashThreatTypesItemEnum =
   | "THREAT_TYPE_UNSPECIFIED"
@@ -270,19 +272,21 @@ export type GoogleCloudWebriskV1SearchHashesResponseThreatHashThreatTypesItemEnu
 /** Contains threat information on a matching hash. */
 export interface GoogleCloudWebriskV1SearchHashesResponseThreatHash {
   /** A 32 byte SHA256 hash. This field is in binary format. For JSON requests, hashes are base64-encoded. */
-  hash?: string;
+  hash?: string | undefined;
   /** The cache lifetime for the returned match. Clients must not cache this response past this timestamp to avoid false positives. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** The ThreatList this threat belongs to. This must contain at least one entry. */
-  threatTypes?: GoogleCloudWebriskV1SearchHashesResponseThreatHashThreatTypesItemEnumList;
+  threatTypes?:
+    | GoogleCloudWebriskV1SearchHashesResponseThreatHashThreatTypesItemEnumList
+    | undefined;
 }
 export type GoogleCloudWebriskV1SearchHashesResponseThreatHashList =
   Array<GoogleCloudWebriskV1SearchHashesResponseThreatHash>;
 export interface GoogleCloudWebriskV1SearchHashesResponse {
   /** For requested entities that did not match the threat list, how long to cache the response until. */
-  negativeExpireTime?: string;
+  negativeExpireTime?: string | undefined;
   /** The full hashes that matched the requested prefixes. The hash will be populated in the key. */
-  threats?: GoogleCloudWebriskV1SearchHashesResponseThreatHashList;
+  threats?: GoogleCloudWebriskV1SearchHashesResponseThreatHashList | undefined;
 }
 export type SearchUrisThreatTypesEnum =
   | "THREAT_TYPE_UNSPECIFIED"
@@ -293,9 +297,9 @@ export type SearchUrisThreatTypesEnum =
 export type SearchUrisThreatTypesEnumList = Array<SearchUrisThreatTypesEnum | (string & {})>;
 export interface SearchUrisRequest {
   /** Required. The URI to be checked for matches. */
-  uri?: string;
+  uri?: string | undefined;
   /** Required. The ThreatLists to search in. Multiple ThreatLists may be specified. */
-  threatTypes?: SearchUrisThreatTypesEnumList;
+  threatTypes?: SearchUrisThreatTypesEnumList | undefined;
 }
 export type GoogleCloudWebriskV1SearchUrisResponseThreatUriThreatTypesItemEnum =
   | "THREAT_TYPE_UNSPECIFIED"
@@ -308,13 +312,13 @@ export type GoogleCloudWebriskV1SearchUrisResponseThreatUriThreatTypesItemEnumLi
 /** Contains threat information on a matching uri. */
 export interface GoogleCloudWebriskV1SearchUrisResponseThreatUri {
   /** The cache lifetime for the returned match. Clients must not cache this response past this timestamp to avoid false positives. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** The ThreatList this threat belongs to. */
-  threatTypes?: GoogleCloudWebriskV1SearchUrisResponseThreatUriThreatTypesItemEnumList;
+  threatTypes?: GoogleCloudWebriskV1SearchUrisResponseThreatUriThreatTypesItemEnumList | undefined;
 }
 export interface GoogleCloudWebriskV1SearchUrisResponse {
   /** The threat list matches. This might be empty if the URI is on no list. */
-  threat?: GoogleCloudWebriskV1SearchUrisResponseThreatUri;
+  threat?: GoogleCloudWebriskV1SearchUrisResponseThreatUri | undefined;
 }
 export type CancelProjectsOperationsError =
   | NotFound

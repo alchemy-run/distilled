@@ -65,41 +65,41 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicInputRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasicInput {
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  role_at_organization?: UserBasicInputRoleAtOrganization | null;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  role_at_organization?: UserBasicInputRoleAtOrganization | null | undefined;
 }
 export interface AdvancedActivityLogsExportCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  user?: UserBasicInput | null;
-  team_id?: number | null;
-  organization_id?: string | null;
-  was_impersonated?: boolean | null;
-  is_system?: boolean | null;
-  client?: string | null;
-  ip_address?: string | null;
-  activity?: string;
-  item_id?: string | null;
-  scope?: string;
-  detail?: unknown;
-  created_at?: string;
+  user?: UserBasicInput | null | undefined;
+  team_id?: number | null | undefined;
+  organization_id?: string | null | undefined;
+  was_impersonated?: boolean | null | undefined;
+  is_system?: boolean | null | undefined;
+  client?: string | null | undefined;
+  ip_address?: string | null | undefined;
+  activity?: string | undefined;
+  item_id?: string | null | undefined;
+  scope?: string | undefined;
+  detail?: unknown | undefined;
+  created_at?: string | undefined;
 }
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 /** * `session` - session * `personal_api_key` - personal_api_key * `oauth` - oauth * `project_secret_key` - project_secret_key * `team_secret_token` - team_secret_token * `id_jag` - id_jag * `oidc_workload` - oidc_workload * `internal_jwt` - internal_jwt * `service_jwt` - service_jwt * `internal_api_secret` - internal_api_secret * `scim` - scim * `vercel` - vercel * `partner` - partner * `sharing_access_token` - sharing_access_token * `sharing_password` - sharing_password * `widget_token` - widget_token * `billing_service` - billing_service * `gateway_agent` - gateway_agent * `export_renderer` - export_renderer * `webhook` - webhook * `cross_region_signature` - cross_region_signature * `unattributed` - unattributed */
 export type ActivityLogCredentialTypeEnum =
@@ -126,25 +126,25 @@ export type ActivityLogCredentialTypeEnum =
   | "cross_region_signature"
   | "unattributed";
 export interface ActivityLog {
-  id?: string;
-  user?: UserBasic | null;
+  id?: string | undefined;
+  user?: UserBasic | null | undefined;
   /** is the date of this log item newer than the user's bookmark */
-  unread?: boolean;
-  team_id?: number | null;
-  organization_id?: string | null;
-  was_impersonated?: boolean | null;
-  is_system?: boolean | null;
-  client?: string | null;
-  ip_address?: string | null;
+  unread?: boolean | undefined;
+  team_id?: number | null | undefined;
+  organization_id?: string | null | undefined;
+  was_impersonated?: boolean | null | undefined;
+  is_system?: boolean | null | undefined;
+  client?: string | null | undefined;
+  ip_address?: string | null | undefined;
   /** Kind of credential that authenticated the request that made the change. 'unattributed' means the request recorded no credential. Null for changes made outside a request, such as background jobs, and for entries recorded before PostHog stored the credential. * `session` - session * `personal_api_key` - personal_api_key * `oauth` - oauth * `project_secret_key` - project_secret_key * `team_secret_token` - team_secret_token * `id_jag` - id_jag * `oidc_workload` - oidc_workload * `internal_jwt` - internal_jwt * `service_jwt` - service_jwt * `internal_api_secret` - internal_api_secret * `scim` - scim * `vercel` - vercel * `partner` - partner * `sharing_access_token` - sharing_access_token * `sharing_password` - sharing_password * `widget_token` - widget_token * `billing_service` - billing_service * `gateway_agent` - gateway_agent * `export_renderer` - export_renderer * `webhook` - webhook * `cross_region_signature` - cross_region_signature * `unattributed` - unattributed */
   credential_type: ActivityLogCredentialTypeEnum | null;
   /** Id of the credential that authenticated the change: the login session id for 'session', or the key id for 'personal_api_key' and 'project_secret_key'. Null for every other credential type and for impersonated changes. */
   credential_id: string | null;
-  activity?: string;
-  item_id?: string | null;
-  scope?: string;
-  detail?: unknown;
-  created_at?: string;
+  activity?: string | undefined;
+  item_id?: string | null | undefined;
+  scope?: string | undefined;
+  detail?: unknown | undefined;
+  created_at?: string | undefined;
 }
 export interface GetAdvancedActivityLogsAvailableFilterRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -164,21 +164,21 @@ export type StaticFiltersClientsItemMap = { [key: string]: unknown | undefined }
 export type StaticFiltersClientsList = Array<StaticFiltersClientsItemMap>;
 export interface StaticFilters {
   /** Users who have logged activity. */
-  users?: StaticFiltersUsersList;
+  users?: StaticFiltersUsersList | undefined;
   /** Available activity scopes. */
-  scopes?: StaticFiltersScopesList;
+  scopes?: StaticFiltersScopesList | undefined;
   /** Available activity types. */
-  activities?: StaticFiltersActivitiesList;
+  activities?: StaticFiltersActivitiesList | undefined;
   /** API clients that have generated activity (the x-posthog-client header, or 'scout:<skill_name>' for a scout run). */
-  clients?: StaticFiltersClientsList;
+  clients?: StaticFiltersClientsList | undefined;
 }
 /** Discovered detail fields and their value distributions. */
 export type AvailableFiltersResponseDetailFieldsMap = { [key: string]: unknown | undefined };
 export interface AvailableFiltersResponse {
   /** Pre-computed filter options for scopes, activities, and users. */
-  static_filters?: StaticFilters;
+  static_filters?: StaticFilters | undefined;
   /** Discovered detail fields and their value distributions. */
-  detail_fields?: AvailableFiltersResponseDetailFieldsMap;
+  detail_fields?: AvailableFiltersResponseDetailFieldsMap | undefined;
 }
 export type ListAdvancedActivityLogsRequestActivitiesList = Array<string>;
 export type ListAdvancedActivityLogsRequestClientsList = Array<string>;
@@ -193,54 +193,54 @@ export interface ListAdvancedActivityLogsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Filter by activity types (e.g. "created", "updated", "deleted"). */
-  activities?: ListAdvancedActivityLogsRequestActivitiesList;
+  activities?: ListAdvancedActivityLogsRequestActivitiesList | undefined;
   /** Filter by API clients that generated the activity (the x-posthog-client header, or 'scout:<skill_name>' for a scout run). */
-  clients?: ListAdvancedActivityLogsRequestClientsList;
+  clients?: ListAdvancedActivityLogsRequestClientsList | undefined;
   /** The pagination cursor value. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** JSON-encoded map of `detail` field paths to {operation, value} filters. Allowed operations: exact, contains, in. */
-  detail_filters?: string;
+  detail_filters?: string | undefined;
   /** Upper bound on `created_at` (inclusive), ISO-8601. */
-  end_date?: string;
+  end_date?: string | undefined;
   /** Keep the next link valid after the last entry, so the same cursor can be re-polled as new entries arrive. Only applies with oldest-first ordering. When following, stop on an empty results list rather than on a null next link. */
-  follow?: boolean;
+  follow?: boolean | undefined;
   /** Reserved for future HogQL-based filtering. */
-  hogql_filter?: string;
+  hogql_filter?: string | undefined;
   /** Include the previous and new values of changed fields. Only applies when schema is ocsf. Values can contain the content of the changed object, which makes responses larger and sends that content to your security tool. */
-  include_values?: boolean;
+  include_values?: boolean | undefined;
   /** Filter by client IP addresses. Accepts exact IPv4/IPv6 values or wildcard patterns using `*` (e.g. `203.0.113.*`). Multiple entries are OR-combined. */
-  ip_addresses?: ListAdvancedActivityLogsRequestIpAddressesList;
+  ip_addresses?: ListAdvancedActivityLogsRequestIpAddressesList | undefined;
   /** When set, filters rows authored by the system (no user). */
-  is_system?: boolean;
+  is_system?: boolean | undefined;
   /** Filter by the `item_id` of the affected resource(s). */
-  item_ids?: ListAdvancedActivityLogsRequestItemIdsList;
+  item_ids?: ListAdvancedActivityLogsRequestItemIdsList | undefined;
   /** Sort by when the entry was created. Defaults to newest first. Use created_at for oldest first when polling for new entries, so a saved cursor picks up where the last request stopped. * `-created_at` - -created_at * `created_at` - created_at */
-  ordering?: ListAdvancedActivityLogsRequestOrdering | (string & {});
+  ordering?: ListAdvancedActivityLogsRequestOrdering | (string & {}) | undefined;
   /** Page number for pagination. When provided, uses page-based pagination ordered by most recent first. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page (default: 100, max: 1000). */
-  page_size?: number;
+  page_size?: number | undefined;
   /** Response format. Set to ocsf to return Open Cybersecurity Schema Framework events for ingestion into a security tool. Omit for the default PostHog format. * `ocsf` - ocsf */
-  schema?: ListAdvancedActivityLogsRequestSchema | (string & {});
+  schema?: ListAdvancedActivityLogsRequestSchema | (string & {}) | undefined;
   /** Filter by activity scopes (e.g. "FeatureFlag", "Insight"). */
-  scopes?: ListAdvancedActivityLogsRequestScopesList;
+  scopes?: ListAdvancedActivityLogsRequestScopesList | undefined;
   /** Free-text search across the `detail` JSON column. */
-  search_text?: string;
+  search_text?: string | undefined;
   /** Lower bound on `created_at` (inclusive), ISO-8601. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** Filter by project (team) IDs. Only honored on the organization-scoped endpoint; ignored on the project-scoped endpoint. */
-  team_ids?: ListAdvancedActivityLogsRequestTeamIdsList;
+  team_ids?: ListAdvancedActivityLogsRequestTeamIdsList | undefined;
   /** Filter by users who performed the activity (user UUIDs). */
-  users?: ListAdvancedActivityLogsRequestUsersList;
+  users?: ListAdvancedActivityLogsRequestUsersList | undefined;
   /** When set, filters rows where the actor was impersonating another user. */
-  was_impersonated?: boolean;
+  was_impersonated?: boolean | undefined;
 }
 export type PaginatedActivityLogListResultsList = Array<ActivityLog>;
 export interface PaginatedActivityLogList {
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedActivityLogListResultsList;
-  count?: number;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedActivityLogListResultsList | undefined;
+  count?: number | undefined;
 }
 export type AdvancedActivityLogsExportCreateError =
   | BadRequest

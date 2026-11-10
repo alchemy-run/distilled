@@ -152,36 +152,36 @@ export class TooManyRequestsException
 export type __listOf__string = string[];
 const __listOf__string = /*@__PURE__*/ __L.at(__c15, 0);
 export interface CreateApplicationRequest {
-  Author?: string;
-  Description?: string;
-  HomePageUrl?: string;
-  Labels?: string[];
-  LicenseBody?: string;
-  LicenseUrl?: string;
-  Name?: string;
-  ReadmeBody?: string;
-  ReadmeUrl?: string;
-  SemanticVersion?: string;
-  SourceCodeArchiveUrl?: string;
-  SourceCodeUrl?: string;
-  SpdxLicenseId?: string;
-  TemplateBody?: string;
-  TemplateUrl?: string;
+  Author?: string | undefined;
+  Description?: string | undefined;
+  HomePageUrl?: string | undefined;
+  Labels?: string[] | undefined;
+  LicenseBody?: string | undefined;
+  LicenseUrl?: string | undefined;
+  Name?: string | undefined;
+  ReadmeBody?: string | undefined;
+  ReadmeUrl?: string | undefined;
+  SemanticVersion?: string | undefined;
+  SourceCodeArchiveUrl?: string | undefined;
+  SourceCodeUrl?: string | undefined;
+  SpdxLicenseId?: string | undefined;
+  TemplateBody?: string | undefined;
+  TemplateUrl?: string | undefined;
 }
 export interface ParameterDefinition {
-  AllowedPattern?: string;
-  AllowedValues?: string[];
-  ConstraintDescription?: string;
-  DefaultValue?: string;
-  Description?: string;
-  MaxLength?: number;
-  MaxValue?: number;
-  MinLength?: number;
-  MinValue?: number;
-  Name?: string;
-  NoEcho?: boolean;
-  ReferencedByResources?: string[];
-  Type?: string;
+  AllowedPattern?: string | undefined;
+  AllowedValues?: string[] | undefined;
+  ConstraintDescription?: string | undefined;
+  DefaultValue?: string | undefined;
+  Description?: string | undefined;
+  MaxLength?: number | undefined;
+  MaxValue?: number | undefined;
+  MinLength?: number | undefined;
+  MinValue?: number | undefined;
+  Name?: string | undefined;
+  NoEcho?: boolean | undefined;
+  ReferencedByResources?: string[] | undefined;
+  Type?: string | undefined;
 }
 export type __listOfParameterDefinition = ParameterDefinition[];
 const __listOfParameterDefinition = /*@__PURE__*/ __L.at(__c14, 1);
@@ -194,120 +194,121 @@ export type Capability =
 export type __listOfCapability = Capability[];
 const __listOfCapability = /*@__PURE__*/ __L.at(__c14, 2);
 export interface Version {
-  ApplicationId?: string;
-  CreationTime?: string;
-  ParameterDefinitions?: ParameterDefinition[];
-  RequiredCapabilities?: Capability[];
-  ResourcesSupported?: boolean;
-  SemanticVersion?: string;
-  SourceCodeArchiveUrl?: string;
-  SourceCodeUrl?: string;
-  TemplateUrl?: string;
+  ApplicationId?: string | undefined;
+  CreationTime?: string | undefined;
+  ParameterDefinitions?: ParameterDefinition[] | undefined;
+  RequiredCapabilities?: Capability[] | undefined;
+  ResourcesSupported?: boolean | undefined;
+  SemanticVersion?: string | undefined;
+  SourceCodeArchiveUrl?: string | undefined;
+  SourceCodeUrl?: string | undefined;
+  TemplateUrl?: string | undefined;
 }
 export interface CreateApplicationResponse {
-  ApplicationId?: string;
-  Author?: string;
-  CreationTime?: string;
-  Description?: string;
-  HomePageUrl?: string;
-  IsVerifiedAuthor?: boolean;
-  Labels?: string[];
-  LicenseUrl?: string;
-  Name?: string;
-  ReadmeUrl?: string;
-  SpdxLicenseId?: string;
-  VerifiedAuthorUrl?: string;
-  Version?: Version & {
-    ApplicationId: string;
-    CreationTime: string;
-    ParameterDefinitions: (ParameterDefinition & {
-      Name: string;
-      ReferencedByResources: __listOf__string;
-    })[];
-    RequiredCapabilities: __listOfCapability;
-    ResourcesSupported: boolean;
-    SemanticVersion: string;
-    TemplateUrl: string;
-  };
+  ApplicationId?: string | undefined;
+  Author?: string | undefined;
+  CreationTime?: string | undefined;
+  Description?: string | undefined;
+  HomePageUrl?: string | undefined;
+  IsVerifiedAuthor?: boolean | undefined;
+  Labels?: string[] | undefined;
+  LicenseUrl?: string | undefined;
+  Name?: string | undefined;
+  ReadmeUrl?: string | undefined;
+  SpdxLicenseId?: string | undefined;
+  VerifiedAuthorUrl?: string | undefined;
+  Version?:
+    | (Version & {
+        ApplicationId: string;
+        CreationTime: string;
+        ParameterDefinitions: (ParameterDefinition & {
+          Name: string;
+          ReferencedByResources: __listOf__string;
+        })[];
+        RequiredCapabilities: __listOfCapability;
+        ResourcesSupported: boolean;
+        SemanticVersion: string;
+        TemplateUrl: string;
+      })
+    | undefined;
 }
 export interface CreateApplicationVersionRequest {
   ApplicationId: string;
   SemanticVersion: string;
-  SourceCodeArchiveUrl?: string;
-  SourceCodeUrl?: string;
-  TemplateBody?: string;
-  TemplateUrl?: string;
+  SourceCodeArchiveUrl?: string | undefined;
+  SourceCodeUrl?: string | undefined;
+  TemplateBody?: string | undefined;
+  TemplateUrl?: string | undefined;
 }
 export interface CreateApplicationVersionResponse {
-  ApplicationId?: string;
-  CreationTime?: string;
-  ParameterDefinitions?: (ParameterDefinition & {
-    Name: string;
-    ReferencedByResources: __listOf__string;
-  })[];
-  RequiredCapabilities?: Capability[];
-  ResourcesSupported?: boolean;
-  SemanticVersion?: string;
-  SourceCodeArchiveUrl?: string;
-  SourceCodeUrl?: string;
-  TemplateUrl?: string;
+  ApplicationId?: string | undefined;
+  CreationTime?: string | undefined;
+  ParameterDefinitions?:
+    | (ParameterDefinition & { Name: string; ReferencedByResources: __listOf__string })[]
+    | undefined;
+  RequiredCapabilities?: Capability[] | undefined;
+  ResourcesSupported?: boolean | undefined;
+  SemanticVersion?: string | undefined;
+  SourceCodeArchiveUrl?: string | undefined;
+  SourceCodeUrl?: string | undefined;
+  TemplateUrl?: string | undefined;
 }
 export interface ParameterValue {
-  Name?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
 export type __listOfParameterValue = ParameterValue[];
 const __listOfParameterValue = /*@__PURE__*/ __L.at(__c17, 1);
 export interface RollbackTrigger {
-  Arn?: string;
-  Type?: string;
+  Arn?: string | undefined;
+  Type?: string | undefined;
 }
 export type __listOfRollbackTrigger = RollbackTrigger[];
 const __listOfRollbackTrigger = /*@__PURE__*/ __L.at(__c17, 3);
 export interface RollbackConfiguration {
-  MonitoringTimeInMinutes?: number;
-  RollbackTriggers?: RollbackTrigger[];
+  MonitoringTimeInMinutes?: number | undefined;
+  RollbackTriggers?: RollbackTrigger[] | undefined;
 }
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type __listOfTag = Tag[];
 const __listOfTag = /*@__PURE__*/ __L.at(__c17, 6);
 export interface CreateCloudFormationChangeSetRequest {
   ApplicationId: string;
-  Capabilities?: string[];
-  ChangeSetName?: string;
-  ClientToken?: string;
-  Description?: string;
-  NotificationArns?: string[];
-  ParameterOverrides?: ParameterValue[];
-  ResourceTypes?: string[];
-  RollbackConfiguration?: RollbackConfiguration;
-  SemanticVersion?: string;
-  StackName?: string;
-  Tags?: Tag[];
-  TemplateId?: string;
+  Capabilities?: string[] | undefined;
+  ChangeSetName?: string | undefined;
+  ClientToken?: string | undefined;
+  Description?: string | undefined;
+  NotificationArns?: string[] | undefined;
+  ParameterOverrides?: ParameterValue[] | undefined;
+  ResourceTypes?: string[] | undefined;
+  RollbackConfiguration?: RollbackConfiguration | undefined;
+  SemanticVersion?: string | undefined;
+  StackName?: string | undefined;
+  Tags?: Tag[] | undefined;
+  TemplateId?: string | undefined;
 }
 export interface CreateCloudFormationChangeSetResponse {
-  ApplicationId?: string;
-  ChangeSetId?: string;
-  SemanticVersion?: string;
-  StackId?: string;
+  ApplicationId?: string | undefined;
+  ChangeSetId?: string | undefined;
+  SemanticVersion?: string | undefined;
+  StackId?: string | undefined;
 }
 export interface CreateCloudFormationTemplateRequest {
   ApplicationId: string;
-  SemanticVersion?: string;
+  SemanticVersion?: string | undefined;
 }
 export type Status = "PREPARING" | "ACTIVE" | "EXPIRED" | (string & {});
 export interface CreateCloudFormationTemplateResponse {
-  ApplicationId?: string;
-  CreationTime?: string;
-  ExpirationTime?: string;
-  SemanticVersion?: string;
-  Status?: Status;
-  TemplateId?: string;
-  TemplateUrl?: string;
+  ApplicationId?: string | undefined;
+  CreationTime?: string | undefined;
+  ExpirationTime?: string | undefined;
+  SemanticVersion?: string | undefined;
+  Status?: Status | undefined;
+  TemplateId?: string | undefined;
+  TemplateUrl?: string | undefined;
 }
 export interface DeleteApplicationRequest {
   ApplicationId: string;
@@ -315,179 +316,180 @@ export interface DeleteApplicationRequest {
 export interface DeleteApplicationResponse {}
 export interface GetApplicationRequest {
   ApplicationId: string;
-  SemanticVersion?: string;
+  SemanticVersion?: string | undefined;
 }
 export interface GetApplicationResponse {
-  ApplicationId?: string;
-  Author?: string;
-  CreationTime?: string;
-  Description?: string;
-  HomePageUrl?: string;
-  IsVerifiedAuthor?: boolean;
-  Labels?: string[];
-  LicenseUrl?: string;
-  Name?: string;
-  ReadmeUrl?: string;
-  SpdxLicenseId?: string;
-  VerifiedAuthorUrl?: string;
-  Version?: Version & {
-    ApplicationId: string;
-    CreationTime: string;
-    ParameterDefinitions: (ParameterDefinition & {
-      Name: string;
-      ReferencedByResources: __listOf__string;
-    })[];
-    RequiredCapabilities: __listOfCapability;
-    ResourcesSupported: boolean;
-    SemanticVersion: string;
-    TemplateUrl: string;
-  };
+  ApplicationId?: string | undefined;
+  Author?: string | undefined;
+  CreationTime?: string | undefined;
+  Description?: string | undefined;
+  HomePageUrl?: string | undefined;
+  IsVerifiedAuthor?: boolean | undefined;
+  Labels?: string[] | undefined;
+  LicenseUrl?: string | undefined;
+  Name?: string | undefined;
+  ReadmeUrl?: string | undefined;
+  SpdxLicenseId?: string | undefined;
+  VerifiedAuthorUrl?: string | undefined;
+  Version?:
+    | (Version & {
+        ApplicationId: string;
+        CreationTime: string;
+        ParameterDefinitions: (ParameterDefinition & {
+          Name: string;
+          ReferencedByResources: __listOf__string;
+        })[];
+        RequiredCapabilities: __listOfCapability;
+        ResourcesSupported: boolean;
+        SemanticVersion: string;
+        TemplateUrl: string;
+      })
+    | undefined;
 }
 export interface GetApplicationPolicyRequest {
   ApplicationId: string;
 }
 export interface ApplicationPolicyStatement {
-  Actions?: string[];
-  PrincipalOrgIDs?: string[];
-  Principals?: string[];
-  StatementId?: string;
+  Actions?: string[] | undefined;
+  PrincipalOrgIDs?: string[] | undefined;
+  Principals?: string[] | undefined;
+  StatementId?: string | undefined;
 }
 export type __listOfApplicationPolicyStatement = ApplicationPolicyStatement[];
 const __listOfApplicationPolicyStatement = /*@__PURE__*/ __L.at(__c4, 1);
 export interface GetApplicationPolicyResponse {
-  Statements?: (ApplicationPolicyStatement & {
-    Actions: __listOf__string;
-    Principals: __listOf__string;
-  })[];
+  Statements?:
+    | (ApplicationPolicyStatement & { Actions: __listOf__string; Principals: __listOf__string })[]
+    | undefined;
 }
 export interface GetCloudFormationTemplateRequest {
   ApplicationId: string;
   TemplateId: string;
 }
 export interface GetCloudFormationTemplateResponse {
-  ApplicationId?: string;
-  CreationTime?: string;
-  ExpirationTime?: string;
-  SemanticVersion?: string;
-  Status?: Status;
-  TemplateId?: string;
-  TemplateUrl?: string;
+  ApplicationId?: string | undefined;
+  CreationTime?: string | undefined;
+  ExpirationTime?: string | undefined;
+  SemanticVersion?: string | undefined;
+  Status?: Status | undefined;
+  TemplateId?: string | undefined;
+  TemplateUrl?: string | undefined;
 }
 export type MaxItems = number;
 export interface ListApplicationDependenciesRequest {
   ApplicationId: string;
-  MaxItems?: number;
-  NextToken?: string;
-  SemanticVersion?: string;
+  MaxItems?: number | undefined;
+  NextToken?: string | undefined;
+  SemanticVersion?: string | undefined;
 }
 export interface ApplicationDependencySummary {
-  ApplicationId?: string;
-  SemanticVersion?: string;
+  ApplicationId?: string | undefined;
+  SemanticVersion?: string | undefined;
 }
 export type __listOfApplicationDependencySummary = ApplicationDependencySummary[];
 const __listOfApplicationDependencySummary = /*@__PURE__*/ __L.at(__c6, 2);
 export interface ListApplicationDependenciesResponse {
-  Dependencies?: (ApplicationDependencySummary & {
-    ApplicationId: string;
-    SemanticVersion: string;
-  })[];
-  NextToken?: string;
+  Dependencies?:
+    | (ApplicationDependencySummary & { ApplicationId: string; SemanticVersion: string })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListApplicationsRequest {
-  MaxItems?: number;
-  NextToken?: string;
+  MaxItems?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ApplicationSummary {
-  ApplicationId?: string;
-  Author?: string;
-  CreationTime?: string;
-  Description?: string;
-  HomePageUrl?: string;
-  Labels?: string[];
-  Name?: string;
-  SpdxLicenseId?: string;
+  ApplicationId?: string | undefined;
+  Author?: string | undefined;
+  CreationTime?: string | undefined;
+  Description?: string | undefined;
+  HomePageUrl?: string | undefined;
+  Labels?: string[] | undefined;
+  Name?: string | undefined;
+  SpdxLicenseId?: string | undefined;
 }
 export type __listOfApplicationSummary = ApplicationSummary[];
 const __listOfApplicationSummary = /*@__PURE__*/ __L.at(__c7, 2);
 export interface ListApplicationsResponse {
-  Applications?: (ApplicationSummary & {
-    ApplicationId: string;
-    Author: string;
-    Description: string;
-    Name: string;
-  })[];
-  NextToken?: string;
+  Applications?:
+    | (ApplicationSummary & {
+        ApplicationId: string;
+        Author: string;
+        Description: string;
+        Name: string;
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListApplicationVersionsRequest {
   ApplicationId: string;
-  MaxItems?: number;
-  NextToken?: string;
+  MaxItems?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface VersionSummary {
-  ApplicationId?: string;
-  CreationTime?: string;
-  SemanticVersion?: string;
-  SourceCodeUrl?: string;
+  ApplicationId?: string | undefined;
+  CreationTime?: string | undefined;
+  SemanticVersion?: string | undefined;
+  SourceCodeUrl?: string | undefined;
 }
 export type __listOfVersionSummary = VersionSummary[];
 const __listOfVersionSummary = /*@__PURE__*/ __L.at(__c8, 2);
 export interface ListApplicationVersionsResponse {
-  NextToken?: string;
-  Versions?: (VersionSummary & {
-    ApplicationId: string;
-    CreationTime: string;
-    SemanticVersion: string;
-  })[];
+  NextToken?: string | undefined;
+  Versions?:
+    | (VersionSummary & { ApplicationId: string; CreationTime: string; SemanticVersion: string })[]
+    | undefined;
 }
 export interface PutApplicationPolicyRequest {
   ApplicationId: string;
-  Statements?: ApplicationPolicyStatement[];
+  Statements?: ApplicationPolicyStatement[] | undefined;
 }
 export interface PutApplicationPolicyResponse {
-  Statements?: (ApplicationPolicyStatement & {
-    Actions: __listOf__string;
-    Principals: __listOf__string;
-  })[];
+  Statements?:
+    | (ApplicationPolicyStatement & { Actions: __listOf__string; Principals: __listOf__string })[]
+    | undefined;
 }
 export interface UnshareApplicationRequest {
   ApplicationId: string;
-  OrganizationId?: string;
+  OrganizationId?: string | undefined;
 }
 export interface UnshareApplicationResponse {}
 export interface UpdateApplicationRequest {
   ApplicationId: string;
-  Author?: string;
-  Description?: string;
-  HomePageUrl?: string;
-  Labels?: string[];
-  ReadmeBody?: string;
-  ReadmeUrl?: string;
+  Author?: string | undefined;
+  Description?: string | undefined;
+  HomePageUrl?: string | undefined;
+  Labels?: string[] | undefined;
+  ReadmeBody?: string | undefined;
+  ReadmeUrl?: string | undefined;
 }
 export interface UpdateApplicationResponse {
-  ApplicationId?: string;
-  Author?: string;
-  CreationTime?: string;
-  Description?: string;
-  HomePageUrl?: string;
-  IsVerifiedAuthor?: boolean;
-  Labels?: string[];
-  LicenseUrl?: string;
-  Name?: string;
-  ReadmeUrl?: string;
-  SpdxLicenseId?: string;
-  VerifiedAuthorUrl?: string;
-  Version?: Version & {
-    ApplicationId: string;
-    CreationTime: string;
-    ParameterDefinitions: (ParameterDefinition & {
-      Name: string;
-      ReferencedByResources: __listOf__string;
-    })[];
-    RequiredCapabilities: __listOfCapability;
-    ResourcesSupported: boolean;
-    SemanticVersion: string;
-    TemplateUrl: string;
-  };
+  ApplicationId?: string | undefined;
+  Author?: string | undefined;
+  CreationTime?: string | undefined;
+  Description?: string | undefined;
+  HomePageUrl?: string | undefined;
+  IsVerifiedAuthor?: boolean | undefined;
+  Labels?: string[] | undefined;
+  LicenseUrl?: string | undefined;
+  Name?: string | undefined;
+  ReadmeUrl?: string | undefined;
+  SpdxLicenseId?: string | undefined;
+  VerifiedAuthorUrl?: string | undefined;
+  Version?:
+    | (Version & {
+        ApplicationId: string;
+        CreationTime: string;
+        ParameterDefinitions: (ParameterDefinition & {
+          Name: string;
+          ReferencedByResources: __listOf__string;
+        })[];
+        RequiredCapabilities: __listOfCapability;
+        ResourcesSupported: boolean;
+        SemanticVersion: string;
+        TemplateUrl: string;
+      })
+    | undefined;
 }
 export type CreateApplicationError =
   | BadRequestException

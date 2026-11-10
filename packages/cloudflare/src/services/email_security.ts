@@ -238,36 +238,36 @@ export interface BulkInvestigateMoveRequest {
   /** List of message IDs to move. */
   ids: InvestigateMoveBulkRequestIdsList;
   /** This field is nonfunctional. */
-  expectedDisposition?: InvestigateMoveBulkRequestExpectedDisposition | (string & {});
+  expectedDisposition?: InvestigateMoveBulkRequestExpectedDisposition | (string & {}) | undefined;
   /** Use `ids` instead. */
-  postfixIds?: InvestigateMoveBulkRequestPostfixIdsList;
+  postfixIds?: InvestigateMoveBulkRequestPostfixIdsList | undefined;
 }
 export interface InvestigateMoveBulkResultItem {
   /** Whether the operation succeeded. */
   success: boolean;
   /** When the move operation completed (UTC). */
-  completedAt?: string | null;
+  completedAt?: string | null | undefined;
   /** Use `completed_at` instead. */
-  completedTimestamp?: string | null;
+  completedTimestamp?: string | null | undefined;
   /** Destination folder for the message. */
-  destination?: string | null;
+  destination?: string | null | undefined;
   /** This field is deprecated. */
-  itemCount?: number | null;
+  itemCount?: number | null | undefined;
   /** Message identifier. */
-  messageId?: string | null;
+  messageId?: string | null | undefined;
   /** Type of operation performed. */
-  operation?: string | null;
+  operation?: string | null | undefined;
   /** Recipient email address. */
-  recipient?: string | null;
+  recipient?: string | null | undefined;
   /** Operation status. */
-  status?: string | null;
+  status?: string | null | undefined;
 }
 export type InvestigateMoveBulkResultList = Array<InvestigateMoveBulkResultItem>;
 export interface BulkInvestigateMoveResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: InvestigateMoveBulkResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type InvestigateReleaseBulkRequestIdsList = Array<string>;
 export interface BulkInvestigateReleaseRequest {
@@ -282,18 +282,18 @@ export type InvestigateReleaseBulkResultItemUndeliveredList = Array<string>;
 export interface InvestigateReleaseBulkResultItem {
   /** Unique identifier for a message retrieved from investigation. */
   id: string;
-  delivered?: InvestigateReleaseBulkResultItemDeliveredList | null;
-  failed?: InvestigateReleaseBulkResultItemFailedList | null;
+  delivered?: InvestigateReleaseBulkResultItemDeliveredList | null | undefined;
+  failed?: InvestigateReleaseBulkResultItemFailedList | null | undefined;
   /** Use `id` instead. */
-  postfixId?: string | null;
-  undelivered?: InvestigateReleaseBulkResultItemUndeliveredList | null;
+  postfixId?: string | null | undefined;
+  undelivered?: InvestigateReleaseBulkResultItemUndeliveredList | null | undefined;
 }
 export type InvestigateReleaseBulkResultList = Array<InvestigateReleaseBulkResultItem>;
 export interface BulkInvestigateReleaseResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: InvestigateReleaseBulkResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type InvestigateBulkCreateRequestAction = "MOVE" | "RELEASE";
 export type InvestigateBulkCreateRequestSearchParamsDeliveryStatus =
@@ -322,41 +322,47 @@ export type InvestigateBulkCreateRequestSearchParamsMessageAction =
   | "MOVED";
 export interface InvestigateBulkCreateRequestSearchParams {
   /** Use GET /investigate/{investigate_id}/action_log instead. */
-  actionLog?: boolean;
+  actionLog?: boolean | undefined;
   /** Alert ID of the detection to filter by. */
-  alertId?: string;
+  alertId?: string | undefined;
   /** Delivery status to filter by. */
-  deliveryStatus?: InvestigateBulkCreateRequestSearchParamsDeliveryStatus | (string & {});
+  deliveryStatus?:
+    | InvestigateBulkCreateRequestSearchParamsDeliveryStatus
+    | (string & {})
+    | undefined;
   /** Whether to include only detections in search results. */
-  detectionsOnly?: boolean;
+  detectionsOnly?: boolean | undefined;
   /** Match messages that mention this domain -- sender domain, recipient domain, or a domain in a link. */
-  domain?: string;
+  domain?: string | undefined;
   /** End of search date range. */
-  end?: string;
+  end?: string | undefined;
   /** Match messages whose subject line equals this value exactly. */
-  exactSubject?: string;
+  exactSubject?: string | undefined;
   /** Dispositions to filter by. */
-  finalDisposition?: InvestigateBulkCreateRequestSearchParamsFinalDisposition | (string & {});
+  finalDisposition?:
+    | InvestigateBulkCreateRequestSearchParamsFinalDisposition
+    | (string & {})
+    | undefined;
   /** Message actions to filter by. */
-  messageAction?: InvestigateBulkCreateRequestSearchParamsMessageAction | (string & {});
+  messageAction?: InvestigateBulkCreateRequestSearchParamsMessageAction | (string & {}) | undefined;
   /** Message-ID header value to filter by. */
-  messageId?: string;
+  messageId?: string | undefined;
   /** Metric name to filter the search by. */
-  metric?: string;
+  metric?: string | undefined;
   /** Space-delimited search term. Case-insensitive. */
-  query?: string;
+  query?: string | undefined;
   /** Match messages whose recipient is this email address or domain. */
-  recipient?: string;
+  recipient?: string | undefined;
   /** Match messages whose sender is this email address or domain. */
-  sender?: string;
+  sender?: string | undefined;
   /** Matches messages whose SMTP HELO server IP address equals this value. */
-  smtpHeloIp?: string;
+  smtpHeloIp?: string | undefined;
   /** Beginning of search date range. */
-  start?: string;
+  start?: string | undefined;
   /** Match messages whose subject contains these keywords, in any order. */
-  subject?: string;
+  subject?: string | undefined;
   /** Whether to search reclassification submissions instead of original messages. */
-  submissions?: boolean;
+  submissions?: boolean | undefined;
 }
 export type InvestigateBulkCreateRequestDestination =
   | "Inbox"
@@ -382,11 +388,11 @@ export interface CreateInvestigateBulkRequest {
   action: InvestigateBulkCreateRequestAction | (string & {});
   searchParams: InvestigateBulkCreateRequestSearchParams;
   /** Optional note describing the job. */
-  comment?: string;
+  comment?: string | undefined;
   /** Required when action is 'MOVE'. */
-  destination?: InvestigateBulkCreateRequestDestination | (string & {});
+  destination?: InvestigateBulkCreateRequestDestination | (string & {}) | undefined;
   /** This field is nonfunctional. */
-  expectedDisposition?: InvestigateBulkCreateRequestExpectedDisposition | (string & {});
+  expectedDisposition?: InvestigateBulkCreateRequestExpectedDisposition | (string & {}) | undefined;
 }
 export type InvestigateBulkCreateResponseActionParamsMoveDestination =
   | "Inbox"
@@ -411,7 +417,10 @@ export interface InvestigateBulkCreateResponseActionParamsMove {
   destination: InvestigateBulkCreateResponseActionParamsMoveDestination;
   type: InvestigateBulkCreateResponseActionParamsMoveType;
   /** This field is nonfunctional. */
-  expectedDisposition?: InvestigateBulkCreateResponseActionParamsMoveExpectedDisposition | null;
+  expectedDisposition?:
+    | InvestigateBulkCreateResponseActionParamsMoveExpectedDisposition
+    | null
+    | undefined;
 }
 export type InvestigateBulkCreateResponseActionParamsReleaseType = "RELEASE";
 export interface InvestigateBulkCreateResponseActionParamsRelease {
@@ -447,41 +456,41 @@ export type InvestigateBulkCreateResponseSearchParamsMessageAction =
   | "MOVED";
 export interface InvestigateBulkCreateResponseSearchParams {
   /** Use GET /investigate/{investigate_id}/action_log instead. */
-  actionLog?: boolean | null;
+  actionLog?: boolean | null | undefined;
   /** Alert ID of the detection to filter by. */
-  alertId?: string | null;
+  alertId?: string | null | undefined;
   /** Delivery status to filter by. */
-  deliveryStatus?: InvestigateBulkCreateResponseSearchParamsDeliveryStatus | null;
+  deliveryStatus?: InvestigateBulkCreateResponseSearchParamsDeliveryStatus | null | undefined;
   /** Whether to include only detections in search results. */
-  detectionsOnly?: boolean | null;
+  detectionsOnly?: boolean | null | undefined;
   /** Match messages that mention this domain -- sender domain, recipient domain, or a domain in a link. */
-  domain?: string | null;
+  domain?: string | null | undefined;
   /** End of search date range. */
-  end?: string | null;
+  end?: string | null | undefined;
   /** Match messages whose subject line equals this value exactly. */
-  exactSubject?: string | null;
+  exactSubject?: string | null | undefined;
   /** Dispositions to filter by. */
-  finalDisposition?: InvestigateBulkCreateResponseSearchParamsFinalDisposition | null;
+  finalDisposition?: InvestigateBulkCreateResponseSearchParamsFinalDisposition | null | undefined;
   /** Message actions to filter by. */
-  messageAction?: InvestigateBulkCreateResponseSearchParamsMessageAction | null;
+  messageAction?: InvestigateBulkCreateResponseSearchParamsMessageAction | null | undefined;
   /** Message-ID header value to filter by. */
-  messageId?: string | null;
+  messageId?: string | null | undefined;
   /** Metric name to filter the search by. */
-  metric?: string | null;
+  metric?: string | null | undefined;
   /** Space-delimited search term. Case-insensitive. */
-  query?: string | null;
+  query?: string | null | undefined;
   /** Match messages whose recipient is this email address or domain. */
-  recipient?: string | null;
+  recipient?: string | null | undefined;
   /** Match messages whose sender is this email address or domain. */
-  sender?: string | null;
+  sender?: string | null | undefined;
   /** Matches messages whose SMTP HELO server IP address equals this value. */
-  smtpHeloIp?: string | null;
+  smtpHeloIp?: string | null | undefined;
   /** Beginning of search date range. */
-  start?: string | null;
+  start?: string | null | undefined;
   /** Match messages whose subject contains these keywords, in any order. */
-  subject?: string | null;
+  subject?: string | null | undefined;
   /** Whether to search reclassification submissions instead of original messages. */
-  submissions?: boolean | null;
+  submissions?: boolean | null | undefined;
 }
 export type InvestigateBulkCreateResponseStatus =
   | "PENDING"
@@ -507,10 +516,10 @@ export interface CreateInvestigateBulkResponse {
   /** Status of a bulk action job. */
   status: InvestigateBulkCreateResponseStatus;
   totalMessagesDiscovered: number;
-  comment?: string | null;
-  completedAt?: string | null;
-  startedAt?: string | null;
-  statusMessage?: string | null;
+  comment?: string | null | undefined;
+  completedAt?: string | null | undefined;
+  startedAt?: string | null | undefined;
+  statusMessage?: string | null | undefined;
 }
 export interface CreateInvestigateBulkCancelRequest {
   /** Identifier. */
@@ -541,7 +550,10 @@ export interface InvestigateBulkCancelCreateResponseActionParamsMove {
   destination: InvestigateBulkCancelCreateResponseActionParamsMoveDestination;
   type: InvestigateBulkCancelCreateResponseActionParamsMoveType;
   /** This field is nonfunctional. */
-  expectedDisposition?: InvestigateBulkCancelCreateResponseActionParamsMoveExpectedDisposition | null;
+  expectedDisposition?:
+    | InvestigateBulkCancelCreateResponseActionParamsMoveExpectedDisposition
+    | null
+    | undefined;
 }
 export type InvestigateBulkCancelCreateResponseActionParamsReleaseType = "RELEASE";
 export interface InvestigateBulkCancelCreateResponseActionParamsRelease {
@@ -577,41 +589,44 @@ export type InvestigateBulkCancelCreateResponseSearchParamsMessageAction =
   | "MOVED";
 export interface InvestigateBulkCancelCreateResponseSearchParams {
   /** Use GET /investigate/{investigate_id}/action_log instead. */
-  actionLog?: boolean | null;
+  actionLog?: boolean | null | undefined;
   /** Alert ID of the detection to filter by. */
-  alertId?: string | null;
+  alertId?: string | null | undefined;
   /** Delivery status to filter by. */
-  deliveryStatus?: InvestigateBulkCancelCreateResponseSearchParamsDeliveryStatus | null;
+  deliveryStatus?: InvestigateBulkCancelCreateResponseSearchParamsDeliveryStatus | null | undefined;
   /** Whether to include only detections in search results. */
-  detectionsOnly?: boolean | null;
+  detectionsOnly?: boolean | null | undefined;
   /** Match messages that mention this domain -- sender domain, recipient domain, or a domain in a link. */
-  domain?: string | null;
+  domain?: string | null | undefined;
   /** End of search date range. */
-  end?: string | null;
+  end?: string | null | undefined;
   /** Match messages whose subject line equals this value exactly. */
-  exactSubject?: string | null;
+  exactSubject?: string | null | undefined;
   /** Dispositions to filter by. */
-  finalDisposition?: InvestigateBulkCancelCreateResponseSearchParamsFinalDisposition | null;
+  finalDisposition?:
+    | InvestigateBulkCancelCreateResponseSearchParamsFinalDisposition
+    | null
+    | undefined;
   /** Message actions to filter by. */
-  messageAction?: InvestigateBulkCancelCreateResponseSearchParamsMessageAction | null;
+  messageAction?: InvestigateBulkCancelCreateResponseSearchParamsMessageAction | null | undefined;
   /** Message-ID header value to filter by. */
-  messageId?: string | null;
+  messageId?: string | null | undefined;
   /** Metric name to filter the search by. */
-  metric?: string | null;
+  metric?: string | null | undefined;
   /** Space-delimited search term. Case-insensitive. */
-  query?: string | null;
+  query?: string | null | undefined;
   /** Match messages whose recipient is this email address or domain. */
-  recipient?: string | null;
+  recipient?: string | null | undefined;
   /** Match messages whose sender is this email address or domain. */
-  sender?: string | null;
+  sender?: string | null | undefined;
   /** Matches messages whose SMTP HELO server IP address equals this value. */
-  smtpHeloIp?: string | null;
+  smtpHeloIp?: string | null | undefined;
   /** Beginning of search date range. */
-  start?: string | null;
+  start?: string | null | undefined;
   /** Match messages whose subject contains these keywords, in any order. */
-  subject?: string | null;
+  subject?: string | null | undefined;
   /** Whether to search reclassification submissions instead of original messages. */
-  submissions?: boolean | null;
+  submissions?: boolean | null | undefined;
 }
 export type InvestigateBulkCancelCreateResponseStatus =
   | "PENDING"
@@ -637,10 +652,10 @@ export interface CreateInvestigateBulkCancelResponse {
   /** Status of a bulk action job. */
   status: InvestigateBulkCancelCreateResponseStatus;
   totalMessagesDiscovered: number;
-  comment?: string | null;
-  completedAt?: string | null;
-  startedAt?: string | null;
-  statusMessage?: string | null;
+  comment?: string | null | undefined;
+  completedAt?: string | null | undefined;
+  startedAt?: string | null | undefined;
+  statusMessage?: string | null | undefined;
 }
 export type InvestigateMoveCreateRequestDestination =
   | "Inbox"
@@ -667,7 +682,7 @@ export interface CreateInvestigateMoveRequest {
   /** The mailbox folder to move messages to. */
   destination: InvestigateMoveCreateRequestDestination | (string & {});
   /** This field is nonfunctional. */
-  expectedDisposition?: InvestigateMoveCreateRequestExpectedDisposition | (string & {});
+  expectedDisposition?: InvestigateMoveCreateRequestExpectedDisposition | (string & {}) | undefined;
 }
 export type InvestigateMoveCreateResultItem = InvestigateMoveBulkResultItem;
 export type InvestigateMoveCreateResultList = Array<InvestigateMoveBulkResultItem>;
@@ -675,7 +690,7 @@ export interface CreateInvestigateMoveResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: InvestigateMoveCreateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface CreateInvestigatePreviewRequest {
   /** Identifier. */
@@ -703,9 +718,9 @@ export interface CreateInvestigateReclassifyRequest {
   /** The disposition the message should have. */
   expectedDisposition: InvestigateReclassifyCreateRequestExpectedDisposition | (string & {});
   /** Base64 encoded content of the EML file. */
-  emlContent?: string;
+  emlContent?: string | undefined;
   /** Submission ID of the original user submission, when reclassifying an escalated user report. */
-  escalatedSubmissionId?: string;
+  escalatedSubmissionId?: string | undefined;
 }
 export type CreateInvestigateReclassifyResponse = unknown;
 export type SettingsAllowPoliciesCreateRequestPatternType = "EMAIL" | "DOMAIN" | "IP" | "UNKNOWN";
@@ -725,15 +740,15 @@ export interface CreateSettingAllowPolicyRequest {
   patternType: SettingsAllowPoliciesCreateRequestPatternType | (string & {});
   /** Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication. */
   verifySender: boolean;
-  comments?: string;
+  comments?: string | undefined;
   /** Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** Use `is_exempt_recipient` instead. */
-  isRecipient?: boolean;
+  isRecipient?: boolean | undefined;
   /** Use `is_trusted_sender` instead. */
-  isSender?: boolean;
+  isSender?: boolean | undefined;
   /** Use `is_acceptable_sender` instead. */
-  isSpoof?: boolean;
+  isSpoof?: boolean | undefined;
 }
 export type SettingsAllowPoliciesCreateResponsePatternType = "EMAIL" | "DOMAIN" | "IP" | "UNKNOWN";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -743,29 +758,29 @@ export interface CreateSettingAllowPolicyResponse {
   createdAt: string;
   /** Use `modified_at` instead. */
   lastModified: string;
-  comments?: string | null;
+  comments?: string | null | undefined;
   /** Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
   /** Exempts messages from this sender from Spam, Spoof and Bulk dispositions only; Malicious and Suspicious dispositions still apply. */
-  isAcceptableSender?: boolean | null;
+  isAcceptableSender?: boolean | null | undefined;
   /** Bypasses all detections for messages to this recipient. */
-  isExemptRecipient?: boolean | null;
+  isExemptRecipient?: boolean | null | undefined;
   /** Use `is_exempt_recipient` instead. */
-  isRecipient?: boolean | null;
-  isRegex?: boolean | null;
+  isRecipient?: boolean | null | undefined;
+  isRegex?: boolean | null | undefined;
   /** Use `is_trusted_sender` instead. */
-  isSender?: boolean | null;
+  isSender?: boolean | null | undefined;
   /** Use `is_acceptable_sender` instead. */
-  isSpoof?: boolean | null;
+  isSpoof?: boolean | null | undefined;
   /** Bypasses all detections and link following for messages from this sender. */
-  isTrustedSender?: boolean | null;
-  modifiedAt?: string | null;
+  isTrustedSender?: boolean | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. The API also rejects a pattern that equals a domain onboarded to the account, ignoring case. */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
   /** Type of pattern matching. */
-  patternType?: SettingsAllowPoliciesCreateResponsePatternType | null;
+  patternType?: SettingsAllowPoliciesCreateResponsePatternType | null | undefined;
   /** Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication. */
-  verifySender?: boolean | null;
+  verifySender?: boolean | null | undefined;
 }
 export type SettingsBlockSendersCreateRequestPatternType = "EMAIL" | "DOMAIN" | "IP" | "UNKNOWN";
 export interface CreateSettingBlockSenderRequest {
@@ -777,28 +792,28 @@ export interface CreateSettingBlockSenderRequest {
   pattern: string;
   /** Type of pattern matching. */
   patternType: SettingsBlockSendersCreateRequestPatternType | (string & {});
-  comments?: string;
+  comments?: string | undefined;
   /** Timestamp at which the pattern expires. After this time, Email Security ignores the pattern. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
 }
 export type SettingsBlockSendersCreateResponsePatternType = "EMAIL" | "DOMAIN" | "IP" | "UNKNOWN";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateSettingBlockSenderResponse {
   /** Blocked sender pattern identifier. */
-  id?: string | null;
-  comments?: string | null;
-  createdAt?: string | null;
+  id?: string | null | undefined;
+  comments?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Timestamp at which the pattern expires. After this time, Email Security ignores the pattern. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
   /** Whether `pattern` is a regular expression instead of a literal value. */
-  isRegex?: boolean | null;
+  isRegex?: boolean | null | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string | null;
-  modifiedAt?: string | null;
+  lastModified?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
   /** Type of pattern matching. */
-  patternType?: SettingsBlockSendersCreateResponsePatternType | null;
+  patternType?: SettingsBlockSendersCreateResponsePatternType | null | undefined;
 }
 export type SettingsImpersonationRegistryCreateRequestProvenance =
   | "A1S_INTERNAL"
@@ -815,15 +830,15 @@ export interface CreateSettingImpersonationRegistryRequest {
   /** Display name of the protected identity. */
   name: string;
   /** Optional note describing the entry. */
-  comments?: string;
+  comments?: string | undefined;
   /** Identifier of the directory the entry was synced from, when directory-synced. */
-  directoryId?: number;
+  directoryId?: number | undefined;
   /** Identifier of the directory node the entry was synced from, when directory-synced. */
-  directoryNodeId?: number;
+  directoryNodeId?: number | undefined;
   /** This field is deprecated. */
-  externalDirectoryNodeId?: string;
+  externalDirectoryNodeId?: string | undefined;
   /** Source the entry was created from. */
-  provenance?: SettingsImpersonationRegistryCreateRequestProvenance | (string & {});
+  provenance?: SettingsImpersonationRegistryCreateRequestProvenance | (string & {}) | undefined;
 }
 export type SettingsImpersonationRegistryCreateResponseProvenance =
   | "A1S_INTERNAL"
@@ -833,27 +848,27 @@ export type SettingsImpersonationRegistryCreateResponseProvenance =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateSettingImpersonationRegistryResponse {
   /** Impersonation registry entry identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Optional note describing the entry. */
-  comments?: string | null;
-  createdAt?: string | null;
+  comments?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Identifier of the directory the entry was synced from, when directory-synced. */
-  directoryId?: number | null;
+  directoryId?: number | null | undefined;
   /** Identifier of the directory node the entry was synced from, when directory-synced. */
-  directoryNodeId?: number | null;
+  directoryNodeId?: number | null | undefined;
   /** Email address (or pattern) of the protected identity. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** This field is deprecated. */
-  externalDirectoryNodeId?: string | null;
+  externalDirectoryNodeId?: string | null | undefined;
   /** Whether `email` is a regular expression instead of a literal address. */
-  isEmailRegex?: boolean | null;
+  isEmailRegex?: boolean | null | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string | null;
-  modifiedAt?: string | null;
+  lastModified?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** Display name of the protected identity. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Source the entry was created from. */
-  provenance?: SettingsImpersonationRegistryCreateResponseProvenance | null;
+  provenance?: SettingsImpersonationRegistryCreateResponseProvenance | null | undefined;
 }
 export type CreateSettingsContentPolicyRequestTargetsItem = "SUBJECT" | "BODY";
 export type CreateSettingsContentPolicyRequestTargetsList = Array<
@@ -871,9 +886,9 @@ export interface CreateSettingsContentPolicyRequest {
   /** Parts of the email the pattern is matched against. */
   targets: CreateSettingsContentPolicyRequestTargetsList;
   /** Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** Optional note describing the purpose of the policy. */
-  notes?: string;
+  notes?: string | undefined;
 }
 export type CreateSettingsContentPolicyResponseTargetsItem = "SUBJECT" | "BODY";
 export type CreateSettingsContentPolicyResponseTargetsList =
@@ -881,21 +896,21 @@ export type CreateSettingsContentPolicyResponseTargetsList =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateSettingsContentPolicyResponse {
   /** Content policy identifier. */
-  id?: string | null;
-  createdAt?: string | null;
+  id?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Whether the policy is active. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string | null;
-  modifiedAt?: string | null;
+  expiresAt?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** Human-readable name of the policy. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Optional note describing the purpose of the policy. */
-  notes?: string | null;
+  notes?: string | null | undefined;
   /** Regular expression the policy matches against. */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
   /** Parts of the email the pattern is matched against. */
-  targets?: CreateSettingsContentPolicyResponseTargetsList | null;
+  targets?: CreateSettingsContentPolicyResponseTargetsList | null | undefined;
 }
 export type CreateSettingsDomainRequestAllowedDeliveryModesItem =
   | "DIRECT"
@@ -940,17 +955,17 @@ export interface CreateSettingsDomainRequest {
   /** Regions that process messages for this domain, e.g. `["GLOBAL"]` or `["US"]`. */
   regions: CreateSettingsDomainRequestRegionsList;
   /** The mailbox folder to scan, for API-scanning domains. */
-  folder?: CreateSettingsDomainRequestFolder | (string & {});
+  folder?: CreateSettingsDomainRequestFolder | (string & {}) | undefined;
   /** Identifier of the CASB integration that authorizes this domain. The integration also enables API scanning, post-delivery actions, and directory sync. */
-  integrationId?: string;
+  integrationId?: string | undefined;
   /** Number of hops to trace back through received headers when reconstructing the original message (1-20). */
-  lookbackHops?: number;
+  lookbackHops?: number | undefined;
   /** Require TLS on inbound connections. */
-  requireTlsInbound?: boolean;
+  requireTlsInbound?: boolean | undefined;
   /** Require TLS on outbound connections. */
-  requireTlsOutbound?: boolean;
+  requireTlsOutbound?: boolean | undefined;
   /** The mail transport hostname for MX/Inline delivery -- the MX record Cloudflare delivers email to (e.g. `mx.example.com`). */
-  transport?: string;
+  transport?: string | undefined;
 }
 export type CreateSettingsDomainResponseAllowedDeliveryModesItem =
   | "DIRECT"
@@ -963,7 +978,7 @@ export type CreateSettingsDomainResponseAllowedDeliveryModesList =
 export interface CreateSettingsDomainResponseAuthorization {
   authorized: boolean;
   timestamp: string;
-  statusMessage?: string | null;
+  statusMessage?: string | null | undefined;
 }
 export type CreateSettingsDomainResponseDmarcStatus = "none" | "good" | "invalid";
 export type CreateSettingsDomainResponseDropDispositionsItem =
@@ -1000,30 +1015,30 @@ export type CreateSettingsDomainResponseStatus = "PENDING" | "ACTIVE" | "FAILED"
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateSettingsDomainResponse {
   /** Domain identifier. */
-  id?: string | null;
-  allowedDeliveryModes?: CreateSettingsDomainResponseAllowedDeliveryModesList | null;
-  authorization?: CreateSettingsDomainResponseAuthorization | null;
-  createdAt?: string | null;
-  dmarcStatus?: CreateSettingsDomainResponseDmarcStatus | null;
-  domain?: string | null;
-  dropDispositions?: CreateSettingsDomainResponseDropDispositionsList | null;
-  emailsProcessed?: CreateSettingsDomainResponseEmailsProcessed | null;
+  id?: string | null | undefined;
+  allowedDeliveryModes?: CreateSettingsDomainResponseAllowedDeliveryModesList | null | undefined;
+  authorization?: CreateSettingsDomainResponseAuthorization | null | undefined;
+  createdAt?: string | null | undefined;
+  dmarcStatus?: CreateSettingsDomainResponseDmarcStatus | null | undefined;
+  domain?: string | null | undefined;
+  dropDispositions?: CreateSettingsDomainResponseDropDispositionsList | null | undefined;
+  emailsProcessed?: CreateSettingsDomainResponseEmailsProcessed | null | undefined;
   /** The mailbox folder to scan, for API-scanning domains. */
-  folder?: CreateSettingsDomainResponseFolder | null;
-  inboxProvider?: CreateSettingsDomainResponseInboxProvider | null;
-  integrationId?: string | null;
-  ipRestrictions?: CreateSettingsDomainResponseIpRestrictionsList | null;
+  folder?: CreateSettingsDomainResponseFolder | null | undefined;
+  inboxProvider?: CreateSettingsDomainResponseInboxProvider | null | undefined;
+  integrationId?: string | null | undefined;
+  ipRestrictions?: CreateSettingsDomainResponseIpRestrictionsList | null | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string | null;
-  lookbackHops?: number | null;
-  modifiedAt?: string | null;
-  o365TenantId?: string | null;
-  regions?: CreateSettingsDomainResponseRegionsList | null;
-  requireTlsInbound?: boolean | null;
-  requireTlsOutbound?: boolean | null;
-  spfStatus?: CreateSettingsDomainResponseSpfStatus | null;
-  status?: CreateSettingsDomainResponseStatus | null;
-  transport?: string | null;
+  lastModified?: string | null | undefined;
+  lookbackHops?: number | null | undefined;
+  modifiedAt?: string | null | undefined;
+  o365TenantId?: string | null | undefined;
+  regions?: CreateSettingsDomainResponseRegionsList | null | undefined;
+  requireTlsInbound?: boolean | null | undefined;
+  requireTlsOutbound?: boolean | null | undefined;
+  spfStatus?: CreateSettingsDomainResponseSpfStatus | null | undefined;
+  status?: CreateSettingsDomainResponseStatus | null | undefined;
+  transport?: string | null | undefined;
 }
 export type SettingsSendingDomainRestrictionsCreateRequestExcludeList = Array<string>;
 export interface CreateSettingSendingDomainRestrictionRequest {
@@ -1033,22 +1048,22 @@ export interface CreateSettingSendingDomainRestrictionRequest {
   domain: string;
   /** Subdomains to exempt from TLS requirements. */
   exclude: SettingsSendingDomainRestrictionsCreateRequestExcludeList;
-  comments?: string;
+  comments?: string | undefined;
 }
 export type SettingsSendingDomainRestrictionsCreateResponseExcludeList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateSettingSendingDomainRestrictionResponse {
   /** Sending domain restriction identifier. */
-  id?: string | null;
-  comments?: string | null;
-  createdAt?: string | null;
+  id?: string | null | undefined;
+  comments?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Domain that requires TLS enforcement. */
-  domain?: string | null;
+  domain?: string | null | undefined;
   /** Subdomains to exempt from TLS requirements. */
-  exclude?: SettingsSendingDomainRestrictionsCreateResponseExcludeList | null;
+  exclude?: SettingsSendingDomainRestrictionsCreateResponseExcludeList | null | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string | null;
-  modifiedAt?: string | null;
+  lastModified?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
 }
 export interface CreateSettingTrustedDomainRequest {
   /** Identifier. */
@@ -1061,25 +1076,25 @@ export interface CreateSettingTrustedDomainRequest {
   isSimilarity: boolean;
   /** The domain pattern to trust, e.g. `example.com`. */
   pattern: string;
-  comments?: string;
+  comments?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateSettingTrustedDomainResponse {
   /** Trusted domain identifier. */
-  id?: string | null;
-  comments?: string | null;
-  createdAt?: string | null;
+  id?: string | null | undefined;
+  comments?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition. */
-  isRecent?: boolean | null;
+  isRecent?: boolean | null | undefined;
   /** Whether `pattern` is a regular expression instead of a literal domain. */
-  isRegex?: boolean | null;
+  isRegex?: boolean | null | undefined;
   /** Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition. */
-  isSimilarity?: boolean | null;
+  isSimilarity?: boolean | null | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string | null;
-  modifiedAt?: string | null;
+  lastModified?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** The domain pattern to trust, e.g. `example.com`. */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
 }
 export interface CreateSettingUrlIgnorePatternRequest {
   /** Identifier. */
@@ -1087,7 +1102,7 @@ export interface CreateSettingUrlIgnorePatternRequest {
   /** Regular expression identifying URLs to exempt from rewriting. */
   pattern: string;
   /** Optional note describing the reason for the ignore pattern. */
-  comments?: string;
+  comments?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateSettingUrlIgnorePatternResponse {
@@ -1097,10 +1112,10 @@ export interface CreateSettingUrlIgnorePatternResponse {
   /** Regular expression identifying URLs to exempt from rewriting. */
   pattern: string;
   /** Optional note describing the reason for the ignore pattern. */
-  comments?: string | null;
+  comments?: string | null | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string | null;
-  modifiedAt?: string | null;
+  lastModified?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
 }
 export interface DeleteInvestigateBulkRequest {
   /** Identifier. */
@@ -1210,17 +1225,17 @@ export interface EditSettingsContentPolicyRequest {
   /** Content policy identifier. */
   policyId: string;
   /** Whether the policy is active. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** Human-readable name of the policy. */
-  name?: string;
+  name?: string | undefined;
   /** Optional note describing the purpose of the policy. */
-  notes?: string;
+  notes?: string | undefined;
   /** Regular expression the policy matches against. */
-  pattern?: string;
+  pattern?: string | undefined;
   /** Parts of the email the pattern is matched against. */
-  targets?: EditSettingsContentPolicyRequestTargetsList;
+  targets?: EditSettingsContentPolicyRequestTargetsList | undefined;
 }
 export type EditSettingsContentPolicyResponseTargetsItem = "SUBJECT" | "BODY";
 export type EditSettingsContentPolicyResponseTargetsList =
@@ -1228,21 +1243,21 @@ export type EditSettingsContentPolicyResponseTargetsList =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface EditSettingsContentPolicyResponse {
   /** Content policy identifier. */
-  id?: string | null;
-  createdAt?: string | null;
+  id?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Whether the policy is active. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string | null;
-  modifiedAt?: string | null;
+  expiresAt?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** Human-readable name of the policy. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Optional note describing the purpose of the policy. */
-  notes?: string | null;
+  notes?: string | null | undefined;
   /** Regular expression the policy matches against. */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
   /** Parts of the email the pattern is matched against. */
-  targets?: EditSettingsContentPolicyResponseTargetsList | null;
+  targets?: EditSettingsContentPolicyResponseTargetsList | null | undefined;
 }
 export interface GetInvestigateRequest {
   /** Identifier. */
@@ -1250,7 +1265,7 @@ export interface GetInvestigateRequest {
   /** Unique identifier for a message retrieved from investigation. */
   investigateId: string;
   /** When true, search the submissions datastore only. When false or omitted, search the regular datastore only. */
-  submission?: boolean;
+  submission?: boolean | undefined;
 }
 export type InvestigateGetResponseActionLogItemOperation =
   | "MOVE"
@@ -1261,9 +1276,9 @@ export type InvestigateGetResponseActionLogItemOperation =
   | "PREVIEW";
 export interface InvestigateGetResponseActionLogItemProperties {
   /** Target folder for move operations. */
-  folder?: string | null;
+  folder?: string | null | undefined;
   /** User who requested the action. */
-  requestedBy?: string | null;
+  requestedBy?: string | null | undefined;
 }
 export interface InvestigateGetResponseActionLogItem {
   /** Timestamp when action completed. */
@@ -1271,11 +1286,11 @@ export interface InvestigateGetResponseActionLogItem {
   /** Type of action performed. */
   operation: InvestigateGetResponseActionLogItemOperation;
   /** Use `completed_at` instead. */
-  completedTimestamp?: string | null;
+  completedTimestamp?: string | null | undefined;
   /** Additional properties for the action. */
-  properties?: InvestigateGetResponseActionLogItemProperties | null;
+  properties?: InvestigateGetResponseActionLogItemProperties | null | undefined;
   /** Status of the action. */
-  status?: string | null;
+  status?: string | null | undefined;
 }
 export type InvestigateGetResponseActionLogList = Array<InvestigateGetResponseActionLogItem>;
 export type InvestigateGetResponseClientRecipientsList = Array<string>;
@@ -1300,15 +1315,21 @@ export type InvestigateGetResponsePropertiesWhitelistedPatternType =
   | "outbound_ndr";
 export interface InvestigateGetResponseProperties {
   /** Pattern that allowlisted this message. */
-  allowlistedPattern?: string | null;
+  allowlistedPattern?: string | null | undefined;
   /** Type of allowlist pattern. */
-  allowlistedPatternType?: InvestigateGetResponsePropertiesAllowlistedPatternType | null;
+  allowlistedPatternType?:
+    | InvestigateGetResponsePropertiesAllowlistedPatternType
+    | null
+    | undefined;
   /** Whether message was blocklisted. */
-  blocklistedMessage?: boolean | null;
+  blocklistedMessage?: boolean | null | undefined;
   /** Pattern that blocklisted this message. */
-  blocklistedPattern?: string | null;
+  blocklistedPattern?: string | null | undefined;
   /** Legacy field for allowlist pattern type. */
-  whitelistedPatternType?: InvestigateGetResponsePropertiesWhitelistedPatternType | null;
+  whitelistedPatternType?:
+    | InvestigateGetResponsePropertiesWhitelistedPatternType
+    | null
+    | undefined;
 }
 export type InvestigateGetResponseDeliveryMode =
   | "DIRECT"
@@ -1357,16 +1378,16 @@ export type InvestigateGetResponseFindingsItemDetection =
   | "UNKNOWN"
   | "NONE";
 export interface InvestigateGetResponseFindingsItem {
-  attachment?: string | null;
-  detail?: string | null;
+  attachment?: string | null | undefined;
+  detail?: string | null | undefined;
   /** The verdict Email Security assigns to a message. */
-  detection?: InvestigateGetResponseFindingsItemDetection | null;
-  field?: string | null;
-  name?: string | null;
-  portion?: string | null;
-  reason?: string | null;
-  score?: number | null;
-  value?: string | null;
+  detection?: InvestigateGetResponseFindingsItemDetection | null | undefined;
+  field?: string | null | undefined;
+  name?: string | null | undefined;
+  portion?: string | null | undefined;
+  reason?: string | null | undefined;
+  score?: number | null | undefined;
+  value?: string | null | undefined;
 }
 export type InvestigateGetResponseFindingsList = Array<InvestigateGetResponseFindingsItem>;
 export type InvestigateGetResponsePostDeliveryOperationsItem =
@@ -1395,37 +1416,37 @@ export interface GetInvestigateResponse {
   properties: InvestigateGetResponseProperties;
   /** Use `scanned_at` instead. */
   ts: string;
-  alertId?: string | null;
-  deliveryMode?: InvestigateGetResponseDeliveryMode | null;
-  deliveryStatus?: InvestigateGetResponseDeliveryStatusList | null;
-  edfHash?: string | null;
-  envelopeFrom?: string | null;
-  envelopeTo?: InvestigateGetResponseEnvelopeToList | null;
+  alertId?: string | null | undefined;
+  deliveryMode?: InvestigateGetResponseDeliveryMode | null | undefined;
+  deliveryStatus?: InvestigateGetResponseDeliveryStatusList | null | undefined;
+  edfHash?: string | null | undefined;
+  envelopeFrom?: string | null | undefined;
+  envelopeTo?: InvestigateGetResponseEnvelopeToList | null | undefined;
   /** The verdict Email Security assigns to a message. */
-  finalDisposition?: InvestigateGetResponseFinalDisposition | null;
+  finalDisposition?: InvestigateGetResponseFinalDisposition | null | undefined;
   /** Use the `findings` field from GET /investigate/{investigate_id}/detections instead. */
-  findings?: InvestigateGetResponseFindingsList | null;
-  from?: string | null;
-  fromName?: string | null;
-  htmltextStructureHash?: string | null;
-  messageId?: string | null;
+  findings?: InvestigateGetResponseFindingsList | null | undefined;
+  from?: string | null | undefined;
+  fromName?: string | null | undefined;
+  htmltextStructureHash?: string | null | undefined;
+  messageId?: string | null | undefined;
   /** Post-delivery operations performed on this message. */
-  postDeliveryOperations?: InvestigateGetResponsePostDeliveryOperationsList | null;
-  postfixIdOutbound?: string | null;
-  replyto?: string | null;
+  postDeliveryOperations?: InvestigateGetResponsePostDeliveryOperationsList | null | undefined;
+  postfixIdOutbound?: string | null | undefined;
+  replyto?: string | null | undefined;
   /** When the message was scanned (UTC). */
-  scannedAt?: string | null;
+  scannedAt?: string | null | undefined;
   /** When the message was sent (UTC). */
-  sentAt?: string | null;
-  sentDate?: string | null;
-  smtpHeloServerIp?: string | null;
-  smtpPreviousHopIp?: string | null;
-  subject?: string | null;
-  threatCategories?: InvestigateGetResponseThreatCategoriesList | null;
-  to?: InvestigateGetResponseToList | null;
-  toName?: InvestigateGetResponseToNameList | null;
-  validation?: unknown | null;
-  xOriginatingIp?: string | null;
+  sentAt?: string | null | undefined;
+  sentDate?: string | null | undefined;
+  smtpHeloServerIp?: string | null | undefined;
+  smtpPreviousHopIp?: string | null | undefined;
+  subject?: string | null | undefined;
+  threatCategories?: InvestigateGetResponseThreatCategoriesList | null | undefined;
+  to?: InvestigateGetResponseToList | null | undefined;
+  toName?: InvestigateGetResponseToNameList | null | undefined;
+  validation?: unknown | null | undefined;
+  xOriginatingIp?: string | null | undefined;
 }
 export interface GetInvestigateBulkRequest {
   /** Identifier. */
@@ -1456,7 +1477,10 @@ export interface InvestigateBulkGetResponseActionParamsMove {
   destination: InvestigateBulkGetResponseActionParamsMoveDestination;
   type: InvestigateBulkGetResponseActionParamsMoveType;
   /** This field is nonfunctional. */
-  expectedDisposition?: InvestigateBulkGetResponseActionParamsMoveExpectedDisposition | null;
+  expectedDisposition?:
+    | InvestigateBulkGetResponseActionParamsMoveExpectedDisposition
+    | null
+    | undefined;
 }
 export type InvestigateBulkGetResponseActionParamsReleaseType = "RELEASE";
 export interface InvestigateBulkGetResponseActionParamsRelease {
@@ -1492,41 +1516,41 @@ export type InvestigateBulkGetResponseSearchParamsMessageAction =
   | "MOVED";
 export interface InvestigateBulkGetResponseSearchParams {
   /** Use GET /investigate/{investigate_id}/action_log instead. */
-  actionLog?: boolean | null;
+  actionLog?: boolean | null | undefined;
   /** Alert ID of the detection to filter by. */
-  alertId?: string | null;
+  alertId?: string | null | undefined;
   /** Delivery status to filter by. */
-  deliveryStatus?: InvestigateBulkGetResponseSearchParamsDeliveryStatus | null;
+  deliveryStatus?: InvestigateBulkGetResponseSearchParamsDeliveryStatus | null | undefined;
   /** Whether to include only detections in search results. */
-  detectionsOnly?: boolean | null;
+  detectionsOnly?: boolean | null | undefined;
   /** Match messages that mention this domain -- sender domain, recipient domain, or a domain in a link. */
-  domain?: string | null;
+  domain?: string | null | undefined;
   /** End of search date range. */
-  end?: string | null;
+  end?: string | null | undefined;
   /** Match messages whose subject line equals this value exactly. */
-  exactSubject?: string | null;
+  exactSubject?: string | null | undefined;
   /** Dispositions to filter by. */
-  finalDisposition?: InvestigateBulkGetResponseSearchParamsFinalDisposition | null;
+  finalDisposition?: InvestigateBulkGetResponseSearchParamsFinalDisposition | null | undefined;
   /** Message actions to filter by. */
-  messageAction?: InvestigateBulkGetResponseSearchParamsMessageAction | null;
+  messageAction?: InvestigateBulkGetResponseSearchParamsMessageAction | null | undefined;
   /** Message-ID header value to filter by. */
-  messageId?: string | null;
+  messageId?: string | null | undefined;
   /** Metric name to filter the search by. */
-  metric?: string | null;
+  metric?: string | null | undefined;
   /** Space-delimited search term. Case-insensitive. */
-  query?: string | null;
+  query?: string | null | undefined;
   /** Match messages whose recipient is this email address or domain. */
-  recipient?: string | null;
+  recipient?: string | null | undefined;
   /** Match messages whose sender is this email address or domain. */
-  sender?: string | null;
+  sender?: string | null | undefined;
   /** Matches messages whose SMTP HELO server IP address equals this value. */
-  smtpHeloIp?: string | null;
+  smtpHeloIp?: string | null | undefined;
   /** Beginning of search date range. */
-  start?: string | null;
+  start?: string | null | undefined;
   /** Match messages whose subject contains these keywords, in any order. */
-  subject?: string | null;
+  subject?: string | null | undefined;
   /** Whether to search reclassification submissions instead of original messages. */
-  submissions?: boolean | null;
+  submissions?: boolean | null | undefined;
 }
 export type InvestigateBulkGetResponseStatus =
   | "PENDING"
@@ -1552,10 +1576,10 @@ export interface GetInvestigateBulkResponse {
   /** Status of a bulk action job. */
   status: InvestigateBulkGetResponseStatus;
   totalMessagesDiscovered: number;
-  comment?: string | null;
-  completedAt?: string | null;
-  startedAt?: string | null;
-  statusMessage?: string | null;
+  comment?: string | null | undefined;
+  completedAt?: string | null | undefined;
+  startedAt?: string | null | undefined;
+  statusMessage?: string | null | undefined;
 }
 export interface GetInvestigateDetectionRequest {
   /** Identifier. */
@@ -1578,21 +1602,21 @@ export interface InvestigateDetectionsGetResponseAttachmentsItem {
   /** Size of the attachment in bytes. */
   size: number;
   /** MIME type of the attachment. */
-  contentType?: string | null;
+  contentType?: string | null | undefined;
   /** Detection result for this attachment. */
-  detection?: InvestigateDetectionsGetResponseAttachmentsItemDetection | null;
+  detection?: InvestigateDetectionsGetResponseAttachmentsItemDetection | null | undefined;
   /** Whether the attachment is encrypted. */
-  encrypted?: boolean | null;
+  encrypted?: boolean | null | undefined;
   /** Name of the attached file. */
-  filename?: string | null;
+  filename?: string | null | undefined;
   /** MD5 hash of the attachment. */
-  md5?: string | null;
+  md5?: string | null | undefined;
   /** Attachment name (alternative to filename). */
-  name?: string | null;
+  name?: string | null | undefined;
   /** SHA1 hash of the attachment. */
-  sha1?: string | null;
+  sha1?: string | null | undefined;
   /** SHA256 hash of the attachment. */
-  sha256?: string | null;
+  sha256?: string | null | undefined;
 }
 export type InvestigateDetectionsGetResponseAttachmentsList =
   Array<InvestigateDetectionsGetResponseAttachmentsItem>;
@@ -1608,16 +1632,16 @@ export type InvestigateDetectionsGetResponseFindingsItemDetection =
   | "UNKNOWN"
   | "NONE";
 export interface InvestigateDetectionsGetResponseFindingsItem {
-  attachment?: string | null;
-  detail?: string | null;
+  attachment?: string | null | undefined;
+  detail?: string | null | undefined;
   /** Detection result associated with this finding. */
-  detection?: InvestigateDetectionsGetResponseFindingsItemDetection | null;
-  field?: string | null;
-  name?: string | null;
-  portion?: string | null;
-  reason?: string | null;
-  score?: number | null;
-  value?: string | null;
+  detection?: InvestigateDetectionsGetResponseFindingsItemDetection | null | undefined;
+  field?: string | null | undefined;
+  name?: string | null | undefined;
+  portion?: string | null | undefined;
+  reason?: string | null | undefined;
+  score?: number | null | undefined;
+  value?: string | null | undefined;
 }
 export type InvestigateDetectionsGetResponseFindingsList =
   Array<InvestigateDetectionsGetResponseFindingsItem>;
@@ -1629,23 +1653,23 @@ export type InvestigateDetectionsGetResponseHeadersList =
   Array<InvestigateDetectionsGetResponseHeadersItem>;
 export interface InvestigateDetectionsGetResponseLinksItem {
   href: string;
-  text?: string | null;
+  text?: string | null | undefined;
 }
 export type InvestigateDetectionsGetResponseLinksList =
   Array<InvestigateDetectionsGetResponseLinksItem>;
 export interface InvestigateDetectionsGetResponseSenderInfo {
   /** The name of the autonomous system. */
-  asName?: string | null;
+  asName?: string | null | undefined;
   /** The number of the autonomous system. */
-  asNumber?: number | null;
-  geo?: string | null;
-  ip?: string | null;
-  pld?: string | null;
+  asNumber?: number | null | undefined;
+  geo?: string | null | undefined;
+  ip?: string | null | undefined;
+  pld?: string | null | undefined;
 }
 export interface InvestigateDetectionsGetResponseThreatCategoriesItem {
-  id?: number | null;
-  description?: string | null;
-  name?: string | null;
+  id?: number | null | undefined;
+  description?: string | null | undefined;
+  name?: string | null | undefined;
 }
 export type InvestigateDetectionsGetResponseThreatCategoriesList =
   Array<InvestigateDetectionsGetResponseThreatCategoriesItem>;
@@ -1668,10 +1692,10 @@ export type InvestigateDetectionsGetResponseValidationSpf =
   | "error"
   | "none";
 export interface InvestigateDetectionsGetResponseValidation {
-  comment?: string | null;
-  dkim?: InvestigateDetectionsGetResponseValidationDkim | null;
-  dmarc?: InvestigateDetectionsGetResponseValidationDmarc | null;
-  spf?: InvestigateDetectionsGetResponseValidationSpf | null;
+  comment?: string | null | undefined;
+  dkim?: InvestigateDetectionsGetResponseValidationDkim | null | undefined;
+  dmarc?: InvestigateDetectionsGetResponseValidationDmarc | null | undefined;
+  spf?: InvestigateDetectionsGetResponseValidationSpf | null | undefined;
 }
 export type InvestigateDetectionsGetResponseFinalDisposition =
   | "MALICIOUS"
@@ -1695,7 +1719,7 @@ export interface GetInvestigateDetectionResponse {
   threatCategories: InvestigateDetectionsGetResponseThreatCategoriesList;
   validation: InvestigateDetectionsGetResponseValidation;
   /** The verdict Email Security assigns to a message. */
-  finalDisposition?: InvestigateDetectionsGetResponseFinalDisposition | null;
+  finalDisposition?: InvestigateDetectionsGetResponseFinalDisposition | null | undefined;
 }
 export interface GetInvestigatePreviewRequest {
   /** Identifier. */
@@ -1727,25 +1751,25 @@ export interface GetInvestigateTraceRequest {
 }
 export interface InvestigateTraceGetResponseInboundLinesItem {
   /** Line number in the trace log. */
-  lineno?: number | null;
-  loggedAt?: string | null;
-  message?: string | null;
+  lineno?: number | null | undefined;
+  loggedAt?: string | null | undefined;
+  message?: string | null | undefined;
   /** Use `logged_at` instead. */
-  ts?: string | null;
+  ts?: string | null | undefined;
 }
 export type InvestigateTraceGetResponseInboundLinesList =
   Array<InvestigateTraceGetResponseInboundLinesItem>;
 export interface InvestigateTraceGetResponseInbound {
-  lines?: InvestigateTraceGetResponseInboundLinesList | null;
-  pending?: boolean | null;
+  lines?: InvestigateTraceGetResponseInboundLinesList | null | undefined;
+  pending?: boolean | null | undefined;
 }
 export type InvestigateTraceGetResponseOutboundLinesItem =
   InvestigateTraceGetResponseInboundLinesItem;
 export type InvestigateTraceGetResponseOutboundLinesList =
   Array<InvestigateTraceGetResponseInboundLinesItem>;
 export interface InvestigateTraceGetResponseOutbound {
-  lines?: InvestigateTraceGetResponseOutboundLinesList | null;
-  pending?: boolean | null;
+  lines?: InvestigateTraceGetResponseOutboundLinesList | null | undefined;
+  pending?: boolean | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetInvestigateTraceResponse {
@@ -1766,29 +1790,29 @@ export interface GetSettingAllowPolicyResponse {
   createdAt: string;
   /** Use `modified_at` instead. */
   lastModified: string;
-  comments?: string | null;
+  comments?: string | null | undefined;
   /** Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
   /** Exempts messages from this sender from Spam, Spoof and Bulk dispositions only; Malicious and Suspicious dispositions still apply. */
-  isAcceptableSender?: boolean | null;
+  isAcceptableSender?: boolean | null | undefined;
   /** Bypasses all detections for messages to this recipient. */
-  isExemptRecipient?: boolean | null;
+  isExemptRecipient?: boolean | null | undefined;
   /** Use `is_exempt_recipient` instead. */
-  isRecipient?: boolean | null;
-  isRegex?: boolean | null;
+  isRecipient?: boolean | null | undefined;
+  isRegex?: boolean | null | undefined;
   /** Use `is_trusted_sender` instead. */
-  isSender?: boolean | null;
+  isSender?: boolean | null | undefined;
   /** Use `is_acceptable_sender` instead. */
-  isSpoof?: boolean | null;
+  isSpoof?: boolean | null | undefined;
   /** Bypasses all detections and link following for messages from this sender. */
-  isTrustedSender?: boolean | null;
-  modifiedAt?: string | null;
+  isTrustedSender?: boolean | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. The API also rejects a pattern that equals a domain onboarded to the account, ignoring case. */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
   /** Type of pattern matching. */
-  patternType?: SettingsAllowPoliciesGetResponsePatternType | null;
+  patternType?: SettingsAllowPoliciesGetResponsePatternType | null | undefined;
   /** Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication. */
-  verifySender?: boolean | null;
+  verifySender?: boolean | null | undefined;
 }
 export interface GetSettingBlockSenderRequest {
   /** Identifier. */
@@ -1800,20 +1824,20 @@ export type SettingsBlockSendersGetResponsePatternType = "EMAIL" | "DOMAIN" | "I
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSettingBlockSenderResponse {
   /** Blocked sender pattern identifier. */
-  id?: string | null;
-  comments?: string | null;
-  createdAt?: string | null;
+  id?: string | null | undefined;
+  comments?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Timestamp at which the pattern expires. After this time, Email Security ignores the pattern. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
   /** Whether `pattern` is a regular expression instead of a literal value. */
-  isRegex?: boolean | null;
+  isRegex?: boolean | null | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string | null;
-  modifiedAt?: string | null;
+  lastModified?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
   /** Type of pattern matching. */
-  patternType?: SettingsBlockSendersGetResponsePatternType | null;
+  patternType?: SettingsBlockSendersGetResponsePatternType | null | undefined;
 }
 export interface GetSettingDomainRequest {
   /** Identifier. */
@@ -1855,30 +1879,30 @@ export type SettingsDomainsGetResponseStatus = "PENDING" | "ACTIVE" | "FAILED" |
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSettingDomainResponse {
   /** Domain identifier. */
-  id?: string | null;
-  allowedDeliveryModes?: SettingsDomainsGetResponseAllowedDeliveryModesList | null;
-  authorization?: CreateSettingsDomainResponseAuthorization | null;
-  createdAt?: string | null;
-  dmarcStatus?: SettingsDomainsGetResponseDmarcStatus | null;
-  domain?: string | null;
-  dropDispositions?: SettingsDomainsGetResponseDropDispositionsList | null;
-  emailsProcessed?: CreateSettingsDomainResponseEmailsProcessed | null;
+  id?: string | null | undefined;
+  allowedDeliveryModes?: SettingsDomainsGetResponseAllowedDeliveryModesList | null | undefined;
+  authorization?: CreateSettingsDomainResponseAuthorization | null | undefined;
+  createdAt?: string | null | undefined;
+  dmarcStatus?: SettingsDomainsGetResponseDmarcStatus | null | undefined;
+  domain?: string | null | undefined;
+  dropDispositions?: SettingsDomainsGetResponseDropDispositionsList | null | undefined;
+  emailsProcessed?: CreateSettingsDomainResponseEmailsProcessed | null | undefined;
   /** The mailbox folder to scan, for API-scanning domains. */
-  folder?: SettingsDomainsGetResponseFolder | null;
-  inboxProvider?: SettingsDomainsGetResponseInboxProvider | null;
-  integrationId?: string | null;
-  ipRestrictions?: SettingsDomainsGetResponseIpRestrictionsList | null;
+  folder?: SettingsDomainsGetResponseFolder | null | undefined;
+  inboxProvider?: SettingsDomainsGetResponseInboxProvider | null | undefined;
+  integrationId?: string | null | undefined;
+  ipRestrictions?: SettingsDomainsGetResponseIpRestrictionsList | null | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string | null;
-  lookbackHops?: number | null;
-  modifiedAt?: string | null;
-  o365TenantId?: string | null;
-  regions?: SettingsDomainsGetResponseRegionsList | null;
-  requireTlsInbound?: boolean | null;
-  requireTlsOutbound?: boolean | null;
-  spfStatus?: SettingsDomainsGetResponseSpfStatus | null;
-  status?: SettingsDomainsGetResponseStatus | null;
-  transport?: string | null;
+  lastModified?: string | null | undefined;
+  lookbackHops?: number | null | undefined;
+  modifiedAt?: string | null | undefined;
+  o365TenantId?: string | null | undefined;
+  regions?: SettingsDomainsGetResponseRegionsList | null | undefined;
+  requireTlsInbound?: boolean | null | undefined;
+  requireTlsOutbound?: boolean | null | undefined;
+  spfStatus?: SettingsDomainsGetResponseSpfStatus | null | undefined;
+  status?: SettingsDomainsGetResponseStatus | null | undefined;
+  transport?: string | null | undefined;
 }
 export interface GetSettingImpersonationRegistryRequest {
   /** Identifier. */
@@ -1894,27 +1918,27 @@ export type SettingsImpersonationRegistryGetResponseProvenance =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSettingImpersonationRegistryResponse {
   /** Impersonation registry entry identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Optional note describing the entry. */
-  comments?: string | null;
-  createdAt?: string | null;
+  comments?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Identifier of the directory the entry was synced from, when directory-synced. */
-  directoryId?: number | null;
+  directoryId?: number | null | undefined;
   /** Identifier of the directory node the entry was synced from, when directory-synced. */
-  directoryNodeId?: number | null;
+  directoryNodeId?: number | null | undefined;
   /** Email address (or pattern) of the protected identity. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** This field is deprecated. */
-  externalDirectoryNodeId?: string | null;
+  externalDirectoryNodeId?: string | null | undefined;
   /** Whether `email` is a regular expression instead of a literal address. */
-  isEmailRegex?: boolean | null;
+  isEmailRegex?: boolean | null | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string | null;
-  modifiedAt?: string | null;
+  lastModified?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** Display name of the protected identity. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Source the entry was created from. */
-  provenance?: SettingsImpersonationRegistryGetResponseProvenance | null;
+  provenance?: SettingsImpersonationRegistryGetResponseProvenance | null | undefined;
 }
 export interface GetSettingsContentPolicyRequest {
   /** Identifier. */
@@ -1928,21 +1952,21 @@ export type GetSettingsContentPolicyResponseTargetsList =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSettingsContentPolicyResponse {
   /** Content policy identifier. */
-  id?: string | null;
-  createdAt?: string | null;
+  id?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Whether the policy is active. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string | null;
-  modifiedAt?: string | null;
+  expiresAt?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** Human-readable name of the policy. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Optional note describing the purpose of the policy. */
-  notes?: string | null;
+  notes?: string | null | undefined;
   /** Regular expression the policy matches against. */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
   /** Parts of the email the pattern is matched against. */
-  targets?: GetSettingsContentPolicyResponseTargetsList | null;
+  targets?: GetSettingsContentPolicyResponseTargetsList | null | undefined;
 }
 export interface GetSettingSendingDomainRestrictionRequest {
   /** Identifier. */
@@ -1954,16 +1978,16 @@ export type SettingsSendingDomainRestrictionsGetResponseExcludeList = Array<stri
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSettingSendingDomainRestrictionResponse {
   /** Sending domain restriction identifier. */
-  id?: string | null;
-  comments?: string | null;
-  createdAt?: string | null;
+  id?: string | null | undefined;
+  comments?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Domain that requires TLS enforcement. */
-  domain?: string | null;
+  domain?: string | null | undefined;
   /** Subdomains to exempt from TLS requirements. */
-  exclude?: SettingsSendingDomainRestrictionsGetResponseExcludeList | null;
+  exclude?: SettingsSendingDomainRestrictionsGetResponseExcludeList | null | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string | null;
-  modifiedAt?: string | null;
+  lastModified?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
 }
 export interface GetSettingTrustedDomainRequest {
   /** Identifier. */
@@ -1974,20 +1998,20 @@ export interface GetSettingTrustedDomainRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSettingTrustedDomainResponse {
   /** Trusted domain identifier. */
-  id?: string | null;
-  comments?: string | null;
-  createdAt?: string | null;
+  id?: string | null | undefined;
+  comments?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition. */
-  isRecent?: boolean | null;
+  isRecent?: boolean | null | undefined;
   /** Whether `pattern` is a regular expression instead of a literal domain. */
-  isRegex?: boolean | null;
+  isRegex?: boolean | null | undefined;
   /** Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition. */
-  isSimilarity?: boolean | null;
+  isSimilarity?: boolean | null | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string | null;
-  modifiedAt?: string | null;
+  lastModified?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** The domain pattern to trust, e.g. `example.com`. */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
 }
 export interface GetSettingUrlIgnorePatternRequest {
   /** Identifier. */
@@ -2003,10 +2027,10 @@ export interface GetSettingUrlIgnorePatternResponse {
   /** Regular expression identifying URLs to exempt from rewriting. */
   pattern: string;
   /** Optional note describing the reason for the ignore pattern. */
-  comments?: string | null;
+  comments?: string | null | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string | null;
-  modifiedAt?: string | null;
+  lastModified?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
 }
 export type InvestigateBulkMessagesListRequestStatus =
   | "PENDING"
@@ -2021,11 +2045,11 @@ export interface ListInvestigateBulkMessagesRequest {
   /** Bulk action job identifier. */
   jobId: string;
   /** Current page within paginated list of results. */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page. Maximum value is 1000. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Filter the job's messages by their processing status. */
-  status?: InvestigateBulkMessagesListRequestStatus | (string & {});
+  status?: InvestigateBulkMessagesListRequestStatus | (string & {}) | undefined;
 }
 export type InvestigateBulkMessagesListResultItemActionParamsMoveDestination =
   | "Inbox"
@@ -2051,7 +2075,10 @@ export interface InvestigateBulkMessagesListResultItemActionParamsMove {
   destination: InvestigateBulkMessagesListResultItemActionParamsMoveDestination;
   type: InvestigateBulkMessagesListResultItemActionParamsMoveType;
   /** This field is nonfunctional. */
-  expectedDisposition?: InvestigateBulkMessagesListResultItemActionParamsMoveExpectedDisposition | null;
+  expectedDisposition?:
+    | InvestigateBulkMessagesListResultItemActionParamsMoveExpectedDisposition
+    | null
+    | undefined;
 }
 export type InvestigateBulkMessagesListResultItemActionParamsReleaseType = "RELEASE";
 export interface InvestigateBulkMessagesListResultItemActionParamsRelease {
@@ -2084,11 +2111,11 @@ export interface InvestigateBulkMessagesListResultItemMessageActionLogItem {
   /** Type of action performed. */
   operation: InvestigateBulkMessagesListResultItemMessageActionLogItemOperation;
   /** Use `completed_at` instead. */
-  completedTimestamp?: string | null;
+  completedTimestamp?: string | null | undefined;
   /** Additional properties for the action. */
-  properties?: InvestigateGetResponseActionLogItemProperties | null;
+  properties?: InvestigateGetResponseActionLogItemProperties | null | undefined;
   /** Status of the action. */
-  status?: string | null;
+  status?: string | null | undefined;
 }
 export type InvestigateBulkMessagesListResultItemMessageActionLogList =
   Array<InvestigateBulkMessagesListResultItemMessageActionLogItem>;
@@ -2114,15 +2141,21 @@ export type InvestigateBulkMessagesListResultItemMessagePropertiesWhitelistedPat
   | "outbound_ndr";
 export interface InvestigateBulkMessagesListResultItemMessageProperties {
   /** Pattern that allowlisted this message. */
-  allowlistedPattern?: string | null;
+  allowlistedPattern?: string | null | undefined;
   /** Type of allowlist pattern. */
-  allowlistedPatternType?: InvestigateBulkMessagesListResultItemMessagePropertiesAllowlistedPatternType | null;
+  allowlistedPatternType?:
+    | InvestigateBulkMessagesListResultItemMessagePropertiesAllowlistedPatternType
+    | null
+    | undefined;
   /** Whether message was blocklisted. */
-  blocklistedMessage?: boolean | null;
+  blocklistedMessage?: boolean | null | undefined;
   /** Pattern that blocklisted this message. */
-  blocklistedPattern?: string | null;
+  blocklistedPattern?: string | null | undefined;
   /** Legacy field for allowlist pattern type. */
-  whitelistedPatternType?: InvestigateBulkMessagesListResultItemMessagePropertiesWhitelistedPatternType | null;
+  whitelistedPatternType?:
+    | InvestigateBulkMessagesListResultItemMessagePropertiesWhitelistedPatternType
+    | null
+    | undefined;
 }
 export type InvestigateBulkMessagesListResultItemMessageDeliveryMode =
   | "DIRECT"
@@ -2171,16 +2204,16 @@ export type InvestigateBulkMessagesListResultItemMessageFindingsItemDetection =
   | "UNKNOWN"
   | "NONE";
 export interface InvestigateBulkMessagesListResultItemMessageFindingsItem {
-  attachment?: string | null;
-  detail?: string | null;
+  attachment?: string | null | undefined;
+  detail?: string | null | undefined;
   /** The verdict Email Security assigns to a message. */
-  detection?: InvestigateBulkMessagesListResultItemMessageFindingsItemDetection | null;
-  field?: string | null;
-  name?: string | null;
-  portion?: string | null;
-  reason?: string | null;
-  score?: number | null;
-  value?: string | null;
+  detection?: InvestigateBulkMessagesListResultItemMessageFindingsItemDetection | null | undefined;
+  field?: string | null | undefined;
+  name?: string | null | undefined;
+  portion?: string | null | undefined;
+  reason?: string | null | undefined;
+  score?: number | null | undefined;
+  value?: string | null | undefined;
 }
 export type InvestigateBulkMessagesListResultItemMessageFindingsList =
   Array<InvestigateBulkMessagesListResultItemMessageFindingsItem>;
@@ -2209,37 +2242,49 @@ export interface InvestigateBulkMessagesListResultItemMessage {
   properties: InvestigateBulkMessagesListResultItemMessageProperties;
   /** Use `scanned_at` instead. */
   ts: string;
-  alertId?: string | null;
-  deliveryMode?: InvestigateBulkMessagesListResultItemMessageDeliveryMode | null;
-  deliveryStatus?: InvestigateBulkMessagesListResultItemMessageDeliveryStatusList | null;
-  edfHash?: string | null;
-  envelopeFrom?: string | null;
-  envelopeTo?: InvestigateBulkMessagesListResultItemMessageEnvelopeToList | null;
+  alertId?: string | null | undefined;
+  deliveryMode?: InvestigateBulkMessagesListResultItemMessageDeliveryMode | null | undefined;
+  deliveryStatus?:
+    | InvestigateBulkMessagesListResultItemMessageDeliveryStatusList
+    | null
+    | undefined;
+  edfHash?: string | null | undefined;
+  envelopeFrom?: string | null | undefined;
+  envelopeTo?: InvestigateBulkMessagesListResultItemMessageEnvelopeToList | null | undefined;
   /** The verdict Email Security assigns to a message. */
-  finalDisposition?: InvestigateBulkMessagesListResultItemMessageFinalDisposition | null;
+  finalDisposition?:
+    | InvestigateBulkMessagesListResultItemMessageFinalDisposition
+    | null
+    | undefined;
   /** Use the `findings` field from GET /investigate/{investigate_id}/detections instead. */
-  findings?: InvestigateBulkMessagesListResultItemMessageFindingsList | null;
-  from?: string | null;
-  fromName?: string | null;
-  htmltextStructureHash?: string | null;
-  messageId?: string | null;
+  findings?: InvestigateBulkMessagesListResultItemMessageFindingsList | null | undefined;
+  from?: string | null | undefined;
+  fromName?: string | null | undefined;
+  htmltextStructureHash?: string | null | undefined;
+  messageId?: string | null | undefined;
   /** Post-delivery operations performed on this message. */
-  postDeliveryOperations?: InvestigateBulkMessagesListResultItemMessagePostDeliveryOperationsList | null;
-  postfixIdOutbound?: string | null;
-  replyto?: string | null;
+  postDeliveryOperations?:
+    | InvestigateBulkMessagesListResultItemMessagePostDeliveryOperationsList
+    | null
+    | undefined;
+  postfixIdOutbound?: string | null | undefined;
+  replyto?: string | null | undefined;
   /** When the message was scanned (UTC). */
-  scannedAt?: string | null;
+  scannedAt?: string | null | undefined;
   /** When the message was sent (UTC). */
-  sentAt?: string | null;
-  sentDate?: string | null;
-  smtpHeloServerIp?: string | null;
-  smtpPreviousHopIp?: string | null;
-  subject?: string | null;
-  threatCategories?: InvestigateBulkMessagesListResultItemMessageThreatCategoriesList | null;
-  to?: InvestigateBulkMessagesListResultItemMessageToList | null;
-  toName?: InvestigateBulkMessagesListResultItemMessageToNameList | null;
-  validation?: unknown | null;
-  xOriginatingIp?: string | null;
+  sentAt?: string | null | undefined;
+  sentDate?: string | null | undefined;
+  smtpHeloServerIp?: string | null | undefined;
+  smtpPreviousHopIp?: string | null | undefined;
+  subject?: string | null | undefined;
+  threatCategories?:
+    | InvestigateBulkMessagesListResultItemMessageThreatCategoriesList
+    | null
+    | undefined;
+  to?: InvestigateBulkMessagesListResultItemMessageToList | null | undefined;
+  toName?: InvestigateBulkMessagesListResultItemMessageToNameList | null | undefined;
+  validation?: unknown | null | undefined;
+  xOriginatingIp?: string | null | undefined;
 }
 export interface InvestigateBulkMessagesListResultItem {
   actionParams: InvestigateBulkMessagesListResultItemActionParams;
@@ -2250,20 +2295,20 @@ export interface InvestigateBulkMessagesListResultItem {
   retryCount: number;
   /** Status of a message within a bulk action job. */
   status: InvestigateBulkMessagesListResultItemStatus;
-  alertId?: string | null;
-  emailMessageId?: string | null;
-  message?: InvestigateBulkMessagesListResultItemMessage | null;
-  processedAt?: string | null;
+  alertId?: string | null | undefined;
+  emailMessageId?: string | null | undefined;
+  message?: InvestigateBulkMessagesListResultItemMessage | null | undefined;
+  processedAt?: string | null | undefined;
   /** When to retry the action if it failed. */
-  retryAfter?: string | null;
-  statusMessage?: string | null;
+  retryAfter?: string | null | undefined;
+  statusMessage?: string | null | undefined;
 }
 export type InvestigateBulkMessagesListResultList = Array<InvestigateBulkMessagesListResultItem>;
 export interface ListInvestigateBulkMessagesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: InvestigateBulkMessagesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type InvestigateBulkListRequestActionType = "MOVE" | "RELEASE";
 export type InvestigateBulkListRequestStatus =
@@ -2277,13 +2322,13 @@ export interface ListInvestigateBulksRequest {
   /** Identifier. */
   accountId: string;
   /** Filter jobs by the action they perform. */
-  actionType?: InvestigateBulkListRequestActionType | (string & {});
+  actionType?: InvestigateBulkListRequestActionType | (string & {}) | undefined;
   /** Current page within paginated list of results. */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page. Maximum value is 1000. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Filter jobs by their processing status. */
-  status?: InvestigateBulkListRequestStatus | (string & {});
+  status?: InvestigateBulkListRequestStatus | (string & {}) | undefined;
 }
 export type InvestigateBulkListResultItemActionParamsMoveDestination =
   | "Inbox"
@@ -2308,7 +2353,10 @@ export interface InvestigateBulkListResultItemActionParamsMove {
   destination: InvestigateBulkListResultItemActionParamsMoveDestination;
   type: InvestigateBulkListResultItemActionParamsMoveType;
   /** This field is nonfunctional. */
-  expectedDisposition?: InvestigateBulkListResultItemActionParamsMoveExpectedDisposition | null;
+  expectedDisposition?:
+    | InvestigateBulkListResultItemActionParamsMoveExpectedDisposition
+    | null
+    | undefined;
 }
 export type InvestigateBulkListResultItemActionParamsReleaseType = "RELEASE";
 export interface InvestigateBulkListResultItemActionParamsRelease {
@@ -2344,41 +2392,41 @@ export type InvestigateBulkListResultItemSearchParamsMessageAction =
   | "MOVED";
 export interface InvestigateBulkListResultItemSearchParams {
   /** Use GET /investigate/{investigate_id}/action_log instead. */
-  actionLog?: boolean | null;
+  actionLog?: boolean | null | undefined;
   /** Alert ID of the detection to filter by. */
-  alertId?: string | null;
+  alertId?: string | null | undefined;
   /** Delivery status to filter by. */
-  deliveryStatus?: InvestigateBulkListResultItemSearchParamsDeliveryStatus | null;
+  deliveryStatus?: InvestigateBulkListResultItemSearchParamsDeliveryStatus | null | undefined;
   /** Whether to include only detections in search results. */
-  detectionsOnly?: boolean | null;
+  detectionsOnly?: boolean | null | undefined;
   /** Match messages that mention this domain -- sender domain, recipient domain, or a domain in a link. */
-  domain?: string | null;
+  domain?: string | null | undefined;
   /** End of search date range. */
-  end?: string | null;
+  end?: string | null | undefined;
   /** Match messages whose subject line equals this value exactly. */
-  exactSubject?: string | null;
+  exactSubject?: string | null | undefined;
   /** Dispositions to filter by. */
-  finalDisposition?: InvestigateBulkListResultItemSearchParamsFinalDisposition | null;
+  finalDisposition?: InvestigateBulkListResultItemSearchParamsFinalDisposition | null | undefined;
   /** Message actions to filter by. */
-  messageAction?: InvestigateBulkListResultItemSearchParamsMessageAction | null;
+  messageAction?: InvestigateBulkListResultItemSearchParamsMessageAction | null | undefined;
   /** Message-ID header value to filter by. */
-  messageId?: string | null;
+  messageId?: string | null | undefined;
   /** Metric name to filter the search by. */
-  metric?: string | null;
+  metric?: string | null | undefined;
   /** Space-delimited search term. Case-insensitive. */
-  query?: string | null;
+  query?: string | null | undefined;
   /** Match messages whose recipient is this email address or domain. */
-  recipient?: string | null;
+  recipient?: string | null | undefined;
   /** Match messages whose sender is this email address or domain. */
-  sender?: string | null;
+  sender?: string | null | undefined;
   /** Matches messages whose SMTP HELO server IP address equals this value. */
-  smtpHeloIp?: string | null;
+  smtpHeloIp?: string | null | undefined;
   /** Beginning of search date range. */
-  start?: string | null;
+  start?: string | null | undefined;
   /** Match messages whose subject contains these keywords, in any order. */
-  subject?: string | null;
+  subject?: string | null | undefined;
   /** Whether to search reclassification submissions instead of original messages. */
-  submissions?: boolean | null;
+  submissions?: boolean | null | undefined;
 }
 export type InvestigateBulkListResultItemStatus =
   | "PENDING"
@@ -2403,17 +2451,17 @@ export interface InvestigateBulkListResultItem {
   /** Status of a bulk action job. */
   status: InvestigateBulkListResultItemStatus;
   totalMessagesDiscovered: number;
-  comment?: string | null;
-  completedAt?: string | null;
-  startedAt?: string | null;
-  statusMessage?: string | null;
+  comment?: string | null | undefined;
+  completedAt?: string | null | undefined;
+  startedAt?: string | null | undefined;
+  statusMessage?: string | null | undefined;
 }
 export type InvestigateBulkListResultList = Array<InvestigateBulkListResultItem>;
 export interface ListInvestigateBulksResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: InvestigateBulkListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type InvestigateListRequestDeliveryStatus =
   | "delivered"
@@ -2436,41 +2484,41 @@ export interface ListInvestigatesRequest {
   /** Identifier. */
   accountId: string;
   /** Filter by alert ID. */
-  alertId?: string;
+  alertId?: string | undefined;
   /** Pagination cursor from the previous response's `result_info`. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Delivery status to filter by. */
-  deliveryStatus?: InvestigateListRequestDeliveryStatus | (string & {});
+  deliveryStatus?: InvestigateListRequestDeliveryStatus | (string & {}) | undefined;
   /** Whether to include only detections in search results. */
-  detectionsOnly?: boolean;
+  detectionsOnly?: boolean | undefined;
   /** Filter by a domain found in the email -- sender domain, recipient domain, or a domain in a link. */
-  domain?: string;
+  domain?: string | undefined;
   /** The end of the search date range. Defaults to `now`. */
-  end?: string;
+  end?: string | undefined;
   /** Dispositions to filter by. */
-  finalDisposition?: InvestigateListRequestFinalDisposition | (string & {});
+  finalDisposition?: InvestigateListRequestFinalDisposition | (string & {}) | undefined;
   /** Message actions to filter by. */
-  messageAction?: InvestigateListRequestMessageAction | (string & {});
+  messageAction?: InvestigateListRequestMessageAction | (string & {}) | undefined;
   /** Filter by the RFC 5322 Message-ID header. */
-  messageId?: string;
+  messageId?: string | undefined;
   /** Metric to aggregate the results by. */
-  metric?: string;
+  metric?: string | undefined;
   /** Deprecated: Use cursor pagination instead. End of life: November 1, 2026. */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page. Maximum value is 1000. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Space-delimited term matched case-insensitively against message metadata -- sender, recipient, subject, attachment names and hashes, and message ID. */
-  query?: string;
+  query?: string | undefined;
   /** Filter by recipient. Matches an email address or a domain. */
-  recipient?: string;
+  recipient?: string | undefined;
   /** Filter by sender. Matches an email address or a domain. */
-  sender?: string;
+  sender?: string | undefined;
   /** Matches messages whose SMTP HELO server IP address equals this value. */
-  smtpHeloIp?: string;
+  smtpHeloIp?: string | undefined;
   /** The beginning of the search date range. Defaults to `now - 30 days`. Must not be in the future. */
-  start?: string;
+  start?: string | undefined;
   /** Search for messages containing individual keywords in any order within the subject. */
-  subject?: string;
+  subject?: string | undefined;
 }
 export type InvestigateListResultItemActionLogItemOperation =
   | "MOVE"
@@ -2487,11 +2535,11 @@ export interface InvestigateListResultItemActionLogItem {
   /** Type of action performed. */
   operation: InvestigateListResultItemActionLogItemOperation;
   /** Use `completed_at` instead. */
-  completedTimestamp?: string | null;
+  completedTimestamp?: string | null | undefined;
   /** Additional properties for the action. */
-  properties?: InvestigateGetResponseActionLogItemProperties | null;
+  properties?: InvestigateGetResponseActionLogItemProperties | null | undefined;
   /** Status of the action. */
-  status?: string | null;
+  status?: string | null | undefined;
 }
 export type InvestigateListResultItemActionLogList = Array<InvestigateListResultItemActionLogItem>;
 export type InvestigateListResultItemClientRecipientsList = Array<string>;
@@ -2516,15 +2564,21 @@ export type InvestigateListResultItemPropertiesWhitelistedPatternType =
   | "outbound_ndr";
 export interface InvestigateListResultItemProperties {
   /** Pattern that allowlisted this message. */
-  allowlistedPattern?: string | null;
+  allowlistedPattern?: string | null | undefined;
   /** Type of allowlist pattern. */
-  allowlistedPatternType?: InvestigateListResultItemPropertiesAllowlistedPatternType | null;
+  allowlistedPatternType?:
+    | InvestigateListResultItemPropertiesAllowlistedPatternType
+    | null
+    | undefined;
   /** Whether message was blocklisted. */
-  blocklistedMessage?: boolean | null;
+  blocklistedMessage?: boolean | null | undefined;
   /** Pattern that blocklisted this message. */
-  blocklistedPattern?: string | null;
+  blocklistedPattern?: string | null | undefined;
   /** Legacy field for allowlist pattern type. */
-  whitelistedPatternType?: InvestigateListResultItemPropertiesWhitelistedPatternType | null;
+  whitelistedPatternType?:
+    | InvestigateListResultItemPropertiesWhitelistedPatternType
+    | null
+    | undefined;
 }
 export type InvestigateListResultItemDeliveryMode =
   | "DIRECT"
@@ -2573,16 +2627,16 @@ export type InvestigateListResultItemFindingsItemDetection =
   | "UNKNOWN"
   | "NONE";
 export interface InvestigateListResultItemFindingsItem {
-  attachment?: string | null;
-  detail?: string | null;
+  attachment?: string | null | undefined;
+  detail?: string | null | undefined;
   /** The verdict Email Security assigns to a message. */
-  detection?: InvestigateListResultItemFindingsItemDetection | null;
-  field?: string | null;
-  name?: string | null;
-  portion?: string | null;
-  reason?: string | null;
-  score?: number | null;
-  value?: string | null;
+  detection?: InvestigateListResultItemFindingsItemDetection | null | undefined;
+  field?: string | null | undefined;
+  name?: string | null | undefined;
+  portion?: string | null | undefined;
+  reason?: string | null | undefined;
+  score?: number | null | undefined;
+  value?: string | null | undefined;
 }
 export type InvestigateListResultItemFindingsList = Array<InvestigateListResultItemFindingsItem>;
 export type InvestigateListResultItemPostDeliveryOperationsItem =
@@ -2610,60 +2664,60 @@ export interface InvestigateListResultItem {
   properties: InvestigateListResultItemProperties;
   /** Use `scanned_at` instead. */
   ts: string;
-  alertId?: string | null;
-  deliveryMode?: InvestigateListResultItemDeliveryMode | null;
-  deliveryStatus?: InvestigateListResultItemDeliveryStatusList | null;
-  edfHash?: string | null;
-  envelopeFrom?: string | null;
-  envelopeTo?: InvestigateListResultItemEnvelopeToList | null;
+  alertId?: string | null | undefined;
+  deliveryMode?: InvestigateListResultItemDeliveryMode | null | undefined;
+  deliveryStatus?: InvestigateListResultItemDeliveryStatusList | null | undefined;
+  edfHash?: string | null | undefined;
+  envelopeFrom?: string | null | undefined;
+  envelopeTo?: InvestigateListResultItemEnvelopeToList | null | undefined;
   /** The verdict Email Security assigns to a message. */
-  finalDisposition?: InvestigateListResultItemFinalDisposition | null;
+  finalDisposition?: InvestigateListResultItemFinalDisposition | null | undefined;
   /** Use the `findings` field from GET /investigate/{investigate_id}/detections instead. */
-  findings?: InvestigateListResultItemFindingsList | null;
-  from?: string | null;
-  fromName?: string | null;
-  htmltextStructureHash?: string | null;
-  messageId?: string | null;
+  findings?: InvestigateListResultItemFindingsList | null | undefined;
+  from?: string | null | undefined;
+  fromName?: string | null | undefined;
+  htmltextStructureHash?: string | null | undefined;
+  messageId?: string | null | undefined;
   /** Post-delivery operations performed on this message. */
-  postDeliveryOperations?: InvestigateListResultItemPostDeliveryOperationsList | null;
-  postfixIdOutbound?: string | null;
-  replyto?: string | null;
+  postDeliveryOperations?: InvestigateListResultItemPostDeliveryOperationsList | null | undefined;
+  postfixIdOutbound?: string | null | undefined;
+  replyto?: string | null | undefined;
   /** When the message was scanned (UTC). */
-  scannedAt?: string | null;
+  scannedAt?: string | null | undefined;
   /** When the message was sent (UTC). */
-  sentAt?: string | null;
-  sentDate?: string | null;
-  smtpHeloServerIp?: string | null;
-  smtpPreviousHopIp?: string | null;
-  subject?: string | null;
-  threatCategories?: InvestigateListResultItemThreatCategoriesList | null;
-  to?: InvestigateListResultItemToList | null;
-  toName?: InvestigateListResultItemToNameList | null;
-  validation?: unknown | null;
-  xOriginatingIp?: string | null;
+  sentAt?: string | null | undefined;
+  sentDate?: string | null | undefined;
+  smtpHeloServerIp?: string | null | undefined;
+  smtpPreviousHopIp?: string | null | undefined;
+  subject?: string | null | undefined;
+  threatCategories?: InvestigateListResultItemThreatCategoriesList | null | undefined;
+  to?: InvestigateListResultItemToList | null | undefined;
+  toName?: InvestigateListResultItemToNameList | null | undefined;
+  validation?: unknown | null | undefined;
+  xOriginatingIp?: string | null | undefined;
 }
 export type InvestigateListResultList = Array<InvestigateListResultItem>;
 export interface ListInvestigatesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: InvestigateListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListPhishguardReportsRequest {
   /** Identifier. */
   accountId: string;
   /** End of the time range (RFC3339). Takes precedence over to_date. */
-  end?: string;
+  end?: string | undefined;
   /** Deprecated, use `start` instead. Start date in YYYY-MM-DD format. */
-  fromDate?: string;
+  fromDate?: string | undefined;
   /** Current page within paginated list of results. */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page. Maximum value is 1000. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Start of the time range (RFC3339). Takes precedence over from_date. */
-  start?: string;
+  start?: string | undefined;
   /** Deprecated, use `end` instead. End date in YYYY-MM-DD format. */
-  toDate?: string;
+  toDate?: string | undefined;
 }
 export type PhishguardReportsListResultItemDisposition =
   | "MALICIOUS"
@@ -2679,11 +2733,11 @@ export type PhishguardReportsListResultItemDisposition =
 export type PhishguardReportsListResultItemFieldsToList = Array<string>;
 export interface PhishguardReportsListResultItemFields {
   to: PhishguardReportsListResultItemFieldsToList;
-  from?: string | null;
-  occurredAt?: string | null;
-  postfixId?: string | null;
+  from?: string | null | undefined;
+  occurredAt?: string | null | undefined;
+  postfixId?: string | null | undefined;
   /** Use `occurred_at` instead. */
-  ts?: string | null;
+  ts?: string | null | undefined;
 }
 export interface PhishguardReportsListResultItemTagsItem {
   category: string;
@@ -2699,18 +2753,18 @@ export interface PhishguardReportsListResultItem {
   fields: PhishguardReportsListResultItemFields;
   priority: string;
   title: string;
-  createdAt?: string | null;
-  tags?: PhishguardReportsListResultItemTagsList | null;
+  createdAt?: string | null | undefined;
+  tags?: PhishguardReportsListResultItemTagsList | null | undefined;
   /** Use `created_at` instead. */
-  ts?: string | null;
-  updatedAt?: string | null;
+  ts?: string | null | undefined;
+  updatedAt?: string | null | undefined;
 }
 export type PhishguardReportsListResultList = Array<PhishguardReportsListResultItem>;
 export interface ListPhishguardReportsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: PhishguardReportsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type SettingsAllowPoliciesListRequestDirection = "asc" | "desc";
 export type SettingsAllowPoliciesListRequestOrder = "pattern" | "created_at";
@@ -2719,29 +2773,29 @@ export interface ListSettingAllowPoliciesRequest {
   /** Identifier. */
   accountId: string;
   /** The sorting direction. */
-  direction?: SettingsAllowPoliciesListRequestDirection | (string & {});
+  direction?: SettingsAllowPoliciesListRequestDirection | (string & {}) | undefined;
   /** Filter to return only expired policies (`true`) or only policies that still apply (`false`). Omit to return both. */
-  expired?: boolean;
+  expired?: boolean | undefined;
   /** Filter to show only policies where messages from the sender are exempted from Spam, Spoof, and Bulk dispositions (not Malicious or Suspicious). */
-  isAcceptableSender?: boolean;
+  isAcceptableSender?: boolean | undefined;
   /** Filter to show only policies where messages to the recipient bypass all detections. */
-  isExemptRecipient?: boolean;
+  isExemptRecipient?: boolean | undefined;
   /** Filter to show only policies where messages from the sender bypass all detections and link following. */
-  isTrustedSender?: boolean;
+  isTrustedSender?: boolean | undefined;
   /** Field to sort by. */
-  order?: SettingsAllowPoliciesListRequestOrder | (string & {});
+  order?: SettingsAllowPoliciesListRequestOrder | (string & {}) | undefined;
   /** Current page within paginated list of results. */
-  page?: number;
+  page?: number | undefined;
   /** Filter by exact pattern value. */
-  pattern?: string;
+  pattern?: string | undefined;
   /** Filter by pattern type. */
-  patternType?: SettingsAllowPoliciesListRequestPatternType | (string & {});
+  patternType?: SettingsAllowPoliciesListRequestPatternType | (string & {}) | undefined;
   /** The number of results per page. Maximum value is 1000. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Search term for filtering records. Behavior may change. */
-  search?: string;
+  search?: string | undefined;
   /** Filter to show only policies that enforce DMARC, SPF, or DKIM authentication. */
-  verifySender?: boolean;
+  verifySender?: boolean | undefined;
 }
 export type SettingsAllowPoliciesListResultItemPatternType = "EMAIL" | "DOMAIN" | "IP" | "UNKNOWN";
 export interface SettingsAllowPoliciesListResultItem {
@@ -2750,36 +2804,36 @@ export interface SettingsAllowPoliciesListResultItem {
   createdAt: string;
   /** Use `modified_at` instead. */
   lastModified: string;
-  comments?: string | null;
+  comments?: string | null | undefined;
   /** Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
   /** Exempts messages from this sender from Spam, Spoof and Bulk dispositions only; Malicious and Suspicious dispositions still apply. */
-  isAcceptableSender?: boolean | null;
+  isAcceptableSender?: boolean | null | undefined;
   /** Bypasses all detections for messages to this recipient. */
-  isExemptRecipient?: boolean | null;
+  isExemptRecipient?: boolean | null | undefined;
   /** Use `is_exempt_recipient` instead. */
-  isRecipient?: boolean | null;
-  isRegex?: boolean | null;
+  isRecipient?: boolean | null | undefined;
+  isRegex?: boolean | null | undefined;
   /** Use `is_trusted_sender` instead. */
-  isSender?: boolean | null;
+  isSender?: boolean | null | undefined;
   /** Use `is_acceptable_sender` instead. */
-  isSpoof?: boolean | null;
+  isSpoof?: boolean | null | undefined;
   /** Bypasses all detections and link following for messages from this sender. */
-  isTrustedSender?: boolean | null;
-  modifiedAt?: string | null;
+  isTrustedSender?: boolean | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. The API also rejects a pattern that equals a domain onboarded to the account, ignoring case. */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
   /** Type of pattern matching. */
-  patternType?: SettingsAllowPoliciesListResultItemPatternType | null;
+  patternType?: SettingsAllowPoliciesListResultItemPatternType | null | undefined;
   /** Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication. */
-  verifySender?: boolean | null;
+  verifySender?: boolean | null | undefined;
 }
 export type SettingsAllowPoliciesListResultList = Array<SettingsAllowPoliciesListResultItem>;
 export interface ListSettingAllowPoliciesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SettingsAllowPoliciesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type SettingsBlockSendersListRequestDirection = "asc" | "desc";
 export type SettingsBlockSendersListRequestOrder = "pattern" | "created_at";
@@ -2788,46 +2842,46 @@ export interface ListSettingBlockSendersRequest {
   /** Identifier. */
   accountId: string;
   /** The sorting direction. */
-  direction?: SettingsBlockSendersListRequestDirection | (string & {});
+  direction?: SettingsBlockSendersListRequestDirection | (string & {}) | undefined;
   /** Filter to return only expired patterns (`true`) or only patterns that still apply (`false`). Omit to return both. */
-  expired?: boolean;
+  expired?: boolean | undefined;
   /** Field to sort by. */
-  order?: SettingsBlockSendersListRequestOrder | (string & {});
+  order?: SettingsBlockSendersListRequestOrder | (string & {}) | undefined;
   /** Current page within paginated list of results. */
-  page?: number;
+  page?: number | undefined;
   /** Filter by pattern value. */
-  pattern?: string;
+  pattern?: string | undefined;
   /** Filter by pattern type. */
-  patternType?: SettingsBlockSendersListRequestPatternType | (string & {});
+  patternType?: SettingsBlockSendersListRequestPatternType | (string & {}) | undefined;
   /** The number of results per page. Maximum value is 1000. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Search term for filtering records. Behavior may change. */
-  search?: string;
+  search?: string | undefined;
 }
 export type SettingsBlockSendersListResultItemPatternType = "EMAIL" | "DOMAIN" | "IP" | "UNKNOWN";
 export interface SettingsBlockSendersListResultItem {
   /** Blocked sender pattern identifier. */
-  id?: string | null;
-  comments?: string | null;
-  createdAt?: string | null;
+  id?: string | null | undefined;
+  comments?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Timestamp at which the pattern expires. After this time, Email Security ignores the pattern. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
   /** Whether `pattern` is a regular expression instead of a literal value. */
-  isRegex?: boolean | null;
+  isRegex?: boolean | null | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string | null;
-  modifiedAt?: string | null;
+  lastModified?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
   /** Type of pattern matching. */
-  patternType?: SettingsBlockSendersListResultItemPatternType | null;
+  patternType?: SettingsBlockSendersListResultItemPatternType | null | undefined;
 }
 export type SettingsBlockSendersListResultList = Array<SettingsBlockSendersListResultItem>;
 export interface ListSettingBlockSendersResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SettingsBlockSendersListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type SettingsDomainsListRequestActiveDeliveryMode =
   | "DIRECT"
@@ -2849,25 +2903,25 @@ export interface ListSettingDomainsRequest {
   /** Identifier. */
   accountId: string;
   /** Currently active delivery mode to filter by. */
-  activeDeliveryMode?: SettingsDomainsListRequestActiveDeliveryMode | (string & {});
+  activeDeliveryMode?: SettingsDomainsListRequestActiveDeliveryMode | (string & {}) | undefined;
   /** Delivery mode to filter by. */
-  allowedDeliveryMode?: SettingsDomainsListRequestAllowedDeliveryMode | (string & {});
+  allowedDeliveryMode?: SettingsDomainsListRequestAllowedDeliveryMode | (string & {}) | undefined;
   /** The sorting direction. */
-  direction?: SettingsDomainsListRequestDirection | (string & {});
+  direction?: SettingsDomainsListRequestDirection | (string & {}) | undefined;
   /** Domain names to filter by. */
-  domain?: SettingsDomainsListRequestDomainList;
+  domain?: SettingsDomainsListRequestDomainList | undefined;
   /** Integration ID to filter by. */
-  integrationId?: string;
+  integrationId?: string | undefined;
   /** Field to sort by. */
-  order?: SettingsDomainsListRequestOrder | (string & {});
+  order?: SettingsDomainsListRequestOrder | (string & {}) | undefined;
   /** Current page within paginated list of results. */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page. Maximum value is 1000. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Search term for filtering records. Behavior may change. */
-  search?: string;
+  search?: string | undefined;
   /** Filters response to domains with the provided status. */
-  status?: SettingsDomainsListRequestStatus | (string & {});
+  status?: SettingsDomainsListRequestStatus | (string & {}) | undefined;
 }
 export type SettingsDomainsListResultItemAllowedDeliveryModesItem =
   | "DIRECT"
@@ -2909,37 +2963,37 @@ export type SettingsDomainsListResultItemSpfStatus =
 export type SettingsDomainsListResultItemStatus = "PENDING" | "ACTIVE" | "FAILED" | "TIMEOUT";
 export interface SettingsDomainsListResultItem {
   /** Domain identifier. */
-  id?: string | null;
-  allowedDeliveryModes?: SettingsDomainsListResultItemAllowedDeliveryModesList | null;
-  authorization?: CreateSettingsDomainResponseAuthorization | null;
-  createdAt?: string | null;
-  dmarcStatus?: SettingsDomainsListResultItemDmarcStatus | null;
-  domain?: string | null;
-  dropDispositions?: SettingsDomainsListResultItemDropDispositionsList | null;
-  emailsProcessed?: CreateSettingsDomainResponseEmailsProcessed | null;
+  id?: string | null | undefined;
+  allowedDeliveryModes?: SettingsDomainsListResultItemAllowedDeliveryModesList | null | undefined;
+  authorization?: CreateSettingsDomainResponseAuthorization | null | undefined;
+  createdAt?: string | null | undefined;
+  dmarcStatus?: SettingsDomainsListResultItemDmarcStatus | null | undefined;
+  domain?: string | null | undefined;
+  dropDispositions?: SettingsDomainsListResultItemDropDispositionsList | null | undefined;
+  emailsProcessed?: CreateSettingsDomainResponseEmailsProcessed | null | undefined;
   /** The mailbox folder to scan, for API-scanning domains. */
-  folder?: SettingsDomainsListResultItemFolder | null;
-  inboxProvider?: SettingsDomainsListResultItemInboxProvider | null;
-  integrationId?: string | null;
-  ipRestrictions?: SettingsDomainsListResultItemIpRestrictionsList | null;
+  folder?: SettingsDomainsListResultItemFolder | null | undefined;
+  inboxProvider?: SettingsDomainsListResultItemInboxProvider | null | undefined;
+  integrationId?: string | null | undefined;
+  ipRestrictions?: SettingsDomainsListResultItemIpRestrictionsList | null | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string | null;
-  lookbackHops?: number | null;
-  modifiedAt?: string | null;
-  o365TenantId?: string | null;
-  regions?: SettingsDomainsListResultItemRegionsList | null;
-  requireTlsInbound?: boolean | null;
-  requireTlsOutbound?: boolean | null;
-  spfStatus?: SettingsDomainsListResultItemSpfStatus | null;
-  status?: SettingsDomainsListResultItemStatus | null;
-  transport?: string | null;
+  lastModified?: string | null | undefined;
+  lookbackHops?: number | null | undefined;
+  modifiedAt?: string | null | undefined;
+  o365TenantId?: string | null | undefined;
+  regions?: SettingsDomainsListResultItemRegionsList | null | undefined;
+  requireTlsInbound?: boolean | null | undefined;
+  requireTlsOutbound?: boolean | null | undefined;
+  spfStatus?: SettingsDomainsListResultItemSpfStatus | null | undefined;
+  status?: SettingsDomainsListResultItemStatus | null | undefined;
+  transport?: string | null | undefined;
 }
 export type SettingsDomainsListResultList = Array<SettingsDomainsListResultItem>;
 export interface ListSettingDomainsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SettingsDomainsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type SettingsImpersonationRegistryListRequestDirection = "asc" | "desc";
 export type SettingsImpersonationRegistryListRequestOrder = "name" | "email" | "created_at";
@@ -2952,16 +3006,16 @@ export interface ListSettingImpersonationRegistriesRequest {
   /** Identifier. */
   accountId: string;
   /** The sorting direction. */
-  direction?: SettingsImpersonationRegistryListRequestDirection | (string & {});
+  direction?: SettingsImpersonationRegistryListRequestDirection | (string & {}) | undefined;
   /** Field to sort by. */
-  order?: SettingsImpersonationRegistryListRequestOrder | (string & {});
+  order?: SettingsImpersonationRegistryListRequestOrder | (string & {}) | undefined;
   /** Current page within paginated list of results. */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page. Maximum value is 1000. */
-  perPage?: number;
-  provenance?: SettingsImpersonationRegistryListRequestProvenance | (string & {});
+  perPage?: number | undefined;
+  provenance?: SettingsImpersonationRegistryListRequestProvenance | (string & {}) | undefined;
   /** Search term for filtering records. Behavior may change. */
-  search?: string;
+  search?: string | undefined;
 }
 export type SettingsImpersonationRegistryListResultItemProvenance =
   | "A1S_INTERNAL"
@@ -2970,27 +3024,27 @@ export type SettingsImpersonationRegistryListResultItemProvenance =
   | "SNOOPY-GOOGLE_DIRECTORY";
 export interface SettingsImpersonationRegistryListResultItem {
   /** Impersonation registry entry identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Optional note describing the entry. */
-  comments?: string | null;
-  createdAt?: string | null;
+  comments?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Identifier of the directory the entry was synced from, when directory-synced. */
-  directoryId?: number | null;
+  directoryId?: number | null | undefined;
   /** Identifier of the directory node the entry was synced from, when directory-synced. */
-  directoryNodeId?: number | null;
+  directoryNodeId?: number | null | undefined;
   /** Email address (or pattern) of the protected identity. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** This field is deprecated. */
-  externalDirectoryNodeId?: string | null;
+  externalDirectoryNodeId?: string | null | undefined;
   /** Whether `email` is a regular expression instead of a literal address. */
-  isEmailRegex?: boolean | null;
+  isEmailRegex?: boolean | null | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string | null;
-  modifiedAt?: string | null;
+  lastModified?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** Display name of the protected identity. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Source the entry was created from. */
-  provenance?: SettingsImpersonationRegistryListResultItemProvenance | null;
+  provenance?: SettingsImpersonationRegistryListResultItemProvenance | null | undefined;
 }
 export type SettingsImpersonationRegistryListResultList =
   Array<SettingsImpersonationRegistryListResultItem>;
@@ -2998,7 +3052,7 @@ export interface ListSettingImpersonationRegistriesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SettingsImpersonationRegistryListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type ListSettingsContentPoliciesRequestDirection = "asc" | "desc";
 export type ListSettingsContentPoliciesRequestOrder = "name" | "created_at";
@@ -3006,42 +3060,42 @@ export interface ListSettingsContentPoliciesRequest {
   /** Identifier. */
   accountId: string;
   /** The sorting direction. */
-  direction?: ListSettingsContentPoliciesRequestDirection | (string & {});
+  direction?: ListSettingsContentPoliciesRequestDirection | (string & {}) | undefined;
   /** Filter by enabled status. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Filter to return only expired policies (`true`) or only policies that still apply (`false`). Omit to return both. */
-  expired?: boolean;
+  expired?: boolean | undefined;
   /** Filter by exact policy name. */
-  name?: string;
+  name?: string | undefined;
   /** Field to sort by. */
-  order?: ListSettingsContentPoliciesRequestOrder | (string & {});
+  order?: ListSettingsContentPoliciesRequestOrder | (string & {}) | undefined;
   /** Current page within paginated list of results. */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page. Maximum value is 1000. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Search term for filtering records. Behavior may change. */
-  search?: string;
+  search?: string | undefined;
 }
 export type ListSettingsContentPoliciesResultItemTargetsItem = "SUBJECT" | "BODY";
 export type ListSettingsContentPoliciesResultItemTargetsList =
   Array<ListSettingsContentPoliciesResultItemTargetsItem>;
 export interface ListSettingsContentPoliciesResultItem {
   /** Content policy identifier. */
-  id?: string | null;
-  createdAt?: string | null;
+  id?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Whether the policy is active. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string | null;
-  modifiedAt?: string | null;
+  expiresAt?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** Human-readable name of the policy. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Optional note describing the purpose of the policy. */
-  notes?: string | null;
+  notes?: string | null | undefined;
   /** Regular expression the policy matches against. */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
   /** Parts of the email the pattern is matched against. */
-  targets?: ListSettingsContentPoliciesResultItemTargetsList | null;
+  targets?: ListSettingsContentPoliciesResultItemTargetsList | null | undefined;
 }
 export type ListSettingsContentPoliciesResultList = Array<ListSettingsContentPoliciesResultItem>;
 export type ListSettingsContentPoliciesResponse = ListSettingsContentPoliciesResultList;
@@ -3051,29 +3105,29 @@ export interface ListSettingSendingDomainRestrictionsRequest {
   /** Identifier. */
   accountId: string;
   /** The sorting direction. */
-  direction?: SettingsSendingDomainRestrictionsListRequestDirection | (string & {});
+  direction?: SettingsSendingDomainRestrictionsListRequestDirection | (string & {}) | undefined;
   /** Field to sort by. */
-  order?: SettingsSendingDomainRestrictionsListRequestOrder | (string & {});
+  order?: SettingsSendingDomainRestrictionsListRequestOrder | (string & {}) | undefined;
   /** Current page within paginated list of results. */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page. Maximum value is 1000. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Search term for filtering records. Behavior may change. */
-  search?: string;
+  search?: string | undefined;
 }
 export type SettingsSendingDomainRestrictionsListResultItemExcludeList = Array<string>;
 export interface SettingsSendingDomainRestrictionsListResultItem {
   /** Sending domain restriction identifier. */
-  id?: string | null;
-  comments?: string | null;
-  createdAt?: string | null;
+  id?: string | null | undefined;
+  comments?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Domain that requires TLS enforcement. */
-  domain?: string | null;
+  domain?: string | null | undefined;
   /** Subdomains to exempt from TLS requirements. */
-  exclude?: SettingsSendingDomainRestrictionsListResultItemExcludeList | null;
+  exclude?: SettingsSendingDomainRestrictionsListResultItemExcludeList | null | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string | null;
-  modifiedAt?: string | null;
+  lastModified?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
 }
 export type SettingsSendingDomainRestrictionsListResultList =
   Array<SettingsSendingDomainRestrictionsListResultItem>;
@@ -3081,7 +3135,7 @@ export interface ListSettingSendingDomainRestrictionsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SettingsSendingDomainRestrictionsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type SettingsTrustedDomainsListRequestDirection = "asc" | "desc";
 export type SettingsTrustedDomainsListRequestOrder = "pattern" | "created_at";
@@ -3089,52 +3143,52 @@ export interface ListSettingTrustedDomainsRequest {
   /** Identifier. */
   accountId: string;
   /** The sorting direction. */
-  direction?: SettingsTrustedDomainsListRequestDirection | (string & {});
+  direction?: SettingsTrustedDomainsListRequestDirection | (string & {}) | undefined;
   /** Filter to show only recently registered domains that are trusted to prevent triggering Suspicious or Malicious dispositions. */
-  isRecent?: boolean;
+  isRecent?: boolean | undefined;
   /** Filter to show only proximity domains (partner or approved domains with similar spelling to connected domains) that prevent Spoof dispositions. */
-  isSimilarity?: boolean;
+  isSimilarity?: boolean | undefined;
   /** Field to sort by. */
-  order?: SettingsTrustedDomainsListRequestOrder | (string & {});
+  order?: SettingsTrustedDomainsListRequestOrder | (string & {}) | undefined;
   /** Current page within paginated list of results. */
-  page?: number;
-  pattern?: string;
+  page?: number | undefined;
+  pattern?: string | undefined;
   /** The number of results per page. Maximum value is 1000. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Search term for filtering records. Behavior may change. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface SettingsTrustedDomainsListResultItem {
   /** Trusted domain identifier. */
-  id?: string | null;
-  comments?: string | null;
-  createdAt?: string | null;
+  id?: string | null | undefined;
+  comments?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition. */
-  isRecent?: boolean | null;
+  isRecent?: boolean | null | undefined;
   /** Whether `pattern` is a regular expression instead of a literal domain. */
-  isRegex?: boolean | null;
+  isRegex?: boolean | null | undefined;
   /** Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition. */
-  isSimilarity?: boolean | null;
+  isSimilarity?: boolean | null | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string | null;
-  modifiedAt?: string | null;
+  lastModified?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** The domain pattern to trust, e.g. `example.com`. */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
 }
 export type SettingsTrustedDomainsListResultList = Array<SettingsTrustedDomainsListResultItem>;
 export interface ListSettingTrustedDomainsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SettingsTrustedDomainsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListSettingUrlIgnorePatternsRequest {
   /** Identifier. */
   accountId: string;
   /** Current page within paginated list of results. */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page. Maximum value is 1000. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export interface SettingsUrlIgnorePatternsListResultItem {
   /** URL ignore pattern identifier. */
@@ -3143,10 +3197,10 @@ export interface SettingsUrlIgnorePatternsListResultItem {
   /** Regular expression identifying URLs to exempt from rewriting. */
   pattern: string;
   /** Optional note describing the reason for the ignore pattern. */
-  comments?: string | null;
+  comments?: string | null | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string | null;
-  modifiedAt?: string | null;
+  lastModified?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
 }
 export type SettingsUrlIgnorePatternsListResultList =
   Array<SettingsUrlIgnorePatternsListResultItem>;
@@ -3154,7 +3208,7 @@ export interface ListSettingUrlIgnorePatternsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SettingsUrlIgnorePatternsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type SubmissionsListRequestDirection = "asc" | "desc";
 export type SubmissionsListRequestOrder =
@@ -3190,33 +3244,33 @@ export interface ListSubmissionsRequest {
   /** Identifier. */
   accountId: string;
   /** The sorting direction. */
-  direction?: SubmissionsListRequestDirection | (string & {});
+  direction?: SubmissionsListRequestDirection | (string & {}) | undefined;
   /** The end of the search date range. Defaults to `now`. */
-  end?: string;
+  end?: string | undefined;
   /** When true, return only submissions that were escalated by an end user (vs. by the security team). When false, return only submissions that were not escalated by an end user. When omitted, no filter is applied. */
-  escalatedFromUser?: boolean;
+  escalatedFromUser?: boolean | undefined;
   /** Field to sort by. */
-  order?: SubmissionsListRequestOrder | (string & {});
+  order?: SubmissionsListRequestOrder | (string & {}) | undefined;
   /** The disposition a message is submitted to have. */
-  originalDisposition?: SubmissionsListRequestOriginalDisposition | (string & {});
+  originalDisposition?: SubmissionsListRequestOriginalDisposition | (string & {}) | undefined;
   /** The disposition a message is submitted to have. */
-  outcomeDisposition?: SubmissionsListRequestOutcomeDisposition | (string & {});
+  outcomeDisposition?: SubmissionsListRequestOutcomeDisposition | (string & {}) | undefined;
   /** Current page within paginated list of results. */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page. Maximum value is 1000. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Search term for filtering submissions. */
-  query?: string;
+  query?: string | undefined;
   /** The disposition a message is submitted to have. */
-  requestedDisposition?: SubmissionsListRequestRequestedDisposition | (string & {});
+  requestedDisposition?: SubmissionsListRequestRequestedDisposition | (string & {}) | undefined;
   /** The beginning of the search date range. Defaults to `now - 30 days`. */
-  start?: string;
+  start?: string | undefined;
   /** Filter by review status -- `escalated`, `reviewed`, or `unreviewed`. */
-  status?: string;
+  status?: string | undefined;
   /** Filter by a specific submission ID. */
-  submissionId?: string;
+  submissionId?: string | undefined;
   /** Filter by who created the submission -- `TEAM` for security team members or `USER` for end users. */
-  type?: SubmissionsListRequestType | (string & {});
+  type?: SubmissionsListRequestType | (string & {}) | undefined;
 }
 export type SubmissionsListResultItemCustomerStatus = "escalated" | "reviewed" | "unreviewed";
 export type SubmissionsListResultItemEscalatedAs =
@@ -3252,44 +3306,44 @@ export interface SubmissionsListResultItem {
   /** When the submission was requested (UTC). */
   requestedAt: string;
   submissionId: string;
-  customerStatus?: SubmissionsListResultItemCustomerStatus | null;
+  customerStatus?: SubmissionsListResultItemCustomerStatus | null | undefined;
   /** The disposition a message is submitted to have. */
-  escalatedAs?: SubmissionsListResultItemEscalatedAs | null;
+  escalatedAs?: SubmissionsListResultItemEscalatedAs | null | undefined;
   /** When the submission was escalated to the security team. */
-  escalatedAt?: string | null;
+  escalatedAt?: string | null | undefined;
   /** Email address of the user who escalated the submission. */
-  escalatedBy?: string | null;
+  escalatedBy?: string | null | undefined;
   /** Submission ID of the escalated team submission, when this user submission was escalated. */
-  escalatedSubmissionId?: string | null;
+  escalatedSubmissionId?: string | null | undefined;
   /** The disposition a message is submitted to have. */
-  originalDisposition?: SubmissionsListResultItemOriginalDisposition | null;
+  originalDisposition?: SubmissionsListResultItemOriginalDisposition | null | undefined;
   /** EDF hash of the original message. */
-  originalEdfHash?: string | null;
+  originalEdfHash?: string | null | undefined;
   /** The postfix ID of the original message that was submitted. */
-  originalPostfixId?: string | null;
+  originalPostfixId?: string | null | undefined;
   /** Processing outcome of the submission. */
-  outcome?: string | null;
+  outcome?: string | null | undefined;
   /** The disposition a message is submitted to have. */
-  outcomeDisposition?: SubmissionsListResultItemOutcomeDisposition | null;
+  outcomeDisposition?: SubmissionsListResultItemOutcomeDisposition | null | undefined;
   /** Email address of the user who requested the submission. */
-  requestedBy?: string | null;
+  requestedBy?: string | null | undefined;
   /** The disposition a message is submitted to have. */
-  requestedDisposition?: SubmissionsListResultItemRequestedDisposition | null;
+  requestedDisposition?: SubmissionsListResultItemRequestedDisposition | null | undefined;
   /** Use `requested_at` instead. */
-  requestedTs?: string | null;
+  requestedTs?: string | null | undefined;
   /** Processing status of the submission. */
-  status?: string | null;
+  status?: string | null | undefined;
   /** Subject line of the submitted message. */
-  subject?: string | null;
+  subject?: string | null | undefined;
   /** Indicates whether a team member or an end user created the submission. */
-  type?: SubmissionsListResultItemType | null;
+  type?: SubmissionsListResultItemType | null | undefined;
 }
 export type SubmissionsListResultList = Array<SubmissionsListResultItem>;
 export interface ListSubmissionsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SubmissionsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type SettingsAllowPoliciesEditRequestPatternType = "EMAIL" | "DOMAIN" | "IP" | "UNKNOWN";
 export interface PatchSettingAllowPolicyRequest {
@@ -3297,28 +3351,28 @@ export interface PatchSettingAllowPolicyRequest {
   accountId: string;
   /** Allow policy identifier. */
   policyId: string;
-  comments?: string;
+  comments?: string | undefined;
   /** Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** Exempts messages from this sender from Spam, Spoof and Bulk dispositions only; Malicious and Suspicious dispositions still apply. */
-  isAcceptableSender?: boolean;
+  isAcceptableSender?: boolean | undefined;
   /** Bypasses all detections for messages to this recipient. */
-  isExemptRecipient?: boolean;
+  isExemptRecipient?: boolean | undefined;
   /** Use `is_exempt_recipient` instead. */
-  isRecipient?: boolean;
-  isRegex?: boolean;
+  isRecipient?: boolean | undefined;
+  isRegex?: boolean | undefined;
   /** Use `is_trusted_sender` instead. */
-  isSender?: boolean;
+  isSender?: boolean | undefined;
   /** Use `is_acceptable_sender` instead. */
-  isSpoof?: boolean;
+  isSpoof?: boolean | undefined;
   /** Bypasses all detections and link following for messages from this sender. */
-  isTrustedSender?: boolean;
+  isTrustedSender?: boolean | undefined;
   /** The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. The API also rejects a pattern that equals a domain onboarded to the account, ignoring case. */
-  pattern?: string;
+  pattern?: string | undefined;
   /** Type of pattern matching. */
-  patternType?: SettingsAllowPoliciesEditRequestPatternType | (string & {});
+  patternType?: SettingsAllowPoliciesEditRequestPatternType | (string & {}) | undefined;
   /** Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication. */
-  verifySender?: boolean;
+  verifySender?: boolean | undefined;
 }
 export type SettingsAllowPoliciesEditResponsePatternType = "EMAIL" | "DOMAIN" | "IP" | "UNKNOWN";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -3328,29 +3382,29 @@ export interface PatchSettingAllowPolicyResponse {
   createdAt: string;
   /** Use `modified_at` instead. */
   lastModified: string;
-  comments?: string | null;
+  comments?: string | null | undefined;
   /** Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
   /** Exempts messages from this sender from Spam, Spoof and Bulk dispositions only; Malicious and Suspicious dispositions still apply. */
-  isAcceptableSender?: boolean | null;
+  isAcceptableSender?: boolean | null | undefined;
   /** Bypasses all detections for messages to this recipient. */
-  isExemptRecipient?: boolean | null;
+  isExemptRecipient?: boolean | null | undefined;
   /** Use `is_exempt_recipient` instead. */
-  isRecipient?: boolean | null;
-  isRegex?: boolean | null;
+  isRecipient?: boolean | null | undefined;
+  isRegex?: boolean | null | undefined;
   /** Use `is_trusted_sender` instead. */
-  isSender?: boolean | null;
+  isSender?: boolean | null | undefined;
   /** Use `is_acceptable_sender` instead. */
-  isSpoof?: boolean | null;
+  isSpoof?: boolean | null | undefined;
   /** Bypasses all detections and link following for messages from this sender. */
-  isTrustedSender?: boolean | null;
-  modifiedAt?: string | null;
+  isTrustedSender?: boolean | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. The API also rejects a pattern that equals a domain onboarded to the account, ignoring case. */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
   /** Type of pattern matching. */
-  patternType?: SettingsAllowPoliciesEditResponsePatternType | null;
+  patternType?: SettingsAllowPoliciesEditResponsePatternType | null | undefined;
   /** Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication. */
-  verifySender?: boolean | null;
+  verifySender?: boolean | null | undefined;
 }
 export type SettingsBlockSendersEditRequestPatternType = "EMAIL" | "DOMAIN" | "IP" | "UNKNOWN";
 export interface PatchSettingBlockSenderRequest {
@@ -3358,34 +3412,34 @@ export interface PatchSettingBlockSenderRequest {
   accountId: string;
   /** Blocked sender pattern identifier. */
   patternId: string;
-  comments?: string;
+  comments?: string | undefined;
   /** Timestamp at which the pattern expires. After this time, Email Security ignores the pattern. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** Whether `pattern` is a regular expression instead of a literal value. */
-  isRegex?: boolean;
+  isRegex?: boolean | undefined;
   /** The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. */
-  pattern?: string;
+  pattern?: string | undefined;
   /** Type of pattern matching. */
-  patternType?: SettingsBlockSendersEditRequestPatternType | (string & {});
+  patternType?: SettingsBlockSendersEditRequestPatternType | (string & {}) | undefined;
 }
 export type SettingsBlockSendersEditResponsePatternType = "EMAIL" | "DOMAIN" | "IP" | "UNKNOWN";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchSettingBlockSenderResponse {
   /** Blocked sender pattern identifier. */
-  id?: string | null;
-  comments?: string | null;
-  createdAt?: string | null;
+  id?: string | null | undefined;
+  comments?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Timestamp at which the pattern expires. After this time, Email Security ignores the pattern. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
   /** Whether `pattern` is a regular expression instead of a literal value. */
-  isRegex?: boolean | null;
+  isRegex?: boolean | null | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string | null;
-  modifiedAt?: string | null;
+  lastModified?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
   /** Type of pattern matching. */
-  patternType?: SettingsBlockSendersEditResponsePatternType | null;
+  patternType?: SettingsBlockSendersEditResponsePatternType | null | undefined;
 }
 export type SettingsDomainsEditRequestAllowedDeliveryModesItem =
   | "DIRECT"
@@ -3422,25 +3476,25 @@ export interface PatchSettingDomainRequest {
   /** Domain identifier. */
   domainId: string;
   /** Delivery modes to onboard the domain through. */
-  allowedDeliveryModes?: SettingsDomainsEditRequestAllowedDeliveryModesList;
+  allowedDeliveryModes?: SettingsDomainsEditRequestAllowedDeliveryModesList | undefined;
   /** Dispositions to drop instead of delivering, e.g. `["MALICIOUS", "SPAM"]`. */
-  dropDispositions?: SettingsDomainsEditRequestDropDispositionsList;
+  dropDispositions?: SettingsDomainsEditRequestDropDispositionsList | undefined;
   /** The mailbox folder to scan, for API-scanning domains. */
-  folder?: SettingsDomainsEditRequestFolder | (string & {});
+  folder?: SettingsDomainsEditRequestFolder | (string & {}) | undefined;
   /** Identifier of the CASB integration that authorizes this domain. The integration also enables API scanning, post-delivery actions, and directory sync. */
-  integrationId?: string;
+  integrationId?: string | undefined;
   /** Source IP ranges mail is accepted from. Any other source is rejected. */
-  ipRestrictions?: SettingsDomainsEditRequestIpRestrictionsList;
+  ipRestrictions?: SettingsDomainsEditRequestIpRestrictionsList | undefined;
   /** Number of hops to trace back through received headers when reconstructing the original message (1-20). */
-  lookbackHops?: number;
+  lookbackHops?: number | undefined;
   /** Regions that process messages for this domain, e.g. `["GLOBAL"]` or `["US"]`. */
-  regions?: SettingsDomainsEditRequestRegionsList;
+  regions?: SettingsDomainsEditRequestRegionsList | undefined;
   /** Require TLS on inbound connections. */
-  requireTlsInbound?: boolean;
+  requireTlsInbound?: boolean | undefined;
   /** Require TLS on outbound connections. */
-  requireTlsOutbound?: boolean;
+  requireTlsOutbound?: boolean | undefined;
   /** The mail transport hostname for MX/Inline delivery -- the MX record Cloudflare delivers email to (e.g. `mx.example.com`). */
-  transport?: string;
+  transport?: string | undefined;
 }
 export type SettingsDomainsEditResponseAllowedDeliveryModesItem =
   | "DIRECT"
@@ -3477,30 +3531,30 @@ export type SettingsDomainsEditResponseStatus = "PENDING" | "ACTIVE" | "FAILED" 
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchSettingDomainResponse {
   /** Domain identifier. */
-  id?: string | null;
-  allowedDeliveryModes?: SettingsDomainsEditResponseAllowedDeliveryModesList | null;
-  authorization?: CreateSettingsDomainResponseAuthorization | null;
-  createdAt?: string | null;
-  dmarcStatus?: SettingsDomainsEditResponseDmarcStatus | null;
-  domain?: string | null;
-  dropDispositions?: SettingsDomainsEditResponseDropDispositionsList | null;
-  emailsProcessed?: CreateSettingsDomainResponseEmailsProcessed | null;
+  id?: string | null | undefined;
+  allowedDeliveryModes?: SettingsDomainsEditResponseAllowedDeliveryModesList | null | undefined;
+  authorization?: CreateSettingsDomainResponseAuthorization | null | undefined;
+  createdAt?: string | null | undefined;
+  dmarcStatus?: SettingsDomainsEditResponseDmarcStatus | null | undefined;
+  domain?: string | null | undefined;
+  dropDispositions?: SettingsDomainsEditResponseDropDispositionsList | null | undefined;
+  emailsProcessed?: CreateSettingsDomainResponseEmailsProcessed | null | undefined;
   /** The mailbox folder to scan, for API-scanning domains. */
-  folder?: SettingsDomainsEditResponseFolder | null;
-  inboxProvider?: SettingsDomainsEditResponseInboxProvider | null;
-  integrationId?: string | null;
-  ipRestrictions?: SettingsDomainsEditResponseIpRestrictionsList | null;
+  folder?: SettingsDomainsEditResponseFolder | null | undefined;
+  inboxProvider?: SettingsDomainsEditResponseInboxProvider | null | undefined;
+  integrationId?: string | null | undefined;
+  ipRestrictions?: SettingsDomainsEditResponseIpRestrictionsList | null | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string | null;
-  lookbackHops?: number | null;
-  modifiedAt?: string | null;
-  o365TenantId?: string | null;
-  regions?: SettingsDomainsEditResponseRegionsList | null;
-  requireTlsInbound?: boolean | null;
-  requireTlsOutbound?: boolean | null;
-  spfStatus?: SettingsDomainsEditResponseSpfStatus | null;
-  status?: SettingsDomainsEditResponseStatus | null;
-  transport?: string | null;
+  lastModified?: string | null | undefined;
+  lookbackHops?: number | null | undefined;
+  modifiedAt?: string | null | undefined;
+  o365TenantId?: string | null | undefined;
+  regions?: SettingsDomainsEditResponseRegionsList | null | undefined;
+  requireTlsInbound?: boolean | null | undefined;
+  requireTlsOutbound?: boolean | null | undefined;
+  spfStatus?: SettingsDomainsEditResponseSpfStatus | null | undefined;
+  status?: SettingsDomainsEditResponseStatus | null | undefined;
+  transport?: string | null | undefined;
 }
 export type SettingsImpersonationRegistryEditRequestProvenance =
   | "A1S_INTERNAL"
@@ -3513,21 +3567,21 @@ export interface PatchSettingImpersonationRegistryRequest {
   /** Impersonation registry entry identifier. */
   impersonationRegistryId: string;
   /** Optional note describing the entry. */
-  comments?: string;
+  comments?: string | undefined;
   /** Identifier of the directory the entry was synced from, when directory-synced. */
-  directoryId?: number;
+  directoryId?: number | undefined;
   /** Identifier of the directory node the entry was synced from, when directory-synced. */
-  directoryNodeId?: number;
+  directoryNodeId?: number | undefined;
   /** Email address (or pattern) of the protected identity. */
-  email?: string;
+  email?: string | undefined;
   /** This field is deprecated. */
-  externalDirectoryNodeId?: string;
+  externalDirectoryNodeId?: string | undefined;
   /** Whether `email` is a regular expression instead of a literal address. */
-  isEmailRegex?: boolean;
+  isEmailRegex?: boolean | undefined;
   /** Display name of the protected identity. */
-  name?: string;
+  name?: string | undefined;
   /** Source the entry was created from. */
-  provenance?: SettingsImpersonationRegistryEditRequestProvenance | (string & {});
+  provenance?: SettingsImpersonationRegistryEditRequestProvenance | (string & {}) | undefined;
 }
 export type SettingsImpersonationRegistryEditResponseProvenance =
   | "A1S_INTERNAL"
@@ -3537,27 +3591,27 @@ export type SettingsImpersonationRegistryEditResponseProvenance =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchSettingImpersonationRegistryResponse {
   /** Impersonation registry entry identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Optional note describing the entry. */
-  comments?: string | null;
-  createdAt?: string | null;
+  comments?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Identifier of the directory the entry was synced from, when directory-synced. */
-  directoryId?: number | null;
+  directoryId?: number | null | undefined;
   /** Identifier of the directory node the entry was synced from, when directory-synced. */
-  directoryNodeId?: number | null;
+  directoryNodeId?: number | null | undefined;
   /** Email address (or pattern) of the protected identity. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** This field is deprecated. */
-  externalDirectoryNodeId?: string | null;
+  externalDirectoryNodeId?: string | null | undefined;
   /** Whether `email` is a regular expression instead of a literal address. */
-  isEmailRegex?: boolean | null;
+  isEmailRegex?: boolean | null | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string | null;
-  modifiedAt?: string | null;
+  lastModified?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** Display name of the protected identity. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Source the entry was created from. */
-  provenance?: SettingsImpersonationRegistryEditResponseProvenance | null;
+  provenance?: SettingsImpersonationRegistryEditResponseProvenance | null | undefined;
 }
 export type SettingsSendingDomainRestrictionsEditRequestExcludeList = Array<string>;
 export interface PatchSettingSendingDomainRestrictionRequest {
@@ -3565,59 +3619,59 @@ export interface PatchSettingSendingDomainRestrictionRequest {
   accountId: string;
   /** Sending domain restriction identifier. */
   sendingDomainRestrictionId: string;
-  comments?: string;
+  comments?: string | undefined;
   /** Domain that requires TLS enforcement. */
-  domain?: string;
+  domain?: string | undefined;
   /** Subdomains to exempt from TLS requirements. */
-  exclude?: SettingsSendingDomainRestrictionsEditRequestExcludeList;
+  exclude?: SettingsSendingDomainRestrictionsEditRequestExcludeList | undefined;
 }
 export type SettingsSendingDomainRestrictionsEditResponseExcludeList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchSettingSendingDomainRestrictionResponse {
   /** Sending domain restriction identifier. */
-  id?: string | null;
-  comments?: string | null;
-  createdAt?: string | null;
+  id?: string | null | undefined;
+  comments?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Domain that requires TLS enforcement. */
-  domain?: string | null;
+  domain?: string | null | undefined;
   /** Subdomains to exempt from TLS requirements. */
-  exclude?: SettingsSendingDomainRestrictionsEditResponseExcludeList | null;
+  exclude?: SettingsSendingDomainRestrictionsEditResponseExcludeList | null | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string | null;
-  modifiedAt?: string | null;
+  lastModified?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
 }
 export interface PatchSettingTrustedDomainRequest {
   /** Identifier. */
   accountId: string;
   /** Trusted domain identifier. */
   trustedDomainId: string;
-  comments?: string;
+  comments?: string | undefined;
   /** Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition. */
-  isRecent?: boolean;
+  isRecent?: boolean | undefined;
   /** Whether `pattern` is a regular expression instead of a literal domain. */
-  isRegex?: boolean;
+  isRegex?: boolean | undefined;
   /** Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition. */
-  isSimilarity?: boolean;
+  isSimilarity?: boolean | undefined;
   /** The domain pattern to trust, e.g. `example.com`. */
-  pattern?: string;
+  pattern?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchSettingTrustedDomainResponse {
   /** Trusted domain identifier. */
-  id?: string | null;
-  comments?: string | null;
-  createdAt?: string | null;
+  id?: string | null | undefined;
+  comments?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition. */
-  isRecent?: boolean | null;
+  isRecent?: boolean | null | undefined;
   /** Whether `pattern` is a regular expression instead of a literal domain. */
-  isRegex?: boolean | null;
+  isRegex?: boolean | null | undefined;
   /** Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition. */
-  isSimilarity?: boolean | null;
+  isSimilarity?: boolean | null | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string | null;
-  modifiedAt?: string | null;
+  lastModified?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** The domain pattern to trust, e.g. `example.com`. */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
 }
 export interface PatchSettingUrlIgnorePatternRequest {
   /** Identifier. */
@@ -3625,9 +3679,9 @@ export interface PatchSettingUrlIgnorePatternRequest {
   /** URL ignore pattern identifier. */
   patternId: string;
   /** Optional note describing the reason for the ignore pattern. */
-  comments?: string;
+  comments?: string | undefined;
   /** Regular expression identifying URLs to exempt from rewriting. */
-  pattern?: string;
+  pattern?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchSettingUrlIgnorePatternResponse {
@@ -3637,10 +3691,10 @@ export interface PatchSettingUrlIgnorePatternResponse {
   /** Regular expression identifying URLs to exempt from rewriting. */
   pattern: string;
   /** Optional note describing the reason for the ignore pattern. */
-  comments?: string | null;
+  comments?: string | null | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string | null;
-  modifiedAt?: string | null;
+  lastModified?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
 }
 export interface SettingsAllowPoliciesBatchRequestDeletesItem {
   /** Allow policy identifier. */
@@ -3659,29 +3713,29 @@ export interface SettingsAllowPoliciesBatchRequestPatchesItem {
   createdAt: string;
   /** Use `modified_at` instead. */
   lastModified: string;
-  comments?: string;
+  comments?: string | undefined;
   /** Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** Exempts messages from this sender from Spam, Spoof and Bulk dispositions only; Malicious and Suspicious dispositions still apply. */
-  isAcceptableSender?: boolean;
+  isAcceptableSender?: boolean | undefined;
   /** Bypasses all detections for messages to this recipient. */
-  isExemptRecipient?: boolean;
+  isExemptRecipient?: boolean | undefined;
   /** Use `is_exempt_recipient` instead. */
-  isRecipient?: boolean;
-  isRegex?: boolean;
+  isRecipient?: boolean | undefined;
+  isRegex?: boolean | undefined;
   /** Use `is_trusted_sender` instead. */
-  isSender?: boolean;
+  isSender?: boolean | undefined;
   /** Use `is_acceptable_sender` instead. */
-  isSpoof?: boolean;
+  isSpoof?: boolean | undefined;
   /** Bypasses all detections and link following for messages from this sender. */
-  isTrustedSender?: boolean;
-  modifiedAt?: string;
+  isTrustedSender?: boolean | undefined;
+  modifiedAt?: string | undefined;
   /** The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. The API also rejects a pattern that equals a domain onboarded to the account, ignoring case. */
-  pattern?: string;
+  pattern?: string | undefined;
   /** Type of pattern matching. */
-  patternType?: SettingsAllowPoliciesBatchRequestPatchesItemPatternType | (string & {});
+  patternType?: SettingsAllowPoliciesBatchRequestPatchesItemPatternType | (string & {}) | undefined;
   /** Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication. */
-  verifySender?: boolean;
+  verifySender?: boolean | undefined;
 }
 export type SettingsAllowPoliciesBatchRequestPatchesList =
   Array<SettingsAllowPoliciesBatchRequestPatchesItem>;
@@ -3705,20 +3759,20 @@ export interface SettingsAllowPoliciesBatchRequestPostsItem {
   /** Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication. */
   verifySender: boolean;
   /** Allow policy identifier. */
-  id?: string;
-  comments?: string;
-  createdAt?: string;
+  id?: string | undefined;
+  comments?: string | undefined;
+  createdAt?: string | undefined;
   /** Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** Use `is_exempt_recipient` instead. */
-  isRecipient?: boolean;
+  isRecipient?: boolean | undefined;
   /** Use `is_trusted_sender` instead. */
-  isSender?: boolean;
+  isSender?: boolean | undefined;
   /** Use `is_acceptable_sender` instead. */
-  isSpoof?: boolean;
+  isSpoof?: boolean | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string;
-  modifiedAt?: string;
+  lastModified?: string | undefined;
+  modifiedAt?: string | undefined;
 }
 export type SettingsAllowPoliciesBatchRequestPostsList =
   Array<SettingsAllowPoliciesBatchRequestPostsItem>;
@@ -3733,29 +3787,29 @@ export interface SettingsAllowPoliciesBatchRequestPutsItem {
   createdAt: string;
   /** Use `modified_at` instead. */
   lastModified: string;
-  comments?: string;
+  comments?: string | undefined;
   /** Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** Exempts messages from this sender from Spam, Spoof and Bulk dispositions only; Malicious and Suspicious dispositions still apply. */
-  isAcceptableSender?: boolean;
+  isAcceptableSender?: boolean | undefined;
   /** Bypasses all detections for messages to this recipient. */
-  isExemptRecipient?: boolean;
+  isExemptRecipient?: boolean | undefined;
   /** Use `is_exempt_recipient` instead. */
-  isRecipient?: boolean;
-  isRegex?: boolean;
+  isRecipient?: boolean | undefined;
+  isRegex?: boolean | undefined;
   /** Use `is_trusted_sender` instead. */
-  isSender?: boolean;
+  isSender?: boolean | undefined;
   /** Use `is_acceptable_sender` instead. */
-  isSpoof?: boolean;
+  isSpoof?: boolean | undefined;
   /** Bypasses all detections and link following for messages from this sender. */
-  isTrustedSender?: boolean;
-  modifiedAt?: string;
+  isTrustedSender?: boolean | undefined;
+  modifiedAt?: string | undefined;
   /** The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. The API also rejects a pattern that equals a domain onboarded to the account, ignoring case. */
-  pattern?: string;
+  pattern?: string | undefined;
   /** Type of pattern matching. */
-  patternType?: SettingsAllowPoliciesBatchRequestPutsItemPatternType | (string & {});
+  patternType?: SettingsAllowPoliciesBatchRequestPutsItemPatternType | (string & {}) | undefined;
   /** Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication. */
-  verifySender?: boolean;
+  verifySender?: boolean | undefined;
 }
 export type SettingsAllowPoliciesBatchRequestPutsList =
   Array<SettingsAllowPoliciesBatchRequestPutsItem>;
@@ -3786,29 +3840,29 @@ export interface SettingsAllowPoliciesBatchResponsePatchesItem {
   createdAt: string;
   /** Use `modified_at` instead. */
   lastModified: string;
-  comments?: string | null;
+  comments?: string | null | undefined;
   /** Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
   /** Exempts messages from this sender from Spam, Spoof and Bulk dispositions only; Malicious and Suspicious dispositions still apply. */
-  isAcceptableSender?: boolean | null;
+  isAcceptableSender?: boolean | null | undefined;
   /** Bypasses all detections for messages to this recipient. */
-  isExemptRecipient?: boolean | null;
+  isExemptRecipient?: boolean | null | undefined;
   /** Use `is_exempt_recipient` instead. */
-  isRecipient?: boolean | null;
-  isRegex?: boolean | null;
+  isRecipient?: boolean | null | undefined;
+  isRegex?: boolean | null | undefined;
   /** Use `is_trusted_sender` instead. */
-  isSender?: boolean | null;
+  isSender?: boolean | null | undefined;
   /** Use `is_acceptable_sender` instead. */
-  isSpoof?: boolean | null;
+  isSpoof?: boolean | null | undefined;
   /** Bypasses all detections and link following for messages from this sender. */
-  isTrustedSender?: boolean | null;
-  modifiedAt?: string | null;
+  isTrustedSender?: boolean | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. The API also rejects a pattern that equals a domain onboarded to the account, ignoring case. */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
   /** Type of pattern matching. */
-  patternType?: SettingsAllowPoliciesBatchResponsePatchesItemPatternType | null;
+  patternType?: SettingsAllowPoliciesBatchResponsePatchesItemPatternType | null | undefined;
   /** Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication. */
-  verifySender?: boolean | null;
+  verifySender?: boolean | null | undefined;
 }
 export type SettingsAllowPoliciesBatchResponsePatchesList =
   Array<SettingsAllowPoliciesBatchResponsePatchesItem>;
@@ -3823,29 +3877,29 @@ export interface SettingsAllowPoliciesBatchResponsePostsItem {
   createdAt: string;
   /** Use `modified_at` instead. */
   lastModified: string;
-  comments?: string | null;
+  comments?: string | null | undefined;
   /** Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
   /** Exempts messages from this sender from Spam, Spoof and Bulk dispositions only; Malicious and Suspicious dispositions still apply. */
-  isAcceptableSender?: boolean | null;
+  isAcceptableSender?: boolean | null | undefined;
   /** Bypasses all detections for messages to this recipient. */
-  isExemptRecipient?: boolean | null;
+  isExemptRecipient?: boolean | null | undefined;
   /** Use `is_exempt_recipient` instead. */
-  isRecipient?: boolean | null;
-  isRegex?: boolean | null;
+  isRecipient?: boolean | null | undefined;
+  isRegex?: boolean | null | undefined;
   /** Use `is_trusted_sender` instead. */
-  isSender?: boolean | null;
+  isSender?: boolean | null | undefined;
   /** Use `is_acceptable_sender` instead. */
-  isSpoof?: boolean | null;
+  isSpoof?: boolean | null | undefined;
   /** Bypasses all detections and link following for messages from this sender. */
-  isTrustedSender?: boolean | null;
-  modifiedAt?: string | null;
+  isTrustedSender?: boolean | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. The API also rejects a pattern that equals a domain onboarded to the account, ignoring case. */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
   /** Type of pattern matching. */
-  patternType?: SettingsAllowPoliciesBatchResponsePostsItemPatternType | null;
+  patternType?: SettingsAllowPoliciesBatchResponsePostsItemPatternType | null | undefined;
   /** Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication. */
-  verifySender?: boolean | null;
+  verifySender?: boolean | null | undefined;
 }
 export type SettingsAllowPoliciesBatchResponsePostsList =
   Array<SettingsAllowPoliciesBatchResponsePostsItem>;
@@ -3860,38 +3914,38 @@ export interface SettingsAllowPoliciesBatchResponsePutsItem {
   createdAt: string;
   /** Use `modified_at` instead. */
   lastModified: string;
-  comments?: string | null;
+  comments?: string | null | undefined;
   /** Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
   /** Exempts messages from this sender from Spam, Spoof and Bulk dispositions only; Malicious and Suspicious dispositions still apply. */
-  isAcceptableSender?: boolean | null;
+  isAcceptableSender?: boolean | null | undefined;
   /** Bypasses all detections for messages to this recipient. */
-  isExemptRecipient?: boolean | null;
+  isExemptRecipient?: boolean | null | undefined;
   /** Use `is_exempt_recipient` instead. */
-  isRecipient?: boolean | null;
-  isRegex?: boolean | null;
+  isRecipient?: boolean | null | undefined;
+  isRegex?: boolean | null | undefined;
   /** Use `is_trusted_sender` instead. */
-  isSender?: boolean | null;
+  isSender?: boolean | null | undefined;
   /** Use `is_acceptable_sender` instead. */
-  isSpoof?: boolean | null;
+  isSpoof?: boolean | null | undefined;
   /** Bypasses all detections and link following for messages from this sender. */
-  isTrustedSender?: boolean | null;
-  modifiedAt?: string | null;
+  isTrustedSender?: boolean | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. The API also rejects a pattern that equals a domain onboarded to the account, ignoring case. */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
   /** Type of pattern matching. */
-  patternType?: SettingsAllowPoliciesBatchResponsePutsItemPatternType | null;
+  patternType?: SettingsAllowPoliciesBatchResponsePutsItemPatternType | null | undefined;
   /** Enforce DMARC, SPF or DKIM authentication. When on, Email Security only honors policies that pass authentication. */
-  verifySender?: boolean | null;
+  verifySender?: boolean | null | undefined;
 }
 export type SettingsAllowPoliciesBatchResponsePutsList =
   Array<SettingsAllowPoliciesBatchResponsePutsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface SettingsAllowPoliciesBatchResponse {
-  deletes?: SettingsAllowPoliciesBatchResponseDeletesList | null;
-  patches?: SettingsAllowPoliciesBatchResponsePatchesList | null;
-  posts?: SettingsAllowPoliciesBatchResponsePostsList | null;
-  puts?: SettingsAllowPoliciesBatchResponsePutsList | null;
+  deletes?: SettingsAllowPoliciesBatchResponseDeletesList | null | undefined;
+  patches?: SettingsAllowPoliciesBatchResponsePatchesList | null | undefined;
+  posts?: SettingsAllowPoliciesBatchResponsePostsList | null | undefined;
+  puts?: SettingsAllowPoliciesBatchResponsePutsList | null | undefined;
 }
 export interface SettingsBlockSendersBatchRequestDeletesItem {
   /** Blocked sender pattern identifier. */
@@ -3907,19 +3961,19 @@ export type SettingsBlockSendersBatchRequestPatchesItemPatternType =
 export interface SettingsBlockSendersBatchRequestPatchesItem {
   /** Blocked sender pattern identifier. */
   id: string;
-  comments?: string;
-  createdAt?: string;
+  comments?: string | undefined;
+  createdAt?: string | undefined;
   /** Timestamp at which the pattern expires. After this time, Email Security ignores the pattern. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** Whether `pattern` is a regular expression instead of a literal value. */
-  isRegex?: boolean;
+  isRegex?: boolean | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string;
-  modifiedAt?: string;
+  lastModified?: string | undefined;
+  modifiedAt?: string | undefined;
   /** The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. */
-  pattern?: string;
+  pattern?: string | undefined;
   /** Type of pattern matching. */
-  patternType?: SettingsBlockSendersBatchRequestPatchesItemPatternType | (string & {});
+  patternType?: SettingsBlockSendersBatchRequestPatchesItemPatternType | (string & {}) | undefined;
 }
 export type SettingsBlockSendersBatchRequestPatchesList =
   Array<SettingsBlockSendersBatchRequestPatchesItem>;
@@ -3936,14 +3990,14 @@ export interface SettingsBlockSendersBatchRequestPostsItem {
   /** Type of pattern matching. */
   patternType: SettingsBlockSendersBatchRequestPostsItemPatternType | (string & {});
   /** Blocked sender pattern identifier. */
-  id?: string;
-  comments?: string;
-  createdAt?: string;
+  id?: string | undefined;
+  comments?: string | undefined;
+  createdAt?: string | undefined;
   /** Timestamp at which the pattern expires. After this time, Email Security ignores the pattern. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string;
-  modifiedAt?: string;
+  lastModified?: string | undefined;
+  modifiedAt?: string | undefined;
 }
 export type SettingsBlockSendersBatchRequestPostsList =
   Array<SettingsBlockSendersBatchRequestPostsItem>;
@@ -3961,13 +4015,13 @@ export interface SettingsBlockSendersBatchRequestPutsItem {
   pattern: string;
   /** Type of pattern matching. */
   patternType: SettingsBlockSendersBatchRequestPutsItemPatternType | (string & {});
-  comments?: string;
-  createdAt?: string;
+  comments?: string | undefined;
+  createdAt?: string | undefined;
   /** Timestamp at which the pattern expires. After this time, Email Security ignores the pattern. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string;
+  expiresAt?: string | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string;
-  modifiedAt?: string;
+  lastModified?: string | undefined;
+  modifiedAt?: string | undefined;
 }
 export type SettingsBlockSendersBatchRequestPutsList =
   Array<SettingsBlockSendersBatchRequestPutsItem>;
@@ -3994,20 +4048,20 @@ export type SettingsBlockSendersBatchResponsePatchesItemPatternType =
   | "UNKNOWN";
 export interface SettingsBlockSendersBatchResponsePatchesItem {
   /** Blocked sender pattern identifier. */
-  id?: string | null;
-  comments?: string | null;
-  createdAt?: string | null;
+  id?: string | null | undefined;
+  comments?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Timestamp at which the pattern expires. After this time, Email Security ignores the pattern. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
   /** Whether `pattern` is a regular expression instead of a literal value. */
-  isRegex?: boolean | null;
+  isRegex?: boolean | null | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string | null;
-  modifiedAt?: string | null;
+  lastModified?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
   /** Type of pattern matching. */
-  patternType?: SettingsBlockSendersBatchResponsePatchesItemPatternType | null;
+  patternType?: SettingsBlockSendersBatchResponsePatchesItemPatternType | null | undefined;
 }
 export type SettingsBlockSendersBatchResponsePatchesList =
   Array<SettingsBlockSendersBatchResponsePatchesItem>;
@@ -4018,20 +4072,20 @@ export type SettingsBlockSendersBatchResponsePostsItemPatternType =
   | "UNKNOWN";
 export interface SettingsBlockSendersBatchResponsePostsItem {
   /** Blocked sender pattern identifier. */
-  id?: string | null;
-  comments?: string | null;
-  createdAt?: string | null;
+  id?: string | null | undefined;
+  comments?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Timestamp at which the pattern expires. After this time, Email Security ignores the pattern. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
   /** Whether `pattern` is a regular expression instead of a literal value. */
-  isRegex?: boolean | null;
+  isRegex?: boolean | null | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string | null;
-  modifiedAt?: string | null;
+  lastModified?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
   /** Type of pattern matching. */
-  patternType?: SettingsBlockSendersBatchResponsePostsItemPatternType | null;
+  patternType?: SettingsBlockSendersBatchResponsePostsItemPatternType | null | undefined;
 }
 export type SettingsBlockSendersBatchResponsePostsList =
   Array<SettingsBlockSendersBatchResponsePostsItem>;
@@ -4042,29 +4096,29 @@ export type SettingsBlockSendersBatchResponsePutsItemPatternType =
   | "UNKNOWN";
 export interface SettingsBlockSendersBatchResponsePutsItem {
   /** Blocked sender pattern identifier. */
-  id?: string | null;
-  comments?: string | null;
-  createdAt?: string | null;
+  id?: string | null | undefined;
+  comments?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Timestamp at which the pattern expires. After this time, Email Security ignores the pattern. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
   /** Whether `pattern` is a regular expression instead of a literal value. */
-  isRegex?: boolean | null;
+  isRegex?: boolean | null | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string | null;
-  modifiedAt?: string | null;
+  lastModified?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** The pattern value to match. The format depends on `pattern_type`: a valid email address for EMAIL (e.g. `user@example.com`), a valid domain name for DOMAIN (e.g. `example.com`), or a plain IPv4 or IPv6 address or CIDR block for IP (e.g. `1.2.3.4`, `1.2.3.0/24`, `2606:4700:4700::1111`, or `2606:4700:4700::/48`); the API rejects private or unique-local, loopback, link-local, unspecified, and IPv4 broadcast addresses, including their IPv4-mapped IPv6 equivalents. */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
   /** Type of pattern matching. */
-  patternType?: SettingsBlockSendersBatchResponsePutsItemPatternType | null;
+  patternType?: SettingsBlockSendersBatchResponsePutsItemPatternType | null | undefined;
 }
 export type SettingsBlockSendersBatchResponsePutsList =
   Array<SettingsBlockSendersBatchResponsePutsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface SettingsBlockSendersBatchResponse {
-  deletes?: SettingsBlockSendersBatchResponseDeletesList | null;
-  patches?: SettingsBlockSendersBatchResponsePatchesList | null;
-  posts?: SettingsBlockSendersBatchResponsePostsList | null;
-  puts?: SettingsBlockSendersBatchResponsePutsList | null;
+  deletes?: SettingsBlockSendersBatchResponseDeletesList | null | undefined;
+  patches?: SettingsBlockSendersBatchResponsePatchesList | null | undefined;
+  posts?: SettingsBlockSendersBatchResponsePostsList | null | undefined;
+  puts?: SettingsBlockSendersBatchResponsePutsList | null | undefined;
 }
 export interface SettingsContentPoliciesBatchRequestDeletesItem {
   /** Content policy identifier. */
@@ -4079,20 +4133,20 @@ export type SettingsContentPoliciesBatchRequestPatchesItemTargetsList = Array<
 export interface SettingsContentPoliciesBatchRequestPatchesItem {
   /** Content policy identifier. */
   id: string;
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Whether the policy is active. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string;
-  modifiedAt?: string;
+  expiresAt?: string | undefined;
+  modifiedAt?: string | undefined;
   /** Human-readable name of the policy. */
-  name?: string;
+  name?: string | undefined;
   /** Optional note describing the purpose of the policy. */
-  notes?: string;
+  notes?: string | undefined;
   /** Regular expression the policy matches against. */
-  pattern?: string;
+  pattern?: string | undefined;
   /** Parts of the email the pattern is matched against. */
-  targets?: SettingsContentPoliciesBatchRequestPatchesItemTargetsList;
+  targets?: SettingsContentPoliciesBatchRequestPatchesItemTargetsList | undefined;
 }
 export type SettingsContentPoliciesBatchRequestPatchesList =
   Array<SettingsContentPoliciesBatchRequestPatchesItem>;
@@ -4110,13 +4164,13 @@ export interface SettingsContentPoliciesBatchRequestPostsItem {
   /** Parts of the email the pattern is matched against. */
   targets: SettingsContentPoliciesBatchRequestPostsItemTargetsList;
   /** Content policy identifier. */
-  id?: string;
-  createdAt?: string;
+  id?: string | undefined;
+  createdAt?: string | undefined;
   /** Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string;
-  modifiedAt?: string;
+  expiresAt?: string | undefined;
+  modifiedAt?: string | undefined;
   /** Optional note describing the purpose of the policy. */
-  notes?: string;
+  notes?: string | undefined;
 }
 export type SettingsContentPoliciesBatchRequestPostsList =
   Array<SettingsContentPoliciesBatchRequestPostsItem>;
@@ -4135,12 +4189,12 @@ export interface SettingsContentPoliciesBatchRequestPutsItem {
   pattern: string;
   /** Parts of the email the pattern is matched against. */
   targets: SettingsContentPoliciesBatchRequestPutsItemTargetsList;
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string;
-  modifiedAt?: string;
+  expiresAt?: string | undefined;
+  modifiedAt?: string | undefined;
   /** Optional note describing the purpose of the policy. */
-  notes?: string;
+  notes?: string | undefined;
 }
 export type SettingsContentPoliciesBatchRequestPutsList =
   Array<SettingsContentPoliciesBatchRequestPutsItem>;
@@ -4165,21 +4219,21 @@ export type SettingsContentPoliciesBatchResponsePatchesItemTargetsList =
   Array<SettingsContentPoliciesBatchResponsePatchesItemTargetsItem>;
 export interface SettingsContentPoliciesBatchResponsePatchesItem {
   /** Content policy identifier. */
-  id?: string | null;
-  createdAt?: string | null;
+  id?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Whether the policy is active. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string | null;
-  modifiedAt?: string | null;
+  expiresAt?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** Human-readable name of the policy. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Optional note describing the purpose of the policy. */
-  notes?: string | null;
+  notes?: string | null | undefined;
   /** Regular expression the policy matches against. */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
   /** Parts of the email the pattern is matched against. */
-  targets?: SettingsContentPoliciesBatchResponsePatchesItemTargetsList | null;
+  targets?: SettingsContentPoliciesBatchResponsePatchesItemTargetsList | null | undefined;
 }
 export type SettingsContentPoliciesBatchResponsePatchesList =
   Array<SettingsContentPoliciesBatchResponsePatchesItem>;
@@ -4188,21 +4242,21 @@ export type SettingsContentPoliciesBatchResponsePostsItemTargetsList =
   Array<SettingsContentPoliciesBatchResponsePostsItemTargetsItem>;
 export interface SettingsContentPoliciesBatchResponsePostsItem {
   /** Content policy identifier. */
-  id?: string | null;
-  createdAt?: string | null;
+  id?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Whether the policy is active. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string | null;
-  modifiedAt?: string | null;
+  expiresAt?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** Human-readable name of the policy. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Optional note describing the purpose of the policy. */
-  notes?: string | null;
+  notes?: string | null | undefined;
   /** Regular expression the policy matches against. */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
   /** Parts of the email the pattern is matched against. */
-  targets?: SettingsContentPoliciesBatchResponsePostsItemTargetsList | null;
+  targets?: SettingsContentPoliciesBatchResponsePostsItemTargetsList | null | undefined;
 }
 export type SettingsContentPoliciesBatchResponsePostsList =
   Array<SettingsContentPoliciesBatchResponsePostsItem>;
@@ -4211,30 +4265,30 @@ export type SettingsContentPoliciesBatchResponsePutsItemTargetsList =
   Array<SettingsContentPoliciesBatchResponsePutsItemTargetsItem>;
 export interface SettingsContentPoliciesBatchResponsePutsItem {
   /** Content policy identifier. */
-  id?: string | null;
-  createdAt?: string | null;
+  id?: string | null | undefined;
+  createdAt?: string | null | undefined;
   /** Whether the policy is active. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** Timestamp at which the policy expires. After this time, Email Security ignores the policy. The value must lie in the future. Send `null` to clear the expiration. */
-  expiresAt?: string | null;
-  modifiedAt?: string | null;
+  expiresAt?: string | null | undefined;
+  modifiedAt?: string | null | undefined;
   /** Human-readable name of the policy. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Optional note describing the purpose of the policy. */
-  notes?: string | null;
+  notes?: string | null | undefined;
   /** Regular expression the policy matches against. */
-  pattern?: string | null;
+  pattern?: string | null | undefined;
   /** Parts of the email the pattern is matched against. */
-  targets?: SettingsContentPoliciesBatchResponsePutsItemTargetsList | null;
+  targets?: SettingsContentPoliciesBatchResponsePutsItemTargetsList | null | undefined;
 }
 export type SettingsContentPoliciesBatchResponsePutsList =
   Array<SettingsContentPoliciesBatchResponsePutsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface SettingsContentPoliciesBatchResponse {
-  deletes?: SettingsContentPoliciesBatchResponseDeletesList | null;
-  patches?: SettingsContentPoliciesBatchResponsePatchesList | null;
-  posts?: SettingsContentPoliciesBatchResponsePostsList | null;
-  puts?: SettingsContentPoliciesBatchResponsePutsList | null;
+  deletes?: SettingsContentPoliciesBatchResponseDeletesList | null | undefined;
+  patches?: SettingsContentPoliciesBatchResponsePatchesList | null | undefined;
+  posts?: SettingsContentPoliciesBatchResponsePostsList | null | undefined;
+  puts?: SettingsContentPoliciesBatchResponsePutsList | null | undefined;
 }
 export interface SettingsDomainsBatchRequestDeletesItem {
   /** Domain identifier. */
@@ -4279,25 +4333,25 @@ export interface SettingsDomainsBatchRequestPatchesItem {
   /** Domain identifier. */
   id: string;
   /** Delivery modes to onboard the domain through. */
-  allowedDeliveryModes?: SettingsDomainsBatchRequestPatchesItemAllowedDeliveryModesList;
+  allowedDeliveryModes?: SettingsDomainsBatchRequestPatchesItemAllowedDeliveryModesList | undefined;
   /** Dispositions to drop instead of delivering, e.g. `["MALICIOUS", "SPAM"]`. */
-  dropDispositions?: SettingsDomainsBatchRequestPatchesItemDropDispositionsList;
+  dropDispositions?: SettingsDomainsBatchRequestPatchesItemDropDispositionsList | undefined;
   /** The mailbox folder to scan, for API-scanning domains. */
-  folder?: SettingsDomainsBatchRequestPatchesItemFolder | (string & {});
+  folder?: SettingsDomainsBatchRequestPatchesItemFolder | (string & {}) | undefined;
   /** Identifier of the CASB integration that authorizes this domain. The integration also enables API scanning, post-delivery actions, and directory sync. */
-  integrationId?: string;
+  integrationId?: string | undefined;
   /** Source IP ranges mail is accepted from. Any other source is rejected. */
-  ipRestrictions?: SettingsDomainsBatchRequestPatchesItemIpRestrictionsList;
+  ipRestrictions?: SettingsDomainsBatchRequestPatchesItemIpRestrictionsList | undefined;
   /** Number of hops to trace back through received headers when reconstructing the original message (1-20). */
-  lookbackHops?: number;
+  lookbackHops?: number | undefined;
   /** Regions that process messages for this domain, e.g. `["GLOBAL"]` or `["US"]`. */
-  regions?: SettingsDomainsBatchRequestPatchesItemRegionsList;
+  regions?: SettingsDomainsBatchRequestPatchesItemRegionsList | undefined;
   /** Require TLS on inbound connections. */
-  requireTlsInbound?: boolean;
+  requireTlsInbound?: boolean | undefined;
   /** Require TLS on outbound connections. */
-  requireTlsOutbound?: boolean;
+  requireTlsOutbound?: boolean | undefined;
   /** The mail transport hostname for MX/Inline delivery -- the MX record Cloudflare delivers email to (e.g. `mx.example.com`). */
-  transport?: string;
+  transport?: string | undefined;
 }
 export type SettingsDomainsBatchRequestPatchesList = Array<SettingsDomainsBatchRequestPatchesItem>;
 export type SettingsDomainsBatchRequestPostsItemAllowedDeliveryModesItem =
@@ -4341,17 +4395,17 @@ export interface SettingsDomainsBatchRequestPostsItem {
   /** Regions that process messages for this domain, e.g. `["GLOBAL"]` or `["US"]`. */
   regions: SettingsDomainsBatchRequestPostsItemRegionsList;
   /** The mailbox folder to scan, for API-scanning domains. */
-  folder?: SettingsDomainsBatchRequestPostsItemFolder | (string & {});
+  folder?: SettingsDomainsBatchRequestPostsItemFolder | (string & {}) | undefined;
   /** Identifier of the CASB integration that authorizes this domain. The integration also enables API scanning, post-delivery actions, and directory sync. */
-  integrationId?: string;
+  integrationId?: string | undefined;
   /** Number of hops to trace back through received headers when reconstructing the original message (1-20). */
-  lookbackHops?: number;
+  lookbackHops?: number | undefined;
   /** Require TLS on inbound connections. */
-  requireTlsInbound?: boolean;
+  requireTlsInbound?: boolean | undefined;
   /** Require TLS on outbound connections. */
-  requireTlsOutbound?: boolean;
+  requireTlsOutbound?: boolean | undefined;
   /** The mail transport hostname for MX/Inline delivery -- the MX record Cloudflare delivers email to (e.g. `mx.example.com`). */
-  transport?: string;
+  transport?: string | undefined;
 }
 export type SettingsDomainsBatchRequestPostsList = Array<SettingsDomainsBatchRequestPostsItem>;
 export type SettingsDomainsBatchRequestPutsItemAllowedDeliveryModesItem =
@@ -4395,17 +4449,17 @@ export interface SettingsDomainsBatchRequestPutsItem {
   /** Regions that process messages for this domain, e.g. `["GLOBAL"]` or `["US"]`. */
   regions: SettingsDomainsBatchRequestPutsItemRegionsList;
   /** The mailbox folder to scan, for API-scanning domains. */
-  folder?: SettingsDomainsBatchRequestPutsItemFolder | (string & {});
+  folder?: SettingsDomainsBatchRequestPutsItemFolder | (string & {}) | undefined;
   /** Identifier of the CASB integration that authorizes this domain. The integration also enables API scanning, post-delivery actions, and directory sync. */
-  integrationId?: string;
+  integrationId?: string | undefined;
   /** Number of hops to trace back through received headers when reconstructing the original message (1-20). */
-  lookbackHops?: number;
+  lookbackHops?: number | undefined;
   /** Require TLS on inbound connections. */
-  requireTlsInbound?: boolean;
+  requireTlsInbound?: boolean | undefined;
   /** Require TLS on outbound connections. */
-  requireTlsOutbound?: boolean;
+  requireTlsOutbound?: boolean | undefined;
   /** The mail transport hostname for MX/Inline delivery -- the MX record Cloudflare delivers email to (e.g. `mx.example.com`). */
-  transport?: string;
+  transport?: string | undefined;
 }
 export type SettingsDomainsBatchRequestPutsList = Array<SettingsDomainsBatchRequestPutsItem>;
 export interface SettingsDomainsBatchRequest {
@@ -4472,30 +4526,33 @@ export type SettingsDomainsBatchResponsePatchesItemStatus =
   | "TIMEOUT";
 export interface SettingsDomainsBatchResponsePatchesItem {
   /** Domain identifier. */
-  id?: string | null;
-  allowedDeliveryModes?: SettingsDomainsBatchResponsePatchesItemAllowedDeliveryModesList | null;
-  authorization?: CreateSettingsDomainResponseAuthorization | null;
-  createdAt?: string | null;
-  dmarcStatus?: SettingsDomainsBatchResponsePatchesItemDmarcStatus | null;
-  domain?: string | null;
-  dropDispositions?: SettingsDomainsBatchResponsePatchesItemDropDispositionsList | null;
-  emailsProcessed?: CreateSettingsDomainResponseEmailsProcessed | null;
+  id?: string | null | undefined;
+  allowedDeliveryModes?:
+    | SettingsDomainsBatchResponsePatchesItemAllowedDeliveryModesList
+    | null
+    | undefined;
+  authorization?: CreateSettingsDomainResponseAuthorization | null | undefined;
+  createdAt?: string | null | undefined;
+  dmarcStatus?: SettingsDomainsBatchResponsePatchesItemDmarcStatus | null | undefined;
+  domain?: string | null | undefined;
+  dropDispositions?: SettingsDomainsBatchResponsePatchesItemDropDispositionsList | null | undefined;
+  emailsProcessed?: CreateSettingsDomainResponseEmailsProcessed | null | undefined;
   /** The mailbox folder to scan, for API-scanning domains. */
-  folder?: SettingsDomainsBatchResponsePatchesItemFolder | null;
-  inboxProvider?: SettingsDomainsBatchResponsePatchesItemInboxProvider | null;
-  integrationId?: string | null;
-  ipRestrictions?: SettingsDomainsBatchResponsePatchesItemIpRestrictionsList | null;
+  folder?: SettingsDomainsBatchResponsePatchesItemFolder | null | undefined;
+  inboxProvider?: SettingsDomainsBatchResponsePatchesItemInboxProvider | null | undefined;
+  integrationId?: string | null | undefined;
+  ipRestrictions?: SettingsDomainsBatchResponsePatchesItemIpRestrictionsList | null | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string | null;
-  lookbackHops?: number | null;
-  modifiedAt?: string | null;
-  o365TenantId?: string | null;
-  regions?: SettingsDomainsBatchResponsePatchesItemRegionsList | null;
-  requireTlsInbound?: boolean | null;
-  requireTlsOutbound?: boolean | null;
-  spfStatus?: SettingsDomainsBatchResponsePatchesItemSpfStatus | null;
-  status?: SettingsDomainsBatchResponsePatchesItemStatus | null;
-  transport?: string | null;
+  lastModified?: string | null | undefined;
+  lookbackHops?: number | null | undefined;
+  modifiedAt?: string | null | undefined;
+  o365TenantId?: string | null | undefined;
+  regions?: SettingsDomainsBatchResponsePatchesItemRegionsList | null | undefined;
+  requireTlsInbound?: boolean | null | undefined;
+  requireTlsOutbound?: boolean | null | undefined;
+  spfStatus?: SettingsDomainsBatchResponsePatchesItemSpfStatus | null | undefined;
+  status?: SettingsDomainsBatchResponsePatchesItemStatus | null | undefined;
+  transport?: string | null | undefined;
 }
 export type SettingsDomainsBatchResponsePatchesList =
   Array<SettingsDomainsBatchResponsePatchesItem>;
@@ -4544,30 +4601,33 @@ export type SettingsDomainsBatchResponsePostsItemStatus =
   | "TIMEOUT";
 export interface SettingsDomainsBatchResponsePostsItem {
   /** Domain identifier. */
-  id?: string | null;
-  allowedDeliveryModes?: SettingsDomainsBatchResponsePostsItemAllowedDeliveryModesList | null;
-  authorization?: CreateSettingsDomainResponseAuthorization | null;
-  createdAt?: string | null;
-  dmarcStatus?: SettingsDomainsBatchResponsePostsItemDmarcStatus | null;
-  domain?: string | null;
-  dropDispositions?: SettingsDomainsBatchResponsePostsItemDropDispositionsList | null;
-  emailsProcessed?: CreateSettingsDomainResponseEmailsProcessed | null;
+  id?: string | null | undefined;
+  allowedDeliveryModes?:
+    | SettingsDomainsBatchResponsePostsItemAllowedDeliveryModesList
+    | null
+    | undefined;
+  authorization?: CreateSettingsDomainResponseAuthorization | null | undefined;
+  createdAt?: string | null | undefined;
+  dmarcStatus?: SettingsDomainsBatchResponsePostsItemDmarcStatus | null | undefined;
+  domain?: string | null | undefined;
+  dropDispositions?: SettingsDomainsBatchResponsePostsItemDropDispositionsList | null | undefined;
+  emailsProcessed?: CreateSettingsDomainResponseEmailsProcessed | null | undefined;
   /** The mailbox folder to scan, for API-scanning domains. */
-  folder?: SettingsDomainsBatchResponsePostsItemFolder | null;
-  inboxProvider?: SettingsDomainsBatchResponsePostsItemInboxProvider | null;
-  integrationId?: string | null;
-  ipRestrictions?: SettingsDomainsBatchResponsePostsItemIpRestrictionsList | null;
+  folder?: SettingsDomainsBatchResponsePostsItemFolder | null | undefined;
+  inboxProvider?: SettingsDomainsBatchResponsePostsItemInboxProvider | null | undefined;
+  integrationId?: string | null | undefined;
+  ipRestrictions?: SettingsDomainsBatchResponsePostsItemIpRestrictionsList | null | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string | null;
-  lookbackHops?: number | null;
-  modifiedAt?: string | null;
-  o365TenantId?: string | null;
-  regions?: SettingsDomainsBatchResponsePostsItemRegionsList | null;
-  requireTlsInbound?: boolean | null;
-  requireTlsOutbound?: boolean | null;
-  spfStatus?: SettingsDomainsBatchResponsePostsItemSpfStatus | null;
-  status?: SettingsDomainsBatchResponsePostsItemStatus | null;
-  transport?: string | null;
+  lastModified?: string | null | undefined;
+  lookbackHops?: number | null | undefined;
+  modifiedAt?: string | null | undefined;
+  o365TenantId?: string | null | undefined;
+  regions?: SettingsDomainsBatchResponsePostsItemRegionsList | null | undefined;
+  requireTlsInbound?: boolean | null | undefined;
+  requireTlsOutbound?: boolean | null | undefined;
+  spfStatus?: SettingsDomainsBatchResponsePostsItemSpfStatus | null | undefined;
+  status?: SettingsDomainsBatchResponsePostsItemStatus | null | undefined;
+  transport?: string | null | undefined;
 }
 export type SettingsDomainsBatchResponsePostsList = Array<SettingsDomainsBatchResponsePostsItem>;
 export type SettingsDomainsBatchResponsePutsItemAllowedDeliveryModesItem =
@@ -4615,30 +4675,33 @@ export type SettingsDomainsBatchResponsePutsItemStatus =
   | "TIMEOUT";
 export interface SettingsDomainsBatchResponsePutsItem {
   /** Domain identifier. */
-  id?: string | null;
-  allowedDeliveryModes?: SettingsDomainsBatchResponsePutsItemAllowedDeliveryModesList | null;
-  authorization?: CreateSettingsDomainResponseAuthorization | null;
-  createdAt?: string | null;
-  dmarcStatus?: SettingsDomainsBatchResponsePutsItemDmarcStatus | null;
-  domain?: string | null;
-  dropDispositions?: SettingsDomainsBatchResponsePutsItemDropDispositionsList | null;
-  emailsProcessed?: CreateSettingsDomainResponseEmailsProcessed | null;
+  id?: string | null | undefined;
+  allowedDeliveryModes?:
+    | SettingsDomainsBatchResponsePutsItemAllowedDeliveryModesList
+    | null
+    | undefined;
+  authorization?: CreateSettingsDomainResponseAuthorization | null | undefined;
+  createdAt?: string | null | undefined;
+  dmarcStatus?: SettingsDomainsBatchResponsePutsItemDmarcStatus | null | undefined;
+  domain?: string | null | undefined;
+  dropDispositions?: SettingsDomainsBatchResponsePutsItemDropDispositionsList | null | undefined;
+  emailsProcessed?: CreateSettingsDomainResponseEmailsProcessed | null | undefined;
   /** The mailbox folder to scan, for API-scanning domains. */
-  folder?: SettingsDomainsBatchResponsePutsItemFolder | null;
-  inboxProvider?: SettingsDomainsBatchResponsePutsItemInboxProvider | null;
-  integrationId?: string | null;
-  ipRestrictions?: SettingsDomainsBatchResponsePutsItemIpRestrictionsList | null;
+  folder?: SettingsDomainsBatchResponsePutsItemFolder | null | undefined;
+  inboxProvider?: SettingsDomainsBatchResponsePutsItemInboxProvider | null | undefined;
+  integrationId?: string | null | undefined;
+  ipRestrictions?: SettingsDomainsBatchResponsePutsItemIpRestrictionsList | null | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string | null;
-  lookbackHops?: number | null;
-  modifiedAt?: string | null;
-  o365TenantId?: string | null;
-  regions?: SettingsDomainsBatchResponsePutsItemRegionsList | null;
-  requireTlsInbound?: boolean | null;
-  requireTlsOutbound?: boolean | null;
-  spfStatus?: SettingsDomainsBatchResponsePutsItemSpfStatus | null;
-  status?: SettingsDomainsBatchResponsePutsItemStatus | null;
-  transport?: string | null;
+  lastModified?: string | null | undefined;
+  lookbackHops?: number | null | undefined;
+  modifiedAt?: string | null | undefined;
+  o365TenantId?: string | null | undefined;
+  regions?: SettingsDomainsBatchResponsePutsItemRegionsList | null | undefined;
+  requireTlsInbound?: boolean | null | undefined;
+  requireTlsOutbound?: boolean | null | undefined;
+  spfStatus?: SettingsDomainsBatchResponsePutsItemSpfStatus | null | undefined;
+  status?: SettingsDomainsBatchResponsePutsItemStatus | null | undefined;
+  transport?: string | null | undefined;
 }
 export type SettingsDomainsBatchResponsePutsList = Array<SettingsDomainsBatchResponsePutsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -4664,19 +4727,19 @@ export type SettingsTrustedDomainsBatchRequestDeletesList =
 export interface SettingsTrustedDomainsBatchRequestPatchesItem {
   /** Trusted domain identifier. */
   id: string;
-  comments?: string;
-  createdAt?: string;
+  comments?: string | undefined;
+  createdAt?: string | undefined;
   /** Select to prevent recently registered domains from triggering a Suspicious or Malicious disposition. */
-  isRecent?: boolean;
+  isRecent?: boolean | undefined;
   /** Whether `pattern` is a regular expression instead of a literal domain. */
-  isRegex?: boolean;
+  isRegex?: boolean | undefined;
   /** Select for partner or other approved domains that have similar spelling to your connected domains. Prevents listed domains from triggering a Spoof disposition. */
-  isSimilarity?: boolean;
+  isSimilarity?: boolean | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string;
-  modifiedAt?: string;
+  lastModified?: string | undefined;
+  modifiedAt?: string | undefined;
   /** The domain pattern to trust, e.g. `example.com`. */
-  pattern?: string;
+  pattern?: string | undefined;
 }
 export type SettingsTrustedDomainsBatchRequestPatchesList =
   Array<SettingsTrustedDomainsBatchRequestPatchesItem>;
@@ -4690,12 +4753,12 @@ export interface SettingsTrustedDomainsBatchRequestPostsItem {
   /** The domain pattern to trust, e.g. `example.com`. */
   pattern: string;
   /** Trusted domain identifier. */
-  id?: string;
-  comments?: string;
-  createdAt?: string;
+  id?: string | undefined;
+  comments?: string | undefined;
+  createdAt?: string | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string;
-  modifiedAt?: string;
+  lastModified?: string | undefined;
+  modifiedAt?: string | undefined;
 }
 export type SettingsTrustedDomainsBatchRequestPostsList =
   Array<SettingsTrustedDomainsBatchRequestPostsItem>;
@@ -4710,11 +4773,11 @@ export interface SettingsTrustedDomainsBatchRequestPutsItem {
   isSimilarity: boolean;
   /** The domain pattern to trust, e.g. `example.com`. */
   pattern: string;
-  comments?: string;
-  createdAt?: string;
+  comments?: string | undefined;
+  createdAt?: string | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string;
-  modifiedAt?: string;
+  lastModified?: string | undefined;
+  modifiedAt?: string | undefined;
 }
 export type SettingsTrustedDomainsBatchRequestPutsList =
   Array<SettingsTrustedDomainsBatchRequestPutsItem>;
@@ -4745,10 +4808,10 @@ export type SettingsTrustedDomainsBatchResponsePutsList =
   Array<SettingsTrustedDomainsListResultItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface SettingsTrustedDomainsBatchResponse {
-  deletes?: SettingsTrustedDomainsBatchResponseDeletesList | null;
-  patches?: SettingsTrustedDomainsBatchResponsePatchesList | null;
-  posts?: SettingsTrustedDomainsBatchResponsePostsList | null;
-  puts?: SettingsTrustedDomainsBatchResponsePutsList | null;
+  deletes?: SettingsTrustedDomainsBatchResponseDeletesList | null | undefined;
+  patches?: SettingsTrustedDomainsBatchResponsePatchesList | null | undefined;
+  posts?: SettingsTrustedDomainsBatchResponsePostsList | null | undefined;
+  puts?: SettingsTrustedDomainsBatchResponsePutsList | null | undefined;
 }
 export type UpdateSettingsDomainRequestAllowedDeliveryModesItem =
   | "DIRECT"
@@ -4793,17 +4856,17 @@ export interface UpdateSettingsDomainRequest {
   /** Regions that process messages for this domain, e.g. `["GLOBAL"]` or `["US"]`. */
   regions: UpdateSettingsDomainRequestRegionsList;
   /** The mailbox folder to scan, for API-scanning domains. */
-  folder?: UpdateSettingsDomainRequestFolder | (string & {});
+  folder?: UpdateSettingsDomainRequestFolder | (string & {}) | undefined;
   /** Identifier of the CASB integration that authorizes this domain. The integration also enables API scanning, post-delivery actions, and directory sync. */
-  integrationId?: string;
+  integrationId?: string | undefined;
   /** Number of hops to trace back through received headers when reconstructing the original message (1-20). */
-  lookbackHops?: number;
+  lookbackHops?: number | undefined;
   /** Require TLS on inbound connections. */
-  requireTlsInbound?: boolean;
+  requireTlsInbound?: boolean | undefined;
   /** Require TLS on outbound connections. */
-  requireTlsOutbound?: boolean;
+  requireTlsOutbound?: boolean | undefined;
   /** The mail transport hostname for MX/Inline delivery -- the MX record Cloudflare delivers email to (e.g. `mx.example.com`). */
-  transport?: string;
+  transport?: string | undefined;
 }
 export type UpdateSettingsDomainResponseAllowedDeliveryModesItem =
   | "DIRECT"
@@ -4846,30 +4909,30 @@ export type UpdateSettingsDomainResponseStatus = "PENDING" | "ACTIVE" | "FAILED"
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateSettingsDomainResponse {
   /** Domain identifier. */
-  id?: string | null;
-  allowedDeliveryModes?: UpdateSettingsDomainResponseAllowedDeliveryModesList | null;
-  authorization?: CreateSettingsDomainResponseAuthorization | null;
-  createdAt?: string | null;
-  dmarcStatus?: UpdateSettingsDomainResponseDmarcStatus | null;
-  domain?: string | null;
-  dropDispositions?: UpdateSettingsDomainResponseDropDispositionsList | null;
-  emailsProcessed?: CreateSettingsDomainResponseEmailsProcessed | null;
+  id?: string | null | undefined;
+  allowedDeliveryModes?: UpdateSettingsDomainResponseAllowedDeliveryModesList | null | undefined;
+  authorization?: CreateSettingsDomainResponseAuthorization | null | undefined;
+  createdAt?: string | null | undefined;
+  dmarcStatus?: UpdateSettingsDomainResponseDmarcStatus | null | undefined;
+  domain?: string | null | undefined;
+  dropDispositions?: UpdateSettingsDomainResponseDropDispositionsList | null | undefined;
+  emailsProcessed?: CreateSettingsDomainResponseEmailsProcessed | null | undefined;
   /** The mailbox folder to scan, for API-scanning domains. */
-  folder?: UpdateSettingsDomainResponseFolder | null;
-  inboxProvider?: UpdateSettingsDomainResponseInboxProvider | null;
-  integrationId?: string | null;
-  ipRestrictions?: UpdateSettingsDomainResponseIpRestrictionsList | null;
+  folder?: UpdateSettingsDomainResponseFolder | null | undefined;
+  inboxProvider?: UpdateSettingsDomainResponseInboxProvider | null | undefined;
+  integrationId?: string | null | undefined;
+  ipRestrictions?: UpdateSettingsDomainResponseIpRestrictionsList | null | undefined;
   /** Use `modified_at` instead. */
-  lastModified?: string | null;
-  lookbackHops?: number | null;
-  modifiedAt?: string | null;
-  o365TenantId?: string | null;
-  regions?: UpdateSettingsDomainResponseRegionsList | null;
-  requireTlsInbound?: boolean | null;
-  requireTlsOutbound?: boolean | null;
-  spfStatus?: UpdateSettingsDomainResponseSpfStatus | null;
-  status?: UpdateSettingsDomainResponseStatus | null;
-  transport?: string | null;
+  lastModified?: string | null | undefined;
+  lookbackHops?: number | null | undefined;
+  modifiedAt?: string | null | undefined;
+  o365TenantId?: string | null | undefined;
+  regions?: UpdateSettingsDomainResponseRegionsList | null | undefined;
+  requireTlsInbound?: boolean | null | undefined;
+  requireTlsOutbound?: boolean | null | undefined;
+  spfStatus?: UpdateSettingsDomainResponseSpfStatus | null | undefined;
+  status?: UpdateSettingsDomainResponseStatus | null | undefined;
+  transport?: string | null | undefined;
 }
 export type BulkInvestigateMoveError = CloudflareOpError;
 /** Moves one or more messages to a specified mailbox folder (Inbox, JunkEmail, DeletedItems, RecoverableItemsDeletions, or RecoverableItemsPurges). Requires active integration. Operates on an explicit list of messages; to move all messages matching a search, create a bulk action job instead. */

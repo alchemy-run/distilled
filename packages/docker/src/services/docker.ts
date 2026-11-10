@@ -73,36 +73,36 @@ export interface AttachContainerRequest {
   /** ID or name of the container */
   id: string;
   /** Override the key sequence for detaching a container.Format is a single character `[a-Z]` or `ctrl-<value>` where `<value>` is one of: `a-z`, `@`, `^`, `[`, `,` or `_`. */
-  detachKeys?: string;
+  detachKeys?: string | undefined;
   /** Replay previous logs from the container. This is useful for attaching to a container that has started and you want to output everything since the container started. If `stream` is also enabled, once all the previous output has been returned, it will seamlessly transition into streaming current output. */
-  logs?: boolean;
+  logs?: boolean | undefined;
   /** Stream attached streams from the time the request was made onwards. */
-  stream?: boolean;
+  stream?: boolean | undefined;
   /** Attach to `stdin` */
-  stdin?: boolean;
+  stdin?: boolean | undefined;
   /** Attach to `stdout` */
-  stdout?: boolean;
+  stdout?: boolean | undefined;
   /** Attach to `stderr` */
-  stderr?: boolean;
+  stderr?: boolean | undefined;
 }
 export interface AttachContainerResponse {}
 export interface BuildPruneRequest {
   /** Amount of disk space in bytes to keep for cache */
-  reserved_space?: number;
+  reserved_space?: number | undefined;
   /** Maximum amount of disk space allowed to keep for cache */
-  max_used_space?: number;
+  max_used_space?: number | undefined;
   /** Target amount of free disk space after pruning */
-  min_free_space?: number;
+  min_free_space?: number | undefined;
   /** Remove all types of build cache */
-  all?: boolean;
+  all?: boolean | undefined;
   /** A JSON encoded value of the filters (a `map[string][]string`) to process on the list of build cache objects. Available filters: - `until=<timestamp>` remove cache older than `<timestamp>`. The `<timestamp>` can be Unix timestamps, date formatted timestamps, or Go duration strings (e.g. `10m`, `1h30m`) computed relative to the daemon's local time. - `id=<id>` - `parent=<id>` - `type=<string>` - `description=<string>` - `inuse` - `shared` - `private` */
-  filters?: string;
+  filters?: string | undefined;
 }
 export type BuildPruneResponseCachesDeletedList = Array<string>;
 export interface BuildPruneResponse {
-  CachesDeleted?: BuildPruneResponseCachesDeletedList;
+  CachesDeleted?: BuildPruneResponseCachesDeletedList | undefined;
   /** Disk space reclaimed in bytes */
-  SpaceReclaimed?: number;
+  SpaceReclaimed?: number | undefined;
 }
 /** An object mapping ports to an empty object in the form: `{"<port>/<tcp|udp|sctp>": {}}` */
 export type CommitImageRequestExposedPortsMap = { [key: string]: unknown | undefined };
@@ -115,17 +115,17 @@ export type HealthConfigTestList = Array<string>;
 /** A test to perform to check that the container is healthy. Healthcheck commands should be side-effect free. */
 export interface HealthConfig {
   /** The test to perform. Possible values are: - `[]` inherit healthcheck from image or parent image - `["NONE"]` disable healthcheck - `["CMD", args...]` exec arguments directly - `["CMD-SHELL", command]` run command with system's default shell A non-zero exit code indicates a failed healthcheck: - `0` healthy - `1` unhealthy - `2` reserved (treated as unhealthy) - other values: error running probe */
-  Test?: HealthConfigTestList;
+  Test?: HealthConfigTestList | undefined;
   /** The time to wait between checks in nanoseconds. It should be 0 or at least 1000000 (1 ms). 0 means inherit. */
-  Interval?: number;
+  Interval?: number | undefined;
   /** The time to wait before considering the check to have hung. It should be 0 or at least 1000000 (1 ms). 0 means inherit. If the health check command does not complete within this timeout, the check is considered failed and the health check process is forcibly terminated without a graceful shutdown. */
-  Timeout?: number;
+  Timeout?: number | undefined;
   /** The number of consecutive failures needed to consider a container as unhealthy. 0 means inherit. */
-  Retries?: number;
+  Retries?: number | undefined;
   /** Start period for the container to initialize before starting health-retries countdown in nanoseconds. It should be 0 or at least 1000000 (1 ms). 0 means inherit. */
-  StartPeriod?: number;
+  StartPeriod?: number | undefined;
   /** The time to wait between checks in nanoseconds during the start period. It should be 0 or at least 1000000 (1 ms). 0 means inherit. */
-  StartInterval?: number;
+  StartInterval?: number | undefined;
 }
 /** An object mapping mount point paths inside the container to empty objects. */
 export type CommitImageRequestVolumesMap = { [key: string]: unknown | undefined };
@@ -139,66 +139,66 @@ export type CommitImageRequestLabelsMap = { [key: string]: string | undefined };
 export type CommitImageRequestShellList = Array<string>;
 export interface CommitImageRequest {
   /** The ID or name of the container to commit */
-  container?: string;
+  container?: string | undefined;
   /** Repository name for the created image */
-  repo?: string;
+  repo?: string | undefined;
   /** Tag name for the create image */
-  tag?: string;
+  tag?: string | undefined;
   /** Commit message */
-  comment?: string;
+  comment?: string | undefined;
   /** Author of the image (e.g., `John Hannibal Smith <hannibal@a-team.com>`) */
-  author?: string;
+  author?: string | undefined;
   /** Whether to pause the container before committing */
-  pause?: boolean;
+  pause?: boolean | undefined;
   /** `Dockerfile` instructions to apply while committing */
-  changes?: string;
+  changes?: string | undefined;
   /** The hostname to use for the container, as a valid RFC 1123 hostname. */
-  Hostname?: string;
+  Hostname?: string | undefined;
   /** The domain name to use for the container. */
-  Domainname?: string;
+  Domainname?: string | undefined;
   /** Commands run as this user inside the container. If omitted, commands run as the user specified in the image the container was started from. Can be either user-name or UID, and optional group-name or GID, separated by a colon (`<user-name|UID>[<:group-name|GID>]`). */
-  User?: string;
+  User?: string | undefined;
   /** Whether to attach to `stdin`. */
-  AttachStdin?: boolean;
+  AttachStdin?: boolean | undefined;
   /** Whether to attach to `stdout`. */
-  AttachStdout?: boolean;
+  AttachStdout?: boolean | undefined;
   /** Whether to attach to `stderr`. */
-  AttachStderr?: boolean;
+  AttachStderr?: boolean | undefined;
   /** An object mapping ports to an empty object in the form: `{"<port>/<tcp|udp|sctp>": {}}` */
-  ExposedPorts?: CommitImageRequestExposedPortsMap | null;
+  ExposedPorts?: CommitImageRequestExposedPortsMap | null | undefined;
   /** Attach standard streams to a TTY, including `stdin` if it is not closed. */
-  Tty?: boolean;
+  Tty?: boolean | undefined;
   /** Open `stdin` */
-  OpenStdin?: boolean;
+  OpenStdin?: boolean | undefined;
   /** Close `stdin` after one attached client disconnects */
-  StdinOnce?: boolean;
+  StdinOnce?: boolean | undefined;
   /** A list of environment variables to set inside the container in the form `["VAR=value", ...]`. A variable without `=` is removed from the environment, rather than to have an empty value. */
-  Env?: CommitImageRequestEnvList;
+  Env?: CommitImageRequestEnvList | undefined;
   /** Command to run specified as a string or an array of strings. */
-  Cmd?: CommitImageRequestCmdList;
-  Healthcheck?: HealthConfig;
+  Cmd?: CommitImageRequestCmdList | undefined;
+  Healthcheck?: HealthConfig | undefined;
   /** Command is already escaped (Windows only) */
-  ArgsEscaped?: boolean | null;
+  ArgsEscaped?: boolean | null | undefined;
   /** The name (or reference) of the image to use when creating the container, or which was used when the container was created. */
-  Image?: string;
+  Image?: string | undefined;
   /** An object mapping mount point paths inside the container to empty objects. */
-  Volumes?: CommitImageRequestVolumesMap;
+  Volumes?: CommitImageRequestVolumesMap | undefined;
   /** The working directory for commands to run in. */
-  WorkingDir?: string;
+  WorkingDir?: string | undefined;
   /** The entry point for the container as a string or an array of strings. If the array consists of exactly one empty string (`[""]`) then the entry point is reset to system default (i.e., the entry point used by docker when there is no `ENTRYPOINT` instruction in the `Dockerfile`). */
-  Entrypoint?: CommitImageRequestEntrypointList;
+  Entrypoint?: CommitImageRequestEntrypointList | undefined;
   /** Disable networking for the container. */
-  NetworkDisabled?: boolean | null;
+  NetworkDisabled?: boolean | null | undefined;
   /** `ONBUILD` metadata that were defined in the image's `Dockerfile`. */
-  OnBuild?: CommitImageRequestOnBuildList | null;
+  OnBuild?: CommitImageRequestOnBuildList | null | undefined;
   /** User-defined key/value metadata. */
-  Labels?: CommitImageRequestLabelsMap;
+  Labels?: CommitImageRequestLabelsMap | undefined;
   /** Signal to stop a container as a string or unsigned integer. */
-  StopSignal?: string | null;
+  StopSignal?: string | null | undefined;
   /** Timeout to stop a container in seconds. If omitted, the daemon-wide default (`default-stop-timeout`) is used. */
-  StopTimeout?: number | null;
+  StopTimeout?: number | null | undefined;
   /** Shell for when `RUN`, `CMD`, and `ENTRYPOINT` uses a shell. */
-  Shell?: CommitImageRequestShellList | null;
+  Shell?: CommitImageRequestShellList | null | undefined;
 }
 /** Response to an API call that returns just an Id */
 export interface IDResponse {
@@ -211,7 +211,7 @@ export interface ConfigInspectRequest {
 }
 /** The version number of the object such as node, service, etc. This is needed to avoid conflicting writes. The client must send the version number along with the modified specification when updating these objects. This approach ensures safe concurrency and determinism in that the change on the object may not be applied if the version number has changed from the last read. In other words, if two update requests specify the same base version, only one of the requests can succeed. As a result, two separate update requests that happen at the same time will not unintentionally overwrite each other. */
 export interface ObjectVersion {
-  Index?: number;
+  Index?: number | undefined;
 }
 /** User-defined key/value metadata. */
 export type ConfigSpecLabelsMap = { [key: string]: string | undefined };
@@ -222,31 +222,31 @@ export interface Driver {
   /** Name of the driver. */
   Name: string;
   /** Key/value map of driver-specific options. */
-  Options?: DriverOptionsMap;
+  Options?: DriverOptionsMap | undefined;
 }
 export interface ConfigSpec {
   /** User-defined name of the config. */
-  Name?: string;
+  Name?: string | undefined;
   /** User-defined key/value metadata. */
-  Labels?: ConfigSpecLabelsMap;
+  Labels?: ConfigSpecLabelsMap | undefined;
   /** Data is the data to store as a config, formatted as a standard base64-encoded ([RFC 4648](https://tools.ietf.org/html/rfc4648#section-4)) string. The maximum allowed size is 1000KB, as defined in [MaxConfigSize](https://pkg.go.dev/github.com/moby/swarmkit/v2@v2.0.0-20250103191802-8c1959736554/manager/controlapi#MaxConfigSize). */
-  Data?: string;
+  Data?: string | undefined;
   /** Templating driver, if applicable Templating controls whether and how to evaluate the config payload as a template. If no driver is set, no templating is used. */
-  Templating?: Driver;
+  Templating?: Driver | undefined;
 }
 export interface Config {
-  ID?: string;
-  Version?: ObjectVersion;
-  CreatedAt?: string;
-  UpdatedAt?: string;
-  Spec?: ConfigSpec;
+  ID?: string | undefined;
+  Version?: ObjectVersion | undefined;
+  CreatedAt?: string | undefined;
+  UpdatedAt?: string | undefined;
+  Spec?: ConfigSpec | undefined;
 }
 export type EndpointIPAMConfigLinkLocalIPsList = Array<string>;
 /** EndpointIPAMConfig represents an endpoint's IPAM configuration. */
 export interface EndpointIPAMConfig {
-  IPv4Address?: string;
-  IPv6Address?: string;
-  LinkLocalIPs?: EndpointIPAMConfigLinkLocalIPsList;
+  IPv4Address?: string | undefined;
+  IPv6Address?: string | undefined;
+  LinkLocalIPs?: EndpointIPAMConfigLinkLocalIPsList | undefined;
 }
 export type EndpointSettingsLinksList = Array<string>;
 export type EndpointSettingsAliasesList = Array<string>;
@@ -256,57 +256,57 @@ export type EndpointSettingsDriverOptsMap = { [key: string]: string | undefined 
 export type EndpointSettingsDNSNamesList = Array<string>;
 /** Configuration for a network endpoint. */
 export interface EndpointSettings {
-  IPAMConfig?: EndpointIPAMConfig | null;
-  Links?: EndpointSettingsLinksList;
+  IPAMConfig?: EndpointIPAMConfig | null | undefined;
+  Links?: EndpointSettingsLinksList | undefined;
   /** MAC address for the endpoint on this network. The network driver might ignore this parameter. */
-  MacAddress?: string;
-  Aliases?: EndpointSettingsAliasesList;
+  MacAddress?: string | undefined;
+  Aliases?: EndpointSettingsAliasesList | undefined;
   /** DriverOpts is a mapping of driver options and values. These options are passed directly to the driver and are driver specific. */
-  DriverOpts?: EndpointSettingsDriverOptsMap | null;
+  DriverOpts?: EndpointSettingsDriverOptsMap | null | undefined;
   /** This property determines which endpoint will provide the default gateway for a container. The endpoint with the highest priority will be used. If multiple endpoints have the same priority, endpoints are lexicographically sorted based on their network name, and the one that sorts first is picked. */
-  GwPriority?: number;
+  GwPriority?: number | undefined;
   /** Unique ID of the network. */
-  NetworkID?: string;
+  NetworkID?: string | undefined;
   /** Unique ID for the service endpoint in a Sandbox. */
-  EndpointID?: string;
+  EndpointID?: string | undefined;
   /** Gateway address for this network. */
-  Gateway?: string;
+  Gateway?: string | undefined;
   /** IPv4 address. */
-  IPAddress?: string;
+  IPAddress?: string | undefined;
   /** Mask length of the IPv4 address. */
-  IPPrefixLen?: number;
+  IPPrefixLen?: number | undefined;
   /** IPv6 gateway address. */
-  IPv6Gateway?: string;
+  IPv6Gateway?: string | undefined;
   /** Global IPv6 address. */
-  GlobalIPv6Address?: string;
+  GlobalIPv6Address?: string | undefined;
   /** Mask length of the global IPv6 address. */
-  GlobalIPv6PrefixLen?: number;
+  GlobalIPv6PrefixLen?: number | undefined;
   /** List of all DNS names an endpoint has on a specific network. This list is based on the container name, network aliases, container short ID, and hostname. These DNS names are non-fully qualified but can contain several dots. You can get fully qualified DNS names by appending `.<network-name>`. For instance, if container name is `my.ctr` and the network is named `testnet`, `DNSNames` will contain `my.ctr` and the FQDN will be `my.ctr.testnet`. */
-  DNSNames?: EndpointSettingsDNSNamesList;
+  DNSNames?: EndpointSettingsDNSNamesList | undefined;
 }
 export interface ConnectNetworkRequest {
   /** Network ID or name */
   id: string;
   /** The ID or name of the container to connect to the network. */
   Container: string;
-  EndpointConfig?: EndpointSettings | null;
+  EndpointConfig?: EndpointSettings | null | undefined;
 }
 export interface ConnectNetworkResponse {}
 export interface ContainerAttachWebsocketRequest {
   /** ID or name of the container */
   id: string;
   /** Override the key sequence for detaching a container.Format is a single character `[a-Z]` or `ctrl-<value>` where `<value>` is one of: `a-z`, `@`, `^`, `[`, `,`, or `_`. */
-  detachKeys?: string;
+  detachKeys?: string | undefined;
   /** Return logs */
-  logs?: boolean;
+  logs?: boolean | undefined;
   /** Return stream */
-  stream?: boolean;
+  stream?: boolean | undefined;
   /** Attach to `stdin` */
-  stdin?: boolean;
+  stdin?: boolean | undefined;
   /** Attach to `stdout` */
-  stdout?: boolean;
+  stdout?: boolean | undefined;
   /** Attach to `stderr` */
-  stderr?: boolean;
+  stderr?: boolean | undefined;
 }
 export interface ContainerAttachWebsocketResponse {}
 export interface ContainerChangesRequest {
@@ -327,7 +327,7 @@ export interface ContainerInspectRequest {
   /** ID or name of the container */
   id: string;
   /** Return the size of container as fields `SizeRw` and `SizeRootFs` */
-  size?: boolean;
+  size?: boolean | undefined;
 }
 /** The arguments to the command being run */
 export type ContainerInspectResponseArgsList = Array<string>;
@@ -345,48 +345,48 @@ export type HealthStatus = "none" | "starting" | "healthy" | "unhealthy";
 /** HealthcheckResult stores information about a single run of a healthcheck probe */
 export interface HealthcheckResult {
   /** Date and time at which this check started in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds. */
-  Start?: string;
+  Start?: string | undefined;
   /** Date and time at which this check ended in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds. */
-  End?: string;
+  End?: string | undefined;
   /** ExitCode meanings: - `0` healthy - `1` unhealthy - `2` reserved (considered unhealthy) - other values: error running probe */
-  ExitCode?: number;
+  ExitCode?: number | undefined;
   /** Output from last check */
-  Output?: string;
+  Output?: string | undefined;
 }
 /** Log contains the last few results (oldest first) */
 export type HealthLogList = Array<HealthcheckResult | null>;
 /** Health stores information about the container's healthcheck results. */
 export interface Health {
   /** Status is one of `none`, `starting`, `healthy` or `unhealthy` - "none" Indicates there is no healthcheck - "starting" Starting indicates that the container is not yet ready - "healthy" Healthy indicates that the container is running correctly - "unhealthy" Unhealthy indicates that the container has a problem */
-  Status?: HealthStatus;
+  Status?: HealthStatus | undefined;
   /** FailingStreak is the number of consecutive failures */
-  FailingStreak?: number;
+  FailingStreak?: number | undefined;
   /** Log contains the last few results (oldest first) */
-  Log?: HealthLogList;
+  Log?: HealthLogList | undefined;
 }
 /** ContainerState stores container's running state. It's part of ContainerJSONBase and will be returned by the "inspect" command. */
 export interface ContainerState {
   /** String representation of the container state. Can be one of "created", "running", "paused", "restarting", "removing", "exited", or "dead". */
-  Status?: ContainerStateStatus;
+  Status?: ContainerStateStatus | undefined;
   /** Whether this container is running. Note that a running container can be _paused_. The `Running` and `Paused` booleans are not mutually exclusive: When pausing a container (on Linux), the freezer cgroup is used to suspend all processes in the container. Freezing the process requires the process to be running. As a result, paused containers are both `Running` _and_ `Paused`. Use the `Status` field instead to determine if a container's state is "running". */
-  Running?: boolean;
+  Running?: boolean | undefined;
   /** Whether this container is paused. */
-  Paused?: boolean;
+  Paused?: boolean | undefined;
   /** Whether this container is restarting. */
-  Restarting?: boolean;
+  Restarting?: boolean | undefined;
   /** Whether a process within this container has been killed because it ran out of memory since the container was last started. */
-  OOMKilled?: boolean;
-  Dead?: boolean;
+  OOMKilled?: boolean | undefined;
+  Dead?: boolean | undefined;
   /** The process ID of this container */
-  Pid?: number;
+  Pid?: number | undefined;
   /** The last exit code of this container */
-  ExitCode?: number;
-  Error?: string;
+  ExitCode?: number | undefined;
+  Error?: string | undefined;
   /** The time when this container was last started. */
-  StartedAt?: string;
+  StartedAt?: string | undefined;
   /** The time when this container last exited. */
-  FinishedAt?: string;
-  Health?: Health | null;
+  FinishedAt?: string | undefined;
+  Health?: Health | null | undefined;
 }
 /** List of URLs from which this object MAY be downloaded. */
 export type OCIDescriptorUrlsList = Array<string>;
@@ -397,47 +397,47 @@ export type OCIPlatformOsFeaturesList = Array<string>;
 /** Describes the platform which the image in the manifest runs on, as defined in the [OCI Image Index Specification](https://github.com/opencontainers/image-spec/blob/v1.0.1/image-index.md). */
 export interface OCIPlatform {
   /** The CPU architecture, for example `amd64` or `ppc64`. */
-  architecture?: string;
+  architecture?: string | undefined;
   /** The operating system, for example `linux` or `windows`. */
-  os?: string;
+  os?: string | undefined;
   /** Optional field specifying the operating system version, for example on Windows `10.0.19041.1165`. */
-  os_version?: string;
+  os_version?: string | undefined;
   /** Optional field specifying an array of strings, each listing a required OS feature (for example on Windows `win32k`). */
-  os_features?: OCIPlatformOsFeaturesList;
+  os_features?: OCIPlatformOsFeaturesList | undefined;
   /** Optional field specifying a variant of the CPU, for example `v7` to specify ARMv7 when architecture is `arm`. */
-  variant?: string;
+  variant?: string | undefined;
 }
 /** A descriptor struct containing digest, media type, and size, as defined in the [OCI Content Descriptors Specification](https://github.com/opencontainers/image-spec/blob/v1.0.1/descriptor.md). */
 export interface OCIDescriptor {
   /** The media type of the object this schema refers to. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The digest of the targeted content. */
-  digest?: string;
+  digest?: string | undefined;
   /** The size in bytes of the blob. */
-  size?: number;
+  size?: number | undefined;
   /** List of URLs from which this object MAY be downloaded. */
-  urls?: OCIDescriptorUrlsList | null;
+  urls?: OCIDescriptorUrlsList | null | undefined;
   /** Arbitrary metadata relating to the targeted content. */
-  annotations?: OCIDescriptorAnnotationsMap | null;
+  annotations?: OCIDescriptorAnnotationsMap | null | undefined;
   /** Data is an embedding of the targeted content. This is encoded as a base64 string when marshalled to JSON (automatically, by encoding/json). If present, Data can be used directly to avoid fetching the targeted content. */
-  data?: string | null;
-  platform?: OCIPlatform | null;
+  data?: string | null | undefined;
+  platform?: OCIPlatform | null | undefined;
   /** ArtifactType is the IANA media type of this artifact. */
-  artifactType?: string | null;
+  artifactType?: string | null | undefined;
 }
 /** IDs of exec instances that are running in the container. */
 export type ContainerInspectResponseExecIDsList = Array<string>;
 export interface HostConfigBlkioWeightDeviceItem {
-  Path?: string;
-  Weight?: number;
+  Path?: string | undefined;
+  Weight?: number | undefined;
 }
 /** Block IO weight (relative device weight) in the form: ``` [{"Path": "device_path", "Weight": weight}] ``` */
 export type HostConfigBlkioWeightDeviceList = Array<HostConfigBlkioWeightDeviceItem>;
 export interface ThrottleDevice {
   /** Device path */
-  Path?: string;
+  Path?: string | undefined;
   /** Rate */
-  Rate?: number;
+  Rate?: number | undefined;
 }
 /** Limit read rate (bytes per second) from a device, in the form: ``` [{"Path": "device_path", "Rate": rate}] ``` */
 export type HostConfigBlkioDeviceReadBpsList = Array<ThrottleDevice>;
@@ -449,9 +449,9 @@ export type HostConfigBlkioDeviceReadIOpsList = Array<ThrottleDevice>;
 export type HostConfigBlkioDeviceWriteIOpsList = Array<ThrottleDevice>;
 /** A device mapping between the host and container */
 export interface DeviceMapping {
-  PathOnHost?: string;
-  PathInContainer?: string;
-  CgroupPermissions?: string;
+  PathOnHost?: string | undefined;
+  PathInContainer?: string | undefined;
+  CgroupPermissions?: string | undefined;
 }
 /** A list of devices to add to the container. */
 export type HostConfigDevicesList = Array<DeviceMapping>;
@@ -466,23 +466,23 @@ export type DeviceRequestOptionsMap = { [key: string]: string | undefined };
 /** A request for devices to be sent to device drivers */
 export interface DeviceRequest {
   /** The name of the device driver to use for this request. Note that if this is specified the capabilities are ignored when selecting a device driver. */
-  Driver?: string;
-  Count?: number;
-  DeviceIDs?: DeviceRequestDeviceIDsList;
+  Driver?: string | undefined;
+  Count?: number | undefined;
+  DeviceIDs?: DeviceRequestDeviceIDsList | undefined;
   /** A list of capabilities; an OR list of AND lists of capabilities. Note that if a driver is specified the capabilities have no effect on selecting a driver as the driver name is used directly. Note that if no driver is specified the capabilities are used to select a driver with the required capabilities. */
-  Capabilities?: DeviceRequestCapabilitiesList;
+  Capabilities?: DeviceRequestCapabilitiesList | undefined;
   /** Driver-specific options, specified as a key/value pairs. These options are passed directly to the driver. */
-  Options?: DeviceRequestOptionsMap;
+  Options?: DeviceRequestOptionsMap | undefined;
 }
 /** A list of requests for devices to be sent to device drivers. */
 export type HostConfigDeviceRequestsList = Array<DeviceRequest>;
 export interface HostConfigUlimitsItem {
   /** Name of ulimit */
-  Name?: string;
+  Name?: string | undefined;
   /** Soft limit */
-  Soft?: number;
+  Soft?: number | undefined;
   /** Hard limit */
-  Hard?: number;
+  Hard?: number | undefined;
 }
 /** A list of resource limits to set in the container. For example: ``` {"Name": "nofile", "Soft": 1024, "Hard": 2048} ``` */
 export type HostConfigUlimitsList = Array<HostConfigUlimitsItem>;
@@ -505,16 +505,16 @@ export type HostConfigLogConfigConfigMap = { [key: string]: string | undefined }
 /** The logging configuration for this container */
 export interface HostConfigLogConfig {
   /** Name of the logging driver used for the container or "none" if logging is disabled. */
-  Type?: HostConfigLogConfigType | (string & {});
+  Type?: HostConfigLogConfigType | (string & {}) | undefined;
   /** Driver-specific configuration options for the logging driver. */
-  Config?: HostConfigLogConfigConfigMap;
+  Config?: HostConfigLogConfigConfigMap | undefined;
 }
 /** PortBinding represents a binding between a host IP address and a host port. */
 export interface PortBinding {
   /** Host IP address that the container's port is mapped to. */
-  HostIp?: string;
+  HostIp?: string | undefined;
   /** Host port number that the container's port is mapped to. */
-  HostPort?: string;
+  HostPort?: string | undefined;
 }
 export type PortMapValueList = Array<PortBinding>;
 /** PortMap describes the mapping of container ports to host ports, using the container's port-number and protocol as key in the format `<port>/<protocol>`, for example, `80/udp`. If a container's port is mapped for multiple protocols, separate entries are added to the mapping table. */
@@ -524,9 +524,9 @@ export type RestartPolicyName = "" | "no" | "always" | "unless-stopped" | "on-fa
 /** The behavior to apply when the container exits. The default is not to restart. An ever increasing delay (double the previous delay, starting at 100ms) is added before each restart to prevent flooding the server. */
 export interface RestartPolicy {
   /** - Empty string means not to restart - `no` Do not automatically restart - `always` Always restart - `unless-stopped` Restart always except when the user has manually stopped the container - `on-failure` Restart only when the container exit code is non-zero */
-  Name?: RestartPolicyName | (string & {});
+  Name?: RestartPolicyName | (string & {}) | undefined;
   /** If `on-failure` is used, the number of times to retry before giving up. */
-  MaximumRetryCount?: number;
+  MaximumRetryCount?: number | undefined;
 }
 /** A list of volumes to inherit from another container, specified in the form `<container name>[:<ro|rw>]`. */
 export type HostConfigVolumesFromList = Array<string>;
@@ -543,15 +543,15 @@ export type MountBindOptionsPropagation =
 /** Optional configuration for the `bind` type. */
 export interface MountBindOptions {
   /** A propagation mode with the value `[r]private`, `[r]shared`, or `[r]slave`. */
-  Propagation?: MountBindOptionsPropagation | (string & {});
+  Propagation?: MountBindOptionsPropagation | (string & {}) | undefined;
   /** Disable recursive bind mount. */
-  NonRecursive?: boolean;
+  NonRecursive?: boolean | undefined;
   /** Create mount point on host if missing */
-  CreateMountpoint?: boolean;
+  CreateMountpoint?: boolean | undefined;
   /** Make the mount non-recursively read-only, but still leave the mount recursive (unless NonRecursive is set to `true` in conjunction). Added in v1.44, before that version all read-only mounts were non-recursive by default. To match the previous behaviour this will default to `true` for clients on versions prior to v1.44. */
-  ReadOnlyNonRecursive?: boolean;
+  ReadOnlyNonRecursive?: boolean | undefined;
   /** Raise an error if the mount cannot be made recursively read-only. */
-  ReadOnlyForceRecursive?: boolean;
+  ReadOnlyForceRecursive?: boolean | undefined;
 }
 /** User-defined key/value metadata. */
 export type MountVolumeOptionsLabelsMap = { [key: string]: string | undefined };
@@ -560,25 +560,25 @@ export type MountVolumeOptionsDriverConfigOptionsMap = { [key: string]: string |
 /** Map of driver specific options */
 export interface MountVolumeOptionsDriverConfig {
   /** Name of the driver to use to create the volume. */
-  Name?: string;
+  Name?: string | undefined;
   /** key/value map of driver specific options. */
-  Options?: MountVolumeOptionsDriverConfigOptionsMap;
+  Options?: MountVolumeOptionsDriverConfigOptionsMap | undefined;
 }
 /** Optional configuration for the `volume` type. */
 export interface MountVolumeOptions {
   /** Populate volume with data from the target. */
-  NoCopy?: boolean;
+  NoCopy?: boolean | undefined;
   /** User-defined key/value metadata. */
-  Labels?: MountVolumeOptionsLabelsMap;
+  Labels?: MountVolumeOptionsLabelsMap | undefined;
   /** Map of driver specific options */
-  DriverConfig?: MountVolumeOptionsDriverConfig;
+  DriverConfig?: MountVolumeOptionsDriverConfig | undefined;
   /** Source path inside the volume. Must be relative without any back traversals. */
-  Subpath?: string;
+  Subpath?: string | undefined;
 }
 /** Optional configuration for the `image` type. */
 export interface MountImageOptions {
   /** Source path inside the image. Must be relative without any back traversals. */
-  Subpath?: string;
+  Subpath?: string | undefined;
 }
 export type MountTmpfsOptionsOptionsItemList = Array<string>;
 /** The options to be passed to the tmpfs mount. An array of arrays. Flag options should be provided as 1-length arrays. Other types should be provided as as 2-length arrays, where the first item is the key and the second the value. */
@@ -586,31 +586,31 @@ export type MountTmpfsOptionsOptionsList = Array<MountTmpfsOptionsOptionsItemLis
 /** Optional configuration for the `tmpfs` type. */
 export interface MountTmpfsOptions {
   /** The size for the tmpfs mount in bytes. */
-  SizeBytes?: number;
+  SizeBytes?: number | undefined;
   /** The permission mode for the tmpfs mount in an integer. The value must not be in octal format (e.g. 755) but rather the decimal representation of the octal value (e.g. 493). */
-  Mode?: number;
+  Mode?: number | undefined;
   /** The options to be passed to the tmpfs mount. An array of arrays. Flag options should be provided as 1-length arrays. Other types should be provided as as 2-length arrays, where the first item is the key and the second the value. */
-  Options?: MountTmpfsOptionsOptionsList;
+  Options?: MountTmpfsOptionsOptionsList | undefined;
 }
 export interface Mount {
   /** Container path. */
-  Target?: string;
+  Target?: string | undefined;
   /** Mount source (e.g. a volume name, a host path). The source cannot be specified when using `Type=tmpfs`. For `Type=bind`, the source path must either exist, or the `CreateMountpoint` must be set to `true` to create the source path on the host if missing. For `Type=npipe`, the pipe must exist prior to creating the container. */
-  Source?: string;
+  Source?: string | undefined;
   /** The mount type. Available types: - `bind` Mounts a file or directory from the host into the container. The `Source` must exist prior to creating the container. - `cluster` a Swarm cluster volume - `image` Mounts an image. - `npipe` Mounts a named pipe from the host into the container. The `Source` must exist prior to creating the container. - `tmpfs` Create a tmpfs with the given options. The mount `Source` cannot be specified for tmpfs. - `volume` Creates a volume with the given name and options (or uses a pre-existing volume with the same name and options). These are **not** removed when the container is removed. */
-  Type?: MountType | (string & {});
+  Type?: MountType | (string & {}) | undefined;
   /** Whether the mount should be read-only. */
-  ReadOnly?: boolean;
+  ReadOnly?: boolean | undefined;
   /** The consistency requirement for the mount: `default`, `consistent`, `cached`, or `delegated`. */
-  Consistency?: string;
+  Consistency?: string | undefined;
   /** Optional configuration for the `bind` type. */
-  BindOptions?: MountBindOptions;
+  BindOptions?: MountBindOptions | undefined;
   /** Optional configuration for the `volume` type. */
-  VolumeOptions?: MountVolumeOptions;
+  VolumeOptions?: MountVolumeOptions | undefined;
   /** Optional configuration for the `image` type. */
-  ImageOptions?: MountImageOptions;
+  ImageOptions?: MountImageOptions | undefined;
   /** Optional configuration for the `tmpfs` type. */
-  TmpfsOptions?: MountTmpfsOptions;
+  TmpfsOptions?: MountTmpfsOptions | undefined;
 }
 /** Specification for mounts to be added to the container. */
 export type HostConfigMountsList = Array<Mount>;
@@ -653,143 +653,143 @@ export type HostConfigReadonlyPathsList = Array<string>;
 /** Container configuration that depends on the host we are running on */
 export interface HostConfig {
   /** An integer value representing this container's relative CPU weight versus other containers. */
-  CpuShares?: number;
+  CpuShares?: number | undefined;
   /** Memory limit in bytes. */
-  Memory?: number;
+  Memory?: number | undefined;
   /** Path to `cgroups` under which the container's `cgroup` is created. If the path is not absolute, the path is considered to be relative to the `cgroups` path of the init process. Cgroups are created if they do not already exist. */
-  CgroupParent?: string;
+  CgroupParent?: string | undefined;
   /** Block IO weight (relative weight). */
-  BlkioWeight?: number;
+  BlkioWeight?: number | undefined;
   /** Block IO weight (relative device weight) in the form: ``` [{"Path": "device_path", "Weight": weight}] ``` */
-  BlkioWeightDevice?: HostConfigBlkioWeightDeviceList;
+  BlkioWeightDevice?: HostConfigBlkioWeightDeviceList | undefined;
   /** Limit read rate (bytes per second) from a device, in the form: ``` [{"Path": "device_path", "Rate": rate}] ``` */
-  BlkioDeviceReadBps?: HostConfigBlkioDeviceReadBpsList;
+  BlkioDeviceReadBps?: HostConfigBlkioDeviceReadBpsList | undefined;
   /** Limit write rate (bytes per second) to a device, in the form: ``` [{"Path": "device_path", "Rate": rate}] ``` */
-  BlkioDeviceWriteBps?: HostConfigBlkioDeviceWriteBpsList;
+  BlkioDeviceWriteBps?: HostConfigBlkioDeviceWriteBpsList | undefined;
   /** Limit read rate (IO per second) from a device, in the form: ``` [{"Path": "device_path", "Rate": rate}] ``` */
-  BlkioDeviceReadIOps?: HostConfigBlkioDeviceReadIOpsList;
+  BlkioDeviceReadIOps?: HostConfigBlkioDeviceReadIOpsList | undefined;
   /** Limit write rate (IO per second) to a device, in the form: ``` [{"Path": "device_path", "Rate": rate}] ``` */
-  BlkioDeviceWriteIOps?: HostConfigBlkioDeviceWriteIOpsList;
+  BlkioDeviceWriteIOps?: HostConfigBlkioDeviceWriteIOpsList | undefined;
   /** The length of a CPU period in microseconds. */
-  CpuPeriod?: number;
+  CpuPeriod?: number | undefined;
   /** Microseconds of CPU time that the container can get in a CPU period. */
-  CpuQuota?: number;
+  CpuQuota?: number | undefined;
   /** The length of a CPU real-time period in microseconds. Set to 0 to allocate no time allocated to real-time tasks. */
-  CpuRealtimePeriod?: number;
+  CpuRealtimePeriod?: number | undefined;
   /** The length of a CPU real-time runtime in microseconds. Set to 0 to allocate no time allocated to real-time tasks. */
-  CpuRealtimeRuntime?: number;
+  CpuRealtimeRuntime?: number | undefined;
   /** CPUs in which to allow execution (e.g., `0-3`, `0,1`). */
-  CpusetCpus?: string;
+  CpusetCpus?: string | undefined;
   /** Memory nodes (MEMs) in which to allow execution (0-3, 0,1). Only effective on NUMA systems. */
-  CpusetMems?: string;
+  CpusetMems?: string | undefined;
   /** A list of devices to add to the container. */
-  Devices?: HostConfigDevicesList;
+  Devices?: HostConfigDevicesList | undefined;
   /** a list of cgroup rules to apply to the container */
-  DeviceCgroupRules?: HostConfigDeviceCgroupRulesList;
+  DeviceCgroupRules?: HostConfigDeviceCgroupRulesList | undefined;
   /** A list of requests for devices to be sent to device drivers. */
-  DeviceRequests?: HostConfigDeviceRequestsList;
+  DeviceRequests?: HostConfigDeviceRequestsList | undefined;
   /** Memory soft limit in bytes. */
-  MemoryReservation?: number;
+  MemoryReservation?: number | undefined;
   /** Total memory limit (memory + swap). Set as `-1` to enable unlimited swap. */
-  MemorySwap?: number;
+  MemorySwap?: number | undefined;
   /** Tune a container's memory swappiness behavior. Accepts an integer between 0 and 100. */
-  MemorySwappiness?: number;
+  MemorySwappiness?: number | undefined;
   /** CPU quota in units of 10<sup>-9</sup> CPUs. */
-  NanoCpus?: number;
+  NanoCpus?: number | undefined;
   /** Disable OOM Killer for the container. */
-  OomKillDisable?: boolean;
+  OomKillDisable?: boolean | undefined;
   /** Run an init inside the container that forwards signals and reaps processes. This field is omitted if empty, and the default (as configured on the daemon) is used. */
-  Init?: boolean | null;
+  Init?: boolean | null | undefined;
   /** Tune a container's PIDs limit. Set `0` or `-1` for unlimited, or `null` to not change. */
-  PidsLimit?: number | null;
+  PidsLimit?: number | null | undefined;
   /** A list of resource limits to set in the container. For example: ``` {"Name": "nofile", "Soft": 1024, "Hard": 2048} ``` */
-  Ulimits?: HostConfigUlimitsList;
+  Ulimits?: HostConfigUlimitsList | undefined;
   /** The number of usable CPUs (Windows only). On Windows Server containers, the processor resource controls are mutually exclusive. The order of precedence is `CPUCount` first, then `CPUShares`, and `CPUPercent` last. */
-  CpuCount?: number;
+  CpuCount?: number | undefined;
   /** The usable percentage of the available CPUs (Windows only). On Windows Server containers, the processor resource controls are mutually exclusive. The order of precedence is `CPUCount` first, then `CPUShares`, and `CPUPercent` last. */
-  CpuPercent?: number;
+  CpuPercent?: number | undefined;
   /** Maximum IOps for the container system drive (Windows only) */
-  IOMaximumIOps?: number;
+  IOMaximumIOps?: number | undefined;
   /** Maximum IO in bytes per second for the container system drive (Windows only). */
-  IOMaximumBandwidth?: number;
+  IOMaximumBandwidth?: number | undefined;
   /** A list of volume bindings for this container. Each volume binding is a string in one of these forms: - `host-src:container-dest[:options]` to bind-mount a host path into the container. Both `host-src`, and `container-dest` must be an _absolute_ path. - `volume-name:container-dest[:options]` to bind-mount a volume managed by a volume driver into the container. `container-dest` must be an _absolute_ path. `options` is an optional, comma-delimited list of: - `nocopy` disables automatic copying of data from the container path to the volume. The `nocopy` flag only applies to named volumes. - `[ro|rw]` mounts a volume read-only or read-write, respectively. If omitted or set to `rw`, volumes are mounted read-write. - `[z|Z]` applies SELinux labels to allow or deny multiple containers to read and write to the same volume. - `z`: a _shared_ content label is applied to the content. This label indicates that multiple containers can share the volume content, for both reading and writing. - `Z`: a _private unshared_ label is applied to the content. This label indicates that only the current container can use a private volume. Labeling systems such as SELinux require proper labels to be placed on volume content that is mounted into a container. Without a label, the security system can prevent a container's processes from using the content. By default, the labels set by the host operating system are not modified. - `[[r]shared|[r]slave|[r]private]` specifies mount [propagation behavior](https://www.kernel.org/doc/Documentation/filesystems/sharedsubtree.txt). This only applies to bind-mounted volumes, not internal volumes or named volumes. Mount propagation requires the source mount point (the location where the source directory is mounted in the host operating system) to have the correct propagation properties. For shared volumes, the source mount point must be set to `shared`. For slave volumes, the mount must be set to either `shared` or `slave`. */
-  Binds?: HostConfigBindsList;
+  Binds?: HostConfigBindsList | undefined;
   /** Path to a file where the container ID is written */
-  ContainerIDFile?: string;
+  ContainerIDFile?: string | undefined;
   /** The logging configuration for this container */
-  LogConfig?: HostConfigLogConfig;
+  LogConfig?: HostConfigLogConfig | undefined;
   /** Network mode to use for this container. Supported standard values are: `bridge`, `host`, `none`, and `container:<name|id>`. Any other value is taken as a custom network's name to which this container should connect to. */
-  NetworkMode?: string;
-  PortBindings?: PortMap;
-  RestartPolicy?: RestartPolicy;
+  NetworkMode?: string | undefined;
+  PortBindings?: PortMap | undefined;
+  RestartPolicy?: RestartPolicy | undefined;
   /** Automatically remove the container when the container's process exits. This has no effect if `RestartPolicy` is set. */
-  AutoRemove?: boolean;
+  AutoRemove?: boolean | undefined;
   /** Driver that this container uses to mount volumes. */
-  VolumeDriver?: string;
+  VolumeDriver?: string | undefined;
   /** A list of volumes to inherit from another container, specified in the form `<container name>[:<ro|rw>]`. */
-  VolumesFrom?: HostConfigVolumesFromList;
+  VolumesFrom?: HostConfigVolumesFromList | undefined;
   /** Specification for mounts to be added to the container. */
-  Mounts?: HostConfigMountsList;
+  Mounts?: HostConfigMountsList | undefined;
   /** Initial console size, as an `[height, width]` array. */
-  ConsoleSize?: HostConfigConsoleSizeList | null;
+  ConsoleSize?: HostConfigConsoleSizeList | null | undefined;
   /** Arbitrary non-identifying metadata attached to container and provided to the runtime when the container is started. */
-  Annotations?: HostConfigAnnotationsMap;
+  Annotations?: HostConfigAnnotationsMap | undefined;
   /** A list of kernel capabilities to add to the container. Conflicts with option 'Capabilities'. */
-  CapAdd?: HostConfigCapAddList;
+  CapAdd?: HostConfigCapAddList | undefined;
   /** A list of kernel capabilities to drop from the container. Conflicts with option 'Capabilities'. */
-  CapDrop?: HostConfigCapDropList;
+  CapDrop?: HostConfigCapDropList | undefined;
   /** cgroup namespace mode for the container. Possible values are: - `"private"`: the container runs in its own private cgroup namespace - `"host"`: use the host system's cgroup namespace If not specified, the daemon default is used, which can either be `"private"` or `"host"`, depending on daemon version, kernel support and configuration. */
-  CgroupnsMode?: HostConfigCgroupnsMode | (string & {});
+  CgroupnsMode?: HostConfigCgroupnsMode | (string & {}) | undefined;
   /** A list of DNS servers for the container to use. */
-  Dns?: HostConfigDnsList;
+  Dns?: HostConfigDnsList | undefined;
   /** A list of DNS options. */
-  DnsOptions?: HostConfigDnsOptionsList;
+  DnsOptions?: HostConfigDnsOptionsList | undefined;
   /** A list of DNS search domains. */
-  DnsSearch?: HostConfigDnsSearchList;
+  DnsSearch?: HostConfigDnsSearchList | undefined;
   /** A list of hostnames/IP mappings to add to the container's `/etc/hosts` file. Specified in the form `["hostname:IP"]`. */
-  ExtraHosts?: HostConfigExtraHostsList;
+  ExtraHosts?: HostConfigExtraHostsList | undefined;
   /** A list of additional groups that the container process will run as. */
-  GroupAdd?: HostConfigGroupAddList;
+  GroupAdd?: HostConfigGroupAddList | undefined;
   /** IPC sharing mode for the container. Possible values are: - `"none"`: own private IPC namespace, with /dev/shm not mounted - `"private"`: own private IPC namespace - `"shareable"`: own private IPC namespace, with a possibility to share it with other containers - `"container:<name|id>"`: join another (shareable) container's IPC namespace - `"host"`: use the host system's IPC namespace If not specified, daemon default is used, which can either be `"private"` or `"shareable"`, depending on daemon version and configuration. */
-  IpcMode?: string;
+  IpcMode?: string | undefined;
   /** Cgroup to use for the container. */
-  Cgroup?: string;
+  Cgroup?: string | undefined;
   /** A list of links for the container in the form `container_name:alias`. */
-  Links?: HostConfigLinksList;
+  Links?: HostConfigLinksList | undefined;
   /** An integer value containing the score given to the container in order to tune OOM killer preferences. */
-  OomScoreAdj?: number;
+  OomScoreAdj?: number | undefined;
   /** Set the PID (Process) Namespace mode for the container. It can be either: - `"container:<name|id>"`: joins another container's PID namespace - `"host"`: use the host's PID namespace inside the container */
-  PidMode?: string;
+  PidMode?: string | undefined;
   /** Gives the container full access to the host. */
-  Privileged?: boolean;
+  Privileged?: boolean | undefined;
   /** Allocates an ephemeral host port for all of a container's exposed ports. Ports are de-allocated when the container stops and allocated when the container starts. The allocated port might be changed when restarting the container. The port is selected from the ephemeral port range that depends on the kernel. For example, on Linux the range is defined by `/proc/sys/net/ipv4/ip_local_port_range`. */
-  PublishAllPorts?: boolean;
+  PublishAllPorts?: boolean | undefined;
   /** Mount the container's root filesystem as read only. */
-  ReadonlyRootfs?: boolean;
+  ReadonlyRootfs?: boolean | undefined;
   /** A list of string values to customize labels for MLS systems, such as SELinux. */
-  SecurityOpt?: HostConfigSecurityOptList;
+  SecurityOpt?: HostConfigSecurityOptList | undefined;
   /** Storage driver options for this container, in the form `{"size": "120G"}`. */
-  StorageOpt?: HostConfigStorageOptMap;
+  StorageOpt?: HostConfigStorageOptMap | undefined;
   /** A map of container directories which should be replaced by tmpfs mounts, and their corresponding mount options. For example: ``` { "/run": "rw,noexec,nosuid,size=65536k" } ``` */
-  Tmpfs?: HostConfigTmpfsMap;
+  Tmpfs?: HostConfigTmpfsMap | undefined;
   /** UTS namespace to use for the container. */
-  UTSMode?: string;
+  UTSMode?: string | undefined;
   /** Sets the usernamespace mode for the container when usernamespace remapping option is enabled. */
-  UsernsMode?: string;
+  UsernsMode?: string | undefined;
   /** Size of `/dev/shm` in bytes. If omitted, the system uses 64MB. */
-  ShmSize?: number;
+  ShmSize?: number | undefined;
   /** A list of kernel parameters (sysctls) to set in the container. This field is omitted if not set. */
-  Sysctls?: HostConfigSysctlsMap | null;
+  Sysctls?: HostConfigSysctlsMap | null | undefined;
   /** Runtime to use with this container. */
-  Runtime?: string | null;
+  Runtime?: string | null | undefined;
   /** Set the initial umask for a Unix container. If omitted, the daemon does not set a umask in the OCI process specification, and the runtime's default behavior applies. JSON integers are decimal. For example, use `18` for the octal umask `0022`, and `511` for the octal umask `0777`. */
-  Umask?: number | null;
+  Umask?: number | null | undefined;
   /** Isolation technology of the container. (Windows only) */
-  Isolation?: HostConfigIsolation | (string & {});
+  Isolation?: HostConfigIsolation | (string & {}) | undefined;
   /** The list of paths to be masked inside the container (this overrides the default set of paths). */
-  MaskedPaths?: HostConfigMaskedPathsList;
+  MaskedPaths?: HostConfigMaskedPathsList | undefined;
   /** The list of paths to be set as read-only inside the container (this overrides the default set of paths). */
-  ReadonlyPaths?: HostConfigReadonlyPathsList;
+  ReadonlyPaths?: HostConfigReadonlyPathsList | undefined;
 }
 /** Low-level storage metadata, provided as key/value pairs. This information is driver-specific, and depends on the storage-driver in use, and should be used for informational purposes only. */
 export type DriverDataDataMap = { [key: string]: string | undefined };
@@ -803,36 +803,36 @@ export interface DriverData {
 /** Information about a snapshot backend of the container's root filesystem. */
 export interface RootFSStorageSnapshot {
   /** Name of the snapshotter. */
-  Name?: string;
+  Name?: string | undefined;
 }
 /** Information about the storage used for the container's root filesystem. */
 export interface RootFSStorage {
   /** Information about the snapshot used for the container's root filesystem. */
-  Snapshot?: RootFSStorageSnapshot | null;
+  Snapshot?: RootFSStorageSnapshot | null | undefined;
 }
 /** Information about the storage used by the container. */
 export interface Storage {
   /** Information about the storage used for the container's root filesystem. */
-  RootFS?: RootFSStorage | null;
+  RootFS?: RootFSStorage | null | undefined;
 }
 /** MountPoint represents a mount point configuration inside the container. This is used for reporting the mountpoints in use by a container. */
 export interface MountPoint {
   /** The mount type: - `bind` a mount of a file or directory from the host into the container. - `cluster` a Swarm cluster volume. - `image` an OCI image. - `npipe` a named pipe from the host into the container. - `tmpfs` a `tmpfs`. - `volume` a docker volume with the given `Name`. */
-  Type?: MountType;
+  Type?: MountType | undefined;
   /** Name is the name reference to the underlying data defined by `Source` e.g., the volume name. */
-  Name?: string;
+  Name?: string | undefined;
   /** Source location of the mount. For volumes, this contains the storage location of the volume (within `/var/lib/docker/volumes/`). For bind-mounts, and `npipe`, this contains the source (host) part of the bind-mount. For `tmpfs` mount points, this field is empty. */
-  Source?: string;
+  Source?: string | undefined;
   /** Destination is the path relative to the container root (`/`) where the `Source` is mounted inside the container. */
-  Destination?: string;
+  Destination?: string | undefined;
   /** Driver is the volume driver used to create the volume (if it is a volume). */
-  Driver?: string;
+  Driver?: string | undefined;
   /** Mode is a comma separated list of options supplied by the user when creating the bind/volume mount. The default is platform-specific (`"z"` on Linux, empty on Windows). */
-  Mode?: string;
+  Mode?: string | undefined;
   /** Whether the mount is mounted writable (read-write). */
-  RW?: boolean;
+  RW?: boolean | undefined;
   /** Propagation describes how mounts are propagated from the host into the mount point, and vice-versa. Refer to the [Linux kernel documentation](https://www.kernel.org/doc/Documentation/filesystems/sharedsubtree.txt) for details. This field is not used on Windows. */
-  Propagation?: string;
+  Propagation?: string | undefined;
 }
 /** List of mounts used by the container. */
 export type ContainerInspectResponseMountsList = Array<MountPoint>;
@@ -855,228 +855,228 @@ export type ContainerConfigShellList = Array<string>;
 /** Configuration for a container that is portable between hosts. */
 export interface ContainerConfig {
   /** The hostname to use for the container, as a valid RFC 1123 hostname. */
-  Hostname?: string;
+  Hostname?: string | undefined;
   /** The domain name to use for the container. */
-  Domainname?: string;
+  Domainname?: string | undefined;
   /** Commands run as this user inside the container. If omitted, commands run as the user specified in the image the container was started from. Can be either user-name or UID, and optional group-name or GID, separated by a colon (`<user-name|UID>[<:group-name|GID>]`). */
-  User?: string;
+  User?: string | undefined;
   /** Whether to attach to `stdin`. */
-  AttachStdin?: boolean;
+  AttachStdin?: boolean | undefined;
   /** Whether to attach to `stdout`. */
-  AttachStdout?: boolean;
+  AttachStdout?: boolean | undefined;
   /** Whether to attach to `stderr`. */
-  AttachStderr?: boolean;
+  AttachStderr?: boolean | undefined;
   /** An object mapping ports to an empty object in the form: `{"<port>/<tcp|udp|sctp>": {}}` */
-  ExposedPorts?: ContainerConfigExposedPortsMap | null;
+  ExposedPorts?: ContainerConfigExposedPortsMap | null | undefined;
   /** Attach standard streams to a TTY, including `stdin` if it is not closed. */
-  Tty?: boolean;
+  Tty?: boolean | undefined;
   /** Open `stdin` */
-  OpenStdin?: boolean;
+  OpenStdin?: boolean | undefined;
   /** Close `stdin` after one attached client disconnects */
-  StdinOnce?: boolean;
+  StdinOnce?: boolean | undefined;
   /** A list of environment variables to set inside the container in the form `["VAR=value", ...]`. A variable without `=` is removed from the environment, rather than to have an empty value. */
-  Env?: ContainerConfigEnvList;
+  Env?: ContainerConfigEnvList | undefined;
   /** Command to run specified as a string or an array of strings. */
-  Cmd?: ContainerConfigCmdList;
-  Healthcheck?: HealthConfig;
+  Cmd?: ContainerConfigCmdList | undefined;
+  Healthcheck?: HealthConfig | undefined;
   /** Command is already escaped (Windows only) */
-  ArgsEscaped?: boolean | null;
+  ArgsEscaped?: boolean | null | undefined;
   /** The name (or reference) of the image to use when creating the container, or which was used when the container was created. */
-  Image?: string;
+  Image?: string | undefined;
   /** An object mapping mount point paths inside the container to empty objects. */
-  Volumes?: ContainerConfigVolumesMap;
+  Volumes?: ContainerConfigVolumesMap | undefined;
   /** The working directory for commands to run in. */
-  WorkingDir?: string;
+  WorkingDir?: string | undefined;
   /** The entry point for the container as a string or an array of strings. If the array consists of exactly one empty string (`[""]`) then the entry point is reset to system default (i.e., the entry point used by docker when there is no `ENTRYPOINT` instruction in the `Dockerfile`). */
-  Entrypoint?: ContainerConfigEntrypointList;
+  Entrypoint?: ContainerConfigEntrypointList | undefined;
   /** Disable networking for the container. */
-  NetworkDisabled?: boolean | null;
+  NetworkDisabled?: boolean | null | undefined;
   /** `ONBUILD` metadata that were defined in the image's `Dockerfile`. */
-  OnBuild?: ContainerConfigOnBuildList | null;
+  OnBuild?: ContainerConfigOnBuildList | null | undefined;
   /** User-defined key/value metadata. */
-  Labels?: ContainerConfigLabelsMap;
+  Labels?: ContainerConfigLabelsMap | undefined;
   /** Signal to stop a container as a string or unsigned integer. */
-  StopSignal?: string | null;
+  StopSignal?: string | null | undefined;
   /** Timeout to stop a container in seconds. If omitted, the daemon-wide default (`default-stop-timeout`) is used. */
-  StopTimeout?: number | null;
+  StopTimeout?: number | null | undefined;
   /** Shell for when `RUN`, `CMD`, and `ENTRYPOINT` uses a shell. */
-  Shell?: ContainerConfigShellList | null;
+  Shell?: ContainerConfigShellList | null | undefined;
 }
 /** Information about all networks that the container is connected to. */
 export type NetworkSettingsNetworksMap = { [key: string]: EndpointSettings | undefined };
 /** NetworkSettings exposes the network settings in the API */
 export interface NetworkSettings {
   /** SandboxID uniquely represents a container's network stack. */
-  SandboxID?: string;
+  SandboxID?: string | undefined;
   /** SandboxKey is the full path of the netns handle */
-  SandboxKey?: string;
-  Ports?: PortMap;
+  SandboxKey?: string | undefined;
+  Ports?: PortMap | undefined;
   /** Information about all networks that the container is connected to. */
-  Networks?: NetworkSettingsNetworksMap;
+  Networks?: NetworkSettingsNetworksMap | undefined;
 }
 export interface ContainerInspectResponse {
   /** The ID of this container as a 128-bit (64-character) hexadecimal string (32 bytes). */
-  Id?: string;
+  Id?: string | undefined;
   /** Date and time at which the container was created, formatted in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds. */
-  Created?: string | null;
+  Created?: string | null | undefined;
   /** The path to the command being run */
-  Path?: string;
+  Path?: string | undefined;
   /** The arguments to the command being run */
-  Args?: ContainerInspectResponseArgsList;
-  State?: ContainerState | null;
+  Args?: ContainerInspectResponseArgsList | undefined;
+  State?: ContainerState | null | undefined;
   /** The ID (digest) of the image that this container was created from. */
-  Image?: string;
+  Image?: string | undefined;
   /** Location of the `/etc/resolv.conf` generated for the container on the host. This file is managed through the docker daemon, and should not be accessed or modified by other tools. */
-  ResolvConfPath?: string;
+  ResolvConfPath?: string | undefined;
   /** Location of the `/etc/hostname` generated for the container on the host. This file is managed through the docker daemon, and should not be accessed or modified by other tools. */
-  HostnamePath?: string;
+  HostnamePath?: string | undefined;
   /** Location of the `/etc/hosts` generated for the container on the host. This file is managed through the docker daemon, and should not be accessed or modified by other tools. */
-  HostsPath?: string;
+  HostsPath?: string | undefined;
   /** Location of the file used to buffer the container's logs. Depending on the logging-driver used for the container, this field may be omitted. This file is managed through the docker daemon, and should not be accessed or modified by other tools. */
-  LogPath?: string | null;
+  LogPath?: string | null | undefined;
   /** The name associated with this container. For historic reasons, the name may be prefixed with a forward-slash (`/`). */
-  Name?: string;
+  Name?: string | undefined;
   /** Number of times the container was restarted since it was created, or since daemon was started. */
-  RestartCount?: number;
+  RestartCount?: number | undefined;
   /** The storage-driver used for the container's filesystem (graph-driver or snapshotter). */
-  Driver?: string;
+  Driver?: string | undefined;
   /** The platform (operating system) for which the container was created. This field was introduced for the experimental "LCOW" (Linux Containers On Windows) features, which has been removed. In most cases, this field is equal to the host's operating system (`linux` or `windows`). */
-  Platform?: string;
+  Platform?: string | undefined;
   /** OCI descriptor of the platform-specific manifest of the image the container was created from. Note: Only available if the daemon provides a multi-platform image store. */
-  ImageManifestDescriptor?: OCIDescriptor;
+  ImageManifestDescriptor?: OCIDescriptor | undefined;
   /** SELinux mount label set for the container. */
-  MountLabel?: string;
+  MountLabel?: string | undefined;
   /** SELinux process label set for the container. */
-  ProcessLabel?: string;
+  ProcessLabel?: string | undefined;
   /** The AppArmor profile set for the container. */
-  AppArmorProfile?: string;
+  AppArmorProfile?: string | undefined;
   /** IDs of exec instances that are running in the container. */
-  ExecIDs?: ContainerInspectResponseExecIDsList | null;
-  HostConfig?: HostConfig;
-  GraphDriver?: DriverData | null;
-  Storage?: Storage | null;
+  ExecIDs?: ContainerInspectResponseExecIDsList | null | undefined;
+  HostConfig?: HostConfig | undefined;
+  GraphDriver?: DriverData | null | undefined;
+  Storage?: Storage | null | undefined;
   /** The size of files that have been created or changed by this container. This field is omitted by default, and only set when size is requested in the API request. */
-  SizeRw?: number | null;
+  SizeRw?: number | null | undefined;
   /** The total size of all files in the read-only layers from the image that the container uses. These layers can be shared between containers. This field is omitted by default, and only set when size is requested in the API request. */
-  SizeRootFs?: number | null;
+  SizeRootFs?: number | null | undefined;
   /** List of mounts used by the container. */
-  Mounts?: ContainerInspectResponseMountsList;
-  Config?: ContainerConfig;
-  NetworkSettings?: NetworkSettings;
+  Mounts?: ContainerInspectResponseMountsList | undefined;
+  Config?: ContainerConfig | undefined;
+  NetworkSettings?: NetworkSettings | undefined;
 }
 export interface ContainerLogsRequest {
   /** ID or name of the container */
   id: string;
   /** Keep connection after returning logs. */
-  follow?: boolean;
+  follow?: boolean | undefined;
   /** Return logs from `stdout` */
-  stdout?: boolean;
+  stdout?: boolean | undefined;
   /** Return logs from `stderr` */
-  stderr?: boolean;
+  stderr?: boolean | undefined;
   /** Only return logs since this time, as a UNIX timestamp */
-  since?: number;
+  since?: number | undefined;
   /** Only return logs before this time, as a UNIX timestamp */
-  until?: number;
+  until?: number | undefined;
   /** Add timestamps to every log line */
-  timestamps?: boolean;
+  timestamps?: boolean | undefined;
   /** Only return this number of log lines from the end of the logs. Specify as an integer or `all` to output all log lines. */
-  tail?: string;
+  tail?: string | undefined;
 }
 export type ContainerLogsResponse = string;
 export interface ContainerPruneRequest {
   /** Filters to process on the prune list, encoded as JSON (a `map[string][]string`). Available filters: - `until=<timestamp>` Prune containers created before this timestamp. The `<timestamp>` can be Unix timestamps, date formatted timestamps, or Go duration strings (e.g. `10m`, `1h30m`) computed relative to the daemon machine's time. - `label` (`label=<key>`, `label=<key>=<value>`, `label!=<key>`, or `label!=<key>=<value>`) Prune containers with (or without, in case `label!=...` is used) the specified labels. */
-  filters?: string;
+  filters?: string | undefined;
 }
 /** Container IDs that were deleted */
 export type ContainerPruneResponseContainersDeletedList = Array<string>;
 export interface ContainerPruneResponse {
   /** Container IDs that were deleted */
-  ContainersDeleted?: ContainerPruneResponseContainersDeletedList;
+  ContainersDeleted?: ContainerPruneResponseContainersDeletedList | undefined;
   /** Disk space reclaimed in bytes */
-  SpaceReclaimed?: number;
+  SpaceReclaimed?: number | undefined;
 }
 export interface ContainerStatsRequest {
   /** ID or name of the container */
   id: string;
   /** Stream the output. If false, the stats will be output once and then it will disconnect. */
-  stream?: boolean;
+  stream?: boolean | undefined;
   /** Only get a single stat instead of waiting for 2 cycles. Must be used with `stream=false`. */
-  one_shot?: boolean;
+  one_shot?: boolean | undefined;
 }
 /** Total CPU time (in nanoseconds) consumed per core (Linux). This field is Linux-specific when using cgroups v1. It is omitted when using cgroups v2 and Windows containers. */
 export type ContainerCPUUsagePercpuUsageList = Array<number>;
 /** All CPU stats aggregated since container inception. */
 export interface ContainerCPUUsage {
   /** Total CPU time consumed in nanoseconds (Linux) or 100's of nanoseconds (Windows). */
-  total_usage?: number;
+  total_usage?: number | undefined;
   /** Total CPU time (in nanoseconds) consumed per core (Linux). This field is Linux-specific when using cgroups v1. It is omitted when using cgroups v2 and Windows containers. */
-  percpu_usage?: ContainerCPUUsagePercpuUsageList | null;
+  percpu_usage?: ContainerCPUUsagePercpuUsageList | null | undefined;
   /** Time (in nanoseconds) spent by tasks of the cgroup in kernel mode (Linux), or time spent (in 100's of nanoseconds) by all container processes in kernel mode (Windows). Not populated for Windows containers using Hyper-V isolation. */
-  usage_in_kernelmode?: number;
+  usage_in_kernelmode?: number | undefined;
   /** Time (in nanoseconds) spent by tasks of the cgroup in user mode (Linux), or time spent (in 100's of nanoseconds) by all container processes in kernel mode (Windows). Not populated for Windows containers using Hyper-V isolation. */
-  usage_in_usermode?: number;
+  usage_in_usermode?: number | undefined;
 }
 /** CPU throttling stats of the container. This type is Linux-specific and omitted for Windows containers. */
 export interface ContainerThrottlingData {
   /** Number of periods with throttling active. */
-  periods?: number;
+  periods?: number | undefined;
   /** Number of periods when the container hit its throttling limit. */
-  throttled_periods?: number;
+  throttled_periods?: number | undefined;
   /** Aggregated time (in nanoseconds) the container was throttled for. */
-  throttled_time?: number;
+  throttled_time?: number | undefined;
 }
 /** CPU related info of the container */
 export interface ContainerCPUStats {
-  cpu_usage?: ContainerCPUUsage | null;
+  cpu_usage?: ContainerCPUUsage | null | undefined;
   /** System Usage. This field is Linux-specific and omitted for Windows containers. */
-  system_cpu_usage?: number | null;
+  system_cpu_usage?: number | null | undefined;
   /** Number of online CPUs. This field is Linux-specific and omitted for Windows containers. */
-  online_cpus?: number | null;
-  throttling_data?: ContainerThrottlingData | null;
+  online_cpus?: number | null | undefined;
+  throttling_data?: ContainerThrottlingData | null | undefined;
 }
 /** All the stats exported via memory.stat. The fields in this object differ between cgroups v1 and v2. On cgroups v1, fields such as `cache`, `rss`, `mapped_file` are available. On cgroups v2, fields such as `file`, `anon`, `inactive_file` are available. This field is Linux-specific and omitted for Windows containers. */
 export type ContainerMemoryStatsStatsMap = { [key: string]: number | null | undefined };
 /** Aggregates all memory stats since container inception on Linux. Windows returns stats for commit and private working set only. */
 export interface ContainerMemoryStats {
   /** Current `res_counter` usage for memory. This field is Linux-specific and omitted for Windows containers. */
-  usage?: number | null;
+  usage?: number | null | undefined;
   /** Maximum usage ever recorded. This field is Linux-specific and only supported on cgroups v1. It is omitted when using cgroups v2 and for Windows containers. */
-  max_usage?: number | null;
+  max_usage?: number | null | undefined;
   /** All the stats exported via memory.stat. The fields in this object differ between cgroups v1 and v2. On cgroups v1, fields such as `cache`, `rss`, `mapped_file` are available. On cgroups v2, fields such as `file`, `anon`, `inactive_file` are available. This field is Linux-specific and omitted for Windows containers. */
-  stats?: ContainerMemoryStatsStatsMap;
+  stats?: ContainerMemoryStatsStatsMap | undefined;
   /** Number of times memory usage hits limits. This field is Linux-specific and only supported on cgroups v1. It is omitted when using cgroups v2 and for Windows containers. */
-  failcnt?: number | null;
+  failcnt?: number | null | undefined;
   /** This field is Linux-specific and omitted for Windows containers. */
-  limit?: number | null;
+  limit?: number | null | undefined;
   /** Committed bytes. This field is Windows-specific and omitted for Linux containers. */
-  commitbytes?: number | null;
+  commitbytes?: number | null | undefined;
   /** Peak committed bytes. This field is Windows-specific and omitted for Linux containers. */
-  commitpeakbytes?: number | null;
+  commitpeakbytes?: number | null | undefined;
   /** Private working set. This field is Windows-specific and omitted for Linux containers. */
-  privateworkingset?: number | null;
+  privateworkingset?: number | null | undefined;
 }
 /** Aggregates the network stats of one container */
 export interface ContainerNetworkStats {
   /** Bytes received. Windows and Linux. */
-  rx_bytes?: number;
+  rx_bytes?: number | undefined;
   /** Packets received. Windows and Linux. */
-  rx_packets?: number;
+  rx_packets?: number | undefined;
   /** Received errors. Not used on Windows. This field is Linux-specific and always zero for Windows containers. */
-  rx_errors?: number;
+  rx_errors?: number | undefined;
   /** Incoming packets dropped. Windows and Linux. */
-  rx_dropped?: number;
+  rx_dropped?: number | undefined;
   /** Bytes sent. Windows and Linux. */
-  tx_bytes?: number;
+  tx_bytes?: number | undefined;
   /** Packets sent. Windows and Linux. */
-  tx_packets?: number;
+  tx_packets?: number | undefined;
   /** Sent errors. Not used on Windows. This field is Linux-specific and always zero for Windows containers. */
-  tx_errors?: number;
+  tx_errors?: number | undefined;
   /** Outgoing packets dropped. Windows and Linux. */
-  tx_dropped?: number;
+  tx_dropped?: number | undefined;
   /** Endpoint ID. Not used on Linux. This field is Windows-specific and omitted for Linux containers. */
-  endpoint_id?: string | null;
+  endpoint_id?: string | null | undefined;
   /** Instance ID. Not used on Linux. This field is Windows-specific and omitted for Linux containers. */
-  instance_id?: string | null;
+  instance_id?: string | null | undefined;
 }
 /** Network statistics for the container per interface. This field is omitted if the container has no networking enabled. */
 export type ContainerStatsResponseNetworksMap = {
@@ -1085,16 +1085,16 @@ export type ContainerStatsResponseNetworksMap = {
 /** PidsStats contains Linux-specific stats of a container's process-IDs (PIDs). This type is Linux-specific and omitted for Windows containers. */
 export interface ContainerPidsStats {
   /** Current is the number of PIDs in the cgroup. */
-  current?: number | null;
+  current?: number | null | undefined;
   /** Limit is the hard limit on the number of pids in the cgroup. A "Limit" of 0 means that there is no limit. */
-  limit?: number | null;
+  limit?: number | null | undefined;
 }
 /** Blkio stats entry. This type is Linux-specific and omitted for Windows containers. */
 export interface ContainerBlkioStatEntry {
-  major?: number;
-  minor?: number;
-  op?: string;
-  value?: number;
+  major?: number | undefined;
+  minor?: number | undefined;
+  op?: string | undefined;
+  value?: number | undefined;
 }
 export type ContainerBlkioStatsIoServiceBytesRecursiveList = Array<ContainerBlkioStatEntry | null>;
 /** This field is only available when using Linux containers with cgroups v1. It is omitted or `null` when using cgroups v2. */
@@ -1113,57 +1113,57 @@ export type ContainerBlkioStatsIoTimeRecursiveList = Array<ContainerBlkioStatEnt
 export type ContainerBlkioStatsSectorsRecursiveList = Array<ContainerBlkioStatEntry | null>;
 /** BlkioStats stores all IO service stats for data read and write. This type is Linux-specific and holds many fields that are specific to cgroups v1. On a cgroup v2 host, all fields other than `io_service_bytes_recursive` are omitted or `null`. This type is only populated on Linux and omitted for Windows containers. */
 export interface ContainerBlkioStats {
-  io_service_bytes_recursive?: ContainerBlkioStatsIoServiceBytesRecursiveList;
+  io_service_bytes_recursive?: ContainerBlkioStatsIoServiceBytesRecursiveList | undefined;
   /** This field is only available when using Linux containers with cgroups v1. It is omitted or `null` when using cgroups v2. */
-  io_serviced_recursive?: ContainerBlkioStatsIoServicedRecursiveList | null;
+  io_serviced_recursive?: ContainerBlkioStatsIoServicedRecursiveList | null | undefined;
   /** This field is only available when using Linux containers with cgroups v1. It is omitted or `null` when using cgroups v2. */
-  io_queue_recursive?: ContainerBlkioStatsIoQueueRecursiveList | null;
+  io_queue_recursive?: ContainerBlkioStatsIoQueueRecursiveList | null | undefined;
   /** This field is only available when using Linux containers with cgroups v1. It is omitted or `null` when using cgroups v2. */
-  io_service_time_recursive?: ContainerBlkioStatsIoServiceTimeRecursiveList | null;
+  io_service_time_recursive?: ContainerBlkioStatsIoServiceTimeRecursiveList | null | undefined;
   /** This field is only available when using Linux containers with cgroups v1. It is omitted or `null` when using cgroups v2. */
-  io_wait_time_recursive?: ContainerBlkioStatsIoWaitTimeRecursiveList | null;
+  io_wait_time_recursive?: ContainerBlkioStatsIoWaitTimeRecursiveList | null | undefined;
   /** This field is only available when using Linux containers with cgroups v1. It is omitted or `null` when using cgroups v2. */
-  io_merged_recursive?: ContainerBlkioStatsIoMergedRecursiveList | null;
+  io_merged_recursive?: ContainerBlkioStatsIoMergedRecursiveList | null | undefined;
   /** This field is only available when using Linux containers with cgroups v1. It is omitted or `null` when using cgroups v2. */
-  io_time_recursive?: ContainerBlkioStatsIoTimeRecursiveList | null;
+  io_time_recursive?: ContainerBlkioStatsIoTimeRecursiveList | null | undefined;
   /** This field is only available when using Linux containers with cgroups v1. It is omitted or `null` when using cgroups v2. */
-  sectors_recursive?: ContainerBlkioStatsSectorsRecursiveList | null;
+  sectors_recursive?: ContainerBlkioStatsSectorsRecursiveList | null | undefined;
 }
 /** StorageStats is the disk I/O stats for read/write on Windows. This type is Windows-specific and omitted for Linux containers. */
 export interface ContainerStorageStats {
-  read_count_normalized?: number | null;
-  read_size_bytes?: number | null;
-  write_count_normalized?: number | null;
-  write_size_bytes?: number | null;
+  read_count_normalized?: number | null | undefined;
+  read_size_bytes?: number | null | undefined;
+  write_count_normalized?: number | null | undefined;
+  write_size_bytes?: number | null | undefined;
 }
 /** Statistics sample for a container. */
 export interface ContainerStatsResponse {
   /** ID of the container for which the stats were collected. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Name of the container for which the stats were collected. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** OSType is the OS of the container ("linux" or "windows") to allow platform-specific handling of stats. */
-  os_type?: string | null;
+  os_type?: string | null | undefined;
   /** Date and time at which this sample was collected. The value is formatted as [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) with nano-seconds. */
-  read?: string;
-  cpu_stats?: ContainerCPUStats | null;
-  memory_stats?: ContainerMemoryStats;
+  read?: string | undefined;
+  cpu_stats?: ContainerCPUStats | null | undefined;
+  memory_stats?: ContainerMemoryStats | undefined;
   /** Network statistics for the container per interface. This field is omitted if the container has no networking enabled. */
-  networks?: ContainerStatsResponseNetworksMap | null;
-  pids_stats?: ContainerPidsStats | null;
-  blkio_stats?: ContainerBlkioStats | null;
+  networks?: ContainerStatsResponseNetworksMap | null | undefined;
+  pids_stats?: ContainerPidsStats | null | undefined;
+  blkio_stats?: ContainerBlkioStats | null | undefined;
   /** The number of processors on the system. This field is Windows-specific and always zero for Linux containers. */
-  num_procs?: number;
-  storage_stats?: ContainerStorageStats | null;
+  num_procs?: number | undefined;
+  storage_stats?: ContainerStorageStats | null | undefined;
   /** Date and time at which this first sample was collected. This field is not propagated if the "one-shot" option is set. If the "one-shot" option is set, this field may be omitted, empty, or set to a default date (`0001-01-01T00:00:00Z`). The value is formatted as [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) with nano-seconds. */
-  preread?: string;
-  precpu_stats?: ContainerCPUStats | null;
+  preread?: string | undefined;
+  precpu_stats?: ContainerCPUStats | null | undefined;
 }
 export interface ContainerTopRequest {
   /** ID or name of the container */
   id: string;
   /** The arguments to pass to `ps`. For example, `aux` */
-  ps_args?: string;
+  ps_args?: string | undefined;
 }
 /** The ps column titles */
 export type ContainerTopResponseTitlesList = Array<string>;
@@ -1173,21 +1173,21 @@ export type ContainerTopResponseProcessesList = Array<ContainerTopResponseProces
 /** Container "top" response. */
 export interface ContainerTopResponse {
   /** The ps column titles */
-  Titles?: ContainerTopResponseTitlesList;
+  Titles?: ContainerTopResponseTitlesList | undefined;
   /** Each process running in the container, where each process is an array of values corresponding to the titles. */
-  Processes?: ContainerTopResponseProcessesList;
+  Processes?: ContainerTopResponseProcessesList | undefined;
 }
 /** User-defined key/value metadata. */
 export type CreateConfigRequestLabelsMap = { [key: string]: string | undefined };
 export interface CreateConfigRequest {
   /** User-defined name of the config. */
-  Name?: string;
+  Name?: string | undefined;
   /** User-defined key/value metadata. */
-  Labels?: CreateConfigRequestLabelsMap;
+  Labels?: CreateConfigRequestLabelsMap | undefined;
   /** Data is the data to store as a config, formatted as a standard base64-encoded ([RFC 4648](https://tools.ietf.org/html/rfc4648#section-4)) string. The maximum allowed size is 1000KB, as defined in [MaxConfigSize](https://pkg.go.dev/github.com/moby/swarmkit/v2@v2.0.0-20250103191802-8c1959736554/manager/controlapi#MaxConfigSize). */
-  Data?: string;
+  Data?: string | undefined;
   /** Templating driver, if applicable Templating controls whether and how to evaluate the config payload as a template. If no driver is set, no templating is used. */
-  Templating?: Driver;
+  Templating?: Driver | undefined;
 }
 /** An object mapping ports to an empty object in the form: `{"<port>/<tcp|udp|sctp>": {}}` */
 export type CreateContainerRequestExposedPortsMap = { [key: string]: unknown | undefined };
@@ -1210,62 +1210,62 @@ export type NetworkingConfigEndpointsConfigMap = { [key: string]: EndpointSettin
 /** NetworkingConfig represents the container's networking configuration for each of its interfaces. It is used for the networking configs specified in the `docker create` and `docker network connect` commands. */
 export interface NetworkingConfig {
   /** A mapping of network name to endpoint configuration for that network. The endpoint configuration can be left empty to connect to that network with no particular endpoint configuration. */
-  EndpointsConfig?: NetworkingConfigEndpointsConfigMap;
+  EndpointsConfig?: NetworkingConfigEndpointsConfigMap | undefined;
 }
 export interface CreateContainerRequest {
   /** Assign the specified name to the container. Must match `/?[a-zA-Z0-9][a-zA-Z0-9_.-]+`. */
-  name?: string;
+  name?: string | undefined;
   /** Platform in the format `os[/arch[/variant]]` used for image lookup. When specified, the daemon checks if the requested image is present in the local image cache with the given OS and Architecture, and otherwise returns a `404` status. If the option is not set, the host's native OS and Architecture are used to look up the image in the image cache. However, if no platform is passed and the given image does exist in the local image cache, but its OS or architecture does not match, the container is created with the available image, and a warning is added to the `Warnings` field in the response, for example; WARNING: The requested image's platform (linux/arm64/v8) does not match the detected host platform (linux/amd64) and no specific platform was requested */
-  platform?: string;
+  platform?: string | undefined;
   /** The hostname to use for the container, as a valid RFC 1123 hostname. */
-  Hostname?: string;
+  Hostname?: string | undefined;
   /** The domain name to use for the container. */
-  Domainname?: string;
+  Domainname?: string | undefined;
   /** Commands run as this user inside the container. If omitted, commands run as the user specified in the image the container was started from. Can be either user-name or UID, and optional group-name or GID, separated by a colon (`<user-name|UID>[<:group-name|GID>]`). */
-  User?: string;
+  User?: string | undefined;
   /** Whether to attach to `stdin`. */
-  AttachStdin?: boolean;
+  AttachStdin?: boolean | undefined;
   /** Whether to attach to `stdout`. */
-  AttachStdout?: boolean;
+  AttachStdout?: boolean | undefined;
   /** Whether to attach to `stderr`. */
-  AttachStderr?: boolean;
+  AttachStderr?: boolean | undefined;
   /** An object mapping ports to an empty object in the form: `{"<port>/<tcp|udp|sctp>": {}}` */
-  ExposedPorts?: CreateContainerRequestExposedPortsMap | null;
+  ExposedPorts?: CreateContainerRequestExposedPortsMap | null | undefined;
   /** Attach standard streams to a TTY, including `stdin` if it is not closed. */
-  Tty?: boolean;
+  Tty?: boolean | undefined;
   /** Open `stdin` */
-  OpenStdin?: boolean;
+  OpenStdin?: boolean | undefined;
   /** Close `stdin` after one attached client disconnects */
-  StdinOnce?: boolean;
+  StdinOnce?: boolean | undefined;
   /** A list of environment variables to set inside the container in the form `["VAR=value", ...]`. A variable without `=` is removed from the environment, rather than to have an empty value. */
-  Env?: CreateContainerRequestEnvList;
+  Env?: CreateContainerRequestEnvList | undefined;
   /** Command to run specified as a string or an array of strings. */
-  Cmd?: CreateContainerRequestCmdList;
-  Healthcheck?: HealthConfig;
+  Cmd?: CreateContainerRequestCmdList | undefined;
+  Healthcheck?: HealthConfig | undefined;
   /** Command is already escaped (Windows only) */
-  ArgsEscaped?: boolean | null;
+  ArgsEscaped?: boolean | null | undefined;
   /** The name (or reference) of the image to use when creating the container, or which was used when the container was created. */
-  Image?: string;
+  Image?: string | undefined;
   /** An object mapping mount point paths inside the container to empty objects. */
-  Volumes?: CreateContainerRequestVolumesMap;
+  Volumes?: CreateContainerRequestVolumesMap | undefined;
   /** The working directory for commands to run in. */
-  WorkingDir?: string;
+  WorkingDir?: string | undefined;
   /** The entry point for the container as a string or an array of strings. If the array consists of exactly one empty string (`[""]`) then the entry point is reset to system default (i.e., the entry point used by docker when there is no `ENTRYPOINT` instruction in the `Dockerfile`). */
-  Entrypoint?: CreateContainerRequestEntrypointList;
+  Entrypoint?: CreateContainerRequestEntrypointList | undefined;
   /** Disable networking for the container. */
-  NetworkDisabled?: boolean | null;
+  NetworkDisabled?: boolean | null | undefined;
   /** `ONBUILD` metadata that were defined in the image's `Dockerfile`. */
-  OnBuild?: CreateContainerRequestOnBuildList | null;
+  OnBuild?: CreateContainerRequestOnBuildList | null | undefined;
   /** User-defined key/value metadata. */
-  Labels?: CreateContainerRequestLabelsMap;
+  Labels?: CreateContainerRequestLabelsMap | undefined;
   /** Signal to stop a container as a string or unsigned integer. */
-  StopSignal?: string | null;
+  StopSignal?: string | null | undefined;
   /** Timeout to stop a container in seconds. If omitted, the daemon-wide default (`default-stop-timeout`) is used. */
-  StopTimeout?: number | null;
+  StopTimeout?: number | null | undefined;
   /** Shell for when `RUN`, `CMD`, and `ENTRYPOINT` uses a shell. */
-  Shell?: CreateContainerRequestShellList | null;
-  HostConfig?: HostConfig;
-  NetworkingConfig?: NetworkingConfig;
+  Shell?: CreateContainerRequestShellList | null | undefined;
+  HostConfig?: HostConfig | undefined;
+  NetworkingConfig?: NetworkingConfig | undefined;
 }
 /** Warnings encountered when creating the container */
 export type ContainerCreateResponseWarningsList = Array<string>;
@@ -1279,35 +1279,35 @@ export interface ContainerCreateResponse {
 export type CreateImageRequestChangesList = Array<string>;
 export interface CreateImageRequest {
   /** Name of the image to pull. If the name includes a tag or digest, specific behavior applies: - If only `fromImage` includes a tag, that tag is used. - If both `fromImage` and `tag` are provided, `tag` takes precedence. - If `fromImage` includes a digest, the image is pulled by digest, and `tag` is ignored. - If neither a tag nor digest is specified, all tags are pulled. */
-  fromImage?: string;
+  fromImage?: string | undefined;
   /** Source to import. The value may be a URL from which the image can be retrieved or `-` to read the image from the request body. This parameter may only be used when importing an image. */
-  fromSrc?: string;
+  fromSrc?: string | undefined;
   /** Repository name given to an image when it is imported. The repo may include a tag. This parameter may only be used when importing an image. */
-  repo?: string;
+  repo?: string | undefined;
   /** Tag or digest. If empty when pulling an image, this causes all tags for the given image to be pulled. */
-  tag?: string;
+  tag?: string | undefined;
   /** Set commit message for imported image. */
-  message?: string;
+  message?: string | undefined;
   /** Apply `Dockerfile` instructions to the image that is created, for example: `changes=ENV DEBUG=true`. Note that `ENV DEBUG=true` should be URI component encoded. Repeat the parameter to apply multiple instructions. Supported `Dockerfile` instructions: `CMD`|`ENTRYPOINT`|`ENV`|`EXPOSE`|`ONBUILD`|`USER`|`VOLUME`|`WORKDIR` */
-  changes?: CreateImageRequestChangesList;
+  changes?: CreateImageRequestChangesList | undefined;
   /** Platform in the format os[/arch[/variant]]. When used in combination with the `fromImage` option, the daemon checks if the given image is present in the local image cache with the given OS and Architecture, and otherwise attempts to pull the image. If the option is not set, the host's native OS and Architecture are used. If the given image does not exist in the local image cache, the daemon attempts to pull the image with the host's native OS and Architecture. If the given image does exists in the local image cache, but its OS or architecture does not match, a warning is produced. When used with the `fromSrc` option to import an image from an archive, this option sets the platform information for the imported image. If the option is not set, the host's native OS and Architecture are used for the imported image. */
-  platform?: string;
+  platform?: string | undefined;
   /** A base64url-encoded auth configuration. Refer to the [authentication section](#section/Authentication) for details. */
-  xRegistryAuth?: string;
-  body?: string;
+  xRegistryAuth?: string | undefined;
+  body?: string | undefined;
 }
 export interface CreateImageResponse {}
 /** The config-only network source to provide the configuration for this network. */
 export interface ConfigReference {
   /** The name of the config-only network that provides the network's configuration. The specified network must be an existing config-only network. Only network names are allowed, not network IDs. */
-  Network?: string;
+  Network?: string | undefined;
 }
 export type IPAMConfigAuxiliaryAddressesMap = { [key: string]: string | undefined };
 export interface IPAMConfig {
-  Subnet?: string;
-  IPRange?: string;
-  Gateway?: string;
-  AuxiliaryAddresses?: IPAMConfigAuxiliaryAddressesMap;
+  Subnet?: string | undefined;
+  IPRange?: string | undefined;
+  Gateway?: string | undefined;
+  AuxiliaryAddresses?: IPAMConfigAuxiliaryAddressesMap | undefined;
 }
 /** List of IPAM configuration options, specified as a map: ``` {"Subnet": <CIDR>, "IPRange": <CIDR>, "Gateway": <IP address>, "AuxAddress": <device_name:IP address>} ``` */
 export type IPAMConfigList = Array<IPAMConfig>;
@@ -1315,11 +1315,11 @@ export type IPAMConfigList = Array<IPAMConfig>;
 export type IPAMOptionsMap = { [key: string]: string | undefined };
 export interface IPAM {
   /** Name of the IPAM driver to use. */
-  Driver?: string;
+  Driver?: string | undefined;
   /** List of IPAM configuration options, specified as a map: ``` {"Subnet": <CIDR>, "IPRange": <CIDR>, "Gateway": <IP address>, "AuxAddress": <device_name:IP address>} ``` */
-  Config?: IPAMConfigList;
+  Config?: IPAMConfigList | undefined;
   /** Driver-specific options, specified as a map. */
-  Options?: IPAMOptionsMap;
+  Options?: IPAMOptionsMap | undefined;
 }
 /** Network specific options to be used by the drivers. */
 export type CreateNetworkRequestOptionsMap = { [key: string]: string | undefined };
@@ -1329,29 +1329,29 @@ export interface CreateNetworkRequest {
   /** The network's name. */
   Name: string;
   /** Name of the network driver plugin to use. */
-  Driver?: string;
+  Driver?: string | undefined;
   /** The level at which the network exists (e.g. `swarm` for cluster-wide or `local` for machine level). */
-  Scope?: string;
+  Scope?: string | undefined;
   /** Restrict external access to the network. */
-  Internal?: boolean;
+  Internal?: boolean | undefined;
   /** Globally scoped network is manually attachable by regular containers from workers in swarm mode. */
-  Attachable?: boolean;
+  Attachable?: boolean | undefined;
   /** Ingress network is the network which provides the routing-mesh in swarm mode. */
-  Ingress?: boolean;
+  Ingress?: boolean | undefined;
   /** Creates a config-only network. Config-only networks are placeholder networks for network configurations to be used by other networks. Config-only networks cannot be used directly to run containers or services. */
-  ConfigOnly?: boolean;
+  ConfigOnly?: boolean | undefined;
   /** Specifies the source which will provide the configuration for this network. The specified network must be an existing config-only network; see ConfigOnly. */
-  ConfigFrom?: ConfigReference;
+  ConfigFrom?: ConfigReference | undefined;
   /** Optional custom IP scheme for the network. */
-  IPAM?: IPAM;
+  IPAM?: IPAM | undefined;
   /** Enable IPv4 on the network. */
-  EnableIPv4?: boolean;
+  EnableIPv4?: boolean | undefined;
   /** Enable IPv6 on the network. */
-  EnableIPv6?: boolean;
+  EnableIPv6?: boolean | undefined;
   /** Network specific options to be used by the drivers. */
-  Options?: CreateNetworkRequestOptionsMap;
+  Options?: CreateNetworkRequestOptionsMap | undefined;
   /** User-defined key/value metadata. */
-  Labels?: CreateNetworkRequestLabelsMap;
+  Labels?: CreateNetworkRequestLabelsMap | undefined;
 }
 /** OK response to NetworkCreate operation */
 export interface NetworkCreateResponse {
@@ -1363,42 +1363,42 @@ export interface NetworkCreateResponse {
 export interface CreatePluginRequest {
   /** The name of the plugin. The `:latest` tag is optional, and is the default if omitted. */
   name: string;
-  body?: string;
+  body?: string | undefined;
 }
 export interface CreatePluginResponse {}
 /** User-defined key/value metadata. */
 export type CreateSecretRequestLabelsMap = { [key: string]: string | undefined };
 export interface CreateSecretRequest {
   /** User-defined name of the secret. */
-  Name?: string;
+  Name?: string | undefined;
   /** User-defined key/value metadata. */
-  Labels?: CreateSecretRequestLabelsMap;
+  Labels?: CreateSecretRequestLabelsMap | undefined;
   /** Data is the data to store as a secret, formatted as a standard base64-encoded ([RFC 4648](https://tools.ietf.org/html/rfc4648#section-4)) string. It must be empty if the Driver field is set, in which case the data is loaded from an external secret store. The maximum allowed size is 500KB, as defined in [MaxSecretSize](https://pkg.go.dev/github.com/moby/swarmkit/v2@v2.0.0/api/validation#MaxSecretSize). This field is only used to _create_ a secret, and is not returned by other endpoints. */
-  Data?: string;
+  Data?: string | undefined;
   /** Name of the secrets driver used to fetch the secret's value from an external secret store. */
-  Driver?: Driver;
+  Driver?: Driver | undefined;
   /** Templating driver, if applicable Templating controls whether and how to evaluate the config payload as a template. If no driver is set, no templating is used. */
-  Templating?: Driver;
+  Templating?: Driver | undefined;
 }
 /** User-defined key/value metadata. */
 export type CreateServiceRequestLabelsMap = { [key: string]: string | undefined };
 export type PluginPrivilegeValueList = Array<string>;
 /** Describes a permission the user has to accept upon installing the plugin. */
 export interface PluginPrivilege {
-  Name?: string;
-  Description?: string;
-  Value?: PluginPrivilegeValueList;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Value?: PluginPrivilegeValueList | undefined;
 }
 export type TaskSpecPluginSpecPluginPrivilegeList = Array<PluginPrivilege>;
 /** Plugin spec for the service. *(Experimental release only.)* <p><br /></p> > **Note**: ContainerSpec, NetworkAttachmentSpec, and PluginSpec are > mutually exclusive. PluginSpec is only used when the Runtime field > is set to `plugin`. NetworkAttachmentSpec is used when the Runtime > field is set to `attachment`. */
 export interface TaskSpecPluginSpec {
   /** The name or 'alias' to use for the plugin. */
-  Name?: string;
+  Name?: string | undefined;
   /** The plugin image reference to use. */
-  Remote?: string;
+  Remote?: string | undefined;
   /** Disable the plugin once scheduled. */
-  Disabled?: boolean;
-  PluginPrivilege?: TaskSpecPluginSpecPluginPrivilegeList;
+  Disabled?: boolean | undefined;
+  PluginPrivilege?: TaskSpecPluginSpecPluginPrivilegeList | undefined;
 }
 /** User-defined key/value data. */
 export type TaskSpecContainerSpecLabelsMap = { [key: string]: string | undefined };
@@ -1413,49 +1413,49 @@ export type TaskSpecContainerSpecGroupsList = Array<string>;
 /** CredentialSpec for managed service account (Windows only) */
 export interface TaskSpecContainerSpecPrivilegesCredentialSpec {
   /** Load credential spec from a Swarm Config with the given ID. The specified config must also be present in the Configs field with the Runtime property set. <p><br /></p> > **Note**: `CredentialSpec.File`, `CredentialSpec.Registry`, > and `CredentialSpec.Config` are mutually exclusive. */
-  Config?: string;
+  Config?: string | undefined;
   /** Load credential spec from this file. The file is read by the daemon, and must be present in the `CredentialSpecs` subdirectory in the docker data directory, which defaults to `C:\ProgramData\Docker\` on Windows. For example, specifying `spec.json` loads `C:\ProgramData\Docker\CredentialSpecs\spec.json`. <p><br /></p> > **Note**: `CredentialSpec.File`, `CredentialSpec.Registry`, > and `CredentialSpec.Config` are mutually exclusive. */
-  File?: string;
+  File?: string | undefined;
   /** Load credential spec from this value in the Windows registry. The specified registry value must be located in: `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Virtualization\Containers\CredentialSpecs` <p><br /></p> > **Note**: `CredentialSpec.File`, `CredentialSpec.Registry`, > and `CredentialSpec.Config` are mutually exclusive. */
-  Registry?: string;
+  Registry?: string | undefined;
 }
 /** SELinux labels of the container */
 export interface TaskSpecContainerSpecPrivilegesSELinuxContext {
   /** Disable SELinux */
-  Disable?: boolean;
+  Disable?: boolean | undefined;
   /** SELinux user label */
-  User?: string;
+  User?: string | undefined;
   /** SELinux role label */
-  Role?: string;
+  Role?: string | undefined;
   /** SELinux type label */
-  Type?: string;
+  Type?: string | undefined;
   /** SELinux level label */
-  Level?: string;
+  Level?: string | undefined;
 }
 export type TaskSpecContainerSpecPrivilegesSeccompMode = "default" | "unconfined" | "custom";
 /** Options for configuring seccomp on the container */
 export interface TaskSpecContainerSpecPrivilegesSeccomp {
-  Mode?: TaskSpecContainerSpecPrivilegesSeccompMode | (string & {});
+  Mode?: TaskSpecContainerSpecPrivilegesSeccompMode | (string & {}) | undefined;
   /** The custom seccomp profile as a json object */
-  Profile?: string;
+  Profile?: string | undefined;
 }
 export type TaskSpecContainerSpecPrivilegesAppArmorMode = "default" | "disabled";
 /** Options for configuring AppArmor on the container */
 export interface TaskSpecContainerSpecPrivilegesAppArmor {
-  Mode?: TaskSpecContainerSpecPrivilegesAppArmorMode | (string & {});
+  Mode?: TaskSpecContainerSpecPrivilegesAppArmorMode | (string & {}) | undefined;
 }
 /** Security options for the container */
 export interface TaskSpecContainerSpecPrivileges {
   /** CredentialSpec for managed service account (Windows only) */
-  CredentialSpec?: TaskSpecContainerSpecPrivilegesCredentialSpec;
+  CredentialSpec?: TaskSpecContainerSpecPrivilegesCredentialSpec | undefined;
   /** SELinux labels of the container */
-  SELinuxContext?: TaskSpecContainerSpecPrivilegesSELinuxContext;
+  SELinuxContext?: TaskSpecContainerSpecPrivilegesSELinuxContext | undefined;
   /** Options for configuring seccomp on the container */
-  Seccomp?: TaskSpecContainerSpecPrivilegesSeccomp;
+  Seccomp?: TaskSpecContainerSpecPrivilegesSeccomp | undefined;
   /** Options for configuring AppArmor on the container */
-  AppArmor?: TaskSpecContainerSpecPrivilegesAppArmor;
+  AppArmor?: TaskSpecContainerSpecPrivilegesAppArmor | undefined;
   /** Configuration of the no_new_privs bit in the container */
-  NoNewPrivileges?: boolean;
+  NoNewPrivileges?: boolean | undefined;
 }
 /** Specification for mounts to be added to containers created as part of the service. */
 export type TaskSpecContainerSpecMountsList = Array<Mount>;
@@ -1470,30 +1470,30 @@ export type TaskSpecContainerSpecDNSConfigOptionsList = Array<string>;
 /** Specification for DNS related configurations in resolver configuration file (`resolv.conf`). */
 export interface TaskSpecContainerSpecDNSConfig {
   /** The IP addresses of the name servers. */
-  Nameservers?: TaskSpecContainerSpecDNSConfigNameserversList;
+  Nameservers?: TaskSpecContainerSpecDNSConfigNameserversList | undefined;
   /** A search list for host-name lookup. */
-  Search?: TaskSpecContainerSpecDNSConfigSearchList;
+  Search?: TaskSpecContainerSpecDNSConfigSearchList | undefined;
   /** A list of internal resolver variables to be modified (e.g., `debug`, `ndots:3`, etc.). */
-  Options?: TaskSpecContainerSpecDNSConfigOptionsList;
+  Options?: TaskSpecContainerSpecDNSConfigOptionsList | undefined;
 }
 /** File represents a specific target that is backed by a file. */
 export interface TaskSpecContainerSpecSecretsItemFile {
   /** Name represents the final filename in the filesystem. */
-  Name?: string;
+  Name?: string | undefined;
   /** UID represents the file UID. */
-  UID?: string;
+  UID?: string | undefined;
   /** GID represents the file GID. */
-  GID?: string;
+  GID?: string | undefined;
   /** Mode represents the FileMode of the file. */
-  Mode?: number;
+  Mode?: number | undefined;
 }
 export interface TaskSpecContainerSpecSecretsItem {
   /** File represents a specific target that is backed by a file. */
-  File?: TaskSpecContainerSpecSecretsItemFile;
+  File?: TaskSpecContainerSpecSecretsItemFile | undefined;
   /** SecretID represents the ID of the specific secret that we're referencing. */
-  SecretID?: string;
+  SecretID?: string | undefined;
   /** SecretName is the name of the secret that this references, but this is just provided for lookup/display purposes. The secret in the reference will be identified by its ID. */
-  SecretName?: string;
+  SecretName?: string | undefined;
 }
 /** Secrets contains references to zero or more secrets that will be exposed to the service. */
 export type TaskSpecContainerSpecSecretsList = Array<TaskSpecContainerSpecSecretsItem>;
@@ -1501,13 +1501,13 @@ export type TaskSpecContainerSpecSecretsList = Array<TaskSpecContainerSpecSecret
 export type TaskSpecContainerSpecConfigsItemFile = TaskSpecContainerSpecSecretsItemFile;
 export interface TaskSpecContainerSpecConfigsItem {
   /** File represents a specific target that is backed by a file. <p><br /><p> > **Note**: `Configs.File` and `Configs.Runtime` are mutually exclusive */
-  File?: TaskSpecContainerSpecSecretsItemFile;
+  File?: TaskSpecContainerSpecSecretsItemFile | undefined;
   /** Runtime represents a target that is not mounted into the container but is used by the task <p><br /><p> > **Note**: `Configs.File` and `Configs.Runtime` are mutually > exclusive */
-  Runtime?: unknown;
+  Runtime?: unknown | undefined;
   /** ConfigID represents the ID of the specific config that we're referencing. */
-  ConfigID?: string;
+  ConfigID?: string | undefined;
   /** ConfigName is the name of the config that this references, but this is just provided for lookup/display purposes. The config in the reference will be identified by its ID. */
-  ConfigName?: string;
+  ConfigName?: string | undefined;
 }
 /** Configs contains references to zero or more configs that will be exposed to the service. */
 export type TaskSpecContainerSpecConfigsList = Array<TaskSpecContainerSpecConfigsItem>;
@@ -1525,146 +1525,146 @@ export type TaskSpecContainerSpecUlimitsList = Array<HostConfigUlimitsItem>;
 /** Container spec for the service. <p><br /></p> > **Note**: ContainerSpec, NetworkAttachmentSpec, and PluginSpec are > mutually exclusive. PluginSpec is only used when the Runtime field > is set to `plugin`. NetworkAttachmentSpec is used when the Runtime > field is set to `attachment`. */
 export interface TaskSpecContainerSpec {
   /** The image name to use for the container */
-  Image?: string;
+  Image?: string | undefined;
   /** User-defined key/value data. */
-  Labels?: TaskSpecContainerSpecLabelsMap;
+  Labels?: TaskSpecContainerSpecLabelsMap | undefined;
   /** The command to be run in the image. */
-  Command?: TaskSpecContainerSpecCommandList;
+  Command?: TaskSpecContainerSpecCommandList | undefined;
   /** Arguments to the command. */
-  Args?: TaskSpecContainerSpecArgsList;
+  Args?: TaskSpecContainerSpecArgsList | undefined;
   /** The hostname to use for the container, as a valid [RFC 1123](https://tools.ietf.org/html/rfc1123) hostname. */
-  Hostname?: string;
+  Hostname?: string | undefined;
   /** A list of environment variables in the form `VAR=value`. */
-  Env?: TaskSpecContainerSpecEnvList;
+  Env?: TaskSpecContainerSpecEnvList | undefined;
   /** The working directory for commands to run in. */
-  Dir?: string;
+  Dir?: string | undefined;
   /** The user inside the container. */
-  User?: string;
+  User?: string | undefined;
   /** A list of additional groups that the container process will run as. */
-  Groups?: TaskSpecContainerSpecGroupsList;
+  Groups?: TaskSpecContainerSpecGroupsList | undefined;
   /** Security options for the container */
-  Privileges?: TaskSpecContainerSpecPrivileges;
+  Privileges?: TaskSpecContainerSpecPrivileges | undefined;
   /** Whether a pseudo-TTY should be allocated. */
-  TTY?: boolean;
+  TTY?: boolean | undefined;
   /** Open `stdin` */
-  OpenStdin?: boolean;
+  OpenStdin?: boolean | undefined;
   /** Mount the container's root filesystem as read only. */
-  ReadOnly?: boolean;
+  ReadOnly?: boolean | undefined;
   /** Specification for mounts to be added to containers created as part of the service. */
-  Mounts?: TaskSpecContainerSpecMountsList;
+  Mounts?: TaskSpecContainerSpecMountsList | undefined;
   /** Signal to stop the container. */
-  StopSignal?: string;
+  StopSignal?: string | undefined;
   /** Amount of time to wait for the container to terminate before forcefully killing it. */
-  StopGracePeriod?: number;
-  Healthcheck?: HealthConfig;
+  StopGracePeriod?: number | undefined;
+  Healthcheck?: HealthConfig | undefined;
   /** A list of hostname/IP mappings to add to the container's `hosts` file. The format of extra hosts is specified in the [hosts(5)](http://man7.org/linux/man-pages/man5/hosts.5.html) man page: IP_address canonical_hostname [aliases...] */
-  Hosts?: TaskSpecContainerSpecHostsList;
+  Hosts?: TaskSpecContainerSpecHostsList | undefined;
   /** Specification for DNS related configurations in resolver configuration file (`resolv.conf`). */
-  DNSConfig?: TaskSpecContainerSpecDNSConfig;
+  DNSConfig?: TaskSpecContainerSpecDNSConfig | undefined;
   /** Secrets contains references to zero or more secrets that will be exposed to the service. */
-  Secrets?: TaskSpecContainerSpecSecretsList;
+  Secrets?: TaskSpecContainerSpecSecretsList | undefined;
   /** An integer value containing the score given to the container in order to tune OOM killer preferences. */
-  OomScoreAdj?: number;
+  OomScoreAdj?: number | undefined;
   /** Configs contains references to zero or more configs that will be exposed to the service. */
-  Configs?: TaskSpecContainerSpecConfigsList;
+  Configs?: TaskSpecContainerSpecConfigsList | undefined;
   /** Isolation technology of the containers running the service. (Windows only) */
-  Isolation?: TaskSpecContainerSpecIsolation | (string & {});
+  Isolation?: TaskSpecContainerSpecIsolation | (string & {}) | undefined;
   /** Run an init inside the container that forwards signals and reaps processes. This field is omitted if empty, and the default (as configured on the daemon) is used. */
-  Init?: boolean | null;
+  Init?: boolean | null | undefined;
   /** Set kernel namedspaced parameters (sysctls) in the container. The Sysctls option on services accepts the same sysctls as the are supported on containers. Note that while the same sysctls are supported, no guarantees or checks are made about their suitability for a clustered environment, and it's up to the user to determine whether a given sysctl will work properly in a Service. */
-  Sysctls?: TaskSpecContainerSpecSysctlsMap;
+  Sysctls?: TaskSpecContainerSpecSysctlsMap | undefined;
   /** A list of kernel capabilities to add to the default set for the container. */
-  CapabilityAdd?: TaskSpecContainerSpecCapabilityAddList;
+  CapabilityAdd?: TaskSpecContainerSpecCapabilityAddList | undefined;
   /** A list of kernel capabilities to drop from the default set for the container. */
-  CapabilityDrop?: TaskSpecContainerSpecCapabilityDropList;
+  CapabilityDrop?: TaskSpecContainerSpecCapabilityDropList | undefined;
   /** A list of resource limits to set in the container. For example: `{"Name": "nofile", "Soft": 1024, "Hard": 2048}`" */
-  Ulimits?: TaskSpecContainerSpecUlimitsList;
+  Ulimits?: TaskSpecContainerSpecUlimitsList | undefined;
 }
 /** Read-only spec type for non-swarm containers attached to swarm overlay networks. <p><br /></p> > **Note**: ContainerSpec, NetworkAttachmentSpec, and PluginSpec are > mutually exclusive. PluginSpec is only used when the Runtime field > is set to `plugin`. NetworkAttachmentSpec is used when the Runtime > field is set to `attachment`. */
 export interface TaskSpecNetworkAttachmentSpec {
   /** ID of the container represented by this task */
-  ContainerID?: string;
+  ContainerID?: string | undefined;
 }
 /** An object describing a limit on resources which can be requested by a task. */
 export interface Limit {
-  NanoCPUs?: number;
-  MemoryBytes?: number;
+  NanoCPUs?: number | undefined;
+  MemoryBytes?: number | undefined;
   /** Limits the maximum number of PIDs in the container. Set `0` for unlimited. */
-  Pids?: number;
+  Pids?: number | undefined;
 }
 export interface GenericResourcesItemNamedResourceSpec {
-  Kind?: string;
-  Value?: string;
+  Kind?: string | undefined;
+  Value?: string | undefined;
 }
 export interface GenericResourcesItemDiscreteResourceSpec {
-  Kind?: string;
-  Value?: number;
+  Kind?: string | undefined;
+  Value?: number | undefined;
 }
 export interface GenericResourcesItem {
-  NamedResourceSpec?: GenericResourcesItemNamedResourceSpec;
-  DiscreteResourceSpec?: GenericResourcesItemDiscreteResourceSpec;
+  NamedResourceSpec?: GenericResourcesItemNamedResourceSpec | undefined;
+  DiscreteResourceSpec?: GenericResourcesItemDiscreteResourceSpec | undefined;
 }
 /** User-defined resources can be either Integer resources (e.g, `SSD=3`) or String resources (e.g, `GPU=UUID1`). */
 export type GenericResources = Array<GenericResourcesItem>;
 /** An object describing the resources which can be advertised by a node and requested by a task. */
 export interface ResourceObject {
-  NanoCPUs?: number;
-  MemoryBytes?: number;
-  GenericResources?: GenericResources;
+  NanoCPUs?: number | undefined;
+  MemoryBytes?: number | undefined;
+  GenericResources?: GenericResources | undefined;
 }
 /** Resource requirements which apply to each individual container created as part of the service. */
 export interface TaskSpecResources {
   /** Define resources limits. */
-  Limits?: Limit;
+  Limits?: Limit | undefined;
   /** Define resources reservation. */
-  Reservations?: ResourceObject;
+  Reservations?: ResourceObject | undefined;
   /** Amount of swap in bytes - can only be used together with a memory limit. If not specified, the default behaviour is to grant a swap space twice as big as the memory limit. Set to -1 to enable unlimited swap. */
-  SwapBytes?: number | null;
+  SwapBytes?: number | null | undefined;
   /** Tune the service's containers' memory swappiness (0 to 100). If not specified, defaults to the containers' OS' default, generally 60, or whatever value was predefined in the image. Set to -1 to unset a previously set value. */
-  MemorySwappiness?: number | null;
+  MemorySwappiness?: number | null | undefined;
 }
 /** Condition for restart. */
 export type TaskSpecRestartPolicyCondition = "none" | "on-failure" | "any";
 /** Specification for the restart policy which applies to containers created as part of this service. */
 export interface TaskSpecRestartPolicy {
   /** Condition for restart. */
-  Condition?: TaskSpecRestartPolicyCondition | (string & {});
+  Condition?: TaskSpecRestartPolicyCondition | (string & {}) | undefined;
   /** Delay between restart attempts. */
-  Delay?: number;
+  Delay?: number | undefined;
   /** Maximum attempts to restart a given container before giving up (default value is 0, which is ignored). */
-  MaxAttempts?: number;
+  MaxAttempts?: number | undefined;
   /** Windows is the time window used to evaluate the restart policy (default value is 0, which is unbounded). */
-  Window?: number;
+  Window?: number | undefined;
 }
 /** An array of constraint expressions to limit the set of nodes where a task can be scheduled. Constraint expressions can either use a _match_ (`==`) or _exclude_ (`!=`) rule. Multiple constraints find nodes that satisfy every expression (AND match). Constraints can match node or Docker Engine labels as follows: node attribute | matches | example ---------------------|--------------------------------|----------------------------------------------- `node.id` | Node ID | `node.id==2ivku8v2gvtg4` `node.hostname` | Node hostname | `node.hostname!=node-2` `node.role` | Node role (`manager`/`worker`) | `node.role==manager` `node.platform.os` | Node operating system | `node.platform.os==windows` `node.platform.arch` | Node architecture | `node.platform.arch==x86_64` `node.labels` | User-defined node labels | `node.labels.security==high` `engine.labels` | Docker Engine's labels | `engine.labels.operatingsystem==ubuntu-24.04` `engine.labels` apply to Docker Engine labels like operating system, drivers, etc. Swarm administrators add `node.labels` for operational purposes by using the [`node update endpoint`](#operation/NodeUpdate). */
 export type TaskSpecPlacementConstraintsList = Array<string>;
 export interface TaskSpecPlacementPreferencesItemSpread {
   /** label descriptor, such as `engine.labels.az`. */
-  SpreadDescriptor?: string;
+  SpreadDescriptor?: string | undefined;
 }
 export interface TaskSpecPlacementPreferencesItem {
-  Spread?: TaskSpecPlacementPreferencesItemSpread;
+  Spread?: TaskSpecPlacementPreferencesItemSpread | undefined;
 }
 /** Preferences provide a way to make the scheduler aware of factors such as topology. They are provided in order from highest to lowest precedence. */
 export type TaskSpecPlacementPreferencesList = Array<TaskSpecPlacementPreferencesItem>;
 /** Platform represents the platform (Arch/OS). */
 export interface Platform {
   /** Architecture represents the hardware architecture (for example, `x86_64`). */
-  Architecture?: string;
+  Architecture?: string | undefined;
   /** OS represents the Operating System (for example, `linux` or `windows`). */
-  OS?: string;
+  OS?: string | undefined;
 }
 /** Platforms stores all the platforms that the service's image can run on. This field is used in the platform filter for scheduling. If empty, then the platform filter is off, meaning there are no scheduling restrictions. */
 export type TaskSpecPlacementPlatformsList = Array<Platform>;
 export interface TaskSpecPlacement {
   /** An array of constraint expressions to limit the set of nodes where a task can be scheduled. Constraint expressions can either use a _match_ (`==`) or _exclude_ (`!=`) rule. Multiple constraints find nodes that satisfy every expression (AND match). Constraints can match node or Docker Engine labels as follows: node attribute | matches | example ---------------------|--------------------------------|----------------------------------------------- `node.id` | Node ID | `node.id==2ivku8v2gvtg4` `node.hostname` | Node hostname | `node.hostname!=node-2` `node.role` | Node role (`manager`/`worker`) | `node.role==manager` `node.platform.os` | Node operating system | `node.platform.os==windows` `node.platform.arch` | Node architecture | `node.platform.arch==x86_64` `node.labels` | User-defined node labels | `node.labels.security==high` `engine.labels` | Docker Engine's labels | `engine.labels.operatingsystem==ubuntu-24.04` `engine.labels` apply to Docker Engine labels like operating system, drivers, etc. Swarm administrators add `node.labels` for operational purposes by using the [`node update endpoint`](#operation/NodeUpdate). */
-  Constraints?: TaskSpecPlacementConstraintsList;
+  Constraints?: TaskSpecPlacementConstraintsList | undefined;
   /** Preferences provide a way to make the scheduler aware of factors such as topology. They are provided in order from highest to lowest precedence. */
-  Preferences?: TaskSpecPlacementPreferencesList;
+  Preferences?: TaskSpecPlacementPreferencesList | undefined;
   /** Maximum number of replicas for per node (default value is 0, which is unlimited) */
-  MaxReplicas?: number;
+  MaxReplicas?: number | undefined;
   /** Platforms stores all the platforms that the service's image can run on. This field is used in the platform filter for scheduling. If empty, then the platform filter is off, meaning there are no scheduling restrictions. */
-  Platforms?: TaskSpecPlacementPlatformsList;
+  Platforms?: TaskSpecPlacementPlatformsList | undefined;
 }
 /** Discoverable alternate names for the service on this network. */
 export type NetworkAttachmentConfigAliasesList = Array<string>;
@@ -1673,60 +1673,60 @@ export type NetworkAttachmentConfigDriverOptsMap = { [key: string]: string | und
 /** Specifies how a service should be attached to a particular network. */
 export interface NetworkAttachmentConfig {
   /** The target network for attachment. Must be a network name or ID. */
-  Target?: string;
+  Target?: string | undefined;
   /** Discoverable alternate names for the service on this network. */
-  Aliases?: NetworkAttachmentConfigAliasesList;
+  Aliases?: NetworkAttachmentConfigAliasesList | undefined;
   /** Driver attachment options for the network target. */
-  DriverOpts?: NetworkAttachmentConfigDriverOptsMap;
+  DriverOpts?: NetworkAttachmentConfigDriverOptsMap | undefined;
 }
 /** Specifies which networks the service should attach to. */
 export type TaskSpecNetworksList = Array<NetworkAttachmentConfig>;
 export type TaskSpecLogDriverOptionsMap = { [key: string]: string | undefined };
 /** Specifies the log driver to use for tasks created from this spec. If not present, the default one for the swarm will be used, finally falling back to the engine default if not specified. */
 export interface TaskSpecLogDriver {
-  Name?: string;
-  Options?: TaskSpecLogDriverOptionsMap;
+  Name?: string | undefined;
+  Options?: TaskSpecLogDriverOptionsMap | undefined;
 }
 /** User modifiable task configuration. */
 export interface TaskSpec {
   /** Plugin spec for the service. *(Experimental release only.)* <p><br /></p> > **Note**: ContainerSpec, NetworkAttachmentSpec, and PluginSpec are > mutually exclusive. PluginSpec is only used when the Runtime field > is set to `plugin`. NetworkAttachmentSpec is used when the Runtime > field is set to `attachment`. */
-  PluginSpec?: TaskSpecPluginSpec;
+  PluginSpec?: TaskSpecPluginSpec | undefined;
   /** Container spec for the service. <p><br /></p> > **Note**: ContainerSpec, NetworkAttachmentSpec, and PluginSpec are > mutually exclusive. PluginSpec is only used when the Runtime field > is set to `plugin`. NetworkAttachmentSpec is used when the Runtime > field is set to `attachment`. */
-  ContainerSpec?: TaskSpecContainerSpec;
+  ContainerSpec?: TaskSpecContainerSpec | undefined;
   /** Read-only spec type for non-swarm containers attached to swarm overlay networks. <p><br /></p> > **Note**: ContainerSpec, NetworkAttachmentSpec, and PluginSpec are > mutually exclusive. PluginSpec is only used when the Runtime field > is set to `plugin`. NetworkAttachmentSpec is used when the Runtime > field is set to `attachment`. */
-  NetworkAttachmentSpec?: TaskSpecNetworkAttachmentSpec;
+  NetworkAttachmentSpec?: TaskSpecNetworkAttachmentSpec | undefined;
   /** Resource requirements which apply to each individual container created as part of the service. */
-  Resources?: TaskSpecResources;
+  Resources?: TaskSpecResources | undefined;
   /** Specification for the restart policy which applies to containers created as part of this service. */
-  RestartPolicy?: TaskSpecRestartPolicy;
-  Placement?: TaskSpecPlacement;
+  RestartPolicy?: TaskSpecRestartPolicy | undefined;
+  Placement?: TaskSpecPlacement | undefined;
   /** A counter that triggers an update even if no relevant parameters have been changed. */
-  ForceUpdate?: number;
+  ForceUpdate?: number | undefined;
   /** Runtime is the type of runtime specified for the task executor. */
-  Runtime?: string;
+  Runtime?: string | undefined;
   /** Specifies which networks the service should attach to. */
-  Networks?: TaskSpecNetworksList;
+  Networks?: TaskSpecNetworksList | undefined;
   /** Specifies the log driver to use for tasks created from this spec. If not present, the default one for the swarm will be used, finally falling back to the engine default if not specified. */
-  LogDriver?: TaskSpecLogDriver;
+  LogDriver?: TaskSpecLogDriver | undefined;
 }
 export interface CreateServiceRequestModeReplicated {
-  Replicas?: number;
+  Replicas?: number | undefined;
 }
 /** The mode used for services with a finite number of tasks that run to a completed state. */
 export interface CreateServiceRequestModeReplicatedJob {
   /** The maximum number of replicas to run simultaneously. */
-  MaxConcurrent?: number;
+  MaxConcurrent?: number | undefined;
   /** The total number of replicas desired to reach the Completed state. If unset, will default to the value of `MaxConcurrent` */
-  TotalCompletions?: number;
+  TotalCompletions?: number | undefined;
 }
 /** Scheduling mode for the service. */
 export interface CreateServiceRequestMode {
-  Replicated?: CreateServiceRequestModeReplicated;
-  Global?: unknown;
+  Replicated?: CreateServiceRequestModeReplicated | undefined;
+  Global?: unknown | undefined;
   /** The mode used for services with a finite number of tasks that run to a completed state. */
-  ReplicatedJob?: CreateServiceRequestModeReplicatedJob;
+  ReplicatedJob?: CreateServiceRequestModeReplicatedJob | undefined;
   /** The mode used for services which run a task to the completed state on each valid node. */
-  GlobalJob?: unknown;
+  GlobalJob?: unknown | undefined;
 }
 /** Action to take if an updated task fails to run, or stops running during the update. */
 export type CreateServiceRequestUpdateConfigFailureAction = "continue" | "pause" | "rollback";
@@ -1735,17 +1735,17 @@ export type CreateServiceRequestUpdateConfigOrder = "stop-first" | "start-first"
 /** Specification for the update strategy of the service. */
 export interface CreateServiceRequestUpdateConfig {
   /** Maximum number of tasks to be updated in one iteration (0 means unlimited parallelism). */
-  Parallelism?: number;
+  Parallelism?: number | undefined;
   /** Amount of time between updates, in nanoseconds. */
-  Delay?: number;
+  Delay?: number | undefined;
   /** Action to take if an updated task fails to run, or stops running during the update. */
-  FailureAction?: CreateServiceRequestUpdateConfigFailureAction | (string & {});
+  FailureAction?: CreateServiceRequestUpdateConfigFailureAction | (string & {}) | undefined;
   /** Amount of time to monitor each updated task for failures, in nanoseconds. */
-  Monitor?: number;
+  Monitor?: number | undefined;
   /** The fraction of tasks that may fail during an update before the failure action is invoked, specified as a floating point number between 0 and 1. */
-  MaxFailureRatio?: number;
+  MaxFailureRatio?: number | undefined;
   /** The order of operations when rolling out an updated task. Either the old task is shut down before the new task is started, or the new task is started before the old task is shut down. */
-  Order?: CreateServiceRequestUpdateConfigOrder | (string & {});
+  Order?: CreateServiceRequestUpdateConfigOrder | (string & {}) | undefined;
 }
 /** Action to take if an rolled back task fails to run, or stops running during the rollback. */
 export type CreateServiceRequestRollbackConfigFailureAction = "continue" | "pause";
@@ -1754,17 +1754,17 @@ export type CreateServiceRequestRollbackConfigOrder = "stop-first" | "start-firs
 /** Specification for the rollback strategy of the service. */
 export interface CreateServiceRequestRollbackConfig {
   /** Maximum number of tasks to be rolled back in one iteration (0 means unlimited parallelism). */
-  Parallelism?: number;
+  Parallelism?: number | undefined;
   /** Amount of time between rollback iterations, in nanoseconds. */
-  Delay?: number;
+  Delay?: number | undefined;
   /** Action to take if an rolled back task fails to run, or stops running during the rollback. */
-  FailureAction?: CreateServiceRequestRollbackConfigFailureAction | (string & {});
+  FailureAction?: CreateServiceRequestRollbackConfigFailureAction | (string & {}) | undefined;
   /** Amount of time to monitor each rolled back task for failures, in nanoseconds. */
-  Monitor?: number;
+  Monitor?: number | undefined;
   /** The fraction of tasks that may fail during a rollback before the failure action is invoked, specified as a floating point number between 0 and 1. */
-  MaxFailureRatio?: number;
+  MaxFailureRatio?: number | undefined;
   /** The order of operations when rolling back a task. Either the old task is shut down before the new task is started, or the new task is started before the old task is shut down. */
-  Order?: CreateServiceRequestRollbackConfigOrder | (string & {});
+  Order?: CreateServiceRequestRollbackConfigOrder | (string & {}) | undefined;
 }
 /** Specifies which networks the service should attach to. Deprecated: This field is deprecated since v1.44. The Networks field in TaskSpec should be used instead. */
 export type CreateServiceRequestNetworksList = Array<NetworkAttachmentConfig>;
@@ -1774,50 +1774,50 @@ export type EndpointPortConfigProtocol = "tcp" | "udp" | "sctp";
 /** The mode in which port is published. <p><br /></p> - "ingress" makes the target port accessible on every node, regardless of whether there is a task for the service running on that node or not. - "host" bypasses the routing mesh and publish the port directly on the swarm node where that service is running. */
 export type EndpointPortConfigPublishMode = "ingress" | "host";
 export interface EndpointPortConfig {
-  Name?: string;
-  Protocol?: EndpointPortConfigProtocol | (string & {});
+  Name?: string | undefined;
+  Protocol?: EndpointPortConfigProtocol | (string & {}) | undefined;
   /** The port inside the container. */
-  TargetPort?: number;
+  TargetPort?: number | undefined;
   /** The port on the swarm hosts. */
-  PublishedPort?: number;
+  PublishedPort?: number | undefined;
   /** The mode in which port is published. <p><br /></p> - "ingress" makes the target port accessible on every node, regardless of whether there is a task for the service running on that node or not. - "host" bypasses the routing mesh and publish the port directly on the swarm node where that service is running. */
-  PublishMode?: EndpointPortConfigPublishMode | (string & {});
+  PublishMode?: EndpointPortConfigPublishMode | (string & {}) | undefined;
 }
 /** List of exposed ports that this service is accessible on from the outside. Ports can only be provided if `vip` resolution mode is used. */
 export type EndpointSpecPortsList = Array<EndpointPortConfig>;
 /** Properties that can be configured to access and load balance a service. */
 export interface EndpointSpec {
   /** The mode of resolution to use for internal load balancing between tasks. */
-  Mode?: EndpointSpecMode | (string & {});
+  Mode?: EndpointSpecMode | (string & {}) | undefined;
   /** List of exposed ports that this service is accessible on from the outside. Ports can only be provided if `vip` resolution mode is used. */
-  Ports?: EndpointSpecPortsList;
+  Ports?: EndpointSpecPortsList | undefined;
 }
 export interface CreateServiceRequest {
   /** A base64url-encoded auth configuration for pulling from private registries. Refer to the [authentication section](#section/Authentication) for details. */
-  xRegistryAuth?: string;
+  xRegistryAuth?: string | undefined;
   /** Name of the service. */
-  Name?: string;
+  Name?: string | undefined;
   /** User-defined key/value metadata. */
-  Labels?: CreateServiceRequestLabelsMap;
-  TaskTemplate?: TaskSpec;
+  Labels?: CreateServiceRequestLabelsMap | undefined;
+  TaskTemplate?: TaskSpec | undefined;
   /** Scheduling mode for the service. */
-  Mode?: CreateServiceRequestMode;
+  Mode?: CreateServiceRequestMode | undefined;
   /** Specification for the update strategy of the service. */
-  UpdateConfig?: CreateServiceRequestUpdateConfig;
+  UpdateConfig?: CreateServiceRequestUpdateConfig | undefined;
   /** Specification for the rollback strategy of the service. */
-  RollbackConfig?: CreateServiceRequestRollbackConfig;
+  RollbackConfig?: CreateServiceRequestRollbackConfig | undefined;
   /** Specifies which networks the service should attach to. Deprecated: This field is deprecated since v1.44. The Networks field in TaskSpec should be used instead. */
-  Networks?: CreateServiceRequestNetworksList;
-  EndpointSpec?: EndpointSpec;
+  Networks?: CreateServiceRequestNetworksList | undefined;
+  EndpointSpec?: EndpointSpec | undefined;
 }
 /** Optional warning message. FIXME(thaJeztah): this should have "omitempty" in the generated type. */
 export type ServiceCreateResponseWarningsList = Array<string>;
 /** contains the information returned to a client on the creation of a new service. */
 export interface ServiceCreateResponse {
   /** The ID of the created service. */
-  ID?: string;
+  ID?: string | undefined;
   /** Optional warning message. FIXME(thaJeztah): this should have "omitempty" in the generated type. */
-  Warnings?: ServiceCreateResponseWarningsList | null;
+  Warnings?: ServiceCreateResponseWarningsList | null | undefined;
 }
 /** A mapping of driver options and values. These options are passed directly to the driver and are driver specific. */
 export type CreateVolumeRequestDriverOptsMap = { [key: string]: string | undefined };
@@ -1830,16 +1830,16 @@ export type ClusterVolumeSpecAccessModeSharing = "none" | "readonly" | "onewrite
 /** One cluster volume secret entry. Defines a key-value pair that is passed to the plugin. */
 export interface ClusterVolumeSpecAccessModeSecretsItem {
   /** Key is the name of the key of the key-value pair passed to the plugin. */
-  Key?: string;
+  Key?: string | undefined;
   /** Secret is the swarm Secret object from which to read data. This can be a Secret name or ID. The Secret data is retrieved by swarm and used as the value of the key-value pair passed to the plugin. */
-  Secret?: string | Redacted.Redacted<string>;
+  Secret?: string | Redacted.Redacted<string> | undefined;
 }
 /** Swarm Secrets that are passed to the CSI storage plugin when operating on this volume. */
 export type ClusterVolumeSpecAccessModeSecretsList = Array<ClusterVolumeSpecAccessModeSecretsItem>;
 export type TopologySegmentsMap = { [key: string]: string | undefined };
 /** A map of topological domains to topological segments. For in depth details, see documentation for the Topology object in the CSI specification. */
 export interface Topology {
-  Segments?: TopologySegmentsMap;
+  Segments?: TopologySegmentsMap | undefined;
 }
 /** A list of required topologies, at least one of which the volume must be accessible from. */
 export type ClusterVolumeSpecAccessModeAccessibilityRequirementsRequisiteList = Array<Topology>;
@@ -1848,53 +1848,53 @@ export type ClusterVolumeSpecAccessModeAccessibilityRequirementsPreferredList = 
 /** Requirements for the accessible topology of the volume. These fields are optional. For an in-depth description of what these fields mean, see the CSI specification. */
 export interface ClusterVolumeSpecAccessModeAccessibilityRequirements {
   /** A list of required topologies, at least one of which the volume must be accessible from. */
-  Requisite?: ClusterVolumeSpecAccessModeAccessibilityRequirementsRequisiteList;
+  Requisite?: ClusterVolumeSpecAccessModeAccessibilityRequirementsRequisiteList | undefined;
   /** A list of topologies that the volume should attempt to be provisioned in. */
-  Preferred?: ClusterVolumeSpecAccessModeAccessibilityRequirementsPreferredList;
+  Preferred?: ClusterVolumeSpecAccessModeAccessibilityRequirementsPreferredList | undefined;
 }
 /** The desired capacity that the volume should be created with. If empty, the plugin will decide the capacity. */
 export interface ClusterVolumeSpecAccessModeCapacityRange {
   /** The volume must be at least this big. The value of 0 indicates an unspecified minimum */
-  RequiredBytes?: number;
+  RequiredBytes?: number | undefined;
   /** The volume must not be bigger than this. The value of 0 indicates an unspecified maximum. */
-  LimitBytes?: number;
+  LimitBytes?: number | undefined;
 }
 /** The availability of the volume for use in tasks. - `active` The volume is fully available for scheduling on the cluster - `pause` No new workloads should use the volume, but existing workloads are not stopped. - `drain` All workloads using this volume should be stopped and rescheduled, and no new ones should be started. */
 export type ClusterVolumeSpecAccessModeAvailability = "active" | "pause" | "drain";
 /** Defines how the volume is used by tasks. */
 export interface ClusterVolumeSpecAccessMode {
   /** The set of nodes this volume can be used on at one time. - `single` The volume may only be scheduled to one node at a time. - `multi` the volume may be scheduled to any supported number of nodes at a time. */
-  Scope?: ClusterVolumeSpecAccessModeScope | (string & {});
+  Scope?: ClusterVolumeSpecAccessModeScope | (string & {}) | undefined;
   /** The number and way that different tasks can use this volume at one time. - `none` The volume may only be used by one task at a time. - `readonly` The volume may be used by any number of tasks, but they all must mount the volume as readonly - `onewriter` The volume may be used by any number of tasks, but only one may mount it as read/write. - `all` The volume may have any number of readers and writers. */
-  Sharing?: ClusterVolumeSpecAccessModeSharing | (string & {});
+  Sharing?: ClusterVolumeSpecAccessModeSharing | (string & {}) | undefined;
   /** Options for using this volume as a Mount-type volume. Either MountVolume or BlockVolume, but not both, must be present. properties: FsType: type: "string" description: | Specifies the filesystem type for the mount volume. Optional. MountFlags: type: "array" description: | Flags to pass when mounting the volume. Optional. items: type: "string" BlockVolume: type: "object" description: | Options for using this volume as a Block-type volume. Intentionally empty. */
-  MountVolume?: unknown;
+  MountVolume?: unknown | undefined;
   /** Swarm Secrets that are passed to the CSI storage plugin when operating on this volume. */
-  Secrets?: ClusterVolumeSpecAccessModeSecretsList;
+  Secrets?: ClusterVolumeSpecAccessModeSecretsList | undefined;
   /** Requirements for the accessible topology of the volume. These fields are optional. For an in-depth description of what these fields mean, see the CSI specification. */
-  AccessibilityRequirements?: ClusterVolumeSpecAccessModeAccessibilityRequirements;
+  AccessibilityRequirements?: ClusterVolumeSpecAccessModeAccessibilityRequirements | undefined;
   /** The desired capacity that the volume should be created with. If empty, the plugin will decide the capacity. */
-  CapacityRange?: ClusterVolumeSpecAccessModeCapacityRange;
+  CapacityRange?: ClusterVolumeSpecAccessModeCapacityRange | undefined;
   /** The availability of the volume for use in tasks. - `active` The volume is fully available for scheduling on the cluster - `pause` No new workloads should use the volume, but existing workloads are not stopped. - `drain` All workloads using this volume should be stopped and rescheduled, and no new ones should be started. */
-  Availability?: ClusterVolumeSpecAccessModeAvailability | (string & {});
+  Availability?: ClusterVolumeSpecAccessModeAvailability | (string & {}) | undefined;
 }
 /** Cluster-specific options used to create the volume. */
 export interface ClusterVolumeSpec {
   /** Group defines the volume group of this volume. Volumes belonging to the same group can be referred to by group name when creating Services. Referring to a volume by group instructs Swarm to treat volumes in that group interchangeably for the purpose of scheduling. Volumes with an empty string for a group technically all belong to the same, emptystring group. */
-  Group?: string;
+  Group?: string | undefined;
   /** Defines how the volume is used by tasks. */
-  AccessMode?: ClusterVolumeSpecAccessMode;
+  AccessMode?: ClusterVolumeSpecAccessMode | undefined;
 }
 export interface CreateVolumeRequest {
   /** The new volume's name. If not specified, Docker generates a name. */
-  Name?: string;
+  Name?: string | undefined;
   /** Name of the volume driver to use. */
-  Driver?: string;
+  Driver?: string | undefined;
   /** A mapping of driver options and values. These options are passed directly to the driver and are driver specific. */
-  DriverOpts?: CreateVolumeRequestDriverOptsMap;
+  DriverOpts?: CreateVolumeRequestDriverOptsMap | undefined;
   /** User-defined key/value metadata. */
-  Labels?: CreateVolumeRequestLabelsMap;
-  ClusterVolumeSpec?: ClusterVolumeSpec;
+  Labels?: CreateVolumeRequestLabelsMap | undefined;
+  ClusterVolumeSpec?: ClusterVolumeSpec | undefined;
 }
 /** Low-level details about the volume, provided by the volume driver. Details are returned as a map with key/value pairs: `{"key":"value","key2":"value2"}`. The `Status` field is optional, and is omitted if the volume driver does not support this feature. */
 export type VolumeStatusMap = { [key: string]: unknown | undefined };
@@ -1909,13 +1909,13 @@ export type ClusterVolumeInfoAccessibleTopologyList = Array<Topology>;
 /** Information about the global status of the volume. */
 export interface ClusterVolumeInfo {
   /** The capacity of the volume in bytes. A value of 0 indicates that the capacity is unknown. */
-  CapacityBytes?: number;
+  CapacityBytes?: number | undefined;
   /** A map of strings to strings returned from the storage plugin when the volume is created. */
-  VolumeContext?: ClusterVolumeInfoVolumeContextMap;
+  VolumeContext?: ClusterVolumeInfoVolumeContextMap | undefined;
   /** The ID of the volume as returned by the CSI storage plugin. This is distinct from the volume's ID as provided by Docker. This ID is never used by the user when communicating with Docker to refer to this volume. If the ID is blank, then the Volume has not been successfully created in the plugin yet. */
-  VolumeID?: string;
+  VolumeID?: string | undefined;
   /** The topology this volume is actually accessible from. */
-  AccessibleTopology?: ClusterVolumeInfoAccessibleTopologyList;
+  AccessibleTopology?: ClusterVolumeInfoAccessibleTopologyList | undefined;
 }
 /** The published state of the volume. * `pending-publish` The volume should be published to this node, but the call to the controller plugin to do so has not yet been successfully completed. * `published` The volume is published successfully to the node. * `pending-node-unpublish` The volume should be unpublished from the node, and the manager is awaiting confirmation from the worker that it has done so. * `pending-controller-unpublish` The volume is successfully unpublished from the node, but has not yet been successfully unpublished on the controller. */
 export type ClusterVolumePublishStatusItemState =
@@ -1927,26 +1927,26 @@ export type ClusterVolumePublishStatusItemState =
 export type ClusterVolumePublishStatusItemPublishContextMap = { [key: string]: string | undefined };
 export interface ClusterVolumePublishStatusItem {
   /** The ID of the Swarm node the volume is published on. */
-  NodeID?: string;
+  NodeID?: string | undefined;
   /** The published state of the volume. * `pending-publish` The volume should be published to this node, but the call to the controller plugin to do so has not yet been successfully completed. * `published` The volume is published successfully to the node. * `pending-node-unpublish` The volume should be unpublished from the node, and the manager is awaiting confirmation from the worker that it has done so. * `pending-controller-unpublish` The volume is successfully unpublished from the node, but has not yet been successfully unpublished on the controller. */
-  State?: ClusterVolumePublishStatusItemState;
+  State?: ClusterVolumePublishStatusItemState | undefined;
   /** A map of strings to strings returned by the CSI controller plugin when a volume is published. */
-  PublishContext?: ClusterVolumePublishStatusItemPublishContextMap;
+  PublishContext?: ClusterVolumePublishStatusItemPublishContextMap | undefined;
 }
 /** The status of the volume as it pertains to its publishing and use on specific nodes */
 export type ClusterVolumePublishStatusList = Array<ClusterVolumePublishStatusItem>;
 /** Options and information specific to, and only present on, Swarm CSI cluster volumes. */
 export interface ClusterVolume {
   /** The Swarm ID of this volume. Because cluster volumes are Swarm objects, they have an ID, unlike non-cluster volumes. This ID can be used to refer to the Volume instead of the name. */
-  ID?: string;
-  Version?: ObjectVersion;
-  CreatedAt?: string;
-  UpdatedAt?: string;
-  Spec?: ClusterVolumeSpec;
+  ID?: string | undefined;
+  Version?: ObjectVersion | undefined;
+  CreatedAt?: string | undefined;
+  UpdatedAt?: string | undefined;
+  Spec?: ClusterVolumeSpec | undefined;
   /** Information about the global status of the volume. */
-  Info?: ClusterVolumeInfo;
+  Info?: ClusterVolumeInfo | undefined;
   /** The status of the volume as it pertains to its publishing and use on specific nodes */
-  PublishStatus?: ClusterVolumePublishStatusList;
+  PublishStatus?: ClusterVolumePublishStatusList | undefined;
 }
 /** The driver specific options used when creating the volume. */
 export type VolumeOptionsMap = { [key: string]: string | undefined };
@@ -1965,18 +1965,18 @@ export interface Volume {
   /** Mount path of the volume on the host. */
   Mountpoint: string;
   /** Date/Time the volume was created. */
-  CreatedAt?: string;
+  CreatedAt?: string | undefined;
   /** Low-level details about the volume, provided by the volume driver. Details are returned as a map with key/value pairs: `{"key":"value","key2":"value2"}`. The `Status` field is optional, and is omitted if the volume driver does not support this feature. */
-  Status?: VolumeStatusMap;
+  Status?: VolumeStatusMap | undefined;
   /** User-defined key/value metadata. */
   Labels: VolumeLabelsMap;
   /** The level at which the volume exists. Either `global` for cluster-wide, or `local` for machine level. */
   Scope: VolumeScope;
-  ClusterVolume?: ClusterVolume;
+  ClusterVolume?: ClusterVolume | undefined;
   /** The driver specific options used when creating the volume. */
   Options: VolumeOptionsMap;
   /** Usage details about the volume. This information is used by the `GET /system/df` endpoint, and omitted in other endpoints. */
-  UsageData?: VolumeUsageData | null;
+  UsageData?: VolumeUsageData | null | undefined;
 }
 export interface DeleteConfigRequest {
   /** ID of the config */
@@ -1987,11 +1987,11 @@ export interface DeleteContainerRequest {
   /** ID or name of the container */
   id: string;
   /** Remove anonymous volumes associated with the container. */
-  v?: boolean;
+  v?: boolean | undefined;
   /** If the container is running, kill it before removing it. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Remove the specified link associated with the container. */
-  link?: boolean;
+  link?: boolean | undefined;
 }
 export interface DeleteContainerResponse {}
 export type DeleteImageRequestPlatformsList = Array<string>;
@@ -1999,17 +1999,17 @@ export interface DeleteImageRequest {
   /** Image name or ID */
   name: string;
   /** Remove the image even if it is being used by stopped containers or has other tags */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Do not delete untagged parent images */
-  noprune?: boolean;
+  noprune?: boolean | undefined;
   /** Select platform-specific content to delete. Repeat the parameter to select multiple platforms. Each platform is a OCI platform encoded as a JSON string. */
-  platforms?: DeleteImageRequestPlatformsList;
+  platforms?: DeleteImageRequestPlatformsList | undefined;
 }
 export interface ImageDeleteResponseItem {
   /** The image ID of an image that was untagged */
-  Untagged?: string;
+  Untagged?: string | undefined;
   /** The image ID of an image that was deleted */
-  Deleted?: string;
+  Deleted?: string | undefined;
 }
 export type DeleteImageResponseBodyList = Array<ImageDeleteResponseItem>;
 export type DeleteImageResponse = DeleteImageResponseBodyList;
@@ -2022,14 +2022,14 @@ export interface DeleteNodeRequest {
   /** The ID or name of the node */
   id: string;
   /** Force remove a node from the swarm */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteNodeResponse {}
 export interface DeletePluginRequest {
   /** The name of the plugin. The `:latest` tag is optional, and is the default if omitted. */
   name: string;
   /** Disable the plugin before removing. This may result in issues if the plugin is in use by a container. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export type PluginMountSettableList = Array<string>;
 export type PluginMountOptionsList = Array<string>;
@@ -2068,12 +2068,12 @@ export interface PluginConfigInterface {
   Types: PluginConfigInterfaceTypesList;
   Socket: string;
   /** Protocol to use for clients connecting to the plugin. */
-  ProtocolScheme?: PluginConfigInterfaceProtocolScheme;
+  ProtocolScheme?: PluginConfigInterfaceProtocolScheme | undefined;
 }
 export type PluginConfigEntrypointList = Array<string>;
 export interface PluginConfigUser {
-  UID?: number;
-  GID?: number;
+  UID?: number | undefined;
+  GID?: number | undefined;
 }
 export interface PluginConfigNetwork {
   Type: string;
@@ -2104,8 +2104,8 @@ export interface PluginConfigArgs {
 }
 export type PluginConfigRootfsDiffIdsList = Array<string>;
 export interface PluginConfigRootfs {
-  type?: string;
-  diff_ids?: PluginConfigRootfsDiffIdsList;
+  type?: string | undefined;
+  diff_ids?: PluginConfigRootfsDiffIdsList | undefined;
 }
 /** The config of a plugin. */
 export interface PluginConfig {
@@ -2115,7 +2115,7 @@ export interface PluginConfig {
   Interface: PluginConfigInterface;
   Entrypoint: PluginConfigEntrypointList;
   WorkDir: string;
-  User?: PluginConfigUser;
+  User?: PluginConfigUser | undefined;
   Network: PluginConfigNetwork;
   Linux: PluginConfigLinux;
   PropagatedMount: string;
@@ -2124,18 +2124,18 @@ export interface PluginConfig {
   Mounts: PluginConfigMountsList;
   Env: PluginConfigEnvList;
   Args: PluginConfigArgs;
-  rootfs?: PluginConfigRootfs;
+  rootfs?: PluginConfigRootfs | undefined;
 }
 /** A plugin for the Engine API */
 export interface Plugin {
-  Id?: string;
+  Id?: string | undefined;
   Name: string;
   /** True if the plugin is running. False if the plugin is not running, only installed. */
   Enabled: boolean;
   /** user-configurable settings for the plugin. */
   Settings: PluginSettings;
   /** plugin remote reference used to push/pull the plugin */
-  PluginReference?: string;
+  PluginReference?: string | undefined;
   /** The config of a plugin. */
   Config: PluginConfig;
 }
@@ -2153,14 +2153,14 @@ export interface DeleteVolumeRequest {
   /** Volume name or ID */
   name: string;
   /** Force the removal of the volume */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteVolumeResponse {}
 export interface DisablePluginRequest {
   /** The name of the plugin. The `:latest` tag is optional, and is the default if omitted. */
   name: string;
   /** Force disable a plugin even if still in use. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DisablePluginResponse {}
 export interface DisconnectNetworkRequest {
@@ -2169,7 +2169,7 @@ export interface DisconnectNetworkRequest {
   /** The ID or name of the container to disconnect from the network. */
   Container: string;
   /** Force the container to disconnect from the network. */
-  Force?: boolean;
+  Force?: boolean | undefined;
 }
 export interface DisconnectNetworkResponse {}
 export interface DistributionInspectRequest {
@@ -2188,7 +2188,7 @@ export interface EnablePluginRequest {
   /** The name of the plugin. The `:latest` tag is optional, and is the default if omitted. */
   name: string;
   /** Set the HTTP client timeout (in seconds) */
-  timeout?: number;
+  timeout?: number | undefined;
 }
 export interface EnablePluginResponse {}
 /** Initial console size, as an `[height, width]` array. */
@@ -2201,27 +2201,27 @@ export interface ExecContainerRequest {
   /** ID or name of container */
   id: string;
   /** Attach to `stdin` of the exec command. */
-  AttachStdin?: boolean;
+  AttachStdin?: boolean | undefined;
   /** Attach to `stdout` of the exec command. */
-  AttachStdout?: boolean;
+  AttachStdout?: boolean | undefined;
   /** Attach to `stderr` of the exec command. */
-  AttachStderr?: boolean;
+  AttachStderr?: boolean | undefined;
   /** Initial console size, as an `[height, width]` array. */
-  ConsoleSize?: ExecContainerRequestConsoleSizeList | null;
+  ConsoleSize?: ExecContainerRequestConsoleSizeList | null | undefined;
   /** Override the key sequence for detaching a container. Format is a single character `[a-Z]` or `ctrl-<value>` where `<value>` is one of: `a-z`, `@`, `^`, `[`, `,` or `_`. */
-  DetachKeys?: string;
+  DetachKeys?: string | undefined;
   /** Allocate a pseudo-TTY. */
-  Tty?: boolean;
+  Tty?: boolean | undefined;
   /** A list of environment variables in the form `["VAR=value", ...]`. */
-  Env?: ExecContainerRequestEnvList;
+  Env?: ExecContainerRequestEnvList | undefined;
   /** Command to run, as a string or array of strings. */
-  Cmd?: ExecContainerRequestCmdList;
+  Cmd?: ExecContainerRequestCmdList | undefined;
   /** Runs the exec process with extended privileges. */
-  Privileged?: boolean;
+  Privileged?: boolean | undefined;
   /** The user, and optionally, group to run the exec process inside the container. Format is one of: `user`, `user:group`, `uid`, or `uid:gid`. */
-  User?: string;
+  User?: string | undefined;
   /** The working directory for the exec process inside the container. */
-  WorkingDir?: string;
+  WorkingDir?: string | undefined;
 }
 export interface ExecInspectRequest {
   /** Exec instance ID */
@@ -2229,25 +2229,25 @@ export interface ExecInspectRequest {
 }
 export type ProcessConfigArgumentsList = Array<string>;
 export interface ProcessConfig {
-  privileged?: boolean;
-  user?: string;
-  tty?: boolean;
-  entrypoint?: string;
-  arguments?: ProcessConfigArgumentsList;
+  privileged?: boolean | undefined;
+  user?: string | undefined;
+  tty?: boolean | undefined;
+  entrypoint?: string | undefined;
+  arguments?: ProcessConfigArgumentsList | undefined;
 }
 export interface ExecInspectResponse {
-  CanRemove?: boolean;
-  DetachKeys?: string;
-  ID?: string;
-  Running?: boolean;
-  ExitCode?: number;
-  ProcessConfig?: ProcessConfig;
-  OpenStdin?: boolean;
-  OpenStderr?: boolean;
-  OpenStdout?: boolean;
-  ContainerID?: string;
+  CanRemove?: boolean | undefined;
+  DetachKeys?: string | undefined;
+  ID?: string | undefined;
+  Running?: boolean | undefined;
+  ExitCode?: number | undefined;
+  ProcessConfig?: ProcessConfig | undefined;
+  OpenStdin?: boolean | undefined;
+  OpenStderr?: boolean | undefined;
+  OpenStdout?: boolean | undefined;
+  ContainerID?: string | undefined;
   /** The system process ID for the exec process. */
-  Pid?: number;
+  Pid?: number | undefined;
 }
 export interface ExecResizeRequest {
   /** Exec instance ID */
@@ -2264,11 +2264,11 @@ export interface ExecStartRequest {
   /** Exec instance ID */
   id: string;
   /** Detach from the command. */
-  Detach?: boolean;
+  Detach?: boolean | undefined;
   /** Allocate a pseudo-TTY. */
-  Tty?: boolean;
+  Tty?: boolean | undefined;
   /** Initial console size, as an `[height, width]` array. */
-  ConsoleSize?: ExecStartRequestConsoleSizeList | null;
+  ConsoleSize?: ExecStartRequestConsoleSizeList | null | undefined;
 }
 export interface ExecStartResponse {}
 export interface ExportContainerRequest {
@@ -2281,7 +2281,7 @@ export interface GetImageRequest {
   /** Image name or ID */
   name: string;
   /** JSON encoded OCI platform describing a platform which will be used to select a platform-specific image to be saved if the image is multi-platform. If not provided, the full multi-platform image will be saved. Example: `{"os": "linux", "architecture": "arm", "variant": "v5"}` */
-  platform?: GetImageRequestPlatformList;
+  platform?: GetImageRequestPlatformList | undefined;
 }
 export type GetImageResponse = string;
 export interface GetPluginPrivilegesRequest {
@@ -2296,11 +2296,11 @@ export interface ImageAttestationsRequest {
   /** Image name or id */
   name: string;
   /** JSON-encoded OCI platform to select the image variant whose attestations to return. If omitted, the daemon's default (host) platform is used. Only one platform value is currently accepted; passing more than one returns an error. The parameter is declared as an array so the wire shape can accept multiple values in the future without an API version bump. Example: `{"os": "linux", "architecture": "amd64"}` */
-  platform?: ImageAttestationsRequestPlatformList;
+  platform?: ImageAttestationsRequestPlatformList | undefined;
   /** In-toto predicate type URI to filter returned statements. May be repeated to accept any of several predicate types. If omitted, all statements are returned. Example: `type=https://slsa.dev/provenance/v0.2&type=https://spdx.dev/Document` */
-  type?: ImageAttestationsRequestTypeList;
+  type?: ImageAttestationsRequestTypeList | undefined;
   /** Include the verbatim in-toto statement body in each returned entry. Defaults to false; when omitted or false, only the descriptor and predicate type are returned and statement blobs are not read. */
-  statement?: boolean;
+  statement?: boolean | undefined;
 }
 /** AttestationStatement is a single in-toto statement attached to an image. */
 export interface AttestationStatement {
@@ -2308,81 +2308,81 @@ export interface AttestationStatement {
   /** The in-toto predicate type URI of this statement. */
   PredicateType: string;
   /** The verbatim in-toto statement JSON. Only included when the caller opts in via the `statement=true` query parameter; otherwise absent. */
-  Statement?: unknown | null;
+  Statement?: unknown | null | undefined;
 }
 export type ImageAttestationsResponseBodyList = Array<AttestationStatement>;
 export type ImageAttestationsResponse = ImageAttestationsResponseBodyList;
 export type ImageBuildRequestVersion = "1" | "2";
 export interface ImageBuildRequest {
   /** Path within the build context to the `Dockerfile`. This is ignored if `remote` is specified and points to an external `Dockerfile`. */
-  dockerfile?: string;
+  dockerfile?: string | undefined;
   /** A name and optional tag to apply to the image in the `name:tag` format. If you omit the tag the default `latest` value is assumed. You can provide several `t` parameters. */
-  t?: string;
+  t?: string | undefined;
   /** Extra hosts to add to /etc/hosts */
-  extrahosts?: string;
+  extrahosts?: string | undefined;
   /** A Git repository URI or HTTP/HTTPS context URI. If the URI points to a single text file, the file's contents are placed into a file called `Dockerfile` and the image is built from that file. If the URI points to a tarball, the file is downloaded by the daemon and the contents therein used as the context for the build. If the URI points to a tarball and the `dockerfile` parameter is also specified, there must be a file with the corresponding path inside the tarball. */
-  remote?: string;
+  remote?: string | undefined;
   /** Suppress verbose build output. */
-  q?: boolean;
+  q?: boolean | undefined;
   /** Do not use the cache when building the image. */
-  nocache?: boolean;
+  nocache?: boolean | undefined;
   /** JSON array of images used for build cache resolution. */
-  cachefrom?: string;
+  cachefrom?: string | undefined;
   /** Attempt to pull the image even if an older image exists locally. */
-  pull?: string;
+  pull?: string | undefined;
   /** Remove intermediate containers after a successful build. */
-  rm?: boolean;
+  rm?: boolean | undefined;
   /** Always remove intermediate containers, even upon failure. */
-  forcerm?: boolean;
+  forcerm?: boolean | undefined;
   /** Set memory limit for build. */
-  memory?: number;
+  memory?: number | undefined;
   /** Total memory (memory + swap). Set as `-1` to disable swap. */
-  memswap?: number;
+  memswap?: number | undefined;
   /** CPU shares (relative weight). */
-  cpushares?: number;
+  cpushares?: number | undefined;
   /** CPUs in which to allow execution (e.g., `0-3`, `0,1`). */
-  cpusetcpus?: string;
+  cpusetcpus?: string | undefined;
   /** The length of a CPU period in microseconds. */
-  cpuperiod?: number;
+  cpuperiod?: number | undefined;
   /** Microseconds of CPU time that the container can get in a CPU period. */
-  cpuquota?: number;
+  cpuquota?: number | undefined;
   /** JSON map of string pairs for build-time variables. Users pass these values at build-time. Docker uses the buildargs as the environment context for commands run via the `Dockerfile` RUN instruction, or for variable expansion in other `Dockerfile` instructions. This is not meant for passing secret values. For example, the build arg `FOO=bar` would become `{"FOO":"bar"}` in JSON. This would result in the query parameter `buildargs={"FOO":"bar"}`. Note that `{"FOO":"bar"}` should be URI component encoded. [Read more about the buildargs instruction.](https://docs.docker.com/engine/reference/builder/#arg) */
-  buildargs?: string;
+  buildargs?: string | undefined;
   /** Size of `/dev/shm` in bytes. The size must be greater than 0. If omitted the system uses 64MB. */
-  shmsize?: number;
+  shmsize?: number | undefined;
   /** Squash the resulting images layers into a single layer. *(Experimental release only.)* */
-  squash?: boolean;
+  squash?: boolean | undefined;
   /** Arbitrary key/value labels to set on the image, as a JSON map of string pairs. */
-  labels?: string;
+  labels?: string | undefined;
   /** Sets the networking mode for the run commands during build. Supported standard values are: `bridge`, `host`, `none`, and `container:<name|id>`. Any other value is taken as a custom network's name or ID to which this container should connect to. */
-  networkmode?: string;
+  networkmode?: string | undefined;
   /** Platform in the format os[/arch[/variant]] */
-  platform?: string;
+  platform?: string | undefined;
   /** Target build stage */
-  target?: string;
+  target?: string | undefined;
   /** BuildKit output configuration in the format of a stringified JSON array of objects. Each object must have two top-level properties: `Type` and `Attrs`. The `Type` property must be set to 'moby'. The `Attrs` property is a map of attributes for the BuildKit output configuration. See https://docs.docker.com/build/exporters/oci-docker/ for more information. Example: ``` [{"Type":"moby","Attrs":{"type":"image","force-compression":"true","compression":"zstd"}}] ``` */
-  outputs?: string;
+  outputs?: string | undefined;
   /** Version of the builder backend to use. - `1` is the first generation classic (deprecated) builder in the Docker daemon (default) - `2` is [BuildKit](https://github.com/moby/buildkit) */
-  version?: ImageBuildRequestVersion | (string & {});
+  version?: ImageBuildRequestVersion | (string & {}) | undefined;
   /** This is a base64-encoded JSON object with auth configurations for multiple registries that a build may refer to. The key is a registry URL, and the value is an auth configuration object, [as described in the authentication section](#section/Authentication). For example: ``` { "docker.example.com": { "username": "janedoe", "password": "hunter2" }, "https://index.docker.io/v1/": { "username": "mobydock", "password": "conta1n3rize14" } } ``` Only the registry domain name (and port if not the default 443) are required. However, for legacy reasons, the Docker Hub registry must be specified with both a `https://` prefix and a `/v1/` suffix even though Docker will prefer to use the v2 registry API. */
-  xRegistryConfig?: string;
-  body?: string;
+  xRegistryConfig?: string | undefined;
+  body?: string | undefined;
 }
 export interface ImageBuildResponse {}
 export type ImageGetAllRequestNamesList = Array<string>;
 export type ImageGetAllRequestPlatformList = Array<string>;
 export interface ImageGetAllRequest {
   /** Image names to filter by. Repeat the parameter for multiple images. */
-  names?: ImageGetAllRequestNamesList;
+  names?: ImageGetAllRequestNamesList | undefined;
   /** JSON encoded OCI platform(s) which will be used to select the platform-specific image(s) to be saved if the image is multi-platform. If not provided, the full multi-platform image will be saved. Example: `{"os": "linux", "architecture": "arm", "variant": "v5"}` */
-  platform?: ImageGetAllRequestPlatformList;
+  platform?: ImageGetAllRequestPlatformList | undefined;
 }
 export type ImageGetAllResponse = string;
 export interface ImageHistoryRequest {
   /** Image name or ID */
   name: string;
   /** JSON-encoded OCI platform to select the platform-variant. If omitted, it defaults to any locally available platform, prioritizing the daemon's host platform. If the daemon provides a multi-platform image store, this selects the platform-variant to show the history for. If the image is a single-platform image, or if the multi-platform image does not provide a variant matching the given platform, an error is returned. Example: `{"os": "linux", "architecture": "arm", "variant": "v5"}` */
-  platform?: string;
+  platform?: string | undefined;
 }
 export type ImageHistoryResponseItemTagsList = Array<string>;
 /** individual image layer information in response to ImageHistory operation */
@@ -2400,9 +2400,9 @@ export interface ImageInspectRequest {
   /** Image name or id */
   name: string;
   /** Include Manifests in the image summary. The `manifests` and `platform` options are mutually exclusive, and an error is produced if both are set. */
-  manifests?: boolean;
+  manifests?: boolean | undefined;
   /** JSON-encoded OCI platform to select the platform-variant. If omitted, it defaults to any locally available platform, prioritizing the daemon's host platform. If the daemon provides a multi-platform image store, this selects the platform-variant to show inspect. If the image is a single-platform image, or if the multi-platform image does not provide a variant matching the given platform, an error is returned. The `platform` and `manifests` options are mutually exclusive, and an error is produced if both are set. Example: `{"os": "linux", "architecture": "arm", "variant": "v5"}` */
-  platform?: string;
+  platform?: string | undefined;
 }
 export interface ImageManifestSummarySize {
   /** Total is the total size (in bytes) of all the locally present data (both distributable and non-distributable) that's related to this manifest and its children. This equal to the sum of [Content] size AND all the sizes in the [Size] struct present in the Kind-specific data struct. For example, for an image kind (Kind == "image") this would include the size of the image content and unpacked image snapshots ([Size.Content] + [ImageData.Size.Unpacked]). */
@@ -2416,9 +2416,9 @@ export type ImageManifestSummaryKind = "image" | "attestation" | "unknown";
 export type SignatureTimestampType = "Tlog" | "TimestampAuthority";
 /** SignatureTimestamp contains information about a verified signed timestamp for an image signature. */
 export interface SignatureTimestamp {
-  Type?: SignatureTimestampType;
-  URI?: string;
-  Timestamp?: string;
+  Type?: SignatureTimestampType | undefined;
+  URI?: string | undefined;
+  Timestamp?: string | undefined;
 }
 /** Timestamps contains a list of verified signed timestamps for the signature. */
 export type SignatureIdentityTimestampsList = Array<SignatureTimestamp>;
@@ -2427,39 +2427,39 @@ export type KnownSignerIdentity = "DHI";
 /** SignerIdentity contains information about the signer certificate used to sign the image. */
 export interface SignerIdentity {
   /** CertificateIssuer is the certificate issuer. */
-  CertificateIssuer?: string;
+  CertificateIssuer?: string | undefined;
   /** SubjectAlternativeName is the certificate subject alternative name. */
-  SubjectAlternativeName?: string;
+  SubjectAlternativeName?: string | undefined;
   /** The OIDC issuer. Should match `iss` claim of ID token or, in the case of a federated login like Dex it should match the issuer URL of the upstream issuer. The issuer is not set the extensions are invalid and will fail to render. */
-  Issuer?: string;
+  Issuer?: string | undefined;
   /** Reference to specific build instructions that are responsible for signing. */
-  BuildSignerURI?: string;
+  BuildSignerURI?: string | undefined;
   /** Immutable reference to the specific version of the build instructions that is responsible for signing. */
-  BuildSignerDigest?: string;
+  BuildSignerDigest?: string | undefined;
   /** Specifies whether the build took place in platform-hosted cloud infrastructure or customer/self-hosted infrastructure. */
-  RunnerEnvironment?: string;
+  RunnerEnvironment?: string | undefined;
   /** Source repository URL that the build was based on. */
-  SourceRepositoryURI?: string;
+  SourceRepositoryURI?: string | undefined;
   /** Immutable reference to a specific version of the source code that the build was based upon. */
-  SourceRepositoryDigest?: string;
+  SourceRepositoryDigest?: string | undefined;
   /** Source Repository Ref that the build run was based upon. */
-  SourceRepositoryRef?: string;
+  SourceRepositoryRef?: string | undefined;
   /** Immutable identifier for the source repository the workflow was based upon. */
-  SourceRepositoryIdentifier?: string;
+  SourceRepositoryIdentifier?: string | undefined;
   /** Source repository owner URL of the owner of the source repository that the build was based on. */
-  SourceRepositoryOwnerURI?: string;
+  SourceRepositoryOwnerURI?: string | undefined;
   /** Immutable identifier for the owner of the source repository that the workflow was based upon. */
-  SourceRepositoryOwnerIdentifier?: string;
+  SourceRepositoryOwnerIdentifier?: string | undefined;
   /** Build Config URL to the top-level/initiating build instructions. */
-  BuildConfigURI?: string;
+  BuildConfigURI?: string | undefined;
   /** Immutable reference to the specific version of the top-level/initiating build instructions. */
-  BuildConfigDigest?: string;
+  BuildConfigDigest?: string | undefined;
   /** Event or action that initiated the build. */
-  BuildTrigger?: string;
+  BuildTrigger?: string | undefined;
   /** Run Invocation URL to uniquely identify the build execution. */
-  RunInvocationURI?: string;
+  RunInvocationURI?: string | undefined;
   /** Source repository visibility at the time of signing the certificate. */
-  SourceRepositoryVisibilityAtSigning?: string;
+  SourceRepositoryVisibilityAtSigning?: string | undefined;
 }
 /** SignatureType is the type of signature format. */
 export type SignatureType = "bundle-v0.3" | "simplesigning-v1";
@@ -2468,48 +2468,48 @@ export type SignatureIdentityWarningsList = Array<string>;
 /** SignatureIdentity contains the properties of verified signatures for the image. */
 export interface SignatureIdentity {
   /** Name is a textual description summarizing the type of signature. */
-  Name?: string;
+  Name?: string | undefined;
   /** Timestamps contains a list of verified signed timestamps for the signature. */
-  Timestamps?: SignatureIdentityTimestampsList;
+  Timestamps?: SignatureIdentityTimestampsList | undefined;
   /** KnownSigner is an identifier for a special signer identity that is known to the implementation. */
-  KnownSigner?: KnownSignerIdentity;
+  KnownSigner?: KnownSignerIdentity | undefined;
   /** DockerReference is the Docker image reference associated with the signature. This is an optional field only present in older hashedrecord signatures. */
-  DockerReference?: string;
+  DockerReference?: string | undefined;
   /** Signer contains information about the signer certificate used to sign the image. */
-  Signer?: SignerIdentity;
+  Signer?: SignerIdentity | undefined;
   /** SignatureType is the type of signature format. E.g. "bundle-v0.3" or "hashedrecord". */
-  SignatureType?: SignatureType;
+  SignatureType?: SignatureType | undefined;
   /** Error contains error information if signature verification failed. Other fields will be empty in this case. */
-  Error?: string;
+  Error?: string | undefined;
   /** Warnings contains any warnings that occurred during signature verification. For example, if there was no internet connectivity and cached trust roots were used. Warning does not indicate a failed verification but may point to configuration issues. */
-  Warnings?: SignatureIdentityWarningsList;
+  Warnings?: SignatureIdentityWarningsList | undefined;
 }
 /** Signature contains the properties of verified signatures for the image. */
 export type IdentitySignatureList = Array<SignatureIdentity>;
 /** PullIdentity contains remote location information if image was created via pull. If image was pulled via mirror, this contains the original repository location. */
 export interface PullIdentity {
   /** Repository is the remote repository location the image was pulled from. */
-  Repository?: string;
+  Repository?: string | undefined;
 }
 /** Pull contains remote location information if image was created via pull. If image was pulled via mirror, this contains the original repository location. After successful push this images also contains the pushed repository location. */
 export type IdentityPullList = Array<PullIdentity>;
 /** BuildIdentity contains build reference information if image was created via build. */
 export interface BuildIdentity {
   /** Ref is the identifier for the build request. This reference can be used to look up the build details in BuildKit history API. */
-  Ref?: string;
+  Ref?: string | undefined;
   /** CreatedAt is the time when the build ran. */
-  CreatedAt?: string;
+  CreatedAt?: string | undefined;
 }
 /** Build contains build reference information if image was created via build. */
 export type IdentityBuildList = Array<BuildIdentity>;
 /** Identity holds information about the identity and origin of the image. This is trusted information verified by the daemon and cannot be modified by tagging an image to a different name. */
 export interface Identity {
   /** Signature contains the properties of verified signatures for the image. */
-  Signature?: IdentitySignatureList;
+  Signature?: IdentitySignatureList | undefined;
   /** Pull contains remote location information if image was created via pull. If image was pulled via mirror, this contains the original repository location. After successful push this images also contains the pushed repository location. */
-  Pull?: IdentityPullList;
+  Pull?: IdentityPullList | undefined;
   /** Build contains build reference information if image was created via build. */
-  Build?: IdentityBuildList;
+  Build?: IdentityBuildList | undefined;
 }
 /** The IDs of the containers that are using this image. */
 export type ImageManifestSummaryImageDataContainersList = Array<string>;
@@ -2522,7 +2522,7 @@ export interface ImageManifestSummaryImageData {
   /** OCI platform of the image. This will be the platform specified in the manifest descriptor from the index/manifest list. If it's not available, it will be obtained from the image config. */
   Platform: OCIPlatform | null;
   /** Identity holds information about the identity and origin of this image. For image list responses, this can duplicate Build/Pull fields across image manifests, because those parts are image-level metadata. */
-  Identity?: Identity | null;
+  Identity?: Identity | null | undefined;
   /** The IDs of the containers that are using this image. */
   Containers: ImageManifestSummaryImageDataContainersList;
   Size: ImageManifestSummaryImageDataSize;
@@ -2543,9 +2543,9 @@ export interface ImageManifestSummary {
   /** The kind of the manifest. kind | description -------------|----------------------------------------------------------- image | Image manifest that can be used to start a container. attestation | Attestation manifest produced by the Buildkit builder for a specific image manifest. */
   Kind: ImageManifestSummaryKind;
   /** The image data for the image manifest. This field is only populated when Kind is "image". */
-  ImageData?: ImageManifestSummaryImageData | null;
+  ImageData?: ImageManifestSummaryImageData | null | undefined;
   /** The image data for the attestation manifest. This field is only populated when Kind is "attestation". */
-  AttestationData?: ImageManifestSummaryAttestationData | null;
+  AttestationData?: ImageManifestSummaryAttestationData | null | undefined;
 }
 /** Manifests is a list of image manifests available in this image. It provides a more detailed view of the platform-specific image manifests or other image-attached data like build attestations. Only available if the daemon provides a multi-platform image store and the `manifests` option is set in the inspect request. WARNING: This is experimental and may change at any time without any backward compatibility. */
 export type ImageInspectManifestsList = Array<ImageManifestSummary>;
@@ -2572,107 +2572,107 @@ export type ImageConfigShellList = Array<string>;
 /** Configuration of the image. These fields are used as defaults when starting a container from the image. */
 export interface ImageConfig {
   /** The user that commands are run as inside the container. */
-  User?: string;
+  User?: string | undefined;
   /** An object mapping ports to an empty object in the form: `{"<port>/<tcp|udp|sctp>": {}}` */
-  ExposedPorts?: ImageConfigExposedPortsMap | null;
+  ExposedPorts?: ImageConfigExposedPortsMap | null | undefined;
   /** A list of environment variables to set inside the container in the form `["VAR=value", ...]`. A variable without `=` is removed from the environment, rather than to have an empty value. */
-  Env?: ImageConfigEnvList;
+  Env?: ImageConfigEnvList | undefined;
   /** Command to run specified as a string or an array of strings. */
-  Cmd?: ImageConfigCmdList;
-  Healthcheck?: HealthConfig;
+  Cmd?: ImageConfigCmdList | undefined;
+  Healthcheck?: HealthConfig | undefined;
   /** Command is already escaped (Windows only) */
-  ArgsEscaped?: boolean | null;
+  ArgsEscaped?: boolean | null | undefined;
   /** An object mapping mount point paths inside the container to empty objects. */
-  Volumes?: ImageConfigVolumesMap;
+  Volumes?: ImageConfigVolumesMap | undefined;
   /** The working directory for commands to run in. */
-  WorkingDir?: string;
+  WorkingDir?: string | undefined;
   /** The entry point for the container as a string or an array of strings. If the array consists of exactly one empty string (`[""]`) then the entry point is reset to system default (i.e., the entry point used by docker when there is no `ENTRYPOINT` instruction in the `Dockerfile`). */
-  Entrypoint?: ImageConfigEntrypointList;
+  Entrypoint?: ImageConfigEntrypointList | undefined;
   /** `ONBUILD` metadata that were defined in the image's `Dockerfile`. */
-  OnBuild?: ImageConfigOnBuildList | null;
+  OnBuild?: ImageConfigOnBuildList | null | undefined;
   /** User-defined key/value metadata. */
-  Labels?: ImageConfigLabelsMap;
+  Labels?: ImageConfigLabelsMap | undefined;
   /** Signal to stop a container as a string or unsigned integer. */
-  StopSignal?: string | null;
+  StopSignal?: string | null | undefined;
   /** Shell for when `RUN`, `CMD`, and `ENTRYPOINT` uses a shell. */
-  Shell?: ImageConfigShellList | null;
+  Shell?: ImageConfigShellList | null | undefined;
 }
 export type ImageInspectRootFSLayersList = Array<string>;
 /** Information about the image's RootFS, including the layer IDs. */
 export interface ImageInspectRootFS {
   Type: string;
-  Layers?: ImageInspectRootFSLayersList;
+  Layers?: ImageInspectRootFSLayersList | undefined;
 }
 /** Additional metadata of the image in the local cache. This information is local to the daemon, and not part of the image itself. */
 export interface ImageInspectMetadata {
   /** Date and time at which the image was last tagged in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds. This information is only available if the image was tagged locally, and omitted otherwise. */
-  LastTagTime?: string | null;
+  LastTagTime?: string | null | undefined;
 }
 /** Information about an image in the local image cache. */
 export interface ImageInspect {
   /** ID is the content-addressable ID of an image. This identifier is a content-addressable digest calculated from the image's configuration (which includes the digests of layers used by the image). Note that this digest differs from the `RepoDigests` below, which holds digests of image manifests that reference the image. */
-  Id?: string;
+  Id?: string | undefined;
   /** Descriptor is an OCI descriptor of the image target. In case of a multi-platform image, this descriptor points to the OCI index or a manifest list. This field is only present if the daemon provides a multi-platform image store. WARNING: This is experimental and may change at any time without any backward compatibility. */
-  Descriptor?: OCIDescriptor | null;
+  Descriptor?: OCIDescriptor | null | undefined;
   /** Manifests is a list of image manifests available in this image. It provides a more detailed view of the platform-specific image manifests or other image-attached data like build attestations. Only available if the daemon provides a multi-platform image store and the `manifests` option is set in the inspect request. WARNING: This is experimental and may change at any time without any backward compatibility. */
-  Manifests?: ImageInspectManifestsList | null;
+  Manifests?: ImageInspectManifestsList | null | undefined;
   /** Identity holds information about the identity and origin of the image. This is trusted information verified by the daemon and cannot be modified by tagging an image to a different name. */
-  Identity?: Identity | null;
+  Identity?: Identity | null | undefined;
   /** List of image names/tags in the local image cache that reference this image. Multiple image tags can refer to the same image, and this list may be empty if no tags reference the image, in which case the image is "untagged", in which case it can still be referenced by its ID. */
-  RepoTags?: ImageInspectRepoTagsList;
+  RepoTags?: ImageInspectRepoTagsList | undefined;
   /** List of content-addressable digests of locally available image manifests that the image is referenced from. Multiple manifests can refer to the same image. These digests are usually only available if the image was either pulled from a registry, or if the image was pushed to a registry, which is when the manifest is generated and its digest calculated. */
-  RepoDigests?: ImageInspectRepoDigestsList;
+  RepoDigests?: ImageInspectRepoDigestsList | undefined;
   /** Optional message that was set when committing or importing the image. */
-  Comment?: string | null;
+  Comment?: string | null | undefined;
   /** Date and time at which the image was created, formatted in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds. This information is only available if present in the image, and omitted otherwise. */
-  Created?: string | null;
+  Created?: string | null | undefined;
   /** Name of the author that was specified when committing the image, or as specified through MAINTAINER (deprecated) in the Dockerfile. */
-  Author?: string | null;
-  Config?: ImageConfig;
+  Author?: string | null | undefined;
+  Config?: ImageConfig | undefined;
   /** Hardware CPU architecture that the image runs on. */
-  Architecture?: string;
+  Architecture?: string | undefined;
   /** CPU architecture variant (presently ARM-only). */
-  Variant?: string | null;
+  Variant?: string | null | undefined;
   /** Operating System the image is built to run on. */
-  Os?: string;
+  Os?: string | undefined;
   /** Operating System version the image is built to run on (especially for Windows). */
-  OsVersion?: string | null;
+  OsVersion?: string | null | undefined;
   /** Total size of the image variant, including all layers it is composed of. For multi-platform images, this is the size of the platform variant selected by the `platform` query parameter. If no platform is specified, the daemon selects a platform as described in the `platform` parameter. When using the containerd image store, this includes both the image content that's present locally and the unpacked snapshot data for the selected variant. Image data may be shared between images, so this size does not indicate how much space would be reclaimed by deleting the image. */
-  Size?: number;
-  GraphDriver?: DriverData | null;
+  Size?: number | undefined;
+  GraphDriver?: DriverData | null | undefined;
   /** Information about the image's RootFS, including the layer IDs. */
-  RootFS?: ImageInspectRootFS;
+  RootFS?: ImageInspectRootFS | undefined;
   /** Additional metadata of the image in the local cache. This information is local to the daemon, and not part of the image itself. */
-  Metadata?: ImageInspectMetadata;
+  Metadata?: ImageInspectMetadata | undefined;
 }
 export type ImageLoadRequestPlatformList = Array<string>;
 export interface ImageLoadRequest {
   /** Suppress progress details during load. */
-  quiet?: boolean;
+  quiet?: boolean | undefined;
   /** JSON encoded OCI platform(s) which will be used to select the platform-specific image(s) to load if the image is multi-platform. If not provided, the full multi-platform image will be loaded. Example: `{"os": "linux", "architecture": "arm", "variant": "v5"}` */
-  platform?: ImageLoadRequestPlatformList;
-  body?: string;
+  platform?: ImageLoadRequestPlatformList | undefined;
+  body?: string | undefined;
 }
 export interface ImageLoadResponse {}
 export interface ImagePruneRequest {
   /** Filters to process on the prune list, encoded as JSON (a `map[string][]string`). Available filters: - `dangling=<boolean>` When set to `true` (or `1`), prune only unused *and* untagged images. When set to `false` (or `0`), all unused images are pruned. - `until=<string>` Prune images created before this timestamp. The `<timestamp>` can be Unix timestamps, date formatted timestamps, or Go duration strings (e.g. `10m`, `1h30m`) computed relative to the daemon machine's time. - `label` (`label=<key>`, `label=<key>=<value>`, `label!=<key>`, or `label!=<key>=<value>`) Prune images with (or without, in case `label!=...` is used) the specified labels. */
-  filters?: string;
+  filters?: string | undefined;
 }
 /** Images that were deleted */
 export type ImagePruneResponseImagesDeletedList = Array<ImageDeleteResponseItem>;
 export interface ImagePruneResponse {
   /** Images that were deleted */
-  ImagesDeleted?: ImagePruneResponseImagesDeletedList;
+  ImagesDeleted?: ImagePruneResponseImagesDeletedList | undefined;
   /** Disk space reclaimed in bytes */
-  SpaceReclaimed?: number;
+  SpaceReclaimed?: number | undefined;
 }
 export interface ImagePushRequest {
   /** Name of the image to push. For example, `registry.example.com/myimage`. The image must be present in the local image store with the same name. The name should be provided without tag; if a tag is provided, it is ignored. For example, `registry.example.com/myimage:latest` is considered equivalent to `registry.example.com/myimage`. Use the `tag` parameter to specify the tag to push. */
   name: string;
   /** Tag of the image to push. For example, `latest`. If no tag is provided, all tags of the given image that are present in the local image store are pushed. */
-  tag?: string;
+  tag?: string | undefined;
   /** JSON-encoded OCI platform to select the platform-variant to push. If not provided, all available variants will attempt to be pushed. If the daemon provides a multi-platform image store, this selects the platform-variant to push to the registry. If the image is a single-platform image, or if the multi-platform image does not provide a variant matching the given platform, an error is returned. Example: `{"os": "linux", "architecture": "arm", "variant": "v5"}` */
-  platform?: string;
+  platform?: string | undefined;
   /** A base64url-encoded auth configuration. Refer to the [authentication section](#section/Authentication) for details. */
   xRegistryAuth: string;
 }
@@ -2681,9 +2681,9 @@ export interface ImageTagRequest {
   /** Image name or ID to tag. */
   name: string;
   /** The repository to tag in. For example, `someuser/someimage`. */
-  repo?: string;
+  repo?: string | undefined;
   /** The name of the new tag. */
-  tag?: string;
+  tag?: string | undefined;
 }
 export interface ImageTagResponse {}
 /** Addresses of manager nodes already participating in the swarm. */
@@ -2692,9 +2692,9 @@ export interface JoinSwarmRequest {
   /** Listen address used for inter-manager communication if the node gets promoted to manager, as well as determining the networking interface used for the VXLAN Tunnel Endpoint (VTEP). This is required for joining a swarm. If the port number is omitted, the default swarm listening port is used. */
   ListenAddr: string;
   /** Externally reachable address advertised to other nodes. This can either be an address/port combination in the form `192.168.1.1:4567`, or an interface followed by a port number, like `eth0:4567`. If the port number is omitted, the port number from the listen address is used. If `AdvertiseAddr` is not specified, it will be automatically detected when possible. */
-  AdvertiseAddr?: string;
+  AdvertiseAddr?: string | undefined;
   /** Address or interface to use for data path traffic (format: `<ip|interface>`), for example, `192.168.1.1`, or an interface, like `eth0`. If `DataPathAddr` is unspecified, the same address as `AdvertiseAddr` is used. The `DataPathAddr` specifies the address that global scope network drivers will publish towards other nodes in order to reach the containers running on this node. Using this parameter it is possible to separate the container data traffic from the management traffic of the cluster. */
-  DataPathAddr?: string;
+  DataPathAddr?: string | undefined;
   /** Addresses of manager nodes already participating in the swarm. */
   RemoteAddrs: JoinSwarmRequestRemoteAddrsList;
   /** Secret token for joining this swarm. */
@@ -2705,29 +2705,29 @@ export interface KillContainerRequest {
   /** ID or name of the container */
   id: string;
   /** Signal to send to the container as an integer or string (e.g. `SIGINT`). */
-  signal?: string;
+  signal?: string | undefined;
 }
 export interface KillContainerResponse {}
 export interface LeaveSwarmRequest {
   /** Force leave swarm, even if this is the last manager or that it will break the cluster. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface LeaveSwarmResponse {}
 export interface ListConfigRequest {
   /** A JSON encoded value of the filters (a `map[string][]string`) to process on the configs list. Available filters: - `id=<config id>` - `label=<key> or label=<key>=value` - `name=<config name>` matches all or part of a config name (prefix match) */
-  filters?: string;
+  filters?: string | undefined;
 }
 export type ListConfigResponseBodyList = Array<Config>;
 export type ListConfigResponse = ListConfigResponseBodyList;
 export interface ListContainerRequest {
   /** Return all containers. By default, only running containers are shown. */
-  all?: boolean;
+  all?: boolean | undefined;
   /** Return this number of most recently created containers, including non-running ones. */
-  limit?: number;
+  limit?: number | undefined;
   /** Return the size of container as fields `SizeRw` and `SizeRootFs`. */
-  size?: boolean;
+  size?: boolean | undefined;
   /** Filters to process on the container list, encoded as JSON (a `map[string][]string`). For example, `{"status": ["paused"]}` will only return paused containers. Available filters: - `ancestor`=(`<image-name>[:<tag>]`, `<image id>`, or `<image@digest>`) - `annotation=key` or `annotation="key=value"` of a container annotation - `before`=(`<container id>` or `<container name>`) - `expose`=(`<port>[/<proto>]`|`<startport-endport>/[<proto>]`) - `exited=<int>` containers with exit code of `<int>` - `health`=(`starting`|`healthy`|`unhealthy`|`none`) - `id=<ID>` a container's ID - `isolation=`(`default`|`process`|`hyperv`) (Windows daemon only) - `is-task=`(`true`|`false`) - `label=key` or `label="key=value"` of a container label - `name=<name>` a container's name - `network`=(`<network id>` or `<network name>`) - `publish`=(`<port>[/<proto>]`|`<startport-endport>/[<proto>]`) - `since`=(`<container id>` or `<container name>`) - `status=`(`created`|`restarting`|`running`|`removing`|`paused`|`exited`|`dead`) - `volume`=(`<volume name>` or `<mount point destination>`) */
-  filters?: string;
+  filters?: string | undefined;
 }
 /** The names associated with this container. Most containers have a single name, but when using legacy "links", the container can have multiple names. For historic reasons, names are prefixed with a forward-slash (`/`). */
 export type ContainerSummaryNamesList = Array<string>;
@@ -2735,11 +2735,11 @@ export type PortSummaryType = "tcp" | "udp" | "sctp";
 /** Describes a port-mapping between the container and the host. */
 export interface PortSummary {
   /** Host IP address that the container's port is mapped to */
-  IP?: string;
+  IP?: string | undefined;
   /** Port on the container */
   PrivatePort: number;
   /** Port exposed on the host */
-  PublicPort?: number;
+  PublicPort?: number | undefined;
   Type: PortSummaryType;
 }
 /** Port-mappings for the container. */
@@ -2760,9 +2760,9 @@ export type ContainerSummaryHostConfigAnnotationsMap = { [key: string]: string |
 /** Summary of host-specific runtime information of the container. This is a reduced set of information in the container's "HostConfig" as available in the container "inspect" response. */
 export interface ContainerSummaryHostConfig {
   /** Networking mode (`host`, `none`, `container:<id>`) or name of the primary network the container is using. This field is primarily for backward compatibility. The container can be connected to multiple networks for which information can be found in the `NetworkSettings.Networks` field, which enumerates settings per network. */
-  NetworkMode?: string;
+  NetworkMode?: string | undefined;
   /** Arbitrary key-value metadata attached to the container. */
-  Annotations?: ContainerSummaryHostConfigAnnotationsMap | null;
+  Annotations?: ContainerSummaryHostConfigAnnotationsMap | null | undefined;
 }
 /** Summary of network-settings for each network the container is attached to. */
 export type ContainerSummaryNetworkSettingsNetworksMap = {
@@ -2771,7 +2771,7 @@ export type ContainerSummaryNetworkSettingsNetworksMap = {
 /** Summary of the container's network settings */
 export interface ContainerSummaryNetworkSettings {
   /** Summary of network-settings for each network the container is attached to. */
-  Networks?: ContainerSummaryNetworkSettingsNetworksMap;
+  Networks?: ContainerSummaryNetworkSettingsNetworksMap | undefined;
 }
 /** List of mounts used by the container. */
 export type ContainerSummaryMountsList = Array<MountPoint>;
@@ -2780,61 +2780,61 @@ export type ContainerSummaryHealthStatus = "none" | "starting" | "healthy" | "un
 /** Summary of health status Added in v1.52, before that version all container summary not include Health. After this attribute introduced, it includes containers with no health checks configured, or containers that are not running with none */
 export interface ContainerSummaryHealth {
   /** the health status of the container */
-  Status?: ContainerSummaryHealthStatus;
+  Status?: ContainerSummaryHealthStatus | undefined;
   /** FailingStreak is the number of consecutive failures */
-  FailingStreak?: number;
+  FailingStreak?: number | undefined;
 }
 export interface ContainerSummary {
   /** The ID of this container as a 128-bit (64-character) hexadecimal string (32 bytes). */
-  Id?: string;
+  Id?: string | undefined;
   /** The names associated with this container. Most containers have a single name, but when using legacy "links", the container can have multiple names. For historic reasons, names are prefixed with a forward-slash (`/`). */
-  Names?: ContainerSummaryNamesList;
+  Names?: ContainerSummaryNamesList | undefined;
   /** The name or ID of the image used to create the container. This field shows the image reference as was specified when creating the container, which can be in its canonical form (e.g., `docker.io/library/ubuntu:latest` or `docker.io/library/ubuntu@sha256:72297848456d5d37d1262630108ab308d3e9ec7ed1c3286a32fe09856619a782`), short form (e.g., `ubuntu:latest`)), or the ID(-prefix) of the image (e.g., `72297848456d`). The content of this field can be updated at runtime if the image used to create the container is untagged, in which case the field is updated to contain the the image ID (digest) it was resolved to in its canonical, non-truncated form (e.g., `sha256:72297848456d5d37d1262630108ab308d3e9ec7ed1c3286a32fe09856619a782`). */
-  Image?: string;
+  Image?: string | undefined;
   /** The ID (digest) of the image that this container was created from. */
-  ImageID?: string;
+  ImageID?: string | undefined;
   /** OCI descriptor of the platform-specific manifest of the image the container was created from. Note: Only available if the daemon provides a multi-platform image store. This field is not populated in the `GET /system/df` endpoint. */
-  ImageManifestDescriptor?: OCIDescriptor | null;
+  ImageManifestDescriptor?: OCIDescriptor | null | undefined;
   /** Command to run when starting the container */
-  Command?: string;
+  Command?: string | undefined;
   /** Date and time at which the container was created as a Unix timestamp (number of seconds since EPOCH). */
-  Created?: number;
+  Created?: number | undefined;
   /** Port-mappings for the container. */
-  Ports?: ContainerSummaryPortsList;
+  Ports?: ContainerSummaryPortsList | undefined;
   /** The size of files that have been created or changed by this container. This field is omitted by default, and only set when size is requested in the API request. */
-  SizeRw?: number | null;
+  SizeRw?: number | null | undefined;
   /** The total size of all files in the read-only layers from the image that the container uses. These layers can be shared between containers. This field is omitted by default, and only set when size is requested in the API request. */
-  SizeRootFs?: number | null;
+  SizeRootFs?: number | null | undefined;
   /** User-defined key/value metadata. */
-  Labels?: ContainerSummaryLabelsMap;
+  Labels?: ContainerSummaryLabelsMap | undefined;
   /** The state of this container. */
-  State?: ContainerSummaryState;
+  State?: ContainerSummaryState | undefined;
   /** Additional human-readable status of this container (e.g. `Exit 0`) */
-  Status?: string;
+  Status?: string | undefined;
   /** Summary of host-specific runtime information of the container. This is a reduced set of information in the container's "HostConfig" as available in the container "inspect" response. */
-  HostConfig?: ContainerSummaryHostConfig;
+  HostConfig?: ContainerSummaryHostConfig | undefined;
   /** Summary of the container's network settings */
-  NetworkSettings?: ContainerSummaryNetworkSettings;
+  NetworkSettings?: ContainerSummaryNetworkSettings | undefined;
   /** List of mounts used by the container. */
-  Mounts?: ContainerSummaryMountsList;
+  Mounts?: ContainerSummaryMountsList | undefined;
   /** Summary of health status Added in v1.52, before that version all container summary not include Health. After this attribute introduced, it includes containers with no health checks configured, or containers that are not running with none */
-  Health?: ContainerSummaryHealth;
+  Health?: ContainerSummaryHealth | undefined;
 }
 export type ListContainerResponseBodyList = Array<ContainerSummary>;
 export type ListContainerResponse = ListContainerResponseBodyList;
 export interface ListImageRequest {
   /** Show all images. Only images from a final layer (no children) are shown by default. */
-  all?: boolean;
+  all?: boolean | undefined;
   /** A JSON encoded value of the filters (a `map[string][]string`) to process on the images list. Available filters: - `before`=(`<image-name>[:<tag>]`, `<image id>` or `<image@digest>`) - `dangling=true` - `label=key` or `label="key=value"` of an image label - `reference`=(`<image-name>[:<tag>]`) - `since`=(`<image-name>[:<tag>]`, `<image id>` or `<image@digest>`) - `until=<timestamp>` */
-  filters?: string;
+  filters?: string | undefined;
   /** Compute and show shared size as a `SharedSize` field on each image. */
-  shared_size?: boolean;
+  shared_size?: boolean | undefined;
   /** Show digest information as a `RepoDigests` field on each image. */
-  digests?: boolean;
+  digests?: boolean | undefined;
   /** Include `Manifests` in the image summary. */
-  manifests?: boolean;
+  manifests?: boolean | undefined;
   /** Include `Identity` in each manifest summary. Requires `manifests=1`. */
-  identity?: boolean;
+  identity?: boolean | undefined;
 }
 /** List of image names/tags in the local image cache that reference this image. Multiple image tags can refer to the same image, and this list may be empty if no tags reference the image, in which case the image is "untagged", in which case it can still be referenced by its ID. */
 export type ImageSummaryRepoTagsList = Array<string>;
@@ -2864,15 +2864,15 @@ export interface ImageSummary {
   /** Number of containers using this image. Includes both stopped and running containers. `-1` indicates that the value has not been set / calculated. */
   Containers: number;
   /** Manifests is a list of manifests available in this image. It provides a more detailed view of the platform-specific image manifests or other image-attached data like build attestations. WARNING: This is experimental and may change at any time without any backward compatibility. */
-  Manifests?: ImageSummaryManifestsList;
+  Manifests?: ImageSummaryManifestsList | undefined;
   /** Descriptor is an OCI descriptor of the image target. In case of a multi-platform image, this descriptor points to the OCI index or a manifest list. This field is only present if the daemon provides a multi-platform image store. WARNING: This is experimental and may change at any time without any backward compatibility. */
-  Descriptor?: OCIDescriptor | null;
+  Descriptor?: OCIDescriptor | null | undefined;
 }
 export type ListImageResponseBodyList = Array<ImageSummary>;
 export type ListImageResponse = ListImageResponseBodyList;
 export interface ListNetworkRequest {
   /** JSON encoded value of the filters (a `map[string][]string`) to process on the networks list. Available filters: - `dangling=<boolean>` When set to `true` (or `1`), returns all networks that are not in use by a container. When set to `false` (or `0`), only networks that are in use by one or more containers are returned. - `driver=<driver-name>` Matches a network's driver. - `id=<network-id>` Matches all or part of a network ID. - `label=<key>` or `label=<key>=<value>` of a network label. - `name=<network-name>` Matches all or part of a network name. - `scope=["swarm"|"global"|"local"]` Filters networks by scope (`swarm`, `global`, or `local`). - `type=["custom"|"builtin"]` Filters networks by type. The `custom` keyword returns all user-defined networks. */
-  filters?: string;
+  filters?: string | undefined;
 }
 /** Network-specific options uses when creating the network. */
 export type NetworkOptionsMap = { [key: string]: string | undefined };
@@ -2881,50 +2881,50 @@ export type NetworkLabelsMap = { [key: string]: string | undefined };
 /** represents one peer of an overlay network. */
 export interface PeerInfo {
   /** ID of the peer-node in the Swarm cluster. */
-  Name?: string;
+  Name?: string | undefined;
   /** IP-address of the peer-node in the Swarm cluster. */
-  IP?: string;
+  IP?: string | undefined;
 }
 /** List of peer nodes for an overlay network. This field is only present for overlay networks, and omitted for other network types. */
 export type NetworkPeersList = Array<PeerInfo>;
 export interface Network {
   /** Name of the network. */
-  Name?: string;
+  Name?: string | undefined;
   /** ID that uniquely identifies a network on a single machine. */
-  Id?: string;
+  Id?: string | undefined;
   /** Date and time at which the network was created in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds. */
-  Created?: string;
+  Created?: string | undefined;
   /** The level at which the network exists (e.g. `swarm` for cluster-wide or `local` for machine level) */
-  Scope?: string;
+  Scope?: string | undefined;
   /** The name of the driver used to create the network (e.g. `bridge`, `overlay`). */
-  Driver?: string;
+  Driver?: string | undefined;
   /** Whether the network was created with IPv4 enabled. */
-  EnableIPv4?: boolean;
+  EnableIPv4?: boolean | undefined;
   /** Whether the network was created with IPv6 enabled. */
-  EnableIPv6?: boolean;
+  EnableIPv6?: boolean | undefined;
   /** The network's IP Address Management. */
-  IPAM?: IPAM;
+  IPAM?: IPAM | undefined;
   /** Whether the network is created to only allow internal networking connectivity. */
-  Internal?: boolean;
+  Internal?: boolean | undefined;
   /** Whether a global / swarm scope network is manually attachable by regular containers from workers in swarm mode. */
-  Attachable?: boolean;
+  Attachable?: boolean | undefined;
   /** Whether the network is providing the routing-mesh for the swarm cluster. */
-  Ingress?: boolean;
-  ConfigFrom?: ConfigReference;
+  Ingress?: boolean | undefined;
+  ConfigFrom?: ConfigReference | undefined;
   /** Whether the network is a config-only network. Config-only networks are placeholder networks for network configurations to be used by other networks. Config-only networks cannot be used directly to run containers or services. */
-  ConfigOnly?: boolean;
+  ConfigOnly?: boolean | undefined;
   /** Network-specific options uses when creating the network. */
-  Options?: NetworkOptionsMap;
+  Options?: NetworkOptionsMap | undefined;
   /** Metadata specific to the network being created. */
-  Labels?: NetworkLabelsMap;
+  Labels?: NetworkLabelsMap | undefined;
   /** List of peer nodes for an overlay network. This field is only present for overlay networks, and omitted for other network types. */
-  Peers?: NetworkPeersList;
+  Peers?: NetworkPeersList | undefined;
 }
 export type ListNetworkResponseBodyList = Array<Network>;
 export type ListNetworkResponse = ListNetworkResponseBodyList;
 export interface ListNodeRequest {
   /** Filters to process on the nodes list, encoded as JSON (a `map[string][]string`). Available filters: - `id=<node id>` - `label=<engine label>` - `membership=`(`accepted`|`pending`)` - `name=<node name>` - `node.label=<node label>` - `role=`(`manager`|`worker`)` */
-  filters?: string;
+  filters?: string | undefined;
 }
 /** User-defined key/value metadata. */
 export type NodeSpecLabelsMap = { [key: string]: string | undefined };
@@ -2934,113 +2934,113 @@ export type NodeSpecRole = "worker" | "manager";
 export type NodeSpecAvailability = "active" | "pause" | "drain";
 export interface NodeSpec {
   /** Name for the node. */
-  Name?: string;
+  Name?: string | undefined;
   /** User-defined key/value metadata. */
-  Labels?: NodeSpecLabelsMap;
+  Labels?: NodeSpecLabelsMap | undefined;
   /** Role of the node. */
-  Role?: NodeSpecRole;
+  Role?: NodeSpecRole | undefined;
   /** Availability of the node. */
-  Availability?: NodeSpecAvailability;
+  Availability?: NodeSpecAvailability | undefined;
 }
 export type EngineDescriptionLabelsMap = { [key: string]: string | undefined };
 export interface EngineDescriptionPluginsItem {
-  Type?: string;
-  Name?: string;
+  Type?: string | undefined;
+  Name?: string | undefined;
 }
 export type EngineDescriptionPluginsList = Array<EngineDescriptionPluginsItem>;
 /** EngineDescription provides information about an engine. */
 export interface EngineDescription {
-  EngineVersion?: string;
-  Labels?: EngineDescriptionLabelsMap;
-  Plugins?: EngineDescriptionPluginsList;
+  EngineVersion?: string | undefined;
+  Labels?: EngineDescriptionLabelsMap | undefined;
+  Plugins?: EngineDescriptionPluginsList | undefined;
 }
 /** Information about the issuer of leaf TLS certificates and the trusted root CA certificate. */
 export interface TLSInfo {
   /** The root CA certificate(s) that are used to validate leaf TLS certificates. */
-  TrustRoot?: string;
+  TrustRoot?: string | undefined;
   /** The base64-url-safe-encoded raw subject bytes of the issuer. */
-  CertIssuerSubject?: string;
+  CertIssuerSubject?: string | undefined;
   /** The base64-url-safe-encoded raw public key bytes of the issuer. */
-  CertIssuerPublicKey?: string;
+  CertIssuerPublicKey?: string | undefined;
 }
 /** NodeDescription encapsulates the properties of the Node as reported by the agent. */
 export interface NodeDescription {
-  Hostname?: string;
-  Platform?: Platform;
-  Resources?: ResourceObject;
-  Engine?: EngineDescription;
-  TLSInfo?: TLSInfo;
+  Hostname?: string | undefined;
+  Platform?: Platform | undefined;
+  Resources?: ResourceObject | undefined;
+  Engine?: EngineDescription | undefined;
+  TLSInfo?: TLSInfo | undefined;
 }
 /** NodeState represents the state of a node. */
 export type NodeState = "unknown" | "down" | "ready" | "disconnected";
 /** NodeStatus represents the status of a node. It provides the current status of the node, as seen by the manager. */
 export interface NodeStatus {
-  State?: NodeState;
-  Message?: string;
+  State?: NodeState | undefined;
+  Message?: string | undefined;
   /** IP address of the node. */
-  Addr?: string;
+  Addr?: string | undefined;
 }
 /** Reachability represents the reachability of a node. */
 export type Reachability = "unknown" | "unreachable" | "reachable";
 /** ManagerStatus represents the status of a manager. It provides the current status of a node's manager component, if the node is a manager. */
 export interface ManagerStatus {
-  Leader?: boolean;
-  Reachability?: Reachability;
+  Leader?: boolean | undefined;
+  Reachability?: Reachability | undefined;
   /** The IP address and port at which the manager is reachable. */
-  Addr?: string;
+  Addr?: string | undefined;
 }
 export interface Node {
-  ID?: string;
-  Version?: ObjectVersion;
+  ID?: string | undefined;
+  Version?: ObjectVersion | undefined;
   /** Date and time at which the node was added to the swarm in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds. */
-  CreatedAt?: string;
+  CreatedAt?: string | undefined;
   /** Date and time at which the node was last updated in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds. */
-  UpdatedAt?: string;
-  Spec?: NodeSpec;
-  Description?: NodeDescription;
-  Status?: NodeStatus;
-  ManagerStatus?: ManagerStatus | null;
+  UpdatedAt?: string | undefined;
+  Spec?: NodeSpec | undefined;
+  Description?: NodeDescription | undefined;
+  Status?: NodeStatus | undefined;
+  ManagerStatus?: ManagerStatus | null | undefined;
 }
 export type ListNodeResponseBodyList = Array<Node>;
 export type ListNodeResponse = ListNodeResponseBodyList;
 export interface ListPluginRequest {
   /** A JSON encoded value of the filters (a `map[string][]string`) to process on the plugin list. Available filters: - `capability=<capability name>` - `enable=<true>|<false>` */
-  filters?: string;
+  filters?: string | undefined;
 }
 export type ListPluginResponseBodyList = Array<Plugin>;
 export type ListPluginResponse = ListPluginResponseBodyList;
 export interface ListSecretRequest {
   /** A JSON encoded value of the filters (a `map[string][]string`) to process on the secrets list. Available filters: - `id=<secret id>` - `label=<key> or label=<key>=value` - `name=<secret name>` matches all or part of a secret name (prefix match) - `names=<secret name>` matches a secret name (exact match) */
-  filters?: string;
+  filters?: string | undefined;
 }
 /** User-defined key/value metadata. */
 export type SecretSpecLabelsMap = { [key: string]: string | undefined };
 export interface SecretSpec {
   /** User-defined name of the secret. */
-  Name?: string;
+  Name?: string | undefined;
   /** User-defined key/value metadata. */
-  Labels?: SecretSpecLabelsMap;
+  Labels?: SecretSpecLabelsMap | undefined;
   /** Data is the data to store as a secret, formatted as a standard base64-encoded ([RFC 4648](https://tools.ietf.org/html/rfc4648#section-4)) string. It must be empty if the Driver field is set, in which case the data is loaded from an external secret store. The maximum allowed size is 500KB, as defined in [MaxSecretSize](https://pkg.go.dev/github.com/moby/swarmkit/v2@v2.0.0/api/validation#MaxSecretSize). This field is only used to _create_ a secret, and is not returned by other endpoints. */
-  Data?: string;
+  Data?: string | undefined;
   /** Name of the secrets driver used to fetch the secret's value from an external secret store. */
-  Driver?: Driver;
+  Driver?: Driver | undefined;
   /** Templating driver, if applicable Templating controls whether and how to evaluate the config payload as a template. If no driver is set, no templating is used. */
-  Templating?: Driver;
+  Templating?: Driver | undefined;
 }
 export interface Secret {
-  ID?: string;
-  Version?: ObjectVersion;
-  CreatedAt?: string;
-  UpdatedAt?: string;
-  Spec?: SecretSpec;
+  ID?: string | undefined;
+  Version?: ObjectVersion | undefined;
+  CreatedAt?: string | undefined;
+  UpdatedAt?: string | undefined;
+  Spec?: SecretSpec | undefined;
 }
 export type ListSecretResponseBodyList = Array<Secret>;
 export type ListSecretResponse = ListSecretResponseBodyList;
 export interface ListServiceRequest {
   /** A JSON encoded value of the filters (a `map[string][]string`) to process on the services list. Available filters: - `id=<service id>` - `label=<service label>` - `mode=["replicated"|"global"]` - `name=<service name>` */
-  filters?: string;
+  filters?: string | undefined;
   /** Include service status, with count of running and desired tasks. */
-  status?: boolean;
+  status?: boolean | undefined;
 }
 /** User-defined key/value metadata. */
 export type ServiceSpecLabelsMap = { [key: string]: string | undefined };
@@ -3056,17 +3056,17 @@ export type ServiceSpecUpdateConfigOrder = "stop-first" | "start-first";
 /** Specification for the update strategy of the service. */
 export interface ServiceSpecUpdateConfig {
   /** Maximum number of tasks to be updated in one iteration (0 means unlimited parallelism). */
-  Parallelism?: number;
+  Parallelism?: number | undefined;
   /** Amount of time between updates, in nanoseconds. */
-  Delay?: number;
+  Delay?: number | undefined;
   /** Action to take if an updated task fails to run, or stops running during the update. */
-  FailureAction?: ServiceSpecUpdateConfigFailureAction;
+  FailureAction?: ServiceSpecUpdateConfigFailureAction | undefined;
   /** Amount of time to monitor each updated task for failures, in nanoseconds. */
-  Monitor?: number;
+  Monitor?: number | undefined;
   /** The fraction of tasks that may fail during an update before the failure action is invoked, specified as a floating point number between 0 and 1. */
-  MaxFailureRatio?: number;
+  MaxFailureRatio?: number | undefined;
   /** The order of operations when rolling out an updated task. Either the old task is shut down before the new task is started, or the new task is started before the old task is shut down. */
-  Order?: ServiceSpecUpdateConfigOrder;
+  Order?: ServiceSpecUpdateConfigOrder | undefined;
 }
 /** Action to take if an rolled back task fails to run, or stops running during the rollback. */
 export type ServiceSpecRollbackConfigFailureAction = "continue" | "pause";
@@ -3075,91 +3075,91 @@ export type ServiceSpecRollbackConfigOrder = "stop-first" | "start-first";
 /** Specification for the rollback strategy of the service. */
 export interface ServiceSpecRollbackConfig {
   /** Maximum number of tasks to be rolled back in one iteration (0 means unlimited parallelism). */
-  Parallelism?: number;
+  Parallelism?: number | undefined;
   /** Amount of time between rollback iterations, in nanoseconds. */
-  Delay?: number;
+  Delay?: number | undefined;
   /** Action to take if an rolled back task fails to run, or stops running during the rollback. */
-  FailureAction?: ServiceSpecRollbackConfigFailureAction;
+  FailureAction?: ServiceSpecRollbackConfigFailureAction | undefined;
   /** Amount of time to monitor each rolled back task for failures, in nanoseconds. */
-  Monitor?: number;
+  Monitor?: number | undefined;
   /** The fraction of tasks that may fail during a rollback before the failure action is invoked, specified as a floating point number between 0 and 1. */
-  MaxFailureRatio?: number;
+  MaxFailureRatio?: number | undefined;
   /** The order of operations when rolling back a task. Either the old task is shut down before the new task is started, or the new task is started before the old task is shut down. */
-  Order?: ServiceSpecRollbackConfigOrder;
+  Order?: ServiceSpecRollbackConfigOrder | undefined;
 }
 /** Specifies which networks the service should attach to. Deprecated: This field is deprecated since v1.44. The Networks field in TaskSpec should be used instead. */
 export type ServiceSpecNetworksList = Array<NetworkAttachmentConfig>;
 /** User modifiable configuration for a service. */
 export interface ServiceSpec {
   /** Name of the service. */
-  Name?: string;
+  Name?: string | undefined;
   /** User-defined key/value metadata. */
-  Labels?: ServiceSpecLabelsMap;
-  TaskTemplate?: TaskSpec;
+  Labels?: ServiceSpecLabelsMap | undefined;
+  TaskTemplate?: TaskSpec | undefined;
   /** Scheduling mode for the service. */
-  Mode?: CreateServiceRequestMode;
+  Mode?: CreateServiceRequestMode | undefined;
   /** Specification for the update strategy of the service. */
-  UpdateConfig?: ServiceSpecUpdateConfig;
+  UpdateConfig?: ServiceSpecUpdateConfig | undefined;
   /** Specification for the rollback strategy of the service. */
-  RollbackConfig?: ServiceSpecRollbackConfig;
+  RollbackConfig?: ServiceSpecRollbackConfig | undefined;
   /** Specifies which networks the service should attach to. Deprecated: This field is deprecated since v1.44. The Networks field in TaskSpec should be used instead. */
-  Networks?: ServiceSpecNetworksList;
-  EndpointSpec?: EndpointSpec;
+  Networks?: ServiceSpecNetworksList | undefined;
+  EndpointSpec?: EndpointSpec | undefined;
 }
 export type ServiceEndpointPortsList = Array<EndpointPortConfig>;
 export interface ServiceEndpointVirtualIPsItem {
-  NetworkID?: string;
-  Addr?: string;
+  NetworkID?: string | undefined;
+  Addr?: string | undefined;
 }
 export type ServiceEndpointVirtualIPsList = Array<ServiceEndpointVirtualIPsItem>;
 export interface ServiceEndpoint {
-  Spec?: EndpointSpec;
-  Ports?: ServiceEndpointPortsList;
-  VirtualIPs?: ServiceEndpointVirtualIPsList;
+  Spec?: EndpointSpec | undefined;
+  Ports?: ServiceEndpointPortsList | undefined;
+  VirtualIPs?: ServiceEndpointVirtualIPsList | undefined;
 }
 export type ServiceUpdateStatusState = "updating" | "paused" | "completed";
 /** The status of a service update. */
 export interface ServiceUpdateStatus {
-  State?: ServiceUpdateStatusState;
-  StartedAt?: string;
-  CompletedAt?: string;
-  Message?: string;
+  State?: ServiceUpdateStatusState | undefined;
+  StartedAt?: string | undefined;
+  CompletedAt?: string | undefined;
+  Message?: string | undefined;
 }
 /** The status of the service's tasks. Provided only when requested as part of a ServiceList operation. */
 export interface ServiceServiceStatus {
   /** The number of tasks for the service currently in the Running state. */
-  RunningTasks?: number;
+  RunningTasks?: number | undefined;
   /** The number of tasks for the service desired to be running. For replicated services, this is the replica count from the service spec. For global services, this is computed by taking count of all tasks for the service with a Desired State other than Shutdown. */
-  DesiredTasks?: number;
+  DesiredTasks?: number | undefined;
   /** The number of tasks for a job that are in the Completed state. This field must be cross-referenced with the service type, as the value of 0 may mean the service is not in a job mode, or it may mean the job-mode service has no tasks yet Completed. */
-  CompletedTasks?: number;
+  CompletedTasks?: number | undefined;
 }
 /** The status of the service when it is in one of ReplicatedJob or GlobalJob modes. Absent on Replicated and Global mode services. The JobIteration is an ObjectVersion, but unlike the Service's version, does not need to be sent with an update request. */
 export interface ServiceJobStatus {
   /** JobIteration is a value increased each time a Job is executed, successfully or otherwise. "Executed", in this case, means the job as a whole has been started, not that an individual Task has been launched. A job is "Executed" when its ServiceSpec is updated. JobIteration can be used to disambiguate Tasks belonging to different executions of a job. Though JobIteration will increase with each subsequent execution, it may not necessarily increase by 1, and so JobIteration should not be used to */
-  JobIteration?: ObjectVersion;
+  JobIteration?: ObjectVersion | undefined;
   /** The last time, as observed by the server, that this job was started. */
-  LastExecution?: string;
+  LastExecution?: string | undefined;
 }
 export interface Service {
-  ID?: string;
-  Version?: ObjectVersion;
-  CreatedAt?: string;
-  UpdatedAt?: string;
-  Spec?: ServiceSpec;
-  Endpoint?: ServiceEndpoint;
+  ID?: string | undefined;
+  Version?: ObjectVersion | undefined;
+  CreatedAt?: string | undefined;
+  UpdatedAt?: string | undefined;
+  Spec?: ServiceSpec | undefined;
+  Endpoint?: ServiceEndpoint | undefined;
   /** The status of a service update. */
-  UpdateStatus?: ServiceUpdateStatus;
+  UpdateStatus?: ServiceUpdateStatus | undefined;
   /** The status of the service's tasks. Provided only when requested as part of a ServiceList operation. */
-  ServiceStatus?: ServiceServiceStatus;
+  ServiceStatus?: ServiceServiceStatus | undefined;
   /** The status of the service when it is in one of ReplicatedJob or GlobalJob modes. Absent on Replicated and Global mode services. The JobIteration is an ObjectVersion, but unlike the Service's version, does not need to be sent with an update request. */
-  JobStatus?: ServiceJobStatus;
+  JobStatus?: ServiceJobStatus | undefined;
 }
 export type ListServiceResponseBodyList = Array<Service>;
 export type ListServiceResponse = ListServiceResponseBodyList;
 export interface ListTaskRequest {
   /** A JSON encoded value of the filters (a `map[string][]string`) to process on the tasks list. Available filters: - `desired-state=(running | shutdown | accepted)` - `id=<task id>` - `label=key` or `label="key=value"` - `name=<task name>` - `node=<node id or name>` - `service=<service name>` */
-  filters?: string;
+  filters?: string | undefined;
 }
 /** User-defined key/value metadata. */
 export type TaskLabelsMap = { [key: string]: string | undefined };
@@ -3181,63 +3181,63 @@ export type TaskState =
   | "orphaned";
 /** represents the status of a container. */
 export interface ContainerStatus {
-  ContainerID?: string;
-  PID?: number;
-  ExitCode?: number;
+  ContainerID?: string | undefined;
+  PID?: number | undefined;
+  ExitCode?: number | undefined;
 }
 export type PortStatusPortsList = Array<EndpointPortConfig>;
 /** represents the port status of a task's host ports whose service has published host ports */
 export interface PortStatus {
-  Ports?: PortStatusPortsList;
+  Ports?: PortStatusPortsList | undefined;
 }
 /** represents the status of a task. */
 export interface TaskStatus {
-  Timestamp?: string;
-  State?: TaskState;
-  Message?: string;
-  Err?: string;
-  ContainerStatus?: ContainerStatus;
-  PortStatus?: PortStatus;
+  Timestamp?: string | undefined;
+  State?: TaskState | undefined;
+  Message?: string | undefined;
+  Err?: string | undefined;
+  ContainerStatus?: ContainerStatus | undefined;
+  PortStatus?: PortStatus | undefined;
 }
 /** The IP addresses (in CIDR notation) assigned to the task on this network. To maintain backward compatibility this field accepts CIDR notation, but only the IP address is used. */
 export type NetworkAttachmentAddressesList = Array<string>;
 /** Specifies how a task is attached to a network, and the addresses the task was assigned on that network. */
 export interface NetworkAttachment {
-  Network?: Network;
+  Network?: Network | undefined;
   /** The IP addresses (in CIDR notation) assigned to the task on this network. To maintain backward compatibility this field accepts CIDR notation, but only the IP address is used. */
-  Addresses?: NetworkAttachmentAddressesList;
+  Addresses?: NetworkAttachmentAddressesList | undefined;
 }
 /** The networks that this task is attached to, and the addresses the task was assigned on each of them. */
 export type TaskNetworksAttachmentsList = Array<NetworkAttachment>;
 export interface Task {
   /** The ID of the task. */
-  ID?: string;
-  Version?: ObjectVersion;
-  CreatedAt?: string;
-  UpdatedAt?: string;
+  ID?: string | undefined;
+  Version?: ObjectVersion | undefined;
+  CreatedAt?: string | undefined;
+  UpdatedAt?: string | undefined;
   /** Name of the task. */
-  Name?: string;
+  Name?: string | undefined;
   /** User-defined key/value metadata. */
-  Labels?: TaskLabelsMap;
-  Spec?: TaskSpec;
+  Labels?: TaskLabelsMap | undefined;
+  Spec?: TaskSpec | undefined;
   /** The ID of the service this task is part of. */
-  ServiceID?: string;
-  Slot?: number;
+  ServiceID?: string | undefined;
+  Slot?: number | undefined;
   /** The ID of the node that this task is on. */
-  NodeID?: string;
-  AssignedGenericResources?: GenericResources;
-  Status?: TaskStatus;
-  DesiredState?: TaskState;
+  NodeID?: string | undefined;
+  AssignedGenericResources?: GenericResources | undefined;
+  Status?: TaskStatus | undefined;
+  DesiredState?: TaskState | undefined;
   /** If the Service this Task belongs to is a job-mode service, contains the JobIteration of the Service this Task was created for. Absent if the Task was created for a Replicated or Global Service. */
-  JobIteration?: ObjectVersion;
+  JobIteration?: ObjectVersion | undefined;
   /** The networks that this task is attached to, and the addresses the task was assigned on each of them. */
-  NetworksAttachments?: TaskNetworksAttachmentsList;
+  NetworksAttachments?: TaskNetworksAttachmentsList | undefined;
 }
 export type ListTaskResponseBodyList = Array<Task>;
 export type ListTaskResponse = ListTaskResponseBodyList;
 export interface ListVolumeRequest {
   /** JSON encoded value of the filters (a `map[string][]string`) to process on the volumes list. Available filters: - `dangling=<boolean>` When set to `true` (or `1`), returns all volumes that are not in use by a container. When set to `false` (or `0`), only volumes that are in use by one or more containers are returned. - `driver=<volume-driver-name>` Matches volumes based on their driver. - `label=<key>` or `label=<key>:<value>` Matches volumes based on the presence of a `label` alone or a `label` and a value. - `name=<volume-name>` Matches all or part of a volume name. */
-  filters?: string;
+  filters?: string | undefined;
 }
 /** List of volumes */
 export type VolumeListResponseVolumesList = Array<Volume>;
@@ -3246,17 +3246,17 @@ export type VolumeListResponseWarningsList = Array<string>;
 /** Volume list response */
 export interface VolumeListResponse {
   /** List of volumes */
-  Volumes?: VolumeListResponseVolumesList;
+  Volumes?: VolumeListResponseVolumesList | undefined;
   /** Warnings that occurred when fetching the list of volumes. */
-  Warnings?: VolumeListResponseWarningsList;
+  Warnings?: VolumeListResponseWarningsList | undefined;
 }
 export interface NetworkInspectRequest {
   /** Network ID or name */
   id: string;
   /** Detailed inspect output for troubleshooting */
-  verbose?: boolean;
+  verbose?: boolean | undefined;
   /** Filter the network by scope (swarm, global, or local) */
-  scope?: string;
+  scope?: string | undefined;
 }
 /** Network-specific options uses when creating the network. */
 export type NetworkInspectResponseOptionsMap = { [key: string]: string | undefined };
@@ -3266,11 +3266,11 @@ export type NetworkInspectResponseLabelsMap = { [key: string]: string | undefine
 export type NetworkInspectResponsePeersList = Array<PeerInfo>;
 /** contains network resources allocated and used for a container in a network. */
 export interface EndpointResource {
-  Name?: string;
-  EndpointID?: string;
-  MacAddress?: string;
-  IPv4Address?: string;
-  IPv6Address?: string;
+  Name?: string | undefined;
+  EndpointID?: string | undefined;
+  MacAddress?: string | undefined;
+  IPv4Address?: string | undefined;
+  IPv6Address?: string | undefined;
 }
 /** Contains endpoints attached to the network. */
 export type NetworkInspectResponseContainersMap = { [key: string]: EndpointResource | undefined };
@@ -3278,66 +3278,66 @@ export type NetworkInspectResponseContainersMap = { [key: string]: EndpointResou
 export type NetworkInspectResponseServicesMap = { [key: string]: unknown | undefined };
 export interface SubnetStatus {
   /** Number of IP addresses in the subnet that are in use or reserved and are therefore unavailable for allocation, saturating at 2<sup>64</sup> - 1. */
-  IPsInUse?: number;
+  IPsInUse?: number | undefined;
   /** Number of IP addresses within the network's IPRange for the subnet that are available for allocation, saturating at 2<sup>64</sup> - 1. */
-  DynamicIPsAvailable?: number;
+  DynamicIPsAvailable?: number | undefined;
 }
 export type IPAMStatusSubnetsMap = { [key: string]: SubnetStatus | undefined };
 export interface IPAMStatus {
-  Subnets?: IPAMStatusSubnetsMap;
+  Subnets?: IPAMStatusSubnetsMap | undefined;
 }
 /** provides runtime information about the network such as the number of allocated IPs. */
 export interface NetworkStatus {
-  IPAM?: IPAMStatus;
+  IPAM?: IPAMStatus | undefined;
 }
 export interface NetworkInspectResponse {
   /** Name of the network. */
-  Name?: string;
+  Name?: string | undefined;
   /** ID that uniquely identifies a network on a single machine. */
-  Id?: string;
+  Id?: string | undefined;
   /** Date and time at which the network was created in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds. */
-  Created?: string;
+  Created?: string | undefined;
   /** The level at which the network exists (e.g. `swarm` for cluster-wide or `local` for machine level) */
-  Scope?: string;
+  Scope?: string | undefined;
   /** The name of the driver used to create the network (e.g. `bridge`, `overlay`). */
-  Driver?: string;
+  Driver?: string | undefined;
   /** Whether the network was created with IPv4 enabled. */
-  EnableIPv4?: boolean;
+  EnableIPv4?: boolean | undefined;
   /** Whether the network was created with IPv6 enabled. */
-  EnableIPv6?: boolean;
+  EnableIPv6?: boolean | undefined;
   /** The network's IP Address Management. */
-  IPAM?: IPAM;
+  IPAM?: IPAM | undefined;
   /** Whether the network is created to only allow internal networking connectivity. */
-  Internal?: boolean;
+  Internal?: boolean | undefined;
   /** Whether a global / swarm scope network is manually attachable by regular containers from workers in swarm mode. */
-  Attachable?: boolean;
+  Attachable?: boolean | undefined;
   /** Whether the network is providing the routing-mesh for the swarm cluster. */
-  Ingress?: boolean;
-  ConfigFrom?: ConfigReference;
+  Ingress?: boolean | undefined;
+  ConfigFrom?: ConfigReference | undefined;
   /** Whether the network is a config-only network. Config-only networks are placeholder networks for network configurations to be used by other networks. Config-only networks cannot be used directly to run containers or services. */
-  ConfigOnly?: boolean;
+  ConfigOnly?: boolean | undefined;
   /** Network-specific options uses when creating the network. */
-  Options?: NetworkInspectResponseOptionsMap;
+  Options?: NetworkInspectResponseOptionsMap | undefined;
   /** Metadata specific to the network being created. */
-  Labels?: NetworkInspectResponseLabelsMap;
+  Labels?: NetworkInspectResponseLabelsMap | undefined;
   /** List of peer nodes for an overlay network. This field is only present for overlay networks, and omitted for other network types. */
-  Peers?: NetworkInspectResponsePeersList;
+  Peers?: NetworkInspectResponsePeersList | undefined;
   /** Contains endpoints attached to the network. */
-  Containers?: NetworkInspectResponseContainersMap;
+  Containers?: NetworkInspectResponseContainersMap | undefined;
   /** List of services using the network. This field is only present for swarm scope networks, and omitted for local scope networks. */
-  Services?: NetworkInspectResponseServicesMap;
+  Services?: NetworkInspectResponseServicesMap | undefined;
   /** provides runtime information about the network such as the number of allocated IPs. */
-  Status?: NetworkStatus;
+  Status?: NetworkStatus | undefined;
 }
 export interface NetworkPruneRequest {
   /** Filters to process on the prune list, encoded as JSON (a `map[string][]string`). Available filters: - `until=<timestamp>` Prune networks created before this timestamp. The `<timestamp>` can be Unix timestamps, date formatted timestamps, or Go duration strings (e.g. `10m`, `1h30m`) computed relative to the daemon machine's time. - `label` (`label=<key>`, `label=<key>=<value>`, `label!=<key>`, or `label!=<key>=<value>`) Prune networks with (or without, in case `label!=...` is used) the specified labels. */
-  filters?: string;
+  filters?: string | undefined;
 }
 /** Networks that were deleted */
 export type NetworkPruneResponseNetworksDeletedList = Array<string>;
 export interface NetworkPruneResponse {
   /** Networks that were deleted */
-  NetworksDeleted?: NetworkPruneResponseNetworksDeletedList;
+  NetworksDeleted?: NetworkPruneResponseNetworksDeletedList | undefined;
 }
 export interface NodeInspectRequest {
   /** The ID or name of the node */
@@ -3359,10 +3359,10 @@ export interface PluginPullRequest {
   /** Remote reference for plugin to install. The `:latest` tag is optional, and is used as the default if omitted. */
   remote: string;
   /** Local name for the pulled plugin. The `:latest` tag is optional, and is used as the default if omitted. */
-  name?: string;
+  name?: string | undefined;
   /** A base64url-encoded auth configuration to use when pulling a plugin from a registry. Refer to the [authentication section](#section/Authentication) for details. */
-  xRegistryAuth?: string;
-  body?: PluginPullRequestBodyList;
+  xRegistryAuth?: string | undefined;
+  body?: PluginPullRequestBodyList | undefined;
 }
 export interface PluginPullResponse {}
 export interface PluginPushRequest {
@@ -3377,8 +3377,8 @@ export interface PluginUpgradeRequest {
   /** Remote reference to upgrade to. The `:latest` tag is optional, and is used as the default if omitted. */
   remote: string;
   /** A base64url-encoded auth configuration to use when pulling a plugin from a registry. Refer to the [authentication section](#section/Authentication) for details. */
-  xRegistryAuth?: string;
-  body?: PluginUpgradeRequestBodyList;
+  xRegistryAuth?: string | undefined;
+  body?: PluginUpgradeRequestBodyList | undefined;
 }
 export interface PluginUpgradeResponse {}
 export interface PutContainerArchiveRequest {
@@ -3387,9 +3387,9 @@ export interface PutContainerArchiveRequest {
   /** Path to a directory in the container to extract the archive's contents into. */
   path: string;
   /** If `1`, `true`, or `True` then it will be an error if unpacking the given content would cause an existing directory to be replaced with a non-directory and vice versa. */
-  noOverwriteDirNonDir?: string;
+  noOverwriteDirNonDir?: string | undefined;
   /** If `1`, `true`, then it will copy UID/GID maps to the dest file or dir */
-  copyUIDGID?: string;
+  copyUIDGID?: string | undefined;
   body: string;
 }
 export interface PutContainerArchiveResponse {}
@@ -3413,26 +3413,26 @@ export interface RestartContainerRequest {
   /** ID or name of the container */
   id: string;
   /** Signal to send to the container as an integer or string (e.g. `SIGINT`). */
-  signal?: string;
+  signal?: string | undefined;
   /** Number of seconds to wait before killing the container */
-  t?: number;
+  t?: number | undefined;
 }
 export interface RestartContainerResponse {}
 export interface SearchImageRequest {
   /** Term to search */
   term: string;
   /** Maximum number of results to return */
-  limit?: number;
+  limit?: number | undefined;
   /** A JSON encoded value of the filters (a `map[string][]string`) to process on the images list. Available filters: - `is-official=(true|false)` - `stars=<number>` Matches images that has at least 'number' stars. */
-  filters?: string;
+  filters?: string | undefined;
 }
 export interface SearchImageResponseBodyItem {
-  description?: string;
-  is_official?: boolean;
+  description?: string | undefined;
+  is_official?: boolean | undefined;
   /** Whether this repository has automated builds enabled. <p><br /></p> > **Deprecated**: This field is deprecated and will always be "false". */
-  is_automated?: boolean;
-  name?: string;
-  star_count?: number;
+  is_automated?: boolean | undefined;
+  name?: string | undefined;
+  star_count?: number | undefined;
 }
 export type SearchImageResponseBodyList = Array<SearchImageResponseBodyItem>;
 export type SearchImageResponse = SearchImageResponseBodyList;
@@ -3444,25 +3444,25 @@ export interface ServiceInspectRequest {
   /** ID or name of service. */
   id: string;
   /** Fill empty fields with default values. */
-  insertDefaults?: boolean;
+  insertDefaults?: boolean | undefined;
 }
 export interface ServiceLogsRequest {
   /** ID or name of the service */
   id: string;
   /** Show service context and extra details provided to logs. */
-  details?: boolean;
+  details?: boolean | undefined;
   /** Keep connection after returning logs. */
-  follow?: boolean;
+  follow?: boolean | undefined;
   /** Return logs from `stdout` */
-  stdout?: boolean;
+  stdout?: boolean | undefined;
   /** Return logs from `stderr` */
-  stderr?: boolean;
+  stderr?: boolean | undefined;
   /** Only return logs since this time, as a UNIX timestamp */
-  since?: number;
+  since?: number | undefined;
   /** Add timestamps to every log line */
-  timestamps?: boolean;
+  timestamps?: boolean | undefined;
   /** Only return this number of log lines from the end of the logs. Specify as an integer or `all` to output all log lines. */
-  tail?: string;
+  tail?: string | undefined;
 }
 export type ServiceLogsResponse = string;
 export interface SessionRequest {}
@@ -3471,23 +3471,23 @@ export type SetPluginRequestBodyList = Array<string>;
 export interface SetPluginRequest {
   /** The name of the plugin. The `:latest` tag is optional, and is the default if omitted. */
   name: string;
-  body?: SetPluginRequestBodyList;
+  body?: SetPluginRequestBodyList | undefined;
 }
 export interface SetPluginResponse {}
 export interface StartContainerRequest {
   /** ID or name of the container */
   id: string;
   /** Override the key sequence for detaching a container. Format is a single character `[a-Z]` or `ctrl-<value>` where `<value>` is one of: `a-z`, `@`, `^`, `[`, `,` or `_`. */
-  detachKeys?: string;
+  detachKeys?: string | undefined;
 }
 export interface StartContainerResponse {}
 export interface StopContainerRequest {
   /** ID or name of the container */
   id: string;
   /** Signal to send to the container as an integer or string (e.g. `SIGINT`). */
-  signal?: string;
+  signal?: string | undefined;
   /** Number of seconds to wait before killing the container */
-  t?: number;
+  t?: number | undefined;
 }
 export interface StopContainerResponse {}
 /** Default Address Pool specifies default subnet pools for global scope networks. */
@@ -3497,25 +3497,25 @@ export type SwarmSpecLabelsMap = { [key: string]: string | undefined };
 /** Orchestration configuration. */
 export interface SwarmSpecOrchestration {
   /** The number of historic tasks to keep per instance or node. If negative, never remove completed or failed tasks. */
-  TaskHistoryRetentionLimit?: number;
+  TaskHistoryRetentionLimit?: number | undefined;
 }
 /** Raft configuration. */
 export interface SwarmSpecRaft {
   /** The number of log entries between snapshots. */
-  SnapshotInterval?: number;
+  SnapshotInterval?: number | undefined;
   /** The number of snapshots to keep beyond the current snapshot. */
-  KeepOldSnapshots?: number;
+  KeepOldSnapshots?: number | undefined;
   /** The number of log entries to keep around to sync up slow followers after a snapshot is created. */
-  LogEntriesForSlowFollowers?: number;
+  LogEntriesForSlowFollowers?: number | undefined;
   /** The number of ticks that a follower will wait for a message from the leader before becoming a candidate and starting an election. `ElectionTick` must be greater than `HeartbeatTick`. A tick currently defaults to one second, so these translate directly to seconds currently, but this is NOT guaranteed. */
-  ElectionTick?: number;
+  ElectionTick?: number | undefined;
   /** The number of ticks between heartbeats. Every HeartbeatTick ticks, the leader will send a heartbeat to the followers. A tick currently defaults to one second, so these translate directly to seconds currently, but this is NOT guaranteed. */
-  HeartbeatTick?: number;
+  HeartbeatTick?: number | undefined;
 }
 /** Dispatcher configuration. */
 export interface SwarmSpecDispatcher {
   /** The delay for an agent to send a heartbeat to the dispatcher. */
-  HeartbeatPeriod?: number;
+  HeartbeatPeriod?: number | undefined;
 }
 /** Protocol for communication with the external CA (currently only `cfssl` is supported). */
 export type SwarmSpecCAConfigExternalCAsItemProtocol = "cfssl";
@@ -3523,83 +3523,83 @@ export type SwarmSpecCAConfigExternalCAsItemProtocol = "cfssl";
 export type SwarmSpecCAConfigExternalCAsItemOptionsMap = { [key: string]: string | undefined };
 export interface SwarmSpecCAConfigExternalCAsItem {
   /** Protocol for communication with the external CA (currently only `cfssl` is supported). */
-  Protocol?: SwarmSpecCAConfigExternalCAsItemProtocol | (string & {});
+  Protocol?: SwarmSpecCAConfigExternalCAsItemProtocol | (string & {}) | undefined;
   /** URL where certificate signing requests should be sent. */
-  URL?: string;
+  URL?: string | undefined;
   /** An object with key/value pairs that are interpreted as protocol-specific options for the external CA driver. */
-  Options?: SwarmSpecCAConfigExternalCAsItemOptionsMap;
+  Options?: SwarmSpecCAConfigExternalCAsItemOptionsMap | undefined;
   /** The root CA certificate (in PEM format) this external CA uses to issue TLS certificates (assumed to be to the current swarm root CA certificate if not provided). */
-  CACert?: string;
+  CACert?: string | undefined;
 }
 /** Configuration for forwarding signing requests to an external certificate authority. */
 export type SwarmSpecCAConfigExternalCAsList = Array<SwarmSpecCAConfigExternalCAsItem>;
 /** CA configuration. */
 export interface SwarmSpecCAConfig {
   /** The duration node certificates are issued for. */
-  NodeCertExpiry?: number;
+  NodeCertExpiry?: number | undefined;
   /** Configuration for forwarding signing requests to an external certificate authority. */
-  ExternalCAs?: SwarmSpecCAConfigExternalCAsList;
+  ExternalCAs?: SwarmSpecCAConfigExternalCAsList | undefined;
   /** The desired signing CA certificate for all swarm node TLS leaf certificates, in PEM format. */
-  SigningCACert?: string;
+  SigningCACert?: string | undefined;
   /** The desired signing CA key for all swarm node TLS leaf certificates, in PEM format. */
-  SigningCAKey?: string;
+  SigningCAKey?: string | undefined;
   /** An integer whose purpose is to force swarm to generate a new signing CA certificate and key, if none have been specified in `SigningCACert` and `SigningCAKey` */
-  ForceRotate?: number;
+  ForceRotate?: number | undefined;
 }
 /** Parameters related to encryption-at-rest. */
 export interface SwarmSpecEncryptionConfig {
   /** If set, generate a key and use it to lock data stored on the managers. */
-  AutoLockManagers?: boolean;
+  AutoLockManagers?: boolean | undefined;
 }
 /** Driver-specific options for the selected log driver, specified as key/value pairs. */
 export type SwarmSpecTaskDefaultsLogDriverOptionsMap = { [key: string]: string | undefined };
 /** The log driver to use for tasks created in the orchestrator if unspecified by a service. Updating this value only affects new tasks. Existing tasks continue to use their previously configured log driver until recreated. */
 export interface SwarmSpecTaskDefaultsLogDriver {
   /** The log driver to use as a default for new tasks. */
-  Name?: string;
+  Name?: string | undefined;
   /** Driver-specific options for the selected log driver, specified as key/value pairs. */
-  Options?: SwarmSpecTaskDefaultsLogDriverOptionsMap;
+  Options?: SwarmSpecTaskDefaultsLogDriverOptionsMap | undefined;
 }
 /** Defaults for creating tasks in this cluster. */
 export interface SwarmSpecTaskDefaults {
   /** The log driver to use for tasks created in the orchestrator if unspecified by a service. Updating this value only affects new tasks. Existing tasks continue to use their previously configured log driver until recreated. */
-  LogDriver?: SwarmSpecTaskDefaultsLogDriver;
+  LogDriver?: SwarmSpecTaskDefaultsLogDriver | undefined;
 }
 /** User modifiable swarm configuration. */
 export interface SwarmSpec {
   /** Name of the swarm. */
-  Name?: string;
+  Name?: string | undefined;
   /** User-defined key/value metadata. */
-  Labels?: SwarmSpecLabelsMap;
+  Labels?: SwarmSpecLabelsMap | undefined;
   /** Orchestration configuration. */
-  Orchestration?: SwarmSpecOrchestration | null;
+  Orchestration?: SwarmSpecOrchestration | null | undefined;
   /** Raft configuration. */
-  Raft?: SwarmSpecRaft;
+  Raft?: SwarmSpecRaft | undefined;
   /** Dispatcher configuration. */
-  Dispatcher?: SwarmSpecDispatcher | null;
+  Dispatcher?: SwarmSpecDispatcher | null | undefined;
   /** CA configuration. */
-  CAConfig?: SwarmSpecCAConfig | null;
+  CAConfig?: SwarmSpecCAConfig | null | undefined;
   /** Parameters related to encryption-at-rest. */
-  EncryptionConfig?: SwarmSpecEncryptionConfig;
+  EncryptionConfig?: SwarmSpecEncryptionConfig | undefined;
   /** Defaults for creating tasks in this cluster. */
-  TaskDefaults?: SwarmSpecTaskDefaults;
+  TaskDefaults?: SwarmSpecTaskDefaults | undefined;
 }
 export interface SwarmInitRequest {
   /** Listen address used for inter-manager communication, as well as determining the networking interface used for the VXLAN Tunnel Endpoint (VTEP). This can either be an address/port combination in the form `192.168.1.1:4567`, or an interface followed by a port number, like `eth0:4567`. If the port number is omitted, the default swarm listening port is used. */
-  ListenAddr?: string;
+  ListenAddr?: string | undefined;
   /** Externally reachable address advertised to other nodes. This can either be an address/port combination in the form `192.168.1.1:4567`, or an interface followed by a port number, like `eth0:4567`. If the port number is omitted, the port number from the listen address is used. If `AdvertiseAddr` is not specified, it will be automatically detected when possible. */
-  AdvertiseAddr?: string;
+  AdvertiseAddr?: string | undefined;
   /** Address or interface to use for data path traffic (format: `<ip|interface>`), for example, `192.168.1.1`, or an interface, like `eth0`. If `DataPathAddr` is unspecified, the same address as `AdvertiseAddr` is used. The `DataPathAddr` specifies the address that global scope network drivers will publish towards other nodes in order to reach the containers running on this node. Using this parameter it is possible to separate the container data traffic from the management traffic of the cluster. */
-  DataPathAddr?: string;
+  DataPathAddr?: string | undefined;
   /** DataPathPort specifies the data path port number for data traffic. Acceptable port range is 1024 to 49151. if no port is set or is set to 0, default port 4789 will be used. */
-  DataPathPort?: number;
+  DataPathPort?: number | undefined;
   /** Default Address Pool specifies default subnet pools for global scope networks. */
-  DefaultAddrPool?: SwarmInitRequestDefaultAddrPoolList;
+  DefaultAddrPool?: SwarmInitRequestDefaultAddrPoolList | undefined;
   /** Force creation of a new swarm. */
-  ForceNewCluster?: boolean;
+  ForceNewCluster?: boolean | undefined;
   /** SubnetSize specifies the subnet size of the networks created from the default subnet pool. */
-  SubnetSize?: number;
-  Spec?: SwarmSpec;
+  SubnetSize?: number | undefined;
+  Spec?: SwarmSpec | undefined;
 }
 export type SwarmInitResponse = string;
 export interface SwarmInspectRequest {}
@@ -3608,128 +3608,128 @@ export type SwarmInspectResponseDefaultAddrPoolList = Array<string>;
 /** JoinTokens contains the tokens workers and managers need to join the swarm. */
 export interface JoinTokens {
   /** The token workers can use to join the swarm. */
-  Worker?: string;
+  Worker?: string | undefined;
   /** The token managers can use to join the swarm. */
-  Manager?: string;
+  Manager?: string | undefined;
 }
 export interface SwarmInspectResponse {
   /** The ID of the swarm. */
-  ID?: string;
-  Version?: ObjectVersion;
+  ID?: string | undefined;
+  Version?: ObjectVersion | undefined;
   /** Date and time at which the swarm was initialised in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds. */
-  CreatedAt?: string;
+  CreatedAt?: string | undefined;
   /** Date and time at which the swarm was last updated in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds. */
-  UpdatedAt?: string;
-  Spec?: SwarmSpec;
-  TLSInfo?: TLSInfo;
+  UpdatedAt?: string | undefined;
+  Spec?: SwarmSpec | undefined;
+  TLSInfo?: TLSInfo | undefined;
   /** Whether there is currently a root CA rotation in progress for the swarm */
-  RootRotationInProgress?: boolean;
+  RootRotationInProgress?: boolean | undefined;
   /** DataPathPort specifies the data path port number for data traffic. Acceptable port range is 1024 to 49151. If no port is set or is set to 0, the default port (4789) is used. */
-  DataPathPort?: number;
+  DataPathPort?: number | undefined;
   /** Default Address Pool specifies default subnet pools for global scope networks. */
-  DefaultAddrPool?: SwarmInspectResponseDefaultAddrPoolList;
+  DefaultAddrPool?: SwarmInspectResponseDefaultAddrPoolList | undefined;
   /** SubnetSize specifies the subnet size of the networks created from the default subnet pool. */
-  SubnetSize?: number;
-  JoinTokens?: JoinTokens;
+  SubnetSize?: number | undefined;
+  JoinTokens?: JoinTokens | undefined;
 }
 export interface SwarmUnlockkeyRequest {}
 export interface SwarmUnlockkeyResponse {
   /** The swarm's unlock key. */
-  UnlockKey?: string;
+  UnlockKey?: string | undefined;
 }
 export interface SystemAuthRequest {
-  username?: string;
-  password?: string | Redacted.Redacted<string>;
-  serveraddress?: string;
+  username?: string | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+  serveraddress?: string | undefined;
 }
 /** An identity token was generated successfully. */
 export interface AuthResponse {
   /** The status of the authentication */
   Status: string;
   /** An opaque token used to authenticate a user after a successful login */
-  IdentityToken?: string;
+  IdentityToken?: string | undefined;
 }
 export type SystemDataUsageRequestTypeItem = "container" | "image" | "volume" | "build-cache";
 export type SystemDataUsageRequestTypeList = Array<SystemDataUsageRequestTypeItem | (string & {})>;
 export interface SystemDataUsageRequest {
   /** Object types, for which to compute and return data. */
-  type?: SystemDataUsageRequestTypeList;
+  type?: SystemDataUsageRequestTypeList | undefined;
   /** Show detailed information on space usage. */
-  verbose?: boolean;
+  verbose?: boolean | undefined;
 }
 /** List of image summaries. */
 export type ImagesDiskUsageItemsList = Array<unknown>;
 /** represents system data usage for image resources. */
 export interface ImagesDiskUsage {
   /** Count of active images. */
-  ActiveCount?: number;
+  ActiveCount?: number | undefined;
   /** Count of all images. */
-  TotalCount?: number;
+  TotalCount?: number | undefined;
   /** Disk space that can be reclaimed by removing unused images. */
-  Reclaimable?: number;
+  Reclaimable?: number | undefined;
   /** Disk space in use by images. */
-  TotalSize?: number;
+  TotalSize?: number | undefined;
   /** List of image summaries. */
-  Items?: ImagesDiskUsageItemsList;
+  Items?: ImagesDiskUsageItemsList | undefined;
 }
 /** List of container summaries. */
 export type ContainersDiskUsageItemsList = Array<unknown>;
 /** represents system data usage information for container resources. */
 export interface ContainersDiskUsage {
   /** Count of active containers. */
-  ActiveCount?: number;
+  ActiveCount?: number | undefined;
   /** Count of all containers. */
-  TotalCount?: number;
+  TotalCount?: number | undefined;
   /** Disk space that can be reclaimed by removing inactive containers. */
-  Reclaimable?: number;
+  Reclaimable?: number | undefined;
   /** Disk space in use by containers. */
-  TotalSize?: number;
+  TotalSize?: number | undefined;
   /** List of container summaries. */
-  Items?: ContainersDiskUsageItemsList;
+  Items?: ContainersDiskUsageItemsList | undefined;
 }
 /** List of volumes. */
 export type VolumesDiskUsageItemsList = Array<unknown>;
 /** represents system data usage for volume resources. */
 export interface VolumesDiskUsage {
   /** Count of active volumes. */
-  ActiveCount?: number;
+  ActiveCount?: number | undefined;
   /** Count of all volumes. */
-  TotalCount?: number;
+  TotalCount?: number | undefined;
   /** Disk space that can be reclaimed by removing inactive volumes. */
-  Reclaimable?: number;
+  Reclaimable?: number | undefined;
   /** Disk space in use by volumes. */
-  TotalSize?: number;
+  TotalSize?: number | undefined;
   /** List of volumes. */
-  Items?: VolumesDiskUsageItemsList;
+  Items?: VolumesDiskUsageItemsList | undefined;
 }
 /** List of build cache records. */
 export type BuildCacheDiskUsageItemsList = Array<unknown>;
 /** represents system data usage for build cache resources. */
 export interface BuildCacheDiskUsage {
   /** Count of active build cache records. */
-  ActiveCount?: number;
+  ActiveCount?: number | undefined;
   /** Count of all build cache records. */
-  TotalCount?: number;
+  TotalCount?: number | undefined;
   /** Disk space that can be reclaimed by removing inactive build cache records. */
-  Reclaimable?: number;
+  Reclaimable?: number | undefined;
   /** Disk space in use by build cache records. */
-  TotalSize?: number;
+  TotalSize?: number | undefined;
   /** List of build cache records. */
-  Items?: BuildCacheDiskUsageItemsList;
+  Items?: BuildCacheDiskUsageItemsList | undefined;
 }
 export interface SystemDataUsageResponse {
-  ImageUsage?: ImagesDiskUsage;
-  ContainerUsage?: ContainersDiskUsage;
-  VolumeUsage?: VolumesDiskUsage;
-  BuildCacheUsage?: BuildCacheDiskUsage;
+  ImageUsage?: ImagesDiskUsage | undefined;
+  ContainerUsage?: ContainersDiskUsage | undefined;
+  VolumeUsage?: VolumesDiskUsage | undefined;
+  BuildCacheUsage?: BuildCacheDiskUsage | undefined;
 }
 export interface SystemEventsRequest {
   /** Show events created since this timestamp then stream new events. */
-  since?: string;
+  since?: string | undefined;
   /** Show events created until this timestamp then stop streaming. */
-  until?: string;
+  until?: string | undefined;
   /** A JSON encoded value of filters (a `map[string][]string`) to process on the event list. Available filters: - `config=<string>` config name or ID - `container=<string>` container name or ID - `daemon=<string>` daemon name or ID - `event=<string>` event type - `image=<string>` image name or ID - `label=<string>` image or container label - `network=<string>` network name or ID - `node=<string>` node ID - `plugin`=<string> plugin name or ID - `scope`=<string> local or swarm - `secret=<string>` secret name or ID - `service=<string>` service name or ID - `type=<string>` object to filter by, one of `container`, `image`, `volume`, `network`, `daemon`, `plugin`, `node`, `service`, `secret` or `config` - `volume=<string>` volume name */
-  filters?: string;
+  filters?: string | undefined;
 }
 /** The type of object emitting the event */
 export type EventMessageType =
@@ -3749,25 +3749,25 @@ export type EventActorAttributesMap = { [key: string]: string | undefined };
 /** Actor describes something that generates events, like a container, network, or a volume. */
 export interface EventActor {
   /** The ID of the object emitting the event */
-  ID?: string;
+  ID?: string | undefined;
   /** Various key/value attributes of the object, depending on its type. */
-  Attributes?: EventActorAttributesMap;
+  Attributes?: EventActorAttributesMap | undefined;
 }
 /** Scope of the event. Engine events are `local` scope. Cluster (Swarm) events are `swarm` scope. */
 export type EventMessageScope = "local" | "swarm";
 /** EventMessage represents the information an event contains. */
 export interface EventMessage {
   /** The type of object emitting the event */
-  Type?: EventMessageType;
+  Type?: EventMessageType | undefined;
   /** The type of event */
-  Action?: string;
-  Actor?: EventActor;
+  Action?: string | undefined;
+  Actor?: EventActor | undefined;
   /** Scope of the event. Engine events are `local` scope. Cluster (Swarm) events are `swarm` scope. */
-  scope?: EventMessageScope;
+  scope?: EventMessageScope | undefined;
   /** Timestamp of event */
-  time?: number;
+  time?: number | undefined;
   /** Timestamp of event, with nanosecond accuracy */
-  timeNano?: number;
+  timeNano?: number | undefined;
 }
 export interface SystemInfo2Request {}
 export type SystemInfoDriverStatusItemList = Array<string>;
@@ -3784,13 +3784,13 @@ export type PluginsInfoLogList = Array<string>;
 /** Available plugins per type. <p><br /></p> > **Note**: Only unmanaged (V1) plugins are included in this list. > V1 plugins are "lazily" loaded, and are not returned in this list > if there is no resource using the plugin. */
 export interface PluginsInfo {
   /** Names of available volume-drivers, and network-driver plugins. */
-  Volume?: PluginsInfoVolumeList;
+  Volume?: PluginsInfoVolumeList | undefined;
   /** Names of available network-drivers, and network-driver plugins. */
-  Network?: PluginsInfoNetworkList;
+  Network?: PluginsInfoNetworkList | undefined;
   /** Names of available authorization plugins. */
-  Authorization?: PluginsInfoAuthorizationList;
+  Authorization?: PluginsInfoAuthorizationList | undefined;
   /** Names of available logging-drivers, and logging-driver plugins. */
-  Log?: PluginsInfoLogList;
+  Log?: PluginsInfoLogList | undefined;
 }
 /** The driver to use for managing cgroups. */
 export type SystemInfoCgroupDriver = "cgroupfs" | "systemd" | "none";
@@ -3803,13 +3803,13 @@ export type IndexInfoMirrorsList = Array<string>;
 /** IndexInfo contains information about a registry. */
 export interface IndexInfo {
   /** Name of the registry, such as "docker.io". */
-  Name?: string;
+  Name?: string | undefined;
   /** List of mirrors, expressed as URIs. */
-  Mirrors?: IndexInfoMirrorsList;
+  Mirrors?: IndexInfoMirrorsList | undefined;
   /** Indicates if the registry is part of the list of insecure registries. If `false`, the registry is insecure. Insecure registries accept un-encrypted (HTTP) and/or untrusted (HTTPS with certificates from unknown CAs) communication. > **Warning**: Insecure registries can be useful when running a local > registry. However, because its use creates security vulnerabilities > it should ONLY be enabled for testing purposes. For increased > security, users should add their CA to their system's list of > trusted CAs instead of enabling this option. */
-  Secure?: boolean;
+  Secure?: boolean | undefined;
   /** Indicates whether this is an official registry (i.e., Docker Hub / docker.io) */
-  Official?: boolean;
+  Official?: boolean | undefined;
 }
 export type RegistryServiceConfigIndexConfigsMap = { [key: string]: IndexInfo | null | undefined };
 /** List of registry URLs that act as a mirror for the official (`docker.io`) registry. */
@@ -3817,10 +3817,10 @@ export type RegistryServiceConfigMirrorsList = Array<string>;
 /** RegistryServiceConfig stores daemon registry services configuration. */
 export interface RegistryServiceConfig {
   /** List of IP ranges of insecure registries, using the CIDR syntax ([RFC 4632](https://tools.ietf.org/html/4632)). Insecure registries accept un-encrypted (HTTP) and/or untrusted (HTTPS with certificates from unknown CAs) communication. By default, local registries (`::1/128` and `127.0.0.0/8`) are configured as insecure. All other registries are secure. Communicating with an insecure registry is not possible if the daemon assumes that registry is secure. This configuration override this behavior, insecure communication with registries whose resolved IP address is within the subnet described by the CIDR syntax. Registries can also be marked insecure by hostname. Those registries are listed under `IndexConfigs` and have their `Secure` field set to `false`. > **Warning**: Using this option can be useful when running a local > registry, but introduces security vulnerabilities. This option > should therefore ONLY be used for testing purposes. For increased > security, users should add their CA to their system's list of trusted > CAs instead of enabling this option. */
-  InsecureRegistryCIDRs?: RegistryServiceConfigInsecureRegistryCIDRsList;
-  IndexConfigs?: RegistryServiceConfigIndexConfigsMap;
+  InsecureRegistryCIDRs?: RegistryServiceConfigInsecureRegistryCIDRsList | undefined;
+  IndexConfigs?: RegistryServiceConfigIndexConfigsMap | undefined;
   /** List of registry URLs that act as a mirror for the official (`docker.io`) registry. */
-  Mirrors?: RegistryServiceConfigMirrorsList;
+  Mirrors?: RegistryServiceConfigMirrorsList | undefined;
 }
 /** User-defined labels (key/value metadata) as set on the daemon. <p><br /></p> > **Note**: When part of a Swarm, nodes can both have _daemon_ labels, > set through the daemon configuration, and _node_ labels, set from a > manager node in the Swarm. Node labels are not included in this > field. Node labels can be retrieved using the `/nodes/(id)` endpoint > on a manager node in the Swarm. */
 export type SystemInfoLabelsList = Array<string>;
@@ -3831,11 +3831,11 @@ export type RuntimeStatusMap = { [key: string]: string | undefined };
 /** Runtime describes an [OCI compliant](https://github.com/opencontainers/runtime-spec) runtime. The runtime is invoked by the daemon via the `containerd` daemon. OCI runtimes act as an interface to the Linux kernel namespaces, cgroups, and SELinux. */
 export interface Runtime {
   /** Name and, optional, path, of the OCI executable binary. If the path is omitted, the daemon searches the host's `$PATH` for the binary and uses the first result. */
-  path?: string;
+  path?: string | undefined;
   /** List of command-line arguments to pass to the runtime when invoked. */
-  runtimeArgs?: RuntimeRuntimeArgsList | null;
+  runtimeArgs?: RuntimeRuntimeArgsList | null | undefined;
   /** Information specific to the runtime. While this API specification does not define data provided by runtimes, the following well-known properties may be provided by runtimes: `org.opencontainers.runtime-spec.features`: features structure as defined in the [OCI Runtime Specification](https://github.com/opencontainers/runtime-spec/blob/main/features.md), in a JSON string representation. <p><br /></p> > **Note**: The information returned in this field, including the > formatting of values and labels, should not be considered stable, > and may change without notice. */
-  status?: RuntimeStatusMap | null;
+  status?: RuntimeStatusMap | null | undefined;
 }
 /** List of [OCI compliant](https://github.com/opencontainers/runtime-spec) runtimes configured on the daemon. Keys hold the "name" used to reference the runtime. The Docker daemon relies on an OCI compliant runtime (invoked via the `containerd` daemon) as its interface to the Linux kernel namespaces, cgroups, and SELinux. The default runtime is `runc`, and automatically configured. Additional runtimes can be configured by the user and will be listed here. */
 export type SystemInfoRuntimesMap = { [key: string]: Runtime | undefined };
@@ -3844,9 +3844,9 @@ export type LocalNodeState = "" | "inactive" | "pending" | "active" | "error" | 
 /** Represents a peer-node in the swarm */
 export interface PeerNode {
   /** Unique identifier of for this node in the swarm. */
-  NodeID?: string;
+  NodeID?: string | undefined;
   /** IP address and ports at which this node can be reached. */
-  Addr?: string;
+  Addr?: string | undefined;
 }
 /** List of ID's and addresses of other managers in the swarm. */
 export type SwarmInfoRemoteManagersList = Array<PeerNode>;
@@ -3855,54 +3855,54 @@ export type ClusterInfoDefaultAddrPoolList = Array<string>;
 /** ClusterInfo represents information about the swarm as is returned by the "/info" endpoint. Join-tokens are not included. */
 export interface ClusterInfo {
   /** The ID of the swarm. */
-  ID?: string;
-  Version?: ObjectVersion;
+  ID?: string | undefined;
+  Version?: ObjectVersion | undefined;
   /** Date and time at which the swarm was initialised in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds. */
-  CreatedAt?: string;
+  CreatedAt?: string | undefined;
   /** Date and time at which the swarm was last updated in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds. */
-  UpdatedAt?: string;
-  Spec?: SwarmSpec;
-  TLSInfo?: TLSInfo;
+  UpdatedAt?: string | undefined;
+  Spec?: SwarmSpec | undefined;
+  TLSInfo?: TLSInfo | undefined;
   /** Whether there is currently a root CA rotation in progress for the swarm */
-  RootRotationInProgress?: boolean;
+  RootRotationInProgress?: boolean | undefined;
   /** DataPathPort specifies the data path port number for data traffic. Acceptable port range is 1024 to 49151. If no port is set or is set to 0, the default port (4789) is used. */
-  DataPathPort?: number;
+  DataPathPort?: number | undefined;
   /** Default Address Pool specifies default subnet pools for global scope networks. */
-  DefaultAddrPool?: ClusterInfoDefaultAddrPoolList;
+  DefaultAddrPool?: ClusterInfoDefaultAddrPoolList | undefined;
   /** SubnetSize specifies the subnet size of the networks created from the default subnet pool. */
-  SubnetSize?: number;
+  SubnetSize?: number | undefined;
 }
 /** Represents generic information about swarm. */
 export interface SwarmInfo {
   /** Unique identifier of for this node in the swarm. */
-  NodeID?: string;
+  NodeID?: string | undefined;
   /** IP address at which this node can be reached by other nodes in the swarm. */
-  NodeAddr?: string;
-  LocalNodeState?: LocalNodeState;
-  ControlAvailable?: boolean;
-  Error?: string;
+  NodeAddr?: string | undefined;
+  LocalNodeState?: LocalNodeState | undefined;
+  ControlAvailable?: boolean | undefined;
+  Error?: string | undefined;
   /** List of ID's and addresses of other managers in the swarm. */
-  RemoteManagers?: SwarmInfoRemoteManagersList | null;
+  RemoteManagers?: SwarmInfoRemoteManagersList | null | undefined;
   /** Total number of nodes in the swarm. */
-  Nodes?: number | null;
+  Nodes?: number | null | undefined;
   /** Total number of managers in the swarm. */
-  Managers?: number | null;
-  Cluster?: ClusterInfo | null;
+  Managers?: number | null | undefined;
+  Cluster?: ClusterInfo | null | undefined;
 }
 /** Represents the isolation technology to use as a default for containers. The supported values are platform-specific. If no isolation value is specified on daemon start, on Windows client, the default is `hyperv`, and on Windows server, the default is `process`. This option is currently not used on other platforms. */
 export type SystemInfoIsolation = "default" | "hyperv" | "process" | "";
 /** Commit holds the Git-commit (SHA1) that a binary was built from, as reported in the version-string of external tools, such as `containerd`, or `runC`. */
 export interface Commit {
   /** Actual commit ID of external tool. */
-  ID?: string;
+  ID?: string | undefined;
 }
 /** List of security features that are enabled on the daemon, such as apparmor, seccomp, SELinux, user-namespaces (userns), rootless and no-new-privileges. Additional configuration options for each security feature may be present, and are included as a comma-separated list of key/value pairs. */
 export type SystemInfoSecurityOptionsList = Array<string>;
 export interface SystemInfoDefaultAddressPoolsItem {
   /** The network address in CIDR format */
-  Base?: string;
+  Base?: string | undefined;
   /** The network pool size */
-  Size?: number;
+  Size?: number | undefined;
 }
 /** List of custom default address pools for local networks, which can be specified in the daemon.json file or dockerd option. Example: a Base "10.10.0.0/16" with Size 24 will define the set of 256 10.10.[0-255].0/24 address pools. */
 export type SystemInfoDefaultAddressPoolsList = Array<SystemInfoDefaultAddressPoolsItem>;
@@ -3912,16 +3912,16 @@ export type FirewallInfoInfoList = Array<FirewallInfoInfoItemList>;
 /** Information about the daemon's firewalling configuration. This field is currently only used on Linux, and omitted on other platforms. */
 export interface FirewallInfo {
   /** The name of the firewall backend driver. */
-  Driver?: string;
+  Driver?: string | undefined;
   /** Information about the firewall backend, provided as "label" / "value" pairs. <p><br /></p> > **Note**: The information returned in this field, including the > formatting of values and labels, should not be considered stable, > and may change without notice. */
-  Info?: FirewallInfoInfoList;
+  Info?: FirewallInfoInfoList | undefined;
 }
 /** DeviceInfo represents a device that can be used by a container. */
 export interface DeviceInfo {
   /** The origin device driver. */
-  Source?: string;
+  Source?: string | undefined;
   /** The unique identifier for the device within its source driver. For CDI devices, this would be an FQDN like "vendor.com/gpu=0". */
-  ID?: string;
+  ID?: string | undefined;
 }
 /** List of devices discovered by device drivers. Each device includes information about its source driver, kind, name, and additional driver-specific attributes. */
 export type SystemInfoDiscoveredDevicesList = Array<DeviceInfo>;
@@ -3931,7 +3931,7 @@ export type NRIInfoInfoList = Array<NRIInfoInfoItemList>;
 /** Information about the Node Resource Interface (NRI). This field is only present if NRI is enabled. */
 export interface NRIInfo {
   /** Information about NRI, provided as "label" / "value" pairs. <p><br /></p> > **Note**: The information returned in this field, including the > formatting of values and labels, should not be considered stable, > and may change without notice. */
-  Info?: NRIInfoInfoList;
+  Info?: NRIInfoInfoList | undefined;
 }
 /** List of warnings / informational messages about missing features, or issues related to the daemon configuration. These messages can be printed by the client as information to the user. */
 export type SystemInfoWarningsList = Array<string>;
@@ -3940,132 +3940,132 @@ export type SystemInfoCDISpecDirsList = Array<string>;
 /** The namespaces that the daemon uses for running containers and plugins in containerd. These namespaces can be configured in the daemon configuration, and are considered to be used exclusively by the daemon, Tampering with the containerd instance may cause unexpected behavior. As these namespaces are considered to be exclusively accessed by the daemon, it is not recommended to change these values, or to change them to a value that is used by other systems, such as cri-containerd. */
 export interface ContainerdInfoNamespaces {
   /** The default containerd namespace used for containers managed by the daemon. The default namespace for containers is "moby", but will be suffixed with the `<uid>.<gid>` of the remapped `root` if user-namespaces are enabled and the containerd image-store is used. */
-  Containers?: string;
+  Containers?: string | undefined;
   /** The default containerd namespace used for plugins managed by the daemon. The default namespace for plugins is "plugins.moby", but will be suffixed with the `<uid>.<gid>` of the remapped `root` if user-namespaces are enabled and the containerd image-store is used. */
-  Plugins?: string;
+  Plugins?: string | undefined;
 }
 /** Information for connecting to the containerd instance that is used by the daemon. This is included for debugging purposes only. */
 export interface ContainerdInfo {
   /** The address of the containerd socket. */
-  Address?: string;
+  Address?: string | undefined;
   /** The namespaces that the daemon uses for running containers and plugins in containerd. These namespaces can be configured in the daemon configuration, and are considered to be used exclusively by the daemon, Tampering with the containerd instance may cause unexpected behavior. As these namespaces are considered to be exclusively accessed by the daemon, it is not recommended to change these values, or to change them to a value that is used by other systems, such as cri-containerd. */
-  Namespaces?: ContainerdInfoNamespaces;
+  Namespaces?: ContainerdInfoNamespaces | undefined;
 }
 export interface SystemInfo {
   /** Unique identifier of the daemon. <p><br /></p> > **Note**: The format of the ID itself is not part of the API, and > should not be considered stable. */
-  ID?: string;
+  ID?: string | undefined;
   /** Total number of containers on the host. */
-  Containers?: number;
+  Containers?: number | undefined;
   /** Number of containers with status `"running"`. */
-  ContainersRunning?: number;
+  ContainersRunning?: number | undefined;
   /** Number of containers with status `"paused"`. */
-  ContainersPaused?: number;
+  ContainersPaused?: number | undefined;
   /** Number of containers with status `"stopped"`. */
-  ContainersStopped?: number;
+  ContainersStopped?: number | undefined;
   /** Total number of images on the host. Both _tagged_ and _untagged_ (dangling) images are counted. */
-  Images?: number;
+  Images?: number | undefined;
   /** Name of the storage driver in use. */
-  Driver?: string;
+  Driver?: string | undefined;
   /** Information specific to the storage driver, provided as "label" / "value" pairs. This information is provided by the storage driver, and formatted in a way consistent with the output of `docker info` on the command line. <p><br /></p> > **Note**: The information returned in this field, including the > formatting of values and labels, should not be considered stable, > and may change without notice. */
-  DriverStatus?: SystemInfoDriverStatusList;
+  DriverStatus?: SystemInfoDriverStatusList | undefined;
   /** Root directory of persistent Docker state. Defaults to `/var/lib/docker` on Linux, and `C:\ProgramData\docker` on Windows. */
-  DockerRootDir?: string;
-  Plugins?: PluginsInfo;
+  DockerRootDir?: string | undefined;
+  Plugins?: PluginsInfo | undefined;
   /** Indicates if the host has memory limit support enabled. */
-  MemoryLimit?: boolean;
+  MemoryLimit?: boolean | undefined;
   /** Indicates if the host has memory swap limit support enabled. */
-  SwapLimit?: boolean;
+  SwapLimit?: boolean | undefined;
   /** Indicates if CPU CFS(Completely Fair Scheduler) period is supported by the host. */
-  CpuCfsPeriod?: boolean;
+  CpuCfsPeriod?: boolean | undefined;
   /** Indicates if CPU CFS(Completely Fair Scheduler) quota is supported by the host. */
-  CpuCfsQuota?: boolean;
+  CpuCfsQuota?: boolean | undefined;
   /** Indicates if CPU Shares limiting is supported by the host. */
-  CPUShares?: boolean;
+  CPUShares?: boolean | undefined;
   /** Indicates if CPUsets (cpuset.cpus, cpuset.mems) are supported by the host. See [cpuset(7)](https://www.kernel.org/doc/Documentation/cgroup-v1/cpusets.txt) */
-  CPUSet?: boolean;
+  CPUSet?: boolean | undefined;
   /** Indicates if the host kernel has PID limit support enabled. */
-  PidsLimit?: boolean;
+  PidsLimit?: boolean | undefined;
   /** Indicates if OOM killer disable is supported on the host. */
-  OomKillDisable?: boolean;
+  OomKillDisable?: boolean | undefined;
   /** Indicates IPv4 forwarding is enabled. */
-  IPv4Forwarding?: boolean;
+  IPv4Forwarding?: boolean | undefined;
   /** Indicates if the daemon is running in debug-mode / with debug-level logging enabled. */
-  Debug?: boolean;
+  Debug?: boolean | undefined;
   /** The total number of file Descriptors in use by the daemon process. This information is only returned if debug-mode is enabled. */
-  NFd?: number;
+  NFd?: number | undefined;
   /** The number of goroutines that currently exist. This information is only returned if debug-mode is enabled. */
-  NGoroutines?: number;
+  NGoroutines?: number | undefined;
   /** Current system-time in [RFC 3339](https://www.ietf.org/rfc/rfc3339.txt) format with nano-seconds. */
-  SystemTime?: string;
+  SystemTime?: string | undefined;
   /** The logging driver to use as a default for new containers. */
-  LoggingDriver?: string;
+  LoggingDriver?: string | undefined;
   /** The driver to use for managing cgroups. */
-  CgroupDriver?: SystemInfoCgroupDriver;
+  CgroupDriver?: SystemInfoCgroupDriver | undefined;
   /** The version of the cgroup. */
-  CgroupVersion?: SystemInfoCgroupVersion;
+  CgroupVersion?: SystemInfoCgroupVersion | undefined;
   /** Number of event listeners subscribed. */
-  NEventsListener?: number;
+  NEventsListener?: number | undefined;
   /** Kernel version of the host. On Linux, this information obtained from `uname`. On Windows this information is queried from the <kbd>HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\</kbd> registry value, for example _"10.0 14393 (14393.1198.amd64fre.rs1_release_sec.170427-1353)"_. */
-  KernelVersion?: string;
+  KernelVersion?: string | undefined;
   /** Name of the host's operating system, for example: "Ubuntu 24.04 LTS" or "Windows Server 2016 Datacenter" */
-  OperatingSystem?: string;
+  OperatingSystem?: string | undefined;
   /** Version of the host's operating system <p><br /></p> > **Note**: The information returned in this field, including its > very existence, and the formatting of values, should not be considered > stable, and may change without notice. */
-  OSVersion?: string;
+  OSVersion?: string | undefined;
   /** Generic type of the operating system of the host, as returned by the Go runtime (`GOOS`). Currently returned values are "linux" and "windows". A full list of possible values can be found in the [Go documentation](https://go.dev/doc/install/source#environment). */
-  OSType?: string;
+  OSType?: string | undefined;
   /** Hardware architecture of the host, as returned by the operating system. This is equivalent to the output of `uname -m` on Linux. Unlike `Arch` (from `/version`), this reports the machine's native architecture, which can differ from the Go runtime architecture when running a binary compiled for a different architecture (for example, a 32-bit binary running on 64-bit hardware). */
-  Architecture?: string;
+  Architecture?: string | undefined;
   /** The number of logical CPUs usable by the daemon. The number of available CPUs is checked by querying the operating system when the daemon starts. Changes to operating system CPU allocation after the daemon is started are not reflected. */
-  NCPU?: number;
+  NCPU?: number | undefined;
   /** Total amount of physical memory available on the host, in bytes. */
-  MemTotal?: number;
+  MemTotal?: number | undefined;
   /** Address / URL of the index server that is used for image search, and as a default for user authentication for Docker Hub and Docker Cloud. */
-  IndexServerAddress?: string;
-  RegistryConfig?: RegistryServiceConfig | null;
-  GenericResources?: GenericResources;
+  IndexServerAddress?: string | undefined;
+  RegistryConfig?: RegistryServiceConfig | null | undefined;
+  GenericResources?: GenericResources | undefined;
   /** HTTP-proxy configured for the daemon. This value is obtained from the [`HTTP_PROXY`](https://www.gnu.org/software/wget/manual/html_node/Proxies.html) environment variable. Credentials ([user info component](https://tools.ietf.org/html/rfc3986#section-3.2.1)) in the proxy URL are masked in the API response. Containers do not automatically inherit this configuration. */
-  HttpProxy?: string;
+  HttpProxy?: string | undefined;
   /** HTTPS-proxy configured for the daemon. This value is obtained from the [`HTTPS_PROXY`](https://www.gnu.org/software/wget/manual/html_node/Proxies.html) environment variable. Credentials ([user info component](https://tools.ietf.org/html/rfc3986#section-3.2.1)) in the proxy URL are masked in the API response. Containers do not automatically inherit this configuration. */
-  HttpsProxy?: string;
+  HttpsProxy?: string | undefined;
   /** Comma-separated list of domain extensions for which no proxy should be used. This value is obtained from the [`NO_PROXY`](https://www.gnu.org/software/wget/manual/html_node/Proxies.html) environment variable. Containers do not automatically inherit this configuration. */
-  NoProxy?: string;
+  NoProxy?: string | undefined;
   /** Hostname of the host. */
-  Name?: string;
+  Name?: string | undefined;
   /** User-defined labels (key/value metadata) as set on the daemon. <p><br /></p> > **Note**: When part of a Swarm, nodes can both have _daemon_ labels, > set through the daemon configuration, and _node_ labels, set from a > manager node in the Swarm. Node labels are not included in this > field. Node labels can be retrieved using the `/nodes/(id)` endpoint > on a manager node in the Swarm. */
-  Labels?: SystemInfoLabelsList;
+  Labels?: SystemInfoLabelsList | undefined;
   /** Indicates if experimental features are enabled on the daemon. */
-  ExperimentalBuild?: boolean;
+  ExperimentalBuild?: boolean | undefined;
   /** Version string of the daemon. */
-  ServerVersion?: string;
+  ServerVersion?: string | undefined;
   /** List of [OCI compliant](https://github.com/opencontainers/runtime-spec) runtimes configured on the daemon. Keys hold the "name" used to reference the runtime. The Docker daemon relies on an OCI compliant runtime (invoked via the `containerd` daemon) as its interface to the Linux kernel namespaces, cgroups, and SELinux. The default runtime is `runc`, and automatically configured. Additional runtimes can be configured by the user and will be listed here. */
-  Runtimes?: SystemInfoRuntimesMap;
+  Runtimes?: SystemInfoRuntimesMap | undefined;
   /** Name of the default OCI runtime that is used when starting containers. The default can be overridden per-container at create time. */
-  DefaultRuntime?: string;
-  Swarm?: SwarmInfo;
+  DefaultRuntime?: string | undefined;
+  Swarm?: SwarmInfo | undefined;
   /** Indicates if live restore is enabled. If enabled, containers are kept running when the daemon is shutdown or upon daemon start if running containers are detected. */
-  LiveRestoreEnabled?: boolean;
+  LiveRestoreEnabled?: boolean | undefined;
   /** Represents the isolation technology to use as a default for containers. The supported values are platform-specific. If no isolation value is specified on daemon start, on Windows client, the default is `hyperv`, and on Windows server, the default is `process`. This option is currently not used on other platforms. */
-  Isolation?: SystemInfoIsolation;
+  Isolation?: SystemInfoIsolation | undefined;
   /** Name and, optional, path of the `docker-init` binary. If the path is omitted, the daemon searches the host's `$PATH` for the binary and uses the first result. */
-  InitBinary?: string;
-  ContainerdCommit?: Commit;
-  RuncCommit?: Commit;
-  InitCommit?: Commit;
+  InitBinary?: string | undefined;
+  ContainerdCommit?: Commit | undefined;
+  RuncCommit?: Commit | undefined;
+  InitCommit?: Commit | undefined;
   /** List of security features that are enabled on the daemon, such as apparmor, seccomp, SELinux, user-namespaces (userns), rootless and no-new-privileges. Additional configuration options for each security feature may be present, and are included as a comma-separated list of key/value pairs. */
-  SecurityOptions?: SystemInfoSecurityOptionsList;
+  SecurityOptions?: SystemInfoSecurityOptionsList | undefined;
   /** Reports a summary of the product license on the daemon. If a commercial license has been applied to the daemon, information such as number of nodes, and expiration are included. */
-  ProductLicense?: string;
+  ProductLicense?: string | undefined;
   /** List of custom default address pools for local networks, which can be specified in the daemon.json file or dockerd option. Example: a Base "10.10.0.0/16" with Size 24 will define the set of 256 10.10.[0-255].0/24 address pools. */
-  DefaultAddressPools?: SystemInfoDefaultAddressPoolsList;
-  FirewallBackend?: FirewallInfo | null;
+  DefaultAddressPools?: SystemInfoDefaultAddressPoolsList | undefined;
+  FirewallBackend?: FirewallInfo | null | undefined;
   /** List of devices discovered by device drivers. Each device includes information about its source driver, kind, name, and additional driver-specific attributes. */
-  DiscoveredDevices?: SystemInfoDiscoveredDevicesList;
-  NRI?: NRIInfo | null;
+  DiscoveredDevices?: SystemInfoDiscoveredDevicesList | undefined;
+  NRI?: NRIInfo | null | undefined;
   /** List of warnings / informational messages about missing features, or issues related to the daemon configuration. These messages can be printed by the client as information to the user. */
-  Warnings?: SystemInfoWarningsList;
+  Warnings?: SystemInfoWarningsList | undefined;
   /** List of directories where (Container Device Interface) CDI specifications are located. These specifications define vendor-specific modifications to an OCI runtime specification for a container being created. An empty list indicates that CDI device injection is disabled. Note that since using CDI device injection requires the daemon to have experimental enabled. For non-experimental daemons an empty list will always be returned. */
-  CDISpecDirs?: SystemInfoCDISpecDirsList;
-  Containerd?: ContainerdInfo | null;
+  CDISpecDirs?: SystemInfoCDISpecDirsList | undefined;
+  Containerd?: ContainerdInfo | null | undefined;
 }
 export interface SystemVersion2Request {}
 export interface SystemVersionPlatform {
@@ -4077,35 +4077,35 @@ export interface SystemVersionComponentsItem {
   /** Version of the component */
   Version: string;
   /** Key/value pairs of strings with additional information about the component. These values are intended for informational purposes only, and their content is not defined, and not part of the API specification. These messages can be printed by the client as information to the user. */
-  Details?: unknown | null;
+  Details?: unknown | null | undefined;
 }
 /** Information about system components */
 export type SystemVersionComponentsList = Array<SystemVersionComponentsItem>;
 /** Response of Engine API: GET "/version" */
 export interface SystemVersion {
-  Platform?: SystemVersionPlatform;
+  Platform?: SystemVersionPlatform | undefined;
   /** Information about system components */
-  Components?: SystemVersionComponentsList;
+  Components?: SystemVersionComponentsList | undefined;
   /** The version of the daemon */
-  Version?: string;
+  Version?: string | undefined;
   /** The default (and highest) API version that is supported by the daemon */
-  ApiVersion?: string;
+  ApiVersion?: string | undefined;
   /** The minimum API version that is supported by the daemon */
-  MinAPIVersion?: string;
+  MinAPIVersion?: string | undefined;
   /** The Git commit of the source code that was used to build the daemon */
-  GitCommit?: string;
+  GitCommit?: string | undefined;
   /** The version Go used to compile the daemon, and the version of the Go runtime in use. */
-  GoVersion?: string;
+  GoVersion?: string | undefined;
   /** The operating system that the daemon is running on ("linux" or "windows") */
-  Os?: string;
+  Os?: string | undefined;
   /** Architecture of the daemon, as returned by the Go runtime (`GOARCH`). A full list of possible values can be found in the [Go documentation](https://go.dev/doc/install/source#environment). */
-  Arch?: string;
+  Arch?: string | undefined;
   /** The kernel version (`uname -r`) that the daemon is running on. This field is omitted when empty. */
-  KernelVersion?: string;
+  KernelVersion?: string | undefined;
   /** Indicates if the daemon is started with experimental features enabled. This field is omitted when empty / false. */
-  Experimental?: boolean;
+  Experimental?: boolean | undefined;
   /** The date and time that the daemon was compiled. */
-  BuildTime?: string;
+  BuildTime?: string | undefined;
 }
 export interface TaskInspectRequest {
   /** ID of the task */
@@ -4115,24 +4115,24 @@ export interface TaskLogsRequest {
   /** ID of the task */
   id: string;
   /** Show task context and extra details provided to logs. */
-  details?: boolean;
+  details?: boolean | undefined;
   /** Keep connection after returning logs. */
-  follow?: boolean;
+  follow?: boolean | undefined;
   /** Return logs from `stdout` */
-  stdout?: boolean;
+  stdout?: boolean | undefined;
   /** Return logs from `stderr` */
-  stderr?: boolean;
+  stderr?: boolean | undefined;
   /** Only return logs since this time, as a UNIX timestamp */
-  since?: number;
+  since?: number | undefined;
   /** Add timestamps to every log line */
-  timestamps?: boolean;
+  timestamps?: boolean | undefined;
   /** Only return this number of log lines from the end of the logs. Specify as an integer or `all` to output all log lines. */
-  tail?: string;
+  tail?: string | undefined;
 }
 export type TaskLogsResponse = string;
 export interface UnlockSwarmRequest {
   /** The swarm's unlock key. */
-  UnlockKey?: string;
+  UnlockKey?: string | undefined;
 }
 export interface UnlockSwarmResponse {}
 export interface UnpauseContainerRequest {
@@ -4148,13 +4148,13 @@ export interface UpdateConfigRequest {
   /** The version number of the config object being updated. This is required to avoid conflicting writes. */
   version: number;
   /** User-defined name of the config. */
-  Name?: string;
+  Name?: string | undefined;
   /** User-defined key/value metadata. */
-  Labels?: UpdateConfigRequestLabelsMap;
+  Labels?: UpdateConfigRequestLabelsMap | undefined;
   /** Data is the data to store as a config, formatted as a standard base64-encoded ([RFC 4648](https://tools.ietf.org/html/rfc4648#section-4)) string. The maximum allowed size is 1000KB, as defined in [MaxConfigSize](https://pkg.go.dev/github.com/moby/swarmkit/v2@v2.0.0-20250103191802-8c1959736554/manager/controlapi#MaxConfigSize). */
-  Data?: string;
+  Data?: string | undefined;
   /** Templating driver, if applicable Templating controls whether and how to evaluate the config payload as a template. If no driver is set, no templating is used. */
-  Templating?: Driver;
+  Templating?: Driver | undefined;
 }
 export interface UpdateConfigResponse {}
 export type UpdateContainerRequestBlkioWeightDeviceItem = HostConfigBlkioWeightDeviceItem;
@@ -4181,73 +4181,73 @@ export interface UpdateContainerRequest {
   /** ID or name of the container */
   id: string;
   /** An integer value representing this container's relative CPU weight versus other containers. */
-  CpuShares?: number;
+  CpuShares?: number | undefined;
   /** Memory limit in bytes. */
-  Memory?: number;
+  Memory?: number | undefined;
   /** Path to `cgroups` under which the container's `cgroup` is created. If the path is not absolute, the path is considered to be relative to the `cgroups` path of the init process. Cgroups are created if they do not already exist. */
-  CgroupParent?: string;
+  CgroupParent?: string | undefined;
   /** Block IO weight (relative weight). */
-  BlkioWeight?: number;
+  BlkioWeight?: number | undefined;
   /** Block IO weight (relative device weight) in the form: ``` [{"Path": "device_path", "Weight": weight}] ``` */
-  BlkioWeightDevice?: UpdateContainerRequestBlkioWeightDeviceList;
+  BlkioWeightDevice?: UpdateContainerRequestBlkioWeightDeviceList | undefined;
   /** Limit read rate (bytes per second) from a device, in the form: ``` [{"Path": "device_path", "Rate": rate}] ``` */
-  BlkioDeviceReadBps?: UpdateContainerRequestBlkioDeviceReadBpsList;
+  BlkioDeviceReadBps?: UpdateContainerRequestBlkioDeviceReadBpsList | undefined;
   /** Limit write rate (bytes per second) to a device, in the form: ``` [{"Path": "device_path", "Rate": rate}] ``` */
-  BlkioDeviceWriteBps?: UpdateContainerRequestBlkioDeviceWriteBpsList;
+  BlkioDeviceWriteBps?: UpdateContainerRequestBlkioDeviceWriteBpsList | undefined;
   /** Limit read rate (IO per second) from a device, in the form: ``` [{"Path": "device_path", "Rate": rate}] ``` */
-  BlkioDeviceReadIOps?: UpdateContainerRequestBlkioDeviceReadIOpsList;
+  BlkioDeviceReadIOps?: UpdateContainerRequestBlkioDeviceReadIOpsList | undefined;
   /** Limit write rate (IO per second) to a device, in the form: ``` [{"Path": "device_path", "Rate": rate}] ``` */
-  BlkioDeviceWriteIOps?: UpdateContainerRequestBlkioDeviceWriteIOpsList;
+  BlkioDeviceWriteIOps?: UpdateContainerRequestBlkioDeviceWriteIOpsList | undefined;
   /** The length of a CPU period in microseconds. */
-  CpuPeriod?: number;
+  CpuPeriod?: number | undefined;
   /** Microseconds of CPU time that the container can get in a CPU period. */
-  CpuQuota?: number;
+  CpuQuota?: number | undefined;
   /** The length of a CPU real-time period in microseconds. Set to 0 to allocate no time allocated to real-time tasks. */
-  CpuRealtimePeriod?: number;
+  CpuRealtimePeriod?: number | undefined;
   /** The length of a CPU real-time runtime in microseconds. Set to 0 to allocate no time allocated to real-time tasks. */
-  CpuRealtimeRuntime?: number;
+  CpuRealtimeRuntime?: number | undefined;
   /** CPUs in which to allow execution (e.g., `0-3`, `0,1`). */
-  CpusetCpus?: string;
+  CpusetCpus?: string | undefined;
   /** Memory nodes (MEMs) in which to allow execution (0-3, 0,1). Only effective on NUMA systems. */
-  CpusetMems?: string;
+  CpusetMems?: string | undefined;
   /** A list of devices to add to the container. */
-  Devices?: UpdateContainerRequestDevicesList;
+  Devices?: UpdateContainerRequestDevicesList | undefined;
   /** a list of cgroup rules to apply to the container */
-  DeviceCgroupRules?: UpdateContainerRequestDeviceCgroupRulesList;
+  DeviceCgroupRules?: UpdateContainerRequestDeviceCgroupRulesList | undefined;
   /** A list of requests for devices to be sent to device drivers. */
-  DeviceRequests?: UpdateContainerRequestDeviceRequestsList;
+  DeviceRequests?: UpdateContainerRequestDeviceRequestsList | undefined;
   /** Memory soft limit in bytes. */
-  MemoryReservation?: number;
+  MemoryReservation?: number | undefined;
   /** Total memory limit (memory + swap). Set as `-1` to enable unlimited swap. */
-  MemorySwap?: number;
+  MemorySwap?: number | undefined;
   /** Tune a container's memory swappiness behavior. Accepts an integer between 0 and 100. */
-  MemorySwappiness?: number;
+  MemorySwappiness?: number | undefined;
   /** CPU quota in units of 10<sup>-9</sup> CPUs. */
-  NanoCpus?: number;
+  NanoCpus?: number | undefined;
   /** Disable OOM Killer for the container. */
-  OomKillDisable?: boolean;
+  OomKillDisable?: boolean | undefined;
   /** Run an init inside the container that forwards signals and reaps processes. This field is omitted if empty, and the default (as configured on the daemon) is used. */
-  Init?: boolean | null;
+  Init?: boolean | null | undefined;
   /** Tune a container's PIDs limit. Set `0` or `-1` for unlimited, or `null` to not change. */
-  PidsLimit?: number | null;
+  PidsLimit?: number | null | undefined;
   /** A list of resource limits to set in the container. For example: ``` {"Name": "nofile", "Soft": 1024, "Hard": 2048} ``` */
-  Ulimits?: UpdateContainerRequestUlimitsList;
+  Ulimits?: UpdateContainerRequestUlimitsList | undefined;
   /** The number of usable CPUs (Windows only). On Windows Server containers, the processor resource controls are mutually exclusive. The order of precedence is `CPUCount` first, then `CPUShares`, and `CPUPercent` last. */
-  CpuCount?: number;
+  CpuCount?: number | undefined;
   /** The usable percentage of the available CPUs (Windows only). On Windows Server containers, the processor resource controls are mutually exclusive. The order of precedence is `CPUCount` first, then `CPUShares`, and `CPUPercent` last. */
-  CpuPercent?: number;
+  CpuPercent?: number | undefined;
   /** Maximum IOps for the container system drive (Windows only) */
-  IOMaximumIOps?: number;
+  IOMaximumIOps?: number | undefined;
   /** Maximum IO in bytes per second for the container system drive (Windows only). */
-  IOMaximumBandwidth?: number;
-  RestartPolicy?: RestartPolicy;
+  IOMaximumBandwidth?: number | undefined;
+  RestartPolicy?: RestartPolicy | undefined;
 }
 /** Warnings encountered when updating the container. */
 export type ContainerUpdateResponseWarningsList = Array<string>;
 /** Response for a successful container-update. */
 export interface ContainerUpdateResponse {
   /** Warnings encountered when updating the container. */
-  Warnings?: ContainerUpdateResponseWarningsList;
+  Warnings?: ContainerUpdateResponseWarningsList | undefined;
 }
 /** User-defined key/value metadata. */
 export type UpdateNodeRequestLabelsMap = { [key: string]: string | undefined };
@@ -4261,13 +4261,13 @@ export interface UpdateNodeRequest {
   /** The version number of the node object being updated. This is required to avoid conflicting writes. */
   version: number;
   /** Name for the node. */
-  Name?: string;
+  Name?: string | undefined;
   /** User-defined key/value metadata. */
-  Labels?: UpdateNodeRequestLabelsMap;
+  Labels?: UpdateNodeRequestLabelsMap | undefined;
   /** Role of the node. */
-  Role?: UpdateNodeRequestRole | (string & {});
+  Role?: UpdateNodeRequestRole | (string & {}) | undefined;
   /** Availability of the node. */
-  Availability?: UpdateNodeRequestAvailability | (string & {});
+  Availability?: UpdateNodeRequestAvailability | (string & {}) | undefined;
 }
 export interface UpdateNodeResponse {}
 /** User-defined key/value metadata. */
@@ -4278,15 +4278,15 @@ export interface UpdateSecretRequest {
   /** The version number of the secret object being updated. This is required to avoid conflicting writes. */
   version: number;
   /** User-defined name of the secret. */
-  Name?: string;
+  Name?: string | undefined;
   /** User-defined key/value metadata. */
-  Labels?: UpdateSecretRequestLabelsMap;
+  Labels?: UpdateSecretRequestLabelsMap | undefined;
   /** Data is the data to store as a secret, formatted as a standard base64-encoded ([RFC 4648](https://tools.ietf.org/html/rfc4648#section-4)) string. It must be empty if the Driver field is set, in which case the data is loaded from an external secret store. The maximum allowed size is 500KB, as defined in [MaxSecretSize](https://pkg.go.dev/github.com/moby/swarmkit/v2@v2.0.0/api/validation#MaxSecretSize). This field is only used to _create_ a secret, and is not returned by other endpoints. */
-  Data?: string;
+  Data?: string | undefined;
   /** Name of the secrets driver used to fetch the secret's value from an external secret store. */
-  Driver?: Driver;
+  Driver?: Driver | undefined;
   /** Templating driver, if applicable Templating controls whether and how to evaluate the config payload as a template. If no driver is set, no templating is used. */
-  Templating?: Driver;
+  Templating?: Driver | undefined;
 }
 export interface UpdateSecretResponse {}
 export type UpdateServiceRequestRegistryAuthFrom = "spec" | "previous-spec";
@@ -4304,17 +4304,17 @@ export type UpdateServiceRequestUpdateConfigOrder = "stop-first" | "start-first"
 /** Specification for the update strategy of the service. */
 export interface UpdateServiceRequestUpdateConfig {
   /** Maximum number of tasks to be updated in one iteration (0 means unlimited parallelism). */
-  Parallelism?: number;
+  Parallelism?: number | undefined;
   /** Amount of time between updates, in nanoseconds. */
-  Delay?: number;
+  Delay?: number | undefined;
   /** Action to take if an updated task fails to run, or stops running during the update. */
-  FailureAction?: UpdateServiceRequestUpdateConfigFailureAction | (string & {});
+  FailureAction?: UpdateServiceRequestUpdateConfigFailureAction | (string & {}) | undefined;
   /** Amount of time to monitor each updated task for failures, in nanoseconds. */
-  Monitor?: number;
+  Monitor?: number | undefined;
   /** The fraction of tasks that may fail during an update before the failure action is invoked, specified as a floating point number between 0 and 1. */
-  MaxFailureRatio?: number;
+  MaxFailureRatio?: number | undefined;
   /** The order of operations when rolling out an updated task. Either the old task is shut down before the new task is started, or the new task is started before the old task is shut down. */
-  Order?: UpdateServiceRequestUpdateConfigOrder | (string & {});
+  Order?: UpdateServiceRequestUpdateConfigOrder | (string & {}) | undefined;
 }
 /** Action to take if an rolled back task fails to run, or stops running during the rollback. */
 export type UpdateServiceRequestRollbackConfigFailureAction = "continue" | "pause";
@@ -4323,17 +4323,17 @@ export type UpdateServiceRequestRollbackConfigOrder = "stop-first" | "start-firs
 /** Specification for the rollback strategy of the service. */
 export interface UpdateServiceRequestRollbackConfig {
   /** Maximum number of tasks to be rolled back in one iteration (0 means unlimited parallelism). */
-  Parallelism?: number;
+  Parallelism?: number | undefined;
   /** Amount of time between rollback iterations, in nanoseconds. */
-  Delay?: number;
+  Delay?: number | undefined;
   /** Action to take if an rolled back task fails to run, or stops running during the rollback. */
-  FailureAction?: UpdateServiceRequestRollbackConfigFailureAction | (string & {});
+  FailureAction?: UpdateServiceRequestRollbackConfigFailureAction | (string & {}) | undefined;
   /** Amount of time to monitor each rolled back task for failures, in nanoseconds. */
-  Monitor?: number;
+  Monitor?: number | undefined;
   /** The fraction of tasks that may fail during a rollback before the failure action is invoked, specified as a floating point number between 0 and 1. */
-  MaxFailureRatio?: number;
+  MaxFailureRatio?: number | undefined;
   /** The order of operations when rolling back a task. Either the old task is shut down before the new task is started, or the new task is started before the old task is shut down. */
-  Order?: UpdateServiceRequestRollbackConfigOrder | (string & {});
+  Order?: UpdateServiceRequestRollbackConfigOrder | (string & {}) | undefined;
 }
 /** Specifies which networks the service should attach to. Deprecated: This field is deprecated since v1.44. The Networks field in TaskSpec should be used instead. */
 export type UpdateServiceRequestNetworksList = Array<NetworkAttachmentConfig>;
@@ -4343,31 +4343,31 @@ export interface UpdateServiceRequest {
   /** The version number of the service object being updated. This is required to avoid conflicting writes. This version number should be the value as currently set on the service *before* the update. You can find the current version by calling `GET /services/{id}` */
   version: number;
   /** If the `X-Registry-Auth` header is not specified, this parameter indicates where to find registry authorization credentials. */
-  registryAuthFrom?: UpdateServiceRequestRegistryAuthFrom | (string & {});
+  registryAuthFrom?: UpdateServiceRequestRegistryAuthFrom | (string & {}) | undefined;
   /** Set to this parameter to `previous` to cause a server-side rollback to the previous service spec. The supplied spec will be ignored in this case. */
-  rollback?: string;
+  rollback?: string | undefined;
   /** A base64url-encoded auth configuration for pulling from private registries. Refer to the [authentication section](#section/Authentication) for details. */
-  xRegistryAuth?: string;
+  xRegistryAuth?: string | undefined;
   /** Name of the service. */
-  Name?: string;
+  Name?: string | undefined;
   /** User-defined key/value metadata. */
-  Labels?: UpdateServiceRequestLabelsMap;
-  TaskTemplate?: TaskSpec;
+  Labels?: UpdateServiceRequestLabelsMap | undefined;
+  TaskTemplate?: TaskSpec | undefined;
   /** Scheduling mode for the service. */
-  Mode?: CreateServiceRequestMode;
+  Mode?: CreateServiceRequestMode | undefined;
   /** Specification for the update strategy of the service. */
-  UpdateConfig?: UpdateServiceRequestUpdateConfig;
+  UpdateConfig?: UpdateServiceRequestUpdateConfig | undefined;
   /** Specification for the rollback strategy of the service. */
-  RollbackConfig?: UpdateServiceRequestRollbackConfig;
+  RollbackConfig?: UpdateServiceRequestRollbackConfig | undefined;
   /** Specifies which networks the service should attach to. Deprecated: This field is deprecated since v1.44. The Networks field in TaskSpec should be used instead. */
-  Networks?: UpdateServiceRequestNetworksList;
-  EndpointSpec?: EndpointSpec;
+  Networks?: UpdateServiceRequestNetworksList | undefined;
+  EndpointSpec?: EndpointSpec | undefined;
 }
 /** Optional warning messages */
 export type ServiceUpdateResponseWarningsList = Array<string>;
 export interface ServiceUpdateResponse {
   /** Optional warning messages */
-  Warnings?: ServiceUpdateResponseWarningsList;
+  Warnings?: ServiceUpdateResponseWarningsList | undefined;
 }
 /** User-defined key/value metadata. */
 export type UpdateSwarmRequestLabelsMap = { [key: string]: string | undefined };
@@ -4385,13 +4385,13 @@ export type UpdateSwarmRequestCAConfigExternalCAsItemOptionsMap = {
 };
 export interface UpdateSwarmRequestCAConfigExternalCAsItem {
   /** Protocol for communication with the external CA (currently only `cfssl` is supported). */
-  Protocol?: UpdateSwarmRequestCAConfigExternalCAsItemProtocol | (string & {});
+  Protocol?: UpdateSwarmRequestCAConfigExternalCAsItemProtocol | (string & {}) | undefined;
   /** URL where certificate signing requests should be sent. */
-  URL?: string;
+  URL?: string | undefined;
   /** An object with key/value pairs that are interpreted as protocol-specific options for the external CA driver. */
-  Options?: UpdateSwarmRequestCAConfigExternalCAsItemOptionsMap;
+  Options?: UpdateSwarmRequestCAConfigExternalCAsItemOptionsMap | undefined;
   /** The root CA certificate (in PEM format) this external CA uses to issue TLS certificates (assumed to be to the current swarm root CA certificate if not provided). */
-  CACert?: string;
+  CACert?: string | undefined;
 }
 /** Configuration for forwarding signing requests to an external certificate authority. */
 export type UpdateSwarmRequestCAConfigExternalCAsList =
@@ -4399,15 +4399,15 @@ export type UpdateSwarmRequestCAConfigExternalCAsList =
 /** CA configuration. */
 export interface UpdateSwarmRequestCAConfig {
   /** The duration node certificates are issued for. */
-  NodeCertExpiry?: number;
+  NodeCertExpiry?: number | undefined;
   /** Configuration for forwarding signing requests to an external certificate authority. */
-  ExternalCAs?: UpdateSwarmRequestCAConfigExternalCAsList;
+  ExternalCAs?: UpdateSwarmRequestCAConfigExternalCAsList | undefined;
   /** The desired signing CA certificate for all swarm node TLS leaf certificates, in PEM format. */
-  SigningCACert?: string;
+  SigningCACert?: string | undefined;
   /** The desired signing CA key for all swarm node TLS leaf certificates, in PEM format. */
-  SigningCAKey?: string;
+  SigningCAKey?: string | undefined;
   /** An integer whose purpose is to force swarm to generate a new signing CA certificate and key, if none have been specified in `SigningCACert` and `SigningCAKey` */
-  ForceRotate?: number;
+  ForceRotate?: number | undefined;
 }
 /** Parameters related to encryption-at-rest. */
 export type UpdateSwarmRequestEncryptionConfig = SwarmSpecEncryptionConfig;
@@ -4418,40 +4418,40 @@ export type UpdateSwarmRequestTaskDefaultsLogDriverOptionsMap = {
 /** The log driver to use for tasks created in the orchestrator if unspecified by a service. Updating this value only affects new tasks. Existing tasks continue to use their previously configured log driver until recreated. */
 export interface UpdateSwarmRequestTaskDefaultsLogDriver {
   /** The log driver to use as a default for new tasks. */
-  Name?: string;
+  Name?: string | undefined;
   /** Driver-specific options for the selected log driver, specified as key/value pairs. */
-  Options?: UpdateSwarmRequestTaskDefaultsLogDriverOptionsMap;
+  Options?: UpdateSwarmRequestTaskDefaultsLogDriverOptionsMap | undefined;
 }
 /** Defaults for creating tasks in this cluster. */
 export interface UpdateSwarmRequestTaskDefaults {
   /** The log driver to use for tasks created in the orchestrator if unspecified by a service. Updating this value only affects new tasks. Existing tasks continue to use their previously configured log driver until recreated. */
-  LogDriver?: UpdateSwarmRequestTaskDefaultsLogDriver;
+  LogDriver?: UpdateSwarmRequestTaskDefaultsLogDriver | undefined;
 }
 export interface UpdateSwarmRequest {
   /** The version number of the swarm object being updated. This is required to avoid conflicting writes. */
   version: number;
   /** Rotate the worker join token. */
-  rotateWorkerToken?: boolean;
+  rotateWorkerToken?: boolean | undefined;
   /** Rotate the manager join token. */
-  rotateManagerToken?: boolean;
+  rotateManagerToken?: boolean | undefined;
   /** Rotate the manager unlock key. */
-  rotateManagerUnlockKey?: boolean;
+  rotateManagerUnlockKey?: boolean | undefined;
   /** Name of the swarm. */
-  Name?: string;
+  Name?: string | undefined;
   /** User-defined key/value metadata. */
-  Labels?: UpdateSwarmRequestLabelsMap;
+  Labels?: UpdateSwarmRequestLabelsMap | undefined;
   /** Orchestration configuration. */
-  Orchestration?: SwarmSpecOrchestration | null;
+  Orchestration?: SwarmSpecOrchestration | null | undefined;
   /** Raft configuration. */
-  Raft?: SwarmSpecRaft;
+  Raft?: SwarmSpecRaft | undefined;
   /** Dispatcher configuration. */
-  Dispatcher?: SwarmSpecDispatcher | null;
+  Dispatcher?: SwarmSpecDispatcher | null | undefined;
   /** CA configuration. */
-  CAConfig?: UpdateSwarmRequestCAConfig | null;
+  CAConfig?: UpdateSwarmRequestCAConfig | null | undefined;
   /** Parameters related to encryption-at-rest. */
-  EncryptionConfig?: SwarmSpecEncryptionConfig;
+  EncryptionConfig?: SwarmSpecEncryptionConfig | undefined;
   /** Defaults for creating tasks in this cluster. */
-  TaskDefaults?: UpdateSwarmRequestTaskDefaults;
+  TaskDefaults?: UpdateSwarmRequestTaskDefaults | undefined;
 }
 export interface UpdateSwarmResponse {}
 export interface UpdateVolumeRequest {
@@ -4459,7 +4459,7 @@ export interface UpdateVolumeRequest {
   name: string;
   /** The version number of the volume being updated. This is required to avoid conflicting writes. Found in the volume's `ClusterVolume` field. */
   version: number;
-  Spec?: ClusterVolumeSpec;
+  Spec?: ClusterVolumeSpec | undefined;
 }
 export interface UpdateVolumeResponse {}
 export interface VolumeInspectRequest {
@@ -4468,33 +4468,33 @@ export interface VolumeInspectRequest {
 }
 export interface VolumePruneRequest {
   /** Filters to process on the prune list, encoded as JSON (a `map[string][]string`). Available filters: - `label` (`label=<key>`, `label=<key>=<value>`, `label!=<key>`, or `label!=<key>=<value>`) Prune volumes with (or without, in case `label!=...` is used) the specified labels. - `all` (`all=true`) - Consider all (local) volumes for pruning and not just anonymous volumes. */
-  filters?: string;
+  filters?: string | undefined;
 }
 /** Volumes that were deleted */
 export type VolumePruneResponseVolumesDeletedList = Array<string>;
 export interface VolumePruneResponse {
   /** Volumes that were deleted */
-  VolumesDeleted?: VolumePruneResponseVolumesDeletedList;
+  VolumesDeleted?: VolumePruneResponseVolumesDeletedList | undefined;
   /** Disk space reclaimed in bytes */
-  SpaceReclaimed?: number;
+  SpaceReclaimed?: number | undefined;
 }
 export type WaitContainerRequestCondition = "not-running" | "next-exit" | "removed";
 export interface WaitContainerRequest {
   /** ID or name of the container */
   id: string;
   /** Wait until a container state reaches the given condition. Defaults to `not-running` if omitted or empty. */
-  condition?: WaitContainerRequestCondition | (string & {});
+  condition?: WaitContainerRequestCondition | (string & {}) | undefined;
 }
 /** container waiting error, if any */
 export interface ContainerWaitExitError {
   /** Details of an error */
-  Message?: string;
+  Message?: string | undefined;
 }
 /** OK response to ContainerWait operation */
 export interface ContainerWaitResponse {
   /** Exit code of the container */
   StatusCode: number;
-  Error?: ContainerWaitExitError;
+  Error?: ContainerWaitExitError | undefined;
 }
 export type ArchiveContainerError = BadRequest | NotFound | DockerOpError;
 /** Get an archive of a filesystem resource in a container Get a tar archive of a resource in the filesystem of container id. */

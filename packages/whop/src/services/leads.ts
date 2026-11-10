@@ -67,13 +67,13 @@ export interface CreateLeadRequest {
   /** The unique identifier of the company to create the lead for, starting with 'biz_'. */
   account_id: string;
   /** A JSON object of custom metadata to attach to the lead for tracking purposes. */
-  metadata?: CreateLeadRequestMetadataMap | null;
+  metadata?: CreateLeadRequestMetadataMap | null | undefined;
   /** The unique identifier of the product the lead is interested in, starting with 'prod_'. */
-  product_id?: string | null;
+  product_id?: string | null | undefined;
   /** The referral URL that brought the lead to the company, such as 'https://example.com/landing'. */
-  referrer?: string | null;
+  referrer?: string | null | undefined;
   /** The unique identifier of the user to record as the lead. If authenticated as a user, that user is used automatically. */
-  user_id?: string | null;
+  user_id?: string | null | undefined;
 }
 /** The company member record if this lead has converted into a paying customer. Null if the lead has not converted. */
 export interface LeadMember {
@@ -126,13 +126,13 @@ export interface GetLeadRequest {
 /** Filter leads to only those associated with these specific product identifiers. */
 export type ListLeadRequestProductIdsList = Array<string>;
 export interface ListLeadRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
-  created_after?: string;
-  created_before?: string;
-  product_ids?: ListLeadRequestProductIdsList;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
+  created_after?: string | undefined;
+  created_before?: string | undefined;
+  product_ids?: ListLeadRequestProductIdsList | undefined;
   account_id: string;
 }
 /** The company member record if this lead has converted into a paying customer. Null if the lead has not converted. */
@@ -187,9 +187,9 @@ export interface UpdateLeadRequest {
   /** The unique identifier of the lead to update, starting with 'lead_'. */
   id: string;
   /** A JSON object of custom metadata to set on the lead, replacing any existing metadata. */
-  metadata?: UpdateLeadRequestMetadataMap | null;
+  metadata?: UpdateLeadRequestMetadataMap | null | undefined;
   /** The updated referral URL for the lead, such as 'https://example.com/landing'. */
-  referrer?: string | null;
+  referrer?: string | null | undefined;
 }
 export type CreateLeadError = BadRequest | Forbidden | NotFound | UnprocessableEntity | WhopOpError;
 /** Create lead [Legacy API -- https://docs.whop.com/api-reference] Record a new lead for a company, capturing a potential customer's interest in a specific product. Required permissions: - `lead:manage` - `member:email:read` - `access_pass:basic:read` - `member:basic:read` */

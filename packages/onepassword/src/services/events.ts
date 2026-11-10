@@ -26,24 +26,24 @@ const TELEMETRY = {
 /** Cursor */
 export interface Cursor {
   /** Cursor to fetch more data if available or continue the polling process if required */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 /** Reset cursor */
 export interface ResetCursor {
-  limit?: number;
-  start_time?: string;
-  end_time?: string;
+  limit?: number | undefined;
+  start_time?: string | undefined;
+  end_time?: string | undefined;
 }
 export type GetAuditEventsRequestBody = Cursor | ResetCursor;
 export interface GetAuditEventsRequest {
-  body?: GetAuditEventsRequestBody;
+  body?: GetAuditEventsRequestBody | undefined;
 }
 /** User object */
 export interface User {
-  uuid?: string;
+  uuid?: string | undefined;
   /** Full name */
-  name?: string;
-  email?: string;
+  name?: string | undefined;
+  email?: string | undefined;
 }
 export type AuditEventActions =
   | "activate"
@@ -158,88 +158,88 @@ export type AuditEventObjectTypes =
   | "mngdacc";
 /** Session information gathered about the client */
 export interface Session {
-  uuid?: string;
-  login_time?: string;
-  device_uuid?: string;
-  ip?: string;
+  uuid?: string | undefined;
+  login_time?: string | undefined;
+  device_uuid?: string | undefined;
+  ip?: string | undefined;
 }
 /** Geolocation Info about the client */
 export interface Location {
-  country?: string;
-  region?: string;
-  city?: string;
-  longitude?: number;
-  latitude?: number;
+  country?: string | undefined;
+  region?: string | undefined;
+  city?: string | undefined;
+  longitude?: number | undefined;
+  latitude?: number | undefined;
 }
 /** A single audit event object */
 export interface AuditEvent {
-  uuid?: string;
-  timestamp?: string;
-  actor_uuid?: string;
-  actor_details?: User;
-  action?: AuditEventActions;
-  object_type?: AuditEventObjectTypes;
-  object_uuid?: string;
-  object_details?: User;
-  aux_id?: number;
-  aux_uuid?: string;
-  aux_details?: User;
-  aux_info?: string;
-  session?: Session;
-  location?: Location;
+  uuid?: string | undefined;
+  timestamp?: string | undefined;
+  actor_uuid?: string | undefined;
+  actor_details?: User | undefined;
+  action?: AuditEventActions | undefined;
+  object_type?: AuditEventObjectTypes | undefined;
+  object_uuid?: string | undefined;
+  object_details?: User | undefined;
+  aux_id?: number | undefined;
+  aux_uuid?: string | undefined;
+  aux_details?: User | undefined;
+  aux_info?: string | undefined;
+  session?: Session | undefined;
+  location?: Location | undefined;
 }
 export type GetAuditEventsResponseItemsList = Array<AuditEvent>;
 export interface GetAuditEventsResponse {
-  items?: GetAuditEventsResponseItemsList;
+  items?: GetAuditEventsResponseItemsList | undefined;
   /** Cursor to fetch more data if available or continue the polling process if required */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Whether there may still be more data to fetch using the returned cursor. If true, the subsequent request could still be empty. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
 }
 export type GetAuditEventsV2RequestBody = Cursor | ResetCursor;
 export interface GetAuditEventsV2Request {
-  body?: GetAuditEventsV2RequestBody;
+  body?: GetAuditEventsV2RequestBody | undefined;
 }
 export type AuditEventActorTypes = "user" | "external_user";
 /** A single audit event object */
 export interface AuditEventV2 {
-  uuid?: string;
-  timestamp?: string;
-  actor_uuid?: string;
-  actor_details?: User;
-  actor_type?: AuditEventActorTypes;
-  actor_account_uuid?: string;
-  account_uuid?: string;
-  action?: AuditEventActions;
-  object_type?: AuditEventObjectTypes;
-  object_uuid?: string;
-  object_details?: User;
-  aux_id?: number;
-  aux_uuid?: string;
-  aux_details?: User;
-  aux_info?: string;
-  session?: Session;
-  location?: Location;
+  uuid?: string | undefined;
+  timestamp?: string | undefined;
+  actor_uuid?: string | undefined;
+  actor_details?: User | undefined;
+  actor_type?: AuditEventActorTypes | undefined;
+  actor_account_uuid?: string | undefined;
+  account_uuid?: string | undefined;
+  action?: AuditEventActions | undefined;
+  object_type?: AuditEventObjectTypes | undefined;
+  object_uuid?: string | undefined;
+  object_details?: User | undefined;
+  aux_id?: number | undefined;
+  aux_uuid?: string | undefined;
+  aux_details?: User | undefined;
+  aux_info?: string | undefined;
+  session?: Session | undefined;
+  location?: Location | undefined;
 }
 export type GetAuditEventsV2ResponseItemsList = Array<AuditEventV2>;
 export interface GetAuditEventsV2Response {
-  items?: GetAuditEventsV2ResponseItemsList;
+  items?: GetAuditEventsV2ResponseItemsList | undefined;
   /** Cursor to fetch more data if available or continue the polling process if required */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Whether there may still be more data to fetch using the returned cursor. If true, the subsequent request could still be empty. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
 }
 export interface GetAuthIntrospectV2Request {}
 export type IntrospectionV2FeaturesList = Array<string>;
 export interface IntrospectionV2 {
-  uuid?: string;
-  issued_at?: string;
-  features?: IntrospectionV2FeaturesList;
-  account_uuid?: string;
+  uuid?: string | undefined;
+  issued_at?: string | undefined;
+  features?: IntrospectionV2FeaturesList | undefined;
+  account_uuid?: string | undefined;
 }
 export type GetItemUsagesRequestBody = Cursor | ResetCursor;
 export interface GetItemUsagesRequest {
-  body?: GetItemUsagesRequestBody;
+  body?: GetItemUsagesRequestBody | undefined;
 }
 export type ItemUsageAction =
   | "fill"
@@ -254,38 +254,38 @@ export type ItemUsageAction =
   | "server-fetch";
 /** Metadata gathered about the client */
 export interface Client {
-  app_name?: string;
-  app_version?: string;
-  platform_name?: string;
+  app_name?: string | undefined;
+  app_version?: string | undefined;
+  platform_name?: string | undefined;
   /** Depending on the platform used, this can be the version of the browser that the client extension is installed, the model of computer that the native application is installed or the machine's CPU version that the CLI was installed */
-  platform_version?: string;
-  os_name?: string;
-  os_version?: string;
-  ip_address?: string;
+  platform_version?: string | undefined;
+  os_name?: string | undefined;
+  os_version?: string | undefined;
+  ip_address?: string | undefined;
 }
 /** A single item usage object */
 export interface ItemUsage {
-  uuid?: string;
-  timestamp?: string;
-  used_version?: number;
-  vault_uuid?: string;
-  item_uuid?: string;
-  action?: ItemUsageAction;
-  user?: User;
-  client?: Client;
-  location?: Location;
+  uuid?: string | undefined;
+  timestamp?: string | undefined;
+  used_version?: number | undefined;
+  vault_uuid?: string | undefined;
+  item_uuid?: string | undefined;
+  action?: ItemUsageAction | undefined;
+  user?: User | undefined;
+  client?: Client | undefined;
+  location?: Location | undefined;
 }
 export type GetItemUsagesResponseItemsList = Array<ItemUsage>;
 export interface GetItemUsagesResponse {
-  items?: GetItemUsagesResponseItemsList;
+  items?: GetItemUsagesResponseItemsList | undefined;
   /** Cursor to fetch more data if available or continue the polling process if required */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Whether there may still be more data to fetch using the returned cursor. If true, the subsequent request could still be empty. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
 }
 export type GetItemUsagesV2RequestBody = Cursor | ResetCursor;
 export interface GetItemUsagesV2Request {
-  body?: GetItemUsagesV2RequestBody;
+  body?: GetItemUsagesV2RequestBody | undefined;
 }
 export type ItemUsageV2Action =
   | "fill"
@@ -301,37 +301,37 @@ export type ItemUsageV2Action =
 export type SignInAttemptUserTypes = "user" | "external_user";
 /** User object */
 export interface UserV2 {
-  uuid?: string;
+  uuid?: string | undefined;
   /** Full name */
-  name?: string;
-  email?: string;
-  user_type?: SignInAttemptUserTypes;
-  user_account_uuid?: string;
+  name?: string | undefined;
+  email?: string | undefined;
+  user_type?: SignInAttemptUserTypes | undefined;
+  user_account_uuid?: string | undefined;
 }
 /** A single item usage object */
 export interface ItemUsageV2 {
-  uuid?: string;
-  timestamp?: string;
-  used_version?: number;
-  vault_uuid?: string;
-  item_uuid?: string;
-  action?: ItemUsageV2Action;
-  user?: UserV2;
-  client?: Client;
-  location?: Location;
-  account_uuid?: string;
+  uuid?: string | undefined;
+  timestamp?: string | undefined;
+  used_version?: number | undefined;
+  vault_uuid?: string | undefined;
+  item_uuid?: string | undefined;
+  action?: ItemUsageV2Action | undefined;
+  user?: UserV2 | undefined;
+  client?: Client | undefined;
+  location?: Location | undefined;
+  account_uuid?: string | undefined;
 }
 export type GetItemUsagesV2ResponseItemsList = Array<ItemUsageV2>;
 export interface GetItemUsagesV2Response {
-  items?: GetItemUsagesV2ResponseItemsList;
+  items?: GetItemUsagesV2ResponseItemsList | undefined;
   /** Cursor to fetch more data if available or continue the polling process if required */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Whether there may still be more data to fetch using the returned cursor. If true, the subsequent request could still be empty. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
 }
 export type GetSignInAttemptsRequestBody = Cursor | ResetCursor;
 export interface GetSignInAttemptsRequest {
-  body?: GetSignInAttemptsRequestBody;
+  body?: GetSignInAttemptsRequestBody | undefined;
 }
 export type SignInAttemptCategory =
   | "success"
@@ -376,33 +376,33 @@ export type SignInAttemptType =
 /** Additional information about the sign-in attempt */
 export interface Details {
   /** For firewall prevented sign-ins, the value is the chosen continent, country, etc. that blocked the sign-in attempt */
-  value?: string;
+  value?: string | undefined;
 }
 /** A single sign-in attempt object */
 export interface SignInAttempt {
-  uuid?: string;
-  session_uuid?: string;
-  timestamp?: string;
-  category?: SignInAttemptCategory;
-  type?: SignInAttemptType;
+  uuid?: string | undefined;
+  session_uuid?: string | undefined;
+  timestamp?: string | undefined;
+  category?: SignInAttemptCategory | undefined;
+  type?: SignInAttemptType | undefined;
   /** Country ISO Code */
-  country?: string;
-  details?: Details;
-  target_user?: User;
-  client?: Client;
-  location?: Location;
+  country?: string | undefined;
+  details?: Details | undefined;
+  target_user?: User | undefined;
+  client?: Client | undefined;
+  location?: Location | undefined;
 }
 export type GetSignInAttemptsResponseItemsList = Array<SignInAttempt>;
 export interface GetSignInAttemptsResponse {
-  items?: GetSignInAttemptsResponseItemsList;
+  items?: GetSignInAttemptsResponseItemsList | undefined;
   /** Cursor to fetch more data if available or continue the polling process if required */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Whether there may still be more data to fetch using the returned cursor. If true, the subsequent request could still be empty. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
 }
 export type GetSignInAttemptsV2RequestBody = Cursor | ResetCursor;
 export interface GetSignInAttemptsV2Request {
-  body?: GetSignInAttemptsV2RequestBody;
+  body?: GetSignInAttemptsV2RequestBody | undefined;
 }
 export type SignInAttemptV2Category =
   | "success"
@@ -446,26 +446,26 @@ export type SignInAttemptV2Type =
   | "modern_version_old";
 /** A single sign-in attempt object */
 export interface SignInAttemptV2 {
-  uuid?: string;
-  session_uuid?: string;
-  timestamp?: string;
-  category?: SignInAttemptV2Category;
-  type?: SignInAttemptV2Type;
+  uuid?: string | undefined;
+  session_uuid?: string | undefined;
+  timestamp?: string | undefined;
+  category?: SignInAttemptV2Category | undefined;
+  type?: SignInAttemptV2Type | undefined;
   /** Country ISO Code */
-  country?: string;
-  details?: Details;
-  target_user?: UserV2;
-  client?: Client;
-  location?: Location;
-  account_uuid?: string;
+  country?: string | undefined;
+  details?: Details | undefined;
+  target_user?: UserV2 | undefined;
+  client?: Client | undefined;
+  location?: Location | undefined;
+  account_uuid?: string | undefined;
 }
 export type GetSignInAttemptsV2ResponseItemsList = Array<SignInAttemptV2>;
 export interface GetSignInAttemptsV2Response {
-  items?: GetSignInAttemptsV2ResponseItemsList;
+  items?: GetSignInAttemptsV2ResponseItemsList | undefined;
   /** Cursor to fetch more data if available or continue the polling process if required */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Whether there may still be more data to fetch using the returned cursor. If true, the subsequent request could still be empty. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
 }
 export type GetAuditEventsError = OnepasswordOpError;
 /** Retrieves audit events for actions performed by team members within a 1Password account This endpoint requires your JSON Web Token to have the *auditevents* feature. */

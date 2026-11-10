@@ -45,9 +45,9 @@ export interface DeleteExternalAuthRequest {
 }
 export interface DeleteExternalAuthResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteHcpOpenShiftClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -59,9 +59,9 @@ export interface DeleteHcpOpenShiftClusterRequest {
 }
 export interface DeleteHcpOpenShiftClusterResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteNodePoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -75,9 +75,9 @@ export interface DeleteNodePoolRequest {
 }
 export interface DeleteNodePoolResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteOpenShiftClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -89,9 +89,9 @@ export interface DeleteOpenShiftClusterRequest {
 }
 export interface DeleteOpenShiftClusterResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** This configures the acceptable audiences for JWT tokens issued by the identity provider. At least one of the entries must match the 'aud' claim in the JWT token. Audiences must contain at least one entry and must not exceed ten entries. */
 export type TokenIssuerProfileAudiencesList = Array<string>;
@@ -102,7 +102,7 @@ export interface TokenIssuerProfile {
   /** This configures the acceptable audiences for JWT tokens issued by the identity provider. At least one of the entries must match the 'aud' claim in the JWT token. Audiences must contain at least one entry and must not exceed ten entries. */
   audiences: TokenIssuerProfileAudiencesList;
   /** The issuer of the token. Certificate bundle to use to validate server certificates for the configured URL. It must be PEM encoded and when not specified, the system trust is used. */
-  ca?: string;
+  ca?: string | undefined;
 }
 /** External Auth component profile Must have unique namespace/name pairs. */
 export interface ExternalAuthClientComponentProfile {
@@ -122,7 +122,7 @@ export interface ExternalAuthClientProfile {
   /** External Auth client id The clientId must appear in the audience field of the TokenIssuerProfile. */
   clientId: string;
   /** external auth client scopes This is useful if you have configured claim mappings that requires specific scopes to be requested beyond the standard OIDC scopes. When omitted, no additional scopes are requested. */
-  extraScopes?: ExternalAuthClientProfileExtraScopesList;
+  extraScopes?: ExternalAuthClientProfileExtraScopesList | undefined;
   /** Determines the OIDC provider client type. */
   type: ExternalAuthClientType | (string & {});
 }
@@ -135,23 +135,23 @@ export interface UsernameClaimProfile {
   /** Claim name of the external profile */
   claim: string;
   /** Prefix for the claim external profile. Must be set when the prefixPolicy field is set to 'Prefix' and must be unset otherwise. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** Prefix policy is an optional field that configures how a prefix should be applied to the value of the JWT claim specified in the 'claim' field. Allowed values are 'Prefix', 'NoPrefix', and 'None'. If not specified, the default policy is 'None'. When set to 'Prefix', the value specified in the prefix field will be prepended to the value of the JWT claim. The prefix field must be set when prefixPolicy is 'Prefix'. When set to 'NoPrefix', no prefix will be prepended to the value of the JWT claim. When set to 'None', this means no opinion and the platform is left to choose any prefixes that are applied which is subject to change over time. Currently, the platform prepends `{issuerURL}#` to the value of the JWT claim when the claim is not 'email'. As an example, consider the following scenario: `prefix` is unset, `issuerURL` is set to `https://myoidc.tld`, the JWT claims include "username":"userA" and "email":"userA */
-  prefixPolicy?: UsernameClaimPrefixPolicy | (string & {});
+  prefixPolicy?: UsernameClaimPrefixPolicy | (string & {}) | undefined;
 }
 /** External Auth claim profile This configures how the groups of a cluster identity should be constructed from the claims in a JWT token issued by the identity provider. When referencing a claim, if the claim is present in the JWT token, its value must be a list of groups separated by a comma (','). For example - '"example"' and '"exampleOne", "exampleTwo", "exampleThree"' are valid claim values. */
 export interface GroupClaimProfile {
   /** Claim name of the external profile */
   claim: string;
   /** Prefix for the claim external profile. If this is specified, prefixPolicy will be set to "Prefix" by default. */
-  prefix?: string;
+  prefix?: string | undefined;
 }
 /** External Auth claim mappings profile. At a minimum username or groups must be defined. */
 export interface TokenClaimMappingsProfile {
   /** The claim mappings username. */
   username: UsernameClaimProfile;
   /** The claim mappings groups. */
-  groups?: GroupClaimProfile;
+  groups?: GroupClaimProfile | undefined;
 }
 /** This configures the type of the validation rule. It defaults to "RequiredClaim" */
 export type TokenClaimValidationRuleType = "RequiredClaim";
@@ -165,9 +165,9 @@ export interface TokenRequiredClaim {
 /** External Auth claim validation rule */
 export interface TokenClaimValidationRule {
   /** This configures the type of the validation rule. It defaults to "RequiredClaim" */
-  type?: TokenClaimValidationRuleType | (string & {});
+  type?: TokenClaimValidationRuleType | (string & {}) | undefined;
   /** The required claim rule to be applied. */
-  requiredClaim?: TokenRequiredClaim;
+  requiredClaim?: TokenRequiredClaim | undefined;
 }
 /** The claim validation rules. */
 export type ExternalAuthClaimProfileValidationRulesList = Array<TokenClaimValidationRule>;
@@ -176,14 +176,14 @@ export interface ExternalAuthClaimProfile {
   /** The claim mappings. */
   mappings: TokenClaimMappingsProfile;
   /** The claim validation rules. */
-  validationRules?: ExternalAuthClaimProfileValidationRulesList;
+  validationRules?: ExternalAuthClaimProfileValidationRulesList | undefined;
 }
 /** External Auth profile */
 export interface ExternalAuthPropertiesInput {
   /** Token Issuer profile */
   issuer: TokenIssuerProfile;
   /** External Auth OIDC clients There must not be more than 20 entries and entries must have unique namespace/name pairs. */
-  clients?: ExternalAuthPropertiesInputClientsList;
+  clients?: ExternalAuthPropertiesInputClientsList | undefined;
   /** External Auth claim This configures how claims are validated and applied. */
   claim: ExternalAuthClaimProfile;
 }
@@ -197,7 +197,7 @@ export interface ExternalAuthsCreateOrUpdateRequest {
   /** The name of the ExternalAuth */
   externalAuthName: string;
   /** The resource-specific properties for this resource. */
-  properties?: ExternalAuthPropertiesInput;
+  properties?: ExternalAuthPropertiesInput | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -206,17 +206,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The resource provisioning state. */
 export type ExternalAuthProvisioningState =
@@ -250,38 +250,38 @@ export type ExternalAuthResourceStatusConditionsList = Array<Condition>;
 /** ExternalAuthResourceStatus represents the observed status of the external auth resource. */
 export interface ExternalAuthResourceStatus {
   /** The conditions on the resource */
-  conditions?: ExternalAuthResourceStatusConditionsList;
+  conditions?: ExternalAuthResourceStatusConditionsList | undefined;
 }
 /** External Auth OIDC clients There must not be more than 20 entries and entries must have unique namespace/name pairs. */
 export type ExternalAuthPropertiesClientsList = Array<ExternalAuthClientProfile>;
 /** External Auth profile */
 export interface ExternalAuthProperties {
   /** Provisioning state */
-  provisioningState?: ExternalAuthProvisioningState;
+  provisioningState?: ExternalAuthProvisioningState | undefined;
   /** Status of the external auth resource */
-  status?: ExternalAuthResourceStatus;
+  status?: ExternalAuthResourceStatus | undefined;
   /** Token Issuer profile */
   issuer: TokenIssuerProfile;
   /** External Auth OIDC clients There must not be more than 20 entries and entries must have unique namespace/name pairs. */
-  clients?: ExternalAuthPropertiesClientsList;
+  clients?: ExternalAuthPropertiesClientsList | undefined;
   /** External Auth claim This configures how claims are validated and applied. */
   claim: ExternalAuthClaimProfile;
 }
 export interface ExternalAuthsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ExternalAuthProperties;
+  properties?: ExternalAuthProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetExternalAuthRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -295,15 +295,15 @@ export interface GetExternalAuthRequest {
 }
 export interface GetExternalAuthResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ExternalAuthProperties;
+  properties?: ExternalAuthProperties | undefined;
 }
 export interface GetHcpOpenShiftClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -329,29 +329,29 @@ export interface VersionProfile {
   /** ID is the desired X.Y version of the cluster control plane. */
   id: string;
   /** ChannelGroup is the name of the set to which this version belongs. Each version belongs to only a single set. If not specified, the default value is 'stable'. This property is intended to be updateable, but that support is not yet complete. Until then, changing this value after cluster creation is rejected. */
-  channelGroup?: string;
+  channelGroup?: string | undefined;
 }
 /** DNS contains the DNS settings of the cluster */
 export interface DnsProfile {
   /** BaseDomain is the base DNS domain of the cluster. */
-  baseDomain?: string;
+  baseDomain?: string | undefined;
   /** BaseDomainPrefix is the base domain prefix for the cluster ingress. It will be used to configure ingress in the cluster through the subdomain "BaseDomainPrefix.BaseDomain". */
-  baseDomainPrefix?: string;
+  baseDomainPrefix?: string | undefined;
 }
 /** The main controller responsible for rendering the core networking components */
 export type NetworkProfileNetworkType = "OVNKubernetes" | "Other";
 /** OpenShift networking configuration */
 export interface NetworkProfile_2 {
   /** The main controller responsible for rendering the core networking components */
-  networkType?: NetworkProfileNetworkType | (string & {});
+  networkType?: NetworkProfileNetworkType | (string & {}) | undefined;
   /** The CIDR of the pod IP addresses */
-  podCidr?: string;
+  podCidr?: string | undefined;
   /** The CIDR block for assigned service IPs */
-  serviceCidr?: string;
+  serviceCidr?: string | undefined;
   /** The CIDR block from which to assign machine IP addresses */
-  machineCidr?: string;
+  machineCidr?: string | undefined;
   /** Network host prefix */
-  hostPrefix?: number;
+  hostPrefix?: number | undefined;
 }
 /** Configuration of the cluster web console */
 export interface ConsoleProfile_2 {
@@ -367,16 +367,16 @@ export interface ApiProfile {
   /** URL endpoint for the API server */
   url: string;
   /** The internet visibility of the OpenShift API server */
-  visibility?: ApiProfileVisibility;
+  visibility?: ApiProfileVisibility | undefined;
   /** The list of authorized IPv4 CIDR blocks allowed to access the API server. Maximum 500 entries. */
-  authorizedCidrs?: ApiProfileAuthorizedCidrsList;
+  authorizedCidrs?: ApiProfileAuthorizedCidrsList | undefined;
 }
 /** The type of the default cluster ingress. */
 export type IngressProfileType = "Public" | "Private" | "Disabled";
 /** Information about the Ingress of a cluster. */
 export interface IngressProfile_2 {
   /** The type of the default cluster ingress. */
-  type?: IngressProfileType | (string & {});
+  type?: IngressProfileType | (string & {}) | undefined;
 }
 /** The core outgoing configuration */
 export type PlatformProfileOutboundType = "LoadBalancer";
@@ -405,37 +405,37 @@ export interface OperatorsAuthenticationProfile {
 /** Azure Container Registry configuration for a cluster. Configures how worker nodes authenticate container image pulls from Azure Container Registry (ACR). */
 export interface ContainerRegistryProfile {
   /** The user-assigned managed identity used for container registry image pulls. */
-  managedIdentity?: string;
+  managedIdentity?: string | undefined;
 }
 /** Azure specific configuration */
 export interface PlatformProfile {
   /** The name of the resource group to put cluster resources in. If not specified then a unique name is generated from the following pattern "aro-hcp-" + clusterName + "-" + UUID where clusterName means the hcpOpenShiftClusters resource name (up to 45 characters) followed by a 16-byte universally unique identifier per RFC 4122. */
-  managedResourceGroup?: string;
+  managedResourceGroup?: string | undefined;
   /** The Azure resource ID of the worker subnet. Note that a subnet cannot be reused between ARO-HCP Clusters. */
   subnetId: string;
   /** The Azure resource ID of a subnet that enables direct, private network connectivity between the hosted control plane and your cluster's nodes. This subnet must be dedicated to ARO HCP and cannot be shared with the cluster subnet or any node pool subnets. */
   vnetIntegrationSubnetId: string;
   /** The core outgoing configuration */
-  outboundType?: PlatformProfileOutboundType;
+  outboundType?: PlatformProfileOutboundType | undefined;
   /** ResourceId for the NSG (network security group) attached to the cluster subnet Note that NSGs cannot be reused for other ARO-HCP clusters. */
   networkSecurityGroupId: string;
   /** The configuration that the operators of the cluster have to authenticate to Azure */
   operatorsAuthentication: OperatorsAuthenticationProfile;
   /** Azure Container Registry configuration for authenticating image pulls on the cluster's worker nodes. */
-  containerRegistry?: ContainerRegistryProfile;
+  containerRegistry?: ContainerRegistryProfile | undefined;
   /** URL for the OIDC provider to be used for authentication to authenticate against user Azure cloud account */
   issuerUrl: string;
 }
 /** ClusterAutoscaling specifies auto-scaling behavior that applies to all NodePools associated with a control plane. */
 export interface ClusterAutoscalingProfile {
   /** maxNodesTotal is the maximum allowable number of nodes. The autoscaler will not grow the cluster beyond this number. If omitted, the autoscaler will not have a maximum limit. */
-  maxNodesTotal?: number;
+  maxNodesTotal?: number | undefined;
   /** maxPodGracePeriodSeconds is the maximum amount of time in seconds to wait for graceful pod termination before scaling down a NodePool. The default is 600 seconds. */
-  maxPodGracePeriodSeconds?: number;
+  maxPodGracePeriodSeconds?: number | undefined;
   /** maxNodeProvisionTimeSeconds is the maximum time to wait for node provisioning before considering the provisioning to be unsuccessful. The default is 900 seconds, or 15 minutes. */
-  maxNodeProvisionTimeSeconds?: number;
+  maxNodeProvisionTimeSeconds?: number | undefined;
   /** podPriorityThreshold enables users to schedule "best-effort" pods, which shouldn't trigger autoscaler actions, but only run when there are spare resources available. The default is -10. See the following for more details: https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md#how-does-cluster-autoscaler-work-with-pod-priority-and-preemption */
-  podPriorityThreshold?: number;
+  podPriorityThreshold?: number | undefined;
 }
 /** The encryption key management mode types supported for ETCD data encryption. */
 export type EtcdDataEncryptionKeyManagementModeType = "CustomerManaged";
@@ -461,26 +461,26 @@ export interface KmsEncryptionProfile {
   /** The details of the active key. */
   activeKey: KmsKey;
   /** The type of keyvault used for KMS encryption. Defaults to KeyVault when absent. */
-  keyVaultType?: KmsEncryptionProfileKeyVaultType | (string & {});
+  keyVaultType?: KmsEncryptionProfileKeyVaultType | (string & {}) | undefined;
 }
 /** Customer managed encryption key profile. */
 export interface CustomerManagedEncryptionProfile {
   /** The encryption type used. By default, "KMS" is used. */
-  encryptionType?: CustomerManagedEncryptionProfileEncryptionType | (string & {});
+  encryptionType?: CustomerManagedEncryptionProfileEncryptionType | (string & {}) | undefined;
   /** The Key Management Service (KMS) encryption key details. Required when encryptionType is "KMS". */
-  kms?: KmsEncryptionProfile;
+  kms?: KmsEncryptionProfile | undefined;
 }
 /** The ETCD data encryption settings. */
 export interface EtcdDataEncryptionProfile {
   /** Specify the key management strategy used for the encryption key that encrypts the ETCD data. */
   keyManagementMode: EtcdDataEncryptionKeyManagementModeType | (string & {});
   /** Specify customer managed encryption key details. Required when keyManagementMode is "CustomerManaged". */
-  customerManaged?: CustomerManagedEncryptionProfile;
+  customerManaged?: CustomerManagedEncryptionProfile | undefined;
 }
 /** The ETCD settings and configuration options. */
 export interface EtcdProfile {
   /** ETCD Data Encryption settings. If not specified platform managed keys are used. */
-  dataEncryption?: EtcdDataEncryptionProfile;
+  dataEncryption?: EtcdDataEncryptionProfile | undefined;
 }
 /** mirrors is zero or more locations that may also contain the same images. No mirror will be configured if not specified. Images can be pulled from these mirrors only if they are referenced by their digests. The mirrored location is obtained by replacing the part of the input reference that matches source by the mirrors entry, e.g. for registry.redhat.io/product/repo reference, a (source, mirror) pair *.redhat.io, mirror.local/redhat causes a mirror.local/redhat/product/repo repository to be used. The order of mirrors in this list is treated as the user's desired priority, while source is by default considered lower priority than all mirrors. If no mirror is specified or all image pulls from the mirror list fail, the image will continue to be pulled from the repository in the pull spec. Other cluster configuration, including (but not limited to) other imageDigestMirrors objects, may impact the exact order mirrors are contacted in, or some mirrors may be contacted in parallel, so this should be considered a preference rather than a guarantee of ordering. mirrors uses one of the following formats: * host[:port] * host[:port]/namespace[/namespace...] * host[:port]/namespace[/namespace...]/repo for more information about the format, see: https://github.com/containers/image/blob/main/docs/containers-registries.conf.5.md#choosing-a-registry-toml-table */
 export type ImageDigestMirrorMirrorsList = Array<string>;
@@ -498,7 +498,7 @@ export type ClusterImageRegistryProfileState = "Enabled" | "Disabled";
 /** OpenShift cluster image registry */
 export interface ClusterImageRegistryProfile {
   /** state indicates the desired ImageStream-backed cluster image registry installation mode. This can only be set during cluster creation and cannot be changed after cluster creation. Enabled means the ImageStream-backed image registry will be run as pods on worker nodes in the cluster. Disabled means the ImageStream-backed image registry will not be present in the cluster. The default is Enabled. */
-  state?: ClusterImageRegistryProfileState | (string & {});
+  state?: ClusterImageRegistryProfileState | (string & {}) | undefined;
 }
 /** The conditions on the resource */
 export type ClusterResourceStatusConditionsList = Array<Condition>;
@@ -512,44 +512,44 @@ export type ClusterResourceStatusActiveVersionsList = Array<ClusterActiveVersion
 /** ClusterResourceStatus represents the observed status of the cluster resource. */
 export interface ClusterResourceStatus {
   /** The conditions on the resource */
-  conditions?: ClusterResourceStatusConditionsList;
+  conditions?: ClusterResourceStatusConditionsList | undefined;
   /** The observed active versions of the cluster. During upgrades, both the previous and target versions may be active simultaneously until the rollout completes, so this array can contain more than one entry. The ordering of entries has no meaning. */
-  activeVersions?: ClusterResourceStatusActiveVersionsList;
+  activeVersions?: ClusterResourceStatusActiveVersionsList | undefined;
 }
 /** Cryptographic restrictions for kernel and userspace libraries */
 export type HcpOpenShiftClusterPropertiesCryptoRestrictions = "None" | "FIPS";
 /** HCP cluster properties */
 export interface HcpOpenShiftClusterProperties {
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState_2;
+  provisioningState?: ProvisioningState_2 | undefined;
   /** Version of the control plane components */
   version: VersionProfile;
   /** Cluster DNS configuration */
-  dns?: DnsProfile;
+  dns?: DnsProfile | undefined;
   /** Cluster network configuration */
-  network?: NetworkProfile_2;
+  network?: NetworkProfile_2 | undefined;
   /** Shows the cluster web console information */
-  console?: ConsoleProfile_2;
+  console?: ConsoleProfile_2 | undefined;
   /** Shows the cluster API server profile */
-  api?: ApiProfile;
+  api?: ApiProfile | undefined;
   /** The cluster ingress configuration */
-  ingress?: IngressProfile_2;
+  ingress?: IngressProfile_2 | undefined;
   /** Azure platform configuration */
   platform: PlatformProfile;
   /** Configure ClusterAutoscaling . */
-  autoscaling?: ClusterAutoscalingProfile;
+  autoscaling?: ClusterAutoscalingProfile | undefined;
   /** Configure ETCD. */
-  etcd?: EtcdProfile;
+  etcd?: EtcdProfile | undefined;
   /** imageDigestMirrors is a set of rules to allow pulling images from a mirrored registry by using digest specifications. WARNING: Updating this array will redeploy all node pools in the cluster. */
-  imageDigestMirrors?: HcpOpenShiftClusterPropertiesImageDigestMirrorsList;
+  imageDigestMirrors?: HcpOpenShiftClusterPropertiesImageDigestMirrorsList | undefined;
   /** nodeDrainTimeoutMinutes is the grace period for how long Pod Disruption Budget-protected workloads will be respected during any node draining operation. After this grace period, any workloads protected by Pod Disruption Budgets that have not been successfully drained from a node will be forcibly evicted. This is especially relevant to cluster upgrades. Valid values are in minutes and from 0 to 10080 minutes (1 week). 0 means that the MachinePool can be drained without any time limitation. This value is used as a default for all NodePools. It can be overridden by specifying nodeDrainTimeoutMinutes for a given NodePool */
-  nodeDrainTimeoutMinutes?: number;
+  nodeDrainTimeoutMinutes?: number | undefined;
   /** OpenShift internal image registry */
-  clusterImageRegistry?: ClusterImageRegistryProfile;
+  clusterImageRegistry?: ClusterImageRegistryProfile | undefined;
   /** Status of the cluster resource */
-  status?: ClusterResourceStatus;
+  status?: ClusterResourceStatus | undefined;
   /** Cryptographic restrictions for kernel and userspace libraries */
-  cryptoRestrictions?: HcpOpenShiftClusterPropertiesCryptoRestrictions;
+  cryptoRestrictions?: HcpOpenShiftClusterPropertiesCryptoRestrictions | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type ManagedServiceIdentityType =
@@ -560,9 +560,9 @@ export type ManagedServiceIdentityType =
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type GetHcpOpenShiftClusterResponseIdentityUserAssignedIdentitiesMap = {
@@ -571,30 +571,32 @@ export type GetHcpOpenShiftClusterResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetHcpOpenShiftClusterResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: GetHcpOpenShiftClusterResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | GetHcpOpenShiftClusterResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface GetHcpOpenShiftClusterResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetHcpOpenShiftClusterResponseTagsMap;
+  tags?: GetHcpOpenShiftClusterResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: HcpOpenShiftClusterProperties;
+  properties?: HcpOpenShiftClusterProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetHcpOpenShiftClusterResponseIdentity;
+  identity?: GetHcpOpenShiftClusterResponseIdentity | undefined;
 }
 export interface GetHcpOpenShiftVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -615,15 +617,15 @@ export interface HcpOpenShiftVersionProperties {
 }
 export interface GetHcpOpenShiftVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: HcpOpenShiftVersionProperties;
+  properties?: HcpOpenShiftVersionProperties | undefined;
 }
 export interface GetHcpOperatorIdentityRoleSetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -668,15 +670,15 @@ export interface HcpOperatorIdentityRoleSetProperties {
 }
 export interface GetHcpOperatorIdentityRoleSetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: HcpOperatorIdentityRoleSetProperties;
+  properties?: HcpOperatorIdentityRoleSetProperties | undefined;
 }
 export interface GetNodePoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -695,7 +697,7 @@ export interface NodePoolVersionProfile {
   /** ID is the unique identifier of the version. */
   id: string;
   /** ChannelGroup is the name of the set to which this version belongs. Each version belongs to only a single set. If not specified, the default value is 'stable'. This property is intended to be updateable, but that support is not yet complete. Until then, changing this value after node pool creation is rejected. */
-  channelGroup?: string;
+  channelGroup?: string | undefined;
 }
 /** The type of the disk storage account - https://learn.microsoft.com/en-us/azure/virtual-machines/disks-types */
 export type OsDiskProfileDiskStorageAccountType =
@@ -707,40 +709,40 @@ export type OsDiskProfileDiskType = "Managed" | "Ephemeral";
 /** The settings and configuration options for OSDisk */
 export interface OsDiskProfile {
   /** The OS disk size in GiB. Maximum is 4095 GiB for Managed disks. For Ephemeral disks, the maximum is 2040 GiB; Azure may enforce a lower effective limit based on the selected VM size's local cache, temp, or NVMe capacity. */
-  sizeGiB?: number;
+  sizeGiB?: number | undefined;
   /** The type of the disk storage account - https://learn.microsoft.com/en-us/azure/virtual-machines/disks-types */
-  diskStorageAccountType?: OsDiskProfileDiskStorageAccountType | (string & {});
+  diskStorageAccountType?: OsDiskProfileDiskStorageAccountType | (string & {}) | undefined;
   /** The ID of the DiskEncryptionSet resource to use to encrypt the OS disks for the VMs. This needs to exist in the same subscription id listed in the Hosted Cluster, HostedCluster.Spec.Platform.Azure.SubscriptionID. DiskEncryptionSetID should also exist in a resource group under the same subscription id and the same location listed in the Hosted Cluster, HostedCluster.Spec.Platform.Azure.Location. Details on how to create a Disk Encryption Set can be found here: https://learn.microsoft.com/en-us/azure/virtual-machines/disks-enable-customer-managed-keys-portal#set-up-your-disk-encryption-set */
-  encryptionSetId?: string;
+  encryptionSetId?: string | undefined;
   /** The type of the OS disk. - https://learn.microsoft.com/en-us/azure/virtual-machines/ephemeral-os-disks */
-  diskType?: OsDiskProfileDiskType | (string & {});
+  diskType?: OsDiskProfileDiskType | (string & {}) | undefined;
 }
 /** Azure node pool platform configuration */
 export interface NodePoolPlatformProfile {
   /** The Azure resource ID of the worker subnet. Note that a subnet cannot be reused between ARO-HCP Clusters, however the same subnet can be used for NodePools of the same cluster. */
-  subnetId?: string;
+  subnetId?: string | undefined;
   /** The VM size according to the documentation: - https://learn.microsoft.com/en-us/azure/virtual-machines/sizes */
   vmSize: string;
   /** Whether to enable host based OS and data drive encryption. - https://learn.microsoft.com/en-us/azure/virtual-machines/disk-encryption#encryption-at-host---end-to-end-encryption-for-your-vm-data */
-  enableEncryptionAtHost?: boolean;
+  enableEncryptionAtHost?: boolean | undefined;
   /** The settings and configuration options for OSDisk */
-  osDisk?: OsDiskProfile;
+  osDisk?: OsDiskProfile | undefined;
   /** The availability zone for the node pool. Please read the documentation to see which regions support availability zones - https://learn.microsoft.com/en-us/azure/availability-zones/az-overview */
-  availabilityZone?: string;
+  availabilityZone?: string | undefined;
 }
 /** Node pool autoscaling */
 export interface NodePoolAutoScaling {
   /** The minimum number of nodes in the node pool. Validation: - Minimum: 0 - Maximum: 200 (only when availabilityZone is not specified) - No maximum when availabilityZone is specified */
-  min?: number;
+  min?: number | undefined;
   /** The maximum number of nodes in the node pool. Validation: - Minimum: 0 (must be >= min) - Maximum: 200 (only when availabilityZone is not specified) - No maximum when availabilityZone is specified */
-  max?: number;
+  max?: number | undefined;
 }
 /** Label represents the Kubernetes label */
 export interface Label {
   /** The key of the label */
   key: string;
   /** The value of the label */
-  value?: string;
+  value?: string | undefined;
 }
 /** Kubernetes labels to propagate to the NodePool Nodes. Note that when the labels are updated this is only applied to newly created nodes in the NodePool, existing node labels remain unchanged. */
 export type NodePoolPropertiesLabelsList = Array<Label>;
@@ -751,7 +753,7 @@ export interface Taint {
   /** The key of the taint */
   key: string;
   /** The value of the taint */
-  value?: string;
+  value?: string | undefined;
   /** The effect of the taint */
   effect: Effect | (string & {});
 }
@@ -769,32 +771,32 @@ export type NodePoolResourceStatusActiveVersionsList = Array<NodePoolActiveVersi
 /** NodePoolResourceStatus represents the observed status of the nodepool resource. */
 export interface NodePoolResourceStatus {
   /** The conditions on the resource */
-  conditions?: NodePoolResourceStatusConditionsList;
+  conditions?: NodePoolResourceStatusConditionsList | undefined;
   /** The observed active versions of the node pool. During upgrades, it is common for multiple versions to be active at the same time while old nodes are drained and replaced. The ordering of entries has no meaning. */
-  activeVersions?: NodePoolResourceStatusActiveVersionsList;
+  activeVersions?: NodePoolResourceStatusActiveVersionsList | undefined;
 }
 /** Represents the node pool properties */
 export interface NodePoolProperties {
   /** Provisioning state */
-  provisioningState?: ProvisioningState_2;
+  provisioningState?: ProvisioningState_2 | undefined;
   /** OpenShift version for the nodepool */
-  version?: NodePoolVersionProfile;
+  version?: NodePoolVersionProfile | undefined;
   /** Azure node pool platform configuration */
   platform: NodePoolPlatformProfile;
   /** The number of worker nodes, it cannot be used together with autoscaling. Validation: - Minimum: 0 - Maximum: 200 (only when availabilityZone is not specified) - No maximum when availabilityZone is specified */
-  replicas?: number;
+  replicas?: number | undefined;
   /** autoRepair specifies whether health checks should be enabled for machines in the NodePool. Enabling this feature will cause the controller to automatically delete unhealthy machines. The unhealthy criteria are determined by checking the Node Ready condition and a timeout that might vary depending on the platform provider. autoRepair will not take action when more than 2 Nodes are unhealthy at the same time, giving time for the cluster to stabilize or for the user to manually intervene. */
-  autoRepair?: boolean;
+  autoRepair?: boolean | undefined;
   /** Representation of a autoscaling in a node pool. */
-  autoScaling?: NodePoolAutoScaling;
+  autoScaling?: NodePoolAutoScaling | undefined;
   /** Kubernetes labels to propagate to the NodePool Nodes. Note that when the labels are updated this is only applied to newly created nodes in the NodePool, existing node labels remain unchanged. */
-  labels?: NodePoolPropertiesLabelsList;
+  labels?: NodePoolPropertiesLabelsList | undefined;
   /** Taints for the nodes. */
-  taints?: NodePoolPropertiesTaintsList;
+  taints?: NodePoolPropertiesTaintsList | undefined;
   /** nodeDrainTimeoutMinutes is the grace period for how long Pod Disruption Budget-protected workloads will be respected during any node draining operation. After this grace period, any workloads protected by Pod Disruption Budgets that have not been successfully drained from a node will be forcibly evicted. This is especially relevant to cluster upgrades. Valid values are from 0 to 10080 minutes (1 week) . 0 means that the NodePool can be drained without any time limitation. If unset the cluster nodeDrainTimeoutMinutes value is used as a default. */
-  nodeDrainTimeoutMinutes?: number;
+  nodeDrainTimeoutMinutes?: number | undefined;
   /** Status of the node pool resource */
-  status?: NodePoolResourceStatus;
+  status?: NodePoolResourceStatus | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type GetNodePoolResponseIdentityUserAssignedIdentitiesMap = {
@@ -803,30 +805,30 @@ export type GetNodePoolResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetNodePoolResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: GetNodePoolResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: GetNodePoolResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface GetNodePoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetNodePoolResponseTagsMap;
+  tags?: GetNodePoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NodePoolProperties;
+  properties?: NodePoolProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetNodePoolResponseIdentity;
+  identity?: GetNodePoolResponseIdentity | undefined;
 }
 export interface GetOpenShiftClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -852,38 +854,38 @@ export type FipsValidatedModules = "Disabled" | "Enabled";
 /** ClusterProfile represents a cluster profile. */
 export interface ClusterProfile {
   /** The pull secret for the cluster. */
-  pullSecret?: string;
+  pullSecret?: string | undefined;
   /** The domain for the cluster. */
-  domain?: string;
+  domain?: string | undefined;
   /** The version of the cluster. */
-  version?: string;
+  version?: string | undefined;
   /** The ID of the cluster resource group. */
-  resourceGroupId?: string;
+  resourceGroupId?: string | undefined;
   /** If FIPS validated crypto modules are used */
-  fipsValidatedModules?: FipsValidatedModules;
+  fipsValidatedModules?: FipsValidatedModules | undefined;
   /** The URL of the managed OIDC issuer in a workload identity cluster. */
-  oidcIssuer?: string;
+  oidcIssuer?: string | undefined;
 }
 /** ConsoleProfile represents a console profile. */
 export interface ConsoleProfile {
   /** The URL to access the cluster console. */
-  url?: string;
+  url?: string | undefined;
 }
 /** ServicePrincipalProfile represents a service principal profile. */
 export interface ServicePrincipalProfile {
   /** The client ID used for the cluster. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** The client secret used for the cluster. */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
 }
 /** PlatformWorkloadIdentity stores information representing a single workload identity. */
 export interface PlatformWorkloadIdentity {
   /** The resource ID of the PlatformWorkloadIdentity resource */
-  resourceId?: string;
+  resourceId?: string | undefined;
   /** The ClientID of the PlatformWorkloadIdentity resource */
-  clientId?: string;
+  clientId?: string | undefined;
   /** The ObjectID of the PlatformWorkloadIdentity resource */
-  objectId?: string;
+  objectId?: string | undefined;
 }
 /** Dictionary of <PlatformWorkloadIdentity> */
 export type PlatformWorkloadIdentityProfilePlatformWorkloadIdentitiesMap = {
@@ -892,75 +894,77 @@ export type PlatformWorkloadIdentityProfilePlatformWorkloadIdentitiesMap = {
 /** PlatformWorkloadIdentityProfile encapsulates all information that is specific to workload identity clusters. */
 export interface PlatformWorkloadIdentityProfile {
   /** UpgradeableTo stores a single OpenShift version a workload identity cluster can be upgraded to */
-  upgradeableTo?: string;
+  upgradeableTo?: string | undefined;
   /** Dictionary of <PlatformWorkloadIdentity> */
-  platformWorkloadIdentities?: PlatformWorkloadIdentityProfilePlatformWorkloadIdentitiesMap;
+  platformWorkloadIdentities?:
+    | PlatformWorkloadIdentityProfilePlatformWorkloadIdentitiesMap
+    | undefined;
 }
 /** The outbound routing strategy used to provide your cluster egress to the internet. */
 export type OutboundType = "Loadbalancer" | "UserDefinedRouting";
 /** ManagedOutboundIPs represents the desired managed outbound IPs for the cluster public load balancer. */
 export interface ManagedOutboundIPs {
   /** Count represents the desired number of IPv4 outbound IPs created and managed by Azure for the cluster public load balancer. Allowed values are in the range of 1 - 20. The default value is 1. */
-  count?: number;
+  count?: number | undefined;
 }
 /** EffectiveOutboundIP represents an effective outbound IP resource of the cluster public load balancer. */
 export interface EffectiveOutboundIP {
   /** The fully qualified Azure resource id of an IP address resource. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The list of effective outbound IP addresses of the public load balancer. */
 export type LoadBalancerProfileEffectiveOutboundIpsList = Array<EffectiveOutboundIP>;
 /** LoadBalancerProfile represents the profile of the cluster public load balancer. */
 export interface LoadBalancerProfile {
   /** The desired managed outbound IPs for the cluster public load balancer. */
-  managedOutboundIps?: ManagedOutboundIPs;
+  managedOutboundIps?: ManagedOutboundIPs | undefined;
   /** The list of effective outbound IP addresses of the public load balancer. */
-  effectiveOutboundIps?: LoadBalancerProfileEffectiveOutboundIpsList;
+  effectiveOutboundIps?: LoadBalancerProfileEffectiveOutboundIpsList | undefined;
 }
 /** PreconfiguredNSG represents whether customers want to use their own NSG attached to the subnets */
 export type PreconfiguredNSG = "Disabled" | "Enabled";
 /** NetworkProfile represents a network profile. */
 export interface NetworkProfile {
   /** The CIDR used for OpenShift/Kubernetes Pods. */
-  podCidr?: string;
+  podCidr?: string | undefined;
   /** The CIDR used for OpenShift/Kubernetes Services. */
-  serviceCidr?: string;
+  serviceCidr?: string | undefined;
   /** The OutboundType used for egress traffic. */
-  outboundType?: OutboundType;
+  outboundType?: OutboundType | undefined;
   /** The cluster load balancer profile. */
-  loadBalancerProfile?: LoadBalancerProfile;
+  loadBalancerProfile?: LoadBalancerProfile | undefined;
   /** Specifies whether subnets are pre-attached with an NSG */
-  preconfiguredNSG?: PreconfiguredNSG;
+  preconfiguredNSG?: PreconfiguredNSG | undefined;
 }
 /** EncryptionAtHost represents encryption at host state */
 export type EncryptionAtHost = "Disabled" | "Enabled";
 /** MasterProfile represents a master profile. */
 export interface MasterProfile {
   /** The size of the master VMs. */
-  vmSize?: string;
+  vmSize?: string | undefined;
   /** The Azure resource ID of the master subnet. */
-  subnetId?: string;
+  subnetId?: string | undefined;
   /** Whether master virtual machines are encrypted at host. */
-  encryptionAtHost?: EncryptionAtHost | (string & {});
+  encryptionAtHost?: EncryptionAtHost | (string & {}) | undefined;
   /** The resource ID of an associated DiskEncryptionSet, if applicable. */
-  diskEncryptionSetId?: string;
+  diskEncryptionSetId?: string | undefined;
 }
 /** WorkerProfile represents a worker profile. */
 export interface WorkerProfile {
   /** The worker profile name. */
-  name?: string;
+  name?: string | undefined;
   /** The size of the worker VMs. */
-  vmSize?: string;
+  vmSize?: string | undefined;
   /** The disk size of the worker VMs. */
-  diskSizeGB?: number;
+  diskSizeGB?: number | undefined;
   /** The Azure resource ID of the worker subnet. */
-  subnetId?: string;
+  subnetId?: string | undefined;
   /** The number of worker VMs. */
-  count?: number;
+  count?: number | undefined;
   /** Whether master virtual machines are encrypted at host. */
-  encryptionAtHost?: EncryptionAtHost | (string & {});
+  encryptionAtHost?: EncryptionAtHost | (string & {}) | undefined;
   /** The resource ID of an associated DiskEncryptionSet, if applicable. */
-  diskEncryptionSetId?: string;
+  diskEncryptionSetId?: string | undefined;
 }
 /** The cluster worker profiles. */
 export type OpenShiftClusterPropertiesWorkerProfilesList = Array<WorkerProfile>;
@@ -971,47 +975,47 @@ export type Visibility = "Private" | "Public";
 /** APIServerProfile represents an API server profile. */
 export interface APIServerProfile {
   /** API server visibility. */
-  visibility?: Visibility;
+  visibility?: Visibility | undefined;
   /** The URL to access the cluster API server. */
-  url?: string;
+  url?: string | undefined;
   /** The IP of the cluster API server. */
-  ip?: string;
+  ip?: string | undefined;
 }
 /** IngressProfile represents an ingress profile. */
 export interface IngressProfile {
   /** The ingress profile name. */
-  name?: string;
+  name?: string | undefined;
   /** Ingress visibility. */
-  visibility?: Visibility;
+  visibility?: Visibility | undefined;
   /** The IP of the ingress. */
-  ip?: string;
+  ip?: string | undefined;
 }
 /** The cluster ingress profiles. */
 export type OpenShiftClusterPropertiesIngressProfilesList = Array<IngressProfile>;
 /** OpenShiftClusterProperties represents an OpenShift cluster's properties. */
 export interface OpenShiftClusterProperties {
   /** The cluster provisioning state. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The cluster profile. */
-  clusterProfile?: ClusterProfile;
+  clusterProfile?: ClusterProfile | undefined;
   /** The console profile. */
-  consoleProfile?: ConsoleProfile;
+  consoleProfile?: ConsoleProfile | undefined;
   /** The cluster service principal profile. */
-  servicePrincipalProfile?: ServicePrincipalProfile;
+  servicePrincipalProfile?: ServicePrincipalProfile | undefined;
   /** The workload identity profile. */
-  platformWorkloadIdentityProfile?: PlatformWorkloadIdentityProfile;
+  platformWorkloadIdentityProfile?: PlatformWorkloadIdentityProfile | undefined;
   /** The cluster network profile. */
-  networkProfile?: NetworkProfile;
+  networkProfile?: NetworkProfile | undefined;
   /** The cluster master profile. */
-  masterProfile?: MasterProfile;
+  masterProfile?: MasterProfile | undefined;
   /** The cluster worker profiles. */
-  workerProfiles?: OpenShiftClusterPropertiesWorkerProfilesList;
+  workerProfiles?: OpenShiftClusterPropertiesWorkerProfilesList | undefined;
   /** The cluster worker profiles status. */
-  workerProfilesStatus?: OpenShiftClusterPropertiesWorkerProfilesStatusList;
+  workerProfilesStatus?: OpenShiftClusterPropertiesWorkerProfilesStatusList | undefined;
   /** The cluster API server profile. */
-  apiserverProfile?: APIServerProfile;
+  apiserverProfile?: APIServerProfile | undefined;
   /** The cluster ingress profiles. */
-  ingressProfiles?: OpenShiftClusterPropertiesIngressProfilesList;
+  ingressProfiles?: OpenShiftClusterPropertiesIngressProfilesList | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type GetOpenShiftClusterResponseIdentityUserAssignedIdentitiesMap = {
@@ -1020,30 +1024,30 @@ export type GetOpenShiftClusterResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface GetOpenShiftClusterResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: GetOpenShiftClusterResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: GetOpenShiftClusterResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface GetOpenShiftClusterResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetOpenShiftClusterResponseTagsMap;
+  tags?: GetOpenShiftClusterResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The cluster properties. */
-  properties?: OpenShiftClusterProperties;
+  properties?: OpenShiftClusterProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: GetOpenShiftClusterResponseIdentity;
+  identity?: GetOpenShiftClusterResponseIdentity | undefined;
 }
 export interface GetOpenShiftVersionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1056,19 +1060,19 @@ export interface GetOpenShiftVersionRequest {
 /** OpenShiftVersionProperties represents the properties of an OpenShiftVersion. */
 export interface OpenShiftVersionProperties {
   /** Version represents the version to create the cluster at. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface GetOpenShiftVersionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties for the OpenShiftVersion resource. */
-  properties?: OpenShiftVersionProperties;
+  properties?: OpenShiftVersionProperties | undefined;
 }
 export interface GetPlatformWorkloadIdentityRoleSetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1081,11 +1085,11 @@ export interface GetPlatformWorkloadIdentityRoleSetRequest {
 /** PlatformWorkloadIdentityRole represents a mapping from a particular OCP operator to the built-in role that should be assigned to that operator's corresponding managed identity. */
 export interface PlatformWorkloadIdentityRole {
   /** OperatorName represents the name of the operator that this role is for. */
-  operatorName?: string;
+  operatorName?: string | undefined;
   /** RoleDefinitionName represents the name of the role. */
-  roleDefinitionName?: string;
+  roleDefinitionName?: string | undefined;
   /** RoleDefinitionID represents the resource ID of the role definition. */
-  roleDefinitionId?: string;
+  roleDefinitionId?: string | undefined;
 }
 /** PlatformWorkloadIdentityRoles represents the set of roles associated with this version. */
 export type PlatformWorkloadIdentityRoleSetPropertiesPlatformWorkloadIdentityRolesList =
@@ -1093,21 +1097,23 @@ export type PlatformWorkloadIdentityRoleSetPropertiesPlatformWorkloadIdentityRol
 /** PlatformWorkloadIdentityRoleSetProperties represents the properties of a PlatformWorkloadIdentityRoleSet resource. */
 export interface PlatformWorkloadIdentityRoleSetProperties {
   /** OpenShiftVersion represents the version associated with this set of roles. */
-  openShiftVersion?: string;
+  openShiftVersion?: string | undefined;
   /** PlatformWorkloadIdentityRoles represents the set of roles associated with this version. */
-  platformWorkloadIdentityRoles?: PlatformWorkloadIdentityRoleSetPropertiesPlatformWorkloadIdentityRolesList;
+  platformWorkloadIdentityRoles?:
+    | PlatformWorkloadIdentityRoleSetPropertiesPlatformWorkloadIdentityRolesList
+    | undefined;
 }
 export interface GetPlatformWorkloadIdentityRoleSetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties for the PlatformWorkloadIdentityRoleSet resource. */
-  properties?: PlatformWorkloadIdentityRoleSetProperties;
+  properties?: PlatformWorkloadIdentityRoleSetProperties | undefined;
 }
 /** Resource tags. */
 export type HcpOpenShiftClustersCreateOrUpdateRequestTagsMap = {
@@ -1116,7 +1122,7 @@ export type HcpOpenShiftClustersCreateOrUpdateRequestTagsMap = {
 /** DNS contains the DNS settings of the cluster */
 export interface DnsProfileInput {
   /** BaseDomainPrefix is the base domain prefix for the cluster ingress. It will be used to configure ingress in the cluster through the subdomain "BaseDomainPrefix.BaseDomain". */
-  baseDomainPrefix?: string;
+  baseDomainPrefix?: string | undefined;
 }
 /** The internet visibility of the OpenShift API server */
 export type ApiProfileInputVisibility = "Public" | "Private";
@@ -1125,28 +1131,28 @@ export type ApiProfileInputAuthorizedCidrsList = Array<string>;
 /** Information about the API of a cluster. */
 export interface ApiProfileInput {
   /** The internet visibility of the OpenShift API server */
-  visibility?: ApiProfileInputVisibility | (string & {});
+  visibility?: ApiProfileInputVisibility | (string & {}) | undefined;
   /** The list of authorized IPv4 CIDR blocks allowed to access the API server. Maximum 500 entries. */
-  authorizedCidrs?: ApiProfileInputAuthorizedCidrsList;
+  authorizedCidrs?: ApiProfileInputAuthorizedCidrsList | undefined;
 }
 /** The core outgoing configuration */
 export type PlatformProfileInputOutboundType = "LoadBalancer";
 /** Azure specific configuration */
 export interface PlatformProfileInput {
   /** The name of the resource group to put cluster resources in. If not specified then a unique name is generated from the following pattern "aro-hcp-" + clusterName + "-" + UUID where clusterName means the hcpOpenShiftClusters resource name (up to 45 characters) followed by a 16-byte universally unique identifier per RFC 4122. */
-  managedResourceGroup?: string;
+  managedResourceGroup?: string | undefined;
   /** The Azure resource ID of the worker subnet. Note that a subnet cannot be reused between ARO-HCP Clusters. */
   subnetId: string;
   /** The Azure resource ID of a subnet that enables direct, private network connectivity between the hosted control plane and your cluster's nodes. This subnet must be dedicated to ARO HCP and cannot be shared with the cluster subnet or any node pool subnets. */
   vnetIntegrationSubnetId: string;
   /** The core outgoing configuration */
-  outboundType?: PlatformProfileInputOutboundType | (string & {});
+  outboundType?: PlatformProfileInputOutboundType | (string & {}) | undefined;
   /** ResourceId for the NSG (network security group) attached to the cluster subnet Note that NSGs cannot be reused for other ARO-HCP clusters. */
   networkSecurityGroupId: string;
   /** The configuration that the operators of the cluster have to authenticate to Azure */
   operatorsAuthentication: OperatorsAuthenticationProfile;
   /** Azure Container Registry configuration for authenticating image pulls on the cluster's worker nodes. */
-  containerRegistry?: ContainerRegistryProfile;
+  containerRegistry?: ContainerRegistryProfile | undefined;
 }
 /** imageDigestMirrors is a set of rules to allow pulling images from a mirrored registry by using digest specifications. WARNING: Updating this array will redeploy all node pools in the cluster. */
 export type HcpOpenShiftClusterPropertiesInputImageDigestMirrorsList = Array<ImageDigestMirror>;
@@ -1157,27 +1163,30 @@ export interface HcpOpenShiftClusterPropertiesInput {
   /** Version of the control plane components */
   version: VersionProfile;
   /** Cluster DNS configuration */
-  dns?: DnsProfileInput;
+  dns?: DnsProfileInput | undefined;
   /** Cluster network configuration */
-  network?: NetworkProfile_2;
+  network?: NetworkProfile_2 | undefined;
   /** Shows the cluster API server profile */
-  api?: ApiProfileInput;
+  api?: ApiProfileInput | undefined;
   /** The cluster ingress configuration */
-  ingress?: IngressProfile_2;
+  ingress?: IngressProfile_2 | undefined;
   /** Azure platform configuration */
   platform: PlatformProfileInput;
   /** Configure ClusterAutoscaling . */
-  autoscaling?: ClusterAutoscalingProfile;
+  autoscaling?: ClusterAutoscalingProfile | undefined;
   /** Configure ETCD. */
-  etcd?: EtcdProfile;
+  etcd?: EtcdProfile | undefined;
   /** imageDigestMirrors is a set of rules to allow pulling images from a mirrored registry by using digest specifications. WARNING: Updating this array will redeploy all node pools in the cluster. */
-  imageDigestMirrors?: HcpOpenShiftClusterPropertiesInputImageDigestMirrorsList;
+  imageDigestMirrors?: HcpOpenShiftClusterPropertiesInputImageDigestMirrorsList | undefined;
   /** nodeDrainTimeoutMinutes is the grace period for how long Pod Disruption Budget-protected workloads will be respected during any node draining operation. After this grace period, any workloads protected by Pod Disruption Budgets that have not been successfully drained from a node will be forcibly evicted. This is especially relevant to cluster upgrades. Valid values are in minutes and from 0 to 10080 minutes (1 week). 0 means that the MachinePool can be drained without any time limitation. This value is used as a default for all NodePools. It can be overridden by specifying nodeDrainTimeoutMinutes for a given NodePool */
-  nodeDrainTimeoutMinutes?: number;
+  nodeDrainTimeoutMinutes?: number | undefined;
   /** OpenShift internal image registry */
-  clusterImageRegistry?: ClusterImageRegistryProfile;
+  clusterImageRegistry?: ClusterImageRegistryProfile | undefined;
   /** Cryptographic restrictions for kernel and userspace libraries */
-  cryptoRestrictions?: HcpOpenShiftClusterPropertiesInputCryptoRestrictions | (string & {});
+  cryptoRestrictions?:
+    | HcpOpenShiftClusterPropertiesInputCryptoRestrictions
+    | (string & {})
+    | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentityInput {}
@@ -1189,7 +1198,9 @@ export type HcpOpenShiftClustersCreateOrUpdateRequestIdentityUserAssignedIdentit
 export interface HcpOpenShiftClustersCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: HcpOpenShiftClustersCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | HcpOpenShiftClustersCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface HcpOpenShiftClustersCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1199,13 +1210,13 @@ export interface HcpOpenShiftClustersCreateOrUpdateRequest {
   /** The name of the HcpOpenShiftCluster */
   hcpOpenShiftClusterName: string;
   /** Resource tags. */
-  tags?: HcpOpenShiftClustersCreateOrUpdateRequestTagsMap;
+  tags?: HcpOpenShiftClustersCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: HcpOpenShiftClusterPropertiesInput;
+  properties?: HcpOpenShiftClusterPropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: HcpOpenShiftClustersCreateOrUpdateRequestIdentity;
+  identity?: HcpOpenShiftClustersCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type HcpOpenShiftClustersCreateOrUpdateResponseTagsMap = {
@@ -1218,34 +1229,36 @@ export type HcpOpenShiftClustersCreateOrUpdateResponseIdentityUserAssignedIdenti
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface HcpOpenShiftClustersCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: HcpOpenShiftClustersCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | HcpOpenShiftClustersCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface HcpOpenShiftClustersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: HcpOpenShiftClustersCreateOrUpdateResponseTagsMap;
+  tags?: HcpOpenShiftClustersCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: HcpOpenShiftClusterProperties;
+  properties?: HcpOpenShiftClusterProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: HcpOpenShiftClustersCreateOrUpdateResponseIdentity;
+  identity?: HcpOpenShiftClustersCreateOrUpdateResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface HcpOpenShiftClustersRequestAdminCredentialRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1255,7 +1268,7 @@ export interface HcpOpenShiftClustersRequestAdminCredentialRequest {
   /** The name of the HcpOpenShiftCluster */
   hcpOpenShiftClusterName: string;
   /** PEM encoded certificate request */
-  certificateSigningRequest?: string;
+  certificateSigningRequest?: string | undefined;
 }
 /** HCP cluster admin credential */
 export interface HcpOpenShiftClusterAdminCredential {
@@ -1264,9 +1277,9 @@ export interface HcpOpenShiftClusterAdminCredential {
   /** Expiration timestamp for the kubeconfig's client certificate */
   expirationTimestamp: string;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ListExternalAuthByParentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1279,15 +1292,15 @@ export interface ListExternalAuthByParentRequest {
 /** ExternalAuth resource */
 export interface ExternalAuth {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ExternalAuthProperties;
+  properties?: ExternalAuthProperties | undefined;
 }
 /** The ExternalAuth items on this page */
 export type ExternalAuthListResultValueList = Array<ExternalAuth>;
@@ -1296,7 +1309,7 @@ export interface ExternalAuthListResult {
   /** The ExternalAuth items on this page */
   value: ExternalAuthListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListHcpOpenShiftClusterByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1313,31 +1326,31 @@ export type HcpOpenShiftClusterIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface HcpOpenShiftClusterIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: HcpOpenShiftClusterIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: HcpOpenShiftClusterIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** HCP cluster resource */
 export interface HcpOpenShiftCluster {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: HcpOpenShiftClusterTagsMap;
+  tags?: HcpOpenShiftClusterTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: HcpOpenShiftClusterProperties;
+  properties?: HcpOpenShiftClusterProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: HcpOpenShiftClusterIdentity;
+  identity?: HcpOpenShiftClusterIdentity | undefined;
 }
 /** The HcpOpenShiftCluster items on this page */
 export type HcpOpenShiftClusterListResultValueList = Array<HcpOpenShiftCluster>;
@@ -1346,7 +1359,7 @@ export interface HcpOpenShiftClusterListResult {
   /** The HcpOpenShiftCluster items on this page */
   value: HcpOpenShiftClusterListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListHcpOpenShiftClusterBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1361,15 +1374,15 @@ export interface ListHcpOpenShiftVersionsRequest {
 /** HcpOpenShiftVersion represents a location based available HCP OpenShift version */
 export interface HcpOpenShiftVersion {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: HcpOpenShiftVersionProperties;
+  properties?: HcpOpenShiftVersionProperties | undefined;
 }
 /** The HcpOpenShiftVersion items on this page */
 export type HcpOpenShiftVersionListResultValueList = Array<HcpOpenShiftVersion>;
@@ -1378,7 +1391,7 @@ export interface HcpOpenShiftVersionListResult {
   /** The HcpOpenShiftVersion items on this page */
   value: HcpOpenShiftVersionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListHcpOperatorIdentityRoleSetsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1389,15 +1402,15 @@ export interface ListHcpOperatorIdentityRoleSetsRequest {
 /** HcpOperatorIdentityRoles represents a location based representation of the required platform workload identities and their required roles for a given OpenShift version */
 export interface HcpOperatorIdentityRoleSet {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: HcpOperatorIdentityRoleSetProperties;
+  properties?: HcpOperatorIdentityRoleSetProperties | undefined;
 }
 /** The HcpOperatorIdentityRoleSet items on this page */
 export type HcpOperatorIdentityRoleSetListResultValueList = Array<HcpOperatorIdentityRoleSet>;
@@ -1406,7 +1419,7 @@ export interface HcpOperatorIdentityRoleSetListResult {
   /** The HcpOperatorIdentityRoleSet items on this page */
   value: HcpOperatorIdentityRoleSetListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNodePoolByParentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1425,31 +1438,31 @@ export type NodePoolIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface NodePoolIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: NodePoolIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: NodePoolIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** Concrete tracked resource types can be created by aliasing this type using a specific property type. */
 export interface NodePool {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NodePoolTagsMap;
+  tags?: NodePoolTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NodePoolProperties;
+  properties?: NodePoolProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: NodePoolIdentity;
+  identity?: NodePoolIdentity | undefined;
 }
 /** The NodePool items on this page */
 export type NodePoolListResultValueList = Array<NodePool>;
@@ -1458,7 +1471,7 @@ export interface NodePoolListResult {
   /** The NodePool items on this page */
   value: NodePoolListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOpenShiftClusterAdminCredentialsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1471,7 +1484,7 @@ export interface ListOpenShiftClusterAdminCredentialsRequest {
 /** OpenShiftClusterAdminKubeconfig represents an OpenShift cluster's admin kubeconfig. */
 export interface OpenShiftClusterAdminKubeconfig {
   /** The base64-encoded kubeconfig file. */
-  kubeconfig?: string;
+  kubeconfig?: string | undefined;
 }
 export interface ListOpenShiftClusterByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1488,31 +1501,31 @@ export type OpenShiftClusterIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface OpenShiftClusterIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: OpenShiftClusterIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: OpenShiftClusterIdentityUserAssignedIdentitiesMap | undefined;
 }
 /** OpenShiftCluster represents an Azure Red Hat OpenShift cluster. */
 export interface OpenShiftCluster {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: OpenShiftClusterTagsMap;
+  tags?: OpenShiftClusterTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The cluster properties. */
-  properties?: OpenShiftClusterProperties;
+  properties?: OpenShiftClusterProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: OpenShiftClusterIdentity;
+  identity?: OpenShiftClusterIdentity | undefined;
 }
 /** The OpenShiftCluster items on this page */
 export type OpenShiftClusterListValueList = Array<OpenShiftCluster>;
@@ -1521,7 +1534,7 @@ export interface OpenShiftClusterList {
   /** The OpenShiftCluster items on this page */
   value: OpenShiftClusterListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOpenShiftClusterCredentialsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1534,9 +1547,9 @@ export interface ListOpenShiftClusterCredentialsRequest {
 /** OpenShiftClusterCredentials represents an OpenShift cluster's credentials. */
 export interface OpenShiftClusterCredentials {
   /** The username for the kubeadmin user. */
-  kubeadminUsername?: string;
+  kubeadminUsername?: string | undefined;
   /** The password for the kubeadmin user. */
-  kubeadminPassword?: string | Redacted.Redacted<string>;
+  kubeadminPassword?: string | Redacted.Redacted<string> | undefined;
 }
 export interface ListOpenShiftClustersRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1551,15 +1564,15 @@ export interface ListOpenShiftVersionsRequest {
 /** OpenShiftVersion represents an OpenShift version that can be installed. */
 export interface OpenShiftVersion {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties for the OpenShiftVersion resource. */
-  properties?: OpenShiftVersionProperties;
+  properties?: OpenShiftVersionProperties | undefined;
 }
 /** The OpenShiftVersion items on this page */
 export type OpenShiftVersionListValueList = Array<OpenShiftVersion>;
@@ -1568,28 +1581,28 @@ export interface OpenShiftVersionList {
   /** The OpenShiftVersion items on this page */
   value: OpenShiftVersionListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Display represents the display details of an operation. */
 export interface Display {
   /** Friendly name of the resource provider. */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource type on which the operation is performed. */
-  resource?: string;
+  resource?: string | undefined;
   /** Operation type: read, write, delete, listKeys/action, etc. */
-  operation?: string;
+  operation?: string | undefined;
   /** Friendly name of the operation. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Operation represents an RP operation. */
 export interface Operation {
   /** Operation name: {provider}/{resource}/{operation}. */
-  name?: string;
+  name?: string | undefined;
   /** The object that describes the operation. */
-  display?: Display;
+  display?: Display | undefined;
   /** Sources of requests to this operation. Comma separated list with valid values user or system, e.g. "user,system". */
-  origin?: string;
+  origin?: string | undefined;
 }
 /** The Operation items on this page */
 export type OperationListValueList = Array<Operation>;
@@ -1598,7 +1611,7 @@ export interface OperationList {
   /** The Operation items on this page */
   value: OperationListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPlatformWorkloadIdentityRoleSetsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1609,15 +1622,15 @@ export interface ListPlatformWorkloadIdentityRoleSetsRequest {
 /** PlatformWorkloadIdentityRoleSet represents a mapping from the names of OCP operators to the built-in roles that should be assigned to those operator's corresponding managed identities for a particular OCP version. */
 export interface PlatformWorkloadIdentityRoleSet {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties for the PlatformWorkloadIdentityRoleSet resource. */
-  properties?: PlatformWorkloadIdentityRoleSetProperties;
+  properties?: PlatformWorkloadIdentityRoleSetProperties | undefined;
 }
 /** The PlatformWorkloadIdentityRoleSet items on this page */
 export type PlatformWorkloadIdentityRoleSetListValueList = Array<PlatformWorkloadIdentityRoleSet>;
@@ -1626,7 +1639,7 @@ export interface PlatformWorkloadIdentityRoleSetList {
   /** The PlatformWorkloadIdentityRoleSet items on this page */
   value: PlatformWorkloadIdentityRoleSetListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type NodePoolsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1637,21 +1650,21 @@ export type NodePoolPropertiesInputTaintsList = Array<Taint>;
 /** Represents the node pool properties */
 export interface NodePoolPropertiesInput {
   /** OpenShift version for the nodepool */
-  version?: NodePoolVersionProfile;
+  version?: NodePoolVersionProfile | undefined;
   /** Azure node pool platform configuration */
   platform: NodePoolPlatformProfile;
   /** The number of worker nodes, it cannot be used together with autoscaling. Validation: - Minimum: 0 - Maximum: 200 (only when availabilityZone is not specified) - No maximum when availabilityZone is specified */
-  replicas?: number;
+  replicas?: number | undefined;
   /** autoRepair specifies whether health checks should be enabled for machines in the NodePool. Enabling this feature will cause the controller to automatically delete unhealthy machines. The unhealthy criteria are determined by checking the Node Ready condition and a timeout that might vary depending on the platform provider. autoRepair will not take action when more than 2 Nodes are unhealthy at the same time, giving time for the cluster to stabilize or for the user to manually intervene. */
-  autoRepair?: boolean;
+  autoRepair?: boolean | undefined;
   /** Representation of a autoscaling in a node pool. */
-  autoScaling?: NodePoolAutoScaling;
+  autoScaling?: NodePoolAutoScaling | undefined;
   /** Kubernetes labels to propagate to the NodePool Nodes. Note that when the labels are updated this is only applied to newly created nodes in the NodePool, existing node labels remain unchanged. */
-  labels?: NodePoolPropertiesInputLabelsList;
+  labels?: NodePoolPropertiesInputLabelsList | undefined;
   /** Taints for the nodes. */
-  taints?: NodePoolPropertiesInputTaintsList;
+  taints?: NodePoolPropertiesInputTaintsList | undefined;
   /** nodeDrainTimeoutMinutes is the grace period for how long Pod Disruption Budget-protected workloads will be respected during any node draining operation. After this grace period, any workloads protected by Pod Disruption Budgets that have not been successfully drained from a node will be forcibly evicted. This is especially relevant to cluster upgrades. Valid values are from 0 to 10080 minutes (1 week) . 0 means that the NodePool can be drained without any time limitation. If unset the cluster nodeDrainTimeoutMinutes value is used as a default. */
-  nodeDrainTimeoutMinutes?: number;
+  nodeDrainTimeoutMinutes?: number | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type NodePoolsCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap = {
@@ -1661,7 +1674,9 @@ export type NodePoolsCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap = {
 export interface NodePoolsCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: NodePoolsCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | NodePoolsCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface NodePoolsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1673,13 +1688,13 @@ export interface NodePoolsCreateOrUpdateRequest {
   /** The name of the NodePool */
   nodePoolName: string;
   /** Resource tags. */
-  tags?: NodePoolsCreateOrUpdateRequestTagsMap;
+  tags?: NodePoolsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NodePoolPropertiesInput;
+  properties?: NodePoolPropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: NodePoolsCreateOrUpdateRequestIdentity;
+  identity?: NodePoolsCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type NodePoolsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -1690,56 +1705,58 @@ export type NodePoolsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface NodePoolsCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: NodePoolsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | NodePoolsCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface NodePoolsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NodePoolsCreateOrUpdateResponseTagsMap;
+  tags?: NodePoolsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NodePoolProperties;
+  properties?: NodePoolProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: NodePoolsCreateOrUpdateResponseIdentity;
+  identity?: NodePoolsCreateOrUpdateResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type OpenShiftClustersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
 /** ClusterProfile represents a cluster profile. */
 export interface ClusterProfileInput {
   /** The pull secret for the cluster. */
-  pullSecret?: string;
+  pullSecret?: string | undefined;
   /** The domain for the cluster. */
-  domain?: string;
+  domain?: string | undefined;
   /** The version of the cluster. */
-  version?: string;
+  version?: string | undefined;
   /** The ID of the cluster resource group. */
-  resourceGroupId?: string;
+  resourceGroupId?: string | undefined;
   /** If FIPS validated crypto modules are used */
-  fipsValidatedModules?: FipsValidatedModules | (string & {});
+  fipsValidatedModules?: FipsValidatedModules | (string & {}) | undefined;
 }
 /** ConsoleProfile represents a console profile. */
 export type ConsoleProfileInput = UserAssignedIdentityInput;
 /** PlatformWorkloadIdentity stores information representing a single workload identity. */
 export interface PlatformWorkloadIdentityInput {
   /** The resource ID of the PlatformWorkloadIdentity resource */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 /** Dictionary of <PlatformWorkloadIdentity> */
 export type PlatformWorkloadIdentityProfileInputPlatformWorkloadIdentitiesMap = {
@@ -1748,66 +1765,68 @@ export type PlatformWorkloadIdentityProfileInputPlatformWorkloadIdentitiesMap = 
 /** PlatformWorkloadIdentityProfile encapsulates all information that is specific to workload identity clusters. */
 export interface PlatformWorkloadIdentityProfileInput {
   /** UpgradeableTo stores a single OpenShift version a workload identity cluster can be upgraded to */
-  upgradeableTo?: string;
+  upgradeableTo?: string | undefined;
   /** Dictionary of <PlatformWorkloadIdentity> */
-  platformWorkloadIdentities?: PlatformWorkloadIdentityProfileInputPlatformWorkloadIdentitiesMap;
+  platformWorkloadIdentities?:
+    | PlatformWorkloadIdentityProfileInputPlatformWorkloadIdentitiesMap
+    | undefined;
 }
 /** LoadBalancerProfile represents the profile of the cluster public load balancer. */
 export interface LoadBalancerProfileInput {
   /** The desired managed outbound IPs for the cluster public load balancer. */
-  managedOutboundIps?: ManagedOutboundIPs;
+  managedOutboundIps?: ManagedOutboundIPs | undefined;
 }
 /** NetworkProfile represents a network profile. */
 export interface NetworkProfileInput {
   /** The CIDR used for OpenShift/Kubernetes Pods. */
-  podCidr?: string;
+  podCidr?: string | undefined;
   /** The CIDR used for OpenShift/Kubernetes Services. */
-  serviceCidr?: string;
+  serviceCidr?: string | undefined;
   /** The OutboundType used for egress traffic. */
-  outboundType?: OutboundType | (string & {});
+  outboundType?: OutboundType | (string & {}) | undefined;
   /** The cluster load balancer profile. */
-  loadBalancerProfile?: LoadBalancerProfileInput;
+  loadBalancerProfile?: LoadBalancerProfileInput | undefined;
   /** Specifies whether subnets are pre-attached with an NSG */
-  preconfiguredNSG?: PreconfiguredNSG | (string & {});
+  preconfiguredNSG?: PreconfiguredNSG | (string & {}) | undefined;
 }
 /** The cluster worker profiles. */
 export type OpenShiftClusterPropertiesInputWorkerProfilesList = Array<WorkerProfile>;
 /** APIServerProfile represents an API server profile. */
 export interface APIServerProfileInput {
   /** API server visibility. */
-  visibility?: Visibility | (string & {});
+  visibility?: Visibility | (string & {}) | undefined;
 }
 /** IngressProfile represents an ingress profile. */
 export interface IngressProfileInput {
   /** The ingress profile name. */
-  name?: string;
+  name?: string | undefined;
   /** Ingress visibility. */
-  visibility?: Visibility | (string & {});
+  visibility?: Visibility | (string & {}) | undefined;
 }
 /** The cluster ingress profiles. */
 export type OpenShiftClusterPropertiesInputIngressProfilesList = Array<IngressProfileInput>;
 /** OpenShiftClusterProperties represents an OpenShift cluster's properties. */
 export interface OpenShiftClusterPropertiesInput {
   /** The cluster provisioning state. */
-  provisioningState?: ProvisioningState | (string & {});
+  provisioningState?: ProvisioningState | (string & {}) | undefined;
   /** The cluster profile. */
-  clusterProfile?: ClusterProfileInput;
+  clusterProfile?: ClusterProfileInput | undefined;
   /** The console profile. */
-  consoleProfile?: UserAssignedIdentityInput;
+  consoleProfile?: UserAssignedIdentityInput | undefined;
   /** The cluster service principal profile. */
-  servicePrincipalProfile?: ServicePrincipalProfile;
+  servicePrincipalProfile?: ServicePrincipalProfile | undefined;
   /** The workload identity profile. */
-  platformWorkloadIdentityProfile?: PlatformWorkloadIdentityProfileInput;
+  platformWorkloadIdentityProfile?: PlatformWorkloadIdentityProfileInput | undefined;
   /** The cluster network profile. */
-  networkProfile?: NetworkProfileInput;
+  networkProfile?: NetworkProfileInput | undefined;
   /** The cluster master profile. */
-  masterProfile?: MasterProfile;
+  masterProfile?: MasterProfile | undefined;
   /** The cluster worker profiles. */
-  workerProfiles?: OpenShiftClusterPropertiesInputWorkerProfilesList;
+  workerProfiles?: OpenShiftClusterPropertiesInputWorkerProfilesList | undefined;
   /** The cluster API server profile. */
-  apiserverProfile?: APIServerProfileInput;
+  apiserverProfile?: APIServerProfileInput | undefined;
   /** The cluster ingress profiles. */
-  ingressProfiles?: OpenShiftClusterPropertiesInputIngressProfilesList;
+  ingressProfiles?: OpenShiftClusterPropertiesInputIngressProfilesList | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type OpenShiftClustersCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap = {
@@ -1817,7 +1836,9 @@ export type OpenShiftClustersCreateOrUpdateRequestIdentityUserAssignedIdentities
 export interface OpenShiftClustersCreateOrUpdateRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: OpenShiftClustersCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | OpenShiftClustersCreateOrUpdateRequestIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface OpenShiftClustersCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1827,13 +1848,13 @@ export interface OpenShiftClustersCreateOrUpdateRequest {
   /** The name of the OpenShift cluster resource. */
   resourceName: string;
   /** Resource tags. */
-  tags?: OpenShiftClustersCreateOrUpdateRequestTagsMap;
+  tags?: OpenShiftClustersCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The cluster properties. */
-  properties?: OpenShiftClusterPropertiesInput;
+  properties?: OpenShiftClusterPropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: OpenShiftClustersCreateOrUpdateRequestIdentity;
+  identity?: OpenShiftClustersCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type OpenShiftClustersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -1844,34 +1865,36 @@ export type OpenShiftClustersCreateOrUpdateResponseIdentityUserAssignedIdentitie
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface OpenShiftClustersCreateOrUpdateResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: OpenShiftClustersCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | OpenShiftClustersCreateOrUpdateResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface OpenShiftClustersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: OpenShiftClustersCreateOrUpdateResponseTagsMap;
+  tags?: OpenShiftClustersCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The cluster properties. */
-  properties?: OpenShiftClusterProperties;
+  properties?: OpenShiftClusterProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: OpenShiftClustersCreateOrUpdateResponseIdentity;
+  identity?: OpenShiftClustersCreateOrUpdateResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface RevokeHcpOpenShiftClusterCredentialsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1883,63 +1906,63 @@ export interface RevokeHcpOpenShiftClusterCredentialsRequest {
 }
 export interface RevokeHcpOpenShiftClusterCredentialsResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** This configures the acceptable audiences for JWT tokens issued by the identity provider. At least one of the entries must match the 'aud' claim in the JWT token. Audiences must contain at least one entry and must not exceed ten entries. */
 export type TokenIssuerProfileUpdateAudiencesList = Array<string>;
 /** Token issuer profile This configures how the platform interacts with the identity provider and how tokens issued from the identity provider are evaluated by the Kubernetes API server. */
 export interface TokenIssuerProfileUpdate {
   /** This configures the URL used to issue tokens by the identity provider. The Kubernetes API server determines how authentication tokens should be handled by matching the 'iss' claim in the JWT to the issuerURL of configured identity providers. issuerURL must use the 'https' scheme. */
-  url?: string;
+  url?: string | undefined;
   /** This configures the acceptable audiences for JWT tokens issued by the identity provider. At least one of the entries must match the 'aud' claim in the JWT token. Audiences must contain at least one entry and must not exceed ten entries. */
-  audiences?: TokenIssuerProfileUpdateAudiencesList;
+  audiences?: TokenIssuerProfileUpdateAudiencesList | undefined;
   /** The issuer of the token. Certificate bundle to use to validate server certificates for the configured URL. It must be PEM encoded and when not specified, the system trust is used. */
-  ca?: string;
+  ca?: string | undefined;
 }
 /** External Auth OIDC clients There must not be more than 20 entries and entries must have unique namespace/name pairs. */
 export type ExternalAuthPropertiesUpdateClientsList = Array<ExternalAuthClientProfile>;
 /** External Auth claim profile This configures how the username of a cluster identity should be constructed from the claims in a JWT token issued by the identity provider. */
 export interface UsernameClaimProfileUpdate {
   /** Claim name of the external profile */
-  claim?: string;
+  claim?: string | undefined;
   /** Prefix for the claim external profile. Must be set when the prefixPolicy field is set to 'Prefix' and must be unset otherwise. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** Prefix policy is an optional field that configures how a prefix should be applied to the value of the JWT claim specified in the 'claim' field. Allowed values are 'Prefix', 'NoPrefix', and 'None'. If not specified, the default policy is 'None'. When set to 'Prefix', the value specified in the prefix field will be prepended to the value of the JWT claim. The prefix field must be set when prefixPolicy is 'Prefix'. When set to 'NoPrefix', no prefix will be prepended to the value of the JWT claim. When set to 'None', this means no opinion and the platform is left to choose any prefixes that are applied which is subject to change over time. Currently, the platform prepends `{issuerURL}#` to the value of the JWT claim when the claim is not 'email'. As an example, consider the following scenario: `prefix` is unset, `issuerURL` is set to `https://myoidc.tld`, the JWT claims include "username":"userA" and "email":"userA */
-  prefixPolicy?: UsernameClaimPrefixPolicy | (string & {});
+  prefixPolicy?: UsernameClaimPrefixPolicy | (string & {}) | undefined;
 }
 /** External Auth claim profile This configures how the groups of a cluster identity should be constructed from the claims in a JWT token issued by the identity provider. When referencing a claim, if the claim is present in the JWT token, its value must be a list of groups separated by a comma (','). For example - '"example"' and '"exampleOne", "exampleTwo", "exampleThree"' are valid claim values. */
 export interface GroupClaimProfileUpdate {
   /** Claim name of the external profile */
-  claim?: string;
+  claim?: string | undefined;
   /** Prefix for the claim external profile. If this is specified, prefixPolicy will be set to "Prefix" by default. */
-  prefix?: string;
+  prefix?: string | undefined;
 }
 /** External Auth claim mappings profile. At a minimum username or groups must be defined. */
 export interface TokenClaimMappingsProfileUpdate {
   /** The claim mappings username. */
-  username?: UsernameClaimProfileUpdate;
+  username?: UsernameClaimProfileUpdate | undefined;
   /** The claim mappings groups. */
-  groups?: GroupClaimProfileUpdate;
+  groups?: GroupClaimProfileUpdate | undefined;
 }
 /** The claim validation rules. */
 export type ExternalAuthClaimProfileUpdateValidationRulesList = Array<TokenClaimValidationRule>;
 /** External Auth claim profile */
 export interface ExternalAuthClaimProfileUpdate {
   /** The claim mappings. */
-  mappings?: TokenClaimMappingsProfileUpdate;
+  mappings?: TokenClaimMappingsProfileUpdate | undefined;
   /** The claim validation rules. */
-  validationRules?: ExternalAuthClaimProfileUpdateValidationRulesList;
+  validationRules?: ExternalAuthClaimProfileUpdateValidationRulesList | undefined;
 }
 /** External Auth profile */
 export interface ExternalAuthPropertiesUpdate {
   /** Token Issuer profile */
-  issuer?: TokenIssuerProfileUpdate;
+  issuer?: TokenIssuerProfileUpdate | undefined;
   /** External Auth OIDC clients There must not be more than 20 entries and entries must have unique namespace/name pairs. */
-  clients?: ExternalAuthPropertiesUpdateClientsList;
+  clients?: ExternalAuthPropertiesUpdateClientsList | undefined;
   /** External Auth claim This configures how claims are validated and applied. */
-  claim?: ExternalAuthClaimProfileUpdate;
+  claim?: ExternalAuthClaimProfileUpdate | undefined;
 }
 export interface UpdateExternalAuthRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1951,39 +1974,39 @@ export interface UpdateExternalAuthRequest {
   /** The name of the ExternalAuth */
   externalAuthName: string;
   /** The resource-specific properties for this resource. */
-  properties?: ExternalAuthPropertiesUpdate;
+  properties?: ExternalAuthPropertiesUpdate | undefined;
 }
 export interface UpdateExternalAuthResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ExternalAuthProperties;
+  properties?: ExternalAuthProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateHcpOpenShiftClusterRequestTagsMap = { [key: string]: string | undefined };
 /** Versions represents an OpenShift version. */
 export interface VersionProfileUpdate {
   /** ID is the desired X.Y version of the cluster control plane. */
-  id?: string;
+  id?: string | undefined;
   /** ChannelGroup is the name of the set to which this version belongs. Each version belongs to only a single set. If not specified, the default value is 'stable'. This property is intended to be updateable, but that support is not yet complete. Until then, changing this value after cluster creation is rejected. */
-  channelGroup?: string;
+  channelGroup?: string | undefined;
 }
 /** The list of authorized IPv4 CIDR blocks allowed to access the API server. Maximum 500 entries. */
 export type ApiProfileUpdateAuthorizedCidrsList = Array<string>;
 /** Information about the API of a cluster. */
 export interface ApiProfileUpdate {
   /** The list of authorized IPv4 CIDR blocks allowed to access the API server. Maximum 500 entries. */
-  authorizedCidrs?: ApiProfileUpdateAuthorizedCidrsList;
+  authorizedCidrs?: ApiProfileUpdateAuthorizedCidrsList | undefined;
 }
 /** The set of Azure User-Assigned Managed Identities leveraged for the Control Plane operators of the cluster. The set of required managed identities is dependent on the Cluster's OpenShift version. */
 export type UserAssignedIdentitiesProfileUpdateControlPlaneOperatorsMap = {
@@ -1996,67 +2019,67 @@ export type UserAssignedIdentitiesProfileUpdateDataPlaneOperatorsMap = {
 /** Represents the information related to Azure User-Assigned managed identities needed to perform Operators authentication based on Azure User-Assigned Managed Identities */
 export interface UserAssignedIdentitiesProfileUpdate {
   /** The set of Azure User-Assigned Managed Identities leveraged for the Control Plane operators of the cluster. The set of required managed identities is dependent on the Cluster's OpenShift version. */
-  controlPlaneOperators?: UserAssignedIdentitiesProfileUpdateControlPlaneOperatorsMap;
+  controlPlaneOperators?: UserAssignedIdentitiesProfileUpdateControlPlaneOperatorsMap | undefined;
   /** The set of Azure User-Assigned Managed Identities leveraged for the Data Plane operators of the cluster. The set of required managed identities is dependent on the Cluster's OpenShift version. */
-  dataPlaneOperators?: UserAssignedIdentitiesProfileUpdateDataPlaneOperatorsMap;
+  dataPlaneOperators?: UserAssignedIdentitiesProfileUpdateDataPlaneOperatorsMap | undefined;
   /** Represents the information associated to an Azure User-Assigned Managed Identity whose purpose is to perform service level actions. */
-  serviceManagedIdentity?: string;
+  serviceManagedIdentity?: string | undefined;
 }
 /** The configuration that the operators of the cluster have to authenticate to Azure. */
 export interface OperatorsAuthenticationProfileUpdate {
   /** Represents the information related to Azure User-Assigned managed identities needed to perform Operators authentication based on Azure User-Assigned Managed Identities */
-  userAssignedIdentities?: UserAssignedIdentitiesProfileUpdate;
+  userAssignedIdentities?: UserAssignedIdentitiesProfileUpdate | undefined;
 }
 /** Azure specific configuration */
 export interface PlatformProfileUpdate {
   /** The configuration that the operators of the cluster have to authenticate to Azure */
-  operatorsAuthentication?: OperatorsAuthenticationProfileUpdate;
+  operatorsAuthentication?: OperatorsAuthenticationProfileUpdate | undefined;
   /** Azure Container Registry configuration for authenticating image pulls on the cluster's worker nodes. */
-  containerRegistry?: ContainerRegistryProfile;
+  containerRegistry?: ContainerRegistryProfile | undefined;
 }
 /** A representation of a KeyVault Secret. */
 export interface KmsKeyUpdate {
   /** version contains the version of the key to use. */
-  version?: string;
+  version?: string | undefined;
 }
 /** Configure etcd encryption Key Management Service (KMS) key. Your Microsoft Entra application used to create the cluster must be authorized to access this keyvault, e.g using the AzureCLI: `az keyvault set-policy -n $KEYVAULT_NAME --key-permissions decrypt encrypt --spn (YOUR APPLICATION CLIENT ID)` */
 export interface KmsEncryptionProfileUpdate {
   /** The details of the active key. */
-  activeKey?: KmsKeyUpdate;
+  activeKey?: KmsKeyUpdate | undefined;
 }
 /** Customer managed encryption key profile. */
 export interface CustomerManagedEncryptionProfileUpdate {
   /** The Key Management Service (KMS) encryption key details. Required when encryptionType is "KMS". */
-  kms?: KmsEncryptionProfileUpdate;
+  kms?: KmsEncryptionProfileUpdate | undefined;
 }
 /** The ETCD data encryption settings. */
 export interface EtcdDataEncryptionProfileUpdate {
   /** Specify customer managed encryption key details. Required when keyManagementMode is "CustomerManaged". */
-  customerManaged?: CustomerManagedEncryptionProfileUpdate;
+  customerManaged?: CustomerManagedEncryptionProfileUpdate | undefined;
 }
 /** The ETCD settings and configuration options. */
 export interface EtcdProfileUpdate {
   /** ETCD Data Encryption settings. If not specified platform managed keys are used. */
-  dataEncryption?: EtcdDataEncryptionProfileUpdate;
+  dataEncryption?: EtcdDataEncryptionProfileUpdate | undefined;
 }
 /** imageDigestMirrors is a set of rules to allow pulling images from a mirrored registry by using digest specifications. WARNING: Updating this array will redeploy all node pools in the cluster. */
 export type HcpOpenShiftClusterPropertiesUpdateImageDigestMirrorsList = Array<ImageDigestMirror>;
 /** HCP cluster properties */
 export interface HcpOpenShiftClusterPropertiesUpdate {
   /** Version of the control plane components */
-  version?: VersionProfileUpdate;
+  version?: VersionProfileUpdate | undefined;
   /** Shows the cluster API server profile */
-  api?: ApiProfileUpdate;
+  api?: ApiProfileUpdate | undefined;
   /** Azure platform configuration */
-  platform?: PlatformProfileUpdate;
+  platform?: PlatformProfileUpdate | undefined;
   /** Configure ClusterAutoscaling . */
-  autoscaling?: ClusterAutoscalingProfile;
+  autoscaling?: ClusterAutoscalingProfile | undefined;
   /** Configure ETCD. */
-  etcd?: EtcdProfileUpdate;
+  etcd?: EtcdProfileUpdate | undefined;
   /** imageDigestMirrors is a set of rules to allow pulling images from a mirrored registry by using digest specifications. WARNING: Updating this array will redeploy all node pools in the cluster. */
-  imageDigestMirrors?: HcpOpenShiftClusterPropertiesUpdateImageDigestMirrorsList;
+  imageDigestMirrors?: HcpOpenShiftClusterPropertiesUpdateImageDigestMirrorsList | undefined;
   /** nodeDrainTimeoutMinutes is the grace period for how long Pod Disruption Budget-protected workloads will be respected during any node draining operation. After this grace period, any workloads protected by Pod Disruption Budgets that have not been successfully drained from a node will be forcibly evicted. This is especially relevant to cluster upgrades. Valid values are in minutes and from 0 to 10080 minutes (1 week). 0 means that the MachinePool can be drained without any time limitation. This value is used as a default for all NodePools. It can be overridden by specifying nodeDrainTimeoutMinutes for a given NodePool */
-  nodeDrainTimeoutMinutes?: number;
+  nodeDrainTimeoutMinutes?: number | undefined;
 }
 /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export type AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputType =
@@ -2073,9 +2096,14 @@ export type AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputUser
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInput {
   /** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
-  type?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputType | (string & {});
+  type?:
+    | AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputType
+    | (string & {})
+    | undefined;
   /** The identities assigned to this resource by the user. */
-  userAssignedIdentities?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInputUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface UpdateHcpOpenShiftClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2085,11 +2113,11 @@ export interface UpdateHcpOpenShiftClusterRequest {
   /** The name of the HcpOpenShiftCluster */
   hcpOpenShiftClusterName: string;
   /** Resource tags. */
-  tags?: UpdateHcpOpenShiftClusterRequestTagsMap;
+  tags?: UpdateHcpOpenShiftClusterRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: HcpOpenShiftClusterPropertiesUpdate;
+  properties?: HcpOpenShiftClusterPropertiesUpdate | undefined;
   /** The managed service identities assigned to this resource. */
-  identity?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInput;
+  identity?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInput | undefined;
 }
 /** Resource tags. */
 export type UpdateHcpOpenShiftClusterResponseTagsMap = { [key: string]: string | undefined };
@@ -2100,43 +2128,45 @@ export type UpdateHcpOpenShiftClusterResponseIdentityUserAssignedIdentitiesMap =
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface UpdateHcpOpenShiftClusterResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateHcpOpenShiftClusterResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | UpdateHcpOpenShiftClusterResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface UpdateHcpOpenShiftClusterResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateHcpOpenShiftClusterResponseTagsMap;
+  tags?: UpdateHcpOpenShiftClusterResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: HcpOpenShiftClusterProperties;
+  properties?: HcpOpenShiftClusterProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateHcpOpenShiftClusterResponseIdentity;
+  identity?: UpdateHcpOpenShiftClusterResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateNodePoolRequestTagsMap = { [key: string]: string | undefined };
 /** Versions represents an OpenShift version. */
 export interface NodePoolVersionProfileUpdate {
   /** ID is the unique identifier of the version. */
-  id?: string;
+  id?: string | undefined;
   /** ChannelGroup is the name of the set to which this version belongs. Each version belongs to only a single set. If not specified, the default value is 'stable'. This property is intended to be updateable, but that support is not yet complete. Until then, changing this value after node pool creation is rejected. */
-  channelGroup?: string;
+  channelGroup?: string | undefined;
 }
 /** Kubernetes labels to propagate to the NodePool Nodes. Note that when the labels are updated this is only applied to newly created nodes in the NodePool, existing node labels remain unchanged. */
 export type NodePoolPropertiesUpdateLabelsList = Array<Label>;
@@ -2145,17 +2175,17 @@ export type NodePoolPropertiesUpdateTaintsList = Array<Taint>;
 /** Represents the node pool properties */
 export interface NodePoolPropertiesUpdate {
   /** OpenShift version for the nodepool */
-  version?: NodePoolVersionProfileUpdate;
+  version?: NodePoolVersionProfileUpdate | undefined;
   /** The number of worker nodes, it cannot be used together with autoscaling. Validation: - Minimum: 0 - Maximum: 200 (only when availabilityZone is not specified) - No maximum when availabilityZone is specified */
-  replicas?: number;
+  replicas?: number | undefined;
   /** Representation of a autoscaling in a node pool. */
-  autoScaling?: NodePoolAutoScaling;
+  autoScaling?: NodePoolAutoScaling | undefined;
   /** Kubernetes labels to propagate to the NodePool Nodes. Note that when the labels are updated this is only applied to newly created nodes in the NodePool, existing node labels remain unchanged. */
-  labels?: NodePoolPropertiesUpdateLabelsList;
+  labels?: NodePoolPropertiesUpdateLabelsList | undefined;
   /** Taints for the nodes. */
-  taints?: NodePoolPropertiesUpdateTaintsList;
+  taints?: NodePoolPropertiesUpdateTaintsList | undefined;
   /** nodeDrainTimeoutMinutes is the grace period for how long Pod Disruption Budget-protected workloads will be respected during any node draining operation. After this grace period, any workloads protected by Pod Disruption Budgets that have not been successfully drained from a node will be forcibly evicted. This is especially relevant to cluster upgrades. Valid values are from 0 to 10080 minutes (1 week) . 0 means that the NodePool can be drained without any time limitation. If unset the cluster nodeDrainTimeoutMinutes value is used as a default. */
-  nodeDrainTimeoutMinutes?: number;
+  nodeDrainTimeoutMinutes?: number | undefined;
 }
 export interface UpdateNodePoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2167,11 +2197,11 @@ export interface UpdateNodePoolRequest {
   /** The name of the NodePool */
   nodePoolName: string;
   /** Resource tags. */
-  tags?: UpdateNodePoolRequestTagsMap;
+  tags?: UpdateNodePoolRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: NodePoolPropertiesUpdate;
+  properties?: NodePoolPropertiesUpdate | undefined;
   /** The managed service identities assigned to this resource. */
-  identity?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInput;
+  identity?: AzureResourceManagerCommonTypesManagedServiceIdentityUpdateInput | undefined;
 }
 /** Resource tags. */
 export type UpdateNodePoolResponseTagsMap = { [key: string]: string | undefined };
@@ -2182,34 +2212,34 @@ export type UpdateNodePoolResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface UpdateNodePoolResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateNodePoolResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: UpdateNodePoolResponseIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface UpdateNodePoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateNodePoolResponseTagsMap;
+  tags?: UpdateNodePoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NodePoolProperties;
+  properties?: NodePoolProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateNodePoolResponseIdentity;
+  identity?: UpdateNodePoolResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The resource tags. */
 export type UpdateOpenShiftClusterRequestTagsMap = { [key: string]: string | undefined };
@@ -2221,7 +2251,9 @@ export type UpdateOpenShiftClusterRequestIdentityUserAssignedIdentitiesMap = {
 export interface UpdateOpenShiftClusterRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateOpenShiftClusterRequestIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | UpdateOpenShiftClusterRequestIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface UpdateOpenShiftClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2231,11 +2263,11 @@ export interface UpdateOpenShiftClusterRequest {
   /** The name of the OpenShift cluster resource. */
   resourceName: string;
   /** The resource tags. */
-  tags?: UpdateOpenShiftClusterRequestTagsMap;
+  tags?: UpdateOpenShiftClusterRequestTagsMap | undefined;
   /** The cluster properties. */
-  properties?: OpenShiftClusterPropertiesInput;
+  properties?: OpenShiftClusterPropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateOpenShiftClusterRequestIdentity;
+  identity?: UpdateOpenShiftClusterRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type UpdateOpenShiftClusterResponseTagsMap = { [key: string]: string | undefined };
@@ -2246,34 +2278,36 @@ export type UpdateOpenShiftClusterResponseIdentityUserAssignedIdentitiesMap = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface UpdateOpenShiftClusterResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
   /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
-  userAssignedIdentities?: UpdateOpenShiftClusterResponseIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?:
+    | UpdateOpenShiftClusterResponseIdentityUserAssignedIdentitiesMap
+    | undefined;
 }
 export interface UpdateOpenShiftClusterResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateOpenShiftClusterResponseTagsMap;
+  tags?: UpdateOpenShiftClusterResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The cluster properties. */
-  properties?: OpenShiftClusterProperties;
+  properties?: OpenShiftClusterProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: UpdateOpenShiftClusterResponseIdentity;
+  identity?: UpdateOpenShiftClusterResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type DeleteExternalAuthError = AzureOpError;
 /** Delete a ExternalAuth */

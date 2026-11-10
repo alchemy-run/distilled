@@ -128,30 +128,30 @@ export type OfflineExperimentItemPayloadInputExpectedOutput =
   | boolean;
 export type OfflineExperimentItemPayloadInputMetadataMap = { [key: string]: unknown | undefined };
 export interface OfflineExperimentItemPayloadInput {
-  input?: OfflineExperimentItemPayloadInputInput | null;
-  output?: OfflineExperimentItemPayloadInputOutput | null;
-  expected_output?: OfflineExperimentItemPayloadInputExpectedOutput | null;
-  metadata?: OfflineExperimentItemPayloadInputMetadataMap | null;
+  input?: OfflineExperimentItemPayloadInputInput | null | undefined;
+  output?: OfflineExperimentItemPayloadInputOutput | null | undefined;
+  expected_output?: OfflineExperimentItemPayloadInputExpectedOutput | null | undefined;
+  metadata?: OfflineExperimentItemPayloadInputMetadataMap | null | undefined;
 }
 export interface ItemSubmission {
   /** Caller-generated UUID for one input/output execution. Reuse for exact retries. */
   id: string;
   /** Model used for this item. Omitted or null values inherit the experiment's model. */
-  model_version?: string | null;
+  model_version?: string | null | undefined;
   /** Stable case identifier for matching inputs across experiments. */
-  case_key?: string | null;
+  case_key?: string | null | undefined;
   /** Identifier for a repeated execution of the same case. */
-  trial?: string | null;
+  trial?: string | null | undefined;
   /** Stable item identifier in an external dataset. */
-  dataset_item_identifier?: string | null;
+  dataset_item_identifier?: string | null | undefined;
   /** Pinned item-version identifier in an external dataset. */
-  dataset_item_version_identifier?: string | null;
+  dataset_item_version_identifier?: string | null | undefined;
   /** UUID of the hosted item version in the experiment's dataset revision. */
-  dataset_item_version_id?: string | null;
+  dataset_item_version_id?: string | null | undefined;
   /** Trace identifier for the application execution that produced this output. */
-  application_trace_id?: string | null;
+  application_trace_id?: string | null | undefined;
   /** Optional input/output payload, up to 1 MiB and 32 JSON levels. Omission, {} and null properties differ. */
-  payload?: OfflineExperimentItemPayloadInput;
+  payload?: OfflineExperimentItemPayloadInput | undefined;
 }
 /** Complete immutable declarations for referenced items. Omit existing items to reuse them without a payload. */
 export type AiObservabilityOfflineExperimentsUploadCreateRequestItemsList = Array<ItemSubmission>;
@@ -162,9 +162,9 @@ export type ResultSubmissionValueCase2List = Array<string>;
 export type ResultSubmissionValue = number | boolean | ResultSubmissionValueCase2List;
 export type OfflineEvaluationResultPayloadInputMetadataMap = { [key: string]: unknown | undefined };
 export interface OfflineEvaluationResultPayloadInput {
-  reasoning?: string | null;
-  error_message?: string | null;
-  metadata?: OfflineEvaluationResultPayloadInputMetadataMap | null;
+  reasoning?: string | null | undefined;
+  error_message?: string | null | undefined;
+  metadata?: OfflineEvaluationResultPayloadInputMetadataMap | null | undefined;
 }
 export interface ResultSubmission {
   /** UUID of an item declared in this request or already accepted in this experiment. */
@@ -174,15 +174,15 @@ export interface ResultSubmission {
   /** Outcome of this scorer execution. * `ok` - OK * `error` - Error * `skipped` - Skipped * `not_applicable` - Not applicable */
   status: OfflineEvaluationResultStatusEnum | (string & {});
   /** Required for ok: finite number, boolean, or distinct category keys matching the scorer version. */
-  value?: ResultSubmissionValue | null;
+  value?: ResultSubmissionValue | null | undefined;
   /** Optional stable error code, permitted only for error outcomes. */
-  error_code?: string | null;
+  error_code?: string | null | undefined;
   /** Trace identifier of the evaluator that produced this result. */
-  evaluator_trace_id?: string | null;
+  evaluator_trace_id?: string | null | undefined;
   /** Caller-supplied evaluation time in ISO 8601 format. */
-  evaluated_at?: string | null;
+  evaluated_at?: string | null | undefined;
   /** Optional reasoning, error message, and metadata, up to 256 KiB and 32 JSON levels. */
-  payload?: OfflineEvaluationResultPayloadInput;
+  payload?: OfflineEvaluationResultPayloadInput | undefined;
 }
 /** One to 1,000 unique item/scorer-version results. The entire request commits atomically. */
 export type AiObservabilityOfflineExperimentsUploadCreateRequestResultsList =
@@ -193,7 +193,7 @@ export interface AiObservabilityOfflineExperimentsUploadCreateRequest {
   /** Experiment UUID. */
   id: string;
   /** Complete immutable declarations for referenced items. Omit existing items to reuse them without a payload. */
-  items?: AiObservabilityOfflineExperimentsUploadCreateRequestItemsList;
+  items?: AiObservabilityOfflineExperimentsUploadCreateRequestItemsList | undefined;
   /** One to 1,000 unique item/scorer-version results. The entire request commits atomically. */
   results: AiObservabilityOfflineExperimentsUploadCreateRequestResultsList;
 }
@@ -235,7 +235,7 @@ export interface AiObservabilityTracesSearchRetrieveRequest {
   /** The text to find in the trace's steps, ignoring case. */
   q: string;
   /** When the trace happened, as carried by links into it. Lets a trace older than the AI events retention load from the shared events table. */
-  timestamp_hint?: string;
+  timestamp_hint?: string | undefined;
 }
 export interface TraceSearchMatch {
   /** A step whose stored data contains the query. The root's id is the trace id. */
@@ -276,15 +276,15 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 /** Mixin for serializers to add user access control fields */
 export interface DatasetRead {
@@ -384,27 +384,27 @@ export interface CreateAiObservabilityOfflineExperimentRequest {
   /** Execution start time in ISO 8601 format, supplied by the caller. */
   started_at: string;
   /** Where the execution started: ci, local, or scheduled. Omit or use null when unknown. * `ci` - CI * `local` - Local * `scheduled` - Scheduled */
-  run_source?: OfflineExperimentRunSourceEnum | (string & {}) | null;
+  run_source?: OfflineExperimentRunSourceEnum | (string & {}) | null | undefined;
   /** Expected number of distinct items. Completion must match this count when supplied. */
-  expected_item_count?: number | null;
+  expected_item_count?: number | null | undefined;
   /** Expected number of distinct item/scorer-version results, including non-success statuses. */
-  expected_result_count?: number | null;
+  expected_result_count?: number | null | undefined;
   /** Stable identifier for comparing executions of the same evaluation suite. */
-  suite_key?: string | null;
+  suite_key?: string | null | undefined;
   /** Source of an external dataset. Hosted dataset provenance is derived from its revision. */
-  dataset_source?: string | null;
+  dataset_source?: string | null | undefined;
   /** Stable identifier for the external dataset. */
-  dataset_identifier?: string | null;
+  dataset_identifier?: string | null | undefined;
   /** Pinned revision identifier of the external dataset. */
-  dataset_revision_identifier?: string | null;
+  dataset_revision_identifier?: string | null | undefined;
   /** UUID of a hosted dataset revision in this project. */
-  dataset_revision_id?: string | null;
+  dataset_revision_id?: string | null | undefined;
   /** Version of the application under evaluation. */
-  application_version?: string | null;
+  application_version?: string | null | undefined;
   /** Version of the model under evaluation. */
-  model_version?: string | null;
+  model_version?: string | null | undefined;
   /** Version of the prompt under evaluation. */
-  prompt_version?: string | null;
+  prompt_version?: string | null | undefined;
 }
 /** * `uploading` - Uploading * `completed` - Completed * `failed` - Failed */
 export type OfflineExperimentStatusEnum = "uploading" | "completed" | "failed";
@@ -462,7 +462,7 @@ export interface CreateAiObservabilityTracesExportRequest {
   /** The trace id, sent as the unpadded base64url encoding of its UTF-8 bytes. */
   id: string;
   /** When the trace happened, as carried by links into it. Lets a trace older than the AI events retention load from the shared events table. */
-  timestamp_hint?: string;
+  timestamp_hint?: string | undefined;
 }
 export type ExportStatusEnum = "pending" | "complete" | "failed";
 export interface TraceExport {
@@ -485,9 +485,9 @@ export interface CreateAiObservabilityTracesSummaryRequest {
   /** The trace id, sent as the unpadded base64url encoding of its UTF-8 bytes. */
   id: string;
   /** When the trace happened, as carried by links into it. Lets a trace older than the AI events retention load from the shared events table. */
-  timestamp_hint?: string;
+  timestamp_hint?: string | undefined;
   /** Replace a ready summary with a new one. A pending summary is never replaced. */
-  regenerate?: boolean;
+  regenerate?: boolean | undefined;
 }
 export type TraceSummaryStatusEnum = "pending" | "ready" | "failed";
 export interface TraceSummaryItem {
@@ -538,13 +538,13 @@ export interface CreateDatasetRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Tag names. Replaces existing tags; send [] to remove all tags. Names are trimmed and lowercased. */
-  tags?: CreateDatasetRequestTagsList;
+  tags?: CreateDatasetRequestTagsList | undefined;
   /** Dataset name. Names are unique within a project. */
   name: string;
   /** Optional description of what the dataset contains. */
-  description?: string;
+  description?: string | undefined;
   /** Optional JSON object with descriptive dataset metadata. */
-  metadata?: CreateDatasetRequestMetadataMap;
+  metadata?: CreateDatasetRequestMetadataMap | undefined;
 }
 /** Optional JSON object with item metadata. */
 export type CreateDatasetItemRequestMetadataMap = { [key: string]: unknown | undefined };
@@ -554,21 +554,21 @@ export interface CreateDatasetItemRequest {
   /** Dataset that will own the item. */
   dataset: string;
   /** Optional case-sensitive stable key used for idempotent creates. It cannot be changed. */
-  client_item_id?: string | null;
+  client_item_id?: string | null | undefined;
   /** Input supplied to the system under test. Any non-null JSON value is accepted. */
   input: DatasetJSONValue;
   /** Optional user-authored expected output. */
-  expected_output?: DatasetJSONValue | null;
+  expected_output?: DatasetJSONValue | null | undefined;
   /** Optional actual output captured from the source trace. */
-  source_output?: DatasetJSONValue | null;
+  source_output?: DatasetJSONValue | null | undefined;
   /** Optional JSON object with item metadata. */
-  metadata?: CreateDatasetItemRequestMetadataMap;
+  metadata?: CreateDatasetItemRequestMetadataMap | undefined;
   /** Trace ID copied from the source event. */
-  source_trace_id?: string | null;
+  source_trace_id?: string | null | undefined;
   /** Event ID copied from the source trace. */
-  source_event_id?: string | null;
+  source_event_id?: string | null | undefined;
   /** Timestamp needed to retrieve the event-backed source trace. */
-  source_timestamp?: string | null;
+  source_timestamp?: string | null | undefined;
 }
 export interface CreateDatasetsExportRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -576,7 +576,7 @@ export interface CreateDatasetsExportRequest {
   /** A UUID string identifying this dataset. */
   id: string;
   /** Dataset revision to export. Defaults to the latest revision when the export is created. */
-  revision?: number;
+  revision?: number | undefined;
 }
 export interface DatasetExportRead {
   /** Export ID used to check status and download the file. */
@@ -600,7 +600,7 @@ export interface CreateDatasetsExtendRetentionRequest {
   /** A UUID string identifying this dataset. */
   id: string;
   /** Revision to extend along with its dataset. Omit to extend only the dataset. */
-  revision?: number;
+  revision?: number | undefined;
 }
 export interface DatasetRetentionEntry {
   /** Dataset to open or extend. */
@@ -622,29 +622,29 @@ export interface CreateLlmAnalyticsSummarizationRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Type of entity to summarize. Inferred automatically when using trace_id or generation_id. * `trace` - trace * `event` - event */
-  summarize_type?: SummarizeTypeEnum | (string & {});
+  summarize_type?: SummarizeTypeEnum | (string & {}) | undefined;
   /** Summary detail level: 'minimal' for 3-5 points, 'detailed' for 5-10 points * `minimal` - minimal * `detailed` - detailed */
-  mode?: DetailModeValueEnum | (string & {});
+  mode?: DetailModeValueEnum | (string & {}) | undefined;
   /** Data to summarize. For traces: {trace, hierarchy}. For events: {event}. Not required when using trace_id or generation_id. */
-  data?: unknown;
+  data?: unknown | undefined;
   /** Force regenerate summary, bypassing cache */
-  force_refresh?: boolean;
+  force_refresh?: boolean | undefined;
   /** Bound the input to a cost-conscious size instead of the full model context window. Use it when you summarize many traces at once and need only a short result such as the title. */
-  compact_context?: boolean;
+  compact_context?: boolean | undefined;
   /** LLM model to use (defaults based on provider) */
-  model?: string | null;
+  model?: string | null | undefined;
   /** Trace ID to summarize. The backend fetches the trace data automatically. Requires date_from for efficient lookup. */
-  trace_id?: string;
+  trace_id?: string | undefined;
   /** Generation event UUID to summarize. The backend fetches the event data automatically. Requires date_from for efficient lookup. */
-  generation_id?: string;
+  generation_id?: string | undefined;
   /** Start of date range for ID-based lookup (e.g. '-7d' or '2026-01-01'). Defaults to -30d. */
-  date_from?: string | null;
+  date_from?: string | null | undefined;
   /** End of date range for ID-based lookup. Defaults to now. */
-  date_to?: string | null;
+  date_to?: string | null | undefined;
 }
 export interface SummaryBullet {
-  text?: string;
-  line_refs?: string;
+  text?: string | undefined;
+  line_refs?: string | undefined;
 }
 /** Main summary bullets */
 export type StructuredSummarySummaryBulletsList = Array<SummaryBullet>;
@@ -653,21 +653,21 @@ export type InterestingNote = SummaryBullet;
 export type StructuredSummaryInterestingNotesList = Array<SummaryBullet>;
 export interface StructuredSummary {
   /** Concise title (no longer than 10 words) summarizing the trace/event */
-  title?: string;
+  title?: string | undefined;
   /** Mermaid flowchart code showing the main flow */
-  flow_diagram?: string;
+  flow_diagram?: string | undefined;
   /** Main summary bullets */
-  summary_bullets?: StructuredSummarySummaryBulletsList;
+  summary_bullets?: StructuredSummarySummaryBulletsList | undefined;
   /** Interesting notes (0-2 for minimal, more for detailed) */
-  interesting_notes?: StructuredSummaryInterestingNotesList;
+  interesting_notes?: StructuredSummaryInterestingNotesList | undefined;
 }
 export interface SummarizeResponse {
   /** Structured AI-generated summary with flow, bullets, and optional notes */
-  summary?: StructuredSummary;
+  summary?: StructuredSummary | undefined;
   /** Line-numbered text representation that the summary references */
-  text_repr?: string;
+  text_repr?: string | undefined;
   /** Metadata about the summarization */
-  metadata?: unknown;
+  metadata?: unknown | undefined;
 }
 /** List of trace IDs to check for cached summaries */
 export type CreateLlmAnalyticsSummarizationBatchCheckRequestTraceIdsList = Array<string>;
@@ -675,75 +675,75 @@ export interface CreateLlmAnalyticsSummarizationBatchCheckRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** List of trace IDs to check for cached summaries */
-  trace_ids?: CreateLlmAnalyticsSummarizationBatchCheckRequestTraceIdsList;
+  trace_ids?: CreateLlmAnalyticsSummarizationBatchCheckRequestTraceIdsList | undefined;
   /** Summary detail level to check for * `minimal` - minimal * `detailed` - detailed */
-  mode?: DetailModeValueEnum | (string & {});
+  mode?: DetailModeValueEnum | (string & {}) | undefined;
   /** LLM model used for cached summaries */
-  model?: string | null;
+  model?: string | null | undefined;
 }
 export interface CachedSummary {
-  trace_id?: string;
-  title?: string;
-  cached?: boolean;
+  trace_id?: string | undefined;
+  title?: string | undefined;
+  cached?: boolean | undefined;
 }
 export type BatchCheckResponseSummariesList = Array<CachedSummary>;
 export interface BatchCheckResponse {
-  summaries?: BatchCheckResponseSummariesList;
+  summaries?: BatchCheckResponseSummariesList | undefined;
 }
 /** * `$ai_generation` - $ai_generation * `$ai_span` - $ai_span * `$ai_embedding` - $ai_embedding * `$ai_trace` - $ai_trace */
 export type EventTypeEnum = "$ai_generation" | "$ai_span" | "$ai_embedding" | "$ai_trace";
 export interface TextReprOptions {
   /** Maximum length of generated text (default: 2000000) */
-  max_length?: number;
+  max_length?: number | undefined;
   /** Use truncation for long content within events (default: true) */
-  truncated?: boolean;
+  truncated?: boolean | undefined;
   /** Characters to show at start/end when truncating (default: 1000) */
-  truncate_buffer?: number;
+  truncate_buffer?: number | undefined;
   /** Use interactive markers for frontend vs plain text for backend/LLM (default: true) */
-  include_markers?: boolean;
+  include_markers?: boolean | undefined;
   /** Show summary vs full tree hierarchy for traces (default: false) */
-  collapsed?: boolean;
+  collapsed?: boolean | undefined;
   /** Include metadata in response */
-  include_metadata?: boolean;
+  include_metadata?: boolean | undefined;
   /** Include hierarchy information (for traces) */
-  include_hierarchy?: boolean;
+  include_hierarchy?: boolean | undefined;
   /** Maximum depth for hierarchical rendering */
-  max_depth?: number;
+  max_depth?: number | undefined;
   /** Number of tools before collapsing the list (default: 5) */
-  tools_collapse_threshold?: number;
+  tools_collapse_threshold?: number | undefined;
   /** Prefix each line with line number (default: false) */
-  include_line_numbers?: boolean;
+  include_line_numbers?: boolean | undefined;
 }
 export interface CreateLlmAnalyticsTextReprRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Type of LLM event to stringify * `$ai_generation` - $ai_generation * `$ai_span` - $ai_span * `$ai_embedding` - $ai_embedding * `$ai_trace` - $ai_trace */
-  event_type?: EventTypeEnum | (string & {});
+  event_type?: EventTypeEnum | (string & {}) | undefined;
   /** Event data to stringify. For traces, should include 'trace' and 'hierarchy' fields. */
-  data?: unknown;
+  data?: unknown | undefined;
   /** Optional configuration for text generation */
-  options?: TextReprOptions;
+  options?: TextReprOptions | undefined;
 }
 export interface TextReprMetadata {
-  event_type?: string;
-  event_id?: string;
-  trace_id?: string;
-  rendering?: string;
-  char_count?: number;
-  truncated?: boolean;
-  error?: string;
+  event_type?: string | undefined;
+  event_id?: string | undefined;
+  trace_id?: string | undefined;
+  rendering?: string | undefined;
+  char_count?: number | undefined;
+  truncated?: boolean | undefined;
+  error?: string | undefined;
 }
 export interface TextReprResponse {
   /** Generated text representation of the event */
-  text?: string;
+  text?: string | undefined;
   /** Metadata about the text representation */
-  metadata?: TextReprMetadata;
+  metadata?: TextReprMetadata | undefined;
 }
 export interface GetAiObservabilityInstrumentationChecklistRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Grade the checks against a fresh read instead of a recent cached one. Use it after changing instrumentation, when a cached verdict would still describe the old code. */
-  refresh?: boolean;
+  refresh?: boolean | undefined;
 }
 export interface GetAiObservabilityOfflineExperimentRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -844,7 +844,7 @@ export interface OfflineResultCell {
 export type OfflineItemReadResultsList = Array<OfflineResultCell>;
 export interface OfflineItemRead {
   /** Model used for the item, falling back to the experiment's model. */
-  model_version?: string | null;
+  model_version?: string | null | undefined;
   /** Stable item UUID. */
   id: string;
   /** Owning experiment UUID. */
@@ -904,9 +904,9 @@ export interface GetAiObservabilityOfflineExperimentsResultCellRequest {
 export type ScoreDefinitionKindEnum = "categorical" | "numeric" | "boolean";
 export interface CategoricalScoreOption {
   /** Stable option key. Use lowercase letters, numbers, underscores, or hyphens. */
-  key?: string;
+  key?: string | undefined;
   /** Human-readable option label. */
-  label?: string;
+  label?: string | undefined;
 }
 /** Ordered categorical options available to the scorer. */
 export type CategoricalScoreDefinitionConfigOptionsList = Array<CategoricalScoreOption>;
@@ -920,15 +920,15 @@ export interface CategoricalScorePassingRule {
 }
 export interface CategoricalScoreDefinitionConfig {
   /** Ordered categorical options available to the scorer. */
-  options?: CategoricalScoreDefinitionConfigOptionsList;
+  options?: CategoricalScoreDefinitionConfigOptionsList | undefined;
   /** Whether reviewers can select one option or multiple options. Defaults to `single`. * `single` - single * `multiple` - multiple */
-  selection_mode?: SelectionModeEnum;
+  selection_mode?: SelectionModeEnum | undefined;
   /** Optional minimum number of options that can be selected when `selection_mode` is `multiple`. */
-  min_selections?: number | null;
+  min_selections?: number | null | undefined;
   /** Optional maximum number of options that can be selected when `selection_mode` is `multiple`. */
-  max_selections?: number | null;
+  max_selections?: number | null | undefined;
   /** Optional passing categories. Omit or set null for neutral scores. Each scorer version keeps its own rule. */
-  passing_rule?: CategoricalScorePassingRule | null;
+  passing_rule?: CategoricalScorePassingRule | null | undefined;
 }
 /** * `gte` - At or above * `lte` - At or below */
 export type NumericScorePassingRuleSerializerOperatorEnum = "gte" | "lte";
@@ -940,21 +940,21 @@ export interface NumericScorePassingRule {
 }
 export interface NumericScoreDefinitionConfig {
   /** Optional inclusive minimum score. */
-  min?: number | null;
+  min?: number | null | undefined;
   /** Optional inclusive maximum score. */
-  max?: number | null;
+  max?: number | null | undefined;
   /** Optional increment step for numeric input, for example 1 or 0.5. */
-  step?: number | null;
+  step?: number | null | undefined;
   /** Optional passing rule. Omit or set null for neutral scores. Each scorer version keeps its own rule. */
-  passing_rule?: NumericScorePassingRule | null;
+  passing_rule?: NumericScorePassingRule | null | undefined;
 }
 export interface BooleanScoreDefinitionConfig {
   /** Whether true means failure. False, omitted, or null means true passes in offline evaluations. */
-  true_is_failure?: boolean | null;
+  true_is_failure?: boolean | null | undefined;
   /** Optional label for a true value. */
-  true_label?: string;
+  true_label?: string | undefined;
   /** Optional label for a false value. */
-  false_label?: string;
+  false_label?: string | undefined;
 }
 export type ScoreDefinitionConfig =
   | CategoricalScoreDefinitionConfig
@@ -1016,7 +1016,7 @@ export interface GetAiObservabilityTraceRequest {
   /** The trace id, sent as the unpadded base64url encoding of its UTF-8 bytes. */
   id: string;
   /** When the trace happened, as carried by links into it. Lets a trace older than the AI events retention load from the shared events table. */
-  timestamp_hint?: string;
+  timestamp_hint?: string | undefined;
 }
 export interface TracePerson {
   distinctId: string;
@@ -1168,7 +1168,7 @@ export interface GetAiObservabilityTracesExportsContentRequest {
   /** The export id the create call returned. */
   export_id: number;
   /** What the file is read for. Only a download is recorded as one. * `download` - Download * `copy` - Copy */
-  purpose?: GetAiObservabilityTracesExportsContentRequestPurpose | (string & {});
+  purpose?: GetAiObservabilityTracesExportsContentRequestPurpose | (string & {}) | undefined;
 }
 export interface TraceNodeMetadata {
   provider: string | null;
@@ -1216,7 +1216,7 @@ export interface GetAiObservabilityTracesFeedbackRequest {
   /** The trace id, sent as the unpadded base64url encoding of its UTF-8 bytes. */
   id: string;
   /** When the trace happened, as carried by links into it. Lets a trace older than the AI events retention load from the shared events table. */
-  timestamp_hint?: string;
+  timestamp_hint?: string | undefined;
 }
 export interface TraceFeedbackScore {
   id: string;
@@ -1324,7 +1324,7 @@ export interface GetAiObservabilityTracesNodeRequest {
   /** The node id, sent as the unpadded base64url encoding of its UTF-8 bytes. The root node's id is the trace id. */
   node_id: string;
   /** When the trace happened, as carried by links into it. Lets a trace older than the AI events retention load from the shared events table. */
-  timestamp_hint?: string;
+  timestamp_hint?: string | undefined;
 }
 export interface GetAiObservabilityTracesPullRequestRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1332,7 +1332,7 @@ export interface GetAiObservabilityTracesPullRequestRequest {
   /** The trace id, sent as the unpadded base64url encoding of its UTF-8 bytes. */
   id: string;
   /** When the trace happened, as carried by links into it. Lets a trace older than the AI events retention load from the shared events table. */
-  timestamp_hint?: string;
+  timestamp_hint?: string | undefined;
 }
 export interface TracePullRequest {
   /** The owner of the pull request's repository. */
@@ -1405,7 +1405,7 @@ export interface GetDatasetItemRequest {
   project_id: string;
   dataset_item_id: string;
   /** Return the item as it appeared at this exact dataset revision. */
-  revision?: number;
+  revision?: number | undefined;
 }
 export interface GetDatasetsExportRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -1427,11 +1427,11 @@ export interface GetDatasetsRetentionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Whether to return expiring datasets or older revisions. Counts always include both. * `datasets` - Datasets * `revisions` - Older revisions */
-  kind?: GetDatasetsRetentionRequestKind | (string & {});
+  kind?: GetDatasetsRetentionRequestKind | (string & {}) | undefined;
   /** Maximum entries to return, up to 50. */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of expiring entries to skip. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** Expiring entries, ordered by earliest cleanup time. */
 export type DatasetRetentionReadResultsList = Array<DatasetRetentionEntry>;
@@ -1450,45 +1450,45 @@ export interface ListAiObservabilityOfflineExperimentsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Exact application revision. */
-  application_version?: string;
+  application_version?: string | undefined;
   /** Filter experiments by the author's user ID. */
-  created_by?: number;
+  created_by?: number | undefined;
   /** Only include experiments without an author. */
-  created_by_is_null?: boolean;
+  created_by_is_null?: boolean | undefined;
   /** Continuation cursor returned by the previous page. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Exact durable dataset identifier. */
-  dataset_identifier?: string;
+  dataset_identifier?: string | undefined;
   /** Exact durable dataset revision identifier. */
-  dataset_revision_identifier?: string;
+  dataset_revision_identifier?: string | undefined;
   /** Exact dataset source. */
-  dataset_source?: string;
+  dataset_source?: string | undefined;
   /** Inclusive execution start time, in ISO 8601 format. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Exclusive execution end time, in ISO 8601 format. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Page size, from 1 to 100. Defaults to 50. */
-  limit?: number;
+  limit?: number | undefined;
   /** Exact model revision. */
-  model_version?: string;
+  model_version?: string | undefined;
   /** Exact prompt revision. */
-  prompt_version?: string;
+  prompt_version?: string | undefined;
   /** Filter ci, local, scheduled, or not_specified for omitted run source. */
-  run_source?: string;
+  run_source?: string | undefined;
   /** Restrict results to this scorer definition. */
-  scorer_definition_id?: string;
+  scorer_definition_id?: string | undefined;
   /** Comma-separated list of at most 20 distinct scorer-version UUIDs. */
-  scorer_version_ids?: string;
+  scorer_version_ids?: string | undefined;
   /** Search experiment names. */
-  search?: string;
+  search?: string | undefined;
   /** Comma-separated uploading, completed, or failed states. History defaults to completed; lists include all. */
-  statuses?: string;
+  statuses?: string | undefined;
   /** Exact evaluation suite identifier. */
-  suite_key?: string;
+  suite_key?: string | undefined;
   /** Match any selected tag (OR) or all selected tags (AND). * `any` - Any * `all` - All */
-  tag_match?: ListAiObservabilityOfflineExperimentsRequestTagMatch | (string & {});
+  tag_match?: ListAiObservabilityOfflineExperimentsRequestTagMatch | (string & {}) | undefined;
   /** JSON array of tag names, for example ["quality","production"]. Up to 20 tags. An empty array disables tag filtering. */
-  tags?: string;
+  tags?: string | undefined;
 }
 /** Experiment page. */
 export type OfflineExperimentPageResultsList = Array<OfflineExperimentRead>;
@@ -1511,11 +1511,11 @@ export interface ListAiObservabilityOfflineExperimentsItemsRequest {
   /** Experiment UUID. */
   id: string;
   /** Continuation cursor returned by the previous page. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Page size, from 1 to 100. Defaults to 50. */
-  limit?: number;
+  limit?: number | undefined;
   /** Comma-separated list of at most 20 distinct scorer-version UUIDs. */
-  scorer_version_ids?: string;
+  scorer_version_ids?: string | undefined;
 }
 /** Item page. */
 export type OfflineItemPageResultsList = Array<OfflineItemRead>;
@@ -1544,13 +1544,13 @@ export interface ListAiObservabilityOfflineExperimentsItemsResultsRequest {
   /** Item UUID within the experiment. */
   item_id: string;
   /** Continuation cursor returned by the previous page. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Page size, from 1 to 100. Defaults to 50. */
-  limit?: number;
+  limit?: number | undefined;
   /** Restrict results to this scorer definition. */
-  scorer_definition_id?: string;
+  scorer_definition_id?: string | undefined;
   /** Comma-separated list of at most 20 distinct scorer-version UUIDs. */
-  scorer_version_ids?: string;
+  scorer_version_ids?: string | undefined;
 }
 export type OfflineResultReadValueCase2List = Array<string>;
 /** Typed score for ok outcomes; null for other outcomes. */
@@ -1600,13 +1600,13 @@ export interface ListAiObservabilityOfflineExperimentsScorerSummariesRequest {
   /** Experiment UUID. */
   id: string;
   /** Continuation cursor returned by the previous page. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Page size, from 1 to 100. Defaults to 50. */
-  limit?: number;
+  limit?: number | undefined;
   /** Restrict results to this scorer definition. */
-  scorer_definition_id?: string;
+  scorer_definition_id?: string | undefined;
   /** Comma-separated list of at most 20 distinct scorer-version UUIDs. */
-  scorer_version_ids?: string;
+  scorer_version_ids?: string | undefined;
 }
 export interface OfflineStatusCounts {
   /** Successful results. */
@@ -1696,49 +1696,49 @@ export interface ListAiObservabilityOfflineScorersHistoryRequest {
   /** Scorer definition UUID. */
   id: string;
   /** Exact application revision. */
-  application_version?: string;
+  application_version?: string | undefined;
   /** Split history by this property. Model uses each item's model, falling back to the experiment's model. * `model_version` - Model * `prompt_version` - Prompt version * `application_version` - Application version * `suite_key` - Suite * `run_source` - Run source */
-  breakdown?: ListAiObservabilityOfflineScorersHistoryRequestBreakdown | (string & {});
+  breakdown?: ListAiObservabilityOfflineScorersHistoryRequestBreakdown | (string & {}) | undefined;
   /** Filter experiments by the author's user ID. */
-  created_by?: number;
+  created_by?: number | undefined;
   /** Only include experiments without an author. */
-  created_by_is_null?: boolean;
+  created_by_is_null?: boolean | undefined;
   /** Continuation cursor returned by the previous page. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Exact durable dataset identifier. */
-  dataset_identifier?: string;
+  dataset_identifier?: string | undefined;
   /** Exact durable dataset revision identifier. */
-  dataset_revision_identifier?: string;
+  dataset_revision_identifier?: string | undefined;
   /** Exact dataset source. */
-  dataset_source?: string;
+  dataset_source?: string | undefined;
   /** Inclusive execution start time, in ISO 8601 format. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Exclusive execution end time, in ISO 8601 format. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Page size, from 1 to 100. Defaults to 50. */
-  limit?: number;
+  limit?: number | undefined;
   /** Exact model revision. */
-  model_version?: string;
+  model_version?: string | undefined;
   /** Exact prompt revision. */
-  prompt_version?: string;
+  prompt_version?: string | undefined;
   /** Filter ci, local, scheduled, or not_specified for omitted run source. */
-  run_source?: string;
+  run_source?: string | undefined;
   /** Comma-separated list of at most 20 distinct scorer-version UUIDs. */
-  scorer_version_ids?: string;
+  scorer_version_ids?: string | undefined;
   /** Search experiment names. */
-  search?: string;
+  search?: string | undefined;
   /** Comma-separated uploading, completed, or failed states. History defaults to completed; lists include all. */
-  statuses?: string;
+  statuses?: string | undefined;
   /** Exact evaluation suite identifier. */
-  suite_key?: string;
+  suite_key?: string | undefined;
   /** Match any selected tag (OR) or all selected tags (AND). * `any` - Any * `all` - All */
-  tag_match?: ListAiObservabilityOfflineScorersHistoryRequestTagMatch | (string & {});
+  tag_match?: ListAiObservabilityOfflineScorersHistoryRequestTagMatch | (string & {}) | undefined;
   /** JSON array of tag names, for example ["quality","production"]. Up to 20 tags. An empty array disables tag filtering. */
-  tags?: string;
+  tags?: string | undefined;
 }
 export interface OfflineHistoryPoint {
   /** Breakdown value for this summary; null when unspecified or no breakdown is selected. */
-  breakdown_value?: string | null;
+  breakdown_value?: string | null | undefined;
   /** Experiment execution and cohort context. */
   experiment: OfflineExperimentRead;
   /** Complete summary for one experiment and scorer version. */
@@ -1763,21 +1763,21 @@ export interface ListDatasetItemsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Return archived items instead of active items. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** Dataset whose items should be returned. */
   dataset: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Return the exact dataset snapshot at this revision. */
-  revision?: number;
+  revision?: number | undefined;
 }
 export type PaginatedDatasetItemReadListResultsList = Array<DatasetItemRead>;
 export interface PaginatedDatasetItemReadList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedDatasetItemReadListResultsList;
 }
 export interface ListDatasetItemsVersionsRequest {
@@ -1785,9 +1785,9 @@ export interface ListDatasetItemsVersionsRequest {
   project_id: string;
   dataset_item_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type ListDatasetsRequestIdInList = Array<string>;
 export type ListDatasetsRequestOrderBy =
@@ -1800,27 +1800,27 @@ export interface ListDatasetsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Return archived datasets instead of active datasets. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** Filter to these dataset IDs. Repeat the parameter or pass one comma-separated list, up to 100 IDs. */
-  id__in?: ListDatasetsRequestIdInList;
+  id__in?: ListDatasetsRequestIdInList | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Field and direction used to order results. * `created_at` - created_at * `-created_at` - -created_at * `updated_at` - updated_at * `-updated_at` - -updated_at */
-  order_by?: ListDatasetsRequestOrderBy | (string & {});
+  order_by?: ListDatasetsRequestOrderBy | (string & {}) | undefined;
   /** Search dataset names, descriptions, and metadata. */
-  search?: string;
+  search?: string | undefined;
   /** Match any selected tag (OR) or all selected tags (AND). Additional tags are allowed. * `any` - Any * `all` - All */
-  tag_match?: ListDatasetsRequestTagMatch | (string & {});
+  tag_match?: ListDatasetsRequestTagMatch | (string & {}) | undefined;
   /** JSON array of tag names, for example ["quality","production"]. Up to 20 tags. An empty array disables tag filtering. */
-  tags?: string;
+  tags?: string | undefined;
 }
 export type PaginatedDatasetReadListResultsList = Array<DatasetRead>;
 export interface PaginatedDatasetReadList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedDatasetReadListResultsList;
 }
 export interface ListDatasetsRevisionsRequest {
@@ -1829,9 +1829,9 @@ export interface ListDatasetsRevisionsRequest {
   /** A UUID string identifying this dataset. */
   id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export interface DatasetRevisionRead {
   id: string;
@@ -1850,24 +1850,24 @@ export interface DatasetRevisionRead {
 export type PaginatedDatasetRevisionReadListResultsList = Array<DatasetRevisionRead>;
 export interface PaginatedDatasetRevisionReadList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedDatasetRevisionReadListResultsList;
 }
 export type ListLlmAnalyticsPersonalSpendRequestBucketMinutes = 5 | 15 | 30 | 60;
 export interface ListLlmAnalyticsPersonalSpendRequest {
   /** When set, additionally return a `by_bucket` breakdown: a time-ascending UTC cost series for the scoped product at this bucket size in minutes, with per-bucket cost split into uncached input / output / cache read / cache creation components plus the matching token sums. Supported bucket sizes: 5, 15, 30, 60. The window may span at most 600 buckets of the chosen size (e.g. 50 hours at 5-minute buckets). * `5` - 5 * `15` - 15 * `30` - 30 * `60` - 60 */
-  bucket_minutes?: ListLlmAnalyticsPersonalSpendRequestBucketMinutes | (number & {});
+  bucket_minutes?: ListLlmAnalyticsPersonalSpendRequestBucketMinutes | (number & {}) | undefined;
   /** Start of the spend window. Accepts absolute dates (`2026-04-23`) or relative strings (`-7d`, `-1m`, etc.) -- same parser used elsewhere in PostHog. Defaults to `-30d`. The window between `date_from` and `date_to` cannot exceed 90 days. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** End of the spend window. Accepts the same formats as `date_from`. Defaults to `now` when omitted. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Maximum number of rows to return per breakdown (1-200, defaults to 50). Each breakdown returns up to this many rows ordered by cost descending. Per-breakdown `truncated: true` indicates more rows exist beyond the limit. */
-  limit?: number;
+  limit?: number | undefined;
   /** Required `ai_product` key to scope the tool / model / trace breakdowns to a single product. Only the following products are currently supported: posthog_code. */
   product: string;
   /** If true, bypass the result cache and re-run the underlying queries against ClickHouse. */
-  refresh?: boolean;
+  refresh?: boolean | undefined;
 }
 export interface Summary {
   /** Inclusive UTC start of the spend window resolved from the request. */
@@ -2048,7 +2048,7 @@ export interface PersonalSpendAnalysisResponse {
   /** Daily model spend for the scoped product, ordered by day and cost. Includes the six highest-cost models in the selected window plus a null-model row for the remaining models. */
   by_day_model: PersonalSpendAnalysisResponseByDayModelList;
   /** Spend grouped by UTC time bucket with per-bucket cost/token components, ordered ascending. Scoped to `product`. Only present when the request set `bucket_minutes`. */
-  by_bucket?: BucketBreakdown;
+  by_bucket?: BucketBreakdown | undefined;
   /** Deprecated -- always returns `{items: [], truncated: false}`. Trace IDs are opaque strings that aren't actionable in the UI. Kept in the response shape so existing consumers don't crash; remove your rendering of this field and we'll drop it from the response entirely in a follow-up. */
   top_traces: TopTraces;
 }
@@ -2067,7 +2067,7 @@ export interface RestoreDatasetItemRequest {
   /** Current item version observed by the caller. */
   base_version: number;
   /** Historical version to copy. Omit to restore the archived version's content. */
-  source_version?: number | null;
+  source_version?: number | null | undefined;
 }
 /** Tag names. Replaces existing tags; send [] to remove all tags. Names are trimmed and lowercased. */
 export type UpdateAiObservabilityOfflineExperimentsPartialRequestTagsList = Array<string>;
@@ -2077,7 +2077,7 @@ export interface UpdateAiObservabilityOfflineExperimentsPartialRequest {
   /** Experiment UUID. */
   id: string;
   /** Tag names. Replaces existing tags; send [] to remove all tags. Names are trimmed and lowercased. */
-  tags?: UpdateAiObservabilityOfflineExperimentsPartialRequestTagsList;
+  tags?: UpdateAiObservabilityOfflineExperimentsPartialRequestTagsList | undefined;
 }
 export type UpdateDatasetItemsPartialRequestInputCase0Map = { [key: string]: unknown | undefined };
 export type UpdateDatasetItemsPartialRequestInputCase1List = Array<unknown>;
@@ -2108,11 +2108,11 @@ export interface UpdateDatasetItemsPartialRequest {
   /** Current item version observed by the caller. */
   base_version: number;
   /** Replacement input. Omit to keep the current value. */
-  input?: UpdateDatasetItemsPartialRequestInput;
+  input?: UpdateDatasetItemsPartialRequestInput | undefined;
   /** Replacement expected output. Send null to clear it. */
-  expected_output?: UpdateDatasetItemsPartialRequestExpectedOutput | null;
+  expected_output?: UpdateDatasetItemsPartialRequestExpectedOutput | null | undefined;
   /** Replacement metadata object. Send an empty object to clear it. */
-  metadata?: UpdateDatasetItemsPartialRequestMetadataMap;
+  metadata?: UpdateDatasetItemsPartialRequestMetadataMap | undefined;
 }
 /** Tag names. Replaces existing tags; send [] to remove all tags. Names are trimmed and lowercased. */
 export type UpdateDatasetsPartialRequestTagsList = Array<string>;
@@ -2124,13 +2124,13 @@ export interface UpdateDatasetsPartialRequest {
   /** A UUID string identifying this dataset. */
   id: string;
   /** Tag names. Replaces existing tags; send [] to remove all tags. Names are trimmed and lowercased. */
-  tags?: UpdateDatasetsPartialRequestTagsList;
+  tags?: UpdateDatasetsPartialRequestTagsList | undefined;
   /** New dataset name. Names are unique within a project. */
-  name?: string;
+  name?: string | undefined;
   /** New dataset description. */
-  description?: string;
+  description?: string | undefined;
   /** Replacement JSON object for descriptive dataset metadata. */
-  metadata?: UpdateDatasetsPartialRequestMetadataMap;
+  metadata?: UpdateDatasetsPartialRequestMetadataMap | undefined;
 }
 export type AiObservabilityInstrumentationChecklistRestoreCreateError = PosthogOpError;
 /** Bring a dismissed check back into grading. */

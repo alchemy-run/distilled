@@ -49,17 +49,17 @@ export class ComputerUseNotReady
 export type ClickRequestModifiersList = Array<string>;
 export interface ClickRequest {
   /** left, right, middle */
-  button?: string;
+  button?: string | undefined;
   /** Clicks is a pointer so an omitted value is distinguishable from an explicit 0, which must be rejected rather than silently defaulted. */
-  clicks?: number;
-  double?: boolean;
-  modifiers?: ClickRequestModifiersList;
-  x?: number;
-  y?: number;
+  clicks?: number | undefined;
+  double?: boolean | undefined;
+  modifiers?: ClickRequestModifiersList | undefined;
+  x?: number | undefined;
+  y?: number | undefined;
 }
 export interface MouseClickResponse {
-  x?: number;
-  y?: number;
+  x?: number | undefined;
+  y?: number | undefined;
 }
 export interface DeleteRecordingRequest {
   /** Recording ID */
@@ -73,51 +73,51 @@ export interface DownloadRecordingRequest {
 export type DownloadRecordingResponse = Uint8Array;
 export type DragRequestModifiersList = Array<string>;
 export interface DragRequest {
-  button?: string;
-  endX?: number;
-  endY?: number;
-  modifiers?: DragRequestModifiersList;
-  startX?: number;
-  startY?: number;
+  button?: string | undefined;
+  endX?: number | undefined;
+  endY?: number | undefined;
+  modifiers?: DragRequestModifiersList | undefined;
+  startX?: number | undefined;
+  startY?: number | undefined;
 }
 export interface MouseDragResponse {
-  x?: number;
-  y?: number;
+  x?: number | undefined;
+  y?: number | undefined;
 }
 export type FindAccessibilityNodesRequestStatesList = Array<string>;
 export interface FindAccessibilityNodesRequest {
-  limit?: number;
-  name?: string;
+  limit?: number | undefined;
+  name?: string | undefined;
   /** "exact" | "substring" | "regex" */
-  nameMatch?: string;
-  pid?: number;
-  role?: string;
-  scope?: string;
-  states?: FindAccessibilityNodesRequestStatesList;
+  nameMatch?: string | undefined;
+  pid?: number | undefined;
+  role?: string | undefined;
+  scope?: string | undefined;
+  states?: FindAccessibilityNodesRequestStatesList | undefined;
 }
 export type ComputeruseAccessibilityNodeActionsList = Array<string>;
 export interface AccessibilityBounds {
-  height?: number;
-  width?: number;
-  x?: number;
-  y?: number;
+  height?: number | undefined;
+  width?: number | undefined;
+  x?: number | undefined;
+  y?: number | undefined;
 }
 export type ComputeruseAccessibilityNodeChildrenList = Array<ComputeruseAccessibilityNode>;
 export type ComputeruseAccessibilityNodeStatesList = Array<string>;
 export interface ComputeruseAccessibilityNode {
-  actions?: ComputeruseAccessibilityNodeActionsList;
-  bounds?: AccessibilityBounds;
-  children?: ComputeruseAccessibilityNodeChildrenList;
-  description?: string;
-  id?: string;
-  name?: string;
-  role?: string;
-  states?: ComputeruseAccessibilityNodeStatesList;
+  actions?: ComputeruseAccessibilityNodeActionsList | undefined;
+  bounds?: AccessibilityBounds | undefined;
+  children?: ComputeruseAccessibilityNodeChildrenList | undefined;
+  description?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  role?: string | undefined;
+  states?: ComputeruseAccessibilityNodeStatesList | undefined;
 }
 export type AccessibilityNodesResponseMatchesList = Array<ComputeruseAccessibilityNode>;
 export interface AccessibilityNodesResponse {
-  matches?: AccessibilityNodesResponseMatchesList;
-  truncated?: boolean;
+  matches?: AccessibilityNodesResponseMatchesList | undefined;
+  truncated?: boolean | undefined;
 }
 export interface FocusAccessibilityNodeRequest {
   id: string;
@@ -125,93 +125,93 @@ export interface FocusAccessibilityNodeRequest {
 export type FocusAccessibilityNodeResponse = unknown;
 export interface GetAccessibilityTreeRequest {
   /** Scope: focused | pid | all (default: focused) */
-  scope?: string;
+  scope?: string | undefined;
   /** Process ID when scope=pid */
-  pid?: number;
+  pid?: number | undefined;
   /** Max tree depth (-1 unbounded, 0 root only; default -1) */
-  maxDepth?: number;
+  maxDepth?: number | undefined;
 }
 export interface AccessibilityTreeResponse {
-  root?: ComputeruseAccessibilityNode;
-  truncated?: boolean;
+  root?: ComputeruseAccessibilityNode | undefined;
+  truncated?: boolean | undefined;
 }
 export interface GetComputerUseStatusRequest {}
 export interface ComputerUseStatusResponse {
-  status?: string;
+  status?: string | undefined;
 }
 export interface GetComputerUseSystemStatusRequest {}
 export interface GetDisplayInfoRequest {}
 export interface DisplayInfo {
-  height?: number;
-  id?: number;
-  isActive?: boolean;
-  width?: number;
-  x?: number;
-  y?: number;
+  height?: number | undefined;
+  id?: number | undefined;
+  isActive?: boolean | undefined;
+  width?: number | undefined;
+  x?: number | undefined;
+  y?: number | undefined;
 }
 export type DisplayInfoResponseDisplaysList = Array<DisplayInfo>;
 export interface DisplayInfoResponse {
-  displays?: DisplayInfoResponseDisplaysList;
+  displays?: DisplayInfoResponseDisplaysList | undefined;
 }
 export interface GetMousePositionRequest {}
 export interface MousePositionResponse {
-  x?: number;
-  y?: number;
+  x?: number | undefined;
+  y?: number | undefined;
 }
 export interface GetProcessErrorsRequest {
   /** Process name to get errors for */
   processName: string;
 }
 export interface ProcessErrorsResponse {
-  errors?: string;
-  processName?: string;
+  errors?: string | undefined;
+  processName?: string | undefined;
 }
 export interface GetProcessLogsRequest {
   /** Process name to get logs for */
   processName: string;
 }
 export interface ProcessLogsResponse {
-  logs?: string;
-  processName?: string;
+  logs?: string | undefined;
+  processName?: string | undefined;
 }
 export interface GetProcessStatusRequest {
   /** Process name to check */
   processName: string;
 }
 export interface ProcessStatusResponse {
-  processName?: string;
-  running?: boolean;
+  processName?: string | undefined;
+  running?: boolean | undefined;
 }
 export interface GetRecordingRequest {
   /** Recording ID */
   id: string;
 }
 export interface Recording {
-  durationSeconds?: number;
-  endTime?: string;
+  durationSeconds?: number | undefined;
+  endTime?: string | undefined;
   fileName: string;
   filePath: string;
   id: string;
-  sizeBytes?: number;
+  sizeBytes?: number | undefined;
   startTime: string;
   status: string;
 }
 export interface GetWindowsRequest {}
 export interface WindowInfo {
-  height?: number;
-  id?: number;
-  isActive?: boolean;
-  title?: string;
-  width?: number;
-  x?: number;
-  y?: number;
+  height?: number | undefined;
+  id?: number | undefined;
+  isActive?: boolean | undefined;
+  title?: string | undefined;
+  width?: number | undefined;
+  x?: number | undefined;
+  y?: number | undefined;
 }
 export type WindowsResponseWindowsList = Array<WindowInfo>;
 export interface WindowsResponse {
-  windows?: WindowsResponseWindowsList;
+  windows?: WindowsResponseWindowsList | undefined;
 }
 export interface InvokeAccessibilityNodeRequest {
-  action?: string;
+  action?: string | undefined;
   id: string;
 }
 export type InvokeAccessibilityNodeResponse = unknown;
@@ -232,31 +232,31 @@ export interface ListRecordingsResponse {
 }
 export interface MouseDownRequest {
   /** left, right, middle */
-  button?: string;
-  x?: number;
-  y?: number;
+  button?: string | undefined;
+  x?: number | undefined;
+  y?: number | undefined;
 }
 export interface MouseUpRequest {
   /** left, right, middle */
-  button?: string;
-  x?: number;
-  y?: number;
+  button?: string | undefined;
+  x?: number | undefined;
+  y?: number | undefined;
 }
 export interface MoveMouseRequest {
-  x?: number;
-  y?: number;
+  x?: number | undefined;
+  y?: number | undefined;
 }
 export interface PressHotkeyRequest {
   /** e.g., "ctrl+c", "cmd+v" */
-  keys?: string;
+  keys?: string | undefined;
 }
 export type PressHotkeyResponse = unknown;
 /** ctrl, alt, shift, cmd */
 export type PressKeyRequestModifiersList = Array<string>;
 export interface PressKeyRequest {
-  key?: string;
+  key?: string | undefined;
   /** ctrl, alt, shift, cmd */
-  modifiers?: PressKeyRequestModifiersList;
+  modifiers?: PressKeyRequestModifiersList | undefined;
 }
 export type PressKeyResponse = unknown;
 export interface RestartProcessRequest {
@@ -264,46 +264,46 @@ export interface RestartProcessRequest {
   processName: string;
 }
 export interface ProcessRestartResponse {
-  message?: string;
-  processName?: string;
+  message?: string | undefined;
+  processName?: string | undefined;
 }
 export type ScrollRequestModifiersList = Array<string>;
 export interface ScrollRequest {
-  amount?: number;
+  amount?: number | undefined;
   /** up, down, left, right */
-  direction?: string;
-  modifiers?: ScrollRequestModifiersList;
-  x?: number;
-  y?: number;
+  direction?: string | undefined;
+  modifiers?: ScrollRequestModifiersList | undefined;
+  x?: number | undefined;
+  y?: number | undefined;
 }
 export interface ScrollResponse {
-  success?: boolean;
+  success?: boolean | undefined;
 }
 export interface SetAccessibilityNodeValueRequest {
   id: string;
-  value?: string;
+  value?: string | undefined;
 }
 export type SetAccessibilityNodeValueResponse = unknown;
 export interface StartComputerUseRequest {}
 export interface ProcessStatus {
-  autoRestart?: boolean;
-  pid?: number;
-  priority?: number;
-  running?: boolean;
+  autoRestart?: boolean | undefined;
+  pid?: number | undefined;
+  priority?: number | undefined;
+  running?: boolean | undefined;
 }
 export type ComputerUseStartResponseStatusMap = { [key: string]: ProcessStatus | undefined };
 export interface ComputerUseStartResponse {
-  message?: string;
-  status?: ComputerUseStartResponseStatusMap;
+  message?: string | undefined;
+  status?: ComputerUseStartResponseStatusMap | undefined;
 }
 export interface StartRecordingRequest {
-  label?: string;
+  label?: string | undefined;
 }
 export interface StopComputerUseRequest {}
 export type ComputerUseStopResponseStatusMap = { [key: string]: ProcessStatus | undefined };
 export interface ComputerUseStopResponse {
-  message?: string;
-  status?: ComputerUseStopResponseStatusMap;
+  message?: string | undefined;
+  status?: ComputerUseStopResponseStatusMap | undefined;
 }
 export interface StopRecordingRequest {
   id: string;
@@ -318,32 +318,32 @@ export interface TakeCompressedRegionScreenshotRequest {
   /** Height of the region */
   height: number;
   /** Whether to show cursor in screenshot */
-  showCursor?: boolean;
+  showCursor?: boolean | undefined;
   /** Image format (png or jpeg) */
-  format?: string;
+  format?: string | undefined;
   /** JPEG quality (1-100) */
-  quality?: number;
+  quality?: number | undefined;
   /** Scale factor (0.1-1.0) */
-  scale?: number;
+  scale?: number | undefined;
 }
 export interface Position {
-  x?: number;
-  y?: number;
+  x?: number | undefined;
+  y?: number | undefined;
 }
 export interface ScreenshotResponse {
-  cursorPosition?: Position;
-  screenshot?: string;
-  sizeBytes?: number;
+  cursorPosition?: Position | undefined;
+  screenshot?: string | undefined;
+  sizeBytes?: number | undefined;
 }
 export interface TakeCompressedScreenshotRequest {
   /** Whether to show cursor in screenshot */
-  showCursor?: boolean;
+  showCursor?: boolean | undefined;
   /** Image format (png or jpeg) */
-  format?: string;
+  format?: string | undefined;
   /** JPEG quality (1-100) */
-  quality?: number;
+  quality?: number | undefined;
   /** Scale factor (0.1-1.0) */
-  scale?: number;
+  scale?: number | undefined;
 }
 export interface TakeRegionScreenshotRequest {
   /** X coordinate of the region */
@@ -355,16 +355,16 @@ export interface TakeRegionScreenshotRequest {
   /** Height of the region */
   height: number;
   /** Whether to show cursor in screenshot */
-  showCursor?: boolean;
+  showCursor?: boolean | undefined;
 }
 export interface TakeScreenshotRequest {
   /** Whether to show cursor in screenshot */
-  showCursor?: boolean;
+  showCursor?: boolean | undefined;
 }
 export interface TypeTextRequest {
   /** milliseconds between keystrokes */
-  delay?: number;
-  text?: string;
+  delay?: number | undefined;
+  text?: string | undefined;
 }
 export type TypeTextResponse = unknown;
 export type ClickError = DaytonaOpError;

@@ -83,7 +83,7 @@ export interface AuthorizationCodeParams {
 export type ClientCredentialsParamsGrantType = "client_credentials";
 export interface ClientCredentialsParams {
   /** The client id generated during registration. Optional here - it can instead be sent via the Basic auth header, which is always required for this grant type. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** The Authorization flow */
   grant_type: ClientCredentialsParamsGrantType;
 }
@@ -110,47 +110,47 @@ export type OAuth2TokenParams =
   | RefreshTokenParams
   | AssertionTokenParams;
 export interface CreateAuthOauth2TokenRequest {
-  body?: OAuth2TokenParams;
+  body?: OAuth2TokenParams | undefined;
 }
 export interface AuthorizationCodeResponse {
   /** A JWT token. */
-  access_token?: string | Redacted.Redacted<string>;
+  access_token?: string | Redacted.Redacted<string> | undefined;
   /** Number of seconds until token is expired. */
-  expires_in?: number;
+  expires_in?: number | undefined;
   /** The type of the token. For now, always `Bearer`. */
-  token_type?: string;
+  token_type?: string | undefined;
   /** The ID of the connected company. */
-  company_id?: string;
+  company_id?: string | undefined;
   /** The refresh token. This token must be stored and used for issuing new access tokens for managing the company's resources. */
-  refresh_token?: string | Redacted.Redacted<string>;
+  refresh_token?: string | Redacted.Redacted<string> | undefined;
   /** The ID of the user who connected the company. */
-  user_id?: string;
+  user_id?: string | undefined;
 }
 export interface BaseTokenResponse {
   /** A JWT token. */
-  access_token?: string | Redacted.Redacted<string>;
+  access_token?: string | Redacted.Redacted<string> | undefined;
   /** Number of seconds until token is expired. */
-  expires_in?: number;
+  expires_in?: number | undefined;
   /** The type of the token. For now, always `Bearer`. */
-  token_type?: string;
+  token_type?: string | undefined;
 }
 export interface RefreshTokenResponse {
   /** A JWT token. */
-  access_token?: string | Redacted.Redacted<string>;
+  access_token?: string | Redacted.Redacted<string> | undefined;
   /** Number of seconds until token is expired. */
-  expires_in?: number;
+  expires_in?: number | undefined;
   /** The type of the token. For now, always `Bearer`. */
-  token_type?: string;
+  token_type?: string | undefined;
   /** The refresh token */
-  refresh_token?: string | Redacted.Redacted<string>;
+  refresh_token?: string | Redacted.Redacted<string> | undefined;
 }
 export type OAuth2Tokens = AuthorizationCodeResponse | BaseTokenResponse | RefreshTokenResponse;
 export type CreateAuthOauth2TokenResponse = OAuth2Tokens;
 /** Employee payload. The nested fields must match the employment schema for the selected country. `activate_global_payroll` is currently supported only for Serbia (SRB) and is controlled by the `bulk_gp_product_activation` feature flag. */
 export interface BulkEmploymentEmployeePayload {
-  activate_global_payroll?: boolean;
+  activate_global_payroll?: boolean | undefined;
   /** Per-employee override for onboarding invitations. Takes precedence over the batch-level `send_invitation` value when present. */
-  send_invitation?: boolean;
+  send_invitation?: boolean | undefined;
   [key: string]: unknown;
 }
 export type CreateBulkEmploymentJobRequestEmployeesList = Array<BulkEmploymentEmployeePayload>;
@@ -158,7 +158,7 @@ export interface CreateBulkEmploymentJobRequest {
   country_code: string;
   employees: CreateBulkEmploymentJobRequestEmployeesList;
   /** Batch default for onboarding invitations. Each employee can override it with their own `send_invitation` value. Defaults to `false` when omitted. */
-  send_invitation?: boolean;
+  send_invitation?: boolean | undefined;
 }
 export interface CreateBulkEmploymentJobResponse {}
 /** Use latest version */
@@ -187,19 +187,23 @@ export type CreateCompanyRequestDesiredCurrency =
   | "USD";
 export interface CreateCompanyRequest {
   /** Version of the address_details form schema */
-  address_details_json_schema_version?: CreateCompanyRequestAddressDetailsJsonSchemaVersion;
+  address_details_json_schema_version?:
+    | CreateCompanyRequestAddressDetailsJsonSchemaVersion
+    | undefined;
   /** Version of the bank_account_details form schema */
-  bank_account_details_json_schema_version?: CreateCompanyRequestBankAccountDetailsJsonSchemaVersion;
+  bank_account_details_json_schema_version?:
+    | CreateCompanyRequestBankAccountDetailsJsonSchemaVersion
+    | undefined;
   /** Complementary action(s) to perform when creating a company: - `get_oauth_access_tokens` returns the user's access and refresh tokens - `send_create_password_email ` sends a reset password token to the company owner's email so they can log in using Remote UI (not needed if integration plans to use SSO only) If `action` contains `send_create_password_email` you can redirect the user to [https://employ.remote.com/api-integration-new-password-send](https://employ.remote.com/api-integration-new-password-send) */
-  action?: string;
+  action?: string | undefined;
   /** Whether the request should be performed async */
-  async?: boolean;
+  async?: boolean | undefined;
   /** Scope of the access token */
-  scope?: string;
+  scope?: string | undefined;
   /** Fields can vary depending on the country. Please, check the required fields structure using the [Show form schema endpoint](#operation/get_show_form_country). Use the desired country and `address_details` as the form name for the placeholders. The response complies with the [JSON Schema](https://developer.remote.com/docs/how-json-schemas-work) specification. */
-  address_details?: unknown;
+  address_details?: unknown | undefined;
   /** Fields can vary depending on the country. Please, check the required fields structure using the [Show form schema endpoint](#operation/get_show_form_country). Use the desired country and `bank_account_details` as the form name for the placeholders. The response complies with the [JSON Schema](https://developer.remote.com/docs/how-json-schemas-work) specification. */
-  bank_account_details?: unknown;
+  bank_account_details?: unknown | undefined;
   /** The company owner email. This value cannot be changed once set. */
   company_owner_email: string;
   /** The company owner name. This value cannot be changed from the Remote API once set. */
@@ -209,19 +213,19 @@ export interface CreateCompanyRequest {
   /** Desired currency for invoicing and displaying converted salaries in Remote UI regardless of the employee's country. */
   desired_currency: CreateCompanyRequestDesiredCurrency | (string & {});
   /** The domain of the company. Use this field to specify the company domain name when it's different from the domain in the company owner's email. */
-  email_domain?: string;
+  email_domain?: string | undefined;
   /** Id of the company as represented in the external partner system. */
-  external_id?: string;
+  external_id?: string | undefined;
   /** The company name */
   name: string;
   /** A phone number the company can be contacted with. */
-  phone_number?: string;
+  phone_number?: string | undefined;
   /** Date and time the Terms of Service were accepted. To ensure users read the most recent version of Remote's Terms of Service, their action cannot have been done more than fifteen minutes ago. The UTC offset must be included in the ISO 8601 format: `YYYY-MM-DD HOURS:MINUTES:SECONDSZ` */
   terms_of_service_accepted_at: string;
   /** The tax identifier of the company. Exactly one of this field or `registration_number` must be submitted, not both. */
-  tax_number?: string;
+  tax_number?: string | undefined;
   /** The company registration number. Exactly one of this field or `tax_number` must be submitted, not both. */
-  registration_number?: string;
+  registration_number?: string | undefined;
 }
 /** The credit risk status of the company default legal entity. - `not_started`: The credit risk assessment has not started yet. - `ready`: The credit risk assessment is ready to be started. - `in_progress`: The automated credit risk assessment is in progress. - `referred`: The credit risk assessment has been referred to a human reviewer. - `fail`: The credit risk assessment has failed and the company will be archived. - `deposit_required`: The company default legal entity requires a deposit before onboarding new employees. - `no_deposit_required`: The company default legal entity does not require a deposit before onboarding new employees. */
 export type CompanyDefaultLegalEntityCreditRiskStatus =
@@ -238,11 +242,11 @@ export interface Company {
   /** Fields can vary depending on the country. Please, check the required fields structure using the [Show form schema endpoint](#operation/get_show_form_country). Use the desired country and `address_details` as the form name for the placeholders. The response complies with the [JSON Schema](https://developer.remote.com/docs/how-json-schemas-work) specification. */
   address_details: unknown;
   /** Fields can vary depending on the country. Please, check the required fields structure using the [Show form schema endpoint](#operation/get_show_form_country). Use the desired country and `bank_account_details` as the form name for the placeholders. The response complies with the [JSON Schema](https://developer.remote.com/docs/how-json-schemas-work) specification. */
-  bank_account_details?: unknown;
+  bank_account_details?: unknown | undefined;
   /** The email address of the company owner who administers the Remote account. */
   company_owner_email: string;
   /** The full name of the company owner. Cannot be changed after company creation. */
-  company_owner_name?: string;
+  company_owner_name?: string | undefined;
   /** The unique identifier (UUID) of the company owner's user account on Remote. */
   company_owner_user_id: string;
   /** The ISO 3166-1 3-letter country code where the company is registered. */
@@ -254,26 +258,26 @@ export interface Company {
   /** The ISO 4217 currency code the company prefers for billing and invoicing (e.g., "USD", "EUR"). */
   desired_currency: string;
   /** A unique reference code for this company in a non-Remote system. Null if not set. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The unique identifier (UUID) of the company. */
   id: string;
   /** The company's registered name. Can only be changed while the company is in `pending` status. */
   name: string;
   /** The company's contact phone number. */
-  phone_number?: string;
+  phone_number?: string | undefined;
   /** The company's business registration number. Null if not provided. Can only be set while the company is in `pending` status. */
-  registration_number?: string | null;
+  registration_number?: string | null | undefined;
   /** The company status determines what a company is allowed to do: - `pending`: The company has been created and the company owner invited. Remote is waiting for the company owner to complete onboarding. - `review`: The company is under review. In rare occasions, a company may not automatically get created in `active` status because Remote needs to manually review the company that was created. The company will become `active` once the review is completed and no further action is necessary through the Remote API. - `active`: The company owner has completed onboarding and the company is ready to employ. - `archived`: The company is no longer active on the Remote platform and no changes can be made to the company. */
   status: CompanyStatus;
   /** The company's tax identification number. Null if not provided. Can only be set while the company is in `pending` status. */
-  tax_number?: string | null;
+  tax_number?: string | null | undefined;
   /** The timestamp when the company owner accepted Remote's Terms of Service. */
   terms_of_service_accepted_at: string;
   /** The timestamp when the company record was last updated. */
   updated_at: string;
 }
 export interface CompanyResponseData {
-  company?: Company;
+  company?: Company | undefined;
 }
 /** Shows a company */
 export interface CompanyResponse {
@@ -281,18 +285,18 @@ export interface CompanyResponse {
 }
 /** Shows a company with its refresh and access tokens. Please contact Remote if you need the tokens when creating a company. */
 export interface CompanyWithTokensResponse {
-  company?: Company;
-  tokens?: OAuth2Tokens;
+  company?: Company | undefined;
+  tokens?: OAuth2Tokens | undefined;
 }
 export type CompanyCreationResponseData = CompanyResponse | CompanyWithTokensResponse;
 export interface CompanyCreationResponse {
-  data?: CompanyCreationResponseData;
+  data?: CompanyCreationResponseData | undefined;
 }
 export interface CreateCompanyCreateTokenRequest {
   /** The ID of the company */
   company_id: string;
   /** The scope of the token */
-  scope?: string;
+  scope?: string | undefined;
 }
 /** OAuth2 tokens returned after a company authorizes access. Use the access token in the Authorization header for subsequent API calls. Use the refresh token to obtain a new access token when the current one expires. */
 export interface CompanyTokenResponse {
@@ -318,13 +322,13 @@ export interface CompanyDepartment {
   name: string;
 }
 export interface CompanyDepartmentCreatedResponse {
-  company_department?: CompanyDepartment;
+  company_department?: CompanyDepartment | undefined;
 }
 export interface CreateCompanyManagerRequest {
   /** Complementary action(s) to perform when creating a company manager: - `no_invite` skips the email invitation step */
-  actions?: string;
+  actions?: string | undefined;
   /** The Company ID. Required if the access token can access multiple companies. Optional otherwise. */
-  company_id?: string;
+  company_id?: string | undefined;
   /** The work email of the company manager */
   email: string;
   /** The name of the company manager */
@@ -373,7 +377,7 @@ export interface CreatePricingPlanWithPartnerTemplateParams {
   /** The pricing plan partner template ID */
   pricing_plan_partner_template_id: string;
   /** The start date of the pricing plan */
-  start_date?: string;
+  start_date?: string | undefined;
 }
 /** Parameters for creating a pricing plan */
 export type CreatePricingPlanParams =
@@ -401,17 +405,17 @@ export type ProductFeaturesList = Array<string>;
 /** A Remote product offering (e.g., EOR, Contractor Management) with its tier and billing frequency. */
 export interface Product {
   /** A description of the product. */
-  description?: string;
+  description?: string | undefined;
   /** Features included in this product tier. */
-  features?: ProductFeaturesList;
+  features?: ProductFeaturesList | undefined;
   /** The billing frequency (e.g., "monthly", "annually"). */
   frequency: string;
   /** A unique machine-readable identifier for this product. */
-  identifier?: string;
+  identifier?: string | undefined;
   /** The full product name (e.g., "EOR Monthly"). */
   name: string;
   /** A short display name for the product (e.g., "EOR"). */
-  short_name?: string;
+  short_name?: string | undefined;
   /** The product tier (e.g., "standard", "premium"). */
   tier: string;
 }
@@ -443,7 +447,7 @@ export type CreateContractAmendmentRequestJsonSchemaVersion =
   | CreateContractAmendmentRequestJsonSchemaVersionCase1;
 export interface CreateContractAmendmentRequest {
   /** Version of the form schema */
-  json_schema_version?: CreateContractAmendmentRequestJsonSchemaVersion;
+  json_schema_version?: CreateContractAmendmentRequestJsonSchemaVersion | undefined;
   /** The contract ID of the contract that needs to be amended. */
   amendment_contract_id: string;
   /** Contract amendment informations. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Contract-Amendments/operation/post_show_form_contract_amendment_schema) endpoint passing the country code, `contract_amendment` and the employment ID as request body. */
@@ -467,18 +471,18 @@ export type SalaryDecreaseDetailsSalaryDecreaseReason =
   | "other";
 /** The details of the salary decrease request if there is one */
 export interface SalaryDecreaseDetails {
-  salary_decrease_reason?: SalaryDecreaseDetailsSalaryDecreaseReason;
-  salary_decrease_reason_description?: string | null;
-  was_employee_informed?: string;
+  salary_decrease_reason?: SalaryDecreaseDetailsSalaryDecreaseReason | undefined;
+  salary_decrease_reason_description?: string | null | undefined;
+  was_employee_informed?: string | undefined;
 }
 /** The details of the requested changes for the contract amendment. */
 export interface RequestDetails {
-  additional_comments?: string | null;
-  effective_date?: string;
-  reason_for_change?: RequestDetailsReasonForChange | null;
+  additional_comments?: string | null | undefined;
+  effective_date?: string | undefined;
+  reason_for_change?: RequestDetailsReasonForChange | null | undefined;
   /** This is filled when the reason_for_change is 'other'. */
-  reason_for_change_description?: string | null;
-  salary_decrease_details?: SalaryDecreaseDetails | null;
+  reason_for_change_description?: string | null | undefined;
+  salary_decrease_details?: SalaryDecreaseDetails | null | undefined;
 }
 /** The current status of a contract amendment request. - `submitted`: The amendment has been submitted and is awaiting Remote's review. - `in_review`: Remote is reviewing the amendment for compliance and feasibility. - `done`: The amendment has been approved and applied to the contract. - `canceled`: The amendment request was canceled before completion. - `deleted`: The amendment request was deleted. */
 export type ContractAmendmentStatus = "submitted" | "in_review" | "done" | "canceled" | "deleted";
@@ -506,7 +510,7 @@ export interface ContractAmendmentResponseData {
 }
 /** Contract Amendment response */
 export interface ContractAmendmentResponse {
-  data?: ContractAmendmentResponseData;
+  data?: ContractAmendmentResponseData | undefined;
 }
 /** Use latest version */
 export type CreateContractAmendmentsAutomatableRequestJsonSchemaVersionCase1 = "latest";
@@ -515,7 +519,7 @@ export type CreateContractAmendmentsAutomatableRequestJsonSchemaVersion =
   | CreateContractAmendmentsAutomatableRequestJsonSchemaVersionCase1;
 export interface CreateContractAmendmentsAutomatableRequest {
   /** Version of the form schema */
-  json_schema_version?: CreateContractAmendmentsAutomatableRequestJsonSchemaVersion;
+  json_schema_version?: CreateContractAmendmentsAutomatableRequestJsonSchemaVersion | undefined;
   /** The contract ID of the contract that needs to be amended. */
   amendment_contract_id: string;
   /** Contract amendment informations. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Contract-Amendments/operation/post_show_form_contract_amendment_schema) endpoint passing the country code, `contract_amendment` and the employment ID as request body. */
@@ -525,13 +529,13 @@ export interface CreateContractAmendmentsAutomatableRequest {
 }
 export interface ContractAmendmentAutomatableResponseData {
   /** If true, it means that the contract amendment request is automatable. */
-  automatable?: boolean;
+  automatable?: boolean | undefined;
   /** The message to explain how the contract amendment request will be processed depending if it is automatable or not. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Contract Amendment Automatable response */
 export interface ContractAmendmentAutomatableResponse {
-  data?: ContractAmendmentAutomatableResponseData;
+  data?: ContractAmendmentAutomatableResponseData | undefined;
 }
 /** The two calendar days of the month on which invoices are generated. Only applies when `periodicity` is `semi_monthly`; must be omitted (or `null`) for every other periodicity. When omitted for a `semi_monthly` schedule, the two days are derived from `start_date`: the start day and the day 14 days apart from it. Supply this field only to pick a cycle other than that default. One of the two days must be the day of `start_date`, the days must be distinct, and they cannot resolve to the same day within a month. */
 export type ContractorInvoiceScheduleCustomDays = Array<number>;
@@ -553,17 +557,17 @@ export type ContractorInvoiceSchedulePeriodicity =
 /** Payload shape used to create invoice schedules. */
 export interface ContractorInvoiceScheduleCreateParams {
   currency: string | null;
-  custom_days?: ContractorInvoiceScheduleCustomDays | null;
+  custom_days?: ContractorInvoiceScheduleCustomDays | null | undefined;
   /** Employment identifier */
   employment_id: string;
   /** List of invoice items that composes the overall invoice amount. */
   items: ContractorInvoiceScheduleCreateParamsItemsList;
   /** Custom defined note. */
-  note?: string;
+  note?: string | undefined;
   /** Count of invoices that should be generated during schedule lifetime. Omit for a schedule that repeats indefinitely. A one-off invoice is expressed as `nr_occurrences: 1` -- there is no `one_time` periodicity. Pair it with any `periodicity` (`monthly` is conventional); the schedule completes after its single invoice, so the cadence never applies. */
-  nr_occurrences?: number;
+  nr_occurrences?: number | undefined;
   /** Invoice identifier. */
-  number?: string;
+  number?: string | undefined;
   periodicity: ContractorInvoiceSchedulePeriodicity | (string & {});
   /** Date of the first contractor invoice generation. */
   start_date: string;
@@ -582,8 +586,10 @@ export type ContractorInvoiceScheduleCreateResponseFailureErrorsItemsItemAmountL
 export type ContractorInvoiceScheduleCreateResponseFailureErrorsItemsItemDescriptionList =
   Array<string>;
 export interface ContractorInvoiceScheduleCreateResponseFailureErrorsItemsItem {
-  amount?: ContractorInvoiceScheduleCreateResponseFailureErrorsItemsItemAmountList;
-  description?: ContractorInvoiceScheduleCreateResponseFailureErrorsItemsItemDescriptionList;
+  amount?: ContractorInvoiceScheduleCreateResponseFailureErrorsItemsItemAmountList | undefined;
+  description?:
+    | ContractorInvoiceScheduleCreateResponseFailureErrorsItemsItemDescriptionList
+    | undefined;
 }
 export type ContractorInvoiceScheduleCreateResponseFailureErrorsItemsList =
   Array<ContractorInvoiceScheduleCreateResponseFailureErrorsItemsItem>;
@@ -593,15 +599,17 @@ export type ContractorInvoiceScheduleCreateResponseFailureErrorsNumberList = Arr
 export type ContractorInvoiceScheduleCreateResponseFailureErrorsPeriodicityList = Array<string>;
 export type ContractorInvoiceScheduleCreateResponseFailureErrorsStartDateList = Array<string>;
 export interface ContractorInvoiceScheduleCreateResponseFailureErrors {
-  currency?: ContractorInvoiceScheduleCreateResponseFailureErrorsCurrencyList;
-  custom_days?: ContractorInvoiceScheduleCreateResponseFailureErrorsCustomDaysList;
-  employment_id?: ContractorInvoiceScheduleCreateResponseFailureErrorsEmploymentIdList;
-  items?: ContractorInvoiceScheduleCreateResponseFailureErrorsItemsList;
-  note?: ContractorInvoiceScheduleCreateResponseFailureErrorsNoteList;
-  nr_occurrences?: ContractorInvoiceScheduleCreateResponseFailureErrorsNrOccurrencesList;
-  number?: ContractorInvoiceScheduleCreateResponseFailureErrorsNumberList;
-  periodicity?: ContractorInvoiceScheduleCreateResponseFailureErrorsPeriodicityList;
-  start_date?: ContractorInvoiceScheduleCreateResponseFailureErrorsStartDateList;
+  currency?: ContractorInvoiceScheduleCreateResponseFailureErrorsCurrencyList | undefined;
+  custom_days?: ContractorInvoiceScheduleCreateResponseFailureErrorsCustomDaysList | undefined;
+  employment_id?: ContractorInvoiceScheduleCreateResponseFailureErrorsEmploymentIdList | undefined;
+  items?: ContractorInvoiceScheduleCreateResponseFailureErrorsItemsList | undefined;
+  note?: ContractorInvoiceScheduleCreateResponseFailureErrorsNoteList | undefined;
+  nr_occurrences?:
+    | ContractorInvoiceScheduleCreateResponseFailureErrorsNrOccurrencesList
+    | undefined;
+  number?: ContractorInvoiceScheduleCreateResponseFailureErrorsNumberList | undefined;
+  periodicity?: ContractorInvoiceScheduleCreateResponseFailureErrorsPeriodicityList | undefined;
+  start_date?: ContractorInvoiceScheduleCreateResponseFailureErrorsStartDateList | undefined;
 }
 /** List of invoice items that composes the overall invoice amount. */
 export type ContractorInvoiceScheduleCreateResponseFailureItemsList =
@@ -609,18 +617,18 @@ export type ContractorInvoiceScheduleCreateResponseFailureItemsList =
 /** Set of invoice schedule attributes with failed validation. */
 export interface ContractorInvoiceScheduleCreateResponseFailure {
   currency: string | null;
-  custom_days?: ContractorInvoiceScheduleCustomDays | null;
+  custom_days?: ContractorInvoiceScheduleCustomDays | null | undefined;
   /** Employment identifier */
   employment_id: string;
   errors: ContractorInvoiceScheduleCreateResponseFailureErrors;
   /** List of invoice items that composes the overall invoice amount. */
   items: ContractorInvoiceScheduleCreateResponseFailureItemsList;
   /** Custom defined note. */
-  note?: string;
+  note?: string | undefined;
   /** Count of invoices that should be generated during schedule lifetime. Omit for a schedule that repeats indefinitely. A one-off invoice is expressed as `nr_occurrences: 1` -- there is no `one_time` periodicity. Pair it with any `periodicity` (`monthly` is conventional); the schedule completes after its single invoice, so the cadence never applies. */
-  nr_occurrences?: number;
+  nr_occurrences?: number | undefined;
   /** Invoice identifier. */
-  number?: string;
+  number?: string | undefined;
   periodicity: ContractorInvoiceSchedulePeriodicity;
   /** Date of the first contractor invoice generation. */
   start_date: string;
@@ -633,18 +641,18 @@ export type ContractorInvoiceScheduleCreateResponseSuccessItemsList =
 /** Set of invoice schedule attributes that were successfully created. */
 export interface ContractorInvoiceScheduleCreateResponseSuccess {
   currency: string | null;
-  custom_days?: ContractorInvoiceScheduleCustomDays | null;
+  custom_days?: ContractorInvoiceScheduleCustomDays | null | undefined;
   /** Employment identifier */
   employment_id: string;
   id: string;
   /** List of invoice items that composes the overall invoice amount. */
   items: ContractorInvoiceScheduleCreateResponseSuccessItemsList;
   /** Custom defined note. */
-  note?: string;
+  note?: string | undefined;
   /** Count of invoices that should be generated during schedule lifetime. Omit for a schedule that repeats indefinitely. A one-off invoice is expressed as `nr_occurrences: 1` -- there is no `one_time` periodicity. Pair it with any `periodicity` (`monthly` is conventional); the schedule completes after its single invoice, so the cadence never applies. */
-  nr_occurrences?: number;
+  nr_occurrences?: number | undefined;
   /** Invoice identifier. */
-  number?: string;
+  number?: string | undefined;
   periodicity: ContractorInvoiceSchedulePeriodicity;
   /** Date of the first contractor invoice generation. */
   start_date: string;
@@ -671,7 +679,9 @@ export type CreateContractorsEligibilityQuestionnaireRequestResponsesMap = {
 export type CreateContractorsEligibilityQuestionnaireRequestType = "contractor_of_record";
 export interface CreateContractorsEligibilityQuestionnaireRequest {
   /** Version of the form schema */
-  json_schema_version?: CreateContractorsEligibilityQuestionnaireRequestJsonSchemaVersion;
+  json_schema_version?:
+    | CreateContractorsEligibilityQuestionnaireRequestJsonSchemaVersion
+    | undefined;
   /** The slug/ID of the employment */
   employment_slug: string;
   /** Responses to the questionnaire questions */
@@ -699,7 +709,7 @@ export interface CreateContractorsEmploymentActivateRequest {
 }
 export interface SuccessResponseData {
   /** The result status. Always `"ok"` for successful operations. */
-  status?: string;
+  status?: string | undefined;
 }
 /** A generic success response returned by operations that don't produce a specific resource (e.g., updates, deletes). */
 export interface SuccessResponse {
@@ -711,7 +721,7 @@ export interface CreateContractorsEmploymentContractDocumentRequest {
   /** Contract document parameters. Its properties may vary depending on the country. */
   contract_document: unknown;
   /** When true, skips AI-based compliance checks (e.g. services and deliverables classification). Defaults to false. */
-  skip_ai_checks?: boolean;
+  skip_ai_checks?: boolean | undefined;
 }
 /** The signing status of a contract document. - `draft`: The document is being prepared and has not been sent for signing. - `awaiting_signatures`: The document has been sent and is waiting for one or more parties to sign. - `deadline_passed`: The signing deadline passed before all required signatures were collected. - `finished`: All required signatures have been collected and the contract is fully executed. */
 export type ContractorContractDocumentStatus =
@@ -782,7 +792,7 @@ export interface ContractorTimeTrackingParams {
   clock_in: string;
   clock_out: string;
   /** Optional free-text notes about this time entry, such as project or task details. */
-  notes?: string | null;
+  notes?: string | null | undefined;
   timezone: string;
   /** The category of time being tracked. Contractors are restricted to `regular_hours`, `on_call`, or `break`. */
   type: ContractorTimeTrackingParamsType | (string & {});
@@ -801,9 +811,9 @@ export interface CreateContractorsEmploymentTimesheetRequest {
 /** A duration expressed as hours and minutes. */
 export interface HoursAndMinutes {
   /** The number of whole hours. */
-  hours?: number;
+  hours?: number | undefined;
   /** The number of remaining minutes (0-59). */
-  minutes?: number;
+  minutes?: number | undefined;
 }
 /** Timesheets created through the API are open drafts: the contractor can still edit them, and the customer approves the hours through the contractor's invoice. */
 export type ContractorTimesheetStatus = "open";
@@ -847,7 +857,7 @@ export interface ContractorTimesheetResponseData {
 }
 /** Response returned after creating a contractor timesheet. */
 export interface ContractorTimesheetResponse {
-  data?: ContractorTimesheetResponseData;
+  data?: ContractorTimesheetResponseData | undefined;
 }
 export interface CostCalculatorBenefitParam {
   /** The unique identifier (slug) of the benefit group to include in the estimate. */
@@ -860,13 +870,13 @@ export type CostCalculatorEmploymentParamBenefitsList = Array<CostCalculatorBene
 /** Configuration for applying a discount to a cost estimate. Provide either an `amount` or `percent` -- not both. */
 export interface CostCalculatorDiscount {
   /** The fixed discount amount in cents. Mutually exclusive with `percent`. */
-  amount?: number;
+  amount?: number | undefined;
   /** The number of months the discount applies to (1-12). Defaults to 12. */
-  months?: number;
+  months?: number | undefined;
   /** The discount as a decimal fraction (e.g., 0.1 for 10%). Mutually exclusive with `amount`. */
-  percent?: number;
+  percent?: number | undefined;
   /** The originally quoted amount before discount, in cents. */
-  quoted_amount?: number;
+  quoted_amount?: number | undefined;
   /** A human-readable label for the discount (e.g., "10% Discount"). */
   text: string;
 }
@@ -874,45 +884,45 @@ export type EmploymentTermType = "fixed" | "indefinite";
 /** Parameters for a single employment to include in the cost estimate. Provide the region and salary (or total cost) -- the calculator will compute all employer costs, contributions, and benefits. */
 export interface CostCalculatorEmploymentParam {
   /** The employee's age. Used in some countries to calculate age-dependent benefits or contributions. */
-  age?: number;
+  age?: number | undefined;
   /** The annual gross salary in the region's local currency, in cents. Provide this OR `annual_total_cost`, not both. */
-  annual_gross_salary?: number;
+  annual_gross_salary?: number | undefined;
   /** The annual gross salary in the employer's preferred currency, in cents. Used when you want to specify salary in a different currency than the region's. */
-  annual_gross_salary_in_employer_currency?: number;
+  annual_gross_salary_in_employer_currency?: number | undefined;
   /** The target total annual cost (salary + all employer costs) in the region's local currency, in cents. The calculator will derive the gross salary. Provide this OR `annual_gross_salary`, not both. */
-  annual_total_cost?: number;
+  annual_total_cost?: number | undefined;
   /** The target total annual cost in the employer's preferred currency, in cents. */
-  annual_total_cost_in_employer_currency?: number;
+  annual_total_cost_in_employer_currency?: number | undefined;
   /** Specific benefit selections to include in the estimate. */
-  benefits?: CostCalculatorEmploymentParamBenefitsList;
-  discount?: CostCalculatorDiscount;
-  employment_term?: EmploymentTermType | (string & {});
+  benefits?: CostCalculatorEmploymentParamBenefitsList | undefined;
+  discount?: CostCalculatorDiscount | undefined;
+  employment_term?: EmploymentTermType | (string & {}) | undefined;
   /** The unique identifier (slug) of the region/country for this employment. Required. */
   region_slug: string;
   /** A custom exchange rate from the regional currency to the employer currency. If not provided, the current market rate is used. */
-  regional_to_employer_exchange_rate?: string;
+  regional_to_employer_exchange_rate?: string | undefined;
   /** An optional label for this employment in the estimate (e.g., the job title or role name). */
-  title?: string;
+  title?: string | undefined;
 }
 /** One or more employments to estimate costs for. */
 export type CreateCostCalculatorEstimationRequestEmploymentsList =
   Array<CostCalculatorEmploymentParam>;
 export interface CreateCostCalculatorEstimationRequest {
   /** The company name, used for labeling in PDF/CSV exports. */
-  company_name?: string;
+  company_name?: string | undefined;
   /** The ISO 4217 currency code for the employer's preferred currency (e.g., "USD"). All costs will be converted to this currency. */
   employer_currency_slug: string;
   /** One or more employments to estimate costs for. */
   employments: CreateCostCalculatorEstimationRequestEmploymentsList;
-  global_discount?: CostCalculatorDiscount;
+  global_discount?: CostCalculatorDiscount | undefined;
   /** Whether to include benefit costs in the estimate. Defaults to false if not provided. */
-  include_benefits?: boolean;
+  include_benefits?: boolean | undefined;
   /** Whether to include detailed cost breakdowns (individual contributions, benefits, etc.) in the response. */
-  include_cost_breakdowns?: boolean;
+  include_cost_breakdowns?: boolean | undefined;
   /** Whether to include Remote's management fee in the total cost calculation. */
-  include_management_fee?: boolean;
+  include_management_fee?: boolean | undefined;
   /** Whether to include premium benefit options in the estimate. */
-  include_premium_benefits?: boolean;
+  include_premium_benefits?: boolean | undefined;
 }
 /** Feature flags indicating which Remote services are available in this country. */
 export type MinimalCountryFeaturesList = Array<string>;
@@ -923,7 +933,7 @@ export interface MinimalCountry {
   /** The ISO 3166-1 alpha-3 country code (e.g., "PRT", "USA", "GBR"). This is the primary code used across the Remote API. */
   code: string;
   /** Feature flags indicating which Remote services are available in this country. */
-  features?: MinimalCountryFeaturesList;
+  features?: MinimalCountryFeaturesList | undefined;
   /** The country's full English name. */
   name: string;
   /** A unique URL-friendly identifier for the country. */
@@ -949,7 +959,7 @@ export type CostCalculatorCostsAnnualContributionsBreakdownList = Array<CostCalc
 /** The type of money in general use in a particular country */
 export interface Currency {
   code: string;
-  name?: string;
+  name?: string | undefined;
   slug: string;
   symbol: string;
 }
@@ -976,49 +986,55 @@ export type CostCalculatorCostsMonthlyContributionsBreakdownList = Array<CostCal
 export type CostCalculatorCostsMonthlyFringeBenefitsTaxBreakdownList = Array<CostCalculatorCost>;
 export interface CostCalculatorCosts {
   /** The list of all annual benefit costs */
-  annual_benefits_breakdown?: CostCalculatorCostsAnnualBenefitsBreakdownList;
+  annual_benefits_breakdown?: CostCalculatorCostsAnnualBenefitsBreakdownList | undefined;
   /** The annual benefits total that a company must pay for this employment */
-  annual_benefits_total?: number;
+  annual_benefits_total?: number | undefined;
   /** The list of all annual employer contribution costs */
-  annual_contributions_breakdown?: CostCalculatorCostsAnnualContributionsBreakdownList;
+  annual_contributions_breakdown?: CostCalculatorCostsAnnualContributionsBreakdownList | undefined;
   /** The annual contributions that a company must pay for this employment */
   annual_contributions_total: number;
   /** The annual gross salary that the employee is going to earn */
   annual_gross_salary: number;
   /** The annual indirect tax that a company must pay for this employment */
-  annual_indirect_tax?: number;
+  annual_indirect_tax?: number | undefined;
   /** The annual management fees */
-  annual_management_fee?: number;
+  annual_management_fee?: number | undefined;
   /** The annual gross salary + annual contributions + annual fee (monthly fee * 12) + extra statutory payments if applicable */
   annual_total: number;
   currency: Currency;
-  discount?: CostCalculatorDiscountResponse;
+  discount?: CostCalculatorDiscountResponse | undefined;
   /** The list of all annual extra statutory payment costs */
-  extra_statutory_payments_breakdown?: CostCalculatorCostsExtraStatutoryPaymentsBreakdownList;
+  extra_statutory_payments_breakdown?:
+    | CostCalculatorCostsExtraStatutoryPaymentsBreakdownList
+    | undefined;
   /** 13th month salary, this happens for countries such as Philippines */
   extra_statutory_payments_total: number;
   /** The list of all annual fringe benefits tax costs */
-  fringe_benefits_tax_breakdown?: CostCalculatorCostsFringeBenefitsTaxBreakdownList;
+  fringe_benefits_tax_breakdown?: CostCalculatorCostsFringeBenefitsTaxBreakdownList | undefined;
   /** Estimated tax on employer-paid benefit premiums (e.g. New Zealand FBT) */
-  fringe_benefits_tax_total?: number;
+  fringe_benefits_tax_total?: number | undefined;
   /** The list of all monthly benefit costs */
-  monthly_benefits_breakdown?: CostCalculatorCostsMonthlyBenefitsBreakdownList;
+  monthly_benefits_breakdown?: CostCalculatorCostsMonthlyBenefitsBreakdownList | undefined;
   /** The benefits total that the company pays monthly */
-  monthly_benefits_total?: number;
+  monthly_benefits_total?: number | undefined;
   /** The list of all monthly employer contribution costs */
-  monthly_contributions_breakdown?: CostCalculatorCostsMonthlyContributionsBreakdownList;
+  monthly_contributions_breakdown?:
+    | CostCalculatorCostsMonthlyContributionsBreakdownList
+    | undefined;
   /** The contributions that the company pays monthly */
   monthly_contributions_total: number;
   /** The list of all monthly fringe benefits tax costs */
-  monthly_fringe_benefits_tax_breakdown?: CostCalculatorCostsMonthlyFringeBenefitsTaxBreakdownList;
+  monthly_fringe_benefits_tax_breakdown?:
+    | CostCalculatorCostsMonthlyFringeBenefitsTaxBreakdownList
+    | undefined;
   /** Monthly estimated tax on employer-paid benefit premiums (e.g. New Zealand FBT) */
-  monthly_fringe_benefits_tax_total?: number;
+  monthly_fringe_benefits_tax_total?: number | undefined;
   /** The gross monthly salary for the Employee */
   monthly_gross_salary: number;
   /** The monthly indirect tax that a company must pay for this employment */
-  monthly_indirect_tax?: number;
+  monthly_indirect_tax?: number | undefined;
   /** The monthly management fees */
-  monthly_management_fee?: number;
+  monthly_management_fee?: number | undefined;
   /** Monthly gross salary + monthly contributions (doesn't include fee) */
   monthly_tce: number;
   /** Monthly gross salary + monthly contributions + monthly fee */
@@ -1036,11 +1052,11 @@ export interface CostCalculatorIndirectTaxSummary {
 export type MinimalRegionChildRegionsList = Array<MinimalRegion>;
 export type RegionStatus = "active" | "inactive";
 export interface MinimalRegion {
-  child_regions?: MinimalRegionChildRegionsList;
-  code?: string | null;
+  child_regions?: MinimalRegionChildRegionsList | undefined;
+  code?: string | null | undefined;
   name: string;
   slug: string;
-  status?: RegionStatus | null;
+  status?: RegionStatus | null | undefined;
 }
 /** A cost estimate for a single employment, including costs in both the regional (local) currency and the employer's preferred currency. */
 export interface CostCalculatorEmployment {
@@ -1053,8 +1069,8 @@ export interface CostCalculatorEmployment {
   /** Whether this country has extra statutory payments (e.g., 13th month salary in the Philippines). */
   has_extra_statutory_payment: boolean;
   /** Whether this country has a fringe benefits tax on employer-paid benefit premiums (e.g. New Zealand). */
-  has_fringe_benefits_tax?: boolean;
-  indirect_tax_summary?: CostCalculatorIndirectTaxSummary | null;
+  has_fringe_benefits_tax?: boolean | undefined;
+  indirect_tax_summary?: CostCalculatorIndirectTaxSummary | null | undefined;
   /** The minimum number of business days required to onboard an employee in this country. Null if not determined. */
   minimum_onboarding_time: number | null;
   region: MinimalRegion;
@@ -1062,7 +1078,7 @@ export interface CostCalculatorEmployment {
 }
 export type CostCalculatorEstimateResponseDataEmploymentsList = Array<CostCalculatorEmployment>;
 export interface CostCalculatorEstimateResponseData {
-  employments?: CostCalculatorEstimateResponseDataEmploymentsList;
+  employments?: CostCalculatorEstimateResponseDataEmploymentsList | undefined;
 }
 export interface CostCalculatorEstimateResponse {
   data: CostCalculatorEstimateResponseData;
@@ -1072,20 +1088,20 @@ export type CreateCostCalculatorEstimationCsvRequestEmploymentsList =
   Array<CostCalculatorEmploymentParam>;
 export interface CreateCostCalculatorEstimationCsvRequest {
   /** The company name, used for labeling in PDF/CSV exports. */
-  company_name?: string;
+  company_name?: string | undefined;
   /** The ISO 4217 currency code for the employer's preferred currency (e.g., "USD"). All costs will be converted to this currency. */
   employer_currency_slug: string;
   /** One or more employments to estimate costs for. */
   employments: CreateCostCalculatorEstimationCsvRequestEmploymentsList;
-  global_discount?: CostCalculatorDiscount;
+  global_discount?: CostCalculatorDiscount | undefined;
   /** Whether to include benefit costs in the estimate. Defaults to false if not provided. */
-  include_benefits?: boolean;
+  include_benefits?: boolean | undefined;
   /** Whether to include detailed cost breakdowns (individual contributions, benefits, etc.) in the response. */
-  include_cost_breakdowns?: boolean;
+  include_cost_breakdowns?: boolean | undefined;
   /** Whether to include Remote's management fee in the total cost calculation. */
-  include_management_fee?: boolean;
+  include_management_fee?: boolean | undefined;
   /** Whether to include premium benefit options in the estimate. */
-  include_premium_benefits?: boolean;
+  include_premium_benefits?: boolean | undefined;
 }
 export interface CostCalculatorEstimateCSVResponseData {
   content: string;
@@ -1098,20 +1114,20 @@ export type CreateCostCalculatorEstimationPdfRequestEmploymentsList =
   Array<CostCalculatorEmploymentParam>;
 export interface CreateCostCalculatorEstimationPdfRequest {
   /** The company name, used for labeling in PDF/CSV exports. */
-  company_name?: string;
+  company_name?: string | undefined;
   /** The ISO 4217 currency code for the employer's preferred currency (e.g., "USD"). All costs will be converted to this currency. */
   employer_currency_slug: string;
   /** One or more employments to estimate costs for. */
   employments: CreateCostCalculatorEstimationPdfRequestEmploymentsList;
-  global_discount?: CostCalculatorDiscount;
+  global_discount?: CostCalculatorDiscount | undefined;
   /** Whether to include benefit costs in the estimate. Defaults to false if not provided. */
-  include_benefits?: boolean;
+  include_benefits?: boolean | undefined;
   /** Whether to include detailed cost breakdowns (individual contributions, benefits, etc.) in the response. */
-  include_cost_breakdowns?: boolean;
+  include_cost_breakdowns?: boolean | undefined;
   /** Whether to include Remote's management fee in the total cost calculation. */
-  include_management_fee?: boolean;
+  include_management_fee?: boolean | undefined;
   /** Whether to include premium benefit options in the estimate. */
-  include_premium_benefits?: boolean;
+  include_premium_benefits?: boolean | undefined;
 }
 export type CostCalculatorEstimatePDFResponseData = CostCalculatorEstimateCSVResponseData;
 export interface CostCalculatorEstimatePDFResponse {
@@ -1197,7 +1213,7 @@ export interface CreateSingleSelectCustomFieldDefinitionParams {
   visibility_scope: CustomFieldVisibilityScope | (string & {});
 }
 export interface CreateCurrencyCustomFieldDefinitionParamsMetadata {
-  currency?: string | null;
+  currency?: string | null | undefined;
 }
 export type CreateCurrencyCustomFieldDefinitionParamsType = "currency";
 /** Schema for creating a currency custom field definition */
@@ -1256,9 +1272,9 @@ export interface CreateDocumentRequest {
   /** The file content, base64-encoded. */
   file: string;
   /** A more specific classification within the type (e.g., "ir_35" for a UK contractor tax determination). */
-  sub_type?: string;
+  sub_type?: string | undefined;
   /** The broad category of the file (e.g., "contract", "id", "tax_document"). */
-  type?: string;
+  type?: string | undefined;
 }
 /** A file associated with an employment, such as a contract, tax document, or identity document. */
 export interface File {
@@ -1268,7 +1284,7 @@ export interface File {
   /** The file name including extension (e.g., "id.pdf", "contract.pdf"). */
   name: string;
   /** A more specific classification of the file within its type (e.g., "personal_id" within type "id", or "ir_35" within type "contract"). Null if no sub-type applies. */
-  sub_type?: string | null;
+  sub_type?: string | null | undefined;
   /** The broad category of the file (e.g., "id", "contract", "tax_document"). */
   type: string;
 }
@@ -1277,15 +1293,15 @@ export interface UploadFileResponseData {
 }
 /** Response returned after successfully uploading a file. */
 export interface UploadFileResponse {
-  data?: UploadFileResponseData;
+  data?: UploadFileResponseData | undefined;
 }
 export interface CreateEmployeeDocumentRequest {
   /** The file content, base64-encoded. */
   file: string;
   /** A more specific classification within the type. */
-  sub_type?: string;
+  sub_type?: string | undefined;
   /** The broad category of the file (e.g., "id", "tax_document"). */
-  type?: string;
+  type?: string | undefined;
 }
 /** Categories allowed for an expense (legacy, deprecated).<br/> Note: `coworking`, `home_office`, `phone_utilities`, `travel` are deprecated and will be removed in the future. */
 export type CreateEmployeeExpensRequestCategory =
@@ -1325,18 +1341,18 @@ export interface CreateEmployeeExpensRequest {
   /** The expense amount in the specified currency, in cents. */
   amount: number;
   /** Categories allowed for an expense (legacy, deprecated).<br/> Note: `coworking`, `home_office`, `phone_utilities`, `travel` are deprecated and will be removed in the future. */
-  category?: CreateEmployeeExpensRequestCategory | (string & {}) | null;
+  category?: CreateEmployeeExpensRequestCategory | (string & {}) | null | undefined;
   /** The three-letter code for the expense currency.<br/> Examples: `"USD"`, `"EUR"`, `"CAD"` */
   currency: string;
   /** Slug of a category listed by `GET /v1/employee/expense-categories` for the employee (recommended). Takes precedence over legacy category field. */
-  expense_category_slug?: string | null;
+  expense_category_slug?: string | null | undefined;
   /** Date of the purchase, which must be in the past */
   expense_date: string;
-  receipt?: Base64File;
-  receipts?: CreateEmployeeExpensRequestReceiptsList;
+  receipt?: Base64File | undefined;
+  receipts?: CreateEmployeeExpensRequestReceiptsList | undefined;
   /** The tax portion of the expense amount, in cents. Use 0 if no tax applies. */
-  tax_amount?: number;
-  timezone?: string;
+  tax_amount?: number | undefined;
+  timezone?: string | undefined;
   /** A short description of the expense (e.g., "New keyboard", "Team dinner"). */
   title: string;
 }
@@ -1349,15 +1365,15 @@ export interface TimeoffDocumentParams {
 }
 /** Timeoff days params */
 export interface TimeoffDaysParams {
-  day?: string;
-  hours?: number;
+  day?: string | undefined;
+  hours?: number | undefined;
 }
 export type CreateEmployeeTimeoffRequestTimeoffDaysList = Array<TimeoffDaysParams>;
 export interface CreateEmployeeTimeoffRequest {
-  document?: TimeoffDocumentParams;
+  document?: TimeoffDocumentParams | undefined;
   end_date: string;
   leave_policy_variant_id: string;
-  notes?: string;
+  notes?: string | undefined;
   start_date: string;
   timeoff_days: CreateEmployeeTimeoffRequestTimeoffDaysList;
   timezone: string;
@@ -1441,14 +1457,14 @@ export type TimeoffTimeoffDaysList = Array<TimeoffDay>;
 /** A time off record for an employee, representing a period of leave (e.g., vacation, sick leave, parental leave). */
 export interface Timeoff {
   /** The timestamp when the time off was approved. Null if not yet approved. */
-  approved_at?: string | null;
-  approver_id?: string | null;
+  approved_at?: string | null | undefined;
+  approver_id?: string | null | undefined;
   /** Whether this time off was automatically created by the system (e.g., public holidays) rather than requested by the employee. */
-  automatic?: boolean;
+  automatic?: boolean | undefined;
   /** The reason provided when the time off was cancelled. Null if not cancelled. */
-  cancel_reason?: string | null;
-  cancelled_at?: string | null;
-  document?: File;
+  cancel_reason?: string | null | undefined;
+  cancelled_at?: string | null | undefined;
+  document?: File | undefined;
   /** The unique identifier (UUID) of the employment this time off belongs to. */
   employment_id: string;
   /** The last day of the time off period (ISO 8601 date). */
@@ -1457,9 +1473,9 @@ export interface Timeoff {
   id: string;
   leave_policy: LeavePolicy;
   /** Identifier of the leave policy this time off was booked against. For employments on the leave-type model this is the leave type's UUID, the same value `GET /leave-policies/details/{employment_id}` returns and `POST /timeoff` accepts. Otherwise it is the UUID of the custom company leave policy variant, and is null for standard leave types. */
-  leave_policy_variant_id?: string | null;
+  leave_policy_variant_id?: string | null | undefined;
   /** Optional notes provided by the employee when requesting the time off. */
-  notes?: string | null;
+  notes?: string | null | undefined;
   /** The first day of the time off period (ISO 8601 date). */
   start_date: string;
   /** The current status of a time off request. - `requested`: The employee has submitted a time off request and it is awaiting approval. - `approved`: The time off request has been approved by a manager. - `cancelled`: The time off request was cancelled by the employee or an admin. - `declined`: The time off request was declined by a manager. - `taken`: The approved time off has been taken (the dates have passed). - `cancel_requested`: The employee has requested cancellation of a previously approved time off, pending manager approval. */
@@ -1496,27 +1512,27 @@ export type CreateEmploymentRequestType =
   | "hris";
 export interface CreateEmploymentRequest {
   /** Version of the form schema */
-  json_schema_version?: CreateEmploymentRequestJsonSchemaVersion;
+  json_schema_version?: CreateEmploymentRequestJsonSchemaVersion | undefined;
   /** When true, returns `tax_servicing_countries` grouped into global/regions/subregions instead of a flat list of country names. */
-  group_tax_servicing_countries?: boolean;
+  group_tax_servicing_countries?: boolean | undefined;
   /** Employment basic information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `employment_basic_information` as path parameters. */
   basic_information: unknown;
   /** Id of the legal entity that should be billed for the employment. If omitted, falls back to `engaged_by_legal_entity_id`. For EOR and Contractor employments this may differ from `engaged_by_legal_entity_id`. For Global Payroll and Direct (HRIS) employments it must match `engaged_by_legal_entity_id`. */
-  bill_to_legal_entity_id?: string;
+  bill_to_legal_entity_id?: string | undefined;
   /** This optional field is deprecated. */
-  company_id?: string;
+  company_id?: string | undefined;
   /** The ISO 3166-1 3-letter country code where the employee will be based (e.g., `AUS`, `GBR`, `USA`). */
   country_code: string;
   /** Deprecated alias for `engaged_by_legal_entity_id`. Use `engaged_by_legal_entity_id` instead. */
-  engaged_by_entity_slug?: string;
+  engaged_by_entity_slug?: string | undefined;
   /** Id of the legal entity that engages the employee or contractor. Required for Global Payroll employees. For EOR and Contractor employments this may differ from `bill_to_legal_entity_id`. For Global Payroll and Direct (HRIS) employments it must match `bill_to_legal_entity_id`. */
-  engaged_by_legal_entity_id?: string;
+  engaged_by_legal_entity_id?: string | undefined;
   /** A unique reference code for the employment record in a non-Remote system. This optional field links to external data sources. If not provided, it defaults to `null`. While uniqueness is recommended, it is not strictly enforced within Remote's system. */
-  external_id?: string;
+  external_id?: string | undefined;
   /** A reference code for the employment record in the calling integration's own system. Private to that integration -- no other integration can read or overwrite it. Omit the field to leave the value unchanged; send `null` or an empty string to clear it. At most 64 characters, counting any surrounding whitespace sent; that whitespace is then trimmed off. It can be set at any employment status, and the same value may be used on several employments (for example a rehire). See [Your own IDs on Remote records](https://developer.remote.com/docs/your-own-ids-on-remote-records). */
-  partner_external_id?: string | null;
+  partner_external_id?: string | null | undefined;
   /** If not provided, it will default to `employee`. */
-  type?: CreateEmploymentRequestType | (string & {});
+  type?: CreateEmploymentRequestType | (string & {}) | undefined;
 }
 /** The stage of employment lifecycle. When it's `onboarded` means the employee is ready to commence or has already commenced. */
 export type EmploymentLifecycleStage =
@@ -1532,37 +1548,37 @@ export type EmploymentBasicResponseType = "employee" | "contractor";
 /** A lightweight employment representation returned after creation. Contains basic identification, country, and status fields but not the full onboarding details or country-specific form data. */
 export interface EmploymentBasicResponse {
   /** Employment basic information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `basic_information` as path parameters. When present, `login_email` indicates which address the employee logs in with: `"personal"` or `"work"`. */
-  basic_information?: unknown;
+  basic_information?: unknown | undefined;
   /** The unique identifier (UUID) of the company. */
-  company_id?: string;
+  company_id?: string | undefined;
   /** The ISO 3166-1 3-letter country code for this employment. */
-  country_code?: string;
+  country_code?: string | undefined;
   /** When this employment was created. */
-  created_at?: string;
-  employment_lifecycle_stage?: EmploymentLifecycleStage;
+  created_at?: string | undefined;
+  employment_lifecycle_stage?: EmploymentLifecycleStage | undefined;
   /** The employee's full name. */
-  full_name?: string;
-  id?: string;
+  full_name?: string | undefined;
+  id?: string | undefined;
   /** The employee's job title. May be null if not yet set. */
-  job_title?: string | null;
+  job_title?: string | null | undefined;
   /** The email the employee uses to log in to Remote. */
-  login_email?: string;
+  login_email?: string | undefined;
   /** A reference code for the employment record in the calling integration's own system. Private to that integration -- no other integration can read or overwrite it. Null when the integration has not set one. See [Your own IDs on Remote records](https://developer.remote.com/docs/your-own-ids-on-remote-records). */
-  partner_external_id?: string | null;
+  partner_external_id?: string | null | undefined;
   /** The employee's personal email address. */
-  personal_email?: string;
+  personal_email?: string | undefined;
   /** Required for employees, optional for contractors */
-  provisional_start_date?: string;
+  provisional_start_date?: string | undefined;
   /** The type of employment. */
-  type?: EmploymentBasicResponseType;
+  type?: EmploymentBasicResponseType | undefined;
   /** When this employment was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
 }
 export interface EmploymentCreationResponseData {
-  employment?: EmploymentBasicResponse;
+  employment?: EmploymentBasicResponse | undefined;
 }
 export interface EmploymentCreationResponse {
-  data?: EmploymentCreationResponseData;
+  data?: EmploymentCreationResponseData | undefined;
 }
 /** type of employment eligibility to work in residing country */
 export type CreateEmploymentContractEligibilityRequestEligibleToWorkInResidingCountry =
@@ -1601,9 +1617,9 @@ export interface CreateEmploymentContractOriginRequest {
 export type ContractOriginResponseDataStatus = "ok";
 export interface ContractOriginResponseData {
   /** ID of the contract document that was created. Returned when `contract_origin` is `remote_contract` or `custom_remote_contract`. Pass it as the contract document ID to the contract document endpoints (`/contractors/employments/{employment_id}/contract-documents/{id}` and its `sign` action). Calling this endpoint again creates a new contract document and archives the pending one, so keep the ID from the latest call. */
-  slug?: string;
+  slug?: string | undefined;
   /** Always `"ok"`. Returned when no contract document is created (`contract_origin` is `provided_by_customer`). */
-  status?: ContractOriginResponseDataStatus;
+  status?: ContractOriginResponseDataStatus | undefined;
 }
 /** Either `data.status` (when no contract document is created) or `data.slug` (when one is), depending on the `contract_origin` that was set. */
 export interface ContractOriginResponse {
@@ -1619,9 +1635,9 @@ export interface CreateEmploymentContractorInvoicesPreviewRequest {
   /** List of invoice items that composes the overall invoice amount. */
   items: CreateEmploymentContractorInvoicesPreviewRequestItemsList;
   /** Custom defined note. */
-  note?: string | null;
+  note?: string | null | undefined;
   /** Invoice identifier. */
-  number?: string | null;
+  number?: string | null | undefined;
   start_date: string;
 }
 export interface ContractorInvoicePreviewResponseDataContractorInvoicePreview {
@@ -1640,15 +1656,15 @@ export type CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementD
 /** A file attached to the engagement agreement details. To upload a new file, send its `name` and its base64-encoded `content`. To keep a file uploaded previously, send back the `name` and `id` returned by the show endpoint instead. Every entry must do one or the other -- an entry carrying neither is rejected, and an `id` that does not belong to this record is rejected too. Files that are not included in the payload are deleted. Only the properties below are accepted; any other one is rejected. In particular a file's `sub_type` is derived from the field it is attached to and cannot be set by the caller. */
 export interface EngagementAgreementDetailsFileParams {
   /** The file content, Base64 encoded. Required when uploading a new file. The decoded content must match the extension given in `name`. Requests are capped at 25MB in total, which leaves room for a file of roughly 18MB once Base64 encoded. */
-  content?: string;
+  content?: string | undefined;
   /** ID of a file uploaded previously, as returned by the show endpoint. Send it to keep that file. */
-  id?: string;
+  id?: string | undefined;
   /** The file name, including its extension. */
   name: string;
   /** The file size in bytes, before Base64 encoding. */
-  size?: number;
+  size?: number | undefined;
   /** The file's media type. */
-  type?: string;
+  type?: string | undefined;
 }
 export type CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCbaDocumentList =
   Array<EngagementAgreementDetailsFileParams>;
@@ -1657,37 +1673,49 @@ export type CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementD
 export type CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsWorkingDaysList =
   Array<string>;
 export interface CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetails {
-  allowances_details?: CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsAllowancesDetailsList | null;
-  available_pto?: number | null;
-  break_time_per_day?: number | null;
-  business_expenses?: string | null;
-  cba?: string | null;
-  cba_document?: CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCbaDocumentList | null;
-  covenants?: CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCovenantsList | null;
-  has_allowances?: string | null;
-  has_bonus?: string | null;
-  has_business_expenses?: string | null;
-  has_business_presence?: string;
-  has_cba?: string | null;
-  has_commissions?: string | null;
-  has_covenants?: string | null;
-  has_illness_remuneration?: string | null;
-  has_overtime_compensation?: string | null;
-  has_pension_scheme?: string | null;
-  has_signing_bonus?: string | null;
-  has_similar_roles?: string;
-  has_similar_work_conditions?: string | null;
-  illness_remuneration_details?: string | null;
-  max_annual_gross_salary?: number | null;
-  min_annual_gross_salary?: number | null;
-  overtime_compensation_begins?: number | null;
-  overtime_compensation_type?: string | null;
-  overtime_pay_percentage?: number | null;
-  pension_scheme?: string | null;
-  similar_roles?: string | null;
-  similar_work_conditions_details?: string | null;
-  work_hours_per_week?: number | null;
-  working_days?: CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsWorkingDaysList | null;
+  allowances_details?:
+    | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsAllowancesDetailsList
+    | null
+    | undefined;
+  available_pto?: number | null | undefined;
+  break_time_per_day?: number | null | undefined;
+  business_expenses?: string | null | undefined;
+  cba?: string | null | undefined;
+  cba_document?:
+    | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCbaDocumentList
+    | null
+    | undefined;
+  covenants?:
+    | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCovenantsList
+    | null
+    | undefined;
+  has_allowances?: string | null | undefined;
+  has_bonus?: string | null | undefined;
+  has_business_expenses?: string | null | undefined;
+  has_business_presence?: string | undefined;
+  has_cba?: string | null | undefined;
+  has_commissions?: string | null | undefined;
+  has_covenants?: string | null | undefined;
+  has_illness_remuneration?: string | null | undefined;
+  has_overtime_compensation?: string | null | undefined;
+  has_pension_scheme?: string | null | undefined;
+  has_signing_bonus?: string | null | undefined;
+  has_similar_roles?: string | undefined;
+  has_similar_work_conditions?: string | null | undefined;
+  illness_remuneration_details?: string | null | undefined;
+  max_annual_gross_salary?: number | null | undefined;
+  min_annual_gross_salary?: number | null | undefined;
+  overtime_compensation_begins?: number | null | undefined;
+  overtime_compensation_type?: string | null | undefined;
+  overtime_pay_percentage?: number | null | undefined;
+  pension_scheme?: string | null | undefined;
+  similar_roles?: string | null | undefined;
+  similar_work_conditions_details?: string | null | undefined;
+  work_hours_per_week?: number | null | undefined;
+  working_days?:
+    | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsWorkingDaysList
+    | null
+    | undefined;
 }
 export interface CreateEmploymentEngagementAgreementDetailRequest {
   /** Employment ID */
@@ -1704,37 +1732,49 @@ export type CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementD
 export type CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsWorkingDaysList2 =
   Array<string>;
 export interface CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetails2 {
-  allowances_details?: CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsAllowancesDetailsList2 | null;
-  available_pto?: number | null;
-  break_time_per_day?: number | null;
-  business_expenses?: string | null;
-  cba?: string | null;
-  cba_document?: CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCbaDocumentList2 | null;
-  covenants?: CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCovenantsList2 | null;
-  has_allowances?: string | null;
-  has_bonus?: string | null;
-  has_business_expenses?: string | null;
-  has_business_presence?: string;
-  has_cba?: string | null;
-  has_commissions?: string | null;
-  has_covenants?: string | null;
-  has_illness_remuneration?: string | null;
-  has_overtime_compensation?: string | null;
-  has_pension_scheme?: string | null;
-  has_signing_bonus?: string | null;
-  has_similar_roles?: string;
-  has_similar_work_conditions?: string | null;
-  illness_remuneration_details?: string | null;
-  max_annual_gross_salary?: number | null;
-  min_annual_gross_salary?: number | null;
-  overtime_compensation_begins?: number | null;
-  overtime_compensation_type?: string | null;
-  overtime_pay_percentage?: number | null;
-  pension_scheme?: string | null;
-  similar_roles?: string | null;
-  similar_work_conditions_details?: string | null;
-  work_hours_per_week?: number | null;
-  working_days?: CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsWorkingDaysList2 | null;
+  allowances_details?:
+    | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsAllowancesDetailsList2
+    | null
+    | undefined;
+  available_pto?: number | null | undefined;
+  break_time_per_day?: number | null | undefined;
+  business_expenses?: string | null | undefined;
+  cba?: string | null | undefined;
+  cba_document?:
+    | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCbaDocumentList2
+    | null
+    | undefined;
+  covenants?:
+    | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsCovenantsList2
+    | null
+    | undefined;
+  has_allowances?: string | null | undefined;
+  has_bonus?: string | null | undefined;
+  has_business_expenses?: string | null | undefined;
+  has_business_presence?: string | undefined;
+  has_cba?: string | null | undefined;
+  has_commissions?: string | null | undefined;
+  has_covenants?: string | null | undefined;
+  has_illness_remuneration?: string | null | undefined;
+  has_overtime_compensation?: string | null | undefined;
+  has_pension_scheme?: string | null | undefined;
+  has_signing_bonus?: string | null | undefined;
+  has_similar_roles?: string | undefined;
+  has_similar_work_conditions?: string | null | undefined;
+  illness_remuneration_details?: string | null | undefined;
+  max_annual_gross_salary?: number | null | undefined;
+  min_annual_gross_salary?: number | null | undefined;
+  overtime_compensation_begins?: number | null | undefined;
+  overtime_compensation_type?: string | null | undefined;
+  overtime_pay_percentage?: number | null | undefined;
+  pension_scheme?: string | null | undefined;
+  similar_roles?: string | null | undefined;
+  similar_work_conditions_details?: string | null | undefined;
+  work_hours_per_week?: number | null | undefined;
+  working_days?:
+    | CreateEmploymentEngagementAgreementDetailRequestEngagementAgreementDetailsWorkingDaysList2
+    | null
+    | undefined;
 }
 export interface CreateEmploymentEngagementAgreementDetailRequest2 {
   /** Employment ID */
@@ -1760,15 +1800,19 @@ export interface CreateEmploymentJobTitleEligibilityCheckRequest {
   /** Employment ID */
   employment_id: string;
   /** The job title to check. Defaults to the employment's current job title when omitted. */
-  job_title?: string;
+  job_title?: string | undefined;
   /** A description of the role. Required when the job title alone is inconclusive; the response says so. The minimum acceptable length is country-dependent: the contract-details schema for the employment's country is the authority, and some countries (the USA among them) require a substantially longer description than others. */
-  role_description?: string;
+  role_description?: string | undefined;
   /** Whether the role requires working onsite. */
-  role_is_onsite?: CreateEmploymentJobTitleEligibilityCheckRequestRoleIsOnsite | (string & {});
+  role_is_onsite?:
+    | CreateEmploymentJobTitleEligibilityCheckRequestRoleIsOnsite
+    | (string & {})
+    | undefined;
   /** Whether the role requires a professional license. */
   role_requires_license?:
     | CreateEmploymentJobTitleEligibilityCheckRequestRoleRequiresLicense
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** The eligibility verdict for the submitted job title and role. `eligible` means contract details can be submitted as normal. `not_eligible` means Remote cannot employ this role: the title has to change. `needs_review` means submitting will place the employment in a human review before the employee can be invited. `eligible_with_risk_acknowledgement` means the submission must carry `employer_acknowledges_risk` set to `acknowledged`. `not_assessed` means the check did not run for this employment and no verdict was formed, so treat it as unknown rather than as a pass: submitting is not blocked, but nothing has screened the title. When the verdict is `eligible_with_risk_acknowledgement`, present Remote's responsibility statement to the employer and obtain their acceptance before sending `employer_acknowledges_risk`. Sending it asserts that the employer was informed of, and accepted, responsibility for, as applicable, employee safety, training, health checks, any incidents connected to the employee's work environment, and the employee holding the licensing the role requires. */
 export type JobTitleEligibilityCheckVerdict =
@@ -1779,7 +1823,7 @@ export type JobTitleEligibilityCheckVerdict =
   | "not_assessed";
 export interface JobTitleEligibilityCheck {
   /** The identifier of the recorded check. When present it is **required**: send it back as `additional_job_title_eligibility_check_slug` when submitting contract details, or the submission is rejected. Run this check again if the job title or any role answer changes, since the identifier only vouches for the answers it was given. `null` when the job title alone settled the verdict and there is nothing to send. */
-  check_id?: string | null;
+  check_id?: string | null | undefined;
   /** The eligibility verdict for the submitted job title and role. `eligible` means contract details can be submitted as normal. `not_eligible` means Remote cannot employ this role: the title has to change. `needs_review` means submitting will place the employment in a human review before the employee can be invited. `eligible_with_risk_acknowledgement` means the submission must carry `employer_acknowledges_risk` set to `acknowledged`. `not_assessed` means the check did not run for this employment and no verdict was formed, so treat it as unknown rather than as a pass: submitting is not blocked, but nothing has screened the title. When the verdict is `eligible_with_risk_acknowledgement`, present Remote's responsibility statement to the employer and obtain their acceptance before sending `employer_acknowledges_risk`. Sending it asserts that the employer was informed of, and accepted, responsibility for, as applicable, employee safety, training, health checks, any incidents connected to the employee's work environment, and the employee holding the licensing the role requires. */
   verdict: JobTitleEligibilityCheckVerdict;
 }
@@ -1820,24 +1864,24 @@ export interface CreateExpensRequest {
   /** The expense amount in the specified currency, in cents. */
   amount: number;
   /** Categories allowed for an expense (legacy, deprecated).<br/> Note: `coworking`, `home_office`, `phone_utilities`, `travel` are deprecated and will be removed in the future. */
-  category?: CreateExpensRequestCategory | (string & {}) | null;
+  category?: CreateExpensRequestCategory | (string & {}) | null | undefined;
   /** The three-letter code for the expense currency.<br/> Examples: `"USD"`, `"EUR"`, `"CAD"` */
   currency: string;
   /** The ID for the employment to which this expense relates. */
   employment_id: string;
   /** Slug of the expense category from the hierarchical categories system (recommended). Takes precedence over legacy category field. */
-  expense_category_slug?: string | null;
+  expense_category_slug?: string | null | undefined;
   /** Date of the purchase, which must be in the past */
   expense_date: string;
-  receipt?: Base64File;
-  receipts?: CreateExpensRequestReceiptsList;
+  receipt?: Base64File | undefined;
+  receipts?: CreateExpensRequestReceiptsList | undefined;
   /** The date and time that the expense was reviewed in ISO8601 format. If not provided, it defaults to the current datetime. */
-  reviewed_at?: string;
+  reviewed_at?: string | undefined;
   /** If the person reviewing the expense is a user in Remote, you can provide its user id for this field. If a value is not provided, defaults to the user that generated the API token. */
-  reviewer_id?: string;
+  reviewer_id?: string | undefined;
   /** The tax portion of the expense amount, in cents. Use 0 if no tax applies. */
-  tax_amount?: number;
-  timezone?: string;
+  tax_amount?: number | undefined;
+  timezone?: string | undefined;
   /** A short description of the expense (e.g., "New keyboard", "Team dinner"). */
   title: string;
 }
@@ -1872,31 +1916,31 @@ export type ExpenseCategory =
 /** New hierarchical expense category (recommended) */
 export interface ExpenseExpenseCategory {
   /** Internal category code (e.g., 'travel.flights') */
-  code?: string;
+  code?: string | undefined;
   /** Unique identifier for the category */
-  slug?: string;
+  slug?: string | undefined;
   /** Human-readable category name */
-  title?: string;
+  title?: string | undefined;
 }
 /** The company project the expense is tagged with. Null when it has none. */
 export interface ExpenseProject {
   /** The customer's own project code, to match in their finance system */
-  code?: string;
+  code?: string | undefined;
   /** Unique identifier for the project */
-  id?: string;
+  id?: string | undefined;
   /** Project name */
-  name?: string;
+  name?: string | undefined;
 }
 /** Uploaded receipt files for this expense. Maximum 5 receipts. */
 export type ExpenseReceiptsList = Array<File>;
 /** The person who reviewed (approved or declined) this expense. Null if not yet reviewed. */
 export interface ExpenseReviewer {
   /** The reviewer's email address. */
-  user_email?: string;
+  user_email?: string | undefined;
   /** The unique identifier of the reviewer. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** The reviewer's full name. */
-  user_name?: string;
+  user_name?: string | undefined;
 }
 /** The current status of the expense. - `pending`: Submitted and awaiting approval. - `approved`: Approved by a reviewer and queued for reimbursement. - `declined`: Declined by a reviewer. See `reason` for details. - `canceled`: Canceled by the employee before approval. - `processing`: Being processed as part of a payroll run. - `reimbursed`: Successfully reimbursed to the employee. */
 export type ExpenseStatus =
@@ -1911,7 +1955,7 @@ export interface Expense {
   /** The expense amount in the original currency, in cents. */
   amount: number;
   /** Categories allowed for an expense (legacy, deprecated) */
-  category?: ExpenseCategory | null;
+  category?: ExpenseCategory | null | undefined;
   /** The expense amount converted to the company's billing currency, in cents. */
   converted_amount: number;
   converted_currency: CurrencyDefinition;
@@ -1921,27 +1965,27 @@ export interface Expense {
   /** The unique identifier (UUID) of the employment this expense belongs to. */
   employment_id: string;
   /** New hierarchical expense category (recommended) */
-  expense_category?: ExpenseExpenseCategory | null;
+  expense_category?: ExpenseExpenseCategory | null | undefined;
   /** The date the expense was incurred (ISO 8601 format). Must be in the past. */
   expense_date: string;
   /** The unique identifier (UUID) of the expense. */
   id: string;
   /** The payroll invoice period this expense is associated with, in YYYY-MM format. Null if not yet assigned to a payroll period. */
-  invoice_period?: string | null;
+  invoice_period?: string | null | undefined;
   /** Optional additional notes or context about the expense. */
-  notes?: string | null;
+  notes?: string | null | undefined;
   /** The company project the expense is tagged with. Null when it has none. */
-  project?: ExpenseProject | null;
+  project?: ExpenseProject | null | undefined;
   /** The reason provided when the expense was declined. Null for non-declined expenses. */
-  reason?: string | null;
+  reason?: string | null | undefined;
   /** Uploaded receipt files for this expense. Maximum 5 receipts. */
-  receipts?: ExpenseReceiptsList;
+  receipts?: ExpenseReceiptsList | undefined;
   /** The date the expense was reviewed. Null if not yet reviewed. */
-  reviewed_at?: string | null;
+  reviewed_at?: string | null | undefined;
   /** The person who reviewed (approved or declined) this expense. Null if not yet reviewed. */
-  reviewer?: ExpenseReviewer | null;
+  reviewer?: ExpenseReviewer | null | undefined;
   /** The current status of the expense. - `pending`: Submitted and awaiting approval. - `approved`: Approved by a reviewer and queued for reimbursement. - `declined`: Declined by a reviewer. See `reason` for details. - `canceled`: Canceled by the employee before approval. - `processing`: Being processed as part of a payroll run. - `reimbursed`: Successfully reimbursed to the employee. */
-  status?: ExpenseStatus;
+  status?: ExpenseStatus | undefined;
   /** The tax portion of the expense amount in the original currency, in cents. */
   tax_amount: number;
   /** A short description of the expense (e.g., "New keyboard", "Team dinner"). */
@@ -1990,7 +2034,7 @@ export interface DraftExpense {
   /** The expense amount in the original currency, in cents. Null if not yet entered. */
   amount: number | null;
   /** Categories allowed for an expense (legacy, deprecated) */
-  category?: DraftExpenseCategory | null;
+  category?: DraftExpenseCategory | null | undefined;
   /** The converted expense amount in the company's billing currency, in cents. Null if not yet calculated. */
   converted_amount: number | null;
   converted_currency: CurrencyDefinition | null;
@@ -2000,27 +2044,27 @@ export interface DraftExpense {
   /** The unique identifier (UUID) of the employment this expense belongs to. */
   employment_id: string;
   /** New hierarchical expense category (recommended) */
-  expense_category?: ExpenseExpenseCategory | null;
+  expense_category?: ExpenseExpenseCategory | null | undefined;
   /** The date the expense was incurred. May be null in drafts. */
   expense_date: string | null;
   /** The unique identifier (UUID) of the draft expense. */
   id: string;
   /** Not applicable for draft expenses. Always null. */
-  invoice_period?: string | null;
+  invoice_period?: string | null | undefined;
   /** Optional additional notes about the expense. */
-  notes?: string | null;
+  notes?: string | null | undefined;
   /** The company project the expense is tagged with. Null when it has none. */
-  project?: ExpenseProject | null;
+  project?: ExpenseProject | null | undefined;
   /** Not applicable for draft expenses. Always null. */
-  reason?: string | null;
+  reason?: string | null | undefined;
   /** Uploaded receipt files. May be empty for drafts. Maximum 5 receipts. */
-  receipts?: DraftExpenseReceiptsList;
+  receipts?: DraftExpenseReceiptsList | undefined;
   /** Not applicable for draft expenses. Always null. */
-  reviewed_at?: string | null;
+  reviewed_at?: string | null | undefined;
   /** Not applicable for draft expenses. Always null. */
-  reviewer?: ExpenseReviewer | null;
+  reviewer?: ExpenseReviewer | null | undefined;
   /** The draft status. - `draft`: The expense is saved as a draft by the employee and not submitted for approval. - `archived`: The draft was soft-deleted by the employee. */
-  status?: DraftExpenseStatus;
+  status?: DraftExpenseStatus | undefined;
   /** The tax portion in the original currency, in cents. Null if not yet entered. */
   tax_amount: number | null;
   /** A short description of the expense. May be null in drafts. */
@@ -2073,10 +2117,10 @@ export interface CreateIncentiveRequest {
   amount_tax_type: AmountTaxType | (string & {});
   /** The date at which the incentive should take effect. Note that the incentive is not paid out on the effective date, but during the next payroll cycle. The effective date determines which payroll cycle the incentive will be paid out in. The effective date needs to be today or a future date. Note for recurring incentives: since the months don't have the same amount of days, if day of month of `effective_date` is one of [28, 29, 30, 31] it will be transformed to the last day of each month, avoiding the possibility of skipping a month in the recurrence. */
   effective_date: string;
-  note?: string | null;
+  note?: string | null | undefined;
   employment_id: string;
-  period_end?: string | null;
-  period_start?: string | null;
+  period_end?: string | null | undefined;
+  period_start?: string | null | undefined;
   type: CreateIncentiveRequestType | (string & {});
 }
 /** An incentive (bonus, commission, or other additional payment) for an employee. Incentives are paid out through payroll on the next applicable cycle after the effective date. */
@@ -2089,32 +2133,32 @@ export interface Incentive {
   /** The unique identifier (UUID) of the employment this incentive belongs to. */
   employment_id: string;
   /** The expected date when this incentive will be paid to the employee. Null if not yet determined. */
-  expected_payout_date?: string | null;
+  expected_payout_date?: string | null | undefined;
   /** The unique identifier (UUID) of the incentive. */
   id: string;
   /** An optional note describing the reason or context for this incentive. */
-  note?: string | null;
+  note?: string | null | undefined;
   /** The broader payroll category this incentive's `type` belongs to (e.g., "incentive", "benefits_cash"). */
-  payroll_output_category?: string;
+  payroll_output_category?: string | undefined;
   /** The end date of the period this incentive covers. Null for non-periodic incentives. */
-  period_end?: string | null;
+  period_end?: string | null | undefined;
   /** The start date of the period this incentive covers (e.g., for quarterly bonuses). Null for non-periodic incentives. */
-  period_start?: string | null;
+  period_start?: string | null | undefined;
   /** If this incentive was generated from a recurring incentive schedule, this is the ID of the parent recurring incentive. Null for one-time incentives. */
-  recurring_incentive_id?: string | null;
+  recurring_incentive_id?: string | null | undefined;
   /** The current status of the incentive (e.g., "pending", "scheduled", "paid", "cancelled"). */
   status: string;
   /** The type of incentive (e.g., "signing_bonus", "performance_bonus", "commission", "referral_bonus"). */
   type: string;
   /** The human-readable label for `type` (e.g., "Signing bonus", "Commission", "Severance"). */
-  type_label?: string;
+  type_label?: string | undefined;
 }
 export interface IncentiveResponseData {
   incentive: Incentive;
 }
 /** Response containing a single incentive record. */
 export interface IncentiveResponse {
-  data?: IncentiveResponseData;
+  data?: IncentiveResponseData | undefined;
 }
 export type CreateIncentivesRecurringRequestType =
   | "acting_up_allowance"
@@ -2143,9 +2187,9 @@ export interface CreateIncentivesRecurringRequest {
   amount_tax_type: AmountTaxType | (string & {});
   /** The date at which the incentive should take effect. Note that the incentive is not paid out on the effective date, but during the next payroll cycle. The effective date determines which payroll cycle the incentive will be paid out in. The effective date needs to be today or a future date. Note for recurring incentives: since the months don't have the same amount of days, if day of month of `effective_date` is one of [28, 29, 30, 31] it will be transformed to the last day of each month, avoiding the possibility of skipping a month in the recurrence. */
   effective_date: string;
-  note?: string | null;
+  note?: string | null | undefined;
   /** How many times the payment will repeat. At the moment we only fully support monthly frequency. This field is only necessary if the recurring incentive has an end date. */
-  duration_in_months?: string;
+  duration_in_months?: string | undefined;
   employment_id: string;
   type: CreateIncentivesRecurringRequestType | (string & {});
 }
@@ -2181,11 +2225,11 @@ export interface RecurringIncentive {
   /** The unique identifier (UUID) of the employment. */
   employment_id: string;
   /** The date the recurring incentive stops generating payments. Null for open-ended recurring incentives. */
-  end_date?: string | null;
+  end_date?: string | null | undefined;
   /** The unique identifier (UUID) of the recurring incentive. */
   id: string;
   /** An optional note describing the purpose of this recurring incentive. */
-  note?: string | null;
+  note?: string | null | undefined;
   /** The date the recurring incentive starts generating payments. */
   start_date: string;
   /** Whether this recurring incentive is currently active and generating payments, or inactive (paused/ended). */
@@ -2198,7 +2242,7 @@ export interface RecurringIncentiveResponseData {
 }
 /** Recurring Incentive response */
 export interface RecurringIncentiveResponse {
-  data?: RecurringIncentiveResponseData;
+  data?: RecurringIncentiveResponseData | undefined;
 }
 /** Whether the role is onsite. */
 export type CreateJobTitleScreeningRequestItemsItemRoleIsOnsite = "yes" | "no" | "not_applicable";
@@ -2211,13 +2255,14 @@ export interface CreateJobTitleScreeningRequestItemsItem {
   /** The job title to screen. */
   job_title: string;
   /** The role description. */
-  role_description?: string;
+  role_description?: string | undefined;
   /** Whether the role is onsite. */
-  role_is_onsite?: CreateJobTitleScreeningRequestItemsItemRoleIsOnsite | (string & {});
+  role_is_onsite?: CreateJobTitleScreeningRequestItemsItemRoleIsOnsite | (string & {}) | undefined;
   /** Whether the role requires a license. */
   role_requires_license?:
     | CreateJobTitleScreeningRequestItemsItemRoleRequiresLicense
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** The job titles to screen. `role_description`, `role_is_onsite` and `role_requires_license` are optional but must be provided together; when present they allow an ambiguous title to be resolved without a human review. */
 export type CreateJobTitleScreeningRequestItemsList =
@@ -2229,13 +2274,13 @@ export interface CreateJobTitleScreeningRequest {
 export interface CreateJobTitleScreeningResponse {}
 export interface MagicLinkParamsCase0 {
   /** The path to which the user will be redirected to after login. This field has a max length of 2000 characters. If not specified, `/dashboard` will be used by default. Must begin with a forward slash (`/`) and, at least one path segment is required (`/dashboard` e.g.). An ending forward slash (`/`) is not allowed and path segments can only include alphanumeric characters, underscore (`_`) and hyphen (`-`). An optional query string can be specified too. If present, the query string must start with a question mark (`?`) and must include at least one key value pair. Both, keys and values, can only include alphanumeric characters, underscore (`_`), hyphen (`-`) or percent encoded values such as `%20` (space character). Additional key value pairs are allowed using ampersand (`&`). Query keys require at least one alphanumeric, underscore (`_`), hyphen (`-`) or valid percent encoded. Query values are optional, the actual value may be empty and the equals sign (`=`) may be missing too. Some **Valid** examples for `path`: - o `/dashboard` - o `/dashboard/people/new/full_time/663e0b79-c893-45ff-a1b2-f6dcabc098b5` - o `/dashboard/people/hiring?filters%5B0%5D%5Bid%5D=status&filters%5B0%5D%5Bvalue%5D=active` - o `/dashboard?key=value&foo=bar` Some **Invalid** examples for `path`: - x `missing_forward_slash` - x `/invalid//path` - x `//some` - x `/?key=value` - x `/some/i.n:valid*` - x `/invalid/end/slash/` - x `/some?malformed_percent_encoded_key%1=value` */
-  path?: string;
+  path?: string | undefined;
   user_id: string;
 }
 export interface MagicLinkParamsCase1 {
   employment_id: string;
   /** The path to which the user will be redirected to after login. This field has a max length of 2000 characters. If not specified, `/dashboard` will be used by default. Must begin with a forward slash (`/`) and, at least one path segment is required (`/dashboard` e.g.). An ending forward slash (`/`) is not allowed and path segments can only include alphanumeric characters, underscore (`_`) and hyphen (`-`). An optional query string can be specified too. If present, the query string must start with a question mark (`?`) and must include at least one key value pair. Both, keys and values, can only include alphanumeric characters, underscore (`_`), hyphen (`-`) or percent encoded values such as `%20` (space character). Additional key value pairs are allowed using ampersand (`&`). Query keys require at least one alphanumeric, underscore (`_`), hyphen (`-`) or valid percent encoded. Query values are optional, the actual value may be empty and the equals sign (`=`) may be missing too. Some **Valid** examples for `path`: - o `/dashboard` - o `/dashboard/people/new/full_time/663e0b79-c893-45ff-a1b2-f6dcabc098b5` - o `/dashboard/people/hiring?filters%5B0%5D%5Bid%5D=status&filters%5B0%5D%5Bvalue%5D=active` - o `/dashboard?key=value&foo=bar` Some **Invalid** examples for `path`: - x `missing_forward_slash` - x `/invalid//path` - x `//some` - x `/?key=value` - x `/some/i.n:valid*` - x `/invalid/end/slash/` - x `/some?malformed_percent_encoded_key%1=value` */
-  path?: string;
+  path?: string | undefined;
 }
 /** Magic link params */
 export type MagicLinkParams = MagicLinkParamsCase0 | MagicLinkParamsCase1;
@@ -2251,9 +2296,9 @@ export interface MagicLinkResponse {
 /** Remote advises not to inform the employee of their termination until we review your request for legal risks. When we approve your request, you can inform the employee and we'll take it from there. This field is only required if employee was informed before creating the offboarding request. */
 export interface TerminationDetailsParamsEmployeeAwareness {
   /** When the employee was told about the termination. */
-  date?: string | null;
+  date?: string | null | undefined;
   /** Notes describing how the termination was shared with the employee. Remote advises being as specific as possible, and include details about the employee's response, if applicable. */
-  note?: string | null;
+  note?: string | null | undefined;
 }
 export type TerminationDetailsParamsRiskAssessmentReasonsItem =
   | "caring_responsibilities"
@@ -2302,21 +2347,21 @@ export interface OffboardingFile {
 export type TerminationDetailsParamsTerminationReasonFilesList = Array<OffboardingFile>;
 export interface TerminationDetailsParams {
   /** Whether the employer acknowledges and agrees to follow Remote's termination procedure for this jurisdiction. */
-  acknowledge_termination_procedure?: boolean | null;
+  acknowledge_termination_procedure?: boolean | null | undefined;
   /** Additional details regarding the termination process. */
-  additional_comments?: string | null;
+  additional_comments?: string | null | undefined;
   /** Whether the employer agrees with the employee's current paid time off balance. If false, you may provide a timesheet file documenting any discrepancies. */
-  agrees_to_pto_amount?: boolean | null;
+  agrees_to_pto_amount?: boolean | null | undefined;
   /** Additional notes about the PTO balance, especially if there are discrepancies. */
-  agrees_to_pto_amount_notes?: string | null;
+  agrees_to_pto_amount_notes?: string | null | undefined;
   /** Confidential requests are visible for who authorized the token or integration. Non-confidential requests are visible to all admins in the company. */
   confidential: boolean;
   /** Whether the employer has already informed the employee about the termination. Remote advises not informing the employee until the request has been reviewed for legal risks. */
-  customer_informed_employee?: boolean | null;
+  customer_informed_employee?: boolean | null | undefined;
   /** Remote advises not to inform the employee of their termination until we review your request for legal risks. When we approve your request, you can inform the employee and we'll take it from there. This field is only required if employee was informed before creating the offboarding request. */
-  employee_awareness?: TerminationDetailsParamsEmployeeAwareness;
+  employee_awareness?: TerminationDetailsParamsEmployeeAwareness | undefined;
   /** Remote will use this email address for post-termination communication. If it is not provided, this field will be derived from the employment record. Therefore, it is important to ensure that it is not a company email. */
-  personal_email?: string;
+  personal_email?: string | undefined;
   /** In most cases, employee needs to be notified before termination. The required notice period depends on local labor laws, the employment agreement, and other factors. Remote will use those factors to determine the required notice period. Please note that we cannot commit to a termination date until we conduct a full review of the information you submit. */
   proposed_termination_date: string;
   /** Description of the reason for termination */
@@ -2326,13 +2371,13 @@ export interface TerminationDetailsParams {
   /** Choose an accurate termination reason to avoid unfair or unlawful dismissal claims. If the termination is created before the employee's start date, this field will be set to `cancellation_before_start_date`. */
   termination_reason: TerminationDetailsParamsTerminationReason | (string & {});
   /** Any supporting documents regarding the termination reason */
-  termination_reason_files?: TerminationDetailsParamsTerminationReasonFilesList;
+  termination_reason_files?: TerminationDetailsParamsTerminationReasonFilesList | undefined;
   /** Paid time off accuracy Typically, any vacation pay accrued and unpaid at the time of termination must be paid out to the employee. To avoid overpaying or underpaying, please make sure we have an accurate account of their paid time off by querying the [Show Time Off Balance](#operation/get_show_timeoff_balance) endpoint, filtering by the `employment_id`. This optional document should be sent in case of any discrepancies. */
-  timesheet_file?: OffboardingFile;
+  timesheet_file?: OffboardingFile | undefined;
   /** Whether is it likely or not that the employee will challenge their termination */
   will_challenge_termination: boolean;
   /** If it is likely that the employee will challenge their termination, please provide additional details explaining the risk */
-  will_challenge_termination_description?: string;
+  will_challenge_termination_description?: string | undefined;
 }
 /** The type of the offboarding request. For now, only `termination` is allowed. */
 export type CreateOffboardingRequestType = "termination";
@@ -2376,21 +2421,21 @@ export type ResignationOffboardingType = "resignation";
 /** An offboarding request initiated by the employee (a resignation). Includes the employee's proposed last working day, reason, and status tracking through Remote's process. */
 export interface ResignationOffboarding {
   /** Additional comments or context about the resignation. */
-  additional_comments?: string | null;
+  additional_comments?: string | null | undefined;
   /** Whether the employer agrees with the employee's PTO balance. */
-  agrees_to_pto_amount?: boolean;
+  agrees_to_pto_amount?: boolean | undefined;
   /** A description of how and when the employer was made aware of the resignation. */
-  employer_awareness?: string;
+  employer_awareness?: string | undefined;
   /** The unique identifier (UUID) of the employment being resigned from. */
   employment_id: string;
   /** The unique identifier (UUID) of the offboarding request. */
   id: string;
   /** The unique identifier (UUID) of the offboarding record. When present, this can be used to query `GET /api/eor/v2/offboardings/{id}` for the v2 offboarding shape. */
-  offboarding_id?: string | null;
+  offboarding_id?: string | null | undefined;
   /** The employee's proposed last working day. The actual last day may differ based on notice period requirements. */
   proposed_last_working_day: string;
   /** A detailed description of the employee's reason for resigning. */
-  reason_description?: string;
+  reason_description?: string | undefined;
   /** The unique identifier (UUID) of the employee who submitted the resignation. */
   requested_by: string;
   /** The reason the employee gave for their resignation. */
@@ -2407,9 +2452,9 @@ export interface ResignationOffboarding {
 /** Details about whether and when the employee was informed about their termination. Only present if the employee was informed before the offboarding request was submitted. */
 export interface TerminationOffboardingEmployeeAwareness {
   /** The date when the employee was told about the termination. */
-  date?: string | null;
+  date?: string | null | undefined;
   /** Notes about how the termination was communicated to the employee. */
-  note?: string | null;
+  note?: string | null | undefined;
 }
 export type TerminationOffboardingRiskAssessmentReasonsItem =
   | "caring_responsibilities"
@@ -2456,19 +2501,19 @@ export interface TerminationOffboarding {
   /** Additional comments or context about the termination provided by the employer. */
   additional_comments: string | null;
   /** Whether the employer agreed with the employee's PTO balance at the time of the termination request. */
-  agrees_to_pto_amount?: boolean;
+  agrees_to_pto_amount?: boolean | undefined;
   /** Whether this offboarding request is confidential. Confidential requests are only visible to the user who authorized the token or integration; non-confidential requests are visible to all company admins. */
   confidential: boolean;
   /** Details about whether and when the employee was informed about their termination. Only present if the employee was informed before the offboarding request was submitted. */
-  employee_awareness?: TerminationOffboardingEmployeeAwareness;
+  employee_awareness?: TerminationOffboardingEmployeeAwareness | undefined;
   /** The unique identifier (UUID) of the employment being terminated. */
   employment_id: string;
   /** The unique identifier (UUID) of the offboarding request. */
   id: string;
   /** The unique identifier (UUID) of the offboarding record. When present, this can be used to query `GET /api/eor/v2/offboardings/{id}` for the v2 offboarding shape. */
-  offboarding_id?: string | null;
+  offboarding_id?: string | null | undefined;
   /** Remote will use this email address for post-termination communication. If it is not provided, this field will be derived from the employment record. Therefore, it is important to ensure that it is not a company email. */
-  personal_email?: string;
+  personal_email?: string | undefined;
   /** The employer's proposed termination date. The actual termination date may differ based on local labor laws and notice period requirements. */
   proposed_termination_date: string;
   /** A detailed description of the circumstances leading to the termination. */
@@ -2490,16 +2535,16 @@ export interface TerminationOffboarding {
   /** Whether the employer believes the employee is likely to challenge their termination. */
   will_challenge_termination: boolean;
   /** Additional details about why the employee may challenge the termination, if applicable. */
-  will_challenge_termination_description?: string;
+  will_challenge_termination_description?: string | undefined;
 }
 export type ResignationOrTerminationOffboarding = ResignationOffboarding | TerminationOffboarding;
 /** A wrapper containing an offboarding record, which can be either a termination (employer-initiated) or a resignation (employee-initiated). */
 export interface Offboarding {
-  offboarding?: ResignationOrTerminationOffboarding;
+  offboarding?: ResignationOrTerminationOffboarding | undefined;
 }
 /** Response containing a single offboarding record with full details. */
 export interface OffboardingResponse {
-  data?: Offboarding;
+  data?: Offboarding | undefined;
 }
 export interface CreateOnboardingEmploymentPreOnboardingDocumentSignRequest {
   /** Employment ID */
@@ -2531,7 +2576,7 @@ export interface CreateOnboardingEmploymentPreOnboardingRequirementDocumentReque
   /** Pre-onboarding requirement slug */
   requirement_slug: string;
   /** When `true`, skips the email that asks the company signatory to sign the newly created document. Signature reminders are still sent while the document remains unsigned. The company signatory is the authenticated user when they are allowed to sign, otherwise the company's legal representative or owner. This parameter only takes effect when the signatory is the authenticated user, who is about to sign the document themselves. When the signatory is someone else, they are emailed right away as usual, since they still need to know about the document. */
-  skip_initial_signature_email?: boolean;
+  skip_initial_signature_email?: boolean | undefined;
 }
 export type CreatePreOnboardingDocumentResponseDataPreOnboardingDocument =
   CreatePreOnboardingAcknowledgementResponseDataPreOnboardingAcknowledgement;
@@ -2551,43 +2596,43 @@ export interface PayItemCustomConfiguration {
 }
 export interface PayItemProviderDataParams {
   /** **Deprecated -- renamed to `correction_effective_date`**, which this value backfills. `correction_effective_date` wins when both are sent. */
-  adjustment_effective_date?: string;
+  adjustment_effective_date?: string | undefined;
   /** Set this only on a correction: the original working day being corrected (YYYY-MM-DD). Its presence is what marks the pay item as a correction rather than an original submission. */
-  correction_effective_date?: string;
+  correction_effective_date?: string | undefined;
   /** Hourly rate in cents */
-  hourly_rate?: number;
-  hourly_rate_currency_code?: string | null;
+  hourly_rate?: number | undefined;
+  hourly_rate_currency_code?: string | null | undefined;
   /** **Deprecated -- accepted and ignored.** Express a deduction as a negative `amount`. */
-  is_deduction?: boolean;
+  is_deduction?: boolean | undefined;
   /** Overtime rate multiplier (e.g. 1.5) */
-  pay_rate?: number;
+  pay_rate?: number | undefined;
   /** **Deprecated -- accepted and ignored.** The payout value belongs in the pay item's own `amount`. */
-  payout_amount?: number;
+  payout_amount?: number | undefined;
   /** **Deprecated -- accepted and ignored.** The payout currency belongs in the pay item's own `currency`. */
-  payout_currency_code?: string;
+  payout_currency_code?: string | undefined;
   /** Shift identifier from partner system */
-  shift_code?: string;
+  shift_code?: string | undefined;
   /** Expected work day duration in seconds */
-  work_day_duration?: number;
+  work_day_duration?: number | undefined;
 }
 export interface PayItemParams {
   /** Value of the pay item. Its unit depends on the `type` of the pay code (see GET /v1/companies/:company_id/legal-entities/:legal_entity_id/pay-codes): `amount` in cents, `percentage` in basis points, `unit` as a raw count, `hours` as a whole number of hours, `duration` in seconds. Must not be zero. **Negative values are supported.** A positive `amount` adds value; a negative `amount` takes value away. Send a negative `amount` to submit a deduction, or to correct an earlier submission downwards. This applies to every pay code, whatever its unit -- including hours-based codes such as `working_hours`. For example: - `-5000` on an `amount` code (cents) deducts 50.00 from pay. - `-3` on an hours-based code such as `working_hours` removes 3 hours reported in error. */
   amount: number;
   /** Pay item type code. Mutually exclusive with `external_import_code` -- provide exactly one. */
-  code?: string;
-  currency?: string | null;
-  custom_configuration?: PayItemCustomConfiguration | null;
+  code?: string | undefined;
+  currency?: string | null | undefined;
+  custom_configuration?: PayItemCustomConfiguration | null | undefined;
   /** Date the pay item is applied on (YYYY-MM-DD). For an original submission this is the day worked; for a correction it is the day the correction is submitted, so the pay item lands in the right payroll run. The day being corrected goes in `provider_data.correction_effective_date`. On a leave-of-absence pay item this is the first day of the leave period, whose last day goes in `end_date`. */
   effective_date: string;
   /** Employment UUID. Only Global Payroll employments are supported. */
   employment_id: string;
   /** Last day of a leave period, inclusive (YYYY-MM-DD). Set this only on leave-of-absence pay codes -- parental, sick, maternity, unpaid leave and similar -- where the pay item covers a period rather than a single day, and `effective_date` is the first day of that period. Leave it off ordinary time & attendance items such as worked hours, overtime or allowances, which apply to a single day. */
-  end_date?: string | null;
+  end_date?: string | null | undefined;
   /** Partner-defined pay element identifier, as configured on the legal entity pay element. Mutually exclusive with `code` -- provide exactly one. */
-  external_import_code?: string;
+  external_import_code?: string | undefined;
   /** A reference code for the pay item record in the calling integration's own system. Private to that integration -- no other integration can read or overwrite it. When the integration already holds this value on a live pay item, the item updates that pay item; otherwise it creates a new pay item holding the value. `null` or an empty string fails the item. An item without the field always creates a new pay item, so sending it again creates a duplicate. At most 64 characters, counting any surrounding whitespace sent; that whitespace is then trimmed off. A value can be held by one live pay item at a time, per integration and company; editing a pay item keeps its value on the new version. See [Your own IDs on Remote records](https://developer.remote.com/docs/your-own-ids-on-remote-records). */
-  partner_external_id?: string | null;
-  provider_data?: PayItemProviderDataParams;
+  partner_external_id?: string | null | undefined;
+  provider_data?: PayItemProviderDataParams | undefined;
 }
 export type CreatePayItemsBulkRequestPayItemsList = Array<PayItemParams>;
 export interface CreatePayItemsBulkRequest {
@@ -2599,7 +2644,7 @@ export interface PayItemBulkCreateFailureDetail {
   /** Human-readable detail for the failure reason. */
   message: string;
   /** Slash-separated path of the field at fault, e.g. `custom_configuration/values/make`. */
-  param?: string;
+  param?: string | undefined;
 }
 export interface PayItemBulkCreateFailuresErrorCase2 {
   errors: unknown;
@@ -2611,22 +2656,22 @@ export type PayItemBulkCreateFailuresError =
   | PayItemBulkCreateFailuresErrorCase2;
 export interface PayItemBulkCreateFailures {
   /** Failure reason. Includes `employment_not_global_payroll` when the provided employment is not Global Payroll, `pay_item_code_not_allowed` / `pay_item_external_import_code_not_allowed` when the given identifier does not resolve to an allowed pay element, and `effective_date_after_termination_date` (as a `code`/`message` pair) when a `time_attendance` pay item's `effective_date` falls after the employment's termination date. It also includes `custom_configuration_required`, `custom_configuration_not_used` and `invalid_custom_configuration` (as `code`/`message`/`param`) when the pay item's `custom_configuration` doesn't match the pay code's. An item with a `partner_external_id` can also fail with `partner_external_id_not_available`, `partner_external_id_blank`, `partner_external_id_repeated_in_request`, `partner_external_id_ambiguous`, `partner_external_id_held_by_other_pay_item` or `partner_external_id_held_by_generated_pay_item` (as `code`/`message`), with the errors `PATCH` returns when the matched pay item cannot be updated, or with `errors.partner_external_id` when the value is refused. */
-  error?: PayItemBulkCreateFailuresError;
-  row_number?: number;
+  error?: PayItemBulkCreateFailuresError | undefined;
+  row_number?: number | undefined;
 }
 export type BulkCreatePayItemsResponseDataFailuresList = Array<PayItemBulkCreateFailures>;
 export interface PayItemProviderData {
   /** Set this only on a correction: the original working day being corrected (YYYY-MM-DD). Its presence is what marks the pay item as a correction rather than an original submission. */
-  correction_effective_date?: string;
+  correction_effective_date?: string | undefined;
   /** Hourly rate in cents */
-  hourly_rate?: number;
-  hourly_rate_currency_code?: string;
+  hourly_rate?: number | undefined;
+  hourly_rate_currency_code?: string | undefined;
   /** Overtime rate multiplier (e.g. 1.5) */
-  pay_rate?: number;
+  pay_rate?: number | undefined;
   /** Shift identifier from partner system */
-  shift_code?: string;
+  shift_code?: string | undefined;
   /** Expected work day duration in seconds */
-  work_day_duration?: number;
+  work_day_duration?: number | undefined;
 }
 /** Earlier `id`s of this pay item, oldest first; empty if it has never been edited. Each of them still resolves to the current version on `PATCH` and `DELETE`, so tracking them is strongly advised but not necessary. */
 export type PayItemReplacedIdsList = Array<string>;
@@ -2635,7 +2680,7 @@ export interface PayItem {
   amount: number;
   /** Pay item type code */
   code: string;
-  custom_configuration?: PayItemCustomConfiguration | null;
+  custom_configuration?: PayItemCustomConfiguration | null | undefined;
   /** Date the pay item is applied on (YYYY-MM-DD) -- the day worked, the day a correction was submitted, or the first day of a leave period. */
   effective_date: string;
   /** Employment UUID */
@@ -2645,7 +2690,7 @@ export interface PayItem {
   /** Pay item's unique identifier. Editing `amount` or `effective_date` creates a new version with a new `id`; every `id` this API returned for a pay item edited through `PATCH` keeps working on `PATCH` and `DELETE` and resolves to the current version, except for a payment generated from a recurring pay item, which returns 422. */
   id: string;
   /** A reference code for the pay item record in the calling integration's own system. Private to that integration -- no other integration can read or overwrite it. Null when the integration has not set one. See [Your own IDs on Remote records](https://developer.remote.com/docs/your-own-ids-on-remote-records). */
-  partner_external_id?: string | null;
+  partner_external_id?: string | null | undefined;
   provider_data: PayItemProviderData;
   /** Earlier `id`s of this pay item, oldest first; empty if it has never been edited. Each of them still resolves to the current version on `PATCH` and `DELETE`, so tracking them is strongly advised but not necessary. */
   replaced_ids: PayItemReplacedIdsList;
@@ -2686,10 +2731,10 @@ export interface GLReport {
   type: GLReportType;
 }
 export interface GLReportResponseData {
-  gl_report?: GLReport;
+  gl_report?: GLReport | undefined;
 }
 export interface GLReportResponse {
-  data?: GLReportResponseData;
+  data?: GLReportResponseData | undefined;
 }
 export interface CreateProbationCompletionLetterRequest {
   /** The employment ID. */
@@ -2727,9 +2772,9 @@ export interface ProbationExtensionFile {
 }
 export interface CreateProbationExtensionRequest {
   /** Any additional details that need to be considered for the probation extension. */
-  additional_details?: string;
+  additional_details?: string | undefined;
   /** The date when the discussion with the employee took place. Is required when `was_employee_informed` is `true` and should be in the past. */
-  date_of_discussion_with_employee?: string;
+  date_of_discussion_with_employee?: string | undefined;
   /** The number of days to add to the existing probation end date. */
   duration_of_extension_in_days: number;
   /** The employment ID that is related to the probation extension request. */
@@ -2737,7 +2782,7 @@ export interface CreateProbationExtensionRequest {
   /** The reason for the probation extension. */
   reason_for_extension: string;
   /** Upload performance improvement plan or any other supporting document. This optional document can be sent only if `was_employee_informed` is `true`. */
-  supporting_document?: ProbationExtensionFile;
+  supporting_document?: ProbationExtensionFile | undefined;
   /** Whether the employee was informed about the probation extension. */
   was_employee_informed: boolean;
 }
@@ -2762,19 +2807,19 @@ export interface ProbationExtensionResponseData {
 }
 /** Probation Extension Response */
 export interface ProbationExtensionResponse {
-  data?: ProbationExtensionResponseData;
+  data?: ProbationExtensionResponseData | undefined;
 }
 export interface CreateProjectRequest {
   /** Code/identifier of the project. Must be unique within the company. */
   code: string;
   /** Description of the project. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Date when the project ends. */
-  end_date?: string | null;
+  end_date?: string | null | undefined;
   /** Name of the project. */
   name: string;
   /** Date when the project starts. */
-  start_date?: string | null;
+  start_date?: string | null | undefined;
 }
 /** A project's budget: amount and its currency. */
 export interface ProjectBudget {
@@ -2794,9 +2839,9 @@ export interface Project {
   /** Code/identifier of the project. */
   code: string;
   /** Description of the project. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Date when the project ends. */
-  end_date?: string | null;
+  end_date?: string | null | undefined;
   /** Project identifier. */
   id: string;
   /** User IDs of the company admins assigned as the project's leads. These are user IDs, unlike `team_member_ids`, which are employment IDs. */
@@ -2804,13 +2849,13 @@ export interface Project {
   /** Name of the project. */
   name: string;
   /** Date when the project starts. */
-  start_date?: string | null;
+  start_date?: string | null | undefined;
   status: ProjectStatus;
   /** Employment IDs of the contractors assigned to the project as team members. These are employment IDs, unlike `lead_ids`, which are user IDs. */
   team_member_ids: ProjectTeamMemberIdsList;
 }
 export interface ProjectResponseData {
-  project?: Project;
+  project?: Project | undefined;
 }
 /** Response schema for a single company project. */
 export interface ProjectResponse {
@@ -2837,7 +2882,7 @@ export interface NullableMinimalBenefitTier {
   /** A description of what this tier includes. */
   description: string;
   /** A human-readable cost estimate for this tier (e.g., "~$100"). Null if cost is not available. */
-  display_cost?: string | null;
+  display_cost?: string | null | undefined;
   /** The unique identifier (UUID) of the benefit tier. */
   id: string;
   /** The name of the benefit tier (e.g., "Premium", "Standard"). */
@@ -2852,7 +2897,7 @@ export interface BenefitRenewalRequestsBenefitRenewalRequest {
   benefit_renewal_response: BenefitRenewalRequestsMinimalBenefitRenewalResponse | null;
   coverage_end_date: string;
   coverage_start_date: string;
-  current_benefit_tier?: NullableMinimalBenefitTier | null;
+  current_benefit_tier?: NullableMinimalBenefitTier | null | undefined;
   /** The unique identifier (UUID) of the benefit renewal request. */
   id: string;
   /** The number of employees who will be affected by this benefit renewal. */
@@ -2881,14 +2926,14 @@ export interface CreateSandboxCompanyLegalEntityRequest {
 }
 export interface CreateSandboxCompanyLegalEntityResponseData {
   /** Legal entity slug */
-  legal_entity_id?: string;
+  legal_entity_id?: string | undefined;
   /** Legal entity name */
-  name?: string;
+  name?: string | undefined;
   /** Legal entity status */
-  status?: string;
+  status?: string | undefined;
 }
 export interface CreateSandboxCompanyLegalEntityResponse {
-  data?: CreateSandboxCompanyLegalEntityResponseData;
+  data?: CreateSandboxCompanyLegalEntityResponseData | undefined;
 }
 export interface CreateSandboxCompanyLegalEntityActivateGlobalPayrollRequest {
   /** Company ID */
@@ -2930,7 +2975,11 @@ export interface CreateSandboxContractorsEmploymentRateRequest {
   /** The amount paid per `type`, in the major unit, e.g. 103.83. */
   amount: string;
   /** How often the contractor is paid. Must be null or omitted for a `one_off` rate. */
-  pay_frequency?: CreateSandboxContractorsEmploymentRateRequestPayFrequency | (string & {}) | null;
+  pay_frequency?:
+    | CreateSandboxContractorsEmploymentRateRequestPayFrequency
+    | (string & {})
+    | null
+    | undefined;
   /** The unit the amount is paid per. */
   type: CreateSandboxContractorsEmploymentRateRequestType | (string & {});
 }
@@ -2975,25 +3024,25 @@ export type CreateSandboxEmploymentRequestType =
   | "hris";
 export interface CreateSandboxEmploymentRequest {
   /** When true, returns `tax_servicing_countries` grouped into global/regions/subregions instead of a flat list of country names. */
-  group_tax_servicing_countries?: boolean;
+  group_tax_servicing_countries?: boolean | undefined;
   /** Employment basic information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `employment_basic_information` as path parameters. */
   basic_information: unknown;
   /** Id of the legal entity that should be billed for the employment. If omitted, falls back to `engaged_by_legal_entity_id`. For EOR and Contractor employments this may differ from `engaged_by_legal_entity_id`. For Global Payroll and Direct (HRIS) employments it must match `engaged_by_legal_entity_id`. */
-  bill_to_legal_entity_id?: string;
+  bill_to_legal_entity_id?: string | undefined;
   /** This optional field is deprecated. */
-  company_id?: string;
+  company_id?: string | undefined;
   /** The ISO 3166-1 3-letter country code where the employee will be based (e.g., `AUS`, `GBR`, `USA`). */
   country_code: string;
   /** Deprecated alias for `engaged_by_legal_entity_id`. Use `engaged_by_legal_entity_id` instead. */
-  engaged_by_entity_slug?: string;
+  engaged_by_entity_slug?: string | undefined;
   /** Id of the legal entity that engages the employee or contractor. Required for Global Payroll employees. For EOR and Contractor employments this may differ from `bill_to_legal_entity_id`. For Global Payroll and Direct (HRIS) employments it must match `bill_to_legal_entity_id`. */
-  engaged_by_legal_entity_id?: string;
+  engaged_by_legal_entity_id?: string | undefined;
   /** A unique reference code for the employment record in a non-Remote system. This optional field links to external data sources. If not provided, it defaults to `null`. While uniqueness is recommended, it is not strictly enforced within Remote's system. */
-  external_id?: string;
+  external_id?: string | undefined;
   /** A reference code for the employment record in the calling integration's own system. Private to that integration -- no other integration can read or overwrite it. Omit the field to leave the value unchanged; send `null` or an empty string to clear it. At most 64 characters, counting any surrounding whitespace sent; that whitespace is then trimmed off. It can be set at any employment status, and the same value may be used on several employments (for example a rehire). See [Your own IDs on Remote records](https://developer.remote.com/docs/your-own-ids-on-remote-records). */
-  partner_external_id?: string | null;
+  partner_external_id?: string | null | undefined;
   /** If not provided, it will default to `employee`. */
-  type?: CreateSandboxEmploymentRequestType | (string & {});
+  type?: CreateSandboxEmploymentRequestType | (string & {}) | undefined;
 }
 /** The answer the job title eligibility check will be sent for whether the role is onsite. Required when the employment's country asks the question, and ignored when it does not. */
 export type CreateSandboxEmploymentJobTitleEligibilityCheckRequestRoleIsOnsite = "yes" | "no";
@@ -3011,17 +3060,19 @@ export interface CreateSandboxEmploymentJobTitleEligibilityCheckRequest {
   /** Employment ID */
   employment_id: string;
   /** The job title to record the verdict against. Defaults to the employment's current one. */
-  job_title?: string;
+  job_title?: string | undefined;
   /** The role description the submission will carry. A submission carrying a different one is rejected, because the recorded verdict no longer describes what was sent. */
   role_description: string;
   /** The answer the job title eligibility check will be sent for whether the role is onsite. Required when the employment's country asks the question, and ignored when it does not. */
   role_is_onsite?:
     | CreateSandboxEmploymentJobTitleEligibilityCheckRequestRoleIsOnsite
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The answer the job title eligibility check will be sent for whether the role requires a license. Required when the employment's country asks the question, and ignored when it does not. */
   role_requires_license?:
     | CreateSandboxEmploymentJobTitleEligibilityCheckRequestRoleRequiresLicense
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The verdict the employment's next contract-details submission should act on. */
   verdict: CreateSandboxEmploymentJobTitleEligibilityCheckRequestVerdict | (string & {});
 }
@@ -3029,7 +3080,7 @@ export interface CreateSandboxEmploymentJobTitleReviewApproveRequest {
   /** Employment ID */
   employment_id: string;
   /** The reviewer's notes, recorded on the employment as a Remote admin's would be. */
-  notes?: string;
+  notes?: string | undefined;
 }
 export interface JobTitleReviewDecisionResponseDataJobTitleReview {
   /** The employment's status after the decision. An approval restores the status the employment held before it entered review. */
@@ -3045,7 +3096,7 @@ export interface CreateSandboxEmploymentJobTitleReviewRejectRequest {
   /** Employment ID */
   employment_id: string;
   /** The reviewer's notes, recorded on the employment as a Remote admin's would be. */
-  notes?: string;
+  notes?: string | undefined;
 }
 export type WebhookTriggerEmploymentParamsEventType =
   | "background_check.status.updated"
@@ -3195,7 +3246,7 @@ export interface WebhookTriggerBillingParams {
 /** Required params to trigger a webhook event in the Sandbox environment */
 export type WebhookTriggerParams = WebhookTriggerEmploymentParams | WebhookTriggerBillingParams;
 export interface CreateSandboxWebhookCallbacksTriggerRequest {
-  body?: WebhookTriggerParams;
+  body?: WebhookTriggerParams | undefined;
 }
 /** Error category */
 export type CreateSdkTelemetryErrorRequestErrorCategory =
@@ -3214,7 +3265,7 @@ export interface CreateSdkTelemetryErrorRequestError {
   /** Error category */
   category: CreateSdkTelemetryErrorRequestErrorCategory | (string & {});
   /** Component Stack */
-  component_stack?: CreateSdkTelemetryErrorRequestErrorComponentStackList | null;
+  component_stack?: CreateSdkTelemetryErrorRequestErrorComponentStackList | null | undefined;
   /** Error message */
   message: string;
   /** Error name */
@@ -3222,7 +3273,7 @@ export interface CreateSdkTelemetryErrorRequestError {
   /** Error severity */
   severity: CreateSdkTelemetryErrorRequestErrorSeverity | (string & {});
   /** Stack Trace */
-  stack?: string | null;
+  stack?: string | null | undefined;
 }
 /** SDK runtime environment */
 export type CreateSdkTelemetryErrorRequestMetadataEnvironment =
@@ -3245,7 +3296,7 @@ export interface CreateSdkTelemetryErrorRequestMetadata {
 }
 export interface CreateSdkTelemetryErrorRequest {
   /** Context */
-  context?: unknown | null;
+  context?: unknown | null | undefined;
   error: CreateSdkTelemetryErrorRequestError;
   metadata: CreateSdkTelemetryErrorRequestMetadata;
 }
@@ -3291,15 +3342,15 @@ export type TimeoffType =
   | "ex_festivita";
 export type CreateTimeoffRequestStatus = "approved";
 export interface CreateTimeoffRequest {
-  document?: TimeoffDocumentParams;
+  document?: TimeoffDocumentParams | undefined;
   employment_id: string;
   end_date: string;
   /** UUID of a leave policy assigned to the employment. Use this field instead of `timeoff_type` to book against a specific policy; for employments on the leave-type model it is the only way to target one. Discover the available UUIDs via `GET /v1/leave-policies/details/{employment_id}`. */
-  leave_policy_variant_id?: string;
-  notes?: string;
+  leave_policy_variant_id?: string | undefined;
+  notes?: string | undefined;
   start_date: string;
   timeoff_days: CreateTimeoffRequestTimeoffDaysList;
-  timeoff_type?: TimeoffType | (string & {});
+  timeoff_type?: TimeoffType | (string & {}) | undefined;
   timezone: string;
   approved_at: string;
   approver_id: string | null;
@@ -3355,7 +3406,7 @@ export interface MinimalTimesheetResponseData {
 }
 /** Response containing a minimal timesheet representation, returned after create and approve operations. */
 export interface MinimalTimesheetResponse {
-  data?: MinimalTimesheetResponseData;
+  data?: MinimalTimesheetResponseData | undefined;
 }
 export interface CreateTimesheetSendBackRequest {
   /** Timesheet ID */
@@ -3377,7 +3428,7 @@ export interface SentBackTimesheetResponseData {
 }
 /** Response returned after a timesheet has been sent back to the employee for revision. */
 export interface SentBackTimesheetResponse {
-  data?: SentBackTimesheetResponseData;
+  data?: SentBackTimesheetResponseData | undefined;
 }
 /** The setting to be enabled. */
 export type CreateWebhookCallbackRequestSubscribedEventsItem =
@@ -3505,8 +3556,8 @@ export type CreateWebhookCallbackRequestSubscribedEventsList = Array<
 >;
 export interface CreateWebhookCallbackRequest {
   /** When true, subscribe this callback to all current and future event types. Cannot be combined with `subscribed_events`. */
-  subscribe_to_all_events?: boolean;
-  subscribed_events?: CreateWebhookCallbackRequestSubscribedEventsList;
+  subscribe_to_all_events?: boolean | undefined;
+  subscribed_events?: CreateWebhookCallbackRequestSubscribedEventsList | undefined;
   url: string;
 }
 /** The setting to be enabled. */
@@ -3636,10 +3687,10 @@ export interface WebhookCallback {
   /** The unique identifier (UUID) of the webhook callback. */
   id: string;
   /** This key will be used to sign the signature provided with webhook requests we send to the `url` you provided for this webhook callback. The webhook signature will be included in a custom header, `X-Remote-Signature`. You can use this signature to verify that requests are coming from Remote and not some unauthorized third-party. */
-  signing_key?: string;
+  signing_key?: string | undefined;
   /** When true, this callback is subscribed to all current and future event types. `subscribed_events` then lists every currently supported event. */
-  subscribe_to_all_events?: boolean;
-  subscribed_events?: WebhookCallbackSubscribedEventsList;
+  subscribe_to_all_events?: boolean | undefined;
+  subscribed_events?: WebhookCallbackSubscribedEventsList | undefined;
   /** The HTTPS URL where Remote will send webhook event payloads. */
   url: string;
 }
@@ -3662,11 +3713,11 @@ export interface BeforeAfterRequiredParams {
   /** Only replay events triggered before this timestamp (ISO 8601). */
   before: string;
   /** Optional filter to only replay events for a specific company. */
-  company_id?: string;
+  company_id?: string | undefined;
   /** Optional filter to only replay events of this type. */
-  event_type?: string;
+  event_type?: string | undefined;
   /** Optional filter by delivery status. Set to false to replay only failed deliveries. */
-  successfully_delivered?: boolean;
+  successfully_delivered?: boolean | undefined;
 }
 /** Replay webhook events params */
 export type ReplayWebhookEventsParams = IdsRequiredParams | BeforeAfterRequiredParams;
@@ -3693,7 +3744,7 @@ export interface DeleteIncentivesRecurringRequest {
 export type DeleteRecurringIncentiveResponseDataAlreadyScheduledIncentivesList = Array<Incentive>;
 export interface DeleteRecurringIncentiveResponseData {
   already_scheduled_incentives: DeleteRecurringIncentiveResponseDataAlreadyScheduledIncentivesList;
-  status?: string;
+  status?: string | undefined;
 }
 /** `"status": "ok"` indicates that any recurring incentives with `pending` status were successfully deleted. `already_scheduled_incentives` returns a list of incentives that were already scheduled for payout and as such, cannot be deleted. You will notice that these incentives do not have a `pending` status. */
 export interface DeleteRecurringIncentiveResponse {
@@ -3719,12 +3770,12 @@ export interface DeleteWebhookCallbackRequest {
 }
 export interface GetAdpSubscriptionCancellationsRequest {
   /** URL ADP provides to fetch the event payload from. Absent for ADP's own connectivity/test calls, which are acked without a fetch. An address Remote already received for an order, change, cancel or notice event is acknowledged with the same success answer, without being fetched or applied again. */
-  eventUrl?: string;
+  eventUrl?: string | undefined;
 }
 /** The answer to ADP when the event was received. ADP's own connectivity test (a call without `eventUrl`) is answered with `success` only. */
 export interface AdpSubscriptionOrderSuccessAck {
   /** The organization identifier from the event. A value does not mean the subscription was saved. Absent for ADP's connectivity test, and may be `null`. */
-  accountIdentifier?: string | null;
+  accountIdentifier?: string | null | undefined;
   /** `true` means the event was received. It is also sent when the event could not be saved. */
   success: boolean;
 }
@@ -3748,27 +3799,27 @@ export type AdpSubscriptionOrderEventResponse =
 export type GetAdpSubscriptionCancellationsResponse = AdpSubscriptionOrderEventResponse;
 export interface GetAdpSubscriptionChangesRequest {
   /** URL ADP provides to fetch the event payload from. Absent for ADP's own connectivity/test calls, which are acked without a fetch. An address Remote already received for an order, change, cancel or notice event is acknowledged with the same success answer, without being fetched or applied again. */
-  eventUrl?: string;
+  eventUrl?: string | undefined;
 }
 export type GetAdpSubscriptionChangesResponse = AdpSubscriptionOrderEventResponse;
 export interface GetAdpSubscriptionOrdersRequest {
   /** URL ADP provides to fetch the event payload from. Absent for ADP's own connectivity/test calls, which are acked without a fetch. An address Remote already received for an order, change, cancel or notice event is acknowledged with the same success answer, without being fetched or applied again. */
-  eventUrl?: string;
+  eventUrl?: string | undefined;
 }
 export type GetAdpSubscriptionOrdersResponse = AdpSubscriptionOrderEventResponse;
 export interface GetAdpSubscriptionStatusRequest {
   /** URL ADP provides to fetch the event payload from. Absent for ADP's own connectivity/test calls, which are acked without a fetch. An address Remote already received for an order, change, cancel or notice event is acknowledged with the same success answer, without being fetched or applied again. */
-  eventUrl?: string;
+  eventUrl?: string | undefined;
 }
 export type GetAdpSubscriptionStatusResponse = AdpSubscriptionOrderEventResponse;
 export interface GetAdpUserAssignmentsRequest {
   /** URL ADP provides to fetch the event payload from. Absent for ADP's own connectivity/test calls, which are acked without a fetch. An address Remote already received for an order, change, cancel or notice event is acknowledged with the same success answer, without being fetched or applied again. */
-  eventUrl?: string;
+  eventUrl?: string | undefined;
 }
 export type GetAdpUserAssignmentsResponse = AdpSubscriptionOrderEventResponse;
 export interface GetAdpUserUnassignmentsRequest {
   /** URL ADP provides to fetch the event payload from. Absent for ADP's own connectivity/test calls, which are acked without a fetch. An address Remote already received for an order, change, cancel or notice event is acknowledged with the same success answer, without being fetched or applied again. */
-  eventUrl?: string;
+  eventUrl?: string | undefined;
 }
 export type GetAdpUserUnassignmentsResponse = AdpSubscriptionOrderEventResponse;
 export interface GetBenefitOffersRequest {}
@@ -3846,11 +3897,11 @@ export type CountryContractorProductsAvailableList = Array<
 /** A subdivision of a supported country on Remote */
 export interface CountrySubdivision {
   /** The ISO 3166-2 subdivision code (e.g., "PT-11" for Lisboa). */
-  code?: string;
+  code?: string | undefined;
   /** The subdivision's name (e.g., "Lisboa", "California"). */
   name: string;
   /** The type of subdivision (e.g., "District", "State", "Province"). */
-  subdivision_type?: string;
+  subdivision_type?: string | undefined;
 }
 /** Administrative subdivisions of the country (e.g., states, provinces, districts). Null if the country has no subdivisions relevant to Remote's services. */
 export type CountryCountrySubdivisionsList = Array<CountrySubdivision>;
@@ -3863,25 +3914,25 @@ export interface Country {
   /** The ISO 3166-1 alpha-3 country code (e.g., "PRT"). This is the primary code used across the Remote API. */
   code: string;
   /** Contractor product names available for this country */
-  contractor_products_available?: CountryContractorProductsAvailableList;
+  contractor_products_available?: CountryContractorProductsAvailableList | undefined;
   /** Administrative subdivisions of the country (e.g., states, provinces, districts). Null if the country has no subdivisions relevant to Remote's services. */
-  country_subdivisions?: CountryCountrySubdivisionsList | null;
+  country_subdivisions?: CountryCountrySubdivisionsList | null | undefined;
   /** Whether an Employment Agreement preview is available for this country. */
-  employment_agreement_preview_available?: boolean;
+  employment_agreement_preview_available?: boolean | undefined;
   /** Whether EOR (Employer of Record) onboarding is available in this country. */
-  eor_onboarding?: boolean;
+  eor_onboarding?: boolean | undefined;
   /** Whether Global Payroll employments can be onboarded in this country. When true, the "global_payroll_administrative_details", "global_payroll_contract_details" and "global_payroll_personal_details" forms are available from the Show form schema endpoint. */
-  global_payroll_supported?: boolean;
+  global_payroll_supported?: boolean | undefined;
   /** When benefit plan selections become locked for this country (e.g., "after_first_hire" means benefits cannot be changed after the first employee is hired). */
-  locked_benefits?: string;
+  locked_benefits?: string | undefined;
   /** The country's full English name. */
   name: string;
   /** The geographic region the country belongs to (e.g., "Europe", "Asia", "Americas"). */
-  region?: string;
+  region?: string | undefined;
   /** The geographic subregion (e.g., "Southern Europe", "Southeast Asia"). Null for some countries. */
-  subregion?: string | null;
+  subregion?: string | null | undefined;
   /** The list of JSON schema form names available for this country (e.g., "address_details", "contract_details", "global_payroll_contract_details"). Use these with the Show form schema endpoint to get country-specific field requirements. */
-  supported_json_schemas?: CountrySupportedJsonSchemasList;
+  supported_json_schemas?: CountrySupportedJsonSchemasList | undefined;
 }
 /** A lightweight employment representation used in benefit offer listings. */
 export interface BenefitOffersEmployment {
@@ -3966,24 +4017,26 @@ export interface BenefitRenewalRequestsBenefitRenewalRequestResponse {
 }
 export interface GetBenefitRenewalRequestsRequest {
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export type BenefitRenewalRequestsListBenefitRenewalRequestResponseDataBenefitRenewalRequestsList =
   Array<BenefitRenewalRequestsBenefitRenewalRequest>;
 export interface BenefitRenewalRequestsListBenefitRenewalRequestResponseData {
-  benefit_renewal_requests?: BenefitRenewalRequestsListBenefitRenewalRequestResponseDataBenefitRenewalRequestsList;
+  benefit_renewal_requests?:
+    | BenefitRenewalRequestsListBenefitRenewalRequestResponseDataBenefitRenewalRequestsList
+    | undefined;
   /** The current page among all of the total_pages */
-  current_page?: number;
+  current_page?: number | undefined;
   /** The total number of records in the result */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of pages the user can go through */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 /** Response schema listing many benefit_renewal_requests */
 export interface BenefitRenewalRequestsListBenefitRenewalRequestResponse {
-  data?: BenefitRenewalRequestsListBenefitRenewalRequestResponseData;
+  data?: BenefitRenewalRequestsListBenefitRenewalRequestResponseData | undefined;
 }
 /** Use latest version */
 export type GetBenefitRenewalRequestSchemaRequestJsonSchemaVersionCase1 = "latest";
@@ -3994,19 +4047,19 @@ export interface GetBenefitRenewalRequestSchemaRequest {
   /** Benefit Renewal Request Id */
   benefit_renewal_request_id: string;
   /** Version of the form schema */
-  json_schema_version?: GetBenefitRenewalRequestSchemaRequestJsonSchemaVersion;
+  json_schema_version?: GetBenefitRenewalRequestSchemaRequestJsonSchemaVersion | undefined;
 }
 /** Benefit Renewal Request Form Response, an object with required and optional fields, its descriptions and suggested presentation. */
 export interface BenefitRenewalRequestsBenefitRenewalRequestFormResponse {
-  data?: unknown;
+  data?: unknown | undefined;
 }
 export interface GetBillingDocumentRequest {
   /** The billing document's ID */
   billing_document_id: string;
   /** The company the accessed resource belongs to. Send it whenever you know which one you mean. Requests that don't resolve to a company fail with "Company not found". */
-  company_id?: string;
+  company_id?: string | undefined;
   /** When true, includes billing document items whose type is not part of the standard set for the invoice type. */
-  include_unrecognized_types?: boolean;
+  include_unrecognized_types?: boolean | undefined;
 }
 /** A line item on a billing document, representing a specific cost category (e.g., base salary, allowances, taxes) for an employment. */
 export interface BillingDocumentAmountItem {
@@ -4015,11 +4068,11 @@ export interface BillingDocumentAmountItem {
   /** The ISO 4217 currency code of the billing document. */
   billing_document_currency: string | null;
   /** The unique identifier (UUID) of the employment this line item relates to. Null for company-level charges. */
-  employment_id?: string | null;
+  employment_id?: string | null | undefined;
   /** The original amount in the source (local) currency, in cents. May differ from billing_document_amount due to currency conversion. */
-  source_amount?: number;
+  source_amount?: number | undefined;
   /** The ISO 4217 currency code of the source (local) currency. Null if same as billing document currency. */
-  source_currency?: string | null;
+  source_currency?: string | null | undefined;
   /** The cost category for this line item (e.g., "base_salary", "allowances", "bonuses", "deductions", "taxes"). */
   type: string;
 }
@@ -4057,7 +4110,7 @@ export interface GetBillingDocumentBreakdownRequest {
   /** The billing document's ID */
   billing_document_id: string;
   /** Filters the results by the type of the billing breakdown item. Matched exactly against the `type` field of the returned items, so unrecognised values yield an empty list. Card spend is reported as `Card expenses`, separately from payroll-reimbursed `Expenses`. Other Compensation is reported as `Other compensation`, separately from `Base salary`. Payslip benefits can be returned as `Payslip benefits` for existing breakdown items, or as `Payslip Benefit Cash` and `Payslip Benefit Non-Cash` for newly generated items. */
-  type?: string;
+  type?: string | undefined;
 }
 /** Item in a billing document breakdown */
 export interface BillingDocumentBreakdownItem {
@@ -4118,13 +4171,13 @@ export type GetBillingDocumentsRequestType =
   | "peo_service_invoice";
 export interface GetBillingDocumentsRequest {
   /** The month for the billing documents (in ISO-8601 format) */
-  period?: string;
+  period?: string | undefined;
   /** Filters the results by the type of the billing document. Matches the response's `billing_document_type` field. */
-  type?: GetBillingDocumentsRequestType | (string & {});
+  type?: GetBillingDocumentsRequestType | (string & {}) | undefined;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export type BillingDocumentsResponseDataBillingDocumentsItemBillingDocumentType =
   | "reconciliation_credit_note"
@@ -4144,12 +4197,14 @@ export type BillingDocumentsResponseDataBillingDocumentsItemBillingDocumentType 
   | "peo_service_invoice";
 export interface BillingDocumentsResponseDataBillingDocumentsItem {
   /** The entity issuing the billing document. Null if not applicable. */
-  bill_from?: string | null;
+  bill_from?: string | null | undefined;
   /** The billing period in YYYY-MM format. */
-  billing_document_period?: string;
-  billing_document_type?: BillingDocumentsResponseDataBillingDocumentsItemBillingDocumentType;
+  billing_document_period?: string | undefined;
+  billing_document_type?:
+    | BillingDocumentsResponseDataBillingDocumentsItemBillingDocumentType
+    | undefined;
   /** The unique identifier (UUID) of the billing document. */
-  id?: string;
+  id?: string | undefined;
 }
 export type BillingDocumentsResponseDataBillingDocumentsList =
   Array<BillingDocumentsResponseDataBillingDocumentsItem>;
@@ -4178,7 +4233,7 @@ export interface BulkEmploymentImportJobColumnMappingSourceColumnsItem {
   /** The name of the data column */
   name: string;
   /** A sample data value from the data column */
-  sample_data?: string | null;
+  sample_data?: string | null | undefined;
 }
 /** The data columns to map to */
 export type BulkEmploymentImportJobColumnMappingSourceColumnsList =
@@ -4186,7 +4241,7 @@ export type BulkEmploymentImportJobColumnMappingSourceColumnsList =
 /** The column mapping for the import job. For times when imported data columns do not match the schema fields and need to be manually mapped to the correct schema fields. */
 export interface BulkEmploymentImportJobColumnMapping {
   /** The column names that have been automatically mapped by Tiger (rawr!) and maybe also by AI. */
-  auto_mapped_columns?: BulkEmploymentImportJobColumnMappingAutoMappedColumnsList;
+  auto_mapped_columns?: BulkEmploymentImportJobColumnMappingAutoMappedColumnsList | undefined;
   /** The map of schema fields paths to data columns */
   mapping: unknown;
   /** The data columns to map to */
@@ -4203,22 +4258,22 @@ export type PersonalDetailsRedactedFieldsList = Array<string>;
 export type PersonalDetailsTitle = "mr" | "mrs" | "miss" | "ms" | "mx";
 /** Personal details for a user, includes sensitive information */
 export interface PersonalDetails {
-  birthdate?: string;
-  full_preferred_name?: string | null;
-  gender?: string | null;
-  gender_description?: string | null;
-  given_name?: string | null;
-  is_us_person?: boolean | null;
-  mobile_number?: string;
-  nationality?: PersonalDetailsNationalityList;
-  preferred_name?: string | null;
-  preferred_pronouns?: string | null;
-  recovery_number?: string | null;
+  birthdate?: string | undefined;
+  full_preferred_name?: string | null | undefined;
+  gender?: string | null | undefined;
+  gender_description?: string | null | undefined;
+  given_name?: string | null | undefined;
+  is_us_person?: boolean | null | undefined;
+  mobile_number?: string | undefined;
+  nationality?: PersonalDetailsNationalityList | undefined;
+  preferred_name?: string | null | undefined;
+  preferred_pronouns?: string | null | undefined;
+  recovery_number?: string | null | undefined;
   /** Names of fields redacted because the caller lacks the required attribute permission */
-  redacted_fields?: PersonalDetailsRedactedFieldsList;
-  sex?: string | null;
-  surname?: string | null;
-  title?: PersonalDetailsTitle | null;
+  redacted_fields?: PersonalDetailsRedactedFieldsList | undefined;
+  sex?: string | null | undefined;
+  surname?: string | null | undefined;
+  title?: PersonalDetailsTitle | null | undefined;
 }
 export type MinimalUserStatus =
   | "active"
@@ -4231,22 +4286,22 @@ export type MinimalUserStatus =
   | "initiated";
 export interface MinimalUser {
   /** The email used for authentication. It may be hidden in case no permission is given to see sensible data. */
-  email?: string | null;
+  email?: string | null | undefined;
   name: string;
-  personal_details?: PersonalDetails | null;
-  profile_picture?: string | null;
+  personal_details?: PersonalDetails | null | undefined;
+  profile_picture?: string | null | undefined;
   slug: string;
-  status?: MinimalUserStatus;
+  status?: MinimalUserStatus | undefined;
 }
 export type EmailStatus = "pending" | "confirmed" | "deleted";
 export type EmailType = "login" | "personal" | "work";
 export interface Email {
   address: string;
-  confirmed_at?: string | null;
-  login_synced?: boolean;
-  status?: EmailStatus;
-  type?: EmailType;
-  unconfirmed_address?: string | null;
+  confirmed_at?: string | null | undefined;
+  login_synced?: boolean | undefined;
+  status?: EmailStatus | undefined;
+  type?: EmailType | undefined;
+  unconfirmed_address?: string | null | undefined;
 }
 /** Indicates which email type the account login is synchronized with. */
 export type AccountsLoginSyncedWith = "none" | "personal" | "work";
@@ -4254,11 +4309,11 @@ export type AccountsAccountPersonalEmail = string | Email;
 export type AccountsAccountStatus = "created" | "active" | "deleted" | "locked";
 /** An Account */
 export interface AccountsAccount {
-  login_email?: Email | null;
-  login_synced_with?: AccountsLoginSyncedWith | null;
-  personal_email?: AccountsAccountPersonalEmail | null;
+  login_email?: Email | null | undefined;
+  login_synced_with?: AccountsLoginSyncedWith | null | undefined;
+  personal_email?: AccountsAccountPersonalEmail | null | undefined;
   slug: string;
-  status?: AccountsAccountStatus;
+  status?: AccountsAccountStatus | undefined;
 }
 export type AccountsAssignedRolesItemDataScope =
   | "all"
@@ -4276,10 +4331,10 @@ export type AccountsAssignedRolesItemDataScope =
   | "assigned_billing_legal_entities";
 export type AccountsAssignedRolesItemType = "default" | "custom" | "template" | "owner";
 export interface AccountsAssignedRolesItem {
-  data_scope?: AccountsAssignedRolesItemDataScope;
+  data_scope?: AccountsAssignedRolesItemDataScope | undefined;
   name: string;
   slug: string;
-  type?: AccountsAssignedRolesItemType;
+  type?: AccountsAssignedRolesItemType | undefined;
 }
 export type AccountsAssignedRoles = Array<AccountsAssignedRolesItem>;
 export interface AccountUserIntegrationUserIntegration {
@@ -4295,14 +4350,14 @@ export interface AccountUserIntegrationUser {
   /** Whether this mapping represents a synced employee or a company admin */
   role: AccountUserIntegrationUserRole;
   /** Whether the employee should be synced to Remote based on the sync_to_remote flag in the external HRIS */
-  sync_to_remote_status?: AccountUserIntegrationUserSyncToRemoteStatus | null;
+  sync_to_remote_status?: AccountUserIntegrationUserSyncToRemoteStatus | null | undefined;
 }
 export type BulkEmploymentImportJobInsertedByCase1IntegrationUsersList =
   Array<AccountUserIntegrationUser>;
 export interface AccountsMinimalCompanyAdmin {
-  job_title?: string | null;
-  name?: string;
-  slug?: string;
+  job_title?: string | null | undefined;
+  name?: string | undefined;
+  slug?: string | undefined;
 }
 export type BulkEmploymentImportJobInsertedByCase1Role =
   | "admin"
@@ -4312,23 +4367,23 @@ export type BulkEmploymentImportJobInsertedByCase1Role =
   | "service_provider"
   | "candidate";
 export interface BulkEmploymentImportJobInsertedByCase1 {
-  account?: AccountsAccount | null;
-  assigned_roles?: AccountsAssignedRoles | null;
-  integration_users?: BulkEmploymentImportJobInsertedByCase1IntegrationUsersList;
-  invited_by?: AccountsMinimalCompanyAdmin | null;
-  job_title?: string | null;
-  login_synced_with?: AccountsLoginSyncedWith | null;
-  raw_email?: string;
-  role?: BulkEmploymentImportJobInsertedByCase1Role;
-  signup_source?: string | null;
+  account?: AccountsAccount | null | undefined;
+  assigned_roles?: AccountsAssignedRoles | null | undefined;
+  integration_users?: BulkEmploymentImportJobInsertedByCase1IntegrationUsersList | undefined;
+  invited_by?: AccountsMinimalCompanyAdmin | null | undefined;
+  job_title?: string | null | undefined;
+  login_synced_with?: AccountsLoginSyncedWith | null | undefined;
+  raw_email?: string | undefined;
+  role?: BulkEmploymentImportJobInsertedByCase1Role | undefined;
+  signup_source?: string | null | undefined;
 }
 /** Someone registered in Remote using a unique email address. */
 export type BulkEmploymentImportJobInsertedBy =
   | MinimalUser
   | BulkEmploymentImportJobInsertedByCase1;
 export interface BulkEmploymentImportJobLegalEntity {
-  name?: string;
-  slug?: string;
+  name?: string | undefined;
+  slug?: string | undefined;
 }
 /** Row-data fields this uploader matches on when a re-uploaded CSV is merged into the draft. Empty when the uploader cannot merge. */
 export type BulkEmploymentImportJobReuploadMergeFieldsList = Array<string>;
@@ -4355,31 +4410,31 @@ export type BulkEmploymentImportJobStatus =
   | "failed";
 export interface BulkEmploymentImportJob {
   /** The column mapping for the import job. For times when imported data columns do not match the schema fields and need to be manually mapped to the correct schema fields. */
-  column_mapping?: BulkEmploymentImportJobColumnMapping | null;
+  column_mapping?: BulkEmploymentImportJobColumnMapping | null | undefined;
   /** The name to be displayed for the user interface */
-  display_name?: string;
-  errors?: BulkEmploymentImportJobErrorsList;
+  display_name?: string | undefined;
+  errors?: BulkEmploymentImportJobErrorsList | undefined;
   /** The number of rows that failed to be processed */
   failed_count: number;
   finished_at: string | null;
   id: string;
   /** The number of rows that have been imported in previous submission stages */
-  imported_count?: number;
+  imported_count?: number | undefined;
   inserted_at: string;
   /** Someone registered in Remote using a unique email address. */
   inserted_by: BulkEmploymentImportJobInsertedBy;
-  legal_entity?: BulkEmploymentImportJobLegalEntity | null;
+  legal_entity?: BulkEmploymentImportJobLegalEntity | null | undefined;
   /** The metadata for the import job */
   metadata: unknown;
   name: string;
   /** The number of processed rows, regardless of success or failure */
   processed_count: number;
   /** Row-data fields this uploader matches on when a re-uploaded CSV is merged into the draft. Empty when the uploader cannot merge. */
-  reupload_merge_fields?: BulkEmploymentImportJobReuploadMergeFieldsList;
+  reupload_merge_fields?: BulkEmploymentImportJobReuploadMergeFieldsList | undefined;
   /** How a re-uploaded CSV may be applied to this uploader's existing rows. The uploader lists them with `reupload_modes` in its config, and an empty list means none is offered. While the `bulk_uploader_reupload_modes` flag is off only `replace` is listed. */
-  reupload_modes?: BulkEmploymentImportJobReuploadModesList;
+  reupload_modes?: BulkEmploymentImportJobReuploadModesList | undefined;
   /** Metadata only Remote sets for the import job, for example whether it is a self-serve job */
-  server_metadata?: unknown;
+  server_metadata?: unknown | undefined;
   /** The stage of the import job. * `creation` - The import job is in the creation stage, which means the rows are being created. * `column_mapping` - The import job is in the column mapping stage, which means the CSV headers are being mapped to JSON schema fields. * `validation` - The import job is in the validation stage, which means the rows are being validated. * `submission` - The import job is in the submission stage, which means the rows are being submitted. */
   stage: BulkEmploymentImportJobStage;
   /** * `draft` - **Deprecated**, the import job data has been uploaded and the job created, but not yet started * `uploaded` - **Deprecated**, replaced by the `draft` status * `in_progress` - Data is actively being imported * `finished` - The import job has finished processing * `failed` - The import job has failed completely, nothing has been imported */
@@ -4395,9 +4450,9 @@ export interface GetBulkEmploymentJobRowsRequest {
   /** Bulk employment job id */
   job_id: string;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export interface ImportJobRowsResponseDataAggregatesEmployingCountriesItem {
   /** ISO 3166-1 alpha-3 country code */
@@ -4446,13 +4501,17 @@ export interface ImportJobRowsResponseDataAggregatesTeamMemberCounts {
 /** Import-type-specific aggregates computed over the complete import job */
 export interface ImportJobRowsResponseDataAggregates {
   /** Multi-entity pay item uploads only: each employing country the upload's rows have, sorted by name. Rows whose employee wasn't found, and the deleted and skipped rows the rows list never shows, are left out */
-  employing_countries?: ImportJobRowsResponseDataAggregatesEmployingCountriesList;
+  employing_countries?: ImportJobRowsResponseDataAggregatesEmployingCountriesList | undefined;
   /** Multi-entity pay item uploads only: each employing legal entity the upload's rows have, sorted by name. Rows whose employee wasn't found, and the deleted and skipped rows the rows list never shows, are left out */
-  employing_legal_entities?: ImportJobRowsResponseDataAggregatesEmployingLegalEntitiesList;
+  employing_legal_entities?:
+    | ImportJobRowsResponseDataAggregatesEmployingLegalEntitiesList
+    | undefined;
   /** Multi-entity pay item uploads only: distinct employing legal entities across the complete import job */
-  employing_legal_entity_counts?: ImportJobRowsResponseDataAggregatesEmployingLegalEntityCounts;
+  employing_legal_entity_counts?:
+    | ImportJobRowsResponseDataAggregatesEmployingLegalEntityCounts
+    | undefined;
   /** Distinct team members across the complete import job, counted once even when they are split across several table records. `needs_changes` and `ready_to_submit` are mutually exclusive; `successfully_assigned` and `failed_to_assign` are subsets of `ready_to_submit`. The counts describe the job as of `job_stage`: the same rows count as needing changes before submission and as failed to assign afterwards. */
-  team_member_counts?: ImportJobRowsResponseDataAggregatesTeamMemberCounts;
+  team_member_counts?: ImportJobRowsResponseDataAggregatesTeamMemberCounts | undefined;
   [key: string]: unknown;
 }
 export interface ImportJobRowsResponseDataCountsByColumnValue {
@@ -4488,22 +4547,22 @@ export type ImportJobRowMetadataInviteOutcome =
   | "notification_sent"
   | "already_onboarded";
 export interface ImportJobRowMetadataLoginEmailSignalsPersonal {
-  registered?: boolean;
+  registered?: boolean | undefined;
 }
 export type ImportJobRowMetadataLoginEmailSignalsWork =
   ImportJobRowMetadataLoginEmailSignalsPersonal;
 /** Per-row review-step signals for login email selection, present only when the feature is enabled. `sso_enforced` reflects whether SSO login is enforced for the row's category. `personal` and `work` report, for each provided email, whether it is already registered on another account. */
 export interface ImportJobRowMetadataLoginEmailSignals {
-  personal?: ImportJobRowMetadataLoginEmailSignalsPersonal;
-  sso_enforced?: boolean;
-  work?: ImportJobRowMetadataLoginEmailSignalsPersonal;
+  personal?: ImportJobRowMetadataLoginEmailSignalsPersonal | undefined;
+  sso_enforced?: boolean | undefined;
+  work?: ImportJobRowMetadataLoginEmailSignalsPersonal | undefined;
 }
 /** Row metadata. For login-email-selection-enabled imports (e.g. EOR bulk invite), each reviewed row carries a `login_email_signals` object with the per-row login-email review signals. For bulk Global Payroll invitations, a sent row carries `invite_outcome`. */
 export interface ImportJobRowMetadata {
   /** Bulk Global Payroll invitations only: what the row's employee was sent. `already_onboarded` means they were already on the platform, so nothing was due. */
-  invite_outcome?: ImportJobRowMetadataInviteOutcome;
+  invite_outcome?: ImportJobRowMetadataInviteOutcome | undefined;
   /** Per-row review-step signals for login email selection, present only when the feature is enabled. `sso_enforced` reflects whether SSO login is enforced for the row's category. `personal` and `work` report, for each provided email, whether it is already registered on another account. */
-  login_email_signals?: ImportJobRowMetadataLoginEmailSignals;
+  login_email_signals?: ImportJobRowMetadataLoginEmailSignals | undefined;
 }
 export type ImportJobRowRowErrorDetailsAmbiguousItemCreatedByRolesItemUserType =
   | "contractor"
@@ -4518,7 +4577,7 @@ export type ImportJobRowRowErrorDetailsAmbiguousItemCreatedByRolesList =
   Array<ImportJobRowRowErrorDetailsAmbiguousItemCreatedByRolesItem>;
 export interface ImportJobRowRowErrorDetailsAmbiguousItemCreatedBy {
   name: string;
-  roles?: ImportJobRowRowErrorDetailsAmbiguousItemCreatedByRolesList;
+  roles?: ImportJobRowRowErrorDetailsAmbiguousItemCreatedByRolesList | undefined;
   slug: string;
 }
 export interface ImportJobRowRowErrorDetailsAmbiguousItem {
@@ -4535,12 +4594,12 @@ export interface ImportJobRowRowErrorDetailsAmbiguousItem {
 export type ImportJobRowRowErrorDetailsAmbiguousList =
   Array<ImportJobRowRowErrorDetailsAmbiguousItem>;
 export interface ImportJobRowRowErrorDetails {
-  ambiguous?: ImportJobRowRowErrorDetailsAmbiguousList;
+  ambiguous?: ImportJobRowRowErrorDetailsAmbiguousList | undefined;
 }
 export type ImportJobRowErrorMessagesList = Array<string>;
 export interface ImportJobRowError {
-  error?: string | null;
-  field_name?: string | null;
+  error?: string | null | undefined;
+  field_name?: string | null | undefined;
   messages: ImportJobRowErrorMessagesList;
 }
 /** The row's errors outside the requested `column_fields`, then its submission errors unless the row is successful or imported (those rows keep the submission errors of an earlier failed submit). Only present when the rows were requested with `row_level_errors=true`. */
@@ -4560,16 +4619,16 @@ export interface ImportJobRow {
   /** Fields with their error messages */
   errors: ImportJobRowErrorsMap;
   /** Row metadata. For login-email-selection-enabled imports (e.g. EOR bulk invite), each reviewed row carries a `login_email_signals` object with the per-row login-email review signals. For bulk Global Payroll invitations, a sent row carries `invite_outcome`. */
-  metadata?: ImportJobRowMetadata;
-  row_error_details?: ImportJobRowRowErrorDetails;
-  row_errors?: unknown;
+  metadata?: ImportJobRowMetadata | undefined;
+  row_error_details?: ImportJobRowRowErrorDetails | undefined;
+  row_errors?: unknown | undefined;
   /** The row's errors outside the requested `column_fields`, then its submission errors unless the row is successful or imported (those rows keep the submission errors of an earlier failed submit). Only present when the rows were requested with `row_level_errors=true`. */
-  row_level_errors?: ImportJobRowRowLevelErrorsList;
+  row_level_errors?: ImportJobRowRowLevelErrorsList | undefined;
   row_number: number;
   /** The id of the schema variant this row's fields follow, a key of `row_schema_variants` on the job-scoped json-schema response. `null` when the row uses the job-level schema. Only present for job types with per-row schema variants. */
-  schema_variant_id?: string | null;
-  status?: ImportJobRowStatus;
-  submission_errors?: ImportJobRowSubmissionErrorsList;
+  schema_variant_id?: string | null | undefined;
+  status?: ImportJobRowStatus | undefined;
+  submission_errors?: ImportJobRowSubmissionErrorsList | undefined;
 }
 export type ImportJobRowsResponseDataRowsFailuresList = Array<ImportJobRow>;
 export type ImportJobRowsResponseDataRowsImportedList = Array<ImportJobRow>;
@@ -4589,14 +4648,14 @@ export interface ImportJobRowsResponseDataRows {
 }
 export interface ImportJobRowsResponseData {
   /** Import-type-specific aggregates computed over the complete import job */
-  aggregates?: ImportJobRowsResponseDataAggregates;
+  aggregates?: ImportJobRowsResponseDataAggregates | undefined;
   /** Per-column error and valid row counts, keyed by the column's field path. Counts every row that is not deleted or skipped, or only the rows in `filter[status]` when it is given. `counts_by_status` always counts the whole job */
-  counts_by_column?: ImportJobRowsResponseDataCountsByColumnMap;
+  counts_by_column?: ImportJobRowsResponseDataCountsByColumnMap | undefined;
   counts_by_status: ImportJobRowsResponseDataCountsByStatus;
   current_page: number;
   /** Find-and-replace occurrences across all filtered rows, independent of pagination. Returned when include_match_count is true and replace_path and replace_value are provided. Exact matches and empty values count once per cell */
-  match_count?: number;
-  ordered_rows?: ImportJobRowsResponseDataOrderedRowsList;
+  match_count?: number | undefined;
+  ordered_rows?: ImportJobRowsResponseDataOrderedRowsList | undefined;
   rows: ImportJobRowsResponseDataRows;
   total_count: number;
   total_pages: number;
@@ -4606,12 +4665,12 @@ export interface ImportJobRowsResponse {
 }
 export interface GetCompaniesRequest {
   /** External ID */
-  external_id?: string;
+  external_id?: string | undefined;
 }
 export type CompaniesResponseCompaniesList = Array<Company>;
 /** Shows a list of companies */
 export interface CompaniesResponse {
-  companies?: CompaniesResponseCompaniesList;
+  companies?: CompaniesResponseCompaniesList | undefined;
 }
 export type GetCompaniesSchemaRequestForm = "address_details";
 /** Use latest version */
@@ -4625,11 +4684,11 @@ export interface GetCompaniesSchemaRequest {
   /** Name of the desired form */
   form: GetCompaniesSchemaRequestForm | (string & {});
   /** Version of the form schema */
-  json_schema_version?: GetCompaniesSchemaRequestJsonSchemaVersion;
+  json_schema_version?: GetCompaniesSchemaRequestJsonSchemaVersion | undefined;
 }
 /** Object with required and optional fields, its descriptions and suggested presentation */
 export interface CompanyFormResponse {
-  data?: unknown;
+  data?: unknown | undefined;
 }
 export interface GetCompanyRequest {
   /** Company ID */
@@ -4644,7 +4703,7 @@ export type CompanyActionType = "verify_company" | "setup_remote_payments";
 /** A pending company-level action (e.g. for Contractor Management Review-step banners). */
 export interface CompanyAction {
   /** The legal entity that needs Remote Payments setup. Present only for setup_remote_payments actions. */
-  legal_entity_id?: string | null;
+  legal_entity_id?: string | null | undefined;
   /** Whether the action must be completed. */
   required: boolean;
   /** The action the company still needs to complete. */
@@ -4652,7 +4711,7 @@ export interface CompanyAction {
 }
 export type CompanyActionsResponseDataActionsList = Array<CompanyAction>;
 export interface CompanyActionsResponseData {
-  actions?: CompanyActionsResponseDataActionsList;
+  actions?: CompanyActionsResponseDataActionsList | undefined;
 }
 /** Lists a company's pending actions */
 export interface CompanyActionsResponse {
@@ -4690,18 +4749,18 @@ export interface CompanyComplianceProfileResponseData {
   compliance_profile: CompanyComplianceProfile;
 }
 export interface CompanyComplianceProfileResponse {
-  data?: CompanyComplianceProfileResponseData;
+  data?: CompanyComplianceProfileResponseData | undefined;
 }
 export type GetCompanyCostCenterAllocationsRequestStatus = "active" | "scheduled" | "expired";
 export interface GetCompanyCostCenterAllocationsRequest {
   /** Company ID */
   company_id: string;
   /** Filters allocations by status. When omitted, allocations of every status are returned. */
-  status?: GetCompanyCostCenterAllocationsRequestStatus | (string & {});
+  status?: GetCompanyCostCenterAllocationsRequestStatus | (string & {}) | undefined;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 /** The cost center an employment is allocated to. */
 export interface CostCenter {
@@ -4734,28 +4793,28 @@ export type EmploymentWithCostCenterAllocationsCostCenterAllocationsList =
 /** An employment under the company with its cost center allocations. */
 export interface EmploymentWithCostCenterAllocations {
   /** Unique identifier of the legal entity this employment is billed to. */
-  bill_to_legal_entity_id?: string | null;
+  bill_to_legal_entity_id?: string | null | undefined;
   /** The cost center allocations for this employment. */
   cost_center_allocations: EmploymentWithCostCenterAllocationsCostCenterAllocationsList;
   /** Unique identifier of the employment. */
   employment_id: string;
   /** Unique identifier of the legal entity that employs this employment. */
-  engaged_by_legal_entity_id?: string | null;
+  engaged_by_legal_entity_id?: string | null | undefined;
 }
 export type ListCompanyCostCenterAllocationsResponseDataEmploymentsList =
   Array<EmploymentWithCostCenterAllocations>;
 export interface ListCompanyCostCenterAllocationsResponseData {
   /** The current page among all of the total_pages */
-  current_page?: number;
-  employments?: ListCompanyCostCenterAllocationsResponseDataEmploymentsList;
+  current_page?: number | undefined;
+  employments?: ListCompanyCostCenterAllocationsResponseDataEmploymentsList | undefined;
   /** The total number of records in the result */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of pages the user can go through */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 /** Response schema listing many employments */
 export interface ListCompanyCostCenterAllocationsResponse {
-  data?: ListCompanyCostCenterAllocationsResponseData;
+  data?: ListCompanyCostCenterAllocationsResponseData | undefined;
 }
 export interface GetCompanyCurrenciesRequest {}
 /** A currency available for use by a company on the Remote platform. */
@@ -4771,17 +4830,17 @@ export interface CompanyCurrenciesResponseData {
 }
 /** Company currencies */
 export interface CompanyCurrenciesResponse {
-  data?: CompanyCurrenciesResponseData;
+  data?: CompanyCurrenciesResponseData | undefined;
 }
 export interface GetCompanyDepartmentsRequest {
   /** Company ID */
   company_id: string;
   /** Paginate option. Default: true. When true, paginates response; otherwise, does not. */
-  paginate?: boolean;
+  paginate?: boolean | undefined;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export type ListCompanyDepartmentsPaginatedResponseDataCompanyDepartmentsList =
   Array<CompanyDepartment>;
@@ -4824,35 +4883,35 @@ export interface GetCompanyLegalEntitiesRequest {
   /** Company ID */
   company_id: string;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export interface CompanyLegalEntity {
   /** ISO 3166-1 alpha-3 country code (e.g., 'USA', 'GBR', 'DEU') */
-  country_code?: string | null;
+  country_code?: string | null | undefined;
   /** Whether Global Payroll services are enabled for this legal entity. */
   global_payroll_enabled: boolean;
   /** Company slug */
   id: string;
   /** Indicates if this is the default legal entity for the company */
-  is_default?: boolean;
+  is_default?: boolean | undefined;
   /** The registered name of the legal entity. */
   name: string;
 }
 export type ListCompanyLegalEntitiesResponseDataLegalEntitiesList = Array<CompanyLegalEntity>;
 export interface ListCompanyLegalEntitiesResponseData {
   /** The current page among all of the total_pages */
-  current_page?: number;
-  legal_entities?: ListCompanyLegalEntitiesResponseDataLegalEntitiesList;
+  current_page?: number | undefined;
+  legal_entities?: ListCompanyLegalEntitiesResponseDataLegalEntitiesList | undefined;
   /** The total number of records in the result */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of pages the user can go through */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 /** Response schema listing many legal_entities */
 export interface ListCompanyLegalEntitiesResponse {
-  data?: ListCompanyLegalEntitiesResponseData;
+  data?: ListCompanyLegalEntitiesResponseData | undefined;
 }
 export interface GetCompanyLegalEntityAdministrativeDetailsRequest {
   /** Company ID */
@@ -4906,9 +4965,9 @@ export interface GetCompanyLegalEntityPayCodesRequest {
   /** Legal entity ID */
   legal_entity_id: string;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 /** The pay item custom configuration this pay code uses, such as the employee's company car. Present only on pay codes whose custom configuration is filled in for each employee. */
 export interface PayCodeCustomConfiguration {
@@ -4926,11 +4985,11 @@ export interface PayCode {
   category: string;
   /** Code to use in the `code` field of POST /v1/pay-items/bulk */
   code: string;
-  custom_configuration?: PayCodeCustomConfiguration;
+  custom_configuration?: PayCodeCustomConfiguration | undefined;
   /** Description of the pay code */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Customer-specific code used for bulk import mapping */
-  external_import_code?: string | null;
+  external_import_code?: string | null | undefined;
   /** Human-readable name of the pay code */
   name: string;
   /** Unique identifier for this pay code */
@@ -4941,16 +5000,16 @@ export interface PayCode {
 export type ListPayCodesResponseDataPayCodesList = Array<PayCode>;
 export interface ListPayCodesResponseData {
   /** The current page among all of the total_pages */
-  current_page?: number;
-  pay_codes?: ListPayCodesResponseDataPayCodesList;
+  current_page?: number | undefined;
+  pay_codes?: ListPayCodesResponseDataPayCodesList | undefined;
   /** The total number of records in the result */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of pages the user can go through */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 /** Response schema listing many pay_codes */
 export interface ListPayCodesResponse {
-  data?: ListPayCodesResponseData;
+  data?: ListPayCodesResponseData | undefined;
 }
 export interface GetCompanyManagerRequest {
   /** User ID */
@@ -4961,25 +5020,25 @@ export interface CompanyManagerResponse {
 }
 export interface GetCompanyManagersRequest {
   /** The company the access token belongs to. Optional: the list always holds that company's managers, and any other company fails with "Company not found". */
-  company_id?: string;
+  company_id?: string | undefined;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Change the amount of records returned per page, defaults to 20, limited to 100 */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export type CompanyManagersResponseDataCompanyManagersList = Array<CompanyManager>;
 export interface CompanyManagersResponseData {
-  company_managers?: CompanyManagersResponseDataCompanyManagersList;
+  company_managers?: CompanyManagersResponseDataCompanyManagersList | undefined;
   /** The current page among all of the total_pages */
-  current_page?: number;
+  current_page?: number | undefined;
   /** The total number of records in the result */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of pages the user can go through */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 /** Response schema listing many company_managers */
 export interface CompanyManagersResponse {
-  data?: CompanyManagersResponseData;
+  data?: CompanyManagersResponseData | undefined;
 }
 export interface GetCompanyPricingPlansRequest {
   /** Company ID */
@@ -5025,13 +5084,13 @@ export interface GetContractAmendmentRequest {
 }
 export interface GetContractAmendmentsRequest {
   /** Employment ID */
-  employment_id?: string;
+  employment_id?: string | undefined;
   /** Contract Amendment status */
-  status?: ContractAmendmentStatus | (string & {});
+  status?: ContractAmendmentStatus | (string & {}) | undefined;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export type MinimalContractAmendmentReasonForChange =
   | "annual_pay_adjustment"
@@ -5047,7 +5106,7 @@ export interface MinimalContractAmendment {
   /** The unique identifier (UUID) of the contract amendment. */
   id: string;
   /** The current job title from the employment's contract. */
-  job_title?: string;
+  job_title?: string | undefined;
   reason_for_change: MinimalContractAmendmentReasonForChange;
   /** The unique identifier (UUID) of the user who submitted the amendment request. */
   requested_by: string;
@@ -5060,17 +5119,17 @@ export interface MinimalContractAmendment {
 export type ListContractAmendmentResponseDataContractAmendmentsList =
   Array<MinimalContractAmendment>;
 export interface ListContractAmendmentResponseData {
-  contract_amendments?: ListContractAmendmentResponseDataContractAmendmentsList;
+  contract_amendments?: ListContractAmendmentResponseDataContractAmendmentsList | undefined;
   /** The current page among all of the total_pages */
-  current_page?: number;
+  current_page?: number | undefined;
   /** The total number of records in the result */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of pages the user can go through */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 /** Response schema listing many contract_amendments */
 export interface ListContractAmendmentResponse {
-  data?: ListContractAmendmentResponseData;
+  data?: ListContractAmendmentResponseData | undefined;
 }
 export type GetContractAmendmentsSchemaRequestForm = "contract_amendment";
 /** Use latest version */
@@ -5084,13 +5143,13 @@ export interface GetContractAmendmentsSchemaRequest {
   /** Country code according to ISO 3-digit alphabetic codes. */
   country_code: string;
   /** Name of the desired form */
-  form?: GetContractAmendmentsSchemaRequestForm | (string & {});
+  form?: GetContractAmendmentsSchemaRequestForm | (string & {}) | undefined;
   /** Version of the form schema */
-  json_schema_version?: GetContractAmendmentsSchemaRequestJsonSchemaVersion;
+  json_schema_version?: GetContractAmendmentsSchemaRequestJsonSchemaVersion | undefined;
 }
 /** Object with required and optional fields, its descriptions and suggested presentation */
 export interface ContractAmendmentFormResponse {
-  data?: unknown;
+  data?: unknown | undefined;
 }
 export interface GetContractorInvoiceRequest {
   /** Resource unique identifier */
@@ -5163,44 +5222,44 @@ export interface ContractorInvoice {
   /** Overall amount that is calculated by summing all invoice items. */
   amount: number;
   /** The datetime which contractor invoice has been approved and it's pending for payment. */
-  approved_at?: string | null;
+  approved_at?: string | null | undefined;
   /** Invoice schedule that might have generated contractor invoice. */
-  contractor_invoice_schedule_id?: string | null;
+  contractor_invoice_schedule_id?: string | null | undefined;
   currency: string;
   /** The issuance date specified by a contractor. */
   date: string;
   /** Custom defined description. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The payment deadline chosen by the contractor while creating an invoice. */
-  due_date?: string | null;
+  due_date?: string | null | undefined;
   /** Employment identifier associated with the contractor invoice. */
-  employment_id?: string;
+  employment_id?: string | undefined;
   /** The guaranteed FX rate applied for the payment. Only present for guaranteed payout invoices. */
-  fx_rate?: number | null;
+  fx_rate?: number | null | undefined;
   /** Contractor Invoice identifier. */
   id: string;
   /** Invoice line items. */
   items: ContractorInvoiceItemsList;
   /** Invoice identifier. */
-  number?: string | null;
+  number?: string | null | undefined;
   /** Date and time which invoice was paid to contractor. */
-  paid_out_at?: string | null;
+  paid_out_at?: string | null | undefined;
   /** Payment method used for the payout: local (e.g. bank transfer), swift (SHA), or swift_our (OUR). Only present for guaranteed payout invoices. */
-  pay_out_method?: ContractorInvoicePayOutMethod | null;
-  payment?: ContractorInvoicePayment | null;
+  pay_out_method?: ContractorInvoicePayOutMethod | null | undefined;
+  payment?: ContractorInvoicePayment | null | undefined;
   /** SWIFT fee amount in cents. Only present when pay_out_method is swift or swift_our. */
-  processing_fee?: number | null;
+  processing_fee?: number | null | undefined;
   /** Currency code of the SWIFT fee. Only present when processing_fee is set. */
-  processing_fee_currency?: string | null;
+  processing_fee_currency?: string | null | undefined;
   /** Entity responsible for paying the SWIFT fee. Only present when processing_fee is set. */
-  processing_fee_payer?: ContractorInvoiceProcessingFeePayer | null;
+  processing_fee_payer?: ContractorInvoiceProcessingFeePayer | null | undefined;
   /** The amount the company needs to pay (pay in amount). */
   source_amount: number;
   source_currency: string;
   status: ContractorInvoiceStatus;
   /** The amount the contractor receives (pay out amount). Can be null if pay out is not guaranteed. */
-  target_amount?: number | null;
-  target_currency?: string | null;
+  target_amount?: number | null | undefined;
+  target_currency?: string | null | undefined;
 }
 export interface ContractorInvoiceResponseData {
   contractor_invoice: ContractorInvoice;
@@ -5217,49 +5276,49 @@ export type GetContractorInvoicesRequestSortBy =
 export type GetContractorInvoicesRequestOrder = "asc" | "desc";
 export interface GetContractorInvoicesRequest {
   /** Filters contractor invoices by status matching the value. */
-  status?: ContractorInvoiceStatus | (string & {});
+  status?: ContractorInvoiceStatus | (string & {}) | undefined;
   /** Filters contractor invoices by invoice schedule ID matching the value. */
-  contractor_invoice_schedule_id?: string;
+  contractor_invoice_schedule_id?: string | undefined;
   /** Filters contractor invoices by the employment ID matching the value. Returns 404 when the employment does not exist or belongs to another company. */
-  employment_id?: string;
+  employment_id?: string | undefined;
   /** Filters contractor invoices by date greater than or equal to the value. */
-  date_from?: string;
+  date_from?: string | undefined;
   /** Filters contractor invoices by date less than or equal to the value. */
-  date_to?: string;
+  date_to?: string | undefined;
   /** Filters contractor invoices by due date greater than or equal to the value. */
-  due_date_from?: string;
+  due_date_from?: string | undefined;
   /** Filters contractor invoices by due date less than or equal to the value. */
-  due_date_to?: string;
+  due_date_to?: string | undefined;
   /** Filters contractor invoices by approved date greater than or equal to the value. */
-  approved_date_from?: string;
+  approved_date_from?: string | undefined;
   /** Filters contractor invoices by approved date less than or equal to the value. */
-  approved_date_to?: string;
+  approved_date_to?: string | undefined;
   /** Filters contractor invoices by paid out date greater than or equal to the value. */
-  paid_out_date_from?: string;
+  paid_out_date_from?: string | undefined;
   /** Filters contractor invoices by paid out date less than or equal to the value. */
-  paid_out_date_to?: string;
+  paid_out_date_to?: string | undefined;
   /** Field to sort by */
-  sort_by?: GetContractorInvoicesRequestSortBy | (string & {});
+  sort_by?: GetContractorInvoicesRequestSortBy | (string & {}) | undefined;
   /** Sort order */
-  order?: GetContractorInvoicesRequestOrder | (string & {});
+  order?: GetContractorInvoicesRequestOrder | (string & {}) | undefined;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export type ListContractorInvoicesResponseDataContractorInvoicesList = Array<ContractorInvoice>;
 export interface ListContractorInvoicesResponseData {
-  contractor_invoices?: ListContractorInvoicesResponseDataContractorInvoicesList;
+  contractor_invoices?: ListContractorInvoicesResponseDataContractorInvoicesList | undefined;
   /** The current page among all of the total_pages */
-  current_page?: number;
+  current_page?: number | undefined;
   /** The total number of records in the result */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of pages the user can go through */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 /** Paginated response schema listing all Contractor Invoices. */
 export interface ListContractorInvoicesResponse {
-  data?: ListContractorInvoicesResponseData;
+  data?: ListContractorInvoicesResponseData | undefined;
 }
 export interface GetContractorInvoiceScheduleRequest {
   /** Resource unique identifier */
@@ -5280,7 +5339,7 @@ export type ContractorInvoiceScheduleStatus =
 /** Contractor Invoice Schedule. */
 export interface ContractorInvoiceSchedule {
   currency: string;
-  custom_days?: ContractorInvoiceScheduleCustomDays | null;
+  custom_days?: ContractorInvoiceScheduleCustomDays | null | undefined;
   /** Employment identifier. */
   employment_id: string;
   /** Schedule identifier. */
@@ -5288,13 +5347,13 @@ export interface ContractorInvoiceSchedule {
   /** List of invoice items that composes the overall invoice amount. */
   items: ContractorInvoiceScheduleItemsList;
   /** Date time which next invoice will be generated. */
-  next_invoice_at?: string | null;
+  next_invoice_at?: string | null | undefined;
   /** Custom defined note. */
-  note?: string | null;
+  note?: string | null | undefined;
   /** Count of remaining invoices that should be generated. */
-  nr_occurrences?: number | null;
+  nr_occurrences?: number | null | undefined;
   /** Invoice identifier. */
-  number?: string | null;
+  number?: string | null | undefined;
   periodicity: ContractorInvoiceSchedulePeriodicity;
   /** Date which invoices generation will start. */
   start_date: string;
@@ -5327,44 +5386,46 @@ export type GetContractorInvoiceSchedulesRequestSortBy =
 export type GetContractorInvoiceSchedulesRequestOrder = "asc" | "desc";
 export interface GetContractorInvoiceSchedulesRequest {
   /** Filters contractor invoice schedules by start date greater than or equal to the value. */
-  start_date_from?: string;
+  start_date_from?: string | undefined;
   /** Filters contractor invoice schedules by start date less than or equal to the value. */
-  start_date_to?: string;
+  start_date_to?: string | undefined;
   /** Filters contractor invoice schedules by next invoice date greater than or equal to the value. */
-  next_invoice_date_from?: string;
+  next_invoice_date_from?: string | undefined;
   /** Filters contractor invoice schedules by next invoice date less than or equal to the value. */
-  next_invoice_date_to?: string;
+  next_invoice_date_to?: string | undefined;
   /** Filters contractor invoice schedules by status matching the value. */
-  status?: ContractorInvoiceScheduleStatusFilter | (string & {});
+  status?: ContractorInvoiceScheduleStatusFilter | (string & {}) | undefined;
   /** Filters contractor invoice schedules by employment id matching the value. */
-  employment_id?: string;
+  employment_id?: string | undefined;
   /** Filters contractor invoice schedules by periodicity matching the value. */
-  periodicity?: ContractorInvoiceSchedulePeriodicity | (string & {});
+  periodicity?: ContractorInvoiceSchedulePeriodicity | (string & {}) | undefined;
   /** Filters contractor invoice schedules by currency matching the value. */
-  currency?: string;
+  currency?: string | undefined;
   /** Field to sort by */
-  sort_by?: GetContractorInvoiceSchedulesRequestSortBy | (string & {});
+  sort_by?: GetContractorInvoiceSchedulesRequestSortBy | (string & {}) | undefined;
   /** Sort order */
-  order?: GetContractorInvoiceSchedulesRequestOrder | (string & {});
+  order?: GetContractorInvoiceSchedulesRequestOrder | (string & {}) | undefined;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export type ListContractorInvoiceSchedulesResponseDataContractorInvoiceSchedulesList =
   Array<ContractorInvoiceSchedule>;
 export interface ListContractorInvoiceSchedulesResponseData {
-  contractor_invoice_schedules?: ListContractorInvoiceSchedulesResponseDataContractorInvoiceSchedulesList;
+  contractor_invoice_schedules?:
+    | ListContractorInvoiceSchedulesResponseDataContractorInvoiceSchedulesList
+    | undefined;
   /** The current page among all of the total_pages */
-  current_page?: number;
+  current_page?: number | undefined;
   /** The total number of records in the result */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of pages the user can go through */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 /** Paginated response schema listing all Contractor Invoice Schedules. */
 export interface ListContractorInvoiceSchedulesResponse {
-  data?: ListContractorInvoiceSchedulesResponseData;
+  data?: ListContractorInvoiceSchedulesResponseData | undefined;
 }
 export type GetContractorsCorTerminationRequestsRequestStatus =
   | "initiated"
@@ -5372,13 +5433,13 @@ export type GetContractorsCorTerminationRequestsRequestStatus =
   | "cancelled";
 export interface GetContractorsCorTerminationRequestsRequest {
   /** Filter termination requests by employment ID. */
-  employment_id?: string;
+  employment_id?: string | undefined;
   /** Filter termination requests by status. */
-  status?: GetContractorsCorTerminationRequestsRequestStatus | (string & {});
+  status?: GetContractorsCorTerminationRequestsRequestStatus | (string & {}) | undefined;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 /** Current status of the termination request. */
 export type CorTerminationRequestStatus = "initiated" | "executed" | "cancelled";
@@ -5404,16 +5465,16 @@ export type IndexCorTerminationRequestsResponseDataTerminationRequestsList =
   Array<CorTerminationRequest>;
 export interface IndexCorTerminationRequestsResponseData {
   /** The current page among all of the total_pages */
-  current_page?: number;
-  termination_requests?: IndexCorTerminationRequestsResponseDataTerminationRequestsList;
+  current_page?: number | undefined;
+  termination_requests?: IndexCorTerminationRequestsResponseDataTerminationRequestsList | undefined;
   /** The total number of records in the result */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of pages the user can go through */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 /** Response schema listing many termination_requests */
 export interface IndexCorTerminationRequestsResponse {
-  data?: IndexCorTerminationRequestsResponseData;
+  data?: IndexCorTerminationRequestsResponseData | undefined;
 }
 export interface GetContractorsEmploymentContractDocumentRequest {
   /** Employment ID */
@@ -5432,21 +5493,21 @@ export type SignatoryType = "company" | "employee" | "admin" | "external" | "unk
 /** A signatory on a contract document. For company and employee signatories, `user_id` is provided. For other signatory types, `user_id` is null. */
 export interface Signatory {
   /** Email address of the signatory */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Full name of the signatory */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Signature image as a data URI (e.g. `data:image/png;base64,...`), null if not yet signed */
-  signature?: string | null;
+  signature?: string | null | undefined;
   /** Signing method used by this signatory */
-  signature_method?: SignatorySignatureMethod;
+  signature_method?: SignatorySignatureMethod | undefined;
   /** Legal signature level applied when signing */
-  signature_type?: SignatorySignatureType;
+  signature_type?: SignatorySignatureType | undefined;
   /** Timestamp when the signatory signed the document, null if not yet signed */
-  signed_at?: string | null;
+  signed_at?: string | null | undefined;
   status: SignatoryStatus;
   type: SignatoryType;
   /** User identifier for internal signatories, null for external signatories */
-  user_id?: string | null;
+  user_id?: string | null | undefined;
 }
 export type ContractDocumentResponseDataContractDocumentSignatoriesList = Array<Signatory>;
 export interface ContractDocumentResponseDataContractDocument {
@@ -5466,7 +5527,7 @@ export interface GetContractorsEmploymentContractorCurrenciesRequest {
   /** Employment ID */
   employment_id: string;
   /** Restrict to currencies which payout is guaranteed (default: true) */
-  restrict_to_guaranteed_pay_out_currencies?: boolean;
+  restrict_to_guaranteed_pay_out_currencies?: boolean | undefined;
 }
 export interface ContractorCurrencyItem {
   code: string;
@@ -5482,29 +5543,29 @@ export interface GetContractorsEmploymentContractorSubscriptionsRequest {
   employment_id: string;
 }
 export interface ContractorSubscriptionsSummaryCompanyProduct {
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface ContractorSubscriptionsSummaryCompanyProductDiscount {
-  expiration_date?: string;
-  percent?: string;
+  expiration_date?: string | undefined;
+  percent?: string | undefined;
 }
 export interface ContractorSubscriptionsSummaryPrice {
-  amount?: number;
+  amount?: number | undefined;
   /** The price after applying the company discount, in cents */
-  final_amount?: number;
+  final_amount?: number | undefined;
 }
 export interface ContractorSubscriptionsSummary {
   company_product: ContractorSubscriptionsSummaryCompanyProduct;
   company_product_discount: ContractorSubscriptionsSummaryCompanyProductDiscount;
   currency: Currency;
-  eligibility_questionnaire?: EligibilityQuestionnaire;
-  is_termination_fees_enabled?: boolean;
+  eligibility_questionnaire?: EligibilityQuestionnaire | undefined;
+  is_termination_fees_enabled?: boolean | undefined;
   price: ContractorSubscriptionsSummaryPrice;
   product: Product;
   total_amount: number | null;
-  total_discount?: number;
-  total_in_advance?: number;
-  total_prorated?: number;
+  total_discount?: number | undefined;
+  total_in_advance?: number | undefined;
+  total_prorated?: number | undefined;
 }
 export type ContractorSubscriptionSummariesResponseDataList = Array<ContractorSubscriptionsSummary>;
 /** Summaries of contractor subscriptions */
@@ -5542,23 +5603,25 @@ export interface GetContractorsSchemasEligibilityQuestionnaireRequest {
   /** Type of eligibility questionnaire */
   type: GetContractorsSchemasEligibilityQuestionnaireRequestType | (string & {});
   /** Version of the form schema */
-  json_schema_version?: GetContractorsSchemasEligibilityQuestionnaireRequestJsonSchemaVersion;
+  json_schema_version?:
+    | GetContractorsSchemasEligibilityQuestionnaireRequestJsonSchemaVersion
+    | undefined;
 }
 export interface EligibilityQuestionnaireJSONSchemaResponseData {
   /** Permissions related to the schema */
-  permissions?: unknown;
+  permissions?: unknown | undefined;
   /** The JSON Schema definition */
-  schema?: unknown;
+  schema?: unknown | undefined;
   /** The version of the JSON Schema */
-  version?: number;
+  version?: number | undefined;
 }
 /** JSON Schema definition for eligibility questionnaire */
 export interface EligibilityQuestionnaireJSONSchemaResponse {
-  data?: EligibilityQuestionnaireJSONSchemaResponseData;
+  data?: EligibilityQuestionnaireJSONSchemaResponseData | undefined;
 }
 export interface GetCostCalculatorCountriesRequest {
   /** If the premium benefits should be included in the response */
-  include_premium_benefits?: boolean;
+  include_premium_benefits?: boolean | undefined;
 }
 /** - active: country is ready to onboard employee - coming_soon: country is in process of getting ready */
 export type CostCalculatorCountryAvailability = "active" | "coming_soon";
@@ -5569,7 +5632,7 @@ export interface CostCalculatorCountryLevelRegion {
   child_regions: CostCalculatorCountryLevelRegionChildRegionsList;
   code: string;
   currency: Currency;
-  has_additional_fields?: boolean;
+  has_additional_fields?: boolean | undefined;
   name: string;
   original_country_slug: string;
   region_slug: string;
@@ -5582,31 +5645,31 @@ export interface GetCostCalculatorRegionFieldsRequest {
   /** Slug */
   slug: string;
   /** If the premium benefits should be included in the response */
-  include_premium_benefits?: boolean;
+  include_premium_benefits?: boolean | undefined;
 }
 export type JSONSchemaResponseDataSchemaPropertiesMap = { [key: string]: unknown | undefined };
 export type JSONSchemaResponseDataSchemaRequiredList = Array<string>;
 export type JSONSchemaResponseDataSchemaXJsfOrderList = Array<string>;
 export interface JSONSchemaResponseDataSchema {
   properties: JSONSchemaResponseDataSchemaPropertiesMap;
-  required?: JSONSchemaResponseDataSchemaRequiredList;
-  x_jsf_order?: JSONSchemaResponseDataSchemaXJsfOrderList;
+  required?: JSONSchemaResponseDataSchemaRequiredList | undefined;
+  x_jsf_order?: JSONSchemaResponseDataSchemaXJsfOrderList | undefined;
 }
 /** JSON Schema */
 export interface JSONSchemaResponseData {
-  schema?: JSONSchemaResponseDataSchema;
-  version?: number;
+  schema?: JSONSchemaResponseDataSchema | undefined;
+  version?: number | undefined;
 }
 /** JSON Schema Response */
 export interface JSONSchemaResponse {
   /** JSON Schema */
-  data?: JSONSchemaResponseData;
+  data?: JSONSchemaResponseData | undefined;
 }
 export interface GetCountriesRequest {}
 export type CountriesResponseDataList = Array<Country>;
 /** List of countries supported by Remote API */
 export interface CountriesResponse {
-  data?: CountriesResponseDataList;
+  data?: CountriesResponseDataList | undefined;
 }
 /** Use latest version */
 export type GetCountryRequestJsonSchemaVersionCase1 = "latest";
@@ -5617,19 +5680,19 @@ export interface GetCountryRequest {
   /** Name of the desired form */
   form: string;
   /** Required for `contract_amendment`, `global_payroll_contract_details` and `global_payroll_state_taxes` forms. Optional for `contract_details`, where it tailors the schema to that employment. */
-  employment_id?: string;
+  employment_id?: string | undefined;
   /** Two-letter US state code. Required for `global_payroll_state_taxes` (e.g. `NY`). */
-  jurisdiction?: string;
+  jurisdiction?: string | undefined;
   /** FOR TESTING PURPOSES ONLY: Include scheduled benefit groups. */
-  only_for_testing_include_scheduled_benefit_groups?: boolean;
+  only_for_testing_include_scheduled_benefit_groups?: boolean | undefined;
   /** Skips the dynamic benefits part of the schema if set. To be used when benefits are set via its own API. */
-  skip_benefits?: boolean;
+  skip_benefits?: boolean | undefined;
   /** Version of the form schema */
-  json_schema_version?: GetCountryRequestJsonSchemaVersion;
+  json_schema_version?: GetCountryRequestJsonSchemaVersion | undefined;
 }
 /** Object with required and optional fields, its descriptions and suggested presentation */
 export interface CountryFormResponse {
-  data?: unknown;
+  data?: unknown | undefined;
 }
 /** Use latest version */
 export type GetCountryContractorContractDetailsRequestJsonSchemaVersionCase1 = "latest";
@@ -5640,9 +5703,9 @@ export interface GetCountryContractorContractDetailsRequest {
   /** Country code according to ISO 3-digit alphabetic codes */
   country_code: string;
   /** Employment ID. Tailors the schema to the employment (e.g. Contractor of Record fields) and, for a caller permitted to read the contractor's compensation, sets `default` values on its fields from the contractor's current contract. */
-  employment_id?: string;
+  employment_id?: string | undefined;
   /** Version of the form schema */
-  json_schema_version?: GetCountryContractorContractDetailsRequestJsonSchemaVersion;
+  json_schema_version?: GetCountryContractorContractDetailsRequestJsonSchemaVersion | undefined;
 }
 /** Contract details schema object with variable fields based on country */
 export type ContractorContractDetailsResponseDataSchemaMap = { [key: string]: unknown | undefined };
@@ -5656,7 +5719,7 @@ export interface ContractorContractDetailsResponseData {
 /** Response for contractor contract details */
 export interface ContractorContractDetailsResponse {
   /** Contractor contract details response data */
-  data?: ContractorContractDetailsResponseData;
+  data?: ContractorContractDetailsResponseData | undefined;
 }
 export interface GetCountryHolidayRequest {
   /** Country code according to ISO 3166-1 3-digit alphabetic codes */
@@ -5664,7 +5727,7 @@ export interface GetCountryHolidayRequest {
   /** Year for the holidays */
   year: string;
   /** Country subdivision code according to ISO 3166-2 codes */
-  country_subdivision_code?: string;
+  country_subdivision_code?: string | undefined;
 }
 export interface Holiday {
   /** Date of the holiday */
@@ -5672,14 +5735,14 @@ export interface Holiday {
   /** Name of the holiday */
   name: string;
   /** Notes about the holiday */
-  note?: string | null;
+  note?: string | null | undefined;
   /** Date when the holiday is observed */
-  observed_day?: string | null;
+  observed_day?: string | null | undefined;
 }
 export type HolidaysResponseDataList = Array<Holiday>;
 /** Holidays response */
 export interface HolidaysResponse {
-  data?: HolidaysResponseDataList;
+  data?: HolidaysResponseDataList | undefined;
 }
 export type GetCountryLegalEntityFormRequestProductType = "peo" | "global_payroll" | "e2e_payroll";
 /** Use latest version */
@@ -5693,33 +5756,33 @@ export interface GetCountryLegalEntityFormRequest {
   /** Name of the desired form */
   form: string;
   /** Product type. Default value is global_payroll. */
-  product_type?: GetCountryLegalEntityFormRequestProductType | (string & {});
+  product_type?: GetCountryLegalEntityFormRequestProductType | (string & {}) | undefined;
   /** Legal entity id for admistrative_details of e2e payroll products in GBR */
-  legal_entity_id?: string;
+  legal_entity_id?: string | undefined;
   /** Version of the form schema */
-  json_schema_version?: GetCountryLegalEntityFormRequestJsonSchemaVersion;
+  json_schema_version?: GetCountryLegalEntityFormRequestJsonSchemaVersion | undefined;
 }
 export interface GetCustomFieldsRequest {
   /** The company the accessed resource belongs to. Send it whenever you know which one you mean. Requests that don't resolve to a company fail with "Company not found". */
-  company_id?: string;
+  company_id?: string | undefined;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export type ListEmploymentCustomFieldsResponseDataCustomFieldsList = Array<EmploymentCustomField>;
 export interface ListEmploymentCustomFieldsResponseData {
   /** The current page among all of the total_pages */
-  current_page?: number;
-  custom_fields?: ListEmploymentCustomFieldsResponseDataCustomFieldsList;
+  current_page?: number | undefined;
+  custom_fields?: ListEmploymentCustomFieldsResponseDataCustomFieldsList | undefined;
   /** The total number of records in the result */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of pages the user can go through */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 /** Response schema listing many custom_fields */
 export interface ListEmploymentCustomFieldsResponse {
-  data?: ListEmploymentCustomFieldsResponseData;
+  data?: ListEmploymentCustomFieldsResponseData | undefined;
 }
 export interface GetCustomFieldValueRequest {
   /** Custom field ID */
@@ -5756,13 +5819,13 @@ export interface EmploymentCustomFieldValueResponse {
 export type GetDirectOffboardingsRequestEmploymentModel = "global_payroll";
 export interface GetDirectOffboardingsRequest {
   /** Filter by employment ID */
-  employment_id?: string;
+  employment_id?: string | undefined;
   /** Filter by employment model. Currently only 'global_payroll' is supported. */
-  employment_model?: GetDirectOffboardingsRequestEmploymentModel | (string & {});
+  employment_model?: GetDirectOffboardingsRequestEmploymentModel | (string & {}) | undefined;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 /** The current status of the offboarding. */
 export type DirectOffboardingStatus =
@@ -5788,27 +5851,27 @@ export interface DirectOffboarding {
   /** Whether the termination is confidential. */
   is_confidential_termination: boolean | null;
   /** Last working day of the employee. */
-  last_working_day?: string | null;
+  last_working_day?: string | null | undefined;
   /** The current status of the offboarding. */
   status: DirectOffboardingStatus;
   /** Date when the employment terminates. */
-  termination_date?: string | null;
+  termination_date?: string | null | undefined;
   /** The type of offboarding. */
   type: DirectOffboardingType;
 }
 export type ListDirectOffboardingResponseDataDirectOffboardingsList = Array<DirectOffboarding>;
 export interface ListDirectOffboardingResponseData {
   /** The current page among all of the total_pages */
-  current_page?: number;
-  direct_offboardings?: ListDirectOffboardingResponseDataDirectOffboardingsList;
+  current_page?: number | undefined;
+  direct_offboardings?: ListDirectOffboardingResponseDataDirectOffboardingsList | undefined;
   /** The total number of records in the result */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of pages the user can go through */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 /** Response schema listing many direct_offboardings */
 export interface ListDirectOffboardingResponse {
-  data?: ListDirectOffboardingResponseData;
+  data?: ListDirectOffboardingResponseData | undefined;
 }
 /** Use latest version */
 export type GetEmployeeAddressRequestAddressDetailsJsonSchemaVersionCase1 = "latest";
@@ -5817,7 +5880,9 @@ export type GetEmployeeAddressRequestAddressDetailsJsonSchemaVersion =
   | GetEmployeeAddressRequestAddressDetailsJsonSchemaVersionCase1;
 export interface GetEmployeeAddressRequest {
   /** Version of the address_details form schema */
-  address_details_json_schema_version?: GetEmployeeAddressRequestAddressDetailsJsonSchemaVersion;
+  address_details_json_schema_version?:
+    | GetEmployeeAddressRequestAddressDetailsJsonSchemaVersion
+    | undefined;
 }
 export type EmploymentDetailsOnlyResponseDataEmploymentBankAccountDetailsList = Array<unknown>;
 /** Origin of the employment contract. Returned by the basic information endpoint. */
@@ -5857,26 +5922,28 @@ export type UserStatus =
   | "deleted";
 export interface EmploymentDetailsOnlyResponseDataEmployment {
   /** Home address information. Its properties may vary depending on the country. Null if the employee has not submitted their address yet. */
-  address_details?: unknown | null;
+  address_details?: unknown | null | undefined;
   /** Administrative information. Its properties may vary depending on the country. */
-  administrative_details?: unknown;
-  bank_account_details?: EmploymentDetailsOnlyResponseDataEmploymentBankAccountDetailsList;
+  administrative_details?: unknown | undefined;
+  bank_account_details?:
+    | EmploymentDetailsOnlyResponseDataEmploymentBankAccountDetailsList
+    | undefined;
   /** Basic information. Its properties may vary depending on the country. When present, `login_email` indicates which address the employee logs in with: `"personal"` or `"work"`. */
-  basic_information?: unknown;
+  basic_information?: unknown | undefined;
   /** Billing address information. Its properties may vary depending on the country. */
-  billing_address_details?: unknown;
+  billing_address_details?: unknown | undefined;
   /** Contract details information. Its properties may vary depending on the country. */
-  contract_details?: unknown;
+  contract_details?: unknown | undefined;
   /** Origin of the employment contract. Returned by the basic information endpoint. */
-  contract_origin?: EmploymentDetailsOnlyResponseDataEmploymentContractOrigin | null;
+  contract_origin?: EmploymentDetailsOnlyResponseDataEmploymentContractOrigin | null | undefined;
   /** Emergency contact information. Its properties may vary depending on the country. Null if the employee has not submitted their emergency contact yet. */
-  emergency_contact_details?: unknown | null;
+  emergency_contact_details?: unknown | null | undefined;
   /** The unique identifier (UUID) of the employment. */
   id: string;
   /** Personal details information. Its properties may vary depending on the country. Null if the employee has not submitted their personal details yet. */
-  personal_details?: unknown | null;
+  personal_details?: unknown | null | undefined;
   /** Pricing plan information. */
-  pricing_plan_details?: unknown;
+  pricing_plan_details?: unknown | undefined;
   status: EmploymentStatus;
   /** The type of employment. */
   type: EmploymentDetailsOnlyResponseDataEmploymentType;
@@ -5885,7 +5952,7 @@ export interface EmploymentDetailsOnlyResponseDataEmployment {
   user_status: UserStatus;
 }
 export interface EmploymentDetailsOnlyResponseData {
-  employment?: EmploymentDetailsOnlyResponseDataEmployment;
+  employment?: EmploymentDetailsOnlyResponseDataEmployment | undefined;
 }
 /** Response containing only the updated details struct plus base employment fields (id, status, type, updated_at, user_status). Exactly one of the details properties is present per response. */
 export interface EmploymentDetailsOnlyResponse {
@@ -5898,7 +5965,9 @@ export type GetEmployeeBankAccountRequestBankAccountDetailsJsonSchemaVersion =
   | GetEmployeeBankAccountRequestBankAccountDetailsJsonSchemaVersionCase1;
 export interface GetEmployeeBankAccountRequest {
   /** Version of the bank_account_details form schema */
-  bank_account_details_json_schema_version?: GetEmployeeBankAccountRequestBankAccountDetailsJsonSchemaVersion;
+  bank_account_details_json_schema_version?:
+    | GetEmployeeBankAccountRequestBankAccountDetailsJsonSchemaVersion
+    | undefined;
 }
 export interface GetEmployeeCurrentRequest {}
 export interface GetEmployeeDocumentRequest {
@@ -5907,19 +5976,19 @@ export interface GetEmployeeDocumentRequest {
 }
 export interface DownloadDocumentResponseDataDocument {
   /** The document content, base64-encoded. */
-  content?: string;
+  content?: string | undefined;
   /** The unique identifier (UUID) of the document. */
-  id?: string;
-  inserted_at?: string;
+  id?: string | undefined;
+  inserted_at?: string | undefined;
   /** The file name including extension. */
-  name?: string;
+  name?: string | undefined;
   /** A more specific classification of the document. Null if no sub-type applies. */
-  sub_type?: string | null;
+  sub_type?: string | null | undefined;
   /** The broad category of the document. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface DownloadDocumentResponseData {
-  document?: DownloadDocumentResponseDataDocument;
+  document?: DownloadDocumentResponseDataDocument | undefined;
 }
 /** Response containing a document's metadata and its base64-encoded content for download. */
 export interface DownloadDocumentResponse {
@@ -5938,33 +6007,33 @@ export type GetEmployeeDocumentsRequestSortBy =
 export type GetEmployeeDocumentsRequestOrder = "asc" | "desc";
 export interface GetEmployeeDocumentsRequest {
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
   /** Filter documents by their description or file name, accepts full and partial case insensitive matches */
-  name?: string;
+  name?: string | undefined;
   /** Filters the results that were uploaded on or after a given date */
-  inserted_after?: string;
+  inserted_after?: string | undefined;
   /** Filters the results that were uploaded before a given date */
-  inserted_before?: string;
+  inserted_before?: string | undefined;
   /** Field to sort by */
-  sort_by?: GetEmployeeDocumentsRequestSortBy | (string & {});
+  sort_by?: GetEmployeeDocumentsRequestSortBy | (string & {}) | undefined;
   /** Sort order */
-  order?: GetEmployeeDocumentsRequestOrder | (string & {});
+  order?: GetEmployeeDocumentsRequestOrder | (string & {}) | undefined;
 }
 export type ListDocumentsResponseDataDocumentsList = Array<File>;
 export interface ListDocumentsResponseData {
   /** The current page among all of the total_pages */
-  current_page?: number;
-  documents?: ListDocumentsResponseDataDocumentsList;
+  current_page?: number | undefined;
+  documents?: ListDocumentsResponseDataDocumentsList | undefined;
   /** The total number of records in the result */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of pages the user can go through */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 /** Response schema listing many documents */
 export interface ListDocumentsResponse {
-  data?: ListDocumentsResponseData;
+  data?: ListDocumentsResponseData | undefined;
 }
 /** Use latest version */
 export type GetEmployeeEmergencyContactRequestEmergencyContactDetailsJsonSchemaVersionCase1 =
@@ -5974,50 +6043,52 @@ export type GetEmployeeEmergencyContactRequestEmergencyContactDetailsJsonSchemaV
   | GetEmployeeEmergencyContactRequestEmergencyContactDetailsJsonSchemaVersionCase1;
 export interface GetEmployeeEmergencyContactRequest {
   /** Version of the emergency_contact_details form schema */
-  emergency_contact_details_json_schema_version?: GetEmployeeEmergencyContactRequestEmergencyContactDetailsJsonSchemaVersion;
+  emergency_contact_details_json_schema_version?:
+    | GetEmployeeEmergencyContactRequestEmergencyContactDetailsJsonSchemaVersion
+    | undefined;
 }
 export interface GetEmployeeExpenseCategoriesRequest {
   /** Include parent (non-selectable) categories in addition to selectable leaves */
-  include_parents?: boolean;
+  include_parents?: boolean | undefined;
   /** Expense ID (slug) whose category should be included in the result, even if it is not selectable by default */
-  expense_id?: string;
+  expense_id?: string | undefined;
 }
 /** Parent category information if this is a child category */
 export interface ExpenseCategoryNodeParent {
   /** Parent category code */
-  code?: string;
+  code?: string | undefined;
   /** Parent category slug */
-  slug?: string;
+  slug?: string | undefined;
   /** Parent category title */
-  title?: string;
+  title?: string | undefined;
 }
 /** A single expense category in the flat list structure */
 export interface ExpenseCategoryNode {
   /** Category code (e.g., 'travel.flights') */
-  code?: string;
+  code?: string | undefined;
   /** Category description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Instructions for using this category */
-  instructions?: string | null;
+  instructions?: string | null | undefined;
   /** Whether this category can be selected */
-  is_selectable?: boolean;
+  is_selectable?: boolean | undefined;
   /** Parent category information if this is a child category */
-  parent?: ExpenseCategoryNodeParent | null;
+  parent?: ExpenseCategoryNodeParent | null | undefined;
   /** Prompt for user guidance */
-  prompt?: string | null;
+  prompt?: string | null | undefined;
   /** Category scope (global, country, company, legal_entity) */
-  scope?: string;
+  scope?: string | undefined;
   /** Unique identifier for the category */
-  slug?: string;
+  slug?: string | undefined;
   /** Category status (active, inactive) */
-  status?: string;
+  status?: string | undefined;
   /** Human-readable category name */
-  title?: string;
+  title?: string | undefined;
 }
 export type ListExpenseCategoriesResponseDataList = Array<ExpenseCategoryNode>;
 /** Response containing a flat list of expense categories. Parent categories have is_selectable: false, while leaf categories have is_selectable: true. Child categories include parent_slug information. */
 export interface ListExpenseCategoriesResponse {
-  data?: ListExpenseCategoriesResponseDataList;
+  data?: ListExpenseCategoriesResponseDataList | undefined;
 }
 export interface GetEmployeeExpensesRequest {}
 export interface GetEmployeeFederalTaxesRequest {}
@@ -6092,7 +6163,7 @@ export interface LeavePolicyDetails {
   leave_policy_variant_id: LeavePolicyDetailsLeavePolicyVariantId;
   name: string;
   /** Whether leave balance is determined by accruals */
-  uses_accrual_as_balance?: boolean;
+  uses_accrual_as_balance?: boolean | undefined;
 }
 export type ListLeavePoliciesDetailsResponseDataList = Array<LeavePolicyDetails>;
 /** Response schema for listing leave policies details */
@@ -6262,9 +6333,9 @@ export interface ListLeavePoliciesSummaryResponse {
 }
 export interface GetEmployeePayslipFilesRequest {
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export interface PayslipFileCurrency {
   code: string;
@@ -6273,64 +6344,64 @@ export interface PayslipFileCurrency {
 }
 /** Net salary amount including source/converted amounts, currencies and conversion rate. Shape produced by `Tiger.Billing.Value.Amount.build/1`. */
 export interface PayslipFileNetSalary {
-  converted_amount?: number | null;
-  converter?: string | null;
-  fee?: string;
-  rate?: string;
-  source_amount?: number | null;
+  converted_amount?: number | null | undefined;
+  converter?: string | null | undefined;
+  fee?: string | undefined;
+  rate?: string | undefined;
+  source_amount?: number | null | undefined;
   [key: string]: unknown;
 }
 /** A single payslip file with its associated payroll run metadata. */
 export interface PayslipFile {
-  currency?: PayslipFileCurrency | null;
+  currency?: PayslipFileCurrency | null | undefined;
   id: string;
   /** Original filename of the payslip */
   name: string;
-  net_salary?: PayslipFileNetSalary | null;
-  period_end?: string | null;
-  period_start?: string | null;
+  net_salary?: PayslipFileNetSalary | null | undefined;
+  period_end?: string | null | undefined;
+  period_start?: string | null | undefined;
 }
 export type ListPayslipFilesResponseDataPayslipFilesList = Array<PayslipFile>;
 export interface ListPayslipFilesResponseData {
   /** The current page among all of the total_pages */
-  current_page?: number;
-  payslip_files?: ListPayslipFilesResponseDataPayslipFilesList;
+  current_page?: number | undefined;
+  payslip_files?: ListPayslipFilesResponseDataPayslipFilesList | undefined;
   /** The total number of records in the result */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of pages the user can go through */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 /** Response schema listing many payslip_files */
 export interface ListPayslipFilesResponse {
-  data?: ListPayslipFilesResponseData;
+  data?: ListPayslipFilesResponseData | undefined;
 }
 export interface GetEmployeePayslipsRequest {
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 /** File metadata */
 export interface PayslipItemFile {
-  inserted_at?: string;
-  name?: string;
-  slug?: string;
+  inserted_at?: string | undefined;
+  name?: string | undefined;
+  slug?: string | undefined;
 }
 /** Payroll run metadata */
 export interface PayslipItemPayrollRun {
-  expected_payout_date?: string | null;
-  period_end?: string;
-  period_start?: string;
-  type?: string;
+  expected_payout_date?: string | null | undefined;
+  period_end?: string | undefined;
+  period_start?: string | undefined;
+  type?: string | undefined;
 }
 /** Payslip data */
 export interface PayslipItemPayslip {
   /** Active compensation at the time of the payslip */
-  active_compensation?: unknown | null;
-  has_content_layout?: boolean;
+  active_compensation?: unknown | null | undefined;
+  has_content_layout?: boolean | undefined;
   /** Net salary amount */
-  net_salary?: unknown | null;
-  slug?: string;
+  net_salary?: unknown | null | undefined;
+  slug?: string | undefined;
 }
 /** A payslip with file, payslip, payroll run, and payroll output metadata. */
 export interface PayslipItem {
@@ -6338,25 +6409,25 @@ export interface PayslipItem {
   file: PayslipItemFile;
   has_employee_payroll_overviews: boolean;
   /** Payroll output breakdown */
-  payroll_output?: unknown | null;
+  payroll_output?: unknown | null | undefined;
   /** Payroll run metadata */
-  payroll_run?: PayslipItemPayrollRun | null;
+  payroll_run?: PayslipItemPayrollRun | null | undefined;
   /** Payslip data */
   payslip: PayslipItemPayslip;
 }
 export type ListEmployeePayslipsResponseDataPayslipsList = Array<PayslipItem>;
 export interface ListEmployeePayslipsResponseData {
   /** The current page among all of the total_pages */
-  current_page?: number;
-  payslips?: ListEmployeePayslipsResponseDataPayslipsList;
+  current_page?: number | undefined;
+  payslips?: ListEmployeePayslipsResponseDataPayslipsList | undefined;
   /** The total number of records in the result */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of pages the user can go through */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 /** Response schema listing many payslips */
 export interface ListEmployeePayslipsResponse {
-  data?: ListEmployeePayslipsResponseData;
+  data?: ListEmployeePayslipsResponseData | undefined;
 }
 /** Use latest version */
 export type GetEmployeePersonalDetailsRequestPersonalDetailsJsonSchemaVersionCase1 = "latest";
@@ -6365,7 +6436,9 @@ export type GetEmployeePersonalDetailsRequestPersonalDetailsJsonSchemaVersion =
   | GetEmployeePersonalDetailsRequestPersonalDetailsJsonSchemaVersionCase1;
 export interface GetEmployeePersonalDetailsRequest {
   /** Version of the personal_details form schema */
-  personal_details_json_schema_version?: GetEmployeePersonalDetailsRequestPersonalDetailsJsonSchemaVersion;
+  personal_details_json_schema_version?:
+    | GetEmployeePersonalDetailsRequestPersonalDetailsJsonSchemaVersion
+    | undefined;
 }
 export interface GetEmployeePersonalInformationRequest {}
 export interface GetEmployeeStateTaxRequest {
@@ -6382,37 +6455,37 @@ export interface EmployeeStateTaxesResponse {
 }
 export interface GetEmployeeTimeoffRequest {
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export type ListTimeoffResponseDataTimeoffsList = Array<Timeoff>;
 export interface ListTimeoffResponseData {
   /** The current page among all of the total_pages */
-  current_page?: number;
-  timeoffs?: ListTimeoffResponseDataTimeoffsList;
+  current_page?: number | undefined;
+  timeoffs?: ListTimeoffResponseDataTimeoffsList | undefined;
   /** The total number of records in the result */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of pages the user can go through */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 /** Response schema listing many timeoffs */
 export interface ListTimeoffResponse {
-  data?: ListTimeoffResponseData;
+  data?: ListTimeoffResponseData | undefined;
 }
 export interface GetEmployeeTimesheetsRequest {
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export interface GetEmploymentRequest {
   /** Employment ID */
   employment_id: string;
   /** Whether files should be excluded */
-  exclude_files?: boolean;
+  exclude_files?: boolean | undefined;
   /** When true, returns `tax_servicing_countries` grouped into global/regions/subregions instead of a flat list of country names. */
-  group_tax_servicing_countries?: boolean;
+  group_tax_servicing_countries?: boolean | undefined;
 }
 /** How often Remote bills the employer for management fees. Annual billing typically offers a discount. */
 export type PricingPlanDetailsFrequency = "annually" | "monthly";
@@ -6430,20 +6503,20 @@ export type EmploymentShowResponseDataEmploymentType =
 /** Contractor-specific settings. Only present for contractor employments. */
 export interface EmploymentShowResponseDataEmploymentContractorSettings {
   /** Whether the contractor charges VAT on their invoices. Set by the contractor. Only used for Contractor Management and Contractor Management Plus. */
-  charges_vat?: boolean;
+  charges_vat?: boolean | undefined;
   /** Whether the contractor requires work confirmation before submitting invoices. */
-  requires_work_confirmation?: boolean;
+  requires_work_confirmation?: boolean | undefined;
 }
 /** Type of contractor product. Only present for contractor employments. 'standard' for Contractor Standard, 'cor' for Contractor of Record, 'plus' for Contractor Plus. */
 export type EmploymentShowResponseDataEmploymentContractorType = "standard" | "cor" | "plus";
 export interface EmploymentShowResponseDataEmploymentContractorRateAmountCurrency {
   /** Currency code (e.g., USD, EUR) */
-  code?: string;
+  code?: string | undefined;
 }
 export interface EmploymentShowResponseDataEmploymentContractorRateAmount {
   /** Rate amount as decimal */
-  amount?: number;
-  currency?: EmploymentShowResponseDataEmploymentContractorRateAmountCurrency;
+  amount?: number | undefined;
+  currency?: EmploymentShowResponseDataEmploymentContractorRateAmountCurrency | undefined;
 }
 /** Payment frequency cadence */
 export type EmploymentShowResponseDataEmploymentContractorRatePayFrequency =
@@ -6460,13 +6533,13 @@ export type EmploymentShowResponseDataEmploymentContractorRateType =
   | "one_off";
 /** Contractor compensation rate details. Only present for contractor employments when rate is configured. */
 export interface EmploymentShowResponseDataEmploymentContractorRate {
-  amount?: EmploymentShowResponseDataEmploymentContractorRateAmount;
+  amount?: EmploymentShowResponseDataEmploymentContractorRateAmount | undefined;
   /** Payment frequency cadence */
-  pay_frequency?: EmploymentShowResponseDataEmploymentContractorRatePayFrequency | null;
+  pay_frequency?: EmploymentShowResponseDataEmploymentContractorRatePayFrequency | null | undefined;
   /** Unique identifier for the contractor rate */
-  slug?: string;
+  slug?: string | undefined;
   /** Rate type indicating billing frequency */
-  type?: EmploymentShowResponseDataEmploymentContractorRateType;
+  type?: EmploymentShowResponseDataEmploymentContractorRateType | undefined;
 }
 /** For the employment models `peo` and `global_payroll`, only [List employments](#operation/get_index_employment) and [Show employment](#operation/get_show_employment) operations are available. */
 export type EmploymentShowResponseDataEmploymentEmploymentModel = "global_payroll" | "peo" | "eor";
@@ -6485,25 +6558,25 @@ export interface NullableCountry {
   /** The ISO 3166-1 alpha-3 country code (e.g., "PRT"). This is the primary code used across the Remote API. */
   code: string;
   /** Contractor product names available for this country */
-  contractor_products_available?: NullableCountryContractorProductsAvailableList;
+  contractor_products_available?: NullableCountryContractorProductsAvailableList | undefined;
   /** Administrative subdivisions of the country (e.g., states, provinces, districts). Null if the country has no subdivisions relevant to Remote's services. */
-  country_subdivisions?: NullableCountryCountrySubdivisionsList | null;
+  country_subdivisions?: NullableCountryCountrySubdivisionsList | null | undefined;
   /** Whether an Employment Agreement preview is available for this country. */
-  employment_agreement_preview_available?: boolean;
+  employment_agreement_preview_available?: boolean | undefined;
   /** Whether EOR (Employer of Record) onboarding is available in this country. */
-  eor_onboarding?: boolean;
+  eor_onboarding?: boolean | undefined;
   /** Whether Global Payroll employments can be onboarded in this country. When true, the "global_payroll_administrative_details", "global_payroll_contract_details" and "global_payroll_personal_details" forms are available from the Show form schema endpoint. */
-  global_payroll_supported?: boolean;
+  global_payroll_supported?: boolean | undefined;
   /** When benefit plan selections become locked for this country (e.g., "after_first_hire" means benefits cannot be changed after the first employee is hired). */
-  locked_benefits?: string;
+  locked_benefits?: string | undefined;
   /** The country's full English name. */
   name: string;
   /** The geographic region the country belongs to (e.g., "Europe", "Asia", "Americas"). */
-  region?: string;
+  region?: string | undefined;
   /** The geographic subregion (e.g., "Southern Europe", "Southeast Asia"). Null for some countries. */
-  subregion?: string | null;
+  subregion?: string | null | undefined;
   /** The list of JSON schema form names available for this country (e.g., "address_details", "contract_details", "global_payroll_contract_details"). Use these with the Show form schema endpoint to get country-specific field requirements. */
-  supported_json_schemas?: NullableCountrySupportedJsonSchemasList;
+  supported_json_schemas?: NullableCountrySupportedJsonSchemasList | undefined;
 }
 export type EmploymentShowResponseDataEmploymentBankAccountDetailsList = Array<unknown>;
 /** Documents associated with this employment (e.g., contracts, tax forms, identity documents). */
@@ -6513,9 +6586,9 @@ export type TaskDescriptionStatus = "completed" | "pending";
 /** Description and status of an onboarding task. */
 export interface TaskDescription {
   /** A human-readable description of what this onboarding task requires. */
-  description?: string;
+  description?: string | undefined;
   /** The status of the task */
-  status?: TaskDescriptionStatus;
+  status?: TaskDescriptionStatus | undefined;
 }
 /** All tasks that need to be completed before marking the employment as ready */
 export interface OnboardingTasks {
@@ -6532,75 +6605,75 @@ export interface OnboardingTasks {
 export interface EmploymentShowResponseDataEmployment {
   /** Personal details information. Its properties may vary depending on the country. */
   personal_details: unknown;
-  short_id?: string;
+  short_id?: string | undefined;
   /** Name of related department, if any. Otherwise, null. */
-  department?: string | null;
+  department?: string | null | undefined;
   /** The email address of the employee's manager. Null if no manager is assigned. */
   manager_email: string | null;
-  provisional_start_date?: string;
+  provisional_start_date?: string | undefined;
   /** Home address information. Its properties may vary depending on the country. */
   address_details: unknown;
   pricing_plan_details: PricingPlanDetails;
   /** The employee's full name. */
   full_name: string;
   /** A reference code for the employment record in the calling integration's own system. Private to that integration -- no other integration can read or overwrite it. Null when the integration has not set one. See [Your own IDs on Remote records](https://developer.remote.com/docs/your-own-ids-on-remote-records). */
-  partner_external_id?: string | null;
+  partner_external_id?: string | null | undefined;
   /** For the employment types `contractor`, `global_payroll_employee` and `direct_employee`, only [List employments](#operation/get_index_employment) and [Show employment](#operation/get_show_employment) operations are available. */
   type: EmploymentShowResponseDataEmploymentType;
   /** Contractor-specific settings. Only present for contractor employments. */
-  contractor_settings?: EmploymentShowResponseDataEmploymentContractorSettings | null;
+  contractor_settings?: EmploymentShowResponseDataEmploymentContractorSettings | null | undefined;
   employment_lifecycle_stage: EmploymentLifecycleStage;
   /** Administrative information. Its properties may vary depending on the country. */
   administrative_details: unknown;
   /** Type of contractor product. Only present for contractor employments. 'standard' for Contractor Standard, 'cor' for Contractor of Record, 'plus' for Contractor Plus. */
-  contractor_type?: EmploymentShowResponseDataEmploymentContractorType | null;
+  contractor_type?: EmploymentShowResponseDataEmploymentContractorType | null | undefined;
   /** Contractor compensation rate details. Only present for contractor employments when rate is configured. */
-  contractor_rate?: EmploymentShowResponseDataEmploymentContractorRate | null;
+  contractor_rate?: EmploymentShowResponseDataEmploymentContractorRate | null | undefined;
   /** The unique identifier (UUID) of the company this employment belongs to. */
   company_id: string;
   /** The planned service end date for contractor of record (COR) employments. For signed COR contractors, this date is stored on the contract record (not in `contract_details`). It is `null` for employee employments or unsigned contractor agreements. Date format is ISO 8601 without the time component (e.g. "2024-12-31"). */
-  expiration_date?: string | null;
+  expiration_date?: string | null | undefined;
   /** Work address information. Its properties may vary depending on the country. */
   work_address_details: unknown;
   /** The unique identifier (UUID) of the legal entity that is billed for this employment. */
-  bill_to_legal_entity_id?: string | null;
+  bill_to_legal_entity_id?: string | null | undefined;
   /** The employee's work email address, typically provided by the employer. */
   work_email: string;
   status: EmploymentStatus;
   /** The timestamp when this employment record was last updated. */
   updated_at: string;
   /** Whether the contractor has at least one active withdrawal method (the deposit method their invoices are paid out to). Only present for contractor employments. Use it to warn before creating an invoice schedule for a contractor who hasn't added one yet. */
-  has_active_withdrawal_method?: boolean;
+  has_active_withdrawal_method?: boolean | undefined;
   /** Employment basic information. Its properties may vary depending on the country. When present, `login_email` indicates which address the employee logs in with: `"personal"` or `"work"`. */
-  basic_information?: unknown;
+  basic_information?: unknown | undefined;
   /** The employee's job title. May be null if not yet set. */
   job_title: string | null;
   /** The unique identifier (UUID) of the employment. */
   id: string;
   /** The date when the employee's probation period ends, if applicable. */
-  probation_period_end_date?: string;
+  probation_period_end_date?: string | undefined;
   /** Unique ID of related department, if any. Otherwise, null. */
-  department_id?: string | null;
+  department_id?: string | null | undefined;
   /** The full name of the employee's manager. */
-  manager?: string;
+  manager?: string | undefined;
   /** The email address the employee uses to log in to the Remote platform. */
   login_email: string;
   /** A unique reference code for the employment record in a non-Remote system. While uniqueness is recommended, it is not strictly enforced within Remote's system. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** For the employment models `peo` and `global_payroll`, only [List employments](#operation/get_index_employment) and [Show employment](#operation/get_show_employment) operations are available. */
   employment_model: EmploymentShowResponseDataEmploymentEmploymentModel | null;
   /** The employee's personal email address, used for account-related communications. */
   personal_email: string;
   country: NullableCountry | null;
-  user_status?: UserStatus;
-  seniority_date?: string;
+  user_status?: UserStatus | undefined;
+  seniority_date?: string | undefined;
   bank_account_details: EmploymentShowResponseDataEmploymentBankAccountDetailsList;
   /** Documents associated with this employment (e.g., contracts, tax forms, identity documents). */
   files: EmploymentShowResponseDataEmploymentFilesList;
   /** The unique identifier (UUID) of the currently active contract for this employment. */
-  active_contract_id?: string;
+  active_contract_id?: string | undefined;
   /** The unique identifier (UUID) of the legal entity that engaged this employment. */
-  engaged_by_legal_entity_id?: string | null;
+  engaged_by_legal_entity_id?: string | null | undefined;
   /** Billing address information. Its properties may vary depending on the country. */
   billing_address_details: unknown;
   onboarding_tasks: OnboardingTasks;
@@ -6615,10 +6688,10 @@ export interface EmploymentShowResponseDataEmployment {
   /** The timestamp when this employment record was created. */
   created_at: string;
   /** Most updated termination date for the offboarding. This date is subject to change through the offboarding process even after it is finalized. */
-  termination_date?: string | null;
+  termination_date?: string | null | undefined;
 }
 export interface EmploymentShowResponseData {
-  employment?: EmploymentShowResponseDataEmployment;
+  employment?: EmploymentShowResponseDataEmployment | undefined;
 }
 /** Response containing the full employment record, including the termination date if the employment has an active offboarding. */
 export interface EmploymentShowResponse {
@@ -6690,17 +6763,19 @@ export interface GetEmploymentBasicInformationRequest {
   /** Employment ID */
   employment_id: string;
   /** Version of the employment_basic_information form schema */
-  employment_basic_information_json_schema_version?: GetEmploymentBasicInformationRequestEmploymentBasicInformationJsonSchemaVersion;
+  employment_basic_information_json_schema_version?:
+    | GetEmploymentBasicInformationRequestEmploymentBasicInformationJsonSchemaVersion
+    | undefined;
   /** When true, returns `tax_servicing_countries` grouped into global/regions/subregions instead of a flat list of country names. */
-  group_tax_servicing_countries?: boolean;
+  group_tax_servicing_countries?: boolean | undefined;
 }
 export interface GetEmploymentBenefitOffersRequest {
   /** Unique identifier of the employment */
   employment_id: string;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export interface UnifiedMinimalBenefitGroup {
   name: string | null;
@@ -6712,9 +6787,9 @@ export interface UnifiedEmploymentBenefitGroup {
   slug: string;
 }
 export interface UnifiedEmploymentBenefitTier {
-  display_cost?: string | null;
-  name?: string;
-  slug?: string;
+  display_cost?: string | null | undefined;
+  name?: string | undefined;
+  slug?: string | undefined;
 }
 /** The benefit offer for an employment schema */
 export interface UnifiedEmploymentBenefitOffer {
@@ -6736,7 +6811,7 @@ export interface GetEmploymentBenefitOffersSchemaRequest {
   /** Unique identifier of the employment */
   employment_id: string;
   /** Version of the form schema */
-  json_schema_version?: GetEmploymentBenefitOffersSchemaRequestJsonSchemaVersion;
+  json_schema_version?: GetEmploymentBenefitOffersSchemaRequestJsonSchemaVersion | undefined;
 }
 export type UnifiedEmploymentsBenefitOffersJSONSchemaResponseDataSchemaPropertiesMap = {
   [key: string]: unknown | undefined;
@@ -6746,18 +6821,20 @@ export type UnifiedEmploymentsBenefitOffersJSONSchemaResponseDataSchemaXJsfOrder
   Array<string>;
 export interface UnifiedEmploymentsBenefitOffersJSONSchemaResponseDataSchema {
   properties: UnifiedEmploymentsBenefitOffersJSONSchemaResponseDataSchemaPropertiesMap;
-  required?: UnifiedEmploymentsBenefitOffersJSONSchemaResponseDataSchemaRequiredList;
-  x_jsf_order?: UnifiedEmploymentsBenefitOffersJSONSchemaResponseDataSchemaXJsfOrderList;
+  required?: UnifiedEmploymentsBenefitOffersJSONSchemaResponseDataSchemaRequiredList | undefined;
+  x_jsf_order?:
+    | UnifiedEmploymentsBenefitOffersJSONSchemaResponseDataSchemaXJsfOrderList
+    | undefined;
 }
 /** JSON Schema */
 export interface UnifiedEmploymentsBenefitOffersJSONSchemaResponseData {
-  schema?: UnifiedEmploymentsBenefitOffersJSONSchemaResponseDataSchema;
-  version?: number;
+  schema?: UnifiedEmploymentsBenefitOffersJSONSchemaResponseDataSchema | undefined;
+  version?: number | undefined;
 }
 /** JSON schema response for benefit offers */
 export interface UnifiedEmploymentsBenefitOffersJSONSchemaResponse {
   /** JSON Schema */
-  data?: UnifiedEmploymentsBenefitOffersJSONSchemaResponseData;
+  data?: UnifiedEmploymentsBenefitOffersJSONSchemaResponseData | undefined;
 }
 export interface GetEmploymentCompanyStructureNodesRequest {
   /** Employment ID */
@@ -6766,23 +6843,23 @@ export interface GetEmploymentCompanyStructureNodesRequest {
 /** Arbitrary attributes including legal entity code */
 export type CompanyStructureNodeAttributesMap = { [key: string]: unknown | undefined };
 export interface CompanyStructureNodeCompanyStructure {
-  id?: string;
-  name?: string;
+  id?: string | undefined;
+  name?: string | undefined;
 }
 /** Arbitrary attributes including cost_center */
 export type CompanyStructureNodeParentAttributesMap = { [key: string]: unknown | undefined };
 export interface CompanyStructureNodeParent {
   /** Arbitrary attributes including cost_center */
-  attributes?: CompanyStructureNodeParentAttributesMap;
-  id?: string;
-  name?: string;
+  attributes?: CompanyStructureNodeParentAttributesMap | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
 }
 export interface CompanyStructureNode {
   /** Arbitrary attributes including legal entity code */
-  attributes?: CompanyStructureNodeAttributesMap;
-  company_structure?: CompanyStructureNodeCompanyStructure;
+  attributes?: CompanyStructureNodeAttributesMap | undefined;
+  company_structure?: CompanyStructureNodeCompanyStructure | undefined;
   id: string;
-  parent?: CompanyStructureNodeParent | null;
+  parent?: CompanyStructureNodeParent | null | undefined;
 }
 export type CompanyStructureNodesResponseDataCompanyStructureNodesList =
   Array<CompanyStructureNode>;
@@ -6802,13 +6879,13 @@ export interface GetEmploymentContractDocumentsRequest {
   /** Employment ID */
   employment_id: string;
   /** Filter by contract document statuses */
-  statuses?: GetEmploymentContractDocumentsRequestStatusesList;
+  statuses?: GetEmploymentContractDocumentsRequestStatusesList | undefined;
   /** Exclude contract documents with specific statuses */
-  except_statuses?: GetEmploymentContractDocumentsRequestExceptStatusesList;
+  except_statuses?: GetEmploymentContractDocumentsRequestExceptStatusesList | undefined;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 /** Signing method used by this signatory */
 export type ListSignatorySignatureMethod = "in_platform" | "docusign";
@@ -6817,19 +6894,19 @@ export type ListSignatorySignatureType = "standard" | "qes" | "aes" | "ses";
 /** A signatory on a contract document. For company and employee signatories, `user_id` is provided. For other signatory types, `user_id` is null. */
 export interface ListSignatory {
   /** Email address of the signatory */
-  email?: string | null;
+  email?: string | null | undefined;
   /** Full name of the signatory */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Signing method used by this signatory */
-  signature_method?: ListSignatorySignatureMethod;
+  signature_method?: ListSignatorySignatureMethod | undefined;
   /** Legal signature level applied when signing */
-  signature_type?: ListSignatorySignatureType;
+  signature_type?: ListSignatorySignatureType | undefined;
   /** Timestamp when the signatory signed the document, null if not yet signed */
-  signed_at?: string | null;
+  signed_at?: string | null | undefined;
   status: SignatoryStatus;
   type: SignatoryType;
   /** User identifier for internal signatories, null for external signatories */
-  user_id?: string | null;
+  user_id?: string | null | undefined;
 }
 /** List of signatories for this contract document */
 export type ContractDocumentItemSignatoriesList = Array<ListSignatory>;
@@ -6870,7 +6947,7 @@ export interface GetEmploymentContractsRequest {
   /** Employment ID */
   employment_id: string;
   /** Only Active */
-  only_active?: boolean;
+  only_active?: boolean | undefined;
 }
 /** Whether the employee is paid hourly or on a salary basis. Null if not yet set. */
 export type CompensationWageType = "hourly" | "salary";
@@ -6916,7 +6993,7 @@ export interface ContractPendingChanges {
   contract_id: string;
   effective_at: string;
   /** Indicates if the contract is pending an action to be activated when effective_at is reached. If true, it means that an action needs to be performed, either a verification by Remote or a signature from the employer or the employee. If false, then the contract will be active when effective_at is reached. */
-  pending_action_for_activation?: boolean;
+  pending_action_for_activation?: boolean | undefined;
 }
 export type EmploymentContractPendingChangesResponseDataPendingChangesList =
   Array<ContractPendingChanges>;
@@ -6931,7 +7008,7 @@ export interface GetEmploymentCostCenterAllocationsRequest {
   /** Employment ID */
   employment_id: string;
   /** Filters allocations by status. When omitted, allocations of every status are returned. */
-  status?: GetEmploymentCostCenterAllocationsRequestStatus | (string & {});
+  status?: GetEmploymentCostCenterAllocationsRequestStatus | (string & {}) | undefined;
 }
 export type ListCostCenterAllocationsResponseDataCostCenterAllocationsList =
   Array<CostCenterAllocation>;
@@ -6946,9 +7023,9 @@ export interface GetEmploymentCustomFieldsRequest {
   /** Employment ID */
   employment_id: string;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export type ListEmploymentCustomFieldValueResponseValue =
   | string
@@ -6970,16 +7047,18 @@ export type ListEmploymentCustomFieldValuePaginatedResponseDataCustomFieldValues
   Array<ListEmploymentCustomFieldValueResponse>;
 export interface ListEmploymentCustomFieldValuePaginatedResponseData {
   /** The current page among all of the total_pages */
-  current_page?: number;
-  custom_field_values?: ListEmploymentCustomFieldValuePaginatedResponseDataCustomFieldValuesList;
+  current_page?: number | undefined;
+  custom_field_values?:
+    | ListEmploymentCustomFieldValuePaginatedResponseDataCustomFieldValuesList
+    | undefined;
   /** The total number of records in the result */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of pages the user can go through */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 /** Response schema listing many custom_field_values */
 export interface ListEmploymentCustomFieldValuePaginatedResponse {
-  data?: ListEmploymentCustomFieldValuePaginatedResponseData;
+  data?: ListEmploymentCustomFieldValuePaginatedResponseData | undefined;
 }
 export interface GetEmploymentEmploymentAgreementDownloadRequest {
   /** Employment ID */
@@ -7017,37 +7096,49 @@ export type EmploymentEngagementAgreementDetailsResponseDataDetailsCbaDocumentLi
 export type EmploymentEngagementAgreementDetailsResponseDataDetailsCovenantsList = Array<string>;
 export type EmploymentEngagementAgreementDetailsResponseDataDetailsWorkingDaysList = Array<string>;
 export interface EmploymentEngagementAgreementDetailsResponseDataDetails {
-  allowances_details?: EmploymentEngagementAgreementDetailsResponseDataDetailsAllowancesDetailsList | null;
-  available_pto?: number | null;
-  break_time_per_day?: number | null;
-  business_expenses?: string | null;
-  cba?: string | null;
-  cba_document?: EmploymentEngagementAgreementDetailsResponseDataDetailsCbaDocumentList | null;
-  covenants?: EmploymentEngagementAgreementDetailsResponseDataDetailsCovenantsList | null;
-  has_allowances?: string | null;
-  has_bonus?: string | null;
-  has_business_expenses?: string | null;
-  has_business_presence?: string;
-  has_cba?: string | null;
-  has_commissions?: string | null;
-  has_covenants?: string | null;
-  has_illness_remuneration?: string | null;
-  has_overtime_compensation?: string | null;
-  has_pension_scheme?: string | null;
-  has_signing_bonus?: string | null;
-  has_similar_roles?: string;
-  has_similar_work_conditions?: string | null;
-  illness_remuneration_details?: string | null;
-  max_annual_gross_salary?: number | null;
-  min_annual_gross_salary?: number | null;
-  overtime_compensation_begins?: number | null;
-  overtime_compensation_type?: string | null;
-  overtime_pay_percentage?: number | null;
-  pension_scheme?: string | null;
-  similar_roles?: string | null;
-  similar_work_conditions_details?: string | null;
-  work_hours_per_week?: number | null;
-  working_days?: EmploymentEngagementAgreementDetailsResponseDataDetailsWorkingDaysList | null;
+  allowances_details?:
+    | EmploymentEngagementAgreementDetailsResponseDataDetailsAllowancesDetailsList
+    | null
+    | undefined;
+  available_pto?: number | null | undefined;
+  break_time_per_day?: number | null | undefined;
+  business_expenses?: string | null | undefined;
+  cba?: string | null | undefined;
+  cba_document?:
+    | EmploymentEngagementAgreementDetailsResponseDataDetailsCbaDocumentList
+    | null
+    | undefined;
+  covenants?:
+    | EmploymentEngagementAgreementDetailsResponseDataDetailsCovenantsList
+    | null
+    | undefined;
+  has_allowances?: string | null | undefined;
+  has_bonus?: string | null | undefined;
+  has_business_expenses?: string | null | undefined;
+  has_business_presence?: string | undefined;
+  has_cba?: string | null | undefined;
+  has_commissions?: string | null | undefined;
+  has_covenants?: string | null | undefined;
+  has_illness_remuneration?: string | null | undefined;
+  has_overtime_compensation?: string | null | undefined;
+  has_pension_scheme?: string | null | undefined;
+  has_signing_bonus?: string | null | undefined;
+  has_similar_roles?: string | undefined;
+  has_similar_work_conditions?: string | null | undefined;
+  illness_remuneration_details?: string | null | undefined;
+  max_annual_gross_salary?: number | null | undefined;
+  min_annual_gross_salary?: number | null | undefined;
+  overtime_compensation_begins?: number | null | undefined;
+  overtime_compensation_type?: string | null | undefined;
+  overtime_pay_percentage?: number | null | undefined;
+  pension_scheme?: string | null | undefined;
+  similar_roles?: string | null | undefined;
+  similar_work_conditions_details?: string | null | undefined;
+  work_hours_per_week?: number | null | undefined;
+  working_days?:
+    | EmploymentEngagementAgreementDetailsResponseDataDetailsWorkingDaysList
+    | null
+    | undefined;
 }
 export interface EmploymentEngagementAgreementDetailsResponseData {
   details: EmploymentEngagementAgreementDetailsResponseDataDetails;
@@ -7064,13 +7155,13 @@ export interface GetEmploymentFilesRequest {
   /** Employment ID */
   employment_id: string;
   /** Filter by file type (optional) */
-  type?: string;
+  type?: string | undefined;
   /** Filter by file sub_type (optional) */
-  sub_type?: string;
+  sub_type?: string | undefined;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 /** The broad category of the file. Contractor Services Agreements (CSAs) are reported here with type "contract" -- see the /contract-documents endpoint for contract-document-specific types. */
 export type EmploymentFileType =
@@ -7120,23 +7211,23 @@ export interface EmploymentFile {
   /** The file name including extension (e.g., "id.pdf", "contract.pdf"). */
   name: string;
   /** A more specific classification of the file within its type (e.g., "personal_id" within type "id", or "ir_35" within type "contract"). Null if no sub-type applies. */
-  sub_type?: string | null;
+  sub_type?: string | null | undefined;
   /** The broad category of the file. Contractor Services Agreements (CSAs) are reported here with type "contract" -- see the /contract-documents endpoint for contract-document-specific types. */
   type: EmploymentFileType;
 }
 export type ListFilesResponseDataFilesList = Array<EmploymentFile>;
 export interface ListFilesResponseData {
   /** The current page among all of the total_pages */
-  current_page?: number;
-  files?: ListFilesResponseDataFilesList;
+  current_page?: number | undefined;
+  files?: ListFilesResponseDataFilesList | undefined;
   /** The total number of records in the result */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of pages the user can go through */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 /** Response schema listing many files */
 export interface ListFilesResponse {
-  data?: ListFilesResponseData;
+  data?: ListFilesResponseData | undefined;
 }
 export interface GetEmploymentJobRequest {
   /** Employment ID */
@@ -7145,36 +7236,36 @@ export interface GetEmploymentJobRequest {
 /** A reference to a related job classification entity (job family, sub-family, career track, or job level). Null if not assigned. */
 export interface JobAssociation {
   /** The unique identifier (UUID) of the associated entity. */
-  id?: string;
+  id?: string | undefined;
   /** The human-readable name of the associated entity. */
-  label?: string;
+  label?: string | undefined;
 }
 export interface JobCustomFieldValuesItemDefinition {
-  id?: string;
-  title?: string;
-  type?: string;
+  id?: string | undefined;
+  title?: string | undefined;
+  type?: string | undefined;
 }
 export type JobCustomFieldValuesItemValue = string | number | boolean;
 export interface JobCustomFieldValuesItem {
-  definition?: JobCustomFieldValuesItemDefinition;
-  value?: JobCustomFieldValuesItemValue;
+  definition?: JobCustomFieldValuesItemDefinition | undefined;
+  value?: JobCustomFieldValuesItemValue | undefined;
 }
 export type JobCustomFieldValuesList = Array<JobCustomFieldValuesItem>;
 /** A job assigned to an employment, including its classification within the company's job architecture (family, sub-family, career track, level) and any custom field values. */
 export interface Job {
-  career_track?: JobAssociation | null;
+  career_track?: JobAssociation | null | undefined;
   /** An optional company-defined code for this job (e.g., "JOB-0"). Null if not set. */
-  code?: string | null;
-  custom_field_values?: JobCustomFieldValuesList;
+  code?: string | null | undefined;
+  custom_field_values?: JobCustomFieldValuesList | undefined;
   /** A description of the job's responsibilities and scope. It may be plain text or HTML. HTML keeps only these tags: p, h1 to h6, strong, b, em, i, u, s, br, ul, ol, li, a, code, pre, blockquote, span and div, a text-align style on paragraphs and headings, and http, https and mailto links. Other tags are removed. Text over 10,000 bytes, and most text that looks like tags but has none of these, is returned HTML-escaped. Null if not set. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The unique identifier (UUID) of the job. */
   id: string;
   /** A company-defined identifier for this job (e.g., "eng-001"). */
   identifier: string;
-  job_family?: JobAssociation | null;
-  job_level?: JobAssociation | null;
-  job_sub_family?: JobAssociation | null;
+  job_family?: JobAssociation | null | undefined;
+  job_level?: JobAssociation | null | undefined;
+  job_sub_family?: JobAssociation | null | undefined;
   /** The display name of the job (e.g., "Senior Backend Engineer"). */
   label: string;
 }
@@ -7190,31 +7281,31 @@ export type StepStatus = "not_started" | "in_progress" | "completed" | "failed";
 /** Substep status */
 export type SubStepStatus = "not_started" | "in_progress" | "completed" | "failed";
 export interface SubStep {
-  completed_at?: string | null;
+  completed_at?: string | null | undefined;
   /** Unique identifier for this substep */
   id: string;
   /** Human-readable substep name */
   label: string;
   /** Whether this substep is optional */
   optional: boolean;
-  started_at?: string | null;
+  started_at?: string | null | undefined;
   /** Substep status */
   status: SubStepStatus;
   /** Optional UI tag */
-  tag?: string | null;
+  tag?: string | null | undefined;
   /** Substep type identifier */
   type: string;
 }
 /** Ordered list of substeps for this step */
 export type StepSubStepsList = Array<SubStep>;
 export interface Step {
-  completed_at?: string | null;
-  description?: string | null;
+  completed_at?: string | null | undefined;
+  description?: string | null | undefined;
   /** Unique identifier for this step instance */
   id: string;
   /** Human-readable step name */
   label: string;
-  started_at?: string | null;
+  started_at?: string | null | undefined;
   /** Step status */
   status: StepStatus;
   /** Ordered list of substeps for this step */
@@ -7232,25 +7323,25 @@ export interface EmploymentOnboardingStepsResponse {
 export type GetEmploymentsRequestEmploymentModel = "global_payroll" | "peo" | "eor";
 export interface GetEmploymentsRequest {
   /** Company ID */
-  company_id?: string;
+  company_id?: string | undefined;
   /** Filters the results by employments whose login email matches the value */
-  email?: string;
+  email?: string | undefined;
   /** Filters the results by the employee's name. Each whitespace-separated word is matched partially, ignoring casing and accents, so `grace hop` matches "Gráce Brewster Murray Hopper". */
-  name?: string;
+  name?: string | undefined;
   /** Filters the results by employments whose status matches the value. Supports multiple values separated by commas. Also supports the value `incomplete` to get all employments that are not onboarded yet. Allowed values: `active`, `created`, `created_awaiting_reserve`, `created_reserve_paid`, `initiated`, `invited`, `pending`, `pre_hire`, `review`, `job_title_review`, `pending_post_self_enrollment_actions`, `archived`, `incomplete`. Any other value returns a `422`. Offboarded employments have the status `archived`. */
-  status?: string;
+  status?: string | undefined;
   /** Filters the results by employments whose employment product type matches the value */
-  employment_type?: string;
+  employment_type?: string | undefined;
   /** Filters the results by employments whose employment model matches the value. Possible values: `global_payroll`, `peo`, `eor` */
-  employment_model?: GetEmploymentsRequestEmploymentModel | (string & {});
+  employment_model?: GetEmploymentsRequestEmploymentModel | (string & {}) | undefined;
   /** Filters the results by the employment's short ID. Returns at most one result. */
-  short_id?: string;
+  short_id?: string | undefined;
   /** Filters the results by the `partner_external_id` value the calling integration holds for the employment; another integration's identifiers are never matched. Matching is exact, including case. The same value may be set on several employments (for example a rehire), so several results may be returned. See [Your own IDs on Remote records](https://developer.remote.com/docs/your-own-ids-on-remote-records). */
-  partner_external_id?: string;
+  partner_external_id?: string | undefined;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 /** The employment model. `eor` (Employer of Record), `peo` (Professional Employer Organization), or `global_payroll`. */
 export type MinimalEmploymentEmploymentModel = "eor" | "peo" | "global_payroll";
@@ -7264,9 +7355,9 @@ export type MinimalEmploymentType =
 export interface MinimalEmployment {
   country: NullableCountry | null;
   /** Name of related department, if any. Otherwise, null. */
-  department?: string | null;
+  department?: string | null | undefined;
   /** Unique ID of related department, if any. Otherwise, null. */
-  department_id?: string | null;
+  department_id?: string | null | undefined;
   employment_lifecycle_stage: EmploymentLifecycleStage;
   /** The employment model. `eor` (Employer of Record), `peo` (Professional Employer Organization), or `global_payroll`. */
   employment_model: MinimalEmploymentEmploymentModel | null;
@@ -7296,26 +7387,26 @@ export interface MinimalEmployment {
 export type ListEmploymentsResponseDataEmploymentsList = Array<MinimalEmployment>;
 export interface ListEmploymentsResponseData {
   /** The current page among all of the total_pages */
-  current_page?: number;
-  employments?: ListEmploymentsResponseDataEmploymentsList;
+  current_page?: number | undefined;
+  employments?: ListEmploymentsResponseDataEmploymentsList | undefined;
   /** The total number of records in the result */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of pages the user can go through */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 /** Response schema listing many employments */
 export interface ListEmploymentsResponse {
-  data?: ListEmploymentsResponseData;
+  data?: ListEmploymentsResponseData | undefined;
 }
 export interface GetEmploymentsBulkRequest {
   /** Company ID */
-  company_id?: string;
+  company_id?: string | undefined;
   /** Opaque pagination cursor returned as `next_cursor` from a previous page. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Number of employments to return per page (max 100, default 50). */
-  limit?: number;
+  limit?: number | undefined;
   /** When true, returns `tax_servicing_countries` grouped into global/regions/subregions instead of a flat list of country names. */
-  group_tax_servicing_countries?: boolean;
+  group_tax_servicing_countries?: boolean | undefined;
 }
 /** For the employment types `contractor`, `global_payroll_employee` and `direct_employee`, only [List employments](#operation/get_index_employment) and [Show employment](#operation/get_show_employment) operations are available. */
 export type EmploymentType =
@@ -7341,13 +7432,13 @@ export type EmploymentContractorRatePayFrequency =
 export type EmploymentContractorRateType = "hourly" | "daily" | "weekly" | "monthly" | "one_off";
 /** Contractor compensation rate details. Only present for contractor employments when rate is configured. */
 export interface EmploymentContractorRate {
-  amount?: EmploymentShowResponseDataEmploymentContractorRateAmount;
+  amount?: EmploymentShowResponseDataEmploymentContractorRateAmount | undefined;
   /** Payment frequency cadence */
-  pay_frequency?: EmploymentContractorRatePayFrequency | null;
+  pay_frequency?: EmploymentContractorRatePayFrequency | null | undefined;
   /** Unique identifier for the contractor rate */
-  slug?: string;
+  slug?: string | undefined;
   /** Rate type indicating billing frequency */
-  type?: EmploymentContractorRateType;
+  type?: EmploymentContractorRateType | undefined;
 }
 /** For the employment models `peo` and `global_payroll`, only [List employments](#operation/get_index_employment) and [Show employment](#operation/get_show_employment) operations are available. */
 export type EmploymentEmploymentModel = "global_payroll" | "peo" | "eor";
@@ -7358,75 +7449,75 @@ export type EmploymentFilesList = Array<File>;
 export interface Employment {
   /** Personal details information. Its properties may vary depending on the country. */
   personal_details: unknown;
-  short_id?: string;
+  short_id?: string | undefined;
   /** Name of related department, if any. Otherwise, null. */
-  department?: string | null;
+  department?: string | null | undefined;
   /** The email address of the employee's manager. Null if no manager is assigned. */
   manager_email: string | null;
-  provisional_start_date?: string;
+  provisional_start_date?: string | undefined;
   /** Home address information. Its properties may vary depending on the country. */
   address_details: unknown;
   pricing_plan_details: PricingPlanDetails;
   /** The employee's full name. */
   full_name: string;
   /** A reference code for the employment record in the calling integration's own system. Private to that integration -- no other integration can read or overwrite it. Null when the integration has not set one. See [Your own IDs on Remote records](https://developer.remote.com/docs/your-own-ids-on-remote-records). */
-  partner_external_id?: string | null;
+  partner_external_id?: string | null | undefined;
   /** For the employment types `contractor`, `global_payroll_employee` and `direct_employee`, only [List employments](#operation/get_index_employment) and [Show employment](#operation/get_show_employment) operations are available. */
   type: EmploymentType;
   /** Contractor-specific settings. Only present for contractor employments. */
-  contractor_settings?: EmploymentShowResponseDataEmploymentContractorSettings | null;
+  contractor_settings?: EmploymentShowResponseDataEmploymentContractorSettings | null | undefined;
   employment_lifecycle_stage: EmploymentLifecycleStage;
   /** Administrative information. Its properties may vary depending on the country. */
   administrative_details: unknown;
   /** Type of contractor product. Only present for contractor employments. 'standard' for Contractor Standard, 'cor' for Contractor of Record, 'plus' for Contractor Plus. */
-  contractor_type?: EmploymentContractorType | null;
+  contractor_type?: EmploymentContractorType | null | undefined;
   /** Contractor compensation rate details. Only present for contractor employments when rate is configured. */
-  contractor_rate?: EmploymentContractorRate | null;
+  contractor_rate?: EmploymentContractorRate | null | undefined;
   /** The unique identifier (UUID) of the company this employment belongs to. */
   company_id: string;
   /** The planned service end date for contractor of record (COR) employments. For signed COR contractors, this date is stored on the contract record (not in `contract_details`). It is `null` for employee employments or unsigned contractor agreements. Date format is ISO 8601 without the time component (e.g. "2024-12-31"). */
-  expiration_date?: string | null;
+  expiration_date?: string | null | undefined;
   /** Work address information. Its properties may vary depending on the country. */
   work_address_details: unknown;
   /** The unique identifier (UUID) of the legal entity that is billed for this employment. */
-  bill_to_legal_entity_id?: string | null;
+  bill_to_legal_entity_id?: string | null | undefined;
   /** The employee's work email address, typically provided by the employer. */
   work_email: string;
   status: EmploymentStatus;
   /** The timestamp when this employment record was last updated. */
   updated_at: string;
   /** Whether the contractor has at least one active withdrawal method (the deposit method their invoices are paid out to). Only present for contractor employments. Use it to warn before creating an invoice schedule for a contractor who hasn't added one yet. */
-  has_active_withdrawal_method?: boolean;
+  has_active_withdrawal_method?: boolean | undefined;
   /** Employment basic information. Its properties may vary depending on the country. When present, `login_email` indicates which address the employee logs in with: `"personal"` or `"work"`. */
-  basic_information?: unknown;
+  basic_information?: unknown | undefined;
   /** The employee's job title. May be null if not yet set. */
   job_title: string | null;
   /** The unique identifier (UUID) of the employment. */
   id: string;
   /** The date when the employee's probation period ends, if applicable. */
-  probation_period_end_date?: string;
+  probation_period_end_date?: string | undefined;
   /** Unique ID of related department, if any. Otherwise, null. */
-  department_id?: string | null;
+  department_id?: string | null | undefined;
   /** The full name of the employee's manager. */
-  manager?: string;
+  manager?: string | undefined;
   /** The email address the employee uses to log in to the Remote platform. */
   login_email: string;
   /** A unique reference code for the employment record in a non-Remote system. While uniqueness is recommended, it is not strictly enforced within Remote's system. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** For the employment models `peo` and `global_payroll`, only [List employments](#operation/get_index_employment) and [Show employment](#operation/get_show_employment) operations are available. */
   employment_model: EmploymentEmploymentModel | null;
   /** The employee's personal email address, used for account-related communications. */
   personal_email: string;
   country: NullableCountry | null;
-  user_status?: UserStatus;
-  seniority_date?: string;
+  user_status?: UserStatus | undefined;
+  seniority_date?: string | undefined;
   bank_account_details: EmploymentBankAccountDetailsList;
   /** Documents associated with this employment (e.g., contracts, tax forms, identity documents). */
   files: EmploymentFilesList;
   /** The unique identifier (UUID) of the currently active contract for this employment. */
-  active_contract_id?: string;
+  active_contract_id?: string | undefined;
   /** The unique identifier (UUID) of the legal entity that engaged this employment. */
-  engaged_by_legal_entity_id?: string | null;
+  engaged_by_legal_entity_id?: string | null | undefined;
   /** Billing address information. Its properties may vary depending on the country. */
   billing_address_details: unknown;
   onboarding_tasks: OnboardingTasks;
@@ -7462,35 +7553,35 @@ export type GetExpensesRequestStatusItem =
 export type GetExpensesRequestStatusList = Array<GetExpensesRequestStatusItem | (string & {})>;
 export interface GetExpensesRequest {
   /** Filters expenses by status. To ask for several statuses, send `status` once with comma-separated values, for example `status=approved,reimbursed`. If you repeat `status`, only the last value counts. `status[]=` or any other value returns `422`. The list never contains pending contractor or card spend expenses, so `pending` returns only expenses an employer can review. */
-  status?: GetExpensesRequestStatusList;
+  status?: GetExpensesRequestStatusList | undefined;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Change the amount of records returned per page, defaults to 20, limited to 100 */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export type ListExpenseResponseDataExpensesList = Array<ExpenseOrDraft>;
 export interface ListExpenseResponseData {
   /** The current page among all of the total_pages */
-  current_page?: number;
-  expenses?: ListExpenseResponseDataExpensesList;
+  current_page?: number | undefined;
+  expenses?: ListExpenseResponseDataExpensesList | undefined;
   /** The total number of records in the result */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of pages the user can go through */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 /** Response schema listing many expenses */
 export interface ListExpenseResponse {
-  data?: ListExpenseResponseData;
+  data?: ListExpenseResponseData | undefined;
 }
 export interface GetExpensesCategoriesRequest {
   /** The employment ID for which to list categories. Required if neither expense_id nor country_code is provided. */
-  employment_id?: string;
+  employment_id?: string | undefined;
   /** The expense ID for which to list categories (includes the expense's category, even if it is not selectable by default). If provided without employment_id, will use the expense's employment context. */
-  expense_id?: string;
+  expense_id?: string | undefined;
   /** Include un-selectable intermediate categories in the response */
-  include_parents?: boolean;
+  include_parents?: boolean | undefined;
   /** Filter categories by country (ISO 3166-1 alpha-3 code, e.g. "GBR"). Only used when neither employment_id nor expense_id is provided. */
-  country_code?: string;
+  country_code?: string | undefined;
 }
 export interface GetExpensReceiptRequest {
   /** The expense ID */
@@ -7508,7 +7599,7 @@ export interface DownloadFileResponseDataFile {
   id: string;
   inserted_at: string;
   name: string;
-  sub_type?: string | null;
+  sub_type?: string | null | undefined;
   type: string;
 }
 export interface DownloadFileResponseData {
@@ -7618,7 +7709,7 @@ export interface IdentityVerification {
   status: string;
 }
 export interface IdentityVerificationResponseData {
-  identity_verification_data?: IdentityVerification;
+  identity_verification_data?: IdentityVerification | undefined;
 }
 /** Identity Verification response */
 export interface IdentityVerificationResponse {
@@ -7630,57 +7721,57 @@ export interface GetIncentiveRequest {
 }
 export interface GetIncentivesRequest {
   /** Filter by Employment ID */
-  employment_id?: string;
+  employment_id?: string | undefined;
   /** Filter by Incentive status */
-  status?: string;
+  status?: string | undefined;
   /** Filter by Recurring Incentive id */
-  recurring_incentive_id?: string;
+  recurring_incentive_id?: string | undefined;
   /** Filter by Incentive type. Defaults to all self-serve incentive types (the types creatable through this API) when omitted. Pass this explicitly (e.g. `severance`) to also retrieve types that are entered outside of self-serve, such as severance. Pass `all` to retrieve every incentive type, including those types. */
-  type?: string;
+  type?: string | undefined;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Change the amount of records returned per page, defaults to 20, limited to 100 */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export type ListIncentivesResponseDataIncentivesList = Array<Incentive>;
 export interface ListIncentivesResponseData {
   /** The current page among all of the total_pages */
-  current_page?: number;
-  incentives?: ListIncentivesResponseDataIncentivesList;
+  current_page?: number | undefined;
+  incentives?: ListIncentivesResponseDataIncentivesList | undefined;
   /** The total number of records in the result */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of pages the user can go through */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 /** Response schema listing many incentives */
 export interface ListIncentivesResponse {
-  data?: ListIncentivesResponseData;
+  data?: ListIncentivesResponseData | undefined;
 }
 export interface GetIncentivesRecurringRequest {
   /** Filter by recurring incentive status: active or deactive. */
-  status?: string;
+  status?: string | undefined;
   /** Filter by recurring incentive type. */
-  type?: string;
+  type?: string | undefined;
   /** Filter by recurring incentives that contain the value in their notes. */
-  note?: string;
+  note?: string | undefined;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Change the amount of records returned per page, defaults to 20, limited to 100 */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export type ListRecurringIncentivesResponseDataRecurringIncentivesList = Array<RecurringIncentive>;
 export interface ListRecurringIncentivesResponseData {
   /** The current page among all of the total_pages */
-  current_page?: number;
-  recurring_incentives?: ListRecurringIncentivesResponseDataRecurringIncentivesList;
+  current_page?: number | undefined;
+  recurring_incentives?: ListRecurringIncentivesResponseDataRecurringIncentivesList | undefined;
   /** The total number of records in the result */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of pages the user can go through */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 /** Response schema listing many recurring_incentives */
 export interface ListRecurringIncentivesResponse {
-  data?: ListRecurringIncentivesResponseData;
+  data?: ListRecurringIncentivesResponseData | undefined;
 }
 export interface GetJobTitleScreeningRequest {
   /** Job title screening id */
@@ -7701,11 +7792,11 @@ export interface JobTitleScreeningItem {
   /** The screened job title. */
   job_title: string;
   /** The role description, if provided. */
-  role_description?: string | null;
+  role_description?: string | null | undefined;
   /** Whether the role is onsite, if provided. */
-  role_is_onsite?: JobTitleScreeningItemRoleIsOnsite | null;
+  role_is_onsite?: JobTitleScreeningItemRoleIsOnsite | null | undefined;
   /** Whether the role requires a license, if provided. */
-  role_requires_license?: JobTitleScreeningItemRoleRequiresLicense | null;
+  role_requires_license?: JobTitleScreeningItemRoleRequiresLicense | null | undefined;
   /** The screening verdict. `pending` while the screening is processing; `eligible` and `not_eligible` are definitive; `needs_review` means the title will require a human review during onboarding; `eligible_with_risk_acknowledgement` means the title is eligible once the employer acknowledges the risk during onboarding. Verdicts are advisory and reflect the eligibility policy at the time of screening: the policy evolves over time and the same checks re-run during onboarding, so the onboarding outcome may differ from an earlier screening verdict for the same title. */
   verdict: JobTitleScreeningItemVerdict;
 }
@@ -7724,10 +7815,10 @@ export interface JobTitleScreening {
   updated_at: string;
 }
 export interface JobTitleScreeningResponseData {
-  job_title_screening?: JobTitleScreening;
+  job_title_screening?: JobTitleScreening | undefined;
 }
 export interface JobTitleScreeningResponse {
-  data?: JobTitleScreeningResponseData;
+  data?: JobTitleScreeningResponseData | undefined;
 }
 export interface GetLeavePoliciesDetailRequest {
   /** Employment ID */
@@ -7747,40 +7838,40 @@ export interface GetOffboardingByIdRequest {
 }
 /** Present only when the requester indicated they have already informed the employee about the termination. */
 export interface V2TerminationRequestEmployeeAwareness {
-  date?: string | null;
-  note?: string | null;
+  date?: string | null | undefined;
+  note?: string | null | undefined;
 }
 /** Risk-assessment flags submitted by the requester. */
 export type V2TerminationRequestRiskAssessmentReasonsList = Array<string>;
 /** Snapshot of the inputs submitted when a `termination` offboarding was created. These fields do not change as the offboarding progresses. */
 export interface V2TerminationRequest {
   /** Free-text additional comments submitted by the requester. */
-  additional_comments?: string | null;
+  additional_comments?: string | null | undefined;
   /** Whether the requester agreed with the proposed PTO amount. */
-  agrees_to_pto_amount?: boolean | null;
+  agrees_to_pto_amount?: boolean | null | undefined;
   /** Present only when the requester indicated they have already informed the employee about the termination. */
-  employee_awareness?: V2TerminationRequestEmployeeAwareness | null;
+  employee_awareness?: V2TerminationRequestEmployeeAwareness | null | undefined;
   /** The termination date proposed by the requester. */
-  proposed_termination_date?: string | null;
+  proposed_termination_date?: string | null | undefined;
   /** Free-text description of the termination reason submitted by the requester. */
-  reason_description?: string | null;
+  reason_description?: string | null | undefined;
   /** Risk-assessment flags submitted by the requester. */
-  risk_assessment_reasons?: V2TerminationRequestRiskAssessmentReasonsList | null;
+  risk_assessment_reasons?: V2TerminationRequestRiskAssessmentReasonsList | null | undefined;
   /** Whether the requester expects the employee to challenge the termination. */
-  will_challenge_termination?: boolean | null;
+  will_challenge_termination?: boolean | null | undefined;
   /** Additional context the requester provided about a potential challenge. */
-  will_challenge_termination_description?: string | null;
+  will_challenge_termination_description?: string | null | undefined;
 }
 /** Snapshot of the inputs submitted when a `resignation` offboarding was created. These fields do not change as the offboarding progresses. */
 export interface V2ResignationRequest {
   /** Free-text additional comments submitted by the employee. */
-  additional_comments?: string | null;
+  additional_comments?: string | null | undefined;
   /** Present only when the employee indicated they have already informed the employer about the resignation. */
-  employer_awareness?: string | null;
+  employer_awareness?: string | null | undefined;
   /** The last working day proposed by the employee. */
-  proposed_last_working_day?: string | null;
+  proposed_last_working_day?: string | null | undefined;
   /** Free-text description of the resignation reason submitted by the employee. */
-  reason_description?: string | null;
+  reason_description?: string | null | undefined;
 }
 /** The shape depends on the originating request: offboardings that originated from a termination carry a `V2TerminationRequest`; those that originated from a resignation carry a `V2ResignationRequest`. */
 export type V2OffboardingRequest = V2TerminationRequest | V2ResignationRequest;
@@ -7797,7 +7888,7 @@ export type V2OffboardingType =
 /** An offboarding record. Top-level fields hold the offboarding's lifecycle state. The nested `request` object holds the immutable creation snapshot of the inputs submitted when the offboarding was created. */
 export interface V2Offboarding {
   /** Whether the offboarding is confidential. Confidential offboardings are hidden from list and show responses by default. */
-  confidential?: boolean | null;
+  confidential?: boolean | null | undefined;
   /** The unique identifier (UUID) of the employment being offboarded. */
   employment_id: string;
   /** The unique identifier (UUID) of the offboarding record. */
@@ -7805,48 +7896,48 @@ export interface V2Offboarding {
   /** The timestamp when the offboarding record was created. */
   inserted_at: string;
   /** The reason for the offboarding. */
-  reason?: string | null;
-  request?: V2OffboardingRequest | null;
+  reason?: string | null | undefined;
+  request?: V2OffboardingRequest | null | undefined;
   /** The current processing status of the offboarding. - `requested`: The offboarding request has been received and is awaiting review. - `in_review`: Remote is reviewing the request for legal compliance and risks. - `pending_payment`: The offboarding has been approved and submitted to payroll; the employee's final payment is being processed. - `completed`: The offboarding is complete and the employment has been terminated. */
   status: V2OffboardingStatus;
   /** The confirmed last day of employment. May be null until Remote finalizes the date. */
-  termination_date?: string | null;
+  termination_date?: string | null | undefined;
   /** The offboarding type. */
   type: V2OffboardingType;
 }
 export interface V2OffboardingResponseData {
-  offboarding?: V2Offboarding;
+  offboarding?: V2Offboarding | undefined;
 }
 /** Response containing a single v2 offboarding record. */
 export interface V2OffboardingResponse {
-  data?: V2OffboardingResponseData;
+  data?: V2OffboardingResponseData | undefined;
 }
 export interface GetOffboardingsRequest {
   /** Filter by Employment ID */
-  employment_id?: string;
+  employment_id?: string | undefined;
   /** Filter by offboarding type */
-  type?: string;
+  type?: string | undefined;
   /** By default, the results do not include confidential termination requests. Send `include_confidential=true` to include confidential requests in the response. */
-  include_confidential?: string;
+  include_confidential?: string | undefined;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Change the amount of records returned per page, defaults to 20, limited to 100 */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export type ListOffboardingResponseDataOffboardingsList =
   Array<ResignationOrTerminationOffboarding>;
 export interface ListOffboardingResponseData {
   /** The current page among all of the total_pages */
-  current_page?: number;
-  offboardings?: ListOffboardingResponseDataOffboardingsList;
+  current_page?: number | undefined;
+  offboardings?: ListOffboardingResponseDataOffboardingsList | undefined;
   /** The total number of records in the result */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of pages the user can go through */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 /** Response schema listing many offboardings */
 export interface ListOffboardingResponse {
-  data?: ListOffboardingResponseData;
+  data?: ListOffboardingResponseData | undefined;
 }
 export type GetOffboardingsRequestType =
   | "termination"
@@ -7857,37 +7948,37 @@ export type GetOffboardingsRequestType =
   | "conversion";
 export interface GetOffboardingsRequest2 {
   /** Filter by Employment ID */
-  employment_id?: string;
+  employment_id?: string | undefined;
   /** Filter by offboarding type. */
-  type?: GetOffboardingsRequestType | (string & {});
+  type?: GetOffboardingsRequestType | (string & {}) | undefined;
   /** By default, the results do not include confidential termination requests. Send `include_confidential=true` to include confidential requests in the response. */
-  include_confidential?: boolean;
+  include_confidential?: boolean | undefined;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Change the amount of records returned per page, defaults to 20, limited to 100 */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export type V2ListOffboardingResponseDataOffboardingsList = Array<V2Offboarding>;
 export interface V2ListOffboardingResponseData {
   /** The current page among all of the total_pages */
-  current_page?: number;
-  offboardings?: V2ListOffboardingResponseDataOffboardingsList;
+  current_page?: number | undefined;
+  offboardings?: V2ListOffboardingResponseDataOffboardingsList | undefined;
   /** The total number of records in the result */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of pages the user can go through */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 /** Response schema listing many offboardings */
 export interface V2ListOffboardingResponse {
-  data?: V2ListOffboardingResponseData;
+  data?: V2ListOffboardingResponseData | undefined;
 }
 export interface GetOffboardingsEmploymentRequest {
   /** Employment ID */
   employment_id: string;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Change the amount of records returned per page, defaults to 20, limited to 100 */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export interface GetOnboardingEmploymentPreOnboardingDocumentRequest {
   /** Employment ID */
@@ -7949,19 +8040,19 @@ export interface IndexPreOnboardingRequirementsResponse {
 }
 export interface GetPayItemsRequest {
   /** Filter by employment slug */
-  employment_slug?: string;
+  employment_slug?: string | undefined;
   /** Filter by legal entity ID */
-  legal_entity_id?: string;
+  legal_entity_id?: string | undefined;
   /** Filter pay items with effective_date >= given date (YYYY-MM-DD) */
-  effective_from?: string;
+  effective_from?: string | undefined;
   /** Filter pay items with effective_date <= given date (YYYY-MM-DD) */
-  effective_to?: string;
+  effective_to?: string | undefined;
   /** Filters the results by the `partner_external_id` value the calling integration holds for the pay item; another integration's identifiers are never matched. Matching is exact, including case. A value can be held by one live pay item at a time, per integration and company; editing a pay item keeps its value on the new version. See [Your own IDs on Remote records](https://developer.remote.com/docs/your-own-ids-on-remote-records). */
-  partner_external_id?: string;
+  partner_external_id?: string | undefined;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 /** List of pay items */
 export type ListPayItemsResponseDataPayItemsList = Array<PayItem>;
@@ -7982,18 +8073,18 @@ export interface GetPayrollCalendarRequest {
   /** The cycle for which to list the payroll calendars. Format: YYYY-MM */
   cycle: string;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 /** The frequency at which the payroll calendar is run. */
 export type CycleFrequency = "monthly" | "bi_monthly" | "bi_weekly" | "weekly";
 export interface Cycle {
-  employee_inclusion_cutoff_date?: string;
-  end_date?: string;
-  input_cutoff_date?: string;
-  payment_date?: string;
-  start_date?: string;
+  employee_inclusion_cutoff_date?: string | undefined;
+  end_date?: string | undefined;
+  input_cutoff_date?: string | undefined;
+  payment_date?: string | undefined;
+  start_date?: string | undefined;
 }
 export type PayrollCalendarCyclesList = Array<Cycle>;
 export interface PayrollCalendar {
@@ -8005,26 +8096,26 @@ export interface PayrollCalendar {
 export type PayrollCalendarsResponseDataPayrollCalendarsList = Array<PayrollCalendar>;
 export interface PayrollCalendarsResponseData {
   /** The current page among all of the total_pages */
-  current_page?: number;
-  payroll_calendars?: PayrollCalendarsResponseDataPayrollCalendarsList;
+  current_page?: number | undefined;
+  payroll_calendars?: PayrollCalendarsResponseDataPayrollCalendarsList | undefined;
   /** The total number of records in the result */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of pages the user can go through */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 /** Response schema listing many payroll_calendars */
 export interface PayrollCalendarsResponse {
-  data?: PayrollCalendarsResponseData;
+  data?: PayrollCalendarsResponseData | undefined;
 }
 export interface GetPayrollCalendarsRequest {
   /** Filter payroll calendars by country code */
-  country_code?: string;
+  country_code?: string | undefined;
   /** Filter payroll calendars by year */
-  year?: string;
+  year?: string | undefined;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export type PayrollCalendarEORCyclesList = Array<Cycle>;
 export interface PayrollCalendarEOR {
@@ -8036,16 +8127,16 @@ export interface PayrollCalendarEOR {
 export type PayrollCalendarsEORResponseDataPayrollCalendarsList = Array<PayrollCalendarEOR>;
 export interface PayrollCalendarsEORResponseData {
   /** The current page among all of the total_pages */
-  current_page?: number;
-  payroll_calendars?: PayrollCalendarsEORResponseDataPayrollCalendarsList;
+  current_page?: number | undefined;
+  payroll_calendars?: PayrollCalendarsEORResponseDataPayrollCalendarsList | undefined;
   /** The total number of records in the result */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of pages the user can go through */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 /** Response schema listing many payroll_calendars */
 export interface PayrollCalendarsEORResponse {
-  data?: PayrollCalendarsEORResponseData;
+  data?: PayrollCalendarsEORResponseData | undefined;
 }
 export interface GetPayrollRunRequest {
   /** Payroll run ID */
@@ -8054,9 +8145,9 @@ export interface GetPayrollRunRequest {
 /** The employee's base salary component for this payroll period. When the payroll run is in `preparing` or `processing` status, this is an estimate that may change after final payroll calculations. Amount in cents. */
 export interface EmployeeDetailsBaseSalary {
   /** Amount in cents. */
-  amount?: number;
+  amount?: number | undefined;
   /** ISO 4217 currency code. */
-  currency?: string;
+  currency?: string | undefined;
 }
 /** Total cost of employee benefits (health insurance, pension, etc.) for this payroll run. Amount in cents. */
 export type EmployeeDetailsBenefits = EmployeeDetailsBaseSalary;
@@ -8087,7 +8178,7 @@ export interface EmployeeDetails {
   /** Total employer-side contributions and costs (employer social contributions, taxes, etc.) beyond the employee's gross pay. Amount in cents. */
   employer_costs: EmployeeDetailsBaseSalary;
   /** The unique identifier of the employment record for this employee. */
-  employment_id?: string;
+  employment_id?: string | undefined;
   /** Total approved expenses reimbursed to the employee in this payroll run. Amount in cents. */
   expenses: EmployeeDetailsBaseSalary;
   /** The full name of the employee. May be null if the employee's profile is incomplete. */
@@ -8132,7 +8223,7 @@ export interface PayrollRun {
   benefits_total: number;
   country: Country;
   currency_code: string;
-  cutoff_date?: string | null;
+  cutoff_date?: string | null | undefined;
   /** Per-employee cost breakdown for this payroll run. Deprecated -- use the dedicated `GET /v1/payroll-runs/{payroll_run_id}/employee-details` endpoint instead, which supports pagination. */
   employee_details: PayrollRunEmployeeDetailsList;
   /** The total employer-side contributions (social contributions, employer taxes, etc.) across all employees. Amount in cents. */
@@ -8155,19 +8246,19 @@ export interface PayrollRun {
   /** The total cost of this payroll run across all employees, including salaries, benefits, employer contributions, expenses, and incentives. Amount in cents. */
   total_payroll_cost: number;
   /** The type of payroll run. - `main`: The regular recurring payroll for the period. - `one_off`: An ad-hoc payroll run outside the regular cycle, typically for off-cycle payments. - `pro_forma`: A simulated payroll run used for cost estimation purposes. Not actually processed. - `tax_documents`: A payroll run for generating tax-related documents only. - `year_end_reports`: A year-end run holding employees' year-end tax documents (e.g. T4, RL-1). - `employer_year_end_reports`: A year-end run holding company-level reports for the employer to review and approve. Global Payroll only. - `expenses`: A payroll run dedicated to reimbursing approved expenses. - `parallel`: A supplementary payroll run that runs alongside the main payroll for the same period. */
-  type?: PayrollRunType;
+  type?: PayrollRunType | undefined;
 }
 /** Response containing a single payroll run with full details including cost totals and employee breakdowns. */
 export interface PayrollRunResponse {
-  payroll_run?: PayrollRun;
+  payroll_run?: PayrollRun | undefined;
 }
 export interface GetPayrollRunEmployeeDetailsRequest {
   /** Payroll run ID */
   payroll_run_id: string;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 /** List of per-employee cost breakdowns for the payroll run. */
 export type EmployeeDetailsResponseDataEmployeeDetailsList = Array<EmployeeDetails>;
@@ -8194,11 +8285,11 @@ export interface GetPayrollRunGlReportDownloadRequest {
 export type GetPayrollRunGlReportDownloadResponse = string;
 export interface GetPayrollRunsRequest {
   /** Filters payroll runs where period_start or period_end match the given date */
-  payroll_period?: string;
+  payroll_period?: string | undefined;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 /** The current status of the payroll run. - `preparing`: The payroll run is being assembled. Costs are estimates. - `processing`: Submitted for processing. Costs are still estimates. - `completed`: Processing is complete. Costs are final. - `finalized`: Payments have been or will be disbursed. - `waiting_for_customer_approval`: Requires company approval before proceeding. - `rejected`: Rejected during approval and needs revision. */
 export type MinimalPayrollRunStatus =
@@ -8223,7 +8314,7 @@ export interface MinimalPayrollRun {
   approval_date: string | null;
   country: Country;
   currency_code: string;
-  cutoff_date?: string | null;
+  cutoff_date?: string | null | undefined;
   expected_payout_date: string;
   /** The unique identifier of the payroll run. */
   id: string;
@@ -8241,7 +8332,7 @@ export type ListPayrollRunResponsePayrollRunsList = Array<MinimalPayrollRun>;
 /** Response containing a list of payroll runs for the company. Each payroll run includes summary information but not per-employee breakdowns. */
 export interface ListPayrollRunResponse {
   /** List of payroll runs matching the query filters. */
-  payroll_runs?: ListPayrollRunResponsePayrollRunsList;
+  payroll_runs?: ListPayrollRunResponsePayrollRunsList | undefined;
 }
 export interface GetPayslipDownloadRequest {
   /** Payslip ID */
@@ -8255,47 +8346,47 @@ export interface GetPayslipPdfRequest {
 export interface GetPayslipPdfResponse {}
 export interface GetPayslipsRequest {
   /** Employment ID */
-  employment_id?: string;
+  employment_id?: string | undefined;
   /** Filters by payslips `issued_at` field, after or on the same day than the given date */
-  start_date?: string;
+  start_date?: string | undefined;
   /** Filters by payslips `issued_at` field, before or or the same day than the given date */
-  end_date?: string;
+  end_date?: string | undefined;
   /** Filters by payslips `expected_payout_date` field, after or on the same day than the given date */
-  expected_payout_start_date?: string;
+  expected_payout_start_date?: string | undefined;
   /** Filters by payslips `expected_payout_date` field, before or or the same day than the given date */
-  expected_payout_end_date?: string;
+  expected_payout_end_date?: string | undefined;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Change the amount of records returned per page, defaults to 20, limited to 100 */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 /** A payslip issued to an employee for a specific payroll period. */
 export interface Payslip {
   /** The unique identifier (UUID) of the employment this payslip belongs to. */
   employment_id: string;
-  expected_payout_date?: string | null;
+  expected_payout_date?: string | null | undefined;
   /** The unique identifier (UUID) of the payslip. */
   id: string;
   /** The date the payslip was issued. */
   issued_at: string;
   /** The net pay amount converted to the company's billing currency, in cents. Only shown if available. */
-  net_pay_converted_amount?: number;
+  net_pay_converted_amount?: number | undefined;
   /** The net pay amount in the source (local) currency, in cents. Only shown if available. */
-  net_pay_source_amount?: number;
+  net_pay_source_amount?: number | undefined;
 }
 export type ListPayslipsResponseDataPayslipsList = Array<Payslip>;
 export interface ListPayslipsResponseData {
   /** The current page among all of the total_pages */
-  current_page?: number;
-  payslips?: ListPayslipsResponseDataPayslipsList;
+  current_page?: number | undefined;
+  payslips?: ListPayslipsResponseDataPayslipsList | undefined;
   /** The total number of records in the result */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of pages the user can go through */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 /** Response schema listing many payslips */
 export interface ListPayslipsResponse {
-  data?: ListPayslipsResponseData;
+  data?: ListPayslipsResponseData | undefined;
 }
 export interface GetPricingPlanPartnerTemplatesRequest {}
 /** Pricing plan partner template */
@@ -8303,11 +8394,11 @@ export interface PricingPlanPartnerTemplate {
   base_price: Price;
   id: string;
   /** The period in months for the template, 0 means unlimited */
-  period?: number;
+  period?: number | undefined;
   price: Price;
   product: Product;
   /** Whether the template is unlimited in time (do not expire) */
-  unlimited?: boolean;
+  unlimited?: boolean | undefined;
 }
 export type ListPricingPlanPartnerTemplatesResponseDataPricingPlanPartnerTemplatesList =
   Array<PricingPlanPartnerTemplate>;
@@ -8345,25 +8436,25 @@ export interface ListEligibleLeadsResponse {
 }
 export interface GetProjectsRequest {
   /** Filters projects by status. */
-  status?: ProjectStatus | (string & {});
+  status?: ProjectStatus | (string & {}) | undefined;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export type ListProjectsResponseDataProjectsList = Array<Project>;
 export interface ListProjectsResponseData {
   /** The current page among all of the total_pages */
-  current_page?: number;
-  projects?: ListProjectsResponseDataProjectsList;
+  current_page?: number | undefined;
+  projects?: ListProjectsResponseDataProjectsList | undefined;
   /** The total number of records in the result */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of pages the user can go through */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 /** Paginated response schema listing company projects. */
 export interface ListProjectsResponse {
-  data?: ListProjectsResponseData;
+  data?: ListProjectsResponseData | undefined;
 }
 export interface GetResignationRequest {
   /** Offboarding request ID */
@@ -8408,11 +8499,11 @@ export interface ResignationAfterStartDate {
 export type ResignationResignation = ResignationBeforeStartDate | ResignationAfterStartDate;
 /** Resignation details for an offboarding request. The shape depends on whether the employee resigned before or after their employment start date. */
 export interface Resignation {
-  resignation?: ResignationResignation;
+  resignation?: ResignationResignation | undefined;
 }
 /** Resignation response */
 export interface ResignationResponse {
-  data?: Resignation;
+  data?: Resignation | undefined;
 }
 export interface GetResignationResignationLetterRequest {
   /** Offboarding request ID */
@@ -8450,9 +8541,9 @@ export interface GetScimGroupRequest {
 }
 export interface IntegrationsScimGroupMembersItem {
   /** URI of the user resource */
-  _ref?: string;
+  _ref?: string | undefined;
   /** Display name of the user */
-  display?: string;
+  display?: string | undefined;
   /** User ID (slug) */
   value: string;
 }
@@ -8460,11 +8551,11 @@ export interface IntegrationsScimGroupMembersItem {
 export type IntegrationsScimGroupMembersList = Array<IntegrationsScimGroupMembersItem>;
 export interface IntegrationsScimGroupMeta {
   /** Creation timestamp */
-  created?: string;
+  created?: string | undefined;
   /** Last modification timestamp */
-  lastModified?: string;
+  lastModified?: string | undefined;
   /** Resource type */
-  resourceType?: string;
+  resourceType?: string | undefined;
 }
 /** SCIM schema identifiers */
 export type IntegrationsScimGroupSchemasList = Array<string>;
@@ -8475,17 +8566,17 @@ export interface IntegrationsScimGroup {
   id: string;
   /** Array of group members (per RFC 7643) */
   members: IntegrationsScimGroupMembersList;
-  meta?: IntegrationsScimGroupMeta;
+  meta?: IntegrationsScimGroupMeta | undefined;
   /** SCIM schema identifiers */
   schemas: IntegrationsScimGroupSchemasList;
 }
 export interface GetScimGroupsRequest {
   /** 1-based index of the first result */
-  startIndex?: number;
+  startIndex?: number | undefined;
   /** Maximum number of results per page */
-  count?: number;
+  count?: number | undefined;
   /** Filter expression for attributes (supports eq, ne, co, sw, ew, pr, lt, le, gt, ge) */
-  filter?: string;
+  filter?: string | undefined;
 }
 /** Array of group resources */
 export type IntegrationsScimGroupListResponseResourcesList = Array<IntegrationsScimGroup>;
@@ -8509,7 +8600,7 @@ export interface GetScimUserRequest {
 }
 export interface IntegrationsScimUserEmailsItem {
   /** Whether this is the primary email */
-  primary?: boolean;
+  primary?: boolean | undefined;
   /** Type of email (e.g., 'work') */
   type: string;
   /** Email address */
@@ -8521,58 +8612,62 @@ export interface IntegrationsScimUserName {
   /** Last name */
   familyName: string;
   /** Full name */
-  formatted?: string;
+  formatted?: string | undefined;
   /** First name */
   givenName: string;
   /** Salutation, e.g. 'Ms', 'Mr' */
-  honorificPrefix?: string;
+  honorificPrefix?: string | undefined;
 }
 /** SCIM schema identifiers */
 export type IntegrationsScimUserSchemasList = Array<string>;
 /** The user's manager */
 export interface IntegrationsScimUserUrnIetfParamsScimSchemasExtensionEnterprise20UserManager {
   /** The URI of the SCIM resource representing the user's manager */
-  _ref?: string;
+  _ref?: string | undefined;
   /** The displayName of the user's manager */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The id of the SCIM resource representing the user's manager */
-  value?: string;
+  value?: string | undefined;
 }
 /** Enterprise User extension attributes (RFC 7643 §4.3) */
 export interface IntegrationsScimUserUrnIetfParamsScimSchemasExtensionEnterprise20User {
   /** Identifies the name of a department */
-  department?: string;
+  department?: string | undefined;
   /** Numeric or alphanumeric identifier assigned to a person */
-  employeeNumber?: string | null;
+  employeeNumber?: string | null | undefined;
   /** The user's manager */
-  manager?: IntegrationsScimUserUrnIetfParamsScimSchemasExtensionEnterprise20UserManager;
+  manager?:
+    | IntegrationsScimUserUrnIetfParamsScimSchemasExtensionEnterprise20UserManager
+    | undefined;
 }
 export interface IntegrationsScimUser {
   /** Whether the user is active */
   active: boolean;
   /** The name to display for the user */
-  displayName?: string;
+  displayName?: string | undefined;
   emails: IntegrationsScimUserEmailsList;
   /** Unique identifier for the user */
   id: string;
-  meta?: IntegrationsScimGroupMeta;
+  meta?: IntegrationsScimGroupMeta | undefined;
   name: IntegrationsScimUserName;
   /** The casual/preferred name for the user */
-  nickName?: string;
+  nickName?: string | undefined;
   /** SCIM schema identifiers */
   schemas: IntegrationsScimUserSchemasList;
   /** Enterprise User extension attributes (RFC 7643 §4.3) */
-  urn_ietf_params_scim_schemas_extension_enterprise_2_0_User?: IntegrationsScimUserUrnIetfParamsScimSchemasExtensionEnterprise20User;
+  urn_ietf_params_scim_schemas_extension_enterprise_2_0_User?:
+    | IntegrationsScimUserUrnIetfParamsScimSchemasExtensionEnterprise20User
+    | undefined;
   /** Username for the user */
   userName: string;
 }
 export interface GetScimUsersRequest {
   /** 1-based index of the first result */
-  startIndex?: number;
+  startIndex?: number | undefined;
   /** Maximum number of results per page */
-  count?: number;
+  count?: number | undefined;
   /** Filter expression for attributes (supports eq, ne, co, sw, ew, pr, lt, le, gt, ge) */
-  filter?: string;
+  filter?: string | undefined;
 }
 /** Array of user resources */
 export type IntegrationsScimUserListResponseResourcesList = Array<IntegrationsScimUser>;
@@ -8604,7 +8699,7 @@ export interface SSOConfiguration {
 }
 /** SSO Configuration response */
 export interface SSOConfigurationResponse {
-  data?: SSOConfiguration;
+  data?: SSOConfiguration | undefined;
 }
 export interface GetSsoConfigurationDetailsRequest {}
 /** The SSO configuration details needed to set up your identity provider (IdP) to connect with Remote. */
@@ -8616,7 +8711,7 @@ export interface SSOConfigurationDetails {
 }
 /** SSO Configuration Details response */
 export interface SSOConfigurationDetailsResponse {
-  data?: SSOConfigurationDetails;
+  data?: SSOConfigurationDetails | undefined;
 }
 /** Use latest version */
 export type GetTestSchemaRequestJsonSchemaVersionCase1 = "latest";
@@ -8625,7 +8720,7 @@ export type GetTestSchemaRequestJsonSchemaVersion =
   | GetTestSchemaRequestJsonSchemaVersionCase1;
 export interface GetTestSchemaRequest {
   /** Version of the form schema */
-  json_schema_version?: GetTestSchemaRequestJsonSchemaVersion;
+  json_schema_version?: GetTestSchemaRequestJsonSchemaVersion | undefined;
 }
 /** The current status of a time off request. - `requested`: The employee has submitted a time off request and it is awaiting approval. - `approved`: The time off request has been approved by a manager. - `cancelled`: The time off request was cancelled by the employee or an admin. - `declined`: The time off request was declined by a manager. - `taken`: The approved time off has been taken (the dates have passed). - `cancel_requested`: The employee has requested cancellation of a previously approved time off, pending manager approval. */
 export type TimeoffStatus2 =
@@ -8639,23 +8734,23 @@ export type GetTimeoffRequestOrder = "asc" | "desc";
 export type GetTimeoffRequestSortBy = "timeoff_type" | "status";
 export interface GetTimeoffRequest {
   /** Only show time off for a specific employment */
-  employment_id?: string;
+  employment_id?: string | undefined;
   /** Filter time off by its type. Accepts every value a time off record may carry. */
-  timeoff_type?: ResponseTimeoffType | (string & {});
+  timeoff_type?: ResponseTimeoffType | (string & {}) | undefined;
   /** Filter time off by its status */
-  status?: TimeoffStatus2 | (string & {});
+  status?: TimeoffStatus2 | (string & {}) | undefined;
   /** ISO 8601 date. When combined with `end_date`, returns all time off records that overlap the `[start_date, end_date]` window -- including records that only partially overlap at either boundary. When used alone, returns records whose `start_date` is on or after this date. */
-  start_date?: string;
+  start_date?: string | undefined;
   /** ISO 8601 date. When combined with `start_date`, returns all time off records that overlap the `[start_date, end_date]` window -- including records that only partially overlap at either boundary. When used alone, returns records whose `end_date` is on or before this date. */
-  end_date?: string;
+  end_date?: string | undefined;
   /** Sort order */
-  order?: GetTimeoffRequestOrder | (string & {});
+  order?: GetTimeoffRequestOrder | (string & {}) | undefined;
   /** Field to sort by */
-  sort_by?: GetTimeoffRequestSortBy | (string & {});
+  sort_by?: GetTimeoffRequestSortBy | (string & {}) | undefined;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export interface GetTimeoffByIdRequest {
   /** Timeoff ID */
@@ -8665,11 +8760,11 @@ export interface GetTimeoffByIdRequest {
 export type TimeoffTypesEmploymentType = "contractor" | "full_time";
 export interface GetTimeoffTypesRequest {
   /** Optional. Employment type to list time off types for: `contractor` or `full_time`. Omit for backward-compatible behavior (full-time types). */
-  type?: TimeoffTypesEmploymentType | (string & {});
+  type?: TimeoffTypesEmploymentType | (string & {}) | undefined;
 }
 /** A single time off type with name and description */
 export interface TimeoffTypeResponse {
-  description?: string | null;
+  description?: string | null | undefined;
   name: TimeoffType;
 }
 /** List of time off types available for the requested employment type */
@@ -8680,7 +8775,7 @@ export interface ListTimeoffTypesResponseData {
 }
 /** Time off types response */
 export interface ListTimeoffTypesResponse {
-  data?: ListTimeoffTypesResponseData;
+  data?: ListTimeoffTypesResponseData | undefined;
 }
 export interface GetTimesheetRequest {
   /** Timesheet ID */
@@ -8751,7 +8846,7 @@ export interface Timesheet {
   submitted_at: string | null;
   /** The individual time tracking entries that make up this timesheet. */
   time_trackings: TimesheetTimeTrackingsList;
-  timeoff_hours?: HoursAndMinutes;
+  timeoff_hours?: HoursAndMinutes | undefined;
   total_hours: HoursAndMinutes;
   unpaid_break_hours: HoursAndMinutes;
   weekend_hours: HoursAndMinutes;
@@ -8761,35 +8856,35 @@ export interface TimesheetResponseData {
 }
 /** Response containing a full timesheet with all hour breakdowns and time tracking entries. */
 export interface TimesheetResponse {
-  data?: TimesheetResponseData;
+  data?: TimesheetResponseData | undefined;
 }
 export type GetTimesheetsRequestOrder = "asc" | "desc";
 export type GetTimesheetsRequestSortBy = "submitted_at";
 export interface GetTimesheetsRequest {
   /** Filter timesheets by their status */
-  status?: TimesheetStatus | (string & {});
+  status?: TimesheetStatus | (string & {}) | undefined;
   /** Sort order */
-  order?: GetTimesheetsRequestOrder | (string & {});
+  order?: GetTimesheetsRequestOrder | (string & {}) | undefined;
   /** Field to sort by */
-  sort_by?: GetTimesheetsRequestSortBy | (string & {});
+  sort_by?: GetTimesheetsRequestSortBy | (string & {}) | undefined;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export type ListTimesheetsResponseDataTimesheetsList = Array<Timesheet>;
 export interface ListTimesheetsResponseData {
   /** The current page among all of the total_pages */
-  current_page?: number;
-  timesheets?: ListTimesheetsResponseDataTimesheetsList;
+  current_page?: number | undefined;
+  timesheets?: ListTimesheetsResponseDataTimesheetsList | undefined;
   /** The total number of records in the result */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of pages the user can go through */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 /** Response schema listing many timesheets */
 export interface ListTimesheetsResponse {
-  data?: ListTimesheetsResponseData;
+  data?: ListTimesheetsResponseData | undefined;
 }
 export interface GetTravelLetterRequestRequest {
   /** travel letter request ID */
@@ -8873,33 +8968,33 @@ export type GetTravelLetterRequestsRequestOrder = "asc" | "desc";
 export type GetTravelLetterRequestsRequestSortBy = "submitted_at";
 export interface GetTravelLetterRequestsRequest {
   /** Filter results on the given status */
-  status?: GetTravelLetterRequestsRequestStatus | (string & {});
+  status?: GetTravelLetterRequestsRequestStatus | (string & {}) | undefined;
   /** Filter results on the given employment slug */
-  employment_id?: string;
+  employment_id?: string | undefined;
   /** Filter results on the given employee name */
-  employee_name?: string;
+  employee_name?: string | undefined;
   /** Sort order */
-  order?: GetTravelLetterRequestsRequestOrder | (string & {});
+  order?: GetTravelLetterRequestsRequestOrder | (string & {}) | undefined;
   /** Field to sort by */
-  sort_by?: GetTravelLetterRequestsRequestSortBy | (string & {});
+  sort_by?: GetTravelLetterRequestsRequestSortBy | (string & {}) | undefined;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export type ListTravelLettersResponseDataTravelLetterRequestsList = Array<TravelLetterRequest>;
 export interface ListTravelLettersResponseData {
   /** The current page among all of the total_pages */
-  current_page?: number;
+  current_page?: number | undefined;
   /** The total number of records in the result */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of pages the user can go through */
-  total_pages?: number;
-  travel_letter_requests?: ListTravelLettersResponseDataTravelLetterRequestsList;
+  total_pages?: number | undefined;
+  travel_letter_requests?: ListTravelLettersResponseDataTravelLetterRequestsList | undefined;
 }
 /** Response schema listing many travel_letter_requests */
 export interface ListTravelLettersResponse {
-  data?: ListTravelLettersResponseData;
+  data?: ListTravelLettersResponseData | undefined;
 }
 export interface GetV1ContractorInvoicesIdPayInDetailsRequest {
   /** Contractor invoice identifier */
@@ -8965,23 +9060,23 @@ export type GetWebhookEventsRequestOrder = "asc" | "desc";
 export type GetWebhookEventsRequestSortBy = "first_triggered_at";
 export interface GetWebhookEventsRequest {
   /** Filter by webhook event type */
-  event_type?: string;
+  event_type?: string | undefined;
   /** Filter by delivery status (true = 200, false = 4xx/5xx) */
-  successfully_delivered?: boolean;
+  successfully_delivered?: boolean | undefined;
   /** Filter by company ID */
-  company_id?: string;
+  company_id?: string | undefined;
   /** Filter by date before (ISO 8601 format) */
-  before?: string;
+  before?: string | undefined;
   /** Filter by date after (ISO 8601 format) */
-  after?: string;
+  after?: string | undefined;
   /** Sort order */
-  order?: GetWebhookEventsRequestOrder | (string & {});
+  order?: GetWebhookEventsRequestOrder | (string & {}) | undefined;
   /** Field to sort by */
-  sort_by?: GetWebhookEventsRequestSortBy | (string & {});
+  sort_by?: GetWebhookEventsRequestSortBy | (string & {}) | undefined;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export interface WebhookEvent {
   /** The unique identifier (UUID) of the company this event belongs to. */
@@ -9000,16 +9095,16 @@ export interface WebhookEvent {
 export type ListWebhookEventsResponseDataWebhookEventsList = Array<WebhookEvent>;
 export interface ListWebhookEventsResponseData {
   /** The current page among all of the total_pages */
-  current_page?: number;
+  current_page?: number | undefined;
   /** The total number of records in the result */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of pages the user can go through */
-  total_pages?: number;
-  webhook_events?: ListWebhookEventsResponseDataWebhookEventsList;
+  total_pages?: number | undefined;
+  webhook_events?: ListWebhookEventsResponseDataWebhookEventsList | undefined;
 }
 /** Response schema listing many webhook_events */
 export interface ListWebhookEventsResponse {
-  data?: ListWebhookEventsResponseData;
+  data?: ListWebhookEventsResponseData | undefined;
 }
 export interface GetWorkAuthorizationRequestRequest {
   /** work authorization request ID */
@@ -9068,34 +9163,36 @@ export type GetWorkAuthorizationRequestsRequestOrder = "asc" | "desc";
 export type GetWorkAuthorizationRequestsRequestSortBy = "submitted_at";
 export interface GetWorkAuthorizationRequestsRequest {
   /** Filter results on the given status */
-  status?: GetWorkAuthorizationRequestsRequestStatus | (string & {});
+  status?: GetWorkAuthorizationRequestsRequestStatus | (string & {}) | undefined;
   /** Filter results on the given employment slug */
-  employment_id?: string;
+  employment_id?: string | undefined;
   /** Filter results on the given employee name */
-  employee_name?: string;
+  employee_name?: string | undefined;
   /** Sort order */
-  order?: GetWorkAuthorizationRequestsRequestOrder | (string & {});
+  order?: GetWorkAuthorizationRequestsRequestOrder | (string & {}) | undefined;
   /** Field to sort by */
-  sort_by?: GetWorkAuthorizationRequestsRequestSortBy | (string & {});
+  sort_by?: GetWorkAuthorizationRequestsRequestSortBy | (string & {}) | undefined;
   /** Starts fetching records after the given page */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 export type ListWorkAuthorizationRequestsResponseDataWorkAuthorizationRequestsList =
   Array<WorkAuthorizationRequest>;
 export interface ListWorkAuthorizationRequestsResponseData {
   /** The current page among all of the total_pages */
-  current_page?: number;
+  current_page?: number | undefined;
   /** The total number of records in the result */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of pages the user can go through */
-  total_pages?: number;
-  work_authorization_requests?: ListWorkAuthorizationRequestsResponseDataWorkAuthorizationRequestsList;
+  total_pages?: number | undefined;
+  work_authorization_requests?:
+    | ListWorkAuthorizationRequestsResponseDataWorkAuthorizationRequestsList
+    | undefined;
 }
 /** Response schema listing many work_authorization_requests */
 export interface ListWorkAuthorizationRequestsResponse {
-  data?: ListWorkAuthorizationRequestsResponseData;
+  data?: ListWorkAuthorizationRequestsResponseData | undefined;
 }
 /** Use latest version */
 export type PatchV1CompaniesCompanyIdRequestAddressDetailsJsonSchemaVersionCase1 = "latest";
@@ -9125,25 +9222,29 @@ export interface PatchV1CompaniesCompanyIdRequest {
   /** Company ID */
   company_id: string;
   /** Version of the address_details form schema */
-  address_details_json_schema_version?: PatchV1CompaniesCompanyIdRequestAddressDetailsJsonSchemaVersion;
+  address_details_json_schema_version?:
+    | PatchV1CompaniesCompanyIdRequestAddressDetailsJsonSchemaVersion
+    | undefined;
   /** Version of the bank_account_details form schema */
-  bank_account_details_json_schema_version?: PatchV1CompaniesCompanyIdRequestBankAccountDetailsJsonSchemaVersion;
+  bank_account_details_json_schema_version?:
+    | PatchV1CompaniesCompanyIdRequestBankAccountDetailsJsonSchemaVersion
+    | undefined;
   /** Fields can vary depending on the country. Please, check the required fields structure using the [Show form schema endpoint](#operation/get_show_form_country). Use the desired country and `address_details` as the form name for the placeholders. The response complies with the [JSON Schema](https://developer.remote.com/docs/how-json-schemas-work) specification. */
-  address_details?: unknown;
+  address_details?: unknown | undefined;
   /** Fields can vary depending on the country. Please, check the required fields structure using the [Show form schema endpoint](#operation/get_show_form_country). Use the desired country and `bank_account_details` as the form name for the placeholders. The response complies with the [JSON Schema](https://developer.remote.com/docs/how-json-schemas-work) specification. */
-  bank_account_details?: unknown;
+  bank_account_details?: unknown | undefined;
   /** Country of company address */
-  country_code?: string;
+  country_code?: string | undefined;
   /** Desired currency for invoicing and displaying converted salaries in Remote UI regardless of the employee's country. This field is only accepted if company is in status `pending`. Please contact Remote if you wish to update it. */
-  desired_currency?: PatchV1CompaniesCompanyIdRequestDesiredCurrency | (string & {});
+  desired_currency?: PatchV1CompaniesCompanyIdRequestDesiredCurrency | (string & {}) | undefined;
   /** This field is only accepted if company is in status `pending`. Please contact Remote if you wish to update it. */
-  name?: string;
+  name?: string | undefined;
   /** A phone number the company can be contacted with. */
-  phone_number?: string;
+  phone_number?: string | undefined;
   /** The company registration number. This field or tax_number (but not both) should be submitted. This field is only accepted if company is in status `pending`. */
-  registration_number?: string;
+  registration_number?: string | undefined;
   /** The tax identifier of the company. This field or registration_number (but not both) should be submitted. This field is only accepted if company is in status `pending`. */
-  tax_number?: string;
+  tax_number?: string | undefined;
 }
 /** Use latest version */
 export type PatchV1CompaniesCompanyId2RequestAddressDetailsJsonSchemaVersionCase1 = "latest";
@@ -9173,25 +9274,29 @@ export interface PatchV1CompaniesCompanyId2Request {
   /** Company ID */
   company_id: string;
   /** Version of the address_details form schema */
-  address_details_json_schema_version?: PatchV1CompaniesCompanyId2RequestAddressDetailsJsonSchemaVersion;
+  address_details_json_schema_version?:
+    | PatchV1CompaniesCompanyId2RequestAddressDetailsJsonSchemaVersion
+    | undefined;
   /** Version of the bank_account_details form schema */
-  bank_account_details_json_schema_version?: PatchV1CompaniesCompanyId2RequestBankAccountDetailsJsonSchemaVersion;
+  bank_account_details_json_schema_version?:
+    | PatchV1CompaniesCompanyId2RequestBankAccountDetailsJsonSchemaVersion
+    | undefined;
   /** Fields can vary depending on the country. Please, check the required fields structure using the [Show form schema endpoint](#operation/get_show_form_country). Use the desired country and `address_details` as the form name for the placeholders. The response complies with the [JSON Schema](https://developer.remote.com/docs/how-json-schemas-work) specification. */
-  address_details?: unknown;
+  address_details?: unknown | undefined;
   /** Fields can vary depending on the country. Please, check the required fields structure using the [Show form schema endpoint](#operation/get_show_form_country). Use the desired country and `bank_account_details` as the form name for the placeholders. The response complies with the [JSON Schema](https://developer.remote.com/docs/how-json-schemas-work) specification. */
-  bank_account_details?: unknown;
+  bank_account_details?: unknown | undefined;
   /** Country of company address */
-  country_code?: string;
+  country_code?: string | undefined;
   /** Desired currency for invoicing and displaying converted salaries in Remote UI regardless of the employee's country. This field is only accepted if company is in status `pending`. Please contact Remote if you wish to update it. */
-  desired_currency?: PatchV1CompaniesCompanyId2RequestDesiredCurrency | (string & {});
+  desired_currency?: PatchV1CompaniesCompanyId2RequestDesiredCurrency | (string & {}) | undefined;
   /** This field is only accepted if company is in status `pending`. Please contact Remote if you wish to update it. */
-  name?: string;
+  name?: string | undefined;
   /** A phone number the company can be contacted with. */
-  phone_number?: string;
+  phone_number?: string | undefined;
   /** The company registration number. This field or tax_number (but not both) should be submitted. This field is only accepted if company is in status `pending`. */
-  registration_number?: string;
+  registration_number?: string | undefined;
   /** The tax identifier of the company. This field or registration_number (but not both) should be submitted. This field is only accepted if company is in status `pending`. */
-  tax_number?: string;
+  tax_number?: string | undefined;
 }
 export interface CompanyManagerBillingContact {
   /** Whether this manager is the primary billing contact for the legal entity */
@@ -9228,19 +9333,19 @@ export type PatchV1ContractorInvoiceSchedulesIdRequestStatus =
 export interface PatchV1ContractorInvoiceSchedulesIdRequest {
   /** Resource unique identifier */
   id: string;
-  currency?: string | null;
-  custom_days?: ContractorInvoiceScheduleCustomDays | null;
+  currency?: string | null | undefined;
+  custom_days?: ContractorInvoiceScheduleCustomDays | null | undefined;
   /** List of invoice items that composes the overall invoice amount. */
-  items?: PatchV1ContractorInvoiceSchedulesIdRequestItemsList;
+  items?: PatchV1ContractorInvoiceSchedulesIdRequestItemsList | undefined;
   /** Custom defined note. */
-  note?: string | null;
+  note?: string | null | undefined;
   /** Count of remaining invoices that should be generated. */
-  nr_occurrences?: number | null;
+  nr_occurrences?: number | null | undefined;
   /** Invoice identifier. */
-  number?: string | null;
-  periodicity?: ContractorInvoiceSchedulePeriodicity | (string & {});
-  start_date?: string;
-  status?: PatchV1ContractorInvoiceSchedulesIdRequestStatus | (string & {});
+  number?: string | null | undefined;
+  periodicity?: ContractorInvoiceSchedulePeriodicity | (string & {}) | undefined;
+  start_date?: string | undefined;
+  status?: PatchV1ContractorInvoiceSchedulesIdRequestStatus | (string & {}) | undefined;
 }
 /** List of invoice items that composes the overall invoice amount. */
 export type PatchV1ContractorInvoiceSchedulesId2RequestItemsList =
@@ -9253,19 +9358,19 @@ export type PatchV1ContractorInvoiceSchedulesId2RequestStatus =
 export interface PatchV1ContractorInvoiceSchedulesId2Request {
   /** Resource unique identifier */
   id: string;
-  currency?: string | null;
-  custom_days?: ContractorInvoiceScheduleCustomDays | null;
+  currency?: string | null | undefined;
+  custom_days?: ContractorInvoiceScheduleCustomDays | null | undefined;
   /** List of invoice items that composes the overall invoice amount. */
-  items?: PatchV1ContractorInvoiceSchedulesId2RequestItemsList;
+  items?: PatchV1ContractorInvoiceSchedulesId2RequestItemsList | undefined;
   /** Custom defined note. */
-  note?: string | null;
+  note?: string | null | undefined;
   /** Count of remaining invoices that should be generated. */
-  nr_occurrences?: number | null;
+  nr_occurrences?: number | null | undefined;
   /** Invoice identifier. */
-  number?: string | null;
-  periodicity?: ContractorInvoiceSchedulePeriodicity | (string & {});
-  start_date?: string;
-  status?: PatchV1ContractorInvoiceSchedulesId2RequestStatus | (string & {});
+  number?: string | null | undefined;
+  periodicity?: ContractorInvoiceSchedulePeriodicity | (string & {}) | undefined;
+  start_date?: string | undefined;
+  status?: PatchV1ContractorInvoiceSchedulesId2RequestStatus | (string & {}) | undefined;
 }
 export type PatchV1CustomFieldsCustomFieldIdValuesEmploymentIdRequestValue =
   | string
@@ -9293,29 +9398,29 @@ export type PatchV1EmployeeTimeoffIdRequestTimeoffDaysList = Array<TimeoffDaysPa
 export interface PatchV1EmployeeTimeoffIdRequest {
   /** Timeoff ID */
   id: string;
-  document?: TimeoffDocumentParams;
+  document?: TimeoffDocumentParams | undefined;
   /** The reason for the update. Required when updating the time off data but not changing the status. */
   edit_reason: string;
-  end_date?: string;
-  leave_policy_variant_id?: string;
-  notes?: string;
-  start_date?: string;
-  timeoff_days?: PatchV1EmployeeTimeoffIdRequestTimeoffDaysList;
-  timezone?: string;
+  end_date?: string | undefined;
+  leave_policy_variant_id?: string | undefined;
+  notes?: string | undefined;
+  start_date?: string | undefined;
+  timeoff_days?: PatchV1EmployeeTimeoffIdRequestTimeoffDaysList | undefined;
+  timezone?: string | undefined;
 }
 export type PatchV1EmployeeTimeoffId2RequestTimeoffDaysList = Array<TimeoffDaysParams>;
 export interface PatchV1EmployeeTimeoffId2Request {
   /** Timeoff ID */
   id: string;
-  document?: TimeoffDocumentParams;
+  document?: TimeoffDocumentParams | undefined;
   /** The reason for the update. Required when updating the time off data but not changing the status. */
   edit_reason: string;
-  end_date?: string;
-  leave_policy_variant_id?: string;
-  notes?: string;
-  start_date?: string;
-  timeoff_days?: PatchV1EmployeeTimeoffId2RequestTimeoffDaysList;
-  timezone?: string;
+  end_date?: string | undefined;
+  leave_policy_variant_id?: string | undefined;
+  notes?: string | undefined;
+  start_date?: string | undefined;
+  timeoff_days?: PatchV1EmployeeTimeoffId2RequestTimeoffDaysList | undefined;
+  timezone?: string | undefined;
 }
 /** Use latest version */
 export type PatchV1EmploymentsEmploymentIdRequestAddressDetailsJsonSchemaVersionCase1 = "latest";
@@ -9374,67 +9479,85 @@ export interface PatchV1EmploymentsEmploymentIdRequest {
   /** Employment ID */
   employment_id: string;
   /** Version of the address_details form schema */
-  address_details_json_schema_version?: PatchV1EmploymentsEmploymentIdRequestAddressDetailsJsonSchemaVersion;
+  address_details_json_schema_version?:
+    | PatchV1EmploymentsEmploymentIdRequestAddressDetailsJsonSchemaVersion
+    | undefined;
   /** Version of the administrative_details form schema */
-  administrative_details_json_schema_version?: PatchV1EmploymentsEmploymentIdRequestAdministrativeDetailsJsonSchemaVersion;
+  administrative_details_json_schema_version?:
+    | PatchV1EmploymentsEmploymentIdRequestAdministrativeDetailsJsonSchemaVersion
+    | undefined;
   /** Version of the bank_account_details form schema */
-  bank_account_details_json_schema_version?: PatchV1EmploymentsEmploymentIdRequestBankAccountDetailsJsonSchemaVersion;
+  bank_account_details_json_schema_version?:
+    | PatchV1EmploymentsEmploymentIdRequestBankAccountDetailsJsonSchemaVersion
+    | undefined;
   /** Version of the employment_basic_information form schema */
-  employment_basic_information_json_schema_version?: PatchV1EmploymentsEmploymentIdRequestEmploymentBasicInformationJsonSchemaVersion;
+  employment_basic_information_json_schema_version?:
+    | PatchV1EmploymentsEmploymentIdRequestEmploymentBasicInformationJsonSchemaVersion
+    | undefined;
   /** Version of the billing_address_details form schema */
-  billing_address_details_json_schema_version?: PatchV1EmploymentsEmploymentIdRequestBillingAddressDetailsJsonSchemaVersion;
+  billing_address_details_json_schema_version?:
+    | PatchV1EmploymentsEmploymentIdRequestBillingAddressDetailsJsonSchemaVersion
+    | undefined;
   /** Version of the contract_details form schema */
-  contract_details_json_schema_version?: PatchV1EmploymentsEmploymentIdRequestContractDetailsJsonSchemaVersion;
+  contract_details_json_schema_version?:
+    | PatchV1EmploymentsEmploymentIdRequestContractDetailsJsonSchemaVersion
+    | undefined;
   /** Version of the emergency_contact_details form schema */
-  emergency_contact_details_json_schema_version?: PatchV1EmploymentsEmploymentIdRequestEmergencyContactDetailsJsonSchemaVersion;
+  emergency_contact_details_json_schema_version?:
+    | PatchV1EmploymentsEmploymentIdRequestEmergencyContactDetailsJsonSchemaVersion
+    | undefined;
   /** Version of the personal_details form schema */
-  personal_details_json_schema_version?: PatchV1EmploymentsEmploymentIdRequestPersonalDetailsJsonSchemaVersion;
+  personal_details_json_schema_version?:
+    | PatchV1EmploymentsEmploymentIdRequestPersonalDetailsJsonSchemaVersion
+    | undefined;
   /** Version of the pricing_plan_details form schema */
-  pricing_plan_details_json_schema_version?: PatchV1EmploymentsEmploymentIdRequestPricingPlanDetailsJsonSchemaVersion;
+  pricing_plan_details_json_schema_version?:
+    | PatchV1EmploymentsEmploymentIdRequestPricingPlanDetailsJsonSchemaVersion
+    | undefined;
   /** Skips the dynamic benefits part of the schema if set. To be used when benefits are set via its own API. */
-  skip_benefits?: boolean;
+  skip_benefits?: boolean | undefined;
   /** Complementary action(s) to perform when creating an employment. */
-  actions?: string;
+  actions?: string | undefined;
   /** When true, returns `tax_servicing_countries` grouped into global/regions/subregions instead of a flat list of country names. */
-  group_tax_servicing_countries?: boolean;
+  group_tax_servicing_countries?: boolean | undefined;
   /** Home address information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `address_details` as path parameters. */
-  address_details?: unknown;
+  address_details?: unknown | undefined;
   /** Administrative information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `administrative_details` as path parameters. */
-  administrative_details?: unknown;
+  administrative_details?: unknown | undefined;
   /** Bank account information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `bank_account_details` as path parameters. */
-  bank_account_details?: unknown;
+  bank_account_details?: unknown | undefined;
   /** Employment basic information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `employment_basic_information` as path parameters. */
-  basic_information?: unknown;
+  basic_information?: unknown | undefined;
   /** Billing address information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `billing_address_details` as path parameters. */
-  billing_address_details?: unknown;
+  billing_address_details?: unknown | undefined;
   /** The unique identifier (UUID) of the company. Optional when updating. */
-  company_id?: string;
+  company_id?: string | undefined;
   /** Contract information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `contract_details` as path parameters. */
-  contract_details?: unknown;
-  country?: Country;
+  contract_details?: unknown | undefined;
+  country?: Country | undefined;
   /** The ISO 3166-1 3-letter country code for this employment. */
-  country_code?: string;
+  country_code?: string | undefined;
   /** The department of the employment. The department must belong to the same company as the employment. When set to `null`, the employment will be unassigned from a department. */
-  department_id?: string | null;
+  department_id?: string | null | undefined;
   /** Emergency contact information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `emergency_contact_details` as path parameters. */
-  emergency_contact_details?: unknown;
+  emergency_contact_details?: unknown | undefined;
   /** A unique reference code for the employment record in a non-Remote system. This optional field links to external data sources. If not provided, it defaults to `null`. While uniqueness is recommended, it is not strictly enforced within Remote's system. */
-  external_id?: string;
+  external_id?: string | undefined;
   /** The user id of the manager, who should have an `admin`, `owner` or `people_manager` role. You can find these users by querying the [Company Managers endpoint](#operation/get_index_company_manager). **Update of this field is only available for active employments.** */
-  manager_id?: string;
+  manager_id?: string | undefined;
   /** A reference code for the employment record in the calling integration's own system. Private to that integration -- no other integration can read or overwrite it. Omit the field to leave the value unchanged; send `null` or an empty string to clear it. At most 64 characters, counting any surrounding whitespace sent; that whitespace is then trimmed off. It can be set at any employment status, and the same value may be used on several employments (for example a rehire). See [Your own IDs on Remote records](https://developer.remote.com/docs/your-own-ids-on-remote-records). */
-  partner_external_id?: string | null;
+  partner_external_id?: string | null | undefined;
   /** Personal details information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `personal_details` as path parameters. */
-  personal_details?: unknown;
+  personal_details?: unknown | undefined;
   /** Pricing plan details information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `pricing_plan_details` as path parameters. */
-  pricing_plan_details?: unknown;
+  pricing_plan_details?: unknown | undefined;
   /** If not provided, it will default to `employee`. */
-  type?: PatchV1EmploymentsEmploymentIdRequestType | (string & {});
+  type?: PatchV1EmploymentsEmploymentIdRequestType | (string & {}) | undefined;
   /** The work email of the employment. */
-  work_email?: string;
+  work_email?: string | undefined;
 }
 export interface EmploymentResponseData {
-  employment?: Employment;
+  employment?: Employment | undefined;
 }
 /** Response containing the full employment record after an update operation. */
 export interface EmploymentResponse {
@@ -9497,64 +9620,82 @@ export interface PatchV1EmploymentsEmploymentId2Request {
   /** Employment ID */
   employment_id: string;
   /** Version of the address_details form schema */
-  address_details_json_schema_version?: PatchV1EmploymentsEmploymentId2RequestAddressDetailsJsonSchemaVersion;
+  address_details_json_schema_version?:
+    | PatchV1EmploymentsEmploymentId2RequestAddressDetailsJsonSchemaVersion
+    | undefined;
   /** Version of the administrative_details form schema */
-  administrative_details_json_schema_version?: PatchV1EmploymentsEmploymentId2RequestAdministrativeDetailsJsonSchemaVersion;
+  administrative_details_json_schema_version?:
+    | PatchV1EmploymentsEmploymentId2RequestAdministrativeDetailsJsonSchemaVersion
+    | undefined;
   /** Version of the bank_account_details form schema */
-  bank_account_details_json_schema_version?: PatchV1EmploymentsEmploymentId2RequestBankAccountDetailsJsonSchemaVersion;
+  bank_account_details_json_schema_version?:
+    | PatchV1EmploymentsEmploymentId2RequestBankAccountDetailsJsonSchemaVersion
+    | undefined;
   /** Version of the employment_basic_information form schema */
-  employment_basic_information_json_schema_version?: PatchV1EmploymentsEmploymentId2RequestEmploymentBasicInformationJsonSchemaVersion;
+  employment_basic_information_json_schema_version?:
+    | PatchV1EmploymentsEmploymentId2RequestEmploymentBasicInformationJsonSchemaVersion
+    | undefined;
   /** Version of the billing_address_details form schema */
-  billing_address_details_json_schema_version?: PatchV1EmploymentsEmploymentId2RequestBillingAddressDetailsJsonSchemaVersion;
+  billing_address_details_json_schema_version?:
+    | PatchV1EmploymentsEmploymentId2RequestBillingAddressDetailsJsonSchemaVersion
+    | undefined;
   /** Version of the contract_details form schema */
-  contract_details_json_schema_version?: PatchV1EmploymentsEmploymentId2RequestContractDetailsJsonSchemaVersion;
+  contract_details_json_schema_version?:
+    | PatchV1EmploymentsEmploymentId2RequestContractDetailsJsonSchemaVersion
+    | undefined;
   /** Version of the emergency_contact_details form schema */
-  emergency_contact_details_json_schema_version?: PatchV1EmploymentsEmploymentId2RequestEmergencyContactDetailsJsonSchemaVersion;
+  emergency_contact_details_json_schema_version?:
+    | PatchV1EmploymentsEmploymentId2RequestEmergencyContactDetailsJsonSchemaVersion
+    | undefined;
   /** Version of the personal_details form schema */
-  personal_details_json_schema_version?: PatchV1EmploymentsEmploymentId2RequestPersonalDetailsJsonSchemaVersion;
+  personal_details_json_schema_version?:
+    | PatchV1EmploymentsEmploymentId2RequestPersonalDetailsJsonSchemaVersion
+    | undefined;
   /** Version of the pricing_plan_details form schema */
-  pricing_plan_details_json_schema_version?: PatchV1EmploymentsEmploymentId2RequestPricingPlanDetailsJsonSchemaVersion;
+  pricing_plan_details_json_schema_version?:
+    | PatchV1EmploymentsEmploymentId2RequestPricingPlanDetailsJsonSchemaVersion
+    | undefined;
   /** Skips the dynamic benefits part of the schema if set. To be used when benefits are set via its own API. */
-  skip_benefits?: boolean;
+  skip_benefits?: boolean | undefined;
   /** Complementary action(s) to perform when creating an employment. */
-  actions?: string;
+  actions?: string | undefined;
   /** When true, returns `tax_servicing_countries` grouped into global/regions/subregions instead of a flat list of country names. */
-  group_tax_servicing_countries?: boolean;
+  group_tax_servicing_countries?: boolean | undefined;
   /** Home address information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `address_details` as path parameters. */
-  address_details?: unknown;
+  address_details?: unknown | undefined;
   /** Administrative information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `administrative_details` as path parameters. */
-  administrative_details?: unknown;
+  administrative_details?: unknown | undefined;
   /** Bank account information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `bank_account_details` as path parameters. */
-  bank_account_details?: unknown;
+  bank_account_details?: unknown | undefined;
   /** Employment basic information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `employment_basic_information` as path parameters. */
-  basic_information?: unknown;
+  basic_information?: unknown | undefined;
   /** Billing address information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `billing_address_details` as path parameters. */
-  billing_address_details?: unknown;
+  billing_address_details?: unknown | undefined;
   /** The unique identifier (UUID) of the company. Optional when updating. */
-  company_id?: string;
+  company_id?: string | undefined;
   /** Contract information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `contract_details` as path parameters. */
-  contract_details?: unknown;
-  country?: Country;
+  contract_details?: unknown | undefined;
+  country?: Country | undefined;
   /** The ISO 3166-1 3-letter country code for this employment. */
-  country_code?: string;
+  country_code?: string | undefined;
   /** The department of the employment. The department must belong to the same company as the employment. When set to `null`, the employment will be unassigned from a department. */
-  department_id?: string | null;
+  department_id?: string | null | undefined;
   /** Emergency contact information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `emergency_contact_details` as path parameters. */
-  emergency_contact_details?: unknown;
+  emergency_contact_details?: unknown | undefined;
   /** A unique reference code for the employment record in a non-Remote system. This optional field links to external data sources. If not provided, it defaults to `null`. While uniqueness is recommended, it is not strictly enforced within Remote's system. */
-  external_id?: string;
+  external_id?: string | undefined;
   /** The user id of the manager, who should have an `admin`, `owner` or `people_manager` role. You can find these users by querying the [Company Managers endpoint](#operation/get_index_company_manager). **Update of this field is only available for active employments.** */
-  manager_id?: string;
+  manager_id?: string | undefined;
   /** A reference code for the employment record in the calling integration's own system. Private to that integration -- no other integration can read or overwrite it. Omit the field to leave the value unchanged; send `null` or an empty string to clear it. At most 64 characters, counting any surrounding whitespace sent; that whitespace is then trimmed off. It can be set at any employment status, and the same value may be used on several employments (for example a rehire). See [Your own IDs on Remote records](https://developer.remote.com/docs/your-own-ids-on-remote-records). */
-  partner_external_id?: string | null;
+  partner_external_id?: string | null | undefined;
   /** Personal details information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `personal_details` as path parameters. */
-  personal_details?: unknown;
+  personal_details?: unknown | undefined;
   /** Pricing plan details information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `pricing_plan_details` as path parameters. */
-  pricing_plan_details?: unknown;
+  pricing_plan_details?: unknown | undefined;
   /** If not provided, it will default to `employee`. */
-  type?: PatchV1EmploymentsEmploymentId2RequestType | (string & {});
+  type?: PatchV1EmploymentsEmploymentId2RequestType | (string & {}) | undefined;
   /** The work email of the employment. */
-  work_email?: string;
+  work_email?: string | undefined;
 }
 export type ApproveExpenseParamsStatus = "approved";
 /** Approve an expense */
@@ -9573,98 +9714,98 @@ export type UpdateExpenseParams = ApproveExpenseParams | DeclineExpenseParams;
 export interface PatchV1ExpensesIdRequest {
   /** Expense ID */
   id: string;
-  body?: UpdateExpenseParams;
+  body?: UpdateExpenseParams | undefined;
 }
 export interface PatchV1ExpensesId2Request {
   /** Expense ID */
   id: string;
-  body?: UpdateExpenseParams;
+  body?: UpdateExpenseParams | undefined;
 }
 export interface PatchV1IncentivesIdRequest {
   /** Incentive ID */
   id: string;
   /** The amount (in the currency of the employment) to be given to the employee. This field accepts fractional amounts as well. However to avoid precision issues and errors that can arise from storing fractional amounts, the Remote API only accepts currencies and their fractional amounts as integers. This means you should append fractional amounts to the end of the amount you're passing in with this field. For example, if the incentive you're offering is EUR 500.25, you would specify `50025` as the amount for this field. */
-  amount?: number;
-  amount_tax_type?: AmountTaxType | (string & {});
+  amount?: number | undefined;
+  amount_tax_type?: AmountTaxType | (string & {}) | undefined;
   /** The date at which the incentive should take effect. Note that the incentive is not paid out on the effective date, but during the next payroll cycle. The effective date determines which payroll cycle the incentive will be paid out in. The effective date needs to be today or a future date. Note for recurring incentives: since the months don't have the same amount of days, if day of month of `effective_date` is one of [28, 29, 30, 31] it will be transformed to the last day of each month, avoiding the possibility of skipping a month in the recurrence. */
-  effective_date?: string;
-  note?: string | null;
+  effective_date?: string | undefined;
+  note?: string | null | undefined;
   /** The end date of the incentive period (month, quarter, half-year or year) */
-  period_end?: string | null;
+  period_end?: string | null | undefined;
   /** The start date of the incentive period (month, quarter, half-year or year) */
-  period_start?: string | null;
+  period_start?: string | null | undefined;
   /** A valid type according to the payment frequency */
-  type?: string;
+  type?: string | undefined;
 }
 export interface PatchV1IncentivesId2Request {
   /** Incentive ID */
   id: string;
   /** The amount (in the currency of the employment) to be given to the employee. This field accepts fractional amounts as well. However to avoid precision issues and errors that can arise from storing fractional amounts, the Remote API only accepts currencies and their fractional amounts as integers. This means you should append fractional amounts to the end of the amount you're passing in with this field. For example, if the incentive you're offering is EUR 500.25, you would specify `50025` as the amount for this field. */
-  amount?: number;
-  amount_tax_type?: AmountTaxType | (string & {});
+  amount?: number | undefined;
+  amount_tax_type?: AmountTaxType | (string & {}) | undefined;
   /** The date at which the incentive should take effect. Note that the incentive is not paid out on the effective date, but during the next payroll cycle. The effective date determines which payroll cycle the incentive will be paid out in. The effective date needs to be today or a future date. Note for recurring incentives: since the months don't have the same amount of days, if day of month of `effective_date` is one of [28, 29, 30, 31] it will be transformed to the last day of each month, avoiding the possibility of skipping a month in the recurrence. */
-  effective_date?: string;
-  note?: string | null;
+  effective_date?: string | undefined;
+  note?: string | null | undefined;
   /** The end date of the incentive period (month, quarter, half-year or year) */
-  period_end?: string | null;
+  period_end?: string | null | undefined;
   /** The start date of the incentive period (month, quarter, half-year or year) */
-  period_start?: string | null;
+  period_start?: string | null | undefined;
   /** A valid type according to the payment frequency */
-  type?: string;
+  type?: string | undefined;
 }
 export interface PatchV1SandboxEmploymentsEmploymentIdRequest {
   /** Employment ID */
   employment_id: string;
   /** When true, returns `tax_servicing_countries` grouped into global/regions/subregions instead of a flat list of country names. */
-  group_tax_servicing_countries?: boolean;
-  provisional_start_date?: string;
-  status?: EmploymentStatus | (string & {});
+  group_tax_servicing_countries?: boolean | undefined;
+  provisional_start_date?: string | undefined;
+  status?: EmploymentStatus | (string & {}) | undefined;
 }
 export interface PatchV1SandboxEmploymentsEmploymentId2Request {
   /** Employment ID */
   employment_id: string;
   /** When true, returns `tax_servicing_countries` grouped into global/regions/subregions instead of a flat list of country names. */
-  group_tax_servicing_countries?: boolean;
-  provisional_start_date?: string;
-  status?: EmploymentStatus | (string & {});
+  group_tax_servicing_countries?: boolean | undefined;
+  provisional_start_date?: string | undefined;
+  status?: EmploymentStatus | (string & {}) | undefined;
 }
 export type PatchV1TimeoffIdRequestStatus = "approved" | "cancelled";
 export type PatchV1TimeoffIdRequestTimeoffDaysList = Array<TimeoffDaysParams>;
 export interface PatchV1TimeoffIdRequest {
   /** Timeoff ID */
   id: string;
-  approved_at?: string;
-  approver_id?: string | null;
+  approved_at?: string | undefined;
+  approver_id?: string | null | undefined;
   /** The reason for cancelling a time off. Required when updating to status `cancelled`. */
   cancel_reason: string;
-  document?: TimeoffDocumentParams;
+  document?: TimeoffDocumentParams | undefined;
   /** The reason for the update. Required when updating the time off data but not changing the status. */
   edit_reason: string;
-  end_date?: string;
-  notes?: string;
-  start_date?: string;
-  status?: PatchV1TimeoffIdRequestStatus | (string & {});
-  timeoff_days?: PatchV1TimeoffIdRequestTimeoffDaysList;
-  timezone?: string;
+  end_date?: string | undefined;
+  notes?: string | undefined;
+  start_date?: string | undefined;
+  status?: PatchV1TimeoffIdRequestStatus | (string & {}) | undefined;
+  timeoff_days?: PatchV1TimeoffIdRequestTimeoffDaysList | undefined;
+  timezone?: string | undefined;
 }
 export type PatchV1TimeoffId2RequestStatus = "approved" | "cancelled";
 export type PatchV1TimeoffId2RequestTimeoffDaysList = Array<TimeoffDaysParams>;
 export interface PatchV1TimeoffId2Request {
   /** Timeoff ID */
   id: string;
-  approved_at?: string;
-  approver_id?: string | null;
+  approved_at?: string | undefined;
+  approver_id?: string | null | undefined;
   /** The reason for cancelling a time off. Required when updating to status `cancelled`. */
   cancel_reason: string;
-  document?: TimeoffDocumentParams;
+  document?: TimeoffDocumentParams | undefined;
   /** The reason for the update. Required when updating the time off data but not changing the status. */
   edit_reason: string;
-  end_date?: string;
-  notes?: string;
-  start_date?: string;
-  status?: PatchV1TimeoffId2RequestStatus | (string & {});
-  timeoff_days?: PatchV1TimeoffId2RequestTimeoffDaysList;
-  timezone?: string;
+  end_date?: string | undefined;
+  notes?: string | undefined;
+  start_date?: string | undefined;
+  status?: PatchV1TimeoffId2RequestStatus | (string & {}) | undefined;
+  timeoff_days?: PatchV1TimeoffId2RequestTimeoffDaysList | undefined;
+  timezone?: string | undefined;
 }
 export type ApprovedTravelLetterResponsibleForAccommodationCost = "employee" | "employer";
 export type ApprovedTravelLetterResponsibleForMealCost = "employee" | "employer";
@@ -9672,7 +9813,7 @@ export type ApprovedTravelLetterResponsibleForTravelCost = "employee" | "employe
 export type ApprovedTravelLetterStatus = "approved_by_manager";
 /** Schema for approved travel letter */
 export interface ApprovedTravelLetter {
-  employer_special_instructions?: string | null;
+  employer_special_instructions?: string | null | undefined;
   responsible_for_accommodation_cost:
     | ApprovedTravelLetterResponsibleForAccommodationCost
     | (string & {});
@@ -9683,7 +9824,7 @@ export interface ApprovedTravelLetter {
 export type DeclinedTravelLetterStatus = "declined_by_manager";
 /** Schema for declined travel letter */
 export interface DeclinedTravelLetter {
-  employer_special_instructions?: string | null;
+  employer_special_instructions?: string | null | undefined;
   reason: string;
   status: DeclinedTravelLetterStatus;
 }
@@ -9704,7 +9845,7 @@ export type ApprovedWorkAuthozationServiceLevel = "assessment_only" | "full_serv
 export type ApprovedWorkAuthozationStatus = "approved_by_manager";
 /** Schema for approved work authorization */
 export interface ApprovedWorkAuthozation {
-  employer_special_instructions?: string | null;
+  employer_special_instructions?: string | null | undefined;
   /** The mobility service level for the approved request. */
   service_level: ApprovedWorkAuthozationServiceLevel | (string & {});
   status: ApprovedWorkAuthozationStatus;
@@ -9712,7 +9853,7 @@ export interface ApprovedWorkAuthozation {
 export type DeclinedWorkAuthozationStatus = "declined_by_manager";
 /** Schema for declined work authorization */
 export interface DeclinedWorkAuthozation {
-  employer_special_instructions?: string | null;
+  employer_special_instructions?: string | null | undefined;
   reason: string;
   status: DeclinedWorkAuthozationStatus;
 }
@@ -9734,33 +9875,33 @@ export interface PatchV2EmploymentsEmploymentIdRequest {
   /** Employment ID */
   employment_id: string;
   /** When true, returns `tax_servicing_countries` grouped into global/regions/subregions instead of a flat list of country names. */
-  group_tax_servicing_countries?: boolean;
+  group_tax_servicing_countries?: boolean | undefined;
   /** The department of the employment. The department must belong to the same company as the employment. When set to `null`, the employment will be unassigned from a department. */
-  department_id?: string | null;
+  department_id?: string | null | undefined;
   /** A unique reference code for the employment record in a non-Remote system. This optional field links to external data sources. If not provided, it defaults to `null`. While uniqueness is recommended, it is not strictly enforced within Remote's system. */
-  external_id?: string;
+  external_id?: string | undefined;
   /** The user id of the manager, who should have an `admin`, `owner` or `people_manager` role. You can find these users by querying the [Company Managers endpoint](#operation/get_index_company_manager). */
-  manager_id?: string;
+  manager_id?: string | undefined;
   /** A reference code for the employment record in the calling integration's own system. Private to that integration -- no other integration can read or overwrite it. Omit the field to leave the value unchanged; send `null` or an empty string to clear it. At most 64 characters, counting any surrounding whitespace sent; that whitespace is then trimmed off. It can be set at any employment status, and the same value may be used on several employments (for example a rehire). See [Your own IDs on Remote records](https://developer.remote.com/docs/your-own-ids-on-remote-records). */
-  partner_external_id?: string | null;
+  partner_external_id?: string | null | undefined;
   /** The work email of the employment. */
-  work_email?: string;
+  work_email?: string | undefined;
 }
 export interface PatchV2EmploymentsEmploymentId2Request {
   /** Employment ID */
   employment_id: string;
   /** When true, returns `tax_servicing_countries` grouped into global/regions/subregions instead of a flat list of country names. */
-  group_tax_servicing_countries?: boolean;
+  group_tax_servicing_countries?: boolean | undefined;
   /** The department of the employment. The department must belong to the same company as the employment. When set to `null`, the employment will be unassigned from a department. */
-  department_id?: string | null;
+  department_id?: string | null | undefined;
   /** A unique reference code for the employment record in a non-Remote system. This optional field links to external data sources. If not provided, it defaults to `null`. While uniqueness is recommended, it is not strictly enforced within Remote's system. */
-  external_id?: string;
+  external_id?: string | undefined;
   /** The user id of the manager, who should have an `admin`, `owner` or `people_manager` role. You can find these users by querying the [Company Managers endpoint](#operation/get_index_company_manager). */
-  manager_id?: string;
+  manager_id?: string | undefined;
   /** A reference code for the employment record in the calling integration's own system. Private to that integration -- no other integration can read or overwrite it. Omit the field to leave the value unchanged; send `null` or an empty string to clear it. At most 64 characters, counting any surrounding whitespace sent; that whitespace is then trimmed off. It can be set at any employment status, and the same value may be used on several employments (for example a rehire). See [Your own IDs on Remote records](https://developer.remote.com/docs/your-own-ids-on-remote-records). */
-  partner_external_id?: string | null;
+  partner_external_id?: string | null | undefined;
   /** The work email of the employment. */
-  work_email?: string;
+  work_email?: string | undefined;
 }
 export interface PostV1EmploymentsEmploymentIdRiskReserveProofOfPaymentsRequest {
   /** Employment ID */
@@ -9777,12 +9918,12 @@ export type RiskReserveProofOfPaymentResponseDataStatus =
   | "rejected";
 export interface RiskReserveProofOfPaymentResponseData {
   /** Proof of payment ID */
-  slug?: string;
+  slug?: string | undefined;
   /** Current status of the proof of payment */
-  status?: RiskReserveProofOfPaymentResponseDataStatus;
+  status?: RiskReserveProofOfPaymentResponseDataStatus | undefined;
 }
 export interface RiskReserveProofOfPaymentResponse {
-  data?: RiskReserveProofOfPaymentResponseData;
+  data?: RiskReserveProofOfPaymentResponseData | undefined;
 }
 export interface PostV1SandboxEmploymentsEmploymentIdRiskReserveProofOfPaymentsApproveRequest {
   /** Employment ID */
@@ -9811,7 +9952,9 @@ export type PutEmployeeAddressRequestAddressDetailsJsonSchemaVersion =
   | PutEmployeeAddressRequestAddressDetailsJsonSchemaVersionCase1;
 export interface PutEmployeeAddressRequest {
   /** Version of the address_details form schema */
-  address_details_json_schema_version?: PutEmployeeAddressRequestAddressDetailsJsonSchemaVersion;
+  address_details_json_schema_version?:
+    | PutEmployeeAddressRequestAddressDetailsJsonSchemaVersion
+    | undefined;
   /** Home address information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `address_details` as path parameters. */
   address_details: unknown;
 }
@@ -9822,7 +9965,9 @@ export type PutEmployeeBankAccountRequestBankAccountDetailsJsonSchemaVersion =
   | PutEmployeeBankAccountRequestBankAccountDetailsJsonSchemaVersionCase1;
 export interface PutEmployeeBankAccountRequest {
   /** Version of the bank_account_details form schema */
-  bank_account_details_json_schema_version?: PutEmployeeBankAccountRequestBankAccountDetailsJsonSchemaVersion;
+  bank_account_details_json_schema_version?:
+    | PutEmployeeBankAccountRequestBankAccountDetailsJsonSchemaVersion
+    | undefined;
   /** Bank account information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `bank_account_details` as path parameters. */
   bank_account_details: unknown;
 }
@@ -9834,7 +9979,9 @@ export type PutEmployeeEmergencyContactRequestEmergencyContactDetailsJsonSchemaV
   | PutEmployeeEmergencyContactRequestEmergencyContactDetailsJsonSchemaVersionCase1;
 export interface PutEmployeeEmergencyContactRequest {
   /** Version of the emergency_contact_details form schema */
-  emergency_contact_details_json_schema_version?: PutEmployeeEmergencyContactRequestEmergencyContactDetailsJsonSchemaVersion;
+  emergency_contact_details_json_schema_version?:
+    | PutEmployeeEmergencyContactRequestEmergencyContactDetailsJsonSchemaVersion
+    | undefined;
   /** Emergency contact information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `emergency_contact_details` as path parameters. */
   emergency_contact_details: unknown;
 }
@@ -9849,7 +9996,9 @@ export type PutEmployeePersonalDetailsRequestPersonalDetailsJsonSchemaVersion =
   | PutEmployeePersonalDetailsRequestPersonalDetailsJsonSchemaVersionCase1;
 export interface PutEmployeePersonalDetailsRequest {
   /** Version of the personal_details form schema */
-  personal_details_json_schema_version?: PutEmployeePersonalDetailsRequestPersonalDetailsJsonSchemaVersion;
+  personal_details_json_schema_version?:
+    | PutEmployeePersonalDetailsRequestPersonalDetailsJsonSchemaVersion
+    | undefined;
   /** Employment personal details. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `employment_basic_information` as path parameters. */
   personal_details: unknown;
 }
@@ -9868,7 +10017,9 @@ export interface PutEmploymentAddressDetailsRequest {
   /** Employment ID */
   employment_id: string;
   /** Version of the address_details form schema */
-  address_details_json_schema_version?: PutEmploymentAddressDetailsRequestAddressDetailsJsonSchemaVersion;
+  address_details_json_schema_version?:
+    | PutEmploymentAddressDetailsRequestAddressDetailsJsonSchemaVersion
+    | undefined;
   /** Home address information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `address_details` as path parameters. */
   address_details: unknown;
 }
@@ -9888,7 +10039,9 @@ export interface PutEmploymentBankAccountDetailsRequest {
   /** Employment ID */
   employment_id: string;
   /** Version of the bank_account_details form schema */
-  bank_account_details_json_schema_version?: PutEmploymentBankAccountDetailsRequestBankAccountDetailsJsonSchemaVersion;
+  bank_account_details_json_schema_version?:
+    | PutEmploymentBankAccountDetailsRequestBankAccountDetailsJsonSchemaVersion
+    | undefined;
   /** Bank account information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `bank_account_details` as path parameters. */
   bank_account_details: unknown;
 }
@@ -9896,7 +10049,7 @@ export interface PutEmploymentBasicInformationRequest {
   /** Employment ID */
   employment_id: string;
   /** When true, returns `tax_servicing_countries` grouped into global/regions/subregions instead of a flat list of country names. */
-  group_tax_servicing_countries?: boolean;
+  group_tax_servicing_countries?: boolean | undefined;
   /** Employment basic information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `employment_basic_information` as path parameters. */
   basic_information: unknown;
 }
@@ -9910,9 +10063,11 @@ export interface PutEmploymentBasicInformationRequest2 {
   /** Employment ID */
   employment_id: string;
   /** Version of the employment_basic_information form schema */
-  employment_basic_information_json_schema_version?: PutEmploymentBasicInformationRequestEmploymentBasicInformationJsonSchemaVersion;
+  employment_basic_information_json_schema_version?:
+    | PutEmploymentBasicInformationRequestEmploymentBasicInformationJsonSchemaVersion
+    | undefined;
   /** When true, returns `tax_servicing_countries` grouped into global/regions/subregions instead of a flat list of country names. */
-  group_tax_servicing_countries?: boolean;
+  group_tax_servicing_countries?: boolean | undefined;
   /** Employment basic information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `employment_basic_information` as path parameters. */
   basic_information: unknown;
 }
@@ -9925,7 +10080,7 @@ export interface PutEmploymentBenefitOffersRequest {
   /** Unique identifier of the employment */
   employment_id: string;
   /** Version of the form schema */
-  json_schema_version?: PutEmploymentBenefitOffersRequestJsonSchemaVersion;
+  json_schema_version?: PutEmploymentBenefitOffersRequestJsonSchemaVersion | undefined;
 }
 /** Use latest version */
 export type PutEmploymentBillingAddressDetailsRequestBillingAddressDetailsJsonSchemaVersionCase1 =
@@ -9937,7 +10092,9 @@ export interface PutEmploymentBillingAddressDetailsRequest {
   /** Employment ID */
   employment_id: string;
   /** Version of the billing_address_details form schema */
-  billing_address_details_json_schema_version?: PutEmploymentBillingAddressDetailsRequestBillingAddressDetailsJsonSchemaVersion;
+  billing_address_details_json_schema_version?:
+    | PutEmploymentBillingAddressDetailsRequestBillingAddressDetailsJsonSchemaVersion
+    | undefined;
   /** Billing address information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `billing_address_details` as path parameters. */
   billing_address_details: unknown;
 }
@@ -9950,9 +10107,11 @@ export interface PutEmploymentContractDetailsRequest {
   /** Employment ID */
   employment_id: string;
   /** Version of the contract_details form schema */
-  contract_details_json_schema_version?: PutEmploymentContractDetailsRequestContractDetailsJsonSchemaVersion;
+  contract_details_json_schema_version?:
+    | PutEmploymentContractDetailsRequestContractDetailsJsonSchemaVersion
+    | undefined;
   /** Skips the dynamic benefits part of the schema if set. To be used when benefits are set via its own API. */
-  skip_benefits?: boolean;
+  skip_benefits?: boolean | undefined;
   /** Contract information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `contract_details` as path parameters. When the job title eligibility check requires an acknowledgement, present Remote's responsibility statement to the employer and obtain their acceptance before sending `employer_acknowledges_risk` as `acknowledged`. Sending it asserts that the employer was informed of, and accepted, responsibility for, as applicable, employee safety, training, health checks, any incidents connected to the employee's work environment, and the employee holding the licensing the role requires. */
   contract_details: unknown;
 }
@@ -9966,7 +10125,9 @@ export interface PutEmploymentEmergencyContactRequest {
   /** Employment ID */
   employment_id: string;
   /** Version of the emergency_contact_details form schema */
-  emergency_contact_details_json_schema_version?: PutEmploymentEmergencyContactRequestEmergencyContactDetailsJsonSchemaVersion;
+  emergency_contact_details_json_schema_version?:
+    | PutEmploymentEmergencyContactRequestEmergencyContactDetailsJsonSchemaVersion
+    | undefined;
   /** Emergency contact information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `emergency_contact_details` as path parameters. */
   emergency_contact_details: unknown;
 }
@@ -9986,7 +10147,7 @@ export interface PutEmploymentPersonalDetailsRequest {
   /** Employment ID */
   employment_id: string;
   /** When true, returns `tax_servicing_countries` grouped into global/regions/subregions instead of a flat list of country names. */
-  group_tax_servicing_countries?: boolean;
+  group_tax_servicing_countries?: boolean | undefined;
   /** Employment personal details. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `employment_basic_information` as path parameters. */
   personal_details: unknown;
 }
@@ -9999,7 +10160,9 @@ export interface PutEmploymentPersonalDetailsRequest2 {
   /** Employment ID */
   employment_id: string;
   /** Version of the personal_details form schema */
-  personal_details_json_schema_version?: PutEmploymentPersonalDetailsRequestPersonalDetailsJsonSchemaVersion;
+  personal_details_json_schema_version?:
+    | PutEmploymentPersonalDetailsRequestPersonalDetailsJsonSchemaVersion
+    | undefined;
   /** Employment personal details. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `employment_basic_information` as path parameters. */
   personal_details: unknown;
 }
@@ -10013,20 +10176,22 @@ export interface PutEmploymentPricingPlanDetailsRequest {
   /** Employment ID */
   employment_id: string;
   /** Version of the pricing_plan_details form schema */
-  pricing_plan_details_json_schema_version?: PutEmploymentPricingPlanDetailsRequestPricingPlanDetailsJsonSchemaVersion;
+  pricing_plan_details_json_schema_version?:
+    | PutEmploymentPricingPlanDetailsRequestPricingPlanDetailsJsonSchemaVersion
+    | undefined;
   /** Pricing plan details information. As its properties may vary depending on the country, you must query the [Show form schema](#tag/Countries/operation/get_show_form_country) endpoint passing the country code and `pricing_plan_details` as path parameters. */
   pricing_plan_details: unknown;
 }
 /** required if `is_owed_outstanding_reimbursements` is set to true. */
 export interface ResignationAfterStartDateRequestParamsOwedOutstandingReimbursements {
   /** The amount (in the currency of the employment) to be given to the employee. This field accepts fractional amounts as well. However to avoid precision issues and errors that can arise from storing fractional amounts, the Remote API only accepts currencies and their fractional amounts as integers. This means you should append fractional amounts to the end of the amount you're passing in with this field. For example, if the amount you're offering is EUR 500.25, you would specify `50025` as the amount for this field. */
-  amount?: number;
-  notes?: string;
+  amount?: number | undefined;
+  notes?: string | undefined;
 }
 /** Required if `accepts_proposed_notice` is set to false. */
 export interface ResignationAfterStartDateRequestParamsProposedLastDate {
-  date?: string;
-  notes?: string;
+  date?: string | undefined;
+  notes?: string | undefined;
 }
 export type ResignationFile = OffboardingFile;
 export interface ResignationAfterStartDateRequestParams {
@@ -10035,37 +10200,39 @@ export interface ResignationAfterStartDateRequestParams {
   /** Whether the employer agrees with the employee's current PTO balance. If false, provide notes explaining the discrepancy. */
   agrees_to_pto_amount: boolean;
   /** Required if `agrees_to_pto_amount` is set to false. */
-  agrees_to_pto_amount_notes?: string;
+  agrees_to_pto_amount_notes?: string | undefined;
   /** Whether the employer agrees with the resignation reason stated by the employee. If false, provide notes with the employer's perspective. */
   agrees_to_resignation_reason: boolean;
   /** required if `agrees_to_resignation_reason` is set to false. */
-  agrees_to_resignation_reason_notes?: string;
+  agrees_to_resignation_reason_notes?: string | undefined;
   /** Whether the employer has additional information to share about the resignation. If true, provide notes. */
   has_additional_information: boolean;
   /** required if `has_additional_information` is set to true. */
-  has_additional_information_notes?: string;
+  has_additional_information_notes?: string | undefined;
   /** Whether there are salary adjustments or additional salary information to communicate. If true, provide notes. */
   has_more_salary_info: boolean;
   /** required if `has_more_salary_info` is set to true. */
-  has_more_salary_info_notes?: string;
+  has_more_salary_info_notes?: string | undefined;
   /** Whether the employee is owed any outstanding expense reimbursements. If true, provide the amount and notes. */
   is_owed_outstanding_reimbursements: boolean;
   /** required if `is_owed_outstanding_reimbursements` is set to true. */
-  owed_outstanding_reimbursements?: ResignationAfterStartDateRequestParamsOwedOutstandingReimbursements;
+  owed_outstanding_reimbursements?:
+    | ResignationAfterStartDateRequestParamsOwedOutstandingReimbursements
+    | undefined;
   /** Required if `accepts_proposed_notice` is set to false. */
-  proposed_last_date?: ResignationAfterStartDateRequestParamsProposedLastDate;
+  proposed_last_date?: ResignationAfterStartDateRequestParamsProposedLastDate | undefined;
   /** Paid time off accuracy Typically, any vacation pay accrued and unpaid at the time of termination must be paid out to the employee. To avoid overpaying or underpaying, please make sure we have an accurate account of their paid time off by querying the [Show Time Off Balance](#operation/get_show_timeoff_balance) endpoint, filtering by the `employment_id`. This optional document should be sent in case of any discrepancies. */
-  timesheet_file?: OffboardingFile;
+  timesheet_file?: OffboardingFile | undefined;
   /** Whether the employee intends to take more PTO before their last working day. If true, provide notes with details. */
   will_take_more_pto: boolean;
   /** required if `will_take_more_pto` is set to true. */
-  will_take_more_pto_notes?: string;
+  will_take_more_pto_notes?: string | undefined;
 }
 export interface ResignationBeforeStartDateRequestParams {
   /** Whether the employer accepts the employee's resignation. If false, notes are required explaining why. */
   proposed_resignation_accepted: boolean;
   /** Required if `proposed_resignation_accepted` is set to false. */
-  proposed_resignation_accepted_notes?: string;
+  proposed_resignation_accepted_notes?: string | undefined;
 }
 export type ValidateResignationRequestParams =
   | ResignationAfterStartDateRequestParams
@@ -10098,27 +10265,27 @@ export interface UpdateBenefitRenewalRequestRequest {
   /** Benefit Renewal Request Id */
   benefit_renewal_request_id: string;
   /** Version of the form schema */
-  json_schema_version?: UpdateBenefitRenewalRequestRequestJsonSchemaVersion;
+  json_schema_version?: UpdateBenefitRenewalRequestRequestJsonSchemaVersion | undefined;
 }
 export interface UpdateCancelOnboardingRequest {
   /** Employment ID */
   employment_id: string;
   /** Whether the request should be performed async */
-  async?: boolean;
+  async?: boolean | undefined;
 }
 export interface UpdatePayItemRequest {
   /** Pay item ID */
   id: string;
   /** Value of the pay item. See PayItemParams.amount for unit details. Must not be zero. Negative values are supported: send a negative `amount` to submit a deduction or to correct an earlier submission downwards -- for any pay code, including hours-based ones such as `working_hours`. */
-  amount?: number;
-  custom_configuration?: PayItemCustomConfiguration | null;
+  amount?: number | undefined;
+  custom_configuration?: PayItemCustomConfiguration | null | undefined;
   /** Date the pay item is applied on (YYYY-MM-DD) -- the day worked, the day a correction was submitted, or the first day of a leave period. */
-  effective_date?: string;
+  effective_date?: string | undefined;
   /** Last day of a leave period, inclusive (YYYY-MM-DD). Leave-of-absence pay codes only; send `null` to clear it. */
-  end_date?: string | null;
+  end_date?: string | null | undefined;
   /** A reference code for the pay item record in the calling integration's own system. Private to that integration -- no other integration can read or overwrite it. Omit the field to leave the value unchanged; send `null` or an empty string to clear it. At most 64 characters, counting any surrounding whitespace sent; that whitespace is then trimmed off. A value can be held by one live pay item at a time, per integration and company; editing a pay item keeps its value on the new version. See [Your own IDs on Remote records](https://developer.remote.com/docs/your-own-ids-on-remote-records). */
-  partner_external_id?: string | null;
-  provider_data?: PayItemProviderDataParams;
+  partner_external_id?: string | null | undefined;
+  provider_data?: PayItemProviderDataParams | undefined;
 }
 export interface PayItemResponseData {
   pay_item: PayItem;
@@ -10134,18 +10301,18 @@ export interface UpdateProjectRequest {
   /** Project identifier */
   id: string;
   /** Description of the project. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Date when the project ends. */
-  end_date?: string | null;
+  end_date?: string | null | undefined;
   /** User IDs of the company admins to assign as the project's leads, replacing the current set. These are user IDs, unlike `team_member_ids`, which are employment IDs. */
-  lead_ids?: UpdateProjectRequestLeadIdsList;
+  lead_ids?: UpdateProjectRequestLeadIdsList | undefined;
   /** Name of the project. */
-  name?: string;
+  name?: string | undefined;
   /** Date when the project starts. */
-  start_date?: string | null;
-  status?: ProjectStatus | (string & {});
+  start_date?: string | null | undefined;
+  status?: ProjectStatus | (string & {}) | undefined;
   /** Employment IDs of the contractors to assign as the project's team members, replacing the current set. These are employment IDs, unlike `lead_ids`, which are user IDs. Each must be an active contractor of the project's company. */
-  team_member_ids?: UpdateProjectRequestTeamMemberIdsList;
+  team_member_ids?: UpdateProjectRequestTeamMemberIdsList | undefined;
 }
 /** The setting to be enabled. */
 export type UpdateWebhookCallbackRequestSubscribedEventsItem =
@@ -10275,9 +10442,9 @@ export interface UpdateWebhookCallbackRequest {
   /** Webhook Callback ID */
   id: string;
   /** When true, subscribe this callback to all current and future event types. Cannot be combined with `subscribed_events`. */
-  subscribe_to_all_events?: boolean;
-  subscribed_events?: UpdateWebhookCallbackRequestSubscribedEventsList;
-  url?: string;
+  subscribe_to_all_events?: boolean | undefined;
+  subscribed_events?: UpdateWebhookCallbackRequestSubscribedEventsList | undefined;
+  url?: string | undefined;
 }
 export type CreateAuthOauth2TokenError =
   | BadRequest

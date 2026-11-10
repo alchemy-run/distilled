@@ -217,14 +217,14 @@ export type SerialPort = number;
 export type SSHPublicKey = string;
 export interface SendSerialConsoleSSHPublicKeyRequest {
   InstanceId: string;
-  SerialPort?: number;
+  SerialPort?: number | undefined;
   SSHPublicKey: string;
 }
 export type RequestId = string;
 export type Success = boolean;
 export interface SendSerialConsoleSSHPublicKeyResponse {
-  RequestId?: string;
-  Success?: boolean;
+  RequestId?: string | undefined;
+  Success?: boolean | undefined;
 }
 export type InstanceOSUser = string;
 export type AvailabilityZone = string;
@@ -232,11 +232,11 @@ export interface SendSSHPublicKeyRequest {
   InstanceId: string;
   InstanceOSUser: string;
   SSHPublicKey: string;
-  AvailabilityZone?: string;
+  AvailabilityZone?: string | undefined;
 }
 export interface SendSSHPublicKeyResponse {
-  RequestId?: string;
-  Success?: boolean;
+  RequestId?: string | undefined;
+  Success?: boolean | undefined;
 }
 export type SendSerialConsoleSSHPublicKeyError =
   | AuthException
