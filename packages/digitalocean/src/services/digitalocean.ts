@@ -9506,14 +9506,12 @@ export interface ReservedIpRegion {
   /** This attribute is set to an array which contains the identifying slugs for the sizes available in this region. sizes:read is required to view. */
   sizes: ReservedIpRegionSizesList;
 }
-/** The Droplet that the reserved IP has been assigned to. When you query a reserved IP, if it is assigned to a Droplet, the entire Droplet object will be returned. If it is not assigned, the value will be null.<br><br>Requires `droplet:read` scope. */
-export type ReservedIpDroplet = unknown | Droplet;
 export interface ReservedIp {
   /** The public IP address of the reserved IP. It also serves as its identifier. */
   ip: string;
   region: ReservedIpRegion;
   /** The Droplet that the reserved IP has been assigned to. When you query a reserved IP, if it is assigned to a Droplet, the entire Droplet object will be returned. If it is not assigned, the value will be null.<br><br>Requires `droplet:read` scope. */
-  droplet?: ReservedIpDroplet | undefined;
+  droplet?: Droplet | null | undefined;
   /** A boolean value indicating whether or not the reserved IP has pending actions preventing new ones from being submitted. */
   locked: boolean;
   /** The UUID of the project to which the reserved IP currently belongs.<br><br>Requires `project:read` scope. */
@@ -43834,7 +43832,7 @@ function __c82(j: number): any {
         S.Struct({
           ip: S.String,
           region: __S(26528, __c829, 0),
-          droplet: S.optional(S.Unknown),
+          droplet: S.optional(S.NullOr(__S(26437, __c826, 5))),
           locked: S.Boolean,
           project_id: S.optional(S.String),
         }),
