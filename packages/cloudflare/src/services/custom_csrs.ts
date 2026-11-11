@@ -61,13 +61,13 @@ export interface CreateCustomCsrForAccountRequest {
   /** State or province name. */
   state: string;
   /** Optional description for the CSR. */
-  description?: string;
+  description?: string | undefined;
   /** Key algorithm to use for the CSR. Defaults to rsa2048 if not specified. */
-  keyType?: CreateRequestKeyType | (string & {});
+  keyType?: CreateRequestKeyType | (string & {}) | undefined;
   /** Human-readable name for the CSR. */
-  name?: string;
+  name?: string | undefined;
   /** Organizational unit name. */
-  organizationalUnit?: string;
+  organizationalUnit?: string | undefined;
 }
 export type CreateResponseKeyType = "rsa2048" | "p256v1";
 export type CreateResponseSansList = Array<string>;
@@ -80,27 +80,27 @@ export interface CreateCustomCsrResponse {
   /** The key algorithm used to generate the CSR. */
   keyType: CreateResponseKeyType;
   /** Account identifier associated with this CSR. */
-  accountTag?: string | null;
+  accountTag?: string | null | undefined;
   /** The common name (domain) for the CSR. */
-  commonName?: string | null;
+  commonName?: string | null | undefined;
   /** Two-letter ISO 3166-1 alpha-2 country code. */
-  country?: string | null;
+  country?: string | null | undefined;
   /** The PEM-encoded Certificate Signing Request. */
-  csr?: string | null;
+  csr?: string | null | undefined;
   /** Optional description for the CSR. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** City or locality name. */
-  locality?: string | null;
+  locality?: string | null | undefined;
   /** Human-readable name for the CSR. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Organization name. */
-  organization?: string | null;
+  organization?: string | null | undefined;
   /** Organizational unit name. */
-  organizationalUnit?: string | null;
+  organizationalUnit?: string | null | undefined;
   /** Subject Alternative Names included in the CSR. */
-  sans?: CreateResponseSansList | null;
+  sans?: CreateResponseSansList | null | undefined;
   /** State or province name. */
-  state?: string | null;
+  state?: string | null | undefined;
 }
 export interface CreateCustomCsrForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -118,13 +118,13 @@ export interface CreateCustomCsrForZoneRequest {
   /** State or province name. */
   state: string;
   /** Optional description for the CSR. */
-  description?: string;
+  description?: string | undefined;
   /** Key algorithm to use for the CSR. Defaults to rsa2048 if not specified. */
-  keyType?: CreateRequestKeyType | (string & {});
+  keyType?: CreateRequestKeyType | (string & {}) | undefined;
   /** Human-readable name for the CSR. */
-  name?: string;
+  name?: string | undefined;
   /** Organizational unit name. */
-  organizationalUnit?: string;
+  organizationalUnit?: string | undefined;
 }
 export interface DeleteCustomCsrForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
@@ -135,7 +135,7 @@ export interface DeleteCustomCsrForAccountRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteCustomCsrResponse {
   /** Custom CSR identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export interface DeleteCustomCsrForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -160,27 +160,27 @@ export interface GetCustomCsrResponse {
   /** The key algorithm used to generate the CSR. */
   keyType: GetResponseKeyType;
   /** Account identifier associated with this CSR. */
-  accountTag?: string | null;
+  accountTag?: string | null | undefined;
   /** The common name (domain) for the CSR. */
-  commonName?: string | null;
+  commonName?: string | null | undefined;
   /** Two-letter ISO 3166-1 alpha-2 country code. */
-  country?: string | null;
+  country?: string | null | undefined;
   /** The PEM-encoded Certificate Signing Request. */
-  csr?: string | null;
+  csr?: string | null | undefined;
   /** Optional description for the CSR. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** City or locality name. */
-  locality?: string | null;
+  locality?: string | null | undefined;
   /** Human-readable name for the CSR. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Organization name. */
-  organization?: string | null;
+  organization?: string | null | undefined;
   /** Organizational unit name. */
-  organizationalUnit?: string | null;
+  organizationalUnit?: string | null | undefined;
   /** Subject Alternative Names included in the CSR. */
-  sans?: GetResponseSansList | null;
+  sans?: GetResponseSansList | null | undefined;
   /** State or province name. */
-  state?: string | null;
+  state?: string | null | undefined;
 }
 export interface GetCustomCsrForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -194,13 +194,13 @@ export interface ListCustomCsrsForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
   accountId: string;
   /** The direction to sort by. */
-  direction?: ListRequestDirection | (string & {});
+  direction?: ListRequestDirection | (string & {}) | undefined;
   /** The field to sort the returned custom CSRs by. */
-  order?: ListRequestOrder | (string & {});
+  order?: ListRequestOrder | (string & {}) | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Number of custom CSRs per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type ListResultItemKeyType = "rsa2048" | "p256v1";
 export type ListResultItemSansList = Array<string>;
@@ -212,46 +212,46 @@ export interface ListResultItem {
   /** The key algorithm used to generate the CSR. */
   keyType: ListResultItemKeyType;
   /** Account identifier associated with this CSR. */
-  accountTag?: string | null;
+  accountTag?: string | null | undefined;
   /** The common name (domain) for the CSR. */
-  commonName?: string | null;
+  commonName?: string | null | undefined;
   /** Two-letter ISO 3166-1 alpha-2 country code. */
-  country?: string | null;
+  country?: string | null | undefined;
   /** The PEM-encoded Certificate Signing Request. */
-  csr?: string | null;
+  csr?: string | null | undefined;
   /** Optional description for the CSR. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** City or locality name. */
-  locality?: string | null;
+  locality?: string | null | undefined;
   /** Human-readable name for the CSR. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Organization name. */
-  organization?: string | null;
+  organization?: string | null | undefined;
   /** Organizational unit name. */
-  organizationalUnit?: string | null;
+  organizationalUnit?: string | null | undefined;
   /** Subject Alternative Names included in the CSR. */
-  sans?: ListResultItemSansList | null;
+  sans?: ListResultItemSansList | null | undefined;
   /** State or province name. */
-  state?: string | null;
+  state?: string | null | undefined;
 }
 export type ListResultList = Array<ListResultItem>;
 export interface ListCustomCsrsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListCustomCsrsForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
   zoneId: string;
   /** The direction to sort by. */
-  direction?: ListRequestDirection | (string & {});
+  direction?: ListRequestDirection | (string & {}) | undefined;
   /** The field to sort the returned custom CSRs by. */
-  order?: ListRequestOrder | (string & {});
+  order?: ListRequestOrder | (string & {}) | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Number of custom CSRs per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type CreateCustomCsrForAccountError = CloudflareOpError;
 /** Generate a new custom Certificate Signing Request (CSR) for an account or zone. Cloudflare generates and securely stores the private key associated with the CSR. */

@@ -146,10 +146,10 @@ export type Sbom = unknown;
 export type OutputFormat = "CYCLONE_DX_1_5" | "INSPECTOR" | "INSPECTOR_ALT" | (string & {});
 export interface ScanSbomRequest {
   sbom: any;
-  outputFormat?: OutputFormat;
+  outputFormat?: OutputFormat | undefined;
 }
 export interface ScanSbomResponse {
-  sbom?: any;
+  sbom?: any | undefined;
 }
 export type InternalServerExceptionReason = "FAILED_TO_GENERATE_SBOM" | "OTHER" | (string & {});
 export type ValidationExceptionReason =

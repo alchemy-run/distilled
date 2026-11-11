@@ -63,18 +63,18 @@ export interface CreateEarlyAccessFeatureRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** The name of the early access feature. */
-  name?: string;
+  name?: string | undefined;
   /** A longer description of what this early access feature does, shown to users in the opt-in UI. */
-  description?: string;
+  description?: string | undefined;
   /** Lifecycle stage. Valid values: draft, concept, alpha, beta, general-availability, archived. Moving to an active stage (alpha/beta/general-availability) enables the feature flag for opted-in users. * `draft` - draft * `concept` - concept * `alpha` - alpha * `beta` - beta * `general-availability` - general availability * `archived` - archived */
-  stage?: EarlyAccessFeatureStageEnum | (string & {});
+  stage?: EarlyAccessFeatureStageEnum | (string & {}) | undefined;
   /** URL to external documentation for this feature. Shown to users in the opt-in UI. */
-  documentation_url?: string;
+  documentation_url?: string | undefined;
   /** Arbitrary JSON metadata associated with this feature. */
-  payload?: unknown;
+  payload?: unknown | undefined;
   /** Optional ID of an existing feature flag to link. If omitted, a new flag is auto-created from the feature name. The flag must not already be linked to another feature, must not belong to another product such as a survey or experiment, must not be group-based, and must not be multivariate. */
-  feature_flag_id?: number;
-  _create_in_folder?: string;
+  feature_flag_id?: number | undefined;
+  _create_in_folder?: string | undefined;
 }
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
@@ -91,22 +91,22 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export type EarlyAccessFeatureSerializerCreateOnlyOutputAssigneeType = "user" | "role";
 export type EarlyAccessFeatureSerializerCreateOnlyOutputAssigneeId = number | string;
 /** The person or role responsible for this feature, e.g. {"type": "user", "id": 123} or {"type": "role", "id": "<role uuid>"}. Defaults to the creator. Send null to unassign. */
 export interface EarlyAccessFeatureSerializerCreateOnlyOutputAssignee {
-  type?: EarlyAccessFeatureSerializerCreateOnlyOutputAssigneeType;
-  id?: EarlyAccessFeatureSerializerCreateOnlyOutputAssigneeId;
+  type?: EarlyAccessFeatureSerializerCreateOnlyOutputAssigneeType | undefined;
+  id?: EarlyAccessFeatureSerializerCreateOnlyOutputAssigneeId | undefined;
 }
 export type MinimalFeatureFlagFiltersMap = { [key: string]: unknown | undefined };
 /** * `server` - Server * `client` - Client * `all` - All */
@@ -119,42 +119,42 @@ export type BucketingIdentifierEnum = "distinct_id" | "device_id";
 export type MinimalFeatureFlagBucketingIdentifier = BucketingIdentifierEnum | BlankEnum;
 export type MinimalFeatureFlagEvaluationContextsList = Array<string>;
 export interface MinimalFeatureFlag {
-  id?: number;
-  team_id?: number;
-  name?: string;
-  key?: string;
-  filters?: MinimalFeatureFlagFiltersMap;
-  deleted?: boolean;
-  active?: boolean;
-  ensure_experience_continuity?: boolean | null;
-  version?: number | null;
+  id?: number | undefined;
+  team_id?: number | undefined;
+  name?: string | undefined;
+  key?: string | undefined;
+  filters?: MinimalFeatureFlagFiltersMap | undefined;
+  deleted?: boolean | undefined;
+  active?: boolean | undefined;
+  ensure_experience_continuity?: boolean | null | undefined;
+  version?: number | null | undefined;
   /** Specifies where this feature flag should be evaluated * `server` - Server * `client` - Client * `all` - All */
-  evaluation_runtime?: MinimalFeatureFlagEvaluationRuntime | null;
+  evaluation_runtime?: MinimalFeatureFlagEvaluationRuntime | null | undefined;
   /** Identifier used for bucketing users into rollout and variants * `distinct_id` - User ID (default) * `device_id` - Device ID */
-  bucketing_identifier?: MinimalFeatureFlagBucketingIdentifier | null;
-  evaluation_contexts?: MinimalFeatureFlagEvaluationContextsList;
+  bucketing_identifier?: MinimalFeatureFlagBucketingIdentifier | null | undefined;
+  evaluation_contexts?: MinimalFeatureFlagEvaluationContextsList | undefined;
 }
 /** Mixin for serializers to add user access control fields */
 export interface EarlyAccessFeatureSerializerCreateOnlyOutput {
-  id?: string;
+  id?: string | undefined;
   /** The name of the early access feature. */
-  name?: string;
+  name?: string | undefined;
   /** A longer description of what this early access feature does, shown to users in the opt-in UI. */
-  description?: string;
+  description?: string | undefined;
   /** Lifecycle stage. Valid values: draft, concept, alpha, beta, general-availability, archived. Moving to an active stage (alpha/beta/general-availability) enables the feature flag for opted-in users. * `draft` - draft * `concept` - concept * `alpha` - alpha * `beta` - beta * `general-availability` - general availability * `archived` - archived */
-  stage?: EarlyAccessFeatureStageEnum;
+  stage?: EarlyAccessFeatureStageEnum | undefined;
   /** URL to external documentation for this feature. Shown to users in the opt-in UI. */
-  documentation_url?: string;
+  documentation_url?: string | undefined;
   /** Arbitrary JSON metadata associated with this feature. */
-  payload?: unknown;
-  created_at?: string;
+  payload?: unknown | undefined;
+  created_at?: string | undefined;
   /** The user who created this early access feature. Null for features created before creator tracking was added. */
-  created_by?: UserBasic | null;
+  created_by?: UserBasic | null | undefined;
   /** The person or role responsible for this feature, e.g. {"type": "user", "id": 123} or {"type": "role", "id": "<role uuid>"}. Defaults to the creator. Send null to unassign. */
-  assignee?: EarlyAccessFeatureSerializerCreateOnlyOutputAssignee | null;
-  feature_flag?: MinimalFeatureFlag;
+  assignee?: EarlyAccessFeatureSerializerCreateOnlyOutputAssignee | null | undefined;
+  feature_flag?: MinimalFeatureFlag | undefined;
   /** The effective access level the user has for this object */
-  user_access_level?: string | null;
+  user_access_level?: string | null | undefined;
 }
 export interface EarlyAccessFeatureDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -175,45 +175,45 @@ export type EarlyAccessFeatureAssigneeType = "user" | "role";
 export type EarlyAccessFeatureAssigneeId = number | string;
 /** The person or role responsible for this feature, e.g. {"type": "user", "id": 123} or {"type": "role", "id": "<role uuid>"}. Defaults to the creator. Send null to unassign. */
 export interface EarlyAccessFeatureAssignee {
-  type?: EarlyAccessFeatureAssigneeType;
-  id?: EarlyAccessFeatureAssigneeId;
+  type?: EarlyAccessFeatureAssigneeType | undefined;
+  id?: EarlyAccessFeatureAssigneeId | undefined;
 }
 /** Mixin for serializers to add user access control fields */
 export interface EarlyAccessFeature2 {
-  id?: string;
-  feature_flag?: MinimalFeatureFlag;
+  id?: string | undefined;
+  feature_flag?: MinimalFeatureFlag | undefined;
   /** The name of the early access feature. */
-  name?: string;
+  name?: string | undefined;
   /** A longer description of what this early access feature does, shown to users in the opt-in UI. */
-  description?: string;
+  description?: string | undefined;
   /** Lifecycle stage. Valid values: draft, concept, alpha, beta, general-availability, archived. Moving to an active stage (alpha/beta/general-availability) enables the feature flag for opted-in users. * `draft` - draft * `concept` - concept * `alpha` - alpha * `beta` - beta * `general-availability` - general availability * `archived` - archived */
-  stage?: EarlyAccessFeatureStageEnum;
+  stage?: EarlyAccessFeatureStageEnum | undefined;
   /** URL to external documentation for this feature. Shown to users in the opt-in UI. */
-  documentation_url?: string;
+  documentation_url?: string | undefined;
   /** Feature flag payload for this early access feature */
-  payload?: EarlyAccessFeaturePayloadMap;
-  created_at?: string;
+  payload?: EarlyAccessFeaturePayloadMap | undefined;
+  created_at?: string | undefined;
   /** The user who created this early access feature. Null for features created before creator tracking was added. */
-  created_by?: UserBasic | null;
+  created_by?: UserBasic | null | undefined;
   /** The person or role responsible for this feature, e.g. {"type": "user", "id": 123} or {"type": "role", "id": "<role uuid>"}. Defaults to the creator. Send null to unassign. */
-  assignee?: EarlyAccessFeatureAssignee | null;
+  assignee?: EarlyAccessFeatureAssignee | null | undefined;
   /** The effective access level the user has for this object */
-  user_access_level?: string | null;
+  user_access_level?: string | null | undefined;
 }
 export interface ListEarlyAccessFeatureRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedEarlyAccessFeatureListResultsList = Array<EarlyAccessFeature2>;
 export interface PaginatedEarlyAccessFeatureList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedEarlyAccessFeatureListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedEarlyAccessFeatureListResultsList | undefined;
 }
 export interface UpdateEarlyAccessFeatureRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -221,13 +221,13 @@ export interface UpdateEarlyAccessFeatureRequest {
   /** A UUID string identifying this early access feature. */
   id: string;
   /** The name of the early access feature. */
-  name?: string;
+  name?: string | undefined;
   /** A longer description of what this early access feature does, shown to users in the opt-in UI. */
-  description?: string;
+  description?: string | undefined;
   /** Lifecycle stage. Valid values: draft, concept, alpha, beta, general-availability, archived. Moving to an active stage (alpha/beta/general-availability) enables the feature flag for opted-in users. * `draft` - draft * `concept` - concept * `alpha` - alpha * `beta` - beta * `general-availability` - general availability * `archived` - archived */
-  stage?: EarlyAccessFeatureStageEnum | (string & {});
+  stage?: EarlyAccessFeatureStageEnum | (string & {}) | undefined;
   /** URL to external documentation for this feature. Shown to users in the opt-in UI. */
-  documentation_url?: string;
+  documentation_url?: string | undefined;
 }
 export interface UpdateEarlyAccessFeaturePartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -235,13 +235,13 @@ export interface UpdateEarlyAccessFeaturePartialRequest {
   /** A UUID string identifying this early access feature. */
   id: string;
   /** The name of the early access feature. */
-  name?: string;
+  name?: string | undefined;
   /** A longer description of what this early access feature does, shown to users in the opt-in UI. */
-  description?: string;
+  description?: string | undefined;
   /** Lifecycle stage. Valid values: draft, concept, alpha, beta, general-availability, archived. Moving to an active stage (alpha/beta/general-availability) enables the feature flag for opted-in users. * `draft` - draft * `concept` - concept * `alpha` - alpha * `beta` - beta * `general-availability` - general availability * `archived` - archived */
-  stage?: EarlyAccessFeatureStageEnum | (string & {});
+  stage?: EarlyAccessFeatureStageEnum | (string & {}) | undefined;
   /** URL to external documentation for this feature. Shown to users in the opt-in UI. */
-  documentation_url?: string;
+  documentation_url?: string | undefined;
 }
 export type CreateEarlyAccessFeatureError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const createEarlyAccessFeature: API.OperationMethod<

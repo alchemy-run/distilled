@@ -947,7 +947,7 @@ export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   Key: string;
-  Value?: string;
+  Value?: string | undefined;
 }
 export type TagsList = Tag[];
 export interface AddTagsRequest {
@@ -959,9 +959,9 @@ export type EventDataStoreArn = string;
 export type UUID = string;
 export type AccountId = string;
 export interface CancelQueryRequest {
-  EventDataStore?: string;
+  EventDataStore?: string | undefined;
   QueryId: string;
-  EventDataStoreOwnerAccountId?: string;
+  EventDataStoreOwnerAccountId?: string | undefined;
 }
 export type QueryStatus =
   | "QUEUED"
@@ -974,7 +974,7 @@ export type QueryStatus =
 export interface CancelQueryResponse {
   QueryId: string;
   QueryStatus: QueryStatus;
-  EventDataStoreOwnerAccountId?: string;
+  EventDataStoreOwnerAccountId?: string | undefined;
 }
 export type ChannelName = string;
 export type Source = string;
@@ -989,29 +989,29 @@ export interface CreateChannelRequest {
   Name: string;
   Source: string;
   Destinations: Destination[];
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type ChannelArn = string;
 export interface CreateChannelResponse {
-  ChannelArn?: string;
-  Name?: string;
-  Source?: string;
-  Destinations?: Destination[];
-  Tags?: Tag[];
+  ChannelArn?: string | undefined;
+  Name?: string | undefined;
+  Source?: string | undefined;
+  Destinations?: Destination[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type DashboardName = string;
 export type RefreshScheduleFrequencyUnit = "HOURS" | "DAYS" | (string & {});
 export type RefreshScheduleFrequencyValue = number;
 export interface RefreshScheduleFrequency {
-  Unit?: RefreshScheduleFrequencyUnit;
-  Value?: number;
+  Unit?: RefreshScheduleFrequencyUnit | undefined;
+  Value?: number | undefined;
 }
 export type RefreshScheduleStatus = "ENABLED" | "DISABLED" | (string & {});
 export type TimeOfDay = string;
 export interface RefreshSchedule {
-  Frequency?: RefreshScheduleFrequency;
-  Status?: RefreshScheduleStatus;
-  TimeOfDay?: string;
+  Frequency?: RefreshScheduleFrequency | undefined;
+  Status?: RefreshScheduleStatus | undefined;
+  TimeOfDay?: string | undefined;
 }
 export type TerminationProtectionEnabled = boolean;
 export type QueryStatement = string;
@@ -1022,35 +1022,35 @@ export type ViewPropertiesValue = string;
 export type ViewPropertiesMap = { [key: string]: string | undefined };
 export interface RequestWidget {
   QueryStatement: string;
-  QueryParameters?: string[];
+  QueryParameters?: string[] | undefined;
   ViewProperties: { [key: string]: string | undefined };
 }
 export type RequestWidgetList = RequestWidget[];
 export interface CreateDashboardRequest {
   Name: string;
-  RefreshSchedule?: RefreshSchedule;
-  TagsList?: Tag[];
-  TerminationProtectionEnabled?: boolean;
-  Widgets?: RequestWidget[];
+  RefreshSchedule?: RefreshSchedule | undefined;
+  TagsList?: Tag[] | undefined;
+  TerminationProtectionEnabled?: boolean | undefined;
+  Widgets?: RequestWidget[] | undefined;
 }
 export type DashboardArn = string;
 export type DashboardType = "MANAGED" | "CUSTOM" | (string & {});
 export type QueryAlias = string;
 export interface Widget {
-  QueryAlias?: string;
-  QueryStatement?: string;
-  QueryParameters?: string[];
-  ViewProperties?: { [key: string]: string | undefined };
+  QueryAlias?: string | undefined;
+  QueryStatement?: string | undefined;
+  QueryParameters?: string[] | undefined;
+  ViewProperties?: { [key: string]: string | undefined } | undefined;
 }
 export type WidgetList = Widget[];
 export interface CreateDashboardResponse {
-  DashboardArn?: string;
-  Name?: string;
-  Type?: DashboardType;
-  Widgets?: Widget[];
-  TagsList?: Tag[];
-  RefreshSchedule?: RefreshSchedule;
-  TerminationProtectionEnabled?: boolean;
+  DashboardArn?: string | undefined;
+  Name?: string | undefined;
+  Type?: DashboardType | undefined;
+  Widgets?: Widget[] | undefined;
+  TagsList?: Tag[] | undefined;
+  RefreshSchedule?: RefreshSchedule | undefined;
+  TerminationProtectionEnabled?: boolean | undefined;
 }
 export type EventDataStoreName = string;
 export type SelectorName = string;
@@ -1059,16 +1059,16 @@ export type OperatorValue = string;
 export type Operator = string[];
 export interface AdvancedFieldSelector {
   Field: string;
-  Equals?: string[];
-  StartsWith?: string[];
-  EndsWith?: string[];
-  NotEquals?: string[];
-  NotStartsWith?: string[];
-  NotEndsWith?: string[];
+  Equals?: string[] | undefined;
+  StartsWith?: string[] | undefined;
+  EndsWith?: string[] | undefined;
+  NotEquals?: string[] | undefined;
+  NotStartsWith?: string[] | undefined;
+  NotEndsWith?: string[] | undefined;
 }
 export type AdvancedFieldSelectors = AdvancedFieldSelector[];
 export interface AdvancedEventSelector {
-  Name?: string;
+  Name?: string | undefined;
   FieldSelectors: AdvancedFieldSelector[];
 }
 export type AdvancedEventSelectors = AdvancedEventSelector[];
@@ -1080,15 +1080,15 @@ export type BillingMode =
   | (string & {});
 export interface CreateEventDataStoreRequest {
   Name: string;
-  AdvancedEventSelectors?: AdvancedEventSelector[];
-  MultiRegionEnabled?: boolean;
-  OrganizationEnabled?: boolean;
-  RetentionPeriod?: number;
-  TerminationProtectionEnabled?: boolean;
-  TagsList?: Tag[];
-  KmsKeyId?: string;
-  StartIngestion?: boolean;
-  BillingMode?: BillingMode;
+  AdvancedEventSelectors?: AdvancedEventSelector[] | undefined;
+  MultiRegionEnabled?: boolean | undefined;
+  OrganizationEnabled?: boolean | undefined;
+  RetentionPeriod?: number | undefined;
+  TerminationProtectionEnabled?: boolean | undefined;
+  TagsList?: Tag[] | undefined;
+  KmsKeyId?: string | undefined;
+  StartIngestion?: boolean | undefined;
+  BillingMode?: BillingMode | undefined;
 }
 export type EventDataStoreStatus =
   | "CREATED"
@@ -1099,50 +1099,50 @@ export type EventDataStoreStatus =
   | "STOPPED_INGESTION"
   | (string & {});
 export interface CreateEventDataStoreResponse {
-  EventDataStoreArn?: string;
-  Name?: string;
-  Status?: EventDataStoreStatus;
-  AdvancedEventSelectors?: AdvancedEventSelector[];
-  MultiRegionEnabled?: boolean;
-  OrganizationEnabled?: boolean;
-  RetentionPeriod?: number;
-  TerminationProtectionEnabled?: boolean;
-  TagsList?: Tag[];
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
-  KmsKeyId?: string;
-  BillingMode?: BillingMode;
+  EventDataStoreArn?: string | undefined;
+  Name?: string | undefined;
+  Status?: EventDataStoreStatus | undefined;
+  AdvancedEventSelectors?: AdvancedEventSelector[] | undefined;
+  MultiRegionEnabled?: boolean | undefined;
+  OrganizationEnabled?: boolean | undefined;
+  RetentionPeriod?: number | undefined;
+  TerminationProtectionEnabled?: boolean | undefined;
+  TagsList?: Tag[] | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
+  KmsKeyId?: string | undefined;
+  BillingMode?: BillingMode | undefined;
 }
 export interface CreateTrailRequest {
   Name: string;
   S3BucketName: string;
-  S3KeyPrefix?: string;
-  SnsTopicName?: string;
-  IncludeGlobalServiceEvents?: boolean;
-  IsMultiRegionTrail?: boolean;
-  EnableLogFileValidation?: boolean;
-  CloudWatchLogsLogGroupArn?: string;
-  CloudWatchLogsRoleArn?: string;
-  KmsKeyId?: string;
-  IsOrganizationTrail?: boolean;
-  TagsList?: Tag[];
-  RecursiveLogging?: boolean;
+  S3KeyPrefix?: string | undefined;
+  SnsTopicName?: string | undefined;
+  IncludeGlobalServiceEvents?: boolean | undefined;
+  IsMultiRegionTrail?: boolean | undefined;
+  EnableLogFileValidation?: boolean | undefined;
+  CloudWatchLogsLogGroupArn?: string | undefined;
+  CloudWatchLogsRoleArn?: string | undefined;
+  KmsKeyId?: string | undefined;
+  IsOrganizationTrail?: boolean | undefined;
+  TagsList?: Tag[] | undefined;
+  RecursiveLogging?: boolean | undefined;
 }
 export interface CreateTrailResponse {
-  Name?: string;
-  S3BucketName?: string;
-  S3KeyPrefix?: string;
-  SnsTopicName?: string;
-  SnsTopicARN?: string;
-  IncludeGlobalServiceEvents?: boolean;
-  IsMultiRegionTrail?: boolean;
-  TrailARN?: string;
-  LogFileValidationEnabled?: boolean;
-  CloudWatchLogsLogGroupArn?: string;
-  CloudWatchLogsRoleArn?: string;
-  KmsKeyId?: string;
-  IsOrganizationTrail?: boolean;
-  RecursiveLogging?: boolean;
+  Name?: string | undefined;
+  S3BucketName?: string | undefined;
+  S3KeyPrefix?: string | undefined;
+  SnsTopicName?: string | undefined;
+  SnsTopicARN?: string | undefined;
+  IncludeGlobalServiceEvents?: boolean | undefined;
+  IsMultiRegionTrail?: boolean | undefined;
+  TrailARN?: string | undefined;
+  LogFileValidationEnabled?: boolean | undefined;
+  CloudWatchLogsLogGroupArn?: string | undefined;
+  CloudWatchLogsRoleArn?: string | undefined;
+  KmsKeyId?: string | undefined;
+  IsOrganizationTrail?: boolean | undefined;
+  RecursiveLogging?: boolean | undefined;
 }
 export interface DeleteChannelRequest {
   Channel: string;
@@ -1171,18 +1171,18 @@ export interface DeregisterOrganizationDelegatedAdminRequest {
 export interface DeregisterOrganizationDelegatedAdminResponse {}
 export type RefreshId = string;
 export interface DescribeQueryRequest {
-  EventDataStore?: string;
-  QueryId?: string;
-  QueryAlias?: string;
-  RefreshId?: string;
-  EventDataStoreOwnerAccountId?: string;
+  EventDataStore?: string | undefined;
+  QueryId?: string | undefined;
+  QueryAlias?: string | undefined;
+  RefreshId?: string | undefined;
+  EventDataStoreOwnerAccountId?: string | undefined;
 }
 export interface QueryStatisticsForDescribeQuery {
-  EventsMatched?: number;
-  EventsScanned?: number;
-  BytesScanned?: number;
-  ExecutionTimeInMillis?: number;
-  CreationTime?: Date;
+  EventsMatched?: number | undefined;
+  EventsScanned?: number | undefined;
+  BytesScanned?: number | undefined;
+  ExecutionTimeInMillis?: number | undefined;
+  CreationTime?: Date | undefined;
 }
 export type ErrorMessage = string;
 export type DeliveryS3Uri = string;
@@ -1199,51 +1199,51 @@ export type DeliveryStatus =
   | (string & {});
 export type Prompt = string;
 export interface DescribeQueryResponse {
-  QueryId?: string;
-  QueryString?: string;
-  QueryStatus?: QueryStatus;
-  QueryStatistics?: QueryStatisticsForDescribeQuery;
-  ErrorMessage?: string;
-  DeliveryS3Uri?: string;
-  DeliveryStatus?: DeliveryStatus;
-  Prompt?: string;
-  EventDataStoreOwnerAccountId?: string;
+  QueryId?: string | undefined;
+  QueryString?: string | undefined;
+  QueryStatus?: QueryStatus | undefined;
+  QueryStatistics?: QueryStatisticsForDescribeQuery | undefined;
+  ErrorMessage?: string | undefined;
+  DeliveryS3Uri?: string | undefined;
+  DeliveryStatus?: DeliveryStatus | undefined;
+  Prompt?: string | undefined;
+  EventDataStoreOwnerAccountId?: string | undefined;
 }
 export type TrailNameList = string[];
 export interface DescribeTrailsRequest {
-  trailNameList?: string[];
-  includeShadowTrails?: boolean;
+  trailNameList?: string[] | undefined;
+  includeShadowTrails?: boolean | undefined;
 }
 export interface Trail {
-  Name?: string;
-  S3BucketName?: string;
-  S3KeyPrefix?: string;
-  SnsTopicName?: string;
-  SnsTopicARN?: string;
-  IncludeGlobalServiceEvents?: boolean;
-  IsMultiRegionTrail?: boolean;
-  HomeRegion?: string;
-  TrailARN?: string;
-  LogFileValidationEnabled?: boolean;
-  CloudWatchLogsLogGroupArn?: string;
-  CloudWatchLogsRoleArn?: string;
-  KmsKeyId?: string;
-  HasCustomEventSelectors?: boolean;
-  HasInsightSelectors?: boolean;
-  IsOrganizationTrail?: boolean;
-  RecursiveLogging?: boolean;
+  Name?: string | undefined;
+  S3BucketName?: string | undefined;
+  S3KeyPrefix?: string | undefined;
+  SnsTopicName?: string | undefined;
+  SnsTopicARN?: string | undefined;
+  IncludeGlobalServiceEvents?: boolean | undefined;
+  IsMultiRegionTrail?: boolean | undefined;
+  HomeRegion?: string | undefined;
+  TrailARN?: string | undefined;
+  LogFileValidationEnabled?: boolean | undefined;
+  CloudWatchLogsLogGroupArn?: string | undefined;
+  CloudWatchLogsRoleArn?: string | undefined;
+  KmsKeyId?: string | undefined;
+  HasCustomEventSelectors?: boolean | undefined;
+  HasInsightSelectors?: boolean | undefined;
+  IsOrganizationTrail?: boolean | undefined;
+  RecursiveLogging?: boolean | undefined;
 }
 export type TrailList = Trail[];
 export interface DescribeTrailsResponse {
-  trailList?: Trail[];
+  trailList?: Trail[] | undefined;
 }
 export interface DisableFederationRequest {
   EventDataStore: string;
 }
 export type FederationStatus = "ENABLING" | "ENABLED" | "DISABLING" | "DISABLED" | (string & {});
 export interface DisableFederationResponse {
-  EventDataStoreArn?: string;
-  FederationStatus?: FederationStatus;
+  EventDataStoreArn?: string | undefined;
+  FederationStatus?: FederationStatus | undefined;
 }
 export type FederationRoleArn = string;
 export interface EnableFederationRequest {
@@ -1251,9 +1251,9 @@ export interface EnableFederationRequest {
   FederationRoleArn: string;
 }
 export interface EnableFederationResponse {
-  EventDataStoreArn?: string;
-  FederationStatus?: FederationStatus;
-  FederationRoleArn?: string;
+  EventDataStoreArn?: string | undefined;
+  FederationStatus?: FederationStatus | undefined;
+  FederationRoleArn?: string | undefined;
 }
 export type EventDataStoreList = string[];
 export interface GenerateQueryRequest {
@@ -1261,31 +1261,31 @@ export interface GenerateQueryRequest {
   Prompt: string;
 }
 export interface GenerateQueryResponse {
-  QueryStatement?: string;
-  QueryAlias?: string;
-  EventDataStoreOwnerAccountId?: string;
+  QueryStatement?: string | undefined;
+  QueryAlias?: string | undefined;
+  EventDataStoreOwnerAccountId?: string | undefined;
 }
 export interface GetChannelRequest {
   Channel: string;
 }
 export interface SourceConfig {
-  ApplyToAllRegions?: boolean;
-  AdvancedEventSelectors?: AdvancedEventSelector[];
+  ApplyToAllRegions?: boolean | undefined;
+  AdvancedEventSelectors?: AdvancedEventSelector[] | undefined;
 }
 export interface IngestionStatus {
-  LatestIngestionSuccessTime?: Date;
-  LatestIngestionSuccessEventID?: string;
-  LatestIngestionErrorCode?: string;
-  LatestIngestionAttemptTime?: Date;
-  LatestIngestionAttemptEventID?: string;
+  LatestIngestionSuccessTime?: Date | undefined;
+  LatestIngestionSuccessEventID?: string | undefined;
+  LatestIngestionErrorCode?: string | undefined;
+  LatestIngestionAttemptTime?: Date | undefined;
+  LatestIngestionAttemptEventID?: string | undefined;
 }
 export interface GetChannelResponse {
-  ChannelArn?: string;
-  Name?: string;
-  Source?: string;
-  SourceConfig?: SourceConfig;
-  Destinations?: Destination[];
-  IngestionStatus?: IngestionStatus;
+  ChannelArn?: string | undefined;
+  Name?: string | undefined;
+  Source?: string | undefined;
+  SourceConfig?: SourceConfig | undefined;
+  Destinations?: Destination[] | undefined;
+  IngestionStatus?: IngestionStatus | undefined;
 }
 export interface GetDashboardRequest {
   DashboardId: string;
@@ -1298,20 +1298,20 @@ export type DashboardStatus =
   | "DELETING"
   | (string & {});
 export interface GetDashboardResponse {
-  DashboardArn?: string;
-  Type?: DashboardType;
-  Status?: DashboardStatus;
-  Widgets?: Widget[];
-  RefreshSchedule?: RefreshSchedule;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
-  LastRefreshId?: string;
-  LastRefreshFailureReason?: string;
-  TerminationProtectionEnabled?: boolean;
+  DashboardArn?: string | undefined;
+  Type?: DashboardType | undefined;
+  Status?: DashboardStatus | undefined;
+  Widgets?: Widget[] | undefined;
+  RefreshSchedule?: RefreshSchedule | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
+  LastRefreshId?: string | undefined;
+  LastRefreshFailureReason?: string | undefined;
+  TerminationProtectionEnabled?: boolean | undefined;
 }
 export interface GetEventConfigurationRequest {
-  TrailName?: string;
-  EventDataStore?: string;
+  TrailName?: string | undefined;
+  EventDataStore?: string | undefined;
 }
 export type MaxEventSize = "Standard" | "Large" | (string & {});
 export type Type = "TagContext" | "RequestContext" | (string & {});
@@ -1331,11 +1331,11 @@ export interface AggregationConfiguration {
 }
 export type AggregationConfigurations = AggregationConfiguration[];
 export interface GetEventConfigurationResponse {
-  TrailARN?: string;
-  EventDataStoreArn?: string;
-  MaxEventSize?: MaxEventSize;
-  ContextKeySelectors?: ContextKeySelector[];
-  AggregationConfigurations?: AggregationConfiguration[];
+  TrailARN?: string | undefined;
+  EventDataStoreArn?: string | undefined;
+  MaxEventSize?: MaxEventSize | undefined;
+  ContextKeySelectors?: ContextKeySelector[] | undefined;
+  AggregationConfigurations?: AggregationConfiguration[] | undefined;
 }
 export interface GetEventDataStoreRequest {
   EventDataStore: string;
@@ -1348,21 +1348,21 @@ export interface PartitionKey {
 }
 export type PartitionKeyList = PartitionKey[];
 export interface GetEventDataStoreResponse {
-  EventDataStoreArn?: string;
-  Name?: string;
-  Status?: EventDataStoreStatus;
-  AdvancedEventSelectors?: AdvancedEventSelector[];
-  MultiRegionEnabled?: boolean;
-  OrganizationEnabled?: boolean;
-  RetentionPeriod?: number;
-  TerminationProtectionEnabled?: boolean;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
-  KmsKeyId?: string;
-  BillingMode?: BillingMode;
-  FederationStatus?: FederationStatus;
-  FederationRoleArn?: string;
-  PartitionKeys?: PartitionKey[];
+  EventDataStoreArn?: string | undefined;
+  Name?: string | undefined;
+  Status?: EventDataStoreStatus | undefined;
+  AdvancedEventSelectors?: AdvancedEventSelector[] | undefined;
+  MultiRegionEnabled?: boolean | undefined;
+  OrganizationEnabled?: boolean | undefined;
+  RetentionPeriod?: number | undefined;
+  TerminationProtectionEnabled?: boolean | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
+  KmsKeyId?: string | undefined;
+  BillingMode?: BillingMode | undefined;
+  FederationStatus?: FederationStatus | undefined;
+  FederationRoleArn?: string | undefined;
+  PartitionKeys?: PartitionKey[] | undefined;
 }
 export interface GetEventSelectorsRequest {
   TrailName: string;
@@ -1370,22 +1370,22 @@ export interface GetEventSelectorsRequest {
 export type ReadWriteType = "ReadOnly" | "WriteOnly" | "All" | (string & {});
 export type DataResourceValues = string[];
 export interface DataResource {
-  Type?: string;
-  Values?: string[];
+  Type?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type DataResources = DataResource[];
 export type ExcludeManagementEventSources = string[];
 export interface EventSelector {
-  ReadWriteType?: ReadWriteType;
-  IncludeManagementEvents?: boolean;
-  DataResources?: DataResource[];
-  ExcludeManagementEventSources?: string[];
+  ReadWriteType?: ReadWriteType | undefined;
+  IncludeManagementEvents?: boolean | undefined;
+  DataResources?: DataResource[] | undefined;
+  ExcludeManagementEventSources?: string[] | undefined;
 }
 export type EventSelectors = EventSelector[];
 export interface GetEventSelectorsResponse {
-  TrailARN?: string;
-  EventSelectors?: EventSelector[];
-  AdvancedEventSelectors?: AdvancedEventSelector[];
+  TrailARN?: string | undefined;
+  EventSelectors?: EventSelector[] | undefined;
+  AdvancedEventSelectors?: AdvancedEventSelector[] | undefined;
 }
 export interface GetImportRequest {
   ImportId: string;
@@ -1407,54 +1407,54 @@ export type ImportStatus =
   | "COMPLETED"
   | (string & {});
 export interface ImportStatistics {
-  PrefixesFound?: number;
-  PrefixesCompleted?: number;
-  FilesCompleted?: number;
-  EventsCompleted?: number;
-  FailedEntries?: number;
+  PrefixesFound?: number | undefined;
+  PrefixesCompleted?: number | undefined;
+  FilesCompleted?: number | undefined;
+  EventsCompleted?: number | undefined;
+  FailedEntries?: number | undefined;
 }
 export interface GetImportResponse {
-  ImportId?: string;
-  Destinations?: string[];
-  ImportSource?: ImportSource;
-  StartEventTime?: Date;
-  EndEventTime?: Date;
-  ImportStatus?: ImportStatus;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
-  ImportStatistics?: ImportStatistics;
+  ImportId?: string | undefined;
+  Destinations?: string[] | undefined;
+  ImportSource?: ImportSource | undefined;
+  StartEventTime?: Date | undefined;
+  EndEventTime?: Date | undefined;
+  ImportStatus?: ImportStatus | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
+  ImportStatistics?: ImportStatistics | undefined;
 }
 export interface GetInsightSelectorsRequest {
-  TrailName?: string;
-  EventDataStore?: string;
+  TrailName?: string | undefined;
+  EventDataStore?: string | undefined;
 }
 export type InsightType = "ApiCallRateInsight" | "ApiErrorRateInsight" | (string & {});
 export type SourceEventCategory = "Management" | "Data" | (string & {});
 export type SourceEventCategories = SourceEventCategory[];
 export interface InsightSelector {
-  InsightType?: InsightType;
-  EventCategories?: SourceEventCategory[];
+  InsightType?: InsightType | undefined;
+  EventCategories?: SourceEventCategory[] | undefined;
 }
 export type InsightSelectors = InsightSelector[];
 export interface GetInsightSelectorsResponse {
-  TrailARN?: string;
-  InsightSelectors?: InsightSelector[];
-  EventDataStoreArn?: string;
-  InsightsDestination?: string;
+  TrailARN?: string | undefined;
+  InsightSelectors?: InsightSelector[] | undefined;
+  EventDataStoreArn?: string | undefined;
+  InsightsDestination?: string | undefined;
 }
 export type PaginationToken = string;
 export type MaxQueryResults = number;
 export interface GetQueryResultsRequest {
-  EventDataStore?: string;
+  EventDataStore?: string | undefined;
   QueryId: string;
-  NextToken?: string;
-  MaxQueryResults?: number;
-  EventDataStoreOwnerAccountId?: string;
+  NextToken?: string | undefined;
+  MaxQueryResults?: number | undefined;
+  EventDataStoreOwnerAccountId?: string | undefined;
 }
 export interface QueryStatistics {
-  ResultsCount?: number;
-  TotalResultsCount?: number;
-  BytesScanned?: number;
+  ResultsCount?: number | undefined;
+  TotalResultsCount?: number | undefined;
+  BytesScanned?: number | undefined;
 }
 export type QueryResultKey = string;
 export type QueryResultValue = string;
@@ -1462,173 +1462,175 @@ export type QueryResultColumn = { [key: string]: string | undefined };
 export type QueryResultRow = { [key: string]: string | undefined }[];
 export type QueryResultRows = { [key: string]: string | undefined }[][];
 export interface GetQueryResultsResponse {
-  QueryStatus?: QueryStatus;
-  QueryStatistics?: QueryStatistics;
-  QueryResultRows?: { [key: string]: string | undefined }[][];
-  NextToken?: string;
-  ErrorMessage?: string;
+  QueryStatus?: QueryStatus | undefined;
+  QueryStatistics?: QueryStatistics | undefined;
+  QueryResultRows?: { [key: string]: string | undefined }[][] | undefined;
+  NextToken?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export interface GetResourcePolicyRequest {
   ResourceArn: string;
 }
 export type ResourcePolicy = string;
 export interface GetResourcePolicyResponse {
-  ResourceArn?: string;
-  ResourcePolicy?: string;
-  DelegatedAdminResourcePolicy?: string;
+  ResourceArn?: string | undefined;
+  ResourcePolicy?: string | undefined;
+  DelegatedAdminResourcePolicy?: string | undefined;
 }
 export interface GetTrailRequest {
   Name: string;
 }
 export interface GetTrailResponse {
-  Trail?: Trail;
+  Trail?: Trail | undefined;
 }
 export interface GetTrailStatusRequest {
   Name: string;
 }
 export interface GetTrailStatusResponse {
-  IsLogging?: boolean;
-  LatestDeliveryError?: string;
-  LatestNotificationError?: string;
-  LatestDeliveryTime?: Date;
-  LatestNotificationTime?: Date;
-  StartLoggingTime?: Date;
-  StopLoggingTime?: Date;
-  LatestCloudWatchLogsDeliveryError?: string;
-  LatestCloudWatchLogsDeliveryTime?: Date;
-  LatestDigestDeliveryTime?: Date;
-  LatestDigestDeliveryError?: string;
-  LatestDeliveryAttemptTime?: string;
-  LatestNotificationAttemptTime?: string;
-  LatestNotificationAttemptSucceeded?: string;
-  LatestDeliveryAttemptSucceeded?: string;
-  TimeLoggingStarted?: string;
-  TimeLoggingStopped?: string;
+  IsLogging?: boolean | undefined;
+  LatestDeliveryError?: string | undefined;
+  LatestNotificationError?: string | undefined;
+  LatestDeliveryTime?: Date | undefined;
+  LatestNotificationTime?: Date | undefined;
+  StartLoggingTime?: Date | undefined;
+  StopLoggingTime?: Date | undefined;
+  LatestCloudWatchLogsDeliveryError?: string | undefined;
+  LatestCloudWatchLogsDeliveryTime?: Date | undefined;
+  LatestDigestDeliveryTime?: Date | undefined;
+  LatestDigestDeliveryError?: string | undefined;
+  LatestDeliveryAttemptTime?: string | undefined;
+  LatestNotificationAttemptTime?: string | undefined;
+  LatestNotificationAttemptSucceeded?: string | undefined;
+  LatestDeliveryAttemptSucceeded?: string | undefined;
+  TimeLoggingStarted?: string | undefined;
+  TimeLoggingStopped?: string | undefined;
 }
 export type ListChannelsMaxResultsCount = number;
 export interface ListChannelsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Channel {
-  ChannelArn?: string;
-  Name?: string;
+  ChannelArn?: string | undefined;
+  Name?: string | undefined;
 }
 export type Channels = Channel[];
 export interface ListChannelsResponse {
-  Channels?: Channel[];
-  NextToken?: string;
+  Channels?: Channel[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListDashboardsMaxResultsCount = number;
 export interface ListDashboardsRequest {
-  NamePrefix?: string;
-  Type?: DashboardType;
-  NextToken?: string;
-  MaxResults?: number;
+  NamePrefix?: string | undefined;
+  Type?: DashboardType | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface DashboardDetail {
-  DashboardArn?: string;
-  Type?: DashboardType;
+  DashboardArn?: string | undefined;
+  Type?: DashboardType | undefined;
 }
 export type Dashboards = DashboardDetail[];
 export interface ListDashboardsResponse {
-  Dashboards?: DashboardDetail[];
-  NextToken?: string;
+  Dashboards?: DashboardDetail[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListEventDataStoresMaxResultsCount = number;
 export interface ListEventDataStoresRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface EventDataStore {
-  EventDataStoreArn?: string;
-  Name?: string;
-  TerminationProtectionEnabled?: boolean;
-  Status?: EventDataStoreStatus;
-  AdvancedEventSelectors?: AdvancedEventSelector[];
-  MultiRegionEnabled?: boolean;
-  OrganizationEnabled?: boolean;
-  RetentionPeriod?: number;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
+  EventDataStoreArn?: string | undefined;
+  Name?: string | undefined;
+  TerminationProtectionEnabled?: boolean | undefined;
+  Status?: EventDataStoreStatus | undefined;
+  AdvancedEventSelectors?: AdvancedEventSelector[] | undefined;
+  MultiRegionEnabled?: boolean | undefined;
+  OrganizationEnabled?: boolean | undefined;
+  RetentionPeriod?: number | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
 }
 export type EventDataStores = EventDataStore[];
 export interface ListEventDataStoresResponse {
-  EventDataStores?: EventDataStore[];
-  NextToken?: string;
+  EventDataStores?: EventDataStore[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListImportFailuresMaxResultsCount = number;
 export interface ListImportFailuresRequest {
   ImportId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ImportFailureStatus = "FAILED" | "RETRY" | "SUCCEEDED" | (string & {});
 export interface ImportFailureListItem {
-  Location?: string;
-  Status?: ImportFailureStatus;
-  ErrorType?: string;
-  ErrorMessage?: string;
-  LastUpdatedTime?: Date;
+  Location?: string | undefined;
+  Status?: ImportFailureStatus | undefined;
+  ErrorType?: string | undefined;
+  ErrorMessage?: string | undefined;
+  LastUpdatedTime?: Date | undefined;
 }
 export type ImportFailureList = ImportFailureListItem[];
 export interface ListImportFailuresResponse {
-  Failures?: ImportFailureListItem[];
-  NextToken?: string;
+  Failures?: ImportFailureListItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListImportsMaxResultsCount = number;
 export interface ListImportsRequest {
-  MaxResults?: number;
-  Destination?: string;
-  ImportStatus?: ImportStatus;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  Destination?: string | undefined;
+  ImportStatus?: ImportStatus | undefined;
+  NextToken?: string | undefined;
 }
 export interface ImportsListItem {
-  ImportId?: string;
-  ImportStatus?: ImportStatus;
-  Destinations?: string[];
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
+  ImportId?: string | undefined;
+  ImportStatus?: ImportStatus | undefined;
+  Destinations?: string[] | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
 }
 export type ImportsList = ImportsListItem[];
 export interface ListImportsResponse {
-  Imports?: ImportsListItem[];
-  NextToken?: string;
+  Imports?: ImportsListItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListInsightsDataType = "InsightsEvents" | (string & {});
 export type ListInsightsDataDimensionKey = "EventId" | "EventName" | "EventSource" | (string & {});
 export type ListInsightsDataDimensionValue = string;
-export type ListInsightsDataDimensions = { [key in ListInsightsDataDimensionKey]?: string };
+export type ListInsightsDataDimensions = {
+  [key in ListInsightsDataDimensionKey]?: string | undefined;
+};
 export type ListInsightsDataMaxResultsCount = number;
 export interface ListInsightsDataRequest {
   InsightSource: string;
   DataType: ListInsightsDataType;
-  Dimensions?: { [key: string]: string | undefined };
-  StartTime?: Date;
-  EndTime?: Date;
-  MaxResults?: number;
-  NextToken?: string;
+  Dimensions?: { [key: string]: string | undefined } | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Resource {
-  ResourceType?: string;
-  ResourceName?: string;
+  ResourceType?: string | undefined;
+  ResourceName?: string | undefined;
 }
 export type ResourceList = Resource[];
 export interface Event {
-  EventId?: string;
-  EventName?: string;
-  ReadOnly?: string;
-  AccessKeyId?: string;
-  EventTime?: Date;
-  EventSource?: string;
-  Username?: string;
-  Resources?: Resource[];
-  CloudTrailEvent?: string;
+  EventId?: string | undefined;
+  EventName?: string | undefined;
+  ReadOnly?: string | undefined;
+  AccessKeyId?: string | undefined;
+  EventTime?: Date | undefined;
+  EventSource?: string | undefined;
+  Username?: string | undefined;
+  Resources?: Resource[] | undefined;
+  CloudTrailEvent?: string | undefined;
 }
 export type EventsList = Event[];
 export interface ListInsightsDataResponse {
-  Events?: Event[];
-  NextToken?: string;
+  Events?: Event[] | undefined;
+  NextToken?: string | undefined;
 }
 export type EventSource = string;
 export type EventName = string;
@@ -1638,92 +1640,92 @@ export type InsightsMetricDataType = "FillWithZeros" | "NonZeroData" | (string &
 export type InsightsMetricMaxResults = number;
 export type InsightsMetricNextToken = string;
 export interface ListInsightsMetricDataRequest {
-  TrailName?: string;
+  TrailName?: string | undefined;
   EventSource: string;
   EventName: string;
   InsightType: InsightType;
-  ErrorCode?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  Period?: number;
-  DataType?: InsightsMetricDataType;
-  MaxResults?: number;
-  NextToken?: string;
+  ErrorCode?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Period?: number | undefined;
+  DataType?: InsightsMetricDataType | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type Timestamps = Date[];
 export type InsightsMetricValues = number[];
 export interface ListInsightsMetricDataResponse {
-  TrailARN?: string;
-  EventSource?: string;
-  EventName?: string;
-  InsightType?: InsightType;
-  ErrorCode?: string;
-  Timestamps?: Date[];
-  Values?: number[];
-  NextToken?: string;
+  TrailARN?: string | undefined;
+  EventSource?: string | undefined;
+  EventName?: string | undefined;
+  InsightType?: InsightType | undefined;
+  ErrorCode?: string | undefined;
+  Timestamps?: Date[] | undefined;
+  Values?: number[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPublicKeysRequest {
-  StartTime?: Date;
-  EndTime?: Date;
-  NextToken?: string;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  NextToken?: string | undefined;
 }
 export type ByteBuffer = Uint8Array;
 export interface PublicKey {
-  Value?: Uint8Array;
-  ValidityStartTime?: Date;
-  ValidityEndTime?: Date;
-  Fingerprint?: string;
+  Value?: Uint8Array | undefined;
+  ValidityStartTime?: Date | undefined;
+  ValidityEndTime?: Date | undefined;
+  Fingerprint?: string | undefined;
 }
 export type PublicKeyList = PublicKey[];
 export interface ListPublicKeysResponse {
-  PublicKeyList?: PublicKey[];
-  NextToken?: string;
+  PublicKeyList?: PublicKey[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListQueriesMaxResultsCount = number;
 export interface ListQueriesRequest {
   EventDataStore: string;
-  NextToken?: string;
-  MaxResults?: number;
-  StartTime?: Date;
-  EndTime?: Date;
-  QueryStatus?: QueryStatus;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  QueryStatus?: QueryStatus | undefined;
 }
 export interface Query {
-  QueryId?: string;
-  QueryStatus?: QueryStatus;
-  CreationTime?: Date;
+  QueryId?: string | undefined;
+  QueryStatus?: QueryStatus | undefined;
+  CreationTime?: Date | undefined;
 }
 export type Queries = Query[];
 export interface ListQueriesResponse {
-  Queries?: Query[];
-  NextToken?: string;
+  Queries?: Query[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ResourceIdList = string[];
 export interface ListTagsRequest {
   ResourceIdList: string[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ResourceTag {
-  ResourceId?: string;
-  TagsList?: Tag[];
+  ResourceId?: string | undefined;
+  TagsList?: Tag[] | undefined;
 }
 export type ResourceTagList = ResourceTag[];
 export interface ListTagsResponse {
-  ResourceTagList?: ResourceTag[];
-  NextToken?: string;
+  ResourceTagList?: ResourceTag[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTrailsRequest {
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface TrailInfo {
-  TrailARN?: string;
-  Name?: string;
-  HomeRegion?: string;
+  TrailARN?: string | undefined;
+  Name?: string | undefined;
+  HomeRegion?: string | undefined;
 }
 export type Trails = TrailInfo[];
 export interface ListTrailsResponse {
-  Trails?: TrailInfo[];
-  NextToken?: string;
+  Trails?: TrailInfo[] | undefined;
+  NextToken?: string | undefined;
 }
 export type LookupAttributeKey =
   | "EventId"
@@ -1745,61 +1747,61 @@ export type EventCategory = "insight" | (string & {});
 export type MaxResults = number;
 export type NextToken = string;
 export interface LookupEventsRequest {
-  LookupAttributes?: LookupAttribute[];
-  StartTime?: Date;
-  EndTime?: Date;
-  EventCategory?: EventCategory;
-  MaxResults?: number;
-  NextToken?: string;
+  LookupAttributes?: LookupAttribute[] | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  EventCategory?: EventCategory | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface LookupEventsResponse {
-  Events?: Event[];
-  NextToken?: string;
+  Events?: Event[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface PutEventConfigurationRequest {
-  TrailName?: string;
-  EventDataStore?: string;
-  MaxEventSize?: MaxEventSize;
-  ContextKeySelectors?: ContextKeySelector[];
-  AggregationConfigurations?: AggregationConfiguration[];
+  TrailName?: string | undefined;
+  EventDataStore?: string | undefined;
+  MaxEventSize?: MaxEventSize | undefined;
+  ContextKeySelectors?: ContextKeySelector[] | undefined;
+  AggregationConfigurations?: AggregationConfiguration[] | undefined;
 }
 export interface PutEventConfigurationResponse {
-  TrailARN?: string;
-  EventDataStoreArn?: string;
-  MaxEventSize?: MaxEventSize;
-  ContextKeySelectors?: ContextKeySelector[];
-  AggregationConfigurations?: AggregationConfiguration[];
+  TrailARN?: string | undefined;
+  EventDataStoreArn?: string | undefined;
+  MaxEventSize?: MaxEventSize | undefined;
+  ContextKeySelectors?: ContextKeySelector[] | undefined;
+  AggregationConfigurations?: AggregationConfiguration[] | undefined;
 }
 export interface PutEventSelectorsRequest {
   TrailName: string;
-  EventSelectors?: EventSelector[];
-  AdvancedEventSelectors?: AdvancedEventSelector[];
+  EventSelectors?: EventSelector[] | undefined;
+  AdvancedEventSelectors?: AdvancedEventSelector[] | undefined;
 }
 export interface PutEventSelectorsResponse {
-  TrailARN?: string;
-  EventSelectors?: EventSelector[];
-  AdvancedEventSelectors?: AdvancedEventSelector[];
+  TrailARN?: string | undefined;
+  EventSelectors?: EventSelector[] | undefined;
+  AdvancedEventSelectors?: AdvancedEventSelector[] | undefined;
 }
 export interface PutInsightSelectorsRequest {
-  TrailName?: string;
+  TrailName?: string | undefined;
   InsightSelectors: InsightSelector[];
-  EventDataStore?: string;
-  InsightsDestination?: string;
+  EventDataStore?: string | undefined;
+  InsightsDestination?: string | undefined;
 }
 export interface PutInsightSelectorsResponse {
-  TrailARN?: string;
-  InsightSelectors?: InsightSelector[];
-  EventDataStoreArn?: string;
-  InsightsDestination?: string;
+  TrailARN?: string | undefined;
+  InsightSelectors?: InsightSelector[] | undefined;
+  EventDataStoreArn?: string | undefined;
+  InsightsDestination?: string | undefined;
 }
 export interface PutResourcePolicyRequest {
   ResourceArn: string;
   ResourcePolicy: string;
 }
 export interface PutResourcePolicyResponse {
-  ResourceArn?: string;
-  ResourcePolicy?: string;
-  DelegatedAdminResourcePolicy?: string;
+  ResourceArn?: string | undefined;
+  ResourcePolicy?: string | undefined;
+  DelegatedAdminResourcePolicy?: string | undefined;
 }
 export interface RegisterOrganizationDelegatedAdminRequest {
   MemberAccountId: string;
@@ -1814,86 +1816,86 @@ export interface RestoreEventDataStoreRequest {
   EventDataStore: string;
 }
 export interface RestoreEventDataStoreResponse {
-  EventDataStoreArn?: string;
-  Name?: string;
-  Status?: EventDataStoreStatus;
-  AdvancedEventSelectors?: AdvancedEventSelector[];
-  MultiRegionEnabled?: boolean;
-  OrganizationEnabled?: boolean;
-  RetentionPeriod?: number;
-  TerminationProtectionEnabled?: boolean;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
-  KmsKeyId?: string;
-  BillingMode?: BillingMode;
+  EventDataStoreArn?: string | undefined;
+  Name?: string | undefined;
+  Status?: EventDataStoreStatus | undefined;
+  AdvancedEventSelectors?: AdvancedEventSelector[] | undefined;
+  MultiRegionEnabled?: boolean | undefined;
+  OrganizationEnabled?: boolean | undefined;
+  RetentionPeriod?: number | undefined;
+  TerminationProtectionEnabled?: boolean | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
+  KmsKeyId?: string | undefined;
+  BillingMode?: BillingMode | undefined;
 }
 export type SearchSampleQueriesSearchPhrase = string;
 export type SearchSampleQueriesMaxResults = number;
 export interface SearchSampleQueriesRequest {
   SearchPhrase: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type SampleQueryName = string;
 export type SampleQueryDescription = string;
 export type SampleQuerySQL = string;
 export type SampleQueryRelevance = number;
 export interface SearchSampleQueriesSearchResult {
-  Name?: string;
-  Description?: string;
-  SQL?: string;
-  Relevance?: number;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  SQL?: string | undefined;
+  Relevance?: number | undefined;
 }
 export type SearchSampleQueriesSearchResults = SearchSampleQueriesSearchResult[];
 export interface SearchSampleQueriesResponse {
-  SearchResults?: SearchSampleQueriesSearchResult[];
-  NextToken?: string;
+  SearchResults?: SearchSampleQueriesSearchResult[] | undefined;
+  NextToken?: string | undefined;
 }
 export type QueryParameterKey = string;
 export type QueryParameterValue = string;
 export type QueryParameterValues = { [key: string]: string | undefined };
 export interface StartDashboardRefreshRequest {
   DashboardId: string;
-  QueryParameterValues?: { [key: string]: string | undefined };
+  QueryParameterValues?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartDashboardRefreshResponse {
-  RefreshId?: string;
+  RefreshId?: string | undefined;
 }
 export interface StartEventDataStoreIngestionRequest {
   EventDataStore: string;
 }
 export interface StartEventDataStoreIngestionResponse {}
 export interface StartImportRequest {
-  Destinations?: string[];
-  ImportSource?: ImportSource;
-  StartEventTime?: Date;
-  EndEventTime?: Date;
-  ImportId?: string;
+  Destinations?: string[] | undefined;
+  ImportSource?: ImportSource | undefined;
+  StartEventTime?: Date | undefined;
+  EndEventTime?: Date | undefined;
+  ImportId?: string | undefined;
 }
 export interface StartImportResponse {
-  ImportId?: string;
-  Destinations?: string[];
-  ImportSource?: ImportSource;
-  StartEventTime?: Date;
-  EndEventTime?: Date;
-  ImportStatus?: ImportStatus;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
+  ImportId?: string | undefined;
+  Destinations?: string[] | undefined;
+  ImportSource?: ImportSource | undefined;
+  StartEventTime?: Date | undefined;
+  EndEventTime?: Date | undefined;
+  ImportStatus?: ImportStatus | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
 }
 export interface StartLoggingRequest {
   Name: string;
 }
 export interface StartLoggingResponse {}
 export interface StartQueryRequest {
-  QueryStatement?: string;
-  DeliveryS3Uri?: string;
-  QueryAlias?: string;
-  QueryParameters?: string[];
-  EventDataStoreOwnerAccountId?: string;
+  QueryStatement?: string | undefined;
+  DeliveryS3Uri?: string | undefined;
+  QueryAlias?: string | undefined;
+  QueryParameters?: string[] | undefined;
+  EventDataStoreOwnerAccountId?: string | undefined;
 }
 export interface StartQueryResponse {
-  QueryId?: string;
-  EventDataStoreOwnerAccountId?: string;
+  QueryId?: string | undefined;
+  EventDataStoreOwnerAccountId?: string | undefined;
 }
 export interface StopEventDataStoreIngestionRequest {
   EventDataStore: string;
@@ -1903,15 +1905,15 @@ export interface StopImportRequest {
   ImportId: string;
 }
 export interface StopImportResponse {
-  ImportId?: string;
-  ImportSource?: ImportSource;
-  Destinations?: string[];
-  ImportStatus?: ImportStatus;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
-  StartEventTime?: Date;
-  EndEventTime?: Date;
-  ImportStatistics?: ImportStatistics;
+  ImportId?: string | undefined;
+  ImportSource?: ImportSource | undefined;
+  Destinations?: string[] | undefined;
+  ImportStatus?: ImportStatus | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
+  StartEventTime?: Date | undefined;
+  EndEventTime?: Date | undefined;
+  ImportStatistics?: ImportStatistics | undefined;
 }
 export interface StopLoggingRequest {
   Name: string;
@@ -1919,87 +1921,87 @@ export interface StopLoggingRequest {
 export interface StopLoggingResponse {}
 export interface UpdateChannelRequest {
   Channel: string;
-  Destinations?: Destination[];
-  Name?: string;
+  Destinations?: Destination[] | undefined;
+  Name?: string | undefined;
 }
 export interface UpdateChannelResponse {
-  ChannelArn?: string;
-  Name?: string;
-  Source?: string;
-  Destinations?: Destination[];
+  ChannelArn?: string | undefined;
+  Name?: string | undefined;
+  Source?: string | undefined;
+  Destinations?: Destination[] | undefined;
 }
 export interface UpdateDashboardRequest {
   DashboardId: string;
-  Widgets?: RequestWidget[];
-  RefreshSchedule?: RefreshSchedule;
-  TerminationProtectionEnabled?: boolean;
+  Widgets?: RequestWidget[] | undefined;
+  RefreshSchedule?: RefreshSchedule | undefined;
+  TerminationProtectionEnabled?: boolean | undefined;
 }
 export interface UpdateDashboardResponse {
-  DashboardArn?: string;
-  Name?: string;
-  Type?: DashboardType;
-  Widgets?: Widget[];
-  RefreshSchedule?: RefreshSchedule;
-  TerminationProtectionEnabled?: boolean;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
+  DashboardArn?: string | undefined;
+  Name?: string | undefined;
+  Type?: DashboardType | undefined;
+  Widgets?: Widget[] | undefined;
+  RefreshSchedule?: RefreshSchedule | undefined;
+  TerminationProtectionEnabled?: boolean | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
 }
 export interface UpdateEventDataStoreRequest {
   EventDataStore: string;
-  Name?: string;
-  AdvancedEventSelectors?: AdvancedEventSelector[];
-  MultiRegionEnabled?: boolean;
-  OrganizationEnabled?: boolean;
-  RetentionPeriod?: number;
-  TerminationProtectionEnabled?: boolean;
-  KmsKeyId?: string;
-  BillingMode?: BillingMode;
+  Name?: string | undefined;
+  AdvancedEventSelectors?: AdvancedEventSelector[] | undefined;
+  MultiRegionEnabled?: boolean | undefined;
+  OrganizationEnabled?: boolean | undefined;
+  RetentionPeriod?: number | undefined;
+  TerminationProtectionEnabled?: boolean | undefined;
+  KmsKeyId?: string | undefined;
+  BillingMode?: BillingMode | undefined;
 }
 export interface UpdateEventDataStoreResponse {
-  EventDataStoreArn?: string;
-  Name?: string;
-  Status?: EventDataStoreStatus;
-  AdvancedEventSelectors?: AdvancedEventSelector[];
-  MultiRegionEnabled?: boolean;
-  OrganizationEnabled?: boolean;
-  RetentionPeriod?: number;
-  TerminationProtectionEnabled?: boolean;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
-  KmsKeyId?: string;
-  BillingMode?: BillingMode;
-  FederationStatus?: FederationStatus;
-  FederationRoleArn?: string;
+  EventDataStoreArn?: string | undefined;
+  Name?: string | undefined;
+  Status?: EventDataStoreStatus | undefined;
+  AdvancedEventSelectors?: AdvancedEventSelector[] | undefined;
+  MultiRegionEnabled?: boolean | undefined;
+  OrganizationEnabled?: boolean | undefined;
+  RetentionPeriod?: number | undefined;
+  TerminationProtectionEnabled?: boolean | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
+  KmsKeyId?: string | undefined;
+  BillingMode?: BillingMode | undefined;
+  FederationStatus?: FederationStatus | undefined;
+  FederationRoleArn?: string | undefined;
 }
 export interface UpdateTrailRequest {
   Name: string;
-  S3BucketName?: string;
-  S3KeyPrefix?: string;
-  SnsTopicName?: string;
-  IncludeGlobalServiceEvents?: boolean;
-  IsMultiRegionTrail?: boolean;
-  EnableLogFileValidation?: boolean;
-  CloudWatchLogsLogGroupArn?: string;
-  CloudWatchLogsRoleArn?: string;
-  KmsKeyId?: string;
-  IsOrganizationTrail?: boolean;
-  RecursiveLogging?: boolean;
+  S3BucketName?: string | undefined;
+  S3KeyPrefix?: string | undefined;
+  SnsTopicName?: string | undefined;
+  IncludeGlobalServiceEvents?: boolean | undefined;
+  IsMultiRegionTrail?: boolean | undefined;
+  EnableLogFileValidation?: boolean | undefined;
+  CloudWatchLogsLogGroupArn?: string | undefined;
+  CloudWatchLogsRoleArn?: string | undefined;
+  KmsKeyId?: string | undefined;
+  IsOrganizationTrail?: boolean | undefined;
+  RecursiveLogging?: boolean | undefined;
 }
 export interface UpdateTrailResponse {
-  Name?: string;
-  S3BucketName?: string;
-  S3KeyPrefix?: string;
-  SnsTopicName?: string;
-  SnsTopicARN?: string;
-  IncludeGlobalServiceEvents?: boolean;
-  IsMultiRegionTrail?: boolean;
-  TrailARN?: string;
-  LogFileValidationEnabled?: boolean;
-  CloudWatchLogsLogGroupArn?: string;
-  CloudWatchLogsRoleArn?: string;
-  KmsKeyId?: string;
-  IsOrganizationTrail?: boolean;
-  RecursiveLogging?: boolean;
+  Name?: string | undefined;
+  S3BucketName?: string | undefined;
+  S3KeyPrefix?: string | undefined;
+  SnsTopicName?: string | undefined;
+  SnsTopicARN?: string | undefined;
+  IncludeGlobalServiceEvents?: boolean | undefined;
+  IsMultiRegionTrail?: boolean | undefined;
+  TrailARN?: string | undefined;
+  LogFileValidationEnabled?: boolean | undefined;
+  CloudWatchLogsLogGroupArn?: string | undefined;
+  CloudWatchLogsRoleArn?: string | undefined;
+  KmsKeyId?: string | undefined;
+  IsOrganizationTrail?: boolean | undefined;
+  RecursiveLogging?: boolean | undefined;
 }
 export type AddTagsError =
   | ChannelARNInvalidException

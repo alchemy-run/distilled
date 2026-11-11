@@ -162,10 +162,10 @@ export type TagList = Tag[];
 export type ClientTokenName = string;
 export interface CreateRescoreExecutionPlanRequest {
   Name: string;
-  Description?: string;
-  CapacityUnits?: CapacityUnitsConfiguration;
-  Tags?: Tag[];
-  ClientToken?: string;
+  Description?: string | undefined;
+  CapacityUnits?: CapacityUnitsConfiguration | undefined;
+  Tags?: Tag[] | undefined;
+  ClientToken?: string | undefined;
 }
 export type RescoreExecutionPlanId = string;
 export type RescoreExecutionPlanArn = string;
@@ -189,40 +189,40 @@ export type RescoreExecutionPlanStatus =
   | (string & {});
 export type ErrorMessage = string;
 export interface DescribeRescoreExecutionPlanResponse {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  Description?: string;
-  CapacityUnits?: CapacityUnitsConfiguration;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  Status?: RescoreExecutionPlanStatus;
-  ErrorMessage?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CapacityUnits?: CapacityUnitsConfiguration | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  Status?: RescoreExecutionPlanStatus | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type NextToken = string;
 export type MaxResultsIntegerForListRescoreExecutionPlansRequest = number;
 export interface ListRescoreExecutionPlansRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface RescoreExecutionPlanSummary {
-  Name?: string;
-  Id?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  Status?: RescoreExecutionPlanStatus;
+  Name?: string | undefined;
+  Id?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  Status?: RescoreExecutionPlanStatus | undefined;
 }
 export type RescoreExecutionPlanSummaryList = RescoreExecutionPlanSummary[];
 export interface ListRescoreExecutionPlansResponse {
-  SummaryItems?: RescoreExecutionPlanSummary[];
-  NextToken?: string;
+  SummaryItems?: RescoreExecutionPlanSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type SearchQuery = string;
 export type DocumentId = string;
@@ -234,11 +234,11 @@ export type TitleTokensList = string[];
 export type BodyTokensList = string[];
 export interface Document {
   Id: string;
-  GroupId?: string;
-  Title?: string;
-  Body?: string;
-  TokenizedTitle?: string[];
-  TokenizedBody?: string[];
+  GroupId?: string | undefined;
+  Title?: string | undefined;
+  Body?: string | undefined;
+  TokenizedTitle?: string[] | undefined;
+  TokenizedBody?: string[] | undefined;
   OriginalScore: number;
 }
 export type DocumentList = Document[];
@@ -249,13 +249,13 @@ export interface RescoreRequest {
 }
 export type RescoreId = string;
 export interface RescoreResultItem {
-  DocumentId?: string;
-  Score?: number;
+  DocumentId?: string | undefined;
+  Score?: number | undefined;
 }
 export type RescoreResultItemList = RescoreResultItem[];
 export interface RescoreResult {
-  RescoreId?: string;
-  ResultItems?: RescoreResultItem[];
+  RescoreId?: string | undefined;
+  ResultItems?: RescoreResultItem[] | undefined;
 }
 export interface TagResourceRequest {
   ResourceARN: string;
@@ -270,9 +270,9 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateRescoreExecutionPlanRequest {
   Id: string;
-  Name?: string;
-  Description?: string;
-  CapacityUnits?: CapacityUnitsConfiguration;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CapacityUnits?: CapacityUnitsConfiguration | undefined;
 }
 export interface UpdateRescoreExecutionPlanResponse {}
 export type CreateRescoreExecutionPlanError =

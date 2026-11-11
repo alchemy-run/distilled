@@ -67,45 +67,45 @@ export interface ActivateKmsSigningKeyRequest {
   /** The ID of the pending signing key to activate. */
   keyId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** How many hours after activation the previously-active key should stop being used. Defaults to a 1 hour grace period so already-issued tokens keep verifying. */
-  revokePreviousAfterHours?: number;
+  revokePreviousAfterHours?: number | undefined;
 }
 export type ActivateKmsSigningKeyResponsePublicKeyKeyOpsList = Array<string>;
 /** The X.509 certificate chain (RFC 7517 §4.7). Each entry is the base64 DER (not base64url) of a certificate. For keys minted with a stored certificate this holds the single self-signed cert as `[x5c]`. */
 export type ActivateKmsSigningKeyResponsePublicKeyX5cList = Array<string>;
 export interface ActivateKmsSigningKeyResponsePublicKey {
-  alg?: string;
-  key_ops?: ActivateKmsSigningKeyResponsePublicKeyKeyOpsList;
-  kid?: string;
-  kty?: string;
-  use?: string;
+  alg?: string | undefined;
+  key_ops?: ActivateKmsSigningKeyResponsePublicKeyKeyOpsList | undefined;
+  kid?: string | undefined;
+  kty?: string | undefined;
+  use?: string | undefined;
   /** The X.509 certificate chain (RFC 7517 §4.7). Each entry is the base64 DER (not base64url) of a certificate. For keys minted with a stored certificate this holds the single self-signed cert as `[x5c]`. */
-  x5c?: ActivateKmsSigningKeyResponsePublicKeyX5cList;
+  x5c?: ActivateKmsSigningKeyResponsePublicKeyX5cList | undefined;
   /** The base64url SHA-256 thumbprint of the DER certificate in `x5c[0]` (RFC 7517 §4.9). */
-  x5t_S256?: string;
+  x5t_S256?: string | undefined;
 }
 export type ActivateKmsSigningKeyResponseStatus = "active" | "pending" | "revoking";
 export interface ActivateKmsSigningKeyResponse {
-  activateAt?: string;
+  activateAt?: string | undefined;
   /** When the key became the active signer. Present for active and revoking keys (and absent for pending keys and rows predating this field). */
-  activatedAt?: string;
+  activatedAt?: string | undefined;
   algorithm: string;
   /** The stored X.509 certificate (from `publicKey.x5c[0]`) in PEM form, ready to render. Present only for keys created with a stored certificate; omitted for keys created before certificates were stored. */
-  certificatePem?: string;
+  certificatePem?: string | undefined;
   createdAt: string;
   /** The caller-supplied key id (imported keys only), used as the JWT/JWKS `kid`. Not unique across an issuer's keys; omitted for generated keys. */
-  importKeyId?: string;
+  importKeyId?: string | undefined;
   issuerId: string;
   /** The server-minted, unique record identifier. Use this to address the key on the activate / certificate endpoints. */
   keyId: string;
-  publicKey?: ActivateKmsSigningKeyResponsePublicKey;
+  publicKey?: ActivateKmsSigningKeyResponsePublicKey | undefined;
   publicKeyFingerprint: string;
   /** The public key in SPKI PEM form, ready to render. Present whenever the key has public key material. Derived from `publicKey`; the embedded certificate members (`x5c`/`x5t#S256`) do not affect it. */
-  publicKeyPem?: string;
-  revokeAt?: string;
+  publicKeyPem?: string | undefined;
+  revokeAt?: string | undefined;
   status: ActivateKmsSigningKeyResponseStatus;
   updatedAt: string;
 }
@@ -138,7 +138,7 @@ export interface CreateKmsIssuerRequestPolicyCase0 {
   /** The environments for the project grant policy. Each entry is a system environment (production, preview, development) or a custom environment ID (env_...). */
   environments: CreateKmsIssuerRequestPolicyCase0EnvironmentsList;
   /** The claims that KMS should include in signed JWTs for this policy. */
-  tokenClaims?: CreateKmsIssuerRequestPolicyCase0TokenClaimsMap;
+  tokenClaims?: CreateKmsIssuerRequestPolicyCase0TokenClaimsMap | undefined;
 }
 export type CreateKmsIssuerRequestPolicyCase1Kind = "connex-grant";
 /** The claims that KMS should include in signed JWTs for this policy. */
@@ -150,27 +150,40 @@ export interface CreateKmsIssuerRequestPolicyCase1 {
   /** The Connex client ID for the Connex grant policy. */
   clientId: string;
   /** The claims that KMS should include in signed JWTs for this policy. */
-  tokenClaims?: CreateKmsIssuerRequestPolicyCase1TokenClaimsMap;
+  tokenClaims?: CreateKmsIssuerRequestPolicyCase1TokenClaimsMap | undefined;
+}
+export type CreateKmsIssuerRequestPolicyCase2Kind = "integration-tokens-grant";
+/** The claims that KMS should include in signed JWTs for this policy. */
+export type CreateKmsIssuerRequestPolicyCase2TokenClaimsMap = {
+  [key: string]: unknown | undefined;
+};
+export interface CreateKmsIssuerRequestPolicyCase2 {
+  kind: CreateKmsIssuerRequestPolicyCase2Kind;
+  /** The marketplace integration ID for the integration tokens grant policy. */
+  integrationId: string;
+  /** The claims that KMS should include in signed JWTs for this policy. */
+  tokenClaims?: CreateKmsIssuerRequestPolicyCase2TokenClaimsMap | undefined;
 }
 export type CreateKmsIssuerRequestPolicy =
   | CreateKmsIssuerRequestPolicyCase0
-  | CreateKmsIssuerRequestPolicyCase1;
+  | CreateKmsIssuerRequestPolicyCase1
+  | CreateKmsIssuerRequestPolicyCase2;
 export interface CreateKmsIssuerRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The name of the issuer. */
   name: string;
   /** The signing algorithm to use for the issuer. */
-  algorithm?: CreateKmsIssuerRequestAlgorithm | (string & {});
+  algorithm?: CreateKmsIssuerRequestAlgorithm | (string & {}) | undefined;
   /** A JSON Schema used to validate the resolved token claims when signing tokens for this issuer. */
-  claimsSchema?: CreateKmsIssuerRequestClaimsSchemaMap;
-  policy?: CreateKmsIssuerRequestPolicy;
+  claimsSchema?: CreateKmsIssuerRequestClaimsSchemaMap | undefined;
+  policy?: CreateKmsIssuerRequestPolicy | undefined;
   /** The PEM-encoded private key to use for the issuer. */
-  importKey?: string;
+  importKey?: string | undefined;
   /** The key id to use as the imported key's JWT/JWKS `kid`. Only allowed when `importKey` is provided. Not required to be unique; the addressable key id is the server-minted `keyId` returned in the response. */
-  importKeyId?: string;
+  importKeyId?: string | undefined;
 }
 export type CreateKmsIssuerResponseAlgorithm =
   | "ES256"
@@ -183,6 +196,7 @@ export type CreateKmsIssuerResponseAlgorithm =
   | "RS384"
   | "RS512";
 export type CreateKmsIssuerResponseClaimsSchemaMap = { [key: string]: unknown | undefined };
+export type CreateKmsIssuerResponseDiscoveryLayout = "connect" | "kms";
 export type CreateKmsIssuerResponseOrigin = "external" | "vercel";
 /** Environments whose OIDC tokens this grant authorizes. Each entry is either a system environment slug (`production`, `preview`, `development`) or a custom environment ID (prefixed `env_`). Custom environments are matched against the token's `custom_environment_id` claim (the stable ID); system environments against its `environment` claim. */
 export type CreateKmsIssuerResponsePoliciesItemCase0EnvironmentsList = Array<string>;
@@ -197,7 +211,7 @@ export interface CreateKmsIssuerResponsePoliciesItemCase0 {
   kind: CreateKmsIssuerResponsePoliciesItemCase0Kind;
   projectId: string;
   teamId: string;
-  tokenClaims?: CreateKmsIssuerResponsePoliciesItemCase0TokenClaimsMap;
+  tokenClaims?: CreateKmsIssuerResponsePoliciesItemCase0TokenClaimsMap | undefined;
   updatedAt: string;
 }
 export type CreateKmsIssuerResponsePoliciesItemCase1Kind = "connex-grant";
@@ -208,56 +222,70 @@ export interface CreateKmsIssuerResponsePoliciesItemCase1 {
   clientId: string;
   createdAt: string;
   kind: CreateKmsIssuerResponsePoliciesItemCase1Kind;
-  tokenClaims?: CreateKmsIssuerResponsePoliciesItemCase1TokenClaimsMap;
+  tokenClaims?: CreateKmsIssuerResponsePoliciesItemCase1TokenClaimsMap | undefined;
+  updatedAt: string;
+}
+export type CreateKmsIssuerResponsePoliciesItemCase2Kind = "integration-tokens-grant";
+export type CreateKmsIssuerResponsePoliciesItemCase2TokenClaimsMap = {
+  [key: string]: unknown | undefined;
+};
+/** Lets the integration-tokens service sign marketplace resource tokens for one integration (`oac_...`). */
+export interface CreateKmsIssuerResponsePoliciesItemCase2 {
+  createdAt: string;
+  integrationId: string;
+  kind: CreateKmsIssuerResponsePoliciesItemCase2Kind;
+  tokenClaims?: CreateKmsIssuerResponsePoliciesItemCase2TokenClaimsMap | undefined;
   updatedAt: string;
 }
 export type CreateKmsIssuerResponsePoliciesItem =
   | CreateKmsIssuerResponsePoliciesItemCase0
-  | CreateKmsIssuerResponsePoliciesItemCase1;
+  | CreateKmsIssuerResponsePoliciesItemCase1
+  | CreateKmsIssuerResponsePoliciesItemCase2;
 export type CreateKmsIssuerResponsePoliciesList = Array<CreateKmsIssuerResponsePoliciesItem>;
 export type CreateKmsIssuerResponseSigningKeysItemPublicKeyKeyOpsList = Array<string>;
 /** The X.509 certificate chain (RFC 7517 §4.7). Each entry is the base64 DER (not base64url) of a certificate. For keys minted with a stored certificate this holds the single self-signed cert as `[x5c]`. */
 export type CreateKmsIssuerResponseSigningKeysItemPublicKeyX5cList = Array<string>;
 export interface CreateKmsIssuerResponseSigningKeysItemPublicKey {
-  alg?: string;
-  key_ops?: CreateKmsIssuerResponseSigningKeysItemPublicKeyKeyOpsList;
-  kid?: string;
-  kty?: string;
-  use?: string;
+  alg?: string | undefined;
+  key_ops?: CreateKmsIssuerResponseSigningKeysItemPublicKeyKeyOpsList | undefined;
+  kid?: string | undefined;
+  kty?: string | undefined;
+  use?: string | undefined;
   /** The X.509 certificate chain (RFC 7517 §4.7). Each entry is the base64 DER (not base64url) of a certificate. For keys minted with a stored certificate this holds the single self-signed cert as `[x5c]`. */
-  x5c?: CreateKmsIssuerResponseSigningKeysItemPublicKeyX5cList;
+  x5c?: CreateKmsIssuerResponseSigningKeysItemPublicKeyX5cList | undefined;
   /** The base64url SHA-256 thumbprint of the DER certificate in `x5c[0]` (RFC 7517 §4.9). */
-  x5t_S256?: string;
+  x5t_S256?: string | undefined;
 }
 export type CreateKmsIssuerResponseSigningKeysItemStatus = "active" | "pending" | "revoking";
 export interface CreateKmsIssuerResponseSigningKeysItem {
-  activateAt?: string;
+  activateAt?: string | undefined;
   /** When the key became the active signer. Present for active and revoking keys (and absent for pending keys and rows predating this field). */
-  activatedAt?: string;
+  activatedAt?: string | undefined;
   algorithm: string;
   /** The stored X.509 certificate (from `publicKey.x5c[0]`) in PEM form, ready to render. Present only for keys created with a stored certificate; omitted for keys created before certificates were stored. */
-  certificatePem?: string;
+  certificatePem?: string | undefined;
   createdAt: string;
   /** The caller-supplied key id (imported keys only), used as the JWT/JWKS `kid`. Not unique across an issuer's keys; omitted for generated keys. */
-  importKeyId?: string;
+  importKeyId?: string | undefined;
   issuerId: string;
   /** The server-minted, unique record identifier. Use this to address the key on the activate / certificate endpoints. */
   keyId: string;
-  publicKey?: CreateKmsIssuerResponseSigningKeysItemPublicKey;
+  publicKey?: CreateKmsIssuerResponseSigningKeysItemPublicKey | undefined;
   publicKeyFingerprint: string;
   /** The public key in SPKI PEM form, ready to render. Present whenever the key has public key material. Derived from `publicKey`; the embedded certificate members (`x5c`/`x5t#S256`) do not affect it. */
-  publicKeyPem?: string;
-  revokeAt?: string;
+  publicKeyPem?: string | undefined;
+  revokeAt?: string | undefined;
   status: CreateKmsIssuerResponseSigningKeysItemStatus;
   updatedAt: string;
 }
 export type CreateKmsIssuerResponseSigningKeysList = Array<CreateKmsIssuerResponseSigningKeysItem>;
 export interface CreateKmsIssuerResponse {
   algorithm: CreateKmsIssuerResponseAlgorithm;
-  claimsSchema?: CreateKmsIssuerResponseClaimsSchemaMap;
+  claimsSchema?: CreateKmsIssuerResponseClaimsSchemaMap | undefined;
   createdAt: string;
+  discoveryLayout: CreateKmsIssuerResponseDiscoveryLayout;
   id: string;
-  managedBy?: string;
+  managedBy?: string | undefined;
   name: string;
   origin: CreateKmsIssuerResponseOrigin;
   ownerId: string;
@@ -274,16 +302,16 @@ export interface CreateKmsIssuerPolicyRequest {
   /** The ID of the issuer. */
   issuerId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   kind: CreateKmsIssuerPolicyRequestKind | (string & {});
   /** The project ID for the project grant policy. */
   projectId: string;
   /** The environments for the project grant policy. Each entry is a system environment (production, preview, development) or a custom environment ID (env_...). */
   environments: CreateKmsIssuerPolicyRequestEnvironmentsList;
   /** The claims that KMS should include in signed JWTs for this policy. */
-  tokenClaims?: CreateKmsIssuerPolicyRequestTokenClaimsMap;
+  tokenClaims?: CreateKmsIssuerPolicyRequestTokenClaimsMap | undefined;
 }
 /** Environments whose OIDC tokens this grant authorizes. Each entry is either a system environment slug (`production`, `preview`, `development`) or a custom environment ID (prefixed `env_`). Custom environments are matched against the token's `custom_environment_id` claim (the stable ID); system environments against its `environment` claim. */
 export type CreateKmsIssuerPolicyResponseBodyCase0EnvironmentsList = Array<string>;
@@ -298,7 +326,7 @@ export interface CreateKmsIssuerPolicyResponseBodyCase0 {
   kind: CreateKmsIssuerPolicyResponseBodyCase0Kind;
   projectId: string;
   teamId: string;
-  tokenClaims?: CreateKmsIssuerPolicyResponseBodyCase0TokenClaimsMap;
+  tokenClaims?: CreateKmsIssuerPolicyResponseBodyCase0TokenClaimsMap | undefined;
   updatedAt: string;
 }
 export type CreateKmsIssuerPolicyResponseBodyCase1Kind = "connex-grant";
@@ -309,12 +337,25 @@ export interface CreateKmsIssuerPolicyResponseBodyCase1 {
   clientId: string;
   createdAt: string;
   kind: CreateKmsIssuerPolicyResponseBodyCase1Kind;
-  tokenClaims?: CreateKmsIssuerPolicyResponseBodyCase1TokenClaimsMap;
+  tokenClaims?: CreateKmsIssuerPolicyResponseBodyCase1TokenClaimsMap | undefined;
+  updatedAt: string;
+}
+export type CreateKmsIssuerPolicyResponseBodyCase2Kind = "integration-tokens-grant";
+export type CreateKmsIssuerPolicyResponseBodyCase2TokenClaimsMap = {
+  [key: string]: unknown | undefined;
+};
+/** Lets the integration-tokens service sign marketplace resource tokens for one integration (`oac_...`). */
+export interface CreateKmsIssuerPolicyResponseBodyCase2 {
+  createdAt: string;
+  integrationId: string;
+  kind: CreateKmsIssuerPolicyResponseBodyCase2Kind;
+  tokenClaims?: CreateKmsIssuerPolicyResponseBodyCase2TokenClaimsMap | undefined;
   updatedAt: string;
 }
 export type CreateKmsIssuerPolicyResponseBody =
   | CreateKmsIssuerPolicyResponseBodyCase0
-  | CreateKmsIssuerPolicyResponseBodyCase1;
+  | CreateKmsIssuerPolicyResponseBodyCase1
+  | CreateKmsIssuerPolicyResponseBodyCase2;
 export type CreateKmsIssuerPolicyResponse = CreateKmsIssuerPolicyResponseBody;
 /** Whether the new key is activated automatically after its public key has propagated, or manually via the activate endpoint. Defaults to `automatic`. */
 export type CreateKmsSigningKeyRequestActivation = "automatic" | "manual";
@@ -324,53 +365,53 @@ export interface CreateKmsSigningKeyRequest {
   /** The ID of the issuer. */
   issuerId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** Whether the new key is activated automatically after its public key has propagated, or manually via the activate endpoint. Defaults to `automatic`. */
-  activation?: CreateKmsSigningKeyRequestActivation | (string & {});
+  activation?: CreateKmsSigningKeyRequestActivation | (string & {}) | undefined;
   /** For automatic activation, how many hours after activation the previous signing key should stop being used. Defaults to a 1 hour grace period so already-issued tokens keep verifying. */
-  revokePreviousAfterHours?: number;
+  revokePreviousAfterHours?: number | undefined;
   /** Deprecated. The ISO date string or timestamp when the previous signing key should stop being used. Converted to a relative grace and applied at activation, not creation. Prefer revokePreviousAfterHours. */
-  revokePreviousAt?: CreateKmsSigningKeyRequestRevokePreviousAt;
+  revokePreviousAt?: CreateKmsSigningKeyRequestRevokePreviousAt | undefined;
   /** The PEM-encoded private key to use for the issuer. */
-  importKey?: string;
+  importKey?: string | undefined;
   /** The key id to use as the imported key's JWT/JWKS `kid`. Only allowed when `importKey` is provided. Not required to be unique; the addressable key id is the server-minted `keyId` returned in the response. */
-  importKeyId?: string;
+  importKeyId?: string | undefined;
 }
 export type CreateKmsSigningKeyResponsePublicKeyKeyOpsList = Array<string>;
 /** The X.509 certificate chain (RFC 7517 §4.7). Each entry is the base64 DER (not base64url) of a certificate. For keys minted with a stored certificate this holds the single self-signed cert as `[x5c]`. */
 export type CreateKmsSigningKeyResponsePublicKeyX5cList = Array<string>;
 export interface CreateKmsSigningKeyResponsePublicKey {
-  alg?: string;
-  key_ops?: CreateKmsSigningKeyResponsePublicKeyKeyOpsList;
-  kid?: string;
-  kty?: string;
-  use?: string;
+  alg?: string | undefined;
+  key_ops?: CreateKmsSigningKeyResponsePublicKeyKeyOpsList | undefined;
+  kid?: string | undefined;
+  kty?: string | undefined;
+  use?: string | undefined;
   /** The X.509 certificate chain (RFC 7517 §4.7). Each entry is the base64 DER (not base64url) of a certificate. For keys minted with a stored certificate this holds the single self-signed cert as `[x5c]`. */
-  x5c?: CreateKmsSigningKeyResponsePublicKeyX5cList;
+  x5c?: CreateKmsSigningKeyResponsePublicKeyX5cList | undefined;
   /** The base64url SHA-256 thumbprint of the DER certificate in `x5c[0]` (RFC 7517 §4.9). */
-  x5t_S256?: string;
+  x5t_S256?: string | undefined;
 }
 export type CreateKmsSigningKeyResponseStatus = "active" | "pending" | "revoking";
 export interface CreateKmsSigningKeyResponse {
-  activateAt?: string;
+  activateAt?: string | undefined;
   /** When the key became the active signer. Present for active and revoking keys (and absent for pending keys and rows predating this field). */
-  activatedAt?: string;
+  activatedAt?: string | undefined;
   algorithm: string;
   /** The stored X.509 certificate (from `publicKey.x5c[0]`) in PEM form, ready to render. Present only for keys created with a stored certificate; omitted for keys created before certificates were stored. */
-  certificatePem?: string;
+  certificatePem?: string | undefined;
   createdAt: string;
   /** The caller-supplied key id (imported keys only), used as the JWT/JWKS `kid`. Not unique across an issuer's keys; omitted for generated keys. */
-  importKeyId?: string;
+  importKeyId?: string | undefined;
   issuerId: string;
   /** The server-minted, unique record identifier. Use this to address the key on the activate / certificate endpoints. */
   keyId: string;
-  publicKey?: CreateKmsSigningKeyResponsePublicKey;
+  publicKey?: CreateKmsSigningKeyResponsePublicKey | undefined;
   publicKeyFingerprint: string;
   /** The public key in SPKI PEM form, ready to render. Present whenever the key has public key material. Derived from `publicKey`; the embedded certificate members (`x5c`/`x5t#S256`) do not affect it. */
-  publicKeyPem?: string;
-  revokeAt?: string;
+  publicKeyPem?: string | undefined;
+  revokeAt?: string | undefined;
   status: CreateKmsSigningKeyResponseStatus;
   updatedAt: string;
 }
@@ -378,13 +419,16 @@ export interface DeleteKmsIssuerRequest {
   /** The ID of the issuer. */
   issuerId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface DeleteKmsIssuerResponse {}
 /** The issuer policy kind. */
-export type DeleteKmsIssuerPolicyRequestKind = "project-grant" | "connex-grant";
+export type DeleteKmsIssuerPolicyRequestKind =
+  | "project-grant"
+  | "connex-grant"
+  | "integration-tokens-grant";
 export interface DeleteKmsIssuerPolicyRequest {
   /** The ID of the issuer. */
   issuerId: string;
@@ -393,18 +437,18 @@ export interface DeleteKmsIssuerPolicyRequest {
   /** The policy identifier. */
   policyKey: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface DeleteKmsIssuerPolicyResponse {}
 export interface GetKmsIssuerRequest {
   /** The ID of the issuer. */
   issuerId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetKmsIssuerResponseAlgorithm =
   | "ES256"
@@ -417,6 +461,7 @@ export type GetKmsIssuerResponseAlgorithm =
   | "RS384"
   | "RS512";
 export type GetKmsIssuerResponseClaimsSchemaMap = { [key: string]: unknown | undefined };
+export type GetKmsIssuerResponseDiscoveryLayout = "connect" | "kms";
 export type GetKmsIssuerResponseOrigin = "external" | "vercel";
 /** Environments whose OIDC tokens this grant authorizes. Each entry is either a system environment slug (`production`, `preview`, `development`) or a custom environment ID (prefixed `env_`). Custom environments are matched against the token's `custom_environment_id` claim (the stable ID); system environments against its `environment` claim. */
 export type GetKmsIssuerResponsePoliciesItemCase0EnvironmentsList = Array<string>;
@@ -431,7 +476,7 @@ export interface GetKmsIssuerResponsePoliciesItemCase0 {
   kind: GetKmsIssuerResponsePoliciesItemCase0Kind;
   projectId: string;
   teamId: string;
-  tokenClaims?: GetKmsIssuerResponsePoliciesItemCase0TokenClaimsMap;
+  tokenClaims?: GetKmsIssuerResponsePoliciesItemCase0TokenClaimsMap | undefined;
   updatedAt: string;
 }
 export type GetKmsIssuerResponsePoliciesItemCase1Kind = "connex-grant";
@@ -442,56 +487,70 @@ export interface GetKmsIssuerResponsePoliciesItemCase1 {
   clientId: string;
   createdAt: string;
   kind: GetKmsIssuerResponsePoliciesItemCase1Kind;
-  tokenClaims?: GetKmsIssuerResponsePoliciesItemCase1TokenClaimsMap;
+  tokenClaims?: GetKmsIssuerResponsePoliciesItemCase1TokenClaimsMap | undefined;
+  updatedAt: string;
+}
+export type GetKmsIssuerResponsePoliciesItemCase2Kind = "integration-tokens-grant";
+export type GetKmsIssuerResponsePoliciesItemCase2TokenClaimsMap = {
+  [key: string]: unknown | undefined;
+};
+/** Lets the integration-tokens service sign marketplace resource tokens for one integration (`oac_...`). */
+export interface GetKmsIssuerResponsePoliciesItemCase2 {
+  createdAt: string;
+  integrationId: string;
+  kind: GetKmsIssuerResponsePoliciesItemCase2Kind;
+  tokenClaims?: GetKmsIssuerResponsePoliciesItemCase2TokenClaimsMap | undefined;
   updatedAt: string;
 }
 export type GetKmsIssuerResponsePoliciesItem =
   | GetKmsIssuerResponsePoliciesItemCase0
-  | GetKmsIssuerResponsePoliciesItemCase1;
+  | GetKmsIssuerResponsePoliciesItemCase1
+  | GetKmsIssuerResponsePoliciesItemCase2;
 export type GetKmsIssuerResponsePoliciesList = Array<GetKmsIssuerResponsePoliciesItem>;
 export type GetKmsIssuerResponseSigningKeysItemPublicKeyKeyOpsList = Array<string>;
 /** The X.509 certificate chain (RFC 7517 §4.7). Each entry is the base64 DER (not base64url) of a certificate. For keys minted with a stored certificate this holds the single self-signed cert as `[x5c]`. */
 export type GetKmsIssuerResponseSigningKeysItemPublicKeyX5cList = Array<string>;
 export interface GetKmsIssuerResponseSigningKeysItemPublicKey {
-  alg?: string;
-  key_ops?: GetKmsIssuerResponseSigningKeysItemPublicKeyKeyOpsList;
-  kid?: string;
-  kty?: string;
-  use?: string;
+  alg?: string | undefined;
+  key_ops?: GetKmsIssuerResponseSigningKeysItemPublicKeyKeyOpsList | undefined;
+  kid?: string | undefined;
+  kty?: string | undefined;
+  use?: string | undefined;
   /** The X.509 certificate chain (RFC 7517 §4.7). Each entry is the base64 DER (not base64url) of a certificate. For keys minted with a stored certificate this holds the single self-signed cert as `[x5c]`. */
-  x5c?: GetKmsIssuerResponseSigningKeysItemPublicKeyX5cList;
+  x5c?: GetKmsIssuerResponseSigningKeysItemPublicKeyX5cList | undefined;
   /** The base64url SHA-256 thumbprint of the DER certificate in `x5c[0]` (RFC 7517 §4.9). */
-  x5t_S256?: string;
+  x5t_S256?: string | undefined;
 }
 export type GetKmsIssuerResponseSigningKeysItemStatus = "active" | "pending" | "revoking";
 export interface GetKmsIssuerResponseSigningKeysItem {
-  activateAt?: string;
+  activateAt?: string | undefined;
   /** When the key became the active signer. Present for active and revoking keys (and absent for pending keys and rows predating this field). */
-  activatedAt?: string;
+  activatedAt?: string | undefined;
   algorithm: string;
   /** The stored X.509 certificate (from `publicKey.x5c[0]`) in PEM form, ready to render. Present only for keys created with a stored certificate; omitted for keys created before certificates were stored. */
-  certificatePem?: string;
+  certificatePem?: string | undefined;
   createdAt: string;
   /** The caller-supplied key id (imported keys only), used as the JWT/JWKS `kid`. Not unique across an issuer's keys; omitted for generated keys. */
-  importKeyId?: string;
+  importKeyId?: string | undefined;
   issuerId: string;
   /** The server-minted, unique record identifier. Use this to address the key on the activate / certificate endpoints. */
   keyId: string;
-  publicKey?: GetKmsIssuerResponseSigningKeysItemPublicKey;
+  publicKey?: GetKmsIssuerResponseSigningKeysItemPublicKey | undefined;
   publicKeyFingerprint: string;
   /** The public key in SPKI PEM form, ready to render. Present whenever the key has public key material. Derived from `publicKey`; the embedded certificate members (`x5c`/`x5t#S256`) do not affect it. */
-  publicKeyPem?: string;
-  revokeAt?: string;
+  publicKeyPem?: string | undefined;
+  revokeAt?: string | undefined;
   status: GetKmsIssuerResponseSigningKeysItemStatus;
   updatedAt: string;
 }
 export type GetKmsIssuerResponseSigningKeysList = Array<GetKmsIssuerResponseSigningKeysItem>;
 export interface GetKmsIssuerResponse {
   algorithm: GetKmsIssuerResponseAlgorithm;
-  claimsSchema?: GetKmsIssuerResponseClaimsSchemaMap;
+  claimsSchema?: GetKmsIssuerResponseClaimsSchemaMap | undefined;
   createdAt: string;
+  discoveryLayout: GetKmsIssuerResponseDiscoveryLayout;
   id: string;
-  managedBy?: string;
+  managedBy?: string | undefined;
   name: string;
   origin: GetKmsIssuerResponseOrigin;
   ownerId: string;
@@ -501,13 +560,13 @@ export interface GetKmsIssuerResponse {
 }
 export interface ListKmsIssuersRequest {
   /** Maximum number of issuers to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Continuation cursor to retrieve the next page of results. */
-  next?: string;
+  next?: string | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type ListKmsIssuersResponseIssuersItemAlgorithm =
   | "ES256"
@@ -522,6 +581,7 @@ export type ListKmsIssuersResponseIssuersItemAlgorithm =
 export type ListKmsIssuersResponseIssuersItemClaimsSchemaMap = {
   [key: string]: unknown | undefined;
 };
+export type ListKmsIssuersResponseIssuersItemDiscoveryLayout = "connect" | "kms";
 export type ListKmsIssuersResponseIssuersItemOrigin = "external" | "vercel";
 /** Environments whose OIDC tokens this grant authorizes. Each entry is either a system environment slug (`production`, `preview`, `development`) or a custom environment ID (prefixed `env_`). Custom environments are matched against the token's `custom_environment_id` claim (the stable ID); system environments against its `environment` claim. */
 export type ListKmsIssuersResponseIssuersItemPoliciesItemCase0EnvironmentsList = Array<string>;
@@ -536,7 +596,7 @@ export interface ListKmsIssuersResponseIssuersItemPoliciesItemCase0 {
   kind: ListKmsIssuersResponseIssuersItemPoliciesItemCase0Kind;
   projectId: string;
   teamId: string;
-  tokenClaims?: ListKmsIssuersResponseIssuersItemPoliciesItemCase0TokenClaimsMap;
+  tokenClaims?: ListKmsIssuersResponseIssuersItemPoliciesItemCase0TokenClaimsMap | undefined;
   updatedAt: string;
 }
 export type ListKmsIssuersResponseIssuersItemPoliciesItemCase1Kind = "connex-grant";
@@ -547,50 +607,63 @@ export interface ListKmsIssuersResponseIssuersItemPoliciesItemCase1 {
   clientId: string;
   createdAt: string;
   kind: ListKmsIssuersResponseIssuersItemPoliciesItemCase1Kind;
-  tokenClaims?: ListKmsIssuersResponseIssuersItemPoliciesItemCase1TokenClaimsMap;
+  tokenClaims?: ListKmsIssuersResponseIssuersItemPoliciesItemCase1TokenClaimsMap | undefined;
+  updatedAt: string;
+}
+export type ListKmsIssuersResponseIssuersItemPoliciesItemCase2Kind = "integration-tokens-grant";
+export type ListKmsIssuersResponseIssuersItemPoliciesItemCase2TokenClaimsMap = {
+  [key: string]: unknown | undefined;
+};
+/** Lets the integration-tokens service sign marketplace resource tokens for one integration (`oac_...`). */
+export interface ListKmsIssuersResponseIssuersItemPoliciesItemCase2 {
+  createdAt: string;
+  integrationId: string;
+  kind: ListKmsIssuersResponseIssuersItemPoliciesItemCase2Kind;
+  tokenClaims?: ListKmsIssuersResponseIssuersItemPoliciesItemCase2TokenClaimsMap | undefined;
   updatedAt: string;
 }
 export type ListKmsIssuersResponseIssuersItemPoliciesItem =
   | ListKmsIssuersResponseIssuersItemPoliciesItemCase0
-  | ListKmsIssuersResponseIssuersItemPoliciesItemCase1;
+  | ListKmsIssuersResponseIssuersItemPoliciesItemCase1
+  | ListKmsIssuersResponseIssuersItemPoliciesItemCase2;
 export type ListKmsIssuersResponseIssuersItemPoliciesList =
   Array<ListKmsIssuersResponseIssuersItemPoliciesItem>;
 export type ListKmsIssuersResponseIssuersItemSigningKeysItemPublicKeyKeyOpsList = Array<string>;
 /** The X.509 certificate chain (RFC 7517 §4.7). Each entry is the base64 DER (not base64url) of a certificate. For keys minted with a stored certificate this holds the single self-signed cert as `[x5c]`. */
 export type ListKmsIssuersResponseIssuersItemSigningKeysItemPublicKeyX5cList = Array<string>;
 export interface ListKmsIssuersResponseIssuersItemSigningKeysItemPublicKey {
-  alg?: string;
-  key_ops?: ListKmsIssuersResponseIssuersItemSigningKeysItemPublicKeyKeyOpsList;
-  kid?: string;
-  kty?: string;
-  use?: string;
+  alg?: string | undefined;
+  key_ops?: ListKmsIssuersResponseIssuersItemSigningKeysItemPublicKeyKeyOpsList | undefined;
+  kid?: string | undefined;
+  kty?: string | undefined;
+  use?: string | undefined;
   /** The X.509 certificate chain (RFC 7517 §4.7). Each entry is the base64 DER (not base64url) of a certificate. For keys minted with a stored certificate this holds the single self-signed cert as `[x5c]`. */
-  x5c?: ListKmsIssuersResponseIssuersItemSigningKeysItemPublicKeyX5cList;
+  x5c?: ListKmsIssuersResponseIssuersItemSigningKeysItemPublicKeyX5cList | undefined;
   /** The base64url SHA-256 thumbprint of the DER certificate in `x5c[0]` (RFC 7517 §4.9). */
-  x5t_S256?: string;
+  x5t_S256?: string | undefined;
 }
 export type ListKmsIssuersResponseIssuersItemSigningKeysItemStatus =
   | "active"
   | "pending"
   | "revoking";
 export interface ListKmsIssuersResponseIssuersItemSigningKeysItem {
-  activateAt?: string;
+  activateAt?: string | undefined;
   /** When the key became the active signer. Present for active and revoking keys (and absent for pending keys and rows predating this field). */
-  activatedAt?: string;
+  activatedAt?: string | undefined;
   algorithm: string;
   /** The stored X.509 certificate (from `publicKey.x5c[0]`) in PEM form, ready to render. Present only for keys created with a stored certificate; omitted for keys created before certificates were stored. */
-  certificatePem?: string;
+  certificatePem?: string | undefined;
   createdAt: string;
   /** The caller-supplied key id (imported keys only), used as the JWT/JWKS `kid`. Not unique across an issuer's keys; omitted for generated keys. */
-  importKeyId?: string;
+  importKeyId?: string | undefined;
   issuerId: string;
   /** The server-minted, unique record identifier. Use this to address the key on the activate / certificate endpoints. */
   keyId: string;
-  publicKey?: ListKmsIssuersResponseIssuersItemSigningKeysItemPublicKey;
+  publicKey?: ListKmsIssuersResponseIssuersItemSigningKeysItemPublicKey | undefined;
   publicKeyFingerprint: string;
   /** The public key in SPKI PEM form, ready to render. Present whenever the key has public key material. Derived from `publicKey`; the embedded certificate members (`x5c`/`x5t#S256`) do not affect it. */
-  publicKeyPem?: string;
-  revokeAt?: string;
+  publicKeyPem?: string | undefined;
+  revokeAt?: string | undefined;
   status: ListKmsIssuersResponseIssuersItemSigningKeysItemStatus;
   updatedAt: string;
 }
@@ -598,10 +671,11 @@ export type ListKmsIssuersResponseIssuersItemSigningKeysList =
   Array<ListKmsIssuersResponseIssuersItemSigningKeysItem>;
 export interface ListKmsIssuersResponseIssuersItem {
   algorithm: ListKmsIssuersResponseIssuersItemAlgorithm;
-  claimsSchema?: ListKmsIssuersResponseIssuersItemClaimsSchemaMap;
+  claimsSchema?: ListKmsIssuersResponseIssuersItemClaimsSchemaMap | undefined;
   createdAt: string;
+  discoveryLayout: ListKmsIssuersResponseIssuersItemDiscoveryLayout;
   id: string;
-  managedBy?: string;
+  managedBy?: string | undefined;
   name: string;
   origin: ListKmsIssuersResponseIssuersItemOrigin;
   ownerId: string;
@@ -624,9 +698,9 @@ export interface RevokeKmsSigningKeyRequest {
   /** The ID of the signing key to revoke immediately. The key must already be scheduled for revocation. */
   keyId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type RevokeKmsSigningKeyResponseAlgorithm =
   | "ES256"
@@ -639,6 +713,7 @@ export type RevokeKmsSigningKeyResponseAlgorithm =
   | "RS384"
   | "RS512";
 export type RevokeKmsSigningKeyResponseClaimsSchemaMap = { [key: string]: unknown | undefined };
+export type RevokeKmsSigningKeyResponseDiscoveryLayout = "connect" | "kms";
 export type RevokeKmsSigningKeyResponseOrigin = "external" | "vercel";
 /** Environments whose OIDC tokens this grant authorizes. Each entry is either a system environment slug (`production`, `preview`, `development`) or a custom environment ID (prefixed `env_`). Custom environments are matched against the token's `custom_environment_id` claim (the stable ID); system environments against its `environment` claim. */
 export type RevokeKmsSigningKeyResponsePoliciesItemCase0EnvironmentsList = Array<string>;
@@ -653,7 +728,7 @@ export interface RevokeKmsSigningKeyResponsePoliciesItemCase0 {
   kind: RevokeKmsSigningKeyResponsePoliciesItemCase0Kind;
   projectId: string;
   teamId: string;
-  tokenClaims?: RevokeKmsSigningKeyResponsePoliciesItemCase0TokenClaimsMap;
+  tokenClaims?: RevokeKmsSigningKeyResponsePoliciesItemCase0TokenClaimsMap | undefined;
   updatedAt: string;
 }
 export type RevokeKmsSigningKeyResponsePoliciesItemCase1Kind = "connex-grant";
@@ -664,47 +739,60 @@ export interface RevokeKmsSigningKeyResponsePoliciesItemCase1 {
   clientId: string;
   createdAt: string;
   kind: RevokeKmsSigningKeyResponsePoliciesItemCase1Kind;
-  tokenClaims?: RevokeKmsSigningKeyResponsePoliciesItemCase1TokenClaimsMap;
+  tokenClaims?: RevokeKmsSigningKeyResponsePoliciesItemCase1TokenClaimsMap | undefined;
+  updatedAt: string;
+}
+export type RevokeKmsSigningKeyResponsePoliciesItemCase2Kind = "integration-tokens-grant";
+export type RevokeKmsSigningKeyResponsePoliciesItemCase2TokenClaimsMap = {
+  [key: string]: unknown | undefined;
+};
+/** Lets the integration-tokens service sign marketplace resource tokens for one integration (`oac_...`). */
+export interface RevokeKmsSigningKeyResponsePoliciesItemCase2 {
+  createdAt: string;
+  integrationId: string;
+  kind: RevokeKmsSigningKeyResponsePoliciesItemCase2Kind;
+  tokenClaims?: RevokeKmsSigningKeyResponsePoliciesItemCase2TokenClaimsMap | undefined;
   updatedAt: string;
 }
 export type RevokeKmsSigningKeyResponsePoliciesItem =
   | RevokeKmsSigningKeyResponsePoliciesItemCase0
-  | RevokeKmsSigningKeyResponsePoliciesItemCase1;
+  | RevokeKmsSigningKeyResponsePoliciesItemCase1
+  | RevokeKmsSigningKeyResponsePoliciesItemCase2;
 export type RevokeKmsSigningKeyResponsePoliciesList =
   Array<RevokeKmsSigningKeyResponsePoliciesItem>;
 export type RevokeKmsSigningKeyResponseSigningKeysItemPublicKeyKeyOpsList = Array<string>;
 /** The X.509 certificate chain (RFC 7517 §4.7). Each entry is the base64 DER (not base64url) of a certificate. For keys minted with a stored certificate this holds the single self-signed cert as `[x5c]`. */
 export type RevokeKmsSigningKeyResponseSigningKeysItemPublicKeyX5cList = Array<string>;
 export interface RevokeKmsSigningKeyResponseSigningKeysItemPublicKey {
-  alg?: string;
-  key_ops?: RevokeKmsSigningKeyResponseSigningKeysItemPublicKeyKeyOpsList;
-  kid?: string;
-  kty?: string;
-  use?: string;
+  alg?: string | undefined;
+  key_ops?: RevokeKmsSigningKeyResponseSigningKeysItemPublicKeyKeyOpsList | undefined;
+  kid?: string | undefined;
+  kty?: string | undefined;
+  use?: string | undefined;
   /** The X.509 certificate chain (RFC 7517 §4.7). Each entry is the base64 DER (not base64url) of a certificate. For keys minted with a stored certificate this holds the single self-signed cert as `[x5c]`. */
-  x5c?: RevokeKmsSigningKeyResponseSigningKeysItemPublicKeyX5cList;
+  x5c?: RevokeKmsSigningKeyResponseSigningKeysItemPublicKeyX5cList | undefined;
   /** The base64url SHA-256 thumbprint of the DER certificate in `x5c[0]` (RFC 7517 §4.9). */
-  x5t_S256?: string;
+  x5t_S256?: string | undefined;
 }
 export type RevokeKmsSigningKeyResponseSigningKeysItemStatus = "active" | "pending" | "revoking";
 export interface RevokeKmsSigningKeyResponseSigningKeysItem {
-  activateAt?: string;
+  activateAt?: string | undefined;
   /** When the key became the active signer. Present for active and revoking keys (and absent for pending keys and rows predating this field). */
-  activatedAt?: string;
+  activatedAt?: string | undefined;
   algorithm: string;
   /** The stored X.509 certificate (from `publicKey.x5c[0]`) in PEM form, ready to render. Present only for keys created with a stored certificate; omitted for keys created before certificates were stored. */
-  certificatePem?: string;
+  certificatePem?: string | undefined;
   createdAt: string;
   /** The caller-supplied key id (imported keys only), used as the JWT/JWKS `kid`. Not unique across an issuer's keys; omitted for generated keys. */
-  importKeyId?: string;
+  importKeyId?: string | undefined;
   issuerId: string;
   /** The server-minted, unique record identifier. Use this to address the key on the activate / certificate endpoints. */
   keyId: string;
-  publicKey?: RevokeKmsSigningKeyResponseSigningKeysItemPublicKey;
+  publicKey?: RevokeKmsSigningKeyResponseSigningKeysItemPublicKey | undefined;
   publicKeyFingerprint: string;
   /** The public key in SPKI PEM form, ready to render. Present whenever the key has public key material. Derived from `publicKey`; the embedded certificate members (`x5c`/`x5t#S256`) do not affect it. */
-  publicKeyPem?: string;
-  revokeAt?: string;
+  publicKeyPem?: string | undefined;
+  revokeAt?: string | undefined;
   status: RevokeKmsSigningKeyResponseSigningKeysItemStatus;
   updatedAt: string;
 }
@@ -712,10 +800,11 @@ export type RevokeKmsSigningKeyResponseSigningKeysList =
   Array<RevokeKmsSigningKeyResponseSigningKeysItem>;
 export interface RevokeKmsSigningKeyResponse {
   algorithm: RevokeKmsSigningKeyResponseAlgorithm;
-  claimsSchema?: RevokeKmsSigningKeyResponseClaimsSchemaMap;
+  claimsSchema?: RevokeKmsSigningKeyResponseClaimsSchemaMap | undefined;
   createdAt: string;
+  discoveryLayout: RevokeKmsSigningKeyResponseDiscoveryLayout;
   id: string;
-  managedBy?: string;
+  managedBy?: string | undefined;
   name: string;
   origin: RevokeKmsSigningKeyResponseOrigin;
   ownerId: string;
@@ -743,11 +832,11 @@ export interface SignKmsTokenRequest {
   /** The ID of the issuer. */
   issuerId: string;
   /** The claims to include in the token. */
-  claims?: unknown;
+  claims?: unknown | undefined;
   /** Additional headers to include in the token. */
-  headers?: unknown;
+  headers?: unknown | undefined;
   /** The time-to-live for the token, in seconds. */
-  ttl?: number | null;
+  ttl?: number | null | undefined;
 }
 export interface SignKmsTokenResponse {
   /** Algorithm of the signing key. */
@@ -765,13 +854,13 @@ export interface UpdateKmsIssuerRequest {
   /** The ID of the issuer. */
   issuerId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The name of the issuer. */
-  name?: string;
+  name?: string | undefined;
   /** A JSON Schema used to validate the resolved token claims when signing tokens for this issuer. Pass null to remove it. */
-  claimsSchema?: UpdateKmsIssuerRequestClaimsSchemaMap | null;
+  claimsSchema?: UpdateKmsIssuerRequestClaimsSchemaMap | null | undefined;
 }
 export type UpdateKmsIssuerResponseAlgorithm =
   | "ES256"
@@ -784,6 +873,7 @@ export type UpdateKmsIssuerResponseAlgorithm =
   | "RS384"
   | "RS512";
 export type UpdateKmsIssuerResponseClaimsSchemaMap = { [key: string]: unknown | undefined };
+export type UpdateKmsIssuerResponseDiscoveryLayout = "connect" | "kms";
 export type UpdateKmsIssuerResponseOrigin = "external" | "vercel";
 /** Environments whose OIDC tokens this grant authorizes. Each entry is either a system environment slug (`production`, `preview`, `development`) or a custom environment ID (prefixed `env_`). Custom environments are matched against the token's `custom_environment_id` claim (the stable ID); system environments against its `environment` claim. */
 export type UpdateKmsIssuerResponsePoliciesItemCase0EnvironmentsList = Array<string>;
@@ -798,7 +888,7 @@ export interface UpdateKmsIssuerResponsePoliciesItemCase0 {
   kind: UpdateKmsIssuerResponsePoliciesItemCase0Kind;
   projectId: string;
   teamId: string;
-  tokenClaims?: UpdateKmsIssuerResponsePoliciesItemCase0TokenClaimsMap;
+  tokenClaims?: UpdateKmsIssuerResponsePoliciesItemCase0TokenClaimsMap | undefined;
   updatedAt: string;
 }
 export type UpdateKmsIssuerResponsePoliciesItemCase1Kind = "connex-grant";
@@ -809,56 +899,70 @@ export interface UpdateKmsIssuerResponsePoliciesItemCase1 {
   clientId: string;
   createdAt: string;
   kind: UpdateKmsIssuerResponsePoliciesItemCase1Kind;
-  tokenClaims?: UpdateKmsIssuerResponsePoliciesItemCase1TokenClaimsMap;
+  tokenClaims?: UpdateKmsIssuerResponsePoliciesItemCase1TokenClaimsMap | undefined;
+  updatedAt: string;
+}
+export type UpdateKmsIssuerResponsePoliciesItemCase2Kind = "integration-tokens-grant";
+export type UpdateKmsIssuerResponsePoliciesItemCase2TokenClaimsMap = {
+  [key: string]: unknown | undefined;
+};
+/** Lets the integration-tokens service sign marketplace resource tokens for one integration (`oac_...`). */
+export interface UpdateKmsIssuerResponsePoliciesItemCase2 {
+  createdAt: string;
+  integrationId: string;
+  kind: UpdateKmsIssuerResponsePoliciesItemCase2Kind;
+  tokenClaims?: UpdateKmsIssuerResponsePoliciesItemCase2TokenClaimsMap | undefined;
   updatedAt: string;
 }
 export type UpdateKmsIssuerResponsePoliciesItem =
   | UpdateKmsIssuerResponsePoliciesItemCase0
-  | UpdateKmsIssuerResponsePoliciesItemCase1;
+  | UpdateKmsIssuerResponsePoliciesItemCase1
+  | UpdateKmsIssuerResponsePoliciesItemCase2;
 export type UpdateKmsIssuerResponsePoliciesList = Array<UpdateKmsIssuerResponsePoliciesItem>;
 export type UpdateKmsIssuerResponseSigningKeysItemPublicKeyKeyOpsList = Array<string>;
 /** The X.509 certificate chain (RFC 7517 §4.7). Each entry is the base64 DER (not base64url) of a certificate. For keys minted with a stored certificate this holds the single self-signed cert as `[x5c]`. */
 export type UpdateKmsIssuerResponseSigningKeysItemPublicKeyX5cList = Array<string>;
 export interface UpdateKmsIssuerResponseSigningKeysItemPublicKey {
-  alg?: string;
-  key_ops?: UpdateKmsIssuerResponseSigningKeysItemPublicKeyKeyOpsList;
-  kid?: string;
-  kty?: string;
-  use?: string;
+  alg?: string | undefined;
+  key_ops?: UpdateKmsIssuerResponseSigningKeysItemPublicKeyKeyOpsList | undefined;
+  kid?: string | undefined;
+  kty?: string | undefined;
+  use?: string | undefined;
   /** The X.509 certificate chain (RFC 7517 §4.7). Each entry is the base64 DER (not base64url) of a certificate. For keys minted with a stored certificate this holds the single self-signed cert as `[x5c]`. */
-  x5c?: UpdateKmsIssuerResponseSigningKeysItemPublicKeyX5cList;
+  x5c?: UpdateKmsIssuerResponseSigningKeysItemPublicKeyX5cList | undefined;
   /** The base64url SHA-256 thumbprint of the DER certificate in `x5c[0]` (RFC 7517 §4.9). */
-  x5t_S256?: string;
+  x5t_S256?: string | undefined;
 }
 export type UpdateKmsIssuerResponseSigningKeysItemStatus = "active" | "pending" | "revoking";
 export interface UpdateKmsIssuerResponseSigningKeysItem {
-  activateAt?: string;
+  activateAt?: string | undefined;
   /** When the key became the active signer. Present for active and revoking keys (and absent for pending keys and rows predating this field). */
-  activatedAt?: string;
+  activatedAt?: string | undefined;
   algorithm: string;
   /** The stored X.509 certificate (from `publicKey.x5c[0]`) in PEM form, ready to render. Present only for keys created with a stored certificate; omitted for keys created before certificates were stored. */
-  certificatePem?: string;
+  certificatePem?: string | undefined;
   createdAt: string;
   /** The caller-supplied key id (imported keys only), used as the JWT/JWKS `kid`. Not unique across an issuer's keys; omitted for generated keys. */
-  importKeyId?: string;
+  importKeyId?: string | undefined;
   issuerId: string;
   /** The server-minted, unique record identifier. Use this to address the key on the activate / certificate endpoints. */
   keyId: string;
-  publicKey?: UpdateKmsIssuerResponseSigningKeysItemPublicKey;
+  publicKey?: UpdateKmsIssuerResponseSigningKeysItemPublicKey | undefined;
   publicKeyFingerprint: string;
   /** The public key in SPKI PEM form, ready to render. Present whenever the key has public key material. Derived from `publicKey`; the embedded certificate members (`x5c`/`x5t#S256`) do not affect it. */
-  publicKeyPem?: string;
-  revokeAt?: string;
+  publicKeyPem?: string | undefined;
+  revokeAt?: string | undefined;
   status: UpdateKmsIssuerResponseSigningKeysItemStatus;
   updatedAt: string;
 }
 export type UpdateKmsIssuerResponseSigningKeysList = Array<UpdateKmsIssuerResponseSigningKeysItem>;
 export interface UpdateKmsIssuerResponse {
   algorithm: UpdateKmsIssuerResponseAlgorithm;
-  claimsSchema?: UpdateKmsIssuerResponseClaimsSchemaMap;
+  claimsSchema?: UpdateKmsIssuerResponseClaimsSchemaMap | undefined;
   createdAt: string;
+  discoveryLayout: UpdateKmsIssuerResponseDiscoveryLayout;
   id: string;
-  managedBy?: string;
+  managedBy?: string | undefined;
   name: string;
   origin: UpdateKmsIssuerResponseOrigin;
   ownerId: string;
@@ -880,13 +984,13 @@ export interface UpdateKmsIssuerPolicyRequest {
   /** The policy identifier. */
   policyKey: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The environments for the project grant policy. Each entry is a system environment (production, preview, development) or a custom environment ID (env_...). */
-  environments?: UpdateKmsIssuerPolicyRequestEnvironmentsList;
+  environments?: UpdateKmsIssuerPolicyRequestEnvironmentsList | undefined;
   /** The claims that KMS should include in signed JWTs for this policy. Pass null to remove them. */
-  tokenClaims?: UpdateKmsIssuerPolicyRequestTokenClaimsMap | null;
+  tokenClaims?: UpdateKmsIssuerPolicyRequestTokenClaimsMap | null | undefined;
 }
 /** Environments whose OIDC tokens this grant authorizes. Each entry is either a system environment slug (`production`, `preview`, `development`) or a custom environment ID (prefixed `env_`). Custom environments are matched against the token's `custom_environment_id` claim (the stable ID); system environments against its `environment` claim. */
 export type UpdateKmsIssuerPolicyResponseBodyCase0EnvironmentsList = Array<string>;
@@ -901,7 +1005,7 @@ export interface UpdateKmsIssuerPolicyResponseBodyCase0 {
   kind: UpdateKmsIssuerPolicyResponseBodyCase0Kind;
   projectId: string;
   teamId: string;
-  tokenClaims?: UpdateKmsIssuerPolicyResponseBodyCase0TokenClaimsMap;
+  tokenClaims?: UpdateKmsIssuerPolicyResponseBodyCase0TokenClaimsMap | undefined;
   updatedAt: string;
 }
 export type UpdateKmsIssuerPolicyResponseBodyCase1Kind = "connex-grant";
@@ -912,12 +1016,25 @@ export interface UpdateKmsIssuerPolicyResponseBodyCase1 {
   clientId: string;
   createdAt: string;
   kind: UpdateKmsIssuerPolicyResponseBodyCase1Kind;
-  tokenClaims?: UpdateKmsIssuerPolicyResponseBodyCase1TokenClaimsMap;
+  tokenClaims?: UpdateKmsIssuerPolicyResponseBodyCase1TokenClaimsMap | undefined;
+  updatedAt: string;
+}
+export type UpdateKmsIssuerPolicyResponseBodyCase2Kind = "integration-tokens-grant";
+export type UpdateKmsIssuerPolicyResponseBodyCase2TokenClaimsMap = {
+  [key: string]: unknown | undefined;
+};
+/** Lets the integration-tokens service sign marketplace resource tokens for one integration (`oac_...`). */
+export interface UpdateKmsIssuerPolicyResponseBodyCase2 {
+  createdAt: string;
+  integrationId: string;
+  kind: UpdateKmsIssuerPolicyResponseBodyCase2Kind;
+  tokenClaims?: UpdateKmsIssuerPolicyResponseBodyCase2TokenClaimsMap | undefined;
   updatedAt: string;
 }
 export type UpdateKmsIssuerPolicyResponseBody =
   | UpdateKmsIssuerPolicyResponseBodyCase0
-  | UpdateKmsIssuerPolicyResponseBodyCase1;
+  | UpdateKmsIssuerPolicyResponseBodyCase1
+  | UpdateKmsIssuerPolicyResponseBodyCase2;
 export type UpdateKmsIssuerPolicyResponse = UpdateKmsIssuerPolicyResponseBody;
 export type ActivateKmsSigningKeyError =
   | BadRequest
@@ -941,8 +1058,8 @@ export const activateKmsSigningKey: API.OperationMethod<
   span: "ActivateKmsSigningKey",
 }));
 
-export type CreateKmsIssuerError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** Create an issuer Create a new KMS issuer for the authenticated team. An issuer owns the asymmetric signing keys that are used to sign tokens and messages. */
+export type CreateKmsIssuerError = BadRequest | Forbidden | NotFound | Conflict | VercelOpError;
+/** Create an issuer Create a new KMS issuer for the authenticated team, or for the team or organization identified by a Connect policy token. An issuer owns the asymmetric signing keys used to sign tokens and messages. */
 export const createKmsIssuer: API.OperationMethod<
   CreateKmsIssuerRequest,
   CreateKmsIssuerResponse,
@@ -951,7 +1068,7 @@ export const createKmsIssuer: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c10, 0) as any as S.Schema<CreateKmsIssuerRequest>,
   output: __S(82, __c10, 2) as any as S.Schema<CreateKmsIssuerResponse>,
-  errors: [BadRequest, Forbidden, NotFound],
+  errors: [BadRequest, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1027,7 +1144,7 @@ export const deleteKmsIssuerPolicy: API.OperationMethod<
 }));
 
 export type GetKmsIssuerError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** Get an issuer Retrieve a single KMS issuer by its ID. Accepts either a team bearer token (existing path) or an OIDC token authorized by one of the issuer's policies (e.g. a connex-grant token). The OIDC path returns the issuer without policies, since a policy token only proves signing access, not management access. */
+/** Get an issuer Retrieve a single KMS issuer by its ID. Accepts a team or organization bearer token, or an OIDC token authorized by one of the issuer's policies (e.g. a connex-grant token). The OIDC path returns the issuer without policies, since a policy token only proves signing access, not management access. */
 export const getKmsIssuer: API.OperationMethod<
   GetKmsIssuerRequest,
   GetKmsIssuerResponse,
@@ -1044,7 +1161,7 @@ export const getKmsIssuer: API.OperationMethod<
 }));
 
 export type ListKmsIssuersError = BadRequest | Forbidden | NotFound | VercelOpError;
-/** List issuers Retrieve the list of KMS issuers that belong to the authenticated team. The results are paginated. */
+/** List issuers Retrieve the paginated KMS issuers that belong to the authenticated team or organization (`orgId`). */
 export const listKmsIssuers: API.OperationMethod<
   ListKmsIssuersRequest,
   ListKmsIssuersResponse,
@@ -1164,6 +1281,7 @@ function __c0(j: number): any {
           algorithm: S.String,
           claimsSchema: S.optional(__S(96, __c12, 0)),
           createdAt: S.String,
+          discoveryLayout: S.String,
           id: S.String,
           managedBy: S.optional(S.String),
           name: S.String,
@@ -1195,6 +1313,7 @@ function __c1(j: number): any {
           algorithm: S.String,
           claimsSchema: S.optional(__S(96, __c12, 0)),
           createdAt: S.String,
+          discoveryLayout: S.String,
           id: S.String,
           managedBy: S.optional(S.String),
           name: S.String,
@@ -1248,6 +1367,7 @@ function __c2(j: number): any {
           algorithm: S.String,
           claimsSchema: S.optional(__S(96, __c12, 0)),
           createdAt: S.String,
+          discoveryLayout: S.String,
           id: S.String,
           managedBy: S.optional(S.String),
           name: S.String,
@@ -1326,6 +1446,7 @@ function __c5(j: number): any {
           algorithm: S.String,
           claimsSchema: S.optional(__S(96, __c12, 0)),
           createdAt: S.String,
+          discoveryLayout: S.String,
           id: S.String,
           managedBy: S.optional(S.String),
           name: S.String,
@@ -1448,6 +1569,7 @@ function __c10(j: number): any {
           algorithm: S.String,
           claimsSchema: S.optional(__S(96, __c12, 0)),
           createdAt: S.String,
+          discoveryLayout: S.String,
           id: S.String,
           managedBy: S.optional(S.String),
           name: S.String,

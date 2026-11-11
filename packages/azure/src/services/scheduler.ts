@@ -101,63 +101,63 @@ export interface HttpAuthentication {
 export type HttpRequestHeadersMap = { [key: string]: string | undefined };
 export interface HttpRequest {
   /** Gets or sets the authentication method of the request. */
-  authentication?: HttpAuthentication;
+  authentication?: HttpAuthentication | undefined;
   /** Gets or sets the URI of the request. */
-  uri?: string;
+  uri?: string | undefined;
   /** Gets or sets the method of the request. */
-  method?: string;
+  method?: string | undefined;
   /** Gets or sets the request body. */
-  body?: string;
+  body?: string | undefined;
   /** Gets or sets the headers. */
-  headers?: HttpRequestHeadersMap;
+  headers?: HttpRequestHeadersMap | undefined;
 }
 export interface StorageQueueMessage {
   /** Gets or sets the storage account name. */
-  storageAccount?: string;
+  storageAccount?: string | undefined;
   /** Gets or sets the queue name. */
-  queueName?: string;
+  queueName?: string | undefined;
   /** Gets or sets the SAS key. */
-  sasToken?: string;
+  sasToken?: string | undefined;
   /** Gets or sets the message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Gets or sets the authentication type. */
 export type ServiceBusAuthenticationType = "NotSpecified" | "SharedAccessKey";
 export interface ServiceBusAuthentication {
   /** Gets or sets the SAS key. */
-  sasKey?: string;
+  sasKey?: string | undefined;
   /** Gets or sets the SAS key name. */
-  sasKeyName?: string;
+  sasKeyName?: string | undefined;
   /** Gets or sets the authentication type. */
-  type?: ServiceBusAuthenticationType | (string & {});
+  type?: ServiceBusAuthenticationType | (string & {}) | undefined;
 }
 export interface ServiceBusBrokeredMessageProperties {
   /** Gets or sets the content type. */
-  contentType?: string;
+  contentType?: string | undefined;
   /** Gets or sets the correlation ID. */
-  correlationId?: string;
+  correlationId?: string | undefined;
   /** Gets or sets the force persistence. */
-  forcePersistence?: boolean;
+  forcePersistence?: boolean | undefined;
   /** Gets or sets the label. */
-  label?: string;
+  label?: string | undefined;
   /** Gets or sets the message ID. */
-  messageId?: string;
+  messageId?: string | undefined;
   /** Gets or sets the partition key. */
-  partitionKey?: string;
+  partitionKey?: string | undefined;
   /** Gets or sets the reply to. */
-  replyTo?: string;
+  replyTo?: string | undefined;
   /** Gets or sets the reply to session ID. */
-  replyToSessionId?: string;
+  replyToSessionId?: string | undefined;
   /** Gets or sets the scheduled enqueue time UTC. */
-  scheduledEnqueueTimeUtc?: string;
+  scheduledEnqueueTimeUtc?: string | undefined;
   /** Gets or sets the session ID. */
-  sessionId?: string;
+  sessionId?: string | undefined;
   /** Gets or sets the time to live. */
-  timeToLive?: string;
+  timeToLive?: string | undefined;
   /** Gets or sets the to. */
-  to?: string;
+  to?: string | undefined;
   /** Gets or sets the via partition key. */
-  viaPartitionKey?: string;
+  viaPartitionKey?: string | undefined;
 }
 /** Gets or sets the custom message properties. */
 export type ServiceBusQueueMessageCustomMessagePropertiesMap = {
@@ -167,19 +167,19 @@ export type ServiceBusQueueMessageCustomMessagePropertiesMap = {
 export type ServiceBusQueueMessageTransportType = "NotSpecified" | "NetMessaging" | "AMQP";
 export interface ServiceBusQueueMessage {
   /** Gets or sets the Service Bus authentication. */
-  authentication?: ServiceBusAuthentication;
+  authentication?: ServiceBusAuthentication | undefined;
   /** Gets or sets the brokered message properties. */
-  brokeredMessageProperties?: ServiceBusBrokeredMessageProperties;
+  brokeredMessageProperties?: ServiceBusBrokeredMessageProperties | undefined;
   /** Gets or sets the custom message properties. */
-  customMessageProperties?: ServiceBusQueueMessageCustomMessagePropertiesMap;
+  customMessageProperties?: ServiceBusQueueMessageCustomMessagePropertiesMap | undefined;
   /** Gets or sets the message. */
-  message?: string;
+  message?: string | undefined;
   /** Gets or sets the namespace. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Gets or sets the transport type. */
-  transportType?: ServiceBusQueueMessageTransportType | (string & {});
+  transportType?: ServiceBusQueueMessageTransportType | (string & {}) | undefined;
   /** Gets or sets the queue name. */
-  queueName?: string;
+  queueName?: string | undefined;
 }
 /** Gets or sets the custom message properties. */
 export type ServiceBusTopicMessageCustomMessagePropertiesMap = {
@@ -189,29 +189,29 @@ export type ServiceBusTopicMessageCustomMessagePropertiesMap = {
 export type ServiceBusTopicMessageTransportType = "NotSpecified" | "NetMessaging" | "AMQP";
 export interface ServiceBusTopicMessage {
   /** Gets or sets the Service Bus authentication. */
-  authentication?: ServiceBusAuthentication;
+  authentication?: ServiceBusAuthentication | undefined;
   /** Gets or sets the brokered message properties. */
-  brokeredMessageProperties?: ServiceBusBrokeredMessageProperties;
+  brokeredMessageProperties?: ServiceBusBrokeredMessageProperties | undefined;
   /** Gets or sets the custom message properties. */
-  customMessageProperties?: ServiceBusTopicMessageCustomMessagePropertiesMap;
+  customMessageProperties?: ServiceBusTopicMessageCustomMessagePropertiesMap | undefined;
   /** Gets or sets the message. */
-  message?: string;
+  message?: string | undefined;
   /** Gets or sets the namespace. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Gets or sets the transport type. */
-  transportType?: ServiceBusTopicMessageTransportType | (string & {});
+  transportType?: ServiceBusTopicMessageTransportType | (string & {}) | undefined;
   /** Gets or sets the topic path. */
-  topicPath?: string;
+  topicPath?: string | undefined;
 }
 /** Gets or sets the retry strategy to be used. */
 export type RetryPolicyRetryType = "None" | "Fixed";
 export interface RetryPolicy {
   /** Gets or sets the retry strategy to be used. */
-  retryType?: RetryPolicyRetryType | (string & {});
+  retryType?: RetryPolicyRetryType | (string & {}) | undefined;
   /** Gets or sets the retry interval between retries, specify duration in ISO 8601 format. */
-  retryInterval?: string;
+  retryInterval?: string | undefined;
   /** Gets or sets the number of times a retry should be attempted. */
-  retryCount?: number;
+  retryCount?: number | undefined;
 }
 /** Gets or sets the job error action type. */
 export type JobErrorActionType =
@@ -222,33 +222,33 @@ export type JobErrorActionType =
   | "ServiceBusTopic";
 export interface JobErrorAction {
   /** Gets or sets the job error action type. */
-  type?: JobErrorActionType | (string & {});
+  type?: JobErrorActionType | (string & {}) | undefined;
   /** Gets or sets the http requests. */
-  request?: HttpRequest;
+  request?: HttpRequest | undefined;
   /** Gets or sets the storage queue message. */
-  queueMessage?: StorageQueueMessage;
+  queueMessage?: StorageQueueMessage | undefined;
   /** Gets or sets the service bus queue message. */
-  serviceBusQueueMessage?: ServiceBusQueueMessage;
+  serviceBusQueueMessage?: ServiceBusQueueMessage | undefined;
   /** Gets or sets the service bus topic message. */
-  serviceBusTopicMessage?: ServiceBusTopicMessage;
+  serviceBusTopicMessage?: ServiceBusTopicMessage | undefined;
   /** Gets or sets the retry policy. */
-  retryPolicy?: RetryPolicy;
+  retryPolicy?: RetryPolicy | undefined;
 }
 export interface JobAction {
   /** Gets or sets the job action type. */
-  type?: JobActionType | (string & {});
+  type?: JobActionType | (string & {}) | undefined;
   /** Gets or sets the http requests. */
-  request?: HttpRequest;
+  request?: HttpRequest | undefined;
   /** Gets or sets the storage queue message. */
-  queueMessage?: StorageQueueMessage;
+  queueMessage?: StorageQueueMessage | undefined;
   /** Gets or sets the service bus queue message. */
-  serviceBusQueueMessage?: ServiceBusQueueMessage;
+  serviceBusQueueMessage?: ServiceBusQueueMessage | undefined;
   /** Gets or sets the service bus topic message. */
-  serviceBusTopicMessage?: ServiceBusTopicMessage;
+  serviceBusTopicMessage?: ServiceBusTopicMessage | undefined;
   /** Gets or sets the retry policy. */
-  retryPolicy?: RetryPolicy;
+  retryPolicy?: RetryPolicy | undefined;
   /** Gets or sets the error action. */
-  errorAction?: JobErrorAction;
+  errorAction?: JobErrorAction | undefined;
 }
 /** Gets or sets the frequency of recurrence (second, minute, hour, day, week, month). */
 export type JobRecurrenceFrequency = "Minute" | "Hour" | "Day" | "Week" | "Month";
@@ -281,71 +281,71 @@ export type JobRecurrenceScheduleMonthlyOccurrenceDay =
   | "Sunday";
 export interface JobRecurrenceScheduleMonthlyOccurrence {
   /** Gets or sets the day. Must be one of monday, tuesday, wednesday, thursday, friday, saturday, sunday. */
-  day?: JobRecurrenceScheduleMonthlyOccurrenceDay | (string & {});
+  day?: JobRecurrenceScheduleMonthlyOccurrenceDay | (string & {}) | undefined;
   /** Gets or sets the occurrence. Must be between -5 and 5. */
-  Occurrence?: number;
+  Occurrence?: number | undefined;
 }
 /** Gets or sets the occurrences of days within a month. */
 export type JobRecurrenceScheduleMonthlyOccurrencesList =
   Array<JobRecurrenceScheduleMonthlyOccurrence>;
 export interface JobRecurrenceSchedule {
   /** Gets or sets the days of the week that the job should execute on. */
-  weekDays?: JobRecurrenceScheduleWeekDaysList;
+  weekDays?: JobRecurrenceScheduleWeekDaysList | undefined;
   /** Gets or sets the hours of the day that the job should execute at. */
-  hours?: JobRecurrenceScheduleHoursList;
+  hours?: JobRecurrenceScheduleHoursList | undefined;
   /** Gets or sets the minutes of the hour that the job should execute at. */
-  minutes?: JobRecurrenceScheduleMinutesList;
+  minutes?: JobRecurrenceScheduleMinutesList | undefined;
   /** Gets or sets the days of the month that the job should execute on. Must be between 1 and 31. */
-  monthDays?: JobRecurrenceScheduleMonthDaysList;
+  monthDays?: JobRecurrenceScheduleMonthDaysList | undefined;
   /** Gets or sets the occurrences of days within a month. */
-  monthlyOccurrences?: JobRecurrenceScheduleMonthlyOccurrencesList;
+  monthlyOccurrences?: JobRecurrenceScheduleMonthlyOccurrencesList | undefined;
 }
 export interface JobRecurrence {
   /** Gets or sets the frequency of recurrence (second, minute, hour, day, week, month). */
-  frequency?: JobRecurrenceFrequency | (string & {});
+  frequency?: JobRecurrenceFrequency | (string & {}) | undefined;
   /** Gets or sets the interval between retries. */
-  interval?: number;
+  interval?: number | undefined;
   /** Gets or sets the maximum number of times that the job should run. */
-  count?: number;
+  count?: number | undefined;
   /** Gets or sets the time at which the job will complete. */
-  endTime?: string;
-  schedule?: JobRecurrenceSchedule;
+  endTime?: string | undefined;
+  schedule?: JobRecurrenceSchedule | undefined;
 }
 /** Gets or set the job state. */
 export type JobState = "Enabled" | "Disabled" | "Faulted" | "Completed";
 export interface JobStatus {
   /** Gets the number of times this job has executed. */
-  executionCount?: number;
+  executionCount?: number | undefined;
   /** Gets the number of times this job has failed. */
-  failureCount?: number;
+  failureCount?: number | undefined;
   /** Gets the number of faulted occurrences (occurrences that were retried and failed as many times as the retry policy states). */
-  faultedCount?: number;
+  faultedCount?: number | undefined;
   /** Gets the time the last occurrence executed in ISO-8601 format. Could be empty if job has not run yet. */
-  lastExecutionTime?: string;
+  lastExecutionTime?: string | undefined;
   /** Gets the time of the next occurrence in ISO-8601 format. Could be empty if the job is completed. */
-  nextExecutionTime?: string;
+  nextExecutionTime?: string | undefined;
 }
 export interface JobProperties {
   /** Gets or sets the job start time. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Gets or sets the job action. */
-  action?: JobAction;
+  action?: JobAction | undefined;
   /** Gets or sets the job recurrence. */
-  recurrence?: JobRecurrence;
+  recurrence?: JobRecurrence | undefined;
   /** Gets or set the job state. */
-  state?: JobState;
+  state?: JobState | undefined;
   /** Gets the job status. */
-  status?: JobStatus;
+  status?: JobStatus | undefined;
 }
 export interface JobDefinition {
   /** Gets the job resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the job resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Gets the job resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the job properties. */
-  properties?: JobProperties;
+  properties?: JobProperties | undefined;
 }
 export interface GetJobCollectionRequest {
   /** The subscription id. */
@@ -361,7 +361,7 @@ export type JobCollectionDefinitionTagsMap = { [key: string]: string | undefined
 export type SkuName = "Standard" | "Free" | "P10Premium" | "P20Premium";
 export interface Sku {
   /** Gets or set the SKU. */
-  name?: SkuName | (string & {});
+  name?: SkuName | (string & {}) | undefined;
 }
 /** Gets or sets the state. */
 export type JobCollectionPropertiesState = "Enabled" | "Disabled" | "Suspended" | "Deleted";
@@ -369,39 +369,39 @@ export type JobCollectionPropertiesState = "Enabled" | "Disabled" | "Suspended" 
 export type JobMaxRecurrenceFrequency = "Minute" | "Hour" | "Day" | "Week" | "Month";
 export interface JobMaxRecurrence {
   /** Gets or sets the frequency of recurrence (second, minute, hour, day, week, month). */
-  frequency?: JobMaxRecurrenceFrequency | (string & {});
+  frequency?: JobMaxRecurrenceFrequency | (string & {}) | undefined;
   /** Gets or sets the interval between retries. */
-  interval?: number;
+  interval?: number | undefined;
 }
 export interface JobCollectionQuota {
   /** Gets or set the maximum job count. */
-  maxJobCount?: number;
+  maxJobCount?: number | undefined;
   /** Gets or sets the maximum job occurrence. */
-  maxJobOccurrence?: number;
+  maxJobOccurrence?: number | undefined;
   /** Gets or set the maximum recurrence. */
-  maxRecurrence?: JobMaxRecurrence;
+  maxRecurrence?: JobMaxRecurrence | undefined;
 }
 export interface JobCollectionProperties {
   /** Gets or sets the SKU. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Gets or sets the state. */
-  state?: JobCollectionPropertiesState | (string & {});
+  state?: JobCollectionPropertiesState | (string & {}) | undefined;
   /** Gets or sets the job collection quota. */
-  quota?: JobCollectionQuota;
+  quota?: JobCollectionQuota | undefined;
 }
 export interface JobCollectionDefinition {
   /** Gets the job collection resource identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the job collection resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Gets or sets the job collection resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the storage account location. */
-  location?: string;
+  location?: string | undefined;
   /** Gets or sets the tags. */
-  tags?: JobCollectionDefinitionTagsMap;
+  tags?: JobCollectionDefinitionTagsMap | undefined;
   /** Gets or sets the job collection properties. */
-  properties?: JobCollectionProperties;
+  properties?: JobCollectionProperties | undefined;
 }
 /** Gets or sets the tags. */
 export type JobCollectionsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -413,23 +413,23 @@ export interface JobCollectionsCreateOrUpdateRequest {
   /** The job collection name. */
   jobCollectionName: string;
   /** Gets or sets the job collection resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the storage account location. */
-  location?: string;
+  location?: string | undefined;
   /** Gets or sets the tags. */
-  tags?: JobCollectionsCreateOrUpdateRequestTagsMap;
+  tags?: JobCollectionsCreateOrUpdateRequestTagsMap | undefined;
   /** Gets or sets the job collection properties. */
-  properties?: JobCollectionProperties;
+  properties?: JobCollectionProperties | undefined;
 }
 export interface JobPropertiesInput {
   /** Gets or sets the job start time. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Gets or sets the job action. */
-  action?: JobAction;
+  action?: JobAction | undefined;
   /** Gets or sets the job recurrence. */
-  recurrence?: JobRecurrence;
+  recurrence?: JobRecurrence | undefined;
   /** Gets or set the job state. */
-  state?: JobState | (string & {});
+  state?: JobState | (string & {}) | undefined;
 }
 export interface JobsCreateOrUpdateRequest {
   /** The subscription id. */
@@ -441,7 +441,7 @@ export interface JobsCreateOrUpdateRequest {
   /** The job name. */
   jobName: string;
   /** Gets or sets the job properties. */
-  properties?: JobPropertiesInput;
+  properties?: JobPropertiesInput | undefined;
 }
 export interface ListJobCollectionByResourceGroupRequest {
   /** The subscription id. */
@@ -453,9 +453,9 @@ export interface ListJobCollectionByResourceGroupRequest {
 export type JobCollectionListResultValueList = Array<JobCollectionDefinition>;
 export interface JobCollectionListResult {
   /** Gets the job collections. */
-  value?: JobCollectionListResultValueList;
+  value?: JobCollectionListResultValueList | undefined;
   /** Gets or sets the URL to get the next set of job collections. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListJobCollectionBySubscriptionRequest {
   /** The subscription id. */
@@ -471,11 +471,11 @@ export interface ListJobJobHistoryRequest {
   /** The job name. */
   jobName: string;
   /** the number of job history to request, in the of range of [1..100]. */
-  _top?: number;
+  _top?: number | undefined;
   /** The (0-based) index of the job history list from which to begin requesting entries. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** The filter to apply on the job state. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Gets the job history action name. */
 export type JobHistoryDefinitionPropertiesActionName = "MainAction" | "ErrorAction";
@@ -483,39 +483,39 @@ export type JobHistoryDefinitionPropertiesActionName = "MainAction" | "ErrorActi
 export type JobExecutionStatus = "Completed" | "Failed" | "Postponed";
 export interface JobHistoryDefinitionProperties {
   /** Gets the start time for this job. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Gets the end time for this job. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Gets the expected execution time for this job. */
-  expectedExecutionTime?: string;
+  expectedExecutionTime?: string | undefined;
   /** Gets the job history action name. */
-  actionName?: JobHistoryDefinitionPropertiesActionName;
+  actionName?: JobHistoryDefinitionPropertiesActionName | undefined;
   /** Gets the job history status. */
-  status?: JobExecutionStatus;
+  status?: JobExecutionStatus | undefined;
   /** Gets the message for the job history. */
-  message?: string;
+  message?: string | undefined;
   /** Gets the retry count for job. */
-  retryCount?: number;
+  retryCount?: number | undefined;
   /** Gets the repeat count for the job. */
-  repeatCount?: number;
+  repeatCount?: number | undefined;
 }
 export interface JobHistoryDefinition {
   /** Gets the job history identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Gets the job history resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Gets the job history name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the job history properties. */
-  properties?: JobHistoryDefinitionProperties;
+  properties?: JobHistoryDefinitionProperties | undefined;
 }
 /** Gets or sets the job histories under job. */
 export type JobHistoryListResultValueList = Array<JobHistoryDefinition>;
 export interface JobHistoryListResult {
   /** Gets or sets the job histories under job. */
-  value?: JobHistoryListResultValueList;
+  value?: JobHistoryListResultValueList | undefined;
   /** Gets or sets the URL to get the next set of job histories. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListJobsRequest {
   /** The subscription id. */
@@ -525,19 +525,19 @@ export interface ListJobsRequest {
   /** The job collection name. */
   jobCollectionName: string;
   /** The number of jobs to request, in the of range of [1..100]. */
-  _top?: number;
+  _top?: number | undefined;
   /** The (0-based) index of the job history list from which to begin requesting entries. */
-  _skip?: number;
+  _skip?: number | undefined;
   /** The filter to apply on the job state. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Gets or sets all jobs under job collection. */
 export type JobListResultValueList = Array<JobDefinition>;
 export interface JobListResult {
   /** Gets or sets all jobs under job collection. */
-  value?: JobListResultValueList;
+  value?: JobListResultValueList | undefined;
   /** Gets or sets the URL to get the next set of jobs. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface PatchJobRequest {
   /** The subscription id. */
@@ -549,7 +549,7 @@ export interface PatchJobRequest {
   /** The job name. */
   jobName: string;
   /** Gets or sets the job properties. */
-  properties?: JobPropertiesInput;
+  properties?: JobPropertiesInput | undefined;
 }
 /** Gets or sets the tags. */
 export type PatchJobCollectionRequestTagsMap = { [key: string]: string | undefined };
@@ -561,13 +561,13 @@ export interface PatchJobCollectionRequest {
   /** The job collection name. */
   jobCollectionName: string;
   /** Gets or sets the job collection resource name. */
-  name?: string;
+  name?: string | undefined;
   /** Gets or sets the storage account location. */
-  location?: string;
+  location?: string | undefined;
   /** Gets or sets the tags. */
-  tags?: PatchJobCollectionRequestTagsMap;
+  tags?: PatchJobCollectionRequestTagsMap | undefined;
   /** Gets or sets the job collection properties. */
-  properties?: JobCollectionProperties;
+  properties?: JobCollectionProperties | undefined;
 }
 export interface RunJobRequest {
   /** The subscription id. */

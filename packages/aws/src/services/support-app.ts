@@ -133,10 +133,10 @@ export type RoleArn = string;
 export interface CreateSlackChannelConfigurationRequest {
   teamId: string;
   channelId: string;
-  channelName?: string;
-  notifyOnCreateOrReopenCase?: boolean;
-  notifyOnAddCorrespondenceToCase?: boolean;
-  notifyOnResolveCase?: boolean;
+  channelName?: string | undefined;
+  notifyOnCreateOrReopenCase?: boolean | undefined;
+  notifyOnAddCorrespondenceToCase?: boolean | undefined;
+  notifyOnResolveCase?: boolean | undefined;
   notifyOnCaseSeverity: string;
   channelRoleArn: string;
 }
@@ -155,40 +155,40 @@ export interface DeleteSlackWorkspaceConfigurationResult {}
 export interface GetAccountAliasRequest {}
 export type AwsAccountAlias = string;
 export interface GetAccountAliasResult {
-  accountAlias?: string;
+  accountAlias?: string | undefined;
 }
 export type PaginationToken = string;
 export interface ListSlackChannelConfigurationsRequest {
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface SlackChannelConfiguration {
   teamId: string;
   channelId: string;
-  channelName?: string;
-  notifyOnCreateOrReopenCase?: boolean;
-  notifyOnAddCorrespondenceToCase?: boolean;
-  notifyOnResolveCase?: boolean;
-  notifyOnCaseSeverity?: string;
-  channelRoleArn?: string;
+  channelName?: string | undefined;
+  notifyOnCreateOrReopenCase?: boolean | undefined;
+  notifyOnAddCorrespondenceToCase?: boolean | undefined;
+  notifyOnResolveCase?: boolean | undefined;
+  notifyOnCaseSeverity?: string | undefined;
+  channelRoleArn?: string | undefined;
 }
 export type SlackChannelConfigurationList = SlackChannelConfiguration[];
 export interface ListSlackChannelConfigurationsResult {
-  nextToken?: string;
+  nextToken?: string | undefined;
   slackChannelConfigurations: SlackChannelConfiguration[];
 }
 export interface ListSlackWorkspaceConfigurationsRequest {
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type TeamName = string;
 export interface SlackWorkspaceConfiguration {
   teamId: string;
-  teamName?: string;
-  allowOrganizationMemberAccount?: boolean;
+  teamName?: string | undefined;
+  allowOrganizationMemberAccount?: boolean | undefined;
 }
 export type SlackWorkspaceConfigurationList = SlackWorkspaceConfiguration[];
 export interface ListSlackWorkspaceConfigurationsResult {
-  nextToken?: string;
-  slackWorkspaceConfigurations?: SlackWorkspaceConfiguration[];
+  nextToken?: string | undefined;
+  slackWorkspaceConfigurations?: SlackWorkspaceConfiguration[] | undefined;
 }
 export interface PutAccountAliasRequest {
   accountAlias: string;
@@ -199,29 +199,29 @@ export interface RegisterSlackWorkspaceForOrganizationRequest {
 }
 export type AccountType = string;
 export interface RegisterSlackWorkspaceForOrganizationResult {
-  teamId?: string;
-  teamName?: string;
-  accountType?: string;
+  teamId?: string | undefined;
+  teamName?: string | undefined;
+  accountType?: string | undefined;
 }
 export interface UpdateSlackChannelConfigurationRequest {
   teamId: string;
   channelId: string;
-  channelName?: string;
-  notifyOnCreateOrReopenCase?: boolean;
-  notifyOnAddCorrespondenceToCase?: boolean;
-  notifyOnResolveCase?: boolean;
-  notifyOnCaseSeverity?: string;
-  channelRoleArn?: string;
+  channelName?: string | undefined;
+  notifyOnCreateOrReopenCase?: boolean | undefined;
+  notifyOnAddCorrespondenceToCase?: boolean | undefined;
+  notifyOnResolveCase?: boolean | undefined;
+  notifyOnCaseSeverity?: string | undefined;
+  channelRoleArn?: string | undefined;
 }
 export interface UpdateSlackChannelConfigurationResult {
-  teamId?: string;
-  channelId?: string;
-  channelName?: string;
-  notifyOnCreateOrReopenCase?: boolean;
-  notifyOnAddCorrespondenceToCase?: boolean;
-  notifyOnResolveCase?: boolean;
-  notifyOnCaseSeverity?: string;
-  channelRoleArn?: string;
+  teamId?: string | undefined;
+  channelId?: string | undefined;
+  channelName?: string | undefined;
+  notifyOnCreateOrReopenCase?: boolean | undefined;
+  notifyOnAddCorrespondenceToCase?: boolean | undefined;
+  notifyOnResolveCase?: boolean | undefined;
+  notifyOnCaseSeverity?: string | undefined;
+  channelRoleArn?: string | undefined;
 }
 export type ErrorMessage = string;
 export type CreateSlackChannelConfigurationError =

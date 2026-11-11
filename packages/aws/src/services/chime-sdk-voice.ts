@@ -232,7 +232,7 @@ export type E164PhoneNumberList = (string | redacted.Redacted<string>)[];
 export interface AssociatePhoneNumbersWithVoiceConnectorRequest {
   VoiceConnectorId: string;
   E164PhoneNumbers: (string | redacted.Redacted<string>)[];
-  ForceAssociate?: boolean;
+  ForceAssociate?: boolean | undefined;
 }
 export type SensitiveNonEmptyString = string | redacted.Redacted<string>;
 export type ErrorCode =
@@ -255,50 +255,50 @@ export type ErrorCode =
   | "Validation"
   | (string & {});
 export interface PhoneNumberError {
-  PhoneNumberId?: string | redacted.Redacted<string>;
-  ErrorCode?: ErrorCode;
-  ErrorMessage?: string;
+  PhoneNumberId?: string | redacted.Redacted<string> | undefined;
+  ErrorCode?: ErrorCode | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type PhoneNumberErrorList = PhoneNumberError[];
 export interface AssociatePhoneNumbersWithVoiceConnectorResponse {
-  PhoneNumberErrors?: PhoneNumberError[];
+  PhoneNumberErrors?: PhoneNumberError[] | undefined;
 }
 export type NonEmptyString = string;
 export interface AssociatePhoneNumbersWithVoiceConnectorGroupRequest {
   VoiceConnectorGroupId: string;
   E164PhoneNumbers: (string | redacted.Redacted<string>)[];
-  ForceAssociate?: boolean;
+  ForceAssociate?: boolean | undefined;
 }
 export interface AssociatePhoneNumbersWithVoiceConnectorGroupResponse {
-  PhoneNumberErrors?: PhoneNumberError[];
+  PhoneNumberErrors?: PhoneNumberError[] | undefined;
 }
 export type NonEmptyStringList = string[];
 export interface BatchDeletePhoneNumberRequest {
   PhoneNumberIds: string[];
 }
 export interface BatchDeletePhoneNumberResponse {
-  PhoneNumberErrors?: PhoneNumberError[];
+  PhoneNumberErrors?: PhoneNumberError[] | undefined;
 }
 export type PhoneNumberProductType = "VoiceConnector" | "SipMediaApplicationDialIn" | (string & {});
 export type CallingName = string | redacted.Redacted<string>;
 export type PhoneNumberName = string | redacted.Redacted<string>;
 export interface UpdatePhoneNumberRequestItem {
   PhoneNumberId: string | redacted.Redacted<string>;
-  ProductType?: PhoneNumberProductType;
-  CallingName?: string | redacted.Redacted<string>;
-  Name?: string | redacted.Redacted<string>;
+  ProductType?: PhoneNumberProductType | undefined;
+  CallingName?: string | redacted.Redacted<string> | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
 }
 export type UpdatePhoneNumberRequestItemList = UpdatePhoneNumberRequestItem[];
 export interface BatchUpdatePhoneNumberRequest {
   UpdatePhoneNumberRequestItems: UpdatePhoneNumberRequestItem[];
 }
 export interface BatchUpdatePhoneNumberResponse {
-  PhoneNumberErrors?: PhoneNumberError[];
+  PhoneNumberErrors?: PhoneNumberError[] | undefined;
 }
 export interface CreatePhoneNumberOrderRequest {
   ProductType: PhoneNumberProductType;
   E164PhoneNumbers: (string | redacted.Redacted<string>)[];
-  Name?: string | redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string> | undefined;
 }
 export type GuidString = string;
 export type PhoneNumberOrderStatus =
@@ -317,23 +317,23 @@ export type PhoneNumberOrderStatus =
 export type PhoneNumberOrderType = "New" | "Porting" | (string & {});
 export type OrderedPhoneNumberStatus = "Processing" | "Acquired" | "Failed" | (string & {});
 export interface OrderedPhoneNumber {
-  E164PhoneNumber?: string | redacted.Redacted<string>;
-  Status?: OrderedPhoneNumberStatus;
+  E164PhoneNumber?: string | redacted.Redacted<string> | undefined;
+  Status?: OrderedPhoneNumberStatus | undefined;
 }
 export type OrderedPhoneNumberList = OrderedPhoneNumber[];
 export type Iso8601Timestamp = Date;
 export interface PhoneNumberOrder {
-  PhoneNumberOrderId?: string;
-  ProductType?: PhoneNumberProductType;
-  Status?: PhoneNumberOrderStatus;
-  OrderType?: PhoneNumberOrderType;
-  OrderedPhoneNumbers?: OrderedPhoneNumber[];
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
-  FocDate?: string;
+  PhoneNumberOrderId?: string | undefined;
+  ProductType?: PhoneNumberProductType | undefined;
+  Status?: PhoneNumberOrderStatus | undefined;
+  OrderType?: PhoneNumberOrderType | undefined;
+  OrderedPhoneNumbers?: OrderedPhoneNumber[] | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
+  FocDate?: string | undefined;
 }
 export interface CreatePhoneNumberOrderResponse {
-  PhoneNumberOrder?: PhoneNumberOrder;
+  PhoneNumberOrder?: PhoneNumberOrder | undefined;
 }
 export type ParticipantPhoneNumberList = (string | redacted.Redacted<string>)[];
 export type ProxySessionNameString = string | redacted.Redacted<string>;
@@ -351,43 +351,43 @@ export interface GeoMatchParams {
 export interface CreateProxySessionRequest {
   VoiceConnectorId: string;
   ParticipantPhoneNumbers: (string | redacted.Redacted<string>)[];
-  Name?: string | redacted.Redacted<string>;
-  ExpiryMinutes?: number;
+  Name?: string | redacted.Redacted<string> | undefined;
+  ExpiryMinutes?: number | undefined;
   Capabilities: Capability[];
-  NumberSelectionBehavior?: NumberSelectionBehavior;
-  GeoMatchLevel?: GeoMatchLevel;
-  GeoMatchParams?: GeoMatchParams;
+  NumberSelectionBehavior?: NumberSelectionBehavior | undefined;
+  GeoMatchLevel?: GeoMatchLevel | undefined;
+  GeoMatchParams?: GeoMatchParams | undefined;
 }
 export type NonEmptyString128 = string;
 export type String128 = string;
 export type ProxySessionStatus = "Open" | "InProgress" | "Closed" | (string & {});
 export interface Participant {
-  PhoneNumber?: string | redacted.Redacted<string>;
-  ProxyPhoneNumber?: string | redacted.Redacted<string>;
+  PhoneNumber?: string | redacted.Redacted<string> | undefined;
+  ProxyPhoneNumber?: string | redacted.Redacted<string> | undefined;
 }
 export type Participants = Participant[];
 export interface ProxySession {
-  VoiceConnectorId?: string;
-  ProxySessionId?: string;
-  Name?: string;
-  Status?: ProxySessionStatus;
-  ExpiryMinutes?: number;
-  Capabilities?: Capability[];
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
-  EndedTimestamp?: Date;
-  Participants?: Participant[];
-  NumberSelectionBehavior?: NumberSelectionBehavior;
-  GeoMatchLevel?: GeoMatchLevel;
-  GeoMatchParams?: GeoMatchParams;
+  VoiceConnectorId?: string | undefined;
+  ProxySessionId?: string | undefined;
+  Name?: string | undefined;
+  Status?: ProxySessionStatus | undefined;
+  ExpiryMinutes?: number | undefined;
+  Capabilities?: Capability[] | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
+  EndedTimestamp?: Date | undefined;
+  Participants?: Participant[] | undefined;
+  NumberSelectionBehavior?: NumberSelectionBehavior | undefined;
+  GeoMatchLevel?: GeoMatchLevel | undefined;
+  GeoMatchParams?: GeoMatchParams | undefined;
 }
 export interface CreateProxySessionResponse {
-  ProxySession?: ProxySession;
+  ProxySession?: ProxySession | undefined;
 }
 export type SipMediaApplicationName = string;
 export type FunctionArn = string | redacted.Redacted<string>;
 export interface SipMediaApplicationEndpoint {
-  LambdaArn?: string | redacted.Redacted<string>;
+  LambdaArn?: string | redacted.Redacted<string> | undefined;
 }
 export type SipMediaApplicationEndpointList = SipMediaApplicationEndpoint[];
 export type TagKey = string | redacted.Redacted<string>;
@@ -401,19 +401,19 @@ export interface CreateSipMediaApplicationRequest {
   AwsRegion: string;
   Name: string;
   Endpoints: SipMediaApplicationEndpoint[];
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface SipMediaApplication {
-  SipMediaApplicationId?: string;
-  AwsRegion?: string;
-  Name?: string;
-  Endpoints?: SipMediaApplicationEndpoint[];
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
-  SipMediaApplicationArn?: string;
+  SipMediaApplicationId?: string | undefined;
+  AwsRegion?: string | undefined;
+  Name?: string | undefined;
+  Endpoints?: SipMediaApplicationEndpoint[] | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
+  SipMediaApplicationArn?: string | undefined;
 }
 export interface CreateSipMediaApplicationResponse {
-  SipMediaApplication?: SipMediaApplication;
+  SipMediaApplication?: SipMediaApplication | undefined;
 }
 export type SensitiveString = string | redacted.Redacted<string>;
 export type SipHeadersMap = { [key: string]: string | redacted.Redacted<string> | undefined };
@@ -424,43 +424,43 @@ export interface CreateSipMediaApplicationCallRequest {
   FromPhoneNumber: string | redacted.Redacted<string>;
   ToPhoneNumber: string | redacted.Redacted<string>;
   SipMediaApplicationId: string;
-  SipHeaders?: { [key: string]: string | redacted.Redacted<string> | undefined };
-  ArgumentsMap?: { [key: string]: string | redacted.Redacted<string> | undefined };
+  SipHeaders?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
+  ArgumentsMap?: { [key: string]: string | redacted.Redacted<string> | undefined } | undefined;
 }
 export interface SipMediaApplicationCall {
-  TransactionId?: string;
+  TransactionId?: string | undefined;
 }
 export interface CreateSipMediaApplicationCallResponse {
-  SipMediaApplicationCall?: SipMediaApplicationCall;
+  SipMediaApplicationCall?: SipMediaApplicationCall | undefined;
 }
 export type SipRuleName = string;
 export type SipRuleTriggerType = "ToPhoneNumber" | "RequestUriHostname" | (string & {});
 export type SipApplicationPriority = number;
 export interface SipRuleTargetApplication {
-  SipMediaApplicationId?: string;
-  Priority?: number;
-  AwsRegion?: string;
+  SipMediaApplicationId?: string | undefined;
+  Priority?: number | undefined;
+  AwsRegion?: string | undefined;
 }
 export type SipRuleTargetApplicationList = SipRuleTargetApplication[];
 export interface CreateSipRuleRequest {
   Name: string;
   TriggerType: SipRuleTriggerType;
   TriggerValue: string;
-  Disabled?: boolean;
+  Disabled?: boolean | undefined;
   TargetApplications: SipRuleTargetApplication[];
 }
 export interface SipRule {
-  SipRuleId?: string;
-  Name?: string;
-  Disabled?: boolean;
-  TriggerType?: SipRuleTriggerType;
-  TriggerValue?: string;
-  TargetApplications?: SipRuleTargetApplication[];
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
+  SipRuleId?: string | undefined;
+  Name?: string | undefined;
+  Disabled?: boolean | undefined;
+  TriggerType?: SipRuleTriggerType | undefined;
+  TriggerValue?: string | undefined;
+  TargetApplications?: SipRuleTargetApplication[] | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
 }
 export interface CreateSipRuleResponse {
-  SipRule?: SipRule;
+  SipRule?: SipRule | undefined;
 }
 export type VoiceConnectorName = string;
 export type VoiceConnectorAwsRegion =
@@ -482,32 +482,32 @@ export type VoiceConnectorIntegrationType =
 export type NetworkType = "IPV4_ONLY" | "DUAL_STACK" | (string & {});
 export interface CreateVoiceConnectorRequest {
   Name: string;
-  AwsRegion?: VoiceConnectorAwsRegion;
+  AwsRegion?: VoiceConnectorAwsRegion | undefined;
   RequireEncryption: boolean;
-  Tags?: Tag[];
-  IntegrationType?: VoiceConnectorIntegrationType;
-  NetworkType?: NetworkType;
+  Tags?: Tag[] | undefined;
+  IntegrationType?: VoiceConnectorIntegrationType | undefined;
+  NetworkType?: NetworkType | undefined;
 }
 export interface VoiceConnector {
-  VoiceConnectorId?: string;
-  AwsRegion?: VoiceConnectorAwsRegion;
-  Name?: string;
-  OutboundHostName?: string;
-  RequireEncryption?: boolean;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
-  VoiceConnectorArn?: string;
-  IntegrationType?: VoiceConnectorIntegrationType;
-  NetworkType?: NetworkType;
+  VoiceConnectorId?: string | undefined;
+  AwsRegion?: VoiceConnectorAwsRegion | undefined;
+  Name?: string | undefined;
+  OutboundHostName?: string | undefined;
+  RequireEncryption?: boolean | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
+  VoiceConnectorArn?: string | undefined;
+  IntegrationType?: VoiceConnectorIntegrationType | undefined;
+  NetworkType?: NetworkType | undefined;
 }
 export interface CreateVoiceConnectorResponse {
-  VoiceConnector?: VoiceConnector;
+  VoiceConnector?: VoiceConnector | undefined;
 }
 export type VoiceConnectorGroupName = string;
 export type VoiceConnectorItemPriority = number;
 export interface VoiceConnectorItem {
   VoiceConnectorId: string;
-  Priority?: number;
+  Priority?: number | undefined;
 }
 export type VoiceConnectorItemList = VoiceConnectorItem[];
 export type CallDistributionType =
@@ -516,20 +516,20 @@ export type CallDistributionType =
   | (string & {});
 export interface CreateVoiceConnectorGroupRequest {
   Name: string;
-  VoiceConnectorItems?: VoiceConnectorItem[];
-  CallDistributionType?: CallDistributionType;
+  VoiceConnectorItems?: VoiceConnectorItem[] | undefined;
+  CallDistributionType?: CallDistributionType | undefined;
 }
 export interface VoiceConnectorGroup {
-  VoiceConnectorGroupId?: string;
-  Name?: string;
-  VoiceConnectorItems?: VoiceConnectorItem[];
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
-  VoiceConnectorGroupArn?: string;
-  CallDistributionType?: CallDistributionType;
+  VoiceConnectorGroupId?: string | undefined;
+  Name?: string | undefined;
+  VoiceConnectorItems?: VoiceConnectorItem[] | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
+  VoiceConnectorGroupArn?: string | undefined;
+  CallDistributionType?: CallDistributionType | undefined;
 }
 export interface CreateVoiceConnectorGroupResponse {
-  VoiceConnectorGroup?: VoiceConnectorGroup;
+  VoiceConnectorGroup?: VoiceConnectorGroup | undefined;
 }
 export type NonEmptyString256 = string;
 export interface CreateVoiceProfileRequest {
@@ -537,15 +537,15 @@ export interface CreateVoiceProfileRequest {
 }
 export type Arn = string | redacted.Redacted<string>;
 export interface VoiceProfile {
-  VoiceProfileId?: string;
-  VoiceProfileArn?: string | redacted.Redacted<string>;
-  VoiceProfileDomainId?: string;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
-  ExpirationTimestamp?: Date;
+  VoiceProfileId?: string | undefined;
+  VoiceProfileArn?: string | redacted.Redacted<string> | undefined;
+  VoiceProfileDomainId?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
+  ExpirationTimestamp?: Date | undefined;
 }
 export interface CreateVoiceProfileResponse {
-  VoiceProfile?: VoiceProfile;
+  VoiceProfile?: VoiceProfile | undefined;
 }
 export type VoiceProfileDomainName = string;
 export type VoiceProfileDomainDescription = string;
@@ -555,22 +555,22 @@ export interface ServerSideEncryptionConfiguration {
 export type ClientRequestId = string;
 export interface CreateVoiceProfileDomainRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   ServerSideEncryptionConfiguration: ServerSideEncryptionConfiguration;
-  ClientRequestToken?: string;
-  Tags?: Tag[];
+  ClientRequestToken?: string | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface VoiceProfileDomain {
-  VoiceProfileDomainId?: string;
-  VoiceProfileDomainArn?: string | redacted.Redacted<string>;
-  Name?: string;
-  Description?: string;
-  ServerSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
+  VoiceProfileDomainId?: string | undefined;
+  VoiceProfileDomainArn?: string | redacted.Redacted<string> | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  ServerSideEncryptionConfiguration?: ServerSideEncryptionConfiguration | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
 }
 export interface CreateVoiceProfileDomainResponse {
-  VoiceProfileDomain?: VoiceProfileDomain;
+  VoiceProfileDomain?: VoiceProfileDomain | undefined;
 }
 export interface DeletePhoneNumberRequest {
   PhoneNumberId: string | redacted.Redacted<string>;
@@ -640,22 +640,22 @@ export interface DisassociatePhoneNumbersFromVoiceConnectorRequest {
   E164PhoneNumbers: (string | redacted.Redacted<string>)[];
 }
 export interface DisassociatePhoneNumbersFromVoiceConnectorResponse {
-  PhoneNumberErrors?: PhoneNumberError[];
+  PhoneNumberErrors?: PhoneNumberError[] | undefined;
 }
 export interface DisassociatePhoneNumbersFromVoiceConnectorGroupRequest {
   VoiceConnectorGroupId: string;
   E164PhoneNumbers: (string | redacted.Redacted<string>)[];
 }
 export interface DisassociatePhoneNumbersFromVoiceConnectorGroupResponse {
-  PhoneNumberErrors?: PhoneNumberError[];
+  PhoneNumberErrors?: PhoneNumberError[] | undefined;
 }
 export interface GetGlobalSettingsRequest {}
 export type S3BucketName = string;
 export interface VoiceConnectorSettings {
-  CdrBucket?: string;
+  CdrBucket?: string | undefined;
 }
 export interface GetGlobalSettingsResponse {
-  VoiceConnector?: VoiceConnectorSettings;
+  VoiceConnector?: VoiceConnectorSettings | undefined;
 }
 export interface GetPhoneNumberRequest {
   PhoneNumberId: string | redacted.Redacted<string>;
@@ -676,12 +676,12 @@ export type PhoneNumberStatus =
   | "DeleteFailed"
   | (string & {});
 export interface PhoneNumberCapabilities {
-  InboundCall?: boolean;
-  OutboundCall?: boolean;
-  InboundSMS?: boolean;
-  OutboundSMS?: boolean;
-  InboundMMS?: boolean;
-  OutboundMMS?: boolean;
+  InboundCall?: boolean | undefined;
+  OutboundCall?: boolean | undefined;
+  InboundSMS?: boolean | undefined;
+  OutboundSMS?: boolean | undefined;
+  InboundMMS?: boolean | undefined;
+  OutboundMMS?: boolean | undefined;
 }
 export type PhoneNumberAssociationName =
   | "VoiceConnectorId"
@@ -689,9 +689,9 @@ export type PhoneNumberAssociationName =
   | "SipRuleId"
   | (string & {});
 export interface PhoneNumberAssociation {
-  Value?: string;
-  Name?: PhoneNumberAssociationName;
-  AssociatedTimestamp?: Date;
+  Value?: string | undefined;
+  Name?: PhoneNumberAssociationName | undefined;
+  AssociatedTimestamp?: Date | undefined;
 }
 export type PhoneNumberAssociationList = PhoneNumberAssociation[];
 export type CallingNameStatus =
@@ -701,49 +701,49 @@ export type CallingNameStatus =
   | "UpdateFailed"
   | (string & {});
 export interface PhoneNumber {
-  PhoneNumberId?: string | redacted.Redacted<string>;
-  E164PhoneNumber?: string | redacted.Redacted<string>;
-  PhoneNumberArn?: string;
-  Country?: string;
-  Type?: PhoneNumberType;
-  ProductType?: PhoneNumberProductType;
-  Status?: PhoneNumberStatus;
-  Capabilities?: PhoneNumberCapabilities;
-  Associations?: PhoneNumberAssociation[];
-  CallingName?: string | redacted.Redacted<string>;
-  CallingNameStatus?: CallingNameStatus;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
-  DeletionTimestamp?: Date;
-  OrderId?: string;
-  Name?: string | redacted.Redacted<string>;
+  PhoneNumberId?: string | redacted.Redacted<string> | undefined;
+  E164PhoneNumber?: string | redacted.Redacted<string> | undefined;
+  PhoneNumberArn?: string | undefined;
+  Country?: string | undefined;
+  Type?: PhoneNumberType | undefined;
+  ProductType?: PhoneNumberProductType | undefined;
+  Status?: PhoneNumberStatus | undefined;
+  Capabilities?: PhoneNumberCapabilities | undefined;
+  Associations?: PhoneNumberAssociation[] | undefined;
+  CallingName?: string | redacted.Redacted<string> | undefined;
+  CallingNameStatus?: CallingNameStatus | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
+  DeletionTimestamp?: Date | undefined;
+  OrderId?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetPhoneNumberResponse {
-  PhoneNumber?: PhoneNumber;
+  PhoneNumber?: PhoneNumber | undefined;
 }
 export interface GetPhoneNumberOrderRequest {
   PhoneNumberOrderId: string;
 }
 export interface GetPhoneNumberOrderResponse {
-  PhoneNumberOrder?: PhoneNumberOrder;
+  PhoneNumberOrder?: PhoneNumberOrder | undefined;
 }
 export interface GetPhoneNumberSettingsRequest {}
 export interface GetPhoneNumberSettingsResponse {
-  CallingName?: string | redacted.Redacted<string>;
-  CallingNameUpdatedTimestamp?: Date;
+  CallingName?: string | redacted.Redacted<string> | undefined;
+  CallingNameUpdatedTimestamp?: Date | undefined;
 }
 export interface GetProxySessionRequest {
   VoiceConnectorId: string;
   ProxySessionId: string;
 }
 export interface GetProxySessionResponse {
-  ProxySession?: ProxySession;
+  ProxySession?: ProxySession | undefined;
 }
 export interface GetSipMediaApplicationRequest {
   SipMediaApplicationId: string;
 }
 export interface GetSipMediaApplicationResponse {
-  SipMediaApplication?: SipMediaApplication;
+  SipMediaApplication?: SipMediaApplication | undefined;
 }
 export interface GetSipMediaApplicationAlexaSkillConfigurationRequest {
   SipMediaApplicationId: string;
@@ -756,75 +756,77 @@ export interface SipMediaApplicationAlexaSkillConfiguration {
   AlexaSkillIds: (string | redacted.Redacted<string>)[];
 }
 export interface GetSipMediaApplicationAlexaSkillConfigurationResponse {
-  SipMediaApplicationAlexaSkillConfiguration?: SipMediaApplicationAlexaSkillConfiguration;
+  SipMediaApplicationAlexaSkillConfiguration?:
+    | SipMediaApplicationAlexaSkillConfiguration
+    | undefined;
 }
 export interface GetSipMediaApplicationLoggingConfigurationRequest {
   SipMediaApplicationId: string;
 }
 export interface SipMediaApplicationLoggingConfiguration {
-  EnableSipMediaApplicationMessageLogs?: boolean;
+  EnableSipMediaApplicationMessageLogs?: boolean | undefined;
 }
 export interface GetSipMediaApplicationLoggingConfigurationResponse {
-  SipMediaApplicationLoggingConfiguration?: SipMediaApplicationLoggingConfiguration;
+  SipMediaApplicationLoggingConfiguration?: SipMediaApplicationLoggingConfiguration | undefined;
 }
 export interface GetSipRuleRequest {
   SipRuleId: string;
 }
 export interface GetSipRuleResponse {
-  SipRule?: SipRule;
+  SipRule?: SipRule | undefined;
 }
 export interface GetSpeakerSearchTaskRequest {
   VoiceConnectorId: string;
   SpeakerSearchTaskId: string;
 }
 export interface CallDetails {
-  VoiceConnectorId?: string;
-  TransactionId?: string;
-  IsCaller?: boolean;
+  VoiceConnectorId?: string | undefined;
+  TransactionId?: string | undefined;
+  IsCaller?: boolean | undefined;
 }
 export type ConfidenceScore = number;
 export interface SpeakerSearchResult {
-  ConfidenceScore?: number;
-  VoiceProfileId?: string;
+  ConfidenceScore?: number | undefined;
+  VoiceProfileId?: string | undefined;
 }
 export type SpeakerSearchResultList = SpeakerSearchResult[];
 export interface SpeakerSearchDetails {
-  Results?: SpeakerSearchResult[];
-  VoiceprintGenerationStatus?: string;
+  Results?: SpeakerSearchResult[] | undefined;
+  VoiceprintGenerationStatus?: string | undefined;
 }
 export interface SpeakerSearchTask {
-  SpeakerSearchTaskId?: string;
-  SpeakerSearchTaskStatus?: string;
-  CallDetails?: CallDetails;
-  SpeakerSearchDetails?: SpeakerSearchDetails;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
-  StartedTimestamp?: Date;
-  StatusMessage?: string;
+  SpeakerSearchTaskId?: string | undefined;
+  SpeakerSearchTaskStatus?: string | undefined;
+  CallDetails?: CallDetails | undefined;
+  SpeakerSearchDetails?: SpeakerSearchDetails | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
+  StartedTimestamp?: Date | undefined;
+  StatusMessage?: string | undefined;
 }
 export interface GetSpeakerSearchTaskResponse {
-  SpeakerSearchTask?: SpeakerSearchTask;
+  SpeakerSearchTask?: SpeakerSearchTask | undefined;
 }
 export interface GetVoiceConnectorRequest {
   VoiceConnectorId: string;
 }
 export interface GetVoiceConnectorResponse {
-  VoiceConnector?: VoiceConnector;
+  VoiceConnector?: VoiceConnector | undefined;
 }
 export interface GetVoiceConnectorEmergencyCallingConfigurationRequest {
   VoiceConnectorId: string;
 }
 export interface DNISEmergencyCallingConfiguration {
   EmergencyPhoneNumber: string | redacted.Redacted<string>;
-  TestPhoneNumber?: string | redacted.Redacted<string>;
+  TestPhoneNumber?: string | redacted.Redacted<string> | undefined;
   CallingCountry: string;
 }
 export type DNISEmergencyCallingConfigurationList = DNISEmergencyCallingConfiguration[];
 export interface EmergencyCallingConfiguration {
-  DNIS?: DNISEmergencyCallingConfiguration[];
+  DNIS?: DNISEmergencyCallingConfiguration[] | undefined;
 }
 export interface GetVoiceConnectorEmergencyCallingConfigurationResponse {
-  EmergencyCallingConfiguration?: EmergencyCallingConfiguration;
+  EmergencyCallingConfiguration?: EmergencyCallingConfiguration | undefined;
 }
 export interface GetVoiceConnectorExternalSystemsConfigurationRequest {
   VoiceConnectorId: string;
@@ -845,27 +847,27 @@ export type ContactCenterSystemType =
   | (string & {});
 export type ContactCenterSystemTypeList = ContactCenterSystemType[];
 export interface ExternalSystemsConfiguration {
-  SessionBorderControllerTypes?: SessionBorderControllerType[];
-  ContactCenterSystemTypes?: ContactCenterSystemType[];
+  SessionBorderControllerTypes?: SessionBorderControllerType[] | undefined;
+  ContactCenterSystemTypes?: ContactCenterSystemType[] | undefined;
 }
 export interface GetVoiceConnectorExternalSystemsConfigurationResponse {
-  ExternalSystemsConfiguration?: ExternalSystemsConfiguration;
+  ExternalSystemsConfiguration?: ExternalSystemsConfiguration | undefined;
 }
 export interface GetVoiceConnectorGroupRequest {
   VoiceConnectorGroupId: string;
 }
 export interface GetVoiceConnectorGroupResponse {
-  VoiceConnectorGroup?: VoiceConnectorGroup;
+  VoiceConnectorGroup?: VoiceConnectorGroup | undefined;
 }
 export interface GetVoiceConnectorLoggingConfigurationRequest {
   VoiceConnectorId: string;
 }
 export interface LoggingConfiguration {
-  EnableSIPLogs?: boolean;
-  EnableMediaMetricLogs?: boolean;
+  EnableSIPLogs?: boolean | undefined;
+  EnableMediaMetricLogs?: boolean | undefined;
 }
 export interface GetVoiceConnectorLoggingConfigurationResponse {
-  LoggingConfiguration?: LoggingConfiguration;
+  LoggingConfiguration?: LoggingConfiguration | undefined;
 }
 export interface GetVoiceConnectorOriginationRequest {
   VoiceConnectorId: string;
@@ -875,32 +877,32 @@ export type OriginationRouteProtocol = "TCP" | "UDP" | (string & {});
 export type OriginationRoutePriority = number;
 export type OriginationRouteWeight = number;
 export interface OriginationRoute {
-  Host?: string;
-  Port?: number;
-  Protocol?: OriginationRouteProtocol;
-  Priority?: number;
-  Weight?: number;
+  Host?: string | undefined;
+  Port?: number | undefined;
+  Protocol?: OriginationRouteProtocol | undefined;
+  Priority?: number | undefined;
+  Weight?: number | undefined;
 }
 export type OriginationRouteList = OriginationRoute[];
 export interface Origination {
-  Routes?: OriginationRoute[];
-  Disabled?: boolean;
+  Routes?: OriginationRoute[] | undefined;
+  Disabled?: boolean | undefined;
 }
 export interface GetVoiceConnectorOriginationResponse {
-  Origination?: Origination;
+  Origination?: Origination | undefined;
 }
 export interface GetVoiceConnectorProxyRequest {
   VoiceConnectorId: string;
 }
 export type StringList = string[];
 export interface Proxy {
-  DefaultSessionExpiryMinutes?: number;
-  Disabled?: boolean;
-  FallBackPhoneNumber?: string | redacted.Redacted<string>;
-  PhoneNumberCountries?: string[];
+  DefaultSessionExpiryMinutes?: number | undefined;
+  Disabled?: boolean | undefined;
+  FallBackPhoneNumber?: string | redacted.Redacted<string> | undefined;
+  PhoneNumberCountries?: string[] | undefined;
 }
 export interface GetVoiceConnectorProxyResponse {
-  Proxy?: Proxy;
+  Proxy?: Proxy | undefined;
 }
 export interface GetVoiceConnectorStreamingConfigurationRequest {
   VoiceConnectorId: string;
@@ -908,21 +910,21 @@ export interface GetVoiceConnectorStreamingConfigurationRequest {
 export type DataRetentionInHours = number;
 export type NotificationTarget = "EventBridge" | "SNS" | "SQS" | (string & {});
 export interface StreamingNotificationTarget {
-  NotificationTarget?: NotificationTarget;
+  NotificationTarget?: NotificationTarget | undefined;
 }
 export type StreamingNotificationTargetList = StreamingNotificationTarget[];
 export interface MediaInsightsConfiguration {
-  Disabled?: boolean;
-  ConfigurationArn?: string | redacted.Redacted<string>;
+  Disabled?: boolean | undefined;
+  ConfigurationArn?: string | redacted.Redacted<string> | undefined;
 }
 export interface StreamingConfiguration {
   DataRetentionInHours: number;
   Disabled: boolean;
-  StreamingNotificationTargets?: StreamingNotificationTarget[];
-  MediaInsightsConfiguration?: MediaInsightsConfiguration;
+  StreamingNotificationTargets?: StreamingNotificationTarget[] | undefined;
+  MediaInsightsConfiguration?: MediaInsightsConfiguration | undefined;
 }
 export interface GetVoiceConnectorStreamingConfigurationResponse {
-  StreamingConfiguration?: StreamingConfiguration;
+  StreamingConfiguration?: StreamingConfiguration | undefined;
 }
 export interface GetVoiceConnectorTerminationRequest {
   VoiceConnectorId: string;
@@ -931,36 +933,36 @@ export type CpsLimit = number;
 export type CallingRegion = string;
 export type CallingRegionList = string[];
 export interface Termination {
-  CpsLimit?: number;
-  DefaultPhoneNumber?: string | redacted.Redacted<string>;
-  CallingRegions?: string[];
-  CidrAllowedList?: string[];
-  Disabled?: boolean;
+  CpsLimit?: number | undefined;
+  DefaultPhoneNumber?: string | redacted.Redacted<string> | undefined;
+  CallingRegions?: string[] | undefined;
+  CidrAllowedList?: string[] | undefined;
+  Disabled?: boolean | undefined;
 }
 export interface GetVoiceConnectorTerminationResponse {
-  Termination?: Termination;
+  Termination?: Termination | undefined;
 }
 export interface GetVoiceConnectorTerminationHealthRequest {
   VoiceConnectorId: string;
 }
 export interface TerminationHealth {
-  Timestamp?: Date;
-  Source?: string;
+  Timestamp?: Date | undefined;
+  Source?: string | undefined;
 }
 export interface GetVoiceConnectorTerminationHealthResponse {
-  TerminationHealth?: TerminationHealth;
+  TerminationHealth?: TerminationHealth | undefined;
 }
 export interface GetVoiceProfileRequest {
   VoiceProfileId: string;
 }
 export interface GetVoiceProfileResponse {
-  VoiceProfile?: VoiceProfile;
+  VoiceProfile?: VoiceProfile | undefined;
 }
 export interface GetVoiceProfileDomainRequest {
   VoiceProfileDomainId: string;
 }
 export interface GetVoiceProfileDomainResponse {
-  VoiceProfileDomain?: VoiceProfileDomain;
+  VoiceProfileDomain?: VoiceProfileDomain | undefined;
 }
 export interface GetVoiceToneAnalysisTaskRequest {
   VoiceConnectorId: string;
@@ -968,273 +970,277 @@ export interface GetVoiceToneAnalysisTaskRequest {
   IsCaller: boolean;
 }
 export interface VoiceToneAnalysisTask {
-  VoiceToneAnalysisTaskId?: string;
-  VoiceToneAnalysisTaskStatus?: string;
-  CallDetails?: CallDetails;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
-  StartedTimestamp?: Date;
-  StatusMessage?: string;
+  VoiceToneAnalysisTaskId?: string | undefined;
+  VoiceToneAnalysisTaskStatus?: string | undefined;
+  CallDetails?: CallDetails | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
+  StartedTimestamp?: Date | undefined;
+  StatusMessage?: string | undefined;
 }
 export interface GetVoiceToneAnalysisTaskResponse {
-  VoiceToneAnalysisTask?: VoiceToneAnalysisTask;
+  VoiceToneAnalysisTask?: VoiceToneAnalysisTask | undefined;
 }
 export interface ListAvailableVoiceConnectorRegionsRequest {}
 export type VoiceConnectorAwsRegionList = VoiceConnectorAwsRegion[];
 export interface ListAvailableVoiceConnectorRegionsResponse {
-  VoiceConnectorRegions?: VoiceConnectorAwsRegion[];
+  VoiceConnectorRegions?: VoiceConnectorAwsRegion[] | undefined;
 }
 export type NextTokenString = string;
 export type ResultMax = number;
 export interface ListPhoneNumberOrdersRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type PhoneNumberOrderList = PhoneNumberOrder[];
 export interface ListPhoneNumberOrdersResponse {
-  PhoneNumberOrders?: PhoneNumberOrder[];
-  NextToken?: string;
+  PhoneNumberOrders?: PhoneNumberOrder[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPhoneNumbersRequest {
-  Status?: string;
-  ProductType?: PhoneNumberProductType;
-  FilterName?: PhoneNumberAssociationName;
-  FilterValue?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  Status?: string | undefined;
+  ProductType?: PhoneNumberProductType | undefined;
+  FilterName?: PhoneNumberAssociationName | undefined;
+  FilterValue?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type PhoneNumberList = PhoneNumber[];
 export interface ListPhoneNumbersResponse {
-  PhoneNumbers?: PhoneNumber[];
-  NextToken?: string;
+  PhoneNumbers?: PhoneNumber[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListProxySessionsRequest {
   VoiceConnectorId: string;
-  Status?: ProxySessionStatus;
-  NextToken?: string;
-  MaxResults?: number;
+  Status?: ProxySessionStatus | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ProxySessions = ProxySession[];
 export interface ListProxySessionsResponse {
-  ProxySessions?: ProxySession[];
-  NextToken?: string;
+  ProxySessions?: ProxySession[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSipMediaApplicationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type SipMediaApplicationList = SipMediaApplication[];
 export interface ListSipMediaApplicationsResponse {
-  SipMediaApplications?: SipMediaApplication[];
-  NextToken?: string;
+  SipMediaApplications?: SipMediaApplication[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSipRulesRequest {
-  SipMediaApplicationId?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  SipMediaApplicationId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type SipRuleList = SipRule[];
 export interface ListSipRulesResponse {
-  SipRules?: SipRule[];
-  NextToken?: string;
+  SipRules?: SipRule[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSupportedPhoneNumberCountriesRequest {
   ProductType: PhoneNumberProductType;
 }
 export type PhoneNumberTypeList = PhoneNumberType[];
 export interface PhoneNumberCountry {
-  CountryCode?: string;
-  SupportedPhoneNumberTypes?: PhoneNumberType[];
+  CountryCode?: string | undefined;
+  SupportedPhoneNumberTypes?: PhoneNumberType[] | undefined;
 }
 export type PhoneNumberCountriesList = PhoneNumberCountry[];
 export interface ListSupportedPhoneNumberCountriesResponse {
-  PhoneNumberCountries?: PhoneNumberCountry[];
+  PhoneNumberCountries?: PhoneNumberCountry[] | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceARN: string | redacted.Redacted<string>;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface ListVoiceConnectorGroupsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type VoiceConnectorGroupList = VoiceConnectorGroup[];
 export interface ListVoiceConnectorGroupsResponse {
-  VoiceConnectorGroups?: VoiceConnectorGroup[];
-  NextToken?: string;
+  VoiceConnectorGroups?: VoiceConnectorGroup[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListVoiceConnectorsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type VoiceConnectorList = VoiceConnector[];
 export interface ListVoiceConnectorsResponse {
-  VoiceConnectors?: VoiceConnector[];
-  NextToken?: string;
+  VoiceConnectors?: VoiceConnector[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListVoiceConnectorTerminationCredentialsRequest {
   VoiceConnectorId: string;
 }
 export interface ListVoiceConnectorTerminationCredentialsResponse {
-  Usernames?: (string | redacted.Redacted<string>)[];
+  Usernames?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export interface ListVoiceProfileDomainsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface VoiceProfileDomainSummary {
-  VoiceProfileDomainId?: string;
-  VoiceProfileDomainArn?: string | redacted.Redacted<string>;
-  Name?: string;
-  Description?: string;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
+  VoiceProfileDomainId?: string | undefined;
+  VoiceProfileDomainArn?: string | redacted.Redacted<string> | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
 }
 export type VoiceProfileDomainSummaryList = VoiceProfileDomainSummary[];
 export interface ListVoiceProfileDomainsResponse {
-  VoiceProfileDomains?: VoiceProfileDomainSummary[];
-  NextToken?: string;
+  VoiceProfileDomains?: VoiceProfileDomainSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListVoiceProfilesRequest {
   VoiceProfileDomainId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface VoiceProfileSummary {
-  VoiceProfileId?: string;
-  VoiceProfileArn?: string | redacted.Redacted<string>;
-  VoiceProfileDomainId?: string;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
-  ExpirationTimestamp?: Date;
+  VoiceProfileId?: string | undefined;
+  VoiceProfileArn?: string | redacted.Redacted<string> | undefined;
+  VoiceProfileDomainId?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
+  ExpirationTimestamp?: Date | undefined;
 }
 export type VoiceProfileSummaryList = VoiceProfileSummary[];
 export interface ListVoiceProfilesResponse {
-  VoiceProfiles?: VoiceProfileSummary[];
-  NextToken?: string;
+  VoiceProfiles?: VoiceProfileSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface PutSipMediaApplicationAlexaSkillConfigurationRequest {
   SipMediaApplicationId: string;
-  SipMediaApplicationAlexaSkillConfiguration?: SipMediaApplicationAlexaSkillConfiguration;
+  SipMediaApplicationAlexaSkillConfiguration?:
+    | SipMediaApplicationAlexaSkillConfiguration
+    | undefined;
 }
 export interface PutSipMediaApplicationAlexaSkillConfigurationResponse {
-  SipMediaApplicationAlexaSkillConfiguration?: SipMediaApplicationAlexaSkillConfiguration;
+  SipMediaApplicationAlexaSkillConfiguration?:
+    | SipMediaApplicationAlexaSkillConfiguration
+    | undefined;
 }
 export interface PutSipMediaApplicationLoggingConfigurationRequest {
   SipMediaApplicationId: string;
-  SipMediaApplicationLoggingConfiguration?: SipMediaApplicationLoggingConfiguration;
+  SipMediaApplicationLoggingConfiguration?: SipMediaApplicationLoggingConfiguration | undefined;
 }
 export interface PutSipMediaApplicationLoggingConfigurationResponse {
-  SipMediaApplicationLoggingConfiguration?: SipMediaApplicationLoggingConfiguration;
+  SipMediaApplicationLoggingConfiguration?: SipMediaApplicationLoggingConfiguration | undefined;
 }
 export interface PutVoiceConnectorEmergencyCallingConfigurationRequest {
   VoiceConnectorId: string;
   EmergencyCallingConfiguration: EmergencyCallingConfiguration;
 }
 export interface PutVoiceConnectorEmergencyCallingConfigurationResponse {
-  EmergencyCallingConfiguration?: EmergencyCallingConfiguration;
+  EmergencyCallingConfiguration?: EmergencyCallingConfiguration | undefined;
 }
 export interface PutVoiceConnectorExternalSystemsConfigurationRequest {
   VoiceConnectorId: string;
-  SessionBorderControllerTypes?: SessionBorderControllerType[];
-  ContactCenterSystemTypes?: ContactCenterSystemType[];
+  SessionBorderControllerTypes?: SessionBorderControllerType[] | undefined;
+  ContactCenterSystemTypes?: ContactCenterSystemType[] | undefined;
 }
 export interface PutVoiceConnectorExternalSystemsConfigurationResponse {
-  ExternalSystemsConfiguration?: ExternalSystemsConfiguration;
+  ExternalSystemsConfiguration?: ExternalSystemsConfiguration | undefined;
 }
 export interface PutVoiceConnectorLoggingConfigurationRequest {
   VoiceConnectorId: string;
   LoggingConfiguration: LoggingConfiguration;
 }
 export interface PutVoiceConnectorLoggingConfigurationResponse {
-  LoggingConfiguration?: LoggingConfiguration;
+  LoggingConfiguration?: LoggingConfiguration | undefined;
 }
 export interface PutVoiceConnectorOriginationRequest {
   VoiceConnectorId: string;
   Origination: Origination;
 }
 export interface PutVoiceConnectorOriginationResponse {
-  Origination?: Origination;
+  Origination?: Origination | undefined;
 }
 export type CountryList = string[];
 export interface PutVoiceConnectorProxyRequest {
   VoiceConnectorId: string;
   DefaultSessionExpiryMinutes: number;
   PhoneNumberPoolCountries: string[];
-  FallBackPhoneNumber?: string | redacted.Redacted<string>;
-  Disabled?: boolean;
+  FallBackPhoneNumber?: string | redacted.Redacted<string> | undefined;
+  Disabled?: boolean | undefined;
 }
 export interface PutVoiceConnectorProxyResponse {
-  Proxy?: Proxy;
+  Proxy?: Proxy | undefined;
 }
 export interface PutVoiceConnectorStreamingConfigurationRequest {
   VoiceConnectorId: string;
   StreamingConfiguration: StreamingConfiguration;
 }
 export interface PutVoiceConnectorStreamingConfigurationResponse {
-  StreamingConfiguration?: StreamingConfiguration;
+  StreamingConfiguration?: StreamingConfiguration | undefined;
 }
 export interface PutVoiceConnectorTerminationRequest {
   VoiceConnectorId: string;
   Termination: Termination;
 }
 export interface PutVoiceConnectorTerminationResponse {
-  Termination?: Termination;
+  Termination?: Termination | undefined;
 }
 export interface Credential {
-  Username?: string | redacted.Redacted<string>;
-  Password?: string | redacted.Redacted<string>;
+  Username?: string | redacted.Redacted<string> | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
 }
 export type CredentialList = Credential[];
 export interface PutVoiceConnectorTerminationCredentialsRequest {
   VoiceConnectorId: string;
-  Credentials?: Credential[];
+  Credentials?: Credential[] | undefined;
 }
 export interface PutVoiceConnectorTerminationCredentialsResponse {}
 export interface RestorePhoneNumberRequest {
   PhoneNumberId: string | redacted.Redacted<string>;
 }
 export interface RestorePhoneNumberResponse {
-  PhoneNumber?: PhoneNumber;
+  PhoneNumber?: PhoneNumber | undefined;
 }
 export type TollFreePrefix = string;
 export type PhoneNumberMaxResults = number;
 export interface SearchAvailablePhoneNumbersRequest {
-  AreaCode?: string;
-  City?: string;
-  Country?: string;
-  State?: string;
-  TollFreePrefix?: string;
-  PhoneNumberType?: PhoneNumberType;
-  MaxResults?: number;
-  NextToken?: string;
+  AreaCode?: string | undefined;
+  City?: string | undefined;
+  Country?: string | undefined;
+  State?: string | undefined;
+  TollFreePrefix?: string | undefined;
+  PhoneNumberType?: PhoneNumberType | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface SearchAvailablePhoneNumbersResponse {
-  E164PhoneNumbers?: (string | redacted.Redacted<string>)[];
-  NextToken?: string;
+  E164PhoneNumbers?: (string | redacted.Redacted<string>)[] | undefined;
+  NextToken?: string | undefined;
 }
 export type CallLegType = "Caller" | "Callee" | (string & {});
 export interface StartSpeakerSearchTaskRequest {
   VoiceConnectorId: string;
   TransactionId: string;
   VoiceProfileDomainId: string;
-  ClientRequestToken?: string;
-  CallLeg?: CallLegType;
+  ClientRequestToken?: string | undefined;
+  CallLeg?: CallLegType | undefined;
 }
 export interface StartSpeakerSearchTaskResponse {
-  SpeakerSearchTask?: SpeakerSearchTask;
+  SpeakerSearchTask?: SpeakerSearchTask | undefined;
 }
 export type LanguageCode = "en-US" | (string & {});
 export interface StartVoiceToneAnalysisTaskRequest {
   VoiceConnectorId: string;
   TransactionId: string;
   LanguageCode: LanguageCode;
-  ClientRequestToken?: string;
+  ClientRequestToken?: string | undefined;
 }
 export interface StartVoiceToneAnalysisTaskResponse {
-  VoiceToneAnalysisTask?: VoiceToneAnalysisTask;
+  VoiceToneAnalysisTask?: VoiceToneAnalysisTask | undefined;
 }
 export interface StopSpeakerSearchTaskRequest {
   VoiceConnectorId: string;
@@ -1263,12 +1269,12 @@ export interface UpdateGlobalSettingsRequest {
 export interface UpdateGlobalSettingsResponse {}
 export interface UpdatePhoneNumberRequest {
   PhoneNumberId: string | redacted.Redacted<string>;
-  ProductType?: PhoneNumberProductType;
-  CallingName?: string | redacted.Redacted<string>;
-  Name?: string | redacted.Redacted<string>;
+  ProductType?: PhoneNumberProductType | undefined;
+  CallingName?: string | redacted.Redacted<string> | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdatePhoneNumberResponse {
-  PhoneNumber?: PhoneNumber;
+  PhoneNumber?: PhoneNumber | undefined;
 }
 export interface UpdatePhoneNumberSettingsRequest {
   CallingName: string | redacted.Redacted<string>;
@@ -1278,18 +1284,18 @@ export interface UpdateProxySessionRequest {
   VoiceConnectorId: string;
   ProxySessionId: string;
   Capabilities: Capability[];
-  ExpiryMinutes?: number;
+  ExpiryMinutes?: number | undefined;
 }
 export interface UpdateProxySessionResponse {
-  ProxySession?: ProxySession;
+  ProxySession?: ProxySession | undefined;
 }
 export interface UpdateSipMediaApplicationRequest {
   SipMediaApplicationId: string;
-  Name?: string;
-  Endpoints?: SipMediaApplicationEndpoint[];
+  Name?: string | undefined;
+  Endpoints?: SipMediaApplicationEndpoint[] | undefined;
 }
 export interface UpdateSipMediaApplicationResponse {
-  SipMediaApplication?: SipMediaApplication;
+  SipMediaApplication?: SipMediaApplication | undefined;
 }
 export type SMAUpdateCallArgumentsMap = {
   [key: string]: string | redacted.Redacted<string> | undefined;
@@ -1300,16 +1306,16 @@ export interface UpdateSipMediaApplicationCallRequest {
   Arguments: { [key: string]: string | redacted.Redacted<string> | undefined };
 }
 export interface UpdateSipMediaApplicationCallResponse {
-  SipMediaApplicationCall?: SipMediaApplicationCall;
+  SipMediaApplicationCall?: SipMediaApplicationCall | undefined;
 }
 export interface UpdateSipRuleRequest {
   SipRuleId: string;
   Name: string;
-  Disabled?: boolean;
-  TargetApplications?: SipRuleTargetApplication[];
+  Disabled?: boolean | undefined;
+  TargetApplications?: SipRuleTargetApplication[] | undefined;
 }
 export interface UpdateSipRuleResponse {
-  SipRule?: SipRule;
+  SipRule?: SipRule | undefined;
 }
 export interface UpdateVoiceConnectorRequest {
   VoiceConnectorId: string;
@@ -1317,31 +1323,31 @@ export interface UpdateVoiceConnectorRequest {
   RequireEncryption: boolean;
 }
 export interface UpdateVoiceConnectorResponse {
-  VoiceConnector?: VoiceConnector;
+  VoiceConnector?: VoiceConnector | undefined;
 }
 export interface UpdateVoiceConnectorGroupRequest {
   VoiceConnectorGroupId: string;
   Name: string;
   VoiceConnectorItems: VoiceConnectorItem[];
-  CallDistributionType?: CallDistributionType;
+  CallDistributionType?: CallDistributionType | undefined;
 }
 export interface UpdateVoiceConnectorGroupResponse {
-  VoiceConnectorGroup?: VoiceConnectorGroup;
+  VoiceConnectorGroup?: VoiceConnectorGroup | undefined;
 }
 export interface UpdateVoiceProfileRequest {
   VoiceProfileId: string;
   SpeakerSearchTaskId: string;
 }
 export interface UpdateVoiceProfileResponse {
-  VoiceProfile?: VoiceProfile;
+  VoiceProfile?: VoiceProfile | undefined;
 }
 export interface UpdateVoiceProfileDomainRequest {
   VoiceProfileDomainId: string;
-  Name?: string;
-  Description?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
 }
 export interface UpdateVoiceProfileDomainResponse {
-  VoiceProfileDomain?: VoiceProfileDomain;
+  VoiceProfileDomain?: VoiceProfileDomain | undefined;
 }
 export interface ValidateE911AddressRequest {
   AwsAccountId: string;
@@ -1354,32 +1360,32 @@ export interface ValidateE911AddressRequest {
 }
 export type ValidationResult = number;
 export interface Address {
-  streetName?: string | redacted.Redacted<string>;
-  streetSuffix?: string | redacted.Redacted<string>;
-  postDirectional?: string | redacted.Redacted<string>;
-  preDirectional?: string | redacted.Redacted<string>;
-  streetNumber?: string | redacted.Redacted<string>;
-  city?: string | redacted.Redacted<string>;
-  state?: string | redacted.Redacted<string>;
-  postalCode?: string | redacted.Redacted<string>;
-  postalCodePlus4?: string | redacted.Redacted<string>;
-  country?: string | redacted.Redacted<string>;
+  streetName?: string | redacted.Redacted<string> | undefined;
+  streetSuffix?: string | redacted.Redacted<string> | undefined;
+  postDirectional?: string | redacted.Redacted<string> | undefined;
+  preDirectional?: string | redacted.Redacted<string> | undefined;
+  streetNumber?: string | redacted.Redacted<string> | undefined;
+  city?: string | redacted.Redacted<string> | undefined;
+  state?: string | redacted.Redacted<string> | undefined;
+  postalCode?: string | redacted.Redacted<string> | undefined;
+  postalCodePlus4?: string | redacted.Redacted<string> | undefined;
+  country?: string | redacted.Redacted<string> | undefined;
 }
 export interface CandidateAddress {
-  streetInfo?: string | redacted.Redacted<string>;
-  streetNumber?: string | redacted.Redacted<string>;
-  city?: string | redacted.Redacted<string>;
-  state?: string | redacted.Redacted<string>;
-  postalCode?: string | redacted.Redacted<string>;
-  postalCodePlus4?: string | redacted.Redacted<string>;
-  country?: string | redacted.Redacted<string>;
+  streetInfo?: string | redacted.Redacted<string> | undefined;
+  streetNumber?: string | redacted.Redacted<string> | undefined;
+  city?: string | redacted.Redacted<string> | undefined;
+  state?: string | redacted.Redacted<string> | undefined;
+  postalCode?: string | redacted.Redacted<string> | undefined;
+  postalCodePlus4?: string | redacted.Redacted<string> | undefined;
+  country?: string | redacted.Redacted<string> | undefined;
 }
 export type CandidateAddressList = CandidateAddress[];
 export interface ValidateE911AddressResponse {
-  ValidationResult?: number;
-  AddressExternalId?: string;
-  Address?: Address;
-  CandidateAddressList?: CandidateAddress[];
+  ValidationResult?: number | undefined;
+  AddressExternalId?: string | undefined;
+  Address?: Address | undefined;
+  CandidateAddressList?: CandidateAddress[] | undefined;
 }
 export type AssociatePhoneNumbersWithVoiceConnectorError =
   | AccessDeniedException

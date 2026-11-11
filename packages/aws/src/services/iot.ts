@@ -314,7 +314,7 @@ export type CertificateId = string;
 export type SetAsActive = boolean;
 export interface AcceptCertificateTransferRequest {
   certificateId: string;
-  setAsActive?: boolean;
+  setAsActive?: boolean | undefined;
 }
 export interface AcceptCertificateTransferResponse {}
 export type BillingGroupName = string;
@@ -322,21 +322,21 @@ export type BillingGroupArn = string;
 export type ThingName = string;
 export type ThingArn = string;
 export interface AddThingToBillingGroupRequest {
-  billingGroupName?: string;
-  billingGroupArn?: string;
-  thingName?: string;
-  thingArn?: string;
+  billingGroupName?: string | undefined;
+  billingGroupArn?: string | undefined;
+  thingName?: string | undefined;
+  thingArn?: string | undefined;
 }
 export interface AddThingToBillingGroupResponse {}
 export type ThingGroupName = string;
 export type ThingGroupArn = string;
 export type OverrideDynamicGroups = boolean;
 export interface AddThingToThingGroupRequest {
-  thingGroupName?: string;
-  thingGroupArn?: string;
-  thingName?: string;
-  thingArn?: string;
-  overrideDynamicGroups?: boolean;
+  thingGroupName?: string | undefined;
+  thingGroupArn?: string | undefined;
+  thingName?: string | undefined;
+  thingArn?: string | undefined;
+  overrideDynamicGroups?: boolean | undefined;
 }
 export interface AddThingToThingGroupResponse {}
 export type PackageName = string;
@@ -345,26 +345,26 @@ export type S3Bucket = string;
 export type S3Key = string;
 export type S3Version = string;
 export interface S3Location {
-  bucket?: string;
-  key?: string;
-  version?: string;
+  bucket?: string | undefined;
+  key?: string | undefined;
+  version?: string | undefined;
 }
 export interface Sbom {
-  s3Location?: S3Location;
+  s3Location?: S3Location | undefined;
 }
 export type ClientToken = string;
 export interface AssociateSbomWithPackageVersionRequest {
   packageName: string;
   versionName: string;
   sbom: Sbom;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type SbomValidationStatus = "IN_PROGRESS" | "FAILED" | "SUCCEEDED" | (string & {});
 export interface AssociateSbomWithPackageVersionResponse {
-  packageName?: string;
-  versionName?: string;
-  sbom?: Sbom;
-  sbomValidationStatus?: SbomValidationStatus;
+  packageName?: string | undefined;
+  versionName?: string | undefined;
+  sbom?: Sbom | undefined;
+  sbomValidationStatus?: SbomValidationStatus | undefined;
 }
 export type TargetArn = string;
 export type JobTargets = string[];
@@ -374,15 +374,15 @@ export type NamespaceId = string;
 export interface AssociateTargetsWithJobRequest {
   targets: string[];
   jobId: string;
-  comment?: string;
-  namespaceId?: string;
+  comment?: string | undefined;
+  namespaceId?: string | undefined;
 }
 export type JobArn = string;
 export type JobDescription = string;
 export interface AssociateTargetsWithJobResponse {
-  jobArn?: string;
-  jobId?: string;
-  description?: string;
+  jobArn?: string | undefined;
+  jobId?: string | undefined;
+  description?: string | undefined;
 }
 export type PolicyName = string;
 export type PolicyTarget = string;
@@ -408,7 +408,7 @@ export type ThingPrincipalType = "EXCLUSIVE_THING" | "NON_EXCLUSIVE_THING" | (st
 export interface AttachThingPrincipalRequest {
   thingName: string;
   principal: string;
-  thingPrincipalType?: ThingPrincipalType;
+  thingPrincipalType?: ThingPrincipalType | undefined;
 }
 export interface AttachThingPrincipalResponse {}
 export type MitigationActionsTaskId = string;
@@ -433,14 +433,14 @@ export type ReasonCode = string;
 export type ForceFlag = boolean;
 export interface CancelJobRequest {
   jobId: string;
-  reasonCode?: string;
-  comment?: string;
-  force?: boolean;
+  reasonCode?: string | undefined;
+  comment?: string | undefined;
+  force?: boolean | undefined;
 }
 export interface CancelJobResponse {
-  jobArn?: string;
-  jobId?: string;
-  description?: string;
+  jobArn?: string | undefined;
+  jobId?: string | undefined;
+  description?: string | undefined;
 }
 export type ExpectedVersion = number;
 export type DetailsKey = string;
@@ -449,9 +449,9 @@ export type DetailsMap = { [key: string]: string | undefined };
 export interface CancelJobExecutionRequest {
   jobId: string;
   thingName: string;
-  force?: boolean;
-  expectedVersion?: number;
-  statusDetails?: { [key: string]: string | undefined };
+  force?: boolean | undefined;
+  expectedVersion?: number | undefined;
+  statusDetails?: { [key: string]: string | undefined } | undefined;
 }
 export interface CancelJobExecutionResponse {}
 export interface ClearDefaultAuthorizerRequest {}
@@ -466,8 +466,8 @@ export type CognitoIdentityPoolId = string;
 export type ClientId = string;
 export type PolicyVersionId = string;
 export interface PolicyVersionIdentifier {
-  policyName?: string;
-  policyVersionId?: string;
+  policyName?: string | undefined;
+  policyVersionId?: string | undefined;
 }
 export type AwsAccountId = string;
 export type RoleArn = string;
@@ -476,22 +476,22 @@ export type IssuerCertificateSubject = string;
 export type IssuerId = string;
 export type IssuerCertificateSerialNumber = string;
 export interface IssuerCertificateIdentifier {
-  issuerCertificateSubject?: string;
-  issuerId?: string;
-  issuerCertificateSerialNumber?: string;
+  issuerCertificateSubject?: string | undefined;
+  issuerId?: string | undefined;
+  issuerCertificateSerialNumber?: string | undefined;
 }
 export type CertificateArn = string;
 export interface ResourceIdentifier {
-  deviceCertificateId?: string;
-  caCertificateId?: string;
-  cognitoIdentityPoolId?: string;
-  clientId?: string;
-  policyVersionIdentifier?: PolicyVersionIdentifier;
-  account?: string;
-  iamRoleArn?: string;
-  roleAliasArn?: string;
-  issuerCertificateIdentifier?: IssuerCertificateIdentifier;
-  deviceCertificateArn?: string;
+  deviceCertificateId?: string | undefined;
+  caCertificateId?: string | undefined;
+  cognitoIdentityPoolId?: string | undefined;
+  clientId?: string | undefined;
+  policyVersionIdentifier?: PolicyVersionIdentifier | undefined;
+  account?: string | undefined;
+  iamRoleArn?: string | undefined;
+  roleAliasArn?: string | undefined;
+  issuerCertificateIdentifier?: IssuerCertificateIdentifier | undefined;
+  deviceCertificateArn?: string | undefined;
 }
 export type SuppressIndefinitely = boolean;
 export type AuditDescription = string;
@@ -499,9 +499,9 @@ export type ClientRequestToken = string;
 export interface CreateAuditSuppressionRequest {
   checkName: string;
   resourceIdentifier: ResourceIdentifier;
-  expirationDate?: Date;
-  suppressIndefinitely?: boolean;
-  description?: string;
+  expirationDate?: Date | undefined;
+  suppressIndefinitely?: boolean | undefined;
+  description?: string | undefined;
   clientRequestToken: string;
 }
 export interface CreateAuditSuppressionResponse {}
@@ -516,7 +516,7 @@ export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   Key: string;
-  Value?: string;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export type BooleanKey = boolean;
@@ -524,43 +524,43 @@ export type EnableCachingForHttp = boolean;
 export interface CreateAuthorizerRequest {
   authorizerName: string;
   authorizerFunctionArn: string;
-  tokenKeyName?: string;
-  tokenSigningPublicKeys?: { [key: string]: string | undefined };
-  status?: AuthorizerStatus;
-  tags?: Tag[];
-  signingDisabled?: boolean;
-  enableCachingForHttp?: boolean;
+  tokenKeyName?: string | undefined;
+  tokenSigningPublicKeys?: { [key: string]: string | undefined } | undefined;
+  status?: AuthorizerStatus | undefined;
+  tags?: Tag[] | undefined;
+  signingDisabled?: boolean | undefined;
+  enableCachingForHttp?: boolean | undefined;
 }
 export type AuthorizerArn = string;
 export interface CreateAuthorizerResponse {
-  authorizerName?: string;
-  authorizerArn?: string;
+  authorizerName?: string | undefined;
+  authorizerArn?: string | undefined;
 }
 export type BillingGroupDescription = string;
 export interface BillingGroupProperties {
-  billingGroupDescription?: string;
+  billingGroupDescription?: string | undefined;
 }
 export interface CreateBillingGroupRequest {
   billingGroupName: string;
-  billingGroupProperties?: BillingGroupProperties;
-  tags?: Tag[];
+  billingGroupProperties?: BillingGroupProperties | undefined;
+  tags?: Tag[] | undefined;
 }
 export type BillingGroupId = string;
 export interface CreateBillingGroupResponse {
-  billingGroupName?: string;
-  billingGroupArn?: string;
-  billingGroupId?: string;
+  billingGroupName?: string | undefined;
+  billingGroupArn?: string | undefined;
+  billingGroupId?: string | undefined;
 }
 export type CertificateSigningRequest = string;
 export interface CreateCertificateFromCsrRequest {
   certificateSigningRequest: string;
-  setAsActive?: boolean;
+  setAsActive?: boolean | undefined;
 }
 export type CertificatePem = string;
 export interface CreateCertificateFromCsrResponse {
-  certificateArn?: string;
-  certificateId?: string;
-  certificatePem?: string;
+  certificateArn?: string | undefined;
+  certificateId?: string | undefined;
+  certificatePem?: string | undefined;
 }
 export type CertificateProviderName = string;
 export type CertificateProviderFunctionArn = string;
@@ -570,13 +570,13 @@ export interface CreateCertificateProviderRequest {
   certificateProviderName: string;
   lambdaFunctionArn: string;
   accountDefaultForOperations: CertificateProviderOperation[];
-  clientToken?: string;
-  tags?: Tag[];
+  clientToken?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type CertificateProviderArn = string;
 export interface CreateCertificateProviderResponse {
-  certificateProviderName?: string;
-  certificateProviderArn?: string;
+  certificateProviderName?: string | undefined;
+  certificateProviderArn?: string | undefined;
 }
 export type CommandId = string;
 export type CommandNamespace = "AWS-IoT" | "AWS-IoT-FleetWise" | (string & {});
@@ -585,8 +585,8 @@ export type CommandDescription = string;
 export type CommandPayloadBlob = Uint8Array;
 export type MimeType = string;
 export interface CommandPayload {
-  content?: Uint8Array;
-  contentType?: string;
+  content?: Uint8Array | undefined;
+  contentType?: string | undefined;
 }
 export type CommandPayloadTemplateString = string;
 export type OutputFormat = "JSON" | "CBOR" | (string & {});
@@ -594,7 +594,7 @@ export interface AwsJsonSubstitutionCommandPreprocessorConfig {
   outputFormat: OutputFormat;
 }
 export interface CommandPreprocessor {
-  awsJsonSubstitution?: AwsJsonSubstitutionCommandPreprocessorConfig;
+  awsJsonSubstitution?: AwsJsonSubstitutionCommandPreprocessorConfig | undefined;
 }
 export type CommandParameterName = string;
 export type CommandParameterType =
@@ -614,13 +614,13 @@ export type DoubleParameterValue = number;
 export type BinaryParameterValue = Uint8Array;
 export type UnsignedLongParameterValue = string;
 export interface CommandParameterValue {
-  S?: string;
-  B?: boolean;
-  I?: number;
-  L?: number;
-  D?: number;
-  BIN?: Uint8Array;
-  UL?: string;
+  S?: string | undefined;
+  B?: boolean | undefined;
+  I?: number | undefined;
+  L?: number | undefined;
+  D?: number | undefined;
+  BIN?: Uint8Array | undefined;
+  UL?: string | undefined;
 }
 export type CommandParameterValueComparisonOperator =
   | "EQUALS"
@@ -640,11 +640,11 @@ export interface CommandParameterValueNumberRange {
   max: string;
 }
 export interface CommandParameterValueComparisonOperand {
-  number?: string;
-  numbers?: string[];
-  string?: string;
-  strings?: string[];
-  numberRange?: CommandParameterValueNumberRange;
+  number?: string | undefined;
+  numbers?: string[] | undefined;
+  string?: string | undefined;
+  strings?: string[] | undefined;
+  numberRange?: CommandParameterValueNumberRange | undefined;
 }
 export interface CommandParameterValueCondition {
   comparisonOperator: CommandParameterValueComparisonOperator;
@@ -654,29 +654,29 @@ export type CommandParameterValueConditionList = CommandParameterValueCondition[
 export type CommandParameterDescription = string;
 export interface CommandParameter {
   name: string;
-  type?: CommandParameterType;
-  value?: CommandParameterValue;
-  defaultValue?: CommandParameterValue;
-  valueConditions?: CommandParameterValueCondition[];
-  description?: string;
+  type?: CommandParameterType | undefined;
+  value?: CommandParameterValue | undefined;
+  defaultValue?: CommandParameterValue | undefined;
+  valueConditions?: CommandParameterValueCondition[] | undefined;
+  description?: string | undefined;
 }
 export type CommandParameterList = CommandParameter[];
 export interface CreateCommandRequest {
   commandId: string;
-  namespace?: CommandNamespace;
-  displayName?: string;
-  description?: string;
-  payload?: CommandPayload;
-  payloadTemplate?: string;
-  preprocessor?: CommandPreprocessor;
-  mandatoryParameters?: CommandParameter[];
-  roleArn?: string;
-  tags?: Tag[];
+  namespace?: CommandNamespace | undefined;
+  displayName?: string | undefined;
+  description?: string | undefined;
+  payload?: CommandPayload | undefined;
+  payloadTemplate?: string | undefined;
+  preprocessor?: CommandPreprocessor | undefined;
+  mandatoryParameters?: CommandParameter[] | undefined;
+  roleArn?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type CommandArn = string;
 export interface CreateCommandResponse {
-  commandId?: string;
-  commandArn?: string;
+  commandId?: string | undefined;
+  commandArn?: string | undefined;
 }
 export type MetricName = string;
 export type CustomMetricDisplayName = string;
@@ -688,15 +688,15 @@ export type CustomMetricType =
   | (string & {});
 export interface CreateCustomMetricRequest {
   metricName: string;
-  displayName?: string;
+  displayName?: string | undefined;
   metricType: CustomMetricType;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
   clientRequestToken: string;
 }
 export type CustomMetricArn = string;
 export interface CreateCustomMetricResponse {
-  metricName?: string;
-  metricArn?: string;
+  metricName?: string | undefined;
+  metricArn?: string | undefined;
 }
 export type DimensionName = string;
 export type DimensionType = "TOPIC_FILTER" | (string & {});
@@ -706,13 +706,13 @@ export interface CreateDimensionRequest {
   name: string;
   type: DimensionType;
   stringValues: string[];
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
   clientRequestToken: string;
 }
 export type DimensionArn = string;
 export interface CreateDimensionResponse {
-  name?: string;
-  arn?: string;
+  name?: string | undefined;
+  arn?: string | undefined;
 }
 export type DomainConfigurationName = string;
 export type DomainName = string;
@@ -720,20 +720,20 @@ export type AcmCertificateArn = string;
 export type ServerCertificateArns = string[];
 export type AllowAuthorizerOverride = boolean;
 export interface AuthorizerConfig {
-  defaultAuthorizerName?: string;
-  allowAuthorizerOverride?: boolean;
+  defaultAuthorizerName?: string | undefined;
+  allowAuthorizerOverride?: boolean | undefined;
 }
 export type ServiceType = "DATA" | "CREDENTIAL_PROVIDER" | "JOBS" | (string & {});
 export type SecurityPolicy = string;
 export interface TlsConfig {
-  securityPolicy?: string;
+  securityPolicy?: string | undefined;
 }
 export type EnableOCSPCheck = boolean;
 export type OCSPLambdaArn = string;
 export interface ServerCertificateConfig {
-  enableOCSPCheck?: boolean;
-  ocspLambdaArn?: string;
-  ocspAuthorizedResponderArn?: string;
+  enableOCSPCheck?: boolean | undefined;
+  ocspLambdaArn?: string | undefined;
+  ocspAuthorizedResponderArn?: string | undefined;
 }
 export type AuthenticationType =
   | "CUSTOM_AUTH_X509"
@@ -745,26 +745,26 @@ export type AuthenticationType =
 export type ApplicationProtocol = "SECURE_MQTT" | "MQTT_WSS" | "HTTPS" | "DEFAULT" | (string & {});
 export type ClientCertificateCallbackArn = string;
 export interface ClientCertificateConfig {
-  clientCertificateCallbackArn?: string;
+  clientCertificateCallbackArn?: string | undefined;
 }
 export interface CreateDomainConfigurationRequest {
   domainConfigurationName: string;
-  domainName?: string;
-  serverCertificateArns?: string[];
-  validationCertificateArn?: string;
-  authorizerConfig?: AuthorizerConfig;
-  serviceType?: ServiceType;
-  tags?: Tag[];
-  tlsConfig?: TlsConfig;
-  serverCertificateConfig?: ServerCertificateConfig;
-  authenticationType?: AuthenticationType;
-  applicationProtocol?: ApplicationProtocol;
-  clientCertificateConfig?: ClientCertificateConfig;
+  domainName?: string | undefined;
+  serverCertificateArns?: string[] | undefined;
+  validationCertificateArn?: string | undefined;
+  authorizerConfig?: AuthorizerConfig | undefined;
+  serviceType?: ServiceType | undefined;
+  tags?: Tag[] | undefined;
+  tlsConfig?: TlsConfig | undefined;
+  serverCertificateConfig?: ServerCertificateConfig | undefined;
+  authenticationType?: AuthenticationType | undefined;
+  applicationProtocol?: ApplicationProtocol | undefined;
+  clientCertificateConfig?: ClientCertificateConfig | undefined;
 }
 export type DomainConfigurationArn = string;
 export interface CreateDomainConfigurationResponse {
-  domainConfigurationName?: string;
-  domainConfigurationArn?: string;
+  domainConfigurationName?: string | undefined;
+  domainConfigurationArn?: string | undefined;
 }
 export type ThingGroupDescription = string;
 export type AttributeName = string;
@@ -772,32 +772,32 @@ export type AttributeValue = string;
 export type Attributes = { [key: string]: string | undefined };
 export type Flag = boolean;
 export interface AttributePayload {
-  attributes?: { [key: string]: string | undefined };
-  merge?: boolean;
+  attributes?: { [key: string]: string | undefined } | undefined;
+  merge?: boolean | undefined;
 }
 export interface ThingGroupProperties {
-  thingGroupDescription?: string;
-  attributePayload?: AttributePayload;
+  thingGroupDescription?: string | undefined;
+  attributePayload?: AttributePayload | undefined;
 }
 export type IndexName = string;
 export type QueryString = string;
 export type QueryVersion = string;
 export interface CreateDynamicThingGroupRequest {
   thingGroupName: string;
-  thingGroupProperties?: ThingGroupProperties;
-  indexName?: string;
+  thingGroupProperties?: ThingGroupProperties | undefined;
+  indexName?: string | undefined;
   queryString: string;
-  queryVersion?: string;
-  tags?: Tag[];
+  queryVersion?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type ThingGroupId = string;
 export interface CreateDynamicThingGroupResponse {
-  thingGroupName?: string;
-  thingGroupArn?: string;
-  thingGroupId?: string;
-  indexName?: string;
-  queryString?: string;
-  queryVersion?: string;
+  thingGroupName?: string | undefined;
+  thingGroupArn?: string | undefined;
+  thingGroupId?: string | undefined;
+  indexName?: string | undefined;
+  queryString?: string | undefined;
+  queryVersion?: string | undefined;
 }
 export type FleetMetricName = string;
 export type AggregationTypeName = "Statistics" | "Percentiles" | "Cardinality" | (string & {});
@@ -805,7 +805,7 @@ export type AggregationTypeValue = string;
 export type AggregationTypeValues = string[];
 export interface AggregationType {
   name: AggregationTypeName;
-  values?: string[];
+  values?: string[] | undefined;
 }
 export type FleetMetricPeriod = number;
 export type AggregationField = string;
@@ -845,23 +845,23 @@ export interface CreateFleetMetricRequest {
   aggregationType: AggregationType;
   period: number;
   aggregationField: string;
-  description?: string;
-  queryVersion?: string;
-  indexName?: string;
-  unit?: FleetMetricUnit;
-  tags?: Tag[];
+  description?: string | undefined;
+  queryVersion?: string | undefined;
+  indexName?: string | undefined;
+  unit?: FleetMetricUnit | undefined;
+  tags?: Tag[] | undefined;
 }
 export type FleetMetricArn = string;
 export interface CreateFleetMetricResponse {
-  metricName?: string;
-  metricArn?: string;
+  metricName?: string | undefined;
+  metricArn?: string | undefined;
 }
 export type JobDocumentSource = string;
 export type JobDocument = string;
 export type ExpiresInSec = number;
 export interface PresignedUrlConfig {
-  roleArn?: string;
-  expiresInSec?: number;
+  roleArn?: string | undefined;
+  expiresInSec?: number | undefined;
 }
 export type TargetSelection = "CONTINUOUS" | "SNAPSHOT" | (string & {});
 export type MaxJobExecutionsPerMin = number;
@@ -869,8 +869,8 @@ export type RolloutRatePerMinute = number;
 export type IncrementFactor = number;
 export type NumberOfThings = number;
 export interface RateIncreaseCriteria {
-  numberOfNotifiedThings?: number;
-  numberOfSucceededThings?: number;
+  numberOfNotifiedThings?: number | undefined;
+  numberOfSucceededThings?: number | undefined;
 }
 export interface ExponentialRolloutRate {
   baseRatePerMinute: number;
@@ -878,8 +878,8 @@ export interface ExponentialRolloutRate {
   rateIncreaseCriteria: RateIncreaseCriteria;
 }
 export interface JobExecutionsRolloutConfig {
-  maximumPerMinute?: number;
-  exponentialRate?: ExponentialRolloutRate;
+  maximumPerMinute?: number | undefined;
+  exponentialRate?: ExponentialRolloutRate | undefined;
 }
 export type JobExecutionFailureType = "FAILED" | "REJECTED" | "TIMED_OUT" | "ALL" | (string & {});
 export type AbortAction = "CANCEL" | (string & {});
@@ -897,7 +897,7 @@ export interface AbortConfig {
 }
 export type InProgressTimeoutInMinutes = number;
 export interface TimeoutConfig {
-  inProgressTimeoutInMinutes?: number;
+  inProgressTimeoutInMinutes?: number | undefined;
 }
 export type JobTemplateArn = string;
 export type RetryableFailureType = "FAILED" | "TIMED_OUT" | "ALL" | (string & {});
@@ -923,71 +923,71 @@ export interface MaintenanceWindow {
 }
 export type MaintenanceWindows = MaintenanceWindow[];
 export interface SchedulingConfig {
-  startTime?: string;
-  endTime?: string;
-  endBehavior?: JobEndBehavior;
-  maintenanceWindows?: MaintenanceWindow[];
+  startTime?: string | undefined;
+  endTime?: string | undefined;
+  endBehavior?: JobEndBehavior | undefined;
+  maintenanceWindows?: MaintenanceWindow[] | undefined;
 }
 export type PackageVersionArn = string;
 export type DestinationPackageVersions = string[];
 export interface CreateJobRequest {
   jobId: string;
   targets: string[];
-  documentSource?: string;
-  document?: string;
-  description?: string;
-  presignedUrlConfig?: PresignedUrlConfig;
-  targetSelection?: TargetSelection;
-  jobExecutionsRolloutConfig?: JobExecutionsRolloutConfig;
-  abortConfig?: AbortConfig;
-  timeoutConfig?: TimeoutConfig;
-  tags?: Tag[];
-  namespaceId?: string;
-  jobTemplateArn?: string;
-  jobExecutionsRetryConfig?: JobExecutionsRetryConfig;
-  documentParameters?: { [key: string]: string | undefined };
-  schedulingConfig?: SchedulingConfig;
-  destinationPackageVersions?: string[];
+  documentSource?: string | undefined;
+  document?: string | undefined;
+  description?: string | undefined;
+  presignedUrlConfig?: PresignedUrlConfig | undefined;
+  targetSelection?: TargetSelection | undefined;
+  jobExecutionsRolloutConfig?: JobExecutionsRolloutConfig | undefined;
+  abortConfig?: AbortConfig | undefined;
+  timeoutConfig?: TimeoutConfig | undefined;
+  tags?: Tag[] | undefined;
+  namespaceId?: string | undefined;
+  jobTemplateArn?: string | undefined;
+  jobExecutionsRetryConfig?: JobExecutionsRetryConfig | undefined;
+  documentParameters?: { [key: string]: string | undefined } | undefined;
+  schedulingConfig?: SchedulingConfig | undefined;
+  destinationPackageVersions?: string[] | undefined;
 }
 export interface CreateJobResponse {
-  jobArn?: string;
-  jobId?: string;
-  description?: string;
+  jobArn?: string | undefined;
+  jobId?: string | undefined;
+  description?: string | undefined;
 }
 export type JobTemplateId = string;
 export interface CreateJobTemplateRequest {
   jobTemplateId: string;
-  jobArn?: string;
-  documentSource?: string;
-  document?: string;
+  jobArn?: string | undefined;
+  documentSource?: string | undefined;
+  document?: string | undefined;
   description: string;
-  presignedUrlConfig?: PresignedUrlConfig;
-  jobExecutionsRolloutConfig?: JobExecutionsRolloutConfig;
-  abortConfig?: AbortConfig;
-  timeoutConfig?: TimeoutConfig;
-  tags?: Tag[];
-  jobExecutionsRetryConfig?: JobExecutionsRetryConfig;
-  maintenanceWindows?: MaintenanceWindow[];
-  destinationPackageVersions?: string[];
+  presignedUrlConfig?: PresignedUrlConfig | undefined;
+  jobExecutionsRolloutConfig?: JobExecutionsRolloutConfig | undefined;
+  abortConfig?: AbortConfig | undefined;
+  timeoutConfig?: TimeoutConfig | undefined;
+  tags?: Tag[] | undefined;
+  jobExecutionsRetryConfig?: JobExecutionsRetryConfig | undefined;
+  maintenanceWindows?: MaintenanceWindow[] | undefined;
+  destinationPackageVersions?: string[] | undefined;
 }
 export interface CreateJobTemplateResponse {
-  jobTemplateArn?: string;
-  jobTemplateId?: string;
+  jobTemplateArn?: string | undefined;
+  jobTemplateId?: string | undefined;
 }
 export interface CreateKeysAndCertificateRequest {
-  setAsActive?: boolean;
+  setAsActive?: boolean | undefined;
 }
 export type PublicKey = string;
 export type PrivateKey = string | redacted.Redacted<string>;
 export interface KeyPair {
-  PublicKey?: string;
-  PrivateKey?: string | redacted.Redacted<string>;
+  PublicKey?: string | undefined;
+  PrivateKey?: string | redacted.Redacted<string> | undefined;
 }
 export interface CreateKeysAndCertificateResponse {
-  certificateArn?: string;
-  certificateId?: string;
-  certificatePem?: string;
-  keyPair?: KeyPair;
+  certificateArn?: string | undefined;
+  certificateId?: string | undefined;
+  certificatePem?: string | undefined;
+  keyPair?: KeyPair | undefined;
 }
 export type MitigationActionName = string;
 export type DeviceCertificateUpdateAction = "DEACTIVATE" | (string & {});
@@ -1001,7 +1001,7 @@ export interface UpdateCACertificateParams {
 export type ThingGroupNames = string[];
 export interface AddThingsToThingGroupParams {
   thingGroupNames: string[];
-  overrideDynamicGroups?: boolean;
+  overrideDynamicGroups?: boolean | undefined;
 }
 export type PolicyTemplateName = "BLANK_POLICY" | (string & {});
 export interface ReplaceDefaultPolicyVersionParams {
@@ -1017,24 +1017,24 @@ export interface PublishFindingToSnsParams {
   topicArn: string;
 }
 export interface MitigationActionParams {
-  updateDeviceCertificateParams?: UpdateDeviceCertificateParams;
-  updateCACertificateParams?: UpdateCACertificateParams;
-  addThingsToThingGroupParams?: AddThingsToThingGroupParams;
-  replaceDefaultPolicyVersionParams?: ReplaceDefaultPolicyVersionParams;
-  enableIoTLoggingParams?: EnableIoTLoggingParams;
-  publishFindingToSnsParams?: PublishFindingToSnsParams;
+  updateDeviceCertificateParams?: UpdateDeviceCertificateParams | undefined;
+  updateCACertificateParams?: UpdateCACertificateParams | undefined;
+  addThingsToThingGroupParams?: AddThingsToThingGroupParams | undefined;
+  replaceDefaultPolicyVersionParams?: ReplaceDefaultPolicyVersionParams | undefined;
+  enableIoTLoggingParams?: EnableIoTLoggingParams | undefined;
+  publishFindingToSnsParams?: PublishFindingToSnsParams | undefined;
 }
 export interface CreateMitigationActionRequest {
   actionName: string;
   roleArn: string;
   actionParams: MitigationActionParams;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export type MitigationActionArn = string;
 export type MitigationActionId = string;
 export interface CreateMitigationActionResponse {
-  actionArn?: string;
-  actionId?: string;
+  actionArn?: string | undefined;
+  actionId?: string | undefined;
 }
 export type OTAUpdateId = string;
 export type OTAUpdateDescription = string;
@@ -1047,8 +1047,8 @@ export type AwsJobRolloutRatePerMinute = number;
 export type AwsJobRolloutIncrementFactor = number;
 export type AwsJobRateIncreaseCriteriaNumberOfThings = number;
 export interface AwsJobRateIncreaseCriteria {
-  numberOfNotifiedThings?: number;
-  numberOfSucceededThings?: number;
+  numberOfNotifiedThings?: number | undefined;
+  numberOfSucceededThings?: number | undefined;
 }
 export interface AwsJobExponentialRolloutRate {
   baseRatePerMinute: number;
@@ -1056,12 +1056,12 @@ export interface AwsJobExponentialRolloutRate {
   rateIncreaseCriteria: AwsJobRateIncreaseCriteria;
 }
 export interface AwsJobExecutionsRolloutConfig {
-  maximumPerMinute?: number;
-  exponentialRate?: AwsJobExponentialRolloutRate;
+  maximumPerMinute?: number | undefined;
+  exponentialRate?: AwsJobExponentialRolloutRate | undefined;
 }
 export type ExpiresInSeconds = number;
 export interface AwsJobPresignedUrlConfig {
-  expiresInSec?: number;
+  expiresInSec?: number | undefined;
 }
 export type AwsJobAbortCriteriaFailureType =
   | "FAILED"
@@ -1084,7 +1084,7 @@ export interface AwsJobAbortConfig {
 }
 export type AwsJobTimeoutInProgressTimeoutInMinutes = number;
 export interface AwsJobTimeoutConfig {
-  inProgressTimeoutInMinutes?: number;
+  inProgressTimeoutInMinutes?: number | undefined;
 }
 export type FileName = string;
 export type FileType = number;
@@ -1092,85 +1092,85 @@ export type OTAUpdateFileVersion = string;
 export type StreamId = string;
 export type FileId = number;
 export interface Stream {
-  streamId?: string;
-  fileId?: number;
+  streamId?: string | undefined;
+  fileId?: number | undefined;
 }
 export interface FileLocation {
-  stream?: Stream;
-  s3Location?: S3Location;
+  stream?: Stream | undefined;
+  s3Location?: S3Location | undefined;
 }
 export type SigningJobId = string;
 export type Platform = string;
 export type CertificatePathOnDevice = string;
 export interface SigningProfileParameter {
-  certificateArn?: string;
-  platform?: string;
-  certificatePathOnDevice?: string;
+  certificateArn?: string | undefined;
+  platform?: string | undefined;
+  certificatePathOnDevice?: string | undefined;
 }
 export type SigningProfileName = string;
 export type Prefix = string;
 export interface S3Destination {
-  bucket?: string;
-  prefix?: string;
+  bucket?: string | undefined;
+  prefix?: string | undefined;
 }
 export interface Destination {
-  s3Destination?: S3Destination;
+  s3Destination?: S3Destination | undefined;
 }
 export interface StartSigningJobParameter {
-  signingProfileParameter?: SigningProfileParameter;
-  signingProfileName?: string;
-  destination?: Destination;
+  signingProfileParameter?: SigningProfileParameter | undefined;
+  signingProfileName?: string | undefined;
+  destination?: Destination | undefined;
 }
 export type Signature = Uint8Array;
 export interface CodeSigningSignature {
-  inlineDocument?: Uint8Array;
+  inlineDocument?: Uint8Array | undefined;
 }
 export type CertificateName = string;
 export type InlineDocument = string;
 export interface CodeSigningCertificateChain {
-  certificateName?: string;
-  inlineDocument?: string;
+  certificateName?: string | undefined;
+  inlineDocument?: string | undefined;
 }
 export type HashAlgorithm = string;
 export type SignatureAlgorithm = string;
 export interface CustomCodeSigning {
-  signature?: CodeSigningSignature;
-  certificateChain?: CodeSigningCertificateChain;
-  hashAlgorithm?: string;
-  signatureAlgorithm?: string;
+  signature?: CodeSigningSignature | undefined;
+  certificateChain?: CodeSigningCertificateChain | undefined;
+  hashAlgorithm?: string | undefined;
+  signatureAlgorithm?: string | undefined;
 }
 export interface CodeSigning {
-  awsSignerJobId?: string;
-  startSigningJobParameter?: StartSigningJobParameter;
-  customCodeSigning?: CustomCodeSigning;
+  awsSignerJobId?: string | undefined;
+  startSigningJobParameter?: StartSigningJobParameter | undefined;
+  customCodeSigning?: CustomCodeSigning | undefined;
 }
 export type AttributeKey = string;
 export type Value = string;
 export type AttributesMap = { [key: string]: string | undefined };
 export interface OTAUpdateFile {
-  fileName?: string;
-  fileType?: number;
-  fileVersion?: string;
-  fileLocation?: FileLocation;
-  codeSigning?: CodeSigning;
-  attributes?: { [key: string]: string | undefined };
+  fileName?: string | undefined;
+  fileType?: number | undefined;
+  fileVersion?: string | undefined;
+  fileLocation?: FileLocation | undefined;
+  codeSigning?: CodeSigning | undefined;
+  attributes?: { [key: string]: string | undefined } | undefined;
 }
 export type OTAUpdateFiles = OTAUpdateFile[];
 export type AdditionalParameterMap = { [key: string]: string | undefined };
 export interface CreateOTAUpdateRequest {
   otaUpdateId: string;
-  description?: string;
+  description?: string | undefined;
   targets: string[];
-  protocols?: Protocol[];
-  targetSelection?: TargetSelection;
-  awsJobExecutionsRolloutConfig?: AwsJobExecutionsRolloutConfig;
-  awsJobPresignedUrlConfig?: AwsJobPresignedUrlConfig;
-  awsJobAbortConfig?: AwsJobAbortConfig;
-  awsJobTimeoutConfig?: AwsJobTimeoutConfig;
+  protocols?: Protocol[] | undefined;
+  targetSelection?: TargetSelection | undefined;
+  awsJobExecutionsRolloutConfig?: AwsJobExecutionsRolloutConfig | undefined;
+  awsJobPresignedUrlConfig?: AwsJobPresignedUrlConfig | undefined;
+  awsJobAbortConfig?: AwsJobAbortConfig | undefined;
+  awsJobTimeoutConfig?: AwsJobTimeoutConfig | undefined;
   files: OTAUpdateFile[];
   roleArn: string;
-  additionalParameters?: { [key: string]: string | undefined };
-  tags?: Tag[];
+  additionalParameters?: { [key: string]: string | undefined } | undefined;
+  tags?: Tag[] | undefined;
 }
 export type AwsIotJobId = string;
 export type OTAUpdateArn = string;
@@ -1184,138 +1184,138 @@ export type OTAUpdateStatus =
   | "DELETE_FAILED"
   | (string & {});
 export interface CreateOTAUpdateResponse {
-  otaUpdateId?: string;
-  awsIotJobId?: string;
-  otaUpdateArn?: string;
-  awsIotJobArn?: string;
-  otaUpdateStatus?: OTAUpdateStatus;
+  otaUpdateId?: string | undefined;
+  awsIotJobId?: string | undefined;
+  otaUpdateArn?: string | undefined;
+  awsIotJobArn?: string | undefined;
+  otaUpdateStatus?: OTAUpdateStatus | undefined;
 }
 export type ResourceDescription = string | redacted.Redacted<string>;
 export type TagMap = { [key: string]: string | undefined };
 export interface CreatePackageRequest {
   packageName: string;
-  description?: string | redacted.Redacted<string>;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export type PackageArn = string;
 export interface CreatePackageResponse {
-  packageName?: string;
-  packageArn?: string;
-  description?: string | redacted.Redacted<string>;
+  packageName?: string | undefined;
+  packageArn?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export type ResourceAttributeKey = string;
 export type ResourceAttributeValue = string;
 export type ResourceAttributes = { [key: string]: string | undefined };
 export interface PackageVersionArtifact {
-  s3Location?: S3Location;
+  s3Location?: S3Location | undefined;
 }
 export type PackageVersionRecipe = string | redacted.Redacted<string>;
 export interface CreatePackageVersionRequest {
   packageName: string;
   versionName: string;
-  description?: string | redacted.Redacted<string>;
-  attributes?: { [key: string]: string | undefined };
-  artifact?: PackageVersionArtifact;
-  recipe?: string | redacted.Redacted<string>;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  attributes?: { [key: string]: string | undefined } | undefined;
+  artifact?: PackageVersionArtifact | undefined;
+  recipe?: string | redacted.Redacted<string> | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export type PackageVersionStatus = "DRAFT" | "PUBLISHED" | "DEPRECATED" | (string & {});
 export type PackageVersionErrorReason = string;
 export interface CreatePackageVersionResponse {
-  packageVersionArn?: string;
-  packageName?: string;
-  versionName?: string;
-  description?: string | redacted.Redacted<string>;
-  attributes?: { [key: string]: string | undefined };
-  status?: PackageVersionStatus;
-  errorReason?: string;
+  packageVersionArn?: string | undefined;
+  packageName?: string | undefined;
+  versionName?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  attributes?: { [key: string]: string | undefined } | undefined;
+  status?: PackageVersionStatus | undefined;
+  errorReason?: string | undefined;
 }
 export type PolicyDocument = string;
 export interface CreatePolicyRequest {
   policyName: string;
   policyDocument: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export type PolicyArn = string;
 export interface CreatePolicyResponse {
-  policyName?: string;
-  policyArn?: string;
-  policyDocument?: string;
-  policyVersionId?: string;
+  policyName?: string | undefined;
+  policyArn?: string | undefined;
+  policyDocument?: string | undefined;
+  policyVersionId?: string | undefined;
 }
 export type SetAsDefault = boolean;
 export interface CreatePolicyVersionRequest {
   policyName: string;
   policyDocument: string;
-  setAsDefault?: boolean;
+  setAsDefault?: boolean | undefined;
 }
 export type IsDefaultVersion = boolean;
 export interface CreatePolicyVersionResponse {
-  policyArn?: string;
-  policyDocument?: string;
-  policyVersionId?: string;
-  isDefaultVersion?: boolean;
+  policyArn?: string | undefined;
+  policyDocument?: string | undefined;
+  policyVersionId?: string | undefined;
+  isDefaultVersion?: boolean | undefined;
 }
 export type TemplateName = string;
 export interface CreateProvisioningClaimRequest {
   templateName: string;
 }
 export interface CreateProvisioningClaimResponse {
-  certificateId?: string;
-  certificatePem?: string;
-  keyPair?: KeyPair;
-  expiration?: Date;
+  certificateId?: string | undefined;
+  certificatePem?: string | undefined;
+  keyPair?: KeyPair | undefined;
+  expiration?: Date | undefined;
 }
 export type TemplateDescription = string;
 export type TemplateBody = string;
 export type Enabled2 = boolean;
 export type PayloadVersion = string;
 export interface ProvisioningHook {
-  payloadVersion?: string;
+  payloadVersion?: string | undefined;
   targetArn: string;
 }
 export type TemplateType = "FLEET_PROVISIONING" | "JITP" | (string & {});
 export interface CreateProvisioningTemplateRequest {
   templateName: string;
-  description?: string;
+  description?: string | undefined;
   templateBody: string;
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   provisioningRoleArn: string;
-  preProvisioningHook?: ProvisioningHook;
-  tags?: Tag[];
-  type?: TemplateType;
+  preProvisioningHook?: ProvisioningHook | undefined;
+  tags?: Tag[] | undefined;
+  type?: TemplateType | undefined;
 }
 export type TemplateArn = string;
 export type TemplateVersionId = number;
 export interface CreateProvisioningTemplateResponse {
-  templateArn?: string;
-  templateName?: string;
-  defaultVersionId?: number;
+  templateArn?: string | undefined;
+  templateName?: string | undefined;
+  defaultVersionId?: number | undefined;
 }
 export interface CreateProvisioningTemplateVersionRequest {
   templateName: string;
   templateBody: string;
-  setAsDefault?: boolean;
+  setAsDefault?: boolean | undefined;
 }
 export interface CreateProvisioningTemplateVersionResponse {
-  templateArn?: string;
-  templateName?: string;
-  versionId?: number;
-  isDefaultVersion?: boolean;
+  templateArn?: string | undefined;
+  templateName?: string | undefined;
+  versionId?: number | undefined;
+  isDefaultVersion?: boolean | undefined;
 }
 export type RoleAlias = string;
 export type CredentialDurationSeconds = number;
 export interface CreateRoleAliasRequest {
   roleAlias: string;
   roleArn: string;
-  credentialDurationSeconds?: number;
-  tags?: Tag[];
+  credentialDurationSeconds?: number | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateRoleAliasResponse {
-  roleAlias?: string;
-  roleAliasArn?: string;
+  roleAlias?: string | undefined;
+  roleAliasArn?: string | undefined;
 }
 export type AuditFrequency = "DAILY" | "WEEKLY" | "BIWEEKLY" | "MONTHLY" | (string & {});
 export type DayOfMonth = string;
@@ -1324,15 +1324,15 @@ export type TargetAuditCheckNames = string[];
 export type ScheduledAuditName = string;
 export interface CreateScheduledAuditRequest {
   frequency: AuditFrequency;
-  dayOfMonth?: string;
-  dayOfWeek?: DayOfWeek;
+  dayOfMonth?: string | undefined;
+  dayOfWeek?: DayOfWeek | undefined;
   targetCheckNames: string[];
   scheduledAuditName: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export type ScheduledAuditArn = string;
 export interface CreateScheduledAuditResponse {
-  scheduledAuditArn?: string;
+  scheduledAuditArn?: string | undefined;
 }
 export type SecurityProfileDescription = string;
 export type BehaviorName = string;
@@ -1340,7 +1340,7 @@ export type BehaviorMetric = string;
 export type DimensionValueOperator = "IN" | "NOT_IN" | (string & {});
 export interface MetricDimension {
   dimensionName: string;
-  operator?: DimensionValueOperator;
+  operator?: DimensionValueOperator | undefined;
 }
 export type ComparisonOperator =
   | "less-than"
@@ -1363,42 +1363,42 @@ export type NumberList = number[];
 export type StringValue = string;
 export type StringList = string[];
 export interface MetricValue {
-  count?: number;
-  cidrs?: string[];
-  ports?: number[];
-  number?: number;
-  numbers?: number[];
-  strings?: string[];
+  count?: number | undefined;
+  cidrs?: string[] | undefined;
+  ports?: number[] | undefined;
+  number?: number | undefined;
+  numbers?: number[] | undefined;
+  strings?: string[] | undefined;
 }
 export type DurationSeconds = number;
 export type ConsecutiveDatapointsToAlarm = number;
 export type ConsecutiveDatapointsToClear = number;
 export type EvaluationStatistic = string;
 export interface StatisticalThreshold {
-  statistic?: string;
+  statistic?: string | undefined;
 }
 export type ConfidenceLevel = "LOW" | "MEDIUM" | "HIGH" | (string & {});
 export interface MachineLearningDetectionConfig {
   confidenceLevel: ConfidenceLevel;
 }
 export interface BehaviorCriteria {
-  comparisonOperator?: ComparisonOperator;
-  value?: MetricValue;
-  durationSeconds?: number;
-  consecutiveDatapointsToAlarm?: number;
-  consecutiveDatapointsToClear?: number;
-  statisticalThreshold?: StatisticalThreshold;
-  mlDetectionConfig?: MachineLearningDetectionConfig;
+  comparisonOperator?: ComparisonOperator | undefined;
+  value?: MetricValue | undefined;
+  durationSeconds?: number | undefined;
+  consecutiveDatapointsToAlarm?: number | undefined;
+  consecutiveDatapointsToClear?: number | undefined;
+  statisticalThreshold?: StatisticalThreshold | undefined;
+  mlDetectionConfig?: MachineLearningDetectionConfig | undefined;
 }
 export type SuppressAlerts = boolean;
 export type ExportMetric = boolean;
 export interface Behavior {
   name: string;
-  metric?: string;
-  metricDimension?: MetricDimension;
-  criteria?: BehaviorCriteria;
-  suppressAlerts?: boolean;
-  exportMetric?: boolean;
+  metric?: string | undefined;
+  metricDimension?: MetricDimension | undefined;
+  criteria?: BehaviorCriteria | undefined;
+  suppressAlerts?: boolean | undefined;
+  exportMetric?: boolean | undefined;
 }
 export type Behaviors = Behavior[];
 export type AlertTargetType = "SNS" | (string & {});
@@ -1407,12 +1407,12 @@ export interface AlertTarget {
   alertTargetArn: string;
   roleArn: string;
 }
-export type AlertTargets = { [key in AlertTargetType]?: AlertTarget };
+export type AlertTargets = { [key in AlertTargetType]?: AlertTarget | undefined };
 export type AdditionalMetricsToRetainList = string[];
 export interface MetricToRetain {
   metric: string;
-  metricDimension?: MetricDimension;
-  exportMetric?: boolean;
+  metricDimension?: MetricDimension | undefined;
+  exportMetric?: boolean | undefined;
 }
 export type AdditionalMetricsToRetainV2List = MetricToRetain[];
 export type MqttTopic = string;
@@ -1422,93 +1422,93 @@ export interface MetricsExportConfig {
 }
 export interface CreateSecurityProfileRequest {
   securityProfileName: string;
-  securityProfileDescription?: string;
-  behaviors?: Behavior[];
-  alertTargets?: { [key: string]: AlertTarget | undefined };
-  additionalMetricsToRetain?: string[];
-  additionalMetricsToRetainV2?: MetricToRetain[];
-  tags?: Tag[];
-  metricsExportConfig?: MetricsExportConfig;
+  securityProfileDescription?: string | undefined;
+  behaviors?: Behavior[] | undefined;
+  alertTargets?: { [key: string]: AlertTarget | undefined } | undefined;
+  additionalMetricsToRetain?: string[] | undefined;
+  additionalMetricsToRetainV2?: MetricToRetain[] | undefined;
+  tags?: Tag[] | undefined;
+  metricsExportConfig?: MetricsExportConfig | undefined;
 }
 export type SecurityProfileArn = string;
 export interface CreateSecurityProfileResponse {
-  securityProfileName?: string;
-  securityProfileArn?: string;
+  securityProfileName?: string | undefined;
+  securityProfileArn?: string | undefined;
 }
 export type StreamDescription = string;
 export interface StreamFile {
-  fileId?: number;
-  s3Location?: S3Location;
+  fileId?: number | undefined;
+  s3Location?: S3Location | undefined;
 }
 export type StreamFiles = StreamFile[];
 export interface CreateStreamRequest {
   streamId: string;
-  description?: string;
+  description?: string | undefined;
   files: StreamFile[];
   roleArn: string;
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export type StreamArn = string;
 export type StreamVersion = number;
 export interface CreateStreamResponse {
-  streamId?: string;
-  streamArn?: string;
-  description?: string;
-  streamVersion?: number;
+  streamId?: string | undefined;
+  streamArn?: string | undefined;
+  description?: string | undefined;
+  streamVersion?: number | undefined;
 }
 export type ThingTypeName = string;
 export interface CreateThingRequest {
   thingName: string;
-  thingTypeName?: string;
-  attributePayload?: AttributePayload;
-  billingGroupName?: string;
+  thingTypeName?: string | undefined;
+  attributePayload?: AttributePayload | undefined;
+  billingGroupName?: string | undefined;
 }
 export type ThingId = string;
 export interface CreateThingResponse {
-  thingName?: string;
-  thingArn?: string;
-  thingId?: string;
+  thingName?: string | undefined;
+  thingArn?: string | undefined;
+  thingId?: string | undefined;
 }
 export interface CreateThingGroupRequest {
   thingGroupName: string;
-  parentGroupName?: string;
-  thingGroupProperties?: ThingGroupProperties;
-  tags?: Tag[];
+  parentGroupName?: string | undefined;
+  thingGroupProperties?: ThingGroupProperties | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateThingGroupResponse {
-  thingGroupName?: string;
-  thingGroupArn?: string;
-  thingGroupId?: string;
+  thingGroupName?: string | undefined;
+  thingGroupArn?: string | undefined;
+  thingGroupId?: string | undefined;
 }
 export type ThingTypeDescription = string;
 export type SearchableAttributes = string[];
 export type UserPropertyKeyName = string;
 export type ConnectionAttributeName = string;
 export interface PropagatingAttribute {
-  userPropertyKey?: string;
-  thingAttribute?: string;
-  connectionAttribute?: string;
+  userPropertyKey?: string | undefined;
+  thingAttribute?: string | undefined;
+  connectionAttribute?: string | undefined;
 }
 export type PropagatingAttributeList = PropagatingAttribute[];
 export interface Mqtt5Configuration {
-  propagatingAttributes?: PropagatingAttribute[];
+  propagatingAttributes?: PropagatingAttribute[] | undefined;
 }
 export interface ThingTypeProperties {
-  thingTypeDescription?: string;
-  searchableAttributes?: string[];
-  mqtt5Configuration?: Mqtt5Configuration;
+  thingTypeDescription?: string | undefined;
+  searchableAttributes?: string[] | undefined;
+  mqtt5Configuration?: Mqtt5Configuration | undefined;
 }
 export interface CreateThingTypeRequest {
   thingTypeName: string;
-  thingTypeProperties?: ThingTypeProperties;
-  tags?: Tag[];
+  thingTypeProperties?: ThingTypeProperties | undefined;
+  tags?: Tag[] | undefined;
 }
 export type ThingTypeArn = string;
 export type ThingTypeId = string;
 export interface CreateThingTypeResponse {
-  thingTypeName?: string;
-  thingTypeArn?: string;
-  thingTypeId?: string;
+  thingTypeName?: string | undefined;
+  thingTypeArn?: string | undefined;
+  thingTypeId?: string | undefined;
 }
 export type RuleName = string;
 export type SQL = string;
@@ -1525,14 +1525,14 @@ export type PayloadField = string;
 export interface DynamoDBAction {
   tableName: string;
   roleArn: string;
-  operation?: string;
+  operation?: string | undefined;
   hashKeyField: string;
   hashKeyValue: string;
-  hashKeyType?: DynamoKeyType;
-  rangeKeyField?: string;
-  rangeKeyValue?: string;
-  rangeKeyType?: DynamoKeyType;
-  payloadField?: string;
+  hashKeyType?: DynamoKeyType | undefined;
+  rangeKeyField?: string | undefined;
+  rangeKeyValue?: string | undefined;
+  rangeKeyType?: DynamoKeyType | undefined;
+  payloadField?: string | undefined;
 }
 export interface PutItemInput {
   tableName: string;
@@ -1549,21 +1549,21 @@ export type MessageFormat = "RAW" | "JSON" | (string & {});
 export interface SnsAction {
   targetArn: string;
   roleArn: string;
-  messageFormat?: MessageFormat;
+  messageFormat?: MessageFormat | undefined;
 }
 export type QueueUrl = string;
 export type UseBase64 = boolean;
 export interface SqsAction {
   roleArn: string;
   queueUrl: string;
-  useBase64?: boolean;
+  useBase64?: boolean | undefined;
 }
 export type StreamName = string;
 export type PartitionKey = string;
 export interface KinesisAction {
   roleArn: string;
   streamName: string;
-  partitionKey?: string;
+  partitionKey?: string | undefined;
 }
 export type TopicPattern = string;
 export type Qos = number;
@@ -1580,18 +1580,18 @@ export interface UserProperty {
 }
 export type UserProperties = UserProperty[];
 export interface MqttHeaders {
-  payloadFormatIndicator?: string;
-  contentType?: string;
-  responseTopic?: string;
-  correlationData?: string;
-  messageExpiry?: string;
-  userProperties?: UserProperty[];
+  payloadFormatIndicator?: string | undefined;
+  contentType?: string | undefined;
+  responseTopic?: string | undefined;
+  correlationData?: string | undefined;
+  messageExpiry?: string | undefined;
+  userProperties?: UserProperty[] | undefined;
 }
 export interface RepublishAction {
   roleArn: string;
   topic: string;
-  qos?: number;
-  headers?: MqttHeaders;
+  qos?: number | undefined;
+  headers?: MqttHeaders | undefined;
 }
 export type BucketName = string;
 export type Key = string;
@@ -1609,7 +1609,7 @@ export interface S3Action {
   roleArn: string;
   bucketName: string;
   key: string;
-  cannedAcl?: CannedAccessControlList;
+  cannedAcl?: CannedAccessControlList | undefined;
 }
 export type DeliveryStreamName = string;
 export type FirehoseSeparator = string;
@@ -1617,8 +1617,8 @@ export type BatchMode = boolean;
 export interface FirehoseAction {
   roleArn: string;
   deliveryStreamName: string;
-  separator?: string;
-  batchMode?: boolean;
+  separator?: string | undefined;
+  batchMode?: boolean | undefined;
 }
 export interface CloudwatchMetricAction {
   roleArn: string;
@@ -1626,7 +1626,7 @@ export interface CloudwatchMetricAction {
   metricName: string;
   metricValue: string;
   metricUnit: string;
-  metricTimestamp?: string;
+  metricTimestamp?: string | undefined;
 }
 export type AlarmName = string;
 export type StateReason = string;
@@ -1641,7 +1641,7 @@ export type LogGroupName = string;
 export interface CloudwatchLogsAction {
   roleArn: string;
   logGroupName: string;
-  batchMode?: boolean;
+  batchMode?: boolean | undefined;
 }
 export type ElasticsearchEndpoint = string;
 export type ElasticsearchIndex = string;
@@ -1662,17 +1662,17 @@ export interface SalesforceAction {
 }
 export type ChannelName = string;
 export interface IotAnalyticsAction {
-  channelArn?: string;
-  channelName?: string;
-  batchMode?: boolean;
-  roleArn?: string;
+  channelArn?: string | undefined;
+  channelName?: string | undefined;
+  batchMode?: boolean | undefined;
+  roleArn?: string | undefined;
 }
 export type InputName = string;
 export type MessageId = string;
 export interface IotEventsAction {
   inputName: string;
-  messageId?: string;
-  batchMode?: boolean;
+  messageId?: string | undefined;
+  batchMode?: boolean | undefined;
   roleArn: string;
 }
 export type AssetPropertyEntryId = string;
@@ -1684,28 +1684,48 @@ export type AssetPropertyIntegerValue = string;
 export type AssetPropertyDoubleValue = string;
 export type AssetPropertyBooleanValue = string;
 export type AssetPropertyVariant =
-  | { stringValue: string; integerValue?: never; doubleValue?: never; booleanValue?: never }
-  | { stringValue?: never; integerValue: string; doubleValue?: never; booleanValue?: never }
-  | { stringValue?: never; integerValue?: never; doubleValue: string; booleanValue?: never }
-  | { stringValue?: never; integerValue?: never; doubleValue?: never; booleanValue: string };
+  | {
+      stringValue: string;
+      integerValue?: undefined;
+      doubleValue?: undefined;
+      booleanValue?: undefined;
+    }
+  | {
+      stringValue?: undefined;
+      integerValue: string;
+      doubleValue?: undefined;
+      booleanValue?: undefined;
+    }
+  | {
+      stringValue?: undefined;
+      integerValue?: undefined;
+      doubleValue: string;
+      booleanValue?: undefined;
+    }
+  | {
+      stringValue?: undefined;
+      integerValue?: undefined;
+      doubleValue?: undefined;
+      booleanValue: string;
+    };
 export type AssetPropertyTimeInSeconds = string;
 export type AssetPropertyOffsetInNanos = string;
 export interface AssetPropertyTimestamp {
   timeInSeconds: string;
-  offsetInNanos?: string;
+  offsetInNanos?: string | undefined;
 }
 export type AssetPropertyQuality = string;
 export interface AssetPropertyValue {
   value: AssetPropertyVariant;
   timestamp: AssetPropertyTimestamp;
-  quality?: string;
+  quality?: string | undefined;
 }
 export type AssetPropertyValueList = AssetPropertyValue[];
 export interface PutAssetPropertyValueEntry {
-  entryId?: string;
-  assetId?: string;
-  propertyId?: string;
-  propertyAlias?: string;
+  entryId?: string | undefined;
+  assetId?: string | undefined;
+  propertyId?: string | undefined;
+  propertyAlias?: string | undefined;
   propertyValues: AssetPropertyValue[];
 }
 export type PutAssetPropertyValueEntryList = PutAssetPropertyValueEntry[];
@@ -1716,7 +1736,7 @@ export interface IotSiteWiseAction {
 export type ExecutionNamePrefix = string;
 export type StateMachineName = string;
 export interface StepFunctionsAction {
-  executionNamePrefix?: string;
+  executionNamePrefix?: string | undefined;
   stateMachineName: string;
   roleArn: string;
 }
@@ -1740,7 +1760,7 @@ export interface TimestreamAction {
   databaseName: string;
   tableName: string;
   dimensions: TimestreamDimension[];
-  timestamp?: TimestreamTimestamp;
+  timestamp?: TimestreamTimestamp | undefined;
 }
 export type Url = string;
 export type HeaderKey = string;
@@ -1758,7 +1778,7 @@ export interface SigV4Authorization {
   roleArn: string;
 }
 export interface HttpAuthorization {
-  sigv4?: SigV4Authorization;
+  sigv4?: SigV4Authorization | undefined;
 }
 export type EnableBatching = boolean;
 export type MaxBatchOpenMs = number;
@@ -1766,18 +1786,18 @@ export type MaxBatchSize = number;
 export type MaxBatchSizeBytes = number;
 export type BatchAcrossTopics = boolean;
 export interface BatchConfig {
-  maxBatchOpenMs?: number;
-  maxBatchSize?: number;
-  maxBatchSizeBytes?: number;
-  batchAcrossTopics?: boolean;
+  maxBatchOpenMs?: number | undefined;
+  maxBatchSize?: number | undefined;
+  maxBatchSizeBytes?: number | undefined;
+  batchAcrossTopics?: boolean | undefined;
 }
 export interface HttpAction {
   url: string;
-  confirmationUrl?: string;
-  headers?: HttpActionHeader[];
-  auth?: HttpAuthorization;
-  enableBatching?: boolean;
-  batchConfig?: BatchConfig;
+  confirmationUrl?: string | undefined;
+  headers?: HttpActionHeader[] | undefined;
+  auth?: HttpAuthorization | undefined;
+  enableBatching?: boolean | undefined;
+  batchConfig?: BatchConfig | undefined;
 }
 export type ClientProperties = { [key: string]: string | undefined };
 export type KafkaHeaderKey = string;
@@ -1790,10 +1810,10 @@ export type KafkaHeaders = KafkaActionHeader[];
 export interface KafkaAction {
   destinationArn: string;
   topic: string;
-  key?: string;
-  partition?: string;
+  key?: string | undefined;
+  partition?: string | undefined;
   clientProperties: { [key: string]: string | undefined };
-  headers?: KafkaActionHeader[];
+  headers?: KafkaActionHeader[] | undefined;
 }
 export interface OpenSearchAction {
   roleArn: string;
@@ -1804,13 +1824,13 @@ export interface OpenSearchAction {
 }
 export interface LocationTimestamp {
   value: string;
-  unit?: string;
+  unit?: string | undefined;
 }
 export interface LocationAction {
   roleArn: string;
   trackerName: string;
   deviceId: string;
-  timestamp?: LocationTimestamp;
+  timestamp?: LocationTimestamp | undefined;
   latitude: string;
   longitude: string;
 }
@@ -1826,62 +1846,62 @@ export type InfluxDBMaxBatchOpenMs = number;
 export type InfluxDBMaxBatchSizeBytes = number;
 export type InfluxDBBatchAcrossTopics = boolean;
 export interface InfluxDBBatchConfig {
-  maxBatchSize?: number;
-  maxBatchOpenMs?: number;
-  maxBatchSizeBytes?: number;
-  batchAcrossTopics?: boolean;
+  maxBatchSize?: number | undefined;
+  maxBatchOpenMs?: number | undefined;
+  maxBatchSizeBytes?: number | undefined;
+  batchAcrossTopics?: boolean | undefined;
 }
 export interface InfluxDBAction {
   destinationArn: string;
   roleArn: string;
   databaseName: string;
   tableName: string;
-  organization?: string;
-  tags?: { [key: string]: string | undefined };
-  timestampUnit?: InfluxDBTimestampUnit;
-  batchConfig?: InfluxDBBatchConfig;
+  organization?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  timestampUnit?: InfluxDBTimestampUnit | undefined;
+  batchConfig?: InfluxDBBatchConfig | undefined;
 }
 export interface Action {
-  dynamoDB?: DynamoDBAction;
-  dynamoDBv2?: DynamoDBv2Action;
-  lambda?: LambdaAction;
-  sns?: SnsAction;
-  sqs?: SqsAction;
-  kinesis?: KinesisAction;
-  republish?: RepublishAction;
-  s3?: S3Action;
-  firehose?: FirehoseAction;
-  cloudwatchMetric?: CloudwatchMetricAction;
-  cloudwatchAlarm?: CloudwatchAlarmAction;
-  cloudwatchLogs?: CloudwatchLogsAction;
-  elasticsearch?: ElasticsearchAction;
-  salesforce?: SalesforceAction;
-  iotAnalytics?: IotAnalyticsAction;
-  iotEvents?: IotEventsAction;
-  iotSiteWise?: IotSiteWiseAction;
-  stepFunctions?: StepFunctionsAction;
-  timestream?: TimestreamAction;
-  http?: HttpAction;
-  kafka?: KafkaAction;
-  openSearch?: OpenSearchAction;
-  location?: LocationAction;
-  influxDB?: InfluxDBAction;
+  dynamoDB?: DynamoDBAction | undefined;
+  dynamoDBv2?: DynamoDBv2Action | undefined;
+  lambda?: LambdaAction | undefined;
+  sns?: SnsAction | undefined;
+  sqs?: SqsAction | undefined;
+  kinesis?: KinesisAction | undefined;
+  republish?: RepublishAction | undefined;
+  s3?: S3Action | undefined;
+  firehose?: FirehoseAction | undefined;
+  cloudwatchMetric?: CloudwatchMetricAction | undefined;
+  cloudwatchAlarm?: CloudwatchAlarmAction | undefined;
+  cloudwatchLogs?: CloudwatchLogsAction | undefined;
+  elasticsearch?: ElasticsearchAction | undefined;
+  salesforce?: SalesforceAction | undefined;
+  iotAnalytics?: IotAnalyticsAction | undefined;
+  iotEvents?: IotEventsAction | undefined;
+  iotSiteWise?: IotSiteWiseAction | undefined;
+  stepFunctions?: StepFunctionsAction | undefined;
+  timestream?: TimestreamAction | undefined;
+  http?: HttpAction | undefined;
+  kafka?: KafkaAction | undefined;
+  openSearch?: OpenSearchAction | undefined;
+  location?: LocationAction | undefined;
+  influxDB?: InfluxDBAction | undefined;
 }
 export type ActionList = Action[];
 export type IsDisabled = boolean;
 export type AwsIotSqlVersion = string;
 export interface TopicRulePayload {
   sql: string;
-  description?: string;
+  description?: string | undefined;
   actions: Action[];
-  ruleDisabled?: boolean;
-  awsIotSqlVersion?: string;
-  errorAction?: Action;
+  ruleDisabled?: boolean | undefined;
+  awsIotSqlVersion?: string | undefined;
+  errorAction?: Action | undefined;
 }
 export interface CreateTopicRuleRequest {
   ruleName: string;
   topicRulePayload: TopicRulePayload;
-  tags?: string;
+  tags?: string | undefined;
 }
 export interface CreateTopicRuleResponse {}
 export interface HttpUrlDestinationConfiguration {
@@ -1894,7 +1914,7 @@ export type SecurityGroupList = string[];
 export type VpcId = string;
 export interface VpcDestinationConfiguration {
   subnetIds: string[];
-  securityGroups?: string[];
+  securityGroups?: string[] | undefined;
   vpcId: string;
   roleArn: string;
 }
@@ -1906,13 +1926,13 @@ export interface InfluxDBDestinationConfiguration {
   endpoint: string;
   influxDBVersion: InfluxDBVersion;
   secretId: string;
-  secretType?: InfluxDBSecretType;
-  secretKey?: string;
+  secretType?: InfluxDBSecretType | undefined;
+  secretKey?: string | undefined;
 }
 export interface TopicRuleDestinationConfiguration {
-  httpUrlConfiguration?: HttpUrlDestinationConfiguration;
-  vpcConfiguration?: VpcDestinationConfiguration;
-  influxDBConfiguration?: InfluxDBDestinationConfiguration;
+  httpUrlConfiguration?: HttpUrlDestinationConfiguration | undefined;
+  vpcConfiguration?: VpcDestinationConfiguration | undefined;
+  influxDBConfiguration?: InfluxDBDestinationConfiguration | undefined;
 }
 export interface CreateTopicRuleDestinationRequest {
   destinationConfiguration: TopicRuleDestinationConfiguration;
@@ -1927,37 +1947,37 @@ export type TopicRuleDestinationStatus =
 export type CreatedAtDate = Date;
 export type LastUpdatedAtDate = Date;
 export interface HttpUrlDestinationProperties {
-  confirmationUrl?: string;
+  confirmationUrl?: string | undefined;
 }
 export interface VpcDestinationProperties {
-  subnetIds?: string[];
-  securityGroups?: string[];
-  vpcId?: string;
-  roleArn?: string;
+  subnetIds?: string[] | undefined;
+  securityGroups?: string[] | undefined;
+  vpcId?: string | undefined;
+  roleArn?: string | undefined;
 }
 export interface InfluxDBDestinationProperties {
-  endpoint?: string;
-  influxDBVersion?: InfluxDBVersion;
-  secretId?: string;
-  secretType?: InfluxDBSecretType;
-  secretKey?: string;
+  endpoint?: string | undefined;
+  influxDBVersion?: InfluxDBVersion | undefined;
+  secretId?: string | undefined;
+  secretType?: InfluxDBSecretType | undefined;
+  secretKey?: string | undefined;
 }
 export interface TopicRuleDestination {
-  arn?: string;
-  status?: TopicRuleDestinationStatus;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  statusReason?: string;
-  httpUrlProperties?: HttpUrlDestinationProperties;
-  vpcProperties?: VpcDestinationProperties;
-  influxDBProperties?: InfluxDBDestinationProperties;
+  arn?: string | undefined;
+  status?: TopicRuleDestinationStatus | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  statusReason?: string | undefined;
+  httpUrlProperties?: HttpUrlDestinationProperties | undefined;
+  vpcProperties?: VpcDestinationProperties | undefined;
+  influxDBProperties?: InfluxDBDestinationProperties | undefined;
 }
 export interface CreateTopicRuleDestinationResponse {
-  topicRuleDestination?: TopicRuleDestination;
+  topicRuleDestination?: TopicRuleDestination | undefined;
 }
 export type DeleteScheduledAudits = boolean;
 export interface DeleteAccountAuditConfigurationRequest {
-  deleteScheduledAudits?: boolean;
+  deleteScheduledAudits?: boolean | undefined;
 }
 export interface DeleteAccountAuditConfigurationResponse {}
 export interface DeleteAuditSuppressionRequest {
@@ -1972,7 +1992,7 @@ export interface DeleteAuthorizerResponse {}
 export type OptionalVersion = number;
 export interface DeleteBillingGroupRequest {
   billingGroupName: string;
-  expectedVersion?: number;
+  expectedVersion?: number | undefined;
 }
 export interface DeleteBillingGroupResponse {}
 export interface DeleteCACertificateRequest {
@@ -1982,7 +2002,7 @@ export interface DeleteCACertificateResponse {}
 export type ForceDelete = boolean;
 export interface DeleteCertificateRequest {
   certificateId: string;
-  forceDelete?: boolean;
+  forceDelete?: boolean | undefined;
 }
 export interface DeleteCertificateResponse {}
 export interface DeleteCertificateProviderRequest {
@@ -1994,7 +2014,7 @@ export interface DeleteCommandRequest {
 }
 export type StatusCode = number;
 export interface DeleteCommandResponse {
-  statusCode?: number;
+  statusCode?: number | undefined;
 }
 export type CommandExecutionId = string;
 export interface DeleteCommandExecutionRequest {
@@ -2016,18 +2036,18 @@ export interface DeleteDomainConfigurationRequest {
 export interface DeleteDomainConfigurationResponse {}
 export interface DeleteDynamicThingGroupRequest {
   thingGroupName: string;
-  expectedVersion?: number;
+  expectedVersion?: number | undefined;
 }
 export interface DeleteDynamicThingGroupResponse {}
 export interface DeleteFleetMetricRequest {
   metricName: string;
-  expectedVersion?: number;
+  expectedVersion?: number | undefined;
 }
 export interface DeleteFleetMetricResponse {}
 export interface DeleteJobRequest {
   jobId: string;
-  force?: boolean;
-  namespaceId?: string;
+  force?: boolean | undefined;
+  namespaceId?: string | undefined;
 }
 export interface DeleteJobResponse {}
 export type ExecutionNumber = number;
@@ -2035,8 +2055,8 @@ export interface DeleteJobExecutionRequest {
   jobId: string;
   thingName: string;
   executionNumber: number;
-  force?: boolean;
-  namespaceId?: string;
+  force?: boolean | undefined;
+  namespaceId?: string | undefined;
 }
 export interface DeleteJobExecutionResponse {}
 export interface DeleteJobTemplateRequest {
@@ -2051,19 +2071,19 @@ export type DeleteStream_ = boolean;
 export type ForceDeleteAWSJob = boolean;
 export interface DeleteOTAUpdateRequest {
   otaUpdateId: string;
-  deleteStream?: boolean;
-  forceDeleteAWSJob?: boolean;
+  deleteStream?: boolean | undefined;
+  forceDeleteAWSJob?: boolean | undefined;
 }
 export interface DeleteOTAUpdateResponse {}
 export interface DeletePackageRequest {
   packageName: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeletePackageResponse {}
 export interface DeletePackageVersionRequest {
   packageName: string;
   versionName: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeletePackageVersionResponse {}
 export interface DeletePolicyRequest {
@@ -2096,7 +2116,7 @@ export interface DeleteScheduledAuditRequest {
 export interface DeleteScheduledAuditResponse {}
 export interface DeleteSecurityProfileRequest {
   securityProfileName: string;
-  expectedVersion?: number;
+  expectedVersion?: number | undefined;
 }
 export interface DeleteSecurityProfileResponse {}
 export interface DeleteStreamRequest {
@@ -2105,12 +2125,12 @@ export interface DeleteStreamRequest {
 export interface DeleteStreamResponse {}
 export interface DeleteThingRequest {
   thingName: string;
-  expectedVersion?: number;
+  expectedVersion?: number | undefined;
 }
 export interface DeleteThingResponse {}
 export interface DeleteThingGroupRequest {
   thingGroupName: string;
-  expectedVersion?: number;
+  expectedVersion?: number | undefined;
 }
 export interface DeleteThingGroupResponse {}
 export interface DeleteThingTypeRequest {
@@ -2141,35 +2161,37 @@ export interface DeleteV2LoggingLevelResponse {}
 export type UndoDeprecate = boolean;
 export interface DeprecateThingTypeRequest {
   thingTypeName: string;
-  undoDeprecate?: boolean;
+  undoDeprecate?: boolean | undefined;
 }
 export interface DeprecateThingTypeResponse {}
 export interface DescribeAccountAuditConfigurationRequest {}
 export type AuditNotificationType = "SNS" | (string & {});
 export type Enabled = boolean;
 export interface AuditNotificationTarget {
-  targetArn?: string;
-  roleArn?: string;
-  enabled?: boolean;
+  targetArn?: string | undefined;
+  roleArn?: string | undefined;
+  enabled?: boolean | undefined;
 }
 export type AuditNotificationTargetConfigurations = {
-  [key in AuditNotificationType]?: AuditNotificationTarget;
+  [key in AuditNotificationType]?: AuditNotificationTarget | undefined;
 };
 export type ConfigName =
   | "CERT_AGE_THRESHOLD_IN_DAYS"
   | "CERT_EXPIRATION_THRESHOLD_IN_DAYS"
   | (string & {});
 export type ConfigValue = string;
-export type CheckCustomConfiguration = { [key in ConfigName]?: string };
+export type CheckCustomConfiguration = { [key in ConfigName]?: string | undefined };
 export interface AuditCheckConfiguration {
-  enabled?: boolean;
-  configuration?: { [key: string]: string | undefined };
+  enabled?: boolean | undefined;
+  configuration?: { [key: string]: string | undefined } | undefined;
 }
 export type AuditCheckConfigurations = { [key: string]: AuditCheckConfiguration | undefined };
 export interface DescribeAccountAuditConfigurationResponse {
-  roleArn?: string;
-  auditNotificationTargetConfigurations?: { [key: string]: AuditNotificationTarget | undefined };
-  auditCheckConfigurations?: { [key: string]: AuditCheckConfiguration | undefined };
+  roleArn?: string | undefined;
+  auditNotificationTargetConfigurations?:
+    | { [key: string]: AuditNotificationTarget | undefined }
+    | undefined;
+  auditCheckConfigurations?: { [key: string]: AuditCheckConfiguration | undefined } | undefined;
 }
 export type FindingId = string;
 export interface DescribeAuditFindingRequest {
@@ -2189,34 +2211,34 @@ export type ResourceType =
   | (string & {});
 export type StringMap = { [key: string]: string | undefined };
 export interface NonCompliantResource {
-  resourceType?: ResourceType;
-  resourceIdentifier?: ResourceIdentifier;
-  additionalInfo?: { [key: string]: string | undefined };
+  resourceType?: ResourceType | undefined;
+  resourceIdentifier?: ResourceIdentifier | undefined;
+  additionalInfo?: { [key: string]: string | undefined } | undefined;
 }
 export interface RelatedResource {
-  resourceType?: ResourceType;
-  resourceIdentifier?: ResourceIdentifier;
-  additionalInfo?: { [key: string]: string | undefined };
+  resourceType?: ResourceType | undefined;
+  resourceIdentifier?: ResourceIdentifier | undefined;
+  additionalInfo?: { [key: string]: string | undefined } | undefined;
 }
 export type RelatedResources = RelatedResource[];
 export type ReasonForNonCompliance = string;
 export type ReasonForNonComplianceCode = string;
 export type IsSuppressed = boolean;
 export interface AuditFinding {
-  findingId?: string;
-  taskId?: string;
-  checkName?: string;
-  taskStartTime?: Date;
-  findingTime?: Date;
-  severity?: AuditFindingSeverity;
-  nonCompliantResource?: NonCompliantResource;
-  relatedResources?: RelatedResource[];
-  reasonForNonCompliance?: string;
-  reasonForNonComplianceCode?: string;
-  isSuppressed?: boolean;
+  findingId?: string | undefined;
+  taskId?: string | undefined;
+  checkName?: string | undefined;
+  taskStartTime?: Date | undefined;
+  findingTime?: Date | undefined;
+  severity?: AuditFindingSeverity | undefined;
+  nonCompliantResource?: NonCompliantResource | undefined;
+  relatedResources?: RelatedResource[] | undefined;
+  reasonForNonCompliance?: string | undefined;
+  reasonForNonComplianceCode?: string | undefined;
+  isSuppressed?: boolean | undefined;
 }
 export interface DescribeAuditFindingResponse {
-  finding?: AuditFinding;
+  finding?: AuditFinding | undefined;
 }
 export interface DescribeAuditMitigationActionsTaskRequest {
   taskId: string;
@@ -2233,11 +2255,11 @@ export type SucceededFindingsCount = number;
 export type SkippedFindingsCount = number;
 export type CanceledFindingsCount = number;
 export interface TaskStatisticsForAuditCheck {
-  totalFindingsCount?: number;
-  failedFindingsCount?: number;
-  succeededFindingsCount?: number;
-  skippedFindingsCount?: number;
-  canceledFindingsCount?: number;
+  totalFindingsCount?: number | undefined;
+  failedFindingsCount?: number | undefined;
+  succeededFindingsCount?: number | undefined;
+  skippedFindingsCount?: number | undefined;
+  canceledFindingsCount?: number | undefined;
 }
 export type AuditMitigationActionsTaskStatistics = {
   [key: string]: TaskStatisticsForAuditCheck | undefined;
@@ -2246,38 +2268,38 @@ export type FindingIds = string[];
 export type ReasonForNonComplianceCodes = string[];
 export type AuditCheckToReasonCodeFilter = { [key: string]: string[] | undefined };
 export interface AuditMitigationActionsTaskTarget {
-  auditTaskId?: string;
-  findingIds?: string[];
-  auditCheckToReasonCodeFilter?: { [key: string]: string[] | undefined };
+  auditTaskId?: string | undefined;
+  findingIds?: string[] | undefined;
+  auditCheckToReasonCodeFilter?: { [key: string]: string[] | undefined } | undefined;
 }
 export type MitigationActionNameList = string[];
 export type AuditCheckToActionsMapping = { [key: string]: string[] | undefined };
 export interface MitigationAction {
-  name?: string;
-  id?: string;
-  roleArn?: string;
-  actionParams?: MitigationActionParams;
+  name?: string | undefined;
+  id?: string | undefined;
+  roleArn?: string | undefined;
+  actionParams?: MitigationActionParams | undefined;
 }
 export type MitigationActionList = MitigationAction[];
 export interface DescribeAuditMitigationActionsTaskResponse {
-  taskStatus?: AuditMitigationActionsTaskStatus;
-  startTime?: Date;
-  endTime?: Date;
-  taskStatistics?: { [key: string]: TaskStatisticsForAuditCheck | undefined };
-  target?: AuditMitigationActionsTaskTarget;
-  auditCheckToActionsMapping?: { [key: string]: string[] | undefined };
-  actionsDefinition?: MitigationAction[];
+  taskStatus?: AuditMitigationActionsTaskStatus | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  taskStatistics?: { [key: string]: TaskStatisticsForAuditCheck | undefined } | undefined;
+  target?: AuditMitigationActionsTaskTarget | undefined;
+  auditCheckToActionsMapping?: { [key: string]: string[] | undefined } | undefined;
+  actionsDefinition?: MitigationAction[] | undefined;
 }
 export interface DescribeAuditSuppressionRequest {
   checkName: string;
   resourceIdentifier: ResourceIdentifier;
 }
 export interface DescribeAuditSuppressionResponse {
-  checkName?: string;
-  resourceIdentifier?: ResourceIdentifier;
-  expirationDate?: Date;
-  suppressIndefinitely?: boolean;
-  description?: string;
+  checkName?: string | undefined;
+  resourceIdentifier?: ResourceIdentifier | undefined;
+  expirationDate?: Date | undefined;
+  suppressIndefinitely?: boolean | undefined;
+  description?: string | undefined;
 }
 export interface DescribeAuditTaskRequest {
   taskId: string;
@@ -2292,13 +2314,13 @@ export type NonCompliantChecksCount = number;
 export type FailedChecksCount = number;
 export type CanceledChecksCount = number;
 export interface TaskStatistics {
-  totalChecks?: number;
-  inProgressChecks?: number;
-  waitingForDataCollectionChecks?: number;
-  compliantChecks?: number;
-  nonCompliantChecks?: number;
-  failedChecks?: number;
-  canceledChecks?: number;
+  totalChecks?: number | undefined;
+  inProgressChecks?: number | undefined;
+  waitingForDataCollectionChecks?: number | undefined;
+  compliantChecks?: number | undefined;
+  nonCompliantChecks?: number | undefined;
+  failedChecks?: number | undefined;
+  canceledChecks?: number | undefined;
 }
 export type AuditCheckRunStatus =
   | "IN_PROGRESS"
@@ -2315,40 +2337,40 @@ export type SuppressedNonCompliantResourcesCount = number;
 export type ErrorCode = string;
 export type ErrorMessage = string;
 export interface AuditCheckDetails {
-  checkRunStatus?: AuditCheckRunStatus;
-  checkCompliant?: boolean;
-  totalResourcesCount?: number;
-  nonCompliantResourcesCount?: number;
-  suppressedNonCompliantResourcesCount?: number;
-  errorCode?: string;
-  message?: string;
+  checkRunStatus?: AuditCheckRunStatus | undefined;
+  checkCompliant?: boolean | undefined;
+  totalResourcesCount?: number | undefined;
+  nonCompliantResourcesCount?: number | undefined;
+  suppressedNonCompliantResourcesCount?: number | undefined;
+  errorCode?: string | undefined;
+  message?: string | undefined;
 }
 export type AuditDetails = { [key: string]: AuditCheckDetails | undefined };
 export interface DescribeAuditTaskResponse {
-  taskStatus?: AuditTaskStatus;
-  taskType?: AuditTaskType;
-  taskStartTime?: Date;
-  taskStatistics?: TaskStatistics;
-  scheduledAuditName?: string;
-  auditDetails?: { [key: string]: AuditCheckDetails | undefined };
+  taskStatus?: AuditTaskStatus | undefined;
+  taskType?: AuditTaskType | undefined;
+  taskStartTime?: Date | undefined;
+  taskStatistics?: TaskStatistics | undefined;
+  scheduledAuditName?: string | undefined;
+  auditDetails?: { [key: string]: AuditCheckDetails | undefined } | undefined;
 }
 export interface DescribeAuthorizerRequest {
   authorizerName: string;
 }
 export interface AuthorizerDescription {
-  authorizerName?: string;
-  authorizerArn?: string;
-  authorizerFunctionArn?: string;
-  tokenKeyName?: string;
-  tokenSigningPublicKeys?: { [key: string]: string | undefined };
-  status?: AuthorizerStatus;
-  creationDate?: Date;
-  lastModifiedDate?: Date;
-  signingDisabled?: boolean;
-  enableCachingForHttp?: boolean;
+  authorizerName?: string | undefined;
+  authorizerArn?: string | undefined;
+  authorizerFunctionArn?: string | undefined;
+  tokenKeyName?: string | undefined;
+  tokenSigningPublicKeys?: { [key: string]: string | undefined } | undefined;
+  status?: AuthorizerStatus | undefined;
+  creationDate?: Date | undefined;
+  lastModifiedDate?: Date | undefined;
+  signingDisabled?: boolean | undefined;
+  enableCachingForHttp?: boolean | undefined;
 }
 export interface DescribeAuthorizerResponse {
-  authorizerDescription?: AuthorizerDescription;
+  authorizerDescription?: AuthorizerDescription | undefined;
 }
 export interface DescribeBillingGroupRequest {
   billingGroupName: string;
@@ -2356,15 +2378,15 @@ export interface DescribeBillingGroupRequest {
 export type Version = number;
 export type CreationDate = Date;
 export interface BillingGroupMetadata {
-  creationDate?: Date;
+  creationDate?: Date | undefined;
 }
 export interface DescribeBillingGroupResponse {
-  billingGroupName?: string;
-  billingGroupId?: string;
-  billingGroupArn?: string;
-  version?: number;
-  billingGroupProperties?: BillingGroupProperties;
-  billingGroupMetadata?: BillingGroupMetadata;
+  billingGroupName?: string | undefined;
+  billingGroupId?: string | undefined;
+  billingGroupArn?: string | undefined;
+  version?: number | undefined;
+  billingGroupProperties?: BillingGroupProperties | undefined;
+  billingGroupMetadata?: BillingGroupMetadata | undefined;
 }
 export interface DescribeCACertificateRequest {
   certificateId: string;
@@ -2374,32 +2396,32 @@ export type AutoRegistrationStatus = "ENABLE" | "DISABLE" | (string & {});
 export type CustomerVersion = number;
 export type GenerationId = string;
 export interface CertificateValidity {
-  notBefore?: Date;
-  notAfter?: Date;
+  notBefore?: Date | undefined;
+  notAfter?: Date | undefined;
 }
 export type CertificateMode = "DEFAULT" | "SNI_ONLY" | (string & {});
 export interface CACertificateDescription {
-  certificateArn?: string;
-  certificateId?: string;
-  status?: CACertificateStatus;
-  certificatePem?: string;
-  ownedBy?: string;
-  creationDate?: Date;
-  autoRegistrationStatus?: AutoRegistrationStatus;
-  lastModifiedDate?: Date;
-  customerVersion?: number;
-  generationId?: string;
-  validity?: CertificateValidity;
-  certificateMode?: CertificateMode;
+  certificateArn?: string | undefined;
+  certificateId?: string | undefined;
+  status?: CACertificateStatus | undefined;
+  certificatePem?: string | undefined;
+  ownedBy?: string | undefined;
+  creationDate?: Date | undefined;
+  autoRegistrationStatus?: AutoRegistrationStatus | undefined;
+  lastModifiedDate?: Date | undefined;
+  customerVersion?: number | undefined;
+  generationId?: string | undefined;
+  validity?: CertificateValidity | undefined;
+  certificateMode?: CertificateMode | undefined;
 }
 export interface RegistrationConfig {
-  templateBody?: string;
-  roleArn?: string;
-  templateName?: string;
+  templateBody?: string | undefined;
+  roleArn?: string | undefined;
+  templateName?: string | undefined;
 }
 export interface DescribeCACertificateResponse {
-  certificateDescription?: CACertificateDescription;
-  registrationConfig?: RegistrationConfig;
+  certificateDescription?: CACertificateDescription | undefined;
+  registrationConfig?: RegistrationConfig | undefined;
 }
 export interface DescribeCertificateRequest {
   certificateId: string;
@@ -2414,56 +2436,56 @@ export type CertificateStatus =
   | (string & {});
 export type Message = string;
 export interface TransferData {
-  transferMessage?: string;
-  rejectReason?: string;
-  transferDate?: Date;
-  acceptDate?: Date;
-  rejectDate?: Date;
+  transferMessage?: string | undefined;
+  rejectReason?: string | undefined;
+  transferDate?: Date | undefined;
+  acceptDate?: Date | undefined;
+  rejectDate?: Date | undefined;
 }
 export interface CertificateDescription {
-  certificateArn?: string;
-  certificateId?: string;
-  caCertificateId?: string;
-  status?: CertificateStatus;
-  certificatePem?: string;
-  ownedBy?: string;
-  previousOwnedBy?: string;
-  creationDate?: Date;
-  lastModifiedDate?: Date;
-  customerVersion?: number;
-  transferData?: TransferData;
-  generationId?: string;
-  validity?: CertificateValidity;
-  certificateMode?: CertificateMode;
+  certificateArn?: string | undefined;
+  certificateId?: string | undefined;
+  caCertificateId?: string | undefined;
+  status?: CertificateStatus | undefined;
+  certificatePem?: string | undefined;
+  ownedBy?: string | undefined;
+  previousOwnedBy?: string | undefined;
+  creationDate?: Date | undefined;
+  lastModifiedDate?: Date | undefined;
+  customerVersion?: number | undefined;
+  transferData?: TransferData | undefined;
+  generationId?: string | undefined;
+  validity?: CertificateValidity | undefined;
+  certificateMode?: CertificateMode | undefined;
 }
 export interface DescribeCertificateResponse {
-  certificateDescription?: CertificateDescription;
+  certificateDescription?: CertificateDescription | undefined;
 }
 export interface DescribeCertificateProviderRequest {
   certificateProviderName: string;
 }
 export interface DescribeCertificateProviderResponse {
-  certificateProviderName?: string;
-  certificateProviderArn?: string;
-  lambdaFunctionArn?: string;
-  accountDefaultForOperations?: CertificateProviderOperation[];
-  creationDate?: Date;
-  lastModifiedDate?: Date;
+  certificateProviderName?: string | undefined;
+  certificateProviderArn?: string | undefined;
+  lambdaFunctionArn?: string | undefined;
+  accountDefaultForOperations?: CertificateProviderOperation[] | undefined;
+  creationDate?: Date | undefined;
+  lastModifiedDate?: Date | undefined;
 }
 export interface DescribeCustomMetricRequest {
   metricName: string;
 }
 export interface DescribeCustomMetricResponse {
-  metricName?: string;
-  metricArn?: string;
-  metricType?: CustomMetricType;
-  displayName?: string;
-  creationDate?: Date;
-  lastModifiedDate?: Date;
+  metricName?: string | undefined;
+  metricArn?: string | undefined;
+  metricType?: CustomMetricType | undefined;
+  displayName?: string | undefined;
+  creationDate?: Date | undefined;
+  lastModifiedDate?: Date | undefined;
 }
 export interface DescribeDefaultAuthorizerRequest {}
 export interface DescribeDefaultAuthorizerResponse {
-  authorizerDescription?: AuthorizerDescription;
+  authorizerDescription?: AuthorizerDescription | undefined;
 }
 export interface DescribeDetectMitigationActionsTaskRequest {
   taskId: string;
@@ -2477,9 +2499,9 @@ export type DetectMitigationActionsTaskStatus =
 export type ViolationId = string;
 export type TargetViolationIdsForDetectMitigationActions = string[];
 export interface DetectMitigationActionsTaskTarget {
-  violationIds?: string[];
-  securityProfileName?: string;
-  behaviorName?: string;
+  violationIds?: string[] | undefined;
+  securityProfileName?: string | undefined;
+  behaviorName?: string | undefined;
 }
 export interface ViolationEventOccurrenceRange {
   startTime: Date;
@@ -2488,35 +2510,35 @@ export interface ViolationEventOccurrenceRange {
 export type PrimitiveBoolean = boolean;
 export type GenericLongValue = number;
 export interface DetectMitigationActionsTaskStatistics {
-  actionsExecuted?: number;
-  actionsSkipped?: number;
-  actionsFailed?: number;
+  actionsExecuted?: number | undefined;
+  actionsSkipped?: number | undefined;
+  actionsFailed?: number | undefined;
 }
 export interface DetectMitigationActionsTaskSummary {
-  taskId?: string;
-  taskStatus?: DetectMitigationActionsTaskStatus;
-  taskStartTime?: Date;
-  taskEndTime?: Date;
-  target?: DetectMitigationActionsTaskTarget;
-  violationEventOccurrenceRange?: ViolationEventOccurrenceRange;
-  onlyActiveViolationsIncluded?: boolean;
-  suppressedAlertsIncluded?: boolean;
-  actionsDefinition?: MitigationAction[];
-  taskStatistics?: DetectMitigationActionsTaskStatistics;
+  taskId?: string | undefined;
+  taskStatus?: DetectMitigationActionsTaskStatus | undefined;
+  taskStartTime?: Date | undefined;
+  taskEndTime?: Date | undefined;
+  target?: DetectMitigationActionsTaskTarget | undefined;
+  violationEventOccurrenceRange?: ViolationEventOccurrenceRange | undefined;
+  onlyActiveViolationsIncluded?: boolean | undefined;
+  suppressedAlertsIncluded?: boolean | undefined;
+  actionsDefinition?: MitigationAction[] | undefined;
+  taskStatistics?: DetectMitigationActionsTaskStatistics | undefined;
 }
 export interface DescribeDetectMitigationActionsTaskResponse {
-  taskSummary?: DetectMitigationActionsTaskSummary;
+  taskSummary?: DetectMitigationActionsTaskSummary | undefined;
 }
 export interface DescribeDimensionRequest {
   name: string;
 }
 export interface DescribeDimensionResponse {
-  name?: string;
-  arn?: string;
-  type?: DimensionType;
-  stringValues?: string[];
-  creationDate?: Date;
-  lastModifiedDate?: Date;
+  name?: string | undefined;
+  arn?: string | undefined;
+  type?: DimensionType | undefined;
+  stringValues?: string[] | undefined;
+  creationDate?: Date | undefined;
+  lastModifiedDate?: Date | undefined;
 }
 export type ReservedDomainConfigurationName = string;
 export interface DescribeDomainConfigurationRequest {
@@ -2525,28 +2547,28 @@ export interface DescribeDomainConfigurationRequest {
 export type ServerCertificateStatus = "INVALID" | "VALID" | (string & {});
 export type ServerCertificateStatusDetail = string;
 export interface ServerCertificateSummary {
-  serverCertificateArn?: string;
-  serverCertificateStatus?: ServerCertificateStatus;
-  serverCertificateStatusDetail?: string;
+  serverCertificateArn?: string | undefined;
+  serverCertificateStatus?: ServerCertificateStatus | undefined;
+  serverCertificateStatusDetail?: string | undefined;
 }
 export type ServerCertificates = ServerCertificateSummary[];
 export type DomainConfigurationStatus = "ENABLED" | "DISABLED" | (string & {});
 export type DomainType = "ENDPOINT" | "AWS_MANAGED" | "CUSTOMER_MANAGED" | (string & {});
 export interface DescribeDomainConfigurationResponse {
-  domainConfigurationName?: string;
-  domainConfigurationArn?: string;
-  domainName?: string;
-  serverCertificates?: ServerCertificateSummary[];
-  authorizerConfig?: AuthorizerConfig;
-  domainConfigurationStatus?: DomainConfigurationStatus;
-  serviceType?: ServiceType;
-  domainType?: DomainType;
-  lastStatusChangeDate?: Date;
-  tlsConfig?: TlsConfig;
-  serverCertificateConfig?: ServerCertificateConfig;
-  authenticationType?: AuthenticationType;
-  applicationProtocol?: ApplicationProtocol;
-  clientCertificateConfig?: ClientCertificateConfig;
+  domainConfigurationName?: string | undefined;
+  domainConfigurationArn?: string | undefined;
+  domainName?: string | undefined;
+  serverCertificates?: ServerCertificateSummary[] | undefined;
+  authorizerConfig?: AuthorizerConfig | undefined;
+  domainConfigurationStatus?: DomainConfigurationStatus | undefined;
+  serviceType?: ServiceType | undefined;
+  domainType?: DomainType | undefined;
+  lastStatusChangeDate?: Date | undefined;
+  tlsConfig?: TlsConfig | undefined;
+  serverCertificateConfig?: ServerCertificateConfig | undefined;
+  authenticationType?: AuthenticationType | undefined;
+  applicationProtocol?: ApplicationProtocol | undefined;
+  clientCertificateConfig?: ClientCertificateConfig | undefined;
 }
 export interface DescribeEncryptionConfigurationRequest {}
 export type EncryptionType = "CUSTOMER_MANAGED_KMS_KEY" | "AWS_OWNED_KMS_KEY" | (string & {});
@@ -2554,24 +2576,24 @@ export type KmsKeyArn = string;
 export type KmsAccessRoleArn = string;
 export type ConfigurationStatus = "HEALTHY" | "UNHEALTHY" | (string & {});
 export interface ConfigurationDetails {
-  configurationStatus?: ConfigurationStatus;
-  errorCode?: string;
-  errorMessage?: string;
+  configurationStatus?: ConfigurationStatus | undefined;
+  errorCode?: string | undefined;
+  errorMessage?: string | undefined;
 }
 export interface DescribeEncryptionConfigurationResponse {
-  encryptionType?: EncryptionType;
-  kmsKeyArn?: string;
-  kmsAccessRoleArn?: string;
-  configurationDetails?: ConfigurationDetails;
-  lastModifiedDate?: Date;
+  encryptionType?: EncryptionType | undefined;
+  kmsKeyArn?: string | undefined;
+  kmsAccessRoleArn?: string | undefined;
+  configurationDetails?: ConfigurationDetails | undefined;
+  lastModifiedDate?: Date | undefined;
 }
 export type EndpointType = string;
 export interface DescribeEndpointRequest {
-  endpointType?: string;
+  endpointType?: string | undefined;
 }
 export type EndpointAddress = string;
 export interface DescribeEndpointResponse {
-  endpointAddress?: string;
+  endpointAddress?: string | undefined;
 }
 export interface DescribeEventConfigurationsRequest {}
 export type EventType =
@@ -2588,32 +2610,32 @@ export type EventType =
   | "CA_CERTIFICATE"
   | (string & {});
 export interface Configuration {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
-export type EventConfigurations = { [key in EventType]?: Configuration };
+export type EventConfigurations = { [key in EventType]?: Configuration | undefined };
 export type LastModifiedDate = Date;
 export interface DescribeEventConfigurationsResponse {
-  eventConfigurations?: { [key: string]: Configuration | undefined };
-  creationDate?: Date;
-  lastModifiedDate?: Date;
+  eventConfigurations?: { [key: string]: Configuration | undefined } | undefined;
+  creationDate?: Date | undefined;
+  lastModifiedDate?: Date | undefined;
 }
 export interface DescribeFleetMetricRequest {
   metricName: string;
 }
 export interface DescribeFleetMetricResponse {
-  metricName?: string;
-  queryString?: string;
-  aggregationType?: AggregationType;
-  period?: number;
-  aggregationField?: string;
-  description?: string;
-  queryVersion?: string;
-  indexName?: string;
-  creationDate?: Date;
-  lastModifiedDate?: Date;
-  unit?: FleetMetricUnit;
-  version?: number;
-  metricArn?: string;
+  metricName?: string | undefined;
+  queryString?: string | undefined;
+  aggregationType?: AggregationType | undefined;
+  period?: number | undefined;
+  aggregationField?: string | undefined;
+  description?: string | undefined;
+  queryVersion?: string | undefined;
+  indexName?: string | undefined;
+  creationDate?: Date | undefined;
+  lastModifiedDate?: Date | undefined;
+  unit?: FleetMetricUnit | undefined;
+  version?: number | undefined;
+  metricArn?: string | undefined;
 }
 export interface DescribeIndexRequest {
   indexName: string;
@@ -2621,14 +2643,14 @@ export interface DescribeIndexRequest {
 export type IndexStatus = "ACTIVE" | "BUILDING" | "REBUILDING" | (string & {});
 export type IndexSchema = string;
 export interface DescribeIndexResponse {
-  indexName?: string;
-  indexStatus?: IndexStatus;
-  schema?: string;
+  indexName?: string | undefined;
+  indexStatus?: IndexStatus | undefined;
+  schema?: string | undefined;
 }
 export type BeforeSubstitutionFlag = boolean;
 export interface DescribeJobRequest {
   jobId: string;
-  beforeSubstitution?: boolean;
+  beforeSubstitution?: boolean | undefined;
 }
 export type JobStatus =
   | "IN_PROGRESS"
@@ -2649,56 +2671,56 @@ export type InProgressThings = number;
 export type RemovedThings = number;
 export type TimedOutThings = number;
 export interface JobProcessDetails {
-  processingTargets?: string[];
-  numberOfCanceledThings?: number;
-  numberOfSucceededThings?: number;
-  numberOfFailedThings?: number;
-  numberOfRejectedThings?: number;
-  numberOfQueuedThings?: number;
-  numberOfInProgressThings?: number;
-  numberOfRemovedThings?: number;
-  numberOfTimedOutThings?: number;
+  processingTargets?: string[] | undefined;
+  numberOfCanceledThings?: number | undefined;
+  numberOfSucceededThings?: number | undefined;
+  numberOfFailedThings?: number | undefined;
+  numberOfRejectedThings?: number | undefined;
+  numberOfQueuedThings?: number | undefined;
+  numberOfInProgressThings?: number | undefined;
+  numberOfRemovedThings?: number | undefined;
+  numberOfTimedOutThings?: number | undefined;
 }
 export type BooleanWrapperObject = boolean;
 export interface ScheduledJobRollout {
-  startTime?: string;
+  startTime?: string | undefined;
 }
 export type ScheduledJobRolloutList = ScheduledJobRollout[];
 export interface Job {
-  jobArn?: string;
-  jobId?: string;
-  targetSelection?: TargetSelection;
-  status?: JobStatus;
-  forceCanceled?: boolean;
-  reasonCode?: string;
-  comment?: string;
-  targets?: string[];
-  description?: string;
-  presignedUrlConfig?: PresignedUrlConfig;
-  jobExecutionsRolloutConfig?: JobExecutionsRolloutConfig;
-  abortConfig?: AbortConfig;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  completedAt?: Date;
-  jobProcessDetails?: JobProcessDetails;
-  timeoutConfig?: TimeoutConfig;
-  namespaceId?: string;
-  jobTemplateArn?: string;
-  jobExecutionsRetryConfig?: JobExecutionsRetryConfig;
-  documentParameters?: { [key: string]: string | undefined };
-  isConcurrent?: boolean;
-  schedulingConfig?: SchedulingConfig;
-  scheduledJobRollouts?: ScheduledJobRollout[];
-  destinationPackageVersions?: string[];
+  jobArn?: string | undefined;
+  jobId?: string | undefined;
+  targetSelection?: TargetSelection | undefined;
+  status?: JobStatus | undefined;
+  forceCanceled?: boolean | undefined;
+  reasonCode?: string | undefined;
+  comment?: string | undefined;
+  targets?: string[] | undefined;
+  description?: string | undefined;
+  presignedUrlConfig?: PresignedUrlConfig | undefined;
+  jobExecutionsRolloutConfig?: JobExecutionsRolloutConfig | undefined;
+  abortConfig?: AbortConfig | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  completedAt?: Date | undefined;
+  jobProcessDetails?: JobProcessDetails | undefined;
+  timeoutConfig?: TimeoutConfig | undefined;
+  namespaceId?: string | undefined;
+  jobTemplateArn?: string | undefined;
+  jobExecutionsRetryConfig?: JobExecutionsRetryConfig | undefined;
+  documentParameters?: { [key: string]: string | undefined } | undefined;
+  isConcurrent?: boolean | undefined;
+  schedulingConfig?: SchedulingConfig | undefined;
+  scheduledJobRollouts?: ScheduledJobRollout[] | undefined;
+  destinationPackageVersions?: string[] | undefined;
 }
 export interface DescribeJobResponse {
-  documentSource?: string;
-  job?: Job;
+  documentSource?: string | undefined;
+  job?: Job | undefined;
 }
 export interface DescribeJobExecutionRequest {
   jobId: string;
   thingName: string;
-  executionNumber?: number;
+  executionNumber?: number | undefined;
 }
 export type JobExecutionStatus =
   | "QUEUED"
@@ -2711,49 +2733,49 @@ export type JobExecutionStatus =
   | "CANCELED"
   | (string & {});
 export interface JobExecutionStatusDetails {
-  detailsMap?: { [key: string]: string | undefined };
+  detailsMap?: { [key: string]: string | undefined } | undefined;
 }
 export type VersionNumber = number;
 export type ApproximateSecondsBeforeTimedOut = number;
 export interface JobExecution {
-  jobId?: string;
-  status?: JobExecutionStatus;
-  forceCanceled?: boolean;
-  statusDetails?: JobExecutionStatusDetails;
-  thingArn?: string;
-  queuedAt?: Date;
-  startedAt?: Date;
-  lastUpdatedAt?: Date;
-  executionNumber?: number;
-  versionNumber?: number;
-  approximateSecondsBeforeTimedOut?: number;
+  jobId?: string | undefined;
+  status?: JobExecutionStatus | undefined;
+  forceCanceled?: boolean | undefined;
+  statusDetails?: JobExecutionStatusDetails | undefined;
+  thingArn?: string | undefined;
+  queuedAt?: Date | undefined;
+  startedAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  executionNumber?: number | undefined;
+  versionNumber?: number | undefined;
+  approximateSecondsBeforeTimedOut?: number | undefined;
 }
 export interface DescribeJobExecutionResponse {
-  execution?: JobExecution;
+  execution?: JobExecution | undefined;
 }
 export interface DescribeJobTemplateRequest {
   jobTemplateId: string;
 }
 export interface DescribeJobTemplateResponse {
-  jobTemplateArn?: string;
-  jobTemplateId?: string;
-  description?: string;
-  documentSource?: string;
-  document?: string;
-  createdAt?: Date;
-  presignedUrlConfig?: PresignedUrlConfig;
-  jobExecutionsRolloutConfig?: JobExecutionsRolloutConfig;
-  abortConfig?: AbortConfig;
-  timeoutConfig?: TimeoutConfig;
-  jobExecutionsRetryConfig?: JobExecutionsRetryConfig;
-  maintenanceWindows?: MaintenanceWindow[];
-  destinationPackageVersions?: string[];
+  jobTemplateArn?: string | undefined;
+  jobTemplateId?: string | undefined;
+  description?: string | undefined;
+  documentSource?: string | undefined;
+  document?: string | undefined;
+  createdAt?: Date | undefined;
+  presignedUrlConfig?: PresignedUrlConfig | undefined;
+  jobExecutionsRolloutConfig?: JobExecutionsRolloutConfig | undefined;
+  abortConfig?: AbortConfig | undefined;
+  timeoutConfig?: TimeoutConfig | undefined;
+  jobExecutionsRetryConfig?: JobExecutionsRetryConfig | undefined;
+  maintenanceWindows?: MaintenanceWindow[] | undefined;
+  destinationPackageVersions?: string[] | undefined;
 }
 export type ManagedJobTemplateName = string;
 export type ManagedTemplateVersion = string;
 export interface DescribeManagedJobTemplateRequest {
   templateName: string;
-  templateVersion?: string;
+  templateVersion?: string | undefined;
 }
 export type Environment = string;
 export type Environments = string[];
@@ -2761,21 +2783,21 @@ export type Regex = string;
 export type Example = string;
 export type Optional = boolean;
 export interface DocumentParameter {
-  key?: string;
-  description?: string;
-  regex?: string;
-  example?: string;
-  optional?: boolean;
+  key?: string | undefined;
+  description?: string | undefined;
+  regex?: string | undefined;
+  example?: string | undefined;
+  optional?: boolean | undefined;
 }
 export type DocumentParameters = DocumentParameter[];
 export interface DescribeManagedJobTemplateResponse {
-  templateName?: string;
-  templateArn?: string;
-  description?: string;
-  templateVersion?: string;
-  environments?: string[];
-  documentParameters?: DocumentParameter[];
-  document?: string;
+  templateName?: string | undefined;
+  templateArn?: string | undefined;
+  description?: string | undefined;
+  templateVersion?: string | undefined;
+  environments?: string[] | undefined;
+  documentParameters?: DocumentParameter[] | undefined;
+  document?: string | undefined;
 }
 export interface DescribeMitigationActionRequest {
   actionName: string;
@@ -2789,137 +2811,137 @@ export type MitigationActionType =
   | "PUBLISH_FINDING_TO_SNS"
   | (string & {});
 export interface DescribeMitigationActionResponse {
-  actionName?: string;
-  actionType?: MitigationActionType;
-  actionArn?: string;
-  actionId?: string;
-  roleArn?: string;
-  actionParams?: MitigationActionParams;
-  creationDate?: Date;
-  lastModifiedDate?: Date;
+  actionName?: string | undefined;
+  actionType?: MitigationActionType | undefined;
+  actionArn?: string | undefined;
+  actionId?: string | undefined;
+  roleArn?: string | undefined;
+  actionParams?: MitigationActionParams | undefined;
+  creationDate?: Date | undefined;
+  lastModifiedDate?: Date | undefined;
 }
 export interface DescribeProvisioningTemplateRequest {
   templateName: string;
 }
 export interface DescribeProvisioningTemplateResponse {
-  templateArn?: string;
-  templateName?: string;
-  description?: string;
-  creationDate?: Date;
-  lastModifiedDate?: Date;
-  defaultVersionId?: number;
-  templateBody?: string;
-  enabled?: boolean;
-  provisioningRoleArn?: string;
-  preProvisioningHook?: ProvisioningHook;
-  type?: TemplateType;
+  templateArn?: string | undefined;
+  templateName?: string | undefined;
+  description?: string | undefined;
+  creationDate?: Date | undefined;
+  lastModifiedDate?: Date | undefined;
+  defaultVersionId?: number | undefined;
+  templateBody?: string | undefined;
+  enabled?: boolean | undefined;
+  provisioningRoleArn?: string | undefined;
+  preProvisioningHook?: ProvisioningHook | undefined;
+  type?: TemplateType | undefined;
 }
 export interface DescribeProvisioningTemplateVersionRequest {
   templateName: string;
   versionId: number;
 }
 export interface DescribeProvisioningTemplateVersionResponse {
-  versionId?: number;
-  creationDate?: Date;
-  templateBody?: string;
-  isDefaultVersion?: boolean;
+  versionId?: number | undefined;
+  creationDate?: Date | undefined;
+  templateBody?: string | undefined;
+  isDefaultVersion?: boolean | undefined;
 }
 export interface DescribeRoleAliasRequest {
   roleAlias: string;
 }
 export interface RoleAliasDescription {
-  roleAlias?: string;
-  roleAliasArn?: string;
-  roleArn?: string;
-  owner?: string;
-  credentialDurationSeconds?: number;
-  creationDate?: Date;
-  lastModifiedDate?: Date;
+  roleAlias?: string | undefined;
+  roleAliasArn?: string | undefined;
+  roleArn?: string | undefined;
+  owner?: string | undefined;
+  credentialDurationSeconds?: number | undefined;
+  creationDate?: Date | undefined;
+  lastModifiedDate?: Date | undefined;
 }
 export interface DescribeRoleAliasResponse {
-  roleAliasDescription?: RoleAliasDescription;
+  roleAliasDescription?: RoleAliasDescription | undefined;
 }
 export interface DescribeScheduledAuditRequest {
   scheduledAuditName: string;
 }
 export interface DescribeScheduledAuditResponse {
-  frequency?: AuditFrequency;
-  dayOfMonth?: string;
-  dayOfWeek?: DayOfWeek;
-  targetCheckNames?: string[];
-  scheduledAuditName?: string;
-  scheduledAuditArn?: string;
+  frequency?: AuditFrequency | undefined;
+  dayOfMonth?: string | undefined;
+  dayOfWeek?: DayOfWeek | undefined;
+  targetCheckNames?: string[] | undefined;
+  scheduledAuditName?: string | undefined;
+  scheduledAuditArn?: string | undefined;
 }
 export interface DescribeSecurityProfileRequest {
   securityProfileName: string;
 }
 export interface DescribeSecurityProfileResponse {
-  securityProfileName?: string;
-  securityProfileArn?: string;
-  securityProfileDescription?: string;
-  behaviors?: Behavior[];
-  alertTargets?: { [key: string]: AlertTarget | undefined };
-  additionalMetricsToRetain?: string[];
-  additionalMetricsToRetainV2?: MetricToRetain[];
-  version?: number;
-  creationDate?: Date;
-  lastModifiedDate?: Date;
-  metricsExportConfig?: MetricsExportConfig;
+  securityProfileName?: string | undefined;
+  securityProfileArn?: string | undefined;
+  securityProfileDescription?: string | undefined;
+  behaviors?: Behavior[] | undefined;
+  alertTargets?: { [key: string]: AlertTarget | undefined } | undefined;
+  additionalMetricsToRetain?: string[] | undefined;
+  additionalMetricsToRetainV2?: MetricToRetain[] | undefined;
+  version?: number | undefined;
+  creationDate?: Date | undefined;
+  lastModifiedDate?: Date | undefined;
+  metricsExportConfig?: MetricsExportConfig | undefined;
 }
 export interface DescribeStreamRequest {
   streamId: string;
 }
 export interface StreamInfo {
-  streamId?: string;
-  streamArn?: string;
-  streamVersion?: number;
-  description?: string;
-  files?: StreamFile[];
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  roleArn?: string;
+  streamId?: string | undefined;
+  streamArn?: string | undefined;
+  streamVersion?: number | undefined;
+  description?: string | undefined;
+  files?: StreamFile[] | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  roleArn?: string | undefined;
 }
 export interface DescribeStreamResponse {
-  streamInfo?: StreamInfo;
+  streamInfo?: StreamInfo | undefined;
 }
 export interface DescribeThingRequest {
   thingName: string;
 }
 export interface DescribeThingResponse {
-  defaultClientId?: string;
-  thingName?: string;
-  thingId?: string;
-  thingArn?: string;
-  thingTypeName?: string;
-  attributes?: { [key: string]: string | undefined };
-  version?: number;
-  billingGroupName?: string;
+  defaultClientId?: string | undefined;
+  thingName?: string | undefined;
+  thingId?: string | undefined;
+  thingArn?: string | undefined;
+  thingTypeName?: string | undefined;
+  attributes?: { [key: string]: string | undefined } | undefined;
+  version?: number | undefined;
+  billingGroupName?: string | undefined;
 }
 export interface DescribeThingGroupRequest {
   thingGroupName: string;
 }
 export interface GroupNameAndArn {
-  groupName?: string;
-  groupArn?: string;
+  groupName?: string | undefined;
+  groupArn?: string | undefined;
 }
 export type ThingGroupNameAndArnList = GroupNameAndArn[];
 export interface ThingGroupMetadata {
-  parentGroupName?: string;
-  rootToParentThingGroups?: GroupNameAndArn[];
-  creationDate?: Date;
+  parentGroupName?: string | undefined;
+  rootToParentThingGroups?: GroupNameAndArn[] | undefined;
+  creationDate?: Date | undefined;
 }
 export type DynamicGroupStatus = "ACTIVE" | "BUILDING" | "REBUILDING" | (string & {});
 export interface DescribeThingGroupResponse {
-  thingGroupName?: string;
-  thingGroupId?: string;
-  thingGroupArn?: string;
-  version?: number;
-  thingGroupProperties?: ThingGroupProperties;
-  thingGroupMetadata?: ThingGroupMetadata;
-  indexName?: string;
-  queryString?: string;
-  queryVersion?: string;
-  status?: DynamicGroupStatus;
+  thingGroupName?: string | undefined;
+  thingGroupId?: string | undefined;
+  thingGroupArn?: string | undefined;
+  version?: number | undefined;
+  thingGroupProperties?: ThingGroupProperties | undefined;
+  thingGroupMetadata?: ThingGroupMetadata | undefined;
+  indexName?: string | undefined;
+  queryString?: string | undefined;
+  queryVersion?: string | undefined;
+  status?: DynamicGroupStatus | undefined;
 }
 export type TaskId = string;
 export interface DescribeThingRegistrationTaskRequest {
@@ -2937,34 +2959,34 @@ export type Status =
 export type Count = number;
 export type Percentage = number;
 export interface DescribeThingRegistrationTaskResponse {
-  taskId?: string;
-  creationDate?: Date;
-  lastModifiedDate?: Date;
-  templateBody?: string;
-  inputFileBucket?: string;
-  inputFileKey?: string;
-  roleArn?: string;
-  status?: Status;
-  message?: string;
-  successCount?: number;
-  failureCount?: number;
-  percentageProgress?: number;
+  taskId?: string | undefined;
+  creationDate?: Date | undefined;
+  lastModifiedDate?: Date | undefined;
+  templateBody?: string | undefined;
+  inputFileBucket?: string | undefined;
+  inputFileKey?: string | undefined;
+  roleArn?: string | undefined;
+  status?: Status | undefined;
+  message?: string | undefined;
+  successCount?: number | undefined;
+  failureCount?: number | undefined;
+  percentageProgress?: number | undefined;
 }
 export interface DescribeThingTypeRequest {
   thingTypeName: string;
 }
 export type DeprecationDate = Date;
 export interface ThingTypeMetadata {
-  deprecated?: boolean;
-  deprecationDate?: Date;
-  creationDate?: Date;
+  deprecated?: boolean | undefined;
+  deprecationDate?: Date | undefined;
+  creationDate?: Date | undefined;
 }
 export interface DescribeThingTypeResponse {
-  thingTypeName?: string;
-  thingTypeId?: string;
-  thingTypeArn?: string;
-  thingTypeProperties?: ThingTypeProperties;
-  thingTypeMetadata?: ThingTypeMetadata;
+  thingTypeName?: string | undefined;
+  thingTypeId?: string | undefined;
+  thingTypeArn?: string | undefined;
+  thingTypeProperties?: ThingTypeProperties | undefined;
+  thingTypeMetadata?: ThingTypeMetadata | undefined;
 }
 export interface DetachPolicyRequest {
   policyName: string;
@@ -2993,7 +3015,7 @@ export interface DisableTopicRuleResponse {}
 export interface DisassociateSbomFromPackageVersionRequest {
   packageName: string;
   versionName: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DisassociateSbomFromPackageVersionResponse {}
 export interface EnableTopicRuleRequest {
@@ -3003,82 +3025,82 @@ export interface EnableTopicRuleResponse {}
 export type TinyMaxResults = number;
 export type NextToken = string;
 export interface GetBehaviorModelTrainingSummariesRequest {
-  securityProfileName?: string;
-  maxResults?: number;
-  nextToken?: string;
+  securityProfileName?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ModelStatus = "PENDING_BUILD" | "ACTIVE" | "EXPIRED" | (string & {});
 export type DataCollectionPercentage = number;
 export interface BehaviorModelTrainingSummary {
-  securityProfileName?: string;
-  behaviorName?: string;
-  trainingDataCollectionStartDate?: Date;
-  modelStatus?: ModelStatus;
-  datapointsCollectionPercentage?: number;
-  lastModelRefreshDate?: Date;
+  securityProfileName?: string | undefined;
+  behaviorName?: string | undefined;
+  trainingDataCollectionStartDate?: Date | undefined;
+  modelStatus?: ModelStatus | undefined;
+  datapointsCollectionPercentage?: number | undefined;
+  lastModelRefreshDate?: Date | undefined;
 }
 export type BehaviorModelTrainingSummaries = BehaviorModelTrainingSummary[];
 export interface GetBehaviorModelTrainingSummariesResponse {
-  summaries?: BehaviorModelTrainingSummary[];
-  nextToken?: string;
+  summaries?: BehaviorModelTrainingSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type MaxBuckets = number;
 export interface TermsAggregation {
-  maxBuckets?: number;
+  maxBuckets?: number | undefined;
 }
 export interface BucketsAggregationType {
-  termsAggregation?: TermsAggregation;
+  termsAggregation?: TermsAggregation | undefined;
 }
 export interface GetBucketsAggregationRequest {
-  indexName?: string;
+  indexName?: string | undefined;
   queryString: string;
   aggregationField: string;
-  queryVersion?: string;
+  queryVersion?: string | undefined;
   bucketsAggregationType: BucketsAggregationType;
 }
 export type BucketKeyValue = string;
 export interface Bucket {
-  keyValue?: string;
-  count?: number;
+  keyValue?: string | undefined;
+  count?: number | undefined;
 }
 export type Buckets = Bucket[];
 export interface GetBucketsAggregationResponse {
-  totalCount?: number;
-  buckets?: Bucket[];
+  totalCount?: number | undefined;
+  buckets?: Bucket[] | undefined;
 }
 export interface GetCardinalityRequest {
-  indexName?: string;
+  indexName?: string | undefined;
   queryString: string;
-  aggregationField?: string;
-  queryVersion?: string;
+  aggregationField?: string | undefined;
+  queryVersion?: string | undefined;
 }
 export interface GetCardinalityResponse {
-  cardinality?: number;
+  cardinality?: number | undefined;
 }
 export interface GetCommandRequest {
   commandId: string;
 }
 export type DeprecationFlag = boolean;
 export interface GetCommandResponse {
-  commandId?: string;
-  commandArn?: string;
-  namespace?: CommandNamespace;
-  displayName?: string;
-  description?: string;
-  mandatoryParameters?: CommandParameter[];
-  payload?: CommandPayload;
-  payloadTemplate?: string;
-  preprocessor?: CommandPreprocessor;
-  roleArn?: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  deprecated?: boolean;
-  pendingDeletion?: boolean;
+  commandId?: string | undefined;
+  commandArn?: string | undefined;
+  namespace?: CommandNamespace | undefined;
+  displayName?: string | undefined;
+  description?: string | undefined;
+  mandatoryParameters?: CommandParameter[] | undefined;
+  payload?: CommandPayload | undefined;
+  payloadTemplate?: string | undefined;
+  preprocessor?: CommandPreprocessor | undefined;
+  roleArn?: string | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  deprecated?: boolean | undefined;
+  pendingDeletion?: boolean | undefined;
 }
 export interface GetCommandExecutionRequest {
   executionId: string;
   targetArn: string;
-  includeResult?: boolean;
+  includeResult?: boolean | undefined;
 }
 export type CommandExecutionStatus =
   | "CREATED"
@@ -3092,48 +3114,48 @@ export type StatusReasonCode = string;
 export type StatusReasonDescription = string;
 export interface StatusReason {
   reasonCode: string;
-  reasonDescription?: string;
+  reasonDescription?: string | undefined;
 }
 export type CommandExecutionResultName = string;
 export type StringCommandExecutionResult = string;
 export type BooleanCommandExecutionResult = boolean;
 export type BinaryCommandExecutionResult = Uint8Array;
 export interface CommandExecutionResult {
-  S?: string;
-  B?: boolean;
-  BIN?: Uint8Array;
+  S?: string | undefined;
+  B?: boolean | undefined;
+  BIN?: Uint8Array | undefined;
 }
 export type CommandExecutionResultMap = { [key: string]: CommandExecutionResult | undefined };
 export type CommandExecutionParameterMap = { [key: string]: CommandParameterValue | undefined };
 export type CommandExecutionTimeoutInSeconds = number;
 export interface GetCommandExecutionResponse {
-  executionId?: string;
-  commandArn?: string;
-  targetArn?: string;
-  status?: CommandExecutionStatus;
-  statusReason?: StatusReason;
-  result?: { [key: string]: CommandExecutionResult | undefined };
-  parameters?: { [key: string]: CommandParameterValue | undefined };
-  executionTimeoutSeconds?: number;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  startedAt?: Date;
-  completedAt?: Date;
-  timeToLive?: Date;
+  executionId?: string | undefined;
+  commandArn?: string | undefined;
+  targetArn?: string | undefined;
+  status?: CommandExecutionStatus | undefined;
+  statusReason?: StatusReason | undefined;
+  result?: { [key: string]: CommandExecutionResult | undefined } | undefined;
+  parameters?: { [key: string]: CommandParameterValue | undefined } | undefined;
+  executionTimeoutSeconds?: number | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  startedAt?: Date | undefined;
+  completedAt?: Date | undefined;
+  timeToLive?: Date | undefined;
 }
 export interface GetEffectivePoliciesRequest {
-  principal?: string;
-  cognitoIdentityPoolId?: string;
-  thingName?: string;
+  principal?: string | undefined;
+  cognitoIdentityPoolId?: string | undefined;
+  thingName?: string | undefined;
 }
 export interface EffectivePolicy {
-  policyName?: string;
-  policyArn?: string;
-  policyDocument?: string;
+  policyName?: string | undefined;
+  policyArn?: string | undefined;
+  policyDocument?: string | undefined;
 }
 export type EffectivePolicies = EffectivePolicy[];
 export interface GetEffectivePoliciesResponse {
-  effectivePolicies?: EffectivePolicy[];
+  effectivePolicies?: EffectivePolicy[] | undefined;
 }
 export interface GetIndexingConfigurationRequest {}
 export type ThingIndexingMode = "OFF" | "REGISTRY" | "REGISTRY_AND_SHADOW" | (string & {});
@@ -3143,8 +3165,8 @@ export type NamedShadowIndexingMode = "OFF" | "ON" | (string & {});
 export type FieldName = string;
 export type FieldType = "Number" | "String" | "Boolean" | (string & {});
 export interface Field {
-  name?: string;
-  type?: FieldType;
+  name?: string | undefined;
+  type?: FieldType | undefined;
 }
 export type Fields = Field[];
 export type ShadowName = string;
@@ -3152,50 +3174,50 @@ export type NamedShadowNamesFilter = string[];
 export type TargetFieldName = string;
 export type TargetFieldOrder = "LatLon" | "LonLat" | (string & {});
 export interface GeoLocationTarget {
-  name?: string;
-  order?: TargetFieldOrder;
+  name?: string | undefined;
+  order?: TargetFieldOrder | undefined;
 }
 export type GeoLocationsFilter = GeoLocationTarget[];
 export type FleetIndexingApi = "GET_THING_CONNECTIVITY_DATA" | (string & {});
 export type FleetIndexingApiList = FleetIndexingApi[];
 export interface ConnectivityFilter {
-  includeSocketInformation?: FleetIndexingApi[];
+  includeSocketInformation?: FleetIndexingApi[] | undefined;
 }
 export interface IndexingFilter {
-  namedShadowNames?: string[];
-  geoLocations?: GeoLocationTarget[];
-  connectivity?: ConnectivityFilter;
+  namedShadowNames?: string[] | undefined;
+  geoLocations?: GeoLocationTarget[] | undefined;
+  connectivity?: ConnectivityFilter | undefined;
 }
 export interface ThingIndexingConfiguration {
   thingIndexingMode: ThingIndexingMode;
-  thingConnectivityIndexingMode?: ThingConnectivityIndexingMode;
-  deviceDefenderIndexingMode?: DeviceDefenderIndexingMode;
-  namedShadowIndexingMode?: NamedShadowIndexingMode;
-  managedFields?: Field[];
-  customFields?: Field[];
-  filter?: IndexingFilter;
+  thingConnectivityIndexingMode?: ThingConnectivityIndexingMode | undefined;
+  deviceDefenderIndexingMode?: DeviceDefenderIndexingMode | undefined;
+  namedShadowIndexingMode?: NamedShadowIndexingMode | undefined;
+  managedFields?: Field[] | undefined;
+  customFields?: Field[] | undefined;
+  filter?: IndexingFilter | undefined;
 }
 export type ThingGroupIndexingMode = "OFF" | "ON" | (string & {});
 export interface ThingGroupIndexingConfiguration {
   thingGroupIndexingMode: ThingGroupIndexingMode;
-  managedFields?: Field[];
-  customFields?: Field[];
+  managedFields?: Field[] | undefined;
+  customFields?: Field[] | undefined;
 }
 export interface GetIndexingConfigurationResponse {
-  thingIndexingConfiguration?: ThingIndexingConfiguration;
-  thingGroupIndexingConfiguration?: ThingGroupIndexingConfiguration;
+  thingIndexingConfiguration?: ThingIndexingConfiguration | undefined;
+  thingGroupIndexingConfiguration?: ThingGroupIndexingConfiguration | undefined;
 }
 export interface GetJobDocumentRequest {
   jobId: string;
-  beforeSubstitution?: boolean;
+  beforeSubstitution?: boolean | undefined;
 }
 export interface GetJobDocumentResponse {
-  document?: string;
+  document?: string | undefined;
 }
 export interface GetLoggingOptionsRequest {}
 export interface GetLoggingOptionsResponse {
-  roleArn?: string;
-  logLevel?: LogLevel;
+  roleArn?: string | undefined;
+  logLevel?: LogLevel | undefined;
 }
 export interface GetOTAUpdateRequest {
   otaUpdateId: string;
@@ -3203,123 +3225,123 @@ export interface GetOTAUpdateRequest {
 export type Code = string;
 export type OTAUpdateErrorMessage = string;
 export interface ErrorInfo {
-  code?: string;
-  message?: string;
+  code?: string | undefined;
+  message?: string | undefined;
 }
 export interface OTAUpdateInfo {
-  otaUpdateId?: string;
-  otaUpdateArn?: string;
-  creationDate?: Date;
-  lastModifiedDate?: Date;
-  description?: string;
-  targets?: string[];
-  protocols?: Protocol[];
-  awsJobExecutionsRolloutConfig?: AwsJobExecutionsRolloutConfig;
-  awsJobPresignedUrlConfig?: AwsJobPresignedUrlConfig;
-  targetSelection?: TargetSelection;
-  otaUpdateFiles?: OTAUpdateFile[];
-  otaUpdateStatus?: OTAUpdateStatus;
-  awsIotJobId?: string;
-  awsIotJobArn?: string;
-  errorInfo?: ErrorInfo;
-  additionalParameters?: { [key: string]: string | undefined };
+  otaUpdateId?: string | undefined;
+  otaUpdateArn?: string | undefined;
+  creationDate?: Date | undefined;
+  lastModifiedDate?: Date | undefined;
+  description?: string | undefined;
+  targets?: string[] | undefined;
+  protocols?: Protocol[] | undefined;
+  awsJobExecutionsRolloutConfig?: AwsJobExecutionsRolloutConfig | undefined;
+  awsJobPresignedUrlConfig?: AwsJobPresignedUrlConfig | undefined;
+  targetSelection?: TargetSelection | undefined;
+  otaUpdateFiles?: OTAUpdateFile[] | undefined;
+  otaUpdateStatus?: OTAUpdateStatus | undefined;
+  awsIotJobId?: string | undefined;
+  awsIotJobArn?: string | undefined;
+  errorInfo?: ErrorInfo | undefined;
+  additionalParameters?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetOTAUpdateResponse {
-  otaUpdateInfo?: OTAUpdateInfo;
+  otaUpdateInfo?: OTAUpdateInfo | undefined;
 }
 export interface GetPackageRequest {
   packageName: string;
 }
 export interface GetPackageResponse {
-  packageName?: string;
-  packageArn?: string;
-  description?: string | redacted.Redacted<string>;
-  defaultVersionName?: string;
-  creationDate?: Date;
-  lastModifiedDate?: Date;
+  packageName?: string | undefined;
+  packageArn?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  defaultVersionName?: string | undefined;
+  creationDate?: Date | undefined;
+  lastModifiedDate?: Date | undefined;
 }
 export interface GetPackageConfigurationRequest {}
 export type EnabledBoolean = boolean;
 export interface VersionUpdateByJobsConfig {
-  enabled?: boolean;
-  roleArn?: string;
+  enabled?: boolean | undefined;
+  roleArn?: string | undefined;
 }
 export interface GetPackageConfigurationResponse {
-  versionUpdateByJobsConfig?: VersionUpdateByJobsConfig;
+  versionUpdateByJobsConfig?: VersionUpdateByJobsConfig | undefined;
 }
 export interface GetPackageVersionRequest {
   packageName: string;
   versionName: string;
 }
 export interface GetPackageVersionResponse {
-  packageVersionArn?: string;
-  packageName?: string;
-  versionName?: string;
-  description?: string | redacted.Redacted<string>;
-  attributes?: { [key: string]: string | undefined };
-  artifact?: PackageVersionArtifact;
-  status?: PackageVersionStatus;
-  errorReason?: string;
-  creationDate?: Date;
-  lastModifiedDate?: Date;
-  sbom?: Sbom;
-  sbomValidationStatus?: SbomValidationStatus;
-  recipe?: string | redacted.Redacted<string>;
+  packageVersionArn?: string | undefined;
+  packageName?: string | undefined;
+  versionName?: string | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  attributes?: { [key: string]: string | undefined } | undefined;
+  artifact?: PackageVersionArtifact | undefined;
+  status?: PackageVersionStatus | undefined;
+  errorReason?: string | undefined;
+  creationDate?: Date | undefined;
+  lastModifiedDate?: Date | undefined;
+  sbom?: Sbom | undefined;
+  sbomValidationStatus?: SbomValidationStatus | undefined;
+  recipe?: string | redacted.Redacted<string> | undefined;
 }
 export type Percent = number;
 export type PercentList = number[];
 export interface GetPercentilesRequest {
-  indexName?: string;
+  indexName?: string | undefined;
   queryString: string;
-  aggregationField?: string;
-  queryVersion?: string;
-  percents?: number[];
+  aggregationField?: string | undefined;
+  queryVersion?: string | undefined;
+  percents?: number[] | undefined;
 }
 export type PercentValue = number;
 export interface PercentPair {
-  percent?: number;
-  value?: number;
+  percent?: number | undefined;
+  value?: number | undefined;
 }
 export type Percentiles = PercentPair[];
 export interface GetPercentilesResponse {
-  percentiles?: PercentPair[];
+  percentiles?: PercentPair[] | undefined;
 }
 export interface GetPolicyRequest {
   policyName: string;
 }
 export interface GetPolicyResponse {
-  policyName?: string;
-  policyArn?: string;
-  policyDocument?: string;
-  defaultVersionId?: string;
-  creationDate?: Date;
-  lastModifiedDate?: Date;
-  generationId?: string;
+  policyName?: string | undefined;
+  policyArn?: string | undefined;
+  policyDocument?: string | undefined;
+  defaultVersionId?: string | undefined;
+  creationDate?: Date | undefined;
+  lastModifiedDate?: Date | undefined;
+  generationId?: string | undefined;
 }
 export interface GetPolicyVersionRequest {
   policyName: string;
   policyVersionId: string;
 }
 export interface GetPolicyVersionResponse {
-  policyArn?: string;
-  policyName?: string;
-  policyDocument?: string;
-  policyVersionId?: string;
-  isDefaultVersion?: boolean;
-  creationDate?: Date;
-  lastModifiedDate?: Date;
-  generationId?: string;
+  policyArn?: string | undefined;
+  policyName?: string | undefined;
+  policyDocument?: string | undefined;
+  policyVersionId?: string | undefined;
+  isDefaultVersion?: boolean | undefined;
+  creationDate?: Date | undefined;
+  lastModifiedDate?: Date | undefined;
+  generationId?: string | undefined;
 }
 export interface GetRegistrationCodeRequest {}
 export type RegistrationCode = string;
 export interface GetRegistrationCodeResponse {
-  registrationCode?: string;
+  registrationCode?: string | undefined;
 }
 export interface GetStatisticsRequest {
-  indexName?: string;
+  indexName?: string | undefined;
   queryString: string;
-  aggregationField?: string;
-  queryVersion?: string;
+  aggregationField?: string | undefined;
+  queryVersion?: string | undefined;
 }
 export type Average = number;
 export type Sum = number;
@@ -3329,22 +3351,22 @@ export type SumOfSquares = number;
 export type Variance = number;
 export type StdDeviation = number;
 export interface Statistics {
-  count?: number;
-  average?: number;
-  sum?: number;
-  minimum?: number;
-  maximum?: number;
-  sumOfSquares?: number;
-  variance?: number;
-  stdDeviation?: number;
+  count?: number | undefined;
+  average?: number | undefined;
+  sum?: number | undefined;
+  minimum?: number | undefined;
+  maximum?: number | undefined;
+  sumOfSquares?: number | undefined;
+  variance?: number | undefined;
+  stdDeviation?: number | undefined;
 }
 export interface GetStatisticsResponse {
-  statistics?: Statistics;
+  statistics?: Statistics | undefined;
 }
 export type ConnectivityApiThingName = string | redacted.Redacted<string>;
 export interface GetThingConnectivityDataRequest {
   thingName: string | redacted.Redacted<string>;
-  includeSocketInformation?: boolean;
+  includeSocketInformation?: boolean | undefined;
 }
 export type DisconnectReasonValue =
   | "AUTH_ERROR"
@@ -3371,62 +3393,62 @@ export type VpcEndpointId = string | redacted.Redacted<string>;
 export type KeepAliveDuration = number;
 export type SessionExpiry = number;
 export interface GetThingConnectivityDataResponse {
-  thingName?: string | redacted.Redacted<string>;
-  connected?: boolean;
-  timestamp?: Date;
-  disconnectReason?: DisconnectReasonValue;
-  sourceIp?: string | redacted.Redacted<string>;
-  sourcePort?: number;
-  targetIp?: string | redacted.Redacted<string>;
-  targetPort?: number;
-  vpcEndpointId?: string | redacted.Redacted<string>;
-  keepAliveDuration?: number;
-  cleanSession?: boolean;
-  sessionExpiry?: number;
-  clientId?: string;
+  thingName?: string | redacted.Redacted<string> | undefined;
+  connected?: boolean | undefined;
+  timestamp?: Date | undefined;
+  disconnectReason?: DisconnectReasonValue | undefined;
+  sourceIp?: string | redacted.Redacted<string> | undefined;
+  sourcePort?: number | undefined;
+  targetIp?: string | redacted.Redacted<string> | undefined;
+  targetPort?: number | undefined;
+  vpcEndpointId?: string | redacted.Redacted<string> | undefined;
+  keepAliveDuration?: number | undefined;
+  cleanSession?: boolean | undefined;
+  sessionExpiry?: number | undefined;
+  clientId?: string | undefined;
 }
 export interface GetTopicRuleRequest {
   ruleName: string;
 }
 export type RuleArn = string;
 export interface TopicRule {
-  ruleName?: string;
-  sql?: string;
-  description?: string;
-  createdAt?: Date;
-  actions?: Action[];
-  ruleDisabled?: boolean;
-  awsIotSqlVersion?: string;
-  errorAction?: Action;
+  ruleName?: string | undefined;
+  sql?: string | undefined;
+  description?: string | undefined;
+  createdAt?: Date | undefined;
+  actions?: Action[] | undefined;
+  ruleDisabled?: boolean | undefined;
+  awsIotSqlVersion?: string | undefined;
+  errorAction?: Action | undefined;
 }
 export interface GetTopicRuleResponse {
-  ruleArn?: string;
-  rule?: TopicRule;
+  ruleArn?: string | undefined;
+  rule?: TopicRule | undefined;
 }
 export interface GetTopicRuleDestinationRequest {
   arn: string;
 }
 export interface GetTopicRuleDestinationResponse {
-  topicRuleDestination?: TopicRuleDestination;
+  topicRuleDestination?: TopicRuleDestination | undefined;
 }
 export type VerboseFlag = boolean;
 export interface GetV2LoggingOptionsRequest {
-  verbose?: boolean;
+  verbose?: boolean | undefined;
 }
 export type DisableAllLogs = boolean;
 export type LogEventType = string;
 export type LogDestination = string;
 export interface LogEventConfiguration {
   eventType: string;
-  logLevel?: LogLevel;
-  logDestination?: string;
+  logLevel?: LogLevel | undefined;
+  logDestination?: string | undefined;
 }
 export type LogEventConfigurations = LogEventConfiguration[];
 export interface GetV2LoggingOptionsResponse {
-  roleArn?: string;
-  defaultLogLevel?: LogLevel;
-  disableAllLogs?: boolean;
-  eventConfigurations?: LogEventConfiguration[];
+  roleArn?: string | undefined;
+  defaultLogLevel?: LogLevel | undefined;
+  disableAllLogs?: boolean | undefined;
+  eventConfigurations?: LogEventConfiguration[] | undefined;
 }
 export type DeviceDefenderThingName = string;
 export type BehaviorCriteriaType = "STATIC" | "STATISTICAL" | "MACHINE_LEARNING" | (string & {});
@@ -3439,68 +3461,68 @@ export type VerificationState =
   | (string & {});
 export type MaxResults = number;
 export interface ListActiveViolationsRequest {
-  thingName?: string;
-  securityProfileName?: string;
-  behaviorCriteriaType?: BehaviorCriteriaType;
-  listSuppressedAlerts?: boolean;
-  verificationState?: VerificationState;
-  nextToken?: string;
-  maxResults?: number;
+  thingName?: string | undefined;
+  securityProfileName?: string | undefined;
+  behaviorCriteriaType?: BehaviorCriteriaType | undefined;
+  listSuppressedAlerts?: boolean | undefined;
+  verificationState?: VerificationState | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ViolationEventAdditionalInfo {
-  confidenceLevel?: ConfidenceLevel;
+  confidenceLevel?: ConfidenceLevel | undefined;
 }
 export type VerificationStateDescription = string;
 export interface ActiveViolation {
-  violationId?: string;
-  thingName?: string;
-  securityProfileName?: string;
-  behavior?: Behavior;
-  lastViolationValue?: MetricValue;
-  violationEventAdditionalInfo?: ViolationEventAdditionalInfo;
-  verificationState?: VerificationState;
-  verificationStateDescription?: string;
-  lastViolationTime?: Date;
-  violationStartTime?: Date;
+  violationId?: string | undefined;
+  thingName?: string | undefined;
+  securityProfileName?: string | undefined;
+  behavior?: Behavior | undefined;
+  lastViolationValue?: MetricValue | undefined;
+  violationEventAdditionalInfo?: ViolationEventAdditionalInfo | undefined;
+  verificationState?: VerificationState | undefined;
+  verificationStateDescription?: string | undefined;
+  lastViolationTime?: Date | undefined;
+  violationStartTime?: Date | undefined;
 }
 export type ActiveViolations = ActiveViolation[];
 export interface ListActiveViolationsResponse {
-  activeViolations?: ActiveViolation[];
-  nextToken?: string;
+  activeViolations?: ActiveViolation[] | undefined;
+  nextToken?: string | undefined;
 }
 export type Recursive = boolean;
 export type Marker = string;
 export type PageSize = number;
 export interface ListAttachedPoliciesRequest {
   target: string;
-  recursive?: boolean;
-  marker?: string;
-  pageSize?: number;
+  recursive?: boolean | undefined;
+  marker?: string | undefined;
+  pageSize?: number | undefined;
 }
 export interface Policy {
-  policyName?: string;
-  policyArn?: string;
+  policyName?: string | undefined;
+  policyArn?: string | undefined;
 }
 export type Policies = Policy[];
 export interface ListAttachedPoliciesResponse {
-  policies?: Policy[];
-  nextMarker?: string;
+  policies?: Policy[] | undefined;
+  nextMarker?: string | undefined;
 }
 export type ListSuppressedFindings = boolean;
 export interface ListAuditFindingsRequest {
-  taskId?: string;
-  checkName?: string;
-  resourceIdentifier?: ResourceIdentifier;
-  maxResults?: number;
-  nextToken?: string;
-  startTime?: Date;
-  endTime?: Date;
-  listSuppressedFindings?: boolean;
+  taskId?: string | undefined;
+  checkName?: string | undefined;
+  resourceIdentifier?: ResourceIdentifier | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  listSuppressedFindings?: boolean | undefined;
 }
 export type AuditFindings = AuditFinding[];
 export interface ListAuditFindingsResponse {
-  findings?: AuditFinding[];
-  nextToken?: string;
+  findings?: AuditFinding[] | undefined;
+  nextToken?: string | undefined;
 }
 export type AuditMitigationActionsExecutionStatus =
   | "IN_PROGRESS"
@@ -3512,236 +3534,236 @@ export type AuditMitigationActionsExecutionStatus =
   | (string & {});
 export interface ListAuditMitigationActionsExecutionsRequest {
   taskId: string;
-  actionStatus?: AuditMitigationActionsExecutionStatus;
+  actionStatus?: AuditMitigationActionsExecutionStatus | undefined;
   findingId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AuditMitigationActionExecutionMetadata {
-  taskId?: string;
-  findingId?: string;
-  actionName?: string;
-  actionId?: string;
-  status?: AuditMitigationActionsExecutionStatus;
-  startTime?: Date;
-  endTime?: Date;
-  errorCode?: string;
-  message?: string;
+  taskId?: string | undefined;
+  findingId?: string | undefined;
+  actionName?: string | undefined;
+  actionId?: string | undefined;
+  status?: AuditMitigationActionsExecutionStatus | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  errorCode?: string | undefined;
+  message?: string | undefined;
 }
 export type AuditMitigationActionExecutionMetadataList = AuditMitigationActionExecutionMetadata[];
 export interface ListAuditMitigationActionsExecutionsResponse {
-  actionsExecutions?: AuditMitigationActionExecutionMetadata[];
-  nextToken?: string;
+  actionsExecutions?: AuditMitigationActionExecutionMetadata[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAuditMitigationActionsTasksRequest {
-  auditTaskId?: string;
-  findingId?: string;
-  taskStatus?: AuditMitigationActionsTaskStatus;
-  maxResults?: number;
-  nextToken?: string;
+  auditTaskId?: string | undefined;
+  findingId?: string | undefined;
+  taskStatus?: AuditMitigationActionsTaskStatus | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   startTime: Date;
   endTime: Date;
 }
 export interface AuditMitigationActionsTaskMetadata {
-  taskId?: string;
-  startTime?: Date;
-  taskStatus?: AuditMitigationActionsTaskStatus;
+  taskId?: string | undefined;
+  startTime?: Date | undefined;
+  taskStatus?: AuditMitigationActionsTaskStatus | undefined;
 }
 export type AuditMitigationActionsTaskMetadataList = AuditMitigationActionsTaskMetadata[];
 export interface ListAuditMitigationActionsTasksResponse {
-  tasks?: AuditMitigationActionsTaskMetadata[];
-  nextToken?: string;
+  tasks?: AuditMitigationActionsTaskMetadata[] | undefined;
+  nextToken?: string | undefined;
 }
 export type AscendingOrder = boolean;
 export interface ListAuditSuppressionsRequest {
-  checkName?: string;
-  resourceIdentifier?: ResourceIdentifier;
-  ascendingOrder?: boolean;
-  nextToken?: string;
-  maxResults?: number;
+  checkName?: string | undefined;
+  resourceIdentifier?: ResourceIdentifier | undefined;
+  ascendingOrder?: boolean | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AuditSuppression {
   checkName: string;
   resourceIdentifier: ResourceIdentifier;
-  expirationDate?: Date;
-  suppressIndefinitely?: boolean;
-  description?: string;
+  expirationDate?: Date | undefined;
+  suppressIndefinitely?: boolean | undefined;
+  description?: string | undefined;
 }
 export type AuditSuppressionList = AuditSuppression[];
 export interface ListAuditSuppressionsResponse {
-  suppressions?: AuditSuppression[];
-  nextToken?: string;
+  suppressions?: AuditSuppression[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAuditTasksRequest {
   startTime: Date;
   endTime: Date;
-  taskType?: AuditTaskType;
-  taskStatus?: AuditTaskStatus;
-  nextToken?: string;
-  maxResults?: number;
+  taskType?: AuditTaskType | undefined;
+  taskStatus?: AuditTaskStatus | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AuditTaskMetadata {
-  taskId?: string;
-  taskStatus?: AuditTaskStatus;
-  taskType?: AuditTaskType;
+  taskId?: string | undefined;
+  taskStatus?: AuditTaskStatus | undefined;
+  taskType?: AuditTaskType | undefined;
 }
 export type AuditTaskMetadataList = AuditTaskMetadata[];
 export interface ListAuditTasksResponse {
-  tasks?: AuditTaskMetadata[];
-  nextToken?: string;
+  tasks?: AuditTaskMetadata[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAuthorizersRequest {
-  pageSize?: number;
-  marker?: string;
-  ascendingOrder?: boolean;
-  status?: AuthorizerStatus;
+  pageSize?: number | undefined;
+  marker?: string | undefined;
+  ascendingOrder?: boolean | undefined;
+  status?: AuthorizerStatus | undefined;
 }
 export interface AuthorizerSummary {
-  authorizerName?: string;
-  authorizerArn?: string;
+  authorizerName?: string | undefined;
+  authorizerArn?: string | undefined;
 }
 export type Authorizers = AuthorizerSummary[];
 export interface ListAuthorizersResponse {
-  authorizers?: AuthorizerSummary[];
-  nextMarker?: string;
+  authorizers?: AuthorizerSummary[] | undefined;
+  nextMarker?: string | undefined;
 }
 export type RegistryMaxResults = number;
 export interface ListBillingGroupsRequest {
-  nextToken?: string;
-  maxResults?: number;
-  namePrefixFilter?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  namePrefixFilter?: string | undefined;
 }
 export type BillingGroupNameAndArnList = GroupNameAndArn[];
 export interface ListBillingGroupsResponse {
-  billingGroups?: GroupNameAndArn[];
-  nextToken?: string;
+  billingGroups?: GroupNameAndArn[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListCACertificatesRequest {
-  pageSize?: number;
-  marker?: string;
-  ascendingOrder?: boolean;
-  templateName?: string;
+  pageSize?: number | undefined;
+  marker?: string | undefined;
+  ascendingOrder?: boolean | undefined;
+  templateName?: string | undefined;
 }
 export interface CACertificate {
-  certificateArn?: string;
-  certificateId?: string;
-  status?: CACertificateStatus;
-  creationDate?: Date;
+  certificateArn?: string | undefined;
+  certificateId?: string | undefined;
+  status?: CACertificateStatus | undefined;
+  creationDate?: Date | undefined;
 }
 export type CACertificates = CACertificate[];
 export interface ListCACertificatesResponse {
-  certificates?: CACertificate[];
-  nextMarker?: string;
+  certificates?: CACertificate[] | undefined;
+  nextMarker?: string | undefined;
 }
 export interface ListCertificateProvidersRequest {
-  nextToken?: string;
-  ascendingOrder?: boolean;
+  nextToken?: string | undefined;
+  ascendingOrder?: boolean | undefined;
 }
 export interface CertificateProviderSummary {
-  certificateProviderName?: string;
-  certificateProviderArn?: string;
+  certificateProviderName?: string | undefined;
+  certificateProviderArn?: string | undefined;
 }
 export type CertificateProviders = CertificateProviderSummary[];
 export interface ListCertificateProvidersResponse {
-  certificateProviders?: CertificateProviderSummary[];
-  nextToken?: string;
+  certificateProviders?: CertificateProviderSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListCertificatesRequest {
-  pageSize?: number;
-  marker?: string;
-  ascendingOrder?: boolean;
+  pageSize?: number | undefined;
+  marker?: string | undefined;
+  ascendingOrder?: boolean | undefined;
 }
 export interface Certificate {
-  certificateArn?: string;
-  certificateId?: string;
-  status?: CertificateStatus;
-  certificateMode?: CertificateMode;
-  creationDate?: Date;
+  certificateArn?: string | undefined;
+  certificateId?: string | undefined;
+  status?: CertificateStatus | undefined;
+  certificateMode?: CertificateMode | undefined;
+  creationDate?: Date | undefined;
 }
 export type Certificates = Certificate[];
 export interface ListCertificatesResponse {
-  certificates?: Certificate[];
-  nextMarker?: string;
+  certificates?: Certificate[] | undefined;
+  nextMarker?: string | undefined;
 }
 export interface ListCertificatesByCARequest {
   caCertificateId: string;
-  pageSize?: number;
-  marker?: string;
-  ascendingOrder?: boolean;
+  pageSize?: number | undefined;
+  marker?: string | undefined;
+  ascendingOrder?: boolean | undefined;
 }
 export interface ListCertificatesByCAResponse {
-  certificates?: Certificate[];
-  nextMarker?: string;
+  certificates?: Certificate[] | undefined;
+  nextMarker?: string | undefined;
 }
 export type CommandMaxResults = number;
 export type SortOrder = "ASCENDING" | "DESCENDING" | (string & {});
 export interface TimeFilter {
-  after?: string;
-  before?: string;
+  after?: string | undefined;
+  before?: string | undefined;
 }
 export interface ListCommandExecutionsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  namespace?: CommandNamespace;
-  status?: CommandExecutionStatus;
-  sortOrder?: SortOrder;
-  startedTimeFilter?: TimeFilter;
-  completedTimeFilter?: TimeFilter;
-  targetArn?: string;
-  commandArn?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  namespace?: CommandNamespace | undefined;
+  status?: CommandExecutionStatus | undefined;
+  sortOrder?: SortOrder | undefined;
+  startedTimeFilter?: TimeFilter | undefined;
+  completedTimeFilter?: TimeFilter | undefined;
+  targetArn?: string | undefined;
+  commandArn?: string | undefined;
 }
 export interface CommandExecutionSummary {
-  commandArn?: string;
-  executionId?: string;
-  targetArn?: string;
-  status?: CommandExecutionStatus;
-  createdAt?: Date;
-  startedAt?: Date;
-  completedAt?: Date;
+  commandArn?: string | undefined;
+  executionId?: string | undefined;
+  targetArn?: string | undefined;
+  status?: CommandExecutionStatus | undefined;
+  createdAt?: Date | undefined;
+  startedAt?: Date | undefined;
+  completedAt?: Date | undefined;
 }
 export type CommandExecutionSummaryList = CommandExecutionSummary[];
 export interface ListCommandExecutionsResponse {
-  commandExecutions?: CommandExecutionSummary[];
-  nextToken?: string;
+  commandExecutions?: CommandExecutionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListCommandsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  namespace?: CommandNamespace;
-  commandParameterName?: string;
-  sortOrder?: SortOrder;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  namespace?: CommandNamespace | undefined;
+  commandParameterName?: string | undefined;
+  sortOrder?: SortOrder | undefined;
 }
 export interface CommandSummary {
-  commandArn?: string;
-  commandId?: string;
-  displayName?: string;
-  deprecated?: boolean;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  pendingDeletion?: boolean;
+  commandArn?: string | undefined;
+  commandId?: string | undefined;
+  displayName?: string | undefined;
+  deprecated?: boolean | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  pendingDeletion?: boolean | undefined;
 }
 export type CommandSummaryList = CommandSummary[];
 export interface ListCommandsResponse {
-  commands?: CommandSummary[];
-  nextToken?: string;
+  commands?: CommandSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListCustomMetricsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type MetricNames = string[];
 export interface ListCustomMetricsResponse {
-  metricNames?: string[];
-  nextToken?: string;
+  metricNames?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDetectMitigationActionsExecutionsRequest {
-  taskId?: string;
-  violationId?: string;
-  thingName?: string;
-  startTime?: Date;
-  endTime?: Date;
-  maxResults?: number;
-  nextToken?: string;
+  taskId?: string | undefined;
+  violationId?: string | undefined;
+  thingName?: string | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type DetectMitigationActionExecutionStatus =
   | "IN_PROGRESS"
@@ -3751,406 +3773,406 @@ export type DetectMitigationActionExecutionStatus =
   | (string & {});
 export type DetectMitigationActionExecutionErrorCode = string;
 export interface DetectMitigationActionExecution {
-  taskId?: string;
-  violationId?: string;
-  actionName?: string;
-  thingName?: string;
-  executionStartDate?: Date;
-  executionEndDate?: Date;
-  status?: DetectMitigationActionExecutionStatus;
-  errorCode?: string;
-  message?: string;
+  taskId?: string | undefined;
+  violationId?: string | undefined;
+  actionName?: string | undefined;
+  thingName?: string | undefined;
+  executionStartDate?: Date | undefined;
+  executionEndDate?: Date | undefined;
+  status?: DetectMitigationActionExecutionStatus | undefined;
+  errorCode?: string | undefined;
+  message?: string | undefined;
 }
 export type DetectMitigationActionExecutionList = DetectMitigationActionExecution[];
 export interface ListDetectMitigationActionsExecutionsResponse {
-  actionsExecutions?: DetectMitigationActionExecution[];
-  nextToken?: string;
+  actionsExecutions?: DetectMitigationActionExecution[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDetectMitigationActionsTasksRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   startTime: Date;
   endTime: Date;
 }
 export type DetectMitigationActionsTaskSummaryList = DetectMitigationActionsTaskSummary[];
 export interface ListDetectMitigationActionsTasksResponse {
-  tasks?: DetectMitigationActionsTaskSummary[];
-  nextToken?: string;
+  tasks?: DetectMitigationActionsTaskSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDimensionsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type DimensionNames = string[];
 export interface ListDimensionsResponse {
-  dimensionNames?: string[];
-  nextToken?: string;
+  dimensionNames?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDomainConfigurationsRequest {
-  marker?: string;
-  pageSize?: number;
-  serviceType?: ServiceType;
+  marker?: string | undefined;
+  pageSize?: number | undefined;
+  serviceType?: ServiceType | undefined;
 }
 export interface DomainConfigurationSummary {
-  domainConfigurationName?: string;
-  domainConfigurationArn?: string;
-  serviceType?: ServiceType;
+  domainConfigurationName?: string | undefined;
+  domainConfigurationArn?: string | undefined;
+  serviceType?: ServiceType | undefined;
 }
 export type DomainConfigurations = DomainConfigurationSummary[];
 export interface ListDomainConfigurationsResponse {
-  domainConfigurations?: DomainConfigurationSummary[];
-  nextMarker?: string;
+  domainConfigurations?: DomainConfigurationSummary[] | undefined;
+  nextMarker?: string | undefined;
 }
 export interface ListFleetMetricsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface FleetMetricNameAndArn {
-  metricName?: string;
-  metricArn?: string;
+  metricName?: string | undefined;
+  metricArn?: string | undefined;
 }
 export type FleetMetricNameAndArnList = FleetMetricNameAndArn[];
 export interface ListFleetMetricsResponse {
-  fleetMetrics?: FleetMetricNameAndArn[];
-  nextToken?: string;
+  fleetMetrics?: FleetMetricNameAndArn[] | undefined;
+  nextToken?: string | undefined;
 }
 export type QueryMaxResults = number;
 export interface ListIndicesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type IndexNamesList = string[];
 export interface ListIndicesResponse {
-  indexNames?: string[];
-  nextToken?: string;
+  indexNames?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export type LaserMaxResults = number;
 export interface ListJobExecutionsForJobRequest {
   jobId: string;
-  status?: JobExecutionStatus;
-  maxResults?: number;
-  nextToken?: string;
+  status?: JobExecutionStatus | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type RetryAttempt = number;
 export interface JobExecutionSummary {
-  status?: JobExecutionStatus;
-  queuedAt?: Date;
-  startedAt?: Date;
-  lastUpdatedAt?: Date;
-  executionNumber?: number;
-  retryAttempt?: number;
+  status?: JobExecutionStatus | undefined;
+  queuedAt?: Date | undefined;
+  startedAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  executionNumber?: number | undefined;
+  retryAttempt?: number | undefined;
 }
 export interface JobExecutionSummaryForJob {
-  thingArn?: string;
-  jobExecutionSummary?: JobExecutionSummary;
+  thingArn?: string | undefined;
+  jobExecutionSummary?: JobExecutionSummary | undefined;
 }
 export type JobExecutionSummaryForJobList = JobExecutionSummaryForJob[];
 export interface ListJobExecutionsForJobResponse {
-  executionSummaries?: JobExecutionSummaryForJob[];
-  nextToken?: string;
+  executionSummaries?: JobExecutionSummaryForJob[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListJobExecutionsForThingRequest {
   thingName: string;
-  status?: JobExecutionStatus;
-  namespaceId?: string;
-  maxResults?: number;
-  nextToken?: string;
-  jobId?: string;
+  status?: JobExecutionStatus | undefined;
+  namespaceId?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  jobId?: string | undefined;
 }
 export interface JobExecutionSummaryForThing {
-  jobId?: string;
-  jobExecutionSummary?: JobExecutionSummary;
+  jobId?: string | undefined;
+  jobExecutionSummary?: JobExecutionSummary | undefined;
 }
 export type JobExecutionSummaryForThingList = JobExecutionSummaryForThing[];
 export interface ListJobExecutionsForThingResponse {
-  executionSummaries?: JobExecutionSummaryForThing[];
-  nextToken?: string;
+  executionSummaries?: JobExecutionSummaryForThing[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListJobsRequest {
-  status?: JobStatus;
-  targetSelection?: TargetSelection;
-  maxResults?: number;
-  nextToken?: string;
-  thingGroupName?: string;
-  thingGroupId?: string;
-  namespaceId?: string;
+  status?: JobStatus | undefined;
+  targetSelection?: TargetSelection | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  thingGroupName?: string | undefined;
+  thingGroupId?: string | undefined;
+  namespaceId?: string | undefined;
 }
 export interface JobSummary {
-  jobArn?: string;
-  jobId?: string;
-  thingGroupId?: string;
-  targetSelection?: TargetSelection;
-  status?: JobStatus;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  completedAt?: Date;
-  isConcurrent?: boolean;
+  jobArn?: string | undefined;
+  jobId?: string | undefined;
+  thingGroupId?: string | undefined;
+  targetSelection?: TargetSelection | undefined;
+  status?: JobStatus | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  completedAt?: Date | undefined;
+  isConcurrent?: boolean | undefined;
 }
 export type JobSummaryList = JobSummary[];
 export interface ListJobsResponse {
-  jobs?: JobSummary[];
-  nextToken?: string;
+  jobs?: JobSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListJobTemplatesRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface JobTemplateSummary {
-  jobTemplateArn?: string;
-  jobTemplateId?: string;
-  description?: string;
-  createdAt?: Date;
+  jobTemplateArn?: string | undefined;
+  jobTemplateId?: string | undefined;
+  description?: string | undefined;
+  createdAt?: Date | undefined;
 }
 export type JobTemplateSummaryList = JobTemplateSummary[];
 export interface ListJobTemplatesResponse {
-  jobTemplates?: JobTemplateSummary[];
-  nextToken?: string;
+  jobTemplates?: JobTemplateSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListManagedJobTemplatesRequest {
-  templateName?: string;
-  maxResults?: number;
-  nextToken?: string;
+  templateName?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ManagedJobTemplateSummary {
-  templateArn?: string;
-  templateName?: string;
-  description?: string;
-  environments?: string[];
-  templateVersion?: string;
+  templateArn?: string | undefined;
+  templateName?: string | undefined;
+  description?: string | undefined;
+  environments?: string[] | undefined;
+  templateVersion?: string | undefined;
 }
 export type ManagedJobTemplatesSummaryList = ManagedJobTemplateSummary[];
 export interface ListManagedJobTemplatesResponse {
-  managedJobTemplates?: ManagedJobTemplateSummary[];
-  nextToken?: string;
+  managedJobTemplates?: ManagedJobTemplateSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListMetricValuesRequest {
   thingName: string;
   metricName: string;
-  dimensionName?: string;
-  dimensionValueOperator?: DimensionValueOperator;
+  dimensionName?: string | undefined;
+  dimensionValueOperator?: DimensionValueOperator | undefined;
   startTime: Date;
   endTime: Date;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface MetricDatum {
-  timestamp?: Date;
-  value?: MetricValue;
+  timestamp?: Date | undefined;
+  value?: MetricValue | undefined;
 }
 export type MetricDatumList = MetricDatum[];
 export interface ListMetricValuesResponse {
-  metricDatumList?: MetricDatum[];
-  nextToken?: string;
+  metricDatumList?: MetricDatum[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListMitigationActionsRequest {
-  actionType?: MitigationActionType;
-  maxResults?: number;
-  nextToken?: string;
+  actionType?: MitigationActionType | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface MitigationActionIdentifier {
-  actionName?: string;
-  actionArn?: string;
-  creationDate?: Date;
+  actionName?: string | undefined;
+  actionArn?: string | undefined;
+  creationDate?: Date | undefined;
 }
 export type MitigationActionIdentifierList = MitigationActionIdentifier[];
 export interface ListMitigationActionsResponse {
-  actionIdentifiers?: MitigationActionIdentifier[];
-  nextToken?: string;
+  actionIdentifiers?: MitigationActionIdentifier[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListOTAUpdatesRequest {
-  maxResults?: number;
-  nextToken?: string;
-  otaUpdateStatus?: OTAUpdateStatus;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  otaUpdateStatus?: OTAUpdateStatus | undefined;
 }
 export interface OTAUpdateSummary {
-  otaUpdateId?: string;
-  otaUpdateArn?: string;
-  creationDate?: Date;
+  otaUpdateId?: string | undefined;
+  otaUpdateArn?: string | undefined;
+  creationDate?: Date | undefined;
 }
 export type OTAUpdatesSummary = OTAUpdateSummary[];
 export interface ListOTAUpdatesResponse {
-  otaUpdates?: OTAUpdateSummary[];
-  nextToken?: string;
+  otaUpdates?: OTAUpdateSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListOutgoingCertificatesRequest {
-  pageSize?: number;
-  marker?: string;
-  ascendingOrder?: boolean;
+  pageSize?: number | undefined;
+  marker?: string | undefined;
+  ascendingOrder?: boolean | undefined;
 }
 export interface OutgoingCertificate {
-  certificateArn?: string;
-  certificateId?: string;
-  transferredTo?: string;
-  transferDate?: Date;
-  transferMessage?: string;
-  creationDate?: Date;
+  certificateArn?: string | undefined;
+  certificateId?: string | undefined;
+  transferredTo?: string | undefined;
+  transferDate?: Date | undefined;
+  transferMessage?: string | undefined;
+  creationDate?: Date | undefined;
 }
 export type OutgoingCertificates = OutgoingCertificate[];
 export interface ListOutgoingCertificatesResponse {
-  outgoingCertificates?: OutgoingCertificate[];
-  nextMarker?: string;
+  outgoingCertificates?: OutgoingCertificate[] | undefined;
+  nextMarker?: string | undefined;
 }
 export type PackageCatalogMaxResults = number;
 export interface ListPackagesRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface PackageSummary {
-  packageName?: string;
-  defaultVersionName?: string;
-  creationDate?: Date;
-  lastModifiedDate?: Date;
+  packageName?: string | undefined;
+  defaultVersionName?: string | undefined;
+  creationDate?: Date | undefined;
+  lastModifiedDate?: Date | undefined;
 }
 export type PackageSummaryList = PackageSummary[];
 export interface ListPackagesResponse {
-  packageSummaries?: PackageSummary[];
-  nextToken?: string;
+  packageSummaries?: PackageSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListPackageVersionsRequest {
   packageName: string;
-  status?: PackageVersionStatus;
-  maxResults?: number;
-  nextToken?: string;
+  status?: PackageVersionStatus | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface PackageVersionSummary {
-  packageName?: string;
-  versionName?: string;
-  status?: PackageVersionStatus;
-  creationDate?: Date;
-  lastModifiedDate?: Date;
+  packageName?: string | undefined;
+  versionName?: string | undefined;
+  status?: PackageVersionStatus | undefined;
+  creationDate?: Date | undefined;
+  lastModifiedDate?: Date | undefined;
 }
 export type PackageVersionSummaryList = PackageVersionSummary[];
 export interface ListPackageVersionsResponse {
-  packageVersionSummaries?: PackageVersionSummary[];
-  nextToken?: string;
+  packageVersionSummaries?: PackageVersionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListPoliciesRequest {
-  marker?: string;
-  pageSize?: number;
-  ascendingOrder?: boolean;
+  marker?: string | undefined;
+  pageSize?: number | undefined;
+  ascendingOrder?: boolean | undefined;
 }
 export interface ListPoliciesResponse {
-  policies?: Policy[];
-  nextMarker?: string;
+  policies?: Policy[] | undefined;
+  nextMarker?: string | undefined;
 }
 export interface ListPolicyPrincipalsRequest {
   policyName: string;
-  marker?: string;
-  pageSize?: number;
-  ascendingOrder?: boolean;
+  marker?: string | undefined;
+  pageSize?: number | undefined;
+  ascendingOrder?: boolean | undefined;
 }
 export type PrincipalArn = string;
 export type Principals = string[];
 export interface ListPolicyPrincipalsResponse {
-  principals?: string[];
-  nextMarker?: string;
+  principals?: string[] | undefined;
+  nextMarker?: string | undefined;
 }
 export interface ListPolicyVersionsRequest {
   policyName: string;
 }
 export interface PolicyVersion {
-  versionId?: string;
-  isDefaultVersion?: boolean;
-  createDate?: Date;
+  versionId?: string | undefined;
+  isDefaultVersion?: boolean | undefined;
+  createDate?: Date | undefined;
 }
 export type PolicyVersions = PolicyVersion[];
 export interface ListPolicyVersionsResponse {
-  policyVersions?: PolicyVersion[];
+  policyVersions?: PolicyVersion[] | undefined;
 }
 export interface ListPrincipalPoliciesRequest {
   principal: string;
-  marker?: string;
-  pageSize?: number;
-  ascendingOrder?: boolean;
+  marker?: string | undefined;
+  pageSize?: number | undefined;
+  ascendingOrder?: boolean | undefined;
 }
 export interface ListPrincipalPoliciesResponse {
-  policies?: Policy[];
-  nextMarker?: string;
+  policies?: Policy[] | undefined;
+  nextMarker?: string | undefined;
 }
 export interface ListPrincipalThingsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   principal: string;
 }
 export type ThingNameList = string[];
 export interface ListPrincipalThingsResponse {
-  things?: string[];
-  nextToken?: string;
+  things?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListPrincipalThingsV2Request {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   principal: string;
-  thingPrincipalType?: ThingPrincipalType;
+  thingPrincipalType?: ThingPrincipalType | undefined;
 }
 export interface PrincipalThingObject {
   thingName: string;
-  thingPrincipalType?: ThingPrincipalType;
+  thingPrincipalType?: ThingPrincipalType | undefined;
 }
 export type PrincipalThingObjects = PrincipalThingObject[];
 export interface ListPrincipalThingsV2Response {
-  principalThingObjects?: PrincipalThingObject[];
-  nextToken?: string;
+  principalThingObjects?: PrincipalThingObject[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListProvisioningTemplatesRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ProvisioningTemplateSummary {
-  templateArn?: string;
-  templateName?: string;
-  description?: string;
-  creationDate?: Date;
-  lastModifiedDate?: Date;
-  enabled?: boolean;
-  type?: TemplateType;
+  templateArn?: string | undefined;
+  templateName?: string | undefined;
+  description?: string | undefined;
+  creationDate?: Date | undefined;
+  lastModifiedDate?: Date | undefined;
+  enabled?: boolean | undefined;
+  type?: TemplateType | undefined;
 }
 export type ProvisioningTemplateListing = ProvisioningTemplateSummary[];
 export interface ListProvisioningTemplatesResponse {
-  templates?: ProvisioningTemplateSummary[];
-  nextToken?: string;
+  templates?: ProvisioningTemplateSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListProvisioningTemplateVersionsRequest {
   templateName: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ProvisioningTemplateVersionSummary {
-  versionId?: number;
-  creationDate?: Date;
-  isDefaultVersion?: boolean;
+  versionId?: number | undefined;
+  creationDate?: Date | undefined;
+  isDefaultVersion?: boolean | undefined;
 }
 export type ProvisioningTemplateVersionListing = ProvisioningTemplateVersionSummary[];
 export interface ListProvisioningTemplateVersionsResponse {
-  versions?: ProvisioningTemplateVersionSummary[];
-  nextToken?: string;
+  versions?: ProvisioningTemplateVersionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListRelatedResourcesForAuditFindingRequest {
   findingId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListRelatedResourcesForAuditFindingResponse {
-  relatedResources?: RelatedResource[];
-  nextToken?: string;
+  relatedResources?: RelatedResource[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListRoleAliasesRequest {
-  pageSize?: number;
-  marker?: string;
-  ascendingOrder?: boolean;
+  pageSize?: number | undefined;
+  marker?: string | undefined;
+  ascendingOrder?: boolean | undefined;
 }
 export type RoleAliases = string[];
 export interface ListRoleAliasesResponse {
-  roleAliases?: string[];
-  nextMarker?: string;
+  roleAliases?: string[] | undefined;
+  nextMarker?: string | undefined;
 }
 export type SbomValidationResult = "FAILED" | "SUCCEEDED" | (string & {});
 export interface ListSbomValidationResultsRequest {
   packageName: string;
   versionName: string;
-  validationResult?: SbomValidationResult;
-  maxResults?: number;
-  nextToken?: string;
+  validationResult?: SbomValidationResult | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type SbomValidationErrorCode =
   | "INCOMPATIBLE_FORMAT"
@@ -4158,37 +4180,37 @@ export type SbomValidationErrorCode =
   | (string & {});
 export type SbomValidationErrorMessage = string;
 export interface SbomValidationResultSummary {
-  fileName?: string;
-  validationResult?: SbomValidationResult;
-  errorCode?: SbomValidationErrorCode;
-  errorMessage?: string;
+  fileName?: string | undefined;
+  validationResult?: SbomValidationResult | undefined;
+  errorCode?: SbomValidationErrorCode | undefined;
+  errorMessage?: string | undefined;
 }
 export type SbomValidationResultSummaryList = SbomValidationResultSummary[];
 export interface ListSbomValidationResultsResponse {
-  validationResultSummaries?: SbomValidationResultSummary[];
-  nextToken?: string;
+  validationResultSummaries?: SbomValidationResultSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListScheduledAuditsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ScheduledAuditMetadata {
-  scheduledAuditName?: string;
-  scheduledAuditArn?: string;
-  frequency?: AuditFrequency;
-  dayOfMonth?: string;
-  dayOfWeek?: DayOfWeek;
+  scheduledAuditName?: string | undefined;
+  scheduledAuditArn?: string | undefined;
+  frequency?: AuditFrequency | undefined;
+  dayOfMonth?: string | undefined;
+  dayOfWeek?: DayOfWeek | undefined;
 }
 export type ScheduledAuditMetadataList = ScheduledAuditMetadata[];
 export interface ListScheduledAuditsResponse {
-  scheduledAudits?: ScheduledAuditMetadata[];
-  nextToken?: string;
+  scheduledAudits?: ScheduledAuditMetadata[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSecurityProfilesRequest {
-  nextToken?: string;
-  maxResults?: number;
-  dimensionName?: string;
-  metricName?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  dimensionName?: string | undefined;
+  metricName?: string | undefined;
 }
 export interface SecurityProfileIdentifier {
   name: string;
@@ -4196,369 +4218,369 @@ export interface SecurityProfileIdentifier {
 }
 export type SecurityProfileIdentifiers = SecurityProfileIdentifier[];
 export interface ListSecurityProfilesResponse {
-  securityProfileIdentifiers?: SecurityProfileIdentifier[];
-  nextToken?: string;
+  securityProfileIdentifiers?: SecurityProfileIdentifier[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSecurityProfilesForTargetRequest {
-  nextToken?: string;
-  maxResults?: number;
-  recursive?: boolean;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  recursive?: boolean | undefined;
   securityProfileTargetArn: string;
 }
 export interface SecurityProfileTarget {
   arn: string;
 }
 export interface SecurityProfileTargetMapping {
-  securityProfileIdentifier?: SecurityProfileIdentifier;
-  target?: SecurityProfileTarget;
+  securityProfileIdentifier?: SecurityProfileIdentifier | undefined;
+  target?: SecurityProfileTarget | undefined;
 }
 export type SecurityProfileTargetMappings = SecurityProfileTargetMapping[];
 export interface ListSecurityProfilesForTargetResponse {
-  securityProfileTargetMappings?: SecurityProfileTargetMapping[];
-  nextToken?: string;
+  securityProfileTargetMappings?: SecurityProfileTargetMapping[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListStreamsRequest {
-  maxResults?: number;
-  nextToken?: string;
-  ascendingOrder?: boolean;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  ascendingOrder?: boolean | undefined;
 }
 export interface StreamSummary {
-  streamId?: string;
-  streamArn?: string;
-  streamVersion?: number;
-  description?: string;
+  streamId?: string | undefined;
+  streamArn?: string | undefined;
+  streamVersion?: number | undefined;
+  description?: string | undefined;
 }
 export type StreamsSummary = StreamSummary[];
 export interface ListStreamsResponse {
-  streams?: StreamSummary[];
-  nextToken?: string;
+  streams?: StreamSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ResourceArn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceResponse {
-  tags?: Tag[];
-  nextToken?: string;
+  tags?: Tag[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTargetsForPolicyRequest {
   policyName: string;
-  marker?: string;
-  pageSize?: number;
+  marker?: string | undefined;
+  pageSize?: number | undefined;
 }
 export type PolicyTargets = string[];
 export interface ListTargetsForPolicyResponse {
-  targets?: string[];
-  nextMarker?: string;
+  targets?: string[] | undefined;
+  nextMarker?: string | undefined;
 }
 export interface ListTargetsForSecurityProfileRequest {
   securityProfileName: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type SecurityProfileTargets = SecurityProfileTarget[];
 export interface ListTargetsForSecurityProfileResponse {
-  securityProfileTargets?: SecurityProfileTarget[];
-  nextToken?: string;
+  securityProfileTargets?: SecurityProfileTarget[] | undefined;
+  nextToken?: string | undefined;
 }
 export type RecursiveWithoutDefault = boolean;
 export interface ListThingGroupsRequest {
-  nextToken?: string;
-  maxResults?: number;
-  parentGroup?: string;
-  namePrefixFilter?: string;
-  recursive?: boolean;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  parentGroup?: string | undefined;
+  namePrefixFilter?: string | undefined;
+  recursive?: boolean | undefined;
 }
 export interface ListThingGroupsResponse {
-  thingGroups?: GroupNameAndArn[];
-  nextToken?: string;
+  thingGroups?: GroupNameAndArn[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListThingGroupsForThingRequest {
   thingName: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListThingGroupsForThingResponse {
-  thingGroups?: GroupNameAndArn[];
-  nextToken?: string;
+  thingGroups?: GroupNameAndArn[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListThingPrincipalsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   thingName: string;
 }
 export interface ListThingPrincipalsResponse {
-  principals?: string[];
-  nextToken?: string;
+  principals?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListThingPrincipalsV2Request {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   thingName: string;
-  thingPrincipalType?: ThingPrincipalType;
+  thingPrincipalType?: ThingPrincipalType | undefined;
 }
 export interface ThingPrincipalObject {
   principal: string;
-  thingPrincipalType?: ThingPrincipalType;
+  thingPrincipalType?: ThingPrincipalType | undefined;
 }
 export type ThingPrincipalObjects = ThingPrincipalObject[];
 export interface ListThingPrincipalsV2Response {
-  thingPrincipalObjects?: ThingPrincipalObject[];
-  nextToken?: string;
+  thingPrincipalObjects?: ThingPrincipalObject[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ReportType = "ERRORS" | "RESULTS" | (string & {});
 export interface ListThingRegistrationTaskReportsRequest {
   taskId: string;
   reportType: ReportType;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type S3FileUrl = string;
 export type S3FileUrlList = string[];
 export interface ListThingRegistrationTaskReportsResponse {
-  resourceLinks?: string[];
-  reportType?: ReportType;
-  nextToken?: string;
+  resourceLinks?: string[] | undefined;
+  reportType?: ReportType | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListThingRegistrationTasksRequest {
-  nextToken?: string;
-  maxResults?: number;
-  status?: Status;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  status?: Status | undefined;
 }
 export type TaskIdList = string[];
 export interface ListThingRegistrationTasksResponse {
-  taskIds?: string[];
-  nextToken?: string;
+  taskIds?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export type UsePrefixAttributeValue = boolean;
 export interface ListThingsRequest {
-  nextToken?: string;
-  maxResults?: number;
-  attributeName?: string;
-  attributeValue?: string;
-  thingTypeName?: string;
-  usePrefixAttributeValue?: boolean;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  attributeName?: string | undefined;
+  attributeValue?: string | undefined;
+  thingTypeName?: string | undefined;
+  usePrefixAttributeValue?: boolean | undefined;
 }
 export interface ThingAttribute {
-  thingName?: string;
-  thingTypeName?: string;
-  thingArn?: string;
-  attributes?: { [key: string]: string | undefined };
-  version?: number;
+  thingName?: string | undefined;
+  thingTypeName?: string | undefined;
+  thingArn?: string | undefined;
+  attributes?: { [key: string]: string | undefined } | undefined;
+  version?: number | undefined;
 }
 export type ThingAttributeList = ThingAttribute[];
 export interface ListThingsResponse {
-  things?: ThingAttribute[];
-  nextToken?: string;
+  things?: ThingAttribute[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListThingsInBillingGroupRequest {
   billingGroupName: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListThingsInBillingGroupResponse {
-  things?: string[];
-  nextToken?: string;
+  things?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListThingsInThingGroupRequest {
   thingGroupName: string;
-  recursive?: boolean;
-  nextToken?: string;
-  maxResults?: number;
+  recursive?: boolean | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListThingsInThingGroupResponse {
-  things?: string[];
-  nextToken?: string;
+  things?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListThingTypesRequest {
-  nextToken?: string;
-  maxResults?: number;
-  thingTypeName?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  thingTypeName?: string | undefined;
 }
 export interface ThingTypeDefinition {
-  thingTypeName?: string;
-  thingTypeArn?: string;
-  thingTypeProperties?: ThingTypeProperties;
-  thingTypeMetadata?: ThingTypeMetadata;
+  thingTypeName?: string | undefined;
+  thingTypeArn?: string | undefined;
+  thingTypeProperties?: ThingTypeProperties | undefined;
+  thingTypeMetadata?: ThingTypeMetadata | undefined;
 }
 export type ThingTypeList = ThingTypeDefinition[];
 export interface ListThingTypesResponse {
-  thingTypes?: ThingTypeDefinition[];
-  nextToken?: string;
+  thingTypes?: ThingTypeDefinition[] | undefined;
+  nextToken?: string | undefined;
 }
 export type TopicRuleDestinationMaxResults = number;
 export interface ListTopicRuleDestinationsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface HttpUrlDestinationSummary {
-  confirmationUrl?: string;
+  confirmationUrl?: string | undefined;
 }
 export interface VpcDestinationSummary {
-  subnetIds?: string[];
-  securityGroups?: string[];
-  vpcId?: string;
-  roleArn?: string;
+  subnetIds?: string[] | undefined;
+  securityGroups?: string[] | undefined;
+  vpcId?: string | undefined;
+  roleArn?: string | undefined;
 }
 export interface InfluxDBDestinationSummary {
-  endpoint?: string;
-  influxDBVersion?: InfluxDBVersion;
-  secretId?: string;
-  secretType?: InfluxDBSecretType;
-  secretKey?: string;
+  endpoint?: string | undefined;
+  influxDBVersion?: InfluxDBVersion | undefined;
+  secretId?: string | undefined;
+  secretType?: InfluxDBSecretType | undefined;
+  secretKey?: string | undefined;
 }
 export interface TopicRuleDestinationSummary {
-  arn?: string;
-  status?: TopicRuleDestinationStatus;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
-  statusReason?: string;
-  httpUrlSummary?: HttpUrlDestinationSummary;
-  vpcDestinationSummary?: VpcDestinationSummary;
-  influxDBSummary?: InfluxDBDestinationSummary;
+  arn?: string | undefined;
+  status?: TopicRuleDestinationStatus | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
+  statusReason?: string | undefined;
+  httpUrlSummary?: HttpUrlDestinationSummary | undefined;
+  vpcDestinationSummary?: VpcDestinationSummary | undefined;
+  influxDBSummary?: InfluxDBDestinationSummary | undefined;
 }
 export type TopicRuleDestinationSummaries = TopicRuleDestinationSummary[];
 export interface ListTopicRuleDestinationsResponse {
-  destinationSummaries?: TopicRuleDestinationSummary[];
-  nextToken?: string;
+  destinationSummaries?: TopicRuleDestinationSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type Topic = string;
 export type TopicRuleMaxResults = number;
 export interface ListTopicRulesRequest {
-  topic?: string;
-  maxResults?: number;
-  nextToken?: string;
-  ruleDisabled?: boolean;
+  topic?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  ruleDisabled?: boolean | undefined;
 }
 export interface TopicRuleListItem {
-  ruleArn?: string;
-  ruleName?: string;
-  topicPattern?: string;
-  createdAt?: Date;
-  ruleDisabled?: boolean;
+  ruleArn?: string | undefined;
+  ruleName?: string | undefined;
+  topicPattern?: string | undefined;
+  createdAt?: Date | undefined;
+  ruleDisabled?: boolean | undefined;
 }
 export type TopicRuleList = TopicRuleListItem[];
 export interface ListTopicRulesResponse {
-  rules?: TopicRuleListItem[];
-  nextToken?: string;
+  rules?: TopicRuleListItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export type SkyfallMaxResults = number;
 export interface ListV2LoggingLevelsRequest {
-  targetType?: LogTargetType;
-  nextToken?: string;
-  maxResults?: number;
+  targetType?: LogTargetType | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface LogTarget {
   targetType: LogTargetType;
-  targetName?: string;
+  targetName?: string | undefined;
 }
 export interface LogTargetConfiguration {
-  logTarget?: LogTarget;
-  logLevel?: LogLevel;
+  logTarget?: LogTarget | undefined;
+  logLevel?: LogLevel | undefined;
 }
 export type LogTargetConfigurations = LogTargetConfiguration[];
 export interface ListV2LoggingLevelsResponse {
-  logTargetConfigurations?: LogTargetConfiguration[];
-  nextToken?: string;
+  logTargetConfigurations?: LogTargetConfiguration[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListViolationEventsRequest {
   startTime: Date;
   endTime: Date;
-  thingName?: string;
-  securityProfileName?: string;
-  behaviorCriteriaType?: BehaviorCriteriaType;
-  listSuppressedAlerts?: boolean;
-  verificationState?: VerificationState;
-  nextToken?: string;
-  maxResults?: number;
+  thingName?: string | undefined;
+  securityProfileName?: string | undefined;
+  behaviorCriteriaType?: BehaviorCriteriaType | undefined;
+  listSuppressedAlerts?: boolean | undefined;
+  verificationState?: VerificationState | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ViolationEventType = "in-alarm" | "alarm-cleared" | "alarm-invalidated" | (string & {});
 export interface ViolationEvent {
-  violationId?: string;
-  thingName?: string;
-  securityProfileName?: string;
-  behavior?: Behavior;
-  metricValue?: MetricValue;
-  violationEventAdditionalInfo?: ViolationEventAdditionalInfo;
-  violationEventType?: ViolationEventType;
-  verificationState?: VerificationState;
-  verificationStateDescription?: string;
-  violationEventTime?: Date;
+  violationId?: string | undefined;
+  thingName?: string | undefined;
+  securityProfileName?: string | undefined;
+  behavior?: Behavior | undefined;
+  metricValue?: MetricValue | undefined;
+  violationEventAdditionalInfo?: ViolationEventAdditionalInfo | undefined;
+  violationEventType?: ViolationEventType | undefined;
+  verificationState?: VerificationState | undefined;
+  verificationStateDescription?: string | undefined;
+  violationEventTime?: Date | undefined;
 }
 export type ViolationEvents = ViolationEvent[];
 export interface ListViolationEventsResponse {
-  violationEvents?: ViolationEvent[];
-  nextToken?: string;
+  violationEvents?: ViolationEvent[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface PutVerificationStateOnViolationRequest {
   violationId: string;
   verificationState: VerificationState;
-  verificationStateDescription?: string;
+  verificationStateDescription?: string | undefined;
 }
 export interface PutVerificationStateOnViolationResponse {}
 export type AllowAutoRegistration = boolean;
 export interface RegisterCACertificateRequest {
   caCertificate: string;
-  verificationCertificate?: string;
-  setAsActive?: boolean;
-  allowAutoRegistration?: boolean;
-  registrationConfig?: RegistrationConfig;
-  tags?: Tag[];
-  certificateMode?: CertificateMode;
+  verificationCertificate?: string | undefined;
+  setAsActive?: boolean | undefined;
+  allowAutoRegistration?: boolean | undefined;
+  registrationConfig?: RegistrationConfig | undefined;
+  tags?: Tag[] | undefined;
+  certificateMode?: CertificateMode | undefined;
 }
 export interface RegisterCACertificateResponse {
-  certificateArn?: string;
-  certificateId?: string;
+  certificateArn?: string | undefined;
+  certificateId?: string | undefined;
 }
 export type SetAsActiveFlag = boolean;
 export interface RegisterCertificateRequest {
   certificatePem: string;
-  caCertificatePem?: string;
-  setAsActive?: boolean;
-  status?: CertificateStatus;
+  caCertificatePem?: string | undefined;
+  setAsActive?: boolean | undefined;
+  status?: CertificateStatus | undefined;
 }
 export interface RegisterCertificateResponse {
-  certificateArn?: string;
-  certificateId?: string;
+  certificateArn?: string | undefined;
+  certificateId?: string | undefined;
 }
 export interface RegisterCertificateWithoutCARequest {
   certificatePem: string;
-  status?: CertificateStatus;
+  status?: CertificateStatus | undefined;
 }
 export interface RegisterCertificateWithoutCAResponse {
-  certificateArn?: string;
-  certificateId?: string;
+  certificateArn?: string | undefined;
+  certificateId?: string | undefined;
 }
 export type Parameter = string;
 export type Parameters = { [key: string]: string | undefined };
 export interface RegisterThingRequest {
   templateBody: string;
-  parameters?: { [key: string]: string | undefined };
+  parameters?: { [key: string]: string | undefined } | undefined;
 }
 export type ResourceLogicalId = string;
 export type ResourceArns = { [key: string]: string | undefined };
 export interface RegisterThingResponse {
-  certificatePem?: string;
-  resourceArns?: { [key: string]: string | undefined };
+  certificatePem?: string | undefined;
+  resourceArns?: { [key: string]: string | undefined } | undefined;
 }
 export interface RejectCertificateTransferRequest {
   certificateId: string;
-  rejectReason?: string;
+  rejectReason?: string | undefined;
 }
 export interface RejectCertificateTransferResponse {}
 export interface RemoveThingFromBillingGroupRequest {
-  billingGroupName?: string;
-  billingGroupArn?: string;
-  thingName?: string;
-  thingArn?: string;
+  billingGroupName?: string | undefined;
+  billingGroupArn?: string | undefined;
+  thingName?: string | undefined;
+  thingArn?: string | undefined;
 }
 export interface RemoveThingFromBillingGroupResponse {}
 export interface RemoveThingFromThingGroupRequest {
-  thingGroupName?: string;
-  thingGroupArn?: string;
-  thingName?: string;
-  thingArn?: string;
+  thingGroupName?: string | undefined;
+  thingGroupArn?: string | undefined;
+  thingName?: string | undefined;
+  thingArn?: string | undefined;
 }
 export interface RemoveThingFromThingGroupResponse {}
 export interface ReplaceTopicRuleRequest {
@@ -4568,55 +4590,55 @@ export interface ReplaceTopicRuleRequest {
 export interface ReplaceTopicRuleResponse {}
 export type SearchQueryMaxResults = number;
 export interface SearchIndexRequest {
-  indexName?: string;
+  indexName?: string | undefined;
   queryString: string;
-  nextToken?: string;
-  maxResults?: number;
-  queryVersion?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  queryVersion?: string | undefined;
 }
 export type ThingGroupNameList = string[];
 export type JsonDocument = string;
 export type ConnectivityTimestamp = number;
 export type DisconnectReason = string;
 export interface ThingConnectivity {
-  connected?: boolean;
-  timestamp?: number;
-  disconnectReason?: string;
-  keepAliveDuration?: number;
-  cleanSession?: boolean;
-  sessionExpiry?: number;
-  clientId?: string;
+  connected?: boolean | undefined;
+  timestamp?: number | undefined;
+  disconnectReason?: string | undefined;
+  keepAliveDuration?: number | undefined;
+  cleanSession?: boolean | undefined;
+  sessionExpiry?: number | undefined;
+  clientId?: string | undefined;
 }
 export interface ThingDocument {
-  thingName?: string;
-  thingId?: string;
-  thingTypeName?: string;
-  thingGroupNames?: string[];
-  attributes?: { [key: string]: string | undefined };
-  shadow?: string;
-  deviceDefender?: string;
-  connectivity?: ThingConnectivity;
+  thingName?: string | undefined;
+  thingId?: string | undefined;
+  thingTypeName?: string | undefined;
+  thingGroupNames?: string[] | undefined;
+  attributes?: { [key: string]: string | undefined } | undefined;
+  shadow?: string | undefined;
+  deviceDefender?: string | undefined;
+  connectivity?: ThingConnectivity | undefined;
 }
 export type ThingDocumentList = ThingDocument[];
 export interface ThingGroupDocument {
-  thingGroupName?: string;
-  thingGroupId?: string;
-  thingGroupDescription?: string;
-  attributes?: { [key: string]: string | undefined };
-  parentGroupNames?: string[];
+  thingGroupName?: string | undefined;
+  thingGroupId?: string | undefined;
+  thingGroupDescription?: string | undefined;
+  attributes?: { [key: string]: string | undefined } | undefined;
+  parentGroupNames?: string[] | undefined;
 }
 export type ThingGroupDocumentList = ThingGroupDocument[];
 export interface SearchIndexResponse {
-  nextToken?: string;
-  things?: ThingDocument[];
-  thingGroups?: ThingGroupDocument[];
+  nextToken?: string | undefined;
+  things?: ThingDocument[] | undefined;
+  thingGroups?: ThingGroupDocument[] | undefined;
 }
 export interface SetDefaultAuthorizerRequest {
   authorizerName: string;
 }
 export interface SetDefaultAuthorizerResponse {
-  authorizerName?: string;
-  authorizerArn?: string;
+  authorizerName?: string | undefined;
+  authorizerArn?: string | undefined;
 }
 export interface SetDefaultPolicyVersionRequest {
   policyName: string;
@@ -4625,7 +4647,7 @@ export interface SetDefaultPolicyVersionRequest {
 export interface SetDefaultPolicyVersionResponse {}
 export interface LoggingOptionsPayload {
   roleArn: string;
-  logLevel?: LogLevel;
+  logLevel?: LogLevel | undefined;
 }
 export interface SetLoggingOptionsRequest {
   loggingOptionsPayload: LoggingOptionsPayload;
@@ -4637,10 +4659,10 @@ export interface SetV2LoggingLevelRequest {
 }
 export interface SetV2LoggingLevelResponse {}
 export interface SetV2LoggingOptionsRequest {
-  roleArn?: string;
-  defaultLogLevel?: LogLevel;
-  disableAllLogs?: boolean;
-  eventConfigurations?: LogEventConfiguration[];
+  roleArn?: string | undefined;
+  defaultLogLevel?: LogLevel | undefined;
+  disableAllLogs?: boolean | undefined;
+  eventConfigurations?: LogEventConfiguration[] | undefined;
 }
 export interface SetV2LoggingOptionsResponse {}
 export interface StartAuditMitigationActionsTaskRequest {
@@ -4650,26 +4672,26 @@ export interface StartAuditMitigationActionsTaskRequest {
   clientRequestToken: string;
 }
 export interface StartAuditMitigationActionsTaskResponse {
-  taskId?: string;
+  taskId?: string | undefined;
 }
 export type DetectMitigationActionsToExecuteList = string[];
 export interface StartDetectMitigationActionsTaskRequest {
   taskId: string;
   target: DetectMitigationActionsTaskTarget;
   actions: string[];
-  violationEventOccurrenceRange?: ViolationEventOccurrenceRange;
-  includeOnlyActiveViolations?: boolean;
-  includeSuppressedAlerts?: boolean;
+  violationEventOccurrenceRange?: ViolationEventOccurrenceRange | undefined;
+  includeOnlyActiveViolations?: boolean | undefined;
+  includeSuppressedAlerts?: boolean | undefined;
   clientRequestToken: string;
 }
 export interface StartDetectMitigationActionsTaskResponse {
-  taskId?: string;
+  taskId?: string | undefined;
 }
 export interface StartOnDemandAuditTaskRequest {
   targetCheckNames: string[];
 }
 export interface StartOnDemandAuditTaskResponse {
-  taskId?: string;
+  taskId?: string | undefined;
 }
 export interface StartThingRegistrationTaskRequest {
   templateBody: string;
@@ -4678,7 +4700,7 @@ export interface StartThingRegistrationTaskRequest {
   roleArn: string;
 }
 export interface StartThingRegistrationTaskResponse {
-  taskId?: string;
+  taskId?: string | undefined;
 }
 export interface StopThingRegistrationTaskRequest {
   taskId: string;
@@ -4693,45 +4715,45 @@ export type ActionType = "PUBLISH" | "SUBSCRIBE" | "RECEIVE" | "CONNECT" | (stri
 export type Resource = string;
 export type Resources = string[];
 export interface AuthInfo {
-  actionType?: ActionType;
+  actionType?: ActionType | undefined;
   resources: string[];
 }
 export type AuthInfos = AuthInfo[];
 export type PolicyNames = string[];
 export interface TestAuthorizationRequest {
-  principal?: string;
-  cognitoIdentityPoolId?: string;
+  principal?: string | undefined;
+  cognitoIdentityPoolId?: string | undefined;
   authInfos: AuthInfo[];
-  clientId?: string;
-  policyNamesToAdd?: string[];
-  policyNamesToSkip?: string[];
+  clientId?: string | undefined;
+  policyNamesToAdd?: string[] | undefined;
+  policyNamesToSkip?: string[] | undefined;
 }
 export interface Allowed {
-  policies?: Policy[];
+  policies?: Policy[] | undefined;
 }
 export interface ImplicitDeny {
-  policies?: Policy[];
+  policies?: Policy[] | undefined;
 }
 export interface ExplicitDeny {
-  policies?: Policy[];
+  policies?: Policy[] | undefined;
 }
 export interface Denied {
-  implicitDeny?: ImplicitDeny;
-  explicitDeny?: ExplicitDeny;
+  implicitDeny?: ImplicitDeny | undefined;
+  explicitDeny?: ExplicitDeny | undefined;
 }
 export type AuthDecision = "ALLOWED" | "EXPLICIT_DENY" | "IMPLICIT_DENY" | (string & {});
 export type MissingContextValue = string;
 export type MissingContextValues = string[];
 export interface AuthResult {
-  authInfo?: AuthInfo;
-  allowed?: Allowed;
-  denied?: Denied;
-  authDecision?: AuthDecision;
-  missingContextValues?: string[];
+  authInfo?: AuthInfo | undefined;
+  allowed?: Allowed | undefined;
+  denied?: Denied | undefined;
+  authDecision?: AuthDecision | undefined;
+  missingContextValues?: string[] | undefined;
 }
 export type AuthResults = AuthResult[];
 export interface TestAuthorizationResponse {
-  authResults?: AuthResult[];
+  authResults?: AuthResult[] | undefined;
 }
 export type Token = string;
 export type TokenSignature = string;
@@ -4740,47 +4762,47 @@ export type HttpHeaderValue = string;
 export type HttpHeaders = { [key: string]: string | undefined };
 export type HttpQueryString = string;
 export interface HttpContext {
-  headers?: { [key: string]: string | undefined };
-  queryString?: string;
+  headers?: { [key: string]: string | undefined } | undefined;
+  queryString?: string | undefined;
 }
 export type MqttUsername = string;
 export type MqttPassword = Uint8Array;
 export type MqttClientId = string;
 export interface MqttContext {
-  username?: string;
-  password?: Uint8Array;
-  clientId?: string;
+  username?: string | undefined;
+  password?: Uint8Array | undefined;
+  clientId?: string | undefined;
 }
 export type ServerName = string;
 export interface TlsContext {
-  serverName?: string;
+  serverName?: string | undefined;
 }
 export interface TestInvokeAuthorizerRequest {
   authorizerName: string;
-  token?: string;
-  tokenSignature?: string;
-  httpContext?: HttpContext;
-  mqttContext?: MqttContext;
-  tlsContext?: TlsContext;
+  token?: string | undefined;
+  tokenSignature?: string | undefined;
+  httpContext?: HttpContext | undefined;
+  mqttContext?: MqttContext | undefined;
+  tlsContext?: TlsContext | undefined;
 }
 export type IsAuthenticated = boolean;
 export type PrincipalId = string;
 export type PolicyDocuments = string[];
 export type Seconds = number;
 export interface TestInvokeAuthorizerResponse {
-  isAuthenticated?: boolean;
-  principalId?: string;
-  policyDocuments?: string[];
-  refreshAfterInSeconds?: number;
-  disconnectAfterInSeconds?: number;
+  isAuthenticated?: boolean | undefined;
+  principalId?: string | undefined;
+  policyDocuments?: string[] | undefined;
+  refreshAfterInSeconds?: number | undefined;
+  disconnectAfterInSeconds?: number | undefined;
 }
 export interface TransferCertificateRequest {
   certificateId: string;
   targetAwsAccount: string;
-  transferMessage?: string;
+  transferMessage?: string | undefined;
 }
 export interface TransferCertificateResponse {
-  transferredCertificateArn?: string;
+  transferredCertificateArn?: string | undefined;
 }
 export type TagKeyList = string[];
 export interface UntagResourceRequest {
@@ -4789,46 +4811,48 @@ export interface UntagResourceRequest {
 }
 export interface UntagResourceResponse {}
 export interface UpdateAccountAuditConfigurationRequest {
-  roleArn?: string;
-  auditNotificationTargetConfigurations?: { [key: string]: AuditNotificationTarget | undefined };
-  auditCheckConfigurations?: { [key: string]: AuditCheckConfiguration | undefined };
+  roleArn?: string | undefined;
+  auditNotificationTargetConfigurations?:
+    | { [key: string]: AuditNotificationTarget | undefined }
+    | undefined;
+  auditCheckConfigurations?: { [key: string]: AuditCheckConfiguration | undefined } | undefined;
 }
 export interface UpdateAccountAuditConfigurationResponse {}
 export interface UpdateAuditSuppressionRequest {
   checkName: string;
   resourceIdentifier: ResourceIdentifier;
-  expirationDate?: Date;
-  suppressIndefinitely?: boolean;
-  description?: string;
+  expirationDate?: Date | undefined;
+  suppressIndefinitely?: boolean | undefined;
+  description?: string | undefined;
 }
 export interface UpdateAuditSuppressionResponse {}
 export interface UpdateAuthorizerRequest {
   authorizerName: string;
-  authorizerFunctionArn?: string;
-  tokenKeyName?: string;
-  tokenSigningPublicKeys?: { [key: string]: string | undefined };
-  status?: AuthorizerStatus;
-  enableCachingForHttp?: boolean;
+  authorizerFunctionArn?: string | undefined;
+  tokenKeyName?: string | undefined;
+  tokenSigningPublicKeys?: { [key: string]: string | undefined } | undefined;
+  status?: AuthorizerStatus | undefined;
+  enableCachingForHttp?: boolean | undefined;
 }
 export interface UpdateAuthorizerResponse {
-  authorizerName?: string;
-  authorizerArn?: string;
+  authorizerName?: string | undefined;
+  authorizerArn?: string | undefined;
 }
 export interface UpdateBillingGroupRequest {
   billingGroupName: string;
   billingGroupProperties: BillingGroupProperties;
-  expectedVersion?: number;
+  expectedVersion?: number | undefined;
 }
 export interface UpdateBillingGroupResponse {
-  version?: number;
+  version?: number | undefined;
 }
 export type RemoveAutoRegistration = boolean;
 export interface UpdateCACertificateRequest {
   certificateId: string;
-  newStatus?: CACertificateStatus;
-  newAutoRegistrationStatus?: AutoRegistrationStatus;
-  registrationConfig?: RegistrationConfig;
-  removeAutoRegistration?: boolean;
+  newStatus?: CACertificateStatus | undefined;
+  newAutoRegistrationStatus?: AutoRegistrationStatus | undefined;
+  registrationConfig?: RegistrationConfig | undefined;
+  removeAutoRegistration?: boolean | undefined;
 }
 export interface UpdateCACertificateResponse {}
 export interface UpdateCertificateRequest {
@@ -4838,180 +4862,180 @@ export interface UpdateCertificateRequest {
 export interface UpdateCertificateResponse {}
 export interface UpdateCertificateProviderRequest {
   certificateProviderName: string;
-  lambdaFunctionArn?: string;
-  accountDefaultForOperations?: CertificateProviderOperation[];
+  lambdaFunctionArn?: string | undefined;
+  accountDefaultForOperations?: CertificateProviderOperation[] | undefined;
 }
 export interface UpdateCertificateProviderResponse {
-  certificateProviderName?: string;
-  certificateProviderArn?: string;
+  certificateProviderName?: string | undefined;
+  certificateProviderArn?: string | undefined;
 }
 export interface UpdateCommandRequest {
   commandId: string;
-  displayName?: string;
-  description?: string;
-  deprecated?: boolean;
+  displayName?: string | undefined;
+  description?: string | undefined;
+  deprecated?: boolean | undefined;
 }
 export interface UpdateCommandResponse {
-  commandId?: string;
-  displayName?: string;
-  description?: string;
-  deprecated?: boolean;
-  lastUpdatedAt?: Date;
+  commandId?: string | undefined;
+  displayName?: string | undefined;
+  description?: string | undefined;
+  deprecated?: boolean | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
 export interface UpdateCustomMetricRequest {
   metricName: string;
   displayName: string;
 }
 export interface UpdateCustomMetricResponse {
-  metricName?: string;
-  metricArn?: string;
-  metricType?: CustomMetricType;
-  displayName?: string;
-  creationDate?: Date;
-  lastModifiedDate?: Date;
+  metricName?: string | undefined;
+  metricArn?: string | undefined;
+  metricType?: CustomMetricType | undefined;
+  displayName?: string | undefined;
+  creationDate?: Date | undefined;
+  lastModifiedDate?: Date | undefined;
 }
 export interface UpdateDimensionRequest {
   name: string;
   stringValues: string[];
 }
 export interface UpdateDimensionResponse {
-  name?: string;
-  arn?: string;
-  type?: DimensionType;
-  stringValues?: string[];
-  creationDate?: Date;
-  lastModifiedDate?: Date;
+  name?: string | undefined;
+  arn?: string | undefined;
+  type?: DimensionType | undefined;
+  stringValues?: string[] | undefined;
+  creationDate?: Date | undefined;
+  lastModifiedDate?: Date | undefined;
 }
 export type RemoveAuthorizerConfig = boolean;
 export interface UpdateDomainConfigurationRequest {
   domainConfigurationName: string;
-  authorizerConfig?: AuthorizerConfig;
-  domainConfigurationStatus?: DomainConfigurationStatus;
-  removeAuthorizerConfig?: boolean;
-  tlsConfig?: TlsConfig;
-  serverCertificateConfig?: ServerCertificateConfig;
-  authenticationType?: AuthenticationType;
-  applicationProtocol?: ApplicationProtocol;
-  clientCertificateConfig?: ClientCertificateConfig;
+  authorizerConfig?: AuthorizerConfig | undefined;
+  domainConfigurationStatus?: DomainConfigurationStatus | undefined;
+  removeAuthorizerConfig?: boolean | undefined;
+  tlsConfig?: TlsConfig | undefined;
+  serverCertificateConfig?: ServerCertificateConfig | undefined;
+  authenticationType?: AuthenticationType | undefined;
+  applicationProtocol?: ApplicationProtocol | undefined;
+  clientCertificateConfig?: ClientCertificateConfig | undefined;
 }
 export interface UpdateDomainConfigurationResponse {
-  domainConfigurationName?: string;
-  domainConfigurationArn?: string;
+  domainConfigurationName?: string | undefined;
+  domainConfigurationArn?: string | undefined;
 }
 export interface UpdateDynamicThingGroupRequest {
   thingGroupName: string;
   thingGroupProperties: ThingGroupProperties;
-  expectedVersion?: number;
-  indexName?: string;
-  queryString?: string;
-  queryVersion?: string;
+  expectedVersion?: number | undefined;
+  indexName?: string | undefined;
+  queryString?: string | undefined;
+  queryVersion?: string | undefined;
 }
 export interface UpdateDynamicThingGroupResponse {
-  version?: number;
+  version?: number | undefined;
 }
 export interface UpdateEncryptionConfigurationRequest {
   encryptionType: EncryptionType;
-  kmsKeyArn?: string;
-  kmsAccessRoleArn?: string;
+  kmsKeyArn?: string | undefined;
+  kmsAccessRoleArn?: string | undefined;
 }
 export interface UpdateEncryptionConfigurationResponse {}
 export interface UpdateEventConfigurationsRequest {
-  eventConfigurations?: { [key: string]: Configuration | undefined };
+  eventConfigurations?: { [key: string]: Configuration | undefined } | undefined;
 }
 export interface UpdateEventConfigurationsResponse {}
 export interface UpdateFleetMetricRequest {
   metricName: string;
-  queryString?: string;
-  aggregationType?: AggregationType;
-  period?: number;
-  aggregationField?: string;
-  description?: string;
-  queryVersion?: string;
+  queryString?: string | undefined;
+  aggregationType?: AggregationType | undefined;
+  period?: number | undefined;
+  aggregationField?: string | undefined;
+  description?: string | undefined;
+  queryVersion?: string | undefined;
   indexName: string;
-  unit?: FleetMetricUnit;
-  expectedVersion?: number;
+  unit?: FleetMetricUnit | undefined;
+  expectedVersion?: number | undefined;
 }
 export interface UpdateFleetMetricResponse {}
 export interface UpdateIndexingConfigurationRequest {
-  thingIndexingConfiguration?: ThingIndexingConfiguration;
-  thingGroupIndexingConfiguration?: ThingGroupIndexingConfiguration;
+  thingIndexingConfiguration?: ThingIndexingConfiguration | undefined;
+  thingGroupIndexingConfiguration?: ThingGroupIndexingConfiguration | undefined;
 }
 export interface UpdateIndexingConfigurationResponse {}
 export interface UpdateJobRequest {
   jobId: string;
-  description?: string;
-  presignedUrlConfig?: PresignedUrlConfig;
-  jobExecutionsRolloutConfig?: JobExecutionsRolloutConfig;
-  abortConfig?: AbortConfig;
-  timeoutConfig?: TimeoutConfig;
-  namespaceId?: string;
-  jobExecutionsRetryConfig?: JobExecutionsRetryConfig;
+  description?: string | undefined;
+  presignedUrlConfig?: PresignedUrlConfig | undefined;
+  jobExecutionsRolloutConfig?: JobExecutionsRolloutConfig | undefined;
+  abortConfig?: AbortConfig | undefined;
+  timeoutConfig?: TimeoutConfig | undefined;
+  namespaceId?: string | undefined;
+  jobExecutionsRetryConfig?: JobExecutionsRetryConfig | undefined;
 }
 export interface UpdateJobResponse {}
 export interface UpdateMitigationActionRequest {
   actionName: string;
-  roleArn?: string;
-  actionParams?: MitigationActionParams;
+  roleArn?: string | undefined;
+  actionParams?: MitigationActionParams | undefined;
 }
 export interface UpdateMitigationActionResponse {
-  actionArn?: string;
-  actionId?: string;
+  actionArn?: string | undefined;
+  actionId?: string | undefined;
 }
 export type UnsetDefaultVersion = boolean;
 export interface UpdatePackageRequest {
   packageName: string;
-  description?: string | redacted.Redacted<string>;
-  defaultVersionName?: string;
-  unsetDefaultVersion?: boolean;
-  clientToken?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  defaultVersionName?: string | undefined;
+  unsetDefaultVersion?: boolean | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdatePackageResponse {}
 export interface UpdatePackageConfigurationRequest {
-  versionUpdateByJobsConfig?: VersionUpdateByJobsConfig;
-  clientToken?: string;
+  versionUpdateByJobsConfig?: VersionUpdateByJobsConfig | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdatePackageConfigurationResponse {}
 export type PackageVersionAction = "PUBLISH" | "DEPRECATE" | (string & {});
 export interface UpdatePackageVersionRequest {
   packageName: string;
   versionName: string;
-  description?: string | redacted.Redacted<string>;
-  attributes?: { [key: string]: string | undefined };
-  artifact?: PackageVersionArtifact;
-  action?: PackageVersionAction;
-  recipe?: string | redacted.Redacted<string>;
-  clientToken?: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  attributes?: { [key: string]: string | undefined } | undefined;
+  artifact?: PackageVersionArtifact | undefined;
+  action?: PackageVersionAction | undefined;
+  recipe?: string | redacted.Redacted<string> | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdatePackageVersionResponse {}
 export type RemoveHook = boolean;
 export interface UpdateProvisioningTemplateRequest {
   templateName: string;
-  description?: string;
-  enabled?: boolean;
-  defaultVersionId?: number;
-  provisioningRoleArn?: string;
-  preProvisioningHook?: ProvisioningHook;
-  removePreProvisioningHook?: boolean;
+  description?: string | undefined;
+  enabled?: boolean | undefined;
+  defaultVersionId?: number | undefined;
+  provisioningRoleArn?: string | undefined;
+  preProvisioningHook?: ProvisioningHook | undefined;
+  removePreProvisioningHook?: boolean | undefined;
 }
 export interface UpdateProvisioningTemplateResponse {}
 export interface UpdateRoleAliasRequest {
   roleAlias: string;
-  roleArn?: string;
-  credentialDurationSeconds?: number;
+  roleArn?: string | undefined;
+  credentialDurationSeconds?: number | undefined;
 }
 export interface UpdateRoleAliasResponse {
-  roleAlias?: string;
-  roleAliasArn?: string;
+  roleAlias?: string | undefined;
+  roleAliasArn?: string | undefined;
 }
 export interface UpdateScheduledAuditRequest {
-  frequency?: AuditFrequency;
-  dayOfMonth?: string;
-  dayOfWeek?: DayOfWeek;
-  targetCheckNames?: string[];
+  frequency?: AuditFrequency | undefined;
+  dayOfMonth?: string | undefined;
+  dayOfWeek?: DayOfWeek | undefined;
+  targetCheckNames?: string[] | undefined;
   scheduledAuditName: string;
 }
 export interface UpdateScheduledAuditResponse {
-  scheduledAuditArn?: string;
+  scheduledAuditArn?: string | undefined;
 }
 export type DeleteBehaviors = boolean;
 export type DeleteAlertTargets = boolean;
@@ -5019,71 +5043,71 @@ export type DeleteAdditionalMetricsToRetain = boolean;
 export type DeleteMetricsExportConfig = boolean;
 export interface UpdateSecurityProfileRequest {
   securityProfileName: string;
-  securityProfileDescription?: string;
-  behaviors?: Behavior[];
-  alertTargets?: { [key: string]: AlertTarget | undefined };
-  additionalMetricsToRetain?: string[];
-  additionalMetricsToRetainV2?: MetricToRetain[];
-  deleteBehaviors?: boolean;
-  deleteAlertTargets?: boolean;
-  deleteAdditionalMetricsToRetain?: boolean;
-  expectedVersion?: number;
-  metricsExportConfig?: MetricsExportConfig;
-  deleteMetricsExportConfig?: boolean;
+  securityProfileDescription?: string | undefined;
+  behaviors?: Behavior[] | undefined;
+  alertTargets?: { [key: string]: AlertTarget | undefined } | undefined;
+  additionalMetricsToRetain?: string[] | undefined;
+  additionalMetricsToRetainV2?: MetricToRetain[] | undefined;
+  deleteBehaviors?: boolean | undefined;
+  deleteAlertTargets?: boolean | undefined;
+  deleteAdditionalMetricsToRetain?: boolean | undefined;
+  expectedVersion?: number | undefined;
+  metricsExportConfig?: MetricsExportConfig | undefined;
+  deleteMetricsExportConfig?: boolean | undefined;
 }
 export interface UpdateSecurityProfileResponse {
-  securityProfileName?: string;
-  securityProfileArn?: string;
-  securityProfileDescription?: string;
-  behaviors?: Behavior[];
-  alertTargets?: { [key: string]: AlertTarget | undefined };
-  additionalMetricsToRetain?: string[];
-  additionalMetricsToRetainV2?: MetricToRetain[];
-  version?: number;
-  creationDate?: Date;
-  lastModifiedDate?: Date;
-  metricsExportConfig?: MetricsExportConfig;
+  securityProfileName?: string | undefined;
+  securityProfileArn?: string | undefined;
+  securityProfileDescription?: string | undefined;
+  behaviors?: Behavior[] | undefined;
+  alertTargets?: { [key: string]: AlertTarget | undefined } | undefined;
+  additionalMetricsToRetain?: string[] | undefined;
+  additionalMetricsToRetainV2?: MetricToRetain[] | undefined;
+  version?: number | undefined;
+  creationDate?: Date | undefined;
+  lastModifiedDate?: Date | undefined;
+  metricsExportConfig?: MetricsExportConfig | undefined;
 }
 export interface UpdateStreamRequest {
   streamId: string;
-  description?: string;
-  files?: StreamFile[];
-  roleArn?: string;
+  description?: string | undefined;
+  files?: StreamFile[] | undefined;
+  roleArn?: string | undefined;
 }
 export interface UpdateStreamResponse {
-  streamId?: string;
-  streamArn?: string;
-  description?: string;
-  streamVersion?: number;
+  streamId?: string | undefined;
+  streamArn?: string | undefined;
+  description?: string | undefined;
+  streamVersion?: number | undefined;
 }
 export type RemoveThingType = boolean;
 export interface UpdateThingRequest {
   thingName: string;
-  thingTypeName?: string;
-  attributePayload?: AttributePayload;
-  expectedVersion?: number;
-  removeThingType?: boolean;
+  thingTypeName?: string | undefined;
+  attributePayload?: AttributePayload | undefined;
+  expectedVersion?: number | undefined;
+  removeThingType?: boolean | undefined;
 }
 export interface UpdateThingResponse {}
 export interface UpdateThingGroupRequest {
   thingGroupName: string;
   thingGroupProperties: ThingGroupProperties;
-  expectedVersion?: number;
+  expectedVersion?: number | undefined;
 }
 export interface UpdateThingGroupResponse {
-  version?: number;
+  version?: number | undefined;
 }
 export type ThingGroupList = string[];
 export interface UpdateThingGroupsForThingRequest {
-  thingName?: string;
-  thingGroupsToAdd?: string[];
-  thingGroupsToRemove?: string[];
-  overrideDynamicGroups?: boolean;
+  thingName?: string | undefined;
+  thingGroupsToAdd?: string[] | undefined;
+  thingGroupsToRemove?: string[] | undefined;
+  overrideDynamicGroups?: boolean | undefined;
 }
 export interface UpdateThingGroupsForThingResponse {}
 export interface UpdateThingTypeRequest {
   thingTypeName: string;
-  thingTypeProperties?: ThingTypeProperties;
+  thingTypeProperties?: ThingTypeProperties | undefined;
 }
 export interface UpdateThingTypeResponse {}
 export interface UpdateTopicRuleDestinationRequest {
@@ -5096,12 +5120,12 @@ export interface ValidateSecurityProfileBehaviorsRequest {
 }
 export type Valid = boolean;
 export interface ValidationError {
-  errorMessage?: string;
+  errorMessage?: string | undefined;
 }
 export type ValidationErrors = ValidationError[];
 export interface ValidateSecurityProfileBehaviorsResponse {
-  valid?: boolean;
-  validationErrors?: ValidationError[];
+  valid?: boolean | undefined;
+  validationErrors?: ValidationError[] | undefined;
 }
 export type ErrorMessage2 = string;
 export type ResourceId = string;

@@ -97,236 +97,236 @@ export interface ActionRunRequest {
 /** ExternalTracker represents settings for external tracker */
 export interface ExternalTracker {
   /** External Issue Tracker URL Format. Use the placeholders {user}, {repo} and {index} for the username, repository name and issue index. */
-  external_tracker_format?: string;
+  external_tracker_format?: string | undefined;
   /** External Issue Tracker issue regular expression */
-  external_tracker_regexp_pattern?: string;
+  external_tracker_regexp_pattern?: string | undefined;
   /** External Issue Tracker Number Format, either `numeric`, `alphanumeric`, or `regexp` */
-  external_tracker_style?: string;
+  external_tracker_style?: string | undefined;
   /** URL of external issue tracker. */
-  external_tracker_url?: string;
+  external_tracker_url?: string | undefined;
 }
 /** ExternalWiki represents setting for external wiki */
 export interface ExternalWiki {
   /** URL of external wiki. */
-  external_wiki_url?: string;
+  external_wiki_url?: string | undefined;
 }
 /** InternalTracker represents settings for internal tracker */
 export interface InternalTracker {
   /** Let only contributors track time (Built-in issue tracker) */
-  allow_only_contributors_to_track_time?: boolean;
+  allow_only_contributors_to_track_time?: boolean | undefined;
   /** Enable dependencies for issues and pull requests (Built-in issue tracker) */
-  enable_issue_dependencies?: boolean;
+  enable_issue_dependencies?: boolean | undefined;
   /** Enable time tracking (Built-in issue tracker) */
-  enable_time_tracker?: boolean;
+  enable_time_tracker?: boolean | undefined;
 }
 /** ObjectFormatName of the underlying git repository */
 export type RepositoryObjectFormatName = "sha1" | "sha256";
 /** User represents a user */
 export interface User {
   /** Is user active */
-  active?: boolean;
+  active?: boolean | undefined;
   /** URL to the user's avatar */
-  avatar_url?: string;
-  created?: string;
+  avatar_url?: string | undefined;
+  created?: string | undefined;
   /** the user's description */
-  description?: string;
-  email?: string;
+  description?: string | undefined;
+  email?: string | undefined;
   /** user counts */
-  followers_count?: number;
-  following_count?: number;
+  followers_count?: number | undefined;
+  following_count?: number | undefined;
   /** the user's full name */
-  full_name?: string;
+  full_name?: string | undefined;
   /** URL to the user's profile page */
-  html_url?: string;
+  html_url?: string | undefined;
   /** the user's id */
   id: number;
   /** Is the user an administrator */
-  is_admin?: boolean;
+  is_admin?: boolean | undefined;
   /** User locale */
-  language?: string;
-  last_login?: string;
+  language?: string | undefined;
+  last_login?: string | undefined;
   /** the user's location */
-  location?: string;
+  location?: string | undefined;
   /** the user's username */
   login: string;
   /** the user's authentication sign-in name. */
-  login_name?: string;
+  login_name?: string | undefined;
   /** Is user login prohibited */
-  prohibit_login?: boolean;
+  prohibit_login?: boolean | undefined;
   /** the user's pronouns */
-  pronouns?: string;
+  pronouns?: string | undefined;
   /** Is user restricted */
-  restricted?: boolean;
+  restricted?: boolean | undefined;
   /** The ID of the user's Authentication Source */
-  source_id?: number;
-  starred_repos_count?: number;
+  source_id?: number | undefined;
+  starred_repos_count?: number | undefined;
   /** User visibility level option: public, limited, private */
-  visibility?: string;
+  visibility?: string | undefined;
   /** the user's website */
-  website?: string;
+  website?: string | undefined;
 }
 /** Permission represents a set of permissions */
 export interface Permission {
-  admin?: boolean;
-  pull?: boolean;
-  push?: boolean;
+  admin?: boolean | undefined;
+  pull?: boolean | undefined;
+  push?: boolean | undefined;
 }
 /** Organization represents an organization */
 export interface Organization {
-  avatar_url?: string;
-  created?: string;
-  description?: string;
-  email?: string;
-  full_name?: string;
+  avatar_url?: string | undefined;
+  created?: string | undefined;
+  description?: string | undefined;
+  email?: string | undefined;
+  full_name?: string | undefined;
   id: number;
-  location?: string;
-  name?: string;
-  repo_admin_change_team_access?: boolean;
+  location?: string | undefined;
+  name?: string | undefined;
+  repo_admin_change_team_access?: boolean | undefined;
   /** deprecated */
   username: string;
-  visibility?: string;
-  website?: string;
+  visibility?: string | undefined;
+  website?: string | undefined;
 }
 export type TeamPermission = "none" | "read" | "write" | "admin" | "owner";
 export type TeamUnitsList = Array<string>;
 export type TeamUnitsMapMap = { [key: string]: string | undefined };
 /** Team represents a team in an organization */
 export interface Team {
-  can_create_org_repo?: boolean;
-  description?: string;
+  can_create_org_repo?: boolean | undefined;
+  description?: string | undefined;
   id: number;
-  includes_all_repositories?: boolean;
+  includes_all_repositories?: boolean | undefined;
   name: string;
-  organization?: Organization;
-  permission?: TeamPermission;
-  units?: TeamUnitsList;
-  units_map?: TeamUnitsMapMap;
+  organization?: Organization | undefined;
+  permission?: TeamPermission | undefined;
+  units?: TeamUnitsList | undefined;
+  units_map?: TeamUnitsMapMap | undefined;
 }
 export type RepoTransferTeamsList = Array<Team>;
 /** RepoTransfer represents a pending repo transfer */
 export interface RepoTransfer {
-  doer?: User;
-  recipient?: User;
-  teams?: RepoTransferTeamsList;
+  doer?: User | undefined;
+  recipient?: User | undefined;
+  teams?: RepoTransferTeamsList | undefined;
 }
 export type RepositoryTopicsList = Array<string>;
 /** Repository represents a repository */
 export interface Repository {
-  allow_fast_forward_only_merge?: boolean;
-  allow_merge_commits?: boolean;
-  allow_rebase?: boolean;
-  allow_rebase_explicit?: boolean;
-  allow_rebase_update?: boolean;
-  allow_squash_merge?: boolean;
-  archived?: boolean;
-  archived_at?: string;
-  avatar_url?: string;
+  allow_fast_forward_only_merge?: boolean | undefined;
+  allow_merge_commits?: boolean | undefined;
+  allow_rebase?: boolean | undefined;
+  allow_rebase_explicit?: boolean | undefined;
+  allow_rebase_update?: boolean | undefined;
+  allow_squash_merge?: boolean | undefined;
+  archived?: boolean | undefined;
+  archived_at?: string | undefined;
+  avatar_url?: string | undefined;
   clone_url: string;
   created_at: string;
-  default_allow_maintainer_edit?: boolean;
+  default_allow_maintainer_edit?: boolean | undefined;
   default_branch: string;
-  default_delete_branch_after_merge?: boolean;
-  default_merge_style?: string;
-  default_update_style?: string;
-  description?: string;
-  empty?: boolean;
-  external_tracker?: ExternalTracker;
-  external_wiki?: ExternalWiki;
-  fork?: boolean;
-  forks_count?: number;
+  default_delete_branch_after_merge?: boolean | undefined;
+  default_merge_style?: string | undefined;
+  default_update_style?: string | undefined;
+  description?: string | undefined;
+  empty?: boolean | undefined;
+  external_tracker?: ExternalTracker | undefined;
+  external_wiki?: ExternalWiki | undefined;
+  fork?: boolean | undefined;
+  forks_count?: number | undefined;
   full_name: string;
-  globally_editable_wiki?: boolean;
-  has_actions?: boolean;
-  has_issues?: boolean;
-  has_packages?: boolean;
-  has_projects?: boolean;
-  has_pull_requests?: boolean;
-  has_releases?: boolean;
+  globally_editable_wiki?: boolean | undefined;
+  has_actions?: boolean | undefined;
+  has_issues?: boolean | undefined;
+  has_packages?: boolean | undefined;
+  has_projects?: boolean | undefined;
+  has_pull_requests?: boolean | undefined;
+  has_releases?: boolean | undefined;
   /** is the wiki enabled */
-  has_wiki?: boolean;
+  has_wiki?: boolean | undefined;
   /** have wiki pages ever been created */
-  has_wiki_contents?: boolean;
+  has_wiki_contents?: boolean | undefined;
   html_url: string;
   id: number;
-  ignore_whitespace_conflicts?: boolean;
-  internal?: boolean;
-  internal_tracker?: InternalTracker;
-  language?: string;
-  languages_url?: string;
-  link?: string;
-  mirror?: boolean;
-  mirror_interval?: string;
-  mirror_updated?: string;
+  ignore_whitespace_conflicts?: boolean | undefined;
+  internal?: boolean | undefined;
+  internal_tracker?: InternalTracker | undefined;
+  language?: string | undefined;
+  languages_url?: string | undefined;
+  link?: string | undefined;
+  mirror?: boolean | undefined;
+  mirror_interval?: string | undefined;
+  mirror_updated?: string | undefined;
   name: string;
   /** ObjectFormatName of the underlying git repository */
-  object_format_name?: RepositoryObjectFormatName;
-  open_issues_count?: number;
-  open_pr_counter?: number;
-  original_url?: string;
+  object_format_name?: RepositoryObjectFormatName | undefined;
+  open_issues_count?: number | undefined;
+  open_pr_counter?: number | undefined;
+  original_url?: string | undefined;
   owner: User;
-  parent?: Repository;
-  permissions?: Permission;
-  private?: boolean;
-  release_counter?: number;
-  repo_transfer?: RepoTransfer;
-  size?: number;
+  parent?: Repository | undefined;
+  permissions?: Permission | undefined;
+  private?: boolean | undefined;
+  release_counter?: number | undefined;
+  repo_transfer?: RepoTransfer | undefined;
+  size?: number | undefined;
   ssh_url: string;
-  stars_count?: number;
-  template?: boolean;
-  topics?: RepositoryTopicsList;
+  stars_count?: number | undefined;
+  template?: boolean | undefined;
+  topics?: RepositoryTopicsList | undefined;
   updated_at: string;
-  url?: string;
-  watchers_count?: number;
-  website?: string;
-  wiki_branch?: string;
-  wiki_clone_url?: string;
-  wiki_ssh_url?: string;
+  url?: string | undefined;
+  watchers_count?: number | undefined;
+  website?: string | undefined;
+  wiki_branch?: string | undefined;
+  wiki_clone_url?: string | undefined;
+  wiki_ssh_url?: string | undefined;
 }
 /** ActionRun represents an action run */
 export interface ActionRun {
   /** the cron id for the schedule trigger */
-  ScheduleID?: number;
+  ScheduleID?: number | undefined;
   /** who approved this action run */
-  approved_by?: number;
+  approved_by?: number | undefined;
   /** the commit sha the action run ran on */
-  commit_sha?: string;
+  commit_sha?: string | undefined;
   /** when the action run was created */
-  created?: string;
-  duration?: number;
+  created?: string | undefined;
+  duration?: number | undefined;
   /** the webhook event that causes the workflow to run */
-  event?: string;
+  event?: string | undefined;
   /** the payload of the webhook event that causes the workflow to run */
-  event_payload?: string;
+  event_payload?: string | undefined;
   /** the url of this action run */
-  html_url?: string;
+  html_url?: string | undefined;
   /** the action run id */
-  id?: number;
+  id?: number | undefined;
   /** a unique number for each run of a repository */
-  index_in_repo?: number;
+  index_in_repo?: number | undefined;
   /** If this is triggered by a PR from a forked repository or an untrusted user, we need to check if it is approved and limit permissions when running the workflow. */
-  is_fork_pull_request?: boolean;
+  is_fork_pull_request?: boolean | undefined;
   /** has the commit/tag/... the action run ran on been deleted */
-  is_ref_deleted?: boolean;
+  is_ref_deleted?: boolean | undefined;
   /** may need approval if it's a fork pull request */
-  need_approval?: boolean;
+  need_approval?: boolean | undefined;
   /** the commit/tag/... the action run ran on */
-  prettyref?: string;
-  repository?: Repository;
+  prettyref?: string | undefined;
+  repository?: Repository | undefined;
   /** when the action run was started */
-  started?: string;
+  started?: string | undefined;
   /** the current status of this run */
-  status?: string;
+  status?: string | undefined;
   /** when the action run was stopped */
-  stopped?: string;
+  stopped?: string | undefined;
   /** the action run's title */
-  title?: string;
+  title?: string | undefined;
   /** the trigger event defined in the `on` configuration of the triggered workflow */
-  trigger_event?: string;
-  trigger_user?: User;
+  trigger_event?: string | undefined;
+  trigger_user?: User | undefined;
   /** when the action run was last updated */
-  updated?: string;
+  updated?: string | undefined;
   /** the name of workflow file */
-  workflow_id?: string;
+  workflow_id?: string | undefined;
 }
 export interface CancelActionRunRequest {
   /** owner of the repo */
@@ -353,29 +353,29 @@ export type CreateCurrentUserRepoRequestTrustModel =
   | "collaboratorcommitter";
 export interface CreateCurrentUserRepoRequest {
   /** Whether the repository should be auto-initialized? */
-  auto_init?: boolean;
+  auto_init?: boolean | undefined;
   /** DefaultBranch of the repository (used when initializes and in template) */
-  default_branch?: string;
+  default_branch?: string | undefined;
   /** Description of the repository to create */
-  description?: string;
+  description?: string | undefined;
   /** Gitignores to use, separated by commas */
-  gitignores?: string;
+  gitignores?: string | undefined;
   /** Label-Set to use */
-  issue_labels?: string;
+  issue_labels?: string | undefined;
   /** License to use */
-  license?: string;
+  license?: string | undefined;
   /** Name of the repository to create */
   name: string;
   /** ObjectFormatName of the underlying git repository */
-  object_format_name?: CreateCurrentUserRepoRequestObjectFormatName | (string & {});
+  object_format_name?: CreateCurrentUserRepoRequestObjectFormatName | (string & {}) | undefined;
   /** Whether the repository is private */
-  private?: boolean;
+  private?: boolean | undefined;
   /** Readme of the repository to create */
-  readme?: string;
+  readme?: string | undefined;
   /** Whether the repository is template */
-  template?: boolean;
+  template?: boolean | undefined;
   /** TrustModel of the repository */
-  trust_model?: CreateCurrentUserRepoRequestTrustModel | (string & {});
+  trust_model?: CreateCurrentUserRepoRequestTrustModel | (string & {}) | undefined;
 }
 export interface CreateForkRequest {
   /** owner of the repo to fork */
@@ -383,9 +383,9 @@ export interface CreateForkRequest {
   /** name of the repo to fork */
   repo: string;
   /** name of the forked repository */
-  name?: string;
+  name?: string | undefined;
   /** organization name, if forking into an organization */
-  organization?: string;
+  organization?: string | undefined;
 }
 export interface CreateForkResponse {}
 export interface CreateRepoVariableRequest {
@@ -461,22 +461,22 @@ export interface DispatchWorkflowRequest {
   /** name of the workflow */
   workflowfilename: string;
   /** Input keys and values configured in the workflow file. */
-  inputs?: DispatchWorkflowRequestInputsMap;
+  inputs?: DispatchWorkflowRequestInputsMap | undefined;
   /** Git reference for the workflow */
   ref: string;
   /** Flag to return the run info */
-  return_run_info?: boolean;
+  return_run_info?: boolean | undefined;
 }
 /** the jobs name */
 export type DispatchWorkflowRunJobsList = Array<string>;
 /** DispatchWorkflowRun represents a workflow run */
 export interface DispatchWorkflowRun {
   /** the workflow run id */
-  id?: number;
+  id?: number | undefined;
   /** the jobs name */
-  jobs?: DispatchWorkflowRunJobsList;
+  jobs?: DispatchWorkflowRunJobsList | undefined;
   /** a unique number for each run of a repository */
-  run_number?: number;
+  run_number?: number | undefined;
 }
 export interface DownloadActionArtifactRequest {
   /** owner of the repo */
@@ -493,70 +493,70 @@ export interface EditRepoRequest {
   /** name of the repo to edit */
   repo: string;
   /** either `true` to allow fast-forward-only merging pull requests, or `false` to prevent fast-forward-only merging. */
-  allow_fast_forward_only_merge?: boolean;
+  allow_fast_forward_only_merge?: boolean | undefined;
   /** either `true` to allow mark pr as merged manually, or `false` to prevent it. */
-  allow_manual_merge?: boolean;
+  allow_manual_merge?: boolean | undefined;
   /** either `true` to allow merging pull requests with a merge commit, or `false` to prevent merging pull requests with merge commits. */
-  allow_merge_commits?: boolean;
+  allow_merge_commits?: boolean | undefined;
   /** either `true` to allow rebase-merging pull requests, or `false` to prevent rebase-merging. */
-  allow_rebase?: boolean;
+  allow_rebase?: boolean | undefined;
   /** either `true` to allow rebase with explicit merge commits (--no-ff), or `false` to prevent rebase with explicit merge commits. */
-  allow_rebase_explicit?: boolean;
+  allow_rebase_explicit?: boolean | undefined;
   /** either `true` to allow updating pull request branch by rebase, or `false` to prevent it. */
-  allow_rebase_update?: boolean;
+  allow_rebase_update?: boolean | undefined;
   /** either `true` to allow squash-merging pull requests, or `false` to prevent squash-merging. */
-  allow_squash_merge?: boolean;
+  allow_squash_merge?: boolean | undefined;
   /** set to `true` to archive this repository. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** either `true` to enable AutodetectManualMerge, or `false` to prevent it. Note: In some special cases, misjudgments can occur. */
-  autodetect_manual_merge?: boolean;
+  autodetect_manual_merge?: boolean | undefined;
   /** set to `true` to allow edits from maintainers by default */
-  default_allow_maintainer_edit?: boolean;
+  default_allow_maintainer_edit?: boolean | undefined;
   /** sets the default branch for this repository. */
-  default_branch?: string;
+  default_branch?: string | undefined;
   /** set to `true` to delete pr branch after merge by default */
-  default_delete_branch_after_merge?: boolean;
+  default_delete_branch_after_merge?: boolean | undefined;
   /** set to a merge style to be used by this repository: "merge", "rebase", "rebase-merge", "squash", "fast-forward-only", "manually-merged", or "rebase-update-only". */
-  default_merge_style?: string;
+  default_merge_style?: string | undefined;
   /** set to a update style to be used by this repository: "rebase" or "merge" */
-  default_update_style?: string;
+  default_update_style?: string | undefined;
   /** a short description of the repository. */
-  description?: string;
+  description?: string | undefined;
   /** enable prune - remove obsolete remote-tracking references when mirroring */
-  enable_prune?: boolean;
-  external_tracker?: ExternalTracker;
-  external_wiki?: ExternalWiki;
+  enable_prune?: boolean | undefined;
+  external_tracker?: ExternalTracker | undefined;
+  external_wiki?: ExternalWiki | undefined;
   /** set the globally editable state of the wiki */
-  globally_editable_wiki?: boolean;
+  globally_editable_wiki?: boolean | undefined;
   /** either `true` to enable actions unit, or `false` to disable them. */
-  has_actions?: boolean;
+  has_actions?: boolean | undefined;
   /** either `true` to enable issues for this repository or `false` to disable them. */
-  has_issues?: boolean;
+  has_issues?: boolean | undefined;
   /** either `true` to enable packages unit, or `false` to disable them. */
-  has_packages?: boolean;
+  has_packages?: boolean | undefined;
   /** either `true` to enable project unit, or `false` to disable them. */
-  has_projects?: boolean;
+  has_projects?: boolean | undefined;
   /** either `true` to allow pull requests, or `false` to prevent pull request. */
-  has_pull_requests?: boolean;
+  has_pull_requests?: boolean | undefined;
   /** either `true` to enable releases unit, or `false` to disable them. */
-  has_releases?: boolean;
+  has_releases?: boolean | undefined;
   /** either `true` to enable the wiki for this repository or `false` to disable it. */
-  has_wiki?: boolean;
+  has_wiki?: boolean | undefined;
   /** either `true` to ignore whitespace for conflicts, or `false` to not ignore whitespace. */
-  ignore_whitespace_conflicts?: boolean;
-  internal_tracker?: InternalTracker;
+  ignore_whitespace_conflicts?: boolean | undefined;
+  internal_tracker?: InternalTracker | undefined;
   /** set to a string like `8h30m0s` to set the mirror interval time */
-  mirror_interval?: string;
+  mirror_interval?: string | undefined;
   /** name of the repository */
-  name?: string;
+  name?: string | undefined;
   /** either `true` to make the repository private or `false` to make it public. Note: you will get a 422 error if the organization restricts changing repository visibility to organization owners and a non-owner tries to change the value of private. */
-  private?: boolean;
+  private?: boolean | undefined;
   /** either `true` to make this repository a template or `false` to make it a normal repository */
-  template?: boolean;
+  template?: boolean | undefined;
   /** a URL with more information about the repository. */
-  website?: string;
+  website?: string | undefined;
   /** sets the branch used for this repository's wiki. */
-  wiki_branch?: string;
+  wiki_branch?: string | undefined;
 }
 export interface GenerateRepoRequest {
   /** name of the template repository owner */
@@ -564,29 +564,29 @@ export interface GenerateRepoRequest {
   /** name of the template repository */
   template_repo: string;
   /** include avatar of the template repo */
-  avatar?: boolean;
+  avatar?: boolean | undefined;
   /** Default branch of the new repository */
-  default_branch?: string;
+  default_branch?: string | undefined;
   /** Description of the repository to create */
-  description?: string;
+  description?: string | undefined;
   /** include git content of default branch in template repo */
-  git_content?: boolean;
+  git_content?: boolean | undefined;
   /** include git hooks in template repo */
-  git_hooks?: boolean;
+  git_hooks?: boolean | undefined;
   /** include labels in template repo */
-  labels?: boolean;
+  labels?: boolean | undefined;
   /** Name of the repository to create */
   name: string;
   /** The organization or person who will own the new repository */
   owner: string;
   /** Whether the repository is private */
-  private?: boolean;
+  private?: boolean | undefined;
   /** include protected branches in template repo */
-  protected_branch?: boolean;
+  protected_branch?: boolean | undefined;
   /** include topics in template repo */
-  topics?: boolean;
+  topics?: boolean | undefined;
   /** include webhooks in template repo */
-  webhooks?: boolean;
+  webhooks?: boolean | undefined;
 }
 export interface GetActionArtifactRequest {
   /** owner of the repo */
@@ -599,20 +599,20 @@ export interface GetActionArtifactRequest {
 /** ActionArtifact represents an artifact of a workflow run */
 export interface ActionArtifact {
   /** the URL to download the artifact zip archive */
-  archive_download_url?: string;
-  created_at?: string;
+  archive_download_url?: string | undefined;
+  created_at?: string | undefined;
   /** whether the artifact has expired */
-  expired?: boolean;
-  expires_at?: string;
+  expired?: boolean | undefined;
+  expires_at?: string | undefined;
   /** the artifact's ID */
-  id?: number;
+  id?: number | undefined;
   /** the artifact's name */
-  name?: string;
+  name?: string | undefined;
   /** the ID of the workflow run that produced this artifact */
-  run_id?: number;
+  run_id?: number | undefined;
   /** the total size of the artifact in bytes */
-  size_in_bytes?: number;
-  updated_at?: string;
+  size_in_bytes?: number | undefined;
+  updated_at?: string | undefined;
 }
 export interface GetAnnotatedTagRequest {
   /** owner of the repo */
@@ -624,45 +624,45 @@ export interface GetAnnotatedTagRequest {
 }
 /** TagArchiveDownloadCount counts how many times a archive was downloaded */
 export interface TagArchiveDownloadCount {
-  tar_gz?: number;
-  zip?: number;
+  tar_gz?: number | undefined;
+  zip?: number | undefined;
 }
 /** AnnotatedTagObject contains meta information of the tag object */
 export interface AnnotatedTagObject {
-  sha?: string;
-  type?: string;
-  url?: string;
+  sha?: string | undefined;
+  type?: string | undefined;
+  url?: string | undefined;
 }
 export interface CommitUser {
-  date?: string;
-  email?: string;
-  name?: string;
+  date?: string | undefined;
+  email?: string | undefined;
+  name?: string | undefined;
 }
 /** PayloadUser represents the author or committer of a commit */
 export interface PayloadUser {
-  email?: string;
+  email?: string | undefined;
   /** Full name of the commit author */
-  name?: string;
-  username?: string;
+  name?: string | undefined;
+  username?: string | undefined;
 }
 /** PayloadCommitVerification represents the GPG verification of a commit */
 export interface PayloadCommitVerification {
-  payload?: string;
-  reason?: string;
-  signature?: string;
-  signer?: PayloadUser;
-  verified?: boolean;
+  payload?: string | undefined;
+  reason?: string | undefined;
+  signature?: string | undefined;
+  signer?: PayloadUser | undefined;
+  verified?: boolean | undefined;
 }
 /** AnnotatedTag represents an annotated tag */
 export interface AnnotatedTag {
-  archive_download_count?: TagArchiveDownloadCount;
-  message?: string;
-  object?: AnnotatedTagObject;
-  sha?: string;
-  tag?: string;
-  tagger?: CommitUser;
-  url?: string;
-  verification?: PayloadCommitVerification;
+  archive_download_count?: TagArchiveDownloadCount | undefined;
+  message?: string | undefined;
+  object?: AnnotatedTagObject | undefined;
+  sha?: string | undefined;
+  tag?: string | undefined;
+  tagger?: CommitUser | undefined;
+  url?: string | undefined;
+  verification?: PayloadCommitVerification | undefined;
 }
 export interface GetBlobRequest {
   /** owner of the repo */
@@ -674,11 +674,11 @@ export interface GetBlobRequest {
 }
 /** GitBlob represents a git blob */
 export interface GitBlob {
-  content?: string;
-  encoding?: string;
-  sha?: string;
-  size?: number;
-  url?: string;
+  content?: string | undefined;
+  encoding?: string | undefined;
+  sha?: string | undefined;
+  size?: number | undefined;
+  url?: string | undefined;
 }
 export interface GetBlobsRequest {
   /** owner of the repo */
@@ -706,9 +706,9 @@ export interface GetRepoPermissionsRequest {
 }
 /** RepoCollaboratorPermission to get repository permission for a collaborator */
 export interface RepoCollaboratorPermission {
-  permission?: string;
-  role_name?: string;
-  user?: User;
+  permission?: string | undefined;
+  role_name?: string | undefined;
+  user?: User | undefined;
 }
 export interface GetRepoRunnerRequest {
   /** owner of the repo */
@@ -725,25 +725,25 @@ export type ActionRunnerStatus = "offline" | "idle" | "active";
 /** ActionRunner represents a runner */
 export interface ActionRunner {
   /** Description provides optional details about this runner. */
-  description?: string;
+  description?: string | undefined;
   /** Indicates if runner is ephemeral runner */
-  ephemeral?: boolean;
+  ephemeral?: boolean | undefined;
   /** ID uniquely identifies this runner. */
-  id?: number;
+  id?: number | undefined;
   /** Labels is a list of labels attached to this runner. */
-  labels?: ActionRunnerLabelsList;
+  labels?: ActionRunnerLabelsList | undefined;
   /** Name of the runner; not unique. */
-  name?: string;
+  name?: string | undefined;
   /** OwnerID is the identifier of the user or organization this runner belongs to. O if the runner is owned by a repository. */
-  owner_id?: number;
+  owner_id?: number | undefined;
   /** RepoID is the identifier of the repository this runner belongs to. 0 if the runner belongs to a user or organization. */
-  repo_id?: number;
+  repo_id?: number | undefined;
   /** Status indicates whether this runner is offline, or active, for example. */
-  status?: ActionRunnerStatus;
+  status?: ActionRunnerStatus | undefined;
   /** UUID uniquely identifies this runner. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Version is the self-reported version string of Forgejo Runner. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface GetRepoRunnersRequest {
   /** owner of the repo */
@@ -751,11 +751,11 @@ export interface GetRepoRunnersRequest {
   /** name of the repo */
   repo: string;
   /** whether to include all visible runners (true) or only those that are directly owned by the repository (false) */
-  visible?: boolean;
+  visible?: boolean | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type GetRepoRunnersResponseBodyList = Array<ActionRunner>;
 export type GetRepoRunnersResponse = GetRepoRunnersResponseBodyList;
@@ -774,9 +774,9 @@ export interface ActionVariable {
   /** the name of the variable */
   name: string;
   /** the owner to which the variable belongs */
-  owner_id?: number;
+  owner_id?: number | undefined;
   /** the repository to which the variable belongs */
-  repo_id?: number;
+  repo_id?: number | undefined;
 }
 export interface GetRepoVariablesListRequest {
   /** name of the owner */
@@ -784,9 +784,9 @@ export interface GetRepoVariablesListRequest {
   /** name of the repository */
   repo: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type GetRepoVariablesListResponseBodyList = Array<ActionVariable>;
 export type GetRepoVariablesListResponse = GetRepoVariablesListResponseBodyList;
@@ -798,30 +798,30 @@ export interface GetTreeRequest {
   /** sha of the commit */
   sha: string;
   /** show all directories and files */
-  recursive?: boolean;
+  recursive?: boolean | undefined;
   /** page number; the 'truncated' field in the response will be true if there are still more items after this page, false if the last page */
-  page?: number;
+  page?: number | undefined;
   /** number of items per page */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** GitEntry represents a git tree */
 export interface GitEntry {
-  mode?: string;
-  path?: string;
-  sha?: string;
-  size?: number;
-  type?: string;
-  url?: string;
+  mode?: string | undefined;
+  path?: string | undefined;
+  sha?: string | undefined;
+  size?: number | undefined;
+  type?: string | undefined;
+  url?: string | undefined;
 }
 export type GitTreeResponseTreeList = Array<GitEntry>;
 /** GitTreeResponse returns a git tree */
 export interface GitTreeResponse {
-  page?: number;
-  sha?: string;
-  total_count?: number;
-  tree?: GitTreeResponseTreeList;
-  truncated?: boolean;
-  url?: string;
+  page?: number | undefined;
+  sha?: string | undefined;
+  total_count?: number | undefined;
+  tree?: GitTreeResponseTreeList | undefined;
+  truncated?: boolean | undefined;
+  url?: string | undefined;
 }
 export interface ListActionArtifactsRequest {
   /** owner of the repo */
@@ -829,11 +829,11 @@ export interface ListActionArtifactsRequest {
   /** name of the repo */
   repo: string;
   /** filter by artifact name */
-  name?: string;
+  name?: string | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results, default maximum page size is 50 */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListActionArtifactsResponseBodyList = Array<ActionArtifact>;
 export type ListActionArtifactsResponse = ListActionArtifactsResponseBodyList;
@@ -845,11 +845,11 @@ export interface ListActionRunArtifactsRequest {
   /** ID of the workflow run */
   run_id: number;
   /** filter by artifact name */
-  name?: string;
+  name?: string | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results, default maximum page size is 50 */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListActionRunArtifactsResponseBodyList = Array<ActionArtifact>;
 export type ListActionRunArtifactsResponse = ListActionRunArtifactsResponseBodyList;
@@ -868,27 +868,27 @@ export type ActionRunJobRunsOnList = Array<string>;
 /** ActionRunJob represents a job of a run */
 export interface ActionRunJob {
   /** How many times the job has been attempted including the current attempt. */
-  attempt?: number;
+  attempt?: number | undefined;
   /** Opaque identifier that uniquely identifies a single attempt of a job. */
-  handle?: string;
+  handle?: string | undefined;
   /** Identifier of this job. */
-  id?: number;
+  id?: number | undefined;
   /** the action run job name */
-  name?: string;
+  name?: string | undefined;
   /** the action run job needed ids */
-  needs?: ActionRunJobNeedsList;
+  needs?: ActionRunJobNeedsList | undefined;
   /** the owner id */
-  owner_id?: number;
+  owner_id?: number | undefined;
   /** the repository id */
-  repo_id?: number;
+  repo_id?: number | undefined;
   /** Identifier of the workflow run this job belongs to. */
-  run_id?: number;
+  run_id?: number | undefined;
   /** the action run job labels to run on */
-  runs_on?: ActionRunJobRunsOnList;
+  runs_on?: ActionRunJobRunsOnList | undefined;
   /** the action run job status */
-  status?: string;
+  status?: string | undefined;
   /** the action run job latest task id */
-  task_id?: number;
+  task_id?: number | undefined;
 }
 export type ListActionRunJobsResponseBodyList = Array<ActionRunJob>;
 export type ListActionRunJobsResponse = ListActionRunJobsResponseBodyList;
@@ -911,27 +911,27 @@ export interface ListActionRunsRequest {
   /** name of the repo */
   repo: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results, default maximum page size is 50 */
-  limit?: number;
+  limit?: number | undefined;
   /** Returns workflow run triggered by the specified events. For example, `push`, `pull_request` or `workflow_dispatch`. */
-  event?: ListActionRunsRequestEventList;
+  event?: ListActionRunsRequestEventList | undefined;
   /** Returns workflow runs with the check run status or conclusion that is specified. For example, a conclusion can be success or a status can be in_progress. Only Forgejo Actions can set a status of waiting, pending, or requested. */
-  status?: ListActionRunsRequestStatusList;
+  status?: ListActionRunsRequestStatusList | undefined;
   /** Returns the workflow run associated with the run number. */
-  run_number?: number;
+  run_number?: number | undefined;
   /** Only returns workflow runs that are associated with the specified head_sha. */
-  head_sha?: string;
+  head_sha?: string | undefined;
   /** Only return workflow runs that involve the given Git reference, for example, `refs/heads/main`. */
-  ref?: string;
+  ref?: string | undefined;
   /** Only return workflow runs that involve the given workflow ID. */
-  workflow_id?: string;
+  workflow_id?: string | undefined;
 }
 export type ListActionRunResponseWorkflowRunsList = Array<ActionRun>;
 /** ListActionRunResponse return a list of ActionRun */
 export interface ListActionRunResponse {
-  total_count?: number;
-  workflow_runs?: ListActionRunResponseWorkflowRunsList;
+  total_count?: number | undefined;
+  workflow_runs?: ListActionRunResponseWorkflowRunsList | undefined;
 }
 export type ListActionTasksRequestStatusItem =
   | "unknown"
@@ -951,33 +951,33 @@ export interface ListActionTasksRequest {
   /** name of the repo */
   repo: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results, default maximum page size is 50 */
-  limit?: number;
+  limit?: number | undefined;
   /** Returns workflow tasks with the check run status or conclusion that is specified. For example, a conclusion can be success or a status can be in_progress. */
-  status?: ListActionTasksRequestStatusList;
+  status?: ListActionTasksRequestStatusList | undefined;
 }
 /** ActionTask represents a ActionTask */
 export interface ActionTask {
-  created_at?: string;
-  display_title?: string;
-  event?: string;
-  head_branch?: string;
-  head_sha?: string;
-  id?: number;
-  name?: string;
-  run_number?: number;
-  run_started_at?: string;
-  status?: string;
-  updated_at?: string;
-  url?: string;
-  workflow_id?: string;
+  created_at?: string | undefined;
+  display_title?: string | undefined;
+  event?: string | undefined;
+  head_branch?: string | undefined;
+  head_sha?: string | undefined;
+  id?: number | undefined;
+  name?: string | undefined;
+  run_number?: number | undefined;
+  run_started_at?: string | undefined;
+  status?: string | undefined;
+  updated_at?: string | undefined;
+  url?: string | undefined;
+  workflow_id?: string | undefined;
 }
 export type ActionTaskResponseWorkflowRunsList = Array<ActionTask>;
 /** ActionTaskResponse returns a ActionTask */
 export interface ActionTaskResponse {
-  total_count?: number;
-  workflow_runs?: ActionTaskResponseWorkflowRunsList;
+  total_count?: number | undefined;
+  workflow_runs?: ActionTaskResponseWorkflowRunsList | undefined;
 }
 export interface ListForksRequest {
   /** owner of the repo */
@@ -985,9 +985,9 @@ export interface ListForksRequest {
   /** name of the repo */
   repo: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListForksResponseBodyList = Array<Repository>;
 export type ListForksResponse = ListForksResponseBodyList;
@@ -1003,28 +1003,28 @@ export type MigrateRepoRequestService =
   | "forgejo"
   | "pagure";
 export interface MigrateRepoRequest {
-  auth_password?: string | Redacted.Redacted<string>;
-  auth_token?: string;
-  auth_username?: string;
+  auth_password?: string | Redacted.Redacted<string> | undefined;
+  auth_token?: string | undefined;
+  auth_username?: string | undefined;
   clone_addr: string;
-  description?: string;
-  issues?: boolean;
-  labels?: boolean;
-  lfs?: boolean;
-  lfs_endpoint?: string;
-  milestones?: boolean;
-  mirror?: boolean;
-  mirror_interval?: string;
-  private?: boolean;
-  pull_requests?: boolean;
-  releases?: boolean;
+  description?: string | undefined;
+  issues?: boolean | undefined;
+  labels?: boolean | undefined;
+  lfs?: boolean | undefined;
+  lfs_endpoint?: string | undefined;
+  milestones?: boolean | undefined;
+  mirror?: boolean | undefined;
+  mirror_interval?: string | undefined;
+  private?: boolean | undefined;
+  pull_requests?: boolean | undefined;
+  releases?: boolean | undefined;
   repo_name: string;
   /** Name of User or Organisation who will own Repo after migration */
-  repo_owner?: string;
-  service?: MigrateRepoRequestService | (string & {});
+  repo_owner?: string | undefined;
+  service?: MigrateRepoRequestService | (string & {}) | undefined;
   /** deprecated (only for backwards compatibility) */
-  uid?: number;
-  wiki?: boolean;
+  uid?: number | undefined;
+  wiki?: boolean | undefined;
 }
 export interface RegisterRepoRunnerRequest {
   /** owner of the repo */
@@ -1032,16 +1032,16 @@ export interface RegisterRepoRunnerRequest {
   /** name of the repo */
   repo: string;
   /** Description of the runner to register. */
-  description?: string;
+  description?: string | undefined;
   /** Register as ephemeral runner https://forgejo.org/docs/latest/admin/actions/security/#ephemeral-runner */
-  ephemeral?: boolean;
+  ephemeral?: boolean | undefined;
   /** Name of the runner to register. The name of the runner does not have to be unique. */
   name: string;
 }
 export interface RegisterRunnerResponse {
-  id?: number;
-  token?: string;
-  uuid?: string;
+  id?: number | undefined;
+  token?: string | undefined;
+  uuid?: string | undefined;
 }
 export interface RejectRepoTransferRequest {
   /** owner of the repo to transfer */
@@ -1057,7 +1057,7 @@ export interface RepoAddCollaboratorRequest {
   repo: string;
   /** username of the collaborator to add */
   collaborator: string;
-  permission?: RepoAddCollaboratorRequestPermission | (string & {});
+  permission?: RepoAddCollaboratorRequestPermission | (string & {}) | undefined;
 }
 export interface RepoAddCollaboratorResponse {}
 export interface RepoAddFlagRequest {
@@ -1074,26 +1074,26 @@ export interface RepoAddPushMirrorRequest {
   owner: string;
   /** name of the repo */
   repo: string;
-  branch_filter?: string;
-  interval?: string;
-  remote_address?: string;
-  remote_password?: string | Redacted.Redacted<string>;
-  remote_username?: string;
-  sync_on_commit?: boolean;
-  use_ssh?: boolean;
+  branch_filter?: string | undefined;
+  interval?: string | undefined;
+  remote_address?: string | undefined;
+  remote_password?: string | Redacted.Redacted<string> | undefined;
+  remote_username?: string | undefined;
+  sync_on_commit?: boolean | undefined;
+  use_ssh?: boolean | undefined;
 }
 /** PushMirror represents information of a push mirror */
 export interface PushMirror {
-  branch_filter?: string;
-  created?: string;
-  interval?: string;
-  last_error?: string;
-  last_update?: string;
-  public_key?: string;
-  remote_address?: string;
-  remote_name?: string;
-  repo_name?: string;
-  sync_on_commit?: boolean;
+  branch_filter?: string | undefined;
+  created?: string | undefined;
+  interval?: string | undefined;
+  last_error?: string | undefined;
+  last_update?: string | undefined;
+  public_key?: string | undefined;
+  remote_address?: string | undefined;
+  remote_name?: string | undefined;
+  repo_name?: string | undefined;
+  sync_on_commit?: boolean | undefined;
 }
 export interface RepoAddTeamRequest {
   /** owner of the repo */
@@ -1115,91 +1115,91 @@ export interface RepoAddTopicRequest {
 export interface RepoAddTopicResponse {}
 /** Identity for a person's identity like an author or committer */
 export interface Identity {
-  email?: string;
-  name?: string;
+  email?: string | undefined;
+  name?: string | undefined;
 }
 /** CommitDateOptions store dates for GIT_AUTHOR_DATE and GIT_COMMITTER_DATE */
 export interface CommitDateOptions {
-  author?: string;
-  committer?: string;
+  author?: string | undefined;
+  committer?: string | undefined;
 }
 export interface RepoApplyDiffPatchRequest {
   /** owner of the repo */
   owner: string;
   /** name of the repo */
   repo: string;
-  author?: Identity;
+  author?: Identity | undefined;
   /** branch (optional) to base this file from. if not given, the default branch is used */
-  branch?: string;
-  committer?: Identity;
+  branch?: string | undefined;
+  committer?: Identity | undefined;
   /** content must be base64 encoded */
   content: string;
-  dates?: CommitDateOptions;
+  dates?: CommitDateOptions | undefined;
   /** (optional) will do a force-push if the new branch already exists */
-  force_overwrite_new_branch?: boolean;
+  force_overwrite_new_branch?: boolean | undefined;
   /** from_path (optional) is the path of the original file which will be moved/renamed to the path in the URL */
-  from_path?: string;
+  from_path?: string | undefined;
   /** message (optional) for the commit of this file. if not supplied, a default message will be used */
-  message?: string;
+  message?: string | undefined;
   /** new_branch (optional) will make a new branch from `branch` before creating the file */
-  new_branch?: string;
+  new_branch?: string | undefined;
   /** sha is the SHA for the file that already exists */
   sha: string;
   /** Add a Signed-off-by trailer by the committer at the end of the commit log message. */
-  signoff?: boolean;
+  signoff?: boolean | undefined;
 }
 export interface CommitMeta {
-  created?: string;
-  sha?: string;
-  url?: string;
+  created?: string | undefined;
+  sha?: string | undefined;
+  url?: string | undefined;
 }
 export type FileCommitResponseParentsList = Array<CommitMeta>;
 export interface FileCommitResponse {
-  author?: CommitUser;
-  committer?: CommitUser;
-  created?: string;
-  html_url?: string;
-  message?: string;
-  parents?: FileCommitResponseParentsList;
-  sha?: string;
-  tree?: CommitMeta;
-  url?: string;
+  author?: CommitUser | undefined;
+  committer?: CommitUser | undefined;
+  created?: string | undefined;
+  html_url?: string | undefined;
+  message?: string | undefined;
+  parents?: FileCommitResponseParentsList | undefined;
+  sha?: string | undefined;
+  tree?: CommitMeta | undefined;
+  url?: string | undefined;
 }
 /** FileLinksResponse contains the links for a repo's file */
 export interface FileLinksResponse {
-  git?: string;
-  html?: string;
-  self?: string;
+  git?: string | undefined;
+  html?: string | undefined;
+  self?: string | undefined;
 }
 /** ContentsResponse contains information about a repo's entry's (dir, file, symlink, submodule) metadata and content */
 export interface ContentsResponse {
-  _links?: FileLinksResponse;
+  _links?: FileLinksResponse | undefined;
   /** `content` is populated when `type` is `file`, otherwise null */
-  content?: string;
-  download_url?: string;
+  content?: string | undefined;
+  download_url?: string | undefined;
   /** `encoding` is populated when `type` is `file`, otherwise null */
-  encoding?: string;
-  git_url?: string;
-  html_url?: string;
-  last_commit_sha?: string;
-  last_commit_when?: string;
-  name?: string;
-  path?: string;
-  sha?: string;
-  size?: number;
+  encoding?: string | undefined;
+  git_url?: string | undefined;
+  html_url?: string | undefined;
+  last_commit_sha?: string | undefined;
+  last_commit_when?: string | undefined;
+  name?: string | undefined;
+  path?: string | undefined;
+  sha?: string | undefined;
+  size?: number | undefined;
   /** `submodule_git_url` is populated when `type` is `submodule`, otherwise null */
-  submodule_git_url?: string;
+  submodule_git_url?: string | undefined;
   /** `target` is populated when `type` is `symlink`, otherwise null */
-  target?: string;
+  target?: string | undefined;
   /** `type` will be `file`, `dir`, `symlink`, or `submodule` */
-  type?: string;
-  url?: string;
+  type?: string | undefined;
+  url?: string | undefined;
 }
 /** FileResponse contains information about a repo's file */
 export interface FileResponse {
-  commit?: FileCommitResponse;
-  content?: ContentsResponse;
-  verification?: PayloadCommitVerification;
+  commit?: FileCommitResponse | undefined;
+  content?: ContentsResponse | undefined;
+  verification?: PayloadCommitVerification | undefined;
 }
 export interface RepoCancelScheduledAutoMergeRequest {
   /** owner of the repo */
@@ -1215,15 +1215,15 @@ export type ChangeFileOperationOperation = "create" | "update" | "delete";
 /** ChangeFileOperation for creating, updating or deleting a file */
 export interface ChangeFileOperation {
   /** new or updated file content, must be base64 encoded */
-  content?: string;
+  content?: string | undefined;
   /** old path of the file to move */
-  from_path?: string;
+  from_path?: string | undefined;
   /** indicates what to do with the file */
   operation: ChangeFileOperationOperation | (string & {});
   /** path to the existing or new file */
   path: string;
   /** sha is the SHA for the file that already exists, required for update or delete */
-  sha?: string;
+  sha?: string | undefined;
 }
 /** list of file operations */
 export type RepoChangeFilesRequestFilesList = Array<ChangeFileOperation>;
@@ -1232,28 +1232,28 @@ export interface RepoChangeFilesRequest {
   owner: string;
   /** name of the repo */
   repo: string;
-  author?: Identity;
+  author?: Identity | undefined;
   /** branch (optional) to base this file from. if not given, the default branch is used */
-  branch?: string;
-  committer?: Identity;
-  dates?: CommitDateOptions;
+  branch?: string | undefined;
+  committer?: Identity | undefined;
+  dates?: CommitDateOptions | undefined;
   /** list of file operations */
   files: RepoChangeFilesRequestFilesList;
   /** (optional) will do a force-push if the new branch already exists */
-  force_overwrite_new_branch?: boolean;
+  force_overwrite_new_branch?: boolean | undefined;
   /** message (optional) for the commit of this file. if not supplied, a default message will be used */
-  message?: string;
+  message?: string | undefined;
   /** new_branch (optional) will make a new branch from `branch` before creating the file */
-  new_branch?: string;
+  new_branch?: string | undefined;
   /** Add a Signed-off-by trailer by the committer at the end of the commit log message. */
-  signoff?: boolean;
+  signoff?: boolean | undefined;
 }
 export type FilesResponseFilesList = Array<ContentsResponse>;
 /** FilesResponse contains information about multiple files from a repo */
 export interface FilesResponse {
-  commit?: FileCommitResponse;
-  files?: FilesResponseFilesList;
-  verification?: PayloadCommitVerification;
+  commit?: FileCommitResponse | undefined;
+  files?: FilesResponseFilesList | undefined;
+  verification?: PayloadCommitVerification | undefined;
 }
 export interface RepoCheckCollaboratorRequest {
   /** owner of the repo */
@@ -1290,44 +1290,44 @@ export interface RepoCompareDiffRequest {
   basehead: string;
 }
 export interface RepoCommit {
-  author?: CommitUser;
-  committer?: CommitUser;
-  message?: string;
-  tree?: CommitMeta;
-  url?: string;
-  verification?: PayloadCommitVerification;
+  author?: CommitUser | undefined;
+  committer?: CommitUser | undefined;
+  message?: string | undefined;
+  tree?: CommitMeta | undefined;
+  url?: string | undefined;
+  verification?: PayloadCommitVerification | undefined;
 }
 /** CommitAffectedFiles store information about files affected by the commit */
 export interface CommitAffectedFiles {
-  filename?: string;
-  status?: string;
+  filename?: string | undefined;
+  status?: string | undefined;
 }
 export type CommitFilesList = Array<CommitAffectedFiles>;
 export type CommitParentsList = Array<CommitMeta>;
 /** CommitStats is statistics for a RepoCommit */
 export interface CommitStats {
-  additions?: number;
-  deletions?: number;
-  total?: number;
+  additions?: number | undefined;
+  deletions?: number | undefined;
+  total?: number | undefined;
 }
 export interface Commit {
-  author?: User;
-  commit?: RepoCommit;
-  committer?: User;
-  created?: string;
-  files?: CommitFilesList;
-  html_url?: string;
-  parents?: CommitParentsList;
-  sha?: string;
-  stats?: CommitStats;
-  url?: string;
+  author?: User | undefined;
+  commit?: RepoCommit | undefined;
+  committer?: User | undefined;
+  created?: string | undefined;
+  files?: CommitFilesList | undefined;
+  html_url?: string | undefined;
+  parents?: CommitParentsList | undefined;
+  sha?: string | undefined;
+  stats?: CommitStats | undefined;
+  url?: string | undefined;
 }
 export type CompareCommitsList = Array<Commit>;
 export type CompareFilesList = Array<CommitAffectedFiles>;
 export interface Compare {
-  commits?: CompareCommitsList;
-  files?: CompareFilesList;
-  total_commits?: number;
+  commits?: CompareCommitsList | undefined;
+  files?: CompareFilesList | undefined;
+  total_commits?: number | undefined;
 }
 export interface RepoCreateBranchRequest {
   /** owner of the repo */
@@ -1337,39 +1337,39 @@ export interface RepoCreateBranchRequest {
   /** Name of the branch to create */
   new_branch_name: string;
   /** Deprecated: true Name of the old branch to create from */
-  old_branch_name?: string;
+  old_branch_name?: string | undefined;
   /** Name of the old branch/tag/commit to create from */
-  old_ref_name?: string;
+  old_ref_name?: string | undefined;
 }
 export type PayloadCommitAddedList = Array<string>;
 export type PayloadCommitModifiedList = Array<string>;
 export type PayloadCommitRemovedList = Array<string>;
 /** PayloadCommit represents a commit */
 export interface PayloadCommit {
-  added?: PayloadCommitAddedList;
-  author?: PayloadUser;
-  committer?: PayloadUser;
+  added?: PayloadCommitAddedList | undefined;
+  author?: PayloadUser | undefined;
+  committer?: PayloadUser | undefined;
   /** sha1 hash of the commit */
-  id?: string;
-  message?: string;
-  modified?: PayloadCommitModifiedList;
-  removed?: PayloadCommitRemovedList;
-  timestamp?: string;
-  url?: string;
-  verification?: PayloadCommitVerification;
+  id?: string | undefined;
+  message?: string | undefined;
+  modified?: PayloadCommitModifiedList | undefined;
+  removed?: PayloadCommitRemovedList | undefined;
+  timestamp?: string | undefined;
+  url?: string | undefined;
+  verification?: PayloadCommitVerification | undefined;
 }
 export type BranchStatusCheckContextsList = Array<string>;
 /** Branch represents a repository branch */
 export interface Branch {
-  commit?: PayloadCommit;
-  effective_branch_protection_name?: string;
-  enable_status_check?: boolean;
-  name?: string;
-  protected?: boolean;
-  required_approvals?: number;
-  status_check_contexts?: BranchStatusCheckContextsList;
-  user_can_merge?: boolean;
-  user_can_push?: boolean;
+  commit?: PayloadCommit | undefined;
+  effective_branch_protection_name?: string | undefined;
+  enable_status_check?: boolean | undefined;
+  name?: string | undefined;
+  protected?: boolean | undefined;
+  required_approvals?: number | undefined;
+  status_check_contexts?: BranchStatusCheckContextsList | undefined;
+  user_can_merge?: boolean | undefined;
+  user_can_push?: boolean | undefined;
 }
 export type RepoCreateBranchProtectionRequestApprovalsWhitelistTeamsList = Array<string>;
 export type RepoCreateBranchProtectionRequestApprovalsWhitelistUsernameList = Array<string>;
@@ -1383,32 +1383,40 @@ export interface RepoCreateBranchProtectionRequest {
   owner: string;
   /** name of the repo */
   repo: string;
-  apply_to_admins?: boolean;
-  approvals_whitelist_teams?: RepoCreateBranchProtectionRequestApprovalsWhitelistTeamsList;
-  approvals_whitelist_username?: RepoCreateBranchProtectionRequestApprovalsWhitelistUsernameList;
-  block_on_official_review_requests?: boolean;
-  block_on_outdated_branch?: boolean;
-  block_on_rejected_reviews?: boolean;
+  apply_to_admins?: boolean | undefined;
+  approvals_whitelist_teams?:
+    | RepoCreateBranchProtectionRequestApprovalsWhitelistTeamsList
+    | undefined;
+  approvals_whitelist_username?:
+    | RepoCreateBranchProtectionRequestApprovalsWhitelistUsernameList
+    | undefined;
+  block_on_official_review_requests?: boolean | undefined;
+  block_on_outdated_branch?: boolean | undefined;
+  block_on_rejected_reviews?: boolean | undefined;
   /** Deprecated: true */
-  branch_name?: string;
-  dismiss_stale_approvals?: boolean;
-  enable_approvals_whitelist?: boolean;
-  enable_merge_whitelist?: boolean;
-  enable_push?: boolean;
-  enable_push_whitelist?: boolean;
-  enable_status_check?: boolean;
-  ignore_stale_approvals?: boolean;
-  merge_whitelist_teams?: RepoCreateBranchProtectionRequestMergeWhitelistTeamsList;
-  merge_whitelist_usernames?: RepoCreateBranchProtectionRequestMergeWhitelistUsernamesList;
-  protected_file_patterns?: string;
-  push_whitelist_deploy_keys?: boolean;
-  push_whitelist_teams?: RepoCreateBranchProtectionRequestPushWhitelistTeamsList;
-  push_whitelist_usernames?: RepoCreateBranchProtectionRequestPushWhitelistUsernamesList;
-  require_signed_commits?: boolean;
-  required_approvals?: number;
-  rule_name?: string;
-  status_check_contexts?: RepoCreateBranchProtectionRequestStatusCheckContextsList;
-  unprotected_file_patterns?: string;
+  branch_name?: string | undefined;
+  dismiss_stale_approvals?: boolean | undefined;
+  enable_approvals_whitelist?: boolean | undefined;
+  enable_merge_whitelist?: boolean | undefined;
+  enable_push?: boolean | undefined;
+  enable_push_whitelist?: boolean | undefined;
+  enable_status_check?: boolean | undefined;
+  ignore_stale_approvals?: boolean | undefined;
+  merge_whitelist_teams?: RepoCreateBranchProtectionRequestMergeWhitelistTeamsList | undefined;
+  merge_whitelist_usernames?:
+    | RepoCreateBranchProtectionRequestMergeWhitelistUsernamesList
+    | undefined;
+  protected_file_patterns?: string | undefined;
+  push_whitelist_deploy_keys?: boolean | undefined;
+  push_whitelist_teams?: RepoCreateBranchProtectionRequestPushWhitelistTeamsList | undefined;
+  push_whitelist_usernames?:
+    | RepoCreateBranchProtectionRequestPushWhitelistUsernamesList
+    | undefined;
+  require_signed_commits?: boolean | undefined;
+  required_approvals?: number | undefined;
+  rule_name?: string | undefined;
+  status_check_contexts?: RepoCreateBranchProtectionRequestStatusCheckContextsList | undefined;
+  unprotected_file_patterns?: string | undefined;
 }
 export type BranchProtectionApprovalsWhitelistTeamsList = Array<string>;
 export type BranchProtectionApprovalsWhitelistUsernameList = Array<string>;
@@ -1419,33 +1427,33 @@ export type BranchProtectionPushWhitelistUsernamesList = Array<string>;
 export type BranchProtectionStatusCheckContextsList = Array<string>;
 /** BranchProtection represents a branch protection for a repository */
 export interface BranchProtection {
-  apply_to_admins?: boolean;
-  approvals_whitelist_teams?: BranchProtectionApprovalsWhitelistTeamsList;
-  approvals_whitelist_username?: BranchProtectionApprovalsWhitelistUsernameList;
-  block_on_official_review_requests?: boolean;
-  block_on_outdated_branch?: boolean;
-  block_on_rejected_reviews?: boolean;
+  apply_to_admins?: boolean | undefined;
+  approvals_whitelist_teams?: BranchProtectionApprovalsWhitelistTeamsList | undefined;
+  approvals_whitelist_username?: BranchProtectionApprovalsWhitelistUsernameList | undefined;
+  block_on_official_review_requests?: boolean | undefined;
+  block_on_outdated_branch?: boolean | undefined;
+  block_on_rejected_reviews?: boolean | undefined;
   /** Deprecated: true */
-  branch_name?: string;
+  branch_name?: string | undefined;
   created_at: string;
-  dismiss_stale_approvals?: boolean;
-  enable_approvals_whitelist?: boolean;
-  enable_merge_whitelist?: boolean;
-  enable_push?: boolean;
-  enable_push_whitelist?: boolean;
-  enable_status_check?: boolean;
-  ignore_stale_approvals?: boolean;
-  merge_whitelist_teams?: BranchProtectionMergeWhitelistTeamsList;
-  merge_whitelist_usernames?: BranchProtectionMergeWhitelistUsernamesList;
-  protected_file_patterns?: string;
-  push_whitelist_deploy_keys?: boolean;
-  push_whitelist_teams?: BranchProtectionPushWhitelistTeamsList;
-  push_whitelist_usernames?: BranchProtectionPushWhitelistUsernamesList;
-  require_signed_commits?: boolean;
-  required_approvals?: number;
+  dismiss_stale_approvals?: boolean | undefined;
+  enable_approvals_whitelist?: boolean | undefined;
+  enable_merge_whitelist?: boolean | undefined;
+  enable_push?: boolean | undefined;
+  enable_push_whitelist?: boolean | undefined;
+  enable_status_check?: boolean | undefined;
+  ignore_stale_approvals?: boolean | undefined;
+  merge_whitelist_teams?: BranchProtectionMergeWhitelistTeamsList | undefined;
+  merge_whitelist_usernames?: BranchProtectionMergeWhitelistUsernamesList | undefined;
+  protected_file_patterns?: string | undefined;
+  push_whitelist_deploy_keys?: boolean | undefined;
+  push_whitelist_teams?: BranchProtectionPushWhitelistTeamsList | undefined;
+  push_whitelist_usernames?: BranchProtectionPushWhitelistUsernamesList | undefined;
+  require_signed_commits?: boolean | undefined;
+  required_approvals?: number | undefined;
   rule_name: string;
-  status_check_contexts?: BranchProtectionStatusCheckContextsList;
-  unprotected_file_patterns?: string;
+  status_check_contexts?: BranchProtectionStatusCheckContextsList | undefined;
+  unprotected_file_patterns?: string | undefined;
   updated_at: string;
 }
 export interface RepoCreateFileRequest {
@@ -1455,21 +1463,21 @@ export interface RepoCreateFileRequest {
   repo: string;
   /** path of the file to create */
   filepath: string;
-  author?: Identity;
+  author?: Identity | undefined;
   /** branch (optional) to base this file from. if not given, the default branch is used */
-  branch?: string;
-  committer?: Identity;
+  branch?: string | undefined;
+  committer?: Identity | undefined;
   /** content must be base64 encoded */
   content: string;
-  dates?: CommitDateOptions;
+  dates?: CommitDateOptions | undefined;
   /** (optional) will do a force-push if the new branch already exists */
-  force_overwrite_new_branch?: boolean;
+  force_overwrite_new_branch?: boolean | undefined;
   /** message (optional) for the commit of this file. if not supplied, a default message will be used */
-  message?: string;
+  message?: string | undefined;
   /** new_branch (optional) will make a new branch from `branch` before creating the file */
-  new_branch?: string;
+  new_branch?: string | undefined;
   /** Add a Signed-off-by trailer by the committer at the end of the commit log message. */
-  signoff?: boolean;
+  signoff?: boolean | undefined;
 }
 /** CreateHookOptionConfig has all config options in it required are "content_type" and "url" Required */
 export type CreateHookOptionConfig = { [key: string]: string | undefined };
@@ -1491,11 +1499,11 @@ export interface RepoCreateHookRequest {
   owner: string;
   /** name of the repo */
   repo: string;
-  active?: boolean;
-  authorization_header?: string;
-  branch_filter?: string;
+  active?: boolean | undefined;
+  authorization_header?: string | undefined;
+  branch_filter?: string | undefined;
   config: CreateHookOptionConfig;
-  events?: RepoCreateHookRequestEventsList;
+  events?: RepoCreateHookRequestEventsList | undefined;
   type: RepoCreateHookRequestType | (string & {});
 }
 /** Deprecated: use Metadata instead */
@@ -1504,15 +1512,15 @@ export type HookEventsList = Array<string>;
 /** Hook a hook is a web hook when one repository changed */
 export interface Hook {
   active: boolean;
-  authorization_header?: string;
-  branch_filter?: string;
+  authorization_header?: string | undefined;
+  branch_filter?: string | undefined;
   /** Deprecated: use Metadata instead */
-  config?: HookConfigMap;
-  content_type?: string;
+  config?: HookConfigMap | undefined;
+  content_type?: string | undefined;
   created_at: string;
-  events?: HookEventsList;
+  events?: HookEventsList | undefined;
   id: number;
-  metadata?: unknown;
+  metadata?: unknown | undefined;
   type: string;
   updated_at: string;
   url: string;
@@ -1525,21 +1533,21 @@ export interface RepoCreateKeyRequest {
   /** An armored SSH key to add */
   key: string;
   /** Describe if the key has only read access or read/write */
-  read_only?: boolean;
+  read_only?: boolean | undefined;
   /** Title of the key to add */
   title: string;
 }
 /** DeployKey a deploy key */
 export interface DeployKey {
-  created_at?: string;
-  fingerprint?: string;
-  id?: number;
-  key?: string;
-  key_id?: number;
-  read_only?: boolean;
-  repository?: Repository;
-  title?: string;
-  url?: string;
+  created_at?: string | undefined;
+  fingerprint?: string | undefined;
+  id?: number | undefined;
+  key?: string | undefined;
+  key_id?: number | undefined;
+  read_only?: boolean | undefined;
+  repository?: Repository | undefined;
+  title?: string | undefined;
+  url?: string | undefined;
 }
 export type RepoCreatePullRequestRequestAssigneesList = Array<string>;
 export type RepoCreatePullRequestRequestLabelsList = Array<number>;
@@ -1548,104 +1556,104 @@ export interface RepoCreatePullRequestRequest {
   owner: string;
   /** name of the repo */
   repo: string;
-  assignee?: string;
-  assignees?: RepoCreatePullRequestRequestAssigneesList;
-  base?: string;
-  body?: string;
-  due_date?: string;
-  head?: string;
-  labels?: RepoCreatePullRequestRequestLabelsList;
-  milestone?: number;
-  title?: string;
+  assignee?: string | undefined;
+  assignees?: RepoCreatePullRequestRequestAssigneesList | undefined;
+  base?: string | undefined;
+  body?: string | undefined;
+  due_date?: string | undefined;
+  head?: string | undefined;
+  labels?: RepoCreatePullRequestRequestLabelsList | undefined;
+  milestone?: number | undefined;
+  title?: string | undefined;
 }
 export type PullRequestAssigneesList = Array<User>;
 /** PRBranchInfo information about a branch */
 export interface PRBranchInfo {
-  label?: string;
-  ref?: string;
-  repo?: Repository;
-  repo_id?: number;
-  sha?: string;
+  label?: string | undefined;
+  ref?: string | undefined;
+  repo?: Repository | undefined;
+  repo_id?: number | undefined;
+  sha?: string | undefined;
 }
 /** Label a label to an issue or a pr */
 export interface Label {
   color: string;
-  description?: string;
-  exclusive?: boolean;
+  description?: string | undefined;
+  exclusive?: boolean | undefined;
   id: number;
-  is_archived?: boolean;
+  is_archived?: boolean | undefined;
   name: string;
-  url?: string;
+  url?: string | undefined;
 }
 export type PullRequestLabelsList = Array<Label>;
 /** Milestone milestone is a collection of issues on one repository */
 export interface Milestone {
-  closed_at?: string;
-  closed_issues?: number;
-  created_at?: string;
-  description?: string;
-  due_on?: string;
-  id?: number;
-  open_issues?: number;
-  state?: string;
-  title?: string;
-  updated_at?: string;
+  closed_at?: string | undefined;
+  closed_issues?: number | undefined;
+  created_at?: string | undefined;
+  description?: string | undefined;
+  due_on?: string | undefined;
+  id?: number | undefined;
+  open_issues?: number | undefined;
+  state?: string | undefined;
+  title?: string | undefined;
+  updated_at?: string | undefined;
 }
 export type PullRequestRequestedReviewersList = Array<User>;
 export type PullRequestRequestedReviewersTeamsList = Array<Team>;
 /** PullRequest represents a pull request */
 export interface PullRequest {
-  additions?: number;
-  allow_maintainer_edit?: boolean;
-  assignee?: User;
-  assignees?: PullRequestAssigneesList;
-  base?: PRBranchInfo;
-  body?: string;
-  changed_files?: number;
-  closed_at?: string;
-  comments?: number;
-  created_at?: string;
-  deletions?: number;
-  diff_url?: string;
-  draft?: boolean;
-  due_date?: string;
-  flow?: number;
-  head?: PRBranchInfo;
-  html_url?: string;
-  id?: number;
-  is_locked?: boolean;
-  labels?: PullRequestLabelsList;
-  merge_base?: string;
-  merge_commit_sha?: string;
-  mergeable?: boolean;
-  merged?: boolean;
-  merged_at?: string;
-  merged_by?: User;
-  milestone?: Milestone;
-  number?: number;
-  patch_url?: string;
-  pin_order?: number;
-  requested_reviewers?: PullRequestRequestedReviewersList;
-  requested_reviewers_teams?: PullRequestRequestedReviewersTeamsList;
+  additions?: number | undefined;
+  allow_maintainer_edit?: boolean | undefined;
+  assignee?: User | undefined;
+  assignees?: PullRequestAssigneesList | undefined;
+  base?: PRBranchInfo | undefined;
+  body?: string | undefined;
+  changed_files?: number | undefined;
+  closed_at?: string | undefined;
+  comments?: number | undefined;
+  created_at?: string | undefined;
+  deletions?: number | undefined;
+  diff_url?: string | undefined;
+  draft?: boolean | undefined;
+  due_date?: string | undefined;
+  flow?: number | undefined;
+  head?: PRBranchInfo | undefined;
+  html_url?: string | undefined;
+  id?: number | undefined;
+  is_locked?: boolean | undefined;
+  labels?: PullRequestLabelsList | undefined;
+  merge_base?: string | undefined;
+  merge_commit_sha?: string | undefined;
+  mergeable?: boolean | undefined;
+  merged?: boolean | undefined;
+  merged_at?: string | undefined;
+  merged_by?: User | undefined;
+  milestone?: Milestone | undefined;
+  number?: number | undefined;
+  patch_url?: string | undefined;
+  pin_order?: number | undefined;
+  requested_reviewers?: PullRequestRequestedReviewersList | undefined;
+  requested_reviewers_teams?: PullRequestRequestedReviewersTeamsList | undefined;
   /** number of review comments made on the diff of a PR review (not including comments on commits or issues in a PR) */
-  review_comments?: number;
-  state?: string;
-  title?: string;
-  updated_at?: string;
-  url?: string;
-  user?: User;
+  review_comments?: number | undefined;
+  state?: string | undefined;
+  title?: string | undefined;
+  updated_at?: string | undefined;
+  url?: string | undefined;
+  user?: User | undefined;
 }
 /** CreatePullReviewComment represent a review comment for creation api */
 export interface CreatePullReviewComment {
-  body?: string;
+  body?: string | undefined;
   /** number of additional lines after the commented line (0 = single line comment) */
-  extra_lines_count?: number;
+  extra_lines_count?: number | undefined;
   /** if comment to new file line or 0 */
-  new_position?: number;
+  new_position?: number | undefined;
   /** if comment to old file line or 0 */
-  old_position?: number;
+  old_position?: number | undefined;
   /** the tree path */
-  path?: string;
+  path?: string | undefined;
 }
 export type RepoCreatePullReviewRequestCommentsList = Array<CreatePullReviewComment>;
 export interface RepoCreatePullReviewRequest {
@@ -1655,27 +1663,27 @@ export interface RepoCreatePullReviewRequest {
   repo: string;
   /** index of the pull request */
   index: number;
-  body?: string;
-  comments?: RepoCreatePullReviewRequestCommentsList;
-  commit_id?: string;
-  event?: string;
+  body?: string | undefined;
+  comments?: RepoCreatePullReviewRequestCommentsList | undefined;
+  commit_id?: string | undefined;
+  event?: string | undefined;
 }
 /** PullReview represents a pull request review */
 export interface PullReview {
-  body?: string;
-  comments_count?: number;
-  commit_id?: string;
-  dismissed?: boolean;
-  html_url?: string;
-  id?: number;
-  official?: boolean;
-  pull_request_url?: string;
-  stale?: boolean;
-  state?: string;
-  submitted_at?: string;
-  team?: Team;
-  updated_at?: string;
-  user?: User;
+  body?: string | undefined;
+  comments_count?: number | undefined;
+  commit_id?: string | undefined;
+  dismissed?: boolean | undefined;
+  html_url?: string | undefined;
+  id?: number | undefined;
+  official?: boolean | undefined;
+  pull_request_url?: string | undefined;
+  stale?: boolean | undefined;
+  state?: string | undefined;
+  submitted_at?: string | undefined;
+  team?: Team | undefined;
+  updated_at?: string | undefined;
+  user?: User | undefined;
 }
 export interface RepoCreatePullReviewCommentRequest {
   /** owner of the repo */
@@ -1686,35 +1694,35 @@ export interface RepoCreatePullReviewCommentRequest {
   index: number;
   /** id of the review */
   id: number;
-  body?: string;
+  body?: string | undefined;
   /** number of additional lines after the commented line (0 = single line comment) */
-  extra_lines_count?: number;
+  extra_lines_count?: number | undefined;
   /** if comment to new file line or 0 */
-  new_position?: number;
+  new_position?: number | undefined;
   /** if comment to old file line or 0 */
-  old_position?: number;
+  old_position?: number | undefined;
   /** the tree path */
-  path?: string;
+  path?: string | undefined;
 }
 /** PullReviewComment represents a comment on a pull request review */
 export interface PullReviewComment {
-  body?: string;
-  commit_id?: string;
-  created_at?: string;
-  diff_hunk?: string;
+  body?: string | undefined;
+  commit_id?: string | undefined;
+  created_at?: string | undefined;
+  diff_hunk?: string | undefined;
   /** number of additional lines after the commented line (0 = single line comment) */
-  extra_lines_count?: number;
-  html_url?: string;
-  id?: number;
-  original_commit_id?: string;
-  original_position?: number;
-  path?: string;
-  position?: number;
-  pull_request_review_id?: number;
-  pull_request_url?: string;
-  resolver?: User;
-  updated_at?: string;
-  user?: User;
+  extra_lines_count?: number | undefined;
+  html_url?: string | undefined;
+  id?: number | undefined;
+  original_commit_id?: string | undefined;
+  original_position?: number | undefined;
+  path?: string | undefined;
+  position?: number | undefined;
+  pull_request_review_id?: number | undefined;
+  pull_request_url?: string | undefined;
+  resolver?: User | undefined;
+  updated_at?: string | undefined;
+  user?: User | undefined;
 }
 export type RepoCreatePullReviewRequestsRequestReviewersList = Array<string>;
 export type RepoCreatePullReviewRequestsRequestTeamReviewersList = Array<string>;
@@ -1725,8 +1733,8 @@ export interface RepoCreatePullReviewRequestsRequest {
   repo: string;
   /** index of the pull request */
   index: number;
-  reviewers?: RepoCreatePullReviewRequestsRequestReviewersList;
-  team_reviewers?: RepoCreatePullReviewRequestsRequestTeamReviewersList;
+  reviewers?: RepoCreatePullReviewRequestsRequestReviewersList | undefined;
+  team_reviewers?: RepoCreatePullReviewRequestsRequestTeamReviewersList | undefined;
 }
 export type RepoCreatePullReviewRequestsResponseBodyList = Array<PullReview>;
 export type RepoCreatePullReviewRequestsResponse = RepoCreatePullReviewRequestsResponseBodyList;
@@ -1735,47 +1743,47 @@ export interface RepoCreateReleaseRequest {
   owner: string;
   /** name of the repo */
   repo: string;
-  body?: string;
-  draft?: boolean;
-  hide_archive_links?: boolean;
-  name?: string;
-  prerelease?: boolean;
+  body?: string | undefined;
+  draft?: boolean | undefined;
+  hide_archive_links?: boolean | undefined;
+  name?: string | undefined;
+  prerelease?: boolean | undefined;
   tag_name: string;
-  target_commitish?: string;
+  target_commitish?: string | undefined;
 }
 export type AttachmentType = "attachment" | "external";
 /** Attachment a generic attachment */
 export interface Attachment {
-  browser_download_url?: string;
-  created_at?: string;
-  download_count?: number;
-  id?: number;
-  name?: string;
-  size?: number;
-  type?: AttachmentType;
-  uuid?: string;
+  browser_download_url?: string | undefined;
+  created_at?: string | undefined;
+  download_count?: number | undefined;
+  id?: number | undefined;
+  name?: string | undefined;
+  size?: number | undefined;
+  type?: AttachmentType | undefined;
+  uuid?: string | undefined;
 }
 export type ReleaseAssetsList = Array<Attachment>;
 /** Release represents a repository release */
 export interface Release {
-  archive_download_count?: TagArchiveDownloadCount;
-  assets?: ReleaseAssetsList;
-  author?: User;
-  body?: string;
-  created_at?: string;
-  draft?: boolean;
-  hide_archive_links?: boolean;
-  html_url?: string;
-  id?: number;
-  name?: string;
-  prerelease?: boolean;
-  published_at?: string;
-  tag_name?: string;
-  tarball_url?: string;
-  target_commitish?: string;
-  upload_url?: string;
-  url?: string;
-  zipball_url?: string;
+  archive_download_count?: TagArchiveDownloadCount | undefined;
+  assets?: ReleaseAssetsList | undefined;
+  author?: User | undefined;
+  body?: string | undefined;
+  created_at?: string | undefined;
+  draft?: boolean | undefined;
+  hide_archive_links?: boolean | undefined;
+  html_url?: string | undefined;
+  id?: number | undefined;
+  name?: string | undefined;
+  prerelease?: boolean | undefined;
+  published_at?: string | undefined;
+  tag_name?: string | undefined;
+  tarball_url?: string | undefined;
+  target_commitish?: string | undefined;
+  upload_url?: string | undefined;
+  url?: string | undefined;
+  zipball_url?: string | undefined;
 }
 export interface RepoCreateReleaseAttachmentRequest {
   /** owner of the repo */
@@ -1785,7 +1793,7 @@ export interface RepoCreateReleaseAttachmentRequest {
   /** id of the release */
   id: number;
   /** name of the attachment */
-  name?: string;
+  name?: string | undefined;
 }
 export interface RepoCreateStatusRequest {
   /** owner of the repo */
@@ -1794,41 +1802,41 @@ export interface RepoCreateStatusRequest {
   repo: string;
   /** sha of the commit */
   sha: string;
-  context?: string;
-  description?: string;
-  state?: string;
-  target_url?: string;
+  context?: string | undefined;
+  description?: string | undefined;
+  state?: string | undefined;
+  target_url?: string | undefined;
 }
 /** CommitStatus holds a single status of a single Commit */
 export interface CommitStatus {
-  context?: string;
-  created_at?: string;
-  creator?: User;
-  description?: string;
-  id?: number;
-  status?: string;
-  target_url?: string;
-  updated_at?: string;
-  url?: string;
+  context?: string | undefined;
+  created_at?: string | undefined;
+  creator?: User | undefined;
+  description?: string | undefined;
+  id?: number | undefined;
+  status?: string | undefined;
+  target_url?: string | undefined;
+  updated_at?: string | undefined;
+  url?: string | undefined;
 }
 export interface RepoCreateTagRequest {
   /** owner of the repo */
   owner: string;
   /** name of the repo */
   repo: string;
-  message?: string;
+  message?: string | undefined;
   tag_name: string;
-  target?: string;
+  target?: string | undefined;
 }
 /** Tag represents a repository tag */
 export interface Tag {
-  archive_download_count?: TagArchiveDownloadCount;
-  commit?: CommitMeta;
-  id?: string;
-  message?: string;
-  name?: string;
-  tarball_url?: string;
-  zipball_url?: string;
+  archive_download_count?: TagArchiveDownloadCount | undefined;
+  commit?: CommitMeta | undefined;
+  id?: string | undefined;
+  message?: string | undefined;
+  name?: string | undefined;
+  tarball_url?: string | undefined;
+  zipball_url?: string | undefined;
 }
 export type RepoCreateTagProtectionRequestWhitelistTeamsList = Array<string>;
 export type RepoCreateTagProtectionRequestWhitelistUsernamesList = Array<string>;
@@ -1837,20 +1845,20 @@ export interface RepoCreateTagProtectionRequest {
   owner: string;
   /** name of the repo */
   repo: string;
-  name_pattern?: string;
-  whitelist_teams?: RepoCreateTagProtectionRequestWhitelistTeamsList;
-  whitelist_usernames?: RepoCreateTagProtectionRequestWhitelistUsernamesList;
+  name_pattern?: string | undefined;
+  whitelist_teams?: RepoCreateTagProtectionRequestWhitelistTeamsList | undefined;
+  whitelist_usernames?: RepoCreateTagProtectionRequestWhitelistUsernamesList | undefined;
 }
 export type TagProtectionWhitelistTeamsList = Array<string>;
 export type TagProtectionWhitelistUsernamesList = Array<string>;
 /** TagProtection represents a tag protection */
 export interface TagProtection {
-  created_at?: string;
-  id?: number;
-  name_pattern?: string;
-  updated_at?: string;
-  whitelist_teams?: TagProtectionWhitelistTeamsList;
-  whitelist_usernames?: TagProtectionWhitelistUsernamesList;
+  created_at?: string | undefined;
+  id?: number | undefined;
+  name_pattern?: string | undefined;
+  updated_at?: string | undefined;
+  whitelist_teams?: TagProtectionWhitelistTeamsList | undefined;
+  whitelist_usernames?: TagProtectionWhitelistUsernamesList | undefined;
 }
 export interface RepoCreateWikiPageRequest {
   /** owner of the repo */
@@ -1858,30 +1866,30 @@ export interface RepoCreateWikiPageRequest {
   /** name of the repo */
   repo: string;
   /** content must be base64 encoded */
-  content_base64?: string;
+  content_base64?: string | undefined;
   /** optional commit message summarizing the change */
-  message?: string;
+  message?: string | undefined;
   /** page title. leave empty to keep unchanged */
-  title?: string;
+  title?: string | undefined;
 }
 /** WikiCommit page commit/revision */
 export interface WikiCommit {
-  author?: CommitUser;
-  commiter?: CommitUser;
-  message?: string;
-  sha?: string;
+  author?: CommitUser | undefined;
+  commiter?: CommitUser | undefined;
+  message?: string | undefined;
+  sha?: string | undefined;
 }
 /** WikiPage a wiki page */
 export interface WikiPage {
-  commit_count?: number;
+  commit_count?: number | undefined;
   /** Page content, base64 encoded */
-  content_base64?: string;
-  footer?: string;
-  html_url?: string;
-  last_commit?: WikiCommit;
-  sidebar?: string;
-  sub_url?: string;
-  title?: string;
+  content_base64?: string | undefined;
+  footer?: string | undefined;
+  html_url?: string | undefined;
+  last_commit?: WikiCommit | undefined;
+  sidebar?: string | undefined;
+  sub_url?: string | undefined;
+  title?: string | undefined;
 }
 export interface RepoDeleteAllFlagsRequest {
   /** owner of the repo */
@@ -1931,27 +1939,27 @@ export interface RepoDeleteFileRequest {
   repo: string;
   /** path of the file to delete */
   filepath: string;
-  author?: Identity;
+  author?: Identity | undefined;
   /** branch (optional) to base this file from. if not given, the default branch is used */
-  branch?: string;
-  committer?: Identity;
-  dates?: CommitDateOptions;
+  branch?: string | undefined;
+  committer?: Identity | undefined;
+  dates?: CommitDateOptions | undefined;
   /** (optional) will do a force-push if the new branch already exists */
-  force_overwrite_new_branch?: boolean;
+  force_overwrite_new_branch?: boolean | undefined;
   /** message (optional) for the commit of this file. if not supplied, a default message will be used */
-  message?: string;
+  message?: string | undefined;
   /** new_branch (optional) will make a new branch from `branch` before creating the file */
-  new_branch?: string;
+  new_branch?: string | undefined;
   /** sha is the SHA for the file that already exists */
   sha: string;
   /** Add a Signed-off-by trailer by the committer at the end of the commit log message. */
-  signoff?: boolean;
+  signoff?: boolean | undefined;
 }
 /** FileDeleteResponse contains information about a repo's file that was deleted */
 export interface FileDeleteResponse {
-  commit?: FileCommitResponse;
-  content?: unknown;
-  verification?: PayloadCommitVerification;
+  commit?: FileCommitResponse | undefined;
+  content?: unknown | undefined;
+  verification?: PayloadCommitVerification | undefined;
 }
 export interface RepoDeleteFlagRequest {
   /** owner of the repo */
@@ -2022,8 +2030,8 @@ export interface RepoDeletePullReviewRequestsRequest {
   repo: string;
   /** index of the pull request */
   index: number;
-  reviewers?: RepoDeletePullReviewRequestsRequestReviewersList;
-  team_reviewers?: RepoDeletePullReviewRequestsRequestTeamReviewersList;
+  reviewers?: RepoDeletePullReviewRequestsRequestReviewersList | undefined;
+  team_reviewers?: RepoDeletePullReviewRequestsRequestTeamReviewersList | undefined;
 }
 export interface RepoDeletePullReviewRequestsResponse {}
 export interface RepoDeletePushMirrorRequest {
@@ -2132,7 +2140,7 @@ export interface RepoDownloadPullDiffOrPatchRequest {
   /** whether the output is diff or patch */
   diffType: RepoDownloadPullDiffOrPatchRequestDiffType | (string & {});
   /** whether to include binary file changes. if true, the diff is applicable with `git apply` */
-  binary?: boolean;
+  binary?: boolean | undefined;
 }
 export type RepoDownloadPullDiffOrPatchResponse = string;
 export type RepoEditBranchProtectionRequestApprovalsWhitelistTeamsList = Array<string>;
@@ -2149,29 +2157,35 @@ export interface RepoEditBranchProtectionRequest {
   repo: string;
   /** name of protected branch */
   name: string;
-  apply_to_admins?: boolean;
-  approvals_whitelist_teams?: RepoEditBranchProtectionRequestApprovalsWhitelistTeamsList;
-  approvals_whitelist_username?: RepoEditBranchProtectionRequestApprovalsWhitelistUsernameList;
-  block_on_official_review_requests?: boolean;
-  block_on_outdated_branch?: boolean;
-  block_on_rejected_reviews?: boolean;
-  dismiss_stale_approvals?: boolean;
-  enable_approvals_whitelist?: boolean;
-  enable_merge_whitelist?: boolean;
-  enable_push?: boolean;
-  enable_push_whitelist?: boolean;
-  enable_status_check?: boolean;
-  ignore_stale_approvals?: boolean;
-  merge_whitelist_teams?: RepoEditBranchProtectionRequestMergeWhitelistTeamsList;
-  merge_whitelist_usernames?: RepoEditBranchProtectionRequestMergeWhitelistUsernamesList;
-  protected_file_patterns?: string;
-  push_whitelist_deploy_keys?: boolean;
-  push_whitelist_teams?: RepoEditBranchProtectionRequestPushWhitelistTeamsList;
-  push_whitelist_usernames?: RepoEditBranchProtectionRequestPushWhitelistUsernamesList;
-  require_signed_commits?: boolean;
-  required_approvals?: number;
-  status_check_contexts?: RepoEditBranchProtectionRequestStatusCheckContextsList;
-  unprotected_file_patterns?: string;
+  apply_to_admins?: boolean | undefined;
+  approvals_whitelist_teams?:
+    | RepoEditBranchProtectionRequestApprovalsWhitelistTeamsList
+    | undefined;
+  approvals_whitelist_username?:
+    | RepoEditBranchProtectionRequestApprovalsWhitelistUsernameList
+    | undefined;
+  block_on_official_review_requests?: boolean | undefined;
+  block_on_outdated_branch?: boolean | undefined;
+  block_on_rejected_reviews?: boolean | undefined;
+  dismiss_stale_approvals?: boolean | undefined;
+  enable_approvals_whitelist?: boolean | undefined;
+  enable_merge_whitelist?: boolean | undefined;
+  enable_push?: boolean | undefined;
+  enable_push_whitelist?: boolean | undefined;
+  enable_status_check?: boolean | undefined;
+  ignore_stale_approvals?: boolean | undefined;
+  merge_whitelist_teams?: RepoEditBranchProtectionRequestMergeWhitelistTeamsList | undefined;
+  merge_whitelist_usernames?:
+    | RepoEditBranchProtectionRequestMergeWhitelistUsernamesList
+    | undefined;
+  protected_file_patterns?: string | undefined;
+  push_whitelist_deploy_keys?: boolean | undefined;
+  push_whitelist_teams?: RepoEditBranchProtectionRequestPushWhitelistTeamsList | undefined;
+  push_whitelist_usernames?: RepoEditBranchProtectionRequestPushWhitelistUsernamesList | undefined;
+  require_signed_commits?: boolean | undefined;
+  required_approvals?: number | undefined;
+  status_check_contexts?: RepoEditBranchProtectionRequestStatusCheckContextsList | undefined;
+  unprotected_file_patterns?: string | undefined;
 }
 export interface RepoEditGitHookRequest {
   /** owner of the repo */
@@ -2180,13 +2194,13 @@ export interface RepoEditGitHookRequest {
   repo: string;
   /** id of the hook to get */
   id: string;
-  content?: string;
+  content?: string | undefined;
 }
 /** GitHook represents a Git repository hook */
 export interface GitHook {
-  content?: string;
-  is_active?: boolean;
-  name?: string;
+  content?: string | undefined;
+  is_active?: boolean | undefined;
+  name?: string | undefined;
 }
 export type RepoEditHookRequestConfigMap = { [key: string]: string | undefined };
 export type RepoEditHookRequestEventsList = Array<string>;
@@ -2197,11 +2211,11 @@ export interface RepoEditHookRequest {
   repo: string;
   /** index of the hook */
   id: number;
-  active?: boolean;
-  authorization_header?: string;
-  branch_filter?: string;
-  config?: RepoEditHookRequestConfigMap;
-  events?: RepoEditHookRequestEventsList;
+  active?: boolean | undefined;
+  authorization_header?: string | undefined;
+  branch_filter?: string | undefined;
+  config?: RepoEditHookRequestConfigMap | undefined;
+  events?: RepoEditHookRequestEventsList | undefined;
 }
 export type RepoEditPullRequestRequestAssigneesList = Array<string>;
 export type RepoEditPullRequestRequestLabelsList = Array<number>;
@@ -2212,17 +2226,17 @@ export interface RepoEditPullRequestRequest {
   repo: string;
   /** index of the pull request to edit */
   index: number;
-  allow_maintainer_edit?: boolean;
-  assignee?: string;
-  assignees?: RepoEditPullRequestRequestAssigneesList;
-  base?: string;
-  body?: string;
-  due_date?: string;
-  labels?: RepoEditPullRequestRequestLabelsList;
-  milestone?: number;
-  state?: string;
-  title?: string;
-  unset_due_date?: boolean;
+  allow_maintainer_edit?: boolean | undefined;
+  assignee?: string | undefined;
+  assignees?: RepoEditPullRequestRequestAssigneesList | undefined;
+  base?: string | undefined;
+  body?: string | undefined;
+  due_date?: string | undefined;
+  labels?: RepoEditPullRequestRequestLabelsList | undefined;
+  milestone?: number | undefined;
+  state?: string | undefined;
+  title?: string | undefined;
+  unset_due_date?: boolean | undefined;
 }
 export interface RepoEditReleaseRequest {
   /** owner of the repo */
@@ -2231,13 +2245,13 @@ export interface RepoEditReleaseRequest {
   repo: string;
   /** id of the release to edit */
   id: number;
-  body?: string;
-  draft?: boolean;
-  hide_archive_links?: boolean;
-  name?: string;
-  prerelease?: boolean;
-  tag_name?: string;
-  target_commitish?: string;
+  body?: string | undefined;
+  draft?: boolean | undefined;
+  hide_archive_links?: boolean | undefined;
+  name?: string | undefined;
+  prerelease?: boolean | undefined;
+  tag_name?: string | undefined;
+  target_commitish?: string | undefined;
 }
 export interface RepoEditReleaseAttachmentRequest {
   /** owner of the repo */
@@ -2249,8 +2263,8 @@ export interface RepoEditReleaseAttachmentRequest {
   /** id of the attachment to edit */
   attachment_id: number;
   /** (Can only be set if existing attachment is of external type) */
-  browser_download_url?: string;
-  name?: string;
+  browser_download_url?: string | undefined;
+  name?: string | undefined;
 }
 export type RepoEditTagProtectionRequestWhitelistTeamsList = Array<string>;
 export type RepoEditTagProtectionRequestWhitelistUsernamesList = Array<string>;
@@ -2261,9 +2275,9 @@ export interface RepoEditTagProtectionRequest {
   repo: string;
   /** id of protected tag */
   id: number;
-  name_pattern?: string;
-  whitelist_teams?: RepoEditTagProtectionRequestWhitelistTeamsList;
-  whitelist_usernames?: RepoEditTagProtectionRequestWhitelistUsernamesList;
+  name_pattern?: string | undefined;
+  whitelist_teams?: RepoEditTagProtectionRequestWhitelistTeamsList | undefined;
+  whitelist_usernames?: RepoEditTagProtectionRequestWhitelistUsernamesList | undefined;
 }
 export interface RepoEditWikiPageRequest {
   /** owner of the repo */
@@ -2273,11 +2287,11 @@ export interface RepoEditWikiPageRequest {
   /** name of the page */
   pageName: string;
   /** content must be base64 encoded */
-  content_base64?: string;
+  content_base64?: string | undefined;
   /** optional commit message summarizing the change */
-  message?: string;
+  message?: string | undefined;
   /** page title. leave empty to keep unchanged */
-  title?: string;
+  title?: string | undefined;
 }
 export interface RepoGetActionJobLogsRequest {
   /** owner of the repo */
@@ -2287,7 +2301,7 @@ export interface RepoGetActionJobLogsRequest {
   /** ID of the workflow job */
   job_id: number;
   /** 1-based attempt number matching the value of `attempt` in the job listing; omit to fetch the latest attempt of the job */
-  attempt?: number;
+  attempt?: number | undefined;
 }
 export type RepoGetActionJobLogsResponse = string;
 export interface RepoGetActionRunLogsRequest {
@@ -2305,21 +2319,21 @@ export interface RepoGetAllCommitsRequest {
   /** name of the repo */
   repo: string;
   /** SHA or branch to start listing commits from (usually 'master') */
-  sha?: string;
+  sha?: string | undefined;
   /** filepath of a file/dir */
-  path?: string;
+  path?: string | undefined;
   /** include diff stats for every commit (disable for speedup, default 'true') */
-  stat?: boolean;
+  stat?: boolean | undefined;
   /** include verification for every commit (disable for speedup, default 'true') */
-  verification?: boolean;
+  verification?: boolean | undefined;
   /** include a list of affected files for every commit (disable for speedup, default 'true') */
-  files?: boolean;
+  files?: boolean | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
   /** commits that match the given specifier will not be listed. */
-  not?: string;
+  not?: string | undefined;
 }
 export type RepoGetAllCommitsResponseBodyList = Array<Commit>;
 export type RepoGetAllCommitsResponse = RepoGetAllCommitsResponseBodyList;
@@ -2368,20 +2382,20 @@ export interface RepoGetCombinedStatusByRefRequest {
   /** name of branch/tag/commit */
   ref: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type CombinedStatusStatusesList = Array<CommitStatus>;
 /** CombinedStatus holds the combined state of several statuses for a single commit */
 export interface CombinedStatus {
-  commit_url?: string;
-  repository?: Repository;
-  sha?: string;
-  state?: string;
-  statuses?: CombinedStatusStatusesList;
-  total_count?: number;
-  url?: string;
+  commit_url?: string | undefined;
+  repository?: Repository | undefined;
+  sha?: string | undefined;
+  state?: string | undefined;
+  statuses?: CombinedStatusStatusesList | undefined;
+  total_count?: number | undefined;
+  url?: string | undefined;
 }
 export interface RepoGetCommitPullRequestRequest {
   /** owner of the repo */
@@ -2399,7 +2413,7 @@ export interface RepoGetContentsRequest {
   /** path of the dir, file, symlink or submodule in the repo */
   filepath: string;
   /** The name of the commit/branch/tag. Default the repository's default branch (usually master) */
-  ref?: string;
+  ref?: string | undefined;
 }
 export interface RepoGetContentsListRequest {
   /** owner of the repo */
@@ -2407,7 +2421,7 @@ export interface RepoGetContentsListRequest {
   /** name of the repo */
   repo: string;
   /** The name of the commit/branch/tag. Default the repository's default branch (usually master) */
-  ref?: string;
+  ref?: string | undefined;
 }
 export type RepoGetContentsListResponseBodyList = Array<ContentsResponse>;
 export type RepoGetContentsListResponse = RepoGetContentsListResponseBodyList;
@@ -2419,7 +2433,7 @@ export interface RepoGetEditorConfigRequest {
   /** filepath of file to get */
   filepath: string;
   /** The name of the commit/branch/tag. Default the repository's default branch (usually master) */
-  ref?: string;
+  ref?: string | undefined;
 }
 export type RepoGetEditorConfigResponseBodyMap = { [key: string]: string | undefined };
 export type RepoGetEditorConfigResponse = RepoGetEditorConfigResponseBodyMap;
@@ -2446,14 +2460,14 @@ export interface RepoGetIssueConfigRequest {
   repo: string;
 }
 export interface IssueConfigContactLink {
-  about?: string;
-  name?: string;
-  url?: string;
+  about?: string | undefined;
+  name?: string | undefined;
+  url?: string | undefined;
 }
 export type IssueConfigContactLinksList = Array<IssueConfigContactLink>;
 export interface IssueConfig {
-  blank_issues_enabled?: boolean;
-  contact_links?: IssueConfigContactLinksList;
+  blank_issues_enabled?: boolean | undefined;
+  contact_links?: IssueConfigContactLinksList | undefined;
 }
 export interface RepoGetIssueTemplatesRequest {
   /** owner of the repo */
@@ -2466,24 +2480,24 @@ export type IssueFormFieldValidationsMap = { [key: string]: unknown | undefined 
 export type IssueFormFieldVisibleList = Array<string>;
 /** IssueFormField represents a form field */
 export interface IssueFormField {
-  attributes?: IssueFormFieldAttributesMap;
-  id?: string;
-  type?: string;
-  validations?: IssueFormFieldValidationsMap;
-  visible?: IssueFormFieldVisibleList;
+  attributes?: IssueFormFieldAttributesMap | undefined;
+  id?: string | undefined;
+  type?: string | undefined;
+  validations?: IssueFormFieldValidationsMap | undefined;
+  visible?: IssueFormFieldVisibleList | undefined;
 }
 export type IssueTemplateBodyList = Array<IssueFormField>;
 export type IssueTemplateLabels = Array<string>;
 /** IssueTemplate represents an issue template for a repository */
 export interface IssueTemplate {
-  about?: string;
-  body?: IssueTemplateBodyList;
-  content?: string;
-  file_name?: string;
-  labels?: IssueTemplateLabels;
-  name?: string;
-  ref?: string;
-  title?: string;
+  about?: string | undefined;
+  body?: IssueTemplateBodyList | undefined;
+  content?: string | undefined;
+  file_name?: string | undefined;
+  labels?: IssueTemplateLabels | undefined;
+  name?: string | undefined;
+  ref?: string | undefined;
+  title?: string | undefined;
 }
 export type RepoGetIssueTemplatesResponseBodyList = Array<IssueTemplate>;
 export type RepoGetIssueTemplatesResponse = RepoGetIssueTemplatesResponseBodyList;
@@ -2517,14 +2531,14 @@ export interface RepoGetNoteRequest {
   /** a git ref or commit sha */
   sha: string;
   /** include verification for every commit (disable for speedup, default 'true') */
-  verification?: boolean;
+  verification?: boolean | undefined;
   /** include a list of affected files for every commit (disable for speedup, default 'true') */
-  files?: boolean;
+  files?: boolean | undefined;
 }
 /** Note contains information related to a git note */
 export interface Note {
-  commit?: Commit;
-  message?: string;
+  commit?: Commit | undefined;
+  message?: string | undefined;
 }
 export interface RepoGetPullRequestRequest {
   /** owner of the repo */
@@ -2552,13 +2566,13 @@ export interface RepoGetPullRequestCommitsRequest {
   /** index of the pull request to get */
   index: number;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
   /** include verification for every commit (disable for speedup, default 'true') */
-  verification?: boolean;
+  verification?: boolean | undefined;
   /** include a list of affected files for every commit (disable for speedup, default 'true') */
-  files?: boolean;
+  files?: boolean | undefined;
 }
 export type RepoGetPullRequestCommitsResponseBodyList = Array<Commit>;
 export type RepoGetPullRequestCommitsResponse = RepoGetPullRequestCommitsResponseBodyList;
@@ -2575,25 +2589,25 @@ export interface RepoGetPullRequestFilesRequest {
   /** index of the pull request to get */
   index: number;
   /** skip to given file */
-  skip_to?: string;
+  skip_to?: string | undefined;
   /** whitespace behavior */
-  whitespace?: RepoGetPullRequestFilesRequestWhitespace | (string & {});
+  whitespace?: RepoGetPullRequestFilesRequestWhitespace | (string & {}) | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** ChangedFile store information about files affected by the pull request */
 export interface ChangedFile {
-  additions?: number;
-  changes?: number;
-  contents_url?: string;
-  deletions?: number;
-  filename?: string;
-  html_url?: string;
-  previous_filename?: string;
-  raw_url?: string;
-  status?: string;
+  additions?: number | undefined;
+  changes?: number | undefined;
+  contents_url?: string | undefined;
+  deletions?: number | undefined;
+  filename?: string | undefined;
+  html_url?: string | undefined;
+  previous_filename?: string | undefined;
+  raw_url?: string | undefined;
+  status?: string | undefined;
 }
 export type RepoGetPullRequestFilesResponseBodyList = Array<ChangedFile>;
 export type RepoGetPullRequestFilesResponse = RepoGetPullRequestFilesResponseBodyList;
@@ -2647,7 +2661,7 @@ export interface RepoGetRawFileRequest {
   /** filepath of the file to get */
   filepath: string;
   /** The name of the commit/branch/tag. Default the repository's default branch (usually master) */
-  ref?: string;
+  ref?: string | undefined;
 }
 export type RepoGetRawFileResponse = unknown;
 export interface RepoGetRawFileOrLFSRequest {
@@ -2658,7 +2672,7 @@ export interface RepoGetRawFileOrLFSRequest {
   /** filepath of the file to get */
   filepath: string;
   /** The name of the commit/branch/tag. Default the repository's default branch (usually master) */
-  ref?: string;
+  ref?: string | undefined;
 }
 export type RepoGetRawFileOrLFSResponse = unknown;
 export interface RepoGetReleaseRequest {
@@ -2703,11 +2717,11 @@ export interface RepoGetSingleCommitRequest {
   /** a git ref or commit sha */
   sha: string;
   /** include diff stats for every commit (disable for speedup, default 'true') */
-  stat?: boolean;
+  stat?: boolean | undefined;
   /** include verification for every commit (disable for speedup, default 'true') */
-  verification?: boolean;
+  verification?: boolean | undefined;
   /** include a list of affected files for every commit (disable for speedup, default 'true') */
-  files?: boolean;
+  files?: boolean | undefined;
 }
 export interface RepoGetTagRequest {
   /** owner of the repo */
@@ -2741,13 +2755,13 @@ export interface RepoGetWikiPageRevisionsRequest {
   /** name of the page */
   pageName: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
 }
 export type WikiCommitListCommitsList = Array<WikiCommit>;
 /** WikiCommitList commit/revision list */
 export interface WikiCommitList {
-  commits?: WikiCommitListCommitsList;
-  count?: number;
+  commits?: WikiCommitListCommitsList | undefined;
+  count?: number | undefined;
 }
 export interface RepoGetWikiPagesRequest {
   /** owner of the repo */
@@ -2755,16 +2769,16 @@ export interface RepoGetWikiPagesRequest {
   /** name of the repo */
   repo: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** WikiPageMetaData wiki page meta information */
 export interface WikiPageMetaData {
-  html_url?: string;
-  last_commit?: WikiCommit;
-  sub_url?: string;
-  title?: string;
+  html_url?: string | undefined;
+  last_commit?: WikiCommit | undefined;
+  sub_url?: string | undefined;
+  title?: string | undefined;
 }
 export type RepoGetWikiPagesResponseBodyList = Array<WikiPageMetaData>;
 export type RepoGetWikiPagesResponse = RepoGetWikiPagesResponseBodyList;
@@ -2774,9 +2788,9 @@ export interface RepoListActionsSecretsRequest {
   /** name of the repository */
   repo: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** Secret represents a secret */
 export interface Secret {
@@ -2792,37 +2806,37 @@ export interface RepoListActivityFeedsRequest {
   /** name of the repo */
   repo: string;
   /** the date of the activities to be found */
-  date?: string;
+  date?: string | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** The attachments to the comment */
 export type CommentAssetsList = Array<Attachment>;
 /** Comment represents a comment on a commit or issue */
 export interface Comment {
   /** The attachments to the comment */
-  assets?: CommentAssetsList;
+  assets?: CommentAssetsList | undefined;
   /** The body of the comment */
-  body?: string;
+  body?: string | undefined;
   /** The time of the comment's creation */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The HTML URL of the comment */
-  html_url?: string;
+  html_url?: string | undefined;
   /** The identifier of the comment */
-  id?: number;
+  id?: number | undefined;
   /** The HTML URL of the issue if the comment is posted on an issue, else empty string */
-  issue_url?: string;
+  issue_url?: string | undefined;
   /** The original author that posted the comment if it was not posted locally, else empty string */
-  original_author?: string;
+  original_author?: string | undefined;
   /** The ID of the original author that posted the comment if it was not posted locally, else 0 */
-  original_author_id?: number;
+  original_author_id?: number | undefined;
   /** The HTML URL of the pull request if the comment is posted on a pull request, else empty string */
-  pull_request_url?: string;
+  pull_request_url?: string | undefined;
   /** The time of the comment's update */
-  updated_at?: string;
-  user?: User;
+  updated_at?: string | undefined;
+  user?: User | undefined;
 }
 /** the type of action */
 export type ActivityOpType =
@@ -2854,20 +2868,20 @@ export type ActivityOpType =
   | "pull_request_ready_for_review"
   | "auto_merge_pull_request";
 export interface Activity {
-  act_user?: User;
-  act_user_id?: number;
-  comment?: Comment;
-  comment_id?: number;
-  content?: string;
-  created?: string;
-  id?: number;
-  is_private?: boolean;
+  act_user?: User | undefined;
+  act_user_id?: number | undefined;
+  comment?: Comment | undefined;
+  comment_id?: number | undefined;
+  content?: string | undefined;
+  created?: string | undefined;
+  id?: number | undefined;
+  is_private?: boolean | undefined;
   /** the type of action */
-  op_type?: ActivityOpType;
-  ref_name?: string;
-  repo?: Repository;
-  repo_id?: number;
-  user_id?: number;
+  op_type?: ActivityOpType | undefined;
+  ref_name?: string | undefined;
+  repo?: Repository | undefined;
+  repo_id?: number | undefined;
+  user_id?: number | undefined;
 }
 export type RepoListActivityFeedsResponseBodyList = Array<Activity>;
 export type RepoListActivityFeedsResponse = RepoListActivityFeedsResponseBodyList;
@@ -2879,9 +2893,9 @@ export interface RepoListAllGitRefsRequest {
 }
 export type GitObject = AnnotatedTagObject;
 export interface Reference {
-  object?: AnnotatedTagObject;
-  ref?: string;
-  url?: string;
+  object?: AnnotatedTagObject | undefined;
+  ref?: string | undefined;
+  url?: string | undefined;
 }
 export type RepoListAllGitRefsResponseBodyList = Array<Reference>;
 export type RepoListAllGitRefsResponse = RepoListAllGitRefsResponseBodyList;
@@ -2891,9 +2905,9 @@ export interface RepoListBranchesRequest {
   /** name of the repo */
   repo: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type RepoListBranchesResponseBodyList = Array<Branch>;
 export type RepoListBranchesResponse = RepoListBranchesResponseBodyList;
@@ -2911,9 +2925,9 @@ export interface RepoListCollaboratorsRequest {
   /** name of the repo */
   repo: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type RepoListCollaboratorsResponseBodyList = Array<User>;
 export type RepoListCollaboratorsResponse = RepoListCollaboratorsResponseBodyList;
@@ -2949,9 +2963,9 @@ export interface RepoListHooksRequest {
   /** name of the repo */
   repo: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type RepoListHooksResponseBodyList = Array<Hook>;
 export type RepoListHooksResponse = RepoListHooksResponseBodyList;
@@ -2961,13 +2975,13 @@ export interface RepoListKeysRequest {
   /** name of the repo */
   repo: string;
   /** the key_id to search for */
-  key_id?: number;
+  key_id?: number | undefined;
   /** fingerprint of the key */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type RepoListKeysResponseBodyList = Array<DeployKey>;
 export type RepoListKeysResponse = RepoListKeysResponseBodyList;
@@ -2982,45 +2996,45 @@ export type IssueAssigneesList = Array<User>;
 export type IssueLabelsList = Array<Label>;
 /** PullRequestMeta PR info if an issue is a PR */
 export interface PullRequestMeta {
-  draft?: boolean;
-  html_url?: string;
-  merged?: boolean;
-  merged_at?: string;
+  draft?: boolean | undefined;
+  html_url?: string | undefined;
+  merged?: boolean | undefined;
+  merged_at?: string | undefined;
 }
 /** RepositoryMeta basic repository information */
 export interface RepositoryMeta {
-  full_name?: string;
-  id?: number;
-  name?: string;
-  owner?: string;
+  full_name?: string | undefined;
+  id?: number | undefined;
+  name?: string | undefined;
+  owner?: string | undefined;
 }
 /** Issue represents an issue in a repository */
 export interface Issue {
-  assets?: IssueAssetsList;
-  assignee?: User;
-  assignees?: IssueAssigneesList;
-  body?: string;
-  closed_at?: string;
-  comments?: number;
-  created_at?: string;
-  due_date?: string;
-  html_url?: string;
-  id?: number;
-  is_locked?: boolean;
-  labels?: IssueLabelsList;
-  milestone?: Milestone;
-  number?: number;
-  original_author?: string;
-  original_author_id?: number;
-  pin_order?: number;
-  pull_request?: PullRequestMeta;
-  ref?: string;
-  repository?: RepositoryMeta;
-  state?: string;
-  title?: string;
-  updated_at?: string;
-  url?: string;
-  user?: User;
+  assets?: IssueAssetsList | undefined;
+  assignee?: User | undefined;
+  assignees?: IssueAssigneesList | undefined;
+  body?: string | undefined;
+  closed_at?: string | undefined;
+  comments?: number | undefined;
+  created_at?: string | undefined;
+  due_date?: string | undefined;
+  html_url?: string | undefined;
+  id?: number | undefined;
+  is_locked?: boolean | undefined;
+  labels?: IssueLabelsList | undefined;
+  milestone?: Milestone | undefined;
+  number?: number | undefined;
+  original_author?: string | undefined;
+  original_author_id?: number | undefined;
+  pin_order?: number | undefined;
+  pull_request?: PullRequestMeta | undefined;
+  ref?: string | undefined;
+  repository?: RepositoryMeta | undefined;
+  state?: string | undefined;
+  title?: string | undefined;
+  updated_at?: string | undefined;
+  url?: string | undefined;
+  user?: User | undefined;
 }
 export type RepoListPinnedIssuesResponseBodyList = Array<Issue>;
 export type RepoListPinnedIssuesResponse = RepoListPinnedIssuesResponseBodyList;
@@ -3048,23 +3062,23 @@ export interface RepoListPullRequestsRequest {
   /** Name of the repo */
   repo: string;
   /** State of pull request */
-  state?: RepoListPullRequestsRequestState | (string & {});
+  state?: RepoListPullRequestsRequestState | (string & {}) | undefined;
   /** Type of sort */
-  sort?: RepoListPullRequestsRequestSort | (string & {});
+  sort?: RepoListPullRequestsRequestSort | (string & {}) | undefined;
   /** ID of the milestone */
-  milestone?: number;
+  milestone?: number | undefined;
   /** Label IDs */
-  labels?: RepoListPullRequestsRequestLabelsList;
+  labels?: RepoListPullRequestsRequestLabelsList | undefined;
   /** Filter by pull request author */
-  poster?: string;
+  poster?: string | undefined;
   /** Filter by base branch name */
-  base?: string;
+  base?: string | undefined;
   /** Filter by head branch name */
-  head?: string;
+  head?: string | undefined;
   /** Page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** Page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type RepoListPullRequestsResponseBodyList = Array<PullRequest>;
 export type RepoListPullRequestsResponse = RepoListPullRequestsResponseBodyList;
@@ -3076,9 +3090,9 @@ export interface RepoListPullReviewsRequest {
   /** index of the pull request */
   index: number;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type RepoListPullReviewsResponseBodyList = Array<PullReview>;
 export type RepoListPullReviewsResponse = RepoListPullReviewsResponseBodyList;
@@ -3088,9 +3102,9 @@ export interface RepoListPushMirrorsRequest {
   /** name of the repo */
   repo: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type RepoListPushMirrorsResponseBodyList = Array<PushMirror>;
 export type RepoListPushMirrorsResponse = RepoListPushMirrorsResponseBodyList;
@@ -3110,15 +3124,15 @@ export interface RepoListReleasesRequest {
   /** name of the repo */
   repo: string;
   /** filter (exclude / include) drafts, if you dont have repo write access none will show */
-  draft?: boolean;
+  draft?: boolean | undefined;
   /** filter (exclude / include) pre-releases */
-  pre_release?: boolean;
+  pre_release?: boolean | undefined;
   /** Search string */
-  q?: string;
+  q?: string | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type RepoListReleasesResponseBodyList = Array<Release>;
 export type RepoListReleasesResponse = RepoListReleasesResponseBodyList;
@@ -3128,9 +3142,9 @@ export interface RepoListStargazersRequest {
   /** name of the repo */
   repo: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type RepoListStargazersResponseBodyList = Array<User>;
 export type RepoListStargazersResponse = RepoListStargazersResponseBodyList;
@@ -3149,13 +3163,13 @@ export interface RepoListStatusesRequest {
   /** sha of the commit */
   sha: string;
   /** type of sort */
-  sort?: RepoListStatusesRequestSort | (string & {});
+  sort?: RepoListStatusesRequestSort | (string & {}) | undefined;
   /** type of state */
-  state?: RepoListStatusesRequestState | (string & {});
+  state?: RepoListStatusesRequestState | (string & {}) | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type RepoListStatusesResponseBodyList = Array<CommitStatus>;
 export type RepoListStatusesResponse = RepoListStatusesResponseBodyList;
@@ -3179,13 +3193,13 @@ export interface RepoListStatusesByRefRequest {
   /** name of branch/tag/commit */
   ref: string;
   /** type of sort */
-  sort?: RepoListStatusesByRefRequestSort | (string & {});
+  sort?: RepoListStatusesByRefRequestSort | (string & {}) | undefined;
   /** type of state */
-  state?: RepoListStatusesByRefRequestState | (string & {});
+  state?: RepoListStatusesByRefRequestState | (string & {}) | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type RepoListStatusesByRefResponseBodyList = Array<CommitStatus>;
 export type RepoListStatusesByRefResponse = RepoListStatusesByRefResponseBodyList;
@@ -3195,9 +3209,9 @@ export interface RepoListSubscribersRequest {
   /** name of the repo */
   repo: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type RepoListSubscribersResponseBodyList = Array<User>;
 export type RepoListSubscribersResponse = RepoListSubscribersResponseBodyList;
@@ -3215,9 +3229,9 @@ export interface RepoListTagsRequest {
   /** name of the repo */
   repo: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results, default maximum page size is 50 */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type RepoListTagsResponseBodyList = Array<Tag>;
 export type RepoListTagsResponse = RepoListTagsResponseBodyList;
@@ -3235,14 +3249,14 @@ export interface RepoListTopicsRequest {
   /** name of the repo */
   repo: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type TopicNameTopicsList = Array<string>;
 /** TopicName a list of repo topic names */
 export interface TopicName {
-  topics?: TopicNameTopicsList;
+  topics?: TopicNameTopicsList | undefined;
 }
 export type RepoMergePullRequestRequestDo =
   | "merge"
@@ -3259,13 +3273,13 @@ export interface RepoMergePullRequestRequest {
   /** index of the pull request to merge */
   index: number;
   Do: RepoMergePullRequestRequestDo | (string & {});
-  MergeCommitID?: string;
-  MergeMessageField?: string;
-  MergeTitleField?: string;
-  delete_branch_after_merge?: boolean;
-  force_merge?: boolean;
-  head_commit_id?: string;
-  merge_when_checks_succeed?: boolean;
+  MergeCommitID?: string | undefined;
+  MergeMessageField?: string | undefined;
+  MergeTitleField?: string | undefined;
+  delete_branch_after_merge?: boolean | undefined;
+  force_merge?: boolean | undefined;
+  head_commit_id?: string | undefined;
+  merge_when_checks_succeed?: boolean | undefined;
 }
 export interface RepoMergePullRequestResponse {}
 export interface RepoNewPinAllowedRequest {
@@ -3276,8 +3290,8 @@ export interface RepoNewPinAllowedRequest {
 }
 /** NewIssuePinsAllowed represents an API response that says if new Issue Pins are allowed */
 export interface NewIssuePinsAllowed {
-  issues?: boolean;
-  pull_requests?: boolean;
+  issues?: boolean | undefined;
+  pull_requests?: boolean | undefined;
 }
 export interface RepoPullRequestIsMergedRequest {
   /** owner of the repo */
@@ -3303,7 +3317,7 @@ export interface RepoReplaceAllFlagsRequest {
   owner: string;
   /** name of the repo */
   repo: string;
-  flags?: RepoReplaceAllFlagsRequestFlagsList;
+  flags?: RepoReplaceAllFlagsRequestFlagsList | undefined;
 }
 export interface RepoReplaceAllFlagsResponse {}
 export interface RepoSearchRunJobsRequest {
@@ -3312,7 +3326,7 @@ export interface RepoSearchRunJobsRequest {
   /** name of the repo */
   repo: string;
   /** a comma separated list of run job labels to search for */
-  labels?: string;
+  labels?: string | undefined;
 }
 export type RepoSearchRunJobsResponseBodyList = Array<ActionRunJob>;
 export type RepoSearchRunJobsResponse = RepoSearchRunJobsResponseBodyList;
@@ -3323,7 +3337,7 @@ export interface RepoSetNoteRequest {
   repo: string;
   /** a git ref or commit sha */
   sha: string;
-  message?: string;
+  message?: string | undefined;
 }
 export interface RepoSigningKeyRequest {
   /** owner of the repo */
@@ -3341,8 +3355,8 @@ export interface RepoSubmitPullReviewRequest {
   index: number;
   /** id of the review */
   id: number;
-  body?: string;
-  event?: string;
+  body?: string | undefined;
+  event?: string | undefined;
 }
 export interface RepoSyncForkBranchRequest {
   /** owner of the repo */
@@ -3363,10 +3377,10 @@ export interface RepoSyncForkBranchInfoRequest {
 }
 /** SyncForkInfo information about syncing a fork */
 export interface SyncForkInfo {
-  allowed?: boolean;
-  base_commit?: string;
-  commits_behind?: number;
-  fork_commit?: string;
+  allowed?: boolean | undefined;
+  base_commit?: string | undefined;
+  commits_behind?: number | undefined;
+  fork_commit?: string | undefined;
 }
 export interface RepoSyncForkDefaultRequest {
   /** owner of the repo */
@@ -3389,7 +3403,7 @@ export interface RepoTestHookRequest {
   /** id of the hook to test */
   id: number;
   /** The name of the commit/branch/tag, indicates which commit will be loaded to the webhook payload. */
-  ref?: string;
+  ref?: string | undefined;
 }
 export interface RepoTestHookResponse {}
 export interface RepoTrackedTimesRequest {
@@ -3398,28 +3412,28 @@ export interface RepoTrackedTimesRequest {
   /** name of the repo */
   repo: string;
   /** optional filter by user (available for issue managers) */
-  user?: string;
+  user?: string | undefined;
   /** Only show times updated after the given time. This is a timestamp in RFC 3339 format */
-  since?: string;
+  since?: string | undefined;
   /** Only show times updated before the given time. This is a timestamp in RFC 3339 format */
-  before?: string;
+  before?: string | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** TrackedTime worked time for an issue / pr */
 export interface TrackedTime {
-  created?: string;
-  id?: number;
-  issue?: Issue;
+  created?: string | undefined;
+  id?: number | undefined;
+  issue?: Issue | undefined;
   /** deprecated (only for backwards compatibility) */
-  issue_id?: number;
+  issue_id?: number | undefined;
   /** Time in seconds */
-  time?: number;
+  time?: number | undefined;
   /** deprecated (only for backwards compatibility) */
-  user_id?: number;
-  user_name?: string;
+  user_id?: number | undefined;
+  user_name?: string | undefined;
 }
 export type RepoTrackedTimesResponseBodyList = Array<TrackedTime>;
 export type RepoTrackedTimesResponse = RepoTrackedTimesResponseBodyList;
@@ -3429,7 +3443,7 @@ export interface RepoUpdateAvatarRequest {
   /** name of the repo */
   repo: string;
   /** image must be base64 encoded */
-  image?: string;
+  image?: string | undefined;
 }
 export interface RepoUpdateAvatarResponse {}
 export interface RepoUpdateBranchRequest {
@@ -3450,25 +3464,25 @@ export interface RepoUpdateFileRequest {
   repo: string;
   /** path of the file to update */
   filepath: string;
-  author?: Identity;
+  author?: Identity | undefined;
   /** branch (optional) to base this file from. if not given, the default branch is used */
-  branch?: string;
-  committer?: Identity;
+  branch?: string | undefined;
+  committer?: Identity | undefined;
   /** content must be base64 encoded */
   content: string;
-  dates?: CommitDateOptions;
+  dates?: CommitDateOptions | undefined;
   /** (optional) will do a force-push if the new branch already exists */
-  force_overwrite_new_branch?: boolean;
+  force_overwrite_new_branch?: boolean | undefined;
   /** from_path (optional) is the path of the original file which will be moved/renamed to the path in the URL */
-  from_path?: string;
+  from_path?: string | undefined;
   /** message (optional) for the commit of this file. if not supplied, a default message will be used */
-  message?: string;
+  message?: string | undefined;
   /** new_branch (optional) will make a new branch from `branch` before creating the file */
-  new_branch?: string;
+  new_branch?: string | undefined;
   /** sha is the SHA for the file that already exists */
   sha: string;
   /** Add a Signed-off-by trailer by the committer at the end of the commit log message. */
-  signoff?: boolean;
+  signoff?: boolean | undefined;
 }
 export type RepoUpdatePullRequestRequestStyle = "merge" | "rebase";
 export interface RepoUpdatePullRequestRequest {
@@ -3479,7 +3493,7 @@ export interface RepoUpdatePullRequestRequest {
   /** index of the pull request to get */
   index: number;
   /** how to update pull request */
-  style?: RepoUpdatePullRequestRequestStyle | (string & {});
+  style?: RepoUpdatePullRequestRequestStyle | (string & {}) | undefined;
 }
 export interface RepoUpdatePullRequestResponse {}
 /** list of topic names */
@@ -3490,7 +3504,7 @@ export interface RepoUpdateTopicsRequest {
   /** name of the repo */
   repo: string;
   /** list of topic names */
-  topics?: RepoUpdateTopicsRequestTopicsList;
+  topics?: RepoUpdateTopicsRequestTopicsList | undefined;
 }
 export interface RepoUpdateTopicsResponse {}
 export interface RepoValidateIssueConfigRequest {
@@ -3500,8 +3514,8 @@ export interface RepoValidateIssueConfigRequest {
   repo: string;
 }
 export interface IssueConfigValidation {
-  message?: string;
-  valid?: boolean;
+  message?: string | undefined;
+  valid?: boolean | undefined;
 }
 export interface ReviewRepoDismissPullRequest {
   /** owner of the repo */
@@ -3512,8 +3526,8 @@ export interface ReviewRepoDismissPullRequest {
   index: number;
   /** id of the review */
   id: number;
-  message?: string;
-  priors?: boolean;
+  message?: string | undefined;
+  priors?: boolean | undefined;
 }
 export interface ReviewRepoUnDismissPullRequest {
   /** owner of the repo */
@@ -3538,65 +3552,65 @@ export type SearchRepoRequestSort =
 export type SearchRepoRequestOrder = "asc" | "desc";
 export interface SearchRepoRequest {
   /** keyword */
-  q?: string;
+  q?: string | undefined;
   /** Limit search to repositories with keyword as topic */
-  topic?: boolean;
+  topic?: boolean | undefined;
   /** include search of keyword within repository description */
-  includeDesc?: boolean;
+  includeDesc?: boolean | undefined;
   /** search only for repos that the user with the given id owns or contributes to */
-  uid?: number;
+  uid?: number | undefined;
   /** repo owner to prioritize in the results */
-  priority_owner_id?: number;
+  priority_owner_id?: number | undefined;
   /** search only for repos that belong to the given team id */
-  team_id?: number;
+  team_id?: number | undefined;
   /** search only for repos that the user with the given id has starred */
-  starredBy?: number;
+  starredBy?: number | undefined;
   /** include private repositories this user has access to (defaults to true) */
-  private?: boolean;
+  private?: boolean | undefined;
   /** show only public, private or all repositories (defaults to all) */
-  is_private?: boolean;
+  is_private?: boolean | undefined;
   /** show only template, non-template or all repositories (defaults to all) */
-  template?: boolean;
+  template?: boolean | undefined;
   /** show only archived, non-archived or all repositories (defaults to all) */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** type of repository to search for. Supported values are "fork", "source", "mirror" and "collaborative" */
-  mode?: string;
+  mode?: string | undefined;
   /** if `uid` is given, search only for repos that the user owns */
-  exclusive?: boolean;
+  exclusive?: boolean | undefined;
   /** sort repos by attribute. Supported values are "alpha", "created", "updated", "size", "git_size", "lfs_size", "stars", "forks" and "id". Default is "alpha" */
-  sort?: SearchRepoRequestSort | (string & {});
+  sort?: SearchRepoRequestSort | (string & {}) | undefined;
   /** sort order, either "asc" (ascending) or "desc" (descending). Default is "asc", ignored if "sort" is not specified. */
-  order?: SearchRepoRequestOrder | (string & {});
+  order?: SearchRepoRequestOrder | (string & {}) | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type SearchResultsDataList = Array<Repository>;
 /** SearchResults results of a successful search */
 export interface SearchResults {
-  data?: SearchResultsDataList;
-  ok?: boolean;
+  data?: SearchResultsDataList | undefined;
+  ok?: boolean | undefined;
 }
 export interface SearchTopicRequest {
   /** keyword to search for */
   q: string;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** TopicResponse for returning topics */
 export interface TopicResponse {
-  created?: string;
-  id?: number;
-  repo_count?: number;
-  topic_name?: string;
-  updated?: string;
+  created?: string | undefined;
+  id?: number | undefined;
+  repo_count?: number | undefined;
+  topic_name?: string | undefined;
+  updated?: string | undefined;
 }
 export type SearchTopicResponseTopicsList = Array<TopicResponse>;
 export interface SearchTopicResponse {
-  topics?: SearchTopicResponseTopicsList;
+  topics?: SearchTopicResponseTopicsList | undefined;
 }
 export interface SyncRepoMirrorRequest {
   /** owner of the repo to sync */
@@ -3621,7 +3635,7 @@ export interface TransferRepoRequest {
   repo: string;
   new_owner: string;
   /** ID of the team or teams to add to the repository. Teams can only be added to organization-owned repositories. */
-  team_ids?: TransferRepoRequestTeamIdsList;
+  team_ids?: TransferRepoRequestTeamIdsList | undefined;
 }
 export interface TransferRepoResponse {}
 export interface UpdateRepoSecretRequest {
@@ -3643,7 +3657,7 @@ export interface UpdateRepoVariableRequest {
   /** name of the variable */
   variablename: string;
   /** New name for the variable. If the field is empty, the variable name won't be updated. Forgejo will convert it to uppercase. */
-  name?: string;
+  name?: string | undefined;
   /** Value of the variable to update. Special characters will be retained. Line endings will be normalized to LF to match the behaviour of browsers. Encode the data with Base64 if line endings should be retained. */
   value: string;
 }
@@ -3656,12 +3670,12 @@ export interface UserCurrentCheckSubscriptionRequest {
 }
 /** WatchInfo represents an API watch status of one repository */
 export interface WatchInfo {
-  created_at?: string;
-  ignored?: boolean;
-  reason?: unknown;
-  repository_url?: string;
-  subscribed?: boolean;
-  url?: string;
+  created_at?: string | undefined;
+  ignored?: boolean | undefined;
+  reason?: unknown | undefined;
+  repository_url?: string | undefined;
+  subscribed?: boolean | undefined;
+  url?: string | undefined;
 }
 export interface UserCurrentDeleteSubscriptionRequest {
   /** owner of the repo */

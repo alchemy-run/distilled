@@ -1,0 +1,29 @@
+{
+  "description": "Remove the `Authorization` header parameter the spec repeats on these operations (`RequiredBearerToken`, or an inline copy of it). It restates the bearer security scheme: NpmProtocol sends `Authorization: Bearer <token>` from the credentials on every request, so a required input member would make every caller pass the token twice.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.npmjs.registry.team#GetScopeTeamsRequest/members/authorization"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.npmjs.registry.team#PutScopeTeamRequest/members/authorization"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.npmjs.registry.team#DeleteTeamRequest/members/authorization"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.npmjs.registry.team#GetTeamMembershipRequest/members/authorization"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.npmjs.registry.team#CreateTeamMembershipRequest/members/authorization"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.npmjs.registry.team#DeleteTeamMembershipRequest/members/authorization"
+    }
+  ]
+}

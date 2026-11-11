@@ -10,8 +10,8 @@ import { Credentials } from "../credentials-service.ts";
 /** Convenience layer from a redacted access token (+ optional project id). */
 export const fromAccessToken = (config: {
   readonly accessToken: Redacted.Redacted<string>;
-  readonly project?: string;
-  readonly region?: string;
+  readonly project?: string | undefined;
+  readonly region?: string | undefined;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,

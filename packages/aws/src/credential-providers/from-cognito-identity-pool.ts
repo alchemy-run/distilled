@@ -2,6 +2,7 @@
  * Credentials for an Amazon Cognito identity pool, which mints the identity
  * id before exchanging it for credentials.
  */
+import { loadModule } from "@distilled.cloud/core/sdk-error";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import { createLazyProvider, regionFromEnv } from "../credentials-service.ts";
@@ -106,7 +107,15 @@ export const cognitoIdentityPoolSource = (
       : undefined;
 
     const getId = Effect.gen(function* () {
-      const Cognito = yield* Effect.promise(() => import("../services/cognito-identity.ts"));
+      const Cognito = yield* loadModule(() => import("../services/cognito-identity.ts")).pipe(
+        Effect.mapError(
+          (e) =>
+            new CredentialSourceError({
+              message: `could not load the Cognito Identity client: ${e.message}`,
+              cause: e,
+            }),
+        ),
+      );
       const logins = yield* resolveLogins(options.logins);
       const response = yield* Cognito.getId({
         IdentityPoolId: options.identityPoolId,

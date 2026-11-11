@@ -201,12 +201,12 @@ export interface AssociateEntitiesToExperienceRequest {
 }
 export type ErrorMessage = string;
 export interface FailedEntity {
-  EntityId?: string;
-  ErrorMessage?: string;
+  EntityId?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type AssociateEntitiesToExperienceFailedEntityList = FailedEntity[];
 export interface AssociateEntitiesToExperienceResponse {
-  FailedEntityList?: FailedEntity[];
+  FailedEntityList?: FailedEntity[] | undefined;
 }
 export type Persona = "OWNER" | "VIEWER" | (string & {});
 export interface EntityPersonaConfiguration {
@@ -221,7 +221,7 @@ export interface AssociatePersonasToEntitiesRequest {
 }
 export type FailedEntityList = FailedEntity[];
 export interface AssociatePersonasToEntitiesResponse {
-  FailedEntityList?: FailedEntity[];
+  FailedEntityList?: FailedEntity[] | undefined;
 }
 export type DocumentId = string;
 export type DocumentIdList = string[];
@@ -229,24 +229,24 @@ export type DataSourceId = string;
 export type DataSourceSyncJobId = string;
 export interface DataSourceSyncJobMetricTarget {
   DataSourceId: string;
-  DataSourceSyncJobId?: string;
+  DataSourceSyncJobId?: string | undefined;
 }
 export interface BatchDeleteDocumentRequest {
   IndexId: string;
   DocumentIdList: string[];
-  DataSourceSyncJobMetricTarget?: DataSourceSyncJobMetricTarget;
+  DataSourceSyncJobMetricTarget?: DataSourceSyncJobMetricTarget | undefined;
 }
 export type ErrorCode = "InternalError" | "InvalidRequest" | (string & {});
 export interface BatchDeleteDocumentResponseFailedDocument {
-  Id?: string;
-  DataSourceId?: string;
-  ErrorCode?: ErrorCode;
-  ErrorMessage?: string;
+  Id?: string | undefined;
+  DataSourceId?: string | undefined;
+  ErrorCode?: ErrorCode | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type BatchDeleteDocumentResponseFailedDocuments =
   BatchDeleteDocumentResponseFailedDocument[];
 export interface BatchDeleteDocumentResponse {
-  FailedDocuments?: BatchDeleteDocumentResponseFailedDocument[];
+  FailedDocuments?: BatchDeleteDocumentResponseFailedDocument[] | undefined;
 }
 export type FeaturedResultsSetId = string;
 export type FeaturedResultsSetIdList = string[];
@@ -267,10 +267,10 @@ export type DocumentAttributeKey = string;
 export type DocumentAttributeStringValue = string;
 export type DocumentAttributeStringListValue = string[];
 export interface DocumentAttributeValue {
-  StringValue?: string;
-  StringListValue?: string[];
-  LongValue?: number;
-  DateValue?: Date;
+  StringValue?: string | undefined;
+  StringListValue?: string[] | undefined;
+  LongValue?: number | undefined;
+  DateValue?: Date | undefined;
 }
 export interface DocumentAttribute {
   Key: string;
@@ -279,7 +279,7 @@ export interface DocumentAttribute {
 export type DocumentAttributeList = DocumentAttribute[];
 export interface DocumentInfo {
   DocumentId: string;
-  Attributes?: DocumentAttribute[];
+  Attributes?: DocumentAttribute[] | undefined;
 }
 export type DocumentInfoList = DocumentInfo[];
 export interface BatchGetDocumentStatusRequest {
@@ -287,10 +287,10 @@ export interface BatchGetDocumentStatusRequest {
   DocumentInfoList: DocumentInfo[];
 }
 export interface BatchGetDocumentStatusResponseError {
-  DocumentId?: string;
-  DataSourceId?: string;
-  ErrorCode?: ErrorCode;
-  ErrorMessage?: string;
+  DocumentId?: string | undefined;
+  DataSourceId?: string | undefined;
+  ErrorCode?: ErrorCode | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type BatchGetDocumentStatusResponseErrors = BatchGetDocumentStatusResponseError[];
 export type DocumentStatus =
@@ -302,15 +302,15 @@ export type DocumentStatus =
   | "UPDATE_FAILED"
   | (string & {});
 export interface Status {
-  DocumentId?: string;
-  DocumentStatus?: DocumentStatus;
-  FailureCode?: string;
-  FailureReason?: string;
+  DocumentId?: string | undefined;
+  DocumentStatus?: DocumentStatus | undefined;
+  FailureCode?: string | undefined;
+  FailureReason?: string | undefined;
 }
 export type DocumentStatusList = Status[];
 export interface BatchGetDocumentStatusResponse {
-  Errors?: BatchGetDocumentStatusResponseError[];
-  DocumentStatusList?: Status[];
+  Errors?: BatchGetDocumentStatusResponseError[] | undefined;
+  DocumentStatusList?: Status[] | undefined;
 }
 export type RoleArn = string;
 export type Title = string;
@@ -327,7 +327,7 @@ export interface Principal {
   Name: string;
   Type: PrincipalType;
   Access: ReadAccessType;
-  DataSourceId?: string;
+  DataSourceId?: string | undefined;
 }
 export type PrincipalList = Principal[];
 export interface HierarchicalPrincipal {
@@ -351,14 +351,14 @@ export type ContentType =
 export type AccessControlConfigurationId = string;
 export interface Document {
   Id: string;
-  Title?: string;
-  Blob?: Uint8Array;
-  S3Path?: S3Path;
-  Attributes?: DocumentAttribute[];
-  AccessControlList?: Principal[];
-  HierarchicalAccessControlList?: HierarchicalPrincipal[];
-  ContentType?: ContentType;
-  AccessControlConfigurationId?: string;
+  Title?: string | undefined;
+  Blob?: Uint8Array | undefined;
+  S3Path?: S3Path | undefined;
+  Attributes?: DocumentAttribute[] | undefined;
+  AccessControlList?: Principal[] | undefined;
+  HierarchicalAccessControlList?: HierarchicalPrincipal[] | undefined;
+  ContentType?: ContentType | undefined;
+  AccessControlConfigurationId?: string | undefined;
 }
 export type DocumentList = Document[];
 export type ConditionOperator =
@@ -377,47 +377,47 @@ export type ConditionOperator =
 export interface DocumentAttributeCondition {
   ConditionDocumentAttributeKey: string;
   Operator: ConditionOperator;
-  ConditionOnValue?: DocumentAttributeValue;
+  ConditionOnValue?: DocumentAttributeValue | undefined;
 }
 export interface DocumentAttributeTarget {
-  TargetDocumentAttributeKey?: string;
-  TargetDocumentAttributeValueDeletion?: boolean;
-  TargetDocumentAttributeValue?: DocumentAttributeValue;
+  TargetDocumentAttributeKey?: string | undefined;
+  TargetDocumentAttributeValueDeletion?: boolean | undefined;
+  TargetDocumentAttributeValue?: DocumentAttributeValue | undefined;
 }
 export interface InlineCustomDocumentEnrichmentConfiguration {
-  Condition?: DocumentAttributeCondition;
-  Target?: DocumentAttributeTarget;
-  DocumentContentDeletion?: boolean;
+  Condition?: DocumentAttributeCondition | undefined;
+  Target?: DocumentAttributeTarget | undefined;
+  DocumentContentDeletion?: boolean | undefined;
 }
 export type InlineCustomDocumentEnrichmentConfigurationList =
   InlineCustomDocumentEnrichmentConfiguration[];
 export type LambdaArn = string;
 export interface HookConfiguration {
-  InvocationCondition?: DocumentAttributeCondition;
+  InvocationCondition?: DocumentAttributeCondition | undefined;
   LambdaArn: string;
   S3Bucket: string;
 }
 export interface CustomDocumentEnrichmentConfiguration {
-  InlineConfigurations?: InlineCustomDocumentEnrichmentConfiguration[];
-  PreExtractionHookConfiguration?: HookConfiguration;
-  PostExtractionHookConfiguration?: HookConfiguration;
-  RoleArn?: string;
+  InlineConfigurations?: InlineCustomDocumentEnrichmentConfiguration[] | undefined;
+  PreExtractionHookConfiguration?: HookConfiguration | undefined;
+  PostExtractionHookConfiguration?: HookConfiguration | undefined;
+  RoleArn?: string | undefined;
 }
 export interface BatchPutDocumentRequest {
   IndexId: string;
-  RoleArn?: string;
+  RoleArn?: string | undefined;
   Documents: Document[];
-  CustomDocumentEnrichmentConfiguration?: CustomDocumentEnrichmentConfiguration;
+  CustomDocumentEnrichmentConfiguration?: CustomDocumentEnrichmentConfiguration | undefined;
 }
 export interface BatchPutDocumentResponseFailedDocument {
-  Id?: string;
-  DataSourceId?: string;
-  ErrorCode?: ErrorCode;
-  ErrorMessage?: string;
+  Id?: string | undefined;
+  DataSourceId?: string | undefined;
+  ErrorCode?: ErrorCode | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type BatchPutDocumentResponseFailedDocuments = BatchPutDocumentResponseFailedDocument[];
 export interface BatchPutDocumentResponse {
-  FailedDocuments?: BatchPutDocumentResponseFailedDocument[];
+  FailedDocuments?: BatchPutDocumentResponseFailedDocument[] | undefined;
 }
 export interface ClearQuerySuggestionsRequest {
   IndexId: string;
@@ -429,10 +429,10 @@ export type ClientTokenName = string;
 export interface CreateAccessControlConfigurationRequest {
   IndexId: string;
   Name: string;
-  Description?: string;
-  AccessControlList?: Principal[];
-  HierarchicalAccessControlList?: HierarchicalPrincipal[];
-  ClientToken?: string;
+  Description?: string | undefined;
+  AccessControlList?: Principal[] | undefined;
+  HierarchicalAccessControlList?: HierarchicalPrincipal[] | undefined;
+  ClientToken?: string | undefined;
 }
 export interface CreateAccessControlConfigurationResponse {
   Id: string;
@@ -462,18 +462,18 @@ export type DataSourceType =
 export type DataSourceInclusionsExclusionsStringsMember = string;
 export type DataSourceInclusionsExclusionsStrings = string[];
 export interface DocumentsMetadataConfiguration {
-  S3Prefix?: string;
+  S3Prefix?: string | undefined;
 }
 export interface AccessControlListConfiguration {
-  KeyPath?: string;
+  KeyPath?: string | undefined;
 }
 export interface S3DataSourceConfiguration {
   BucketName: string;
-  InclusionPrefixes?: string[];
-  InclusionPatterns?: string[];
-  ExclusionPatterns?: string[];
-  DocumentsMetadataConfiguration?: DocumentsMetadataConfiguration;
-  AccessControlListConfiguration?: AccessControlListConfiguration;
+  InclusionPrefixes?: string[] | undefined;
+  InclusionPatterns?: string[] | undefined;
+  ExclusionPatterns?: string[] | undefined;
+  DocumentsMetadataConfiguration?: DocumentsMetadataConfiguration | undefined;
+  AccessControlListConfiguration?: AccessControlListConfiguration | undefined;
 }
 export type SharePointVersion =
   | "SHAREPOINT_2013"
@@ -497,7 +497,7 @@ export type DataSourceDateFieldFormat = string;
 export type IndexFieldName = string;
 export interface DataSourceToIndexFieldMapping {
   DataSourceFieldName: string;
-  DateFieldFormat?: string;
+  DateFieldFormat?: string | undefined;
   IndexFieldName: string;
 }
 export type DataSourceToIndexFieldMappingList = DataSourceToIndexFieldMapping[];
@@ -507,23 +507,23 @@ export type Port = number;
 export interface ProxyConfiguration {
   Host: string;
   Port: number;
-  Credentials?: string;
+  Credentials?: string | undefined;
 }
 export interface SharePointConfiguration {
   SharePointVersion: SharePointVersion;
   Urls: string[];
   SecretArn: string;
-  CrawlAttachments?: boolean;
-  UseChangeLog?: boolean;
-  InclusionPatterns?: string[];
-  ExclusionPatterns?: string[];
-  VpcConfiguration?: DataSourceVpcConfiguration;
-  FieldMappings?: DataSourceToIndexFieldMapping[];
-  DocumentTitleFieldName?: string;
-  DisableLocalGroups?: boolean;
-  SslCertificateS3Path?: S3Path;
-  AuthenticationType?: SharePointOnlineAuthenticationType;
-  ProxyConfiguration?: ProxyConfiguration;
+  CrawlAttachments?: boolean | undefined;
+  UseChangeLog?: boolean | undefined;
+  InclusionPatterns?: string[] | undefined;
+  ExclusionPatterns?: string[] | undefined;
+  VpcConfiguration?: DataSourceVpcConfiguration | undefined;
+  FieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
+  DocumentTitleFieldName?: string | undefined;
+  DisableLocalGroups?: boolean | undefined;
+  SslCertificateS3Path?: S3Path | undefined;
+  AuthenticationType?: SharePointOnlineAuthenticationType | undefined;
+  ProxyConfiguration?: ProxyConfiguration | undefined;
 }
 export type DatabaseEngineType =
   | "RDS_AURORA_MYSQL"
@@ -547,8 +547,8 @@ export type ChangeDetectingColumns = string[];
 export interface ColumnConfiguration {
   DocumentIdColumnName: string;
   DocumentDataColumnName: string;
-  DocumentTitleColumnName?: string;
-  FieldMappings?: DataSourceToIndexFieldMapping[];
+  DocumentTitleColumnName?: string | undefined;
+  FieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
   ChangeDetectingColumns: string[];
 }
 export interface AclConfiguration {
@@ -556,15 +556,15 @@ export interface AclConfiguration {
 }
 export type QueryIdentifiersEnclosingOption = "DOUBLE_QUOTES" | "NONE" | (string & {});
 export interface SqlConfiguration {
-  QueryIdentifiersEnclosingOption?: QueryIdentifiersEnclosingOption;
+  QueryIdentifiersEnclosingOption?: QueryIdentifiersEnclosingOption | undefined;
 }
 export interface DatabaseConfiguration {
   DatabaseEngineType: DatabaseEngineType;
   ConnectionConfiguration: ConnectionConfiguration;
-  VpcConfiguration?: DataSourceVpcConfiguration;
+  VpcConfiguration?: DataSourceVpcConfiguration | undefined;
   ColumnConfiguration: ColumnConfiguration;
-  AclConfiguration?: AclConfiguration;
-  SqlConfiguration?: SqlConfiguration;
+  AclConfiguration?: AclConfiguration | undefined;
+  SqlConfiguration?: SqlConfiguration | undefined;
 }
 export type SalesforceStandardObjectName =
   | "ACCOUNT"
@@ -588,30 +588,34 @@ export type SalesforceStandardObjectName =
 export interface SalesforceStandardObjectConfiguration {
   Name: SalesforceStandardObjectName;
   DocumentDataFieldName: string;
-  DocumentTitleFieldName?: string;
-  FieldMappings?: DataSourceToIndexFieldMapping[];
+  DocumentTitleFieldName?: string | undefined;
+  FieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
 }
 export type SalesforceStandardObjectConfigurationList = SalesforceStandardObjectConfiguration[];
 export type SalesforceKnowledgeArticleState = "DRAFT" | "PUBLISHED" | "ARCHIVED" | (string & {});
 export type SalesforceKnowledgeArticleStateList = SalesforceKnowledgeArticleState[];
 export interface SalesforceStandardKnowledgeArticleTypeConfiguration {
   DocumentDataFieldName: string;
-  DocumentTitleFieldName?: string;
-  FieldMappings?: DataSourceToIndexFieldMapping[];
+  DocumentTitleFieldName?: string | undefined;
+  FieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
 }
 export type SalesforceCustomKnowledgeArticleTypeName = string;
 export interface SalesforceCustomKnowledgeArticleTypeConfiguration {
   Name: string;
   DocumentDataFieldName: string;
-  DocumentTitleFieldName?: string;
-  FieldMappings?: DataSourceToIndexFieldMapping[];
+  DocumentTitleFieldName?: string | undefined;
+  FieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
 }
 export type SalesforceCustomKnowledgeArticleTypeConfigurationList =
   SalesforceCustomKnowledgeArticleTypeConfiguration[];
 export interface SalesforceKnowledgeArticleConfiguration {
   IncludedStates: SalesforceKnowledgeArticleState[];
-  StandardKnowledgeArticleTypeConfiguration?: SalesforceStandardKnowledgeArticleTypeConfiguration;
-  CustomKnowledgeArticleTypeConfigurations?: SalesforceCustomKnowledgeArticleTypeConfiguration[];
+  StandardKnowledgeArticleTypeConfiguration?:
+    | SalesforceStandardKnowledgeArticleTypeConfiguration
+    | undefined;
+  CustomKnowledgeArticleTypeConfigurations?:
+    | SalesforceCustomKnowledgeArticleTypeConfiguration[]
+    | undefined;
 }
 export type SalesforceChatterFeedIncludeFilterType =
   | "ACTIVE_USER"
@@ -620,69 +624,71 @@ export type SalesforceChatterFeedIncludeFilterType =
 export type SalesforceChatterFeedIncludeFilterTypes = SalesforceChatterFeedIncludeFilterType[];
 export interface SalesforceChatterFeedConfiguration {
   DocumentDataFieldName: string;
-  DocumentTitleFieldName?: string;
-  FieldMappings?: DataSourceToIndexFieldMapping[];
-  IncludeFilterTypes?: SalesforceChatterFeedIncludeFilterType[];
+  DocumentTitleFieldName?: string | undefined;
+  FieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
+  IncludeFilterTypes?: SalesforceChatterFeedIncludeFilterType[] | undefined;
 }
 export interface SalesforceStandardObjectAttachmentConfiguration {
-  DocumentTitleFieldName?: string;
-  FieldMappings?: DataSourceToIndexFieldMapping[];
+  DocumentTitleFieldName?: string | undefined;
+  FieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
 }
 export interface SalesforceConfiguration {
   ServerUrl: string;
   SecretArn: string;
-  StandardObjectConfigurations?: SalesforceStandardObjectConfiguration[];
-  KnowledgeArticleConfiguration?: SalesforceKnowledgeArticleConfiguration;
-  ChatterFeedConfiguration?: SalesforceChatterFeedConfiguration;
-  CrawlAttachments?: boolean;
-  StandardObjectAttachmentConfiguration?: SalesforceStandardObjectAttachmentConfiguration;
-  IncludeAttachmentFilePatterns?: string[];
-  ExcludeAttachmentFilePatterns?: string[];
+  StandardObjectConfigurations?: SalesforceStandardObjectConfiguration[] | undefined;
+  KnowledgeArticleConfiguration?: SalesforceKnowledgeArticleConfiguration | undefined;
+  ChatterFeedConfiguration?: SalesforceChatterFeedConfiguration | undefined;
+  CrawlAttachments?: boolean | undefined;
+  StandardObjectAttachmentConfiguration?:
+    | SalesforceStandardObjectAttachmentConfiguration
+    | undefined;
+  IncludeAttachmentFilePatterns?: string[] | undefined;
+  ExcludeAttachmentFilePatterns?: string[] | undefined;
 }
 export type TenantDomain = string;
 export type OneDriveUser = string;
 export type OneDriveUserList = string[];
 export interface OneDriveUsers {
-  OneDriveUserList?: string[];
-  OneDriveUserS3Path?: S3Path;
+  OneDriveUserList?: string[] | undefined;
+  OneDriveUserS3Path?: S3Path | undefined;
 }
 export interface OneDriveConfiguration {
   TenantDomain: string;
   SecretArn: string;
   OneDriveUsers: OneDriveUsers;
-  InclusionPatterns?: string[];
-  ExclusionPatterns?: string[];
-  FieldMappings?: DataSourceToIndexFieldMapping[];
-  DisableLocalGroups?: boolean;
+  InclusionPatterns?: string[] | undefined;
+  ExclusionPatterns?: string[] | undefined;
+  FieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
+  DisableLocalGroups?: boolean | undefined;
 }
 export type ServiceNowHostUrl = string;
 export type ServiceNowBuildVersionType = "LONDON" | "OTHERS" | (string & {});
 export type ServiceNowKnowledgeArticleFilterQuery = string;
 export interface ServiceNowKnowledgeArticleConfiguration {
-  CrawlAttachments?: boolean;
-  IncludeAttachmentFilePatterns?: string[];
-  ExcludeAttachmentFilePatterns?: string[];
+  CrawlAttachments?: boolean | undefined;
+  IncludeAttachmentFilePatterns?: string[] | undefined;
+  ExcludeAttachmentFilePatterns?: string[] | undefined;
   DocumentDataFieldName: string;
-  DocumentTitleFieldName?: string;
-  FieldMappings?: DataSourceToIndexFieldMapping[];
-  FilterQuery?: string;
+  DocumentTitleFieldName?: string | undefined;
+  FieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
+  FilterQuery?: string | undefined;
 }
 export interface ServiceNowServiceCatalogConfiguration {
-  CrawlAttachments?: boolean;
-  IncludeAttachmentFilePatterns?: string[];
-  ExcludeAttachmentFilePatterns?: string[];
+  CrawlAttachments?: boolean | undefined;
+  IncludeAttachmentFilePatterns?: string[] | undefined;
+  ExcludeAttachmentFilePatterns?: string[] | undefined;
   DocumentDataFieldName: string;
-  DocumentTitleFieldName?: string;
-  FieldMappings?: DataSourceToIndexFieldMapping[];
+  DocumentTitleFieldName?: string | undefined;
+  FieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
 }
 export type ServiceNowAuthenticationType = "HTTP_BASIC" | "OAUTH2" | (string & {});
 export interface ServiceNowConfiguration {
   HostUrl: string;
   SecretArn: string;
   ServiceNowBuildVersion: ServiceNowBuildVersionType;
-  KnowledgeArticleConfiguration?: ServiceNowKnowledgeArticleConfiguration;
-  ServiceCatalogConfiguration?: ServiceNowServiceCatalogConfiguration;
-  AuthenticationType?: ServiceNowAuthenticationType;
+  KnowledgeArticleConfiguration?: ServiceNowKnowledgeArticleConfiguration | undefined;
+  ServiceCatalogConfiguration?: ServiceNowServiceCatalogConfiguration | undefined;
+  AuthenticationType?: ServiceNowAuthenticationType | undefined;
 }
 export type ConfluenceVersion = "CLOUD" | "SERVER" | (string & {});
 export type ConfluenceSpaceIdentifier = string;
@@ -694,17 +700,17 @@ export type ConfluenceSpaceFieldName =
   | "URL"
   | (string & {});
 export interface ConfluenceSpaceToIndexFieldMapping {
-  DataSourceFieldName?: ConfluenceSpaceFieldName;
-  DateFieldFormat?: string;
-  IndexFieldName?: string;
+  DataSourceFieldName?: ConfluenceSpaceFieldName | undefined;
+  DateFieldFormat?: string | undefined;
+  IndexFieldName?: string | undefined;
 }
 export type ConfluenceSpaceFieldMappingsList = ConfluenceSpaceToIndexFieldMapping[];
 export interface ConfluenceSpaceConfiguration {
-  CrawlPersonalSpaces?: boolean;
-  CrawlArchivedSpaces?: boolean;
-  IncludeSpaces?: string[];
-  ExcludeSpaces?: string[];
-  SpaceFieldMappings?: ConfluenceSpaceToIndexFieldMapping[];
+  CrawlPersonalSpaces?: boolean | undefined;
+  CrawlArchivedSpaces?: boolean | undefined;
+  IncludeSpaces?: string[] | undefined;
+  ExcludeSpaces?: string[] | undefined;
+  SpaceFieldMappings?: ConfluenceSpaceToIndexFieldMapping[] | undefined;
 }
 export type ConfluencePageFieldName =
   | "AUTHOR"
@@ -721,13 +727,13 @@ export type ConfluencePageFieldName =
   | "VERSION"
   | (string & {});
 export interface ConfluencePageToIndexFieldMapping {
-  DataSourceFieldName?: ConfluencePageFieldName;
-  DateFieldFormat?: string;
-  IndexFieldName?: string;
+  DataSourceFieldName?: ConfluencePageFieldName | undefined;
+  DateFieldFormat?: string | undefined;
+  IndexFieldName?: string | undefined;
 }
 export type ConfluencePageFieldMappingsList = ConfluencePageToIndexFieldMapping[];
 export interface ConfluencePageConfiguration {
-  PageFieldMappings?: ConfluencePageToIndexFieldMapping[];
+  PageFieldMappings?: ConfluencePageToIndexFieldMapping[] | undefined;
 }
 export type ConfluenceBlogFieldName =
   | "AUTHOR"
@@ -741,13 +747,13 @@ export type ConfluenceBlogFieldName =
   | "VERSION"
   | (string & {});
 export interface ConfluenceBlogToIndexFieldMapping {
-  DataSourceFieldName?: ConfluenceBlogFieldName;
-  DateFieldFormat?: string;
-  IndexFieldName?: string;
+  DataSourceFieldName?: ConfluenceBlogFieldName | undefined;
+  DateFieldFormat?: string | undefined;
+  IndexFieldName?: string | undefined;
 }
 export type ConfluenceBlogFieldMappingsList = ConfluenceBlogToIndexFieldMapping[];
 export interface ConfluenceBlogConfiguration {
-  BlogFieldMappings?: ConfluenceBlogToIndexFieldMapping[];
+  BlogFieldMappings?: ConfluenceBlogToIndexFieldMapping[] | undefined;
 }
 export type ConfluenceAttachmentFieldName =
   | "AUTHOR"
@@ -763,29 +769,29 @@ export type ConfluenceAttachmentFieldName =
   | "VERSION"
   | (string & {});
 export interface ConfluenceAttachmentToIndexFieldMapping {
-  DataSourceFieldName?: ConfluenceAttachmentFieldName;
-  DateFieldFormat?: string;
-  IndexFieldName?: string;
+  DataSourceFieldName?: ConfluenceAttachmentFieldName | undefined;
+  DateFieldFormat?: string | undefined;
+  IndexFieldName?: string | undefined;
 }
 export type ConfluenceAttachmentFieldMappingsList = ConfluenceAttachmentToIndexFieldMapping[];
 export interface ConfluenceAttachmentConfiguration {
-  CrawlAttachments?: boolean;
-  AttachmentFieldMappings?: ConfluenceAttachmentToIndexFieldMapping[];
+  CrawlAttachments?: boolean | undefined;
+  AttachmentFieldMappings?: ConfluenceAttachmentToIndexFieldMapping[] | undefined;
 }
 export type ConfluenceAuthenticationType = "HTTP_BASIC" | "PAT" | (string & {});
 export interface ConfluenceConfiguration {
   ServerUrl: string;
   SecretArn: string;
   Version: ConfluenceVersion;
-  SpaceConfiguration?: ConfluenceSpaceConfiguration;
-  PageConfiguration?: ConfluencePageConfiguration;
-  BlogConfiguration?: ConfluenceBlogConfiguration;
-  AttachmentConfiguration?: ConfluenceAttachmentConfiguration;
-  VpcConfiguration?: DataSourceVpcConfiguration;
-  InclusionPatterns?: string[];
-  ExclusionPatterns?: string[];
-  ProxyConfiguration?: ProxyConfiguration;
-  AuthenticationType?: ConfluenceAuthenticationType;
+  SpaceConfiguration?: ConfluenceSpaceConfiguration | undefined;
+  PageConfiguration?: ConfluencePageConfiguration | undefined;
+  BlogConfiguration?: ConfluenceBlogConfiguration | undefined;
+  AttachmentConfiguration?: ConfluenceAttachmentConfiguration | undefined;
+  VpcConfiguration?: DataSourceVpcConfiguration | undefined;
+  InclusionPatterns?: string[] | undefined;
+  ExclusionPatterns?: string[] | undefined;
+  ProxyConfiguration?: ProxyConfiguration | undefined;
+  AuthenticationType?: ConfluenceAuthenticationType | undefined;
 }
 export type MimeType = string;
 export type ExcludeMimeTypesList = string[];
@@ -795,19 +801,19 @@ export type SharedDriveId = string;
 export type ExcludeSharedDrivesList = string[];
 export interface GoogleDriveConfiguration {
   SecretArn: string;
-  InclusionPatterns?: string[];
-  ExclusionPatterns?: string[];
-  FieldMappings?: DataSourceToIndexFieldMapping[];
-  ExcludeMimeTypes?: string[];
-  ExcludeUserAccounts?: string[];
-  ExcludeSharedDrives?: string[];
+  InclusionPatterns?: string[] | undefined;
+  ExclusionPatterns?: string[] | undefined;
+  FieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
+  ExcludeMimeTypes?: string[] | undefined;
+  ExcludeUserAccounts?: string[] | undefined;
+  ExcludeSharedDrives?: string[] | undefined;
 }
 export type SeedUrl = string;
 export type SeedUrlList = string[];
 export type WebCrawlerMode = "HOST_ONLY" | "SUBDOMAINS" | "EVERYTHING" | (string & {});
 export interface SeedUrlConfiguration {
   SeedUrls: string[];
-  WebCrawlerMode?: WebCrawlerMode;
+  WebCrawlerMode?: WebCrawlerMode | undefined;
 }
 export type SiteMap = string;
 export type SiteMapsList = string[];
@@ -815,8 +821,8 @@ export interface SiteMapsConfiguration {
   SiteMaps: string[];
 }
 export interface Urls {
-  SeedUrlConfiguration?: SeedUrlConfiguration;
-  SiteMapsConfiguration?: SiteMapsConfiguration;
+  SeedUrlConfiguration?: SeedUrlConfiguration | undefined;
+  SiteMapsConfiguration?: SiteMapsConfiguration | undefined;
 }
 export type CrawlDepth = number;
 export type MaxLinksPerPage = number;
@@ -829,27 +835,27 @@ export interface BasicAuthenticationConfiguration {
 }
 export type BasicAuthenticationConfigurationList = BasicAuthenticationConfiguration[];
 export interface AuthenticationConfiguration {
-  BasicAuthentication?: BasicAuthenticationConfiguration[];
+  BasicAuthentication?: BasicAuthenticationConfiguration[] | undefined;
 }
 export interface WebCrawlerConfiguration {
   Urls: Urls;
-  CrawlDepth?: number;
-  MaxLinksPerPage?: number;
-  MaxContentSizePerPageInMegaBytes?: number;
-  MaxUrlsPerMinuteCrawlRate?: number;
-  UrlInclusionPatterns?: string[];
-  UrlExclusionPatterns?: string[];
-  ProxyConfiguration?: ProxyConfiguration;
-  AuthenticationConfiguration?: AuthenticationConfiguration;
+  CrawlDepth?: number | undefined;
+  MaxLinksPerPage?: number | undefined;
+  MaxContentSizePerPageInMegaBytes?: number | undefined;
+  MaxUrlsPerMinuteCrawlRate?: number | undefined;
+  UrlInclusionPatterns?: string[] | undefined;
+  UrlExclusionPatterns?: string[] | undefined;
+  ProxyConfiguration?: ProxyConfiguration | undefined;
+  AuthenticationConfiguration?: AuthenticationConfiguration | undefined;
 }
 export type OrganizationId = string;
 export interface WorkDocsConfiguration {
   OrganizationId: string;
-  CrawlComments?: boolean;
-  UseChangeLog?: boolean;
-  InclusionPatterns?: string[];
-  ExclusionPatterns?: string[];
-  FieldMappings?: DataSourceToIndexFieldMapping[];
+  CrawlComments?: boolean | undefined;
+  UseChangeLog?: boolean | undefined;
+  InclusionPatterns?: string[] | undefined;
+  ExclusionPatterns?: string[] | undefined;
+  FieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
 }
 export type FileSystemId = string;
 export type FsxFileSystemType = "WINDOWS" | (string & {});
@@ -857,10 +863,10 @@ export interface FsxConfiguration {
   FileSystemId: string;
   FileSystemType: FsxFileSystemType;
   VpcConfiguration: DataSourceVpcConfiguration;
-  SecretArn?: string;
-  InclusionPatterns?: string[];
-  ExclusionPatterns?: string[];
-  FieldMappings?: DataSourceToIndexFieldMapping[];
+  SecretArn?: string | undefined;
+  InclusionPatterns?: string[] | undefined;
+  ExclusionPatterns?: string[] | undefined;
+  FieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
 }
 export type TeamId = string;
 export type SlackEntity =
@@ -877,34 +883,34 @@ export type PublicChannelFilter = string[];
 export interface SlackConfiguration {
   TeamId: string;
   SecretArn: string;
-  VpcConfiguration?: DataSourceVpcConfiguration;
+  VpcConfiguration?: DataSourceVpcConfiguration | undefined;
   SlackEntityList: SlackEntity[];
-  UseChangeLog?: boolean;
-  CrawlBotMessage?: boolean;
-  ExcludeArchived?: boolean;
+  UseChangeLog?: boolean | undefined;
+  CrawlBotMessage?: boolean | undefined;
+  ExcludeArchived?: boolean | undefined;
   SinceCrawlDate: string;
-  LookBackPeriod?: number;
-  PrivateChannelFilter?: string[];
-  PublicChannelFilter?: string[];
-  InclusionPatterns?: string[];
-  ExclusionPatterns?: string[];
-  FieldMappings?: DataSourceToIndexFieldMapping[];
+  LookBackPeriod?: number | undefined;
+  PrivateChannelFilter?: string[] | undefined;
+  PublicChannelFilter?: string[] | undefined;
+  InclusionPatterns?: string[] | undefined;
+  ExclusionPatterns?: string[] | undefined;
+  FieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
 }
 export type EnterpriseId = string;
 export interface BoxConfiguration {
   EnterpriseId: string;
   SecretArn: string;
-  UseChangeLog?: boolean;
-  CrawlComments?: boolean;
-  CrawlTasks?: boolean;
-  CrawlWebLinks?: boolean;
-  FileFieldMappings?: DataSourceToIndexFieldMapping[];
-  TaskFieldMappings?: DataSourceToIndexFieldMapping[];
-  CommentFieldMappings?: DataSourceToIndexFieldMapping[];
-  WebLinkFieldMappings?: DataSourceToIndexFieldMapping[];
-  InclusionPatterns?: string[];
-  ExclusionPatterns?: string[];
-  VpcConfiguration?: DataSourceVpcConfiguration;
+  UseChangeLog?: boolean | undefined;
+  CrawlComments?: boolean | undefined;
+  CrawlTasks?: boolean | undefined;
+  CrawlWebLinks?: boolean | undefined;
+  FileFieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
+  TaskFieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
+  CommentFieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
+  WebLinkFieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
+  InclusionPatterns?: string[] | undefined;
+  ExclusionPatterns?: string[] | undefined;
+  VpcConfiguration?: DataSourceVpcConfiguration | undefined;
 }
 export type Domain = string;
 export type FolderId = string;
@@ -912,16 +918,16 @@ export type FolderIdList = string[];
 export interface QuipConfiguration {
   Domain: string;
   SecretArn: string;
-  CrawlFileComments?: boolean;
-  CrawlChatRooms?: boolean;
-  CrawlAttachments?: boolean;
-  FolderIds?: string[];
-  ThreadFieldMappings?: DataSourceToIndexFieldMapping[];
-  MessageFieldMappings?: DataSourceToIndexFieldMapping[];
-  AttachmentFieldMappings?: DataSourceToIndexFieldMapping[];
-  InclusionPatterns?: string[];
-  ExclusionPatterns?: string[];
-  VpcConfiguration?: DataSourceVpcConfiguration;
+  CrawlFileComments?: boolean | undefined;
+  CrawlChatRooms?: boolean | undefined;
+  CrawlAttachments?: boolean | undefined;
+  FolderIds?: string[] | undefined;
+  ThreadFieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
+  MessageFieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
+  AttachmentFieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
+  InclusionPatterns?: string[] | undefined;
+  ExclusionPatterns?: string[] | undefined;
+  VpcConfiguration?: DataSourceVpcConfiguration | undefined;
 }
 export type JiraAccountUrl = string;
 export type Project = string[];
@@ -932,19 +938,19 @@ export type IssueSubEntityFilter = IssueSubEntity[];
 export interface JiraConfiguration {
   JiraAccountUrl: string;
   SecretArn: string;
-  UseChangeLog?: boolean;
-  Project?: string[];
-  IssueType?: string[];
-  Status?: string[];
-  IssueSubEntityFilter?: IssueSubEntity[];
-  AttachmentFieldMappings?: DataSourceToIndexFieldMapping[];
-  CommentFieldMappings?: DataSourceToIndexFieldMapping[];
-  IssueFieldMappings?: DataSourceToIndexFieldMapping[];
-  ProjectFieldMappings?: DataSourceToIndexFieldMapping[];
-  WorkLogFieldMappings?: DataSourceToIndexFieldMapping[];
-  InclusionPatterns?: string[];
-  ExclusionPatterns?: string[];
-  VpcConfiguration?: DataSourceVpcConfiguration;
+  UseChangeLog?: boolean | undefined;
+  Project?: string[] | undefined;
+  IssueType?: string[] | undefined;
+  Status?: string[] | undefined;
+  IssueSubEntityFilter?: IssueSubEntity[] | undefined;
+  AttachmentFieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
+  CommentFieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
+  IssueFieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
+  ProjectFieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
+  WorkLogFieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
+  InclusionPatterns?: string[] | undefined;
+  ExclusionPatterns?: string[] | undefined;
+  VpcConfiguration?: DataSourceVpcConfiguration | undefined;
 }
 export type OrganizationName = string;
 export interface SaaSConfiguration {
@@ -958,40 +964,42 @@ export interface OnPremiseConfiguration {
 }
 export type Type = "SAAS" | "ON_PREMISE" | (string & {});
 export interface GitHubDocumentCrawlProperties {
-  CrawlRepositoryDocuments?: boolean;
-  CrawlIssue?: boolean;
-  CrawlIssueComment?: boolean;
-  CrawlIssueCommentAttachment?: boolean;
-  CrawlPullRequest?: boolean;
-  CrawlPullRequestComment?: boolean;
-  CrawlPullRequestCommentAttachment?: boolean;
+  CrawlRepositoryDocuments?: boolean | undefined;
+  CrawlIssue?: boolean | undefined;
+  CrawlIssueComment?: boolean | undefined;
+  CrawlIssueCommentAttachment?: boolean | undefined;
+  CrawlPullRequest?: boolean | undefined;
+  CrawlPullRequestComment?: boolean | undefined;
+  CrawlPullRequestCommentAttachment?: boolean | undefined;
 }
 export type RepositoryName = string;
 export type RepositoryNames = string[];
 export type StringList = string[];
 export interface GitHubConfiguration {
-  SaaSConfiguration?: SaaSConfiguration;
-  OnPremiseConfiguration?: OnPremiseConfiguration;
-  Type?: Type;
+  SaaSConfiguration?: SaaSConfiguration | undefined;
+  OnPremiseConfiguration?: OnPremiseConfiguration | undefined;
+  Type?: Type | undefined;
   SecretArn: string;
-  UseChangeLog?: boolean;
-  GitHubDocumentCrawlProperties?: GitHubDocumentCrawlProperties;
-  RepositoryFilter?: string[];
-  InclusionFolderNamePatterns?: string[];
-  InclusionFileTypePatterns?: string[];
-  InclusionFileNamePatterns?: string[];
-  ExclusionFolderNamePatterns?: string[];
-  ExclusionFileTypePatterns?: string[];
-  ExclusionFileNamePatterns?: string[];
-  VpcConfiguration?: DataSourceVpcConfiguration;
-  GitHubRepositoryConfigurationFieldMappings?: DataSourceToIndexFieldMapping[];
-  GitHubCommitConfigurationFieldMappings?: DataSourceToIndexFieldMapping[];
-  GitHubIssueDocumentConfigurationFieldMappings?: DataSourceToIndexFieldMapping[];
-  GitHubIssueCommentConfigurationFieldMappings?: DataSourceToIndexFieldMapping[];
-  GitHubIssueAttachmentConfigurationFieldMappings?: DataSourceToIndexFieldMapping[];
-  GitHubPullRequestCommentConfigurationFieldMappings?: DataSourceToIndexFieldMapping[];
-  GitHubPullRequestDocumentConfigurationFieldMappings?: DataSourceToIndexFieldMapping[];
-  GitHubPullRequestDocumentAttachmentConfigurationFieldMappings?: DataSourceToIndexFieldMapping[];
+  UseChangeLog?: boolean | undefined;
+  GitHubDocumentCrawlProperties?: GitHubDocumentCrawlProperties | undefined;
+  RepositoryFilter?: string[] | undefined;
+  InclusionFolderNamePatterns?: string[] | undefined;
+  InclusionFileTypePatterns?: string[] | undefined;
+  InclusionFileNamePatterns?: string[] | undefined;
+  ExclusionFolderNamePatterns?: string[] | undefined;
+  ExclusionFileTypePatterns?: string[] | undefined;
+  ExclusionFileNamePatterns?: string[] | undefined;
+  VpcConfiguration?: DataSourceVpcConfiguration | undefined;
+  GitHubRepositoryConfigurationFieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
+  GitHubCommitConfigurationFieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
+  GitHubIssueDocumentConfigurationFieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
+  GitHubIssueCommentConfigurationFieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
+  GitHubIssueAttachmentConfigurationFieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
+  GitHubPullRequestCommentConfigurationFieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
+  GitHubPullRequestDocumentConfigurationFieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
+  GitHubPullRequestDocumentAttachmentConfigurationFieldMappings?:
+    | DataSourceToIndexFieldMapping[]
+    | undefined;
 }
 export type SiteUrl = string;
 export type SiteId = string;
@@ -1002,39 +1010,39 @@ export interface AlfrescoConfiguration {
   SiteId: string;
   SecretArn: string;
   SslCertificateS3Path: S3Path;
-  CrawlSystemFolders?: boolean;
-  CrawlComments?: boolean;
-  EntityFilter?: AlfrescoEntity[];
-  DocumentLibraryFieldMappings?: DataSourceToIndexFieldMapping[];
-  BlogFieldMappings?: DataSourceToIndexFieldMapping[];
-  WikiFieldMappings?: DataSourceToIndexFieldMapping[];
-  InclusionPatterns?: string[];
-  ExclusionPatterns?: string[];
-  VpcConfiguration?: DataSourceVpcConfiguration;
+  CrawlSystemFolders?: boolean | undefined;
+  CrawlComments?: boolean | undefined;
+  EntityFilter?: AlfrescoEntity[] | undefined;
+  DocumentLibraryFieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
+  BlogFieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
+  WikiFieldMappings?: DataSourceToIndexFieldMapping[] | undefined;
+  InclusionPatterns?: string[] | undefined;
+  ExclusionPatterns?: string[] | undefined;
+  VpcConfiguration?: DataSourceVpcConfiguration | undefined;
 }
 export type Template = unknown;
 export interface TemplateConfiguration {
-  Template?: any;
+  Template?: any | undefined;
 }
 export interface DataSourceConfiguration {
-  S3Configuration?: S3DataSourceConfiguration;
-  SharePointConfiguration?: SharePointConfiguration;
-  DatabaseConfiguration?: DatabaseConfiguration;
-  SalesforceConfiguration?: SalesforceConfiguration;
-  OneDriveConfiguration?: OneDriveConfiguration;
-  ServiceNowConfiguration?: ServiceNowConfiguration;
-  ConfluenceConfiguration?: ConfluenceConfiguration;
-  GoogleDriveConfiguration?: GoogleDriveConfiguration;
-  WebCrawlerConfiguration?: WebCrawlerConfiguration;
-  WorkDocsConfiguration?: WorkDocsConfiguration;
-  FsxConfiguration?: FsxConfiguration;
-  SlackConfiguration?: SlackConfiguration;
-  BoxConfiguration?: BoxConfiguration;
-  QuipConfiguration?: QuipConfiguration;
-  JiraConfiguration?: JiraConfiguration;
-  GitHubConfiguration?: GitHubConfiguration;
-  AlfrescoConfiguration?: AlfrescoConfiguration;
-  TemplateConfiguration?: TemplateConfiguration;
+  S3Configuration?: S3DataSourceConfiguration | undefined;
+  SharePointConfiguration?: SharePointConfiguration | undefined;
+  DatabaseConfiguration?: DatabaseConfiguration | undefined;
+  SalesforceConfiguration?: SalesforceConfiguration | undefined;
+  OneDriveConfiguration?: OneDriveConfiguration | undefined;
+  ServiceNowConfiguration?: ServiceNowConfiguration | undefined;
+  ConfluenceConfiguration?: ConfluenceConfiguration | undefined;
+  GoogleDriveConfiguration?: GoogleDriveConfiguration | undefined;
+  WebCrawlerConfiguration?: WebCrawlerConfiguration | undefined;
+  WorkDocsConfiguration?: WorkDocsConfiguration | undefined;
+  FsxConfiguration?: FsxConfiguration | undefined;
+  SlackConfiguration?: SlackConfiguration | undefined;
+  BoxConfiguration?: BoxConfiguration | undefined;
+  QuipConfiguration?: QuipConfiguration | undefined;
+  JiraConfiguration?: JiraConfiguration | undefined;
+  GitHubConfiguration?: GitHubConfiguration | undefined;
+  AlfrescoConfiguration?: AlfrescoConfiguration | undefined;
+  TemplateConfiguration?: TemplateConfiguration | undefined;
 }
 export type ScanSchedule = string;
 export type TagKey = string;
@@ -1049,15 +1057,15 @@ export interface CreateDataSourceRequest {
   Name: string;
   IndexId: string;
   Type: DataSourceType;
-  Configuration?: DataSourceConfiguration;
-  VpcConfiguration?: DataSourceVpcConfiguration;
-  Description?: string;
-  Schedule?: string;
-  RoleArn?: string;
-  Tags?: Tag[];
-  ClientToken?: string;
-  LanguageCode?: string;
-  CustomDocumentEnrichmentConfiguration?: CustomDocumentEnrichmentConfiguration;
+  Configuration?: DataSourceConfiguration | undefined;
+  VpcConfiguration?: DataSourceVpcConfiguration | undefined;
+  Description?: string | undefined;
+  Schedule?: string | undefined;
+  RoleArn?: string | undefined;
+  Tags?: Tag[] | undefined;
+  ClientToken?: string | undefined;
+  LanguageCode?: string | undefined;
+  CustomDocumentEnrichmentConfiguration?: CustomDocumentEnrichmentConfiguration | undefined;
 }
 export interface CreateDataSourceResponse {
   Id: string;
@@ -1067,25 +1075,25 @@ export type DataSourceIdList = string[];
 export type FaqId = string;
 export type FaqIdsList = string[];
 export interface ContentSourceConfiguration {
-  DataSourceIds?: string[];
-  FaqIds?: string[];
-  DirectPutContent?: boolean;
+  DataSourceIds?: string[] | undefined;
+  FaqIds?: string[] | undefined;
+  DirectPutContent?: boolean | undefined;
 }
 export type IdentityAttributeName = string;
 export interface UserIdentityConfiguration {
-  IdentityAttributeName?: string;
+  IdentityAttributeName?: string | undefined;
 }
 export interface ExperienceConfiguration {
-  ContentSourceConfiguration?: ContentSourceConfiguration;
-  UserIdentityConfiguration?: UserIdentityConfiguration;
+  ContentSourceConfiguration?: ContentSourceConfiguration | undefined;
+  UserIdentityConfiguration?: UserIdentityConfiguration | undefined;
 }
 export interface CreateExperienceRequest {
   Name: string;
   IndexId: string;
-  RoleArn?: string;
-  Configuration?: ExperienceConfiguration;
-  Description?: string;
-  ClientToken?: string;
+  RoleArn?: string | undefined;
+  Configuration?: ExperienceConfiguration | undefined;
+  Description?: string | undefined;
+  ClientToken?: string | undefined;
 }
 export interface CreateExperienceResponse {
   Id: string;
@@ -1095,16 +1103,16 @@ export type FaqFileFormat = "CSV" | "CSV_WITH_HEADER" | "JSON" | (string & {});
 export interface CreateFaqRequest {
   IndexId: string;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   S3Path: S3Path;
   RoleArn: string;
-  Tags?: Tag[];
-  FileFormat?: FaqFileFormat;
-  ClientToken?: string;
-  LanguageCode?: string;
+  Tags?: Tag[] | undefined;
+  FileFormat?: FaqFileFormat | undefined;
+  ClientToken?: string | undefined;
+  LanguageCode?: string | undefined;
 }
 export interface CreateFaqResponse {
-  Id?: string;
+  Id?: string | undefined;
 }
 export type FeaturedResultsSetName = string;
 export type FeaturedResultsSetDescription = string;
@@ -1112,31 +1120,31 @@ export type FeaturedResultsSetStatus = "ACTIVE" | "INACTIVE" | (string & {});
 export type QueryText = string;
 export type QueryTextList = string[];
 export interface FeaturedDocument {
-  Id?: string;
+  Id?: string | undefined;
 }
 export type FeaturedDocumentList = FeaturedDocument[];
 export interface CreateFeaturedResultsSetRequest {
   IndexId: string;
   FeaturedResultsSetName: string;
-  Description?: string;
-  ClientToken?: string;
-  Status?: FeaturedResultsSetStatus;
-  QueryTexts?: string[];
-  FeaturedDocuments?: FeaturedDocument[];
-  Tags?: Tag[];
+  Description?: string | undefined;
+  ClientToken?: string | undefined;
+  Status?: FeaturedResultsSetStatus | undefined;
+  QueryTexts?: string[] | undefined;
+  FeaturedDocuments?: FeaturedDocument[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface FeaturedResultsSet {
-  FeaturedResultsSetId?: string;
-  FeaturedResultsSetName?: string;
-  Description?: string;
-  Status?: FeaturedResultsSetStatus;
-  QueryTexts?: string[];
-  FeaturedDocuments?: FeaturedDocument[];
-  LastUpdatedTimestamp?: number;
-  CreationTimestamp?: number;
+  FeaturedResultsSetId?: string | undefined;
+  FeaturedResultsSetName?: string | undefined;
+  Description?: string | undefined;
+  Status?: FeaturedResultsSetStatus | undefined;
+  QueryTexts?: string[] | undefined;
+  FeaturedDocuments?: FeaturedDocument[] | undefined;
+  LastUpdatedTimestamp?: number | undefined;
+  CreationTimestamp?: number | undefined;
 }
 export interface CreateFeaturedResultsSetResponse {
-  FeaturedResultsSet?: FeaturedResultsSet;
+  FeaturedResultsSet?: FeaturedResultsSet | undefined;
 }
 export type IndexName = string;
 export type IndexEdition =
@@ -1146,7 +1154,7 @@ export type IndexEdition =
   | (string & {});
 export type KmsKeyId = string | redacted.Redacted<string>;
 export interface ServerSideEncryptionConfiguration {
-  KmsKeyId?: string | redacted.Redacted<string>;
+  KmsKeyId?: string | redacted.Redacted<string> | undefined;
 }
 export type KeyLocation = "URL" | "SECRET_MANAGER" | (string & {});
 export type UserNameAttributeField = string;
@@ -1155,20 +1163,20 @@ export type Issuer = string;
 export type ClaimRegex = string;
 export interface JwtTokenTypeConfiguration {
   KeyLocation: KeyLocation;
-  URL?: string;
-  SecretManagerArn?: string;
-  UserNameAttributeField?: string;
-  GroupAttributeField?: string;
-  Issuer?: string;
-  ClaimRegex?: string;
+  URL?: string | undefined;
+  SecretManagerArn?: string | undefined;
+  UserNameAttributeField?: string | undefined;
+  GroupAttributeField?: string | undefined;
+  Issuer?: string | undefined;
+  ClaimRegex?: string | undefined;
 }
 export interface JsonTokenTypeConfiguration {
   UserNameAttributeField: string;
   GroupAttributeField: string;
 }
 export interface UserTokenConfiguration {
-  JwtTokenTypeConfiguration?: JwtTokenTypeConfiguration;
-  JsonTokenTypeConfiguration?: JsonTokenTypeConfiguration;
+  JwtTokenTypeConfiguration?: JwtTokenTypeConfiguration | undefined;
+  JsonTokenTypeConfiguration?: JsonTokenTypeConfiguration | undefined;
 }
 export type UserTokenConfigurationList = UserTokenConfiguration[];
 export type UserContextPolicy = "ATTRIBUTE_FILTER" | "USER_TOKEN" | (string & {});
@@ -1178,46 +1186,46 @@ export interface UserGroupResolutionConfiguration {
 }
 export interface CreateIndexRequest {
   Name: string;
-  Edition?: IndexEdition;
+  Edition?: IndexEdition | undefined;
   RoleArn: string;
-  ServerSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
-  Description?: string;
-  ClientToken?: string;
-  Tags?: Tag[];
-  UserTokenConfigurations?: UserTokenConfiguration[];
-  UserContextPolicy?: UserContextPolicy;
-  UserGroupResolutionConfiguration?: UserGroupResolutionConfiguration;
+  ServerSideEncryptionConfiguration?: ServerSideEncryptionConfiguration | undefined;
+  Description?: string | undefined;
+  ClientToken?: string | undefined;
+  Tags?: Tag[] | undefined;
+  UserTokenConfigurations?: UserTokenConfiguration[] | undefined;
+  UserContextPolicy?: UserContextPolicy | undefined;
+  UserGroupResolutionConfiguration?: UserGroupResolutionConfiguration | undefined;
 }
 export interface CreateIndexResponse {
-  Id?: string;
+  Id?: string | undefined;
 }
 export type QuerySuggestionsBlockListName = string;
 export interface CreateQuerySuggestionsBlockListRequest {
   IndexId: string;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   SourceS3Path: S3Path;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   RoleArn: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type QuerySuggestionsBlockListId = string;
 export interface CreateQuerySuggestionsBlockListResponse {
-  Id?: string;
+  Id?: string | undefined;
 }
 export type ThesaurusName = string;
 export interface CreateThesaurusRequest {
   IndexId: string;
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   RoleArn: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
   SourceS3Path: S3Path;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export type ThesaurusId = string;
 export interface CreateThesaurusResponse {
-  Id?: string;
+  Id?: string | undefined;
 }
 export interface DeleteAccessControlConfigurationRequest {
   IndexId: string;
@@ -1247,9 +1255,9 @@ export type GroupId = string;
 export type PrincipalOrderingId = number;
 export interface DeletePrincipalMappingRequest {
   IndexId: string;
-  DataSourceId?: string;
+  DataSourceId?: string | undefined;
   GroupId: string;
-  OrderingId?: number;
+  OrderingId?: number | undefined;
 }
 export interface DeletePrincipalMappingResponse {}
 export interface DeleteQuerySuggestionsBlockListRequest {
@@ -1268,10 +1276,10 @@ export interface DescribeAccessControlConfigurationRequest {
 }
 export interface DescribeAccessControlConfigurationResponse {
   Name: string;
-  Description?: string;
-  ErrorMessage?: string;
-  AccessControlList?: Principal[];
-  HierarchicalAccessControlList?: HierarchicalPrincipal[];
+  Description?: string | undefined;
+  ErrorMessage?: string | undefined;
+  AccessControlList?: Principal[] | undefined;
+  HierarchicalAccessControlList?: HierarchicalPrincipal[] | undefined;
 }
 export interface DescribeDataSourceRequest {
   Id: string;
@@ -1285,21 +1293,21 @@ export type DataSourceStatus =
   | "ACTIVE"
   | (string & {});
 export interface DescribeDataSourceResponse {
-  Id?: string;
-  IndexId?: string;
-  Name?: string;
-  Type?: DataSourceType;
-  Configuration?: DataSourceConfiguration;
-  VpcConfiguration?: DataSourceVpcConfiguration;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  Description?: string;
-  Status?: DataSourceStatus;
-  Schedule?: string;
-  RoleArn?: string;
-  ErrorMessage?: string;
-  LanguageCode?: string;
-  CustomDocumentEnrichmentConfiguration?: CustomDocumentEnrichmentConfiguration;
+  Id?: string | undefined;
+  IndexId?: string | undefined;
+  Name?: string | undefined;
+  Type?: DataSourceType | undefined;
+  Configuration?: DataSourceConfiguration | undefined;
+  VpcConfiguration?: DataSourceVpcConfiguration | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  Description?: string | undefined;
+  Status?: DataSourceStatus | undefined;
+  Schedule?: string | undefined;
+  RoleArn?: string | undefined;
+  ErrorMessage?: string | undefined;
+  LanguageCode?: string | undefined;
+  CustomDocumentEnrichmentConfiguration?: CustomDocumentEnrichmentConfiguration | undefined;
 }
 export interface DescribeExperienceRequest {
   Id: string;
@@ -1308,23 +1316,23 @@ export interface DescribeExperienceRequest {
 export type EndpointType = "HOME" | (string & {});
 export type Endpoint = string;
 export interface ExperienceEndpoint {
-  EndpointType?: EndpointType;
-  Endpoint?: string;
+  EndpointType?: EndpointType | undefined;
+  Endpoint?: string | undefined;
 }
 export type ExperienceEndpoints = ExperienceEndpoint[];
 export type ExperienceStatus = "CREATING" | "ACTIVE" | "DELETING" | "FAILED" | (string & {});
 export interface DescribeExperienceResponse {
-  Id?: string;
-  IndexId?: string;
-  Name?: string;
-  Endpoints?: ExperienceEndpoint[];
-  Configuration?: ExperienceConfiguration;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  Description?: string;
-  Status?: ExperienceStatus;
-  RoleArn?: string;
-  ErrorMessage?: string;
+  Id?: string | undefined;
+  IndexId?: string | undefined;
+  Name?: string | undefined;
+  Endpoints?: ExperienceEndpoint[] | undefined;
+  Configuration?: ExperienceConfiguration | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  Description?: string | undefined;
+  Status?: ExperienceStatus | undefined;
+  RoleArn?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export interface DescribeFaqRequest {
   Id: string;
@@ -1332,43 +1340,43 @@ export interface DescribeFaqRequest {
 }
 export type FaqStatus = "CREATING" | "UPDATING" | "ACTIVE" | "DELETING" | "FAILED" | (string & {});
 export interface DescribeFaqResponse {
-  Id?: string;
-  IndexId?: string;
-  Name?: string;
-  Description?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  S3Path?: S3Path;
-  Status?: FaqStatus;
-  RoleArn?: string;
-  ErrorMessage?: string;
-  FileFormat?: FaqFileFormat;
-  LanguageCode?: string;
+  Id?: string | undefined;
+  IndexId?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  S3Path?: S3Path | undefined;
+  Status?: FaqStatus | undefined;
+  RoleArn?: string | undefined;
+  ErrorMessage?: string | undefined;
+  FileFormat?: FaqFileFormat | undefined;
+  LanguageCode?: string | undefined;
 }
 export interface DescribeFeaturedResultsSetRequest {
   IndexId: string;
   FeaturedResultsSetId: string;
 }
 export interface FeaturedDocumentWithMetadata {
-  Id?: string;
-  Title?: string;
-  URI?: string;
+  Id?: string | undefined;
+  Title?: string | undefined;
+  URI?: string | undefined;
 }
 export type FeaturedDocumentWithMetadataList = FeaturedDocumentWithMetadata[];
 export interface FeaturedDocumentMissing {
-  Id?: string;
+  Id?: string | undefined;
 }
 export type FeaturedDocumentMissingList = FeaturedDocumentMissing[];
 export interface DescribeFeaturedResultsSetResponse {
-  FeaturedResultsSetId?: string;
-  FeaturedResultsSetName?: string;
-  Description?: string;
-  Status?: FeaturedResultsSetStatus;
-  QueryTexts?: string[];
-  FeaturedDocumentsWithMetadata?: FeaturedDocumentWithMetadata[];
-  FeaturedDocumentsMissing?: FeaturedDocumentMissing[];
-  LastUpdatedTimestamp?: number;
-  CreationTimestamp?: number;
+  FeaturedResultsSetId?: string | undefined;
+  FeaturedResultsSetName?: string | undefined;
+  Description?: string | undefined;
+  Status?: FeaturedResultsSetStatus | undefined;
+  QueryTexts?: string[] | undefined;
+  FeaturedDocumentsWithMetadata?: FeaturedDocumentWithMetadata[] | undefined;
+  FeaturedDocumentsMissing?: FeaturedDocumentMissing[] | undefined;
+  LastUpdatedTimestamp?: number | undefined;
+  CreationTimestamp?: number | undefined;
 }
 export interface DescribeIndexRequest {
   Id: string;
@@ -1395,23 +1403,23 @@ export type Order = "ASCENDING" | "DESCENDING" | (string & {});
 export type ValueImportanceMapKey = string;
 export type ValueImportanceMap = { [key: string]: number | undefined };
 export interface Relevance {
-  Freshness?: boolean;
-  Importance?: number;
-  Duration?: string;
-  RankOrder?: Order;
-  ValueImportanceMap?: { [key: string]: number | undefined };
+  Freshness?: boolean | undefined;
+  Importance?: number | undefined;
+  Duration?: string | undefined;
+  RankOrder?: Order | undefined;
+  ValueImportanceMap?: { [key: string]: number | undefined } | undefined;
 }
 export interface Search {
-  Facetable?: boolean;
-  Searchable?: boolean;
-  Displayable?: boolean;
-  Sortable?: boolean;
+  Facetable?: boolean | undefined;
+  Searchable?: boolean | undefined;
+  Displayable?: boolean | undefined;
+  Sortable?: boolean | undefined;
 }
 export interface DocumentMetadataConfiguration {
   Name: string;
   Type: DocumentAttributeValueType;
-  Relevance?: Relevance;
-  Search?: Search;
+  Relevance?: Relevance | undefined;
+  Search?: Search | undefined;
 }
 export type DocumentMetadataConfigurationList = DocumentMetadataConfiguration[];
 export type IndexedQuestionAnswersCount = number;
@@ -1435,26 +1443,26 @@ export interface CapacityUnitsConfiguration {
   QueryCapacityUnits: number;
 }
 export interface DescribeIndexResponse {
-  Name?: string;
-  Id?: string;
-  Edition?: IndexEdition;
-  RoleArn?: string;
-  ServerSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
-  Status?: IndexStatus;
-  Description?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  DocumentMetadataConfigurations?: DocumentMetadataConfiguration[];
-  IndexStatistics?: IndexStatistics;
-  ErrorMessage?: string;
-  CapacityUnits?: CapacityUnitsConfiguration;
-  UserTokenConfigurations?: UserTokenConfiguration[];
-  UserContextPolicy?: UserContextPolicy;
-  UserGroupResolutionConfiguration?: UserGroupResolutionConfiguration;
+  Name?: string | undefined;
+  Id?: string | undefined;
+  Edition?: IndexEdition | undefined;
+  RoleArn?: string | undefined;
+  ServerSideEncryptionConfiguration?: ServerSideEncryptionConfiguration | undefined;
+  Status?: IndexStatus | undefined;
+  Description?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  DocumentMetadataConfigurations?: DocumentMetadataConfiguration[] | undefined;
+  IndexStatistics?: IndexStatistics | undefined;
+  ErrorMessage?: string | undefined;
+  CapacityUnits?: CapacityUnitsConfiguration | undefined;
+  UserTokenConfigurations?: UserTokenConfiguration[] | undefined;
+  UserContextPolicy?: UserContextPolicy | undefined;
+  UserGroupResolutionConfiguration?: UserGroupResolutionConfiguration | undefined;
 }
 export interface DescribePrincipalMappingRequest {
   IndexId: string;
-  DataSourceId?: string;
+  DataSourceId?: string | undefined;
   GroupId: string;
 }
 export type PrincipalMappingStatus =
@@ -1466,18 +1474,18 @@ export type PrincipalMappingStatus =
   | (string & {});
 export type FailureReason = string;
 export interface GroupOrderingIdSummary {
-  Status?: PrincipalMappingStatus;
-  LastUpdatedAt?: Date;
-  ReceivedAt?: Date;
-  OrderingId?: number;
-  FailureReason?: string;
+  Status?: PrincipalMappingStatus | undefined;
+  LastUpdatedAt?: Date | undefined;
+  ReceivedAt?: Date | undefined;
+  OrderingId?: number | undefined;
+  FailureReason?: string | undefined;
 }
 export type GroupOrderingIdSummaries = GroupOrderingIdSummary[];
 export interface DescribePrincipalMappingResponse {
-  IndexId?: string;
-  DataSourceId?: string;
-  GroupId?: string;
-  GroupOrderingIdSummaries?: GroupOrderingIdSummary[];
+  IndexId?: string | undefined;
+  DataSourceId?: string | undefined;
+  GroupId?: string | undefined;
+  GroupOrderingIdSummaries?: GroupOrderingIdSummary[] | undefined;
 }
 export interface DescribeQuerySuggestionsBlockListRequest {
   IndexId: string;
@@ -1492,18 +1500,18 @@ export type QuerySuggestionsBlockListStatus =
   | "FAILED"
   | (string & {});
 export interface DescribeQuerySuggestionsBlockListResponse {
-  IndexId?: string;
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  Status?: QuerySuggestionsBlockListStatus;
-  ErrorMessage?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  SourceS3Path?: S3Path;
-  ItemCount?: number;
-  FileSizeBytes?: number;
-  RoleArn?: string;
+  IndexId?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Status?: QuerySuggestionsBlockListStatus | undefined;
+  ErrorMessage?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  SourceS3Path?: S3Path | undefined;
+  ItemCount?: number | undefined;
+  FileSizeBytes?: number | undefined;
+  RoleArn?: string | undefined;
 }
 export interface DescribeQuerySuggestionsConfigRequest {
   IndexId: string;
@@ -1514,26 +1522,26 @@ export type ObjectBoolean = boolean;
 export type MinimumNumberOfQueryingUsers = number;
 export type MinimumQueryCount = number;
 export interface SuggestableConfig {
-  AttributeName?: string;
-  Suggestable?: boolean;
+  AttributeName?: string | undefined;
+  Suggestable?: boolean | undefined;
 }
 export type SuggestableConfigList = SuggestableConfig[];
 export type AttributeSuggestionsMode = "ACTIVE" | "INACTIVE" | (string & {});
 export interface AttributeSuggestionsDescribeConfig {
-  SuggestableConfigList?: SuggestableConfig[];
-  AttributeSuggestionsMode?: AttributeSuggestionsMode;
+  SuggestableConfigList?: SuggestableConfig[] | undefined;
+  AttributeSuggestionsMode?: AttributeSuggestionsMode | undefined;
 }
 export interface DescribeQuerySuggestionsConfigResponse {
-  Mode?: Mode;
-  Status?: QuerySuggestionsStatus;
-  QueryLogLookBackWindowInDays?: number;
-  IncludeQueriesWithoutUserInformation?: boolean;
-  MinimumNumberOfQueryingUsers?: number;
-  MinimumQueryCount?: number;
-  LastSuggestionsBuildTime?: Date;
-  LastClearTime?: Date;
-  TotalSuggestionsCount?: number;
-  AttributeSuggestionsConfig?: AttributeSuggestionsDescribeConfig;
+  Mode?: Mode | undefined;
+  Status?: QuerySuggestionsStatus | undefined;
+  QueryLogLookBackWindowInDays?: number | undefined;
+  IncludeQueriesWithoutUserInformation?: boolean | undefined;
+  MinimumNumberOfQueryingUsers?: number | undefined;
+  MinimumQueryCount?: number | undefined;
+  LastSuggestionsBuildTime?: Date | undefined;
+  LastClearTime?: Date | undefined;
+  TotalSuggestionsCount?: number | undefined;
+  AttributeSuggestionsConfig?: AttributeSuggestionsDescribeConfig | undefined;
 }
 export interface DescribeThesaurusRequest {
   Id: string;
@@ -1548,19 +1556,19 @@ export type ThesaurusStatus =
   | "FAILED"
   | (string & {});
 export interface DescribeThesaurusResponse {
-  Id?: string;
-  IndexId?: string;
-  Name?: string;
-  Description?: string;
-  Status?: ThesaurusStatus;
-  ErrorMessage?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  RoleArn?: string;
-  SourceS3Path?: S3Path;
-  FileSizeBytes?: number;
-  TermCount?: number;
-  SynonymRuleCount?: number;
+  Id?: string | undefined;
+  IndexId?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Status?: ThesaurusStatus | undefined;
+  ErrorMessage?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  RoleArn?: string | undefined;
+  SourceS3Path?: S3Path | undefined;
+  FileSizeBytes?: number | undefined;
+  TermCount?: number | undefined;
+  SynonymRuleCount?: number | undefined;
 }
 export type DisassociateEntityList = EntityConfiguration[];
 export interface DisassociateEntitiesFromExperienceRequest {
@@ -1569,7 +1577,7 @@ export interface DisassociateEntitiesFromExperienceRequest {
   EntityList: EntityConfiguration[];
 }
 export interface DisassociateEntitiesFromExperienceResponse {
-  FailedEntityList?: FailedEntity[];
+  FailedEntityList?: FailedEntity[] | undefined;
 }
 export type EntityIdsList = string[];
 export interface DisassociatePersonasFromEntitiesRequest {
@@ -1578,7 +1586,7 @@ export interface DisassociatePersonasFromEntitiesRequest {
   EntityIds: string[];
 }
 export interface DisassociatePersonasFromEntitiesResponse {
-  FailedEntityList?: FailedEntity[];
+  FailedEntityList?: FailedEntity[] | undefined;
 }
 export type SuggestionQueryText = string;
 export type SuggestionType = "QUERY" | "DOCUMENT_ATTRIBUTES" | (string & {});
@@ -1586,16 +1594,16 @@ export type SuggestionTypes = SuggestionType[];
 export type DocumentAttributeKeyList = string[];
 export type AttributeFilterList = AttributeFilter[];
 export interface AttributeFilter {
-  AndAllFilters?: AttributeFilter[];
-  OrAllFilters?: AttributeFilter[];
-  NotFilter?: AttributeFilter;
-  EqualsTo?: DocumentAttribute;
-  ContainsAll?: DocumentAttribute;
-  ContainsAny?: DocumentAttribute;
-  GreaterThan?: DocumentAttribute;
-  GreaterThanOrEquals?: DocumentAttribute;
-  LessThan?: DocumentAttribute;
-  LessThanOrEquals?: DocumentAttribute;
+  AndAllFilters?: AttributeFilter[] | undefined;
+  OrAllFilters?: AttributeFilter[] | undefined;
+  NotFilter?: AttributeFilter | undefined;
+  EqualsTo?: DocumentAttribute | undefined;
+  ContainsAll?: DocumentAttribute | undefined;
+  ContainsAny?: DocumentAttribute | undefined;
+  GreaterThan?: DocumentAttribute | undefined;
+  GreaterThanOrEquals?: DocumentAttribute | undefined;
+  LessThan?: DocumentAttribute | undefined;
+  LessThanOrEquals?: DocumentAttribute | undefined;
 }
 export type Token = string;
 export type Groups = string[];
@@ -1605,53 +1613,53 @@ export interface DataSourceGroup {
 }
 export type DataSourceGroups = DataSourceGroup[];
 export interface UserContext {
-  Token?: string | redacted.Redacted<string>;
-  UserId?: string;
-  Groups?: string[];
-  DataSourceGroups?: DataSourceGroup[];
+  Token?: string | redacted.Redacted<string> | undefined;
+  UserId?: string | undefined;
+  Groups?: string[] | undefined;
+  DataSourceGroups?: DataSourceGroup[] | undefined;
 }
 export interface AttributeSuggestionsGetConfig {
-  SuggestionAttributes?: string[];
-  AdditionalResponseAttributes?: string[];
-  AttributeFilter?: AttributeFilter;
-  UserContext?: UserContext;
+  SuggestionAttributes?: string[] | undefined;
+  AdditionalResponseAttributes?: string[] | undefined;
+  AttributeFilter?: AttributeFilter | undefined;
+  UserContext?: UserContext | undefined;
 }
 export interface GetQuerySuggestionsRequest {
   IndexId: string;
   QueryText: string;
-  MaxSuggestionsCount?: number;
-  SuggestionTypes?: SuggestionType[];
-  AttributeSuggestionsConfig?: AttributeSuggestionsGetConfig;
+  MaxSuggestionsCount?: number | undefined;
+  SuggestionTypes?: SuggestionType[] | undefined;
+  AttributeSuggestionsConfig?: AttributeSuggestionsGetConfig | undefined;
 }
 export type QuerySuggestionsId = string;
 export type ResultId = string;
 export interface SuggestionHighlight {
-  BeginOffset?: number;
-  EndOffset?: number;
+  BeginOffset?: number | undefined;
+  EndOffset?: number | undefined;
 }
 export type SuggestionHighlightList = SuggestionHighlight[];
 export interface SuggestionTextWithHighlights {
-  Text?: string;
-  Highlights?: SuggestionHighlight[];
+  Text?: string | undefined;
+  Highlights?: SuggestionHighlight[] | undefined;
 }
 export interface SuggestionValue {
-  Text?: SuggestionTextWithHighlights;
+  Text?: SuggestionTextWithHighlights | undefined;
 }
 export interface SourceDocument {
-  DocumentId?: string;
-  SuggestionAttributes?: string[];
-  AdditionalAttributes?: DocumentAttribute[];
+  DocumentId?: string | undefined;
+  SuggestionAttributes?: string[] | undefined;
+  AdditionalAttributes?: DocumentAttribute[] | undefined;
 }
 export type SourceDocuments = SourceDocument[];
 export interface Suggestion {
-  Id?: string;
-  Value?: SuggestionValue;
-  SourceDocuments?: SourceDocument[];
+  Id?: string | undefined;
+  Value?: SuggestionValue | undefined;
+  SourceDocuments?: SourceDocument[] | undefined;
 }
 export type SuggestionList = Suggestion[];
 export interface GetQuerySuggestionsResponse {
-  QuerySuggestionsId?: string;
-  Suggestions?: Suggestion[];
+  QuerySuggestionsId?: string | undefined;
+  Suggestions?: Suggestion[] | undefined;
 }
 export type Interval =
   | "THIS_MONTH"
@@ -1674,55 +1682,55 @@ export interface GetSnapshotsRequest {
   IndexId: string;
   Interval: Interval;
   MetricType: MetricType;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface TimeRange {
-  StartTime?: Date;
-  EndTime?: Date;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
 export type SnapshotsDataHeaderFields = string[];
 export type SnapshotsDataRecord = string[];
 export type SnapshotsDataRecords = string[][];
 export interface GetSnapshotsResponse {
-  SnapShotTimeFilter?: TimeRange;
-  SnapshotsDataHeader?: string[];
-  SnapshotsData?: string[][];
-  NextToken?: string;
+  SnapShotTimeFilter?: TimeRange | undefined;
+  SnapshotsDataHeader?: string[] | undefined;
+  SnapshotsData?: string[][] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxResultsIntegerForListAccessControlConfigurationsRequest = number;
 export interface ListAccessControlConfigurationsRequest {
   IndexId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface AccessControlConfigurationSummary {
   Id: string;
 }
 export type AccessControlConfigurationSummaryList = AccessControlConfigurationSummary[];
 export interface ListAccessControlConfigurationsResponse {
-  NextToken?: string;
+  NextToken?: string | undefined;
   AccessControlConfigurations: AccessControlConfigurationSummary[];
 }
 export type MaxResultsIntegerForListDataSourcesRequest = number;
 export interface ListDataSourcesRequest {
   IndexId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface DataSourceSummary {
-  Name?: string;
-  Id?: string;
-  Type?: DataSourceType;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  Status?: DataSourceStatus;
-  LanguageCode?: string;
+  Name?: string | undefined;
+  Id?: string | undefined;
+  Type?: DataSourceType | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  Status?: DataSourceStatus | undefined;
+  LanguageCode?: string | undefined;
 }
 export type DataSourceSummaryList = DataSourceSummary[];
 export interface ListDataSourcesResponse {
-  SummaryItems?: DataSourceSummary[];
-  NextToken?: string;
+  SummaryItems?: DataSourceSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxResultsIntegerForListDataSourceSyncJobsRequest = number;
 export type DataSourceSyncJobStatus =
@@ -1737,213 +1745,213 @@ export type DataSourceSyncJobStatus =
 export interface ListDataSourceSyncJobsRequest {
   Id: string;
   IndexId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  StartTimeFilter?: TimeRange;
-  StatusFilter?: DataSourceSyncJobStatus;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  StartTimeFilter?: TimeRange | undefined;
+  StatusFilter?: DataSourceSyncJobStatus | undefined;
 }
 export type MetricValue = string;
 export interface DataSourceSyncJobMetrics {
-  DocumentsAdded?: string;
-  DocumentsModified?: string;
-  DocumentsDeleted?: string;
-  DocumentsFailed?: string;
-  DocumentsScanned?: string;
+  DocumentsAdded?: string | undefined;
+  DocumentsModified?: string | undefined;
+  DocumentsDeleted?: string | undefined;
+  DocumentsFailed?: string | undefined;
+  DocumentsScanned?: string | undefined;
 }
 export interface DataSourceSyncJob {
-  ExecutionId?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  Status?: DataSourceSyncJobStatus;
-  ErrorMessage?: string;
-  ErrorCode?: ErrorCode;
-  DataSourceErrorCode?: string;
-  Metrics?: DataSourceSyncJobMetrics;
+  ExecutionId?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Status?: DataSourceSyncJobStatus | undefined;
+  ErrorMessage?: string | undefined;
+  ErrorCode?: ErrorCode | undefined;
+  DataSourceErrorCode?: string | undefined;
+  Metrics?: DataSourceSyncJobMetrics | undefined;
 }
 export type DataSourceSyncJobHistoryList = DataSourceSyncJob[];
 export interface ListDataSourceSyncJobsResponse {
-  History?: DataSourceSyncJob[];
-  NextToken?: string;
+  History?: DataSourceSyncJob[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxResultsIntegerForListEntityPersonasRequest = number;
 export interface ListEntityPersonasRequest {
   Id: string;
   IndexId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface PersonasSummary {
-  EntityId?: string;
-  Persona?: Persona;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  EntityId?: string | undefined;
+  Persona?: Persona | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type PersonasSummaryList = PersonasSummary[];
 export interface ListEntityPersonasResponse {
-  SummaryItems?: PersonasSummary[];
-  NextToken?: string;
+  SummaryItems?: PersonasSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListExperienceEntitiesRequest {
   Id: string;
   IndexId: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type NameType = string | redacted.Redacted<string>;
 export interface EntityDisplayData {
-  UserName?: string | redacted.Redacted<string>;
-  GroupName?: string | redacted.Redacted<string>;
-  IdentifiedUserName?: string | redacted.Redacted<string>;
-  FirstName?: string | redacted.Redacted<string>;
-  LastName?: string | redacted.Redacted<string>;
+  UserName?: string | redacted.Redacted<string> | undefined;
+  GroupName?: string | redacted.Redacted<string> | undefined;
+  IdentifiedUserName?: string | redacted.Redacted<string> | undefined;
+  FirstName?: string | redacted.Redacted<string> | undefined;
+  LastName?: string | redacted.Redacted<string> | undefined;
 }
 export interface ExperienceEntitiesSummary {
-  EntityId?: string;
-  EntityType?: EntityType;
-  DisplayData?: EntityDisplayData;
+  EntityId?: string | undefined;
+  EntityType?: EntityType | undefined;
+  DisplayData?: EntityDisplayData | undefined;
 }
 export type ExperienceEntitiesSummaryList = ExperienceEntitiesSummary[];
 export interface ListExperienceEntitiesResponse {
-  SummaryItems?: ExperienceEntitiesSummary[];
-  NextToken?: string;
+  SummaryItems?: ExperienceEntitiesSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxResultsIntegerForListExperiencesRequest = number;
 export interface ListExperiencesRequest {
   IndexId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ExperiencesSummary {
-  Name?: string;
-  Id?: string;
-  CreatedAt?: Date;
-  Status?: ExperienceStatus;
-  Endpoints?: ExperienceEndpoint[];
+  Name?: string | undefined;
+  Id?: string | undefined;
+  CreatedAt?: Date | undefined;
+  Status?: ExperienceStatus | undefined;
+  Endpoints?: ExperienceEndpoint[] | undefined;
 }
 export type ExperiencesSummaryList = ExperiencesSummary[];
 export interface ListExperiencesResponse {
-  SummaryItems?: ExperiencesSummary[];
-  NextToken?: string;
+  SummaryItems?: ExperiencesSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxResultsIntegerForListFaqsRequest = number;
 export interface ListFaqsRequest {
   IndexId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface FaqSummary {
-  Id?: string;
-  Name?: string;
-  Status?: FaqStatus;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  FileFormat?: FaqFileFormat;
-  LanguageCode?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Status?: FaqStatus | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  FileFormat?: FaqFileFormat | undefined;
+  LanguageCode?: string | undefined;
 }
 export type FaqSummaryItems = FaqSummary[];
 export interface ListFaqsResponse {
-  NextToken?: string;
-  FaqSummaryItems?: FaqSummary[];
+  NextToken?: string | undefined;
+  FaqSummaryItems?: FaqSummary[] | undefined;
 }
 export type MaxResultsIntegerForListFeaturedResultsSetsRequest = number;
 export interface ListFeaturedResultsSetsRequest {
   IndexId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface FeaturedResultsSetSummary {
-  FeaturedResultsSetId?: string;
-  FeaturedResultsSetName?: string;
-  Status?: FeaturedResultsSetStatus;
-  LastUpdatedTimestamp?: number;
-  CreationTimestamp?: number;
+  FeaturedResultsSetId?: string | undefined;
+  FeaturedResultsSetName?: string | undefined;
+  Status?: FeaturedResultsSetStatus | undefined;
+  LastUpdatedTimestamp?: number | undefined;
+  CreationTimestamp?: number | undefined;
 }
 export type FeaturedResultsSetSummaryItems = FeaturedResultsSetSummary[];
 export interface ListFeaturedResultsSetsResponse {
-  FeaturedResultsSetSummaryItems?: FeaturedResultsSetSummary[];
-  NextToken?: string;
+  FeaturedResultsSetSummaryItems?: FeaturedResultsSetSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxResultsIntegerForListPrincipalsRequest = number;
 export interface ListGroupsOlderThanOrderingIdRequest {
   IndexId: string;
-  DataSourceId?: string;
+  DataSourceId?: string | undefined;
   OrderingId: number;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface GroupSummary {
-  GroupId?: string;
-  OrderingId?: number;
+  GroupId?: string | undefined;
+  OrderingId?: number | undefined;
 }
 export type ListOfGroupSummaries = GroupSummary[];
 export interface ListGroupsOlderThanOrderingIdResponse {
-  GroupsSummaries?: GroupSummary[];
-  NextToken?: string;
+  GroupsSummaries?: GroupSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxResultsIntegerForListIndicesRequest = number;
 export interface ListIndicesRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface IndexConfigurationSummary {
-  Name?: string;
-  Id?: string;
-  Edition?: IndexEdition;
+  Name?: string | undefined;
+  Id?: string | undefined;
+  Edition?: IndexEdition | undefined;
   CreatedAt: Date;
   UpdatedAt: Date;
   Status: IndexStatus;
 }
 export type IndexConfigurationSummaryList = IndexConfigurationSummary[];
 export interface ListIndicesResponse {
-  IndexConfigurationSummaryItems?: IndexConfigurationSummary[];
-  NextToken?: string;
+  IndexConfigurationSummaryItems?: IndexConfigurationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxResultsIntegerForListQuerySuggestionsBlockLists = number;
 export interface ListQuerySuggestionsBlockListsRequest {
   IndexId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface QuerySuggestionsBlockListSummary {
-  Id?: string;
-  Name?: string;
-  Status?: QuerySuggestionsBlockListStatus;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  ItemCount?: number;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Status?: QuerySuggestionsBlockListStatus | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  ItemCount?: number | undefined;
 }
 export type QuerySuggestionsBlockListSummaryItems = QuerySuggestionsBlockListSummary[];
 export interface ListQuerySuggestionsBlockListsResponse {
-  BlockListSummaryItems?: QuerySuggestionsBlockListSummary[];
-  NextToken?: string;
+  BlockListSummaryItems?: QuerySuggestionsBlockListSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type MaxResultsIntegerForListThesauriRequest = number;
 export interface ListThesauriRequest {
   IndexId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ThesaurusSummary {
-  Id?: string;
-  Name?: string;
-  Status?: ThesaurusStatus;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Status?: ThesaurusStatus | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type ThesaurusSummaryItems = ThesaurusSummary[];
 export interface ListThesauriResponse {
-  NextToken?: string;
-  ThesaurusSummaryItems?: ThesaurusSummary[];
+  NextToken?: string | undefined;
+  ThesaurusSummaryItems?: ThesaurusSummary[] | undefined;
 }
 export interface MemberGroup {
   GroupId: string;
-  DataSourceId?: string;
+  DataSourceId?: string | undefined;
 }
 export type MemberGroups = MemberGroup[];
 export type UserId = string;
@@ -1952,24 +1960,24 @@ export interface MemberUser {
 }
 export type MemberUsers = MemberUser[];
 export interface GroupMembers {
-  MemberGroups?: MemberGroup[];
-  MemberUsers?: MemberUser[];
-  S3PathforGroupMembers?: S3Path;
+  MemberGroups?: MemberGroup[] | undefined;
+  MemberUsers?: MemberUser[] | undefined;
+  S3PathforGroupMembers?: S3Path | undefined;
 }
 export interface PutPrincipalMappingRequest {
   IndexId: string;
-  DataSourceId?: string;
+  DataSourceId?: string | undefined;
   GroupId: string;
   GroupMembers: GroupMembers;
-  OrderingId?: number;
-  RoleArn?: string;
+  OrderingId?: number | undefined;
+  RoleArn?: string | undefined;
 }
 export interface PutPrincipalMappingResponse {}
 export type TopDocumentAttributeValueCountPairsSize = number;
 export interface Facet {
-  DocumentAttributeKey?: string;
-  Facets?: Facet[];
-  MaxResults?: number;
+  DocumentAttributeKey?: string | undefined;
+  Facets?: Facet[] | undefined;
+  MaxResults?: number | undefined;
 }
 export type FacetList = Facet[];
 export type QueryResultType = "DOCUMENT" | "QUESTION_ANSWER" | "ANSWER" | (string & {});
@@ -1990,32 +1998,32 @@ export interface SpellCorrectionConfiguration {
 }
 export type MissingAttributeKeyStrategy = "IGNORE" | "COLLAPSE" | "EXPAND" | (string & {});
 export interface ExpandConfiguration {
-  MaxResultItemsToExpand?: number;
-  MaxExpandedResultsPerItem?: number;
+  MaxResultItemsToExpand?: number | undefined;
+  MaxExpandedResultsPerItem?: number | undefined;
 }
 export interface CollapseConfiguration {
   DocumentAttributeKey: string;
-  SortingConfigurations?: SortingConfiguration[];
-  MissingAttributeKeyStrategy?: MissingAttributeKeyStrategy;
-  Expand?: boolean;
-  ExpandConfiguration?: ExpandConfiguration;
+  SortingConfigurations?: SortingConfiguration[] | undefined;
+  MissingAttributeKeyStrategy?: MissingAttributeKeyStrategy | undefined;
+  Expand?: boolean | undefined;
+  ExpandConfiguration?: ExpandConfiguration | undefined;
 }
 export interface QueryRequest {
   IndexId: string;
-  QueryText?: string;
-  AttributeFilter?: AttributeFilter;
-  Facets?: Facet[];
-  RequestedDocumentAttributes?: string[];
-  QueryResultTypeFilter?: QueryResultType;
-  DocumentRelevanceOverrideConfigurations?: DocumentRelevanceConfiguration[];
-  PageNumber?: number;
-  PageSize?: number;
-  SortingConfiguration?: SortingConfiguration;
-  SortingConfigurations?: SortingConfiguration[];
-  UserContext?: UserContext;
-  VisitorId?: string;
-  SpellCorrectionConfiguration?: SpellCorrectionConfiguration;
-  CollapseConfiguration?: CollapseConfiguration;
+  QueryText?: string | undefined;
+  AttributeFilter?: AttributeFilter | undefined;
+  Facets?: Facet[] | undefined;
+  RequestedDocumentAttributes?: string[] | undefined;
+  QueryResultTypeFilter?: QueryResultType | undefined;
+  DocumentRelevanceOverrideConfigurations?: DocumentRelevanceConfiguration[] | undefined;
+  PageNumber?: number | undefined;
+  PageSize?: number | undefined;
+  SortingConfiguration?: SortingConfiguration | undefined;
+  SortingConfigurations?: SortingConfiguration[] | undefined;
+  UserContext?: UserContext | undefined;
+  VisitorId?: string | undefined;
+  SpellCorrectionConfiguration?: SpellCorrectionConfiguration | undefined;
+  CollapseConfiguration?: CollapseConfiguration | undefined;
 }
 export type QueryId = string;
 export type QueryResultFormat = "TABLE" | "TEXT" | (string & {});
@@ -2024,16 +2032,16 @@ export type HighlightType = "STANDARD" | "THESAURUS_SYNONYM" | (string & {});
 export interface Highlight {
   BeginOffset: number;
   EndOffset: number;
-  TopAnswer?: boolean;
-  Type?: HighlightType;
+  TopAnswer?: boolean | undefined;
+  Type?: HighlightType | undefined;
 }
 export type HighlightList = Highlight[];
 export interface TextWithHighlights {
-  Text?: string;
-  Highlights?: Highlight[];
+  Text?: string | undefined;
+  Highlights?: Highlight[] | undefined;
 }
 export interface AdditionalResultAttributeValue {
-  TextWithHighlightsValue?: TextWithHighlights;
+  TextWithHighlightsValue?: TextWithHighlights | undefined;
 }
 export interface AdditionalResultAttribute {
   Key: string;
@@ -2049,138 +2057,138 @@ export type ScoreConfidence =
   | "NOT_AVAILABLE"
   | (string & {});
 export interface ScoreAttributes {
-  ScoreConfidence?: ScoreConfidence;
+  ScoreConfidence?: ScoreConfidence | undefined;
 }
 export type FeedbackToken = string;
 export interface TableCell {
-  Value?: string;
-  TopAnswer?: boolean;
-  Highlighted?: boolean;
-  Header?: boolean;
+  Value?: string | undefined;
+  TopAnswer?: boolean | undefined;
+  Highlighted?: boolean | undefined;
+  Header?: boolean | undefined;
 }
 export type TableCellList = TableCell[];
 export interface TableRow {
-  Cells?: TableCell[];
+  Cells?: TableCell[] | undefined;
 }
 export type TableRowList = TableRow[];
 export interface TableExcerpt {
-  Rows?: TableRow[];
-  TotalNumberOfRows?: number;
+  Rows?: TableRow[] | undefined;
+  TotalNumberOfRows?: number | undefined;
 }
 export interface ExpandedResultItem {
-  Id?: string;
-  DocumentId?: string;
-  DocumentTitle?: TextWithHighlights;
-  DocumentExcerpt?: TextWithHighlights;
-  DocumentURI?: string;
-  DocumentAttributes?: DocumentAttribute[];
+  Id?: string | undefined;
+  DocumentId?: string | undefined;
+  DocumentTitle?: TextWithHighlights | undefined;
+  DocumentExcerpt?: TextWithHighlights | undefined;
+  DocumentURI?: string | undefined;
+  DocumentAttributes?: DocumentAttribute[] | undefined;
 }
 export type ExpandedResultList = ExpandedResultItem[];
 export interface CollapsedResultDetail {
   DocumentAttribute: DocumentAttribute;
-  ExpandedResults?: ExpandedResultItem[];
+  ExpandedResults?: ExpandedResultItem[] | undefined;
 }
 export interface QueryResultItem {
-  Id?: string;
-  Type?: QueryResultType;
-  Format?: QueryResultFormat;
-  AdditionalAttributes?: AdditionalResultAttribute[];
-  DocumentId?: string;
-  DocumentTitle?: TextWithHighlights;
-  DocumentExcerpt?: TextWithHighlights;
-  DocumentURI?: string;
-  DocumentAttributes?: DocumentAttribute[];
-  ScoreAttributes?: ScoreAttributes;
-  FeedbackToken?: string;
-  TableExcerpt?: TableExcerpt;
-  CollapsedResultDetail?: CollapsedResultDetail;
+  Id?: string | undefined;
+  Type?: QueryResultType | undefined;
+  Format?: QueryResultFormat | undefined;
+  AdditionalAttributes?: AdditionalResultAttribute[] | undefined;
+  DocumentId?: string | undefined;
+  DocumentTitle?: TextWithHighlights | undefined;
+  DocumentExcerpt?: TextWithHighlights | undefined;
+  DocumentURI?: string | undefined;
+  DocumentAttributes?: DocumentAttribute[] | undefined;
+  ScoreAttributes?: ScoreAttributes | undefined;
+  FeedbackToken?: string | undefined;
+  TableExcerpt?: TableExcerpt | undefined;
+  CollapsedResultDetail?: CollapsedResultDetail | undefined;
 }
 export type QueryResultItemList = QueryResultItem[];
 export interface DocumentAttributeValueCountPair {
-  DocumentAttributeValue?: DocumentAttributeValue;
-  Count?: number;
-  FacetResults?: FacetResult[];
+  DocumentAttributeValue?: DocumentAttributeValue | undefined;
+  Count?: number | undefined;
+  FacetResults?: FacetResult[] | undefined;
 }
 export type DocumentAttributeValueCountPairList = DocumentAttributeValueCountPair[];
 export interface FacetResult {
-  DocumentAttributeKey?: string;
-  DocumentAttributeValueType?: DocumentAttributeValueType;
-  DocumentAttributeValueCountPairs?: DocumentAttributeValueCountPair[];
+  DocumentAttributeKey?: string | undefined;
+  DocumentAttributeValueType?: DocumentAttributeValueType | undefined;
+  DocumentAttributeValueCountPairs?: DocumentAttributeValueCountPair[] | undefined;
 }
 export type FacetResultList = FacetResult[];
 export type WarningMessage = string;
 export type WarningCode = "QUERY_LANGUAGE_INVALID_SYNTAX" | (string & {});
 export interface Warning {
-  Message?: string;
-  Code?: WarningCode;
+  Message?: string | undefined;
+  Code?: WarningCode | undefined;
 }
 export type WarningList = Warning[];
 export type SuggestedQueryText = string;
 export interface Correction {
-  BeginOffset?: number;
-  EndOffset?: number;
-  Term?: string;
-  CorrectedTerm?: string;
+  BeginOffset?: number | undefined;
+  EndOffset?: number | undefined;
+  Term?: string | undefined;
+  CorrectedTerm?: string | undefined;
 }
 export type CorrectionList = Correction[];
 export interface SpellCorrectedQuery {
-  SuggestedQueryText?: string;
-  Corrections?: Correction[];
+  SuggestedQueryText?: string | undefined;
+  Corrections?: Correction[] | undefined;
 }
 export type SpellCorrectedQueryList = SpellCorrectedQuery[];
 export interface FeaturedResultsItem {
-  Id?: string;
-  Type?: QueryResultType;
-  AdditionalAttributes?: AdditionalResultAttribute[];
-  DocumentId?: string;
-  DocumentTitle?: TextWithHighlights;
-  DocumentExcerpt?: TextWithHighlights;
-  DocumentURI?: string;
-  DocumentAttributes?: DocumentAttribute[];
-  FeedbackToken?: string;
+  Id?: string | undefined;
+  Type?: QueryResultType | undefined;
+  AdditionalAttributes?: AdditionalResultAttribute[] | undefined;
+  DocumentId?: string | undefined;
+  DocumentTitle?: TextWithHighlights | undefined;
+  DocumentExcerpt?: TextWithHighlights | undefined;
+  DocumentURI?: string | undefined;
+  DocumentAttributes?: DocumentAttribute[] | undefined;
+  FeedbackToken?: string | undefined;
 }
 export type FeaturedResultsItemList = FeaturedResultsItem[];
 export interface QueryResult {
-  QueryId?: string;
-  ResultItems?: QueryResultItem[];
-  FacetResults?: FacetResult[];
-  TotalNumberOfResults?: number;
-  Warnings?: Warning[];
-  SpellCorrectedQueries?: SpellCorrectedQuery[];
-  FeaturedResultsItems?: FeaturedResultsItem[];
+  QueryId?: string | undefined;
+  ResultItems?: QueryResultItem[] | undefined;
+  FacetResults?: FacetResult[] | undefined;
+  TotalNumberOfResults?: number | undefined;
+  Warnings?: Warning[] | undefined;
+  SpellCorrectedQueries?: SpellCorrectedQuery[] | undefined;
+  FeaturedResultsItems?: FeaturedResultsItem[] | undefined;
 }
 export interface RetrieveRequest {
   IndexId: string;
   QueryText: string;
-  AttributeFilter?: AttributeFilter;
-  RequestedDocumentAttributes?: string[];
-  DocumentRelevanceOverrideConfigurations?: DocumentRelevanceConfiguration[];
-  PageNumber?: number;
-  PageSize?: number;
-  UserContext?: UserContext;
+  AttributeFilter?: AttributeFilter | undefined;
+  RequestedDocumentAttributes?: string[] | undefined;
+  DocumentRelevanceOverrideConfigurations?: DocumentRelevanceConfiguration[] | undefined;
+  PageNumber?: number | undefined;
+  PageSize?: number | undefined;
+  UserContext?: UserContext | undefined;
 }
 export type DocumentTitle = string;
 export type Content = string;
 export interface RetrieveResultItem {
-  Id?: string;
-  DocumentId?: string;
-  DocumentTitle?: string;
-  Content?: string;
-  DocumentURI?: string;
-  DocumentAttributes?: DocumentAttribute[];
-  ScoreAttributes?: ScoreAttributes;
+  Id?: string | undefined;
+  DocumentId?: string | undefined;
+  DocumentTitle?: string | undefined;
+  Content?: string | undefined;
+  DocumentURI?: string | undefined;
+  DocumentAttributes?: DocumentAttribute[] | undefined;
+  ScoreAttributes?: ScoreAttributes | undefined;
 }
 export type RetrieveResultItemList = RetrieveResultItem[];
 export interface RetrieveResult {
-  QueryId?: string;
-  ResultItems?: RetrieveResultItem[];
+  QueryId?: string | undefined;
+  ResultItems?: RetrieveResultItem[] | undefined;
 }
 export interface StartDataSourceSyncJobRequest {
   Id: string;
   IndexId: string;
 }
 export interface StartDataSourceSyncJobResponse {
-  ExecutionId?: string;
+  ExecutionId?: string | undefined;
 }
 export interface StopDataSourceSyncJobRequest {
   Id: string;
@@ -2201,8 +2209,8 @@ export type RelevanceFeedbackList = RelevanceFeedback[];
 export interface SubmitFeedbackRequest {
   IndexId: string;
   QueryId: string;
-  ClickFeedbackItems?: ClickFeedback[];
-  RelevanceFeedbackItems?: RelevanceFeedback[];
+  ClickFeedbackItems?: ClickFeedback[] | undefined;
+  RelevanceFeedbackItems?: RelevanceFeedback[] | undefined;
 }
 export interface SubmitFeedbackResponse {}
 export interface TagResourceRequest {
@@ -2219,94 +2227,94 @@ export interface UntagResourceResponse {}
 export interface UpdateAccessControlConfigurationRequest {
   IndexId: string;
   Id: string;
-  Name?: string;
-  Description?: string;
-  AccessControlList?: Principal[];
-  HierarchicalAccessControlList?: HierarchicalPrincipal[];
+  Name?: string | undefined;
+  Description?: string | undefined;
+  AccessControlList?: Principal[] | undefined;
+  HierarchicalAccessControlList?: HierarchicalPrincipal[] | undefined;
 }
 export interface UpdateAccessControlConfigurationResponse {}
 export interface UpdateDataSourceRequest {
   Id: string;
-  Name?: string;
+  Name?: string | undefined;
   IndexId: string;
-  Configuration?: DataSourceConfiguration;
-  VpcConfiguration?: DataSourceVpcConfiguration;
-  Description?: string;
-  Schedule?: string;
-  RoleArn?: string;
-  LanguageCode?: string;
-  CustomDocumentEnrichmentConfiguration?: CustomDocumentEnrichmentConfiguration;
+  Configuration?: DataSourceConfiguration | undefined;
+  VpcConfiguration?: DataSourceVpcConfiguration | undefined;
+  Description?: string | undefined;
+  Schedule?: string | undefined;
+  RoleArn?: string | undefined;
+  LanguageCode?: string | undefined;
+  CustomDocumentEnrichmentConfiguration?: CustomDocumentEnrichmentConfiguration | undefined;
 }
 export interface UpdateDataSourceResponse {}
 export interface UpdateExperienceRequest {
   Id: string;
-  Name?: string;
+  Name?: string | undefined;
   IndexId: string;
-  RoleArn?: string;
-  Configuration?: ExperienceConfiguration;
-  Description?: string;
+  RoleArn?: string | undefined;
+  Configuration?: ExperienceConfiguration | undefined;
+  Description?: string | undefined;
 }
 export interface UpdateExperienceResponse {}
 export interface UpdateFeaturedResultsSetRequest {
   IndexId: string;
   FeaturedResultsSetId: string;
-  FeaturedResultsSetName?: string;
-  Description?: string;
-  Status?: FeaturedResultsSetStatus;
-  QueryTexts?: string[];
-  FeaturedDocuments?: FeaturedDocument[];
+  FeaturedResultsSetName?: string | undefined;
+  Description?: string | undefined;
+  Status?: FeaturedResultsSetStatus | undefined;
+  QueryTexts?: string[] | undefined;
+  FeaturedDocuments?: FeaturedDocument[] | undefined;
 }
 export interface UpdateFeaturedResultsSetResponse {
-  FeaturedResultsSet?: FeaturedResultsSet;
+  FeaturedResultsSet?: FeaturedResultsSet | undefined;
 }
 export interface UpdateIndexRequest {
   Id: string;
-  Name?: string;
-  RoleArn?: string;
-  Description?: string;
-  DocumentMetadataConfigurationUpdates?: DocumentMetadataConfiguration[];
-  CapacityUnits?: CapacityUnitsConfiguration;
-  UserTokenConfigurations?: UserTokenConfiguration[];
-  UserContextPolicy?: UserContextPolicy;
-  UserGroupResolutionConfiguration?: UserGroupResolutionConfiguration;
+  Name?: string | undefined;
+  RoleArn?: string | undefined;
+  Description?: string | undefined;
+  DocumentMetadataConfigurationUpdates?: DocumentMetadataConfiguration[] | undefined;
+  CapacityUnits?: CapacityUnitsConfiguration | undefined;
+  UserTokenConfigurations?: UserTokenConfiguration[] | undefined;
+  UserContextPolicy?: UserContextPolicy | undefined;
+  UserGroupResolutionConfiguration?: UserGroupResolutionConfiguration | undefined;
 }
 export interface UpdateIndexResponse {}
 export interface UpdateQuerySuggestionsBlockListRequest {
   IndexId: string;
   Id: string;
-  Name?: string;
-  Description?: string;
-  SourceS3Path?: S3Path;
-  RoleArn?: string;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  SourceS3Path?: S3Path | undefined;
+  RoleArn?: string | undefined;
 }
 export interface UpdateQuerySuggestionsBlockListResponse {}
 export interface AttributeSuggestionsUpdateConfig {
-  SuggestableConfigList?: SuggestableConfig[];
-  AttributeSuggestionsMode?: AttributeSuggestionsMode;
+  SuggestableConfigList?: SuggestableConfig[] | undefined;
+  AttributeSuggestionsMode?: AttributeSuggestionsMode | undefined;
 }
 export interface UpdateQuerySuggestionsConfigRequest {
   IndexId: string;
-  Mode?: Mode;
-  QueryLogLookBackWindowInDays?: number;
-  IncludeQueriesWithoutUserInformation?: boolean;
-  MinimumNumberOfQueryingUsers?: number;
-  MinimumQueryCount?: number;
-  AttributeSuggestionsConfig?: AttributeSuggestionsUpdateConfig;
+  Mode?: Mode | undefined;
+  QueryLogLookBackWindowInDays?: number | undefined;
+  IncludeQueriesWithoutUserInformation?: boolean | undefined;
+  MinimumNumberOfQueryingUsers?: number | undefined;
+  MinimumQueryCount?: number | undefined;
+  AttributeSuggestionsConfig?: AttributeSuggestionsUpdateConfig | undefined;
 }
 export interface UpdateQuerySuggestionsConfigResponse {}
 export interface UpdateThesaurusRequest {
   Id: string;
-  Name?: string;
+  Name?: string | undefined;
   IndexId: string;
-  Description?: string;
-  RoleArn?: string;
-  SourceS3Path?: S3Path;
+  Description?: string | undefined;
+  RoleArn?: string | undefined;
+  SourceS3Path?: S3Path | undefined;
 }
 export interface UpdateThesaurusResponse {}
 export interface ConflictingItem {
-  QueryText?: string;
-  SetName?: string;
-  SetId?: string;
+  QueryText?: string | undefined;
+  SetName?: string | undefined;
+  SetId?: string | undefined;
 }
 export type ConflictingItems = ConflictingItem[];
 export type AssociateEntitiesToExperienceError =

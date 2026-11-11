@@ -43,11 +43,11 @@ export interface CreateTaskChannelRequest {
   /** Channel name, shown as #<name>. Uses lowercase letters and hyphens. */
   name: string;
   /** Use 'public' for access by all project members. Use 'private' for access by channel members only. Defaults to 'public'. This endpoint cannot create personal #me spaces. * `public` - public * `private` - private */
-  channel_type?: TaskChannelWriteTypeEnum | (string & {});
+  channel_type?: TaskChannelWriteTypeEnum | (string & {}) | undefined;
   /** User IDs to add to a private channel. The requester is always a member. The endpoint ignores this field for public channels and skips users without project access. */
-  member_ids?: CreateTaskChannelRequestMemberIdsList;
+  member_ids?: CreateTaskChannelRequestMemberIdsList | undefined;
   /** Star a new channel for the requester. This field does not change stars on an existing channel. */
-  star?: boolean;
+  star?: boolean | undefined;
 }
 export type ChannelDTORepositoriesList = Array<string>;
 export type TaskUserBasicInfoHedgehogConfigMap = { [key: string]: unknown | undefined };
@@ -59,9 +59,9 @@ export interface TaskUserBasicInfo {
   first_name: string;
   last_name: string;
   email: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: TaskUserBasicInfoHedgehogConfigMap | null;
-  role_at_organization?: string | null;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: TaskUserBasicInfoHedgehogConfigMap | null | undefined;
+  role_at_organization?: string | null | undefined;
 }
 /** * `personal` - Personal * `general` - General */
 export type ChannelSystemRoleEnum = "personal" | "general";
@@ -74,8 +74,8 @@ export interface ChannelDTO {
   repositories: ChannelDTORepositoriesList;
   auto_archive_after_days: number | null;
   created_at: string;
-  created_by?: TaskUserBasicInfo | null;
-  starred?: boolean;
+  created_by?: TaskUserBasicInfo | null | undefined;
+  starred?: boolean | undefined;
   /** Identifies this channel as one of the two system-provisioned spaces ('personal' for the user's own #me space, 'general' for the team's shared #general space). Null for an ordinary channel. * `personal` - Personal * `general` - General */
   system_role: ChannelSystemRoleEnum | null;
 }
@@ -88,16 +88,16 @@ export interface CreateTaskChannelsFeedRequest {
   /** Lifecycle event key. * `context_created` - context_created * `context_md_building` - context_md_building */
   event: EventEnum | (string & {});
   /** Structured event data, e.g. {"context_name": "mobile"}. At most 8 KB of JSON. */
-  payload?: unknown;
+  payload?: unknown | undefined;
   /** Optional explicit timestamp (within 10 minutes of now), so a client can order a burst of announcements. */
-  created_at?: string;
+  created_at?: string | undefined;
 }
 export type ChannelFeedMessageDTOPayloadMap = { [key: string]: unknown | undefined };
 /** Response shape for one system announcement in a channel's feed. */
 export interface ChannelFeedMessageDTO {
   id: string;
   channel: string;
-  author?: TaskUserBasicInfo | null;
+  author?: TaskUserBasicInfo | null | undefined;
   author_kind: string;
   event: string;
   payload: ChannelFeedMessageDTOPayloadMap;
@@ -123,23 +123,23 @@ export interface CreateTaskChannelsOnboardingSessionTestRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Optional LLM model identifier for the test session. Omit to use the plan default. */
-  model?: string | null;
+  model?: string | null | undefined;
   /** Company domain to research. Blank simulates a personal email address. */
-  company_domain?: string;
+  company_domain?: string | undefined;
   /** Whether the user is joining an organization that already has shared context. */
-  joining_existing_organization?: boolean;
+  joining_existing_organization?: boolean | undefined;
   /** Whether the project has ingested events. */
-  has_events?: boolean;
+  has_events?: boolean | undefined;
   /** Number of findings waiting in #general. */
-  signal_reports_waiting?: number;
+  signal_reports_waiting?: number | undefined;
   /** Display names of other Desktop users in the organization. */
-  other_members?: CreateTaskChannelsOnboardingSessionTestRequestOtherMembersList;
+  other_members?: CreateTaskChannelsOnboardingSessionTestRequestOtherMembersList | undefined;
   /** Signal sources that were already enabled. */
-  sources_enabled?: CreateTaskChannelsOnboardingSessionTestRequestSourcesEnabledList;
+  sources_enabled?: CreateTaskChannelsOnboardingSessionTestRequestSourcesEnabledList | undefined;
   /** Signal sources the onboarding flow is watching. */
-  sources_watching?: CreateTaskChannelsOnboardingSessionTestRequestSourcesWatchingList;
+  sources_watching?: CreateTaskChannelsOnboardingSessionTestRequestSourcesWatchingList | undefined;
   /** Whether onboarding enabled any signal sources. */
-  sources_newly_enabled?: boolean;
+  sources_newly_enabled?: boolean | undefined;
 }
 /** The first-run session that was started for the requester. */
 export interface OnboardingSessionTestResponse {
@@ -174,24 +174,24 @@ export interface SpaceGoalWrite {
   /** The goal in one or two sentences, e.g. 'Increase the weekly activation rate'. */
   statement: string;
   /** How often the metric is measured. * `day` - Day * `week` - Week * `month` - Month */
-  period?: CalendarUnitEnum | (string & {});
+  period?: CalendarUnitEnum | (string & {}) | undefined;
   /** Whether the target is a floor ('at_least') or a ceiling ('at_most'). * `at_least` - At least * `at_most` - At most */
-  direction?: SpaceGoalDirectionEnum | (string & {});
+  direction?: SpaceGoalDirectionEnum | (string & {}) | undefined;
   /** Target value as typed, e.g. '20%' or '1500'. */
-  target?: string | null;
+  target?: string | null | undefined;
   /** Date the target should be reached. */
-  deadline?: string | null;
+  deadline?: string | null | undefined;
   /** Short id of an existing insight that measures the goal, when there is one. */
-  insight_short_id?: string | null;
+  insight_short_id?: string | null | undefined;
 }
 /** The feature a feature space is set up around. */
 export interface SpaceFeatureWrite {
   /** Feature name as people call it. */
   name: string;
   /** What the feature does, in a sentence. */
-  description?: string;
+  description?: string | undefined;
   /** Key of the feature flag that gates it, if any. */
-  flag_key?: string | null;
+  flag_key?: string | null | undefined;
 }
 export interface CreateTaskChannelsSetupRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -200,11 +200,11 @@ export interface CreateTaskChannelsSetupRequest {
   /** What the space is set up for. * `goal` - Goal * `feature` - Feature */
   kind: SpaceSetupKindEnum | (string & {});
   /** Required when kind is 'goal'. */
-  goal?: SpaceGoalWrite;
+  goal?: SpaceGoalWrite | undefined;
   /** Required when kind is 'feature'. */
-  feature?: SpaceFeatureWrite;
+  feature?: SpaceFeatureWrite | undefined;
   /** Repository the loops work in, as 'owner/name'. Defaults to the channel's first repository. */
-  repository?: string | null;
+  repository?: string | null | undefined;
 }
 /** The setup task that was started for the channel. */
 export interface SpaceSetupStartedDTO {
@@ -266,8 +266,8 @@ export interface ChannelInstructionsDTO {
   channel: string;
   content: string;
   version: number;
-  created_at?: string | null;
-  created_by?: TaskUserBasicInfo | null;
+  created_at?: string | null | undefined;
+  created_by?: TaskUserBasicInfo | null | undefined;
 }
 export interface GetTaskChannelsInstructionsVersionRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -277,8 +277,8 @@ export interface GetTaskChannelsInstructionsVersionRequest {
 export type PaginatedChannelInstructionsDTOListResultsList = Array<ChannelInstructionsDTO>;
 export interface PaginatedChannelInstructionsDTOList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedChannelInstructionsDTOListResultsList;
 }
 export interface GetTaskChannelsMemberRequest {
@@ -292,31 +292,39 @@ export interface ListTaskChannelsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
-export type PaginatedChannelDTOListResultsList = Array<ChannelDTO>;
-export interface PaginatedChannelDTOList {
+export type ChannelListResponseCase0List = Array<ChannelDTO>;
+/** Channels on this page. */
+export type ChannelPageResultsList = Array<ChannelDTO>;
+export interface ChannelPage {
+  /** Number of channels the requester can access. */
   count: number;
-  next?: string | null;
-  previous?: string | null;
-  results: PaginatedChannelDTOListResultsList;
+  /** URL of the next page, or null on the last page. */
+  next: string | null;
+  /** URL of the previous page, or null on the first page. */
+  previous: string | null;
+  /** Channels on this page. */
+  results: ChannelPageResultsList;
 }
+export type ChannelListResponse = ChannelListResponseCase0List | ChannelPage;
+export type ListTaskChannelsResponse = ChannelListResponse;
 export interface ListTaskChannelsFeedRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   channel_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedChannelFeedMessageDTOListResultsList = Array<ChannelFeedMessageDTO>;
 export interface PaginatedChannelFeedMessageDTOList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedChannelFeedMessageDTOListResultsList;
 }
 export interface TaskChannelsDestroyRequest {
@@ -344,16 +352,16 @@ export interface UpdateTaskChannelsInstructionRequest {
   /** The complete markdown instructions (CONTEXT.md) for the channel. */
   content: string;
   /** Optimistic-concurrency guard: the version the edit is based on (0 for a channel with no instructions yet). A stale base is rejected with 409; omit to publish unguarded. */
-  base_version?: number | null;
+  base_version?: number | null | undefined;
 }
 export interface UpdateTaskChannelsInstructionsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
   /** The complete markdown instructions (CONTEXT.md) for the channel. */
-  content?: string;
+  content?: string | undefined;
   /** Optimistic-concurrency guard: the version the edit is based on (0 for a channel with no instructions yet). A stale base is rejected with 409; omit to publish unguarded. */
-  base_version?: number | null;
+  base_version?: number | null | undefined;
 }
 /** Required list of member user IDs. This list replaces the current members. The creator remains a member. Send an empty list to remove all other members. Each submitted user must have project access. */
 export type UpdateTaskChannelsMemberRequestUserIdsList = Array<number>;
@@ -373,15 +381,15 @@ export interface UpdateTaskChannelsPartialRequest {
   project_id: string;
   id: string;
   /** Channel name, rendered as #<name>. Normalized to lowercase-dashed. */
-  name?: string;
+  name?: string | undefined;
   /** Team GitHub integration used for repositories linked to this channel. */
-  github_integration?: number | null;
+  github_integration?: number | null | undefined;
   /** GitHub repositories inherited by new tasks in this channel. */
-  repositories?: UpdateTaskChannelsPartialRequestRepositoriesList;
+  repositories?: UpdateTaskChannelsPartialRequestRepositoriesList | undefined;
   /** Days of inactivity before tasks in this channel are archived. Accepts 1 through 365. Null disables automatic archiving. */
-  auto_archive_after_days?: number | null;
+  auto_archive_after_days?: number | null | undefined;
   /** Switch a shared space between 'public' and 'private'. Making a space private keeps only the creator and the requester as members. Making it public removes its member list. Personal #me spaces cannot change. * `public` - public * `private` - private */
-  channel_type?: TaskChannelWriteTypeEnum | (string & {});
+  channel_type?: TaskChannelWriteTypeEnum | (string & {}) | undefined;
 }
 export type CreateTaskChannelError = PosthogOpError;
 /** Create a channel Create a channel. Public channels use lowercase names with hyphens. If a public channel has that name, return it. The name general returns the project's general space. Private channels always get a new ID, even if another channel has the same name. The requester and users in member_ids with project access become members. New channels are starred for the requester unless star is false. The names "me" and "personal" are reserved. */
@@ -460,7 +468,7 @@ export const createTaskChannelsProvisionDefault: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c28, 0) as any as S.Schema<CreateTaskChannelsProvisionDefaultRequest>,
-  output: __S(113, __c28, 1) as any as S.Schema<ProvisionedChannels>,
+  output: __S(114, __c28, 2) as any as S.Schema<ProvisionedChannels>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -476,7 +484,7 @@ export const createTaskChannelsSetup: API.OperationMethod<
   CreateTaskChannelsSetupError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(122, __c30, 2) as any as S.Schema<CreateTaskChannelsSetupRequest>,
+  input: __S(118, __c29, 2) as any as S.Schema<CreateTaskChannelsSetupRequest>,
   output: __S(104, __c26, 0) as any as S.Schema<SpaceSetupStartedDTO>,
   errors: [Conflict],
   protocol: PosthogProtocol,
@@ -493,8 +501,8 @@ export const createTaskChannelsStar: API.OperationMethod<
   CreateTaskChannelsStarError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(124, __c31, 0) as any as S.Schema<CreateTaskChannelsStarRequest>,
-  output: __S(128, __c32, 0) as any as S.Schema<CreateTaskChannelsStarResponse>,
+  input: __S(120, __c30, 0) as any as S.Schema<CreateTaskChannelsStarRequest>,
+  output: __S(124, __c31, 0) as any as S.Schema<CreateTaskChannelsStarResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -510,8 +518,8 @@ export const createTaskChannelsTeachingCanvasTest: API.OperationMethod<
   CreateTaskChannelsTeachingCanvasTestError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(132, __c33, 0) as any as S.Schema<CreateTaskChannelsTeachingCanvasTestRequest>,
-  output: __S(133, __c33, 1) as any as S.Schema<TeachingCanvas>,
+  input: __S(128, __c32, 0) as any as S.Schema<CreateTaskChannelsTeachingCanvasTestRequest>,
+  output: __S(129, __c32, 1) as any as S.Schema<TeachingCanvas>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -527,7 +535,7 @@ export const getTaskChannel: API.OperationMethod<
   GetTaskChannelError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c34, 0) as any as S.Schema<GetTaskChannelRequest>,
+  input: __S(132, __c33, 0) as any as S.Schema<GetTaskChannelRequest>,
   output: __S(16, __c4, 0) as any as S.Schema<ChannelDTO>,
   errors: [],
   protocol: PosthogProtocol,
@@ -625,12 +633,12 @@ export type ListTaskChannelsError = PosthogOpError;
 /** List channels List channels the requester can access, sorted by name and ID. Includes public channels, their personal #me channel, and private channels they belong to. Call provision_defaults to create missing default channels. Send limit and offset to get a page with count, next, previous, and results. Without limit, the response is an array of all accessible channels. */
 export const listTaskChannels: API.OperationMethod<
   ListTaskChannelsRequest,
-  PaginatedChannelDTOList,
+  ListTaskChannelsResponse,
   ListTaskChannelsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c14, 0) as any as S.Schema<ListTaskChannelsRequest>,
-  output: __S(57, __c14, 1) as any as S.Schema<PaginatedChannelDTOList>,
+  output: __S(57, __c14, 1) as any as S.Schema<ListTaskChannelsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -664,7 +672,7 @@ export const taskChannelsDestroy: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c16, 0) as any as S.Schema<TaskChannelsDestroyRequest>,
-  output: __S(128, __c32, 0) as any as S.Schema<TaskChannelsDestroyResponse>,
+  output: __S(124, __c31, 0) as any as S.Schema<TaskChannelsDestroyResponse>,
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -681,7 +689,7 @@ export const taskChannelsInstructionsDestroy: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68, __c17, 0) as any as S.Schema<TaskChannelsInstructionsDestroyRequest>,
-  output: __S(128, __c32, 0) as any as S.Schema<TaskChannelsInstructionsDestroyResponse>,
+  output: __S(124, __c31, 0) as any as S.Schema<TaskChannelsInstructionsDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1001,14 +1009,9 @@ function __c14(j: number): any {
         ),
       ).annotate({ identifier: "ListTaskChannelsRequest" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.Number,
-          next: S.optional(S.NullOr(S.String)),
-          previous: S.optional(S.NullOr(S.String)),
-          results: __S(116, __c29, 0),
-        }),
-      ).annotate({ identifier: "PaginatedChannelDTOList" });
+      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListTaskChannelsResponse",
+      });
   }
 }
 function __c15(j: number): any {
@@ -1281,9 +1284,11 @@ function __c28(j: number): any {
         ),
       ).annotate({ identifier: "CreateTaskChannelsProvisionDefaultRequest" });
     case 1:
+      return S.Array(__S(16, __c4, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          channels: __S(116, __c29, 0),
+          channels: __S(113, __c28, 1),
           personal_created: S.Boolean,
           general_created: S.Boolean,
         }),
@@ -1291,12 +1296,6 @@ function __c28(j: number): any {
   }
 }
 function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(16, __c4, 0));
-  }
-}
-function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1323,8 +1322,8 @@ function __c30(j: number): any {
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           kind: S.String,
-          goal: S.optional(__S(120, __c30, 0)),
-          feature: S.optional(__S(121, __c30, 1)),
+          goal: S.optional(__S(116, __c29, 0)),
+          feature: S.optional(__S(117, __c29, 1)),
           repository: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -1336,7 +1335,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "CreateTaskChannelsSetupRequest" });
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1354,7 +1353,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "CreateTaskChannelsStarRequest" });
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -1362,7 +1361,7 @@ function __c32(j: number): any {
       });
   }
 }
-function __c33(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1385,7 +1384,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "TeachingCanvas" });
   }
 }
-function __c34(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

@@ -26,9 +26,9 @@ const TELEMETRY = {
 
 export interface DndInfoRequest {
   /** User to fetch status for (defaults to current user) */
-  user?: string;
+  user?: string | undefined;
   /** Encoded team id where passed in user param belongs, required if org token is used. If no user param is passed, then a team which has access to the app should be passed */
-  team_id?: string;
+  team_id?: string | undefined;
 }
 export interface DndInfoResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -36,11 +36,11 @@ export interface DndInfoResponse {
   dnd_enabled: boolean;
   next_dnd_start_ts: number;
   next_dnd_end_ts: number;
-  snooze_enabled?: boolean;
-  snooze_endtime?: number;
-  snooze_remaining?: number;
-  snooze_is_indefinite?: boolean;
-  dnd_profile_status?: unknown;
+  snooze_enabled?: boolean | undefined;
+  snooze_endtime?: number | undefined;
+  snooze_remaining?: number | undefined;
+  snooze_is_indefinite?: boolean | undefined;
+  dnd_profile_status?: unknown | undefined;
 }
 export interface EndDndRequest {}
 export interface EndDndResponse {
@@ -55,9 +55,9 @@ export interface EndSnoozeResponse {
   dnd_enabled: boolean;
   next_dnd_end_ts: number;
   next_dnd_start_ts: number;
-  snooze_endtime?: number;
-  snooze_remaining?: number;
-  dnd_profile_status?: unknown;
+  snooze_endtime?: number | undefined;
+  snooze_remaining?: number | undefined;
+  dnd_profile_status?: unknown | undefined;
 }
 export interface SetSnoozeRequest {
   /** This argument is required. Number of minutes, from now, to snooze until. */
@@ -66,16 +66,16 @@ export interface SetSnoozeRequest {
 export interface SetSnoozeResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  snooze_endtime?: number;
+  snooze_endtime?: number | undefined;
   snooze_enabled: boolean;
-  snooze_remaining?: number;
-  snooze_is_indefinite?: boolean;
+  snooze_remaining?: number | undefined;
+  snooze_is_indefinite?: boolean | undefined;
 }
 export interface TeamInfoRequest {
   /** Comma-separated list of users to fetch Do Not Disturb status for */
   users: string;
   /** Encoded team id where passed in users belong, required if org token is used */
-  team_id?: string;
+  team_id?: string | undefined;
 }
 export type TeamInfoResponseUsersMap = { [key: string]: unknown | undefined };
 export interface TeamInfoResponse {

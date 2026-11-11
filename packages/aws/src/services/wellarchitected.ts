@@ -225,14 +225,14 @@ export type LensAlias = string;
 export type LensAliases = string[];
 export interface AssociateLensesInput {
   WorkloadId: string;
-  LensAliases?: string[];
+  LensAliases?: string[] | undefined;
 }
 export interface AssociateLensesResponse {}
 export type ProfileArn = string;
 export type ProfileArns = string[];
 export interface AssociateProfilesInput {
   WorkloadId: string;
-  ProfileArns?: string[];
+  ProfileArns?: string[] | undefined;
 }
 export interface AssociateProfilesResponse {}
 export type AgentProfileArn = string;
@@ -255,20 +255,20 @@ export type Criticality =
   | "TEST_DEVELOPMENT"
   | (string & {});
 export interface ContextContent {
-  accountIds?: string[];
-  regions?: string[];
-  awsServices?: string[];
-  resourceTypes?: string[];
-  resourceTags?: ContextResourceTag[];
-  applicationOverview?: string | redacted.Redacted<string>;
-  industry?: string | redacted.Redacted<string>;
-  applicationType?: ApplicationType;
-  criticality?: Criticality;
-  architectureOverview?: string | redacted.Redacted<string>;
-  additionalContext?: string | redacted.Redacted<string>;
+  accountIds?: string[] | undefined;
+  regions?: string[] | undefined;
+  awsServices?: string[] | undefined;
+  resourceTypes?: string[] | undefined;
+  resourceTags?: ContextResourceTag[] | undefined;
+  applicationOverview?: string | redacted.Redacted<string> | undefined;
+  industry?: string | redacted.Redacted<string> | undefined;
+  applicationType?: ApplicationType | undefined;
+  criticality?: Criticality | undefined;
+  architectureOverview?: string | redacted.Redacted<string> | undefined;
+  additionalContext?: string | redacted.Redacted<string> | undefined;
 }
 export interface CreateAgentContextRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   profileArn: string;
   title: string | redacted.Redacted<string>;
   contextType: ContextType;
@@ -281,12 +281,12 @@ export interface ContextSummary {
   title: string | redacted.Redacted<string>;
   contextType: ContextType;
   content: ContextContent;
-  applicationType?: ApplicationType;
-  criticality?: Criticality;
+  applicationType?: ApplicationType | undefined;
+  criticality?: Criticality | undefined;
   createdBy: string;
   createdAt: Date;
-  lastModifiedBy?: string;
-  lastModifiedAt?: Date;
+  lastModifiedBy?: string | undefined;
+  lastModifiedAt?: Date | undefined;
 }
 export interface CreateAgentContextResponse {
   context: ContextSummary;
@@ -300,22 +300,22 @@ export type Pillar =
   | (string & {});
 export type Pillars = Pillar[];
 export interface CreateAgentGoalRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   profileArn: string;
   pillars: Pillar[];
   title: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export interface GoalSummary {
   id: string;
   profileArn: string;
   pillars: Pillar[];
   title: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   createdBy: string;
   createdAt: Date;
-  lastModifiedBy?: string;
-  lastModifiedAt?: Date;
+  lastModifiedBy?: string | undefined;
+  lastModifiedAt?: Date | undefined;
 }
 export interface CreateAgentGoalResponse {
   goal: GoalSummary;
@@ -337,72 +337,72 @@ export interface Tag {
 export type Tags = Tag[];
 export interface CreateAgentProfileRequest {
   name: string;
-  displayName?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  businessOverview?: string | redacted.Redacted<string>;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  businessOverview?: string | redacted.Redacted<string> | undefined;
   pillars: Pillar[];
-  deletionProtection?: boolean;
+  deletionProtection?: boolean | undefined;
   executionRoleArn: string;
   aggregationConfiguration: AggregationConfiguration[];
-  clientToken?: string;
-  tags?: Tag[];
+  clientToken?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type FieldErrorPath = string;
 export type FieldErrorMessage = string;
 export type FieldErrors = { [key: string]: string | undefined };
 export interface CreateAgentProfileResponse {
   name: string;
-  displayName?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  businessOverview?: string | redacted.Redacted<string>;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  businessOverview?: string | redacted.Redacted<string> | undefined;
   pillars: Pillar[];
-  deletionProtection?: boolean;
+  deletionProtection?: boolean | undefined;
   executionRoleArn: string;
   aggregationConfiguration: AggregationConfiguration[];
   arn: string;
-  eligibleForScheduledGeneration?: boolean;
-  eligibleForArchitectureGeneration?: boolean;
-  fieldErrors?: { [key: string]: string | undefined };
-  tags?: Tag[];
+  eligibleForScheduledGeneration?: boolean | undefined;
+  eligibleForArchitectureGeneration?: boolean | undefined;
+  fieldErrors?: { [key: string]: string | undefined } | undefined;
+  tags?: Tag[] | undefined;
   createdBy: string;
   createdAt: Date;
-  lastModifiedBy?: string;
-  lastModifiedAt?: Date;
+  lastModifiedBy?: string | undefined;
+  lastModifiedAt?: Date | undefined;
 }
 export type SharedWith = string;
 export type ClientRequestToken = string;
 export interface CreateLensShareInput {
   LensAlias: string;
-  SharedWith?: string;
-  ClientRequestToken?: string;
+  SharedWith?: string | undefined;
+  ClientRequestToken?: string | undefined;
 }
 export type ShareId = string;
 export interface CreateLensShareOutput {
-  ShareId?: string;
+  ShareId?: string | undefined;
 }
 export type LensVersion = string;
 export type IsMajorVersion = boolean;
 export interface CreateLensVersionInput {
   LensAlias: string;
-  LensVersion?: string;
-  IsMajorVersion?: boolean;
-  ClientRequestToken?: string;
+  LensVersion?: string | undefined;
+  IsMajorVersion?: boolean | undefined;
+  ClientRequestToken?: string | undefined;
 }
 export type LensArn = string;
 export interface CreateLensVersionOutput {
-  LensArn?: string;
-  LensVersion?: string;
+  LensArn?: string | undefined;
+  LensVersion?: string | undefined;
 }
 export type MilestoneName = string;
 export interface CreateMilestoneInput {
   WorkloadId: string;
-  MilestoneName?: string;
-  ClientRequestToken?: string;
+  MilestoneName?: string | undefined;
+  ClientRequestToken?: string | undefined;
 }
 export type MilestoneNumber = number;
 export interface CreateMilestoneOutput {
-  WorkloadId?: string;
-  MilestoneNumber?: number;
+  WorkloadId?: string | undefined;
+  MilestoneNumber?: number | undefined;
 }
 export type ProfileName = string;
 export type ProfileDescription = string;
@@ -410,58 +410,58 @@ export type QuestionId = string;
 export type ChoiceId = string;
 export type SelectedProfileChoiceIds = string[];
 export interface ProfileQuestionUpdate {
-  QuestionId?: string;
-  SelectedChoiceIds?: string[];
+  QuestionId?: string | undefined;
+  SelectedChoiceIds?: string[] | undefined;
 }
 export type ProfileQuestionUpdates = ProfileQuestionUpdate[];
 export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface CreateProfileInput {
-  ProfileName?: string;
-  ProfileDescription?: string;
-  ProfileQuestions?: ProfileQuestionUpdate[];
-  ClientRequestToken?: string;
-  Tags?: { [key: string]: string | undefined };
+  ProfileName?: string | undefined;
+  ProfileDescription?: string | undefined;
+  ProfileQuestions?: ProfileQuestionUpdate[] | undefined;
+  ClientRequestToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ProfileVersion = string;
 export interface CreateProfileOutput {
-  ProfileArn?: string;
-  ProfileVersion?: string;
+  ProfileArn?: string | undefined;
+  ProfileVersion?: string | undefined;
 }
 export interface CreateProfileShareInput {
   ProfileArn: string;
-  SharedWith?: string;
-  ClientRequestToken?: string;
+  SharedWith?: string | undefined;
+  ClientRequestToken?: string | undefined;
 }
 export interface CreateProfileShareOutput {
-  ShareId?: string;
-  ProfileArn?: string;
+  ShareId?: string | undefined;
+  ProfileArn?: string | undefined;
 }
 export type TemplateName = string;
 export type TemplateDescription = string;
 export type ReviewTemplateLenses = string[];
 export type Notes = string;
 export interface CreateReviewTemplateInput {
-  TemplateName?: string;
-  Description?: string;
-  Lenses?: string[];
-  Notes?: string;
-  Tags?: { [key: string]: string | undefined };
-  ClientRequestToken?: string;
+  TemplateName?: string | undefined;
+  Description?: string | undefined;
+  Lenses?: string[] | undefined;
+  Notes?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  ClientRequestToken?: string | undefined;
 }
 export type TemplateArn = string;
 export interface CreateReviewTemplateOutput {
-  TemplateArn?: string;
+  TemplateArn?: string | undefined;
 }
 export interface CreateTemplateShareInput {
   TemplateArn: string;
-  SharedWith?: string;
-  ClientRequestToken?: string;
+  SharedWith?: string | undefined;
+  ClientRequestToken?: string | undefined;
 }
 export interface CreateTemplateShareOutput {
-  TemplateArn?: string;
-  ShareId?: string;
+  TemplateArn?: string | undefined;
+  ShareId?: string | undefined;
 }
 export type WorkloadName = string;
 export type WorkloadDescription = string;
@@ -483,8 +483,8 @@ export type TrustedAdvisorIntegrationStatus = "ENABLED" | "DISABLED" | (string &
 export type DefinitionType = "WORKLOAD_METADATA" | "APP_REGISTRY" | (string & {});
 export type WorkloadResourceDefinition = DefinitionType[];
 export interface WorkloadDiscoveryConfig {
-  TrustedAdvisorIntegrationStatus?: TrustedAdvisorIntegrationStatus;
-  WorkloadResourceDefinition?: DefinitionType[];
+  TrustedAdvisorIntegrationStatus?: TrustedAdvisorIntegrationStatus | undefined;
+  WorkloadResourceDefinition?: DefinitionType[] | undefined;
 }
 export type ApplicationArn = string;
 export type WorkloadApplications = string[];
@@ -494,47 +494,47 @@ export type WorkloadIssueManagementStatus = "ENABLED" | "DISABLED" | "INHERIT" |
 export type IssueManagementType = "AUTO" | "MANUAL" | (string & {});
 export type JiraProjectKey = string;
 export interface WorkloadJiraConfigurationInput {
-  IssueManagementStatus?: WorkloadIssueManagementStatus;
-  IssueManagementType?: IssueManagementType;
-  JiraProjectKey?: string;
+  IssueManagementStatus?: WorkloadIssueManagementStatus | undefined;
+  IssueManagementType?: IssueManagementType | undefined;
+  JiraProjectKey?: string | undefined;
 }
 export interface CreateWorkloadInput {
-  WorkloadName?: string;
-  Description?: string;
-  Environment?: WorkloadEnvironment;
-  AccountIds?: string[];
-  AwsRegions?: string[];
-  NonAwsRegions?: string[];
-  PillarPriorities?: string[];
-  ArchitecturalDesign?: string;
-  ReviewOwner?: string;
-  IndustryType?: string;
-  Industry?: string;
-  Lenses?: string[];
-  Notes?: string;
-  ClientRequestToken?: string;
-  Tags?: { [key: string]: string | undefined };
-  DiscoveryConfig?: WorkloadDiscoveryConfig;
-  Applications?: string[];
-  ProfileArns?: string[];
-  ReviewTemplateArns?: string[];
-  JiraConfiguration?: WorkloadJiraConfigurationInput;
+  WorkloadName?: string | undefined;
+  Description?: string | undefined;
+  Environment?: WorkloadEnvironment | undefined;
+  AccountIds?: string[] | undefined;
+  AwsRegions?: string[] | undefined;
+  NonAwsRegions?: string[] | undefined;
+  PillarPriorities?: string[] | undefined;
+  ArchitecturalDesign?: string | undefined;
+  ReviewOwner?: string | undefined;
+  IndustryType?: string | undefined;
+  Industry?: string | undefined;
+  Lenses?: string[] | undefined;
+  Notes?: string | undefined;
+  ClientRequestToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  DiscoveryConfig?: WorkloadDiscoveryConfig | undefined;
+  Applications?: string[] | undefined;
+  ProfileArns?: string[] | undefined;
+  ReviewTemplateArns?: string[] | undefined;
+  JiraConfiguration?: WorkloadJiraConfigurationInput | undefined;
 }
 export type WorkloadArn = string;
 export interface CreateWorkloadOutput {
-  WorkloadId?: string;
-  WorkloadArn?: string;
+  WorkloadId?: string | undefined;
+  WorkloadArn?: string | undefined;
 }
 export type PermissionType = "READONLY" | "CONTRIBUTOR" | (string & {});
 export interface CreateWorkloadShareInput {
   WorkloadId: string;
-  SharedWith?: string;
-  PermissionType?: PermissionType;
-  ClientRequestToken?: string;
+  SharedWith?: string | undefined;
+  PermissionType?: PermissionType | undefined;
+  ClientRequestToken?: string | undefined;
 }
 export interface CreateWorkloadShareOutput {
-  WorkloadId?: string;
-  ShareId?: string;
+  WorkloadId?: string | undefined;
+  ShareId?: string | undefined;
 }
 export interface DeleteAgentContextRequest {
   profileArn: string;
@@ -553,66 +553,66 @@ export interface DeleteAgentProfileResponse {}
 export type LensStatusType = "ALL" | "DRAFT" | "PUBLISHED" | (string & {});
 export interface DeleteLensInput {
   LensAlias: string;
-  ClientRequestToken?: string;
-  LensStatus?: LensStatusType;
+  ClientRequestToken?: string | undefined;
+  LensStatus?: LensStatusType | undefined;
 }
 export interface DeleteLensResponse {}
 export interface DeleteLensShareInput {
   ShareId: string;
   LensAlias: string;
-  ClientRequestToken?: string;
+  ClientRequestToken?: string | undefined;
 }
 export interface DeleteLensShareResponse {}
 export interface DeleteProfileInput {
   ProfileArn: string;
-  ClientRequestToken?: string;
+  ClientRequestToken?: string | undefined;
 }
 export interface DeleteProfileResponse {}
 export interface DeleteProfileShareInput {
   ShareId: string;
   ProfileArn: string;
-  ClientRequestToken?: string;
+  ClientRequestToken?: string | undefined;
 }
 export interface DeleteProfileShareResponse {}
 export interface DeleteReviewTemplateInput {
   TemplateArn: string;
-  ClientRequestToken?: string;
+  ClientRequestToken?: string | undefined;
 }
 export interface DeleteReviewTemplateResponse {}
 export interface DeleteTemplateShareInput {
   ShareId: string;
   TemplateArn: string;
-  ClientRequestToken?: string;
+  ClientRequestToken?: string | undefined;
 }
 export interface DeleteTemplateShareResponse {}
 export interface DeleteWorkloadInput {
   WorkloadId: string;
-  ClientRequestToken?: string;
+  ClientRequestToken?: string | undefined;
 }
 export interface DeleteWorkloadResponse {}
 export interface DeleteWorkloadShareInput {
   ShareId: string;
   WorkloadId: string;
-  ClientRequestToken?: string;
+  ClientRequestToken?: string | undefined;
 }
 export interface DeleteWorkloadShareResponse {}
 export interface DisassociateLensesInput {
   WorkloadId: string;
-  LensAliases?: string[];
+  LensAliases?: string[] | undefined;
 }
 export interface DisassociateLensesResponse {}
 export interface DisassociateProfilesInput {
   WorkloadId: string;
-  ProfileArns?: string[];
+  ProfileArns?: string[] | undefined;
 }
 export interface DisassociateProfilesResponse {}
 export interface ExportLensInput {
   LensAlias: string;
-  LensVersion?: string;
+  LensVersion?: string | undefined;
 }
 export type LensJSON = string;
 export interface ExportLensOutput {
-  LensJSON?: string;
+  LensJSON?: string | undefined;
 }
 export interface GetAgentContextRequest {
   profileArn: string;
@@ -633,22 +633,22 @@ export interface GetAgentProfileRequest {
 }
 export interface GetAgentProfileResponse {
   name: string;
-  displayName?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  businessOverview?: string | redacted.Redacted<string>;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  businessOverview?: string | redacted.Redacted<string> | undefined;
   pillars: Pillar[];
-  deletionProtection?: boolean;
+  deletionProtection?: boolean | undefined;
   executionRoleArn: string;
   aggregationConfiguration: AggregationConfiguration[];
   arn: string;
-  eligibleForScheduledGeneration?: boolean;
-  eligibleForArchitectureGeneration?: boolean;
-  fieldErrors?: { [key: string]: string | undefined };
-  tags?: Tag[];
+  eligibleForScheduledGeneration?: boolean | undefined;
+  eligibleForArchitectureGeneration?: boolean | undefined;
+  fieldErrors?: { [key: string]: string | undefined } | undefined;
+  tags?: Tag[] | undefined;
   createdBy: string;
   createdAt: Date;
-  lastModifiedBy?: string;
-  lastModifiedAt?: Date;
+  lastModifiedBy?: string | undefined;
+  lastModifiedAt?: Date | undefined;
 }
 export type AgentRecommendationArn = string;
 export type RemediationType =
@@ -661,7 +661,7 @@ export type RemediationType =
   | (string & {});
 export interface GetAgentRecommendationRequest {
   recommendationArn: string;
-  remediationType?: RemediationType;
+  remediationType?: RemediationType | undefined;
 }
 export type RecommendationArn = string;
 export type RecommendationType = "RESOURCE" | "ARCHITECTURE" | "APPLICATION" | (string & {});
@@ -671,7 +671,7 @@ export type RecommendationStatus = "ACTIVE" | "SUPPRESSED" | "COMPLETED" | (stri
 export type RecommendationState = "OPEN" | "CLOSED" | (string & {});
 export type ImpactCategory = "HIGH" | "MEDIUM" | "LOW" | (string & {});
 export interface Roi {
-  estimate?: string;
+  estimate?: string | undefined;
   detail: string;
 }
 export type StringList = string[];
@@ -679,7 +679,7 @@ export type ImpactDetail = string;
 export type ImpactDetails = string[];
 export interface Insight {
   usagePattern: string;
-  signalsDetected?: string;
+  signalsDetected?: string | undefined;
 }
 export type InsightList = Insight[];
 export type Highlight = string;
@@ -704,7 +704,7 @@ export interface TradeOff {
   description: string;
   risk: RiskRating;
   mitigation: string;
-  riskExplanation?: string;
+  riskExplanation?: string | undefined;
 }
 export type TradeOffs = TradeOff[];
 export type RecommendationSource =
@@ -721,30 +721,30 @@ export interface RecommendationGoal {
 }
 export type RecommendationGoals = RecommendationGoal[];
 export interface RemediationStep {
-  title?: string | redacted.Redacted<string>;
+  title?: string | redacted.Redacted<string> | undefined;
   content: string | redacted.Redacted<string>;
 }
 export type RemediationSteps = RemediationStep[];
 export interface ResourceLink {
   url: string;
-  title?: string;
+  title?: string | undefined;
 }
 export type ResourceLinks = ResourceLink[];
 export interface AgentRecommendationRemediation {
   recommendationArn: string;
   type: RemediationType;
   steps: RemediationStep[];
-  resourceLinks?: ResourceLink[];
+  resourceLinks?: ResourceLink[] | undefined;
   createdBy: string;
   createdAt: Date;
-  lastModifiedBy?: string;
-  lastModifiedAt?: Date;
+  lastModifiedBy?: string | undefined;
+  lastModifiedAt?: Date | undefined;
 }
 export type AgentRecommendationRemediations = AgentRecommendationRemediation[];
 export interface GetAgentRecommendationResponse {
   recommendationArn: string;
   profileArn: string;
-  generationId?: string;
+  generationId?: string | undefined;
   title: string | redacted.Redacted<string>;
   description: string | redacted.Redacted<string>;
   type: RecommendationType;
@@ -753,27 +753,27 @@ export interface GetAgentRecommendationResponse {
   effort: Effort;
   status: RecommendationStatus;
   state: RecommendationState;
-  updateReason?: string | redacted.Redacted<string>;
+  updateReason?: string | redacted.Redacted<string> | undefined;
   impact: ImpactCategory;
   roi: Roi;
-  numberOfResources?: number;
-  awsServices?: string[];
-  businessUnits?: string[];
-  applications?: string[];
+  numberOfResources?: number | undefined;
+  awsServices?: string[] | undefined;
+  businessUnits?: string[] | undefined;
+  applications?: string[] | undefined;
   impactDetails: string[];
   insights: Insight[];
   highlights: string[];
   remediationSummary: RemediationSummary;
-  crossPillarBenefits?: CrossPillarBenefit[];
-  tradeOffs?: TradeOff[];
-  sources?: RecommendationSource[];
-  goals?: RecommendationGoal[];
-  tags?: Tag[];
+  crossPillarBenefits?: CrossPillarBenefit[] | undefined;
+  tradeOffs?: TradeOff[] | undefined;
+  sources?: RecommendationSource[] | undefined;
+  goals?: RecommendationGoal[] | undefined;
+  tags?: Tag[] | undefined;
   createdBy: string;
   createdAt: Date;
-  lastModifiedBy?: string;
-  lastModifiedAt?: Date;
-  remediations?: AgentRecommendationRemediation[];
+  lastModifiedBy?: string | undefined;
+  lastModifiedAt?: Date | undefined;
+  remediations?: AgentRecommendationRemediation[] | undefined;
 }
 export interface GetAgentRecommendationGenerationRequest {
   profileArn: string;
@@ -790,8 +790,8 @@ export interface PillarItem {
 export type PillarItems = PillarItem[];
 export interface Scope {
   pillars: Pillar[];
-  goalIds?: string[];
-  items?: PillarItem[];
+  goalIds?: string[] | undefined;
+  items?: PillarItem[] | undefined;
 }
 export interface Progress {
   stepsCompleted: number;
@@ -805,25 +805,25 @@ export interface ErrorDetails {
 export interface GetAgentRecommendationGenerationResponse {
   id: string;
   profileArn: string;
-  name?: string;
+  name?: string | undefined;
   status: GenerationStatus;
-  estimatedCompletionTime?: Date;
+  estimatedCompletionTime?: Date | undefined;
   createdBy: string;
   createdAt: Date;
-  lastModifiedBy?: string;
-  lastModifiedAt?: Date;
-  additionalContext?: any;
-  scope?: Scope;
-  startedAt?: Date;
-  endedAt?: Date;
-  progress?: Progress;
-  errorDetails?: ErrorDetails;
+  lastModifiedBy?: string | undefined;
+  lastModifiedAt?: Date | undefined;
+  additionalContext?: any | undefined;
+  scope?: Scope | undefined;
+  startedAt?: Date | undefined;
+  endedAt?: Date | undefined;
+  progress?: Progress | undefined;
+  errorDetails?: ErrorDetails | undefined;
 }
 export interface GetAnswerInput {
   WorkloadId: string;
   LensAlias: string;
   QuestionId: string;
-  MilestoneNumber?: number;
+  MilestoneNumber?: number | undefined;
 }
 export type QuestionTitle = string;
 export type QuestionDescription = string;
@@ -835,23 +835,23 @@ export type ChoiceDescription = string;
 export type ChoiceContentDisplayText = string;
 export type ChoiceContentUrl = string;
 export interface ChoiceContent {
-  DisplayText?: string;
-  Url?: string;
+  DisplayText?: string | undefined;
+  Url?: string | undefined;
 }
 export type AdditionalResourceType = "HELPFUL_RESOURCE" | "IMPROVEMENT_PLAN" | (string & {});
 export type Urls = ChoiceContent[];
 export interface AdditionalResources {
-  Type?: AdditionalResourceType;
-  Content?: ChoiceContent[];
+  Type?: AdditionalResourceType | undefined;
+  Content?: ChoiceContent[] | undefined;
 }
 export type AdditionalResourcesList = AdditionalResources[];
 export interface Choice {
-  ChoiceId?: string;
-  Title?: string;
-  Description?: string;
-  HelpfulResource?: ChoiceContent;
-  ImprovementPlan?: ChoiceContent;
-  AdditionalResources?: AdditionalResources[];
+  ChoiceId?: string | undefined;
+  Title?: string | undefined;
+  Description?: string | undefined;
+  HelpfulResource?: ChoiceContent | undefined;
+  ImprovementPlan?: ChoiceContent | undefined;
+  AdditionalResources?: AdditionalResources[] | undefined;
 }
 export type Choices = Choice[];
 export type SelectedChoices = string[];
@@ -865,10 +865,10 @@ export type ChoiceReason =
   | (string & {});
 export type ChoiceNotes = string;
 export interface ChoiceAnswer {
-  ChoiceId?: string;
-  Status?: ChoiceStatus;
-  Reason?: ChoiceReason;
-  Notes?: string;
+  ChoiceId?: string | undefined;
+  Status?: ChoiceStatus | undefined;
+  Reason?: ChoiceReason | undefined;
+  Notes?: string | undefined;
 }
 export type ChoiceAnswers = ChoiceAnswer[];
 export type IsApplicable = boolean;
@@ -882,86 +882,86 @@ export type AnswerReason =
   | (string & {});
 export type JiraIssueUrl = string;
 export interface JiraConfiguration {
-  JiraIssueUrl?: string;
-  LastSyncedTime?: Date;
+  JiraIssueUrl?: string | undefined;
+  LastSyncedTime?: Date | undefined;
 }
 export interface Answer {
-  QuestionId?: string;
-  PillarId?: string;
-  QuestionTitle?: string;
-  QuestionDescription?: string;
-  ImprovementPlanUrl?: string;
-  HelpfulResourceUrl?: string;
-  HelpfulResourceDisplayText?: string;
-  Choices?: Choice[];
-  SelectedChoices?: string[];
-  ChoiceAnswers?: ChoiceAnswer[];
-  IsApplicable?: boolean;
-  Risk?: Risk;
-  Notes?: string;
-  Reason?: AnswerReason;
-  JiraConfiguration?: JiraConfiguration;
+  QuestionId?: string | undefined;
+  PillarId?: string | undefined;
+  QuestionTitle?: string | undefined;
+  QuestionDescription?: string | undefined;
+  ImprovementPlanUrl?: string | undefined;
+  HelpfulResourceUrl?: string | undefined;
+  HelpfulResourceDisplayText?: string | undefined;
+  Choices?: Choice[] | undefined;
+  SelectedChoices?: string[] | undefined;
+  ChoiceAnswers?: ChoiceAnswer[] | undefined;
+  IsApplicable?: boolean | undefined;
+  Risk?: Risk | undefined;
+  Notes?: string | undefined;
+  Reason?: AnswerReason | undefined;
+  JiraConfiguration?: JiraConfiguration | undefined;
 }
 export interface GetAnswerOutput {
-  WorkloadId?: string;
-  MilestoneNumber?: number;
-  LensAlias?: string;
-  LensArn?: string;
-  Answer?: Answer;
+  WorkloadId?: string | undefined;
+  MilestoneNumber?: number | undefined;
+  LensAlias?: string | undefined;
+  LensArn?: string | undefined;
+  Answer?: Answer | undefined;
 }
 export type ReportFormat = "PDF" | "JSON" | (string & {});
 export type IncludeSharedResources = boolean;
 export type NextToken = string;
 export type MaxResults = number;
 export interface GetConsolidatedReportInput {
-  Format?: ReportFormat;
-  IncludeSharedResources?: boolean;
-  NextToken?: string;
-  MaxResults?: number;
+  Format?: ReportFormat | undefined;
+  IncludeSharedResources?: boolean | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type MetricType = "WORKLOAD" | (string & {});
 export type Count = number;
-export type RiskCounts = { [key in Risk]?: number };
+export type RiskCounts = { [key in Risk]?: number | undefined };
 export interface BestPractice {
-  ChoiceId?: string;
-  ChoiceTitle?: string;
+  ChoiceId?: string | undefined;
+  ChoiceTitle?: string | undefined;
 }
 export type BestPractices = BestPractice[];
 export interface QuestionMetric {
-  QuestionId?: string;
-  Risk?: Risk;
-  BestPractices?: BestPractice[];
+  QuestionId?: string | undefined;
+  Risk?: Risk | undefined;
+  BestPractices?: BestPractice[] | undefined;
 }
 export type QuestionMetrics = QuestionMetric[];
 export interface PillarMetric {
-  PillarId?: string;
-  RiskCounts?: { [key: string]: number | undefined };
-  Questions?: QuestionMetric[];
+  PillarId?: string | undefined;
+  RiskCounts?: { [key: string]: number | undefined } | undefined;
+  Questions?: QuestionMetric[] | undefined;
 }
 export type PillarMetrics = PillarMetric[];
 export interface LensMetric {
-  LensArn?: string;
-  Pillars?: PillarMetric[];
-  RiskCounts?: { [key: string]: number | undefined };
+  LensArn?: string | undefined;
+  Pillars?: PillarMetric[] | undefined;
+  RiskCounts?: { [key: string]: number | undefined } | undefined;
 }
 export type LensMetrics = LensMetric[];
 export type LensesAppliedCount = number;
 export interface ConsolidatedReportMetric {
-  MetricType?: MetricType;
-  RiskCounts?: { [key: string]: number | undefined };
-  WorkloadId?: string;
-  WorkloadName?: string;
-  WorkloadArn?: string;
-  UpdatedAt?: Date;
-  Lenses?: LensMetric[];
-  LensesAppliedCount?: number;
+  MetricType?: MetricType | undefined;
+  RiskCounts?: { [key: string]: number | undefined } | undefined;
+  WorkloadId?: string | undefined;
+  WorkloadName?: string | undefined;
+  WorkloadArn?: string | undefined;
+  UpdatedAt?: Date | undefined;
+  Lenses?: LensMetric[] | undefined;
+  LensesAppliedCount?: number | undefined;
 }
 export type ConsolidatedReportMetrics = ConsolidatedReportMetric[];
 export type Base64String = string;
 export interface GetConsolidatedReportOutput {
-  Metrics?: ConsolidatedReportMetric[];
-  NextToken?: string;
-  Base64String?: string;
+  Metrics?: ConsolidatedReportMetric[] | undefined;
+  NextToken?: string | undefined;
+  Base64String?: string | undefined;
 }
 export interface GetGlobalSettingsRequest {}
 export type OrganizationSharingStatus = "ENABLED" | "DISABLED" | (string & {});
@@ -971,42 +971,42 @@ export type AccountJiraIssueManagementStatus = "ENABLED" | "DISABLED" | (string 
 export type Subdomain = string;
 export type StatusMessage = string;
 export interface AccountJiraConfigurationOutput {
-  IntegrationStatus?: IntegrationStatus;
-  IssueManagementStatus?: AccountJiraIssueManagementStatus;
-  IssueManagementType?: IssueManagementType;
-  Subdomain?: string;
-  JiraProjectKey?: string;
-  StatusMessage?: string;
+  IntegrationStatus?: IntegrationStatus | undefined;
+  IssueManagementStatus?: AccountJiraIssueManagementStatus | undefined;
+  IssueManagementType?: IssueManagementType | undefined;
+  Subdomain?: string | undefined;
+  JiraProjectKey?: string | undefined;
+  StatusMessage?: string | undefined;
 }
 export interface GetGlobalSettingsOutput {
-  OrganizationSharingStatus?: OrganizationSharingStatus;
-  DiscoveryIntegrationStatus?: DiscoveryIntegrationStatus;
-  JiraConfiguration?: AccountJiraConfigurationOutput;
+  OrganizationSharingStatus?: OrganizationSharingStatus | undefined;
+  DiscoveryIntegrationStatus?: DiscoveryIntegrationStatus | undefined;
+  JiraConfiguration?: AccountJiraConfigurationOutput | undefined;
 }
 export interface GetLensInput {
   LensAlias: string;
-  LensVersion?: string;
+  LensVersion?: string | undefined;
 }
 export type LensName = string;
 export type LensDescription = string;
 export type LensOwner = string;
 export type ShareInvitationId = string;
 export interface Lens {
-  LensArn?: string;
-  LensVersion?: string;
-  Name?: string;
-  Description?: string;
-  Owner?: string;
-  ShareInvitationId?: string;
-  Tags?: { [key: string]: string | undefined };
+  LensArn?: string | undefined;
+  LensVersion?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Owner?: string | undefined;
+  ShareInvitationId?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetLensOutput {
-  Lens?: Lens;
+  Lens?: Lens | undefined;
 }
 export interface GetLensReviewInput {
   WorkloadId: string;
   LensAlias: string;
-  MilestoneNumber?: number;
+  MilestoneNumber?: number | undefined;
 }
 export type LensStatus =
   | "CURRENT"
@@ -1017,92 +1017,92 @@ export type LensStatus =
   | (string & {});
 export type PillarName = string;
 export interface PillarReviewSummary {
-  PillarId?: string;
-  PillarName?: string;
-  Notes?: string;
-  RiskCounts?: { [key: string]: number | undefined };
-  PrioritizedRiskCounts?: { [key: string]: number | undefined };
+  PillarId?: string | undefined;
+  PillarName?: string | undefined;
+  Notes?: string | undefined;
+  RiskCounts?: { [key: string]: number | undefined } | undefined;
+  PrioritizedRiskCounts?: { [key: string]: number | undefined } | undefined;
 }
 export type PillarReviewSummaries = PillarReviewSummary[];
 export type SelectedQuestionId = string;
 export type SelectedQuestionIds = string[];
 export interface SelectedPillar {
-  PillarId?: string;
-  SelectedQuestionIds?: string[];
+  PillarId?: string | undefined;
+  SelectedQuestionIds?: string[] | undefined;
 }
 export type SelectedPillars = SelectedPillar[];
 export interface JiraSelectedQuestionConfiguration {
-  SelectedPillars?: SelectedPillar[];
+  SelectedPillars?: SelectedPillar[] | undefined;
 }
 export interface WorkloadProfile {
-  ProfileArn?: string;
-  ProfileVersion?: string;
+  ProfileArn?: string | undefined;
+  ProfileVersion?: string | undefined;
 }
 export type WorkloadProfiles = WorkloadProfile[];
 export interface LensReview {
-  LensAlias?: string;
-  LensArn?: string;
-  LensVersion?: string;
-  LensName?: string;
-  LensStatus?: LensStatus;
-  PillarReviewSummaries?: PillarReviewSummary[];
-  JiraConfiguration?: JiraSelectedQuestionConfiguration;
-  UpdatedAt?: Date;
-  Notes?: string;
-  RiskCounts?: { [key: string]: number | undefined };
-  NextToken?: string;
-  Profiles?: WorkloadProfile[];
-  PrioritizedRiskCounts?: { [key: string]: number | undefined };
+  LensAlias?: string | undefined;
+  LensArn?: string | undefined;
+  LensVersion?: string | undefined;
+  LensName?: string | undefined;
+  LensStatus?: LensStatus | undefined;
+  PillarReviewSummaries?: PillarReviewSummary[] | undefined;
+  JiraConfiguration?: JiraSelectedQuestionConfiguration | undefined;
+  UpdatedAt?: Date | undefined;
+  Notes?: string | undefined;
+  RiskCounts?: { [key: string]: number | undefined } | undefined;
+  NextToken?: string | undefined;
+  Profiles?: WorkloadProfile[] | undefined;
+  PrioritizedRiskCounts?: { [key: string]: number | undefined } | undefined;
 }
 export interface GetLensReviewOutput {
-  WorkloadId?: string;
-  MilestoneNumber?: number;
-  LensReview?: LensReview;
+  WorkloadId?: string | undefined;
+  MilestoneNumber?: number | undefined;
+  LensReview?: LensReview | undefined;
 }
 export interface GetLensReviewReportInput {
   WorkloadId: string;
   LensAlias: string;
-  MilestoneNumber?: number;
+  MilestoneNumber?: number | undefined;
 }
 export interface LensReviewReport {
-  LensAlias?: string;
-  LensArn?: string;
-  Base64String?: string;
+  LensAlias?: string | undefined;
+  LensArn?: string | undefined;
+  Base64String?: string | undefined;
 }
 export interface GetLensReviewReportOutput {
-  WorkloadId?: string;
-  MilestoneNumber?: number;
-  LensReviewReport?: LensReviewReport;
+  WorkloadId?: string | undefined;
+  MilestoneNumber?: number | undefined;
+  LensReviewReport?: LensReviewReport | undefined;
 }
 export interface GetLensVersionDifferenceInput {
   LensAlias: string;
-  BaseLensVersion?: string;
-  TargetLensVersion?: string;
+  BaseLensVersion?: string | undefined;
+  TargetLensVersion?: string | undefined;
 }
 export type DifferenceStatus = "UPDATED" | "NEW" | "DELETED" | (string & {});
 export interface QuestionDifference {
-  QuestionId?: string;
-  QuestionTitle?: string;
-  DifferenceStatus?: DifferenceStatus;
+  QuestionId?: string | undefined;
+  QuestionTitle?: string | undefined;
+  DifferenceStatus?: DifferenceStatus | undefined;
 }
 export type QuestionDifferences = QuestionDifference[];
 export interface PillarDifference {
-  PillarId?: string;
-  PillarName?: string;
-  DifferenceStatus?: DifferenceStatus;
-  QuestionDifferences?: QuestionDifference[];
+  PillarId?: string | undefined;
+  PillarName?: string | undefined;
+  DifferenceStatus?: DifferenceStatus | undefined;
+  QuestionDifferences?: QuestionDifference[] | undefined;
 }
 export type PillarDifferences = PillarDifference[];
 export interface VersionDifferences {
-  PillarDifferences?: PillarDifference[];
+  PillarDifferences?: PillarDifference[] | undefined;
 }
 export interface GetLensVersionDifferenceOutput {
-  LensAlias?: string;
-  LensArn?: string;
-  BaseLensVersion?: string;
-  TargetLensVersion?: string;
-  LatestLensVersion?: string;
-  VersionDifferences?: VersionDifferences;
+  LensAlias?: string | undefined;
+  LensArn?: string | undefined;
+  BaseLensVersion?: string | undefined;
+  TargetLensVersion?: string | undefined;
+  LatestLensVersion?: string | undefined;
+  VersionDifferences?: VersionDifferences | undefined;
 }
 export interface GetMilestoneInput {
   WorkloadId: string;
@@ -1117,135 +1117,135 @@ export type WorkloadImprovementStatus =
   | "RISK_ACKNOWLEDGED"
   | (string & {});
 export interface WorkloadJiraConfigurationOutput {
-  IssueManagementStatus?: WorkloadIssueManagementStatus;
-  IssueManagementType?: IssueManagementType;
-  JiraProjectKey?: string;
-  StatusMessage?: string;
+  IssueManagementStatus?: WorkloadIssueManagementStatus | undefined;
+  IssueManagementType?: IssueManagementType | undefined;
+  JiraProjectKey?: string | undefined;
+  StatusMessage?: string | undefined;
 }
 export interface Workload {
-  WorkloadId?: string;
-  WorkloadArn?: string;
-  WorkloadName?: string;
-  Description?: string;
-  Environment?: WorkloadEnvironment;
-  UpdatedAt?: Date;
-  AccountIds?: string[];
-  AwsRegions?: string[];
-  NonAwsRegions?: string[];
-  ArchitecturalDesign?: string;
-  ReviewOwner?: string;
-  ReviewRestrictionDate?: Date;
-  IsReviewOwnerUpdateAcknowledged?: boolean;
-  IndustryType?: string;
-  Industry?: string;
-  Notes?: string;
-  ImprovementStatus?: WorkloadImprovementStatus;
-  RiskCounts?: { [key: string]: number | undefined };
-  PillarPriorities?: string[];
-  Lenses?: string[];
-  Owner?: string;
-  ShareInvitationId?: string;
-  Tags?: { [key: string]: string | undefined };
-  DiscoveryConfig?: WorkloadDiscoveryConfig;
-  Applications?: string[];
-  Profiles?: WorkloadProfile[];
-  PrioritizedRiskCounts?: { [key: string]: number | undefined };
-  JiraConfiguration?: WorkloadJiraConfigurationOutput;
+  WorkloadId?: string | undefined;
+  WorkloadArn?: string | undefined;
+  WorkloadName?: string | undefined;
+  Description?: string | undefined;
+  Environment?: WorkloadEnvironment | undefined;
+  UpdatedAt?: Date | undefined;
+  AccountIds?: string[] | undefined;
+  AwsRegions?: string[] | undefined;
+  NonAwsRegions?: string[] | undefined;
+  ArchitecturalDesign?: string | undefined;
+  ReviewOwner?: string | undefined;
+  ReviewRestrictionDate?: Date | undefined;
+  IsReviewOwnerUpdateAcknowledged?: boolean | undefined;
+  IndustryType?: string | undefined;
+  Industry?: string | undefined;
+  Notes?: string | undefined;
+  ImprovementStatus?: WorkloadImprovementStatus | undefined;
+  RiskCounts?: { [key: string]: number | undefined } | undefined;
+  PillarPriorities?: string[] | undefined;
+  Lenses?: string[] | undefined;
+  Owner?: string | undefined;
+  ShareInvitationId?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  DiscoveryConfig?: WorkloadDiscoveryConfig | undefined;
+  Applications?: string[] | undefined;
+  Profiles?: WorkloadProfile[] | undefined;
+  PrioritizedRiskCounts?: { [key: string]: number | undefined } | undefined;
+  JiraConfiguration?: WorkloadJiraConfigurationOutput | undefined;
 }
 export interface Milestone {
-  MilestoneNumber?: number;
-  MilestoneName?: string;
-  RecordedAt?: Date;
-  Workload?: Workload;
+  MilestoneNumber?: number | undefined;
+  MilestoneName?: string | undefined;
+  RecordedAt?: Date | undefined;
+  Workload?: Workload | undefined;
 }
 export interface GetMilestoneOutput {
-  WorkloadId?: string;
-  Milestone?: Milestone;
+  WorkloadId?: string | undefined;
+  Milestone?: Milestone | undefined;
 }
 export interface GetProfileInput {
   ProfileArn: string;
-  ProfileVersion?: string;
+  ProfileVersion?: string | undefined;
 }
 export interface ProfileChoice {
-  ChoiceId?: string;
-  ChoiceTitle?: string;
-  ChoiceDescription?: string;
+  ChoiceId?: string | undefined;
+  ChoiceTitle?: string | undefined;
+  ChoiceDescription?: string | undefined;
 }
 export type ProfileQuestionChoices = ProfileChoice[];
 export type SelectedChoiceIds = string[];
 export type MinSelectedProfileChoices = number;
 export type MaxSelectedProfileChoices = number;
 export interface ProfileQuestion {
-  QuestionId?: string;
-  QuestionTitle?: string;
-  QuestionDescription?: string;
-  QuestionChoices?: ProfileChoice[];
-  SelectedChoiceIds?: string[];
-  MinSelectedChoices?: number;
-  MaxSelectedChoices?: number;
+  QuestionId?: string | undefined;
+  QuestionTitle?: string | undefined;
+  QuestionDescription?: string | undefined;
+  QuestionChoices?: ProfileChoice[] | undefined;
+  SelectedChoiceIds?: string[] | undefined;
+  MinSelectedChoices?: number | undefined;
+  MaxSelectedChoices?: number | undefined;
 }
 export type ProfileQuestions = ProfileQuestion[];
 export interface Profile {
-  ProfileArn?: string;
-  ProfileVersion?: string;
-  ProfileName?: string;
-  ProfileDescription?: string;
-  ProfileQuestions?: ProfileQuestion[];
-  Owner?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  ShareInvitationId?: string;
-  Tags?: { [key: string]: string | undefined };
+  ProfileArn?: string | undefined;
+  ProfileVersion?: string | undefined;
+  ProfileName?: string | undefined;
+  ProfileDescription?: string | undefined;
+  ProfileQuestions?: ProfileQuestion[] | undefined;
+  Owner?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  ShareInvitationId?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetProfileOutput {
-  Profile?: Profile;
+  Profile?: Profile | undefined;
 }
 export interface GetProfileTemplateInput {}
 export interface ProfileTemplateChoice {
-  ChoiceId?: string;
-  ChoiceTitle?: string;
-  ChoiceDescription?: string;
+  ChoiceId?: string | undefined;
+  ChoiceTitle?: string | undefined;
+  ChoiceDescription?: string | undefined;
 }
 export type ProfileTemplateQuestionChoices = ProfileTemplateChoice[];
 export interface ProfileTemplateQuestion {
-  QuestionId?: string;
-  QuestionTitle?: string;
-  QuestionDescription?: string;
-  QuestionChoices?: ProfileTemplateChoice[];
-  MinSelectedChoices?: number;
-  MaxSelectedChoices?: number;
+  QuestionId?: string | undefined;
+  QuestionTitle?: string | undefined;
+  QuestionDescription?: string | undefined;
+  QuestionChoices?: ProfileTemplateChoice[] | undefined;
+  MinSelectedChoices?: number | undefined;
+  MaxSelectedChoices?: number | undefined;
 }
 export type TemplateQuestions = ProfileTemplateQuestion[];
 export interface ProfileTemplate {
-  TemplateName?: string;
-  TemplateQuestions?: ProfileTemplateQuestion[];
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  TemplateName?: string | undefined;
+  TemplateQuestions?: ProfileTemplateQuestion[] | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface GetProfileTemplateOutput {
-  ProfileTemplate?: ProfileTemplate;
+  ProfileTemplate?: ProfileTemplate | undefined;
 }
 export interface GetReviewTemplateInput {
   TemplateArn: string;
 }
 export type Question = "UNANSWERED" | "ANSWERED" | (string & {});
-export type QuestionCounts = { [key in Question]?: number };
+export type QuestionCounts = { [key in Question]?: number | undefined };
 export type ReviewTemplateUpdateStatus = "CURRENT" | "LENS_NOT_CURRENT" | (string & {});
 export interface ReviewTemplate {
-  Description?: string;
-  Lenses?: string[];
-  Notes?: string;
-  QuestionCounts?: { [key: string]: number | undefined };
-  Owner?: string;
-  UpdatedAt?: Date;
-  TemplateArn?: string;
-  TemplateName?: string;
-  Tags?: { [key: string]: string | undefined };
-  UpdateStatus?: ReviewTemplateUpdateStatus;
-  ShareInvitationId?: string;
+  Description?: string | undefined;
+  Lenses?: string[] | undefined;
+  Notes?: string | undefined;
+  QuestionCounts?: { [key: string]: number | undefined } | undefined;
+  Owner?: string | undefined;
+  UpdatedAt?: Date | undefined;
+  TemplateArn?: string | undefined;
+  TemplateName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  UpdateStatus?: ReviewTemplateUpdateStatus | undefined;
+  ShareInvitationId?: string | undefined;
 }
 export interface GetReviewTemplateOutput {
-  ReviewTemplate?: ReviewTemplate;
+  ReviewTemplate?: ReviewTemplate | undefined;
 }
 export interface GetReviewTemplateAnswerInput {
   TemplateArn: string;
@@ -1254,146 +1254,146 @@ export interface GetReviewTemplateAnswerInput {
 }
 export type ReviewTemplateAnswerStatus = "UNANSWERED" | "ANSWERED" | (string & {});
 export interface ReviewTemplateAnswer {
-  QuestionId?: string;
-  PillarId?: string;
-  QuestionTitle?: string;
-  QuestionDescription?: string;
-  ImprovementPlanUrl?: string;
-  HelpfulResourceUrl?: string;
-  HelpfulResourceDisplayText?: string;
-  Choices?: Choice[];
-  SelectedChoices?: string[];
-  ChoiceAnswers?: ChoiceAnswer[];
-  IsApplicable?: boolean;
-  AnswerStatus?: ReviewTemplateAnswerStatus;
-  Notes?: string;
-  Reason?: AnswerReason;
+  QuestionId?: string | undefined;
+  PillarId?: string | undefined;
+  QuestionTitle?: string | undefined;
+  QuestionDescription?: string | undefined;
+  ImprovementPlanUrl?: string | undefined;
+  HelpfulResourceUrl?: string | undefined;
+  HelpfulResourceDisplayText?: string | undefined;
+  Choices?: Choice[] | undefined;
+  SelectedChoices?: string[] | undefined;
+  ChoiceAnswers?: ChoiceAnswer[] | undefined;
+  IsApplicable?: boolean | undefined;
+  AnswerStatus?: ReviewTemplateAnswerStatus | undefined;
+  Notes?: string | undefined;
+  Reason?: AnswerReason | undefined;
 }
 export interface GetReviewTemplateAnswerOutput {
-  TemplateArn?: string;
-  LensAlias?: string;
-  Answer?: ReviewTemplateAnswer;
+  TemplateArn?: string | undefined;
+  LensAlias?: string | undefined;
+  Answer?: ReviewTemplateAnswer | undefined;
 }
 export interface GetReviewTemplateLensReviewInput {
   TemplateArn: string;
   LensAlias: string;
 }
 export interface ReviewTemplatePillarReviewSummary {
-  PillarId?: string;
-  PillarName?: string;
-  Notes?: string;
-  QuestionCounts?: { [key: string]: number | undefined };
+  PillarId?: string | undefined;
+  PillarName?: string | undefined;
+  Notes?: string | undefined;
+  QuestionCounts?: { [key: string]: number | undefined } | undefined;
 }
 export type ReviewTemplatePillarReviewSummaries = ReviewTemplatePillarReviewSummary[];
 export interface ReviewTemplateLensReview {
-  LensAlias?: string;
-  LensArn?: string;
-  LensVersion?: string;
-  LensName?: string;
-  LensStatus?: LensStatus;
-  PillarReviewSummaries?: ReviewTemplatePillarReviewSummary[];
-  UpdatedAt?: Date;
-  Notes?: string;
-  QuestionCounts?: { [key: string]: number | undefined };
-  NextToken?: string;
+  LensAlias?: string | undefined;
+  LensArn?: string | undefined;
+  LensVersion?: string | undefined;
+  LensName?: string | undefined;
+  LensStatus?: LensStatus | undefined;
+  PillarReviewSummaries?: ReviewTemplatePillarReviewSummary[] | undefined;
+  UpdatedAt?: Date | undefined;
+  Notes?: string | undefined;
+  QuestionCounts?: { [key: string]: number | undefined } | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetReviewTemplateLensReviewOutput {
-  TemplateArn?: string;
-  LensReview?: ReviewTemplateLensReview;
+  TemplateArn?: string | undefined;
+  LensReview?: ReviewTemplateLensReview | undefined;
 }
 export interface GetWorkloadInput {
   WorkloadId: string;
 }
 export interface GetWorkloadOutput {
-  Workload?: Workload;
+  Workload?: Workload | undefined;
 }
 export interface ImportLensInput {
-  LensAlias?: string;
-  JSONString?: string;
-  ClientRequestToken?: string;
-  Tags?: { [key: string]: string | undefined };
+  LensAlias?: string | undefined;
+  JSONString?: string | undefined;
+  ClientRequestToken?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ImportLensStatus = "IN_PROGRESS" | "COMPLETE" | "ERROR" | (string & {});
 export interface ImportLensOutput {
-  LensArn?: string;
-  Status?: ImportLensStatus;
+  LensArn?: string | undefined;
+  Status?: ImportLensStatus | undefined;
 }
 export interface ListAgentContextsRequest {
   profileArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type ContextSummaries = ContextSummary[];
 export interface ListAgentContextsResponse {
   items: ContextSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAgentGoalsRequest {
   profileArn: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type GoalSummaries = GoalSummary[];
 export interface ListAgentGoalsResponse {
   items: GoalSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAgentProfilesRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AgentProfileSummary {
   name: string;
-  displayName?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  businessOverview?: string | redacted.Redacted<string>;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  businessOverview?: string | redacted.Redacted<string> | undefined;
   pillars: Pillar[];
-  deletionProtection?: boolean;
+  deletionProtection?: boolean | undefined;
   executionRoleArn: string;
   aggregationConfiguration: AggregationConfiguration[];
   arn: string;
-  eligibleForScheduledGeneration?: boolean;
-  eligibleForArchitectureGeneration?: boolean;
-  fieldErrors?: { [key: string]: string | undefined };
-  tags?: Tag[];
+  eligibleForScheduledGeneration?: boolean | undefined;
+  eligibleForArchitectureGeneration?: boolean | undefined;
+  fieldErrors?: { [key: string]: string | undefined } | undefined;
+  tags?: Tag[] | undefined;
   createdBy: string;
   createdAt: Date;
-  lastModifiedBy?: string;
-  lastModifiedAt?: Date;
+  lastModifiedBy?: string | undefined;
+  lastModifiedAt?: Date | undefined;
 }
 export type AgentProfileSummaries = AgentProfileSummary[];
 export interface ListAgentProfilesResponse {
   items: AgentProfileSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAgentRecommendationGenerationsRequest {
   profileArn: string;
-  recommendationType?: RecommendationType;
-  maxResults?: number;
-  nextToken?: string;
+  recommendationType?: RecommendationType | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AgentRecommendationGenerationSummary {
   id: string;
   profileArn: string;
-  name?: string;
+  name?: string | undefined;
   status: GenerationStatus;
-  estimatedCompletionTime?: Date;
+  estimatedCompletionTime?: Date | undefined;
   createdBy: string;
   createdAt: Date;
-  lastModifiedBy?: string;
-  lastModifiedAt?: Date;
+  lastModifiedBy?: string | undefined;
+  lastModifiedAt?: Date | undefined;
 }
 export type AgentRecommendationGenerationSummaries = AgentRecommendationGenerationSummary[];
 export interface ListAgentRecommendationGenerationsResponse {
   items: AgentRecommendationGenerationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type RecommendationItemType = "AWS_RESOURCE" | "RECOMMENDATION" | (string & {});
 export interface ListAgentRecommendationItemsRequest {
   recommendationArn: string;
-  type?: RecommendationItemType;
-  maxResults?: number;
-  nextToken?: string;
+  type?: RecommendationItemType | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AgentRecommendationItemSummary {
   id: string;
@@ -1402,25 +1402,25 @@ export interface AgentRecommendationItemSummary {
   metadata: any;
   createdBy: string;
   createdAt: Date;
-  lastModifiedBy?: string;
-  lastModifiedAt?: Date;
+  lastModifiedBy?: string | undefined;
+  lastModifiedAt?: Date | undefined;
 }
 export type AgentRecommendationItemSummaries = AgentRecommendationItemSummary[];
 export interface ListAgentRecommendationItemsResponse {
   items: AgentRecommendationItemSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAgentRecommendationsRequest {
   profileArn: string;
-  maxResults?: number;
-  nextToken?: string;
-  state?: RecommendationState;
-  pillar?: Pillar;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  state?: RecommendationState | undefined;
+  pillar?: Pillar | undefined;
 }
 export interface AgentRecommendationSummary {
   recommendationArn: string;
   profileArn: string;
-  generationId?: string;
+  generationId?: string | undefined;
   title: string | redacted.Redacted<string>;
   description: string | redacted.Redacted<string>;
   type: RecommendationType;
@@ -1429,70 +1429,70 @@ export interface AgentRecommendationSummary {
   effort: Effort;
   status: RecommendationStatus;
   state: RecommendationState;
-  updateReason?: string | redacted.Redacted<string>;
+  updateReason?: string | redacted.Redacted<string> | undefined;
   impact: ImpactCategory;
   roi: Roi;
-  numberOfResources?: number;
-  awsServices?: string[];
-  businessUnits?: string[];
-  applications?: string[];
+  numberOfResources?: number | undefined;
+  awsServices?: string[] | undefined;
+  businessUnits?: string[] | undefined;
+  applications?: string[] | undefined;
   createdBy: string;
   createdAt: Date;
-  lastModifiedBy?: string;
-  lastModifiedAt?: Date;
+  lastModifiedBy?: string | undefined;
+  lastModifiedAt?: Date | undefined;
 }
 export type AgentRecommendationSummaries = AgentRecommendationSummary[];
 export interface ListAgentRecommendationsResponse {
   items: AgentRecommendationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type QuestionPriority = "PRIORITIZED" | "NONE" | (string & {});
 export interface ListAnswersInput {
   WorkloadId: string;
   LensAlias: string;
-  PillarId?: string;
-  MilestoneNumber?: number;
-  NextToken?: string;
-  MaxResults?: number;
-  QuestionPriority?: QuestionPriority;
+  PillarId?: string | undefined;
+  MilestoneNumber?: number | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  QuestionPriority?: QuestionPriority | undefined;
 }
 export interface ChoiceAnswerSummary {
-  ChoiceId?: string;
-  Status?: ChoiceStatus;
-  Reason?: ChoiceReason;
+  ChoiceId?: string | undefined;
+  Status?: ChoiceStatus | undefined;
+  Reason?: ChoiceReason | undefined;
 }
 export type ChoiceAnswerSummaries = ChoiceAnswerSummary[];
 export type QuestionType = "PRIORITIZED" | "NON_PRIORITIZED" | (string & {});
 export interface AnswerSummary {
-  QuestionId?: string;
-  PillarId?: string;
-  QuestionTitle?: string;
-  Choices?: Choice[];
-  SelectedChoices?: string[];
-  ChoiceAnswerSummaries?: ChoiceAnswerSummary[];
-  IsApplicable?: boolean;
-  Risk?: Risk;
-  Reason?: AnswerReason;
-  QuestionType?: QuestionType;
-  JiraConfiguration?: JiraConfiguration;
+  QuestionId?: string | undefined;
+  PillarId?: string | undefined;
+  QuestionTitle?: string | undefined;
+  Choices?: Choice[] | undefined;
+  SelectedChoices?: string[] | undefined;
+  ChoiceAnswerSummaries?: ChoiceAnswerSummary[] | undefined;
+  IsApplicable?: boolean | undefined;
+  Risk?: Risk | undefined;
+  Reason?: AnswerReason | undefined;
+  QuestionType?: QuestionType | undefined;
+  JiraConfiguration?: JiraConfiguration | undefined;
 }
 export type AnswerSummaries = AnswerSummary[];
 export interface ListAnswersOutput {
-  WorkloadId?: string;
-  MilestoneNumber?: number;
-  LensAlias?: string;
-  LensArn?: string;
-  AnswerSummaries?: AnswerSummary[];
-  NextToken?: string;
+  WorkloadId?: string | undefined;
+  MilestoneNumber?: number | undefined;
+  LensAlias?: string | undefined;
+  LensArn?: string | undefined;
+  AnswerSummaries?: AnswerSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCheckDetailsInput {
   WorkloadId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  LensArn?: string;
-  PillarId?: string;
-  QuestionId?: string;
-  ChoiceId?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  LensArn?: string | undefined;
+  PillarId?: string | undefined;
+  QuestionId?: string | undefined;
+  ChoiceId?: string | undefined;
 }
 export type CheckId = string;
 export type CheckName = string;
@@ -1513,135 +1513,135 @@ export type CheckFailureReason =
   | "PREMIUM_SUPPORT_REQUIRED"
   | (string & {});
 export interface CheckDetail {
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  Provider?: CheckProvider;
-  LensArn?: string;
-  PillarId?: string;
-  QuestionId?: string;
-  ChoiceId?: string;
-  Status?: CheckStatus;
-  AccountId?: string;
-  FlaggedResources?: number;
-  Reason?: CheckFailureReason;
-  UpdatedAt?: Date;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Provider?: CheckProvider | undefined;
+  LensArn?: string | undefined;
+  PillarId?: string | undefined;
+  QuestionId?: string | undefined;
+  ChoiceId?: string | undefined;
+  Status?: CheckStatus | undefined;
+  AccountId?: string | undefined;
+  FlaggedResources?: number | undefined;
+  Reason?: CheckFailureReason | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type CheckDetails = CheckDetail[];
 export interface ListCheckDetailsOutput {
-  CheckDetails?: CheckDetail[];
-  NextToken?: string;
+  CheckDetails?: CheckDetail[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCheckSummariesInput {
   WorkloadId: string;
-  NextToken?: string;
-  MaxResults?: number;
-  LensArn?: string;
-  PillarId?: string;
-  QuestionId?: string;
-  ChoiceId?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  LensArn?: string | undefined;
+  PillarId?: string | undefined;
+  QuestionId?: string | undefined;
+  ChoiceId?: string | undefined;
 }
 export type CheckStatusCount = number;
-export type AccountSummary = { [key in CheckStatus]?: number };
+export type AccountSummary = { [key in CheckStatus]?: number | undefined };
 export interface CheckSummary {
-  Id?: string;
-  Name?: string;
-  Provider?: CheckProvider;
-  Description?: string;
-  UpdatedAt?: Date;
-  LensArn?: string;
-  PillarId?: string;
-  QuestionId?: string;
-  ChoiceId?: string;
-  Status?: CheckStatus;
-  AccountSummary?: { [key: string]: number | undefined };
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Provider?: CheckProvider | undefined;
+  Description?: string | undefined;
+  UpdatedAt?: Date | undefined;
+  LensArn?: string | undefined;
+  PillarId?: string | undefined;
+  QuestionId?: string | undefined;
+  ChoiceId?: string | undefined;
+  Status?: CheckStatus | undefined;
+  AccountSummary?: { [key: string]: number | undefined } | undefined;
 }
 export type CheckSummaries = CheckSummary[];
 export interface ListCheckSummariesOutput {
-  CheckSummaries?: CheckSummary[];
-  NextToken?: string;
+  CheckSummaries?: CheckSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type LensType = "AWS_OFFICIAL" | "CUSTOM_SHARED" | "CUSTOM_SELF" | (string & {});
 export interface ListLensesInput {
-  NextToken?: string;
-  MaxResults?: number;
-  LensType?: LensType;
-  LensStatus?: LensStatusType;
-  LensName?: string;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  LensType?: LensType | undefined;
+  LensStatus?: LensStatusType | undefined;
+  LensName?: string | undefined;
 }
 export interface LensSummary {
-  LensArn?: string;
-  LensAlias?: string;
-  LensName?: string;
-  LensType?: LensType;
-  Description?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
-  LensVersion?: string;
-  Owner?: string;
-  LensStatus?: LensStatus;
+  LensArn?: string | undefined;
+  LensAlias?: string | undefined;
+  LensName?: string | undefined;
+  LensType?: LensType | undefined;
+  Description?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
+  LensVersion?: string | undefined;
+  Owner?: string | undefined;
+  LensStatus?: LensStatus | undefined;
 }
 export type LensSummaries = LensSummary[];
 export interface ListLensesOutput {
-  LensSummaries?: LensSummary[];
-  NextToken?: string;
+  LensSummaries?: LensSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLensReviewImprovementsInput {
   WorkloadId: string;
   LensAlias: string;
-  PillarId?: string;
-  MilestoneNumber?: number;
-  NextToken?: string;
-  MaxResults?: number;
-  QuestionPriority?: QuestionPriority;
+  PillarId?: string | undefined;
+  MilestoneNumber?: number | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  QuestionPriority?: QuestionPriority | undefined;
 }
 export interface ChoiceImprovementPlan {
-  ChoiceId?: string;
-  DisplayText?: string;
-  ImprovementPlanUrl?: string;
+  ChoiceId?: string | undefined;
+  DisplayText?: string | undefined;
+  ImprovementPlanUrl?: string | undefined;
 }
 export type ChoiceImprovementPlans = ChoiceImprovementPlan[];
 export interface ImprovementSummary {
-  QuestionId?: string;
-  PillarId?: string;
-  QuestionTitle?: string;
-  Risk?: Risk;
-  ImprovementPlanUrl?: string;
-  ImprovementPlans?: ChoiceImprovementPlan[];
-  JiraConfiguration?: JiraConfiguration;
+  QuestionId?: string | undefined;
+  PillarId?: string | undefined;
+  QuestionTitle?: string | undefined;
+  Risk?: Risk | undefined;
+  ImprovementPlanUrl?: string | undefined;
+  ImprovementPlans?: ChoiceImprovementPlan[] | undefined;
+  JiraConfiguration?: JiraConfiguration | undefined;
 }
 export type ImprovementSummaries = ImprovementSummary[];
 export interface ListLensReviewImprovementsOutput {
-  WorkloadId?: string;
-  MilestoneNumber?: number;
-  LensAlias?: string;
-  LensArn?: string;
-  ImprovementSummaries?: ImprovementSummary[];
-  NextToken?: string;
+  WorkloadId?: string | undefined;
+  MilestoneNumber?: number | undefined;
+  LensAlias?: string | undefined;
+  LensArn?: string | undefined;
+  ImprovementSummaries?: ImprovementSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListLensReviewsInput {
   WorkloadId: string;
-  MilestoneNumber?: number;
-  NextToken?: string;
-  MaxResults?: number;
+  MilestoneNumber?: number | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface LensReviewSummary {
-  LensAlias?: string;
-  LensArn?: string;
-  LensVersion?: string;
-  LensName?: string;
-  LensStatus?: LensStatus;
-  UpdatedAt?: Date;
-  RiskCounts?: { [key: string]: number | undefined };
-  Profiles?: WorkloadProfile[];
-  PrioritizedRiskCounts?: { [key: string]: number | undefined };
+  LensAlias?: string | undefined;
+  LensArn?: string | undefined;
+  LensVersion?: string | undefined;
+  LensName?: string | undefined;
+  LensStatus?: LensStatus | undefined;
+  UpdatedAt?: Date | undefined;
+  RiskCounts?: { [key: string]: number | undefined } | undefined;
+  Profiles?: WorkloadProfile[] | undefined;
+  PrioritizedRiskCounts?: { [key: string]: number | undefined } | undefined;
 }
 export type LensReviewSummaries = LensReviewSummary[];
 export interface ListLensReviewsOutput {
-  WorkloadId?: string;
-  MilestoneNumber?: number;
-  LensReviewSummaries?: LensReviewSummary[];
-  NextToken?: string;
+  WorkloadId?: string | undefined;
+  MilestoneNumber?: number | undefined;
+  LensReviewSummaries?: LensReviewSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type SharedWithPrefix = string;
 export type ShareStatus =
@@ -1656,269 +1656,269 @@ export type ShareStatus =
   | (string & {});
 export interface ListLensSharesInput {
   LensAlias: string;
-  SharedWithPrefix?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  Status?: ShareStatus;
+  SharedWithPrefix?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Status?: ShareStatus | undefined;
 }
 export interface LensShareSummary {
-  ShareId?: string;
-  SharedWith?: string;
-  Status?: ShareStatus;
-  StatusMessage?: string;
+  ShareId?: string | undefined;
+  SharedWith?: string | undefined;
+  Status?: ShareStatus | undefined;
+  StatusMessage?: string | undefined;
 }
 export type LensShareSummaries = LensShareSummary[];
 export interface ListLensSharesOutput {
-  LensShareSummaries?: LensShareSummary[];
-  NextToken?: string;
+  LensShareSummaries?: LensShareSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListMilestonesInput {
   WorkloadId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface WorkloadSummary {
-  WorkloadId?: string;
-  WorkloadArn?: string;
-  WorkloadName?: string;
-  Owner?: string;
-  UpdatedAt?: Date;
-  Lenses?: string[];
-  RiskCounts?: { [key: string]: number | undefined };
-  ImprovementStatus?: WorkloadImprovementStatus;
-  Profiles?: WorkloadProfile[];
-  PrioritizedRiskCounts?: { [key: string]: number | undefined };
+  WorkloadId?: string | undefined;
+  WorkloadArn?: string | undefined;
+  WorkloadName?: string | undefined;
+  Owner?: string | undefined;
+  UpdatedAt?: Date | undefined;
+  Lenses?: string[] | undefined;
+  RiskCounts?: { [key: string]: number | undefined } | undefined;
+  ImprovementStatus?: WorkloadImprovementStatus | undefined;
+  Profiles?: WorkloadProfile[] | undefined;
+  PrioritizedRiskCounts?: { [key: string]: number | undefined } | undefined;
 }
 export interface MilestoneSummary {
-  MilestoneNumber?: number;
-  MilestoneName?: string;
-  RecordedAt?: Date;
-  WorkloadSummary?: WorkloadSummary;
+  MilestoneNumber?: number | undefined;
+  MilestoneName?: string | undefined;
+  RecordedAt?: Date | undefined;
+  WorkloadSummary?: WorkloadSummary | undefined;
 }
 export type MilestoneSummaries = MilestoneSummary[];
 export interface ListMilestonesOutput {
-  WorkloadId?: string;
-  MilestoneSummaries?: MilestoneSummary[];
-  NextToken?: string;
+  WorkloadId?: string | undefined;
+  MilestoneSummaries?: MilestoneSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ResourceArn = string;
 export interface ListNotificationsInput {
-  WorkloadId?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  ResourceArn?: string;
+  WorkloadId?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ResourceArn?: string | undefined;
 }
 export type NotificationType = "LENS_VERSION_UPGRADED" | "LENS_VERSION_DEPRECATED" | (string & {});
 export interface LensUpgradeSummary {
-  WorkloadId?: string;
-  WorkloadName?: string;
-  LensAlias?: string;
-  LensArn?: string;
-  CurrentLensVersion?: string;
-  LatestLensVersion?: string;
-  ResourceArn?: string;
-  ResourceName?: string;
+  WorkloadId?: string | undefined;
+  WorkloadName?: string | undefined;
+  LensAlias?: string | undefined;
+  LensArn?: string | undefined;
+  CurrentLensVersion?: string | undefined;
+  LatestLensVersion?: string | undefined;
+  ResourceArn?: string | undefined;
+  ResourceName?: string | undefined;
 }
 export interface NotificationSummary {
-  Type?: NotificationType;
-  LensUpgradeSummary?: LensUpgradeSummary;
+  Type?: NotificationType | undefined;
+  LensUpgradeSummary?: LensUpgradeSummary | undefined;
 }
 export type NotificationSummaries = NotificationSummary[];
 export interface ListNotificationsOutput {
-  NotificationSummaries?: NotificationSummary[];
-  NextToken?: string;
+  NotificationSummaries?: NotificationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListProfileNotificationsInput {
-  WorkloadId?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  WorkloadId?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ProfileNotificationType = "PROFILE_ANSWERS_UPDATED" | "PROFILE_DELETED" | (string & {});
 export interface ProfileNotificationSummary {
-  CurrentProfileVersion?: string;
-  LatestProfileVersion?: string;
-  Type?: ProfileNotificationType;
-  ProfileArn?: string;
-  ProfileName?: string;
-  WorkloadId?: string;
-  WorkloadName?: string;
+  CurrentProfileVersion?: string | undefined;
+  LatestProfileVersion?: string | undefined;
+  Type?: ProfileNotificationType | undefined;
+  ProfileArn?: string | undefined;
+  ProfileName?: string | undefined;
+  WorkloadId?: string | undefined;
+  WorkloadName?: string | undefined;
 }
 export type ProfileNotificationSummaries = ProfileNotificationSummary[];
 export interface ListProfileNotificationsOutput {
-  NotificationSummaries?: ProfileNotificationSummary[];
-  NextToken?: string;
+  NotificationSummaries?: ProfileNotificationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ProfileNamePrefix = string;
 export type ProfileOwnerType = "SELF" | "SHARED" | (string & {});
 export interface ListProfilesInput {
-  ProfileNamePrefix?: string;
-  ProfileOwnerType?: ProfileOwnerType;
-  NextToken?: string;
-  MaxResults?: number;
+  ProfileNamePrefix?: string | undefined;
+  ProfileOwnerType?: ProfileOwnerType | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ProfileSummary {
-  ProfileArn?: string;
-  ProfileVersion?: string;
-  ProfileName?: string;
-  ProfileDescription?: string;
-  Owner?: string;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  ProfileArn?: string | undefined;
+  ProfileVersion?: string | undefined;
+  ProfileName?: string | undefined;
+  ProfileDescription?: string | undefined;
+  Owner?: string | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type ProfileSummaries = ProfileSummary[];
 export interface ListProfilesOutput {
-  ProfileSummaries?: ProfileSummary[];
-  NextToken?: string;
+  ProfileSummaries?: ProfileSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListProfileSharesInput {
   ProfileArn: string;
-  SharedWithPrefix?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  Status?: ShareStatus;
+  SharedWithPrefix?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Status?: ShareStatus | undefined;
 }
 export interface ProfileShareSummary {
-  ShareId?: string;
-  SharedWith?: string;
-  Status?: ShareStatus;
-  StatusMessage?: string;
+  ShareId?: string | undefined;
+  SharedWith?: string | undefined;
+  Status?: ShareStatus | undefined;
+  StatusMessage?: string | undefined;
 }
 export type ProfileShareSummaries = ProfileShareSummary[];
 export interface ListProfileSharesOutput {
-  ProfileShareSummaries?: ProfileShareSummary[];
-  NextToken?: string;
+  ProfileShareSummaries?: ProfileShareSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListReviewTemplateAnswersInput {
   TemplateArn: string;
   LensAlias: string;
-  PillarId?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  PillarId?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ReviewTemplateAnswerSummary {
-  QuestionId?: string;
-  PillarId?: string;
-  QuestionTitle?: string;
-  Choices?: Choice[];
-  SelectedChoices?: string[];
-  ChoiceAnswerSummaries?: ChoiceAnswerSummary[];
-  IsApplicable?: boolean;
-  AnswerStatus?: ReviewTemplateAnswerStatus;
-  Reason?: AnswerReason;
-  QuestionType?: QuestionType;
+  QuestionId?: string | undefined;
+  PillarId?: string | undefined;
+  QuestionTitle?: string | undefined;
+  Choices?: Choice[] | undefined;
+  SelectedChoices?: string[] | undefined;
+  ChoiceAnswerSummaries?: ChoiceAnswerSummary[] | undefined;
+  IsApplicable?: boolean | undefined;
+  AnswerStatus?: ReviewTemplateAnswerStatus | undefined;
+  Reason?: AnswerReason | undefined;
+  QuestionType?: QuestionType | undefined;
 }
 export type ReviewTemplateAnswerSummaries = ReviewTemplateAnswerSummary[];
 export interface ListReviewTemplateAnswersOutput {
-  TemplateArn?: string;
-  LensAlias?: string;
-  AnswerSummaries?: ReviewTemplateAnswerSummary[];
-  NextToken?: string;
+  TemplateArn?: string | undefined;
+  LensAlias?: string | undefined;
+  AnswerSummaries?: ReviewTemplateAnswerSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListReviewTemplatesInput {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ReviewTemplateSummary {
-  Description?: string;
-  Lenses?: string[];
-  Owner?: string;
-  UpdatedAt?: Date;
-  TemplateArn?: string;
-  TemplateName?: string;
-  UpdateStatus?: ReviewTemplateUpdateStatus;
+  Description?: string | undefined;
+  Lenses?: string[] | undefined;
+  Owner?: string | undefined;
+  UpdatedAt?: Date | undefined;
+  TemplateArn?: string | undefined;
+  TemplateName?: string | undefined;
+  UpdateStatus?: ReviewTemplateUpdateStatus | undefined;
 }
 export type ReviewTemplates = ReviewTemplateSummary[];
 export interface ListReviewTemplatesOutput {
-  ReviewTemplates?: ReviewTemplateSummary[];
-  NextToken?: string;
+  ReviewTemplates?: ReviewTemplateSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type WorkloadNamePrefix = string;
 export type LensNamePrefix = string;
 export type ShareResourceType = "WORKLOAD" | "LENS" | "PROFILE" | "TEMPLATE" | (string & {});
 export type TemplateNamePrefix = string;
 export interface ListShareInvitationsInput {
-  WorkloadNamePrefix?: string;
-  LensNamePrefix?: string;
-  ShareResourceType?: ShareResourceType;
-  NextToken?: string;
-  MaxResults?: number;
-  ProfileNamePrefix?: string;
-  TemplateNamePrefix?: string;
+  WorkloadNamePrefix?: string | undefined;
+  LensNamePrefix?: string | undefined;
+  ShareResourceType?: ShareResourceType | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ProfileNamePrefix?: string | undefined;
+  TemplateNamePrefix?: string | undefined;
 }
 export interface ShareInvitationSummary {
-  ShareInvitationId?: string;
-  SharedBy?: string;
-  SharedWith?: string;
-  PermissionType?: PermissionType;
-  ShareResourceType?: ShareResourceType;
-  WorkloadName?: string;
-  WorkloadId?: string;
-  LensName?: string;
-  LensArn?: string;
-  ProfileName?: string;
-  ProfileArn?: string;
-  TemplateName?: string;
-  TemplateArn?: string;
+  ShareInvitationId?: string | undefined;
+  SharedBy?: string | undefined;
+  SharedWith?: string | undefined;
+  PermissionType?: PermissionType | undefined;
+  ShareResourceType?: ShareResourceType | undefined;
+  WorkloadName?: string | undefined;
+  WorkloadId?: string | undefined;
+  LensName?: string | undefined;
+  LensArn?: string | undefined;
+  ProfileName?: string | undefined;
+  ProfileArn?: string | undefined;
+  TemplateName?: string | undefined;
+  TemplateArn?: string | undefined;
 }
 export type ShareInvitationSummaries = ShareInvitationSummary[];
 export interface ListShareInvitationsOutput {
-  ShareInvitationSummaries?: ShareInvitationSummary[];
-  NextToken?: string;
+  ShareInvitationSummaries?: ShareInvitationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceInput {
   WorkloadArn: string;
 }
 export interface ListTagsForResourceOutput {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListTemplateSharesInput {
   TemplateArn: string;
-  SharedWithPrefix?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  Status?: ShareStatus;
+  SharedWithPrefix?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Status?: ShareStatus | undefined;
 }
 export interface TemplateShareSummary {
-  ShareId?: string;
-  SharedWith?: string;
-  Status?: ShareStatus;
-  StatusMessage?: string;
+  ShareId?: string | undefined;
+  SharedWith?: string | undefined;
+  Status?: ShareStatus | undefined;
+  StatusMessage?: string | undefined;
 }
 export type TemplateShareSummaries = TemplateShareSummary[];
 export interface ListTemplateSharesOutput {
-  TemplateArn?: string;
-  TemplateShareSummaries?: TemplateShareSummary[];
-  NextToken?: string;
+  TemplateArn?: string | undefined;
+  TemplateShareSummaries?: TemplateShareSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListWorkloadsInput {
-  WorkloadNamePrefix?: string;
-  NextToken?: string;
-  MaxResults?: number;
+  WorkloadNamePrefix?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type WorkloadSummaries = WorkloadSummary[];
 export interface ListWorkloadsOutput {
-  WorkloadSummaries?: WorkloadSummary[];
-  NextToken?: string;
+  WorkloadSummaries?: WorkloadSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListWorkloadSharesInput {
   WorkloadId: string;
-  SharedWithPrefix?: string;
-  NextToken?: string;
-  MaxResults?: number;
-  Status?: ShareStatus;
+  SharedWithPrefix?: string | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  Status?: ShareStatus | undefined;
 }
 export interface WorkloadShareSummary {
-  ShareId?: string;
-  SharedWith?: string;
-  PermissionType?: PermissionType;
-  Status?: ShareStatus;
-  StatusMessage?: string;
+  ShareId?: string | undefined;
+  SharedWith?: string | undefined;
+  PermissionType?: PermissionType | undefined;
+  Status?: ShareStatus | undefined;
+  StatusMessage?: string | undefined;
 }
 export type WorkloadShareSummaries = WorkloadShareSummary[];
 export interface ListWorkloadSharesOutput {
-  WorkloadId?: string;
-  WorkloadShareSummaries?: WorkloadShareSummary[];
-  NextToken?: string;
+  WorkloadId?: string | undefined;
+  WorkloadShareSummaries?: WorkloadShareSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type RecommendationFeedbackType = "USEFUL" | "NOT_USEFUL" | (string & {});
 export type FeedbackCategory =
@@ -1931,272 +1931,272 @@ export type FeedbackCategory =
 export interface PutAgentRecommendationFeedbackRequest {
   recommendationArn: string;
   type: RecommendationFeedbackType;
-  feedbackCategory?: FeedbackCategory;
-  comments?: string;
+  feedbackCategory?: FeedbackCategory | undefined;
+  comments?: string | undefined;
 }
 export interface PutAgentRecommendationFeedbackResponse {}
 export type RecommendationTypes = RecommendationType[];
 export interface StartAgentRecommendationGenerationRequest {
   profileArn: string;
   types: RecommendationType[];
-  name?: string;
-  additionalContext?: any;
+  name?: string | undefined;
+  additionalContext?: any | undefined;
   scope: Scope;
 }
 export interface StartAgentRecommendationGenerationResponse {
   id: string;
   profileArn: string;
-  name?: string;
+  name?: string | undefined;
   status: GenerationStatus;
-  estimatedCompletionTime?: Date;
+  estimatedCompletionTime?: Date | undefined;
   createdBy: string;
   createdAt: Date;
-  lastModifiedBy?: string;
-  lastModifiedAt?: Date;
+  lastModifiedBy?: string | undefined;
+  lastModifiedAt?: Date | undefined;
 }
 export interface TagResourceInput {
   WorkloadArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceOutput {}
 export type TagKeyList = string[];
 export interface UntagResourceInput {
   WorkloadArn: string;
-  TagKeys?: string[];
+  TagKeys?: string[] | undefined;
 }
 export interface UntagResourceOutput {}
 export interface UpdateAgentContextRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   profileArn: string;
   id: string;
-  title?: string | redacted.Redacted<string>;
-  content?: ContextContent;
+  title?: string | redacted.Redacted<string> | undefined;
+  content?: ContextContent | undefined;
 }
 export interface UpdateAgentContextResponse {
   context: ContextSummary;
 }
 export interface UpdateAgentGoalRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   profileArn: string;
   id: string;
-  pillars?: Pillar[];
-  title?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  pillars?: Pillar[] | undefined;
+  title?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateAgentGoalResponse {
   goal: GoalSummary;
 }
 export interface UpdateAgentProfileRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   profileArn: string;
-  displayName?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  executionRoleArn?: string;
-  aggregationConfiguration?: AggregationConfiguration[];
-  businessOverview?: string | redacted.Redacted<string>;
-  pillars?: Pillar[];
-  deletionProtection?: boolean;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  executionRoleArn?: string | undefined;
+  aggregationConfiguration?: AggregationConfiguration[] | undefined;
+  businessOverview?: string | redacted.Redacted<string> | undefined;
+  pillars?: Pillar[] | undefined;
+  deletionProtection?: boolean | undefined;
 }
 export interface UpdateAgentProfileResponse {
   name: string;
-  displayName?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  businessOverview?: string | redacted.Redacted<string>;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  businessOverview?: string | redacted.Redacted<string> | undefined;
   pillars: Pillar[];
-  deletionProtection?: boolean;
+  deletionProtection?: boolean | undefined;
   executionRoleArn: string;
   aggregationConfiguration: AggregationConfiguration[];
   arn: string;
-  eligibleForScheduledGeneration?: boolean;
-  eligibleForArchitectureGeneration?: boolean;
-  fieldErrors?: { [key: string]: string | undefined };
-  tags?: Tag[];
+  eligibleForScheduledGeneration?: boolean | undefined;
+  eligibleForArchitectureGeneration?: boolean | undefined;
+  fieldErrors?: { [key: string]: string | undefined } | undefined;
+  tags?: Tag[] | undefined;
   createdBy: string;
   createdAt: Date;
-  lastModifiedBy?: string;
-  lastModifiedAt?: Date;
+  lastModifiedBy?: string | undefined;
+  lastModifiedAt?: Date | undefined;
 }
 export interface UpdateAgentRecommendationStatusRequest {
   recommendationArn: string;
   status: RecommendationStatus;
-  updateReason?: string | redacted.Redacted<string>;
+  updateReason?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateAgentRecommendationStatusResponse {}
 export interface ChoiceUpdate {
-  Status?: ChoiceStatus;
-  Reason?: ChoiceReason;
-  Notes?: string;
+  Status?: ChoiceStatus | undefined;
+  Reason?: ChoiceReason | undefined;
+  Notes?: string | undefined;
 }
 export type ChoiceUpdates = { [key: string]: ChoiceUpdate | undefined };
 export interface UpdateAnswerInput {
   WorkloadId: string;
   LensAlias: string;
   QuestionId: string;
-  SelectedChoices?: string[];
-  ChoiceUpdates?: { [key: string]: ChoiceUpdate | undefined };
-  Notes?: string;
-  IsApplicable?: boolean;
-  Reason?: AnswerReason;
+  SelectedChoices?: string[] | undefined;
+  ChoiceUpdates?: { [key: string]: ChoiceUpdate | undefined } | undefined;
+  Notes?: string | undefined;
+  IsApplicable?: boolean | undefined;
+  Reason?: AnswerReason | undefined;
 }
 export interface UpdateAnswerOutput {
-  WorkloadId?: string;
-  LensAlias?: string;
-  LensArn?: string;
-  Answer?: Answer;
+  WorkloadId?: string | undefined;
+  LensAlias?: string | undefined;
+  LensArn?: string | undefined;
+  Answer?: Answer | undefined;
 }
 export type IntegrationStatusInput = "NOT_CONFIGURED" | (string & {});
 export interface AccountJiraConfigurationInput {
-  IssueManagementStatus?: AccountJiraIssueManagementStatus;
-  IssueManagementType?: IssueManagementType;
-  JiraProjectKey?: string;
-  IntegrationStatus?: IntegrationStatusInput;
+  IssueManagementStatus?: AccountJiraIssueManagementStatus | undefined;
+  IssueManagementType?: IssueManagementType | undefined;
+  JiraProjectKey?: string | undefined;
+  IntegrationStatus?: IntegrationStatusInput | undefined;
 }
 export interface UpdateGlobalSettingsInput {
-  OrganizationSharingStatus?: OrganizationSharingStatus;
-  DiscoveryIntegrationStatus?: DiscoveryIntegrationStatus;
-  JiraConfiguration?: AccountJiraConfigurationInput;
+  OrganizationSharingStatus?: OrganizationSharingStatus | undefined;
+  DiscoveryIntegrationStatus?: DiscoveryIntegrationStatus | undefined;
+  JiraConfiguration?: AccountJiraConfigurationInput | undefined;
 }
 export interface UpdateGlobalSettingsResponse {}
 export type IntegratingService = "JIRA" | (string & {});
 export interface UpdateIntegrationInput {
   WorkloadId: string;
-  ClientRequestToken?: string;
-  IntegratingService?: IntegratingService;
+  ClientRequestToken?: string | undefined;
+  IntegratingService?: IntegratingService | undefined;
 }
 export interface UpdateIntegrationResponse {}
 export type PillarNotes = { [key: string]: string | undefined };
 export interface UpdateLensReviewInput {
   WorkloadId: string;
   LensAlias: string;
-  LensNotes?: string;
-  PillarNotes?: { [key: string]: string | undefined };
-  JiraConfiguration?: JiraSelectedQuestionConfiguration;
+  LensNotes?: string | undefined;
+  PillarNotes?: { [key: string]: string | undefined } | undefined;
+  JiraConfiguration?: JiraSelectedQuestionConfiguration | undefined;
 }
 export interface UpdateLensReviewOutput {
-  WorkloadId?: string;
-  LensReview?: LensReview;
+  WorkloadId?: string | undefined;
+  LensReview?: LensReview | undefined;
 }
 export interface UpdateProfileInput {
   ProfileArn: string;
-  ProfileDescription?: string;
-  ProfileQuestions?: ProfileQuestionUpdate[];
+  ProfileDescription?: string | undefined;
+  ProfileQuestions?: ProfileQuestionUpdate[] | undefined;
 }
 export interface UpdateProfileOutput {
-  Profile?: Profile;
+  Profile?: Profile | undefined;
 }
 export type ReviewTemplateLensAliases = string[];
 export interface UpdateReviewTemplateInput {
   TemplateArn: string;
-  TemplateName?: string;
-  Description?: string;
-  Notes?: string;
-  LensesToAssociate?: string[];
-  LensesToDisassociate?: string[];
+  TemplateName?: string | undefined;
+  Description?: string | undefined;
+  Notes?: string | undefined;
+  LensesToAssociate?: string[] | undefined;
+  LensesToDisassociate?: string[] | undefined;
 }
 export interface UpdateReviewTemplateOutput {
-  ReviewTemplate?: ReviewTemplate;
+  ReviewTemplate?: ReviewTemplate | undefined;
 }
 export interface UpdateReviewTemplateAnswerInput {
   TemplateArn: string;
   LensAlias: string;
   QuestionId: string;
-  SelectedChoices?: string[];
-  ChoiceUpdates?: { [key: string]: ChoiceUpdate | undefined };
-  Notes?: string;
-  IsApplicable?: boolean;
-  Reason?: AnswerReason;
+  SelectedChoices?: string[] | undefined;
+  ChoiceUpdates?: { [key: string]: ChoiceUpdate | undefined } | undefined;
+  Notes?: string | undefined;
+  IsApplicable?: boolean | undefined;
+  Reason?: AnswerReason | undefined;
 }
 export interface UpdateReviewTemplateAnswerOutput {
-  TemplateArn?: string;
-  LensAlias?: string;
-  Answer?: ReviewTemplateAnswer;
+  TemplateArn?: string | undefined;
+  LensAlias?: string | undefined;
+  Answer?: ReviewTemplateAnswer | undefined;
 }
 export interface UpdateReviewTemplateLensReviewInput {
   TemplateArn: string;
   LensAlias: string;
-  LensNotes?: string;
-  PillarNotes?: { [key: string]: string | undefined };
+  LensNotes?: string | undefined;
+  PillarNotes?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateReviewTemplateLensReviewOutput {
-  TemplateArn?: string;
-  LensReview?: ReviewTemplateLensReview;
+  TemplateArn?: string | undefined;
+  LensReview?: ReviewTemplateLensReview | undefined;
 }
 export type ShareInvitationAction = "ACCEPT" | "REJECT" | (string & {});
 export interface UpdateShareInvitationInput {
   ShareInvitationId: string;
-  ShareInvitationAction?: ShareInvitationAction;
+  ShareInvitationAction?: ShareInvitationAction | undefined;
 }
 export interface ShareInvitation {
-  ShareInvitationId?: string;
-  ShareResourceType?: ShareResourceType;
-  WorkloadId?: string;
-  LensAlias?: string;
-  LensArn?: string;
-  ProfileArn?: string;
-  TemplateArn?: string;
+  ShareInvitationId?: string | undefined;
+  ShareResourceType?: ShareResourceType | undefined;
+  WorkloadId?: string | undefined;
+  LensAlias?: string | undefined;
+  LensArn?: string | undefined;
+  ProfileArn?: string | undefined;
+  TemplateArn?: string | undefined;
 }
 export interface UpdateShareInvitationOutput {
-  ShareInvitation?: ShareInvitation;
+  ShareInvitation?: ShareInvitation | undefined;
 }
 export interface UpdateWorkloadInput {
   WorkloadId: string;
-  WorkloadName?: string;
-  Description?: string;
-  Environment?: WorkloadEnvironment;
-  AccountIds?: string[];
-  AwsRegions?: string[];
-  NonAwsRegions?: string[];
-  PillarPriorities?: string[];
-  ArchitecturalDesign?: string;
-  ReviewOwner?: string;
-  IsReviewOwnerUpdateAcknowledged?: boolean;
-  IndustryType?: string;
-  Industry?: string;
-  Notes?: string;
-  ImprovementStatus?: WorkloadImprovementStatus;
-  DiscoveryConfig?: WorkloadDiscoveryConfig;
-  Applications?: string[];
-  JiraConfiguration?: WorkloadJiraConfigurationInput;
+  WorkloadName?: string | undefined;
+  Description?: string | undefined;
+  Environment?: WorkloadEnvironment | undefined;
+  AccountIds?: string[] | undefined;
+  AwsRegions?: string[] | undefined;
+  NonAwsRegions?: string[] | undefined;
+  PillarPriorities?: string[] | undefined;
+  ArchitecturalDesign?: string | undefined;
+  ReviewOwner?: string | undefined;
+  IsReviewOwnerUpdateAcknowledged?: boolean | undefined;
+  IndustryType?: string | undefined;
+  Industry?: string | undefined;
+  Notes?: string | undefined;
+  ImprovementStatus?: WorkloadImprovementStatus | undefined;
+  DiscoveryConfig?: WorkloadDiscoveryConfig | undefined;
+  Applications?: string[] | undefined;
+  JiraConfiguration?: WorkloadJiraConfigurationInput | undefined;
 }
 export interface UpdateWorkloadOutput {
-  Workload?: Workload;
+  Workload?: Workload | undefined;
 }
 export interface UpdateWorkloadShareInput {
   ShareId: string;
   WorkloadId: string;
-  PermissionType?: PermissionType;
+  PermissionType?: PermissionType | undefined;
 }
 export interface WorkloadShare {
-  ShareId?: string;
-  SharedBy?: string;
-  SharedWith?: string;
-  PermissionType?: PermissionType;
-  Status?: ShareStatus;
-  WorkloadName?: string;
-  WorkloadId?: string;
+  ShareId?: string | undefined;
+  SharedBy?: string | undefined;
+  SharedWith?: string | undefined;
+  PermissionType?: PermissionType | undefined;
+  Status?: ShareStatus | undefined;
+  WorkloadName?: string | undefined;
+  WorkloadId?: string | undefined;
 }
 export interface UpdateWorkloadShareOutput {
-  WorkloadId?: string;
-  WorkloadShare?: WorkloadShare;
+  WorkloadId?: string | undefined;
+  WorkloadShare?: WorkloadShare | undefined;
 }
 export interface UpgradeLensReviewInput {
   WorkloadId: string;
   LensAlias: string;
-  MilestoneName?: string;
-  ClientRequestToken?: string;
+  MilestoneName?: string | undefined;
+  ClientRequestToken?: string | undefined;
 }
 export interface UpgradeLensReviewResponse {}
 export interface UpgradeProfileVersionInput {
   WorkloadId: string;
   ProfileArn: string;
-  MilestoneName?: string;
-  ClientRequestToken?: string;
+  MilestoneName?: string | undefined;
+  ClientRequestToken?: string | undefined;
 }
 export interface UpgradeProfileVersionResponse {}
 export interface UpgradeReviewTemplateLensReviewInput {
   TemplateArn: string;
   LensAlias: string;
-  ClientRequestToken?: string;
+  ClientRequestToken?: string | undefined;
 }
 export interface UpgradeReviewTemplateLensReviewResponse {}
 export type ExceptionMessage = string;
@@ -2212,8 +2212,8 @@ export type ValidationExceptionReason =
   | (string & {});
 export type ValidationExceptionFieldName = string;
 export interface ValidationExceptionField {
-  Name?: string;
-  Message?: string;
+  Name?: string | undefined;
+  Message?: string | undefined;
 }
 export type ValidationExceptionFieldList = ValidationExceptionField[];
 export type AssociateLensesError =

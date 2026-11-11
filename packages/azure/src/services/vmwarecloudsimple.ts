@@ -51,20 +51,20 @@ export interface DedicatedCloudNodePropertiesInput {
   /** purchase id */
   purchaseId: string;
   /** Dedicated Cloud Nodes SKU's description */
-  skuDescription?: SkuDescription;
+  skuDescription?: SkuDescription | undefined;
 }
 /** The purchase SKU for CloudSimple paid resources */
 export interface Sku {
   /** The capacity of the SKU */
-  capacity?: string;
+  capacity?: string | undefined;
   /** dedicatedCloudNode example: 8 x Ten-Core Intel® Xeon® Processor E5-2640 v4 2.40GHz 25MB Cache (90W); 12 x 64GB PC4-19200 2400MHz DDR4 ECC Registered DIMM, ... */
-  description?: string;
+  description?: string | undefined;
   /** If the service has different generations of hardware, for the same SKU, then that can be captured here */
-  family?: string;
+  family?: string | undefined;
   /** The name of the SKU for VMWare CloudSimple Node */
   name: string;
   /** The tier of the SKU */
-  tier?: string;
+  tier?: string | undefined;
 }
 /** Tags model */
 export type Tags = { [key: string]: string | undefined };
@@ -78,11 +78,11 @@ export interface DedicatedCloudNodesCreateOrUpdateRequest {
   /** Azure region */
   location: string;
   /** Dedicated Cloud Nodes properties */
-  properties?: DedicatedCloudNodePropertiesInput;
+  properties?: DedicatedCloudNodePropertiesInput | undefined;
   /** Dedicated Cloud Nodes SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Dedicated Cloud Nodes tags */
-  tags?: Tags;
+  tags?: Tags | undefined;
 }
 /** Node status, indicates is private cloud set up on this node or not */
 export type DedicatedCloudNodePropertiesStatus = "unused" | "used";
@@ -91,51 +91,51 @@ export interface DedicatedCloudNodeProperties {
   /** Availability Zone id, e.g. "az1" */
   availabilityZoneId: string;
   /** Availability Zone name, e.g. "Availability Zone 1" */
-  availabilityZoneName?: string;
+  availabilityZoneName?: string | undefined;
   /** VMWare Cloud Rack Name */
-  cloudRackName?: string;
+  cloudRackName?: string | undefined;
   /** date time the resource was created */
-  created?: string;
+  created?: string | undefined;
   /** count of nodes to create */
   nodesCount: number;
   /** Placement Group id, e.g. "n1" */
   placementGroupId: string;
   /** Placement Name, e.g. "Placement Group 1" */
-  placementGroupName?: string;
+  placementGroupName?: string | undefined;
   /** Private Cloud Id */
-  privateCloudId?: string;
+  privateCloudId?: string | undefined;
   /** Resource Pool Name */
-  privateCloudName?: string;
+  privateCloudName?: string | undefined;
   /** The provisioning status of the resource */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** purchase id */
   purchaseId: string;
   /** Dedicated Cloud Nodes SKU's description */
-  skuDescription?: SkuDescription;
+  skuDescription?: SkuDescription | undefined;
   /** Node status, indicates is private cloud set up on this node or not */
-  status?: DedicatedCloudNodePropertiesStatus;
+  status?: DedicatedCloudNodePropertiesStatus | undefined;
   /** VMWare Cluster Name */
-  vmwareClusterName?: string;
+  vmwareClusterName?: string | undefined;
 }
 /** Dedicated cloud node model */
 export interface DedicatedCloudNodesCreateOrUpdateResponse {
   /** /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/dedicatedCloudNodes/{dedicatedCloudNodeName} */
-  id?: string;
+  id?: string | undefined;
   /** Azure region */
   location: string;
   /** {dedicatedCloudNodeName} */
-  name?: string;
+  name?: string | undefined;
   /** Dedicated Cloud Nodes properties */
-  properties?: DedicatedCloudNodeProperties;
+  properties?: DedicatedCloudNodeProperties | undefined;
   /** Dedicated Cloud Nodes SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Dedicated Cloud Nodes tags */
-  tags?: Tags;
+  tags?: Tags | undefined;
   /** {resourceProviderNamespace}/{resourceType} */
-  type?: string;
-  azureAsyncOperation?: string;
-  locationHeader?: string;
-  retryAfter?: number;
+  type?: string | undefined;
+  azureAsyncOperation?: string | undefined;
+  locationHeader?: string | undefined;
+  retryAfter?: number | undefined;
 }
 /** Properties of dedicated cloud service */
 export interface DedicatedCloudServicePropertiesInput {
@@ -152,9 +152,9 @@ export interface DedicatedCloudServicesCreateOrUpdateRequest {
   /** Azure region */
   location: string;
   /** The properties of Dedicated Node Service */
-  properties?: DedicatedCloudServicePropertiesInput;
+  properties?: DedicatedCloudServicePropertiesInput | undefined;
   /** The list of tags */
-  tags?: Tags;
+  tags?: Tags | undefined;
 }
 /** indicates whether account onboarded or not in a given region */
 export type DedicatedCloudServicePropertiesIsAccountOnboarded =
@@ -167,26 +167,26 @@ export interface DedicatedCloudServiceProperties {
   /** gateway Subnet for the account. It will collect the subnet address and always treat it as /28 */
   gatewaySubnet: string;
   /** indicates whether account onboarded or not in a given region */
-  isAccountOnboarded?: DedicatedCloudServicePropertiesIsAccountOnboarded;
+  isAccountOnboarded?: DedicatedCloudServicePropertiesIsAccountOnboarded | undefined;
   /** total nodes purchased */
-  nodes?: number;
+  nodes?: number | undefined;
   /** link to a service management web portal */
-  serviceURL?: string;
+  serviceURL?: string | undefined;
 }
 /** Dedicated cloud service model */
 export interface DedicatedCloudService {
   /** /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/dedicatedCloudServices/{dedicatedCloudServiceName} */
-  id?: string;
+  id?: string | undefined;
   /** Azure region */
   location: string;
   /** {dedicatedCloudServiceName} */
-  name?: string;
+  name?: string | undefined;
   /** The properties of Dedicated Node Service */
-  properties?: DedicatedCloudServiceProperties;
+  properties?: DedicatedCloudServiceProperties | undefined;
   /** The list of tags */
-  tags?: Tags;
+  tags?: Tags | undefined;
   /** {resourceProviderNamespace}/{resourceType} */
-  type?: string;
+  type?: string | undefined;
 }
 export interface DeleteDedicatedCloudNodeRequest {
   /** The subscription ID. */
@@ -215,9 +215,9 @@ export interface DeleteVirtualMachineRequest {
   virtualMachineName: string;
 }
 export interface DeleteVirtualMachineResponse {
-  azureAsyncOperation?: string;
-  location?: string;
-  retryAfter?: number;
+  azureAsyncOperation?: string | undefined;
+  location?: string | undefined;
+  retryAfter?: number | undefined;
 }
 export interface GetCustomizationPolicyRequest {
   /** The subscription ID. */
@@ -239,26 +239,26 @@ export type CustomizationHostNameType =
 /** Host name model */
 export interface CustomizationHostName {
   /** Hostname */
-  name?: string;
+  name?: string | undefined;
   /** Type of host name */
-  type?: CustomizationHostNameType;
+  type?: CustomizationHostNameType | undefined;
 }
 /** Identity type */
 export type CustomizationIdentityType = "WINDOWS_TEXT" | "WINDOWS" | "LINUX";
 /** Windows Identity. User data customization */
 export interface CustomizationIdentityUserData {
   /** Is password predefined in customization policy */
-  isPasswordPredefined?: boolean;
+  isPasswordPredefined?: boolean | undefined;
 }
 export interface CustomizationIdentity {
   /** Windows Text Identity. Prepared data */
-  data?: string;
+  data?: string | undefined;
   /** Virtual machine host name settings */
-  hostName?: CustomizationHostName;
+  hostName?: CustomizationHostName | undefined;
   /** Identity type */
-  type?: CustomizationIdentityType;
+  type?: CustomizationIdentityType | undefined;
   /** Windows Identity. User data customization */
-  userData?: CustomizationIdentityUserData;
+  userData?: CustomizationIdentityUserData | undefined;
 }
 /** The list of gateways */
 export type CustomizationIPSettingsGatewayList = Array<string>;
@@ -266,61 +266,61 @@ export type CustomizationIPSettingsGatewayList = Array<string>;
 export type CustomizationIPAddressType = "CUSTOM" | "DHCP_IP" | "FIXED_IP" | "USER_DEFINED";
 export interface CustomizationIPAddress {
   /** Argument when Custom ip type is selected */
-  argument?: string;
+  argument?: string | undefined;
   /** Defined Ip Address when Fixed ip type is selected */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** Customization Specification ip type */
-  type?: CustomizationIPAddressType;
+  type?: CustomizationIPAddressType | undefined;
 }
 export interface CustomizationIPSettings {
   /** The list of gateways */
-  gateway?: CustomizationIPSettingsGatewayList;
+  gateway?: CustomizationIPSettingsGatewayList | undefined;
   /** Ip address customization settings */
-  ip?: CustomizationIPAddress;
+  ip?: CustomizationIPAddress | undefined;
   /** Adapter subnet mask */
-  subnetMask?: string;
+  subnetMask?: string | undefined;
 }
 export interface CustomizationNicSetting {
   /** The list of adapters' settings */
-  adapter?: CustomizationIPSettings;
+  adapter?: CustomizationIPSettings | undefined;
   /** NIC mac address */
-  macAddress?: string;
+  macAddress?: string | undefined;
 }
 /** Network interface settings */
 export type CustomizationSpecificationNicSettingsList = Array<CustomizationNicSetting>;
 /** The specification for Customization Policy */
 export interface CustomizationSpecification {
   /** Customization Identity. It contains data about user and hostname */
-  identity?: CustomizationIdentity;
+  identity?: CustomizationIdentity | undefined;
   /** Network interface settings */
-  nicSettings?: CustomizationSpecificationNicSettingsList;
+  nicSettings?: CustomizationSpecificationNicSettingsList | undefined;
 }
 /** The type of customization (Linux or Windows) */
 export type CustomizationPolicyPropertiesType = "LINUX" | "WINDOWS";
 /** The properties of Customization policy */
 export interface CustomizationPolicyProperties {
   /** Policy description */
-  description?: string;
+  description?: string | undefined;
   /** The Private cloud id */
-  privateCloudId?: string;
+  privateCloudId?: string | undefined;
   /** Detailed customization policy specification */
-  specification?: CustomizationSpecification;
+  specification?: CustomizationSpecification | undefined;
   /** The type of customization (Linux or Windows) */
-  type?: CustomizationPolicyPropertiesType;
+  type?: CustomizationPolicyPropertiesType | undefined;
   /** Policy version */
-  version?: string;
+  version?: string | undefined;
 }
 /** The virtual machine customization policy */
 export interface CustomizationPolicy {
   /** Customization policy azure id */
-  id?: string;
+  id?: string | undefined;
   /** Azure region */
-  location?: string;
+  location?: string | undefined;
   /** Customization policy name */
-  name?: string;
+  name?: string | undefined;
   /** Customization Policy properties */
-  properties?: CustomizationPolicyProperties;
-  type?: string;
+  properties?: CustomizationPolicyProperties | undefined;
+  type?: string | undefined;
 }
 export interface GetDedicatedCloudNodeRequest {
   /** The subscription ID. */
@@ -333,19 +333,19 @@ export interface GetDedicatedCloudNodeRequest {
 /** Dedicated cloud node model */
 export interface DedicatedCloudNode {
   /** /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/dedicatedCloudNodes/{dedicatedCloudNodeName} */
-  id?: string;
+  id?: string | undefined;
   /** Azure region */
   location: string;
   /** {dedicatedCloudNodeName} */
-  name?: string;
+  name?: string | undefined;
   /** Dedicated Cloud Nodes properties */
-  properties?: DedicatedCloudNodeProperties;
+  properties?: DedicatedCloudNodeProperties | undefined;
   /** Dedicated Cloud Nodes SKU */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Dedicated Cloud Nodes tags */
-  tags?: Tags;
+  tags?: Tags | undefined;
   /** {resourceProviderNamespace}/{resourceType} */
-  type?: string;
+  type?: string | undefined;
 }
 export interface GetDedicatedCloudServiceRequest {
   /** The subscription ID. */
@@ -366,26 +366,26 @@ export interface GetOperationRequest {
 /** Operation error model */
 export interface OperationError {
   /** Error's code */
-  code?: string;
+  code?: string | undefined;
   /** Error's message */
-  message?: string;
+  message?: string | undefined;
 }
 /** Operation status response */
 export interface OperationResource {
   /** End time of the operation */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Error Message if operation failed */
-  error?: OperationError;
+  error?: OperationError | undefined;
   /** Operation Id */
-  id?: string;
+  id?: string | undefined;
   /** Operation ID */
-  name?: string;
+  name?: string | undefined;
   /** Start time of the operation */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Operation status */
-  status?: string;
-  location?: string;
-  retryAfter?: number;
+  status?: string | undefined;
+  location?: string | undefined;
+  retryAfter?: number | undefined;
 }
 export interface GetPrivateCloudRequest {
   /** The subscription ID. */
@@ -400,35 +400,35 @@ export type PrivateCloudPropertiesDnsServersList = Array<string>;
 /** Properties of resource pool */
 export interface ResourcePoolProperties {
   /** Hierarchical resource pool name */
-  fullName?: string;
+  fullName?: string | undefined;
 }
 /** Resource pool model */
 export interface ResourcePool {
   /** resource pool id (privateCloudId:vsphereId) */
   id: string;
   /** Azure region */
-  location?: string;
+  location?: string | undefined;
   /** {ResourcePoolName} */
-  name?: string;
+  name?: string | undefined;
   /** The Private Cloud Id */
-  privateCloudId?: string;
+  privateCloudId?: string | undefined;
   /** Resource pool properties */
-  properties?: ResourcePoolProperties;
+  properties?: ResourcePoolProperties | undefined;
   /** {resourceProviderNamespace}/{resourceType} */
-  type?: string;
+  type?: string | undefined;
 }
 /** The list of Resource Pools */
 export type PrivateCloudPropertiesResourcePoolsList = Array<ResourcePool>;
 /** Virtual disk controller model */
 export interface VirtualDiskController {
   /** Controller's id */
-  id?: string;
+  id?: string | undefined;
   /** The display name of Controller */
-  name?: string;
+  name?: string | undefined;
   /** dik controller subtype (VMWARE_PARAVIRTUAL, BUS_PARALLEL, LSI_PARALLEL, LSI_SAS) */
-  subType?: string;
+  subType?: string | undefined;
   /** disk controller type (SCSI) */
-  type?: string;
+  type?: string | undefined;
 }
 /** The list of Virtual Disk Controllers */
 export type VirtualMachineTemplatePropertiesControllersList = Array<VirtualDiskController>;
@@ -446,9 +446,9 @@ export interface VirtualDisk {
   /** Disk's total size */
   totalSize: number;
   /** Disk's id */
-  virtualDiskId?: string;
+  virtualDiskId?: string | undefined;
   /** Disk's display name */
-  virtualDiskName?: string;
+  virtualDiskName?: string | undefined;
 }
 /** The list of Virtual Disks */
 export type VirtualMachineTemplatePropertiesDisksList = Array<VirtualDisk>;
@@ -461,62 +461,62 @@ export type GuestOSNICCustomizationGatewayList = Array<string>;
 /** Guest OS nic customization */
 export interface GuestOSNICCustomization {
   /** IP address allocation method */
-  allocation?: GuestOSNICCustomizationAllocation | (string & {});
+  allocation?: GuestOSNICCustomizationAllocation | (string & {}) | undefined;
   /** List of dns servers to use */
-  dnsServers?: GuestOSNICCustomizationDnsServersList;
+  dnsServers?: GuestOSNICCustomizationDnsServersList | undefined;
   /** Gateway addresses assigned to nic */
-  gateway?: GuestOSNICCustomizationGatewayList;
+  gateway?: GuestOSNICCustomizationGatewayList | undefined;
   /** Static ip address for nic */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** Network mask for nic */
-  mask?: string;
+  mask?: string | undefined;
   /** primary WINS server for Windows */
-  primaryWinsServer?: string;
+  primaryWinsServer?: string | undefined;
   /** secondary WINS server for Windows */
-  secondaryWinsServer?: string;
+  secondaryWinsServer?: string | undefined;
 }
 /** NIC ip address */
 export type VirtualNicIpAddressesList = Array<string>;
 /** Properties of virtual network */
 export interface VirtualNetworkProperties {
   /** The Private Cloud id */
-  privateCloudId?: string;
+  privateCloudId?: string | undefined;
 }
 /** Virtual network model */
 export interface VirtualNetwork {
   /** can be used in vm creation/deletion */
-  assignable?: boolean;
+  assignable?: boolean | undefined;
   /** virtual network id (privateCloudId:vsphereId) */
   id: string;
   /** Azure region */
-  location?: string;
+  location?: string | undefined;
   /** {VirtualNetworkName} */
-  name?: string;
+  name?: string | undefined;
   /** Virtual Network properties */
-  properties?: VirtualNetworkProperties;
+  properties?: VirtualNetworkProperties | undefined;
   /** {resourceProviderNamespace}/{resourceType} */
-  type?: string;
+  type?: string | undefined;
 }
 /** NIC type */
 export type VirtualNicNicType = "E1000" | "E1000E" | "PCNET32" | "VMXNET" | "VMXNET2" | "VMXNET3";
 /** Virtual NIC model */
 export interface VirtualNic {
   /** guest OS customization for nic */
-  customization?: GuestOSNICCustomization;
+  customization?: GuestOSNICCustomization | undefined;
   /** NIC ip address */
-  ipAddresses?: VirtualNicIpAddressesList;
+  ipAddresses?: VirtualNicIpAddressesList | undefined;
   /** NIC MAC address */
-  macAddress?: string;
+  macAddress?: string | undefined;
   /** Virtual Network */
   network: VirtualNetwork;
   /** NIC type */
   nicType: VirtualNicNicType;
   /** Is NIC powered on/off on boot */
-  powerOnBoot?: boolean;
+  powerOnBoot?: boolean | undefined;
   /** NIC id */
-  virtualNicId?: string;
+  virtualNicId?: string | undefined;
   /** NIC name */
-  virtualNicName?: string;
+  virtualNicName?: string | undefined;
 }
 /** The list of Virtual NICs */
 export type VirtualMachineTemplatePropertiesNicsList = Array<VirtualNic>;
@@ -527,46 +527,46 @@ export type VirtualMachineTemplatePropertiesVSphereTagsList = Array<string>;
 /** Properties of virtual machine template */
 export interface VirtualMachineTemplateProperties {
   /** The amount of memory */
-  amountOfRam?: number;
+  amountOfRam?: number | undefined;
   /** The list of Virtual Disk Controllers */
-  controllers?: VirtualMachineTemplatePropertiesControllersList;
+  controllers?: VirtualMachineTemplatePropertiesControllersList | undefined;
   /** The description of Virtual Machine Template */
-  description?: string;
+  description?: string | undefined;
   /** The list of Virtual Disks */
-  disks?: VirtualMachineTemplatePropertiesDisksList;
+  disks?: VirtualMachineTemplatePropertiesDisksList | undefined;
   /** Expose Guest OS or not */
-  exposeToGuestVM?: boolean;
+  exposeToGuestVM?: boolean | undefined;
   /** The Guest OS */
-  guestOS?: string;
+  guestOS?: string | undefined;
   /** The Guest OS types */
-  guestOSType?: string;
+  guestOSType?: string | undefined;
   /** The list of Virtual NICs */
-  nics?: VirtualMachineTemplatePropertiesNicsList;
+  nics?: VirtualMachineTemplatePropertiesNicsList | undefined;
   /** The number of CPU cores */
-  numberOfCores?: number;
+  numberOfCores?: number | undefined;
   /** path to folder */
-  path?: string;
+  path?: string | undefined;
   /** The Private Cloud Id */
   privateCloudId: string;
   /** The list of VSphere networks */
-  vSphereNetworks?: VirtualMachineTemplatePropertiesVSphereNetworksList;
+  vSphereNetworks?: VirtualMachineTemplatePropertiesVSphereNetworksList | undefined;
   /** The tags from VSphere */
-  vSphereTags?: VirtualMachineTemplatePropertiesVSphereTagsList;
+  vSphereTags?: VirtualMachineTemplatePropertiesVSphereTagsList | undefined;
   /** The VMware tools version */
-  vmwaretools?: string;
+  vmwaretools?: string | undefined;
 }
 /** Virtual machine template model */
 export interface VirtualMachineTemplate {
   /** virtual machine template id (privateCloudId:vsphereId) */
-  id?: string;
+  id?: string | undefined;
   /** Azure region */
-  location?: string;
+  location?: string | undefined;
   /** {virtualMachineTemplateName} */
-  name?: string;
+  name?: string | undefined;
   /** The Virtual Machine Template properties */
-  properties?: VirtualMachineTemplateProperties;
+  properties?: VirtualMachineTemplateProperties | undefined;
   /** {resourceProviderNamespace}/{resourceType} */
-  type?: string;
+  type?: string | undefined;
 }
 /** The list of Virtual Machine Templates */
 export type PrivateCloudPropertiesVirtualMachineTemplatesList = Array<VirtualMachineTemplate>;
@@ -575,68 +575,68 @@ export type PrivateCloudPropertiesVirtualNetworksList = Array<VirtualNetwork>;
 /** Properties of private */
 export interface PrivateCloudProperties {
   /** Availability Zone id, e.g. "az1" */
-  availabilityZoneId?: string;
+  availabilityZoneId?: string | undefined;
   /** Availability Zone name, e.g. "Availability Zone 1" */
-  availabilityZoneName?: string;
+  availabilityZoneName?: string | undefined;
   /** Number of clusters */
-  clustersNumber?: number;
+  clustersNumber?: number | undefined;
   /** User's emails who created cloud */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** When private cloud was created */
-  createdOn?: string;
+  createdOn?: string | undefined;
   /** Array of DNS servers */
-  dnsServers?: PrivateCloudPropertiesDnsServersList;
+  dnsServers?: PrivateCloudPropertiesDnsServersList | undefined;
   /** Expiration date of PC */
-  expires?: string;
+  expires?: string | undefined;
   /** Nsx Type, e.g. "Advanced" */
-  nsxType?: string;
+  nsxType?: string | undefined;
   /** Placement Group id, e.g. "n1" */
-  placementGroupId?: string;
+  placementGroupId?: string | undefined;
   /** Placement Group name */
-  placementGroupName?: string;
+  placementGroupName?: string | undefined;
   /** Id of a private cloud */
-  privateCloudId?: string;
+  privateCloudId?: string | undefined;
   /** The list of Resource Pools */
-  resourcePools?: PrivateCloudPropertiesResourcePoolsList;
+  resourcePools?: PrivateCloudPropertiesResourcePoolsList | undefined;
   /** Private Cloud state, e.g. "operational" */
-  state?: string;
+  state?: string | undefined;
   /** Number of cores */
-  totalCpuCores?: number;
+  totalCpuCores?: number | undefined;
   /** Number of nodes */
-  totalNodes?: number;
+  totalNodes?: number | undefined;
   /** Memory size */
-  totalRam?: number;
+  totalRam?: number | undefined;
   /** Disk space in TB */
-  totalStorage?: number;
+  totalStorage?: number | undefined;
   /** Virtualization type e.g. "vSphere" */
-  type?: string;
+  type?: string | undefined;
   /** e.g. "6.5u2" */
-  vSphereVersion?: string;
+  vSphereVersion?: string | undefined;
   /** FQDN for vcenter access */
-  vcenterFqdn?: string;
+  vcenterFqdn?: string | undefined;
   /** Vcenter ip address */
-  vcenterRefid?: string;
+  vcenterRefid?: string | undefined;
   /** The list of Virtual Machine Templates */
-  virtualMachineTemplates?: PrivateCloudPropertiesVirtualMachineTemplatesList;
+  virtualMachineTemplates?: PrivateCloudPropertiesVirtualMachineTemplatesList | undefined;
   /** The list of Virtual Networks */
-  virtualNetworks?: PrivateCloudPropertiesVirtualNetworksList;
+  virtualNetworks?: PrivateCloudPropertiesVirtualNetworksList | undefined;
   /** Is vRealize Operations Manager enabled/disabled */
-  vrOpsEnabled?: boolean;
+  vrOpsEnabled?: boolean | undefined;
 }
 /** Azure Resource type */
 export type PrivateCloudType = "Microsoft.VMwareCloudSimple/privateClouds";
 /** Private cloud model */
 export interface PrivateCloud {
   /** Azure Id, e.g. "/subscriptions/4da99247-a172-4ed6-8ae9-ebed2d12f839/providers/Microsoft.VMwareCloudSimple/privateClouds/cloud123" */
-  id?: string;
+  id?: string | undefined;
   /** Location where private cloud created, e.g "westus" */
-  location?: string;
+  location?: string | undefined;
   /** Private cloud name */
-  name?: string;
+  name?: string | undefined;
   /** Private cloud properties */
-  properties?: PrivateCloudProperties;
+  properties?: PrivateCloudProperties | undefined;
   /** Azure Resource type */
-  type?: PrivateCloudType;
+  type?: PrivateCloudType | undefined;
 }
 export interface GetResourcePoolRequest {
   /** The subscription ID. */
@@ -663,15 +663,15 @@ export type GuestOSCustomizationDnsServersList = Array<string>;
 /** Guest OS Customization properties */
 export interface GuestOSCustomization {
   /** List of dns servers to use */
-  dnsServers?: GuestOSCustomizationDnsServersList;
+  dnsServers?: GuestOSCustomizationDnsServersList | undefined;
   /** Virtual Machine hostname */
-  hostName?: string;
+  hostName?: string | undefined;
   /** Password for login */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** id of customization policy */
-  policyId?: string;
+  policyId?: string | undefined;
   /** Username for login */
-  username?: string;
+  username?: string | undefined;
 }
 /** The list of Virtual Disks */
 export type VirtualMachinePropertiesDisksList = Array<VirtualDisk>;
@@ -694,62 +694,62 @@ export interface VirtualMachineProperties {
   /** The amount of memory */
   amountOfRam: number;
   /** The list of Virtual Disks' Controllers */
-  controllers?: VirtualMachinePropertiesControllersList;
+  controllers?: VirtualMachinePropertiesControllersList | undefined;
   /** Virtual machine properties */
-  customization?: GuestOSCustomization;
+  customization?: GuestOSCustomization | undefined;
   /** The list of Virtual Disks */
-  disks?: VirtualMachinePropertiesDisksList;
+  disks?: VirtualMachinePropertiesDisksList | undefined;
   /** The DNS name of Virtual Machine in VCenter */
-  dnsname?: string;
+  dnsname?: string | undefined;
   /** Expose Guest OS or not */
-  exposeToGuestVM?: boolean;
+  exposeToGuestVM?: boolean | undefined;
   /** The path to virtual machine folder in VCenter */
-  folder?: string;
+  folder?: string | undefined;
   /** The name of Guest OS */
-  guestOS?: string;
+  guestOS?: string | undefined;
   /** The Guest OS type */
-  guestOSType?: VirtualMachinePropertiesGuestOSType;
+  guestOSType?: VirtualMachinePropertiesGuestOSType | undefined;
   /** The list of Virtual NICs */
-  nics?: VirtualMachinePropertiesNicsList;
+  nics?: VirtualMachinePropertiesNicsList | undefined;
   /** The number of CPU cores */
   numberOfCores: number;
   /** Password for login. Deprecated - use customization property */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Private Cloud Id */
   privateCloudId: string;
   /** The provisioning status of the resource */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The public ip of Virtual Machine */
-  publicIP?: string;
+  publicIP?: string | undefined;
   /** Virtual Machines Resource Pool */
-  resourcePool?: ResourcePool;
+  resourcePool?: ResourcePool | undefined;
   /** The status of Virtual machine */
-  status?: VirtualMachinePropertiesStatus;
+  status?: VirtualMachinePropertiesStatus | undefined;
   /** Virtual Machine Template Id */
-  templateId?: string;
+  templateId?: string | undefined;
   /** Username for login. Deprecated - use customization property */
-  username?: string;
+  username?: string | undefined;
   /** The list of Virtual VSphere Networks */
-  vSphereNetworks?: VirtualMachinePropertiesVSphereNetworksList;
+  vSphereNetworks?: VirtualMachinePropertiesVSphereNetworksList | undefined;
   /** The internal id of Virtual Machine in VCenter */
-  vmId?: string;
+  vmId?: string | undefined;
   /** VMware tools version */
-  vmwaretools?: string;
+  vmwaretools?: string | undefined;
 }
 /** Virtual machine model */
 export interface VirtualMachine {
   /** /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/virtualMachines/{virtualMachineName} */
-  id?: string;
+  id?: string | undefined;
   /** Azure region */
   location: string;
   /** {virtualMachineName} */
-  name?: string;
+  name?: string | undefined;
   /** Virtual machine properties */
-  properties?: VirtualMachineProperties;
+  properties?: VirtualMachineProperties | undefined;
   /** The list of tags */
-  tags?: Tags;
+  tags?: Tags | undefined;
   /** {resourceProviderNamespace}/{resourceType} */
-  type?: string;
+  type?: string | undefined;
 }
 export interface GetVirtualMachineTemplateRequest {
   /** The subscription ID. */
@@ -779,16 +779,16 @@ export interface ListCustomizationPoliciesRequest {
   /** The private cloud name */
   pcName: string;
   /** The filter to apply on the list operation. only type is allowed here as a filter e.g. $filter=type eq 'xxxx' */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** List of the customization policies */
 export type CustomizationPoliciesListResponseValueList = Array<CustomizationPolicy>;
 /** List of customization polices response model */
 export interface CustomizationPoliciesListResponse {
   /** Link for next list of the Customization policy */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of the customization policies */
-  value?: CustomizationPoliciesListResponseValueList;
+  value?: CustomizationPoliciesListResponseValueList | undefined;
 }
 export interface ListDedicatedCloudNodeByResourceGroupRequest {
   /** The subscription ID. */
@@ -796,30 +796,30 @@ export interface ListDedicatedCloudNodeByResourceGroupRequest {
   /** The name of the resource group */
   resourceGroupName: string;
   /** The filter to apply on the list operation */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The maximum number of record sets to return */
-  _top?: number;
+  _top?: number | undefined;
   /** to be used by nextLink implementation */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Results of the DedicatedCloudNode list */
 export type DedicatedCloudNodeListResponseValueList = Array<DedicatedCloudNode>;
 /** List of dedicated nodes response model */
 export interface DedicatedCloudNodeListResponse {
   /** Link for next list of DedicatedCloudNode */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Results of the DedicatedCloudNode list */
-  value?: DedicatedCloudNodeListResponseValueList;
+  value?: DedicatedCloudNodeListResponseValueList | undefined;
 }
 export interface ListDedicatedCloudNodeBySubscriptionRequest {
   /** The subscription ID. */
   subscriptionId: string;
   /** The filter to apply on the list operation */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The maximum number of record sets to return */
-  _top?: number;
+  _top?: number | undefined;
   /** to be used by nextLink implementation */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 export interface ListDedicatedCloudServiceByResourceGroupRequest {
   /** The subscription ID. */
@@ -827,42 +827,42 @@ export interface ListDedicatedCloudServiceByResourceGroupRequest {
   /** The name of the resource group */
   resourceGroupName: string;
   /** The filter to apply on the list operation */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The maximum number of record sets to return */
-  _top?: number;
+  _top?: number | undefined;
   /** to be used by nextLink implementation */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Results of the DedicatedCloudService list */
 export type DedicatedCloudServiceListResponseValueList = Array<DedicatedCloudService>;
 /** List of dedicated cloud services */
 export interface DedicatedCloudServiceListResponse {
   /** Link for next list of DedicatedCloudNode */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Results of the DedicatedCloudService list */
-  value?: DedicatedCloudServiceListResponseValueList;
+  value?: DedicatedCloudServiceListResponseValueList | undefined;
 }
 export interface ListDedicatedCloudServiceBySubscriptionRequest {
   /** The subscription ID. */
   subscriptionId: string;
   /** The filter to apply on the list operation */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The maximum number of record sets to return */
-  _top?: number;
+  _top?: number | undefined;
   /** to be used by nextLink implementation */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Resource provider available operation display model */
 export interface AvailableOperationDisplay {
   /** Description of the operation for display purposes */
-  description?: string;
+  description?: string | undefined;
   /** Name of the operation for display purposes */
-  operation?: string;
+  operation?: string | undefined;
   /** Name of the provider for display purposes */
-  provider?: string;
+  provider?: string | undefined;
   /** Name of the resource type for display purposes */
-  resource?: string;
+  resource?: string | undefined;
 }
 /** The origin of operation */
 export type AvailableOperationOrigin = "user" | "system" | "user,system";
@@ -889,34 +889,38 @@ export type AvailableOperationDisplayPropertyServiceSpecificationMetricsListMetr
 /** List of available operation display property service specification metrics */
 export interface AvailableOperationDisplayPropertyServiceSpecificationMetricsList {
   /** Metric specifications of operation */
-  metricSpecifications?: AvailableOperationDisplayPropertyServiceSpecificationMetricsListMetricSpecificationsList;
+  metricSpecifications?:
+    | AvailableOperationDisplayPropertyServiceSpecificationMetricsListMetricSpecificationsList
+    | undefined;
 }
 /** Available operation display property service specification model */
 export interface AvailableOperationDisplayPropertyServiceSpecification {
   /** The list of specification's service metrics */
-  serviceSpecification?: AvailableOperationDisplayPropertyServiceSpecificationMetricsList;
+  serviceSpecification?:
+    | AvailableOperationDisplayPropertyServiceSpecificationMetricsList
+    | undefined;
 }
 /** Resource provider available operation model */
 export interface AvailableOperation {
   /** The list of operations */
-  display?: AvailableOperationDisplay;
+  display?: AvailableOperationDisplay | undefined;
   /** Indicating whether the operation is a data action or not */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** {resourceProviderNamespace}/{resourceType}/{read|write|delete|action} */
-  name?: string;
+  name?: string | undefined;
   /** The origin of operation */
-  origin?: AvailableOperationOrigin;
+  origin?: AvailableOperationOrigin | undefined;
   /** The list of operation properties */
-  properties?: AvailableOperationDisplayPropertyServiceSpecification;
+  properties?: AvailableOperationDisplayPropertyServiceSpecification | undefined;
 }
 /** Returns a list of available operations */
 export type AvailableOperationsListResponseValueList = Array<AvailableOperation>;
 /** List of available operations */
 export interface AvailableOperationsListResponse {
   /** Link for next list of available operations */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Returns a list of available operations */
-  value?: AvailableOperationsListResponseValueList;
+  value?: AvailableOperationsListResponseValueList | undefined;
 }
 export interface ListPrivateCloudsRequest {
   /** The subscription ID. */
@@ -929,9 +933,9 @@ export type PrivateCloudListValueList = Array<PrivateCloud>;
 /** List of private clouds */
 export interface PrivateCloudList {
   /** Link for next list of Private Clouds */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** the list of private clouds */
-  value?: PrivateCloudListValueList;
+  value?: PrivateCloudListValueList | undefined;
 }
 export interface ListResourcePoolsRequest {
   /** The subscription ID. */
@@ -946,9 +950,9 @@ export type ResourcePoolsListResponseValueList = Array<ResourcePool>;
 /** List of resource pools response model */
 export interface ResourcePoolsListResponse {
   /** Link for next list of ResourcePoolsList */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Results of the Resource pools list */
-  value?: ResourcePoolsListResponseValueList;
+  value?: ResourcePoolsListResponseValueList | undefined;
 }
 export interface ListSkusAvailabilityRequest {
   /** The subscription ID. */
@@ -956,35 +960,35 @@ export interface ListSkusAvailabilityRequest {
   /** The region Id (westus, eastus) */
   regionId: string;
   /** sku id, if no sku is passed availability for all skus will be returned */
-  skuId?: string;
+  skuId?: string | undefined;
 }
 /** SKU availability model */
 export interface SkuAvailability {
   /** CloudSimple Availability Zone id */
-  dedicatedAvailabilityZoneId?: string;
+  dedicatedAvailabilityZoneId?: string | undefined;
   /** CloudSimple Availability Zone Name */
-  dedicatedAvailabilityZoneName?: string;
+  dedicatedAvailabilityZoneName?: string | undefined;
   /** CloudSimple Placement Group Id */
-  dedicatedPlacementGroupId?: string;
+  dedicatedPlacementGroupId?: string | undefined;
   /** CloudSimple Placement Group name */
-  dedicatedPlacementGroupName?: string;
+  dedicatedPlacementGroupName?: string | undefined;
   /** indicates how many resources of a given SKU is available in a AZ->PG */
   limit: number;
   /** resource type e.g. DedicatedCloudNodes */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** sku id */
-  skuId?: string;
+  skuId?: string | undefined;
   /** sku name */
-  skuName?: string;
+  skuName?: string | undefined;
 }
 /** Results of the DedicatedPlacementGroupSkuAvailability list */
 export type SkuAvailabilityListResponseValueList = Array<SkuAvailability>;
 /** List of SKU availabilities */
 export interface SkuAvailabilityListResponse {
   /** Link for next list of DedicatedCloudNode */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Results of the DedicatedPlacementGroupSkuAvailability list */
-  value?: SkuAvailabilityListResponseValueList;
+  value?: SkuAvailabilityListResponseValueList | undefined;
 }
 export interface ListUsagesRequest {
   /** The subscription ID. */
@@ -992,14 +996,14 @@ export interface ListUsagesRequest {
   /** The region Id (westus, eastus) */
   regionId: string;
   /** The filter to apply on the list operation. only name.value is allowed here as a filter e.g. $filter=name.value eq 'xxxx' */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** User name model */
 export interface UsageName {
   /** e.g. "Virtual Machines" */
-  localizedValue?: string;
+  localizedValue?: string | undefined;
   /** resource type or resource type sku name, e.g. virtualMachines */
-  value?: string;
+  value?: string | undefined;
 }
 /** The usages' unit */
 export type UsageUnit =
@@ -1016,18 +1020,18 @@ export interface Usage {
   /** limit of a given sku in a region for a subscription. The maximum permitted value for the usage quota. If there is no limit, this value will be -1 */
   limit: number;
   /** Usage name value and localized name */
-  name?: UsageName;
+  name?: UsageName | undefined;
   /** The usages' unit */
-  unit?: UsageUnit;
+  unit?: UsageUnit | undefined;
 }
 /** The list of usages */
 export type UsageListResponseValueList = Array<Usage>;
 /** List of usages */
 export interface UsageListResponse {
   /** Link for next list of DedicatedCloudNode */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** The list of usages */
-  value?: UsageListResponseValueList;
+  value?: UsageListResponseValueList | undefined;
 }
 export interface ListVirtualMachineByResourceGroupRequest {
   /** The subscription ID. */
@@ -1035,30 +1039,30 @@ export interface ListVirtualMachineByResourceGroupRequest {
   /** The name of the resource group */
   resourceGroupName: string;
   /** The filter to apply on the list operation */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The maximum number of record sets to return */
-  _top?: number;
+  _top?: number | undefined;
   /** to be used by nextLink implementation */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 /** Results of the VirtualMachine list */
 export type VirtualMachineListResponseValueList = Array<VirtualMachine>;
 /** List of virtual machines */
 export interface VirtualMachineListResponse {
   /** Link for next list of VirtualMachines */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Results of the VirtualMachine list */
-  value?: VirtualMachineListResponseValueList;
+  value?: VirtualMachineListResponseValueList | undefined;
 }
 export interface ListVirtualMachineBySubscriptionRequest {
   /** The subscription ID. */
   subscriptionId: string;
   /** The filter to apply on the list operation */
-  _filter?: string;
+  _filter?: string | undefined;
   /** The maximum number of record sets to return */
-  _top?: number;
+  _top?: number | undefined;
   /** to be used by nextLink implementation */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 export interface ListVirtualMachineTemplatesRequest {
   /** The subscription ID. */
@@ -1075,9 +1079,9 @@ export type VirtualMachineTemplateListResponseValueList = Array<VirtualMachineTe
 /** List of virtual machine templates */
 export interface VirtualMachineTemplateListResponse {
   /** Link for next list of VirtualMachineTemplate */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Results of the VM template list */
-  value?: VirtualMachineTemplateListResponseValueList;
+  value?: VirtualMachineTemplateListResponseValueList | undefined;
 }
 export interface ListVirtualNetworksRequest {
   /** The subscription ID. */
@@ -1094,9 +1098,9 @@ export type VirtualNetworkListResponseValueList = Array<VirtualNetwork>;
 /** List of virtual networks */
 export interface VirtualNetworkListResponse {
   /** Link for next list of VirtualNetwork */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Results of the VirtualNetwork list */
-  value?: VirtualNetworkListResponseValueList;
+  value?: VirtualNetworkListResponseValueList | undefined;
 }
 export interface StartVirtualMachineRequest {
   /** The subscription ID. */
@@ -1107,9 +1111,9 @@ export interface StartVirtualMachineRequest {
   virtualMachineName: string;
 }
 export interface StartVirtualMachineResponse {
-  azureAsyncOperation?: string;
-  location?: string;
-  retryAfter?: number;
+  azureAsyncOperation?: string | undefined;
+  location?: string | undefined;
+  retryAfter?: number | undefined;
 }
 export type StopVirtualMachineRequestMode = "reboot" | "suspend" | "shutdown" | "poweroff";
 export interface StopVirtualMachineRequest {
@@ -1120,12 +1124,12 @@ export interface StopVirtualMachineRequest {
   /** virtual machine name */
   virtualMachineName: string;
   /** query stop mode parameter (reboot, shutdown, etc...) */
-  mode?: StopVirtualMachineRequestMode | (string & {});
+  mode?: StopVirtualMachineRequestMode | (string & {}) | undefined;
 }
 export interface StopVirtualMachineResponse {
-  azureAsyncOperation?: string;
-  location?: string;
-  retryAfter?: number;
+  azureAsyncOperation?: string | undefined;
+  location?: string | undefined;
+  retryAfter?: number | undefined;
 }
 export interface UpdateDedicatedCloudNodeRequest {
   /** The subscription ID. */
@@ -1135,7 +1139,7 @@ export interface UpdateDedicatedCloudNodeRequest {
   /** dedicated cloud node name */
   dedicatedCloudNodeName: string;
   /** The tags key:value pairs */
-  tags?: Tags;
+  tags?: Tags | undefined;
 }
 export interface UpdateDedicatedCloudServiceRequest {
   /** The subscription ID. */
@@ -1145,7 +1149,7 @@ export interface UpdateDedicatedCloudServiceRequest {
   /** dedicated cloud service name */
   dedicatedCloudServiceName: string;
   /** The tags key:value pairs */
-  tags?: Tags;
+  tags?: Tags | undefined;
 }
 export interface UpdateVirtualMachineRequest {
   /** The subscription ID. */
@@ -1155,7 +1159,7 @@ export interface UpdateVirtualMachineRequest {
   /** virtual machine name */
   virtualMachineName: string;
   /** The tags key:value pairs */
-  tags?: Tags;
+  tags?: Tags | undefined;
 }
 /** Disk's independence mode type */
 export type VirtualDiskInputIndependenceMode =
@@ -1171,7 +1175,7 @@ export interface VirtualDiskInput {
   /** Disk's total size */
   totalSize: number;
   /** Disk's id */
-  virtualDiskId?: string;
+  virtualDiskId?: string | undefined;
 }
 /** The list of Virtual Disks */
 export type VirtualMachinePropertiesInputDisksList = Array<VirtualDiskInput>;
@@ -1184,7 +1188,7 @@ export interface VirtualNetworkInput {
   /** virtual network id (privateCloudId:vsphereId) */
   id: string;
   /** Virtual Network properties */
-  properties?: VirtualNetworkPropertiesInput;
+  properties?: VirtualNetworkPropertiesInput | undefined;
 }
 /** NIC type */
 export type VirtualNicInputNicType =
@@ -1197,19 +1201,19 @@ export type VirtualNicInputNicType =
 /** Virtual NIC model */
 export interface VirtualNicInput {
   /** guest OS customization for nic */
-  customization?: GuestOSNICCustomization;
+  customization?: GuestOSNICCustomization | undefined;
   /** NIC ip address */
-  ipAddresses?: VirtualNicInputIpAddressesList;
+  ipAddresses?: VirtualNicInputIpAddressesList | undefined;
   /** NIC MAC address */
-  macAddress?: string;
+  macAddress?: string | undefined;
   /** Virtual Network */
   network: VirtualNetworkInput;
   /** NIC type */
   nicType: VirtualNicInputNicType | (string & {});
   /** Is NIC powered on/off on boot */
-  powerOnBoot?: boolean;
+  powerOnBoot?: boolean | undefined;
   /** NIC id */
-  virtualNicId?: string;
+  virtualNicId?: string | undefined;
 }
 /** The list of Virtual NICs */
 export type VirtualMachinePropertiesInputNicsList = Array<VirtualNicInput>;
@@ -1220,7 +1224,7 @@ export interface ResourcePoolInput {
   /** resource pool id (privateCloudId:vsphereId) */
   id: string;
   /** Resource pool properties */
-  properties?: VirtualNetworkPropertiesInput;
+  properties?: VirtualNetworkPropertiesInput | undefined;
 }
 /** The list of Virtual VSphere Networks */
 export type VirtualMachinePropertiesInputVSphereNetworksList = Array<string>;
@@ -1229,27 +1233,27 @@ export interface VirtualMachinePropertiesInput {
   /** The amount of memory */
   amountOfRam: number;
   /** Virtual machine properties */
-  customization?: GuestOSCustomization;
+  customization?: GuestOSCustomization | undefined;
   /** The list of Virtual Disks */
-  disks?: VirtualMachinePropertiesInputDisksList;
+  disks?: VirtualMachinePropertiesInputDisksList | undefined;
   /** Expose Guest OS or not */
-  exposeToGuestVM?: boolean;
+  exposeToGuestVM?: boolean | undefined;
   /** The list of Virtual NICs */
-  nics?: VirtualMachinePropertiesInputNicsList;
+  nics?: VirtualMachinePropertiesInputNicsList | undefined;
   /** The number of CPU cores */
   numberOfCores: number;
   /** Password for login. Deprecated - use customization property */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   /** Private Cloud Id */
   privateCloudId: string;
   /** Virtual Machines Resource Pool */
-  resourcePool?: ResourcePoolInput;
+  resourcePool?: ResourcePoolInput | undefined;
   /** Virtual Machine Template Id */
-  templateId?: string;
+  templateId?: string | undefined;
   /** Username for login. Deprecated - use customization property */
-  username?: string;
+  username?: string | undefined;
   /** The list of Virtual VSphere Networks */
-  vSphereNetworks?: VirtualMachinePropertiesInputVSphereNetworksList;
+  vSphereNetworks?: VirtualMachinePropertiesInputVSphereNetworksList | undefined;
 }
 export interface VirtualMachinesCreateOrUpdateRequest {
   /** The subscription ID. */
@@ -1261,25 +1265,25 @@ export interface VirtualMachinesCreateOrUpdateRequest {
   /** Azure region */
   location: string;
   /** Virtual machine properties */
-  properties?: VirtualMachinePropertiesInput;
+  properties?: VirtualMachinePropertiesInput | undefined;
   /** The list of tags */
-  tags?: Tags;
+  tags?: Tags | undefined;
 }
 /** Virtual machine model */
 export interface VirtualMachinesCreateOrUpdateResponse {
   /** /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/virtualMachines/{virtualMachineName} */
-  id?: string;
+  id?: string | undefined;
   /** Azure region */
   location: string;
   /** {virtualMachineName} */
-  name?: string;
+  name?: string | undefined;
   /** Virtual machine properties */
-  properties?: VirtualMachineProperties;
+  properties?: VirtualMachineProperties | undefined;
   /** The list of tags */
-  tags?: Tags;
+  tags?: Tags | undefined;
   /** {resourceProviderNamespace}/{resourceType} */
-  type?: string;
-  azureAsyncOperation?: string;
+  type?: string | undefined;
+  azureAsyncOperation?: string | undefined;
 }
 export type DedicatedCloudNodesCreateOrUpdateError = AzureOpError;
 /** Implements dedicated cloud node PUT method Returns dedicated cloud node by its name */

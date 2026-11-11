@@ -149,48 +149,48 @@ export type AccountId = string;
 export type Uuid = string;
 export type ReservedInstanceInstanceCount = number;
 export interface AddReservedInstanceAction {
-  reservedInstancesOfferingId?: string;
-  instanceCount?: number;
+  reservedInstancesOfferingId?: string | undefined;
+  instanceCount?: number | undefined;
 }
 export type SavingsPlanCommitment = number;
 export interface AddSavingsPlanAction {
-  savingsPlanOfferingId?: string;
-  commitment?: number;
+  savingsPlanOfferingId?: string | undefined;
+  commitment?: number | undefined;
 }
 export interface NegateReservedInstanceAction {
-  reservedInstancesId?: string;
+  reservedInstancesId?: string | undefined;
 }
 export interface NegateSavingsPlanAction {
-  savingsPlanId?: string;
+  savingsPlanId?: string | undefined;
 }
 export type BillScenarioCommitmentModificationAction =
   | {
       addReservedInstanceAction: AddReservedInstanceAction;
-      addSavingsPlanAction?: never;
-      negateReservedInstanceAction?: never;
-      negateSavingsPlanAction?: never;
+      addSavingsPlanAction?: undefined;
+      negateReservedInstanceAction?: undefined;
+      negateSavingsPlanAction?: undefined;
     }
   | {
-      addReservedInstanceAction?: never;
+      addReservedInstanceAction?: undefined;
       addSavingsPlanAction: AddSavingsPlanAction;
-      negateReservedInstanceAction?: never;
-      negateSavingsPlanAction?: never;
+      negateReservedInstanceAction?: undefined;
+      negateSavingsPlanAction?: undefined;
     }
   | {
-      addReservedInstanceAction?: never;
-      addSavingsPlanAction?: never;
+      addReservedInstanceAction?: undefined;
+      addSavingsPlanAction?: undefined;
       negateReservedInstanceAction: NegateReservedInstanceAction;
-      negateSavingsPlanAction?: never;
+      negateSavingsPlanAction?: undefined;
     }
   | {
-      addReservedInstanceAction?: never;
-      addSavingsPlanAction?: never;
-      negateReservedInstanceAction?: never;
+      addReservedInstanceAction?: undefined;
+      addSavingsPlanAction?: undefined;
+      negateReservedInstanceAction?: undefined;
       negateSavingsPlanAction: NegateSavingsPlanAction;
     };
 export interface BatchCreateBillScenarioCommitmentModificationEntry {
   key: string;
-  group?: string;
+  group?: string | undefined;
   usageAccountId: string;
   commitmentAction: BillScenarioCommitmentModificationAction;
 }
@@ -200,14 +200,14 @@ export type ClientToken = string;
 export interface BatchCreateBillScenarioCommitmentModificationRequest {
   billScenarioId: string;
   commitmentModifications: BatchCreateBillScenarioCommitmentModificationEntry[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface BatchCreateBillScenarioCommitmentModificationItem {
-  key?: string;
-  id?: string;
-  group?: string;
-  usageAccountId?: string;
-  commitmentAction?: BillScenarioCommitmentModificationAction;
+  key?: string | undefined;
+  id?: string | undefined;
+  group?: string | undefined;
+  usageAccountId?: string | undefined;
+  commitmentAction?: BillScenarioCommitmentModificationAction | undefined;
 }
 export type BatchCreateBillScenarioCommitmentModificationItems =
   BatchCreateBillScenarioCommitmentModificationItem[];
@@ -217,15 +217,15 @@ export type BatchCreateBillScenarioCommitmentModificationErrorCode =
   | "INVALID_ACCOUNT"
   | (string & {});
 export interface BatchCreateBillScenarioCommitmentModificationError_ {
-  key?: string;
-  errorMessage?: string;
-  errorCode?: BatchCreateBillScenarioCommitmentModificationErrorCode;
+  key?: string | undefined;
+  errorMessage?: string | undefined;
+  errorCode?: BatchCreateBillScenarioCommitmentModificationErrorCode | undefined;
 }
 export type BatchCreateBillScenarioCommitmentModificationErrors =
   BatchCreateBillScenarioCommitmentModificationError_[];
 export interface BatchCreateBillScenarioCommitmentModificationResponse {
-  items?: BatchCreateBillScenarioCommitmentModificationItem[];
-  errors?: BatchCreateBillScenarioCommitmentModificationError_[];
+  items?: BatchCreateBillScenarioCommitmentModificationItem[] | undefined;
+  errors?: BatchCreateBillScenarioCommitmentModificationError_[] | undefined;
 }
 export type ServiceCode = string;
 export type UsageType = string;
@@ -237,29 +237,29 @@ export interface UsageAmount {
 }
 export type UsageAmounts = UsageAmount[];
 export interface BillInterval {
-  start?: Date;
-  end?: Date;
+  start?: Date | undefined;
+  end?: Date | undefined;
 }
 export type ExpressionList = Expression[];
 export type StringList = string[];
 export interface ExpressionFilter {
-  key?: string;
-  matchOptions?: string[];
-  values?: string[];
+  key?: string | undefined;
+  matchOptions?: string[] | undefined;
+  values?: string[] | undefined;
 }
 export interface Expression {
-  and?: Expression[];
-  or?: Expression[];
-  not?: Expression;
-  costCategories?: ExpressionFilter;
-  dimensions?: ExpressionFilter;
-  tags?: ExpressionFilter;
+  and?: Expression[] | undefined;
+  or?: Expression[] | undefined;
+  not?: Expression | undefined;
+  costCategories?: ExpressionFilter | undefined;
+  dimensions?: ExpressionFilter | undefined;
+  tags?: ExpressionFilter | undefined;
 }
 export interface HistoricalUsageEntity {
   serviceCode: string;
   usageType: string;
   operation: string;
-  location?: string;
+  location?: string | undefined;
   usageAccountId: string;
   billInterval: BillInterval;
   filterExpression: Expression;
@@ -268,38 +268,38 @@ export interface BatchCreateBillScenarioUsageModificationEntry {
   serviceCode: string;
   usageType: string;
   operation: string;
-  availabilityZone?: string;
+  availabilityZone?: string | undefined;
   key: string;
-  group?: string;
+  group?: string | undefined;
   usageAccountId: string;
-  amounts?: UsageAmount[];
-  historicalUsage?: HistoricalUsageEntity;
+  amounts?: UsageAmount[] | undefined;
+  historicalUsage?: HistoricalUsageEntity | undefined;
 }
 export type BatchCreateBillScenarioUsageModificationEntries =
   BatchCreateBillScenarioUsageModificationEntry[];
 export interface BatchCreateBillScenarioUsageModificationRequest {
   billScenarioId: string;
   usageModifications: BatchCreateBillScenarioUsageModificationEntry[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface UsageQuantity {
-  startHour?: Date;
-  unit?: string;
-  amount?: number;
+  startHour?: Date | undefined;
+  unit?: string | undefined;
+  amount?: number | undefined;
 }
 export type UsageQuantities = UsageQuantity[];
 export interface BatchCreateBillScenarioUsageModificationItem {
   serviceCode: string;
   usageType: string;
   operation: string;
-  location?: string;
-  availabilityZone?: string;
-  id?: string;
-  group?: string;
-  usageAccountId?: string;
-  quantities?: UsageQuantity[];
-  historicalUsage?: HistoricalUsageEntity;
-  key?: string;
+  location?: string | undefined;
+  availabilityZone?: string | undefined;
+  id?: string | undefined;
+  group?: string | undefined;
+  usageAccountId?: string | undefined;
+  quantities?: UsageQuantity[] | undefined;
+  historicalUsage?: HistoricalUsageEntity | undefined;
+  key?: string | undefined;
 }
 export type BatchCreateBillScenarioUsageModificationItems =
   BatchCreateBillScenarioUsageModificationItem[];
@@ -310,35 +310,35 @@ export type BatchCreateBillScenarioUsageModificationErrorCode =
   | "INTERNAL_SERVER_ERROR"
   | (string & {});
 export interface BatchCreateBillScenarioUsageModificationError_ {
-  key?: string;
-  errorMessage?: string;
-  errorCode?: BatchCreateBillScenarioUsageModificationErrorCode;
+  key?: string | undefined;
+  errorMessage?: string | undefined;
+  errorCode?: BatchCreateBillScenarioUsageModificationErrorCode | undefined;
 }
 export type BatchCreateBillScenarioUsageModificationErrors =
   BatchCreateBillScenarioUsageModificationError_[];
 export interface BatchCreateBillScenarioUsageModificationResponse {
-  items?: BatchCreateBillScenarioUsageModificationItem[];
-  errors?: BatchCreateBillScenarioUsageModificationError_[];
+  items?: BatchCreateBillScenarioUsageModificationItem[] | undefined;
+  errors?: BatchCreateBillScenarioUsageModificationError_[] | undefined;
 }
 export interface BatchCreateWorkloadEstimateUsageEntry {
   serviceCode: string;
   usageType: string;
   operation: string;
   key: string;
-  group?: string;
+  group?: string | undefined;
   usageAccountId: string;
   amount: number;
-  historicalUsage?: HistoricalUsageEntity;
+  historicalUsage?: HistoricalUsageEntity | undefined;
 }
 export type BatchCreateWorkloadEstimateUsageEntries = BatchCreateWorkloadEstimateUsageEntry[];
 export interface BatchCreateWorkloadEstimateUsageRequest {
   workloadEstimateId: string;
   usage: BatchCreateWorkloadEstimateUsageEntry[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface WorkloadEstimateUsageQuantity {
-  unit?: string;
-  amount?: number;
+  unit?: string | undefined;
+  amount?: number | undefined;
 }
 export type CurrencyCode = "USD" | (string & {});
 export type WorkloadEstimateCostStatus = "VALID" | "INVALID" | "STALE" | (string & {});
@@ -346,16 +346,16 @@ export interface BatchCreateWorkloadEstimateUsageItem {
   serviceCode: string;
   usageType: string;
   operation: string;
-  location?: string;
-  id?: string;
-  usageAccountId?: string;
-  group?: string;
-  quantity?: WorkloadEstimateUsageQuantity;
-  cost?: number;
-  currency?: CurrencyCode;
-  status?: WorkloadEstimateCostStatus;
-  historicalUsage?: HistoricalUsageEntity;
-  key?: string;
+  location?: string | undefined;
+  id?: string | undefined;
+  usageAccountId?: string | undefined;
+  group?: string | undefined;
+  quantity?: WorkloadEstimateUsageQuantity | undefined;
+  cost?: number | undefined;
+  currency?: CurrencyCode | undefined;
+  status?: WorkloadEstimateCostStatus | undefined;
+  historicalUsage?: HistoricalUsageEntity | undefined;
+  key?: string | undefined;
 }
 export type BatchCreateWorkloadEstimateUsageItems = BatchCreateWorkloadEstimateUsageItem[];
 export type BatchCreateWorkloadEstimateUsageCode =
@@ -365,14 +365,14 @@ export type BatchCreateWorkloadEstimateUsageCode =
   | "INTERNAL_SERVER_ERROR"
   | (string & {});
 export interface BatchCreateWorkloadEstimateUsageError_ {
-  key?: string;
-  errorCode?: BatchCreateWorkloadEstimateUsageCode;
-  errorMessage?: string;
+  key?: string | undefined;
+  errorCode?: BatchCreateWorkloadEstimateUsageCode | undefined;
+  errorMessage?: string | undefined;
 }
 export type BatchCreateWorkloadEstimateUsageErrors = BatchCreateWorkloadEstimateUsageError_[];
 export interface BatchCreateWorkloadEstimateUsageResponse {
-  items?: BatchCreateWorkloadEstimateUsageItem[];
-  errors?: BatchCreateWorkloadEstimateUsageError_[];
+  items?: BatchCreateWorkloadEstimateUsageItem[] | undefined;
+  errors?: BatchCreateWorkloadEstimateUsageError_[] | undefined;
 }
 export type BatchDeleteBillScenarioCommitmentModificationEntries = string[];
 export interface BatchDeleteBillScenarioCommitmentModificationRequest {
@@ -385,14 +385,14 @@ export type BatchDeleteBillScenarioCommitmentModificationErrorCode =
   | "INTERNAL_SERVER_ERROR"
   | (string & {});
 export interface BatchDeleteBillScenarioCommitmentModificationError_ {
-  id?: string;
-  errorCode?: BatchDeleteBillScenarioCommitmentModificationErrorCode;
-  errorMessage?: string;
+  id?: string | undefined;
+  errorCode?: BatchDeleteBillScenarioCommitmentModificationErrorCode | undefined;
+  errorMessage?: string | undefined;
 }
 export type BatchDeleteBillScenarioCommitmentModificationErrors =
   BatchDeleteBillScenarioCommitmentModificationError_[];
 export interface BatchDeleteBillScenarioCommitmentModificationResponse {
-  errors?: BatchDeleteBillScenarioCommitmentModificationError_[];
+  errors?: BatchDeleteBillScenarioCommitmentModificationError_[] | undefined;
 }
 export type BatchDeleteBillScenarioUsageModificationEntries = string[];
 export interface BatchDeleteBillScenarioUsageModificationRequest {
@@ -405,14 +405,14 @@ export type BatchDeleteBillScenarioUsageModificationErrorCode =
   | "INTERNAL_SERVER_ERROR"
   | (string & {});
 export interface BatchDeleteBillScenarioUsageModificationError_ {
-  id?: string;
-  errorMessage?: string;
-  errorCode?: BatchDeleteBillScenarioUsageModificationErrorCode;
+  id?: string | undefined;
+  errorMessage?: string | undefined;
+  errorCode?: BatchDeleteBillScenarioUsageModificationErrorCode | undefined;
 }
 export type BatchDeleteBillScenarioUsageModificationErrors =
   BatchDeleteBillScenarioUsageModificationError_[];
 export interface BatchDeleteBillScenarioUsageModificationResponse {
-  errors?: BatchDeleteBillScenarioUsageModificationError_[];
+  errors?: BatchDeleteBillScenarioUsageModificationError_[] | undefined;
 }
 export type BatchDeleteWorkloadEstimateUsageEntries = string[];
 export interface BatchDeleteWorkloadEstimateUsageRequest {
@@ -426,17 +426,17 @@ export type WorkloadEstimateUpdateUsageErrorCode =
   | "INTERNAL_SERVER_ERROR"
   | (string & {});
 export interface BatchDeleteWorkloadEstimateUsageError_ {
-  id?: string;
-  errorMessage?: string;
-  errorCode?: WorkloadEstimateUpdateUsageErrorCode;
+  id?: string | undefined;
+  errorMessage?: string | undefined;
+  errorCode?: WorkloadEstimateUpdateUsageErrorCode | undefined;
 }
 export type BatchDeleteWorkloadEstimateUsageErrors = BatchDeleteWorkloadEstimateUsageError_[];
 export interface BatchDeleteWorkloadEstimateUsageResponse {
-  errors?: BatchDeleteWorkloadEstimateUsageError_[];
+  errors?: BatchDeleteWorkloadEstimateUsageError_[] | undefined;
 }
 export interface BatchUpdateBillScenarioCommitmentModificationEntry {
   id: string;
-  group?: string;
+  group?: string | undefined;
 }
 export type BatchUpdateBillScenarioCommitmentModificationEntries =
   BatchUpdateBillScenarioCommitmentModificationEntry[];
@@ -445,10 +445,10 @@ export interface BatchUpdateBillScenarioCommitmentModificationRequest {
   commitmentModifications: BatchUpdateBillScenarioCommitmentModificationEntry[];
 }
 export interface BillScenarioCommitmentModificationItem {
-  id?: string;
-  usageAccountId?: string;
-  group?: string;
-  commitmentAction?: BillScenarioCommitmentModificationAction;
+  id?: string | undefined;
+  usageAccountId?: string | undefined;
+  group?: string | undefined;
+  commitmentAction?: BillScenarioCommitmentModificationAction | undefined;
 }
 export type BillScenarioCommitmentModificationItems = BillScenarioCommitmentModificationItem[];
 export type BatchUpdateBillScenarioCommitmentModificationErrorCode =
@@ -458,20 +458,20 @@ export type BatchUpdateBillScenarioCommitmentModificationErrorCode =
   | "INTERNAL_SERVER_ERROR"
   | (string & {});
 export interface BatchUpdateBillScenarioCommitmentModificationError_ {
-  id?: string;
-  errorCode?: BatchUpdateBillScenarioCommitmentModificationErrorCode;
-  errorMessage?: string;
+  id?: string | undefined;
+  errorCode?: BatchUpdateBillScenarioCommitmentModificationErrorCode | undefined;
+  errorMessage?: string | undefined;
 }
 export type BatchUpdateBillScenarioCommitmentModificationErrors =
   BatchUpdateBillScenarioCommitmentModificationError_[];
 export interface BatchUpdateBillScenarioCommitmentModificationResponse {
-  items?: BillScenarioCommitmentModificationItem[];
-  errors?: BatchUpdateBillScenarioCommitmentModificationError_[];
+  items?: BillScenarioCommitmentModificationItem[] | undefined;
+  errors?: BatchUpdateBillScenarioCommitmentModificationError_[] | undefined;
 }
 export interface BatchUpdateBillScenarioUsageModificationEntry {
   id: string;
-  group?: string;
-  amounts?: UsageAmount[];
+  group?: string | undefined;
+  amounts?: UsageAmount[] | undefined;
 }
 export type BatchUpdateBillScenarioUsageModificationEntries =
   BatchUpdateBillScenarioUsageModificationEntry[];
@@ -483,13 +483,13 @@ export interface BillScenarioUsageModificationItem {
   serviceCode: string;
   usageType: string;
   operation: string;
-  location?: string;
-  availabilityZone?: string;
-  id?: string;
-  group?: string;
-  usageAccountId?: string;
-  quantities?: UsageQuantity[];
-  historicalUsage?: HistoricalUsageEntity;
+  location?: string | undefined;
+  availabilityZone?: string | undefined;
+  id?: string | undefined;
+  group?: string | undefined;
+  usageAccountId?: string | undefined;
+  quantities?: UsageQuantity[] | undefined;
+  historicalUsage?: HistoricalUsageEntity | undefined;
 }
 export type BillScenarioUsageModificationItems = BillScenarioUsageModificationItem[];
 export type BatchUpdateBillScenarioUsageModificationErrorCode =
@@ -499,20 +499,20 @@ export type BatchUpdateBillScenarioUsageModificationErrorCode =
   | "INTERNAL_SERVER_ERROR"
   | (string & {});
 export interface BatchUpdateBillScenarioUsageModificationError_ {
-  id?: string;
-  errorMessage?: string;
-  errorCode?: BatchUpdateBillScenarioUsageModificationErrorCode;
+  id?: string | undefined;
+  errorMessage?: string | undefined;
+  errorCode?: BatchUpdateBillScenarioUsageModificationErrorCode | undefined;
 }
 export type BatchUpdateBillScenarioUsageModificationErrors =
   BatchUpdateBillScenarioUsageModificationError_[];
 export interface BatchUpdateBillScenarioUsageModificationResponse {
-  items?: BillScenarioUsageModificationItem[];
-  errors?: BatchUpdateBillScenarioUsageModificationError_[];
+  items?: BillScenarioUsageModificationItem[] | undefined;
+  errors?: BatchUpdateBillScenarioUsageModificationError_[] | undefined;
 }
 export interface BatchUpdateWorkloadEstimateUsageEntry {
   id: string;
-  group?: string;
-  amount?: number;
+  group?: string | undefined;
+  amount?: number | undefined;
 }
 export type BatchUpdateWorkloadEstimateUsageEntries = BatchUpdateWorkloadEstimateUsageEntry[];
 export interface BatchUpdateWorkloadEstimateUsageRequest {
@@ -523,26 +523,26 @@ export interface WorkloadEstimateUsageItem {
   serviceCode: string;
   usageType: string;
   operation: string;
-  location?: string;
-  id?: string;
-  usageAccountId?: string;
-  group?: string;
-  quantity?: WorkloadEstimateUsageQuantity;
-  cost?: number;
-  currency?: CurrencyCode;
-  status?: WorkloadEstimateCostStatus;
-  historicalUsage?: HistoricalUsageEntity;
+  location?: string | undefined;
+  id?: string | undefined;
+  usageAccountId?: string | undefined;
+  group?: string | undefined;
+  quantity?: WorkloadEstimateUsageQuantity | undefined;
+  cost?: number | undefined;
+  currency?: CurrencyCode | undefined;
+  status?: WorkloadEstimateCostStatus | undefined;
+  historicalUsage?: HistoricalUsageEntity | undefined;
 }
 export type WorkloadEstimateUsageItems = WorkloadEstimateUsageItem[];
 export interface BatchUpdateWorkloadEstimateUsageError_ {
-  id?: string;
-  errorMessage?: string;
-  errorCode?: WorkloadEstimateUpdateUsageErrorCode;
+  id?: string | undefined;
+  errorMessage?: string | undefined;
+  errorCode?: WorkloadEstimateUpdateUsageErrorCode | undefined;
 }
 export type BatchUpdateWorkloadEstimateUsageErrors = BatchUpdateWorkloadEstimateUsageError_[];
 export interface BatchUpdateWorkloadEstimateUsageResponse {
-  items?: WorkloadEstimateUsageItem[];
-  errors?: BatchUpdateWorkloadEstimateUsageError_[];
+  items?: WorkloadEstimateUsageItem[] | undefined;
+  errors?: BatchUpdateWorkloadEstimateUsageError_[] | undefined;
 }
 export type BillEstimateName = string;
 export type ResourceTagKey = string;
@@ -551,57 +551,57 @@ export type Tags = { [key: string]: string | undefined };
 export interface CreateBillEstimateRequest {
   billScenarioId: string;
   name: string;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type BillEstimateStatus = "IN_PROGRESS" | "COMPLETE" | "FAILED" | (string & {});
 export interface CostAmount {
-  amount?: number;
-  currency?: CurrencyCode;
+  amount?: number | undefined;
+  currency?: CurrencyCode | undefined;
 }
 export interface CostDifference {
-  historicalCost?: CostAmount;
-  estimatedCost?: CostAmount;
+  historicalCost?: CostAmount | undefined;
+  estimatedCost?: CostAmount | undefined;
 }
 export type ServiceCostDifferenceMap = { [key: string]: CostDifference | undefined };
 export interface BillEstimateCostSummary {
-  totalCostDifference?: CostDifference;
-  serviceCostDifferences?: { [key: string]: CostDifference | undefined };
+  totalCostDifference?: CostDifference | undefined;
+  serviceCostDifferences?: { [key: string]: CostDifference | undefined } | undefined;
 }
 export type GroupSharingPreferenceEnum = "OPEN" | "PRIORITIZED" | "RESTRICTED" | (string & {});
 export type CostCategoryArn = string;
 export interface CreateBillEstimateResponse {
   id: string;
-  name?: string;
-  status?: BillEstimateStatus;
-  failureMessage?: string;
-  billInterval?: BillInterval;
-  costSummary?: BillEstimateCostSummary;
-  createdAt?: Date;
-  expiresAt?: Date;
-  groupSharingPreference?: GroupSharingPreferenceEnum;
-  costCategoryGroupSharingPreferenceArn?: string;
-  costCategoryGroupSharingPreferenceEffectiveDate?: Date;
+  name?: string | undefined;
+  status?: BillEstimateStatus | undefined;
+  failureMessage?: string | undefined;
+  billInterval?: BillInterval | undefined;
+  costSummary?: BillEstimateCostSummary | undefined;
+  createdAt?: Date | undefined;
+  expiresAt?: Date | undefined;
+  groupSharingPreference?: GroupSharingPreferenceEnum | undefined;
+  costCategoryGroupSharingPreferenceArn?: string | undefined;
+  costCategoryGroupSharingPreferenceEffectiveDate?: Date | undefined;
 }
 export type BillScenarioName = string;
 export interface CreateBillScenarioRequest {
   name: string;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
-  groupSharingPreference?: GroupSharingPreferenceEnum;
-  costCategoryGroupSharingPreferenceArn?: string;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  groupSharingPreference?: GroupSharingPreferenceEnum | undefined;
+  costCategoryGroupSharingPreferenceArn?: string | undefined;
 }
 export type BillScenarioStatus = "READY" | "LOCKED" | "FAILED" | "STALE" | (string & {});
 export interface CreateBillScenarioResponse {
   id: string;
-  name?: string;
-  billInterval?: BillInterval;
-  status?: BillScenarioStatus;
-  createdAt?: Date;
-  expiresAt?: Date;
-  failureMessage?: string;
-  groupSharingPreference?: GroupSharingPreferenceEnum;
-  costCategoryGroupSharingPreferenceArn?: string;
+  name?: string | undefined;
+  billInterval?: BillInterval | undefined;
+  status?: BillScenarioStatus | undefined;
+  createdAt?: Date | undefined;
+  expiresAt?: Date | undefined;
+  failureMessage?: string | undefined;
+  groupSharingPreference?: GroupSharingPreferenceEnum | undefined;
+  costCategoryGroupSharingPreferenceArn?: string | undefined;
 }
 export type WorkloadEstimateName = string;
 export type WorkloadEstimateRateType =
@@ -611,9 +611,9 @@ export type WorkloadEstimateRateType =
   | (string & {});
 export interface CreateWorkloadEstimateRequest {
   name: string;
-  clientToken?: string;
-  rateType?: WorkloadEstimateRateType;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  rateType?: WorkloadEstimateRateType | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type WorkloadEstimateStatus =
   | "UPDATING"
@@ -623,15 +623,15 @@ export type WorkloadEstimateStatus =
   | (string & {});
 export interface CreateWorkloadEstimateResponse {
   id: string;
-  name?: string;
-  createdAt?: Date;
-  expiresAt?: Date;
-  rateType?: WorkloadEstimateRateType;
-  rateTimestamp?: Date;
-  status?: WorkloadEstimateStatus;
-  totalCost?: number;
-  costCurrency?: CurrencyCode;
-  failureMessage?: string;
+  name?: string | undefined;
+  createdAt?: Date | undefined;
+  expiresAt?: Date | undefined;
+  rateType?: WorkloadEstimateRateType | undefined;
+  rateTimestamp?: Date | undefined;
+  status?: WorkloadEstimateStatus | undefined;
+  totalCost?: number | undefined;
+  costCurrency?: CurrencyCode | undefined;
+  failureMessage?: string | undefined;
 }
 export interface DeleteBillEstimateRequest {
   identifier: string;
@@ -650,30 +650,30 @@ export interface GetBillEstimateRequest {
 }
 export interface GetBillEstimateResponse {
   id: string;
-  name?: string;
-  status?: BillEstimateStatus;
-  failureMessage?: string;
-  billInterval?: BillInterval;
-  costSummary?: BillEstimateCostSummary;
-  createdAt?: Date;
-  expiresAt?: Date;
-  groupSharingPreference?: GroupSharingPreferenceEnum;
-  costCategoryGroupSharingPreferenceArn?: string;
-  costCategoryGroupSharingPreferenceEffectiveDate?: Date;
+  name?: string | undefined;
+  status?: BillEstimateStatus | undefined;
+  failureMessage?: string | undefined;
+  billInterval?: BillInterval | undefined;
+  costSummary?: BillEstimateCostSummary | undefined;
+  createdAt?: Date | undefined;
+  expiresAt?: Date | undefined;
+  groupSharingPreference?: GroupSharingPreferenceEnum | undefined;
+  costCategoryGroupSharingPreferenceArn?: string | undefined;
+  costCategoryGroupSharingPreferenceEffectiveDate?: Date | undefined;
 }
 export interface GetBillScenarioRequest {
   identifier: string;
 }
 export interface GetBillScenarioResponse {
   id: string;
-  name?: string;
-  billInterval?: BillInterval;
-  status?: BillScenarioStatus;
-  createdAt?: Date;
-  expiresAt?: Date;
-  failureMessage?: string;
-  groupSharingPreference?: GroupSharingPreferenceEnum;
-  costCategoryGroupSharingPreferenceArn?: string;
+  name?: string | undefined;
+  billInterval?: BillInterval | undefined;
+  status?: BillScenarioStatus | undefined;
+  createdAt?: Date | undefined;
+  expiresAt?: Date | undefined;
+  failureMessage?: string | undefined;
+  groupSharingPreference?: GroupSharingPreferenceEnum | undefined;
+  costCategoryGroupSharingPreferenceArn?: string | undefined;
 }
 export interface GetPreferencesRequest {}
 export type RateType =
@@ -683,65 +683,65 @@ export type RateType =
   | (string & {});
 export type RateTypes = RateType[];
 export interface GetPreferencesResponse {
-  managementAccountRateTypeSelections?: RateType[];
-  memberAccountRateTypeSelections?: RateType[];
-  standaloneAccountRateTypeSelections?: RateType[];
+  managementAccountRateTypeSelections?: RateType[] | undefined;
+  memberAccountRateTypeSelections?: RateType[] | undefined;
+  standaloneAccountRateTypeSelections?: RateType[] | undefined;
 }
 export interface GetWorkloadEstimateRequest {
   identifier: string;
 }
 export interface GetWorkloadEstimateResponse {
   id: string;
-  name?: string;
-  createdAt?: Date;
-  expiresAt?: Date;
-  rateType?: WorkloadEstimateRateType;
-  rateTimestamp?: Date;
-  status?: WorkloadEstimateStatus;
-  totalCost?: number;
-  costCurrency?: CurrencyCode;
-  failureMessage?: string;
+  name?: string | undefined;
+  createdAt?: Date | undefined;
+  expiresAt?: Date | undefined;
+  rateType?: WorkloadEstimateRateType | undefined;
+  rateTimestamp?: Date | undefined;
+  status?: WorkloadEstimateStatus | undefined;
+  totalCost?: number | undefined;
+  costCurrency?: CurrencyCode | undefined;
+  failureMessage?: string | undefined;
 }
 export type NextPageToken = string;
 export type MaxResults = number;
 export interface ListBillEstimateCommitmentsRequest {
   billEstimateId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type PurchaseAgreementType = "SAVINGS_PLANS" | "RESERVED_INSTANCE" | (string & {});
 export interface BillEstimateCommitmentSummary {
-  id?: string;
-  purchaseAgreementType?: PurchaseAgreementType;
-  offeringId?: string;
-  usageAccountId?: string;
-  region?: string;
-  termLength?: string;
-  paymentOption?: string;
-  upfrontPayment?: CostAmount;
-  monthlyPayment?: CostAmount;
+  id?: string | undefined;
+  purchaseAgreementType?: PurchaseAgreementType | undefined;
+  offeringId?: string | undefined;
+  usageAccountId?: string | undefined;
+  region?: string | undefined;
+  termLength?: string | undefined;
+  paymentOption?: string | undefined;
+  upfrontPayment?: CostAmount | undefined;
+  monthlyPayment?: CostAmount | undefined;
 }
 export type BillEstimateCommitmentSummaries = BillEstimateCommitmentSummary[];
 export interface ListBillEstimateCommitmentsResponse {
-  items?: BillEstimateCommitmentSummary[];
-  nextToken?: string;
+  items?: BillEstimateCommitmentSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListBillEstimateInputCommitmentModificationsRequest {
   billEstimateId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface BillEstimateInputCommitmentModificationSummary {
-  id?: string;
-  group?: string;
-  usageAccountId?: string;
-  commitmentAction?: BillScenarioCommitmentModificationAction;
+  id?: string | undefined;
+  group?: string | undefined;
+  usageAccountId?: string | undefined;
+  commitmentAction?: BillScenarioCommitmentModificationAction | undefined;
 }
 export type BillEstimateInputCommitmentModificationSummaries =
   BillEstimateInputCommitmentModificationSummary[];
 export interface ListBillEstimateInputCommitmentModificationsResponse {
-  items?: BillEstimateInputCommitmentModificationSummary[];
-  nextToken?: string;
+  items?: BillEstimateInputCommitmentModificationSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListUsageFilterName =
   | "USAGE_ACCOUNT_ID"
@@ -761,32 +761,32 @@ export type MatchOption = "EQUALS" | "STARTS_WITH" | "CONTAINS" | (string & {});
 export interface ListUsageFilter {
   name: ListUsageFilterName;
   values: string[];
-  matchOption?: MatchOption;
+  matchOption?: MatchOption | undefined;
 }
 export type ListUsageFilters = ListUsageFilter[];
 export interface ListBillEstimateInputUsageModificationsRequest {
   billEstimateId: string;
-  filters?: ListUsageFilter[];
-  nextToken?: string;
-  maxResults?: number;
+  filters?: ListUsageFilter[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface BillEstimateInputUsageModificationSummary {
   serviceCode: string;
   usageType: string;
   operation: string;
-  location?: string;
-  availabilityZone?: string;
-  id?: string;
-  group?: string;
-  usageAccountId?: string;
-  quantities?: UsageQuantity[];
-  historicalUsage?: HistoricalUsageEntity;
+  location?: string | undefined;
+  availabilityZone?: string | undefined;
+  id?: string | undefined;
+  group?: string | undefined;
+  usageAccountId?: string | undefined;
+  quantities?: UsageQuantity[] | undefined;
+  historicalUsage?: HistoricalUsageEntity | undefined;
 }
 export type BillEstimateInputUsageModificationSummaries =
   BillEstimateInputUsageModificationSummary[];
 export interface ListBillEstimateInputUsageModificationsResponse {
-  items?: BillEstimateInputUsageModificationSummary[];
-  nextToken?: string;
+  items?: BillEstimateInputUsageModificationSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListBillEstimateLineItemsFilterName =
   | "USAGE_ACCOUNT_ID"
@@ -800,82 +800,82 @@ export type ListBillEstimateLineItemsFilterValues = string[];
 export interface ListBillEstimateLineItemsFilter {
   name: ListBillEstimateLineItemsFilterName;
   values: string[];
-  matchOption?: MatchOption;
+  matchOption?: MatchOption | undefined;
 }
 export type ListBillEstimateLineItemsFilters = ListBillEstimateLineItemsFilter[];
 export interface ListBillEstimateLineItemsRequest {
   billEstimateId: string;
-  filters?: ListBillEstimateLineItemsFilter[];
-  nextToken?: string;
-  maxResults?: number;
+  filters?: ListBillEstimateLineItemsFilter[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface UsageQuantityResult {
-  amount?: number;
-  unit?: string;
+  amount?: number | undefined;
+  unit?: string | undefined;
 }
 export type SavingsPlanArns = string[];
 export interface BillEstimateLineItemSummary {
   serviceCode: string;
   usageType: string;
   operation: string;
-  location?: string;
-  availabilityZone?: string;
-  id?: string;
-  lineItemId?: string;
-  lineItemType?: string;
-  payerAccountId?: string;
-  usageAccountId?: string;
-  estimatedUsageQuantity?: UsageQuantityResult;
-  estimatedCost?: CostAmount;
-  historicalUsageQuantity?: UsageQuantityResult;
-  historicalCost?: CostAmount;
-  savingsPlanArns?: string[];
+  location?: string | undefined;
+  availabilityZone?: string | undefined;
+  id?: string | undefined;
+  lineItemId?: string | undefined;
+  lineItemType?: string | undefined;
+  payerAccountId?: string | undefined;
+  usageAccountId?: string | undefined;
+  estimatedUsageQuantity?: UsageQuantityResult | undefined;
+  estimatedCost?: CostAmount | undefined;
+  historicalUsageQuantity?: UsageQuantityResult | undefined;
+  historicalCost?: CostAmount | undefined;
+  savingsPlanArns?: string[] | undefined;
 }
 export type BillEstimateLineItemSummaries = BillEstimateLineItemSummary[];
 export interface ListBillEstimateLineItemsResponse {
-  items?: BillEstimateLineItemSummary[];
-  nextToken?: string;
+  items?: BillEstimateLineItemSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListBillEstimatesFilterName = "STATUS" | "NAME" | (string & {});
 export type ListBillEstimatesFilterValues = string[];
 export interface ListBillEstimatesFilter {
   name: ListBillEstimatesFilterName;
   values: string[];
-  matchOption?: MatchOption;
+  matchOption?: MatchOption | undefined;
 }
 export type ListBillEstimatesFilters = ListBillEstimatesFilter[];
 export interface FilterTimestamp {
-  afterTimestamp?: Date;
-  beforeTimestamp?: Date;
+  afterTimestamp?: Date | undefined;
+  beforeTimestamp?: Date | undefined;
 }
 export interface ListBillEstimatesRequest {
-  filters?: ListBillEstimatesFilter[];
-  createdAtFilter?: FilterTimestamp;
-  expiresAtFilter?: FilterTimestamp;
-  nextToken?: string;
-  maxResults?: number;
+  filters?: ListBillEstimatesFilter[] | undefined;
+  createdAtFilter?: FilterTimestamp | undefined;
+  expiresAtFilter?: FilterTimestamp | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface BillEstimateSummary {
   id: string;
-  name?: string;
-  status?: BillEstimateStatus;
-  billInterval?: BillInterval;
-  createdAt?: Date;
-  expiresAt?: Date;
+  name?: string | undefined;
+  status?: BillEstimateStatus | undefined;
+  billInterval?: BillInterval | undefined;
+  createdAt?: Date | undefined;
+  expiresAt?: Date | undefined;
 }
 export type BillEstimateSummaries = BillEstimateSummary[];
 export interface ListBillEstimatesResponse {
-  items?: BillEstimateSummary[];
-  nextToken?: string;
+  items?: BillEstimateSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListBillScenarioCommitmentModificationsRequest {
   billScenarioId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListBillScenarioCommitmentModificationsResponse {
-  items?: BillScenarioCommitmentModificationItem[];
-  nextToken?: string;
+  items?: BillScenarioCommitmentModificationItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListBillScenariosFilterName =
   | "STATUS"
@@ -887,91 +887,91 @@ export type ListBillScenariosFilterValues = string[];
 export interface ListBillScenariosFilter {
   name: ListBillScenariosFilterName;
   values: string[];
-  matchOption?: MatchOption;
+  matchOption?: MatchOption | undefined;
 }
 export type ListBillScenariosFilters = ListBillScenariosFilter[];
 export interface ListBillScenariosRequest {
-  filters?: ListBillScenariosFilter[];
-  createdAtFilter?: FilterTimestamp;
-  expiresAtFilter?: FilterTimestamp;
-  nextToken?: string;
-  maxResults?: number;
+  filters?: ListBillScenariosFilter[] | undefined;
+  createdAtFilter?: FilterTimestamp | undefined;
+  expiresAtFilter?: FilterTimestamp | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface BillScenarioSummary {
   id: string;
-  name?: string;
-  billInterval?: BillInterval;
-  status?: BillScenarioStatus;
-  createdAt?: Date;
-  expiresAt?: Date;
-  failureMessage?: string;
-  groupSharingPreference?: GroupSharingPreferenceEnum;
-  costCategoryGroupSharingPreferenceArn?: string;
+  name?: string | undefined;
+  billInterval?: BillInterval | undefined;
+  status?: BillScenarioStatus | undefined;
+  createdAt?: Date | undefined;
+  expiresAt?: Date | undefined;
+  failureMessage?: string | undefined;
+  groupSharingPreference?: GroupSharingPreferenceEnum | undefined;
+  costCategoryGroupSharingPreferenceArn?: string | undefined;
 }
 export type BillScenarioSummaries = BillScenarioSummary[];
 export interface ListBillScenariosResponse {
-  items?: BillScenarioSummary[];
-  nextToken?: string;
+  items?: BillScenarioSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListBillScenarioUsageModificationsRequest {
   billScenarioId: string;
-  filters?: ListUsageFilter[];
-  nextToken?: string;
-  maxResults?: number;
+  filters?: ListUsageFilter[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListBillScenarioUsageModificationsResponse {
-  items?: BillScenarioUsageModificationItem[];
-  nextToken?: string;
+  items?: BillScenarioUsageModificationItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export type Arn = string;
 export interface ListTagsForResourceRequest {
   arn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ListWorkloadEstimatesFilterName = "STATUS" | "NAME" | (string & {});
 export type ListWorkloadEstimatesFilterValues = string[];
 export interface ListWorkloadEstimatesFilter {
   name: ListWorkloadEstimatesFilterName;
   values: string[];
-  matchOption?: MatchOption;
+  matchOption?: MatchOption | undefined;
 }
 export type ListWorkloadEstimatesFilters = ListWorkloadEstimatesFilter[];
 export interface ListWorkloadEstimatesRequest {
-  createdAtFilter?: FilterTimestamp;
-  expiresAtFilter?: FilterTimestamp;
-  filters?: ListWorkloadEstimatesFilter[];
-  nextToken?: string;
-  maxResults?: number;
+  createdAtFilter?: FilterTimestamp | undefined;
+  expiresAtFilter?: FilterTimestamp | undefined;
+  filters?: ListWorkloadEstimatesFilter[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface WorkloadEstimateSummary {
   id: string;
-  name?: string;
-  createdAt?: Date;
-  expiresAt?: Date;
-  rateType?: WorkloadEstimateRateType;
-  rateTimestamp?: Date;
-  status?: WorkloadEstimateStatus;
-  totalCost?: number;
-  costCurrency?: CurrencyCode;
-  failureMessage?: string;
+  name?: string | undefined;
+  createdAt?: Date | undefined;
+  expiresAt?: Date | undefined;
+  rateType?: WorkloadEstimateRateType | undefined;
+  rateTimestamp?: Date | undefined;
+  status?: WorkloadEstimateStatus | undefined;
+  totalCost?: number | undefined;
+  costCurrency?: CurrencyCode | undefined;
+  failureMessage?: string | undefined;
 }
 export type WorkloadEstimateSummaries = WorkloadEstimateSummary[];
 export interface ListWorkloadEstimatesResponse {
-  items?: WorkloadEstimateSummary[];
-  nextToken?: string;
+  items?: WorkloadEstimateSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type WorkloadEstimateUsageMaxResults = number;
 export interface ListWorkloadEstimateUsageRequest {
   workloadEstimateId: string;
-  filters?: ListUsageFilter[];
-  nextToken?: string;
-  maxResults?: number;
+  filters?: ListUsageFilter[] | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListWorkloadEstimateUsageResponse {
-  items?: WorkloadEstimateUsageItem[];
-  nextToken?: string;
+  items?: WorkloadEstimateUsageItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface TagResourceRequest {
   arn: string;
@@ -986,66 +986,66 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateBillEstimateRequest {
   identifier: string;
-  name?: string;
-  expiresAt?: Date;
+  name?: string | undefined;
+  expiresAt?: Date | undefined;
 }
 export interface UpdateBillEstimateResponse {
   id: string;
-  name?: string;
-  status?: BillEstimateStatus;
-  failureMessage?: string;
-  billInterval?: BillInterval;
-  costSummary?: BillEstimateCostSummary;
-  createdAt?: Date;
-  expiresAt?: Date;
-  groupSharingPreference?: GroupSharingPreferenceEnum;
-  costCategoryGroupSharingPreferenceArn?: string;
-  costCategoryGroupSharingPreferenceEffectiveDate?: Date;
+  name?: string | undefined;
+  status?: BillEstimateStatus | undefined;
+  failureMessage?: string | undefined;
+  billInterval?: BillInterval | undefined;
+  costSummary?: BillEstimateCostSummary | undefined;
+  createdAt?: Date | undefined;
+  expiresAt?: Date | undefined;
+  groupSharingPreference?: GroupSharingPreferenceEnum | undefined;
+  costCategoryGroupSharingPreferenceArn?: string | undefined;
+  costCategoryGroupSharingPreferenceEffectiveDate?: Date | undefined;
 }
 export interface UpdateBillScenarioRequest {
   identifier: string;
-  name?: string;
-  expiresAt?: Date;
-  groupSharingPreference?: GroupSharingPreferenceEnum;
-  costCategoryGroupSharingPreferenceArn?: string;
+  name?: string | undefined;
+  expiresAt?: Date | undefined;
+  groupSharingPreference?: GroupSharingPreferenceEnum | undefined;
+  costCategoryGroupSharingPreferenceArn?: string | undefined;
 }
 export interface UpdateBillScenarioResponse {
   id: string;
-  name?: string;
-  billInterval?: BillInterval;
-  status?: BillScenarioStatus;
-  createdAt?: Date;
-  expiresAt?: Date;
-  failureMessage?: string;
-  groupSharingPreference?: GroupSharingPreferenceEnum;
-  costCategoryGroupSharingPreferenceArn?: string;
+  name?: string | undefined;
+  billInterval?: BillInterval | undefined;
+  status?: BillScenarioStatus | undefined;
+  createdAt?: Date | undefined;
+  expiresAt?: Date | undefined;
+  failureMessage?: string | undefined;
+  groupSharingPreference?: GroupSharingPreferenceEnum | undefined;
+  costCategoryGroupSharingPreferenceArn?: string | undefined;
 }
 export interface UpdatePreferencesRequest {
-  managementAccountRateTypeSelections?: RateType[];
-  memberAccountRateTypeSelections?: RateType[];
-  standaloneAccountRateTypeSelections?: RateType[];
+  managementAccountRateTypeSelections?: RateType[] | undefined;
+  memberAccountRateTypeSelections?: RateType[] | undefined;
+  standaloneAccountRateTypeSelections?: RateType[] | undefined;
 }
 export interface UpdatePreferencesResponse {
-  managementAccountRateTypeSelections?: RateType[];
-  memberAccountRateTypeSelections?: RateType[];
-  standaloneAccountRateTypeSelections?: RateType[];
+  managementAccountRateTypeSelections?: RateType[] | undefined;
+  memberAccountRateTypeSelections?: RateType[] | undefined;
+  standaloneAccountRateTypeSelections?: RateType[] | undefined;
 }
 export interface UpdateWorkloadEstimateRequest {
   identifier: string;
-  name?: string;
-  expiresAt?: Date;
+  name?: string | undefined;
+  expiresAt?: Date | undefined;
 }
 export interface UpdateWorkloadEstimateResponse {
   id: string;
-  name?: string;
-  createdAt?: Date;
-  expiresAt?: Date;
-  rateType?: WorkloadEstimateRateType;
-  rateTimestamp?: Date;
-  status?: WorkloadEstimateStatus;
-  totalCost?: number;
-  costCurrency?: CurrencyCode;
-  failureMessage?: string;
+  name?: string | undefined;
+  createdAt?: Date | undefined;
+  expiresAt?: Date | undefined;
+  rateType?: WorkloadEstimateRateType | undefined;
+  rateTimestamp?: Date | undefined;
+  status?: WorkloadEstimateStatus | undefined;
+  totalCost?: number | undefined;
+  costCurrency?: CurrencyCode | undefined;
+  failureMessage?: string | undefined;
 }
 export type BatchCreateBillScenarioCommitmentModificationError =
   | ConflictException

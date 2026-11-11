@@ -64,7 +64,7 @@ export interface CreateBackupRequest {
   name: string;
   /** Values are set in days (1-36500) */
   retentionPeriod: number;
-  volumeIds?: CreateBackupRequestVolumeIdsList;
+  volumeIds?: CreateBackupRequestVolumeIdsList | undefined;
 }
 export interface BackupJob {
   id: string;
@@ -75,7 +75,7 @@ export interface BackupProperties {
   name: string;
   /** Values are set in days (1-36500) */
   retentionPeriod: number;
-  volumeIds?: BackupPropertiesVolumeIdsList;
+  volumeIds?: BackupPropertiesVolumeIdsList | undefined;
 }
 export interface CreateBackupScheduleRequest {
   /** project id */
@@ -84,7 +84,7 @@ export interface CreateBackupScheduleRequest {
   region: string;
   /** server id */
   serverId: string;
-  backupProperties?: BackupProperties;
+  backupProperties?: BackupProperties | undefined;
   enabled: boolean;
   /** Max 255 characters */
   name: string;
@@ -92,7 +92,7 @@ export interface CreateBackupScheduleRequest {
   rrule: string;
 }
 export interface BackupSchedule {
-  backupProperties?: BackupProperties;
+  backupProperties?: BackupProperties | undefined;
   enabled: boolean;
   id: number;
   name: string;
@@ -109,7 +109,7 @@ export interface DeleteBackupRequest {
   /** id of the backup */
   backupId: string;
   /** force delete the backup */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteBackupResponse {}
 export interface DeleteBackupScheduleRequest {
@@ -135,7 +135,7 @@ export interface DeleteVolumeBackupRequest {
   /** id of the volume backup */
   volumeBackupId: string;
   /** Force delete the volume backup */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteVolumeBackupResponse {}
 export interface DisableServiceResourceRequest {
@@ -154,7 +154,7 @@ export interface EnableServiceResourceRequest {
   region: string;
   /** server id */
   serverId: string;
-  backupPolicyId?: string;
+  backupPolicyId?: string | undefined;
 }
 export interface EnableServiceResourceResponse {}
 export interface GetBackupRequest {
@@ -187,23 +187,23 @@ export type BackupVolumeBackupsItemStatus =
   | "error-creating"
   | "unrecognized";
 export interface BackupVolumeBackupsItem {
-  id?: string;
-  lastRestoredAt?: string;
-  lastRestoredVolumeId?: string;
-  size?: number;
-  status?: BackupVolumeBackupsItemStatus;
-  volumeId?: string;
+  id?: string | undefined;
+  lastRestoredAt?: string | undefined;
+  lastRestoredVolumeId?: string | undefined;
+  size?: number | undefined;
+  status?: BackupVolumeBackupsItemStatus | undefined;
+  volumeId?: string | undefined;
 }
 export type BackupVolumeBackupsList = Array<BackupVolumeBackupsItem>;
 export interface Backup {
   createdAt: string;
   expireAt: string;
   id: string;
-  lastRestoredAt?: string;
+  lastRestoredAt?: string | undefined;
   name: string;
-  size?: number;
+  size?: number | undefined;
   status: BackupStatus;
-  volumeBackups?: BackupVolumeBackupsList;
+  volumeBackups?: BackupVolumeBackupsList | undefined;
 }
 export interface GetBackupScheduleRequest {
   /** project id */
@@ -224,29 +224,29 @@ export interface GetServiceResourceRequest {
   serverId: string;
 }
 export interface GetBackupServiceResponse {
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface ListBackupPoliciesRequest {
   /** project id */
   projectId: string;
 }
 export interface BackupPolicyBackupProperties {
-  name?: string;
-  retentionPeriod?: number;
+  name?: string | undefined;
+  retentionPeriod?: number | undefined;
 }
 export interface BackupPolicy {
-  backupProperties?: BackupPolicyBackupProperties;
-  default?: boolean;
-  description?: string;
-  enabled?: boolean;
-  id?: string;
-  name?: string;
+  backupProperties?: BackupPolicyBackupProperties | undefined;
+  default?: boolean | undefined;
+  description?: string | undefined;
+  enabled?: boolean | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
   /** An rrule (Recurrence Rule) is a standardized string format used in iCalendar (RFC 5545) to define repeating events, and you can generate one by using a dedicated library or by using online generator tools to specify parameters like frequency, interval, and end dates */
-  rrule?: string;
+  rrule?: string | undefined;
 }
 export type GetBackupPoliciesResponseItemsList = Array<BackupPolicy>;
 export interface GetBackupPoliciesResponse {
-  items?: GetBackupPoliciesResponseItemsList;
+  items?: GetBackupPoliciesResponseItemsList | undefined;
 }
 export interface ListBackupsRequest {
   /** project id */
@@ -258,7 +258,7 @@ export interface ListBackupsRequest {
 }
 export type GetBackupsListResponseItemsList = Array<Backup>;
 export interface GetBackupsListResponse {
-  items?: GetBackupsListResponseItemsList;
+  items?: GetBackupsListResponseItemsList | undefined;
 }
 export interface ListBackupSchedulesRequest {
   /** project id */
@@ -270,7 +270,7 @@ export interface ListBackupSchedulesRequest {
 }
 export type GetBackupSchedulesResponseItemsList = Array<BackupSchedule>;
 export interface GetBackupSchedulesResponse {
-  items?: GetBackupSchedulesResponseItemsList;
+  items?: GetBackupSchedulesResponseItemsList | undefined;
 }
 export type RestoreBackupRequestVolumeIdsList = Array<string>;
 export interface RestoreBackupRequest {
@@ -283,7 +283,7 @@ export interface RestoreBackupRequest {
   /** id of the backup */
   backupId: string;
   startServerAfterRestore: boolean;
-  volumeIds?: RestoreBackupRequestVolumeIdsList;
+  volumeIds?: RestoreBackupRequestVolumeIdsList | undefined;
 }
 export interface RestoreBackupResponse {}
 export interface RestoreVolumeBackupRequest {
@@ -309,7 +309,7 @@ export interface UpdateBackupScheduleRequest {
   serverId: string;
   /** backup schedule id */
   backupScheduleId: string;
-  backupProperties?: BackupProperties;
+  backupProperties?: BackupProperties | undefined;
   enabled: boolean;
   /** Max 255 characters */
   name: string;

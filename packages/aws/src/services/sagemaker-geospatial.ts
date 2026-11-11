@@ -171,17 +171,17 @@ export type S3Uri = string;
 export type KmsKey = string;
 export interface ExportS3DataInput {
   S3Uri: string;
-  KmsKeyId?: string;
+  KmsKeyId?: string | undefined;
 }
 export interface OutputConfigInput {
   S3Data: ExportS3DataInput;
 }
 export interface ExportEarthObservationJobInput {
   Arn: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   ExecutionRoleArn: string;
   OutputConfig: OutputConfigInput;
-  ExportSourceImages?: boolean;
+  ExportSourceImages?: boolean | undefined;
 }
 export type EarthObservationJobExportStatus = string;
 export interface ExportEarthObservationJobOutput {
@@ -190,18 +190,18 @@ export interface ExportEarthObservationJobOutput {
   ExportStatus: string;
   ExecutionRoleArn: string;
   OutputConfig: OutputConfigInput;
-  ExportSourceImages?: boolean;
+  ExportSourceImages?: boolean | undefined;
 }
 export interface VectorEnrichmentJobS3Data {
   S3Uri: string;
-  KmsKeyId?: string;
+  KmsKeyId?: string | undefined;
 }
 export interface ExportVectorEnrichmentJobOutputConfig {
   S3Data: VectorEnrichmentJobS3Data;
 }
 export interface ExportVectorEnrichmentJobInput {
   Arn: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   ExecutionRoleArn: string;
   OutputConfig: ExportVectorEnrichmentJobOutputConfig;
 }
@@ -233,8 +233,8 @@ export interface MultiPolygonGeometryInput {
   Coordinates: number[][][][];
 }
 export type AreaOfInterestGeometry =
-  | { PolygonGeometry: PolygonGeometryInput; MultiPolygonGeometry?: never }
-  | { PolygonGeometry?: never; MultiPolygonGeometry: MultiPolygonGeometryInput };
+  | { PolygonGeometry: PolygonGeometryInput; MultiPolygonGeometry?: undefined }
+  | { PolygonGeometry?: undefined; MultiPolygonGeometry: MultiPolygonGeometryInput };
 export type AreaOfInterest = { AreaOfInterestGeometry: AreaOfInterestGeometry };
 export interface EoCloudCoverInput {
   LowerBound: number;
@@ -255,7 +255,7 @@ export interface ViewSunElevationInput {
 export type ComparisonOperator = string;
 export interface PlatformInput {
   Value: string;
-  ComparisonOperator?: string;
+  ComparisonOperator?: string | undefined;
 }
 export interface LandsatCloudCoverLandInput {
   LowerBound: number;
@@ -264,50 +264,50 @@ export interface LandsatCloudCoverLandInput {
 export type Property =
   | {
       EoCloudCover: EoCloudCoverInput;
-      ViewOffNadir?: never;
-      ViewSunAzimuth?: never;
-      ViewSunElevation?: never;
-      Platform?: never;
-      LandsatCloudCoverLand?: never;
+      ViewOffNadir?: undefined;
+      ViewSunAzimuth?: undefined;
+      ViewSunElevation?: undefined;
+      Platform?: undefined;
+      LandsatCloudCoverLand?: undefined;
     }
   | {
-      EoCloudCover?: never;
+      EoCloudCover?: undefined;
       ViewOffNadir: ViewOffNadirInput;
-      ViewSunAzimuth?: never;
-      ViewSunElevation?: never;
-      Platform?: never;
-      LandsatCloudCoverLand?: never;
+      ViewSunAzimuth?: undefined;
+      ViewSunElevation?: undefined;
+      Platform?: undefined;
+      LandsatCloudCoverLand?: undefined;
     }
   | {
-      EoCloudCover?: never;
-      ViewOffNadir?: never;
+      EoCloudCover?: undefined;
+      ViewOffNadir?: undefined;
       ViewSunAzimuth: ViewSunAzimuthInput;
-      ViewSunElevation?: never;
-      Platform?: never;
-      LandsatCloudCoverLand?: never;
+      ViewSunElevation?: undefined;
+      Platform?: undefined;
+      LandsatCloudCoverLand?: undefined;
     }
   | {
-      EoCloudCover?: never;
-      ViewOffNadir?: never;
-      ViewSunAzimuth?: never;
+      EoCloudCover?: undefined;
+      ViewOffNadir?: undefined;
+      ViewSunAzimuth?: undefined;
       ViewSunElevation: ViewSunElevationInput;
-      Platform?: never;
-      LandsatCloudCoverLand?: never;
+      Platform?: undefined;
+      LandsatCloudCoverLand?: undefined;
     }
   | {
-      EoCloudCover?: never;
-      ViewOffNadir?: never;
-      ViewSunAzimuth?: never;
-      ViewSunElevation?: never;
+      EoCloudCover?: undefined;
+      ViewOffNadir?: undefined;
+      ViewSunAzimuth?: undefined;
+      ViewSunElevation?: undefined;
       Platform: PlatformInput;
-      LandsatCloudCoverLand?: never;
+      LandsatCloudCoverLand?: undefined;
     }
   | {
-      EoCloudCover?: never;
-      ViewOffNadir?: never;
-      ViewSunAzimuth?: never;
-      ViewSunElevation?: never;
-      Platform?: never;
+      EoCloudCover?: undefined;
+      ViewOffNadir?: undefined;
+      ViewSunAzimuth?: undefined;
+      ViewSunElevation?: undefined;
+      Platform?: undefined;
       LandsatCloudCoverLand: LandsatCloudCoverLandInput;
     };
 export interface PropertyFilter {
@@ -316,34 +316,34 @@ export interface PropertyFilter {
 export type PropertyFiltersList = PropertyFilter[];
 export type LogicalOperator = string;
 export interface PropertyFilters {
-  Properties?: PropertyFilter[];
-  LogicalOperator?: string;
+  Properties?: PropertyFilter[] | undefined;
+  LogicalOperator?: string | undefined;
 }
 export interface RasterDataCollectionQueryOutput {
   RasterDataCollectionArn: string;
   RasterDataCollectionName: string;
   TimeRangeFilter: TimeRangeFilterOutput;
-  AreaOfInterest?: AreaOfInterest;
-  PropertyFilters?: PropertyFilters;
+  AreaOfInterest?: AreaOfInterest | undefined;
+  PropertyFilters?: PropertyFilters | undefined;
 }
 export interface InputConfigOutput {
-  PreviousEarthObservationJobArn?: string;
-  RasterDataCollectionQuery?: RasterDataCollectionQueryOutput;
+  PreviousEarthObservationJobArn?: string | undefined;
+  RasterDataCollectionQuery?: RasterDataCollectionQueryOutput | undefined;
 }
 export type StringListInput = string[];
 export type OutputType = string;
 export interface Operation {
   Name: string;
   Equation: string;
-  OutputType?: string;
+  OutputType?: string | undefined;
 }
 export type OperationsListInput = Operation[];
 export interface CustomIndicesInput {
-  Operations?: Operation[];
+  Operations?: Operation[] | undefined;
 }
 export interface BandMathConfigInput {
-  PredefinedIndices?: string[];
-  CustomIndices?: CustomIndicesInput;
+  PredefinedIndices?: string[] | undefined;
+  CustomIndices?: CustomIndicesInput | undefined;
 }
 export type Unit = string;
 export interface UserDefined {
@@ -356,145 +356,145 @@ export interface OutputResolutionResamplingInput {
 export type AlgorithmNameResampling = string;
 export interface ResamplingConfigInput {
   OutputResolution: OutputResolutionResamplingInput;
-  AlgorithmName?: string;
-  TargetBands?: string[];
+  AlgorithmName?: string | undefined;
+  TargetBands?: string[] | undefined;
 }
 export type GroupBy = string;
 export type TemporalStatistics = string;
 export type TemporalStatisticsListInput = string[];
 export interface TemporalStatisticsConfigInput {
-  GroupBy?: string;
+  GroupBy?: string | undefined;
   Statistics: string[];
-  TargetBands?: string[];
+  TargetBands?: string[] | undefined;
 }
 export type AlgorithmNameCloudRemoval = string;
 export interface CloudRemovalConfigInput {
-  AlgorithmName?: string;
-  InterpolationValue?: string;
-  TargetBands?: string[];
+  AlgorithmName?: string | undefined;
+  InterpolationValue?: string | undefined;
+  TargetBands?: string[] | undefined;
 }
 export type ZonalStatistics = string;
 export type ZonalStatisticsListInput = string[];
 export interface ZonalStatisticsConfigInput {
   ZoneS3Path: string;
   Statistics: string[];
-  TargetBands?: string[];
-  ZoneS3PathKmsKeyId?: string;
+  TargetBands?: string[] | undefined;
+  ZoneS3PathKmsKeyId?: string | undefined;
 }
 export type AlgorithmNameGeoMosaic = string;
 export interface GeoMosaicConfigInput {
-  AlgorithmName?: string;
-  TargetBands?: string[];
+  AlgorithmName?: string | undefined;
+  TargetBands?: string[] | undefined;
 }
 export type PredefinedResolution = string;
 export interface OutputResolutionStackInput {
-  Predefined?: string;
-  UserDefined?: UserDefined;
+  Predefined?: string | undefined;
+  UserDefined?: UserDefined | undefined;
 }
 export interface StackConfigInput {
-  OutputResolution?: OutputResolutionStackInput;
-  TargetBands?: string[];
+  OutputResolution?: OutputResolutionStackInput | undefined;
+  TargetBands?: string[] | undefined;
 }
 export interface CloudMaskingConfigInput {}
 export interface LandCoverSegmentationConfigInput {}
 export type JobConfigInput =
   | {
       BandMathConfig: BandMathConfigInput;
-      ResamplingConfig?: never;
-      TemporalStatisticsConfig?: never;
-      CloudRemovalConfig?: never;
-      ZonalStatisticsConfig?: never;
-      GeoMosaicConfig?: never;
-      StackConfig?: never;
-      CloudMaskingConfig?: never;
-      LandCoverSegmentationConfig?: never;
+      ResamplingConfig?: undefined;
+      TemporalStatisticsConfig?: undefined;
+      CloudRemovalConfig?: undefined;
+      ZonalStatisticsConfig?: undefined;
+      GeoMosaicConfig?: undefined;
+      StackConfig?: undefined;
+      CloudMaskingConfig?: undefined;
+      LandCoverSegmentationConfig?: undefined;
     }
   | {
-      BandMathConfig?: never;
+      BandMathConfig?: undefined;
       ResamplingConfig: ResamplingConfigInput;
-      TemporalStatisticsConfig?: never;
-      CloudRemovalConfig?: never;
-      ZonalStatisticsConfig?: never;
-      GeoMosaicConfig?: never;
-      StackConfig?: never;
-      CloudMaskingConfig?: never;
-      LandCoverSegmentationConfig?: never;
+      TemporalStatisticsConfig?: undefined;
+      CloudRemovalConfig?: undefined;
+      ZonalStatisticsConfig?: undefined;
+      GeoMosaicConfig?: undefined;
+      StackConfig?: undefined;
+      CloudMaskingConfig?: undefined;
+      LandCoverSegmentationConfig?: undefined;
     }
   | {
-      BandMathConfig?: never;
-      ResamplingConfig?: never;
+      BandMathConfig?: undefined;
+      ResamplingConfig?: undefined;
       TemporalStatisticsConfig: TemporalStatisticsConfigInput;
-      CloudRemovalConfig?: never;
-      ZonalStatisticsConfig?: never;
-      GeoMosaicConfig?: never;
-      StackConfig?: never;
-      CloudMaskingConfig?: never;
-      LandCoverSegmentationConfig?: never;
+      CloudRemovalConfig?: undefined;
+      ZonalStatisticsConfig?: undefined;
+      GeoMosaicConfig?: undefined;
+      StackConfig?: undefined;
+      CloudMaskingConfig?: undefined;
+      LandCoverSegmentationConfig?: undefined;
     }
   | {
-      BandMathConfig?: never;
-      ResamplingConfig?: never;
-      TemporalStatisticsConfig?: never;
+      BandMathConfig?: undefined;
+      ResamplingConfig?: undefined;
+      TemporalStatisticsConfig?: undefined;
       CloudRemovalConfig: CloudRemovalConfigInput;
-      ZonalStatisticsConfig?: never;
-      GeoMosaicConfig?: never;
-      StackConfig?: never;
-      CloudMaskingConfig?: never;
-      LandCoverSegmentationConfig?: never;
+      ZonalStatisticsConfig?: undefined;
+      GeoMosaicConfig?: undefined;
+      StackConfig?: undefined;
+      CloudMaskingConfig?: undefined;
+      LandCoverSegmentationConfig?: undefined;
     }
   | {
-      BandMathConfig?: never;
-      ResamplingConfig?: never;
-      TemporalStatisticsConfig?: never;
-      CloudRemovalConfig?: never;
+      BandMathConfig?: undefined;
+      ResamplingConfig?: undefined;
+      TemporalStatisticsConfig?: undefined;
+      CloudRemovalConfig?: undefined;
       ZonalStatisticsConfig: ZonalStatisticsConfigInput;
-      GeoMosaicConfig?: never;
-      StackConfig?: never;
-      CloudMaskingConfig?: never;
-      LandCoverSegmentationConfig?: never;
+      GeoMosaicConfig?: undefined;
+      StackConfig?: undefined;
+      CloudMaskingConfig?: undefined;
+      LandCoverSegmentationConfig?: undefined;
     }
   | {
-      BandMathConfig?: never;
-      ResamplingConfig?: never;
-      TemporalStatisticsConfig?: never;
-      CloudRemovalConfig?: never;
-      ZonalStatisticsConfig?: never;
+      BandMathConfig?: undefined;
+      ResamplingConfig?: undefined;
+      TemporalStatisticsConfig?: undefined;
+      CloudRemovalConfig?: undefined;
+      ZonalStatisticsConfig?: undefined;
       GeoMosaicConfig: GeoMosaicConfigInput;
-      StackConfig?: never;
-      CloudMaskingConfig?: never;
-      LandCoverSegmentationConfig?: never;
+      StackConfig?: undefined;
+      CloudMaskingConfig?: undefined;
+      LandCoverSegmentationConfig?: undefined;
     }
   | {
-      BandMathConfig?: never;
-      ResamplingConfig?: never;
-      TemporalStatisticsConfig?: never;
-      CloudRemovalConfig?: never;
-      ZonalStatisticsConfig?: never;
-      GeoMosaicConfig?: never;
+      BandMathConfig?: undefined;
+      ResamplingConfig?: undefined;
+      TemporalStatisticsConfig?: undefined;
+      CloudRemovalConfig?: undefined;
+      ZonalStatisticsConfig?: undefined;
+      GeoMosaicConfig?: undefined;
       StackConfig: StackConfigInput;
-      CloudMaskingConfig?: never;
-      LandCoverSegmentationConfig?: never;
+      CloudMaskingConfig?: undefined;
+      LandCoverSegmentationConfig?: undefined;
     }
   | {
-      BandMathConfig?: never;
-      ResamplingConfig?: never;
-      TemporalStatisticsConfig?: never;
-      CloudRemovalConfig?: never;
-      ZonalStatisticsConfig?: never;
-      GeoMosaicConfig?: never;
-      StackConfig?: never;
+      BandMathConfig?: undefined;
+      ResamplingConfig?: undefined;
+      TemporalStatisticsConfig?: undefined;
+      CloudRemovalConfig?: undefined;
+      ZonalStatisticsConfig?: undefined;
+      GeoMosaicConfig?: undefined;
+      StackConfig?: undefined;
       CloudMaskingConfig: CloudMaskingConfigInput;
-      LandCoverSegmentationConfig?: never;
+      LandCoverSegmentationConfig?: undefined;
     }
   | {
-      BandMathConfig?: never;
-      ResamplingConfig?: never;
-      TemporalStatisticsConfig?: never;
-      CloudRemovalConfig?: never;
-      ZonalStatisticsConfig?: never;
-      GeoMosaicConfig?: never;
-      StackConfig?: never;
-      CloudMaskingConfig?: never;
+      BandMathConfig?: undefined;
+      ResamplingConfig?: undefined;
+      TemporalStatisticsConfig?: undefined;
+      CloudRemovalConfig?: undefined;
+      ZonalStatisticsConfig?: undefined;
+      GeoMosaicConfig?: undefined;
+      StackConfig?: undefined;
+      CloudMaskingConfig?: undefined;
       LandCoverSegmentationConfig: LandCoverSegmentationConfigInput;
     };
 export interface OutputBand {
@@ -504,17 +504,17 @@ export interface OutputBand {
 export type EarthObservationJobOutputBands = OutputBand[];
 export type EarthObservationJobErrorType = string;
 export interface EarthObservationJobErrorDetails {
-  Type?: string;
-  Message?: string;
+  Type?: string | undefined;
+  Message?: string | undefined;
 }
 export type ExportErrorType = string;
 export interface ExportErrorDetailsOutput {
-  Type?: string;
-  Message?: string;
+  Type?: string | undefined;
+  Message?: string | undefined;
 }
 export interface ExportErrorDetails {
-  ExportResults?: ExportErrorDetailsOutput;
-  ExportSourceImages?: ExportErrorDetailsOutput;
+  ExportResults?: ExportErrorDetailsOutput | undefined;
+  ExportSourceImages?: ExportErrorDetailsOutput | undefined;
 }
 export type Tags = { [key: string]: string | undefined };
 export interface GetEarthObservationJobOutput {
@@ -523,15 +523,15 @@ export interface GetEarthObservationJobOutput {
   CreationTime: Date;
   DurationInSeconds: number;
   Status: string;
-  KmsKeyId?: string;
+  KmsKeyId?: string | undefined;
   InputConfig: InputConfigOutput;
   JobConfig: JobConfigInput;
-  OutputBands?: OutputBand[];
-  ExecutionRoleArn?: string;
-  ErrorDetails?: EarthObservationJobErrorDetails;
-  ExportStatus?: string;
-  ExportErrorDetails?: ExportErrorDetails;
-  Tags?: { [key: string]: string | undefined };
+  OutputBands?: OutputBand[] | undefined;
+  ExecutionRoleArn?: string | undefined;
+  ErrorDetails?: EarthObservationJobErrorDetails | undefined;
+  ExportStatus?: string | undefined;
+  ExportErrorDetails?: ExportErrorDetails | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetRasterDataCollectionInput {
   Arn: string;
@@ -540,8 +540,8 @@ export type DataCollectionType = string;
 export interface Filter {
   Name: string;
   Type: string;
-  Minimum?: number;
-  Maximum?: number;
+  Minimum?: number | undefined;
+  Maximum?: number | undefined;
 }
 export type FilterList = Filter[];
 export type ImageSourceBandList = string[];
@@ -553,7 +553,7 @@ export interface GetRasterDataCollectionOutput {
   DescriptionPageUrl: string;
   SupportedFilters: Filter[];
   ImageSourceBands: string[];
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type TargetOptions = string;
 export interface GetTileInput {
@@ -563,15 +563,15 @@ export interface GetTileInput {
   ImageAssets: string[];
   Target: string;
   Arn: string;
-  ImageMask?: boolean;
-  OutputFormat?: string;
-  TimeRangeFilter?: string;
-  PropertyFilters?: string;
-  OutputDataType?: string;
-  ExecutionRoleArn?: string;
+  ImageMask?: boolean | undefined;
+  OutputFormat?: string | undefined;
+  TimeRangeFilter?: string | undefined;
+  PropertyFilters?: string | undefined;
+  OutputDataType?: string | undefined;
+  ExecutionRoleArn?: string | undefined;
 }
 export interface GetTileOutput {
-  BinaryFile?: T.StreamingOutputBody;
+  BinaryFile?: T.StreamingOutputBody | undefined;
 }
 export interface GetVectorEnrichmentJobInput {
   Arn: string;
@@ -595,17 +595,17 @@ export interface MapMatchingConfig {
   TimestampAttributeName: string;
 }
 export type VectorEnrichmentJobConfig =
-  | { ReverseGeocodingConfig: ReverseGeocodingConfig; MapMatchingConfig?: never }
-  | { ReverseGeocodingConfig?: never; MapMatchingConfig: MapMatchingConfig };
+  | { ReverseGeocodingConfig: ReverseGeocodingConfig; MapMatchingConfig?: undefined }
+  | { ReverseGeocodingConfig?: undefined; MapMatchingConfig: MapMatchingConfig };
 export type VectorEnrichmentJobErrorType = string;
 export interface VectorEnrichmentJobErrorDetails {
-  ErrorType?: string;
-  ErrorMessage?: string;
+  ErrorType?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type VectorEnrichmentJobExportErrorType = string;
 export interface VectorEnrichmentJobExportErrorDetails {
-  Type?: string;
-  Message?: string;
+  Type?: string | undefined;
+  Message?: string | undefined;
 }
 export interface GetVectorEnrichmentJobOutput {
   Arn: string;
@@ -614,23 +614,23 @@ export interface GetVectorEnrichmentJobOutput {
   CreationTime: Date;
   DurationInSeconds: number;
   Status: string;
-  KmsKeyId?: string;
+  KmsKeyId?: string | undefined;
   InputConfig: VectorEnrichmentJobInputConfig;
   JobConfig: VectorEnrichmentJobConfig;
   ExecutionRoleArn: string;
-  ErrorDetails?: VectorEnrichmentJobErrorDetails;
-  ExportStatus?: string;
-  ExportErrorDetails?: VectorEnrichmentJobExportErrorDetails;
-  Tags?: { [key: string]: string | undefined };
+  ErrorDetails?: VectorEnrichmentJobErrorDetails | undefined;
+  ExportStatus?: string | undefined;
+  ExportErrorDetails?: VectorEnrichmentJobExportErrorDetails | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type SortOrder = string;
 export type NextToken = string | redacted.Redacted<string>;
 export interface ListEarthObservationJobInput {
-  StatusEquals?: string;
-  SortOrder?: string;
-  SortBy?: string;
-  NextToken?: string | redacted.Redacted<string>;
-  MaxResults?: number;
+  StatusEquals?: string | undefined;
+  SortOrder?: string | undefined;
+  SortBy?: string | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListEarthObservationJobOutputConfig {
   Arn: string;
@@ -639,44 +639,44 @@ export interface ListEarthObservationJobOutputConfig {
   DurationInSeconds: number;
   Status: string;
   OperationType: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type EarthObservationJobList = ListEarthObservationJobOutputConfig[];
 export interface ListEarthObservationJobOutput {
   EarthObservationJobSummaries: ListEarthObservationJobOutputConfig[];
-  NextToken?: string | redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface ListRasterDataCollectionsInput {
-  NextToken?: string | redacted.Redacted<string>;
-  MaxResults?: number;
+  NextToken?: string | redacted.Redacted<string> | undefined;
+  MaxResults?: number | undefined;
 }
 export interface RasterDataCollectionMetadata {
   Name: string;
   Arn: string;
   Type: string;
   Description: string;
-  DescriptionPageUrl?: string;
+  DescriptionPageUrl?: string | undefined;
   SupportedFilters: Filter[];
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DataCollectionsList = RasterDataCollectionMetadata[];
 export interface ListRasterDataCollectionsOutput {
   RasterDataCollectionSummaries: RasterDataCollectionMetadata[];
-  NextToken?: string | redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export type Arn = string;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListVectorEnrichmentJobInput {
-  StatusEquals?: string;
-  SortOrder?: string;
-  SortBy?: string;
-  NextToken?: string | redacted.Redacted<string>;
-  MaxResults?: number;
+  StatusEquals?: string | undefined;
+  SortOrder?: string | undefined;
+  SortBy?: string | undefined;
+  NextToken?: string | redacted.Redacted<string> | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ListVectorEnrichmentJobOutputConfig {
   Arn: string;
@@ -685,12 +685,12 @@ export interface ListVectorEnrichmentJobOutputConfig {
   CreationTime: Date;
   DurationInSeconds: number;
   Status: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type VectorEnrichmentJobList = ListVectorEnrichmentJobOutputConfig[];
 export interface ListVectorEnrichmentJobOutput {
   VectorEnrichmentJobSummaries: ListVectorEnrichmentJobOutputConfig[];
-  NextToken?: string | redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface TimeRangeFilterInput {
   StartTime: Date;
@@ -698,62 +698,62 @@ export interface TimeRangeFilterInput {
 }
 export interface RasterDataCollectionQueryWithBandFilterInput {
   TimeRangeFilter: TimeRangeFilterInput;
-  AreaOfInterest?: AreaOfInterest;
-  PropertyFilters?: PropertyFilters;
-  BandFilter?: string[];
+  AreaOfInterest?: AreaOfInterest | undefined;
+  PropertyFilters?: PropertyFilters | undefined;
+  BandFilter?: string[] | undefined;
 }
 export interface SearchRasterDataCollectionInput {
   Arn: string;
   RasterDataCollectionQuery: RasterDataCollectionQueryWithBandFilterInput;
-  NextToken?: string | redacted.Redacted<string>;
+  NextToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface Geometry {
   Type: string;
   Coordinates: number[][][];
 }
 export interface AssetValue {
-  Href?: string;
+  Href?: string | undefined;
 }
 export type AssetsMap = { [key: string]: AssetValue | undefined };
 export interface Properties {
-  EoCloudCover?: number;
-  ViewOffNadir?: number;
-  ViewSunAzimuth?: number;
-  ViewSunElevation?: number;
-  Platform?: string;
-  LandsatCloudCoverLand?: number;
+  EoCloudCover?: number | undefined;
+  ViewOffNadir?: number | undefined;
+  ViewSunAzimuth?: number | undefined;
+  ViewSunElevation?: number | undefined;
+  Platform?: string | undefined;
+  LandsatCloudCoverLand?: number | undefined;
 }
 export interface ItemSource {
   Id: string;
   Geometry: Geometry;
-  Assets?: { [key: string]: AssetValue | undefined };
+  Assets?: { [key: string]: AssetValue | undefined } | undefined;
   DateTime: Date;
-  Properties?: Properties;
+  Properties?: Properties | undefined;
 }
 export type ItemSourceList = ItemSource[];
 export interface SearchRasterDataCollectionOutput {
   ApproximateResultCount: number;
-  NextToken?: string | redacted.Redacted<string>;
-  Items?: ItemSource[];
+  NextToken?: string | redacted.Redacted<string> | undefined;
+  Items?: ItemSource[] | undefined;
 }
 export interface RasterDataCollectionQueryInput {
   RasterDataCollectionArn: string;
   TimeRangeFilter: TimeRangeFilterInput;
-  AreaOfInterest?: AreaOfInterest;
-  PropertyFilters?: PropertyFilters;
+  AreaOfInterest?: AreaOfInterest | undefined;
+  PropertyFilters?: PropertyFilters | undefined;
 }
 export interface InputConfigInput {
-  PreviousEarthObservationJobArn?: string;
-  RasterDataCollectionQuery?: RasterDataCollectionQueryInput;
+  PreviousEarthObservationJobArn?: string | undefined;
+  RasterDataCollectionQuery?: RasterDataCollectionQueryInput | undefined;
 }
 export interface StartEarthObservationJobInput {
   Name: string;
-  ClientToken?: string;
-  KmsKeyId?: string;
+  ClientToken?: string | undefined;
+  KmsKeyId?: string | undefined;
   InputConfig: InputConfigInput;
   JobConfig: JobConfigInput;
   ExecutionRoleArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartEarthObservationJobOutput {
   Name: string;
@@ -761,20 +761,20 @@ export interface StartEarthObservationJobOutput {
   CreationTime: Date;
   DurationInSeconds: number;
   Status: string;
-  KmsKeyId?: string;
-  InputConfig?: InputConfigOutput;
+  KmsKeyId?: string | undefined;
+  InputConfig?: InputConfigOutput | undefined;
   JobConfig: JobConfigInput;
   ExecutionRoleArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartVectorEnrichmentJobInput {
   Name: string;
-  ClientToken?: string;
-  KmsKeyId?: string;
+  ClientToken?: string | undefined;
+  KmsKeyId?: string | undefined;
   InputConfig: VectorEnrichmentJobInputConfig;
   JobConfig: VectorEnrichmentJobConfig;
   ExecutionRoleArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartVectorEnrichmentJobOutput {
   Name: string;
@@ -783,11 +783,11 @@ export interface StartVectorEnrichmentJobOutput {
   CreationTime: Date;
   DurationInSeconds: number;
   Status: string;
-  KmsKeyId?: string;
+  KmsKeyId?: string | undefined;
   InputConfig: VectorEnrichmentJobInputConfig;
   JobConfig: VectorEnrichmentJobConfig;
   ExecutionRoleArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StopEarthObservationJobInput {
   Arn: string;

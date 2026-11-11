@@ -38,17 +38,17 @@ export class Conflict
 export type CreateDomainRequestMetadataMap = { [key: string]: string | undefined };
 export interface CreateDomainRequest {
   /** Account ID, prefixed biz_. Required for user credentials; otherwise defaults to the credential's account. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** App ID, prefixed app_. The app must belong to the account. */
   app_id: string;
   /** Bare hostname, such as example.com or checkout.example.com. Wildcards, paths, schemes, and ports are not accepted. */
   domain: string;
   /** Custom string keys and values. */
-  metadata?: CreateDomainRequestMetadataMap;
+  metadata?: CreateDomainRequestMetadataMap | undefined;
   /** Explicitly transfer a domain from its current owner after publishing this new claim's TXT proof. Create the claim after the current owner verified. */
-  replace_existing?: boolean;
+  replace_existing?: boolean | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** DNS record type. */
 export type DomainDnsRecordType = "TXT" | "CNAME" | "A" | "AAAA";
@@ -131,23 +131,23 @@ export type ListDomainsRequestOrder = "created_at" | "updated_at";
 export type ListDomainsRequestDirection = "asc" | "desc";
 export interface ListDomainsRequest {
   /** Only domains belonging to this account, prefixed biz_. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Only domains assigned to this app, prefixed app_. */
-  app_id?: string;
+  app_id?: string | undefined;
   /** Only domains with this lifecycle status. */
-  status?: ListDomainsRequestStatus | (string & {});
+  status?: ListDomainsRequestStatus | (string & {}) | undefined;
   /** Field to sort by. */
-  order?: ListDomainsRequestOrder | (string & {});
+  order?: ListDomainsRequestOrder | (string & {}) | undefined;
   /** Sort direction. */
-  direction?: ListDomainsRequestDirection | (string & {});
+  direction?: ListDomainsRequestDirection | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 export type ListDomainsResponseDataList = Array<Domain>;
 export interface ListDomainsResponsePageInfo {
@@ -166,9 +166,9 @@ export interface UpdateDomainRequest {
   /** Domain ID, prefixed dom_. */
   id: string;
   /** App ID, prefixed app_. Must belong to the same account. */
-  app_id?: string;
+  app_id?: string | undefined;
   /** Replacement custom string keys and values. */
-  metadata?: UpdateDomainRequestMetadataMap;
+  metadata?: UpdateDomainRequestMetadataMap | undefined;
 }
 export type CreateDomainError = Conflict | WhopOpError;
 /** Create Domain Creates an unverified claim and returns DNS instructions. A claim does not reserve the hostname globally. Publish its unique TXT record; ownership verification, DNS checks, and certificate provisioning run automatically. Unverified claims are deleted after 48 hours. */

@@ -71,17 +71,17 @@ export type VmwareCloudDirectorBackupResourceStatusEnum =
 /** VMware Cloud Director Backup current state */
 export interface VmwareCloudDirectorBackupCurrentStateOffer {
   /** Backup service offer type (BRONZE|SILVER|GOLD) */
-  name?: VmwareCloudDirectorBackupOfferNameEnum;
+  name?: VmwareCloudDirectorBackupOfferNameEnum | undefined;
   /** Backup repository primary region */
-  protectionPrimaryRegion?: VmwareCloudDirectorRegionNameEnum;
+  protectionPrimaryRegion?: VmwareCloudDirectorRegionNameEnum | undefined;
   /** Backup repository replicated region */
-  protectionReplicatedRegion?: VmwareCloudDirectorRegionNameEnum | null;
+  protectionReplicatedRegion?: VmwareCloudDirectorRegionNameEnum | null | undefined;
   /** Backup repository quota in TB */
-  quotaInTB?: number;
+  quotaInTB?: number | undefined;
   /** Backup offer status */
-  status?: VmwareCloudDirectorBackupResourceStatusEnum;
+  status?: VmwareCloudDirectorBackupResourceStatusEnum | undefined;
   /** Backup repository used space in GB */
-  usedSpaceInGB?: number;
+  usedSpaceInGB?: number | undefined;
 }
 /** List of your VMware Cloud Director organization backup offers */
 export type VmwareCloudDirectorBackupCurrentStateOffersList =
@@ -89,22 +89,22 @@ export type VmwareCloudDirectorBackupCurrentStateOffersList =
 /** VMware Cloud Director Backup service current state */
 export interface VmwareCloudDirectorBackupCurrentState {
   /** Availability zone of VMware Cloud Director organization backup */
-  azName?: VmwareCloudDirectorAZNameEnum;
+  azName?: VmwareCloudDirectorAZNameEnum | undefined;
   /** List of your VMware Cloud Director organization backup offers */
-  offers?: VmwareCloudDirectorBackupCurrentStateOffersList;
+  offers?: VmwareCloudDirectorBackupCurrentStateOffersList | undefined;
 }
 /** Current status of a task. A task in ERROR cannot be retried without your inputs. PENDING tasks will be executed as soon as possible. A RUNNING task is currently executing your original request. SCHEDULED is used for tasks that will be executed in the future */
 export type CommonCurrentTaskStatusEnum = "ERROR" | "PENDING" | "RUNNING" | "SCHEDULED";
 /** Asynchronous operation currently running */
 export interface CommonCurrentTask {
   /** Identifier of the current task */
-  id?: string;
+  id?: string | undefined;
   /** Link to the task details */
-  link?: string;
+  link?: string | undefined;
   /** Current global status of the current task */
-  status?: CommonCurrentTaskStatusEnum | null;
+  status?: CommonCurrentTaskStatusEnum | null | undefined;
   /** Type of the current task */
-  type?: string;
+  type?: string | undefined;
 }
 /** Asynchronous operations ongoing on the VMware Cloud Director organization backup service */
 export type VmwareCloudDirectorBackupBackupDetailsWithIAMCurrentTasksList =
@@ -114,13 +114,13 @@ export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
 /** IAM resource metadata embedded in services models */
 export interface IamResourceMetadata {
   /** Resource display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Unique identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-  tags?: IamResourceMetadataTagsMap | null;
+  tags?: IamResourceMetadataTagsMap | null | undefined;
   /** Unique resource name used in policies */
-  urn?: string;
+  urn?: string | undefined;
 }
 /** VMware Cloud Director Backup target */
 export interface VmwareCloudDirectorBackupTargetOffer {
@@ -140,19 +140,19 @@ export interface VmwareCloudDirectorBackupTargetSpec {
 /** VMware Cloud Director Backup service */
 export interface VmwareCloudDirectorBackupBackupDetailsWithIAM {
   /** Datetime when backup was enabled */
-  createdAt?: string;
-  currentState?: VmwareCloudDirectorBackupCurrentState;
+  createdAt?: string | undefined;
+  currentState?: VmwareCloudDirectorBackupCurrentState | undefined;
   /** Asynchronous operations ongoing on the VMware Cloud Director organization backup service */
-  currentTasks?: VmwareCloudDirectorBackupBackupDetailsWithIAMCurrentTasksList | null;
+  currentTasks?: VmwareCloudDirectorBackupBackupDetailsWithIAMCurrentTasksList | null | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** Unique identifier of the VMware Cloud Director backup */
-  id?: string;
+  id?: string | undefined;
   /** Reflects the readiness of the VMware Cloud Director organization backup service. A new target specification request will be accepted only in `READY` status */
-  resourceStatus?: VmwareCloudDirectorBackupResourceStatusEnum;
-  targetSpec?: VmwareCloudDirectorBackupTargetSpec;
+  resourceStatus?: VmwareCloudDirectorBackupResourceStatusEnum | undefined;
+  targetSpec?: VmwareCloudDirectorBackupTargetSpec | undefined;
   /** Datetime when backup is modified */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface GetVmwareCloudDirectorBackupTaskRequest {
   /** Backup ID */
@@ -163,7 +163,7 @@ export interface GetVmwareCloudDirectorBackupTaskRequest {
 /** Errors that occured on the task */
 export interface CommonTaskError {
   /** Error description */
-  message?: string;
+  message?: string | undefined;
 }
 /** Errors that occured on the task */
 export type CommonTaskErrorsList = Array<CommonTaskError>;
@@ -172,36 +172,36 @@ export type CommonTaskStatusEnum = "DONE" | "ERROR" | "PENDING" | "RUNNING" | "S
 /** Detailed information about an asynchronous operation progress steps */
 export interface CommonTaskProgress {
   /** Progress step name */
-  name?: string;
+  name?: string | undefined;
   /** Current status of the progress step */
-  status?: CommonTaskStatusEnum;
+  status?: CommonTaskStatusEnum | undefined;
 }
 /** Progress steps of the asynchronous operation */
 export type CommonTaskProgressList = Array<CommonTaskProgress>;
 /** Asynchronous operation */
 export interface CommonTask {
   /** Creation date of the task */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Errors that occured on the task */
-  errors?: CommonTaskErrorsList | null;
+  errors?: CommonTaskErrorsList | null | undefined;
   /** Ending date of the task */
-  finishedAt?: string | null;
+  finishedAt?: string | null | undefined;
   /** Identifier of the task */
-  id?: string;
+  id?: string | undefined;
   /** Link to the related resource */
-  link?: string;
+  link?: string | undefined;
   /** Description of the task */
-  message?: string;
+  message?: string | undefined;
   /** Progress steps of the asynchronous operation */
-  progress?: CommonTaskProgressList;
+  progress?: CommonTaskProgressList | undefined;
   /** Starting date of the task */
-  startedAt?: string | null;
+  startedAt?: string | null | undefined;
   /** Current global status of the task */
-  status?: CommonTaskStatusEnum;
+  status?: CommonTaskStatusEnum | undefined;
   /** Type of the task */
-  type?: string;
+  type?: string | undefined;
   /** Last update of the task */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface GetVmwareCloudDirectorOrganizationRequest {
   /** Organization ID */
@@ -212,21 +212,21 @@ export type VmwareCloudDirectorBillingTypeEnum = "DEMO" | "MONTHLY";
 /** Current status of VMware Cloud Director organization service */
 export interface VmwareCloudDirectorOrganizationCurrentState {
   /** API URL to interact with your VMware Cloud Director organization on OVHcloud */
-  apiUrl?: string;
+  apiUrl?: string | undefined;
   /** Billing type of your VMware Cloud Director project */
-  billingType?: VmwareCloudDirectorBillingTypeEnum;
+  billingType?: VmwareCloudDirectorBillingTypeEnum | undefined;
   /** Description of your VMware Cloud Director organization on OVHcloud */
-  description?: string;
+  description?: string | undefined;
   /** Human readable full name of your VMware Cloud Director organization */
-  fullName?: string;
+  fullName?: string | undefined;
   /** Name of your VMware Cloud Director organization */
-  name?: string;
+  name?: string | undefined;
   /** Datacenter where your VMware Cloud Director organization is physically located */
-  region?: VmwareCloudDirectorRegionNameEnum;
+  region?: VmwareCloudDirectorRegionNameEnum | undefined;
   /** SPLA licensing state */
-  spla?: boolean;
+  spla?: boolean | undefined;
   /** URL to administrate your VMware Cloud Director organization on OVHcloud */
-  webInterfaceUrl?: string;
+  webInterfaceUrl?: string | undefined;
 }
 /** Asynchronous operations ongoing on the VMware Cloud Director organization */
 export type VmwareCloudDirectorOrganizationWithIAMCurrentTasksList = Array<CommonCurrentTask>;
@@ -241,23 +241,23 @@ export type CommonResourceStatusEnum =
 /** Target specification of VMware Cloud Director organization service */
 export interface VmwareCloudDirectorOrganizationTargetSpec {
   /** Description of your VMware Cloud Director organization on OVHcloud */
-  description?: string;
+  description?: string | undefined;
   /** Human readable full name of your VMware Cloud Director organization */
   fullName: string;
 }
 /** VMware Cloud Director organization service */
 export interface VmwareCloudDirectorOrganizationWithIAM {
-  currentState?: VmwareCloudDirectorOrganizationCurrentState;
+  currentState?: VmwareCloudDirectorOrganizationCurrentState | undefined;
   /** Asynchronous operations ongoing on the VMware Cloud Director organization */
-  currentTasks?: VmwareCloudDirectorOrganizationWithIAMCurrentTasksList | null;
+  currentTasks?: VmwareCloudDirectorOrganizationWithIAMCurrentTasksList | null | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** Unique identifier */
-  id?: string;
+  id?: string | undefined;
   /** Reflects the readiness of the VMware Cloud Director organization. A new target specification request will be accepted only in `READY` status */
-  resourceStatus?: CommonResourceStatusEnum;
-  targetSpec?: VmwareCloudDirectorOrganizationTargetSpec;
-  updatedAt?: string;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
+  targetSpec?: VmwareCloudDirectorOrganizationTargetSpec | undefined;
+  updatedAt?: string | undefined;
 }
 export interface GetVmwareCloudDirectorOrganizationTaskRequest {
   /** Organization ID */
@@ -276,23 +276,23 @@ export type VmwareCloudDirectorCommercialRangeEnum = "NSX" | "STANDARD" | "VSAN-
 /** Current status of organization Virtual DataCenter service */
 export interface VmwareCloudDirectorVirtualDataCenterCurrentState {
   /** Commercial range of your VMware Cloud Director project */
-  commercialRange?: VmwareCloudDirectorCommercialRangeEnum;
+  commercialRange?: VmwareCloudDirectorCommercialRangeEnum | undefined;
   /** Description of your organization Virtual DataCenter */
-  description?: string;
+  description?: string | undefined;
   /** IP address quota assigned to your organization Virtual DataCenter */
-  ipQuota?: number;
+  ipQuota?: number | undefined;
   /** Memory quota (GB) assigned to your organization Virtual DataCenter */
-  memoryQuota?: number;
+  memoryQuota?: number | undefined;
   /** Name of your organization Virtual DataCenter */
-  name?: string;
+  name?: string | undefined;
   /** Datacenter where your VMware Cloud Director organization is physically located */
-  region?: VmwareCloudDirectorRegionNameEnum;
+  region?: VmwareCloudDirectorRegionNameEnum | undefined;
   /** Storage quota (GB) assigned to your organization Virtual DataCenter */
-  storageQuota?: number;
+  storageQuota?: number | undefined;
   /** vCPU core count allocated to your organization Virtual DataCenter */
-  vCPUCount?: number;
+  vCPUCount?: number | undefined;
   /** Effective vCPU speed (GHz) for VMs in your organization Virtual DataCenter */
-  vCPUSpeed?: number;
+  vCPUSpeed?: number | undefined;
 }
 /** Asynchronous operations ongoing on the organization Virtual DataCenter */
 export type VmwareCloudDirectorVirtualDataCenterWithIAMCurrentTasksList = Array<CommonCurrentTask>;
@@ -305,17 +305,17 @@ export interface VmwareCloudDirectorVirtualDataCenterTargetSpec {
 }
 /** Organization Virtual DataCenter service */
 export interface VmwareCloudDirectorVirtualDataCenterWithIAM {
-  currentState?: VmwareCloudDirectorVirtualDataCenterCurrentState;
+  currentState?: VmwareCloudDirectorVirtualDataCenterCurrentState | undefined;
   /** Asynchronous operations ongoing on the organization Virtual DataCenter */
-  currentTasks?: VmwareCloudDirectorVirtualDataCenterWithIAMCurrentTasksList | null;
+  currentTasks?: VmwareCloudDirectorVirtualDataCenterWithIAMCurrentTasksList | null | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** Unique identifier */
-  id?: string;
+  id?: string | undefined;
   /** Reflects the readiness of the organization Virtual DataCenter. A new target specification request will be accepted only in `READY` status */
-  resourceStatus?: CommonResourceStatusEnum;
-  targetSpec?: VmwareCloudDirectorVirtualDataCenterTargetSpec;
-  updatedAt?: string;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
+  targetSpec?: VmwareCloudDirectorVirtualDataCenterTargetSpec | undefined;
+  updatedAt?: string | undefined;
 }
 export interface GetVmwareCloudDirectorOrganizationVirtualDataCenterComputeRequest {
   /** Organization ID */
@@ -328,28 +328,28 @@ export interface GetVmwareCloudDirectorOrganizationVirtualDataCenterComputeReque
 /** Current status of organization Virtual DataCenter compute resource */
 export interface VmwareCloudDirectorComputeCurrentState {
   /** Billing type of your organization Virtual DataCenter compute resource */
-  billingType?: VmwareCloudDirectorBillingTypeEnum;
+  billingType?: VmwareCloudDirectorBillingTypeEnum | undefined;
   /** Memory quota (GB) assigned to your organization Virtual DataCenter compute resource */
-  memoryQuota?: number;
+  memoryQuota?: number | undefined;
   /** Name of your organization Virtual DataCenter compute resource */
-  name?: string;
+  name?: string | undefined;
   /** Profile of your organization Virtual DataCenter compute resource */
-  profile?: string;
+  profile?: string | undefined;
   /** vCPU core count allocated to your organization Virtual DataCenter compute resource */
-  vCPUCount?: number;
+  vCPUCount?: number | undefined;
 }
 /** Asynchronous operations ongoing on the organization Virtual DataCenter compute resource */
 export type VmwareCloudDirectorComputeCurrentTasksList = Array<CommonCurrentTask>;
 /** Organization Virtual DataCenter compute resource */
 export interface VmwareCloudDirectorCompute {
-  currentState?: VmwareCloudDirectorComputeCurrentState;
+  currentState?: VmwareCloudDirectorComputeCurrentState | undefined;
   /** Asynchronous operations ongoing on the organization Virtual DataCenter compute resource */
-  currentTasks?: VmwareCloudDirectorComputeCurrentTasksList | null;
+  currentTasks?: VmwareCloudDirectorComputeCurrentTasksList | null | undefined;
   /** Unique identifier */
-  id?: string;
+  id?: string | undefined;
   /** Reflects the readiness of the organization Virtual DataCenter compute resource. A new target specification request will be accepted only in `READY` status */
-  resourceStatus?: CommonResourceStatusEnum;
-  updatedAt?: string;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
+  updatedAt?: string | undefined;
 }
 export interface GetVmwareCloudDirectorOrganizationVirtualDataCenterStorageRequest {
   /** Organization ID */
@@ -362,28 +362,28 @@ export interface GetVmwareCloudDirectorOrganizationVirtualDataCenterStorageReque
 /** Current status of organization Virtual DataCenter storage resource */
 export interface VmwareCloudDirectorStorageCurrentState {
   /** Billing type of your organization Virtual DataCenter storage resource */
-  billingType?: VmwareCloudDirectorBillingTypeEnum;
+  billingType?: VmwareCloudDirectorBillingTypeEnum | undefined;
   /** Capacity available (GB) for the given resource in your organization Virtual DataCenter storage resource */
-  capacity?: number;
+  capacity?: number | undefined;
   /** Name of your organization Virtual DataCenter storage resource */
-  name?: string;
+  name?: string | undefined;
   /** Profile of your organization Virtual DataCenter storage resource */
-  profile?: string;
+  profile?: string | undefined;
   /** Type of your organization Virtual DataCenter storage resource */
-  type?: string;
+  type?: string | undefined;
 }
 /** Asynchronous operations ongoing on the organization Virtual DataCenter storage resource */
 export type VmwareCloudDirectorStorageCurrentTasksList = Array<CommonCurrentTask>;
 /** Organization Virtual DataCenter storage resource */
 export interface VmwareCloudDirectorStorage {
-  currentState?: VmwareCloudDirectorStorageCurrentState;
+  currentState?: VmwareCloudDirectorStorageCurrentState | undefined;
   /** Asynchronous operations ongoing on the organization Virtual DataCenter storage resource */
-  currentTasks?: VmwareCloudDirectorStorageCurrentTasksList | null;
+  currentTasks?: VmwareCloudDirectorStorageCurrentTasksList | null | undefined;
   /** Unique identifier */
-  id?: string;
+  id?: string | undefined;
   /** Reflects the readiness of the organization Virtual DataCenter storage resource. A new target specification request will be accepted only in `READY` status */
-  resourceStatus?: CommonResourceStatusEnum;
-  updatedAt?: string;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
+  updatedAt?: string | undefined;
 }
 export interface GetVmwareCloudDirectorOrganizationVirtualDataCenterTaskRequest {
   /** Organization ID */
@@ -401,11 +401,11 @@ export type ListVmwareCloudDirectorBackupRequestIamTagsMap = {
 };
 export interface ListVmwareCloudDirectorBackupRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListVmwareCloudDirectorBackupRequestIamTagsMap;
+  iamTags?: ListVmwareCloudDirectorBackupRequestIamTagsMap | undefined;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListVmwareCloudDirectorBackupResponseBodyList =
   Array<VmwareCloudDirectorBackupBackupDetailsWithIAM>;
@@ -414,9 +414,9 @@ export interface ListVmwareCloudDirectorBackupEventRequest {
   /** Backup ID */
   backupId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 /** List all defined values for an event type field */
 export type CommonEventTypeEnum =
@@ -427,15 +427,15 @@ export type CommonEventTypeEnum =
 /** Represents an event for an async envelope */
 export interface CommonEvent {
   /** Creation date of the event */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Nature of the event */
-  kind?: string;
+  kind?: string | undefined;
   /** Link to the event related resource */
-  link?: string | null;
+  link?: string | null | undefined;
   /** Description of what happened on the event */
-  message?: string;
+  message?: string | undefined;
   /** Type of the event */
-  type?: CommonEventTypeEnum;
+  type?: CommonEventTypeEnum | undefined;
 }
 export type ListVmwareCloudDirectorBackupEventResponseBodyList = Array<CommonEvent>;
 export type ListVmwareCloudDirectorBackupEventResponse =
@@ -444,9 +444,9 @@ export interface ListVmwareCloudDirectorBackupTaskRequest {
   /** Backup ID */
   backupId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListVmwareCloudDirectorBackupTaskResponseBodyList = Array<CommonTask>;
 export type ListVmwareCloudDirectorBackupTaskResponse =
@@ -458,11 +458,11 @@ export type ListVmwareCloudDirectorOrganizationRequestIamTagsMap = {
 };
 export interface ListVmwareCloudDirectorOrganizationRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListVmwareCloudDirectorOrganizationRequestIamTagsMap;
+  iamTags?: ListVmwareCloudDirectorOrganizationRequestIamTagsMap | undefined;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListVmwareCloudDirectorOrganizationResponseBodyList =
   Array<VmwareCloudDirectorOrganizationWithIAM>;
@@ -472,9 +472,9 @@ export interface ListVmwareCloudDirectorOrganizationEventRequest {
   /** Organization ID */
   organizationId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListVmwareCloudDirectorOrganizationEventResponseBodyList = Array<CommonEvent>;
 export type ListVmwareCloudDirectorOrganizationEventResponse =
@@ -483,9 +483,9 @@ export interface ListVmwareCloudDirectorOrganizationTaskRequest {
   /** Organization ID */
   organizationId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListVmwareCloudDirectorOrganizationTaskResponseBodyList = Array<CommonTask>;
 export type ListVmwareCloudDirectorOrganizationTaskResponse =
@@ -501,11 +501,11 @@ export interface ListVmwareCloudDirectorOrganizationVirtualDataCenterRequest {
   /** Organization ID */
   organizationId: string;
   /** Filter resources on IAM tags */
-  iamTags?: ListVmwareCloudDirectorOrganizationVirtualDataCenterRequestIamTagsMap;
+  iamTags?: ListVmwareCloudDirectorOrganizationVirtualDataCenterRequestIamTagsMap | undefined;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListVmwareCloudDirectorOrganizationVirtualDataCenterResponseBodyList =
   Array<VmwareCloudDirectorVirtualDataCenterWithIAM>;
@@ -517,9 +517,9 @@ export interface ListVmwareCloudDirectorOrganizationVirtualDataCenterComputeRequ
   /** Virtual data center ID */
   virtualDataCenterId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListVmwareCloudDirectorOrganizationVirtualDataCenterComputeResponseBodyList =
   Array<VmwareCloudDirectorCompute>;
@@ -534,15 +534,15 @@ export interface ListVmwareCloudDirectorOrganizationVirtualDataCenterOrderableRe
 /** Possible Virtual Host */
 export interface VmwareCloudDirectorOrderableResourceCompute {
   /** Memory quota (GB) assigned to your organization Virtual DataCenter compute profile */
-  memoryQuota?: number;
+  memoryQuota?: number | undefined;
   /** Name of your organization Virtual DataCenter compute profile */
-  name?: string;
+  name?: string | undefined;
   /** Profile (plan code) of your organization Virtual DataCenter compute profile */
-  profile?: string;
+  profile?: string | undefined;
   /** vCPU core count allocated to your organization Virtual DataCenter compute profile */
-  vCPUCount?: number;
+  vCPUCount?: number | undefined;
   /** Effective vCPU speed (GHz) for VMs in your organization Virtual DataCenter compute profile */
-  vCPUSpeed?: number;
+  vCPUSpeed?: number | undefined;
 }
 /** Available orderable compute resources to your organization Virtual DataCenter */
 export type VmwareCloudDirectorOrderableResourceComputeList =
@@ -550,15 +550,15 @@ export type VmwareCloudDirectorOrderableResourceComputeList =
 /** Possible Storage */
 export interface VmwareCloudDirectorOrderableResourceStorage {
   /** Capacity available (GB) for the given resource in your organization Virtual DataCenter storage resource */
-  capacity?: number;
+  capacity?: number | undefined;
   /** Name of your organization Virtual DataCenter storage resource */
-  name?: string;
+  name?: string | undefined;
   /** Minimum ratio of input/output Operations (IOPS) per TB */
-  performanceClass?: number;
+  performanceClass?: number | undefined;
   /** Profile (plan code) of your organization Virtual DataCenter storage resource */
-  profile?: string;
+  profile?: string | undefined;
   /** Type of your organization Virtual DataCenter storage resource */
-  type?: string;
+  type?: string | undefined;
 }
 /** Available orderable storage resources to your organization Virtual DataCenter */
 export type VmwareCloudDirectorOrderableResourceStorageList =
@@ -566,9 +566,9 @@ export type VmwareCloudDirectorOrderableResourceStorageList =
 /** Available orderable resources */
 export interface VmwareCloudDirectorOrderableResource {
   /** Available orderable compute resources to your organization Virtual DataCenter */
-  compute?: VmwareCloudDirectorOrderableResourceComputeList;
+  compute?: VmwareCloudDirectorOrderableResourceComputeList | undefined;
   /** Available orderable storage resources to your organization Virtual DataCenter */
-  storage?: VmwareCloudDirectorOrderableResourceStorageList;
+  storage?: VmwareCloudDirectorOrderableResourceStorageList | undefined;
 }
 export interface ListVmwareCloudDirectorOrganizationVirtualDataCenterStorageRequest {
   /** Organization ID */
@@ -576,9 +576,9 @@ export interface ListVmwareCloudDirectorOrganizationVirtualDataCenterStorageRequ
   /** Virtual data center ID */
   virtualDataCenterId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListVmwareCloudDirectorOrganizationVirtualDataCenterStorageResponseBodyList =
   Array<VmwareCloudDirectorStorage>;
@@ -590,9 +590,9 @@ export interface ListVmwareCloudDirectorOrganizationVirtualDataCenterTaskRequest
   /** Virtual data center ID */
   virtualDataCenterId: string;
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 export type ListVmwareCloudDirectorOrganizationVirtualDataCenterTaskResponseBodyList =
   Array<CommonTask>;
@@ -600,9 +600,9 @@ export type ListVmwareCloudDirectorOrganizationVirtualDataCenterTaskResponse =
   ListVmwareCloudDirectorOrganizationVirtualDataCenterTaskResponseBodyList;
 export interface ListVmwareCloudDirectorReferenceRegionRequest {
   /** Pagination cursor */
-  xPaginationCursor?: string;
+  xPaginationCursor?: string | undefined;
   /** Pagination size */
-  xPaginationSize?: number;
+  xPaginationSize?: number | undefined;
 }
 /** The region of your VMware Cloud Director project */
 export type VmwareCloudDirectorRegionLocationEnum =
@@ -621,9 +621,9 @@ export type VmwareCloudDirectorRegionLocationEnum =
 /** Hosting location */
 export interface VmwareCloudDirectorRegion {
   /** Location */
-  location?: VmwareCloudDirectorRegionLocationEnum;
+  location?: VmwareCloudDirectorRegionLocationEnum | undefined;
   /** Region */
-  region?: VmwareCloudDirectorRegionNameEnum;
+  region?: VmwareCloudDirectorRegionNameEnum | undefined;
 }
 export type ListVmwareCloudDirectorReferenceRegionResponseBodyList =
   Array<VmwareCloudDirectorRegion>;
@@ -640,17 +640,17 @@ export type VmwareCloudDirectorBackupBackupDetailsCurrentTasksList = Array<Commo
 /** VMware Cloud Director Backup service */
 export interface VmwareCloudDirectorBackupBackupDetails {
   /** Datetime when backup was enabled */
-  createdAt?: string;
-  currentState?: VmwareCloudDirectorBackupCurrentState;
+  createdAt?: string | undefined;
+  currentState?: VmwareCloudDirectorBackupCurrentState | undefined;
   /** Asynchronous operations ongoing on the VMware Cloud Director organization backup service */
-  currentTasks?: VmwareCloudDirectorBackupBackupDetailsCurrentTasksList | null;
+  currentTasks?: VmwareCloudDirectorBackupBackupDetailsCurrentTasksList | null | undefined;
   /** Unique identifier of the VMware Cloud Director backup */
-  id?: string;
+  id?: string | undefined;
   /** Reflects the readiness of the VMware Cloud Director organization backup service. A new target specification request will be accepted only in `READY` status */
-  resourceStatus?: VmwareCloudDirectorBackupResourceStatusEnum;
-  targetSpec?: VmwareCloudDirectorBackupTargetSpec;
+  resourceStatus?: VmwareCloudDirectorBackupResourceStatusEnum | undefined;
+  targetSpec?: VmwareCloudDirectorBackupTargetSpec | undefined;
   /** Datetime when backup is modified */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface PutVmwareCloudDirectorOrganizationRequest {
   /** Organization ID */
@@ -662,15 +662,15 @@ export interface PutVmwareCloudDirectorOrganizationRequest {
 export type VmwareCloudDirectorOrganizationCurrentTasksList = Array<CommonCurrentTask>;
 /** VMware Cloud Director organization service */
 export interface VmwareCloudDirectorOrganization {
-  currentState?: VmwareCloudDirectorOrganizationCurrentState;
+  currentState?: VmwareCloudDirectorOrganizationCurrentState | undefined;
   /** Asynchronous operations ongoing on the VMware Cloud Director organization */
-  currentTasks?: VmwareCloudDirectorOrganizationCurrentTasksList | null;
+  currentTasks?: VmwareCloudDirectorOrganizationCurrentTasksList | null | undefined;
   /** Unique identifier */
-  id?: string;
+  id?: string | undefined;
   /** Reflects the readiness of the VMware Cloud Director organization. A new target specification request will be accepted only in `READY` status */
-  resourceStatus?: CommonResourceStatusEnum;
-  targetSpec?: VmwareCloudDirectorOrganizationTargetSpec;
-  updatedAt?: string;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
+  targetSpec?: VmwareCloudDirectorOrganizationTargetSpec | undefined;
+  updatedAt?: string | undefined;
 }
 export interface PutVmwareCloudDirectorOrganizationVirtualDataCenterRequest {
   /** Organization ID */
@@ -684,15 +684,15 @@ export interface PutVmwareCloudDirectorOrganizationVirtualDataCenterRequest {
 export type VmwareCloudDirectorVirtualDataCenterCurrentTasksList = Array<CommonCurrentTask>;
 /** Organization Virtual DataCenter service */
 export interface VmwareCloudDirectorVirtualDataCenter {
-  currentState?: VmwareCloudDirectorVirtualDataCenterCurrentState;
+  currentState?: VmwareCloudDirectorVirtualDataCenterCurrentState | undefined;
   /** Asynchronous operations ongoing on the organization Virtual DataCenter */
-  currentTasks?: VmwareCloudDirectorVirtualDataCenterCurrentTasksList | null;
+  currentTasks?: VmwareCloudDirectorVirtualDataCenterCurrentTasksList | null | undefined;
   /** Unique identifier */
-  id?: string;
+  id?: string | undefined;
   /** Reflects the readiness of the organization Virtual DataCenter. A new target specification request will be accepted only in `READY` status */
-  resourceStatus?: CommonResourceStatusEnum;
-  targetSpec?: VmwareCloudDirectorVirtualDataCenterTargetSpec;
-  updatedAt?: string;
+  resourceStatus?: CommonResourceStatusEnum | undefined;
+  targetSpec?: VmwareCloudDirectorVirtualDataCenterTargetSpec | undefined;
+  updatedAt?: string | undefined;
 }
 export type CreateVmwareCloudDirectorOrganizationPasswordError = OvhOpError;
 /** Reset the VMware Cloud Director organization administrator password */

@@ -84,10 +84,10 @@ export class NotFound
 export type StringList = Array<string>;
 /** Add a list of accounts to a hold. */
 export interface AddHeldAccountsRequest {
-  /** A comma-separated list of the account IDs of the accounts to add to the hold. Specify either **emails** or **account_ids**, but not both. */
-  accountIds?: StringList;
   /** A comma-separated list of the emails of the accounts to add to the hold. Specify either **emails** or **account_ids**, but not both. */
-  emails?: StringList;
+  emails?: StringList | undefined;
+  /** A comma-separated list of the account IDs of the accounts to add to the hold. Specify either **emails** or **account_ids**, but not both. */
+  accountIds?: StringList | undefined;
 }
 export interface AddHeldAccountsMattersHoldsRequest {
   /** The matter ID. */
@@ -95,67 +95,67 @@ export interface AddHeldAccountsMattersHoldsRequest {
   /** The hold ID. */
   holdId: string;
   /** Request body */
-  body?: AddHeldAccountsRequest;
+  body?: AddHeldAccountsRequest | undefined;
 }
 /** An account covered by a hold. This structure is immutable. It can be an individual account or a Google Group, depending on the service. To work with Vault resources, the account must have the [required Vault privileges] (https://support.google.com/vault/answer/2799699) and access to the matter. To access a matter, the account must have created the matter, have the matter shared with them, or have the **View All Matters** privilege. */
 export interface HeldAccount {
-  /** Output only. The first name of the account holder. */
-  firstName?: string;
   /** Output only. When the account was put on hold. */
-  holdTime?: string;
+  holdTime?: string | undefined;
   /** Output only. The last name of the account holder. */
-  lastName?: string;
+  lastName?: string | undefined;
   /** The account ID, as provided by the [Admin SDK](https://developers.google.com/admin-sdk/). */
-  accountId?: string;
+  accountId?: string | undefined;
+  /** Output only. The first name of the account holder. */
+  firstName?: string | undefined;
   /** The primary email address of the account. If used as an input, this takes precedence over **accountId**. */
-  email?: string;
+  email?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
 }
 /** The status of each account creation, and the **HeldAccount**, if successful. */
 export interface AddHeldAccountResult {
   /** Returned when the account was successfully created. */
-  account?: HeldAccount;
+  account?: HeldAccount | undefined;
   /** Reports the request status. If it failed, returns an error message. */
-  status?: Status;
+  status?: Status | undefined;
 }
 export type AddHeldAccountResultList = Array<AddHeldAccountResult>;
 /** Response for batch create held accounts. */
 export interface AddHeldAccountsResponse {
   /** The list of responses, in the same order as the batch request. */
-  responses?: AddHeldAccountResultList;
+  responses?: AddHeldAccountResultList | undefined;
 }
 export type MatterPermissionRoleEnum = "ROLE_UNSPECIFIED" | "COLLABORATOR" | "OWNER";
 /** Users can be matter owners or collaborators. Each matter has only one owner. All others users who can access the matter are collaborators. When an account is purged, its corresponding MatterPermission resources cease to exist. */
 export interface MatterPermission {
-  /** The account ID, as provided by the [Admin SDK](https://developers.google.com/admin-sdk/). */
-  accountId?: string;
   /** The user's role for the matter. */
-  role?: MatterPermissionRoleEnum | (string & {});
+  role?: MatterPermissionRoleEnum | (string & {}) | undefined;
+  /** The account ID, as provided by the [Admin SDK](https://developers.google.com/admin-sdk/). */
+  accountId?: string | undefined;
 }
 /** Add an account with the permission specified. The role cannot be owner. If an account already has a role in the matter, the existing role is overwritten. */
 export interface AddMatterPermissionsRequest {
-  /** To send a notification email to the added account, set to **true**. To not send a notification email, set to **false**. */
-  sendEmails?: boolean;
   /** Only relevant if **sendEmails** is **true**. To CC the requestor in the email message, set to **true**. To not CC requestor, set to **false**. */
-  ccMe?: boolean;
+  ccMe?: boolean | undefined;
+  /** To send a notification email to the added account, set to **true**. To not send a notification email, set to **false**. */
+  sendEmails?: boolean | undefined;
   /** The account and its role to add. */
-  matterPermission?: MatterPermission;
+  matterPermission?: MatterPermission | undefined;
 }
 export interface AddPermissionsMattersRequest {
   /** The matter ID. */
   matterId: string;
   /** Request body */
-  body?: AddMatterPermissionsRequest;
+  body?: AddMatterPermissionsRequest | undefined;
 }
 /** The request message for Operations.CancelOperation. */
 export interface CancelOperationRequest {}
@@ -163,7 +163,7 @@ export interface CancelOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -173,41 +173,51 @@ export interface CloseMattersRequest {
   /** The matter ID. */
   matterId: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 export type MatterStateEnum = "STATE_UNSPECIFIED" | "OPEN" | "CLOSED" | "DELETED";
-export type MatterMatterRegionEnum = "MATTER_REGION_UNSPECIFIED" | "ANY" | "US" | "EUROPE";
 export type MatterPermissionList = Array<MatterPermission>;
+export type MatterMatterRegionEnum = "MATTER_REGION_UNSPECIFIED" | "ANY" | "US" | "EUROPE";
 /** Represents a matter. To work with Vault resources, the account must have the [required Vault privileges] (https://support.google.com/vault/answer/2799699) and access to the matter. To access a matter, the account must have created the matter, have the matter shared with them, or have the **View All Matters** privilege. */
 export interface Matter {
-  /** The matter ID, which is generated by the server. Leave blank when creating a matter. */
-  matterId?: string;
   /** The state of the matter. */
-  state?: MatterStateEnum | (string & {});
-  /** An optional description for the matter. */
-  description?: string;
-  /** Optional. The requested data region for the matter. */
-  matterRegion?: MatterMatterRegionEnum | (string & {});
-  /** The name of the matter. */
-  name?: string;
+  state?: MatterStateEnum | (string & {}) | undefined;
   /** Lists the users and their permission for the matter. Currently there is no programmer defined limit on the number of permissions a matter can have. */
-  matterPermissions?: MatterPermissionList;
+  matterPermissions?: MatterPermissionList | undefined;
+  /** An optional description for the matter. */
+  description?: string | undefined;
+  /** The name of the matter. */
+  name?: string | undefined;
+  /** The matter ID, which is generated by the server. Leave blank when creating a matter. */
+  matterId?: string | undefined;
+  /** Optional. The requested data region for the matter. */
+  matterRegion?: MatterMatterRegionEnum | (string & {}) | undefined;
 }
 /** Response to a CloseMatterRequest. */
 export interface CloseMatterResponse {
   /** The updated matter, with state **CLOSED**. */
-  matter?: Matter;
+  matter?: Matter | undefined;
 }
 export type CountArtifactsRequestViewEnum = "COUNT_RESULT_VIEW_UNSPECIFIED" | "TOTAL_COUNT" | "ALL";
-/** Team Drives to search */
-export interface TeamDriveInfo {
-  /** List of Team Drive IDs, as provided by the [Drive API](https://developers.google.com/drive). */
-  teamDriveIds?: StringList;
+export type QueryDataScopeEnum =
+  | "DATA_SCOPE_UNSPECIFIED"
+  | "ALL_DATA"
+  | "HELD_DATA"
+  | "UNPROCESSED_DATA";
+/** Specify Drive documents by document ID. */
+export interface DriveDocumentIds {
+  /** Required. A list of Drive document IDs. */
+  ids?: StringList | undefined;
 }
-/** The shared drives to search */
-export interface SharedDriveInfo {
-  /** A list of shared drive IDs, as provided by the [Drive API](https://developers.google.com/drive). */
-  sharedDriveIds?: StringList;
+/** The Drive documents to search. */
+export interface DriveDocumentInfo {
+  /** Specify Drive documents by document ID. */
+  documentIds?: DriveDocumentIds | undefined;
+}
+/** The published site URLs of new Google Sites to search */
+export interface SitesUrlInfo {
+  /** A list of published site URLs. */
+  urls?: StringList | undefined;
 }
 export type MailOptionsClientSideEncryptedOptionEnum =
   | "CLIENT_SIDE_ENCRYPTED_OPTION_UNSPECIFIED"
@@ -216,83 +226,60 @@ export type MailOptionsClientSideEncryptedOptionEnum =
   | "CLIENT_SIDE_ENCRYPTED_OPTION_UNENCRYPTED";
 /** Additional options for Gmail search */
 export interface MailOptions {
-  /** Set to **true** to exclude drafts. */
-  excludeDrafts?: boolean;
   /** Specifies whether the results should include encrypted content, unencrypted content, or both. Defaults to including both. */
-  clientSideEncryptedOption?: MailOptionsClientSideEncryptedOptionEnum | (string & {});
+  clientSideEncryptedOption?: MailOptionsClientSideEncryptedOptionEnum | (string & {}) | undefined;
+  /** Set to **true** to exclude drafts. */
+  excludeDrafts?: boolean | undefined;
 }
-/** Specify Drive documents by document ID. */
-export interface DriveDocumentIds {
-  /** Required. A list of Drive document IDs. */
-  ids?: StringList;
+export type QuerySearchMethodEnum =
+  | "SEARCH_METHOD_UNSPECIFIED"
+  | "ACCOUNT"
+  | "ORG_UNIT"
+  | "TEAM_DRIVE"
+  | "ENTIRE_ORG"
+  | "ROOM"
+  | "SITES_URL"
+  | "SHARED_DRIVE"
+  | "DRIVE_DOCUMENT";
+/** Team Drives to search */
+export interface TeamDriveInfo {
+  /** List of Team Drive IDs, as provided by the [Drive API](https://developers.google.com/drive). */
+  teamDriveIds?: StringList | undefined;
 }
-/** The Drive documents to search. */
-export interface DriveDocumentInfo {
-  /** Specify Drive documents by document ID. */
-  documentIds?: DriveDocumentIds;
-}
-/** The published site URLs of new Google Sites to search */
-export interface SitesUrlInfo {
-  /** A list of published site URLs. */
-  urls?: StringList;
-}
-export type QueryDataScopeEnum =
-  | "DATA_SCOPE_UNSPECIFIED"
-  | "ALL_DATA"
-  | "HELD_DATA"
-  | "UNPROCESSED_DATA";
-/** The accounts to search */
-export interface AccountInfo {
-  /** A set of accounts to search. */
-  emails?: StringList;
-}
-/** Additional options for Google Chat search */
-export interface HangoutsChatOptions {
-  /** For searches by account or organizational unit, set to **true** to include rooms. */
-  includeRooms?: boolean;
-}
-/** Additional options for Gemini search */
+/** Additional options for Gemini in Workspace search */
+export type GeminiInWorkspaceOptions = CancelOperationRequest;
+/** Additional options for Gemini app search */
 export type GeminiOptions = CancelOperationRequest;
-/** The organizational unit to search */
-export interface OrgUnitInfo {
-  /** The name of the organizational unit to search, as provided by the [Admin SDK Directory API](https://developers.google.com/admin-sdk/directory/). */
-  orgUnitId?: string;
+/** The Chat spaces to search */
+export interface HangoutsChatInfo {
+  /** A list of Chat spaces IDs, as provided by the [Chat API](https://developers.google.com/workspace/chat). There is a limit of exporting from 500 Chat spaces per request. */
+  roomId?: StringList | undefined;
 }
-export type CalendarOptionsResponseStatusesItemEnum =
-  | "ATTENDEE_RESPONSE_UNSPECIFIED"
-  | "ATTENDEE_RESPONSE_NEEDS_ACTION"
-  | "ATTENDEE_RESPONSE_ACCEPTED"
-  | "ATTENDEE_RESPONSE_DECLINED"
-  | "ATTENDEE_RESPONSE_TENTATIVE";
-export type CalendarOptionsResponseStatusesItemEnumList = Array<
-  CalendarOptionsResponseStatusesItemEnum | (string & {})
->;
-/** Additional options for Calendar search */
-export interface CalendarOptions {
-  /** Search the current version of the Calendar event, but export the contents of the last version saved before 12:00 AM UTC on the specified date. Enter the date in UTC. */
-  versionDate?: string;
-  /** Matches only those events whose location contains all of the words in the given set. If the string contains quoted phrases, this method only matches those events whose location contain the exact phrase. Entries in the set are considered in "and". Word splitting example: ["New Zealand"] vs ["New","Zealand"] "New Zealand": matched by both "New and better Zealand": only matched by the later */
-  locationQuery?: StringList;
-  /** Matches only those events that do not contain any of the words in the given set in title, description, location, or attendees. Entries in the set are considered in "or". */
-  minusWords?: StringList;
-  /** Matches only those events whose attendees contain all of the words in the given set. Entries in the set are considered in "and". */
-  peopleQuery?: StringList;
-  /** Matches only events for which the custodian gave one of these responses. If the set is empty or contains ATTENDEE_RESPONSE_UNSPECIFIED there will be no filtering on responses. */
-  responseStatuses?: CalendarOptionsResponseStatusesItemEnumList;
+export type QueryCorpusEnum =
+  | "CORPUS_TYPE_UNSPECIFIED"
+  | "DRIVE"
+  | "MAIL"
+  | "GROUPS"
+  | "HANGOUTS_CHAT"
+  | "VOICE"
+  | "CALENDAR"
+  | "GEMINI"
+  | "GEMINI_IN_WORKSPACE";
+/** The shared drives to search */
+export interface SharedDriveInfo {
+  /** A list of shared drive IDs, as provided by the [Drive API](https://developers.google.com/drive). */
+  sharedDriveIds?: StringList | undefined;
 }
-export type VoiceOptionsCoveredDataItemEnum =
-  | "COVERED_DATA_UNSPECIFIED"
-  | "TEXT_MESSAGES"
-  | "VOICEMAILS"
-  | "CALL_LOGS";
-export type VoiceOptionsCoveredDataItemEnumList = Array<
-  VoiceOptionsCoveredDataItemEnum | (string & {})
->;
-/** Additional options for Voice search */
-export interface VoiceOptions {
-  /** Datatypes to search */
-  coveredData?: VoiceOptionsCoveredDataItemEnumList;
-}
+export type QueryMethodEnum =
+  | "SEARCH_METHOD_UNSPECIFIED"
+  | "ACCOUNT"
+  | "ORG_UNIT"
+  | "TEAM_DRIVE"
+  | "ENTIRE_ORG"
+  | "ROOM"
+  | "SITES_URL"
+  | "SHARED_DRIVE"
+  | "DRIVE_DOCUMENT";
 export type DriveOptionsSharedDrivesOptionEnum =
   | "SHARED_DRIVES_OPTION_UNSPECIFIED"
   | "NOT_INCLUDED"
@@ -305,204 +292,160 @@ export type DriveOptionsClientSideEncryptedOptionEnum =
   | "CLIENT_SIDE_ENCRYPTED_OPTION_UNENCRYPTED";
 /** Additional options for Drive search. */
 export interface DriveOptions {
-  /** Optional. Options to include or exclude documents in shared drives. We recommend using this field over include_shared_drives. This field overrides include_shared_drives and include_team_drives when set. */
-  sharedDrivesOption?: DriveOptionsSharedDrivesOptionEnum | (string & {});
-  /** Search the current version of the Drive file, but export the contents of the last version saved before 12:00 AM UTC on the specified date. Enter the date in UTC. */
-  versionDate?: string;
   /** Set to **true** to include shared drives. */
-  includeSharedDrives?: boolean;
-  /** Set to true to include Team Drive. */
-  includeTeamDrives?: boolean;
+  includeSharedDrives?: boolean | undefined;
+  /** Search the current version of the Drive file, but export the contents of the last version saved before 12:00 AM UTC on the specified date. Enter the date in UTC. */
+  versionDate?: string | undefined;
+  /** Optional. Options to include or exclude documents in shared drives. We recommend using this field over include_shared_drives. This field overrides include_shared_drives and include_team_drives when set. */
+  sharedDrivesOption?: DriveOptionsSharedDrivesOptionEnum | (string & {}) | undefined;
   /** Set whether the results include only content encrypted with [Google Workspace Client-side encryption](https://support.google.com/a?p=cse_ov) content, only unencrypted content, or both. Defaults to both. Currently supported for Drive. */
-  clientSideEncryptedOption?: DriveOptionsClientSideEncryptedOptionEnum | (string & {});
+  clientSideEncryptedOption?: DriveOptionsClientSideEncryptedOptionEnum | (string & {}) | undefined;
+  /** Set to true to include Team Drive. */
+  includeTeamDrives?: boolean | undefined;
 }
-export type QuerySearchMethodEnum =
-  | "SEARCH_METHOD_UNSPECIFIED"
-  | "ACCOUNT"
-  | "ORG_UNIT"
-  | "TEAM_DRIVE"
-  | "ENTIRE_ORG"
-  | "ROOM"
-  | "SITES_URL"
-  | "SHARED_DRIVE"
-  | "DRIVE_DOCUMENT";
-export type QueryCorpusEnum =
-  | "CORPUS_TYPE_UNSPECIFIED"
-  | "DRIVE"
-  | "MAIL"
-  | "GROUPS"
-  | "HANGOUTS_CHAT"
-  | "VOICE"
-  | "CALENDAR"
-  | "GEMINI";
-export type QueryMethodEnum =
-  | "SEARCH_METHOD_UNSPECIFIED"
-  | "ACCOUNT"
-  | "ORG_UNIT"
-  | "TEAM_DRIVE"
-  | "ENTIRE_ORG"
-  | "ROOM"
-  | "SITES_URL"
-  | "SHARED_DRIVE"
-  | "DRIVE_DOCUMENT";
-/** The Chat spaces to search */
-export interface HangoutsChatInfo {
-  /** A list of Chat spaces IDs, as provided by the [Chat API](https://developers.google.com/workspace/chat). There is a limit of exporting from 500 Chat spaces per request. */
-  roomId?: StringList;
+/** Additional options for Google Chat search */
+export interface HangoutsChatOptions {
+  /** For searches by account or organizational unit, set to **true** to include rooms. */
+  includeRooms?: boolean | undefined;
+}
+/** The accounts to search */
+export interface AccountInfo {
+  /** A set of accounts to search. */
+  emails?: StringList | undefined;
+}
+/** The organizational unit to search */
+export interface OrgUnitInfo {
+  /** The name of the organizational unit to search, as provided by the [Admin SDK Directory API](https://developers.google.com/admin-sdk/directory/). */
+  orgUnitId?: string | undefined;
+}
+export type VoiceOptionsCoveredDataItemEnum =
+  | "COVERED_DATA_UNSPECIFIED"
+  | "TEXT_MESSAGES"
+  | "VOICEMAILS"
+  | "CALL_LOGS";
+export type VoiceOptionsCoveredDataItemEnumList = Array<
+  VoiceOptionsCoveredDataItemEnum | (string & {})
+>;
+/** Additional options for Voice search */
+export interface VoiceOptions {
+  /** Datatypes to search */
+  coveredData?: VoiceOptionsCoveredDataItemEnumList | undefined;
+}
+export type CalendarOptionsResponseStatusesItemEnum =
+  | "ATTENDEE_RESPONSE_UNSPECIFIED"
+  | "ATTENDEE_RESPONSE_NEEDS_ACTION"
+  | "ATTENDEE_RESPONSE_ACCEPTED"
+  | "ATTENDEE_RESPONSE_DECLINED"
+  | "ATTENDEE_RESPONSE_TENTATIVE";
+export type CalendarOptionsResponseStatusesItemEnumList = Array<
+  CalendarOptionsResponseStatusesItemEnum | (string & {})
+>;
+/** Additional options for Calendar search */
+export interface CalendarOptions {
+  /** Matches only events for which the custodian gave one of these responses. If the set is empty or contains ATTENDEE_RESPONSE_UNSPECIFIED there will be no filtering on responses. */
+  responseStatuses?: CalendarOptionsResponseStatusesItemEnumList | undefined;
+  /** Search the current version of the Calendar event, but export the contents of the last version saved before 12:00 AM UTC on the specified date. Enter the date in UTC. */
+  versionDate?: string | undefined;
+  /** Matches only those events whose attendees contain all of the words in the given set. Entries in the set are considered in "and". */
+  peopleQuery?: StringList | undefined;
+  /** Matches only those events whose location contains all of the words in the given set. If the string contains quoted phrases, this method only matches those events whose location contain the exact phrase. Entries in the set are considered in "and". Word splitting example: ["New Zealand"] vs ["New","Zealand"] "New Zealand": matched by both "New and better Zealand": only matched by the later */
+  locationQuery?: StringList | undefined;
+  /** Matches only those events that do not contain any of the words in the given set in title, description, location, or attendees. Entries in the set are considered in "or". */
+  minusWords?: StringList | undefined;
 }
 /** The query definition used for search and export. */
 export interface Query {
-  /** Required when **SearchMethod** is **TEAM_DRIVE**. */
-  teamDriveInfo?: TeamDriveInfo;
-  /** Required when **SearchMethod** is **SHARED_DRIVE**. */
-  sharedDriveInfo?: SharedDriveInfo;
-  /** Set Gmail search-specific options. */
-  mailOptions?: MailOptions;
-  /** Required when **SearchMethod** is **DRIVE_DOCUMENT**. */
-  driveDocumentInfo?: DriveDocumentInfo;
-  /** Required when **SearchMethod** is **SITES_URL**. */
-  sitesUrlInfo?: SitesUrlInfo;
   /** The data source to search. */
-  dataScope?: QueryDataScopeEnum | (string & {});
-  /** Required when **SearchMethod** is **ACCOUNT**. */
-  accountInfo?: AccountInfo;
-  /** The start time for the search query. Specify in GMT. The value is rounded to 12 AM on the specified date. */
-  startTime?: string;
-  /** Set Chat search-specific options. (read-only) */
-  hangoutsChatOptions?: HangoutsChatOptions;
-  /** Set Gemini search-specific options. */
-  geminiOptions?: CancelOperationRequest;
-  /** Required when **SearchMethod** is **ORG_UNIT**. */
-  orgUnitInfo?: OrgUnitInfo;
-  /** Set Calendar search-specific options. */
-  calendarOptions?: CalendarOptions;
-  /** Set Voice search-specific options. */
-  voiceOptions?: VoiceOptions;
-  /** Set Drive search-specific options. */
-  driveOptions?: DriveOptions;
-  /** The search method to use. */
-  searchMethod?: QuerySearchMethodEnum | (string & {});
+  dataScope?: QueryDataScopeEnum | (string & {}) | undefined;
+  /** Required when **SearchMethod** is **DRIVE_DOCUMENT**. */
+  driveDocumentInfo?: DriveDocumentInfo | undefined;
   /** Service-specific [search operators](https://support.google.com/vault/answer/2474474) to filter search results. */
-  terms?: string;
-  /** The Google Workspace service to search. */
-  corpus?: QueryCorpusEnum | (string & {});
+  terms?: string | undefined;
+  /** The start time for the search query. Specify in GMT. The value is rounded to 12 AM on the specified date. */
+  startTime?: string | undefined;
+  /** Required when **SearchMethod** is **SITES_URL**. */
+  sitesUrlInfo?: SitesUrlInfo | undefined;
+  /** Set Gmail search-specific options. */
+  mailOptions?: MailOptions | undefined;
+  /** The search method to use. */
+  searchMethod?: QuerySearchMethodEnum | (string & {}) | undefined;
   /** The end time for the search query. Specify in GMT. The value is rounded to 12 AM on the specified date. */
-  endTime?: string;
+  endTime?: string | undefined;
+  /** Required when **SearchMethod** is **TEAM_DRIVE**. */
+  teamDriveInfo?: TeamDriveInfo | undefined;
   /** The time zone name. It should be an IANA TZ name, such as "America/Los_Angeles". For a list of time zone names, see [Time Zone](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones). For more information about how Vault uses time zones, see [the Vault help center](https://support.google.com/vault/answer/6092995#time). */
-  timeZone?: string;
-  /** The entity to search. This field replaces **searchMethod** to support shared drives. When **searchMethod** is **TEAM_DRIVE**, the response of this field is **SHARED_DRIVE**. */
-  method?: QueryMethodEnum | (string & {});
+  timeZone?: string | undefined;
+  /** Set Gemini in Workspace search-specific options. */
+  geminiInWorkspaceOptions?: CancelOperationRequest | undefined;
+  /** Set Gemini app search-specific options. */
+  geminiOptions?: CancelOperationRequest | undefined;
   /** Required when **SearchMethod** is **ROOM**. (read-only) */
-  hangoutsChatInfo?: HangoutsChatInfo;
+  hangoutsChatInfo?: HangoutsChatInfo | undefined;
+  /** The Google Workspace service to search. */
+  corpus?: QueryCorpusEnum | (string & {}) | undefined;
+  /** Required when **SearchMethod** is **SHARED_DRIVE**. */
+  sharedDriveInfo?: SharedDriveInfo | undefined;
+  /** The entity to search. This field replaces **searchMethod** to support shared drives. When **searchMethod** is **TEAM_DRIVE**, the response of this field is **SHARED_DRIVE**. */
+  method?: QueryMethodEnum | (string & {}) | undefined;
+  /** Set Drive search-specific options. */
+  driveOptions?: DriveOptions | undefined;
+  /** Set Chat search-specific options. (read-only) */
+  hangoutsChatOptions?: HangoutsChatOptions | undefined;
+  /** Required when **SearchMethod** is **ACCOUNT**. */
+  accountInfo?: AccountInfo | undefined;
+  /** Required when **SearchMethod** is **ORG_UNIT**. */
+  orgUnitInfo?: OrgUnitInfo | undefined;
+  /** Set Voice search-specific options. */
+  voiceOptions?: VoiceOptions | undefined;
+  /** Set Calendar search-specific options. */
+  calendarOptions?: CalendarOptions | undefined;
 }
 /** Count artifacts request. */
 export interface CountArtifactsRequest {
   /** Sets the granularity of the count results. */
-  view?: CountArtifactsRequestViewEnum | (string & {});
+  view?: CountArtifactsRequestViewEnum | (string & {}) | undefined;
   /** The search query. */
-  query?: Query;
+  query?: Query | undefined;
 }
 export interface CountMattersRequest {
   /** The matter ID. */
   matterId: string;
   /** Request body */
-  body?: CountArtifactsRequest;
+  body?: CountArtifactsRequest | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  response?: DocumentMap | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
 }
 export interface CreateMattersRequest {
   /** Request body */
-  body?: Matter;
+  body?: Matter | undefined;
+}
+export type ExportStatusEnum = "EXPORT_STATUS_UNSPECIFIED" | "COMPLETED" | "FAILED" | "IN_PROGRESS";
+/** Progress information for an export. */
+export interface ExportStats {
+  /** The number of messages or files already processed for export. */
+  exportedArtifactCount?: string | undefined;
+  /** The number of messages or files to be exported. */
+  totalArtifactCount?: string | undefined;
+  /** The size of export in bytes. */
+  sizeInBytes?: string | undefined;
 }
 /** User's information. */
 export interface UserInfo {
-  /** The displayed name of the user. */
-  displayName?: string;
   /** The email address of the user. */
-  email?: string;
-}
-export type ExportStatusEnum = "EXPORT_STATUS_UNSPECIFIED" | "COMPLETED" | "FAILED" | "IN_PROGRESS";
-export type GroupsExportOptionsExportFormatEnum =
-  | "EXPORT_FORMAT_UNSPECIFIED"
-  | "MBOX"
-  | "PST"
-  | "ICS"
-  | "XML"
-  | "JSON";
-/** Options for Groups exports. */
-export interface GroupsExportOptions {
-  /** The file format for exported messages. */
-  exportFormat?: GroupsExportOptionsExportFormatEnum | (string & {});
-}
-export type MailExportOptionsExportFormatEnum =
-  | "EXPORT_FORMAT_UNSPECIFIED"
-  | "MBOX"
-  | "PST"
-  | "ICS"
-  | "XML"
-  | "JSON";
-/** Options for Gmail exports. */
-export interface MailExportOptions {
-  /** To export confidential mode content, set to **true**. */
-  showConfidentialModeContent?: boolean;
-  /** The file format for exported messages. */
-  exportFormat?: MailExportOptionsExportFormatEnum | (string & {});
-  /** To use the new export system, set to **true**. */
-  useNewExport?: boolean;
-  /** Optional. To enable exporting linked Drive files, set to **true**. */
-  exportLinkedDriveFiles?: boolean;
-}
-/** Options for Drive exports. */
-export interface DriveExportOptions {
-  /** To include access level information for users with [indirect access](https://support.google.com/vault/answer/6099459#metadata) to files, set to **true**. */
-  includeAccessInfo?: boolean;
-}
-export type GeminiExportOptionsExportFormatEnum =
-  | "EXPORT_FORMAT_UNSPECIFIED"
-  | "MBOX"
-  | "PST"
-  | "ICS"
-  | "XML"
-  | "JSON";
-/** The options for Gemini exports. */
-export interface GeminiExportOptions {
-  /** The file format for exported messages. */
-  exportFormat?: GeminiExportOptionsExportFormatEnum | (string & {});
-}
-export type HangoutsChatExportOptionsExportFormatEnum =
-  | "EXPORT_FORMAT_UNSPECIFIED"
-  | "MBOX"
-  | "PST"
-  | "ICS"
-  | "XML"
-  | "JSON";
-/** Options for Chat exports. */
-export interface HangoutsChatExportOptions {
-  /** The file format for exported messages. */
-  exportFormat?: HangoutsChatExportOptionsExportFormatEnum | (string & {});
-}
-export type VoiceExportOptionsExportFormatEnum =
-  | "EXPORT_FORMAT_UNSPECIFIED"
-  | "MBOX"
-  | "PST"
-  | "ICS"
-  | "XML"
-  | "JSON";
-/** The options for Voice exports. */
-export interface VoiceExportOptions {
-  /** The file format for exported text messages. */
-  exportFormat?: VoiceExportOptionsExportFormatEnum | (string & {});
+  email?: string | undefined;
+  /** The displayed name of the user. */
+  displayName?: string | undefined;
 }
 export type CalendarExportOptionsExportFormatEnum =
   | "EXPORT_FORMAT_UNSPECIFIED"
@@ -514,115 +457,190 @@ export type CalendarExportOptionsExportFormatEnum =
 /** The options for Calendar exports. */
 export interface CalendarExportOptions {
   /** The file format for exported text messages. */
-  exportFormat?: CalendarExportOptionsExportFormatEnum | (string & {});
+  exportFormat?: CalendarExportOptionsExportFormatEnum | (string & {}) | undefined;
+}
+export type HangoutsChatExportOptionsExportFormatEnum =
+  | "EXPORT_FORMAT_UNSPECIFIED"
+  | "MBOX"
+  | "PST"
+  | "ICS"
+  | "XML"
+  | "JSON";
+/** Options for Chat exports. */
+export interface HangoutsChatExportOptions {
+  /** The file format for exported messages. */
+  exportFormat?: HangoutsChatExportOptionsExportFormatEnum | (string & {}) | undefined;
+}
+export type GroupsExportOptionsExportFormatEnum =
+  | "EXPORT_FORMAT_UNSPECIFIED"
+  | "MBOX"
+  | "PST"
+  | "ICS"
+  | "XML"
+  | "JSON";
+/** Options for Groups exports. */
+export interface GroupsExportOptions {
+  /** The file format for exported messages. */
+  exportFormat?: GroupsExportOptionsExportFormatEnum | (string & {}) | undefined;
 }
 export type ExportOptionsRegionEnum = "EXPORT_REGION_UNSPECIFIED" | "ANY" | "US" | "EUROPE";
+export type VoiceExportOptionsExportFormatEnum =
+  | "EXPORT_FORMAT_UNSPECIFIED"
+  | "MBOX"
+  | "PST"
+  | "ICS"
+  | "XML"
+  | "JSON";
+/** The options for Voice exports. */
+export interface VoiceExportOptions {
+  /** The file format for exported text messages. */
+  exportFormat?: VoiceExportOptionsExportFormatEnum | (string & {}) | undefined;
+}
+export type MailExportOptionsExportFormatEnum =
+  | "EXPORT_FORMAT_UNSPECIFIED"
+  | "MBOX"
+  | "PST"
+  | "ICS"
+  | "XML"
+  | "JSON";
+/** Options for Gmail exports. */
+export interface MailExportOptions {
+  /** To use the new export system, set to **true**. */
+  useNewExport?: boolean | undefined;
+  /** Optional. To enable exporting linked Drive files, set to **true**. */
+  exportLinkedDriveFiles?: boolean | undefined;
+  /** To export confidential mode content, set to **true**. */
+  showConfidentialModeContent?: boolean | undefined;
+  /** The file format for exported messages. */
+  exportFormat?: MailExportOptionsExportFormatEnum | (string & {}) | undefined;
+}
+export type GeminiInWorkspaceExportOptionsExportFormatEnum =
+  | "EXPORT_FORMAT_UNSPECIFIED"
+  | "MBOX"
+  | "PST"
+  | "ICS"
+  | "XML"
+  | "JSON";
+/** The options for Gemini in Workspace exports. */
+export interface GeminiInWorkspaceExportOptions {
+  /** The file format for exported messages. */
+  exportFormat?: GeminiInWorkspaceExportOptionsExportFormatEnum | (string & {}) | undefined;
+}
+export type GeminiExportOptionsExportFormatEnum =
+  | "EXPORT_FORMAT_UNSPECIFIED"
+  | "MBOX"
+  | "PST"
+  | "ICS"
+  | "XML"
+  | "JSON";
+/** The options for Gemini app exports. */
+export interface GeminiExportOptions {
+  /** The file format for exported messages. */
+  exportFormat?: GeminiExportOptionsExportFormatEnum | (string & {}) | undefined;
+}
+/** Options for Drive exports. */
+export interface DriveExportOptions {
+  /** To include access level information for users with [indirect access](https://support.google.com/vault/answer/6099459#metadata) to files, set to **true**. */
+  includeAccessInfo?: boolean | undefined;
+}
 /** Additional options for exports */
 export interface ExportOptions {
-  /** Options for Groups exports. */
-  groupsOptions?: GroupsExportOptions;
-  /** Options for Gmail exports. */
-  mailOptions?: MailExportOptions;
-  /** Options for Drive exports. */
-  driveOptions?: DriveExportOptions;
-  /** Option available for Gemini export. */
-  geminiOptions?: GeminiExportOptions;
-  /** Options for Chat exports. */
-  hangoutsChatOptions?: HangoutsChatExportOptions;
-  /** Options for Voice exports. */
-  voiceOptions?: VoiceExportOptions;
   /** Option available for Calendar export. */
-  calendarOptions?: CalendarExportOptions;
+  calendarOptions?: CalendarExportOptions | undefined;
+  /** Options for Chat exports. */
+  hangoutsChatOptions?: HangoutsChatExportOptions | undefined;
+  /** Options for Groups exports. */
+  groupsOptions?: GroupsExportOptions | undefined;
   /** The requested data region for the export. */
-  region?: ExportOptionsRegionEnum | (string & {});
+  region?: ExportOptionsRegionEnum | (string & {}) | undefined;
+  /** Options for Voice exports. */
+  voiceOptions?: VoiceExportOptions | undefined;
+  /** Options for Gmail exports. */
+  mailOptions?: MailExportOptions | undefined;
+  /** Option available for Gemini in Workspace export. */
+  geminiInWorkspaceOptions?: GeminiInWorkspaceExportOptions | undefined;
+  /** Option available for Gemini app export. */
+  geminiOptions?: GeminiExportOptions | undefined;
+  /** Options for Drive exports. */
+  driveOptions?: DriveExportOptions | undefined;
 }
 /** The export file in Cloud Storage */
 export interface CloudStorageFile {
-  /** The name of the Cloud Storage bucket for the export file. You can use this value in the Cloud Storage [JSON API](https://cloud.google.com/storage/docs/json_api) or [XML API](https://cloud.google.com/storage/docs/xml-api), but not to list the bucket contents. Instead, you can [get individual export files](https://cloud.google.com/storage/docs/json_api/v1/objects/get) by object name. */
-  bucketName?: string;
-  /** The name of the Cloud Storage object for the export file. You can use this value in the Cloud Storage [JSON API](https://cloud.google.com/storage/docs/json_api) or [XML API](https://cloud.google.com/storage/docs/xml-api). */
-  objectName?: string;
-  /** The export file size. */
-  size?: string;
   /** The md5 hash of the file. */
-  md5Hash?: string;
+  md5Hash?: string | undefined;
+  /** The name of the Cloud Storage object for the export file. You can use this value in the Cloud Storage [JSON API](https://cloud.google.com/storage/docs/json_api) or [XML API](https://cloud.google.com/storage/docs/xml-api). */
+  objectName?: string | undefined;
+  /** The export file size. */
+  size?: string | undefined;
+  /** The name of the Cloud Storage bucket for the export file. You can use this value in the Cloud Storage [JSON API](https://cloud.google.com/storage/docs/json_api) or [XML API](https://cloud.google.com/storage/docs/xml-api), but not to list the bucket contents. Instead, you can [get individual export files](https://cloud.google.com/storage/docs/json_api/v1/objects/get) by object name. */
+  bucketName?: string | undefined;
 }
 export type CloudStorageFileList = Array<CloudStorageFile>;
 /** Export sink for Cloud Storage files. */
 export interface CloudStorageSink {
   /** Output only. The exported files in Cloud Storage. */
-  files?: CloudStorageFileList;
-}
-/** Progress information for an export. */
-export interface ExportStats {
-  /** The number of messages or files to be exported. */
-  totalArtifactCount?: string;
-  /** The number of messages or files already processed for export. */
-  exportedArtifactCount?: string;
-  /** The size of export in bytes. */
-  sizeInBytes?: string;
+  files?: CloudStorageFileList | undefined;
 }
 /** An export. To work with Vault resources, the account must have the [required Vault privileges](https://support.google.com/vault/answer/2799699) and access to the matter. To access a matter, the account must have created the matter, have the matter shared with them, or have the **View All Matters** privilege. */
 export interface Export {
-  /** Output only. The requester of the export. */
-  requester?: UserInfo;
-  /** Output only. The status of the export. */
-  status?: ExportStatusEnum | (string & {});
-  /** The export name. Don't use special characters (~!$'(),;@:/?) in the name, they can prevent you from downloading exports. */
-  name?: string;
-  /** Output only. The matter ID. */
-  matterId?: string;
-  /** Additional export options. */
-  exportOptions?: ExportOptions;
-  /** Output only. The sink for export files in Cloud Storage. */
-  cloudStorageSink?: CloudStorageSink;
   /** Output only. The time when the export was created. */
-  createTime?: string;
-  /** Output only. The generated export ID. */
-  id?: string;
-  /** Output only. Identifies the parent export that spawned this child export. This is only set on child exports. */
-  parentExportId?: string;
+  createTime?: string | undefined;
+  /** The export name. Don't use special characters (~!$'(),;@:/?) in the name, they can prevent you from downloading exports. */
+  name?: string | undefined;
+  /** Output only. The status of the export. */
+  status?: ExportStatusEnum | (string & {}) | undefined;
   /** Output only. Details about the export progress and size. */
-  stats?: ExportStats;
+  stats?: ExportStats | undefined;
+  /** Output only. The requester of the export. */
+  requester?: UserInfo | undefined;
+  /** Output only. The matter ID. */
+  matterId?: string | undefined;
+  /** Additional export options. */
+  exportOptions?: ExportOptions | undefined;
+  /** Output only. Identifies the parent export that spawned this child export. This is only set on child exports. */
+  parentExportId?: string | undefined;
+  /** Output only. The sink for export files in Cloud Storage. */
+  cloudStorageSink?: CloudStorageSink | undefined;
   /** The query parameters used to create the export. */
-  query?: Query;
+  query?: Query | undefined;
+  /** Output only. The generated export ID. */
+  id?: string | undefined;
 }
 export interface CreateMattersExportsRequest {
   /** The matter ID. */
   matterId: string;
   /** Request body */
-  body?: Export;
+  body?: Export | undefined;
 }
+export type HoldCorpusEnum =
+  | "CORPUS_TYPE_UNSPECIFIED"
+  | "DRIVE"
+  | "MAIL"
+  | "GROUPS"
+  | "HANGOUTS_CHAT"
+  | "VOICE"
+  | "CALENDAR"
+  | "GEMINI"
+  | "GEMINI_IN_WORKSPACE";
 export type HeldAccountList = Array<HeldAccount>;
-/** Query options for group holds. */
-export interface HeldGroupsQuery {
-  /** The start time for the query. Specify in GMT. The value is rounded to 12 AM on the specified date. */
-  startTime?: string;
-  /** The end time for the query. Specify in GMT. The value is rounded to 12 AM on the specified date. */
-  endTime?: string;
-  /** The [search operators](https://support.google.com/vault/answer/2474474) used to refine the messages covered by the hold. */
-  terms?: string;
-}
-/** Options for Drive holds. */
-export interface HeldDriveQuery {
-  /** To include files in Team Drives in the hold, set to **true**. */
-  includeTeamDriveFiles?: boolean;
-  /** To include files in shared drives in the hold, set to **true**. */
-  includeSharedDriveFiles?: boolean;
+/** The organizational unit covered by a hold. This structure is immutable. */
+export interface HeldOrgUnit {
+  /** The organizational unit's immutable ID as provided by the [Admin SDK](https://developers.google.com/admin-sdk/). */
+  orgUnitId?: string | undefined;
+  /** When the organizational unit was put on hold. This property is immutable. */
+  holdTime?: string | undefined;
 }
 /** Query options for Gmail holds. */
 export interface HeldMailQuery {
-  /** The start time for the query. Specify in GMT. The value is rounded to 12 AM on the specified date. */
-  startTime?: string;
   /** The [search operators](https://support.google.com/vault/answer/2474474) used to refine the messages covered by the hold. */
-  terms?: string;
+  terms?: string | undefined;
   /** The end time for the query. Specify in GMT. The value is rounded to 12 AM on the specified date. */
-  endTime?: string;
+  endTime?: string | undefined;
+  /** The start time for the query. Specify in GMT. The value is rounded to 12 AM on the specified date. */
+  startTime?: string | undefined;
 }
-/** Options for Gemini holds. */
+/** Options for Gemini app holds. */
 export type HeldGeminiQuery = CancelOperationRequest;
-/** Options for Calendar holds. */
-export type HeldCalendarQuery = CancelOperationRequest;
 export type HeldVoiceQueryCoveredDataItemEnum =
   | "COVERED_DATA_UNSPECIFIED"
   | "TEXT_MESSAGES"
@@ -634,68 +652,70 @@ export type HeldVoiceQueryCoveredDataItemEnumList = Array<
 /** Options for Voice holds. */
 export interface HeldVoiceQuery {
   /** A list of data types covered by the hold. Should be non-empty. Order does not matter and duplicates are ignored. */
-  coveredData?: HeldVoiceQueryCoveredDataItemEnumList;
+  coveredData?: HeldVoiceQueryCoveredDataItemEnumList | undefined;
 }
+/** Options for Calendar holds. */
+export type HeldCalendarQuery = CancelOperationRequest;
 /** Options for Chat holds. */
 export interface HeldHangoutsChatQuery {
   /** To include messages in Chat spaces the user was a member of, set to **true**. */
-  includeRooms?: boolean;
+  includeRooms?: boolean | undefined;
+}
+/** Query options for group holds. */
+export interface HeldGroupsQuery {
+  /** The end time for the query. Specify in GMT. The value is rounded to 12 AM on the specified date. */
+  endTime?: string | undefined;
+  /** The [search operators](https://support.google.com/vault/answer/2474474) used to refine the messages covered by the hold. */
+  terms?: string | undefined;
+  /** The start time for the query. Specify in GMT. The value is rounded to 12 AM on the specified date. */
+  startTime?: string | undefined;
+}
+/** Options for Drive holds. */
+export interface HeldDriveQuery {
+  /** To include files in Team Drives in the hold, set to **true**. */
+  includeTeamDriveFiles?: boolean | undefined;
+  /** To include files in shared drives in the hold, set to **true**. */
+  includeSharedDriveFiles?: boolean | undefined;
 }
 /** Service-specific options for holds. */
 export interface CorpusQuery {
-  /** Service-specific options for Groups holds. If set, **CorpusType** must be **GROUPS**. */
-  groupsQuery?: HeldGroupsQuery;
-  /** Service-specific options for Drive holds. If set, **CorpusType** must be **DRIVE**. */
-  driveQuery?: HeldDriveQuery;
   /** Service-specific options for Gmail holds. If set, **CorpusType** must be **MAIL**. */
-  mailQuery?: HeldMailQuery;
-  /** Service-specific options for Gemini holds. If set, **CorpusType** must be **GEMINI**. */
-  geminiQuery?: CancelOperationRequest;
-  /** Service-specific options for Calendar holds. If set, **CorpusType** must be **CALENDAR**. */
-  calendarQuery?: CancelOperationRequest;
+  mailQuery?: HeldMailQuery | undefined;
+  /** Service-specific options for Gemini app holds. If set, **CorpusType** must be **GEMINI**. */
+  geminiQuery?: CancelOperationRequest | undefined;
   /** Service-specific options for Voice holds. If set, **CorpusType** must be **VOICE**. */
-  voiceQuery?: HeldVoiceQuery;
+  voiceQuery?: HeldVoiceQuery | undefined;
+  /** Service-specific options for Calendar holds. If set, **CorpusType** must be **CALENDAR**. */
+  calendarQuery?: CancelOperationRequest | undefined;
   /** Service-specific options for Chat holds. If set, **CorpusType** must be **HANGOUTS_CHAT**. */
-  hangoutsChatQuery?: HeldHangoutsChatQuery;
-}
-export type HoldCorpusEnum =
-  | "CORPUS_TYPE_UNSPECIFIED"
-  | "DRIVE"
-  | "MAIL"
-  | "GROUPS"
-  | "HANGOUTS_CHAT"
-  | "VOICE"
-  | "CALENDAR"
-  | "GEMINI";
-/** The organizational unit covered by a hold. This structure is immutable. */
-export interface HeldOrgUnit {
-  /** When the organizational unit was put on hold. This property is immutable. */
-  holdTime?: string;
-  /** The organizational unit's immutable ID as provided by the [Admin SDK](https://developers.google.com/admin-sdk/). */
-  orgUnitId?: string;
+  hangoutsChatQuery?: HeldHangoutsChatQuery | undefined;
+  /** Service-specific options for Groups holds. If set, **CorpusType** must be **GROUPS**. */
+  groupsQuery?: HeldGroupsQuery | undefined;
+  /** Service-specific options for Drive holds. If set, **CorpusType** must be **DRIVE**. */
+  driveQuery?: HeldDriveQuery | undefined;
 }
 /** A hold. A hold prevents the specified Google Workspace service from purging data for specific accounts or all members of an organizational unit. To work with Vault resources, the account must have the [required Vault privileges] (https://support.google.com/vault/answer/2799699) and access to the matter. To access a matter, the account must have created the matter, have the matter shared with them, or have the **View All Matters** privilege. */
 export interface Hold {
-  /** If set, the hold applies to the specified accounts and **orgUnit** must be empty. */
-  accounts?: HeldAccountList;
-  /** The unique immutable ID of the hold. Assigned during creation. */
-  holdId?: string;
   /** The name of the hold. */
-  name?: string;
-  /** Service-specific options. If set, **CorpusQuery** must match **CorpusType**. */
-  query?: CorpusQuery;
-  /** The last time this hold was modified. */
-  updateTime?: string;
+  name?: string | undefined;
   /** The service to be searched. */
-  corpus?: HoldCorpusEnum | (string & {});
+  corpus?: HoldCorpusEnum | (string & {}) | undefined;
+  /** The unique immutable ID of the hold. Assigned during creation. */
+  holdId?: string | undefined;
+  /** The last time this hold was modified. */
+  updateTime?: string | undefined;
+  /** If set, the hold applies to the specified accounts and **orgUnit** must be empty. */
+  accounts?: HeldAccountList | undefined;
   /** If set, the hold applies to all members of the organizational unit and **accounts** must be empty. This property is mutable. For Groups holds, set **accounts**. */
-  orgUnit?: HeldOrgUnit;
+  orgUnit?: HeldOrgUnit | undefined;
+  /** Service-specific options. If set, **CorpusQuery** must match **CorpusType**. */
+  query?: CorpusQuery | undefined;
 }
 export interface CreateMattersHoldsRequest {
   /** The matter ID. */
   matterId: string;
   /** Request body */
-  body?: Hold;
+  body?: Hold | undefined;
 }
 export interface CreateMattersHoldsAccountsRequest {
   /** The hold ID. */
@@ -703,36 +723,36 @@ export interface CreateMattersHoldsAccountsRequest {
   /** The matter ID. */
   matterId: string;
   /** Request body */
-  body?: HeldAccount;
+  body?: HeldAccount | undefined;
 }
 /** The definition of a saved query. To work with Vault resources, the account must have the [required Vault privileges](https://support.google.com/vault/answer/2799699) and access to the matter. To access a matter, the account must have created the matter, have the matter shared with them, or have the **View All Matters** privilege. */
 export interface SavedQuery {
-  /** The name of the saved query. */
-  displayName?: string;
   /** Output only. The server-generated timestamp when the saved query was created. */
-  createTime?: string;
-  /** The search parameters of the saved query. */
-  query?: Query;
+  createTime?: string | undefined;
   /** Output only. The matter ID of the matter the saved query is saved in. The server does not use this field during create and always uses matter ID in the URL. */
-  matterId?: string;
+  matterId?: string | undefined;
+  /** The name of the saved query. */
+  displayName?: string | undefined;
+  /** The search parameters of the saved query. */
+  query?: Query | undefined;
   /** A unique identifier for the saved query. */
-  savedQueryId?: string;
+  savedQueryId?: string | undefined;
 }
 export interface CreateMattersSavedQueriesRequest {
   /** The ID of the matter to create the saved query in. */
   matterId: string;
   /** Request body */
-  body?: SavedQuery;
+  body?: SavedQuery | undefined;
 }
 export interface DeleteMattersRequest {
   /** The matter ID */
   matterId: string;
 }
 export interface DeleteMattersExportsRequest {
-  /** The matter ID. */
-  matterId: string;
   /** The export ID. */
   exportId: string;
+  /** The matter ID. */
+  matterId: string;
 }
 export interface DeleteMattersHoldsRequest {
   /** The matter ID. */
@@ -760,10 +780,10 @@ export interface DeleteOperationsRequest {
 }
 export type GetMattersViewEnum = "VIEW_UNSPECIFIED" | "BASIC" | "FULL";
 export interface GetMattersRequest {
-  /** Specifies how much information about the matter to return in the response. */
-  view?: GetMattersViewEnum | (string & {});
   /** The matter ID. */
   matterId: string;
+  /** Specifies how much information about the matter to return in the response. */
+  view?: GetMattersViewEnum | (string & {}) | undefined;
 }
 export interface GetMattersExportsRequest {
   /** The matter ID. */
@@ -773,18 +793,18 @@ export interface GetMattersExportsRequest {
 }
 export type GetMattersHoldsViewEnum = "HOLD_VIEW_UNSPECIFIED" | "BASIC_HOLD" | "FULL_HOLD";
 export interface GetMattersHoldsRequest {
+  /** The amount of detail to return for a hold. */
+  view?: GetMattersHoldsViewEnum | (string & {}) | undefined;
   /** The hold ID. */
   holdId: string;
-  /** The amount of detail to return for a hold. */
-  view?: GetMattersHoldsViewEnum | (string & {});
   /** The matter ID. */
   matterId: string;
 }
 export interface GetMattersSavedQueriesRequest {
-  /** ID of the saved query to retrieve. */
-  savedQueryId: string;
   /** The ID of the matter to get the saved query from. */
   matterId: string;
+  /** ID of the saved query to retrieve. */
+  savedQueryId: string;
 }
 export interface GetOperationsRequest {
   /** The name of the operation resource. */
@@ -793,57 +813,57 @@ export interface GetOperationsRequest {
 export type ListMattersViewEnum = "VIEW_UNSPECIFIED" | "BASIC" | "FULL";
 export type ListMattersStateEnum = "STATE_UNSPECIFIED" | "OPEN" | "CLOSED" | "DELETED";
 export interface ListMattersRequest {
-  /** Specifies how much information about the matter to return in response. */
-  view?: ListMattersViewEnum | (string & {});
   /** The number of matters to return in the response. Default and maximum are 100. */
-  pageSize?: number;
-  /** The pagination token as returned in the response. */
-  pageToken?: string;
+  pageSize?: number | undefined;
+  /** Specifies how much information about the matter to return in response. */
+  view?: ListMattersViewEnum | (string & {}) | undefined;
   /** If set, lists only matters with the specified state. The default lists matters of all states. */
-  state?: ListMattersStateEnum | (string & {});
+  state?: ListMattersStateEnum | (string & {}) | undefined;
+  /** The pagination token as returned in the response. */
+  pageToken?: string | undefined;
 }
 export type MatterList = Array<Matter>;
 /** Provides the list of matters. */
 export interface ListMattersResponse {
-  /** Page token to retrieve the next page of results in the list. */
-  nextPageToken?: string;
   /** List of matters. */
-  matters?: MatterList;
+  matters?: MatterList | undefined;
+  /** Page token to retrieve the next page of results in the list. */
+  nextPageToken?: string | undefined;
 }
 export interface ListMattersExportsRequest {
-  /** The pagination token as returned in the response. */
-  pageToken?: string;
+  /** The number of exports to return in the response. */
+  pageSize?: number | undefined;
   /** The matter ID. */
   matterId: string;
-  /** The number of exports to return in the response. */
-  pageSize?: number;
+  /** The pagination token as returned in the response. */
+  pageToken?: string | undefined;
 }
 export type ExportList = Array<Export>;
 /** The exports for a matter. */
 export interface ListExportsResponse {
   /** Page token to retrieve the next page of results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of exports. */
-  exports?: ExportList;
+  exports?: ExportList | undefined;
 }
 export type ListMattersHoldsViewEnum = "HOLD_VIEW_UNSPECIFIED" | "BASIC_HOLD" | "FULL_HOLD";
 export interface ListMattersHoldsRequest {
   /** The matter ID. */
   matterId: string;
-  /** The number of holds to return in the response, between 0 and 100 inclusive. Leaving this empty, or as 0, is the same as **page_size** = 100. */
-  pageSize?: number;
-  /** The pagination token as returned in the response. An empty token means start from the beginning. */
-  pageToken?: string;
   /** The amount of detail to return for a hold. */
-  view?: ListMattersHoldsViewEnum | (string & {});
+  view?: ListMattersHoldsViewEnum | (string & {}) | undefined;
+  /** The pagination token as returned in the response. An empty token means start from the beginning. */
+  pageToken?: string | undefined;
+  /** The number of holds to return in the response, between 0 and 100 inclusive. Leaving this empty, or as 0, is the same as **page_size** = 100. */
+  pageSize?: number | undefined;
 }
 export type HoldList = Array<Hold>;
 /** The holds for a matter. */
 export interface ListHoldsResponse {
   /** The list of holds. */
-  holds?: HoldList;
+  holds?: HoldList | undefined;
   /** Page token to retrieve the next page of results in the list. If this is empty, then there are no more holds to list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListMattersHoldsAccountsRequest {
   /** The matter ID. */
@@ -854,50 +874,50 @@ export interface ListMattersHoldsAccountsRequest {
 /** Returns a list of the accounts covered by a hold. */
 export interface ListHeldAccountsResponse {
   /** The held accounts on a hold. */
-  accounts?: HeldAccountList;
+  accounts?: HeldAccountList | undefined;
 }
 export interface ListMattersSavedQueriesRequest {
   /** The pagination token as returned in the previous response. An empty token means start from the beginning. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The ID of the matter to get the saved queries for. */
   matterId: string;
   /** The maximum number of saved queries to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type SavedQueryList = Array<SavedQuery>;
 /** Definition of the response for method ListSaveQuery. */
 export interface ListSavedQueriesResponse {
   /** List of saved queries. */
-  savedQueries?: SavedQueryList;
+  savedQueries?: SavedQueryList | undefined;
   /** Page token to retrieve the next page of results in the list. If this is empty, then there are no more saved queries to list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListOperationsRequest {
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
   /** The standard list filter. */
-  filter?: string;
-  /** The standard list page size. */
-  pageSize?: number;
-  /** The standard list page token. */
-  pageToken?: string;
+  filter?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
+  /** The standard list page token. */
+  pageToken?: string | undefined;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: StringList | undefined;
 }
 /** Remove a list of accounts from a hold. */
 export interface RemoveHeldAccountsRequest {
   /** The account IDs of the accounts to remove from the hold. */
-  accountIds?: StringList;
+  accountIds?: StringList | undefined;
 }
 export interface RemoveHeldAccountsMattersHoldsRequest {
   /** The matter ID. */
@@ -905,24 +925,24 @@ export interface RemoveHeldAccountsMattersHoldsRequest {
   /** The hold ID. */
   holdId: string;
   /** Request body */
-  body?: RemoveHeldAccountsRequest;
+  body?: RemoveHeldAccountsRequest | undefined;
 }
 export type StatusList = Array<Status>;
 /** Response for batch delete held accounts. */
 export interface RemoveHeldAccountsResponse {
   /** A list of statuses for the deleted accounts. Results have the same order as the request. */
-  statuses?: StatusList;
+  statuses?: StatusList | undefined;
 }
 /** Remove an account as a matter collaborator. */
 export interface RemoveMatterPermissionsRequest {
   /** The account ID. */
-  accountId?: string;
+  accountId?: string | undefined;
 }
 export interface RemovePermissionsMattersRequest {
   /** The matter ID. */
   matterId: string;
   /** Request body */
-  body?: RemoveMatterPermissionsRequest;
+  body?: RemoveMatterPermissionsRequest | undefined;
 }
 /** Reopen a matter by ID. */
 export type ReopenMatterRequest = CancelOperationRequest;
@@ -930,12 +950,12 @@ export interface ReopenMattersRequest {
   /** The matter ID. */
   matterId: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** Response to a ReopenMatterRequest. */
 export interface ReopenMatterResponse {
   /** The updated matter, with state **OPEN**. */
-  matter?: Matter;
+  matter?: Matter | undefined;
 }
 /** Undelete a matter by ID. */
 export type UndeleteMatterRequest = CancelOperationRequest;
@@ -943,21 +963,21 @@ export interface UndeleteMattersRequest {
   /** The matter ID. */
   matterId: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 export interface UpdateMattersRequest {
   /** The matter ID. */
   matterId: string;
   /** Request body */
-  body?: Matter;
+  body?: Matter | undefined;
 }
 export interface UpdateMattersHoldsRequest {
-  /** The ID of the hold. */
-  holdId: string;
   /** The matter ID. */
   matterId: string;
+  /** The ID of the hold. */
+  holdId: string;
   /** Request body */
-  body?: Hold;
+  body?: Hold | undefined;
 }
 export type AddHeldAccountsMattersHoldsError =
   | NotFound
@@ -1663,83 +1683,84 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
-          email: S.optional(S.String),
+          exportedArtifactCount: S.optional(S.String),
+          totalArtifactCount: S.optional(S.String),
+          sizeInBytes: S.optional(S.String),
         }),
-      ).annotate({ identifier: "UserInfo" });
+      ).annotate({ identifier: "ExportStats" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          exportFormat: S.optional(S.String),
+          email: S.optional(S.String),
+          displayName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GroupsExportOptions" });
+      ).annotate({ identifier: "UserInfo" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          showConfidentialModeContent: S.optional(S.Boolean),
           exportFormat: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CalendarExportOptions" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           useNewExport: S.optional(S.Boolean),
           exportLinkedDriveFiles: S.optional(S.Boolean),
+          showConfidentialModeContent: S.optional(S.Boolean),
+          exportFormat: S.optional(S.String),
         }),
       ).annotate({ identifier: "MailExportOptions" });
-    case 3:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           includeAccessInfo: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DriveExportOptions" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          groupsOptions: S.optional(__S(17, __c1, 1)),
-          mailOptions: S.optional(__S(18, __c1, 2)),
-          driveOptions: S.optional(__S(19, __c1, 3)),
-          geminiOptions: S.optional(__S(17, __c1, 1)),
-          hangoutsChatOptions: S.optional(__S(17, __c1, 1)),
-          voiceOptions: S.optional(__S(17, __c1, 1)),
-          calendarOptions: S.optional(__S(17, __c1, 1)),
-          region: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ExportOptions" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          bucketName: S.optional(S.String),
-          objectName: S.optional(S.String),
-          size: S.optional(S.String),
-          md5Hash: S.optional(S.String),
+          calendarOptions: S.optional(__S(18, __c1, 2)),
+          hangoutsChatOptions: S.optional(__S(18, __c1, 2)),
+          groupsOptions: S.optional(__S(18, __c1, 2)),
+          region: S.optional(S.String),
+          voiceOptions: S.optional(__S(18, __c1, 2)),
+          mailOptions: S.optional(__S(19, __c1, 3)),
+          geminiInWorkspaceOptions: S.optional(__S(18, __c1, 2)),
+          geminiOptions: S.optional(__S(18, __c1, 2)),
+          driveOptions: S.optional(__S(20, __c1, 4)),
         }),
-      ).annotate({ identifier: "CloudStorageFile" });
+      ).annotate({ identifier: "ExportOptions" });
     case 6:
-      return S.Array(__S(21, __c1, 5));
-    case 7:
       return S.suspend(() =>
         S.Struct({
-          files: S.optional(__S(22, __c1, 6)),
+          md5Hash: S.optional(S.String),
+          objectName: S.optional(S.String),
+          size: S.optional(S.String),
+          bucketName: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CloudStorageSink" });
+      ).annotate({ identifier: "CloudStorageFile" });
+    case 7:
+      return S.Array(__S(22, __c1, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          totalArtifactCount: S.optional(S.String),
-          exportedArtifactCount: S.optional(S.String),
-          sizeInBytes: S.optional(S.String),
+          files: S.optional(__S(23, __c1, 7)),
         }),
-      ).annotate({ identifier: "ExportStats" });
+      ).annotate({ identifier: "CloudStorageSink" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          requester: S.optional(__S(16, __c1, 0)),
-          status: S.optional(S.String),
-          name: S.optional(S.String),
-          matterId: S.optional(S.String),
-          exportOptions: S.optional(__S(20, __c1, 4)),
-          cloudStorageSink: S.optional(__S(23, __c1, 7)),
           createTime: S.optional(S.String),
-          id: S.optional(S.String),
+          name: S.optional(S.String),
+          status: S.optional(S.String),
+          stats: S.optional(__S(16, __c1, 0)),
+          requester: S.optional(__S(17, __c1, 1)),
+          matterId: S.optional(S.String),
+          exportOptions: S.optional(__S(21, __c1, 5)),
           parentExportId: S.optional(S.String),
-          stats: S.optional(__S(24, __c1, 8)),
+          cloudStorageSink: S.optional(__S(24, __c1, 8)),
           query: S.optional(__S(715, __c44, 11)),
+          id: S.optional(S.String),
         }),
       ).annotate({ identifier: "Export" });
   }
@@ -1772,55 +1793,55 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          orgUnitId: S.optional(S.String),
+          holdTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HeldOrgUnit" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          terms: S.optional(S.String),
+          endTime: S.optional(S.String),
           startTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HeldMailQuery" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           endTime: S.optional(S.String),
           terms: S.optional(S.String),
+          startTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "HeldGroupsQuery" });
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           includeTeamDriveFiles: S.optional(S.Boolean),
           includeSharedDriveFiles: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "HeldDriveQuery" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          startTime: S.optional(S.String),
-          terms: S.optional(S.String),
-          endTime: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "HeldMailQuery" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          groupsQuery: S.optional(__S(64, __c4, 0)),
-          driveQuery: S.optional(__S(65, __c4, 1)),
-          mailQuery: S.optional(__S(66, __c4, 2)),
-          geminiQuery: S.optional(__S(608, __c38, 0)),
-          calendarQuery: S.optional(__S(608, __c38, 0)),
-          voiceQuery: S.optional(__S(690, __c43, 2)),
-          hangoutsChatQuery: S.optional(__S(688, __c43, 0)),
-        }),
-      ).annotate({ identifier: "CorpusQuery" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          holdTime: S.optional(S.String),
-          orgUnitId: S.optional(S.String),
+          mailQuery: S.optional(__S(65, __c4, 1)),
+          geminiQuery: S.optional(__S(608, __c38, 0)),
+          voiceQuery: S.optional(__S(690, __c43, 2)),
+          calendarQuery: S.optional(__S(608, __c38, 0)),
+          hangoutsChatQuery: S.optional(__S(688, __c43, 0)),
+          groupsQuery: S.optional(__S(66, __c4, 2)),
+          driveQuery: S.optional(__S(67, __c4, 3)),
         }),
-      ).annotate({ identifier: "HeldOrgUnit" });
+      ).annotate({ identifier: "CorpusQuery" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          accounts: S.optional(__S(48, __c3, 0)),
-          holdId: S.optional(S.String),
           name: S.optional(S.String),
-          query: S.optional(__S(67, __c4, 3)),
-          updateTime: S.optional(S.String),
           corpus: S.optional(S.String),
-          orgUnit: S.optional(__S(68, __c4, 4)),
+          holdId: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          accounts: S.optional(__S(48, __c3, 0)),
+          orgUnit: S.optional(__S(64, __c4, 0)),
+          query: S.optional(__S(68, __c4, 4)),
         }),
       ).annotate({ identifier: "Hold" });
   }
@@ -1865,10 +1886,10 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
           createTime: S.optional(S.String),
-          query: S.optional(__S(715, __c44, 11)),
           matterId: S.optional(S.String),
+          displayName: S.optional(S.String),
+          query: S.optional(__S(715, __c44, 11)),
           savedQueryId: S.optional(S.String),
         }),
       ).annotate({ identifier: "SavedQuery" });
@@ -1895,8 +1916,8 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          matterId: S.String.pipe(T.Label()),
           exportId: S.String.pipe(T.Label()),
+          matterId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -1976,8 +1997,8 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          view: S.optional(S.String.pipe(T.Query())),
           matterId: S.String.pipe(T.Label()),
+          view: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2010,8 +2031,8 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          holdId: S.String.pipe(T.Label()),
           view: S.optional(S.String.pipe(T.Query())),
+          holdId: S.String.pipe(T.Label()),
           matterId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -2028,8 +2049,8 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          savedQueryId: S.String.pipe(T.Label()),
           matterId: S.String.pipe(T.Label()),
+          savedQueryId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2057,10 +2078,10 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          view: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
+          view: S.optional(S.String.pipe(T.Query())),
           state: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "v1/matters", baseUrl: "https://vault.googleapis.com/" }),
         ),
@@ -2070,8 +2091,8 @@ function __c19(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           matters: S.optional(__S(305, __c19, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListMattersResponse" });
   }
@@ -2081,9 +2102,9 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          matterId: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          matterId: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2109,9 +2130,9 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           matterId: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           view: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2186,11 +2207,11 @@ function __c24(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vault.googleapis.com/" }),
         ),
@@ -2200,9 +2221,9 @@ function __c24(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(528, __c33, 0)),
           nextPageToken: S.optional(S.String),
           operations: S.optional(__S(385, __c24, 1)),
+          unreachable: S.optional(__S(528, __c33, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -2318,8 +2339,8 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          holdId: S.String.pipe(T.Label()),
           matterId: S.String.pipe(T.Label()),
+          holdId: S.String.pipe(T.Label()),
           body: S.optional(__S(69, __c4, 5).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -2336,8 +2357,8 @@ function __c31(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          accountIds: S.optional(__S(528, __c33, 0)),
           emails: S.optional(__S(528, __c33, 0)),
+          accountIds: S.optional(__S(528, __c33, 0)),
         }),
       ).annotate({ identifier: "AddHeldAccountsRequest" });
     case 1:
@@ -2376,10 +2397,10 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          firstName: S.optional(S.String),
           holdTime: S.optional(S.String),
           lastName: S.optional(S.String),
           accountId: S.optional(S.String),
+          firstName: S.optional(S.String),
           email: S.optional(S.String),
         }),
       ).annotate({ identifier: "HeldAccount" });
@@ -2400,9 +2421,9 @@ function __c34(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          message: S.optional(S.String),
           details: S.optional(__S(545, __c34, 1)),
           code: S.optional(S.Number),
-          message: S.optional(S.String),
         }),
       ).annotate({ identifier: "Status" });
   }
@@ -2412,8 +2433,8 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sendEmails: S.optional(S.Boolean),
           ccMe: S.optional(S.Boolean),
+          sendEmails: S.optional(S.Boolean),
           matterPermission: S.optional(__S(576, __c36, 0)),
         }),
       ).annotate({ identifier: "AddMatterPermissionsRequest" });
@@ -2437,8 +2458,8 @@ function __c36(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          accountId: S.optional(S.String),
           role: S.optional(S.String),
+          accountId: S.optional(S.String),
         }),
       ).annotate({ identifier: "MatterPermission" });
   }
@@ -2500,12 +2521,12 @@ function __c41(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          matterId: S.optional(S.String),
           state: S.optional(S.String),
-          description: S.optional(S.String),
-          matterRegion: S.optional(S.String),
-          name: S.optional(S.String),
           matterPermissions: S.optional(__S(656, __c41, 0)),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          matterId: S.optional(S.String),
+          matterRegion: S.optional(S.String),
         }),
       ).annotate({ identifier: "Matter" });
   }
@@ -2557,102 +2578,103 @@ function __c44(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          teamDriveIds: S.optional(__S(528, __c33, 0)),
-        }),
-      ).annotate({ identifier: "TeamDriveInfo" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          sharedDriveIds: S.optional(__S(528, __c33, 0)),
-        }),
-      ).annotate({ identifier: "SharedDriveInfo" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          excludeDrafts: S.optional(S.Boolean),
-          clientSideEncryptedOption: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MailOptions" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
           ids: S.optional(__S(528, __c33, 0)),
         }),
       ).annotate({ identifier: "DriveDocumentIds" });
-    case 4:
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          documentIds: S.optional(__S(707, __c44, 3)),
+          documentIds: S.optional(__S(704, __c44, 0)),
         }),
       ).annotate({ identifier: "DriveDocumentInfo" });
-    case 5:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           urls: S.optional(__S(528, __c33, 0)),
         }),
       ).annotate({ identifier: "SitesUrlInfo" });
-    case 6:
+    case 3:
       return S.suspend(() =>
         S.Struct({
-          emails: S.optional(__S(528, __c33, 0)),
-        }),
-      ).annotate({ identifier: "AccountInfo" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          orgUnitId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OrgUnitInfo" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          versionDate: S.optional(S.String),
-          locationQuery: S.optional(__S(528, __c33, 0)),
-          minusWords: S.optional(__S(528, __c33, 0)),
-          peopleQuery: S.optional(__S(528, __c33, 0)),
-          responseStatuses: S.optional(__S(689, __c43, 1)),
-        }),
-      ).annotate({ identifier: "CalendarOptions" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          sharedDrivesOption: S.optional(S.String),
-          versionDate: S.optional(S.String),
-          includeSharedDrives: S.optional(S.Boolean),
-          includeTeamDrives: S.optional(S.Boolean),
           clientSideEncryptedOption: S.optional(S.String),
+          excludeDrafts: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "DriveOptions" });
-    case 10:
+      ).annotate({ identifier: "MailOptions" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          teamDriveIds: S.optional(__S(528, __c33, 0)),
+        }),
+      ).annotate({ identifier: "TeamDriveInfo" });
+    case 5:
       return S.suspend(() =>
         S.Struct({
           roomId: S.optional(__S(528, __c33, 0)),
         }),
       ).annotate({ identifier: "HangoutsChatInfo" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          sharedDriveIds: S.optional(__S(528, __c33, 0)),
+        }),
+      ).annotate({ identifier: "SharedDriveInfo" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          includeSharedDrives: S.optional(S.Boolean),
+          versionDate: S.optional(S.String),
+          sharedDrivesOption: S.optional(S.String),
+          clientSideEncryptedOption: S.optional(S.String),
+          includeTeamDrives: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "DriveOptions" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          emails: S.optional(__S(528, __c33, 0)),
+        }),
+      ).annotate({ identifier: "AccountInfo" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          orgUnitId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OrgUnitInfo" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          responseStatuses: S.optional(__S(689, __c43, 1)),
+          versionDate: S.optional(S.String),
+          peopleQuery: S.optional(__S(528, __c33, 0)),
+          locationQuery: S.optional(__S(528, __c33, 0)),
+          minusWords: S.optional(__S(528, __c33, 0)),
+        }),
+      ).annotate({ identifier: "CalendarOptions" });
     case 11:
       return S.suspend(() =>
         S.Struct({
-          teamDriveInfo: S.optional(__S(704, __c44, 0)),
-          sharedDriveInfo: S.optional(__S(705, __c44, 1)),
-          mailOptions: S.optional(__S(706, __c44, 2)),
-          driveDocumentInfo: S.optional(__S(708, __c44, 4)),
-          sitesUrlInfo: S.optional(__S(709, __c44, 5)),
           dataScope: S.optional(S.String),
-          accountInfo: S.optional(__S(710, __c44, 6)),
-          startTime: S.optional(S.String),
-          hangoutsChatOptions: S.optional(__S(688, __c43, 0)),
-          geminiOptions: S.optional(__S(608, __c38, 0)),
-          orgUnitInfo: S.optional(__S(711, __c44, 7)),
-          calendarOptions: S.optional(__S(712, __c44, 8)),
-          voiceOptions: S.optional(__S(690, __c43, 2)),
-          driveOptions: S.optional(__S(713, __c44, 9)),
-          searchMethod: S.optional(S.String),
+          driveDocumentInfo: S.optional(__S(705, __c44, 1)),
           terms: S.optional(S.String),
-          corpus: S.optional(S.String),
+          startTime: S.optional(S.String),
+          sitesUrlInfo: S.optional(__S(706, __c44, 2)),
+          mailOptions: S.optional(__S(707, __c44, 3)),
+          searchMethod: S.optional(S.String),
           endTime: S.optional(S.String),
+          teamDriveInfo: S.optional(__S(708, __c44, 4)),
           timeZone: S.optional(S.String),
+          geminiInWorkspaceOptions: S.optional(__S(608, __c38, 0)),
+          geminiOptions: S.optional(__S(608, __c38, 0)),
+          hangoutsChatInfo: S.optional(__S(709, __c44, 5)),
+          corpus: S.optional(S.String),
+          sharedDriveInfo: S.optional(__S(710, __c44, 6)),
           method: S.optional(S.String),
-          hangoutsChatInfo: S.optional(__S(714, __c44, 10)),
+          driveOptions: S.optional(__S(711, __c44, 7)),
+          hangoutsChatOptions: S.optional(__S(688, __c43, 0)),
+          accountInfo: S.optional(__S(712, __c44, 8)),
+          orgUnitInfo: S.optional(__S(713, __c44, 9)),
+          voiceOptions: S.optional(__S(690, __c43, 2)),
+          calendarOptions: S.optional(__S(714, __c44, 10)),
         }),
       ).annotate({ identifier: "Query" });
   }
@@ -2663,10 +2685,10 @@ function __c45(j: number): any {
       return S.suspend(() =>
         S.Struct({
           response: S.optional(__S(544, __c34, 0)),
-          error: S.optional(__S(546, __c34, 2)),
-          name: S.optional(S.String),
-          done: S.optional(S.Boolean),
           metadata: S.optional(__S(544, __c34, 0)),
+          name: S.optional(S.String),
+          error: S.optional(__S(546, __c34, 2)),
+          done: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Operation" });
   }

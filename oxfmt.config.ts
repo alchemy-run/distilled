@@ -18,6 +18,9 @@ export default defineConfig({
   ignorePatterns: [
     "**/.vendor/**",
     "**/specs/**",
+    // Upstream conformance suites, submoduled (see packages/core/conformance).
+    "packages/core/conformance/connect/**",
+    "packages/core/conformance/protobuf/**",
     "dist/**",
     "./submodules/**",
     "*.min.js",

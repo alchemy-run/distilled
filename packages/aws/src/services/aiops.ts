@@ -147,8 +147,8 @@ export type EncryptionConfigurationType =
   | (string & {});
 export type KmsKeyId = string;
 export interface EncryptionConfiguration {
-  type?: EncryptionConfigurationType;
-  kmsKeyId?: string;
+  type?: EncryptionConfigurationType | undefined;
+  kmsKeyId?: string | undefined;
 }
 export type Retention = number;
 export type TagKey = string;
@@ -160,23 +160,23 @@ export type ChatConfigurationArn = string;
 export type ChatConfigurationArns = string[];
 export type ChatbotNotificationChannel = { [key: string]: string[] | undefined };
 export interface CrossAccountConfiguration {
-  sourceRoleArn?: string;
+  sourceRoleArn?: string | undefined;
 }
 export type CrossAccountConfigurations = CrossAccountConfiguration[];
 export interface CreateInvestigationGroupInput {
   name: string;
   roleArn: string;
-  encryptionConfiguration?: EncryptionConfiguration;
-  retentionInDays?: number;
-  tags?: { [key: string]: string | undefined };
-  tagKeyBoundaries?: string[];
-  chatbotNotificationChannel?: { [key: string]: string[] | undefined };
-  isCloudTrailEventHistoryEnabled?: boolean;
-  crossAccountConfigurations?: CrossAccountConfiguration[];
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  retentionInDays?: number | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  tagKeyBoundaries?: string[] | undefined;
+  chatbotNotificationChannel?: { [key: string]: string[] | undefined } | undefined;
+  isCloudTrailEventHistoryEnabled?: boolean | undefined;
+  crossAccountConfigurations?: CrossAccountConfiguration[] | undefined;
 }
 export type InvestigationGroupArn = string;
 export interface CreateInvestigationGroupOutput {
-  arn?: string;
+  arn?: string | undefined;
 }
 export type InvestigationGroupIdentifier = string;
 export interface DeleteInvestigationGroupRequest {
@@ -192,54 +192,54 @@ export interface GetInvestigationGroupRequest {
 }
 export type IdentifierStringWithPatternAndLengthLimits = string;
 export interface GetInvestigationGroupResponse {
-  createdBy?: string;
-  createdAt?: number;
-  lastModifiedBy?: string;
-  lastModifiedAt?: number;
-  name?: string;
-  arn?: string;
-  roleArn?: string;
-  encryptionConfiguration?: EncryptionConfiguration;
-  retentionInDays?: number;
-  chatbotNotificationChannel?: { [key: string]: string[] | undefined };
-  tagKeyBoundaries?: string[];
-  isCloudTrailEventHistoryEnabled?: boolean;
-  crossAccountConfigurations?: CrossAccountConfiguration[];
+  createdBy?: string | undefined;
+  createdAt?: number | undefined;
+  lastModifiedBy?: string | undefined;
+  lastModifiedAt?: number | undefined;
+  name?: string | undefined;
+  arn?: string | undefined;
+  roleArn?: string | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  retentionInDays?: number | undefined;
+  chatbotNotificationChannel?: { [key: string]: string[] | undefined } | undefined;
+  tagKeyBoundaries?: string[] | undefined;
+  isCloudTrailEventHistoryEnabled?: boolean | undefined;
+  crossAccountConfigurations?: CrossAccountConfiguration[] | undefined;
 }
 export interface GetInvestigationGroupPolicyRequest {
   identifier: string;
 }
 export type InvestigationGroupPolicyDocument = string;
 export interface GetInvestigationGroupPolicyResponse {
-  investigationGroupArn?: string;
-  policy?: string;
+  investigationGroupArn?: string | undefined;
+  policy?: string | undefined;
 }
 export type SensitiveStringWithLengthLimits = string | redacted.Redacted<string>;
 export interface ListInvestigationGroupsInput {
-  nextToken?: string | redacted.Redacted<string>;
-  maxResults?: number;
+  nextToken?: string | redacted.Redacted<string> | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListInvestigationGroupsModel {
-  arn?: string;
-  name?: string;
+  arn?: string | undefined;
+  name?: string | undefined;
 }
 export type InvestigationGroups = ListInvestigationGroupsModel[];
 export interface ListInvestigationGroupsOutput {
-  nextToken?: string | redacted.Redacted<string>;
-  investigationGroups?: ListInvestigationGroupsModel[];
+  nextToken?: string | redacted.Redacted<string> | undefined;
+  investigationGroups?: ListInvestigationGroupsModel[] | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceOutput {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutInvestigationGroupPolicyRequest {
   identifier: string;
   policy: string;
 }
 export interface PutInvestigationGroupPolicyResponse {
-  investigationGroupArn?: string;
+  investigationGroupArn?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -254,12 +254,12 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateInvestigationGroupRequest {
   identifier: string;
-  roleArn?: string;
-  encryptionConfiguration?: EncryptionConfiguration;
-  tagKeyBoundaries?: string[];
-  chatbotNotificationChannel?: { [key: string]: string[] | undefined };
-  isCloudTrailEventHistoryEnabled?: boolean;
-  crossAccountConfigurations?: CrossAccountConfiguration[];
+  roleArn?: string | undefined;
+  encryptionConfiguration?: EncryptionConfiguration | undefined;
+  tagKeyBoundaries?: string[] | undefined;
+  chatbotNotificationChannel?: { [key: string]: string[] | undefined } | undefined;
+  isCloudTrailEventHistoryEnabled?: boolean | undefined;
+  crossAccountConfigurations?: CrossAccountConfiguration[] | undefined;
 }
 export interface UpdateInvestigationGroupOutput {}
 export type CreateInvestigationGroupError =

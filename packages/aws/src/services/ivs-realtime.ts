@@ -335,28 +335,28 @@ export type Height = number;
 export type Framerate = number;
 export type Bitrate = number;
 export interface Video {
-  width?: number;
-  height?: number;
-  framerate?: number;
-  bitrate?: number;
+  width?: number | undefined;
+  height?: number | undefined;
+  framerate?: number | undefined;
+  bitrate?: number | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
 export type Tags = { [key: string]: string | undefined };
 export interface CreateEncoderConfigurationRequest {
-  name?: string;
-  video?: Video;
-  tags?: { [key: string]: string | undefined };
+  name?: string | undefined;
+  video?: Video | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type EncoderConfigurationArn = string;
 export interface EncoderConfiguration {
   arn: string;
-  name?: string;
-  video?: Video;
-  tags?: { [key: string]: string | undefined };
+  name?: string | undefined;
+  video?: Video | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateEncoderConfigurationResponse {
-  encoderConfiguration?: EncoderConfiguration;
+  encoderConfiguration?: EncoderConfiguration | undefined;
 }
 export type IngestConfigurationName = string;
 export type IngestConfigurationStageArn = string;
@@ -366,47 +366,47 @@ export type IngestProtocol = "RTMP" | "RTMPS" | (string & {});
 export type InsecureIngest = boolean;
 export type RedundantIngest = boolean;
 export interface CreateIngestConfigurationRequest {
-  name?: string;
-  stageArn?: string;
-  userId?: string;
-  attributes?: { [key: string]: string | undefined };
+  name?: string | undefined;
+  stageArn?: string | undefined;
+  userId?: string | undefined;
+  attributes?: { [key: string]: string | undefined } | undefined;
   ingestProtocol: IngestProtocol;
-  insecureIngest?: boolean;
-  redundantIngest?: boolean;
-  tags?: { [key: string]: string | undefined };
+  insecureIngest?: boolean | undefined;
+  redundantIngest?: boolean | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type IngestConfigurationArn = string;
 export type StreamKey = string | redacted.Redacted<string>;
 export type ParticipantId = string;
 export type IngestConfigurationState = string;
 export interface RedundantIngestCredential {
-  participantId?: string;
-  streamKey?: string | redacted.Redacted<string>;
+  participantId?: string | undefined;
+  streamKey?: string | redacted.Redacted<string> | undefined;
 }
 export type RedundantIngestCredentials = RedundantIngestCredential[];
 export interface IngestConfiguration {
-  name?: string;
+  name?: string | undefined;
   arn: string;
   ingestProtocol: IngestProtocol;
   streamKey: string | redacted.Redacted<string>;
   stageArn: string;
   participantId: string;
   state: string;
-  userId?: string;
-  redundantIngest?: boolean;
-  redundantIngestCredentials?: RedundantIngestCredential[];
-  attributes?: { [key: string]: string | undefined };
-  tags?: { [key: string]: string | undefined };
+  userId?: string | undefined;
+  redundantIngest?: boolean | undefined;
+  redundantIngestCredentials?: RedundantIngestCredential[] | undefined;
+  attributes?: { [key: string]: string | undefined } | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateIngestConfigurationResponse {
-  accessControlAllowOrigin?: string;
-  accessControlExposeHeaders?: string;
-  cacheControl?: string;
-  contentSecurityPolicy?: string;
-  strictTransportSecurity?: string;
-  xContentTypeOptions?: string;
-  xFrameOptions?: string;
-  ingestConfiguration?: IngestConfiguration;
+  accessControlAllowOrigin?: string | undefined;
+  accessControlExposeHeaders?: string | undefined;
+  cacheControl?: string | undefined;
+  contentSecurityPolicy?: string | undefined;
+  strictTransportSecurity?: string | undefined;
+  xContentTypeOptions?: string | undefined;
+  xFrameOptions?: string | undefined;
+  ingestConfiguration?: IngestConfiguration | undefined;
 }
 export type StageArn = string;
 export type ParticipantTokenDurationMinutes = number;
@@ -416,32 +416,32 @@ export type ParticipantTokenCapability = string;
 export type ParticipantTokenCapabilities = string[];
 export interface CreateParticipantTokenRequest {
   stageArn: string;
-  duration?: number;
-  userId?: string;
-  attributes?: { [key: string]: string | undefined };
-  capabilities?: string[];
+  duration?: number | undefined;
+  userId?: string | undefined;
+  attributes?: { [key: string]: string | undefined } | undefined;
+  capabilities?: string[] | undefined;
 }
 export type ParticipantTokenId = string;
 export type ParticipantTokenString = string | redacted.Redacted<string>;
 export type ParticipantTokenExpirationTime = Date;
 export interface ParticipantToken {
-  participantId?: string;
-  token?: string | redacted.Redacted<string>;
-  userId?: string;
-  attributes?: { [key: string]: string | undefined };
-  duration?: number;
-  capabilities?: string[];
-  expirationTime?: Date;
+  participantId?: string | undefined;
+  token?: string | redacted.Redacted<string> | undefined;
+  userId?: string | undefined;
+  attributes?: { [key: string]: string | undefined } | undefined;
+  duration?: number | undefined;
+  capabilities?: string[] | undefined;
+  expirationTime?: Date | undefined;
 }
 export interface CreateParticipantTokenResponse {
-  participantToken?: ParticipantToken;
+  participantToken?: ParticipantToken | undefined;
 }
 export type StageName = string;
 export interface ParticipantTokenConfiguration {
-  duration?: number;
-  userId?: string;
-  attributes?: { [key: string]: string | undefined };
-  capabilities?: string[];
+  duration?: number | undefined;
+  userId?: string | undefined;
+  attributes?: { [key: string]: string | undefined } | undefined;
+  capabilities?: string[] | undefined;
 }
 export type ParticipantTokenConfigurations = ParticipantTokenConfiguration[];
 export type AutoParticipantRecordingStorageConfigurationArn = string;
@@ -452,50 +452,50 @@ export type ThumbnailStorageType = "SEQUENTIAL" | "LATEST" | (string & {});
 export type ThumbnailStorageTypeList = ThumbnailStorageType[];
 export type ThumbnailRecordingMode = "INTERVAL" | "DISABLED" | (string & {});
 export interface ParticipantThumbnailConfiguration {
-  targetIntervalSeconds?: number;
-  storage?: ThumbnailStorageType[];
-  recordingMode?: ThumbnailRecordingMode;
+  targetIntervalSeconds?: number | undefined;
+  storage?: ThumbnailStorageType[] | undefined;
+  recordingMode?: ThumbnailRecordingMode | undefined;
 }
 export type ParticipantRecordingReconnectWindowSeconds = number;
 export type ParticipantRecordingTargetSegmentDurationSeconds = number;
 export interface ParticipantRecordingHlsConfiguration {
-  targetSegmentDurationSeconds?: number;
+  targetSegmentDurationSeconds?: number | undefined;
 }
 export type RecordParticipantReplicas = boolean;
 export interface AutoParticipantRecordingConfiguration {
   storageConfigurationArn: string;
-  mediaTypes?: ParticipantRecordingMediaType[];
-  thumbnailConfiguration?: ParticipantThumbnailConfiguration;
-  recordingReconnectWindowSeconds?: number;
-  hlsConfiguration?: ParticipantRecordingHlsConfiguration;
-  recordParticipantReplicas?: boolean;
+  mediaTypes?: ParticipantRecordingMediaType[] | undefined;
+  thumbnailConfiguration?: ParticipantThumbnailConfiguration | undefined;
+  recordingReconnectWindowSeconds?: number | undefined;
+  hlsConfiguration?: ParticipantRecordingHlsConfiguration | undefined;
+  recordParticipantReplicas?: boolean | undefined;
 }
 export interface CreateStageRequest {
-  name?: string;
-  participantTokenConfigurations?: ParticipantTokenConfiguration[];
-  tags?: { [key: string]: string | undefined };
-  autoParticipantRecordingConfiguration?: AutoParticipantRecordingConfiguration;
+  name?: string | undefined;
+  participantTokenConfigurations?: ParticipantTokenConfiguration[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  autoParticipantRecordingConfiguration?: AutoParticipantRecordingConfiguration | undefined;
 }
 export type StageSessionId = string;
 export type StageEndpoint = string;
 export interface StageEndpoints {
-  events?: string;
-  whip?: string;
-  rtmp?: string;
-  rtmps?: string;
+  events?: string | undefined;
+  whip?: string | undefined;
+  rtmp?: string | undefined;
+  rtmps?: string | undefined;
 }
 export interface Stage {
   arn: string;
-  name?: string;
-  activeSessionId?: string;
-  tags?: { [key: string]: string | undefined };
-  autoParticipantRecordingConfiguration?: AutoParticipantRecordingConfiguration;
-  endpoints?: StageEndpoints;
+  name?: string | undefined;
+  activeSessionId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  autoParticipantRecordingConfiguration?: AutoParticipantRecordingConfiguration | undefined;
+  endpoints?: StageEndpoints | undefined;
 }
 export type ParticipantTokenList = ParticipantToken[];
 export interface CreateStageResponse {
-  stage?: Stage;
-  participantTokens?: ParticipantToken[];
+  stage?: Stage | undefined;
+  participantTokens?: ParticipantToken[] | undefined;
 }
 export type StorageConfigurationName = string;
 export type S3BucketName = string;
@@ -503,19 +503,19 @@ export interface S3StorageConfiguration {
   bucketName: string;
 }
 export interface CreateStorageConfigurationRequest {
-  name?: string;
+  name?: string | undefined;
   s3: S3StorageConfiguration;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type StorageConfigurationArn = string;
 export interface StorageConfiguration {
   arn: string;
-  name?: string;
-  s3?: S3StorageConfiguration;
-  tags?: { [key: string]: string | undefined };
+  name?: string | undefined;
+  s3?: S3StorageConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateStorageConfigurationResponse {
-  storageConfiguration?: StorageConfiguration;
+  storageConfiguration?: StorageConfiguration | undefined;
 }
 export interface DeleteEncoderConfigurationRequest {
   arn: string;
@@ -523,7 +523,7 @@ export interface DeleteEncoderConfigurationRequest {
 export interface DeleteEncoderConfigurationResponse {}
 export interface DeleteIngestConfigurationRequest {
   arn: string;
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteIngestConfigurationResponse {}
 export type PublicKeyArn = string;
@@ -543,7 +543,7 @@ export type DisconnectParticipantReason = string;
 export interface DisconnectParticipantRequest {
   stageArn: string;
   participantId: string;
-  reason?: string;
+  reason?: string | undefined;
 }
 export interface DisconnectParticipantResponse {}
 export type CompositionArn = string;
@@ -557,12 +557,12 @@ export type VideoAspectRatio = "AUTO" | "VIDEO" | "SQUARE" | "PORTRAIT" | (strin
 export type VideoFillMode = "FILL" | "COVER" | "CONTAIN" | (string & {});
 export type GridGap = number;
 export interface GridConfiguration {
-  featuredParticipantAttribute?: string;
-  omitStoppedVideo?: boolean;
-  videoAspectRatio?: VideoAspectRatio;
-  videoFillMode?: VideoFillMode;
-  gridGap?: number;
-  participantOrderAttribute?: string;
+  featuredParticipantAttribute?: string | undefined;
+  omitStoppedVideo?: boolean | undefined;
+  videoAspectRatio?: VideoAspectRatio | undefined;
+  videoFillMode?: VideoFillMode | undefined;
+  gridGap?: number | undefined;
+  participantOrderAttribute?: string | undefined;
 }
 export type PipBehavior = "STATIC" | "DYNAMIC" | (string & {});
 export type PipOffset = number;
@@ -570,68 +570,68 @@ export type PipPosition = "TOP_LEFT" | "TOP_RIGHT" | "BOTTOM_LEFT" | "BOTTOM_RIG
 export type PipWidth = number;
 export type PipHeight = number;
 export interface PipConfiguration {
-  featuredParticipantAttribute?: string;
-  omitStoppedVideo?: boolean;
-  videoFillMode?: VideoFillMode;
-  gridGap?: number;
-  pipParticipantAttribute?: string;
-  pipBehavior?: PipBehavior;
-  pipOffset?: number;
-  pipPosition?: PipPosition;
-  pipWidth?: number;
-  pipHeight?: number;
-  participantOrderAttribute?: string;
+  featuredParticipantAttribute?: string | undefined;
+  omitStoppedVideo?: boolean | undefined;
+  videoFillMode?: VideoFillMode | undefined;
+  gridGap?: number | undefined;
+  pipParticipantAttribute?: string | undefined;
+  pipBehavior?: PipBehavior | undefined;
+  pipOffset?: number | undefined;
+  pipPosition?: PipPosition | undefined;
+  pipWidth?: number | undefined;
+  pipHeight?: number | undefined;
+  participantOrderAttribute?: string | undefined;
 }
 export interface LayoutConfiguration {
-  grid?: GridConfiguration;
-  pip?: PipConfiguration;
+  grid?: GridConfiguration | undefined;
+  pip?: PipConfiguration | undefined;
 }
 export type DestinationState = string;
 export type DestinationConfigurationName = string;
 export type ChannelArn = string;
 export interface ChannelDestinationConfiguration {
   channelArn: string;
-  encoderConfigurationArn?: string;
+  encoderConfigurationArn?: string | undefined;
 }
 export type EncoderConfigurationArnList = string[];
 export type CompositionRecordingTargetSegmentDurationSeconds = number;
 export interface CompositionRecordingHlsConfiguration {
-  targetSegmentDurationSeconds?: number;
+  targetSegmentDurationSeconds?: number | undefined;
 }
 export type RecordingConfigurationFormat = string;
 export interface RecordingConfiguration {
-  hlsConfiguration?: CompositionRecordingHlsConfiguration;
-  format?: string;
+  hlsConfiguration?: CompositionRecordingHlsConfiguration | undefined;
+  format?: string | undefined;
 }
 export interface CompositionThumbnailConfiguration {
-  targetIntervalSeconds?: number;
-  storage?: ThumbnailStorageType[];
+  targetIntervalSeconds?: number | undefined;
+  storage?: ThumbnailStorageType[] | undefined;
 }
 export type CompositionThumbnailConfigurationList = CompositionThumbnailConfiguration[];
 export interface S3DestinationConfiguration {
   storageConfigurationArn: string;
   encoderConfigurationArns: string[];
-  recordingConfiguration?: RecordingConfiguration;
-  thumbnailConfigurations?: CompositionThumbnailConfiguration[];
+  recordingConfiguration?: RecordingConfiguration | undefined;
+  thumbnailConfigurations?: CompositionThumbnailConfiguration[] | undefined;
 }
 export interface DestinationConfiguration {
-  name?: string;
-  channel?: ChannelDestinationConfiguration;
-  s3?: S3DestinationConfiguration;
+  name?: string | undefined;
+  channel?: ChannelDestinationConfiguration | undefined;
+  s3?: S3DestinationConfiguration | undefined;
 }
 export interface S3Detail {
   recordingPrefix: string;
 }
 export interface DestinationDetail {
-  s3?: S3Detail;
+  s3?: S3Detail | undefined;
 }
 export interface Destination {
   id: string;
   state: string;
-  startTime?: Date;
-  endTime?: Date;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
   configuration: DestinationConfiguration;
-  detail?: DestinationDetail;
+  detail?: DestinationDetail | undefined;
 }
 export type DestinationList = Destination[];
 export interface Composition {
@@ -640,24 +640,24 @@ export interface Composition {
   state: string;
   layout: LayoutConfiguration;
   destinations: Destination[];
-  tags?: { [key: string]: string | undefined };
-  startTime?: Date;
-  endTime?: Date;
+  tags?: { [key: string]: string | undefined } | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
 }
 export interface GetCompositionResponse {
-  composition?: Composition;
+  composition?: Composition | undefined;
 }
 export interface GetEncoderConfigurationRequest {
   arn: string;
 }
 export interface GetEncoderConfigurationResponse {
-  encoderConfiguration?: EncoderConfiguration;
+  encoderConfiguration?: EncoderConfiguration | undefined;
 }
 export interface GetIngestConfigurationRequest {
   arn: string;
 }
 export interface GetIngestConfigurationResponse {
-  ingestConfiguration?: IngestConfiguration;
+  ingestConfiguration?: IngestConfiguration | undefined;
 }
 export interface GetParticipantRequest {
   stageArn: string;
@@ -674,31 +674,31 @@ export type ParticipantProtocol = "UNKNOWN" | "WHIP" | "RTMP" | "RTMPS" | (strin
 export type ReplicationType = string;
 export type ReplicationState = string;
 export interface Participant {
-  participantId?: string;
-  userId?: string;
-  state?: string;
-  firstJoinTime?: Date;
-  attributes?: { [key: string]: string | undefined };
-  published?: boolean;
-  ispName?: string;
-  osName?: string;
-  osVersion?: string;
-  browserName?: string;
-  browserVersion?: string;
-  sdkVersion?: string;
-  recordingS3BucketName?: string;
-  recordingS3Prefix?: string;
-  recordingState?: string;
-  protocol?: ParticipantProtocol;
-  replicationType?: string;
-  replicationState?: string;
-  sourceStageArn?: string;
-  sourceSessionId?: string;
-  redundantIngest?: boolean;
-  ingestConfigurationArn?: string;
+  participantId?: string | undefined;
+  userId?: string | undefined;
+  state?: string | undefined;
+  firstJoinTime?: Date | undefined;
+  attributes?: { [key: string]: string | undefined } | undefined;
+  published?: boolean | undefined;
+  ispName?: string | undefined;
+  osName?: string | undefined;
+  osVersion?: string | undefined;
+  browserName?: string | undefined;
+  browserVersion?: string | undefined;
+  sdkVersion?: string | undefined;
+  recordingS3BucketName?: string | undefined;
+  recordingS3Prefix?: string | undefined;
+  recordingState?: string | undefined;
+  protocol?: ParticipantProtocol | undefined;
+  replicationType?: string | undefined;
+  replicationState?: string | undefined;
+  sourceStageArn?: string | undefined;
+  sourceSessionId?: string | undefined;
+  redundantIngest?: boolean | undefined;
+  ingestConfigurationArn?: string | undefined;
 }
 export interface GetParticipantResponse {
-  participant?: Participant;
+  participant?: Participant | undefined;
 }
 export interface GetPublicKeyRequest {
   arn: string;
@@ -707,60 +707,60 @@ export type PublicKeyName = string;
 export type PublicKeyMaterial = string;
 export type PublicKeyFingerprint = string;
 export interface PublicKey {
-  arn?: string;
-  name?: string;
-  publicKeyMaterial?: string;
-  fingerprint?: string;
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  name?: string | undefined;
+  publicKeyMaterial?: string | undefined;
+  fingerprint?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetPublicKeyResponse {
-  publicKey?: PublicKey;
+  publicKey?: PublicKey | undefined;
 }
 export interface GetStageRequest {
   arn: string;
 }
 export interface GetStageResponse {
-  stage?: Stage;
+  stage?: Stage | undefined;
 }
 export interface GetStageSessionRequest {
   stageArn: string;
   sessionId: string;
 }
 export interface StageSession {
-  sessionId?: string;
-  startTime?: Date;
-  endTime?: Date;
+  sessionId?: string | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
 }
 export interface GetStageSessionResponse {
-  stageSession?: StageSession;
+  stageSession?: StageSession | undefined;
 }
 export interface GetStorageConfigurationRequest {
   arn: string;
 }
 export interface GetStorageConfigurationResponse {
-  storageConfiguration?: StorageConfiguration;
+  storageConfiguration?: StorageConfiguration | undefined;
 }
 export interface ImportPublicKeyRequest {
   publicKeyMaterial: string;
-  name?: string;
-  tags?: { [key: string]: string | undefined };
+  name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ImportPublicKeyResponse {
-  publicKey?: PublicKey;
+  publicKey?: PublicKey | undefined;
 }
 export type PaginationToken = string;
 export type MaxCompositionResults = number;
 export interface ListCompositionsRequest {
-  filterByStageArn?: string;
-  filterByEncoderConfigurationArn?: string;
-  nextToken?: string;
-  maxResults?: number;
+  filterByStageArn?: string | undefined;
+  filterByEncoderConfigurationArn?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DestinationSummary {
   id: string;
   state: string;
-  startTime?: Date;
-  endTime?: Date;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
 }
 export type DestinationSummaryList = DestinationSummary[];
 export interface CompositionSummary {
@@ -768,59 +768,59 @@ export interface CompositionSummary {
   stageArn: string;
   destinations: DestinationSummary[];
   state: string;
-  tags?: { [key: string]: string | undefined };
-  startTime?: Date;
-  endTime?: Date;
+  tags?: { [key: string]: string | undefined } | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
 }
 export type CompositionSummaryList = CompositionSummary[];
 export interface ListCompositionsResponse {
   compositions: CompositionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type MaxEncoderConfigurationResults = number;
 export interface ListEncoderConfigurationsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface EncoderConfigurationSummary {
   arn: string;
-  name?: string;
-  tags?: { [key: string]: string | undefined };
+  name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type EncoderConfigurationSummaryList = EncoderConfigurationSummary[];
 export interface ListEncoderConfigurationsResponse {
   encoderConfigurations: EncoderConfigurationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type MaxIngestConfigurationResults = number;
 export interface ListIngestConfigurationsRequest {
-  filterByStageArn?: string;
-  filterByState?: string;
-  nextToken?: string;
-  maxResults?: number;
+  filterByStageArn?: string | undefined;
+  filterByState?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface IngestConfigurationSummary {
-  name?: string;
+  name?: string | undefined;
   arn: string;
   ingestProtocol: IngestProtocol;
   stageArn: string;
   participantId: string;
   state: string;
-  userId?: string;
-  redundantIngest?: boolean;
+  userId?: string | undefined;
+  redundantIngest?: boolean | undefined;
 }
 export type IngestConfigurationList = IngestConfigurationSummary[];
 export interface ListIngestConfigurationsResponse {
   ingestConfigurations: IngestConfigurationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type MaxParticipantEventResults = number;
 export interface ListParticipantEventsRequest {
   stageArn: string;
   sessionId: string;
   participantId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type EventName = string;
 export type EventErrorCode =
@@ -841,34 +841,34 @@ export type EventErrorCode =
   | (string & {});
 export type Replica = boolean;
 export interface ExchangedParticipantToken {
-  capabilities?: string[];
-  attributes?: { [key: string]: string | undefined };
-  userId?: string;
-  expirationTime?: Date;
+  capabilities?: string[] | undefined;
+  attributes?: { [key: string]: string | undefined } | undefined;
+  userId?: string | undefined;
+  expirationTime?: Date | undefined;
 }
 export interface Event {
-  name?: string;
-  participantId?: string;
-  eventTime?: Date;
-  remoteParticipantId?: string;
-  errorCode?: EventErrorCode;
-  destinationStageArn?: string;
-  destinationSessionId?: string;
-  replica?: boolean;
-  previousToken?: ExchangedParticipantToken;
-  newToken?: ExchangedParticipantToken;
+  name?: string | undefined;
+  participantId?: string | undefined;
+  eventTime?: Date | undefined;
+  remoteParticipantId?: string | undefined;
+  errorCode?: EventErrorCode | undefined;
+  destinationStageArn?: string | undefined;
+  destinationSessionId?: string | undefined;
+  replica?: boolean | undefined;
+  previousToken?: ExchangedParticipantToken | undefined;
+  newToken?: ExchangedParticipantToken | undefined;
 }
 export type EventList = Event[];
 export interface ListParticipantEventsResponse {
   events: Event[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type MaxParticipantReplicaResults = number;
 export interface ListParticipantReplicasRequest {
   sourceStageArn: string;
   participantId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ParticipantReplica {
   sourceStageArn: string;
@@ -881,101 +881,101 @@ export interface ParticipantReplica {
 export type ParticipantReplicaList = ParticipantReplica[];
 export interface ListParticipantReplicasResponse {
   replicas: ParticipantReplica[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type MaxParticipantResults = number;
 export type ParticipantRecordingFilterByRecordingState = string;
 export interface ListParticipantsRequest {
   stageArn: string;
   sessionId: string;
-  filterByUserId?: string;
-  filterByPublished?: boolean;
-  filterByState?: string;
-  nextToken?: string;
-  maxResults?: number;
-  filterByRecordingState?: string;
+  filterByUserId?: string | undefined;
+  filterByPublished?: boolean | undefined;
+  filterByState?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  filterByRecordingState?: string | undefined;
 }
 export interface ParticipantSummary {
-  participantId?: string;
-  userId?: string;
-  state?: string;
-  firstJoinTime?: Date;
-  published?: boolean;
-  recordingState?: string;
-  replicationType?: string;
-  replicationState?: string;
-  sourceStageArn?: string;
-  sourceSessionId?: string;
-  redundantIngest?: boolean;
-  ingestConfigurationArn?: string;
+  participantId?: string | undefined;
+  userId?: string | undefined;
+  state?: string | undefined;
+  firstJoinTime?: Date | undefined;
+  published?: boolean | undefined;
+  recordingState?: string | undefined;
+  replicationType?: string | undefined;
+  replicationState?: string | undefined;
+  sourceStageArn?: string | undefined;
+  sourceSessionId?: string | undefined;
+  redundantIngest?: boolean | undefined;
+  ingestConfigurationArn?: string | undefined;
 }
 export type ParticipantList = ParticipantSummary[];
 export interface ListParticipantsResponse {
   participants: ParticipantSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type MaxPublicKeyResults = number;
 export interface ListPublicKeysRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface PublicKeySummary {
-  arn?: string;
-  name?: string;
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  name?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type PublicKeyList = PublicKeySummary[];
 export interface ListPublicKeysResponse {
   publicKeys: PublicKeySummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type MaxStageResults = number;
 export interface ListStagesRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface StageSummary {
   arn: string;
-  name?: string;
-  activeSessionId?: string;
-  tags?: { [key: string]: string | undefined };
+  name?: string | undefined;
+  activeSessionId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type StageSummaryList = StageSummary[];
 export interface ListStagesResponse {
   stages: StageSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type MaxStageSessionResults = number;
 export interface ListStageSessionsRequest {
   stageArn: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface StageSessionSummary {
-  sessionId?: string;
-  startTime?: Date;
-  endTime?: Date;
+  sessionId?: string | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
 }
 export type StageSessionList = StageSessionSummary[];
 export interface ListStageSessionsResponse {
   stageSessions: StageSessionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type MaxStorageConfigurationResults = number;
 export interface ListStorageConfigurationsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface StorageConfigurationSummary {
   arn: string;
-  name?: string;
-  s3?: S3StorageConfiguration;
-  tags?: { [key: string]: string | undefined };
+  name?: string | undefined;
+  s3?: S3StorageConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type StorageConfigurationSummaryList = StorageConfigurationSummary[];
 export interface ListStorageConfigurationsResponse {
   storageConfigurations: StorageConfigurationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ResourceArn = string;
 export interface ListTagsForResourceRequest {
@@ -984,34 +984,39 @@ export interface ListTagsForResourceRequest {
 export interface ListTagsForResourceResponse {
   tags: { [key: string]: string | undefined };
 }
+export type ConnectionTokenId = string;
+export interface RevokeConnectionTokenRequest {
+  tokenId: string;
+}
+export interface RevokeConnectionTokenResponse {}
 export type CompositionClientToken = string;
 export type DestinationConfigurationList = DestinationConfiguration[];
 export interface StartCompositionRequest {
   stageArn: string;
-  idempotencyToken?: string;
-  layout?: LayoutConfiguration;
+  idempotencyToken?: string | undefined;
+  layout?: LayoutConfiguration | undefined;
   destinations: DestinationConfiguration[];
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartCompositionResponse {
-  composition?: Composition;
+  composition?: Composition | undefined;
 }
 export type ReconnectWindowSeconds = number;
 export interface StartParticipantReplicationRequest {
   sourceStageArn: string;
   destinationStageArn: string;
   participantId: string;
-  reconnectWindowSeconds?: number;
-  attributes?: { [key: string]: string | undefined };
+  reconnectWindowSeconds?: number | undefined;
+  attributes?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartParticipantReplicationResponse {
-  accessControlAllowOrigin?: string;
-  accessControlExposeHeaders?: string;
-  cacheControl?: string;
-  contentSecurityPolicy?: string;
-  strictTransportSecurity?: string;
-  xContentTypeOptions?: string;
-  xFrameOptions?: string;
+  accessControlAllowOrigin?: string | undefined;
+  accessControlExposeHeaders?: string | undefined;
+  cacheControl?: string | undefined;
+  contentSecurityPolicy?: string | undefined;
+  strictTransportSecurity?: string | undefined;
+  xContentTypeOptions?: string | undefined;
+  xFrameOptions?: string | undefined;
 }
 export interface StopCompositionRequest {
   arn: string;
@@ -1023,13 +1028,13 @@ export interface StopParticipantReplicationRequest {
   participantId: string;
 }
 export interface StopParticipantReplicationResponse {
-  accessControlAllowOrigin?: string;
-  accessControlExposeHeaders?: string;
-  cacheControl?: string;
-  contentSecurityPolicy?: string;
-  strictTransportSecurity?: string;
-  xContentTypeOptions?: string;
-  xFrameOptions?: string;
+  accessControlAllowOrigin?: string | undefined;
+  accessControlExposeHeaders?: string | undefined;
+  cacheControl?: string | undefined;
+  contentSecurityPolicy?: string | undefined;
+  strictTransportSecurity?: string | undefined;
+  xContentTypeOptions?: string | undefined;
+  xFrameOptions?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -1044,26 +1049,26 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateIngestConfigurationRequest {
   arn: string;
-  stageArn?: string;
-  redundantIngest?: boolean;
+  stageArn?: string | undefined;
+  redundantIngest?: boolean | undefined;
 }
 export interface UpdateIngestConfigurationResponse {
-  accessControlAllowOrigin?: string;
-  accessControlExposeHeaders?: string;
-  cacheControl?: string;
-  contentSecurityPolicy?: string;
-  strictTransportSecurity?: string;
-  xContentTypeOptions?: string;
-  xFrameOptions?: string;
-  ingestConfiguration?: IngestConfiguration;
+  accessControlAllowOrigin?: string | undefined;
+  accessControlExposeHeaders?: string | undefined;
+  cacheControl?: string | undefined;
+  contentSecurityPolicy?: string | undefined;
+  strictTransportSecurity?: string | undefined;
+  xContentTypeOptions?: string | undefined;
+  xFrameOptions?: string | undefined;
+  ingestConfiguration?: IngestConfiguration | undefined;
 }
 export interface UpdateStageRequest {
   arn: string;
-  name?: string;
-  autoParticipantRecordingConfiguration?: AutoParticipantRecordingConfiguration;
+  name?: string | undefined;
+  autoParticipantRecordingConfiguration?: AutoParticipantRecordingConfiguration | undefined;
 }
 export interface UpdateStageResponse {
-  stage?: Stage;
+  stage?: Stage | undefined;
 }
 export type ErrorMessage = string;
 export type CreateEncoderConfigurationError =
@@ -1084,8 +1089,8 @@ export const createEncoderConfiguration: API.OperationMethod<
   CreateEncoderConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<CreateEncoderConfigurationRequest>,
-  output: __S(802, __c50, 2) as any as S.Schema<CreateEncoderConfigurationResponse>,
+  input: __S(800, __c50, 0) as any as S.Schema<CreateEncoderConfigurationRequest>,
+  output: __S(818, __c51, 2) as any as S.Schema<CreateEncoderConfigurationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -1117,8 +1122,8 @@ export const createIngestConfiguration: API.OperationMethod<
   CreateIngestConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c52, 0) as any as S.Schema<CreateIngestConfigurationRequest>,
-  output: __S(864, __c54, 0) as any as S.Schema<CreateIngestConfigurationResponse>,
+  input: __S(848, __c53, 0) as any as S.Schema<CreateIngestConfigurationRequest>,
+  output: __S(880, __c55, 0) as any as S.Schema<CreateIngestConfigurationResponse>,
   errors: [
     AccessDeniedException,
     PendingVerification,
@@ -1484,7 +1489,7 @@ export const getEncoderConfiguration: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<GetEncoderConfigurationRequest>,
-  output: __S(802, __c50, 2) as any as S.Schema<GetEncoderConfigurationResponse>,
+  output: __S(818, __c51, 2) as any as S.Schema<GetEncoderConfigurationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2032,6 +2037,30 @@ export const listTagsForResource: API.OperationMethod<
   span: "ListTagsForResource",
 }));
 
+export type RevokeConnectionTokenError =
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Revokes the specified connection token so that it can no longer connect to a stage. This operation disconnects any participant currently connected with the revoked token.
+ */
+export const revokeConnectionToken: API.OperationMethod<
+  RevokeConnectionTokenRequest & RegionInput,
+  RevokeConnectionTokenResponse,
+  RevokeConnectionTokenError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(640, __c40, 0) as any as S.Schema<RevokeConnectionTokenRequest>,
+  output: __S(160, __c10, 0) as any as S.Schema<RevokeConnectionTokenResponse>,
+  errors: [AccessDeniedException, InternalServerException, ValidationException],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "RevokeConnectionToken",
+  telemetry: TELEMETRY,
+  span: "RevokeConnectionToken",
+}));
+
 export type StartCompositionError =
   | AccessDeniedException
   | ConflictException
@@ -2062,7 +2091,7 @@ export const startComposition: API.OperationMethod<
   StartCompositionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(641, __c40, 1) as any as S.Schema<StartCompositionRequest>,
+  input: __S(657, __c41, 1) as any as S.Schema<StartCompositionRequest>,
   output: __S(286, __c17, 14) as any as S.Schema<StartCompositionResponse>,
   errors: [
     AccessDeniedException,
@@ -2098,8 +2127,8 @@ export const startParticipantReplication: API.OperationMethod<
   StartParticipantReplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<StartParticipantReplicationRequest>,
-  output: __S(672, __c42, 0) as any as S.Schema<StartParticipantReplicationResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<StartParticipantReplicationRequest>,
+  output: __S(688, __c43, 0) as any as S.Schema<StartParticipantReplicationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2133,7 +2162,7 @@ export const stopComposition: API.OperationMethod<
   StopCompositionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<StopCompositionRequest>,
+  input: __S(704, __c44, 0) as any as S.Schema<StopCompositionRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<StopCompositionResponse>,
   errors: [
     AccessDeniedException,
@@ -2165,8 +2194,8 @@ export const stopParticipantReplication: API.OperationMethod<
   StopParticipantReplicationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<StopParticipantReplicationRequest>,
-  output: __S(672, __c42, 0) as any as S.Schema<StopParticipantReplicationResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<StopParticipantReplicationRequest>,
+  output: __S(688, __c43, 0) as any as S.Schema<StopParticipantReplicationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -2195,7 +2224,7 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<TagResourceRequest>,
+  input: __S(736, __c46, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     InternalServerException,
@@ -2225,7 +2254,7 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<UntagResourceRequest>,
+  input: __S(752, __c47, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(160, __c10, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     InternalServerException,
@@ -2256,8 +2285,8 @@ export const updateIngestConfiguration: API.OperationMethod<
   UpdateIngestConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<UpdateIngestConfigurationRequest>,
-  output: __S(864, __c54, 0) as any as S.Schema<UpdateIngestConfigurationResponse>,
+  input: __S(768, __c48, 0) as any as S.Schema<UpdateIngestConfigurationRequest>,
+  output: __S(880, __c55, 0) as any as S.Schema<UpdateIngestConfigurationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -2290,7 +2319,7 @@ export const updateStage: API.OperationMethod<
   UpdateStageError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<UpdateStageRequest>,
+  input: __S(784, __c49, 0) as any as S.Schema<UpdateStageRequest>,
   output: __S(384, __c24, 0) as any as S.Schema<UpdateStageResponse>,
   errors: [
     AccessDeniedException,
@@ -2317,7 +2346,7 @@ function __c0(j: number): any {
           stageArn: S.String,
           duration: S.optional(S.Number),
           userId: S.optional(S.String),
-          attributes: S.optional(__S(816, __c51, 0)),
+          attributes: S.optional(__S(832, __c52, 0)),
           capabilities: S.optional(__S(32, __c2, 0)),
         }).pipe(
           T.all(
@@ -2344,7 +2373,7 @@ function __c1(j: number): any {
           participantId: S.optional(S.String),
           token: S.optional(SensitiveString),
           userId: S.optional(S.String),
-          attributes: S.optional(__S(816, __c51, 0)),
+          attributes: S.optional(__S(832, __c52, 0)),
           duration: S.optional(S.Number),
           capabilities: S.optional(__S(32, __c2, 0)),
           expirationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
@@ -2365,7 +2394,7 @@ function __c3(j: number): any {
         S.Struct({
           duration: S.optional(S.Number),
           userId: S.optional(S.String),
-          attributes: S.optional(__S(816, __c51, 0)),
+          attributes: S.optional(__S(832, __c52, 0)),
           capabilities: S.optional(__S(32, __c2, 0)),
         }),
       ).annotate({ identifier: "ParticipantTokenConfiguration" });
@@ -2376,7 +2405,7 @@ function __c3(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           participantTokenConfigurations: S.optional(__S(49, __c3, 1)),
-          tags: S.optional(__S(816, __c51, 0)),
+          tags: S.optional(__S(832, __c52, 0)),
           autoParticipantRecordingConfiguration: S.optional(__S(81, __c5, 1)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/CreateStage" }), svc, auth, proto, ver, rules),
@@ -2439,7 +2468,7 @@ function __c5(j: number): any {
           arn: S.String,
           name: S.optional(S.String),
           activeSessionId: S.optional(S.String),
-          tags: S.optional(__S(816, __c51, 0)),
+          tags: S.optional(__S(832, __c52, 0)),
           autoParticipantRecordingConfiguration: S.optional(__S(81, __c5, 1)),
           endpoints: S.optional(__S(82, __c5, 2)),
         }),
@@ -2453,7 +2482,7 @@ function __c6(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           s3: __S(128, __c8, 0),
-          tags: S.optional(__S(816, __c51, 0)),
+          tags: S.optional(__S(832, __c52, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/CreateStorageConfiguration" }),
@@ -2487,7 +2516,7 @@ function __c8(j: number): any {
           arn: S.String,
           name: S.optional(S.String),
           s3: S.optional(__S(128, __c8, 0)),
-          tags: S.optional(__S(816, __c51, 0)),
+          tags: S.optional(__S(832, __c52, 0)),
         }),
       ).annotate({ identifier: "StorageConfiguration" });
   }
@@ -2698,7 +2727,7 @@ function __c17(j: number): any {
           state: S.String,
           layout: __S(274, __c17, 2),
           destinations: __S(284, __c17, 12),
-          tags: S.optional(__S(816, __c51, 0)),
+          tags: S.optional(__S(832, __c52, 0)),
           startTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
@@ -2743,7 +2772,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetIngestConfigurationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ ingestConfiguration: S.optional(__S(850, __c53, 2)) }),
+        S.Struct({ ingestConfiguration: S.optional(__S(866, __c54, 2)) }),
       ).annotate({ identifier: "GetIngestConfigurationResponse" });
   }
 }
@@ -2762,7 +2791,7 @@ function __c20(j: number): any {
           userId: S.optional(S.String),
           state: S.optional(S.String),
           firstJoinTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          attributes: S.optional(__S(816, __c51, 0)),
+          attributes: S.optional(__S(832, __c52, 0)),
           published: S.optional(S.Boolean),
           ispName: S.optional(S.String),
           osName: S.optional(S.String),
@@ -2807,7 +2836,7 @@ function __c22(j: number): any {
           name: S.optional(S.String),
           publicKeyMaterial: S.optional(S.String),
           fingerprint: S.optional(S.String),
-          tags: S.optional(__S(816, __c51, 0)),
+          tags: S.optional(__S(832, __c52, 0)),
         }),
       ).annotate({ identifier: "PublicKey" });
     case 1:
@@ -2884,7 +2913,7 @@ function __c28(j: number): any {
         S.Struct({
           publicKeyMaterial: S.String,
           name: S.optional(S.String),
-          tags: S.optional(__S(816, __c51, 0)),
+          tags: S.optional(__S(832, __c52, 0)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/ImportPublicKey" }), svc, auth, proto, ver, rules),
         ),
@@ -2922,7 +2951,7 @@ function __c29(j: number): any {
           stageArn: S.String,
           destinations: __S(466, __c29, 2),
           state: S.String,
-          tags: S.optional(__S(816, __c51, 0)),
+          tags: S.optional(__S(832, __c52, 0)),
           startTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
@@ -2955,7 +2984,7 @@ function __c30(j: number): any {
         S.Struct({
           arn: S.String,
           name: S.optional(S.String),
-          tags: S.optional(__S(816, __c51, 0)),
+          tags: S.optional(__S(832, __c52, 0)),
         }),
       ).annotate({ identifier: "EncoderConfigurationSummary" });
     case 2:
@@ -3032,7 +3061,7 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           capabilities: S.optional(__S(32, __c2, 0)),
-          attributes: S.optional(__S(816, __c51, 0)),
+          attributes: S.optional(__S(832, __c52, 0)),
           userId: S.optional(S.String),
           expirationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
@@ -3154,7 +3183,7 @@ function __c35(j: number): any {
         S.Struct({
           arn: S.optional(S.String),
           name: S.optional(S.String),
-          tags: S.optional(__S(816, __c51, 0)),
+          tags: S.optional(__S(832, __c52, 0)),
         }),
       ).annotate({ identifier: "PublicKeySummary" });
     case 2:
@@ -3179,7 +3208,7 @@ function __c36(j: number): any {
           arn: S.String,
           name: S.optional(S.String),
           activeSessionId: S.optional(S.String),
-          tags: S.optional(__S(816, __c51, 0)),
+          tags: S.optional(__S(832, __c52, 0)),
         }),
       ).annotate({ identifier: "StageSummary" });
     case 2:
@@ -3256,12 +3285,29 @@ function __c39(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ tags: __S(816, __c51, 0) })).annotate({
+      return S.suspend(() => S.Struct({ tags: __S(832, __c52, 0) })).annotate({
         identifier: "ListTagsForResourceResponse",
       });
   }
 }
 function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ tokenId: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/RevokeConnectionToken" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "RevokeConnectionTokenRequest" });
+  }
+}
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(280, __c17, 8));
@@ -3271,15 +3317,15 @@ function __c40(j: number): any {
           stageArn: S.String,
           idempotencyToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           layout: S.optional(__S(274, __c17, 2)),
-          destinations: __S(640, __c40, 0),
-          tags: S.optional(__S(816, __c51, 0)),
+          destinations: __S(656, __c41, 0),
+          tags: S.optional(__S(832, __c52, 0)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/StartComposition" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "StartCompositionRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3288,7 +3334,7 @@ function __c41(j: number): any {
           destinationStageArn: S.String,
           participantId: S.String,
           reconnectWindowSeconds: S.optional(S.Number),
-          attributes: S.optional(__S(816, __c51, 0)),
+          attributes: S.optional(__S(832, __c52, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/StartParticipantReplication" }),
@@ -3302,7 +3348,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "StartParticipantReplicationRequest" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3324,7 +3370,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "StartParticipantReplicationResponse" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3334,7 +3380,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "StopCompositionRequest" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3355,13 +3401,13 @@ function __c44(j: number): any {
       ).annotate({ identifier: "StopParticipantReplicationRequest" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tags: __S(816, __c51, 0),
+          tags: __S(832, __c52, 0),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
@@ -3375,7 +3421,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3395,7 +3441,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3416,7 +3462,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "UpdateIngestConfigurationRequest" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3430,14 +3476,14 @@ function __c48(j: number): any {
       ).annotate({ identifier: "UpdateStageRequest" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          video: S.optional(__S(800, __c50, 0)),
-          tags: S.optional(__S(816, __c51, 0)),
+          video: S.optional(__S(816, __c51, 0)),
+          tags: S.optional(__S(832, __c52, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/CreateEncoderConfiguration" }),
@@ -3451,7 +3497,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "CreateEncoderConfigurationRequest" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3467,23 +3513,23 @@ function __c50(j: number): any {
         S.Struct({
           arn: S.String,
           name: S.optional(S.String),
-          video: S.optional(__S(800, __c50, 0)),
-          tags: S.optional(__S(816, __c51, 0)),
+          video: S.optional(__S(816, __c51, 0)),
+          tags: S.optional(__S(832, __c52, 0)),
         }),
       ).annotate({ identifier: "EncoderConfiguration" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ encoderConfiguration: S.optional(__S(801, __c50, 1)) }),
+        S.Struct({ encoderConfiguration: S.optional(__S(817, __c51, 1)) }),
       ).annotate({ identifier: "CreateEncoderConfigurationResponse" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3491,11 +3537,11 @@ function __c52(j: number): any {
           name: S.optional(S.String),
           stageArn: S.optional(S.String),
           userId: S.optional(S.String),
-          attributes: S.optional(__S(816, __c51, 0)),
+          attributes: S.optional(__S(832, __c52, 0)),
           ingestProtocol: S.String,
           insecureIngest: S.optional(S.Boolean),
           redundantIngest: S.optional(S.Boolean),
-          tags: S.optional(__S(816, __c51, 0)),
+          tags: S.optional(__S(832, __c52, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/CreateIngestConfiguration" }),
@@ -3509,14 +3555,14 @@ function __c52(j: number): any {
       ).annotate({ identifier: "CreateIngestConfigurationRequest" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ participantId: S.optional(S.String), streamKey: S.optional(SensitiveString) }),
       ).annotate({ identifier: "RedundantIngestCredential" });
     case 1:
-      return S.Array(__S(848, __c53, 0));
+      return S.Array(__S(864, __c54, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -3529,14 +3575,14 @@ function __c53(j: number): any {
           state: S.String,
           userId: S.optional(S.String),
           redundantIngest: S.optional(S.Boolean),
-          redundantIngestCredentials: S.optional(__S(849, __c53, 1)),
-          attributes: S.optional(__S(816, __c51, 0)),
-          tags: S.optional(__S(816, __c51, 0)),
+          redundantIngestCredentials: S.optional(__S(865, __c54, 1)),
+          attributes: S.optional(__S(832, __c52, 0)),
+          tags: S.optional(__S(832, __c52, 0)),
         }),
       ).annotate({ identifier: "IngestConfiguration" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3554,7 +3600,7 @@ function __c54(j: number): any {
           ),
           xContentTypeOptions: S.optional(S.String).pipe(T.HttpHeader("X-Content-Type-Options")),
           xFrameOptions: S.optional(S.String).pipe(T.HttpHeader("X-Frame-Options")),
-          ingestConfiguration: S.optional(__S(850, __c53, 2)),
+          ingestConfiguration: S.optional(__S(866, __c54, 2)),
         }),
       ).annotate({ identifier: "CreateIngestConfigurationResponse" });
   }

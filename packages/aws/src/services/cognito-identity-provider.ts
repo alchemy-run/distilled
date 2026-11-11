@@ -469,21 +469,21 @@ export type CustomAttributeNameType = string;
 export type AttributeDataType = "String" | "Number" | "DateTime" | "Boolean" | (string & {});
 export type StringType = string;
 export interface NumberAttributeConstraintsType {
-  MinValue?: string;
-  MaxValue?: string;
+  MinValue?: string | undefined;
+  MaxValue?: string | undefined;
 }
 export interface StringAttributeConstraintsType {
-  MinLength?: string;
-  MaxLength?: string;
+  MinLength?: string | undefined;
+  MaxLength?: string | undefined;
 }
 export interface SchemaAttributeType {
-  Name?: string;
-  AttributeDataType?: AttributeDataType;
-  DeveloperOnlyAttribute?: boolean;
-  Mutable?: boolean;
-  Required?: boolean;
-  NumberAttributeConstraints?: NumberAttributeConstraintsType;
-  StringAttributeConstraints?: StringAttributeConstraintsType;
+  Name?: string | undefined;
+  AttributeDataType?: AttributeDataType | undefined;
+  DeveloperOnlyAttribute?: boolean | undefined;
+  Mutable?: boolean | undefined;
+  Required?: boolean | undefined;
+  NumberAttributeConstraints?: NumberAttributeConstraintsType | undefined;
+  StringAttributeConstraints?: StringAttributeConstraintsType | undefined;
 }
 export type CustomAttributesListType = SchemaAttributeType[];
 export interface AddCustomAttributesRequest {
@@ -496,16 +496,16 @@ export type ClientSecretType = string | redacted.Redacted<string>;
 export interface AddUserPoolClientSecretRequest {
   UserPoolId: string;
   ClientId: string | redacted.Redacted<string>;
-  ClientSecret?: string | redacted.Redacted<string>;
+  ClientSecret?: string | redacted.Redacted<string> | undefined;
 }
 export type ClientSecretIdType = string;
 export interface ClientSecretDescriptorType {
-  ClientSecretId?: string;
-  ClientSecretValue?: string | redacted.Redacted<string>;
-  ClientSecretCreateDate?: Date;
+  ClientSecretId?: string | undefined;
+  ClientSecretValue?: string | redacted.Redacted<string> | undefined;
+  ClientSecretCreateDate?: Date | undefined;
 }
 export interface AddUserPoolClientSecretResponse {
-  ClientSecretDescriptor?: ClientSecretDescriptorType;
+  ClientSecretDescriptor?: ClientSecretDescriptorType | undefined;
 }
 export type UsernameType = string | redacted.Redacted<string>;
 export type GroupNameType = string;
@@ -519,14 +519,14 @@ export type ClientMetadataType = { [key: string]: string | undefined };
 export interface AdminConfirmSignUpRequest {
   UserPoolId: string;
   Username: string | redacted.Redacted<string>;
-  ClientMetadata?: { [key: string]: string | undefined };
+  ClientMetadata?: { [key: string]: string | undefined } | undefined;
 }
 export interface AdminConfirmSignUpResponse {}
 export type AttributeNameType = string;
 export type AttributeValueType = string | redacted.Redacted<string>;
 export interface AttributeType {
   Name: string;
-  Value?: string | redacted.Redacted<string>;
+  Value?: string | redacted.Redacted<string> | undefined;
 }
 export type AttributeListType = AttributeType[];
 export type PasswordType = string | redacted.Redacted<string>;
@@ -537,13 +537,13 @@ export type DeliveryMediumListType = DeliveryMediumType[];
 export interface AdminCreateUserRequest {
   UserPoolId: string;
   Username: string | redacted.Redacted<string>;
-  UserAttributes?: AttributeType[];
-  ValidationData?: AttributeType[];
-  TemporaryPassword?: string | redacted.Redacted<string>;
-  ForceAliasCreation?: boolean;
-  MessageAction?: MessageActionType;
-  DesiredDeliveryMediums?: DeliveryMediumType[];
-  ClientMetadata?: { [key: string]: string | undefined };
+  UserAttributes?: AttributeType[] | undefined;
+  ValidationData?: AttributeType[] | undefined;
+  TemporaryPassword?: string | redacted.Redacted<string> | undefined;
+  ForceAliasCreation?: boolean | undefined;
+  MessageAction?: MessageActionType | undefined;
+  DesiredDeliveryMediums?: DeliveryMediumType[] | undefined;
+  ClientMetadata?: { [key: string]: string | undefined } | undefined;
 }
 export type UserStatusType =
   | "UNCONFIRMED"
@@ -556,21 +556,21 @@ export type UserStatusType =
   | "EXTERNAL_PROVIDER"
   | (string & {});
 export interface MFAOptionType {
-  DeliveryMedium?: DeliveryMediumType;
-  AttributeName?: string;
+  DeliveryMedium?: DeliveryMediumType | undefined;
+  AttributeName?: string | undefined;
 }
 export type MFAOptionListType = MFAOptionType[];
 export interface UserType {
-  Username?: string | redacted.Redacted<string>;
-  Attributes?: AttributeType[];
-  UserCreateDate?: Date;
-  UserLastModifiedDate?: Date;
-  Enabled?: boolean;
-  UserStatus?: UserStatusType;
-  MFAOptions?: MFAOptionType[];
+  Username?: string | redacted.Redacted<string> | undefined;
+  Attributes?: AttributeType[] | undefined;
+  UserCreateDate?: Date | undefined;
+  UserLastModifiedDate?: Date | undefined;
+  Enabled?: boolean | undefined;
+  UserStatus?: UserStatusType | undefined;
+  MFAOptions?: MFAOptionType[] | undefined;
 }
 export interface AdminCreateUserResponse {
-  User?: UserType;
+  User?: UserType | undefined;
 }
 export interface AdminDeleteSoftwareTokenRequest {
   UserPoolId: string;
@@ -591,9 +591,9 @@ export interface AdminDeleteUserAttributesRequest {
 export interface AdminDeleteUserAttributesResponse {}
 export type ProviderNameType = string;
 export interface ProviderUserIdentifierType {
-  ProviderName?: string;
-  ProviderAttributeName?: string;
-  ProviderAttributeValue?: string;
+  ProviderName?: string | undefined;
+  ProviderAttributeName?: string | undefined;
+  ProviderAttributeValue?: string | undefined;
 }
 export interface AdminDisableProviderForUserRequest {
   UserPoolId: string;
@@ -623,11 +623,11 @@ export interface AdminGetDeviceRequest {
   Username: string | redacted.Redacted<string>;
 }
 export interface DeviceType {
-  DeviceKey?: string;
-  DeviceAttributes?: AttributeType[];
-  DeviceCreateDate?: Date;
-  DeviceLastModifiedDate?: Date;
-  DeviceLastAuthenticatedDate?: Date;
+  DeviceKey?: string | undefined;
+  DeviceAttributes?: AttributeType[] | undefined;
+  DeviceCreateDate?: Date | undefined;
+  DeviceLastModifiedDate?: Date | undefined;
+  DeviceLastAuthenticatedDate?: Date | undefined;
 }
 export interface AdminGetDeviceResponse {
   Device: DeviceType;
@@ -639,14 +639,14 @@ export interface AdminGetUserRequest {
 export type UserMFASettingListType = string[];
 export interface AdminGetUserResponse {
   Username: string | redacted.Redacted<string>;
-  UserAttributes?: AttributeType[];
-  UserCreateDate?: Date;
-  UserLastModifiedDate?: Date;
-  Enabled?: boolean;
-  UserStatus?: UserStatusType;
-  MFAOptions?: MFAOptionType[];
-  PreferredMfaSetting?: string;
-  UserMFASettingList?: string[];
+  UserAttributes?: AttributeType[] | undefined;
+  UserCreateDate?: Date | undefined;
+  UserLastModifiedDate?: Date | undefined;
+  Enabled?: boolean | undefined;
+  UserStatus?: UserStatusType | undefined;
+  MFAOptions?: MFAOptionType[] | undefined;
+  PreferredMfaSetting?: string | undefined;
+  UserMFASettingList?: string[] | undefined;
 }
 export interface AdminGetUserAuthFactorsRequest {
   UserPoolId: string;
@@ -662,9 +662,9 @@ export type AuthFactorType =
 export type ConfiguredUserAuthFactorsListType = AuthFactorType[];
 export interface AdminGetUserAuthFactorsResponse {
   Username: string | redacted.Redacted<string>;
-  PreferredMfaSetting?: string;
-  UserMFASettingList?: string[];
-  ConfiguredUserAuthFactors?: AuthFactorType[];
+  PreferredMfaSetting?: string | undefined;
+  UserMFASettingList?: string[] | undefined;
+  ConfiguredUserAuthFactors?: AuthFactorType[] | undefined;
 }
 export type AuthFlowType =
   | "USER_SRP_AUTH"
@@ -678,11 +678,11 @@ export type AuthFlowType =
   | (string & {});
 export type AuthParametersType = { [key: string]: string | undefined };
 export interface AnalyticsMetadataType {
-  AnalyticsEndpointId?: string;
+  AnalyticsEndpointId?: string | undefined;
 }
 export interface HttpHeader {
-  headerName?: string;
-  headerValue?: string;
+  headerName?: string | undefined;
+  headerValue?: string | undefined;
 }
 export type HttpHeaderList = HttpHeader[];
 export interface ContextDataType {
@@ -690,18 +690,18 @@ export interface ContextDataType {
   ServerName: string;
   ServerPath: string;
   HttpHeaders: HttpHeader[];
-  EncodedData?: string;
+  EncodedData?: string | undefined;
 }
 export type SessionType = string | redacted.Redacted<string>;
 export interface AdminInitiateAuthRequest {
   UserPoolId: string;
   ClientId: string | redacted.Redacted<string>;
   AuthFlow: AuthFlowType;
-  AuthParameters?: { [key: string]: string | undefined };
-  ClientMetadata?: { [key: string]: string | undefined };
-  AnalyticsMetadata?: AnalyticsMetadataType;
-  ContextData?: ContextDataType;
-  Session?: string | redacted.Redacted<string>;
+  AuthParameters?: { [key: string]: string | undefined } | undefined;
+  ClientMetadata?: { [key: string]: string | undefined } | undefined;
+  AnalyticsMetadata?: AnalyticsMetadataType | undefined;
+  ContextData?: ContextDataType | undefined;
+  Session?: string | redacted.Redacted<string> | undefined;
 }
 export type ChallengeNameType =
   | "SMS_MFA"
@@ -725,24 +725,24 @@ export type ChallengeParametersType = { [key: string]: string | undefined };
 export type TokenModelType = string | redacted.Redacted<string>;
 export type IntegerType = number;
 export interface NewDeviceMetadataType {
-  DeviceKey?: string;
-  DeviceGroupKey?: string;
+  DeviceKey?: string | undefined;
+  DeviceGroupKey?: string | undefined;
 }
 export interface AuthenticationResultType {
-  AccessToken?: string | redacted.Redacted<string>;
-  ExpiresIn?: number;
-  TokenType?: string;
-  RefreshToken?: string | redacted.Redacted<string>;
-  IdToken?: string | redacted.Redacted<string>;
-  NewDeviceMetadata?: NewDeviceMetadataType;
+  AccessToken?: string | redacted.Redacted<string> | undefined;
+  ExpiresIn?: number | undefined;
+  TokenType?: string | undefined;
+  RefreshToken?: string | redacted.Redacted<string> | undefined;
+  IdToken?: string | redacted.Redacted<string> | undefined;
+  NewDeviceMetadata?: NewDeviceMetadataType | undefined;
 }
 export type AvailableChallengeListType = ChallengeNameType[];
 export interface AdminInitiateAuthResponse {
-  ChallengeName?: ChallengeNameType;
-  Session?: string | redacted.Redacted<string>;
-  ChallengeParameters?: { [key: string]: string | undefined };
-  AuthenticationResult?: AuthenticationResultType;
-  AvailableChallenges?: ChallengeNameType[];
+  ChallengeName?: ChallengeNameType | undefined;
+  Session?: string | redacted.Redacted<string> | undefined;
+  ChallengeParameters?: { [key: string]: string | undefined } | undefined;
+  AuthenticationResult?: AuthenticationResultType | undefined;
+  AvailableChallenges?: ChallengeNameType[] | undefined;
 }
 export interface AdminLinkProviderForUserRequest {
   UserPoolId: string;
@@ -755,43 +755,43 @@ export type SearchPaginationTokenType = string;
 export interface AdminListDevicesRequest {
   UserPoolId: string;
   Username: string | redacted.Redacted<string>;
-  Limit?: number;
-  PaginationToken?: string;
+  Limit?: number | undefined;
+  PaginationToken?: string | undefined;
 }
 export type DeviceListType = DeviceType[];
 export interface AdminListDevicesResponse {
-  Devices?: DeviceType[];
-  PaginationToken?: string;
+  Devices?: DeviceType[] | undefined;
+  PaginationToken?: string | undefined;
 }
 export type PaginationKey = string;
 export interface AdminListGroupsForUserRequest {
   Username: string | redacted.Redacted<string>;
   UserPoolId: string;
-  Limit?: number;
-  NextToken?: string;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type DescriptionType = string;
 export type ArnType = string;
 export type PrecedenceType = number;
 export interface GroupType {
-  GroupName?: string;
-  UserPoolId?: string;
-  Description?: string;
-  RoleArn?: string;
-  Precedence?: number;
-  LastModifiedDate?: Date;
-  CreationDate?: Date;
+  GroupName?: string | undefined;
+  UserPoolId?: string | undefined;
+  Description?: string | undefined;
+  RoleArn?: string | undefined;
+  Precedence?: number | undefined;
+  LastModifiedDate?: Date | undefined;
+  CreationDate?: Date | undefined;
 }
 export type GroupListType = GroupType[];
 export interface AdminListGroupsForUserResponse {
-  Groups?: GroupType[];
-  NextToken?: string;
+  Groups?: GroupType[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface AdminListUserAuthEventsRequest {
   UserPoolId: string;
   Username: string | redacted.Redacted<string>;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type EventType =
   | "SignIn"
@@ -805,44 +805,44 @@ export type RiskDecisionType = "NoRisk" | "AccountTakeover" | "Block" | (string 
 export type RiskLevelType = "Low" | "Medium" | "High" | (string & {});
 export type WrappedBooleanType = boolean;
 export interface EventRiskType {
-  RiskDecision?: RiskDecisionType;
-  RiskLevel?: RiskLevelType;
-  CompromisedCredentialsDetected?: boolean;
+  RiskDecision?: RiskDecisionType | undefined;
+  RiskLevel?: RiskLevelType | undefined;
+  CompromisedCredentialsDetected?: boolean | undefined;
 }
 export type ChallengeName = "Password" | "Mfa" | (string & {});
 export type ChallengeResponse = "Success" | "Failure" | (string & {});
 export interface ChallengeResponseType {
-  ChallengeName?: ChallengeName;
-  ChallengeResponse?: ChallengeResponse;
+  ChallengeName?: ChallengeName | undefined;
+  ChallengeResponse?: ChallengeResponse | undefined;
 }
 export type ChallengeResponseListType = ChallengeResponseType[];
 export interface EventContextDataType {
-  IpAddress?: string;
-  DeviceName?: string;
-  Timezone?: string;
-  City?: string;
-  Country?: string;
+  IpAddress?: string | undefined;
+  DeviceName?: string | undefined;
+  Timezone?: string | undefined;
+  City?: string | undefined;
+  Country?: string | undefined;
 }
 export type FeedbackValueType = "Valid" | "Invalid" | (string & {});
 export interface EventFeedbackType {
   FeedbackValue: FeedbackValueType;
   Provider: string;
-  FeedbackDate?: Date;
+  FeedbackDate?: Date | undefined;
 }
 export interface AuthEventType {
-  EventId?: string;
-  EventType?: EventType;
-  CreationDate?: Date;
-  EventResponse?: EventResponseType;
-  EventRisk?: EventRiskType;
-  ChallengeResponses?: ChallengeResponseType[];
-  EventContextData?: EventContextDataType;
-  EventFeedback?: EventFeedbackType;
+  EventId?: string | undefined;
+  EventType?: EventType | undefined;
+  CreationDate?: Date | undefined;
+  EventResponse?: EventResponseType | undefined;
+  EventRisk?: EventRiskType | undefined;
+  ChallengeResponses?: ChallengeResponseType[] | undefined;
+  EventContextData?: EventContextDataType | undefined;
+  EventFeedback?: EventFeedbackType | undefined;
 }
 export type AuthEventsType = AuthEventType[];
 export interface AdminListUserAuthEventsResponse {
-  AuthEvents?: AuthEventType[];
-  NextToken?: string;
+  AuthEvents?: AuthEventType[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface AdminRemoveUserFromGroupRequest {
   UserPoolId: string;
@@ -853,7 +853,7 @@ export interface AdminRemoveUserFromGroupResponse {}
 export interface AdminResetUserPasswordRequest {
   UserPoolId: string;
   Username: string | redacted.Redacted<string>;
-  ClientMetadata?: { [key: string]: string | undefined };
+  ClientMetadata?: { [key: string]: string | undefined } | undefined;
 }
 export interface AdminResetUserPasswordResponse {}
 export type ChallengeResponsesType = { [key: string]: string | undefined };
@@ -861,39 +861,39 @@ export interface AdminRespondToAuthChallengeRequest {
   UserPoolId: string;
   ClientId: string | redacted.Redacted<string>;
   ChallengeName: ChallengeNameType;
-  ChallengeResponses?: { [key: string]: string | undefined };
-  Session?: string | redacted.Redacted<string>;
-  AnalyticsMetadata?: AnalyticsMetadataType;
-  ContextData?: ContextDataType;
-  ClientMetadata?: { [key: string]: string | undefined };
+  ChallengeResponses?: { [key: string]: string | undefined } | undefined;
+  Session?: string | redacted.Redacted<string> | undefined;
+  AnalyticsMetadata?: AnalyticsMetadataType | undefined;
+  ContextData?: ContextDataType | undefined;
+  ClientMetadata?: { [key: string]: string | undefined } | undefined;
 }
 export interface AdminRespondToAuthChallengeResponse {
-  ChallengeName?: ChallengeNameType;
-  Session?: string | redacted.Redacted<string>;
-  ChallengeParameters?: { [key: string]: string | undefined };
-  AuthenticationResult?: AuthenticationResultType;
-  AvailableChallenges?: ChallengeNameType[];
+  ChallengeName?: ChallengeNameType | undefined;
+  Session?: string | redacted.Redacted<string> | undefined;
+  ChallengeParameters?: { [key: string]: string | undefined } | undefined;
+  AuthenticationResult?: AuthenticationResultType | undefined;
+  AvailableChallenges?: ChallengeNameType[] | undefined;
 }
 export interface SMSMfaSettingsType {
-  Enabled?: boolean;
-  PreferredMfa?: boolean;
+  Enabled?: boolean | undefined;
+  PreferredMfa?: boolean | undefined;
 }
 export interface SoftwareTokenMfaSettingsType {
-  Enabled?: boolean;
-  PreferredMfa?: boolean;
+  Enabled?: boolean | undefined;
+  PreferredMfa?: boolean | undefined;
 }
 export interface EmailMfaSettingsType {
-  Enabled?: boolean;
-  PreferredMfa?: boolean;
+  Enabled?: boolean | undefined;
+  PreferredMfa?: boolean | undefined;
 }
 export interface WebAuthnMfaSettingsType {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export interface AdminSetUserMFAPreferenceRequest {
-  SMSMfaSettings?: SMSMfaSettingsType;
-  SoftwareTokenMfaSettings?: SoftwareTokenMfaSettingsType;
-  EmailMfaSettings?: EmailMfaSettingsType;
-  WebAuthnMfaSettings?: WebAuthnMfaSettingsType;
+  SMSMfaSettings?: SMSMfaSettingsType | undefined;
+  SoftwareTokenMfaSettings?: SoftwareTokenMfaSettingsType | undefined;
+  EmailMfaSettings?: EmailMfaSettingsType | undefined;
+  WebAuthnMfaSettings?: WebAuthnMfaSettingsType | undefined;
   Username: string | redacted.Redacted<string>;
   UserPoolId: string;
 }
@@ -902,7 +902,7 @@ export interface AdminSetUserPasswordRequest {
   UserPoolId: string;
   Username: string | redacted.Redacted<string>;
   Password: string | redacted.Redacted<string>;
-  Permanent?: boolean;
+  Permanent?: boolean | undefined;
 }
 export interface AdminSetUserPasswordResponse {}
 export interface AdminSetUserSettingsRequest {
@@ -924,14 +924,14 @@ export interface AdminUpdateDeviceStatusRequest {
   UserPoolId: string;
   Username: string | redacted.Redacted<string>;
   DeviceKey: string;
-  DeviceRememberedStatus?: DeviceRememberedStatusType;
+  DeviceRememberedStatus?: DeviceRememberedStatusType | undefined;
 }
 export interface AdminUpdateDeviceStatusResponse {}
 export interface AdminUpdateUserAttributesRequest {
   UserPoolId: string;
   Username: string | redacted.Redacted<string>;
   UserAttributes: AttributeType[];
-  ClientMetadata?: { [key: string]: string | undefined };
+  ClientMetadata?: { [key: string]: string | undefined } | undefined;
 }
 export interface AdminUpdateUserAttributesResponse {}
 export interface AdminUserGlobalSignOutRequest {
@@ -940,16 +940,16 @@ export interface AdminUserGlobalSignOutRequest {
 }
 export interface AdminUserGlobalSignOutResponse {}
 export interface AssociateSoftwareTokenRequest {
-  AccessToken?: string | redacted.Redacted<string>;
-  Session?: string | redacted.Redacted<string>;
+  AccessToken?: string | redacted.Redacted<string> | undefined;
+  Session?: string | redacted.Redacted<string> | undefined;
 }
 export type SecretCodeType = string | redacted.Redacted<string>;
 export interface AssociateSoftwareTokenResponse {
-  SecretCode?: string | redacted.Redacted<string>;
-  Session?: string | redacted.Redacted<string>;
+  SecretCode?: string | redacted.Redacted<string> | undefined;
+  Session?: string | redacted.Redacted<string> | undefined;
 }
 export interface ChangePasswordRequest {
-  PreviousPassword?: string | redacted.Redacted<string>;
+  PreviousPassword?: string | redacted.Redacted<string> | undefined;
   ProposedPassword: string | redacted.Redacted<string>;
   AccessToken: string | redacted.Redacted<string>;
 }
@@ -961,59 +961,59 @@ export interface CompleteWebAuthnRegistrationRequest {
 }
 export interface CompleteWebAuthnRegistrationResponse {}
 export interface DeviceSecretVerifierConfigType {
-  PasswordVerifier?: string;
-  Salt?: string;
+  PasswordVerifier?: string | undefined;
+  Salt?: string | undefined;
 }
 export type DeviceNameType = string;
 export interface ConfirmDeviceRequest {
   AccessToken: string | redacted.Redacted<string>;
   DeviceKey: string;
-  DeviceSecretVerifierConfig?: DeviceSecretVerifierConfigType;
-  DeviceName?: string;
+  DeviceSecretVerifierConfig?: DeviceSecretVerifierConfigType | undefined;
+  DeviceName?: string | undefined;
 }
 export interface ConfirmDeviceResponse {
-  UserConfirmationNecessary?: boolean;
+  UserConfirmationNecessary?: boolean | undefined;
 }
 export type SecretHashType = string | redacted.Redacted<string>;
 export type ConfirmationCodeType = string;
 export interface UserContextDataType {
-  IpAddress?: string;
-  EncodedData?: string;
+  IpAddress?: string | undefined;
+  EncodedData?: string | undefined;
 }
 export interface ConfirmForgotPasswordRequest {
   ClientId: string | redacted.Redacted<string>;
-  SecretHash?: string | redacted.Redacted<string>;
+  SecretHash?: string | redacted.Redacted<string> | undefined;
   Username: string | redacted.Redacted<string>;
   ConfirmationCode: string;
   Password: string | redacted.Redacted<string>;
-  AnalyticsMetadata?: AnalyticsMetadataType;
-  UserContextData?: UserContextDataType;
-  ClientMetadata?: { [key: string]: string | undefined };
+  AnalyticsMetadata?: AnalyticsMetadataType | undefined;
+  UserContextData?: UserContextDataType | undefined;
+  ClientMetadata?: { [key: string]: string | undefined } | undefined;
 }
 export interface ConfirmForgotPasswordResponse {}
 export interface ConfirmSignUpRequest {
   ClientId: string | redacted.Redacted<string>;
-  SecretHash?: string | redacted.Redacted<string>;
+  SecretHash?: string | redacted.Redacted<string> | undefined;
   Username: string | redacted.Redacted<string>;
   ConfirmationCode: string;
-  ForceAliasCreation?: boolean;
-  AnalyticsMetadata?: AnalyticsMetadataType;
-  UserContextData?: UserContextDataType;
-  ClientMetadata?: { [key: string]: string | undefined };
-  Session?: string | redacted.Redacted<string>;
+  ForceAliasCreation?: boolean | undefined;
+  AnalyticsMetadata?: AnalyticsMetadataType | undefined;
+  UserContextData?: UserContextDataType | undefined;
+  ClientMetadata?: { [key: string]: string | undefined } | undefined;
+  Session?: string | redacted.Redacted<string> | undefined;
 }
 export interface ConfirmSignUpResponse {
-  Session?: string | redacted.Redacted<string>;
+  Session?: string | redacted.Redacted<string> | undefined;
 }
 export interface CreateGroupRequest {
   GroupName: string;
   UserPoolId: string;
-  Description?: string;
-  RoleArn?: string;
-  Precedence?: number;
+  Description?: string | undefined;
+  RoleArn?: string | undefined;
+  Precedence?: number | undefined;
 }
 export interface CreateGroupResponse {
-  Group?: GroupType;
+  Group?: GroupType | undefined;
 }
 export type ProviderNameTypeV2 = string;
 export type IdentityProviderTypeType =
@@ -1037,20 +1037,20 @@ export interface CreateIdentityProviderRequest {
   ProviderName: string;
   ProviderType: IdentityProviderTypeType;
   ProviderDetails: { [key: string]: string | undefined };
-  AttributeMapping?: { [key: string]: string | undefined };
-  IdpIdentifiers?: string[];
-  AcrMapping?: { [key: string]: string | undefined };
+  AttributeMapping?: { [key: string]: string | undefined } | undefined;
+  IdpIdentifiers?: string[] | undefined;
+  AcrMapping?: { [key: string]: string | undefined } | undefined;
 }
 export interface IdentityProviderType {
-  UserPoolId?: string;
-  ProviderName?: string;
-  ProviderType?: IdentityProviderTypeType;
-  ProviderDetails?: { [key: string]: string | undefined };
-  AttributeMapping?: { [key: string]: string | undefined };
-  IdpIdentifiers?: string[];
-  AcrMapping?: { [key: string]: string | undefined };
-  LastModifiedDate?: Date;
-  CreationDate?: Date;
+  UserPoolId?: string | undefined;
+  ProviderName?: string | undefined;
+  ProviderType?: IdentityProviderTypeType | undefined;
+  ProviderDetails?: { [key: string]: string | undefined } | undefined;
+  AttributeMapping?: { [key: string]: string | undefined } | undefined;
+  IdpIdentifiers?: string[] | undefined;
+  AcrMapping?: { [key: string]: string | undefined } | undefined;
+  LastModifiedDate?: Date | undefined;
+  CreationDate?: Date | undefined;
 }
 export interface CreateIdentityProviderResponse {
   IdentityProvider: IdentityProviderType;
@@ -1080,29 +1080,29 @@ export interface AssetType {
   Category: AssetCategoryType;
   ColorMode: ColorSchemeModeType;
   Extension: AssetExtensionType;
-  Bytes?: Uint8Array;
-  ResourceId?: string;
+  Bytes?: Uint8Array | undefined;
+  ResourceId?: string | undefined;
 }
 export type AssetListType = AssetType[];
 export interface CreateManagedLoginBrandingRequest {
   UserPoolId: string;
   ClientId: string | redacted.Redacted<string>;
-  UseCognitoProvidedValues?: boolean;
-  Settings?: any;
-  Assets?: AssetType[];
+  UseCognitoProvidedValues?: boolean | undefined;
+  Settings?: any | undefined;
+  Assets?: AssetType[] | undefined;
 }
 export type ManagedLoginBrandingIdType = string;
 export interface ManagedLoginBrandingType {
-  ManagedLoginBrandingId?: string;
-  UserPoolId?: string;
-  UseCognitoProvidedValues?: boolean;
-  Settings?: any;
-  Assets?: AssetType[];
-  CreationDate?: Date;
-  LastModifiedDate?: Date;
+  ManagedLoginBrandingId?: string | undefined;
+  UserPoolId?: string | undefined;
+  UseCognitoProvidedValues?: boolean | undefined;
+  Settings?: any | undefined;
+  Assets?: AssetType[] | undefined;
+  CreationDate?: Date | undefined;
+  LastModifiedDate?: Date | undefined;
 }
 export interface CreateManagedLoginBrandingResponse {
-  ManagedLoginBranding?: ManagedLoginBrandingType;
+  ManagedLoginBranding?: ManagedLoginBrandingType | undefined;
 }
 export type ResourceServerIdentifierType = string;
 export type ResourceServerNameType = string;
@@ -1117,13 +1117,13 @@ export interface CreateResourceServerRequest {
   UserPoolId: string;
   Identifier: string;
   Name: string;
-  Scopes?: ResourceServerScopeType[];
+  Scopes?: ResourceServerScopeType[] | undefined;
 }
 export interface ResourceServerType {
-  UserPoolId?: string;
-  Identifier?: string;
-  Name?: string;
-  Scopes?: ResourceServerScopeType[];
+  UserPoolId?: string | undefined;
+  Identifier?: string | undefined;
+  Name?: string | undefined;
+  Scopes?: ResourceServerScopeType[] | undefined;
 }
 export interface CreateResourceServerResponse {
   ResourceServer: ResourceServerType;
@@ -1140,7 +1140,7 @@ export interface CreateTermsRequest {
   TermsName: string;
   TermsSource: TermsSourceType;
   Enforcement: TermsEnforcementType;
-  Links?: { [key: string]: string | undefined };
+  Links?: { [key: string]: string | undefined } | undefined;
 }
 export type TermsIdType = string;
 export interface TermsType {
@@ -1155,7 +1155,7 @@ export interface TermsType {
   LastModifiedDate: Date;
 }
 export interface CreateTermsResponse {
-  Terms?: TermsType;
+  Terms?: TermsType | undefined;
 }
 export type UserImportJobNameType = string;
 export type PasswordHashingAlgorithmType =
@@ -1168,7 +1168,7 @@ export interface CreateUserImportJobRequest {
   JobName: string;
   UserPoolId: string;
   CloudWatchLogsRoleArn: string;
-  PasswordHashingAlgorithm?: PasswordHashingAlgorithmType;
+  PasswordHashingAlgorithm?: PasswordHashingAlgorithmType | undefined;
 }
 export type UserImportJobIdType = string;
 export type PreSignedUrlType = string;
@@ -1185,44 +1185,44 @@ export type UserImportJobStatusType =
 export type LongType = number;
 export type CompletionMessageType = string;
 export interface UserImportJobType {
-  JobName?: string;
-  JobId?: string;
-  UserPoolId?: string;
-  PreSignedUrl?: string;
-  CreationDate?: Date;
-  StartDate?: Date;
-  CompletionDate?: Date;
-  Status?: UserImportJobStatusType;
-  CloudWatchLogsRoleArn?: string;
-  ImportedUsers?: number;
-  SkippedUsers?: number;
-  FailedUsers?: number;
-  CompletionMessage?: string;
-  PasswordHashingAlgorithm?: PasswordHashingAlgorithmType;
+  JobName?: string | undefined;
+  JobId?: string | undefined;
+  UserPoolId?: string | undefined;
+  PreSignedUrl?: string | undefined;
+  CreationDate?: Date | undefined;
+  StartDate?: Date | undefined;
+  CompletionDate?: Date | undefined;
+  Status?: UserImportJobStatusType | undefined;
+  CloudWatchLogsRoleArn?: string | undefined;
+  ImportedUsers?: number | undefined;
+  SkippedUsers?: number | undefined;
+  FailedUsers?: number | undefined;
+  CompletionMessage?: string | undefined;
+  PasswordHashingAlgorithm?: PasswordHashingAlgorithmType | undefined;
 }
 export interface CreateUserImportJobResponse {
-  UserImportJob?: UserImportJobType;
+  UserImportJob?: UserImportJobType | undefined;
 }
 export type UserPoolNameType = string;
 export type PasswordPolicyMinLengthType = number;
 export type PasswordHistorySizeType = number;
 export type TemporaryPasswordValidityDaysType = number;
 export interface PasswordPolicyType {
-  MinimumLength?: number;
-  RequireUppercase?: boolean;
-  RequireLowercase?: boolean;
-  RequireNumbers?: boolean;
-  RequireSymbols?: boolean;
-  PasswordHistorySize?: number;
-  TemporaryPasswordValidityDays?: number;
+  MinimumLength?: number | undefined;
+  RequireUppercase?: boolean | undefined;
+  RequireLowercase?: boolean | undefined;
+  RequireNumbers?: boolean | undefined;
+  RequireSymbols?: boolean | undefined;
+  PasswordHistorySize?: number | undefined;
+  TemporaryPasswordValidityDays?: number | undefined;
 }
 export type AllowedFirstAuthFactorsListType = AuthFactorType[];
 export interface SignInPolicyType {
-  AllowedFirstAuthFactors?: AuthFactorType[];
+  AllowedFirstAuthFactors?: AuthFactorType[] | undefined;
 }
 export interface UserPoolPolicyType {
-  PasswordPolicy?: PasswordPolicyType;
-  SignInPolicy?: SignInPolicyType;
+  PasswordPolicy?: PasswordPolicyType | undefined;
+  SignInPolicy?: SignInPolicyType | undefined;
 }
 export type DeletionProtectionType = "ACTIVE" | "INACTIVE" | (string & {});
 export type PreTokenGenerationLambdaVersionType = "V1_0" | "V2_0" | "V3_0" | (string & {});
@@ -1246,21 +1246,21 @@ export interface InboundFederationLambdaType {
   LambdaArn: string;
 }
 export interface LambdaConfigType {
-  PreSignUp?: string;
-  CustomMessage?: string;
-  PostConfirmation?: string;
-  PreAuthentication?: string;
-  PostAuthentication?: string;
-  DefineAuthChallenge?: string;
-  CreateAuthChallenge?: string;
-  VerifyAuthChallengeResponse?: string;
-  PreTokenGeneration?: string;
-  UserMigration?: string;
-  PreTokenGenerationConfig?: PreTokenGenerationVersionConfigType;
-  CustomSMSSender?: CustomSMSLambdaVersionConfigType;
-  CustomEmailSender?: CustomEmailLambdaVersionConfigType;
-  KMSKeyID?: string;
-  InboundFederation?: InboundFederationLambdaType;
+  PreSignUp?: string | undefined;
+  CustomMessage?: string | undefined;
+  PostConfirmation?: string | undefined;
+  PreAuthentication?: string | undefined;
+  PostAuthentication?: string | undefined;
+  DefineAuthChallenge?: string | undefined;
+  CreateAuthChallenge?: string | undefined;
+  VerifyAuthChallengeResponse?: string | undefined;
+  PreTokenGeneration?: string | undefined;
+  UserMigration?: string | undefined;
+  PreTokenGenerationConfig?: PreTokenGenerationVersionConfigType | undefined;
+  CustomSMSSender?: CustomSMSLambdaVersionConfigType | undefined;
+  CustomEmailSender?: CustomEmailLambdaVersionConfigType | undefined;
+  KMSKeyID?: string | undefined;
+  InboundFederation?: InboundFederationLambdaType | undefined;
 }
 export type VerifiedAttributeType = "phone_number" | "email" | (string & {});
 export type VerifiedAttributesListType = VerifiedAttributeType[];
@@ -1275,48 +1275,48 @@ export type EmailVerificationMessageByLinkType = string;
 export type EmailVerificationSubjectByLinkType = string;
 export type DefaultEmailOptionType = "CONFIRM_WITH_LINK" | "CONFIRM_WITH_CODE" | (string & {});
 export interface VerificationMessageTemplateType {
-  SmsMessage?: string;
-  EmailMessage?: string;
-  EmailSubject?: string;
-  EmailMessageByLink?: string;
-  EmailSubjectByLink?: string;
-  DefaultEmailOption?: DefaultEmailOptionType;
+  SmsMessage?: string | undefined;
+  EmailMessage?: string | undefined;
+  EmailSubject?: string | undefined;
+  EmailMessageByLink?: string | undefined;
+  EmailSubjectByLink?: string | undefined;
+  DefaultEmailOption?: DefaultEmailOptionType | undefined;
 }
 export type UserPoolMfaType = "OFF" | "ON" | "OPTIONAL" | (string & {});
 export type AttributesRequireVerificationBeforeUpdateType = VerifiedAttributeType[];
 export interface UserAttributeUpdateSettingsType {
-  AttributesRequireVerificationBeforeUpdate?: VerifiedAttributeType[];
+  AttributesRequireVerificationBeforeUpdate?: VerifiedAttributeType[] | undefined;
 }
 export interface DeviceConfigurationType {
-  ChallengeRequiredOnNewDevice?: boolean;
-  DeviceOnlyRememberedOnUserPrompt?: boolean;
+  ChallengeRequiredOnNewDevice?: boolean | undefined;
+  DeviceOnlyRememberedOnUserPrompt?: boolean | undefined;
 }
 export type EmailAddressType = string;
 export type EmailSendingAccountType = "COGNITO_DEFAULT" | "DEVELOPER" | (string & {});
 export type SESConfigurationSet = string;
 export interface EmailConfigurationType {
-  SourceArn?: string;
-  ReplyToEmailAddress?: string;
-  EmailSendingAccount?: EmailSendingAccountType;
-  From?: string;
-  ConfigurationSet?: string;
+  SourceArn?: string | undefined;
+  ReplyToEmailAddress?: string | undefined;
+  EmailSendingAccount?: EmailSendingAccountType | undefined;
+  From?: string | undefined;
+  ConfigurationSet?: string | undefined;
 }
 export type OptionalArnType = string;
 export type RegionCodeType = string;
 export interface EumsSmsConfigurationType {
   CallerArn: string;
-  ExternalId?: string;
-  OriginationIdentity?: string;
-  ConfigurationSetName?: string;
-  InEntityId?: string;
-  InTemplateId?: string;
-  Region?: string;
+  ExternalId?: string | undefined;
+  OriginationIdentity?: string | undefined;
+  ConfigurationSetName?: string | undefined;
+  InEntityId?: string | undefined;
+  InTemplateId?: string | undefined;
+  Region?: string | undefined;
 }
 export interface SmsConfigurationType {
-  SnsCallerArn?: string;
-  ExternalId?: string;
-  SnsRegion?: string;
-  EumsSms?: EumsSmsConfigurationType;
+  SnsCallerArn?: string | undefined;
+  ExternalId?: string | undefined;
+  SnsRegion?: string | undefined;
+  EumsSms?: EumsSmsConfigurationType | undefined;
 }
 export type TagKeysType = string;
 export type TagValueType = string;
@@ -1325,24 +1325,24 @@ export type AdminCreateUserUnusedAccountValidityDaysType = number;
 export type SmsInviteMessageType = string;
 export type EmailInviteMessageType = string;
 export interface MessageTemplateType {
-  SMSMessage?: string;
-  EmailMessage?: string;
-  EmailSubject?: string;
+  SMSMessage?: string | undefined;
+  EmailMessage?: string | undefined;
+  EmailSubject?: string | undefined;
 }
 export interface AdminCreateUserConfigType {
-  AllowAdminCreateUserOnly?: boolean;
-  UnusedAccountValidityDays?: number;
-  InviteMessageTemplate?: MessageTemplateType;
+  AllowAdminCreateUserOnly?: boolean | undefined;
+  UnusedAccountValidityDays?: number | undefined;
+  InviteMessageTemplate?: MessageTemplateType | undefined;
 }
 export type SchemaAttributesListType = SchemaAttributeType[];
 export type AdvancedSecurityModeType = "OFF" | "AUDIT" | "ENFORCED" | (string & {});
 export type AdvancedSecurityEnabledModeType = "AUDIT" | "ENFORCED" | (string & {});
 export interface AdvancedSecurityAdditionalFlowsType {
-  CustomAuthMode?: AdvancedSecurityEnabledModeType;
+  CustomAuthMode?: AdvancedSecurityEnabledModeType | undefined;
 }
 export interface UserPoolAddOnsType {
   AdvancedSecurityMode: AdvancedSecurityModeType;
-  AdvancedSecurityAdditionalFlows?: AdvancedSecurityAdditionalFlowsType;
+  AdvancedSecurityAdditionalFlows?: AdvancedSecurityAdditionalFlowsType | undefined;
 }
 export interface UsernameConfigurationType {
   CaseSensitive: boolean;
@@ -1359,18 +1359,18 @@ export interface RecoveryOptionType {
 }
 export type RecoveryMechanismsType = RecoveryOptionType[];
 export interface AccountRecoverySettingType {
-  RecoveryMechanisms?: RecoveryOptionType[];
+  RecoveryMechanisms?: RecoveryOptionType[] | undefined;
 }
 export type UserPoolTierType = "LITE" | "ESSENTIALS" | "PLUS" | (string & {});
 export type EncryptionKeyType = "AWS_OWNED_KEY" | "CUSTOMER_MANAGED_KEY" | (string & {});
 export type EncryptionKeyArnType = string;
 export interface KeyConfigurationType {
-  KeyType?: EncryptionKeyType;
-  KmsKeyArn?: string;
+  KeyType?: EncryptionKeyType | undefined;
+  KmsKeyArn?: string | undefined;
 }
 export type IssuerType = "ORIGINAL" | "UPDATED" | (string & {});
 export interface IssuerConfigurationType {
-  Type?: IssuerType;
+  Type?: IssuerType | undefined;
 }
 export type AcrLevelKeyType = string;
 export interface AcrLevelConfigType {
@@ -1379,76 +1379,76 @@ export interface AcrLevelConfigType {
 export type AcrConfigurationType = { [key: string]: AcrLevelConfigType | undefined };
 export interface CreateUserPoolRequest {
   PoolName: string;
-  Policies?: UserPoolPolicyType;
-  DeletionProtection?: DeletionProtectionType;
-  LambdaConfig?: LambdaConfigType;
-  AutoVerifiedAttributes?: VerifiedAttributeType[];
-  AliasAttributes?: AliasAttributeType[];
-  UsernameAttributes?: UsernameAttributeType[];
-  SmsVerificationMessage?: string;
-  EmailVerificationMessage?: string;
-  EmailVerificationSubject?: string;
-  VerificationMessageTemplate?: VerificationMessageTemplateType;
-  SmsAuthenticationMessage?: string;
-  MfaConfiguration?: UserPoolMfaType;
-  UserAttributeUpdateSettings?: UserAttributeUpdateSettingsType;
-  DeviceConfiguration?: DeviceConfigurationType;
-  EmailConfiguration?: EmailConfigurationType;
-  SmsConfiguration?: SmsConfigurationType;
-  UserPoolTags?: { [key: string]: string | undefined };
-  AdminCreateUserConfig?: AdminCreateUserConfigType;
-  Schema?: SchemaAttributeType[];
-  UserPoolAddOns?: UserPoolAddOnsType;
-  UsernameConfiguration?: UsernameConfigurationType;
-  AccountRecoverySetting?: AccountRecoverySettingType;
-  UserPoolTier?: UserPoolTierType;
-  KeyConfiguration?: KeyConfigurationType;
-  IssuerConfiguration?: IssuerConfigurationType;
-  AcrConfiguration?: { [key: string]: AcrLevelConfigType | undefined };
+  Policies?: UserPoolPolicyType | undefined;
+  DeletionProtection?: DeletionProtectionType | undefined;
+  LambdaConfig?: LambdaConfigType | undefined;
+  AutoVerifiedAttributes?: VerifiedAttributeType[] | undefined;
+  AliasAttributes?: AliasAttributeType[] | undefined;
+  UsernameAttributes?: UsernameAttributeType[] | undefined;
+  SmsVerificationMessage?: string | undefined;
+  EmailVerificationMessage?: string | undefined;
+  EmailVerificationSubject?: string | undefined;
+  VerificationMessageTemplate?: VerificationMessageTemplateType | undefined;
+  SmsAuthenticationMessage?: string | undefined;
+  MfaConfiguration?: UserPoolMfaType | undefined;
+  UserAttributeUpdateSettings?: UserAttributeUpdateSettingsType | undefined;
+  DeviceConfiguration?: DeviceConfigurationType | undefined;
+  EmailConfiguration?: EmailConfigurationType | undefined;
+  SmsConfiguration?: SmsConfigurationType | undefined;
+  UserPoolTags?: { [key: string]: string | undefined } | undefined;
+  AdminCreateUserConfig?: AdminCreateUserConfigType | undefined;
+  Schema?: SchemaAttributeType[] | undefined;
+  UserPoolAddOns?: UserPoolAddOnsType | undefined;
+  UsernameConfiguration?: UsernameConfigurationType | undefined;
+  AccountRecoverySetting?: AccountRecoverySettingType | undefined;
+  UserPoolTier?: UserPoolTierType | undefined;
+  KeyConfiguration?: KeyConfigurationType | undefined;
+  IssuerConfiguration?: IssuerConfigurationType | undefined;
+  AcrConfiguration?: { [key: string]: AcrLevelConfigType | undefined } | undefined;
 }
 export type StatusType = "Enabled" | "Disabled" | (string & {});
 export type DomainType = string;
 export interface UserPoolType {
-  Id?: string;
-  Name?: string;
-  Policies?: UserPoolPolicyType;
-  DeletionProtection?: DeletionProtectionType;
-  LambdaConfig?: LambdaConfigType;
-  Status?: StatusType;
-  LastModifiedDate?: Date;
-  CreationDate?: Date;
-  SchemaAttributes?: SchemaAttributeType[];
-  AutoVerifiedAttributes?: VerifiedAttributeType[];
-  AliasAttributes?: AliasAttributeType[];
-  UsernameAttributes?: UsernameAttributeType[];
-  SmsVerificationMessage?: string;
-  EmailVerificationMessage?: string;
-  EmailVerificationSubject?: string;
-  VerificationMessageTemplate?: VerificationMessageTemplateType;
-  SmsAuthenticationMessage?: string;
-  UserAttributeUpdateSettings?: UserAttributeUpdateSettingsType;
-  MfaConfiguration?: UserPoolMfaType;
-  DeviceConfiguration?: DeviceConfigurationType;
-  EstimatedNumberOfUsers?: number;
-  EmailConfiguration?: EmailConfigurationType;
-  SmsConfiguration?: SmsConfigurationType;
-  UserPoolTags?: { [key: string]: string | undefined };
-  SmsConfigurationFailure?: string;
-  EmailConfigurationFailure?: string;
-  Domain?: string;
-  CustomDomain?: string;
-  AdminCreateUserConfig?: AdminCreateUserConfigType;
-  UserPoolAddOns?: UserPoolAddOnsType;
-  UsernameConfiguration?: UsernameConfigurationType;
-  Arn?: string;
-  AccountRecoverySetting?: AccountRecoverySettingType;
-  UserPoolTier?: UserPoolTierType;
-  KeyConfiguration?: KeyConfigurationType;
-  IssuerConfiguration?: IssuerConfigurationType;
-  AcrConfiguration?: { [key: string]: AcrLevelConfigType | undefined };
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Policies?: UserPoolPolicyType | undefined;
+  DeletionProtection?: DeletionProtectionType | undefined;
+  LambdaConfig?: LambdaConfigType | undefined;
+  Status?: StatusType | undefined;
+  LastModifiedDate?: Date | undefined;
+  CreationDate?: Date | undefined;
+  SchemaAttributes?: SchemaAttributeType[] | undefined;
+  AutoVerifiedAttributes?: VerifiedAttributeType[] | undefined;
+  AliasAttributes?: AliasAttributeType[] | undefined;
+  UsernameAttributes?: UsernameAttributeType[] | undefined;
+  SmsVerificationMessage?: string | undefined;
+  EmailVerificationMessage?: string | undefined;
+  EmailVerificationSubject?: string | undefined;
+  VerificationMessageTemplate?: VerificationMessageTemplateType | undefined;
+  SmsAuthenticationMessage?: string | undefined;
+  UserAttributeUpdateSettings?: UserAttributeUpdateSettingsType | undefined;
+  MfaConfiguration?: UserPoolMfaType | undefined;
+  DeviceConfiguration?: DeviceConfigurationType | undefined;
+  EstimatedNumberOfUsers?: number | undefined;
+  EmailConfiguration?: EmailConfigurationType | undefined;
+  SmsConfiguration?: SmsConfigurationType | undefined;
+  UserPoolTags?: { [key: string]: string | undefined } | undefined;
+  SmsConfigurationFailure?: string | undefined;
+  EmailConfigurationFailure?: string | undefined;
+  Domain?: string | undefined;
+  CustomDomain?: string | undefined;
+  AdminCreateUserConfig?: AdminCreateUserConfigType | undefined;
+  UserPoolAddOns?: UserPoolAddOnsType | undefined;
+  UsernameConfiguration?: UsernameConfigurationType | undefined;
+  Arn?: string | undefined;
+  AccountRecoverySetting?: AccountRecoverySettingType | undefined;
+  UserPoolTier?: UserPoolTierType | undefined;
+  KeyConfiguration?: KeyConfigurationType | undefined;
+  IssuerConfiguration?: IssuerConfigurationType | undefined;
+  AcrConfiguration?: { [key: string]: AcrLevelConfigType | undefined } | undefined;
 }
 export interface CreateUserPoolResponse {
-  UserPool?: UserPoolType;
+  UserPool?: UserPoolType | undefined;
 }
 export type ClientNameType = string;
 export type GenerateSecret = boolean;
@@ -1457,9 +1457,9 @@ export type AccessTokenValidityType = number;
 export type IdTokenValidityType = number;
 export type TimeUnitsType = "seconds" | "minutes" | "hours" | "days" | (string & {});
 export interface TokenValidityUnitsType {
-  AccessToken?: TimeUnitsType;
-  IdToken?: TimeUnitsType;
-  RefreshToken?: TimeUnitsType;
+  AccessToken?: TimeUnitsType | undefined;
+  IdToken?: TimeUnitsType | undefined;
+  RefreshToken?: TimeUnitsType | undefined;
 }
 export type ClientPermissionType = string;
 export type ClientPermissionListType = string[];
@@ -1485,11 +1485,11 @@ export type ScopeType = string;
 export type ScopeListType = string[];
 export type HexStringType = string;
 export interface AnalyticsConfigurationType {
-  ApplicationId?: string;
-  ApplicationArn?: string;
-  RoleArn?: string;
-  ExternalId?: string;
-  UserDataShared?: boolean;
+  ApplicationId?: string | undefined;
+  ApplicationArn?: string | undefined;
+  RoleArn?: string | undefined;
+  ExternalId?: string | undefined;
+  UserDataShared?: boolean | undefined;
 }
 export type PreventUserExistenceErrorTypes = "LEGACY" | "ENABLED" | (string & {});
 export type AuthSessionValidityType = number;
@@ -1497,70 +1497,70 @@ export type FeatureType = "ENABLED" | "DISABLED" | (string & {});
 export type RetryGracePeriodSecondsType = number;
 export interface RefreshTokenRotationType {
   Feature: FeatureType;
-  RetryGracePeriodSeconds?: number;
+  RetryGracePeriodSeconds?: number | undefined;
 }
 export interface CreateUserPoolClientRequest {
   UserPoolId: string;
   ClientName: string;
-  GenerateSecret?: boolean;
-  ClientSecret?: string | redacted.Redacted<string>;
-  RefreshTokenValidity?: number;
-  AccessTokenValidity?: number;
-  IdTokenValidity?: number;
-  TokenValidityUnits?: TokenValidityUnitsType;
-  ReadAttributes?: string[];
-  WriteAttributes?: string[];
-  ExplicitAuthFlows?: ExplicitAuthFlowsType[];
-  SupportedIdentityProviders?: string[];
-  CallbackURLs?: string[];
-  LogoutURLs?: string[];
-  DefaultRedirectURI?: string;
-  AllowedOAuthFlows?: OAuthFlowType[];
-  AllowedOAuthScopes?: string[];
-  AllowedOAuthFlowsUserPoolClient?: boolean;
-  AnalyticsConfiguration?: AnalyticsConfigurationType;
-  PreventUserExistenceErrors?: PreventUserExistenceErrorTypes;
-  EnableTokenRevocation?: boolean;
-  EnablePropagateAdditionalUserContextData?: boolean;
-  AuthSessionValidity?: number;
-  RefreshTokenRotation?: RefreshTokenRotationType;
+  GenerateSecret?: boolean | undefined;
+  ClientSecret?: string | redacted.Redacted<string> | undefined;
+  RefreshTokenValidity?: number | undefined;
+  AccessTokenValidity?: number | undefined;
+  IdTokenValidity?: number | undefined;
+  TokenValidityUnits?: TokenValidityUnitsType | undefined;
+  ReadAttributes?: string[] | undefined;
+  WriteAttributes?: string[] | undefined;
+  ExplicitAuthFlows?: ExplicitAuthFlowsType[] | undefined;
+  SupportedIdentityProviders?: string[] | undefined;
+  CallbackURLs?: string[] | undefined;
+  LogoutURLs?: string[] | undefined;
+  DefaultRedirectURI?: string | undefined;
+  AllowedOAuthFlows?: OAuthFlowType[] | undefined;
+  AllowedOAuthScopes?: string[] | undefined;
+  AllowedOAuthFlowsUserPoolClient?: boolean | undefined;
+  AnalyticsConfiguration?: AnalyticsConfigurationType | undefined;
+  PreventUserExistenceErrors?: PreventUserExistenceErrorTypes | undefined;
+  EnableTokenRevocation?: boolean | undefined;
+  EnablePropagateAdditionalUserContextData?: boolean | undefined;
+  AuthSessionValidity?: number | undefined;
+  RefreshTokenRotation?: RefreshTokenRotationType | undefined;
 }
 export interface UserPoolClientType {
-  UserPoolId?: string;
-  ClientName?: string;
-  ClientId?: string | redacted.Redacted<string>;
-  ClientSecret?: string | redacted.Redacted<string>;
-  LastModifiedDate?: Date;
-  CreationDate?: Date;
-  RefreshTokenValidity?: number;
-  AccessTokenValidity?: number;
-  IdTokenValidity?: number;
-  TokenValidityUnits?: TokenValidityUnitsType;
-  ReadAttributes?: string[];
-  WriteAttributes?: string[];
-  ExplicitAuthFlows?: ExplicitAuthFlowsType[];
-  SupportedIdentityProviders?: string[];
-  CallbackURLs?: string[];
-  LogoutURLs?: string[];
-  DefaultRedirectURI?: string;
-  AllowedOAuthFlows?: OAuthFlowType[];
-  AllowedOAuthScopes?: string[];
-  AllowedOAuthFlowsUserPoolClient?: boolean;
-  AnalyticsConfiguration?: AnalyticsConfigurationType;
-  PreventUserExistenceErrors?: PreventUserExistenceErrorTypes;
-  EnableTokenRevocation?: boolean;
-  EnablePropagateAdditionalUserContextData?: boolean;
-  AuthSessionValidity?: number;
-  RefreshTokenRotation?: RefreshTokenRotationType;
+  UserPoolId?: string | undefined;
+  ClientName?: string | undefined;
+  ClientId?: string | redacted.Redacted<string> | undefined;
+  ClientSecret?: string | redacted.Redacted<string> | undefined;
+  LastModifiedDate?: Date | undefined;
+  CreationDate?: Date | undefined;
+  RefreshTokenValidity?: number | undefined;
+  AccessTokenValidity?: number | undefined;
+  IdTokenValidity?: number | undefined;
+  TokenValidityUnits?: TokenValidityUnitsType | undefined;
+  ReadAttributes?: string[] | undefined;
+  WriteAttributes?: string[] | undefined;
+  ExplicitAuthFlows?: ExplicitAuthFlowsType[] | undefined;
+  SupportedIdentityProviders?: string[] | undefined;
+  CallbackURLs?: string[] | undefined;
+  LogoutURLs?: string[] | undefined;
+  DefaultRedirectURI?: string | undefined;
+  AllowedOAuthFlows?: OAuthFlowType[] | undefined;
+  AllowedOAuthScopes?: string[] | undefined;
+  AllowedOAuthFlowsUserPoolClient?: boolean | undefined;
+  AnalyticsConfiguration?: AnalyticsConfigurationType | undefined;
+  PreventUserExistenceErrors?: PreventUserExistenceErrorTypes | undefined;
+  EnableTokenRevocation?: boolean | undefined;
+  EnablePropagateAdditionalUserContextData?: boolean | undefined;
+  AuthSessionValidity?: number | undefined;
+  RefreshTokenRotation?: RefreshTokenRotationType | undefined;
 }
 export interface CreateUserPoolClientResponse {
-  UserPoolClient?: UserPoolClientType;
+  UserPoolClient?: UserPoolClientType | undefined;
 }
 export type WrappedIntegerType = number;
 export type SecurityPolicyType = "TLS_V1" | "TLS_V1_2_2021" | "TLS_V1_3_2025" | (string & {});
 export interface CustomDomainConfigType {
   CertificateArn: string;
-  SecurityPolicy?: SecurityPolicyType;
+  SecurityPolicy?: SecurityPolicyType | undefined;
 }
 export type RegionNameType = string;
 export type HealthCheckIdType = string;
@@ -1569,35 +1569,35 @@ export interface FailoverType {
   PrimaryRoute53HealthCheckId: string;
 }
 export interface RoutingType {
-  Failover?: FailoverType;
+  Failover?: FailoverType | undefined;
 }
 export interface CreateUserPoolDomainRequest {
   Domain: string;
   UserPoolId: string;
-  ManagedLoginVersion?: number;
-  CustomDomainConfig?: CustomDomainConfigType;
-  Routing?: RoutingType;
+  ManagedLoginVersion?: number | undefined;
+  CustomDomainConfig?: CustomDomainConfigType | undefined;
+  Routing?: RoutingType | undefined;
 }
 export interface CreateUserPoolDomainResponse {
-  ManagedLoginVersion?: number;
-  CloudFrontDomain?: string;
-  Routing?: RoutingType;
+  ManagedLoginVersion?: number | undefined;
+  CloudFrontDomain?: string | undefined;
+  Routing?: RoutingType | undefined;
 }
 export interface CreateUserPoolReplicaRequest {
   UserPoolId: string;
   RegionName: string;
-  UserPoolTags?: { [key: string]: string | undefined };
+  UserPoolTags?: { [key: string]: string | undefined } | undefined;
 }
 export type ReplicaStatusType = "CREATING" | "ACTIVE" | "INACTIVE" | "DELETING" | (string & {});
 export type ReplicaRoleType = "PRIMARY" | "SECONDARY" | (string & {});
 export interface UserPoolReplicaType {
-  RegionName?: string;
-  Status?: ReplicaStatusType;
-  Role?: ReplicaRoleType;
-  UserPoolArn?: string;
+  RegionName?: string | undefined;
+  Status?: ReplicaStatusType | undefined;
+  Role?: ReplicaRoleType | undefined;
+  UserPoolArn?: string | undefined;
 }
 export interface CreateUserPoolReplicaResponse {
-  UserPoolReplica?: UserPoolReplicaType;
+  UserPoolReplica?: UserPoolReplicaType | undefined;
 }
 export interface DeleteGroupRequest {
   GroupName: string;
@@ -1658,7 +1658,7 @@ export interface DeleteUserPoolReplicaRequest {
   RegionName: string;
 }
 export interface DeleteUserPoolReplicaResponse {
-  UserPoolReplica?: UserPoolReplicaType;
+  UserPoolReplica?: UserPoolReplicaType | undefined;
 }
 export interface DeleteWebAuthnCredentialRequest {
   AccessToken: string | redacted.Redacted<string>;
@@ -1675,18 +1675,18 @@ export interface DescribeIdentityProviderResponse {
 export interface DescribeManagedLoginBrandingRequest {
   UserPoolId: string;
   ManagedLoginBrandingId: string;
-  ReturnMergedResources?: boolean;
+  ReturnMergedResources?: boolean | undefined;
 }
 export interface DescribeManagedLoginBrandingResponse {
-  ManagedLoginBranding?: ManagedLoginBrandingType;
+  ManagedLoginBranding?: ManagedLoginBrandingType | undefined;
 }
 export interface DescribeManagedLoginBrandingByClientRequest {
   UserPoolId: string;
   ClientId: string | redacted.Redacted<string>;
-  ReturnMergedResources?: boolean;
+  ReturnMergedResources?: boolean | undefined;
 }
 export interface DescribeManagedLoginBrandingByClientResponse {
-  ManagedLoginBranding?: ManagedLoginBrandingType;
+  ManagedLoginBranding?: ManagedLoginBrandingType | undefined;
 }
 export interface DescribeResourceServerRequest {
   UserPoolId: string;
@@ -1697,7 +1697,7 @@ export interface DescribeResourceServerResponse {
 }
 export interface DescribeRiskConfigurationRequest {
   UserPoolId: string;
-  ClientId?: string | redacted.Redacted<string>;
+  ClientId?: string | redacted.Redacted<string> | undefined;
 }
 export type EventFilterType = "SIGN_IN" | "PASSWORD_CHANGE" | "SIGN_UP" | (string & {});
 export type EventFiltersType = EventFilterType[];
@@ -1706,23 +1706,23 @@ export interface CompromisedCredentialsActionsType {
   EventAction: CompromisedCredentialsEventActionType;
 }
 export interface CompromisedCredentialsRiskConfigurationType {
-  EventFilter?: EventFilterType[];
+  EventFilter?: EventFilterType[] | undefined;
   Actions: CompromisedCredentialsActionsType;
 }
 export type EmailNotificationSubjectType = string;
 export type EmailNotificationBodyType = string;
 export interface NotifyEmailType {
   Subject: string;
-  HtmlBody?: string;
-  TextBody?: string;
+  HtmlBody?: string | undefined;
+  TextBody?: string | undefined;
 }
 export interface NotifyConfigurationType {
-  From?: string;
-  ReplyTo?: string;
+  From?: string | undefined;
+  ReplyTo?: string | undefined;
   SourceArn: string;
-  BlockEmail?: NotifyEmailType;
-  NoActionEmail?: NotifyEmailType;
-  MfaEmail?: NotifyEmailType;
+  BlockEmail?: NotifyEmailType | undefined;
+  NoActionEmail?: NotifyEmailType | undefined;
+  MfaEmail?: NotifyEmailType | undefined;
 }
 export type AccountTakeoverActionNotifyType = boolean;
 export type AccountTakeoverEventActionType =
@@ -1736,27 +1736,27 @@ export interface AccountTakeoverActionType {
   EventAction: AccountTakeoverEventActionType;
 }
 export interface AccountTakeoverActionsType {
-  LowAction?: AccountTakeoverActionType;
-  MediumAction?: AccountTakeoverActionType;
-  HighAction?: AccountTakeoverActionType;
+  LowAction?: AccountTakeoverActionType | undefined;
+  MediumAction?: AccountTakeoverActionType | undefined;
+  HighAction?: AccountTakeoverActionType | undefined;
 }
 export interface AccountTakeoverRiskConfigurationType {
-  NotifyConfiguration?: NotifyConfigurationType;
+  NotifyConfiguration?: NotifyConfigurationType | undefined;
   Actions: AccountTakeoverActionsType;
 }
 export type BlockedIPRangeListType = string[];
 export type SkippedIPRangeListType = string[];
 export interface RiskExceptionConfigurationType {
-  BlockedIPRangeList?: string[];
-  SkippedIPRangeList?: string[];
+  BlockedIPRangeList?: string[] | undefined;
+  SkippedIPRangeList?: string[] | undefined;
 }
 export interface RiskConfigurationType {
-  UserPoolId?: string;
-  ClientId?: string | redacted.Redacted<string>;
-  CompromisedCredentialsRiskConfiguration?: CompromisedCredentialsRiskConfigurationType;
-  AccountTakeoverRiskConfiguration?: AccountTakeoverRiskConfigurationType;
-  RiskExceptionConfiguration?: RiskExceptionConfigurationType;
-  LastModifiedDate?: Date;
+  UserPoolId?: string | undefined;
+  ClientId?: string | redacted.Redacted<string> | undefined;
+  CompromisedCredentialsRiskConfiguration?: CompromisedCredentialsRiskConfigurationType | undefined;
+  AccountTakeoverRiskConfiguration?: AccountTakeoverRiskConfigurationType | undefined;
+  RiskExceptionConfiguration?: RiskExceptionConfigurationType | undefined;
+  LastModifiedDate?: Date | undefined;
 }
 export interface DescribeRiskConfigurationResponse {
   RiskConfiguration: RiskConfigurationType;
@@ -1766,7 +1766,7 @@ export interface DescribeTermsRequest {
   UserPoolId: string;
 }
 export interface DescribeTermsResponse {
-  Terms?: TermsType;
+  Terms?: TermsType | undefined;
 }
 export interface DescribeTermsByClientRequest {
   ClientId: string | redacted.Redacted<string>;
@@ -1774,27 +1774,27 @@ export interface DescribeTermsByClientRequest {
   TermsName: string;
 }
 export interface DescribeTermsByClientResponse {
-  Terms?: TermsType;
+  Terms?: TermsType | undefined;
 }
 export interface DescribeUserImportJobRequest {
   UserPoolId: string;
   JobId: string;
 }
 export interface DescribeUserImportJobResponse {
-  UserImportJob?: UserImportJobType;
+  UserImportJob?: UserImportJobType | undefined;
 }
 export interface DescribeUserPoolRequest {
   UserPoolId: string;
 }
 export interface DescribeUserPoolResponse {
-  UserPool?: UserPoolType;
+  UserPool?: UserPoolType | undefined;
 }
 export interface DescribeUserPoolClientRequest {
   UserPoolId: string;
   ClientId: string | redacted.Redacted<string>;
 }
 export interface DescribeUserPoolClientResponse {
-  UserPoolClient?: UserPoolClientType;
+  UserPoolClient?: UserPoolClientType | undefined;
 }
 export interface DescribeUserPoolDomainRequest {
   Domain: string;
@@ -1810,66 +1810,66 @@ export type DomainStatusType =
   | "FAILED"
   | (string & {});
 export interface DomainDescriptionType {
-  UserPoolId?: string;
-  AWSAccountId?: string;
-  Domain?: string;
-  S3Bucket?: string;
-  CloudFrontDistribution?: string;
-  Version?: string;
-  Status?: DomainStatusType;
-  CustomDomainConfig?: CustomDomainConfigType;
-  ManagedLoginVersion?: number;
-  Routing?: RoutingType;
+  UserPoolId?: string | undefined;
+  AWSAccountId?: string | undefined;
+  Domain?: string | undefined;
+  S3Bucket?: string | undefined;
+  CloudFrontDistribution?: string | undefined;
+  Version?: string | undefined;
+  Status?: DomainStatusType | undefined;
+  CustomDomainConfig?: CustomDomainConfigType | undefined;
+  ManagedLoginVersion?: number | undefined;
+  Routing?: RoutingType | undefined;
 }
 export interface DescribeUserPoolDomainResponse {
-  DomainDescription?: DomainDescriptionType;
+  DomainDescription?: DomainDescriptionType | undefined;
 }
 export interface ForgetDeviceRequest {
-  AccessToken?: string | redacted.Redacted<string>;
+  AccessToken?: string | redacted.Redacted<string> | undefined;
   DeviceKey: string;
 }
 export interface ForgetDeviceResponse {}
 export interface ForgotPasswordRequest {
   ClientId: string | redacted.Redacted<string>;
-  SecretHash?: string | redacted.Redacted<string>;
-  UserContextData?: UserContextDataType;
+  SecretHash?: string | redacted.Redacted<string> | undefined;
+  UserContextData?: UserContextDataType | undefined;
   Username: string | redacted.Redacted<string>;
-  AnalyticsMetadata?: AnalyticsMetadataType;
-  ClientMetadata?: { [key: string]: string | undefined };
+  AnalyticsMetadata?: AnalyticsMetadataType | undefined;
+  ClientMetadata?: { [key: string]: string | undefined } | undefined;
 }
 export interface CodeDeliveryDetailsType {
-  Destination?: string;
-  DeliveryMedium?: DeliveryMediumType;
-  AttributeName?: string;
+  Destination?: string | undefined;
+  DeliveryMedium?: DeliveryMediumType | undefined;
+  AttributeName?: string | undefined;
 }
 export interface ForgotPasswordResponse {
-  CodeDeliveryDetails?: CodeDeliveryDetailsType;
+  CodeDeliveryDetails?: CodeDeliveryDetailsType | undefined;
 }
 export interface GetClientTokenRequest {
   ClientId: string | redacted.Redacted<string>;
   Secret: string | redacted.Redacted<string>;
-  Scopes?: string[];
-  ClientMetadata?: { [key: string]: string | undefined };
+  Scopes?: string[] | undefined;
+  ClientMetadata?: { [key: string]: string | undefined } | undefined;
 }
 export interface ClientAuthenticationResultType {
-  AccessToken?: string | redacted.Redacted<string>;
-  ExpiresIn?: number;
-  TokenType?: string;
+  AccessToken?: string | redacted.Redacted<string> | undefined;
+  ExpiresIn?: number | undefined;
+  TokenType?: string | undefined;
 }
 export interface GetClientTokenResponse {
-  ClientAuthenticationResult?: ClientAuthenticationResultType;
+  ClientAuthenticationResult?: ClientAuthenticationResultType | undefined;
 }
 export interface GetCSVHeaderRequest {
   UserPoolId: string;
 }
 export type ListOfStringTypes = string[];
 export interface GetCSVHeaderResponse {
-  UserPoolId?: string;
-  CSVHeader?: string[];
+  UserPoolId?: string | undefined;
+  CSVHeader?: string[] | undefined;
 }
 export interface GetDeviceRequest {
   DeviceKey: string;
-  AccessToken?: string | redacted.Redacted<string>;
+  AccessToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetDeviceResponse {
   Device: DeviceType;
@@ -1879,7 +1879,7 @@ export interface GetGroupRequest {
   UserPoolId: string;
 }
 export interface GetGroupResponse {
-  Group?: GroupType;
+  Group?: GroupType | undefined;
 }
 export interface GetIdentityProviderByIdentifierRequest {
   UserPoolId: string;
@@ -1894,21 +1894,21 @@ export interface GetLogDeliveryConfigurationRequest {
 export type LogLevel = "ERROR" | "INFO" | (string & {});
 export type EventSourceName = "userNotification" | "userAuthEvents" | (string & {});
 export interface CloudWatchLogsConfigurationType {
-  LogGroupArn?: string;
+  LogGroupArn?: string | undefined;
 }
 export type S3ArnType = string;
 export interface S3ConfigurationType {
-  BucketArn?: string;
+  BucketArn?: string | undefined;
 }
 export interface FirehoseConfigurationType {
-  StreamArn?: string;
+  StreamArn?: string | undefined;
 }
 export interface LogConfigurationType {
   LogLevel: LogLevel;
   EventSource: EventSourceName;
-  CloudWatchLogsConfiguration?: CloudWatchLogsConfigurationType;
-  S3Configuration?: S3ConfigurationType;
-  FirehoseConfiguration?: FirehoseConfigurationType;
+  CloudWatchLogsConfiguration?: CloudWatchLogsConfigurationType | undefined;
+  S3Configuration?: S3ConfigurationType | undefined;
+  FirehoseConfiguration?: FirehoseConfigurationType | undefined;
 }
 export type LogConfigurationListType = LogConfigurationType[];
 export interface LogDeliveryConfigurationType {
@@ -1916,7 +1916,7 @@ export interface LogDeliveryConfigurationType {
   LogConfigurations: LogConfigurationType[];
 }
 export interface GetLogDeliveryConfigurationResponse {
-  LogDeliveryConfiguration?: LogDeliveryConfigurationType;
+  LogDeliveryConfiguration?: LogDeliveryConfigurationType | undefined;
 }
 export type LimitClass = "API_CATEGORY" | (string & {});
 export type StringToStringMapType = { [key: string]: string | undefined };
@@ -1939,33 +1939,33 @@ export interface GetSigningCertificateRequest {
   UserPoolId: string;
 }
 export interface GetSigningCertificateResponse {
-  Certificate?: string;
+  Certificate?: string | undefined;
 }
 export interface GetTokensFromRefreshTokenRequest {
   RefreshToken: string | redacted.Redacted<string>;
   ClientId: string | redacted.Redacted<string>;
-  ClientSecret?: string | redacted.Redacted<string>;
-  DeviceKey?: string;
-  ClientMetadata?: { [key: string]: string | undefined };
+  ClientSecret?: string | redacted.Redacted<string> | undefined;
+  DeviceKey?: string | undefined;
+  ClientMetadata?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetTokensFromRefreshTokenResponse {
-  AuthenticationResult?: AuthenticationResultType;
+  AuthenticationResult?: AuthenticationResultType | undefined;
 }
 export interface GetUICustomizationRequest {
   UserPoolId: string;
-  ClientId?: string | redacted.Redacted<string>;
+  ClientId?: string | redacted.Redacted<string> | undefined;
 }
 export type ImageUrlType = string;
 export type CSSType = string;
 export type CSSVersionType = string;
 export interface UICustomizationType {
-  UserPoolId?: string;
-  ClientId?: string | redacted.Redacted<string>;
-  ImageUrl?: string;
-  CSS?: string;
-  CSSVersion?: string;
-  LastModifiedDate?: Date;
-  CreationDate?: Date;
+  UserPoolId?: string | undefined;
+  ClientId?: string | redacted.Redacted<string> | undefined;
+  ImageUrl?: string | undefined;
+  CSS?: string | undefined;
+  CSSVersion?: string | undefined;
+  LastModifiedDate?: Date | undefined;
+  CreationDate?: Date | undefined;
 }
 export interface GetUICustomizationResponse {
   UICustomization: UICustomizationType;
@@ -1976,42 +1976,42 @@ export interface GetUserRequest {
 export interface GetUserResponse {
   Username: string | redacted.Redacted<string>;
   UserAttributes: AttributeType[];
-  MFAOptions?: MFAOptionType[];
-  PreferredMfaSetting?: string;
-  UserMFASettingList?: string[];
+  MFAOptions?: MFAOptionType[] | undefined;
+  PreferredMfaSetting?: string | undefined;
+  UserMFASettingList?: string[] | undefined;
 }
 export interface GetUserAttributeVerificationCodeRequest {
   AccessToken: string | redacted.Redacted<string>;
   AttributeName: string;
-  ClientMetadata?: { [key: string]: string | undefined };
+  ClientMetadata?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetUserAttributeVerificationCodeResponse {
-  CodeDeliveryDetails?: CodeDeliveryDetailsType;
+  CodeDeliveryDetails?: CodeDeliveryDetailsType | undefined;
 }
 export interface GetUserAuthFactorsRequest {
   AccessToken: string | redacted.Redacted<string>;
 }
 export interface GetUserAuthFactorsResponse {
   Username: string | redacted.Redacted<string>;
-  PreferredMfaSetting?: string;
-  UserMFASettingList?: string[];
-  ConfiguredUserAuthFactors?: AuthFactorType[];
+  PreferredMfaSetting?: string | undefined;
+  UserMFASettingList?: string[] | undefined;
+  ConfiguredUserAuthFactors?: AuthFactorType[] | undefined;
 }
 export interface GetUserPoolMfaConfigRequest {
   UserPoolId: string;
 }
 export interface SmsMfaConfigType {
-  SmsAuthenticationMessage?: string;
-  SmsConfiguration?: SmsConfigurationType;
+  SmsAuthenticationMessage?: string | undefined;
+  SmsConfiguration?: SmsConfigurationType | undefined;
 }
 export interface SoftwareTokenMfaConfigType {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export type EmailMfaMessageType = string;
 export type EmailMfaSubjectType = string;
 export interface EmailMfaConfigType {
-  Message?: string;
-  Subject?: string;
+  Message?: string | undefined;
+  Subject?: string | undefined;
 }
 export type RelyingPartyIdType = string;
 export type UserVerificationType = "required" | "preferred" | (string & {});
@@ -2020,16 +2020,16 @@ export type WebAuthnFactorConfigurationType =
   | "MULTI_FACTOR_WITH_USER_VERIFICATION"
   | (string & {});
 export interface WebAuthnConfigurationType {
-  RelyingPartyId?: string;
-  UserVerification?: UserVerificationType;
-  FactorConfiguration?: WebAuthnFactorConfigurationType;
+  RelyingPartyId?: string | undefined;
+  UserVerification?: UserVerificationType | undefined;
+  FactorConfiguration?: WebAuthnFactorConfigurationType | undefined;
 }
 export interface GetUserPoolMfaConfigResponse {
-  SmsMfaConfiguration?: SmsMfaConfigType;
-  SoftwareTokenMfaConfiguration?: SoftwareTokenMfaConfigType;
-  EmailMfaConfiguration?: EmailMfaConfigType;
-  MfaConfiguration?: UserPoolMfaType;
-  WebAuthnConfiguration?: WebAuthnConfigurationType;
+  SmsMfaConfiguration?: SmsMfaConfigType | undefined;
+  SoftwareTokenMfaConfiguration?: SoftwareTokenMfaConfigType | undefined;
+  EmailMfaConfiguration?: EmailMfaConfigType | undefined;
+  MfaConfiguration?: UserPoolMfaType | undefined;
+  WebAuthnConfiguration?: WebAuthnConfigurationType | undefined;
 }
 export interface GlobalSignOutRequest {
   AccessToken: string | redacted.Redacted<string>;
@@ -2037,78 +2037,78 @@ export interface GlobalSignOutRequest {
 export interface GlobalSignOutResponse {}
 export interface InitiateAuthRequest {
   AuthFlow: AuthFlowType;
-  AuthParameters?: { [key: string]: string | undefined };
-  ClientMetadata?: { [key: string]: string | undefined };
+  AuthParameters?: { [key: string]: string | undefined } | undefined;
+  ClientMetadata?: { [key: string]: string | undefined } | undefined;
   ClientId: string | redacted.Redacted<string>;
-  AnalyticsMetadata?: AnalyticsMetadataType;
-  UserContextData?: UserContextDataType;
-  Session?: string | redacted.Redacted<string>;
+  AnalyticsMetadata?: AnalyticsMetadataType | undefined;
+  UserContextData?: UserContextDataType | undefined;
+  Session?: string | redacted.Redacted<string> | undefined;
 }
 export interface InitiateAuthResponse {
-  ChallengeName?: ChallengeNameType;
-  Session?: string | redacted.Redacted<string>;
-  ChallengeParameters?: { [key: string]: string | undefined };
-  AuthenticationResult?: AuthenticationResultType;
-  AvailableChallenges?: ChallengeNameType[];
+  ChallengeName?: ChallengeNameType | undefined;
+  Session?: string | redacted.Redacted<string> | undefined;
+  ChallengeParameters?: { [key: string]: string | undefined } | undefined;
+  AuthenticationResult?: AuthenticationResultType | undefined;
+  AvailableChallenges?: ChallengeNameType[] | undefined;
 }
 export interface ListDevicesRequest {
   AccessToken: string | redacted.Redacted<string>;
-  Limit?: number;
-  PaginationToken?: string;
+  Limit?: number | undefined;
+  PaginationToken?: string | undefined;
 }
 export interface ListDevicesResponse {
-  Devices?: DeviceType[];
-  PaginationToken?: string;
+  Devices?: DeviceType[] | undefined;
+  PaginationToken?: string | undefined;
 }
 export interface ListGroupsRequest {
   UserPoolId: string;
-  Limit?: number;
-  NextToken?: string;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListGroupsResponse {
-  Groups?: GroupType[];
-  NextToken?: string;
+  Groups?: GroupType[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListProvidersLimitType = number;
 export type PaginationKeyType = string;
 export interface ListIdentityProvidersRequest {
   UserPoolId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ProviderDescription {
-  ProviderName?: string;
-  ProviderType?: IdentityProviderTypeType;
-  LastModifiedDate?: Date;
-  CreationDate?: Date;
+  ProviderName?: string | undefined;
+  ProviderType?: IdentityProviderTypeType | undefined;
+  LastModifiedDate?: Date | undefined;
+  CreationDate?: Date | undefined;
 }
 export type ProvidersListType = ProviderDescription[];
 export interface ListIdentityProvidersResponse {
   Providers: ProviderDescription[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ListResourceServersLimitType = number;
 export interface ListResourceServersRequest {
   UserPoolId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ResourceServersListType = ResourceServerType[];
 export interface ListResourceServersResponse {
   ResourceServers: ResourceServerType[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ListTermsRequestMaxResultsInteger = number;
 export interface ListTermsRequest {
   UserPoolId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface TermsDescriptionType {
   TermsId: string;
@@ -2120,102 +2120,102 @@ export interface TermsDescriptionType {
 export type TermsDescriptionListType = TermsDescriptionType[];
 export interface ListTermsResponse {
   Terms: TermsDescriptionType[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type PoolQueryLimitType = number;
 export interface ListUserImportJobsRequest {
   UserPoolId: string;
   MaxResults: number;
-  PaginationToken?: string;
+  PaginationToken?: string | undefined;
 }
 export type UserImportJobsListType = UserImportJobType[];
 export interface ListUserImportJobsResponse {
-  UserImportJobs?: UserImportJobType[];
-  PaginationToken?: string;
+  UserImportJobs?: UserImportJobType[] | undefined;
+  PaginationToken?: string | undefined;
 }
 export type QueryLimit = number;
 export interface ListUserPoolClientsRequest {
   UserPoolId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface UserPoolClientDescription {
-  ClientId?: string | redacted.Redacted<string>;
-  UserPoolId?: string;
-  ClientName?: string;
+  ClientId?: string | redacted.Redacted<string> | undefined;
+  UserPoolId?: string | undefined;
+  ClientName?: string | undefined;
 }
 export type UserPoolClientListType = UserPoolClientDescription[];
 export interface ListUserPoolClientsResponse {
-  UserPoolClients?: UserPoolClientDescription[];
-  NextToken?: string;
+  UserPoolClients?: UserPoolClientDescription[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListUserPoolClientSecretsRequest {
   UserPoolId: string;
   ClientId: string | redacted.Redacted<string>;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ClientSecretDescriptorListType = ClientSecretDescriptorType[];
 export interface ListUserPoolClientSecretsResponse {
-  ClientSecrets?: ClientSecretDescriptorType[];
-  NextToken?: string;
+  ClientSecrets?: ClientSecretDescriptorType[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListUserPoolReplicasRequest {
   UserPoolId: string;
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type UserPoolReplicaListType = UserPoolReplicaType[];
 export interface ListUserPoolReplicasResponse {
-  UserPoolReplicas?: UserPoolReplicaType[];
-  NextToken?: string;
+  UserPoolReplicas?: UserPoolReplicaType[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListUserPoolsRequest {
-  NextToken?: string;
+  NextToken?: string | undefined;
   MaxResults: number;
 }
 export type ReplicaRegionsType = string[];
 export interface UserPoolDescriptionType {
-  Id?: string;
-  Name?: string;
-  LambdaConfig?: LambdaConfigType;
-  Status?: StatusType;
-  LastModifiedDate?: Date;
-  CreationDate?: Date;
-  ReplicaRegions?: string[];
+  Id?: string | undefined;
+  Name?: string | undefined;
+  LambdaConfig?: LambdaConfigType | undefined;
+  Status?: StatusType | undefined;
+  LastModifiedDate?: Date | undefined;
+  CreationDate?: Date | undefined;
+  ReplicaRegions?: string[] | undefined;
 }
 export type UserPoolListType = UserPoolDescriptionType[];
 export interface ListUserPoolsResponse {
-  UserPools?: UserPoolDescriptionType[];
-  NextToken?: string;
+  UserPools?: UserPoolDescriptionType[] | undefined;
+  NextToken?: string | undefined;
 }
 export type SearchedAttributeNamesListType = string[];
 export type UserFilterType = string;
 export interface ListUsersRequest {
   UserPoolId: string;
-  AttributesToGet?: string[];
-  Limit?: number;
-  PaginationToken?: string;
-  Filter?: string;
+  AttributesToGet?: string[] | undefined;
+  Limit?: number | undefined;
+  PaginationToken?: string | undefined;
+  Filter?: string | undefined;
 }
 export type UsersListType = UserType[];
 export interface ListUsersResponse {
-  Users?: UserType[];
-  PaginationToken?: string;
+  Users?: UserType[] | undefined;
+  PaginationToken?: string | undefined;
 }
 export interface ListUsersInGroupRequest {
   UserPoolId: string;
   GroupName: string;
-  Limit?: number;
-  NextToken?: string;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListUsersInGroupResponse {
-  Users?: UserType[];
-  NextToken?: string;
+  Users?: UserType[] | undefined;
+  NextToken?: string | undefined;
 }
 export type WebAuthnCredentialsQueryLimitType = number;
 export interface ListWebAuthnCredentialsRequest {
   AccessToken: string | redacted.Redacted<string>;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type WebAuthnAuthenticatorAttachmentType = string;
 export type WebAuthnAuthenticatorTransportType = string;
@@ -2224,46 +2224,46 @@ export interface WebAuthnCredentialDescription {
   CredentialId: string;
   FriendlyCredentialName: string;
   RelyingPartyId: string;
-  AuthenticatorAttachment?: string;
+  AuthenticatorAttachment?: string | undefined;
   AuthenticatorTransports: string[];
   CreatedAt: Date;
 }
 export type WebAuthnCredentialDescriptionListType = WebAuthnCredentialDescription[];
 export interface ListWebAuthnCredentialsResponse {
   Credentials: WebAuthnCredentialDescription[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ResendConfirmationCodeRequest {
   ClientId: string | redacted.Redacted<string>;
-  SecretHash?: string | redacted.Redacted<string>;
-  UserContextData?: UserContextDataType;
+  SecretHash?: string | redacted.Redacted<string> | undefined;
+  UserContextData?: UserContextDataType | undefined;
   Username: string | redacted.Redacted<string>;
-  AnalyticsMetadata?: AnalyticsMetadataType;
-  ClientMetadata?: { [key: string]: string | undefined };
+  AnalyticsMetadata?: AnalyticsMetadataType | undefined;
+  ClientMetadata?: { [key: string]: string | undefined } | undefined;
 }
 export interface ResendConfirmationCodeResponse {
-  CodeDeliveryDetails?: CodeDeliveryDetailsType;
+  CodeDeliveryDetails?: CodeDeliveryDetailsType | undefined;
 }
 export interface RespondToAuthChallengeRequest {
   ClientId: string | redacted.Redacted<string>;
   ChallengeName: ChallengeNameType;
-  Session?: string | redacted.Redacted<string>;
-  ChallengeResponses?: { [key: string]: string | undefined };
-  AnalyticsMetadata?: AnalyticsMetadataType;
-  UserContextData?: UserContextDataType;
-  ClientMetadata?: { [key: string]: string | undefined };
+  Session?: string | redacted.Redacted<string> | undefined;
+  ChallengeResponses?: { [key: string]: string | undefined } | undefined;
+  AnalyticsMetadata?: AnalyticsMetadataType | undefined;
+  UserContextData?: UserContextDataType | undefined;
+  ClientMetadata?: { [key: string]: string | undefined } | undefined;
 }
 export interface RespondToAuthChallengeResponse {
-  ChallengeName?: ChallengeNameType;
-  Session?: string | redacted.Redacted<string>;
-  ChallengeParameters?: { [key: string]: string | undefined };
-  AuthenticationResult?: AuthenticationResultType;
-  AvailableChallenges?: ChallengeNameType[];
+  ChallengeName?: ChallengeNameType | undefined;
+  Session?: string | redacted.Redacted<string> | undefined;
+  ChallengeParameters?: { [key: string]: string | undefined } | undefined;
+  AuthenticationResult?: AuthenticationResultType | undefined;
+  AvailableChallenges?: ChallengeNameType[] | undefined;
 }
 export interface RevokeTokenRequest {
   Token: string | redacted.Redacted<string>;
   ClientId: string | redacted.Redacted<string>;
-  ClientSecret?: string | redacted.Redacted<string>;
+  ClientSecret?: string | redacted.Redacted<string> | undefined;
 }
 export interface RevokeTokenResponse {}
 export interface SetLogDeliveryConfigurationRequest {
@@ -2271,14 +2271,14 @@ export interface SetLogDeliveryConfigurationRequest {
   LogConfigurations: LogConfigurationType[];
 }
 export interface SetLogDeliveryConfigurationResponse {
-  LogDeliveryConfiguration?: LogDeliveryConfigurationType;
+  LogDeliveryConfiguration?: LogDeliveryConfigurationType | undefined;
 }
 export interface SetRiskConfigurationRequest {
   UserPoolId: string;
-  ClientId?: string | redacted.Redacted<string>;
-  CompromisedCredentialsRiskConfiguration?: CompromisedCredentialsRiskConfigurationType;
-  AccountTakeoverRiskConfiguration?: AccountTakeoverRiskConfigurationType;
-  RiskExceptionConfiguration?: RiskExceptionConfigurationType;
+  ClientId?: string | redacted.Redacted<string> | undefined;
+  CompromisedCredentialsRiskConfiguration?: CompromisedCredentialsRiskConfigurationType | undefined;
+  AccountTakeoverRiskConfiguration?: AccountTakeoverRiskConfigurationType | undefined;
+  RiskExceptionConfiguration?: RiskExceptionConfigurationType | undefined;
 }
 export interface SetRiskConfigurationResponse {
   RiskConfiguration: RiskConfigurationType;
@@ -2286,35 +2286,35 @@ export interface SetRiskConfigurationResponse {
 export type ImageFileType = Uint8Array;
 export interface SetUICustomizationRequest {
   UserPoolId: string;
-  ClientId?: string | redacted.Redacted<string>;
-  CSS?: string;
-  ImageFile?: Uint8Array;
+  ClientId?: string | redacted.Redacted<string> | undefined;
+  CSS?: string | undefined;
+  ImageFile?: Uint8Array | undefined;
 }
 export interface SetUICustomizationResponse {
   UICustomization: UICustomizationType;
 }
 export interface SetUserMFAPreferenceRequest {
-  SMSMfaSettings?: SMSMfaSettingsType;
-  SoftwareTokenMfaSettings?: SoftwareTokenMfaSettingsType;
-  EmailMfaSettings?: EmailMfaSettingsType;
-  WebAuthnMfaSettings?: WebAuthnMfaSettingsType;
+  SMSMfaSettings?: SMSMfaSettingsType | undefined;
+  SoftwareTokenMfaSettings?: SoftwareTokenMfaSettingsType | undefined;
+  EmailMfaSettings?: EmailMfaSettingsType | undefined;
+  WebAuthnMfaSettings?: WebAuthnMfaSettingsType | undefined;
   AccessToken: string | redacted.Redacted<string>;
 }
 export interface SetUserMFAPreferenceResponse {}
 export interface SetUserPoolMfaConfigRequest {
   UserPoolId: string;
-  SmsMfaConfiguration?: SmsMfaConfigType;
-  SoftwareTokenMfaConfiguration?: SoftwareTokenMfaConfigType;
-  EmailMfaConfiguration?: EmailMfaConfigType;
-  MfaConfiguration?: UserPoolMfaType;
-  WebAuthnConfiguration?: WebAuthnConfigurationType;
+  SmsMfaConfiguration?: SmsMfaConfigType | undefined;
+  SoftwareTokenMfaConfiguration?: SoftwareTokenMfaConfigType | undefined;
+  EmailMfaConfiguration?: EmailMfaConfigType | undefined;
+  MfaConfiguration?: UserPoolMfaType | undefined;
+  WebAuthnConfiguration?: WebAuthnConfigurationType | undefined;
 }
 export interface SetUserPoolMfaConfigResponse {
-  SmsMfaConfiguration?: SmsMfaConfigType;
-  SoftwareTokenMfaConfiguration?: SoftwareTokenMfaConfigType;
-  EmailMfaConfiguration?: EmailMfaConfigType;
-  MfaConfiguration?: UserPoolMfaType;
-  WebAuthnConfiguration?: WebAuthnConfigurationType;
+  SmsMfaConfiguration?: SmsMfaConfigType | undefined;
+  SoftwareTokenMfaConfiguration?: SoftwareTokenMfaConfigType | undefined;
+  EmailMfaConfiguration?: EmailMfaConfigType | undefined;
+  MfaConfiguration?: UserPoolMfaType | undefined;
+  WebAuthnConfiguration?: WebAuthnConfigurationType | undefined;
 }
 export interface SetUserSettingsRequest {
   AccessToken: string | redacted.Redacted<string>;
@@ -2323,27 +2323,27 @@ export interface SetUserSettingsRequest {
 export interface SetUserSettingsResponse {}
 export interface SignUpRequest {
   ClientId: string | redacted.Redacted<string>;
-  SecretHash?: string | redacted.Redacted<string>;
+  SecretHash?: string | redacted.Redacted<string> | undefined;
   Username: string | redacted.Redacted<string>;
-  Password?: string | redacted.Redacted<string>;
-  UserAttributes?: AttributeType[];
-  ValidationData?: AttributeType[];
-  AnalyticsMetadata?: AnalyticsMetadataType;
-  UserContextData?: UserContextDataType;
-  ClientMetadata?: { [key: string]: string | undefined };
+  Password?: string | redacted.Redacted<string> | undefined;
+  UserAttributes?: AttributeType[] | undefined;
+  ValidationData?: AttributeType[] | undefined;
+  AnalyticsMetadata?: AnalyticsMetadataType | undefined;
+  UserContextData?: UserContextDataType | undefined;
+  ClientMetadata?: { [key: string]: string | undefined } | undefined;
 }
 export interface SignUpResponse {
   UserConfirmed: boolean;
-  CodeDeliveryDetails?: CodeDeliveryDetailsType;
+  CodeDeliveryDetails?: CodeDeliveryDetailsType | undefined;
   UserSub: string;
-  Session?: string | redacted.Redacted<string>;
+  Session?: string | redacted.Redacted<string> | undefined;
 }
 export interface StartUserImportJobRequest {
   UserPoolId: string;
   JobId: string;
 }
 export interface StartUserImportJobResponse {
-  UserImportJob?: UserImportJobType;
+  UserImportJob?: UserImportJobType | undefined;
 }
 export interface StartWebAuthnRegistrationRequest {
   AccessToken: string | redacted.Redacted<string>;
@@ -2356,7 +2356,7 @@ export interface StopUserImportJobRequest {
   JobId: string;
 }
 export interface StopUserImportJobResponse {
-  UserImportJob?: UserImportJobType;
+  UserImportJob?: UserImportJobType | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -2380,39 +2380,39 @@ export interface UpdateAuthEventFeedbackResponse {}
 export interface UpdateDeviceStatusRequest {
   AccessToken: string | redacted.Redacted<string>;
   DeviceKey: string;
-  DeviceRememberedStatus?: DeviceRememberedStatusType;
+  DeviceRememberedStatus?: DeviceRememberedStatusType | undefined;
 }
 export interface UpdateDeviceStatusResponse {}
 export interface UpdateGroupRequest {
   GroupName: string;
   UserPoolId: string;
-  Description?: string;
-  RoleArn?: string;
-  Precedence?: number;
+  Description?: string | undefined;
+  RoleArn?: string | undefined;
+  Precedence?: number | undefined;
 }
 export interface UpdateGroupResponse {
-  Group?: GroupType;
+  Group?: GroupType | undefined;
 }
 export interface UpdateIdentityProviderRequest {
   UserPoolId: string;
   ProviderName: string;
-  ProviderDetails?: { [key: string]: string | undefined };
-  AttributeMapping?: { [key: string]: string | undefined };
-  IdpIdentifiers?: string[];
-  AcrMapping?: { [key: string]: string | undefined };
+  ProviderDetails?: { [key: string]: string | undefined } | undefined;
+  AttributeMapping?: { [key: string]: string | undefined } | undefined;
+  IdpIdentifiers?: string[] | undefined;
+  AcrMapping?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateIdentityProviderResponse {
   IdentityProvider: IdentityProviderType;
 }
 export interface UpdateManagedLoginBrandingRequest {
-  UserPoolId?: string;
-  ManagedLoginBrandingId?: string;
-  UseCognitoProvidedValues?: boolean;
-  Settings?: any;
-  Assets?: AssetType[];
+  UserPoolId?: string | undefined;
+  ManagedLoginBrandingId?: string | undefined;
+  UseCognitoProvidedValues?: boolean | undefined;
+  Settings?: any | undefined;
+  Assets?: AssetType[] | undefined;
 }
 export interface UpdateManagedLoginBrandingResponse {
-  ManagedLoginBranding?: ManagedLoginBrandingType;
+  ManagedLoginBranding?: ManagedLoginBrandingType | undefined;
 }
 export interface UpdateProvisionedLimitRequest {
   LimitDefinition: LimitDefinitionType;
@@ -2425,7 +2425,7 @@ export interface UpdateResourceServerRequest {
   UserPoolId: string;
   Identifier: string;
   Name: string;
-  Scopes?: ResourceServerScopeType[];
+  Scopes?: ResourceServerScopeType[] | undefined;
 }
 export interface UpdateResourceServerResponse {
   ResourceServer: ResourceServerType;
@@ -2433,89 +2433,89 @@ export interface UpdateResourceServerResponse {
 export interface UpdateTermsRequest {
   TermsId: string;
   UserPoolId: string;
-  TermsName?: string;
-  TermsSource?: TermsSourceType;
-  Enforcement?: TermsEnforcementType;
-  Links?: { [key: string]: string | undefined };
+  TermsName?: string | undefined;
+  TermsSource?: TermsSourceType | undefined;
+  Enforcement?: TermsEnforcementType | undefined;
+  Links?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateTermsResponse {
-  Terms?: TermsType;
+  Terms?: TermsType | undefined;
 }
 export interface UpdateUserAttributesRequest {
   UserAttributes: AttributeType[];
   AccessToken: string | redacted.Redacted<string>;
-  ClientMetadata?: { [key: string]: string | undefined };
+  ClientMetadata?: { [key: string]: string | undefined } | undefined;
 }
 export type CodeDeliveryDetailsListType = CodeDeliveryDetailsType[];
 export interface UpdateUserAttributesResponse {
-  CodeDeliveryDetailsList?: CodeDeliveryDetailsType[];
+  CodeDeliveryDetailsList?: CodeDeliveryDetailsType[] | undefined;
 }
 export interface UpdateUserPoolRequest {
   UserPoolId: string;
-  Policies?: UserPoolPolicyType;
-  DeletionProtection?: DeletionProtectionType;
-  LambdaConfig?: LambdaConfigType;
-  AutoVerifiedAttributes?: VerifiedAttributeType[];
-  SmsVerificationMessage?: string;
-  EmailVerificationMessage?: string;
-  EmailVerificationSubject?: string;
-  VerificationMessageTemplate?: VerificationMessageTemplateType;
-  SmsAuthenticationMessage?: string;
-  UserAttributeUpdateSettings?: UserAttributeUpdateSettingsType;
-  MfaConfiguration?: UserPoolMfaType;
-  DeviceConfiguration?: DeviceConfigurationType;
-  EmailConfiguration?: EmailConfigurationType;
-  SmsConfiguration?: SmsConfigurationType;
-  UserPoolTags?: { [key: string]: string | undefined };
-  AdminCreateUserConfig?: AdminCreateUserConfigType;
-  UserPoolAddOns?: UserPoolAddOnsType;
-  AccountRecoverySetting?: AccountRecoverySettingType;
-  PoolName?: string;
-  UserPoolTier?: UserPoolTierType;
-  KeyConfiguration?: KeyConfigurationType;
-  IssuerConfiguration?: IssuerConfigurationType;
-  AcrConfiguration?: { [key: string]: AcrLevelConfigType | undefined };
+  Policies?: UserPoolPolicyType | undefined;
+  DeletionProtection?: DeletionProtectionType | undefined;
+  LambdaConfig?: LambdaConfigType | undefined;
+  AutoVerifiedAttributes?: VerifiedAttributeType[] | undefined;
+  SmsVerificationMessage?: string | undefined;
+  EmailVerificationMessage?: string | undefined;
+  EmailVerificationSubject?: string | undefined;
+  VerificationMessageTemplate?: VerificationMessageTemplateType | undefined;
+  SmsAuthenticationMessage?: string | undefined;
+  UserAttributeUpdateSettings?: UserAttributeUpdateSettingsType | undefined;
+  MfaConfiguration?: UserPoolMfaType | undefined;
+  DeviceConfiguration?: DeviceConfigurationType | undefined;
+  EmailConfiguration?: EmailConfigurationType | undefined;
+  SmsConfiguration?: SmsConfigurationType | undefined;
+  UserPoolTags?: { [key: string]: string | undefined } | undefined;
+  AdminCreateUserConfig?: AdminCreateUserConfigType | undefined;
+  UserPoolAddOns?: UserPoolAddOnsType | undefined;
+  AccountRecoverySetting?: AccountRecoverySettingType | undefined;
+  PoolName?: string | undefined;
+  UserPoolTier?: UserPoolTierType | undefined;
+  KeyConfiguration?: KeyConfigurationType | undefined;
+  IssuerConfiguration?: IssuerConfigurationType | undefined;
+  AcrConfiguration?: { [key: string]: AcrLevelConfigType | undefined } | undefined;
 }
 export interface UpdateUserPoolResponse {}
 export interface UpdateUserPoolClientRequest {
   UserPoolId: string;
   ClientId: string | redacted.Redacted<string>;
-  ClientName?: string;
-  RefreshTokenValidity?: number;
-  AccessTokenValidity?: number;
-  IdTokenValidity?: number;
-  TokenValidityUnits?: TokenValidityUnitsType;
-  ReadAttributes?: string[];
-  WriteAttributes?: string[];
-  ExplicitAuthFlows?: ExplicitAuthFlowsType[];
-  SupportedIdentityProviders?: string[];
-  CallbackURLs?: string[];
-  LogoutURLs?: string[];
-  DefaultRedirectURI?: string;
-  AllowedOAuthFlows?: OAuthFlowType[];
-  AllowedOAuthScopes?: string[];
-  AllowedOAuthFlowsUserPoolClient?: boolean;
-  AnalyticsConfiguration?: AnalyticsConfigurationType;
-  PreventUserExistenceErrors?: PreventUserExistenceErrorTypes;
-  EnableTokenRevocation?: boolean;
-  EnablePropagateAdditionalUserContextData?: boolean;
-  AuthSessionValidity?: number;
-  RefreshTokenRotation?: RefreshTokenRotationType;
+  ClientName?: string | undefined;
+  RefreshTokenValidity?: number | undefined;
+  AccessTokenValidity?: number | undefined;
+  IdTokenValidity?: number | undefined;
+  TokenValidityUnits?: TokenValidityUnitsType | undefined;
+  ReadAttributes?: string[] | undefined;
+  WriteAttributes?: string[] | undefined;
+  ExplicitAuthFlows?: ExplicitAuthFlowsType[] | undefined;
+  SupportedIdentityProviders?: string[] | undefined;
+  CallbackURLs?: string[] | undefined;
+  LogoutURLs?: string[] | undefined;
+  DefaultRedirectURI?: string | undefined;
+  AllowedOAuthFlows?: OAuthFlowType[] | undefined;
+  AllowedOAuthScopes?: string[] | undefined;
+  AllowedOAuthFlowsUserPoolClient?: boolean | undefined;
+  AnalyticsConfiguration?: AnalyticsConfigurationType | undefined;
+  PreventUserExistenceErrors?: PreventUserExistenceErrorTypes | undefined;
+  EnableTokenRevocation?: boolean | undefined;
+  EnablePropagateAdditionalUserContextData?: boolean | undefined;
+  AuthSessionValidity?: number | undefined;
+  RefreshTokenRotation?: RefreshTokenRotationType | undefined;
 }
 export interface UpdateUserPoolClientResponse {
-  UserPoolClient?: UserPoolClientType;
+  UserPoolClient?: UserPoolClientType | undefined;
 }
 export interface UpdateUserPoolDomainRequest {
   Domain: string;
   UserPoolId: string;
-  ManagedLoginVersion?: number;
-  CustomDomainConfig?: CustomDomainConfigType;
-  Routing?: RoutingType;
+  ManagedLoginVersion?: number | undefined;
+  CustomDomainConfig?: CustomDomainConfigType | undefined;
+  Routing?: RoutingType | undefined;
 }
 export interface UpdateUserPoolDomainResponse {
-  ManagedLoginVersion?: number;
-  CloudFrontDomain?: string;
-  Routing?: RoutingType;
+  ManagedLoginVersion?: number | undefined;
+  CloudFrontDomain?: string | undefined;
+  Routing?: RoutingType | undefined;
 }
 export type UpdateReplicaStatusType = "ACTIVE" | "INACTIVE" | (string & {});
 export interface UpdateUserPoolReplicaRequest {
@@ -2524,19 +2524,19 @@ export interface UpdateUserPoolReplicaRequest {
   Status: UpdateReplicaStatusType;
 }
 export interface UpdateUserPoolReplicaResponse {
-  UserPoolReplica?: UserPoolReplicaType;
+  UserPoolReplica?: UserPoolReplicaType | undefined;
 }
 export type SoftwareTokenMFAUserCodeType = string | redacted.Redacted<string>;
 export interface VerifySoftwareTokenRequest {
-  AccessToken?: string | redacted.Redacted<string>;
-  Session?: string | redacted.Redacted<string>;
+  AccessToken?: string | redacted.Redacted<string> | undefined;
+  Session?: string | redacted.Redacted<string> | undefined;
   UserCode: string | redacted.Redacted<string>;
-  FriendlyDeviceName?: string;
+  FriendlyDeviceName?: string | undefined;
 }
 export type VerifySoftwareTokenResponseType = "SUCCESS" | "ERROR" | (string & {});
 export interface VerifySoftwareTokenResponse {
-  Status?: VerifySoftwareTokenResponseType;
-  Session?: string | redacted.Redacted<string>;
+  Status?: VerifySoftwareTokenResponseType | undefined;
+  Session?: string | redacted.Redacted<string> | undefined;
 }
 export interface VerifyUserAttributeRequest {
   AccessToken: string | redacted.Redacted<string>;

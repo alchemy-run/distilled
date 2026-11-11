@@ -68,9 +68,9 @@ export type AdGroupAudiencesBodyIncludeList = Array<string>;
 /** Saved audiences to deliver to or exclude. Can't be combined with demographics.automatic. */
 export interface AdGroupAudiencesBody {
   /** IDs of saved audiences to exclude from delivery, prefixed `adaud_`. */
-  exclude?: AdGroupAudiencesBodyExcludeList;
+  exclude?: AdGroupAudiencesBodyExcludeList | undefined;
   /** IDs of saved audiences to deliver to, prefixed `adaud_`. */
-  include?: AdGroupAudiencesBodyIncludeList;
+  include?: AdGroupAudiencesBodyIncludeList | undefined;
 }
 /** How delivery bids are set in the ad auction. Target-based strategies use `desired_cost_per_result`. */
 export type CreateAdGroupRequestBidType = "minimum_cost" | "average_target" | "maximum_target";
@@ -111,25 +111,25 @@ export type AdGroupDemographicsBodyGender = "all" | "male" | "female";
 /** Age, gender, and automatic-audience targeting. */
 export interface AdGroupDemographicsBody {
   /** Turn on automatic audience targeting (Advantage+ on Meta): the platform can deliver beyond the ages, genders, and detailed targeting you set, treating them as suggestions. */
-  automatic?: boolean;
+  automatic?: boolean | undefined;
   /** Gender to target. */
-  gender?: AdGroupDemographicsBodyGender | (string & {});
+  gender?: AdGroupDemographicsBodyGender | (string & {}) | undefined;
   /** Oldest age to target. */
-  maximum_age?: number;
+  maximum_age?: number | undefined;
   /** Youngest age to target. */
-  minimum_age?: number;
+  minimum_age?: number | undefined;
 }
 /** On ad platforms that scope behavior categories, what this one is measured on. Send back the value the targeting_options endpoint returned alongside the id. */
 export type AdGroupDetailedTargetingBodyBehaviorsItemBehaviorType = "video" | "creator" | "hashtag";
 export interface AdGroupDetailedTargetingBodyBehaviorsItem {
   /** On ad platforms that scope behavior categories, what this one is measured on. Send back the value the targeting_options endpoint returned alongside the id. */
-  behavior_type?: AdGroupDetailedTargetingBodyBehaviorsItemBehaviorType | (string & {});
+  behavior_type?: AdGroupDetailedTargetingBodyBehaviorsItemBehaviorType | (string & {}) | undefined;
   /** The ad platform's ID for the category in its targeting taxonomy. */
   id: string;
   /** Category name, such as `Frequent travelers`. */
-  name?: string;
+  name?: string | undefined;
   /** On ad platforms that scope behavior categories, how many days of activity the category covers. */
-  period?: number;
+  period?: number | undefined;
 }
 /** Behavior categories to target, such as frequent travelers. */
 export type AdGroupDetailedTargetingBodyBehaviorsList =
@@ -148,7 +148,7 @@ export interface AdGroupDetailedTargetingBodyDemographicsItem {
   /** The ad platform's ID for the category in its targeting taxonomy. */
   id: string;
   /** Category name, such as `Recently moved`. */
-  name?: string;
+  name?: string | undefined;
   /** Kind of demographic the category belongs to. */
   type: AdGroupDetailedTargetingBodyDemographicsItemType | (string & {});
 }
@@ -159,7 +159,7 @@ export interface AdGroupDetailedTargetingBodyInterestsItem {
   /** The ad platform's ID for the category in its targeting taxonomy. */
   id: string;
   /** Category name, such as `Movies`. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Interest categories to target, such as an interest in movies. */
 export type AdGroupDetailedTargetingBodyInterestsList =
@@ -167,17 +167,17 @@ export type AdGroupDetailedTargetingBodyInterestsList =
 /** Interest, behavior, and demographic targeting, using categories from the ad platform's targeting taxonomy. Entries across interests, behaviors, and demographics are OR'd together (anyone matching any entry is reached), matching Ads Manager's detailed-targeting box. At most 100 entries per section. Can't be combined with demographics.automatic, and unavailable to campaigns with special_ad_categories. */
 export interface AdGroupDetailedTargetingBody {
   /** Behavior categories to target, such as frequent travelers. */
-  behaviors?: AdGroupDetailedTargetingBodyBehaviorsList;
+  behaviors?: AdGroupDetailedTargetingBodyBehaviorsList | undefined;
   /** Demographic categories to target, such as life events, industries, work employers, job titles, schools, or majors. */
-  demographics?: AdGroupDetailedTargetingBodyDemographicsList;
+  demographics?: AdGroupDetailedTargetingBodyDemographicsList | undefined;
   /** Interest categories to target, such as an interest in movies. */
-  interests?: AdGroupDetailedTargetingBodyInterestsList;
+  interests?: AdGroupDetailedTargetingBodyInterestsList | undefined;
 }
 /** Operating system to target. */
 export type AdGroupDevicesBodyOperatingSystemsItemOs = "ios" | "android";
 export interface AdGroupDevicesBodyOperatingSystemsItem {
   /** Lowest OS version to target, such as `18.0`. Omit to target any version. */
-  minimum_version?: string;
+  minimum_version?: string | undefined;
   /** Operating system to target. */
   os: AdGroupDevicesBodyOperatingSystemsItemOs | (string & {});
 }
@@ -191,16 +191,16 @@ export type AdGroupDevicesBodyPlatformsList = Array<
 /** Device platforms and operating systems to target. */
 export interface AdGroupDevicesBody {
   /** Operating systems to target. Empty targets all operating systems. */
-  operating_systems?: AdGroupDevicesBodyOperatingSystemsList;
+  operating_systems?: AdGroupDevicesBodyOperatingSystemsList | undefined;
   /** Device types to target. Empty targets all devices. */
-  platforms?: AdGroupDevicesBodyPlatformsList;
+  platforms?: AdGroupDevicesBodyPlatformsList | undefined;
 }
 /** Cap on how often one person sees ads from this ad group. Only available on campaigns with the `awareness` objective. */
 export interface CreateAdGroupRequestFrequencyCap {
   /** Most times one person can be shown ads from this ad group within the window. */
-  maximum_impressions?: number;
+  maximum_impressions?: number | undefined;
   /** Length of the rolling window, in days. */
-  per_days?: number;
+  per_days?: number | undefined;
 }
 /** Languages to target, as ISO 639 codes such as `en` or `es`. Empty or omitted targets all languages. */
 export type CreateAdGroupRequestLanguagesList = Array<string>;
@@ -244,7 +244,7 @@ export interface CreateAdGroupRequestPlacementsCase1Item {
   /** Platform the ads run on. */
   platform: CreateAdGroupRequestPlacementsCase1ItemPlatform | (string & {});
   /** Positions to target within the platform, such as `feed` or `story`. Omit to target all of the platform's positions. */
-  positions?: CreateAdGroupRequestPlacementsCase1ItemPositionsList;
+  positions?: CreateAdGroupRequestPlacementsCase1ItemPositionsList | undefined;
 }
 export type CreateAdGroupRequestPlacementsCase1List =
   Array<CreateAdGroupRequestPlacementsCase1Item>;
@@ -256,7 +256,7 @@ export interface AdGroupGeoLocationsBodyCitiesItem {
   /** The ad platform's key for the city in its location taxonomy. */
   key: string;
   /** City name, such as `Austin`. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Cities, keyed by the ad platform's location taxonomy. */
 export type AdGroupGeoLocationsBodyCitiesList = Array<AdGroupGeoLocationsBodyCitiesItem>;
@@ -268,15 +268,18 @@ export type AdGroupGeoLocationsBodyCountryGroupsList = Array<string>;
 export type AdGroupGeoLocationsBodyCustomLocationsItemDistanceUnit = "mile" | "kilometer";
 export interface AdGroupGeoLocationsBodyCustomLocationsItem {
   /** ISO 3166-1 alpha-2 country the point falls in, as `DE`. Send it under a special ad category: the campaign must declare the countries its ad sets reach, and a coordinate names none. */
-  country_code?: string;
+  country_code?: string | undefined;
   /** Unit for `radius`. Defaults to `mile`. */
-  distance_unit?: AdGroupGeoLocationsBodyCustomLocationsItemDistanceUnit | (string & {});
+  distance_unit?:
+    | AdGroupGeoLocationsBodyCustomLocationsItemDistanceUnit
+    | (string & {})
+    | undefined;
   /** Latitude of the center point. */
   latitude: number;
   /** Longitude of the center point. */
   longitude: number;
   /** Label for the location, such as a city or address. */
-  name?: string;
+  name?: string | undefined;
   /** Radius around the center point: 1-50 miles or 1-80 kilometers. */
   radius: number;
 }
@@ -294,24 +297,24 @@ export type AdGroupGeoLocationsBodyZipsItem = string | AdGroupGeoLocationsBodyZi
 export type AdGroupGeoLocationsBodyZipsList = Array<AdGroupGeoLocationsBodyZipsItem>;
 export interface AdGroupGeoLocationsBody {
   /** Cities, keyed by the ad platform's location taxonomy. */
-  cities?: AdGroupGeoLocationsBodyCitiesList;
+  cities?: AdGroupGeoLocationsBodyCitiesList | undefined;
   /** Countries, as ISO 3166-1 alpha-2 codes such as `US`. */
-  countries?: AdGroupGeoLocationsBodyCountriesList;
+  countries?: AdGroupGeoLocationsBodyCountriesList | undefined;
   /** Multi-country groups such as `worldwide` or `europe`. Include-only -- groups can't be excluded. */
-  country_groups?: AdGroupGeoLocationsBodyCountryGroupsList;
+  country_groups?: AdGroupGeoLocationsBodyCountryGroupsList | undefined;
   /** Circular areas, each a coordinate plus a radius. At most 200 across include and exclude. */
-  custom_locations?: AdGroupGeoLocationsBodyCustomLocationsList;
+  custom_locations?: AdGroupGeoLocationsBodyCustomLocationsList | undefined;
   /** US states and DC, as ISO 3166-2 codes such as `US-CA`. US territories (`PR`, `GU`, `VI`, `AS`, `MP`) and everywhere outside the US are targeted through `countries`. */
-  regions?: AdGroupGeoLocationsBodyRegionsList;
+  regions?: AdGroupGeoLocationsBodyRegionsList | undefined;
   /** ZIP and postal codes, keyed by the ad platform's location taxonomy. Meta keys these `COUNTRY:CODE`, as `US:78756` -- a bare code is ambiguous, because the same one exists in several countries. TikTok takes the bare code. */
-  zips?: AdGroupGeoLocationsBodyZipsList;
+  zips?: AdGroupGeoLocationsBodyZipsList | undefined;
 }
 /** Locations to target and exclude. */
 export interface AdGroupRegionsBody {
   /** Locations excluded from targeting. Country groups can't be excluded. */
-  exclude?: AdGroupGeoLocationsBody;
+  exclude?: AdGroupGeoLocationsBody | undefined;
   /** Locations the ad group targets. */
-  include?: AdGroupGeoLocationsBody;
+  include?: AdGroupGeoLocationsBody | undefined;
 }
 /** Initial status (default: `active`). */
 export type CreateAdGroupRequestStatus = "active" | "paused";
@@ -319,52 +322,52 @@ export interface CreateAdGroupRequest {
   /** The ad campaign to create the ad group in, prefixed `adcamp_`. */
   ad_campaign_id: string;
   /** Saved audiences to deliver to or exclude. Can't be combined with demographics.automatic. */
-  audiences?: AdGroupAudiencesBody;
+  audiences?: AdGroupAudiencesBody | undefined;
   /** How delivery bids are set in the ad auction. Target-based strategies use `desired_cost_per_result`. */
-  bid_type?: CreateAdGroupRequestBidType | (string & {});
+  bid_type?: CreateAdGroupRequestBidType | (string & {}) | undefined;
   /** This ad group's budget in USD, which is what it is stored and billed in. Omit when the budget is set on the campaign instead. */
-  budget_amount?: number;
+  budget_amount?: number | undefined;
   /** This ad group's budget stated in the account's ads reporting currency (`budget_currency` on the response) instead of USD. Converted to USD at the current exchange rate and stored as budget_amount; on an update, an amount equal to the current budget_amount_local keeps the stored USD budget as is. Provide this or budget_amount, not both. */
-  budget_amount_local?: number;
+  budget_amount_local?: number | undefined;
   /** Whether budget_amount is spent per day (`daily`) or over the ad group's full run (`lifetime`). */
-  budget_type?: CreateAdGroupRequestBudgetType | (string & {});
-  conversion_event?: ConversionEvent | null;
+  budget_type?: CreateAdGroupRequestBudgetType | (string & {}) | undefined;
+  conversion_event?: ConversionEvent | null | undefined;
   /** Where the outcome being optimized for occurs, such as a website visit, social-profile visit, messaging conversation, ad interaction, or lead-form submission. The lead form itself is set on the ad. */
-  conversion_location?: CreateAdGroupRequestConversionLocation | (string & {});
+  conversion_location?: CreateAdGroupRequestConversionLocation | (string & {}) | undefined;
   /** Age, gender, and automatic-audience targeting. */
-  demographics?: AdGroupDemographicsBody;
+  demographics?: AdGroupDemographicsBody | undefined;
   /** Cost per result to aim for (`average_target`) or never exceed (`maximum_target`). */
-  desired_cost_per_result?: number;
+  desired_cost_per_result?: number | undefined;
   /** Interest, behavior, and demographic targeting, using categories from the ad platform's targeting taxonomy. Entries across interests, behaviors, and demographics are OR'd together (anyone matching any entry is reached), matching Ads Manager's detailed-targeting box. At most 100 entries per section. Can't be combined with demographics.automatic, and unavailable to campaigns with special_ad_categories. Send the complete intended state -- a section you omit is cleared. */
-  detailed_targeting?: AdGroupDetailedTargetingBody;
+  detailed_targeting?: AdGroupDetailedTargetingBody | undefined;
   /** Device platforms and operating systems to target. */
-  devices?: AdGroupDevicesBody;
+  devices?: AdGroupDevicesBody | undefined;
   /** Whether the ad platform automatically mixes and matches this ad group's creatives and copy to find the best-performing combinations. Meta has deprecated it and rejects `true`; ad groups already using it keep it, and it can't be changed afterward. */
-  dynamic_creative?: boolean;
+  dynamic_creative?: boolean | undefined;
   /** When the ad group stops delivering, as an ISO 8601 timestamp. Omit to run until paused. */
-  ends_at?: string;
+  ends_at?: string | undefined;
   /** Cap on how often one person sees ads from this ad group. Only available on campaigns with the `awareness` objective. */
-  frequency_cap?: CreateAdGroupRequestFrequencyCap;
+  frequency_cap?: CreateAdGroupRequestFrequencyCap | undefined;
   /** Languages to target, as ISO 639 codes such as `en` or `es`. Empty or omitted targets all languages. */
-  languages?: CreateAdGroupRequestLanguagesList;
+  languages?: CreateAdGroupRequestLanguagesList | undefined;
   /** Apps the conversation opens in. Required when setting `conversion_location` to `messaging`, and rejected unless the ad group's conversion location is `messaging`. */
-  message_apps?: CreateAdGroupRequestMessageAppsList;
+  message_apps?: CreateAdGroupRequestMessageAppsList | undefined;
   /** Minimum the ad group tries to spend each day. */
-  minimum_daily_spend?: number;
+  minimum_daily_spend?: number | undefined;
   /** The result the ad group's delivery is optimized to get the most of. */
-  optimization_goal?: CreateAdGroupRequestOptimizationGoal | (string & {});
+  optimization_goal?: CreateAdGroupRequestOptimizationGoal | (string & {}) | undefined;
   /** `automatic` to let the ad platform choose placements, or the list of platforms and positions to target. Omit a platform's positions to target all of them. Valid positions per platform: - `facebook`: `feed`, `right_hand_column`, `marketplace`, `search`, `profile_feed`, `notification`, `story`, `instream_video`, `facebook_reels`, `facebook_reels_overlay`, `biz_disco_feed` - `instagram`: `stream`, `story`, `explore`, `explore_home`, `reels`, `profile_feed`, `profile_reels`, `ig_search` - `messenger`: `story` - `audience_network`: `classic`, `rewarded_video` - `threads`: `threads_stream` - `whatsapp`: `status` */
-  placements?: CreateAdGroupRequestPlacements;
+  placements?: CreateAdGroupRequestPlacements | undefined;
   /** Locations to target and exclude. */
-  regions?: AdGroupRegionsBody;
+  regions?: AdGroupRegionsBody | undefined;
   /** When the ad group starts delivering, as an ISO 8601 timestamp. Omit to start as soon as it's active. */
-  starts_at?: string;
+  starts_at?: string | undefined;
   /** Initial status (default: `active`). */
-  status?: CreateAdGroupRequestStatus | (string & {});
+  status?: CreateAdGroupRequestStatus | (string & {}) | undefined;
   /** The display name of the ad group. */
-  title?: string;
+  title?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface AdEntityReference {
   /** The referenced entity's id. */
@@ -424,13 +427,13 @@ export interface AdGroupDemographics {
 export type AdGroupBehaviorCategoryBehaviorType = "video" | "creator" | "hashtag";
 export interface AdGroupBehaviorCategory {
   /** On ad platforms that scope behavior categories, what this one is measured on. Send back the value the targeting_options endpoint returned alongside the id. Absent on platforms that don't scope them. */
-  behavior_type?: AdGroupBehaviorCategoryBehaviorType;
+  behavior_type?: AdGroupBehaviorCategoryBehaviorType | undefined;
   /** The ad platform's ID for the category in its targeting taxonomy. */
   id: string;
   /** Category name, such as `Frequent travelers`. */
-  name?: string;
+  name?: string | undefined;
   /** On ad platforms that scope behavior categories, how many days of activity the category covers. Absent on platforms that don't scope them. */
-  period?: number;
+  period?: number | undefined;
 }
 export type AdGroupDetailedTargetingBehaviorsList = Array<AdGroupBehaviorCategory>;
 /** Kind of demographic the category belongs to. */
@@ -447,7 +450,7 @@ export interface AdGroupDemographicCategory {
   /** The ad platform's ID for the category in its targeting taxonomy. */
   id: string;
   /** Category name, such as `Recently moved`. */
-  name?: string;
+  name?: string | undefined;
   /** Kind of demographic the category belongs to. */
   type: AdGroupDemographicCategoryType;
 }
@@ -464,7 +467,7 @@ export interface AdGroupDetailedTargeting {
 export type AdGroupOperatingSystemOs = "ios" | "android";
 export interface AdGroupOperatingSystem {
   /** Lowest OS version targeted, such as `18.0`. Absent when any version qualifies. */
-  minimum_version?: string;
+  minimum_version?: string | undefined;
   /** Operating system targeted. */
   os: AdGroupOperatingSystemOs;
 }
@@ -540,7 +543,7 @@ export interface AdGroupCity {
   /** The ad platform's key for the city in its location taxonomy. */
   key: string;
   /** City name, such as `Austin`. Absent when the platform doesn't return one. */
-  name?: string;
+  name?: string | undefined;
 }
 export type AdGroupGeoLocationsCitiesList = Array<AdGroupCity>;
 export type AdGroupGeoLocationsCountriesList = Array<string>;
@@ -549,7 +552,7 @@ export type AdGroupGeoLocationsCountryGroupsList = Array<string>;
 export type AdGroupCustomLocationDistanceUnit = "mile" | "kilometer";
 export interface AdGroupCustomLocation {
   /** ISO 3166-1 alpha-2 country the point falls in. Send it under a special ad category, where the campaign must declare the countries its ad sets reach. */
-  country_code?: string;
+  country_code?: string | undefined;
   /** Unit for `radius`. */
   distance_unit: AdGroupCustomLocationDistanceUnit;
   /** Latitude of the center point. */
@@ -557,7 +560,7 @@ export interface AdGroupCustomLocation {
   /** Longitude of the center point. */
   longitude: number;
   /** Label for the location, such as a city or address. Absent when the location has no label. */
-  name?: string;
+  name?: string | undefined;
   /** Radius around the center point, in `distance_unit`. */
   radius: number;
 }
@@ -625,7 +628,7 @@ export interface AdGroup {
   contacts: number;
   conversion_event: ConversionEvent | null;
   /** Where the outcome being optimized for occurs, such as a website visit, social-profile visit, messaging conversation, ad interaction, or lead-form submission. */
-  conversion_location?: AdGroupConversionLocation | null;
+  conversion_location?: AdGroupConversionLocation | null | undefined;
   /** Spend divided by attributed add-to-cart events; null when they are not the goal and none are attributed. */
   cost_per_added_to_cart: number | null;
   /** Spend divided by clicks; 0 when there are no clicks. */
@@ -669,7 +672,7 @@ export interface AdGroup {
   /** Device platforms and operating systems targeted. */
   devices: AdGroupDevices;
   /** Whether the ad platform automatically mixes and matches this ad group's creatives and copy to find the best-performing combinations. */
-  dynamic_creative?: boolean;
+  dynamic_creative?: boolean | undefined;
   /** When the ad group stops delivering, as an ISO 8601 timestamp. `null` when it runs until paused. */
   ends_at: string | null;
   /** Platform-reported impressions divided by reach. */
@@ -688,9 +691,9 @@ export interface AdGroup {
   leads: number;
   /** Clicks on links in the ad that lead to your destination, as reported by the ad platform. A subset of clicks, which also counts likes, comments, and other interactions with the ad. */
   link_clicks: number;
-  message_apps?: AdGroupMessageAppsList;
+  message_apps?: AdGroupMessageAppsList | undefined;
   /** Minimum the ad group tries to spend each day. `null` when no floor is set. */
-  minimum_daily_spend?: number | null;
+  minimum_daily_spend?: number | null | undefined;
   /** The result the ad group's delivery is optimized to get the most of. */
   optimization_goal: AdGroupOptimizationGoal | null;
   placements: AdGroupPlacementsList;
@@ -755,13 +758,13 @@ export interface DuplicateAdGroupRequest {
   /** The ad group ID. */
   id: string;
   /** Number of copies to create (1-10). Defaults to 1. */
-  count?: number;
+  count?: number | undefined;
   /** Whether the copied ads keep the original posts' engagement (likes, comments, shares). Defaults to false. */
-  preserve_engagement?: boolean;
+  preserve_engagement?: boolean | undefined;
   /** Campaign to duplicate into. Defaults to the ad group's own campaign. */
-  target_ad_campaign_id?: string;
+  target_ad_campaign_id?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export type DuplicateAdGroupResponseDataList = Array<AdGroup>;
 export interface DuplicateAdGroupResponse {
@@ -773,23 +776,23 @@ export type EstimateAdGroupReachRequestLanguagesList = Array<string>;
 export type EstimateAdGroupReachRequestPlatform = "meta";
 export interface EstimateAdGroupReachRequest {
   /** Account to estimate on behalf of. Defaults to the authenticated account. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Saved audiences to deliver to or exclude. Can't be combined with demographics.automatic. */
-  audiences?: AdGroupAudiencesBody;
+  audiences?: AdGroupAudiencesBody | undefined;
   /** Age, gender, and automatic-audience targeting. */
-  demographics?: AdGroupDemographicsBody;
+  demographics?: AdGroupDemographicsBody | undefined;
   /** Interest, behavior, and demographic targeting, using categories from the ad platform's targeting taxonomy. At most 100 entries per section. */
-  detailed_targeting?: AdGroupDetailedTargetingBody;
+  detailed_targeting?: AdGroupDetailedTargetingBody | undefined;
   /** Device platforms and operating systems to target. */
-  devices?: AdGroupDevicesBody;
+  devices?: AdGroupDevicesBody | undefined;
   /** Languages to target, as ISO 639 codes such as `en` or `es`. Empty or omitted targets all languages. */
-  languages?: EstimateAdGroupReachRequestLanguagesList;
+  languages?: EstimateAdGroupReachRequestLanguagesList | undefined;
   /** The ad network the estimate runs on. */
   platform: EstimateAdGroupReachRequestPlatform | (string & {});
   /** Locations to target and exclude. */
-  regions?: AdGroupRegionsBody;
+  regions?: AdGroupRegionsBody | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface ReachEstimate {
   /** Low end of how many people the targeting can reach. Null when the platform couldn't produce an estimate. */
@@ -802,13 +805,13 @@ export interface GetAdGroupRequest {
   /** The ad group ID. */
   id: string;
   /** Start of the stats window. */
-  stats_from?: string;
+  stats_from?: string | undefined;
   /** End of the stats window. */
-  stats_to?: string;
+  stats_to?: string | undefined;
   /** IANA timezone the stats window is interpreted in. Defaults to UTC. */
-  time_zone?: string;
+  time_zone?: string | undefined;
   /** Attribution model the conversion stats count under (defaults to last_touch). Under both models a journey with any whop ad touch attributes to whop; the model picks which whop touch credits the entity and which non-whop source wins otherwise. */
-  attribution_model?: GetAdGroupRequestAttributionModel | (string & {});
+  attribution_model?: GetAdGroupRequestAttributionModel | (string & {}) | undefined;
 }
 export type ListAdGroupsRequestAdCampaignIdsList = Array<string>;
 export type ListAdGroupsRequestStatus = "active" | "paused" | "rejected" | "duplicating";
@@ -832,39 +835,39 @@ export type ListAdGroupsRequestDirection = "asc" | "desc";
 export type ListAdGroupsRequestAttributionModel = "last_touch" | "first_touch";
 export interface ListAdGroupsRequest {
   /** Account whose ad groups to list. Defaults to the authenticated account. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Filter to ad groups in this campaign. */
-  ad_campaign_id?: string;
+  ad_campaign_id?: string | undefined;
   /** Filter to ad groups in these campaigns (max 100). Repeat the parameter for each id (ad_campaign_ids=a&ad_campaign_ids=b). */
-  ad_campaign_ids?: ListAdGroupsRequestAdCampaignIdsList;
+  ad_campaign_ids?: ListAdGroupsRequestAdCampaignIdsList | undefined;
   /** Filter to ad groups with this status. */
-  status?: ListAdGroupsRequestStatus | (string & {});
+  status?: ListAdGroupsRequestStatus | (string & {}) | undefined;
   /** Filter ad groups by a title or ID substring. */
-  query?: string;
+  query?: string | undefined;
   /** The field to sort by. Defaults to created_at. Stat columns (spend, impressions, ...) rank over the stats_from/stats_to window across the whole list, not just the current page. results, cost_per_result and return_on_ad_spend rank by the same Whop pixel-attributed values the response reports. */
-  order?: ListAdGroupsRequestOrder | (string & {});
+  order?: ListAdGroupsRequestOrder | (string & {}) | undefined;
   /** The sort direction. Defaults to desc. */
-  direction?: ListAdGroupsRequestDirection | (string & {});
+  direction?: ListAdGroupsRequestDirection | (string & {}) | undefined;
   /** Only return ad groups created before this timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Only return ad groups created after this timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Start of the stats window. Defaults to all-time. */
-  stats_from?: string;
+  stats_from?: string | undefined;
   /** End of the stats window. Defaults to now. */
-  stats_to?: string;
+  stats_to?: string | undefined;
   /** IANA timezone (e.g. America/New_York) the stats window is interpreted in. Bare stats_from/stats_to dates resolve to day boundaries on this clock. Defaults to UTC. */
-  time_zone?: string;
+  time_zone?: string | undefined;
   /** Attribution model the conversion stats count under (defaults to last_touch). Under both models a journey with any whop ad touch attributes to whop; the model picks which whop touch credits the entity and which non-whop source wins otherwise. */
-  attribution_model?: ListAdGroupsRequestAttributionModel | (string & {});
+  attribution_model?: ListAdGroupsRequestAttributionModel | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 export type ListAdGroupsResponseDataList = Array<AdGroup>;
 export interface ListAdGroupsResponsePageInfo {
@@ -881,7 +884,7 @@ export interface PauseAdGroupRequest {
   /** The ad group ID. */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export type SearchAdGroupTargetingOptionsRequestPlatform = "meta";
 export type SearchAdGroupTargetingOptionsRequestTypesItem =
@@ -921,21 +924,21 @@ export type SearchAdGroupTargetingOptionsRequestSpecialAdCategoriesList = Array<
 >;
 export interface SearchAdGroupTargetingOptionsRequest {
   /** Account to search on behalf of. Defaults to the authenticated account. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** The ad network whose targeting taxonomy to search. */
   platform: SearchAdGroupTargetingOptionsRequestPlatform | (string & {});
   /** The search term. Blank browses the fixed lists; interests, work employers, job titles, schools, majors, and locations return nothing without one. */
-  query?: string;
+  query?: string | undefined;
   /** Kinds of targeting options to search. Defaults to all of them. */
-  types?: SearchAdGroupTargetingOptionsRequestTypesList;
+  types?: SearchAdGroupTargetingOptionsRequestTypesList | undefined;
   /** Narrow location results to these kinds of places. Only applies when `types` includes `locations`. */
-  location_types?: SearchAdGroupTargetingOptionsRequestLocationTypesList;
+  location_types?: SearchAdGroupTargetingOptionsRequestLocationTypesList | undefined;
   /** Narrow location results to one country, as an ISO 3166-1 code such as `US`. Only applies when `types` includes `locations`. */
-  country?: string;
+  country?: string | undefined;
   /** Maximum number of results per requested type. */
-  limit?: number;
+  limit?: number | undefined;
   /** The campaign's declared special ad categories. Under `housing`, `employment`, or `financial_products` the ad platform allows interests only, drawn from a short approved list, so results are narrowed to what such a campaign can launch with and other kinds return nothing. Blank `query` browses that approved list instead of the usual fixed lists. */
-  special_ad_categories?: SearchAdGroupTargetingOptionsRequestSpecialAdCategoriesList;
+  special_ad_categories?: SearchAdGroupTargetingOptionsRequestSpecialAdCategoriesList | undefined;
 }
 /** What a behavior category is measured on, on ad platforms that scope them. Send it back on the `detailed_targeting.behaviors` entry alongside the id. Null for options that aren't scoped. */
 export type DetailedTargetingOptionBehaviorType = "video" | "creator" | "hashtag";
@@ -1021,7 +1024,7 @@ export interface UnpauseAdGroupRequest {
   /** The ad group ID. */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** How delivery bids are set in the ad auction. Target-based strategies use `desired_cost_per_result`. */
 export type UpdateAdGroupRequestBidType = "minimum_cost" | "average_target" | "maximum_target";
@@ -1082,7 +1085,7 @@ export interface UpdateAdGroupRequestPlacementsCase1Item {
   /** Platform the ads run on. */
   platform: UpdateAdGroupRequestPlacementsCase1ItemPlatform | (string & {});
   /** Positions to target within the platform, such as `feed` or `story`. Omit to target all of the platform's positions. */
-  positions?: UpdateAdGroupRequestPlacementsCase1ItemPositionsList;
+  positions?: UpdateAdGroupRequestPlacementsCase1ItemPositionsList | undefined;
 }
 export type UpdateAdGroupRequestPlacementsCase1List =
   Array<UpdateAdGroupRequestPlacementsCase1Item>;
@@ -1096,48 +1099,48 @@ export interface UpdateAdGroupRequest {
   /** The ad group ID. */
   id: string;
   /** Saved audiences to deliver to or exclude. Can't be combined with demographics.automatic. */
-  audiences?: AdGroupAudiencesBody;
+  audiences?: AdGroupAudiencesBody | undefined;
   /** How delivery bids are set in the ad auction. Target-based strategies use `desired_cost_per_result`. */
-  bid_type?: UpdateAdGroupRequestBidType | (string & {});
+  bid_type?: UpdateAdGroupRequestBidType | (string & {}) | undefined;
   /** This ad group's budget in USD, which is what it is stored and billed in. Omit when the budget is set on the campaign instead. */
-  budget_amount?: number;
+  budget_amount?: number | undefined;
   /** This ad group's budget stated in the account's ads reporting currency (`budget_currency` on the response) instead of USD. Converted to USD at the current exchange rate and stored as budget_amount; on an update, an amount equal to the current budget_amount_local keeps the stored USD budget as is. Provide this or budget_amount, not both. */
-  budget_amount_local?: number;
+  budget_amount_local?: number | undefined;
   /** Whether budget_amount is spent per day (`daily`) or over the ad group's full run (`lifetime`). */
-  budget_type?: UpdateAdGroupRequestBudgetType | (string & {});
-  conversion_event?: ConversionEvent | null;
+  budget_type?: UpdateAdGroupRequestBudgetType | (string & {}) | undefined;
+  conversion_event?: ConversionEvent | null | undefined;
   /** Where the outcome being optimized for occurs, such as a website visit, social-profile visit, messaging conversation, ad interaction, or lead-form submission. The lead form itself is set on the ad. */
-  conversion_location?: UpdateAdGroupRequestConversionLocation | (string & {});
+  conversion_location?: UpdateAdGroupRequestConversionLocation | (string & {}) | undefined;
   /** Age, gender, and automatic-audience targeting. */
-  demographics?: AdGroupDemographicsBody;
+  demographics?: AdGroupDemographicsBody | undefined;
   /** Cost per result to aim for (`average_target`) or never exceed (`maximum_target`). */
-  desired_cost_per_result?: number;
+  desired_cost_per_result?: number | undefined;
   /** Interest, behavior, and demographic targeting, using categories from the ad platform's targeting taxonomy. Entries across interests, behaviors, and demographics are OR'd together (anyone matching any entry is reached), matching Ads Manager's detailed-targeting box. At most 100 entries per section. Can't be combined with demographics.automatic, and unavailable to campaigns with special_ad_categories. Send the complete intended state -- a section you omit is cleared. */
-  detailed_targeting?: AdGroupDetailedTargetingBody;
+  detailed_targeting?: AdGroupDetailedTargetingBody | undefined;
   /** Device platforms and operating systems to target. */
-  devices?: AdGroupDevicesBody;
+  devices?: AdGroupDevicesBody | undefined;
   /** When the ad group stops delivering, as an ISO 8601 timestamp. Omit to run until paused. */
-  ends_at?: string;
+  ends_at?: string | undefined;
   /** Cap on how often one person sees ads from this ad group. Only available on campaigns with the `awareness` objective. */
-  frequency_cap?: CreateAdGroupRequestFrequencyCap;
+  frequency_cap?: CreateAdGroupRequestFrequencyCap | undefined;
   /** Languages to target, as ISO 639 codes such as `en` or `es`. Empty or omitted targets all languages. */
-  languages?: UpdateAdGroupRequestLanguagesList;
+  languages?: UpdateAdGroupRequestLanguagesList | undefined;
   /** Apps the conversation opens in. Required when setting `conversion_location` to `messaging`, and rejected unless the ad group's conversion location is `messaging`. */
-  message_apps?: UpdateAdGroupRequestMessageAppsList;
+  message_apps?: UpdateAdGroupRequestMessageAppsList | undefined;
   /** Minimum the ad group tries to spend each day. */
-  minimum_daily_spend?: number;
+  minimum_daily_spend?: number | undefined;
   /** The result the ad group's delivery is optimized to get the most of. */
-  optimization_goal?: UpdateAdGroupRequestOptimizationGoal | (string & {});
+  optimization_goal?: UpdateAdGroupRequestOptimizationGoal | (string & {}) | undefined;
   /** `automatic` to let the ad platform choose placements, or the list of platforms and positions to target. Omit a platform's positions to target all of them. Valid positions per platform: - `facebook`: `feed`, `right_hand_column`, `marketplace`, `search`, `profile_feed`, `notification`, `story`, `instream_video`, `facebook_reels`, `facebook_reels_overlay`, `biz_disco_feed` - `instagram`: `stream`, `story`, `explore`, `explore_home`, `reels`, `profile_feed`, `profile_reels`, `ig_search` - `messenger`: `story` - `audience_network`: `classic`, `rewarded_video` - `threads`: `threads_stream` - `whatsapp`: `status` */
-  placements?: UpdateAdGroupRequestPlacements;
+  placements?: UpdateAdGroupRequestPlacements | undefined;
   /** Locations to target and exclude. */
-  regions?: AdGroupRegionsBody;
+  regions?: AdGroupRegionsBody | undefined;
   /** When the ad group starts delivering, as an ISO 8601 timestamp. Omit to start as soon as it's active. */
-  starts_at?: string;
+  starts_at?: string | undefined;
   /** Initial status (default: `active`). */
-  status?: UpdateAdGroupRequestStatus | (string & {});
+  status?: UpdateAdGroupRequestStatus | (string & {}) | undefined;
   /** The display name of the ad group. */
-  title?: string;
+  title?: string | undefined;
 }
 export type CreateAdGroupError = NotFound | Conflict | WhopOpError;
 /** Create an Ad Group Creates an ad group (ad set) in a campaign. */

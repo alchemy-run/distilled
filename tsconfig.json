@@ -60,6 +60,9 @@
     {
       "path": "./packages/coinbase/tsconfig.scripts.json"
     },
+    { "path": "./packages/coinflow/tsconfig.json" },
+    { "path": "./packages/coinflow/tsconfig.test.json" },
+    { "path": "./packages/coinflow/tsconfig.scripts.json" },
     {
       "path": "./packages/discord/tsconfig.json"
     },
@@ -150,6 +153,13 @@
       "path": "./packages/polar/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/polymarket/tsconfig.json"
+    },
+    { "path": "./packages/polymarket/tsconfig.test.json" },
+    {
+      "path": "./packages/polymarket/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/posthog/tsconfig.json"
     },
     {
@@ -161,6 +171,12 @@
     { "path": "./packages/prisma/tsconfig.test.json" },
     {
       "path": "./packages/prisma/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/questrade/tsconfig.json"
+    },
+    {
+      "path": "./packages/questrade/tsconfig.scripts.json"
     },
     {
       "path": "./packages/railway/tsconfig.json"
@@ -334,6 +350,12 @@
       "path": "./packages/docker/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/dokploy/tsconfig.json"
+    },
+    {
+      "path": "./packages/dokploy/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/doppler/tsconfig.json"
     },
     {
@@ -344,6 +366,12 @@
     },
     {
       "path": "./packages/elasticsearch/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/exa/tsconfig.json"
+    },
+    {
+      "path": "./packages/exa/tsconfig.scripts.json"
     },
     {
       "path": "./packages/gusto/tsconfig.json"
@@ -450,6 +478,13 @@
       "path": "./packages/temporal/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/tencentcloud/tsconfig.json"
+    },
+    { "path": "./packages/tencentcloud/tsconfig.test.json" },
+    {
+      "path": "./packages/tencentcloud/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/trigger-dev/tsconfig.json"
     },
     {
@@ -531,6 +566,12 @@
       "path": "./packages/slack/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/rivet/tsconfig.json"
+    },
+    {
+      "path": "./packages/rivet/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/s2/tsconfig.json"
     },
     {
@@ -546,9 +587,17 @@
     {
       "path": "./packages/daytona/tsconfig.json"
     },
+    { "path": "./packages/daytona/tsconfig.test.json" },
     {
       "path": "./packages/daytona/tsconfig.scripts.json"
     },
+    {
+      "path": "./packages/e2b/tsconfig.json"
+    },
+    {
+      "path": "./packages/e2b/tsconfig.scripts.json"
+    },
+    { "path": "./packages/e2b/tsconfig.test.json" },
     {
       "path": "./packages/boat-dev/tsconfig.json"
     },
@@ -560,6 +609,18 @@
     },
     {
       "path": "./packages/notion/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/npm/tsconfig.json"
+    },
+    {
+      "path": "./packages/npm/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/anthropic/tsconfig.json"
+    },
+    {
+      "path": "./packages/anthropic/tsconfig.scripts.json"
     }
   ]
 }

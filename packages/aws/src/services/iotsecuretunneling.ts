@@ -134,7 +134,7 @@ export type TunnelId = string;
 export type DeleteFlag = boolean;
 export interface CloseTunnelRequest {
   tunnelId: string;
-  delete?: boolean;
+  delete?: boolean | undefined;
 }
 export interface CloseTunnelResponse {}
 export interface DescribeTunnelRequest {
@@ -144,20 +144,20 @@ export type TunnelArn = string;
 export type TunnelStatus = "OPEN" | "CLOSED" | (string & {});
 export type ConnectionStatus = "CONNECTED" | "DISCONNECTED" | (string & {});
 export interface ConnectionState {
-  status?: ConnectionStatus;
-  lastUpdatedAt?: Date;
+  status?: ConnectionStatus | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
 export type Description = string;
 export type ThingName = string;
 export type Service = string;
 export type ServiceList = string[];
 export interface DestinationConfig {
-  thingName?: string;
+  thingName?: string | undefined;
   services: string[];
 }
 export type TimeoutInMin = number;
 export interface TimeoutConfig {
-  maxLifetimeTimeoutMinutes?: number;
+  maxLifetimeTimeoutMinutes?: number | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
@@ -167,71 +167,71 @@ export interface Tag {
 }
 export type TagList = Tag[];
 export interface Tunnel {
-  tunnelId?: string;
-  tunnelArn?: string;
-  status?: TunnelStatus;
-  sourceConnectionState?: ConnectionState;
-  destinationConnectionState?: ConnectionState;
-  description?: string;
-  destinationConfig?: DestinationConfig;
-  timeoutConfig?: TimeoutConfig;
-  tags?: Tag[];
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
+  tunnelId?: string | undefined;
+  tunnelArn?: string | undefined;
+  status?: TunnelStatus | undefined;
+  sourceConnectionState?: ConnectionState | undefined;
+  destinationConnectionState?: ConnectionState | undefined;
+  description?: string | undefined;
+  destinationConfig?: DestinationConfig | undefined;
+  timeoutConfig?: TimeoutConfig | undefined;
+  tags?: Tag[] | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
 export interface DescribeTunnelResponse {
-  tunnel?: Tunnel;
+  tunnel?: Tunnel | undefined;
 }
 export type AmazonResourceName = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListTunnelsRequest {
-  thingName?: string;
-  maxResults?: number;
-  nextToken?: string;
+  thingName?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface TunnelSummary {
-  tunnelId?: string;
-  tunnelArn?: string;
-  status?: TunnelStatus;
-  description?: string;
-  createdAt?: Date;
-  lastUpdatedAt?: Date;
+  tunnelId?: string | undefined;
+  tunnelArn?: string | undefined;
+  status?: TunnelStatus | undefined;
+  description?: string | undefined;
+  createdAt?: Date | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
 export type TunnelSummaryList = TunnelSummary[];
 export interface ListTunnelsResponse {
-  tunnelSummaries?: TunnelSummary[];
-  nextToken?: string;
+  tunnelSummaries?: TunnelSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface OpenTunnelRequest {
-  description?: string;
-  tags?: Tag[];
-  destinationConfig?: DestinationConfig;
-  timeoutConfig?: TimeoutConfig;
+  description?: string | undefined;
+  tags?: Tag[] | undefined;
+  destinationConfig?: DestinationConfig | undefined;
+  timeoutConfig?: TimeoutConfig | undefined;
 }
 export type ClientAccessToken = string | redacted.Redacted<string>;
 export interface OpenTunnelResponse {
-  tunnelId?: string;
-  tunnelArn?: string;
-  sourceAccessToken?: string | redacted.Redacted<string>;
-  destinationAccessToken?: string | redacted.Redacted<string>;
+  tunnelId?: string | undefined;
+  tunnelArn?: string | undefined;
+  sourceAccessToken?: string | redacted.Redacted<string> | undefined;
+  destinationAccessToken?: string | redacted.Redacted<string> | undefined;
 }
 export type ClientMode = "SOURCE" | "DESTINATION" | "ALL" | (string & {});
 export interface RotateTunnelAccessTokenRequest {
   tunnelId: string;
   clientMode: ClientMode;
-  destinationConfig?: DestinationConfig;
+  destinationConfig?: DestinationConfig | undefined;
 }
 export interface RotateTunnelAccessTokenResponse {
-  tunnelArn?: string;
-  sourceAccessToken?: string | redacted.Redacted<string>;
-  destinationAccessToken?: string | redacted.Redacted<string>;
+  tunnelArn?: string | undefined;
+  sourceAccessToken?: string | redacted.Redacted<string> | undefined;
+  destinationAccessToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;

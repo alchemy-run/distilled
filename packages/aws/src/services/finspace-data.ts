@@ -151,11 +151,11 @@ export type ClientToken = string;
 export interface AssociateUserToPermissionGroupRequest {
   permissionGroupId: string;
   userId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type StatusCode = number;
 export interface AssociateUserToPermissionGroupResponse {
-  statusCode?: number;
+  statusCode?: number | undefined;
 }
 export type DatasetId = string;
 export type ChangeType = "REPLACE" | "APPEND" | "MODIFY" | (string & {});
@@ -164,7 +164,7 @@ export type StringMapValue = string;
 export type SourceParams = { [key: string]: string | undefined };
 export type FormatParams = { [key: string]: string | undefined };
 export interface CreateChangesetRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   datasetId: string;
   changeType: ChangeType;
   sourceParams: { [key: string]: string | undefined };
@@ -172,8 +172,8 @@ export interface CreateChangesetRequest {
 }
 export type ChangesetId = string;
 export interface CreateChangesetResponse {
-  datasetId?: string;
-  changesetId?: string;
+  datasetId?: string | undefined;
+  changesetId?: string | undefined;
 }
 export type DatasetTitle = string;
 export type DatasetKind = "TABULAR" | "NON_TABULAR" | (string & {});
@@ -182,18 +182,18 @@ export type OwnerName = string;
 export type PhoneNumber = string;
 export type Email = string | redacted.Redacted<string>;
 export interface DatasetOwnerInfo {
-  name?: string;
-  phoneNumber?: string;
-  email?: string | redacted.Redacted<string>;
+  name?: string | undefined;
+  phoneNumber?: string | undefined;
+  email?: string | redacted.Redacted<string> | undefined;
 }
 export type StringValueLength1to250 = string;
 export interface ResourcePermission {
-  permission?: string;
+  permission?: string | undefined;
 }
 export type ResourcePermissionsList = ResourcePermission[];
 export interface PermissionGroupParams {
-  permissionGroupId?: string;
-  datasetPermissions?: ResourcePermission[];
+  permissionGroupId?: string | undefined;
+  datasetPermissions?: ResourcePermission[] | undefined;
 }
 export type AliasString = string;
 export type ColumnDataType =
@@ -213,31 +213,31 @@ export type ColumnDataType =
 export type ColumnName = string;
 export type ColumnDescription = string;
 export interface ColumnDefinition {
-  dataType?: ColumnDataType;
-  columnName?: string;
-  columnDescription?: string;
+  dataType?: ColumnDataType | undefined;
+  columnName?: string | undefined;
+  columnDescription?: string | undefined;
 }
 export type ColumnList = ColumnDefinition[];
 export type ColumnNameList = string[];
 export interface SchemaDefinition {
-  columns?: ColumnDefinition[];
-  primaryKeyColumns?: string[];
+  columns?: ColumnDefinition[] | undefined;
+  primaryKeyColumns?: string[] | undefined;
 }
 export interface SchemaUnion {
-  tabularSchemaConfig?: SchemaDefinition;
+  tabularSchemaConfig?: SchemaDefinition | undefined;
 }
 export interface CreateDatasetRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   datasetTitle: string;
   kind: DatasetKind;
-  datasetDescription?: string;
-  ownerInfo?: DatasetOwnerInfo;
+  datasetDescription?: string | undefined;
+  ownerInfo?: DatasetOwnerInfo | undefined;
   permissionGroupParams: PermissionGroupParams;
-  alias?: string;
-  schemaDefinition?: SchemaUnion;
+  alias?: string | undefined;
+  schemaDefinition?: SchemaUnion | undefined;
 }
 export interface CreateDatasetResponse {
-  datasetId?: string;
+  datasetId?: string | undefined;
 }
 export type StringValueLength1to255 = string;
 export type SortColumnList = string[];
@@ -248,22 +248,22 @@ export type ExportFileFormat = "PARQUET" | "DELIMITED_TEXT" | (string & {});
 export type S3DestinationFormatOptions = { [key: string]: string | undefined };
 export interface DataViewDestinationTypeParams {
   destinationType: string;
-  s3DestinationExportFileFormat?: ExportFileFormat;
-  s3DestinationExportFileFormatOptions?: { [key: string]: string | undefined };
+  s3DestinationExportFileFormat?: ExportFileFormat | undefined;
+  s3DestinationExportFileFormatOptions?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateDataViewRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   datasetId: string;
-  autoUpdate?: boolean;
-  sortColumns?: string[];
-  partitionColumns?: string[];
-  asOfTimestamp?: number;
+  autoUpdate?: boolean | undefined;
+  sortColumns?: string[] | undefined;
+  partitionColumns?: string[] | undefined;
+  asOfTimestamp?: number | undefined;
   destinationTypeParams: DataViewDestinationTypeParams;
 }
 export type DataViewId = string;
 export interface CreateDataViewResponse {
-  datasetId?: string;
-  dataViewId?: string;
+  datasetId?: string | undefined;
+  dataViewId?: string | undefined;
 }
 export type PermissionGroupName = string | redacted.Redacted<string>;
 export type PermissionGroupDescription = string | redacted.Redacted<string>;
@@ -279,12 +279,12 @@ export type ApplicationPermission =
 export type ApplicationPermissionList = ApplicationPermission[];
 export interface CreatePermissionGroupRequest {
   name: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
   applicationPermissions: ApplicationPermission[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface CreatePermissionGroupResponse {
-  permissionGroupId?: string;
+  permissionGroupId?: string | undefined;
 }
 export type UserType = "SUPER_USER" | "APP_USER" | (string & {});
 export type FirstName = string | redacted.Redacted<string>;
@@ -294,50 +294,50 @@ export type RoleArn = string;
 export interface CreateUserRequest {
   emailAddress: string | redacted.Redacted<string>;
   type: UserType;
-  firstName?: string | redacted.Redacted<string>;
-  lastName?: string | redacted.Redacted<string>;
-  apiAccess?: ApiAccess;
-  apiAccessPrincipalArn?: string;
-  clientToken?: string;
+  firstName?: string | redacted.Redacted<string> | undefined;
+  lastName?: string | redacted.Redacted<string> | undefined;
+  apiAccess?: ApiAccess | undefined;
+  apiAccessPrincipalArn?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateUserResponse {
-  userId?: string;
+  userId?: string | undefined;
 }
 export interface DeleteDatasetRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   datasetId: string;
 }
 export interface DeleteDatasetResponse {
-  datasetId?: string;
+  datasetId?: string | undefined;
 }
 export interface DeletePermissionGroupRequest {
   permissionGroupId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeletePermissionGroupResponse {
-  permissionGroupId?: string;
+  permissionGroupId?: string | undefined;
 }
 export interface DisableUserRequest {
   userId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DisableUserResponse {
-  userId?: string;
+  userId?: string | undefined;
 }
 export interface DisassociateUserFromPermissionGroupRequest {
   permissionGroupId: string;
   userId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DisassociateUserFromPermissionGroupResponse {
-  statusCode?: number;
+  statusCode?: number | undefined;
 }
 export interface EnableUserRequest {
   userId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface EnableUserResponse {
-  userId?: string;
+  userId?: string | undefined;
 }
 export interface GetChangesetRequest {
   datasetId: string;
@@ -363,23 +363,23 @@ export type ErrorCategory =
   | "USER_RECOVERABLE"
   | (string & {});
 export interface ChangesetErrorInfo {
-  errorMessage?: string;
-  errorCategory?: ErrorCategory;
+  errorMessage?: string | undefined;
+  errorCategory?: ErrorCategory | undefined;
 }
 export interface GetChangesetResponse {
-  changesetId?: string;
-  changesetArn?: string;
-  datasetId?: string;
-  changeType?: ChangeType;
-  sourceParams?: { [key: string]: string | undefined };
-  formatParams?: { [key: string]: string | undefined };
-  createTime?: number;
-  status?: IngestionStatus;
-  errorInfo?: ChangesetErrorInfo;
-  activeUntilTimestamp?: number;
-  activeFromTimestamp?: number;
-  updatesChangesetId?: string;
-  updatedByChangesetId?: string;
+  changesetId?: string | undefined;
+  changesetArn?: string | undefined;
+  datasetId?: string | undefined;
+  changeType?: ChangeType | undefined;
+  sourceParams?: { [key: string]: string | undefined } | undefined;
+  formatParams?: { [key: string]: string | undefined } | undefined;
+  createTime?: number | undefined;
+  status?: IngestionStatus | undefined;
+  errorInfo?: ChangesetErrorInfo | undefined;
+  activeUntilTimestamp?: number | undefined;
+  activeFromTimestamp?: number | undefined;
+  updatesChangesetId?: string | undefined;
+  updatedByChangesetId?: string | undefined;
 }
 export interface GetDatasetRequest {
   datasetId: string;
@@ -387,24 +387,24 @@ export interface GetDatasetRequest {
 export type DatasetArn = string;
 export type DatasetStatus = "PENDING" | "FAILED" | "SUCCESS" | "RUNNING" | (string & {});
 export interface GetDatasetResponse {
-  datasetId?: string;
-  datasetArn?: string;
-  datasetTitle?: string;
-  kind?: DatasetKind;
-  datasetDescription?: string;
-  createTime?: number;
-  lastModifiedTime?: number;
-  schemaDefinition?: SchemaUnion;
-  alias?: string;
-  status?: DatasetStatus;
+  datasetId?: string | undefined;
+  datasetArn?: string | undefined;
+  datasetTitle?: string | undefined;
+  kind?: DatasetKind | undefined;
+  datasetDescription?: string | undefined;
+  createTime?: number | undefined;
+  lastModifiedTime?: number | undefined;
+  schemaDefinition?: SchemaUnion | undefined;
+  alias?: string | undefined;
+  status?: DatasetStatus | undefined;
 }
 export interface GetDataViewRequest {
   dataViewId: string;
   datasetId: string;
 }
 export interface DataViewErrorInfo {
-  errorMessage?: string;
-  errorCategory?: ErrorCategory;
+  errorMessage?: string | undefined;
+  errorCategory?: ErrorCategory | undefined;
 }
 export type DataViewArn = string;
 export type DataViewStatus =
@@ -418,18 +418,18 @@ export type DataViewStatus =
   | "FAILED_CLEANUP_FAILED"
   | (string & {});
 export interface GetDataViewResponse {
-  autoUpdate?: boolean;
-  partitionColumns?: string[];
-  datasetId?: string;
-  asOfTimestamp?: number;
-  errorInfo?: DataViewErrorInfo;
-  lastModifiedTime?: number;
-  createTime?: number;
-  sortColumns?: string[];
-  dataViewId?: string;
-  dataViewArn?: string;
-  destinationTypeParams?: DataViewDestinationTypeParams;
-  status?: DataViewStatus;
+  autoUpdate?: boolean | undefined;
+  partitionColumns?: string[] | undefined;
+  datasetId?: string | undefined;
+  asOfTimestamp?: number | undefined;
+  errorInfo?: DataViewErrorInfo | undefined;
+  lastModifiedTime?: number | undefined;
+  createTime?: number | undefined;
+  sortColumns?: string[] | undefined;
+  dataViewId?: string | undefined;
+  dataViewArn?: string | undefined;
+  destinationTypeParams?: DataViewDestinationTypeParams | undefined;
+  status?: DataViewStatus | undefined;
 }
 export interface GetExternalDataViewAccessDetailsRequest {
   dataViewId: string;
@@ -439,10 +439,10 @@ export type AccessKeyId = string;
 export type SecretAccessKey = string | redacted.Redacted<string>;
 export type SessionToken = string | redacted.Redacted<string>;
 export interface AwsCredentials {
-  accessKeyId?: string;
-  secretAccessKey?: string | redacted.Redacted<string>;
-  sessionToken?: string | redacted.Redacted<string>;
-  expiration?: number;
+  accessKeyId?: string | undefined;
+  secretAccessKey?: string | redacted.Redacted<string> | undefined;
+  sessionToken?: string | redacted.Redacted<string> | undefined;
+  expiration?: number | undefined;
 }
 export type S3BucketName = string;
 export type S3Key = string;
@@ -451,8 +451,8 @@ export interface S3Location {
   key: string;
 }
 export interface GetExternalDataViewAccessDetailsResponse {
-  credentials?: AwsCredentials;
-  s3Location?: S3Location;
+  credentials?: AwsCredentials | undefined;
+  s3Location?: S3Location | undefined;
 }
 export interface GetPermissionGroupRequest {
   permissionGroupId: string;
@@ -463,258 +463,258 @@ export type PermissionGroupMembershipStatus =
   | "REMOVAL_IN_PROGRESS"
   | (string & {});
 export interface PermissionGroup {
-  permissionGroupId?: string;
-  name?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  applicationPermissions?: ApplicationPermission[];
-  createTime?: number;
-  lastModifiedTime?: number;
-  membershipStatus?: PermissionGroupMembershipStatus;
+  permissionGroupId?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  applicationPermissions?: ApplicationPermission[] | undefined;
+  createTime?: number | undefined;
+  lastModifiedTime?: number | undefined;
+  membershipStatus?: PermissionGroupMembershipStatus | undefined;
 }
 export interface GetPermissionGroupResponse {
-  permissionGroup?: PermissionGroup;
+  permissionGroup?: PermissionGroup | undefined;
 }
 export type SessionDuration = number;
 export type IdType = string;
 export interface GetProgrammaticAccessCredentialsRequest {
-  durationInMinutes?: number;
+  durationInMinutes?: number | undefined;
   environmentId: string;
 }
 export type StringValueLength1to2552 = string;
 export type StringValueMaxLength1000 = string;
 export interface Credentials {
-  accessKeyId?: string;
-  secretAccessKey?: string;
-  sessionToken?: string;
+  accessKeyId?: string | undefined;
+  secretAccessKey?: string | undefined;
+  sessionToken?: string | undefined;
 }
 export interface GetProgrammaticAccessCredentialsResponse {
-  credentials?: Credentials;
-  durationInMinutes?: number;
+  credentials?: Credentials | undefined;
+  durationInMinutes?: number | undefined;
 }
 export interface GetUserRequest {
   userId: string;
 }
 export type UserStatus = "CREATING" | "ENABLED" | "DISABLED" | (string & {});
 export interface GetUserResponse {
-  userId?: string;
-  status?: UserStatus;
-  firstName?: string | redacted.Redacted<string>;
-  lastName?: string | redacted.Redacted<string>;
-  emailAddress?: string | redacted.Redacted<string>;
-  type?: UserType;
-  apiAccess?: ApiAccess;
-  apiAccessPrincipalArn?: string;
-  createTime?: number;
-  lastEnabledTime?: number;
-  lastDisabledTime?: number;
-  lastModifiedTime?: number;
-  lastLoginTime?: number;
+  userId?: string | undefined;
+  status?: UserStatus | undefined;
+  firstName?: string | redacted.Redacted<string> | undefined;
+  lastName?: string | redacted.Redacted<string> | undefined;
+  emailAddress?: string | redacted.Redacted<string> | undefined;
+  type?: UserType | undefined;
+  apiAccess?: ApiAccess | undefined;
+  apiAccessPrincipalArn?: string | undefined;
+  createTime?: number | undefined;
+  lastEnabledTime?: number | undefined;
+  lastDisabledTime?: number | undefined;
+  lastModifiedTime?: number | undefined;
+  lastLoginTime?: number | undefined;
 }
 export type LocationType = "INGESTION" | "SAGEMAKER" | (string & {});
 export interface GetWorkingLocationRequest {
-  locationType?: LocationType;
+  locationType?: LocationType | undefined;
 }
 export type StringValueLength1to1024 = string;
 export type StringValueLength1to63 = string;
 export interface GetWorkingLocationResponse {
-  s3Uri?: string;
-  s3Path?: string;
-  s3Bucket?: string;
+  s3Uri?: string | undefined;
+  s3Path?: string | undefined;
+  s3Bucket?: string | undefined;
 }
 export type ResultLimit = number;
 export type PaginationToken = string;
 export interface ListChangesetsRequest {
   datasetId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ChangesetSummary {
-  changesetId?: string;
-  changesetArn?: string;
-  datasetId?: string;
-  changeType?: ChangeType;
-  sourceParams?: { [key: string]: string | undefined };
-  formatParams?: { [key: string]: string | undefined };
-  createTime?: number;
-  status?: IngestionStatus;
-  errorInfo?: ChangesetErrorInfo;
-  activeUntilTimestamp?: number;
-  activeFromTimestamp?: number;
-  updatesChangesetId?: string;
-  updatedByChangesetId?: string;
+  changesetId?: string | undefined;
+  changesetArn?: string | undefined;
+  datasetId?: string | undefined;
+  changeType?: ChangeType | undefined;
+  sourceParams?: { [key: string]: string | undefined } | undefined;
+  formatParams?: { [key: string]: string | undefined } | undefined;
+  createTime?: number | undefined;
+  status?: IngestionStatus | undefined;
+  errorInfo?: ChangesetErrorInfo | undefined;
+  activeUntilTimestamp?: number | undefined;
+  activeFromTimestamp?: number | undefined;
+  updatesChangesetId?: string | undefined;
+  updatedByChangesetId?: string | undefined;
 }
 export type ChangesetList = ChangesetSummary[];
 export interface ListChangesetsResponse {
-  changesets?: ChangesetSummary[];
-  nextToken?: string;
+  changesets?: ChangesetSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDatasetsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface Dataset {
-  datasetId?: string;
-  datasetArn?: string;
-  datasetTitle?: string;
-  kind?: DatasetKind;
-  datasetDescription?: string;
-  ownerInfo?: DatasetOwnerInfo;
-  createTime?: number;
-  lastModifiedTime?: number;
-  schemaDefinition?: SchemaUnion;
-  alias?: string;
+  datasetId?: string | undefined;
+  datasetArn?: string | undefined;
+  datasetTitle?: string | undefined;
+  kind?: DatasetKind | undefined;
+  datasetDescription?: string | undefined;
+  ownerInfo?: DatasetOwnerInfo | undefined;
+  createTime?: number | undefined;
+  lastModifiedTime?: number | undefined;
+  schemaDefinition?: SchemaUnion | undefined;
+  alias?: string | undefined;
 }
 export type DatasetList = Dataset[];
 export interface ListDatasetsResponse {
-  datasets?: Dataset[];
-  nextToken?: string;
+  datasets?: Dataset[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDataViewsRequest {
   datasetId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DataViewSummary {
-  dataViewId?: string;
-  dataViewArn?: string;
-  datasetId?: string;
-  asOfTimestamp?: number;
-  partitionColumns?: string[];
-  sortColumns?: string[];
-  status?: DataViewStatus;
-  errorInfo?: DataViewErrorInfo;
-  destinationTypeProperties?: DataViewDestinationTypeParams;
-  autoUpdate?: boolean;
-  createTime?: number;
-  lastModifiedTime?: number;
+  dataViewId?: string | undefined;
+  dataViewArn?: string | undefined;
+  datasetId?: string | undefined;
+  asOfTimestamp?: number | undefined;
+  partitionColumns?: string[] | undefined;
+  sortColumns?: string[] | undefined;
+  status?: DataViewStatus | undefined;
+  errorInfo?: DataViewErrorInfo | undefined;
+  destinationTypeProperties?: DataViewDestinationTypeParams | undefined;
+  autoUpdate?: boolean | undefined;
+  createTime?: number | undefined;
+  lastModifiedTime?: number | undefined;
 }
 export type DataViewList = DataViewSummary[];
 export interface ListDataViewsResponse {
-  nextToken?: string;
-  dataViews?: DataViewSummary[];
+  nextToken?: string | undefined;
+  dataViews?: DataViewSummary[] | undefined;
 }
 export interface ListPermissionGroupsRequest {
-  nextToken?: string;
+  nextToken?: string | undefined;
   maxResults: number;
 }
 export type PermissionGroupList = PermissionGroup[];
 export interface ListPermissionGroupsResponse {
-  permissionGroups?: PermissionGroup[];
-  nextToken?: string;
+  permissionGroups?: PermissionGroup[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListPermissionGroupsByUserRequest {
   userId: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
   maxResults: number;
 }
 export interface PermissionGroupByUser {
-  permissionGroupId?: string;
-  name?: string | redacted.Redacted<string>;
-  membershipStatus?: PermissionGroupMembershipStatus;
+  permissionGroupId?: string | undefined;
+  name?: string | redacted.Redacted<string> | undefined;
+  membershipStatus?: PermissionGroupMembershipStatus | undefined;
 }
 export type PermissionGroupByUserList = PermissionGroupByUser[];
 export interface ListPermissionGroupsByUserResponse {
-  permissionGroups?: PermissionGroupByUser[];
-  nextToken?: string;
+  permissionGroups?: PermissionGroupByUser[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListUsersRequest {
-  nextToken?: string;
+  nextToken?: string | undefined;
   maxResults: number;
 }
 export interface User {
-  userId?: string;
-  status?: UserStatus;
-  firstName?: string | redacted.Redacted<string>;
-  lastName?: string | redacted.Redacted<string>;
-  emailAddress?: string | redacted.Redacted<string>;
-  type?: UserType;
-  apiAccess?: ApiAccess;
-  apiAccessPrincipalArn?: string;
-  createTime?: number;
-  lastEnabledTime?: number;
-  lastDisabledTime?: number;
-  lastModifiedTime?: number;
-  lastLoginTime?: number;
+  userId?: string | undefined;
+  status?: UserStatus | undefined;
+  firstName?: string | redacted.Redacted<string> | undefined;
+  lastName?: string | redacted.Redacted<string> | undefined;
+  emailAddress?: string | redacted.Redacted<string> | undefined;
+  type?: UserType | undefined;
+  apiAccess?: ApiAccess | undefined;
+  apiAccessPrincipalArn?: string | undefined;
+  createTime?: number | undefined;
+  lastEnabledTime?: number | undefined;
+  lastDisabledTime?: number | undefined;
+  lastModifiedTime?: number | undefined;
+  lastLoginTime?: number | undefined;
 }
 export type UserList = User[];
 export interface ListUsersResponse {
-  users?: User[];
-  nextToken?: string;
+  users?: User[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListUsersByPermissionGroupRequest {
   permissionGroupId: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
   maxResults: number;
 }
 export interface UserByPermissionGroup {
-  userId?: string;
-  status?: UserStatus;
-  firstName?: string | redacted.Redacted<string>;
-  lastName?: string | redacted.Redacted<string>;
-  emailAddress?: string | redacted.Redacted<string>;
-  type?: UserType;
-  apiAccess?: ApiAccess;
-  apiAccessPrincipalArn?: string;
-  membershipStatus?: PermissionGroupMembershipStatus;
+  userId?: string | undefined;
+  status?: UserStatus | undefined;
+  firstName?: string | redacted.Redacted<string> | undefined;
+  lastName?: string | redacted.Redacted<string> | undefined;
+  emailAddress?: string | redacted.Redacted<string> | undefined;
+  type?: UserType | undefined;
+  apiAccess?: ApiAccess | undefined;
+  apiAccessPrincipalArn?: string | undefined;
+  membershipStatus?: PermissionGroupMembershipStatus | undefined;
 }
 export type UserByPermissionGroupList = UserByPermissionGroup[];
 export interface ListUsersByPermissionGroupResponse {
-  users?: UserByPermissionGroup[];
-  nextToken?: string;
+  users?: UserByPermissionGroup[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ResetUserPasswordRequest {
   userId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type Password = string | redacted.Redacted<string>;
 export interface ResetUserPasswordResponse {
-  userId?: string;
-  temporaryPassword?: string | redacted.Redacted<string>;
+  userId?: string | undefined;
+  temporaryPassword?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateChangesetRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   datasetId: string;
   changesetId: string;
   sourceParams: { [key: string]: string | undefined };
   formatParams: { [key: string]: string | undefined };
 }
 export interface UpdateChangesetResponse {
-  changesetId?: string;
-  datasetId?: string;
+  changesetId?: string | undefined;
+  datasetId?: string | undefined;
 }
 export interface UpdateDatasetRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   datasetId: string;
   datasetTitle: string;
   kind: DatasetKind;
-  datasetDescription?: string;
-  alias?: string;
-  schemaDefinition?: SchemaUnion;
+  datasetDescription?: string | undefined;
+  alias?: string | undefined;
+  schemaDefinition?: SchemaUnion | undefined;
 }
 export interface UpdateDatasetResponse {
-  datasetId?: string;
+  datasetId?: string | undefined;
 }
 export interface UpdatePermissionGroupRequest {
   permissionGroupId: string;
-  name?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  applicationPermissions?: ApplicationPermission[];
-  clientToken?: string;
+  name?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  applicationPermissions?: ApplicationPermission[] | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdatePermissionGroupResponse {
-  permissionGroupId?: string;
+  permissionGroupId?: string | undefined;
 }
 export interface UpdateUserRequest {
   userId: string;
-  type?: UserType;
-  firstName?: string | redacted.Redacted<string>;
-  lastName?: string | redacted.Redacted<string>;
-  apiAccess?: ApiAccess;
-  apiAccessPrincipalArn?: string;
-  clientToken?: string;
+  type?: UserType | undefined;
+  firstName?: string | redacted.Redacted<string> | undefined;
+  lastName?: string | redacted.Redacted<string> | undefined;
+  apiAccess?: ApiAccess | undefined;
+  apiAccessPrincipalArn?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateUserResponse {
-  userId?: string;
+  userId?: string | undefined;
 }
 export type ErrorMessage2 = string;
 export type AssociateUserToPermissionGroupError =

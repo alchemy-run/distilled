@@ -44,8 +44,8 @@
  * {@link GqlTransport.execute} posts `{ query, variables, operationName }`.
  * The Effect it returns may require Credentials / HttpClient; those leak
  * into `Query.fn`'s requirements. It returns the parsed `data` and raw
- * `errors`; `Query.fn` classifies the errors (see "Errors" below). Compile
- * failures are {@link GqlError} defects.
+ * `errors`; `Query.fn` classifies the errors (see "Errors" below). A plan
+ * that can't be compiled fails with {@link GqlError}.
  *
  * Generated SDKs export *roots* (`Railway.me`, `Railway.project`).
  * Combinators live in `@distilled.cloud/core/query`.
@@ -64,14 +64,28 @@ import * as Telemetry from "./telemetry.ts";
 export const QuerySymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/graphql/Query");
 const inspect = /*@__PURE__*/ Symbol.for("nodejs.util.inspect.custom");
 
-/** A plan that cannot be compiled (a programming error, raised as a defect). */
-export class GqlError {
-  readonly _tag = "GqlError" as const;
-  readonly message: string;
+/**
+ * A plan that cannot be compiled (a programming error in the query). The
+ * compiler throws it; `Query.fn`, `Query.pages` and `Query.items` fail with
+ * it (see {@link compiling}).
+ */
+export class GqlError
+  extends /*@__PURE__*/ Data.TaggedError("GqlError")<{
+    readonly message: string;
+  }>
+{
   constructor(message: string) {
-    this.message = message;
+    super({ message });
   }
 }
+
+/** `f()`, with what the compiler throws failed as a {@link GqlError}. */
+const compiling = <A>(f: () => A): Effect.Effect<A, GqlError> =>
+  Effect.try({
+    try: f,
+    catch: (e) =>
+      e instanceof GqlError ? e : new GqlError(e instanceof Error ? e.message : String(e)),
+  });
 
 // U+2500U+2500 Errors U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500U+2500
 //
@@ -395,7 +409,8 @@ export type QueryError<Error> =
   | Error
   | GraphQLFailure<Extract<Error, GraphQLIssue> | UnknownGraphQLError>
   | UnknownGraphQLError
-  | GraphQLTransportError;
+  | GraphQLTransportError
+  | GqlError;
 
 type Expr =
   | RootExpr
@@ -1212,13 +1227,15 @@ const interpretPlan = (
     if (isQuery(plan)) {
       const expr = (plan as QueryNode).expr;
       if (expr._tag === "FlatMap") {
-        const resolved = interpretExpr(expr.parent, data, rootAlias, undefined);
+        const resolved = yield* compiling(() =>
+          interpretExpr(expr.parent, data, rootAlias, undefined),
+        );
         const next = expr.flatMapFn(resolved);
         if (Effect.isEffect(next)) return yield* next;
         if (isQuery(next)) return yield* interpretPlan(next, data, rootAlias);
         return next;
       }
-      return interpretExpr(expr, data, rootAlias, undefined);
+      return yield* compiling(() => interpretExpr(expr, data, rootAlias, undefined));
     }
     if (Effect.isEffect(plan)) return yield* plan;
     if (plan !== null && typeof plan === "object" && !Array.isArray(plan)) {
@@ -1240,11 +1257,13 @@ const evaluatePlan = <Plan>(
 ): Effect.Effect<UnwrapPlan<Plan>, QueryError<PlanError<Plan>>, GqlTransport> =>
   Effect.gen(function* () {
     const forest = emptyForest();
-    visitPlan(plan, forest);
+    const compiled = yield* compiling(() => {
+      visitPlan(plan, forest);
+      return forest.roots.children.size > 0 ? emit(forest) : undefined;
+    });
     let data: unknown = {};
     let rootAlias: WeakMap<object, string> = new WeakMap();
-    if (forest.roots.children.size > 0) {
-      const compiled = emit(forest);
+    if (compiled !== undefined) {
       log("document\n" + compiled.document);
       data = yield* execute(compiled);
       rootAlias = compiled.rootAlias;
@@ -1678,15 +1697,17 @@ const fetchPage = <Item>(
   state: PageState,
 ) =>
   Effect.gen(function* () {
-    const pageExpr = withCursor(query.expr, connection, state.after);
-    const forest = emptyForest();
-    visitExpr(forest, pageExpr);
-    const nodePath = paintAbs(forest, withCursor(connection, connection, state.after));
-    const connectionPath = nodePath.slice(0, -2);
-    const pageInfo = ensureChild(forest, selAt(forest.roots, connectionPath), "pageInfo", {});
-    ensureChild(forest, pageInfo, "hasNextPage", { isScalar: true });
-    ensureChild(forest, pageInfo, "endCursor", { isScalar: true });
-    const compiled = emit(forest);
+    const { pageExpr, connectionPath, compiled } = yield* compiling(() => {
+      const pageExpr = withCursor(query.expr, connection, state.after);
+      const forest = emptyForest();
+      visitExpr(forest, pageExpr);
+      const nodePath = paintAbs(forest, withCursor(connection, connection, state.after));
+      const connectionPath = nodePath.slice(0, -2);
+      const pageInfo = ensureChild(forest, selAt(forest.roots, connectionPath), "pageInfo", {});
+      ensureChild(forest, pageInfo, "hasNextPage", { isScalar: true });
+      ensureChild(forest, pageInfo, "endCursor", { isScalar: true });
+      return { pageExpr, connectionPath, compiled: emit(forest) };
+    });
     log("page\n" + compiled.document);
     const data = yield* execute(compiled);
     const items = (yield* interpretPlan(make(pageExpr), data, compiled.rootAlias)) as
@@ -1723,29 +1744,31 @@ export const pagesQuery = <Item, Error>(
   query: QueryNode<ReadonlyArray<Item> | null, Error>,
 ): Stream.Stream<ReadonlyArray<Item>, QueryError<Error> | GraphQLPaginationError, GqlTransport> =>
   Stream.unwrap(
-    Effect.sync(() => {
-      const connection = connectionOf(query.expr);
-      const after = connection.args?.after;
-      return Stream.paginate<
-        PageState,
-        ReadonlyArray<Item>,
-        QueryError<Error> | GraphQLPaginationError,
-        GqlTransport
-      >(
-        {
-          after: typeof after === "string" ? after : undefined,
-          seen: new Set(),
-        },
-        (state) =>
-          fetchPage(query, connection, state).pipe(
-            Effect.map(([items, next]) => [[items], next] as const),
-          ) as Effect.Effect<
-            readonly [ReadonlyArray<ReadonlyArray<Item>>, Option.Option<PageState>],
-            QueryError<Error> | GraphQLPaginationError,
-            GqlTransport
-          >,
-      );
-    }),
+    Effect.map(
+      compiling(() => connectionOf(query.expr)),
+      (connection) => {
+        const after = connection.args?.after;
+        return Stream.paginate<
+          PageState,
+          ReadonlyArray<Item>,
+          QueryError<Error> | GraphQLPaginationError,
+          GqlTransport
+        >(
+          {
+            after: typeof after === "string" ? after : undefined,
+            seen: new Set(),
+          },
+          (state) =>
+            fetchPage(query, connection, state).pipe(
+              Effect.map(([items, next]) => [[items], next] as const),
+            ) as Effect.Effect<
+              readonly [ReadonlyArray<ReadonlyArray<Item>>, Option.Option<PageState>],
+              QueryError<Error> | GraphQLPaginationError,
+              GqlTransport
+            >,
+        );
+      },
+    ),
   );
 
 /** Every node of a Relay connection, across all pages. */

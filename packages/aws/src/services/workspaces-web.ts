@@ -289,17 +289,17 @@ export type BlockedCategories = Category[];
 export type UrlPattern = string | redacted.Redacted<string>;
 export type UrlPatternList = (string | redacted.Redacted<string>)[];
 export interface WebContentFilteringPolicy {
-  blockedCategories?: Category[];
-  allowedUrls?: (string | redacted.Redacted<string>)[];
-  blockedUrls?: (string | redacted.Redacted<string>)[];
+  blockedCategories?: Category[] | undefined;
+  allowedUrls?: (string | redacted.Redacted<string>)[] | undefined;
+  blockedUrls?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export interface CreateBrowserSettingsRequest {
-  tags?: Tag[];
-  customerManagedKey?: string;
-  additionalEncryptionContext?: { [key: string]: string | undefined };
-  browserPolicy?: string | redacted.Redacted<string>;
-  clientToken?: string;
-  webContentFilteringPolicy?: WebContentFilteringPolicy;
+  tags?: Tag[] | undefined;
+  customerManagedKey?: string | undefined;
+  additionalEncryptionContext?: { [key: string]: string | undefined } | undefined;
+  browserPolicy?: string | redacted.Redacted<string> | undefined;
+  clientToken?: string | undefined;
+  webContentFilteringPolicy?: WebContentFilteringPolicy | undefined;
 }
 export interface CreateBrowserSettingsResponse {
   browserSettingsArn: string;
@@ -312,42 +312,42 @@ export type Regex = string | redacted.Redacted<string>;
 export interface CustomPattern {
   patternName: string | redacted.Redacted<string>;
   patternRegex: string | redacted.Redacted<string>;
-  patternDescription?: string | redacted.Redacted<string>;
-  keywordRegex?: string | redacted.Redacted<string>;
+  patternDescription?: string | redacted.Redacted<string> | undefined;
+  keywordRegex?: string | redacted.Redacted<string> | undefined;
 }
 export type RedactionPlaceHolderType = string;
 export type RedactionPlaceHolderText = string | redacted.Redacted<string>;
 export interface RedactionPlaceHolder {
   redactionPlaceHolderType: string;
-  redactionPlaceHolderText?: string | redacted.Redacted<string>;
+  redactionPlaceHolderText?: string | redacted.Redacted<string> | undefined;
 }
 export type InlineRedactionUrl = string | redacted.Redacted<string>;
 export type InlineRedactionUrls = (string | redacted.Redacted<string>)[];
 export type ConfidenceLevel = number;
 export interface InlineRedactionPattern {
-  builtInPatternId?: string | redacted.Redacted<string>;
-  customPattern?: CustomPattern;
+  builtInPatternId?: string | redacted.Redacted<string> | undefined;
+  customPattern?: CustomPattern | undefined;
   redactionPlaceHolder: RedactionPlaceHolder;
-  enforcedUrls?: (string | redacted.Redacted<string>)[];
-  exemptUrls?: (string | redacted.Redacted<string>)[];
-  confidenceLevel?: number;
+  enforcedUrls?: (string | redacted.Redacted<string>)[] | undefined;
+  exemptUrls?: (string | redacted.Redacted<string>)[] | undefined;
+  confidenceLevel?: number | undefined;
 }
 export type InlineRedactionPatterns = InlineRedactionPattern[];
 export type GlobalInlineRedactionUrls = (string | redacted.Redacted<string>)[];
 export interface InlineRedactionConfiguration {
   inlineRedactionPatterns: InlineRedactionPattern[];
-  globalEnforcedUrls?: (string | redacted.Redacted<string>)[];
-  globalExemptUrls?: (string | redacted.Redacted<string>)[];
-  globalConfidenceLevel?: number;
+  globalEnforcedUrls?: (string | redacted.Redacted<string>)[] | undefined;
+  globalExemptUrls?: (string | redacted.Redacted<string>)[] | undefined;
+  globalConfidenceLevel?: number | undefined;
 }
 export interface CreateDataProtectionSettingsRequest {
-  displayName?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  tags?: Tag[];
-  customerManagedKey?: string;
-  additionalEncryptionContext?: { [key: string]: string | undefined };
-  inlineRedactionConfiguration?: InlineRedactionConfiguration;
-  clientToken?: string;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  tags?: Tag[] | undefined;
+  customerManagedKey?: string | undefined;
+  additionalEncryptionContext?: { [key: string]: string | undefined } | undefined;
+  inlineRedactionConfiguration?: InlineRedactionConfiguration | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateDataProtectionSettingsResponse {
   dataProtectionSettingsArn: string;
@@ -360,8 +360,8 @@ export interface CreateIdentityProviderRequest {
   identityProviderName: string | redacted.Redacted<string>;
   identityProviderType: string;
   identityProviderDetails: { [key: string]: string | undefined };
-  clientToken?: string;
-  tags?: Tag[];
+  clientToken?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export type SubresourceARN = string;
 export interface CreateIdentityProviderResponse {
@@ -372,17 +372,17 @@ export type Description = string | redacted.Redacted<string>;
 export type IpRange = string | redacted.Redacted<string>;
 export interface IpRule {
   ipRange: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export type IpRuleList = IpRule[];
 export interface CreateIpAccessSettingsRequest {
-  displayName?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  tags?: Tag[];
-  customerManagedKey?: string;
-  additionalEncryptionContext?: { [key: string]: string | undefined };
+  displayName?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  tags?: Tag[] | undefined;
+  customerManagedKey?: string | undefined;
+  additionalEncryptionContext?: { [key: string]: string | undefined } | undefined;
   ipRules: IpRule[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface CreateIpAccessSettingsResponse {
   ipAccessSettingsArn: string;
@@ -396,8 +396,8 @@ export interface CreateNetworkSettingsRequest {
   vpcId: string;
   subnetIds: string[];
   securityGroupIds: string[];
-  tags?: Tag[];
-  clientToken?: string;
+  tags?: Tag[] | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateNetworkSettingsResponse {
   networkSettingsArn: string;
@@ -407,15 +407,15 @@ export type InstanceType = string;
 export type MaxConcurrentSessions = number;
 export type PortalCustomDomain = string;
 export interface CreatePortalRequest {
-  displayName?: string | redacted.Redacted<string>;
-  tags?: Tag[];
-  customerManagedKey?: string;
-  additionalEncryptionContext?: { [key: string]: string | undefined };
-  clientToken?: string;
-  authenticationType?: string;
-  instanceType?: string;
-  maxConcurrentSessions?: number;
-  portalCustomDomain?: string;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  tags?: Tag[] | undefined;
+  customerManagedKey?: string | undefined;
+  additionalEncryptionContext?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
+  authenticationType?: string | undefined;
+  instanceType?: string | undefined;
+  maxConcurrentSessions?: number | undefined;
+  portalCustomDomain?: string | undefined;
 }
 export type PortalEndpoint = string;
 export interface CreatePortalResponse {
@@ -443,8 +443,8 @@ export type Event =
   | (string & {});
 export type Events = Event[];
 export type EventFilter =
-  | { all: Record<string, never>; include?: never }
-  | { all?: never; include: Event[] };
+  | { all: Record<string, never>; include?: undefined }
+  | { all?: undefined; include: Event[] };
 export type S3Bucket = string | redacted.Redacted<string>;
 export type S3KeyPrefix = string | redacted.Redacted<string>;
 export type S3BucketOwner = string;
@@ -452,22 +452,22 @@ export type LogFileFormat = "JSONLines" | "Json" | (string & {});
 export type FolderStructure = "Flat" | "NestedByDate" | (string & {});
 export interface S3LogConfiguration {
   bucket: string | redacted.Redacted<string>;
-  keyPrefix?: string | redacted.Redacted<string>;
-  bucketOwner?: string;
+  keyPrefix?: string | redacted.Redacted<string> | undefined;
+  bucketOwner?: string | undefined;
   logFileFormat: LogFileFormat;
   folderStructure: FolderStructure;
 }
 export interface LogConfiguration {
-  s3?: S3LogConfiguration;
+  s3?: S3LogConfiguration | undefined;
 }
 export interface CreateSessionLoggerRequest {
   eventFilter: EventFilter;
   logConfiguration: LogConfiguration;
-  displayName?: string | redacted.Redacted<string>;
-  customerManagedKey?: string;
-  additionalEncryptionContext?: { [key: string]: string | undefined };
-  tags?: Tag[];
-  clientToken?: string;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  customerManagedKey?: string | undefined;
+  additionalEncryptionContext?: { [key: string]: string | undefined } | undefined;
+  tags?: Tag[] | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateSessionLoggerResponse {
   sessionLoggerArn: string;
@@ -476,8 +476,8 @@ export type CertificateAuthorityBody = Uint8Array;
 export type CertificateList = Uint8Array[];
 export interface CreateTrustStoreRequest {
   certificateList: Uint8Array[];
-  tags?: Tag[];
-  clientToken?: string;
+  tags?: Tag[] | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateTrustStoreResponse {
   trustStoreArn: string;
@@ -485,8 +485,8 @@ export interface CreateTrustStoreResponse {
 export type KinesisStreamArn = string;
 export interface CreateUserAccessLoggingSettingsRequest {
   kinesisStreamArn: string;
-  tags?: Tag[];
-  clientToken?: string;
+  tags?: Tag[] | undefined;
+  clientToken?: string | undefined;
 }
 export interface CreateUserAccessLoggingSettingsResponse {
   userAccessLoggingSettingsArn: string;
@@ -499,13 +499,13 @@ export type CookieName = string | redacted.Redacted<string>;
 export type CookiePath = string | redacted.Redacted<string>;
 export interface CookieSpecification {
   domain: string | redacted.Redacted<string>;
-  name?: string | redacted.Redacted<string>;
-  path?: string | redacted.Redacted<string>;
+  name?: string | redacted.Redacted<string> | undefined;
+  path?: string | redacted.Redacted<string> | undefined;
 }
 export type CookieSpecifications = CookieSpecification[];
 export interface CookieSynchronizationConfiguration {
   allowlist: CookieSpecification[];
-  blocklist?: CookieSpecification[];
+  blocklist?: CookieSpecification[] | undefined;
 }
 export type ToolbarType = string;
 export type VisualMode = string;
@@ -513,18 +513,20 @@ export type ToolbarItem = string;
 export type HiddenToolbarItemList = string[];
 export type MaxDisplayResolution = string;
 export interface ToolbarConfiguration {
-  toolbarType?: string;
-  visualMode?: string;
-  hiddenToolbarItems?: string[];
-  maxDisplayResolution?: string;
+  toolbarType?: string | undefined;
+  visualMode?: string | undefined;
+  hiddenToolbarItems?: string[] | undefined;
+  maxDisplayResolution?: string | undefined;
 }
 export type IconImage = Uint8Array;
 export type S3Uri = string;
-export type IconImageInput = { blob: Uint8Array; s3Uri?: never } | { blob?: never; s3Uri: string };
+export type IconImageInput =
+  | { blob: Uint8Array; s3Uri?: undefined }
+  | { blob?: undefined; s3Uri: string };
 export type WallpaperImage = Uint8Array;
 export type WallpaperImageInput =
-  | { blob: Uint8Array; s3Uri?: never }
-  | { blob?: never; s3Uri: string };
+  | { blob: Uint8Array; s3Uri?: undefined }
+  | { blob?: undefined; s3Uri: string };
 export type Locale =
   | "de-DE"
   | "en-US"
@@ -543,23 +545,23 @@ export type ContactLinkUrl = string;
 export interface LocalizedBrandingStrings {
   browserTabTitle: string;
   welcomeText: string;
-  loginTitle?: string;
-  loginDescription?: string;
-  loginButtonText?: string;
-  contactLink?: string;
-  contactButtonText?: string;
-  loadingText?: string;
+  loginTitle?: string | undefined;
+  loginDescription?: string | undefined;
+  loginButtonText?: string | undefined;
+  contactLink?: string | undefined;
+  contactButtonText?: string | undefined;
+  loadingText?: string | undefined;
 }
-export type LocalizedBrandingStringMap = { [key in Locale]?: LocalizedBrandingStrings };
+export type LocalizedBrandingStringMap = { [key in Locale]?: LocalizedBrandingStrings | undefined };
 export type ColorTheme = "Light" | "Dark" | (string & {});
 export type Markdown = string | redacted.Redacted<string>;
 export interface BrandingConfigurationCreateInput {
   logo: IconImageInput;
-  wallpaper?: WallpaperImageInput;
+  wallpaper?: WallpaperImageInput | undefined;
   favicon: IconImageInput;
   localizedStrings: { [key: string]: LocalizedBrandingStrings | undefined };
   colorTheme: ColorTheme;
-  termsOfService?: string | redacted.Redacted<string>;
+  termsOfService?: string | redacted.Redacted<string> | undefined;
 }
 export interface CreateUserSettingsRequest {
   copyAllowed: string;
@@ -567,17 +569,17 @@ export interface CreateUserSettingsRequest {
   downloadAllowed: string;
   uploadAllowed: string;
   printAllowed: string;
-  tags?: Tag[];
-  disconnectTimeoutInMinutes?: number;
-  idleDisconnectTimeoutInMinutes?: number;
-  clientToken?: string;
-  cookieSynchronizationConfiguration?: CookieSynchronizationConfiguration;
-  customerManagedKey?: string;
-  additionalEncryptionContext?: { [key: string]: string | undefined };
-  deepLinkAllowed?: string;
-  toolbarConfiguration?: ToolbarConfiguration;
-  brandingConfigurationInput?: BrandingConfigurationCreateInput;
-  webAuthnAllowed?: string;
+  tags?: Tag[] | undefined;
+  disconnectTimeoutInMinutes?: number | undefined;
+  idleDisconnectTimeoutInMinutes?: number | undefined;
+  clientToken?: string | undefined;
+  cookieSynchronizationConfiguration?: CookieSynchronizationConfiguration | undefined;
+  customerManagedKey?: string | undefined;
+  additionalEncryptionContext?: { [key: string]: string | undefined } | undefined;
+  deepLinkAllowed?: string | undefined;
+  toolbarConfiguration?: ToolbarConfiguration | undefined;
+  brandingConfigurationInput?: BrandingConfigurationCreateInput | undefined;
+  webAuthnAllowed?: string | undefined;
 }
 export interface CreateUserSettingsResponse {
   userSettingsArn: string;
@@ -667,71 +669,71 @@ export interface GetBrowserSettingsRequest {
 export type ArnList = string[];
 export interface BrowserSettings {
   browserSettingsArn: string;
-  associatedPortalArns?: string[];
-  browserPolicy?: string | redacted.Redacted<string>;
-  customerManagedKey?: string;
-  additionalEncryptionContext?: { [key: string]: string | undefined };
-  webContentFilteringPolicy?: WebContentFilteringPolicy;
+  associatedPortalArns?: string[] | undefined;
+  browserPolicy?: string | redacted.Redacted<string> | undefined;
+  customerManagedKey?: string | undefined;
+  additionalEncryptionContext?: { [key: string]: string | undefined } | undefined;
+  webContentFilteringPolicy?: WebContentFilteringPolicy | undefined;
 }
 export interface GetBrowserSettingsResponse {
-  browserSettings?: BrowserSettings;
+  browserSettings?: BrowserSettings | undefined;
 }
 export interface GetDataProtectionSettingsRequest {
   dataProtectionSettingsArn: string;
 }
 export interface DataProtectionSettings {
   dataProtectionSettingsArn: string;
-  inlineRedactionConfiguration?: InlineRedactionConfiguration;
-  associatedPortalArns?: string[];
-  displayName?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  creationDate?: Date;
-  customerManagedKey?: string;
-  additionalEncryptionContext?: { [key: string]: string | undefined };
+  inlineRedactionConfiguration?: InlineRedactionConfiguration | undefined;
+  associatedPortalArns?: string[] | undefined;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  creationDate?: Date | undefined;
+  customerManagedKey?: string | undefined;
+  additionalEncryptionContext?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetDataProtectionSettingsResponse {
-  dataProtectionSettings?: DataProtectionSettings;
+  dataProtectionSettings?: DataProtectionSettings | undefined;
 }
 export interface GetIdentityProviderRequest {
   identityProviderArn: string;
 }
 export interface IdentityProvider {
   identityProviderArn: string;
-  identityProviderName?: string | redacted.Redacted<string>;
-  identityProviderType?: string;
-  identityProviderDetails?: { [key: string]: string | undefined };
+  identityProviderName?: string | redacted.Redacted<string> | undefined;
+  identityProviderType?: string | undefined;
+  identityProviderDetails?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetIdentityProviderResponse {
-  identityProvider?: IdentityProvider;
+  identityProvider?: IdentityProvider | undefined;
 }
 export interface GetIpAccessSettingsRequest {
   ipAccessSettingsArn: string;
 }
 export interface IpAccessSettings {
   ipAccessSettingsArn: string;
-  associatedPortalArns?: string[];
-  ipRules?: IpRule[];
-  displayName?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  creationDate?: Date;
-  customerManagedKey?: string;
-  additionalEncryptionContext?: { [key: string]: string | undefined };
+  associatedPortalArns?: string[] | undefined;
+  ipRules?: IpRule[] | undefined;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  creationDate?: Date | undefined;
+  customerManagedKey?: string | undefined;
+  additionalEncryptionContext?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetIpAccessSettingsResponse {
-  ipAccessSettings?: IpAccessSettings;
+  ipAccessSettings?: IpAccessSettings | undefined;
 }
 export interface GetNetworkSettingsRequest {
   networkSettingsArn: string;
 }
 export interface NetworkSettings {
   networkSettingsArn: string;
-  associatedPortalArns?: string[];
-  vpcId?: string;
-  subnetIds?: string[];
-  securityGroupIds?: string[];
+  associatedPortalArns?: string[] | undefined;
+  vpcId?: string | undefined;
+  subnetIds?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
 }
 export interface GetNetworkSettingsResponse {
-  networkSettings?: NetworkSettings;
+  networkSettings?: NetworkSettings | undefined;
 }
 export interface GetPortalRequest {
   portalArn: string;
@@ -742,30 +744,30 @@ export type PortalStatus = string;
 export type StatusReason = string;
 export interface Portal {
   portalArn: string;
-  rendererType?: string;
-  browserType?: string;
-  portalStatus?: string;
-  portalEndpoint?: string;
-  displayName?: string | redacted.Redacted<string>;
-  creationDate?: Date;
-  browserSettingsArn?: string;
-  dataProtectionSettingsArn?: string;
-  userSettingsArn?: string;
-  networkSettingsArn?: string;
-  sessionLoggerArn?: string;
-  trustStoreArn?: string;
-  statusReason?: string;
-  userAccessLoggingSettingsArn?: string;
-  authenticationType?: string;
-  ipAccessSettingsArn?: string;
-  customerManagedKey?: string;
-  additionalEncryptionContext?: { [key: string]: string | undefined };
-  instanceType?: string;
-  maxConcurrentSessions?: number;
-  portalCustomDomain?: string;
+  rendererType?: string | undefined;
+  browserType?: string | undefined;
+  portalStatus?: string | undefined;
+  portalEndpoint?: string | undefined;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  creationDate?: Date | undefined;
+  browserSettingsArn?: string | undefined;
+  dataProtectionSettingsArn?: string | undefined;
+  userSettingsArn?: string | undefined;
+  networkSettingsArn?: string | undefined;
+  sessionLoggerArn?: string | undefined;
+  trustStoreArn?: string | undefined;
+  statusReason?: string | undefined;
+  userAccessLoggingSettingsArn?: string | undefined;
+  authenticationType?: string | undefined;
+  ipAccessSettingsArn?: string | undefined;
+  customerManagedKey?: string | undefined;
+  additionalEncryptionContext?: { [key: string]: string | undefined } | undefined;
+  instanceType?: string | undefined;
+  maxConcurrentSessions?: number | undefined;
+  portalCustomDomain?: string | undefined;
 }
 export interface GetPortalResponse {
-  portal?: Portal;
+  portal?: Portal | undefined;
 }
 export interface GetPortalServiceProviderMetadataRequest {
   portalArn: string;
@@ -773,7 +775,7 @@ export interface GetPortalServiceProviderMetadataRequest {
 export type SamlMetadata = string;
 export interface GetPortalServiceProviderMetadataResponse {
   portalArn: string;
-  serviceProviderSamlMetadata?: string;
+  serviceProviderSamlMetadata?: string | undefined;
 }
 export interface GetSessionRequest {
   portalId: string;
@@ -784,42 +786,42 @@ export type IpAddress = string | redacted.Redacted<string>;
 export type IpAddressList = (string | redacted.Redacted<string>)[];
 export type SessionStatus = "Active" | "Terminated" | (string & {});
 export interface Session {
-  portalArn?: string;
-  sessionId?: string;
-  username?: string | redacted.Redacted<string>;
-  clientIpAddresses?: (string | redacted.Redacted<string>)[];
-  status?: SessionStatus;
-  startTime?: Date;
-  endTime?: Date;
+  portalArn?: string | undefined;
+  sessionId?: string | undefined;
+  username?: string | redacted.Redacted<string> | undefined;
+  clientIpAddresses?: (string | redacted.Redacted<string>)[] | undefined;
+  status?: SessionStatus | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
 }
 export interface GetSessionResponse {
-  session?: Session;
+  session?: Session | undefined;
 }
 export interface GetSessionLoggerRequest {
   sessionLoggerArn: string;
 }
 export interface SessionLogger {
   sessionLoggerArn: string;
-  eventFilter?: EventFilter;
-  logConfiguration?: LogConfiguration;
-  customerManagedKey?: string;
-  additionalEncryptionContext?: { [key: string]: string | undefined };
-  associatedPortalArns?: string[];
-  displayName?: string | redacted.Redacted<string>;
-  creationDate?: Date;
+  eventFilter?: EventFilter | undefined;
+  logConfiguration?: LogConfiguration | undefined;
+  customerManagedKey?: string | undefined;
+  additionalEncryptionContext?: { [key: string]: string | undefined } | undefined;
+  associatedPortalArns?: string[] | undefined;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  creationDate?: Date | undefined;
 }
 export interface GetSessionLoggerResponse {
-  sessionLogger?: SessionLogger;
+  sessionLogger?: SessionLogger | undefined;
 }
 export interface GetTrustStoreRequest {
   trustStoreArn: string;
 }
 export interface TrustStore {
-  associatedPortalArns?: string[];
+  associatedPortalArns?: string[] | undefined;
   trustStoreArn: string;
 }
 export interface GetTrustStoreResponse {
-  trustStore?: TrustStore;
+  trustStore?: TrustStore | undefined;
 }
 export type CertificateThumbprint = string;
 export interface GetTrustStoreCertificateRequest {
@@ -828,27 +830,27 @@ export interface GetTrustStoreCertificateRequest {
 }
 export type CertificatePrincipal = string;
 export interface Certificate {
-  thumbprint?: string;
-  subject?: string;
-  issuer?: string;
-  notValidBefore?: Date;
-  notValidAfter?: Date;
-  body?: Uint8Array;
+  thumbprint?: string | undefined;
+  subject?: string | undefined;
+  issuer?: string | undefined;
+  notValidBefore?: Date | undefined;
+  notValidAfter?: Date | undefined;
+  body?: Uint8Array | undefined;
 }
 export interface GetTrustStoreCertificateResponse {
   trustStoreArn: string;
-  certificate?: Certificate;
+  certificate?: Certificate | undefined;
 }
 export interface GetUserAccessLoggingSettingsRequest {
   userAccessLoggingSettingsArn: string;
 }
 export interface UserAccessLoggingSettings {
   userAccessLoggingSettingsArn: string;
-  associatedPortalArns?: string[];
-  kinesisStreamArn?: string;
+  associatedPortalArns?: string[] | undefined;
+  kinesisStreamArn?: string | undefined;
 }
 export interface GetUserAccessLoggingSettingsResponse {
-  userAccessLoggingSettings?: UserAccessLoggingSettings;
+  userAccessLoggingSettings?: UserAccessLoggingSettings | undefined;
 }
 export interface GetUserSettingsRequest {
   userSettingsArn: string;
@@ -861,250 +863,250 @@ export interface ImageMetadata {
 }
 export interface BrandingConfiguration {
   logo: ImageMetadata;
-  wallpaper?: ImageMetadata;
+  wallpaper?: ImageMetadata | undefined;
   favicon: ImageMetadata;
   localizedStrings: { [key: string]: LocalizedBrandingStrings | undefined };
   colorTheme: ColorTheme;
-  termsOfService?: string | redacted.Redacted<string>;
+  termsOfService?: string | redacted.Redacted<string> | undefined;
 }
 export interface UserSettings {
   userSettingsArn: string;
-  associatedPortalArns?: string[];
-  copyAllowed?: string;
-  pasteAllowed?: string;
-  downloadAllowed?: string;
-  uploadAllowed?: string;
-  printAllowed?: string;
-  disconnectTimeoutInMinutes?: number;
-  idleDisconnectTimeoutInMinutes?: number;
-  cookieSynchronizationConfiguration?: CookieSynchronizationConfiguration;
-  customerManagedKey?: string;
-  additionalEncryptionContext?: { [key: string]: string | undefined };
-  deepLinkAllowed?: string;
-  toolbarConfiguration?: ToolbarConfiguration;
-  brandingConfiguration?: BrandingConfiguration;
-  webAuthnAllowed?: string;
+  associatedPortalArns?: string[] | undefined;
+  copyAllowed?: string | undefined;
+  pasteAllowed?: string | undefined;
+  downloadAllowed?: string | undefined;
+  uploadAllowed?: string | undefined;
+  printAllowed?: string | undefined;
+  disconnectTimeoutInMinutes?: number | undefined;
+  idleDisconnectTimeoutInMinutes?: number | undefined;
+  cookieSynchronizationConfiguration?: CookieSynchronizationConfiguration | undefined;
+  customerManagedKey?: string | undefined;
+  additionalEncryptionContext?: { [key: string]: string | undefined } | undefined;
+  deepLinkAllowed?: string | undefined;
+  toolbarConfiguration?: ToolbarConfiguration | undefined;
+  brandingConfiguration?: BrandingConfiguration | undefined;
+  webAuthnAllowed?: string | undefined;
 }
 export interface GetUserSettingsResponse {
-  userSettings?: UserSettings;
+  userSettings?: UserSettings | undefined;
 }
 export type PaginationToken = string;
 export type MaxResults = number;
 export interface ListBrowserSettingsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface BrowserSettingsSummary {
   browserSettingsArn: string;
 }
 export type BrowserSettingsList = BrowserSettingsSummary[];
 export interface ListBrowserSettingsResponse {
-  browserSettings?: BrowserSettingsSummary[];
-  nextToken?: string;
+  browserSettings?: BrowserSettingsSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListDataProtectionSettingsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DataProtectionSettingsSummary {
   dataProtectionSettingsArn: string;
-  displayName?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  creationDate?: Date;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  creationDate?: Date | undefined;
 }
 export type DataProtectionSettingsList = DataProtectionSettingsSummary[];
 export interface ListDataProtectionSettingsResponse {
-  dataProtectionSettings?: DataProtectionSettingsSummary[];
-  nextToken?: string;
+  dataProtectionSettings?: DataProtectionSettingsSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListIdentityProvidersRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
   portalArn: string;
 }
 export interface IdentityProviderSummary {
   identityProviderArn: string;
-  identityProviderName?: string | redacted.Redacted<string>;
-  identityProviderType?: string;
+  identityProviderName?: string | redacted.Redacted<string> | undefined;
+  identityProviderType?: string | undefined;
 }
 export type IdentityProviderList = IdentityProviderSummary[];
 export interface ListIdentityProvidersResponse {
-  nextToken?: string;
-  identityProviders?: IdentityProviderSummary[];
+  nextToken?: string | undefined;
+  identityProviders?: IdentityProviderSummary[] | undefined;
 }
 export interface ListIpAccessSettingsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface IpAccessSettingsSummary {
   ipAccessSettingsArn: string;
-  displayName?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  creationDate?: Date;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  creationDate?: Date | undefined;
 }
 export type IpAccessSettingsList = IpAccessSettingsSummary[];
 export interface ListIpAccessSettingsResponse {
-  ipAccessSettings?: IpAccessSettingsSummary[];
-  nextToken?: string;
+  ipAccessSettings?: IpAccessSettingsSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListNetworkSettingsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface NetworkSettingsSummary {
   networkSettingsArn: string;
-  vpcId?: string;
+  vpcId?: string | undefined;
 }
 export type NetworkSettingsList = NetworkSettingsSummary[];
 export interface ListNetworkSettingsResponse {
-  networkSettings?: NetworkSettingsSummary[];
-  nextToken?: string;
+  networkSettings?: NetworkSettingsSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListPortalsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface PortalSummary {
   portalArn: string;
-  rendererType?: string;
-  browserType?: string;
-  portalStatus?: string;
-  portalEndpoint?: string;
-  displayName?: string | redacted.Redacted<string>;
-  creationDate?: Date;
-  browserSettingsArn?: string;
-  dataProtectionSettingsArn?: string;
-  userSettingsArn?: string;
-  networkSettingsArn?: string;
-  sessionLoggerArn?: string;
-  trustStoreArn?: string;
-  userAccessLoggingSettingsArn?: string;
-  authenticationType?: string;
-  ipAccessSettingsArn?: string;
-  instanceType?: string;
-  maxConcurrentSessions?: number;
-  portalCustomDomain?: string;
+  rendererType?: string | undefined;
+  browserType?: string | undefined;
+  portalStatus?: string | undefined;
+  portalEndpoint?: string | undefined;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  creationDate?: Date | undefined;
+  browserSettingsArn?: string | undefined;
+  dataProtectionSettingsArn?: string | undefined;
+  userSettingsArn?: string | undefined;
+  networkSettingsArn?: string | undefined;
+  sessionLoggerArn?: string | undefined;
+  trustStoreArn?: string | undefined;
+  userAccessLoggingSettingsArn?: string | undefined;
+  authenticationType?: string | undefined;
+  ipAccessSettingsArn?: string | undefined;
+  instanceType?: string | undefined;
+  maxConcurrentSessions?: number | undefined;
+  portalCustomDomain?: string | undefined;
 }
 export type PortalList = PortalSummary[];
 export interface ListPortalsResponse {
-  portals?: PortalSummary[];
-  nextToken?: string;
+  portals?: PortalSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListSessionLoggersRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface SessionLoggerSummary {
   sessionLoggerArn: string;
-  logConfiguration?: LogConfiguration;
-  displayName?: string | redacted.Redacted<string>;
-  creationDate?: Date;
+  logConfiguration?: LogConfiguration | undefined;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  creationDate?: Date | undefined;
 }
 export type SessionLoggerList = SessionLoggerSummary[];
 export interface ListSessionLoggersResponse {
-  sessionLoggers?: SessionLoggerSummary[];
-  nextToken?: string;
+  sessionLoggers?: SessionLoggerSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type SessionSortBy = "StartTimeAscending" | "StartTimeDescending" | (string & {});
 export interface ListSessionsRequest {
   portalId: string;
-  username?: string | redacted.Redacted<string>;
-  sessionId?: string;
-  sortBy?: SessionSortBy;
-  status?: SessionStatus;
-  maxResults?: number;
-  nextToken?: string;
+  username?: string | redacted.Redacted<string> | undefined;
+  sessionId?: string | undefined;
+  sortBy?: SessionSortBy | undefined;
+  status?: SessionStatus | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface SessionSummary {
-  portalArn?: string;
-  sessionId?: string;
-  username?: string | redacted.Redacted<string>;
-  status?: SessionStatus;
-  startTime?: Date;
-  endTime?: Date;
+  portalArn?: string | undefined;
+  sessionId?: string | undefined;
+  username?: string | redacted.Redacted<string> | undefined;
+  status?: SessionStatus | undefined;
+  startTime?: Date | undefined;
+  endTime?: Date | undefined;
 }
 export type SessionSummaryList = SessionSummary[];
 export interface ListSessionsResponse {
   sessions: SessionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export interface ListTrustStoreCertificatesRequest {
   trustStoreArn: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface CertificateSummary {
-  thumbprint?: string;
-  subject?: string;
-  issuer?: string;
-  notValidBefore?: Date;
-  notValidAfter?: Date;
+  thumbprint?: string | undefined;
+  subject?: string | undefined;
+  issuer?: string | undefined;
+  notValidBefore?: Date | undefined;
+  notValidAfter?: Date | undefined;
 }
 export type CertificateSummaryList = CertificateSummary[];
 export interface ListTrustStoreCertificatesResponse {
-  certificateList?: CertificateSummary[];
+  certificateList?: CertificateSummary[] | undefined;
   trustStoreArn: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTrustStoresRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface TrustStoreSummary {
-  trustStoreArn?: string;
+  trustStoreArn?: string | undefined;
 }
 export type TrustStoreSummaryList = TrustStoreSummary[];
 export interface ListTrustStoresResponse {
-  trustStores?: TrustStoreSummary[];
-  nextToken?: string;
+  trustStores?: TrustStoreSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListUserAccessLoggingSettingsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface UserAccessLoggingSettingsSummary {
   userAccessLoggingSettingsArn: string;
-  kinesisStreamArn?: string;
+  kinesisStreamArn?: string | undefined;
 }
 export type UserAccessLoggingSettingsList = UserAccessLoggingSettingsSummary[];
 export interface ListUserAccessLoggingSettingsResponse {
-  userAccessLoggingSettings?: UserAccessLoggingSettingsSummary[];
-  nextToken?: string;
+  userAccessLoggingSettings?: UserAccessLoggingSettingsSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListUserSettingsRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface UserSettingsSummary {
   userSettingsArn: string;
-  copyAllowed?: string;
-  pasteAllowed?: string;
-  downloadAllowed?: string;
-  uploadAllowed?: string;
-  printAllowed?: string;
-  disconnectTimeoutInMinutes?: number;
-  idleDisconnectTimeoutInMinutes?: number;
-  cookieSynchronizationConfiguration?: CookieSynchronizationConfiguration;
-  deepLinkAllowed?: string;
-  toolbarConfiguration?: ToolbarConfiguration;
-  brandingConfiguration?: BrandingConfiguration;
-  webAuthnAllowed?: string;
+  copyAllowed?: string | undefined;
+  pasteAllowed?: string | undefined;
+  downloadAllowed?: string | undefined;
+  uploadAllowed?: string | undefined;
+  printAllowed?: string | undefined;
+  disconnectTimeoutInMinutes?: number | undefined;
+  idleDisconnectTimeoutInMinutes?: number | undefined;
+  cookieSynchronizationConfiguration?: CookieSynchronizationConfiguration | undefined;
+  deepLinkAllowed?: string | undefined;
+  toolbarConfiguration?: ToolbarConfiguration | undefined;
+  brandingConfiguration?: BrandingConfiguration | undefined;
+  webAuthnAllowed?: string | undefined;
 }
 export type UserSettingsList = UserSettingsSummary[];
 export interface ListUserSettingsResponse {
-  userSettings?: UserSettingsSummary[];
-  nextToken?: string;
+  userSettings?: UserSettingsSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
   tags: Tag[];
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface TagResourceResponse {}
 export type TagKeyList = (string | redacted.Redacted<string>)[];
@@ -1115,69 +1117,69 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateBrowserSettingsRequest {
   browserSettingsArn: string;
-  browserPolicy?: string | redacted.Redacted<string>;
-  clientToken?: string;
-  webContentFilteringPolicy?: WebContentFilteringPolicy;
+  browserPolicy?: string | redacted.Redacted<string> | undefined;
+  clientToken?: string | undefined;
+  webContentFilteringPolicy?: WebContentFilteringPolicy | undefined;
 }
 export interface UpdateBrowserSettingsResponse {
   browserSettings: BrowserSettings;
 }
 export interface UpdateDataProtectionSettingsRequest {
   dataProtectionSettingsArn: string;
-  inlineRedactionConfiguration?: InlineRedactionConfiguration;
-  displayName?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  clientToken?: string;
+  inlineRedactionConfiguration?: InlineRedactionConfiguration | undefined;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateDataProtectionSettingsResponse {
   dataProtectionSettings: DataProtectionSettings;
 }
 export interface UpdateIdentityProviderRequest {
   identityProviderArn: string;
-  identityProviderName?: string | redacted.Redacted<string>;
-  identityProviderType?: string;
-  identityProviderDetails?: { [key: string]: string | undefined };
-  clientToken?: string;
+  identityProviderName?: string | redacted.Redacted<string> | undefined;
+  identityProviderType?: string | undefined;
+  identityProviderDetails?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateIdentityProviderResponse {
   identityProvider: IdentityProvider;
 }
 export interface UpdateIpAccessSettingsRequest {
   ipAccessSettingsArn: string;
-  displayName?: string | redacted.Redacted<string>;
-  description?: string | redacted.Redacted<string>;
-  ipRules?: IpRule[];
-  clientToken?: string;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  description?: string | redacted.Redacted<string> | undefined;
+  ipRules?: IpRule[] | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateIpAccessSettingsResponse {
   ipAccessSettings: IpAccessSettings;
 }
 export interface UpdateNetworkSettingsRequest {
   networkSettingsArn: string;
-  vpcId?: string;
-  subnetIds?: string[];
-  securityGroupIds?: string[];
-  clientToken?: string;
+  vpcId?: string | undefined;
+  subnetIds?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateNetworkSettingsResponse {
   networkSettings: NetworkSettings;
 }
 export interface UpdatePortalRequest {
   portalArn: string;
-  displayName?: string | redacted.Redacted<string>;
-  authenticationType?: string;
-  instanceType?: string;
-  maxConcurrentSessions?: number;
-  portalCustomDomain?: string;
+  displayName?: string | redacted.Redacted<string> | undefined;
+  authenticationType?: string | undefined;
+  instanceType?: string | undefined;
+  maxConcurrentSessions?: number | undefined;
+  portalCustomDomain?: string | undefined;
 }
 export interface UpdatePortalResponse {
-  portal?: Portal;
+  portal?: Portal | undefined;
 }
 export interface UpdateSessionLoggerRequest {
   sessionLoggerArn: string;
-  eventFilter?: EventFilter;
-  logConfiguration?: LogConfiguration;
-  displayName?: string | redacted.Redacted<string>;
+  eventFilter?: EventFilter | undefined;
+  logConfiguration?: LogConfiguration | undefined;
+  displayName?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateSessionLoggerResponse {
   sessionLogger: SessionLogger;
@@ -1185,44 +1187,44 @@ export interface UpdateSessionLoggerResponse {
 export type CertificateThumbprintList = string[];
 export interface UpdateTrustStoreRequest {
   trustStoreArn: string;
-  certificatesToAdd?: Uint8Array[];
-  certificatesToDelete?: string[];
-  clientToken?: string;
+  certificatesToAdd?: Uint8Array[] | undefined;
+  certificatesToDelete?: string[] | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateTrustStoreResponse {
   trustStoreArn: string;
 }
 export interface UpdateUserAccessLoggingSettingsRequest {
   userAccessLoggingSettingsArn: string;
-  kinesisStreamArn?: string;
-  clientToken?: string;
+  kinesisStreamArn?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateUserAccessLoggingSettingsResponse {
   userAccessLoggingSettings: UserAccessLoggingSettings;
 }
 export interface BrandingConfigurationUpdateInput {
-  logo?: IconImageInput;
-  wallpaper?: WallpaperImageInput;
-  favicon?: IconImageInput;
-  localizedStrings?: { [key: string]: LocalizedBrandingStrings | undefined };
-  colorTheme?: ColorTheme;
-  termsOfService?: string | redacted.Redacted<string>;
+  logo?: IconImageInput | undefined;
+  wallpaper?: WallpaperImageInput | undefined;
+  favicon?: IconImageInput | undefined;
+  localizedStrings?: { [key: string]: LocalizedBrandingStrings | undefined } | undefined;
+  colorTheme?: ColorTheme | undefined;
+  termsOfService?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateUserSettingsRequest {
   userSettingsArn: string;
-  copyAllowed?: string;
-  pasteAllowed?: string;
-  downloadAllowed?: string;
-  uploadAllowed?: string;
-  printAllowed?: string;
-  disconnectTimeoutInMinutes?: number;
-  idleDisconnectTimeoutInMinutes?: number;
-  clientToken?: string;
-  cookieSynchronizationConfiguration?: CookieSynchronizationConfiguration;
-  deepLinkAllowed?: string;
-  toolbarConfiguration?: ToolbarConfiguration;
-  brandingConfigurationInput?: BrandingConfigurationUpdateInput;
-  webAuthnAllowed?: string;
+  copyAllowed?: string | undefined;
+  pasteAllowed?: string | undefined;
+  downloadAllowed?: string | undefined;
+  uploadAllowed?: string | undefined;
+  printAllowed?: string | undefined;
+  disconnectTimeoutInMinutes?: number | undefined;
+  idleDisconnectTimeoutInMinutes?: number | undefined;
+  clientToken?: string | undefined;
+  cookieSynchronizationConfiguration?: CookieSynchronizationConfiguration | undefined;
+  deepLinkAllowed?: string | undefined;
+  toolbarConfiguration?: ToolbarConfiguration | undefined;
+  brandingConfigurationInput?: BrandingConfigurationUpdateInput | undefined;
+  webAuthnAllowed?: string | undefined;
 }
 export interface UpdateUserSettingsResponse {
   userSettings: UserSettings;

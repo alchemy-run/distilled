@@ -80,42 +80,42 @@ export type CreateBountySubmissionRequestDeliverableUrlsList = Array<string>;
 /** The submitted work. Combine `urls`, `file_ids`, and `caption` freely; at least one link or file is required. */
 export interface CreateBountySubmissionRequestDeliverable {
   /** Written context shown to reviewers alongside the work. */
-  caption?: string | null;
+  caption?: string | null | undefined;
   /** IDs of uploaded files attached as work, up to 10, each prefixed `file_`. Combinable with `urls` and `caption`. */
-  file_ids?: CreateBountySubmissionRequestDeliverableFileIdsList;
+  file_ids?: CreateBountySubmissionRequestDeliverableFileIdsList | undefined;
   /** Legacy shape selector; no longer selects anything. When present it must name an inline shape (`content_url` or `media`). */
-  type?: CreateBountySubmissionRequestDeliverableType | (string & {}) | null;
+  type?: CreateBountySubmissionRequestDeliverableType | (string & {}) | null | undefined;
   /** Links to the posted work, up to 10. Combinable with `file_ids` and `caption`. */
-  urls?: CreateBountySubmissionRequestDeliverableUrlsList;
+  urls?: CreateBountySubmissionRequestDeliverableUrlsList | undefined;
 }
 /** Optional capture metadata describing where and how the footage was recorded. Persisted on the submission. On a `data_capture` bounty every field except `fov` is required whenever metadata is provided. */
 export interface CreateBountySubmissionRequestMetadata {
   /** City the footage was recorded in. */
-  city?: string | null;
+  city?: string | null | undefined;
   /** Country the footage was recorded in. */
-  country?: string | null;
+  country?: string | null | undefined;
   /** Device the footage was recorded on. */
-  device?: string | null;
+  device?: string | null | undefined;
   /** Horizontal field of view in degrees. */
-  fov?: number | null;
+  fov?: number | null | undefined;
   /** Identifier of the person who recorded the footage. */
-  operator?: string | null;
+  operator?: string | null | undefined;
   /** Site or venue the footage was recorded at. */
-  site?: string | null;
+  site?: string | null | undefined;
   /** Station or position within the site. */
-  station?: string | null;
+  station?: string | null | undefined;
 }
 export interface CreateBountySubmissionRequest {
   /** Affiliate code crediting the referrer, when the worker arrived through one. */
-  affiliate_code?: string | null;
+  affiliate_code?: string | null | undefined;
   /** The bounty to submit to (`bnty_` tag). */
   bounty_id: string;
   /** The submitted work. Combine `urls`, `file_ids`, and `caption` freely; at least one link or file is required. */
-  deliverable?: CreateBountySubmissionRequestDeliverable | null;
+  deliverable?: CreateBountySubmissionRequestDeliverable | null | undefined;
   /** Optional capture metadata describing where and how the footage was recorded. Persisted on the submission. On a `data_capture` bounty every field except `fov` is required whenever metadata is provided. */
-  metadata?: CreateBountySubmissionRequestMetadata | null;
+  metadata?: CreateBountySubmissionRequestMetadata | null | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** Recording and validation state. `recording` is still capturing; `verifying` is running server-side validation; `ready` passed validation and counts toward the verified-duration payout gate; `failed` did not validate. */
 export type BountyCaptureClipStatus = "recording" | "verifying" | "ready" | "failed";
@@ -261,7 +261,7 @@ export interface GetBountySubmissionRequest {
   /** The bounty submission to act on (`btys_` tag). */
   id: string;
   /** Read the submission as this account (`biz_` tag), scoping the lookup to its bounties rather than the caller's own work. Requires read access to the account. Without it the lookup covers only what the credential owns -- the submissions the caller authored plus those on bounties they posted. */
-  account_id?: string;
+  account_id?: string | undefined;
 }
 export type ListBountySubmissionsRequestStatus =
   | "in_progress"
@@ -272,27 +272,27 @@ export type ListBountySubmissionsRequestOrder = "created_at" | "updated_at";
 export type ListBountySubmissionsRequestDirection = "asc" | "desc";
 export interface ListBountySubmissionsRequest {
   /** Scope the list to submissions on this account's bounties (`biz_` tag). Requires read access to the account. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Only submissions on this bounty (`bnty_` tag). */
-  bounty_id?: string;
+  bounty_id?: string | undefined;
   /** Filter by lifecycle state. */
-  status?: ListBountySubmissionsRequestStatus | (string & {});
+  status?: ListBountySubmissionsRequestStatus | (string & {}) | undefined;
   /** Only submissions created after this ISO 8601 timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Only submissions created before this ISO 8601 timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Sort field. */
-  order?: ListBountySubmissionsRequestOrder | (string & {});
+  order?: ListBountySubmissionsRequestOrder | (string & {}) | undefined;
   /** Sort direction. */
-  direction?: ListBountySubmissionsRequestDirection | (string & {});
+  direction?: ListBountySubmissionsRequestDirection | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 export type ListBountySubmissionsResponseDataList = Array<BountySubmission>;
 export interface ListBountySubmissionsResponsePageInfo {
@@ -312,19 +312,19 @@ export type SubmitBountySubmissionRequestDeliverableUrlsList = Array<string>;
 /** Work to attach to the submission. Combine `urls`, `file_ids`, and `caption` freely; all are optional. */
 export interface SubmitBountySubmissionRequestDeliverable {
   /** Written context shown to reviewers alongside the work. */
-  caption?: string | null;
+  caption?: string | null | undefined;
   /** IDs of uploaded files attached as work, up to 10, each prefixed `file_`. Combinable with `urls` and `caption`. */
-  file_ids?: SubmitBountySubmissionRequestDeliverableFileIdsList;
+  file_ids?: SubmitBountySubmissionRequestDeliverableFileIdsList | undefined;
   /** Links to the posted work, up to 10. Combinable with `file_ids` and `caption`. */
-  urls?: SubmitBountySubmissionRequestDeliverableUrlsList;
+  urls?: SubmitBountySubmissionRequestDeliverableUrlsList | undefined;
 }
 export interface SubmitBountySubmissionRequest {
   /** The claimed attempt to submit for review (`btys_` tag). */
   id: string;
   /** Work to attach to the submission. Combine `urls`, `file_ids`, and `caption` freely; all are optional. */
-  deliverable?: SubmitBountySubmissionRequestDeliverable | null;
+  deliverable?: SubmitBountySubmissionRequestDeliverable | null | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export type CancelBountySubmissionError = Forbidden | NotFound | WhopOpError;
 /** Cancel Bounty Submission Cancels the caller's own active attempt on a bounty and discards any accumulated capture clips. Only the worker who started the attempt can cancel it -- account API keys cannot. */

@@ -78,26 +78,26 @@ export type CreateAdRequestCallToAction =
   | "watch_more";
 /** The saved crop window for this creative, in source image pixels. Omit it for the original asset or for a format that has not been cropped. */
 export interface CreateAdRequestCreativesItemCrop {
-  height?: number;
-  width?: number;
-  x?: number;
-  y?: number;
+  height?: number | undefined;
+  width?: number | undefined;
+  x?: number | undefined;
+  y?: number | undefined;
 }
 export type CreateAdRequestCreativesItemFormat = "square" | "vertical" | "horizontal";
 export interface CreateAdRequestCreativesItem {
   /** The saved crop window for this creative, in source image pixels. Omit it for the original asset or for a format that has not been cropped. */
-  crop?: CreateAdRequestCreativesItemCrop;
-  format?: CreateAdRequestCreativesItemFormat | (string & {});
+  crop?: CreateAdRequestCreativesItemCrop | undefined;
+  format?: CreateAdRequestCreativesItemFormat | (string & {}) | undefined;
   /** Uploaded file ID, prefixed `file_`. */
-  id?: string;
+  id?: string | undefined;
   /** ISO 639 code of the language this image or video is shown for, such as `es`. Required on every entry of an ad with `translations`, where the ad's own creative uses `translations.source_language`. Another language's creative is the same type as the ad's own, with no format. Leave it out on an ad without translations. */
-  language?: string;
+  language?: string | undefined;
 }
 /** The ad's creative assets. Each entry is an uploaded file id with an optional format; omit format for the original asset. Entries with no format become a carousel's ordered cards, sharing the ad's copy -- 2-10 of them on Meta, while TikTok runs even a single image as a one-card carousel. */
 export type CreateAdRequestCreativesList = Array<CreateAdRequestCreativesItem>;
 export interface CreateAdRequestDescriptionsItem {
   /** ISO 639 code of the language this text is in, such as `es`. Required on every entry of an ad with `translations`, where the ad's own copy uses `translations.source_language`. Leave it out on an ad without translations. */
-  language?: string | null;
+  language?: string | null | undefined;
   /** The text shown to viewers. */
   text: string;
 }
@@ -109,39 +109,39 @@ export type CreateAdRequestHeadlinesList = Array<CreateAdRequestDescriptionsItem
 export type CreateAdRequestLeadFormCompletionButtonType = "website" | "call" | "download";
 /** Optional completion screen shown after submission. Its button needs a destination: url for button_type website (the default), phone_number for call, file_url for download. */
 export interface CreateAdRequestLeadFormCompletion {
-  button_text?: string;
-  button_type?: CreateAdRequestLeadFormCompletionButtonType | (string & {});
-  description?: string;
-  file_url?: string;
-  headline?: string;
-  phone_number?: string;
-  url?: string;
+  button_text?: string | undefined;
+  button_type?: CreateAdRequestLeadFormCompletionButtonType | (string & {}) | undefined;
+  description?: string | undefined;
+  file_url?: string | undefined;
+  headline?: string | undefined;
+  phone_number?: string | undefined;
+  url?: string | undefined;
 }
 export interface CreateAdRequestLeadFormDisclaimerCheckboxesItem {
-  checked_by_default?: boolean;
-  key?: string;
-  required?: boolean;
-  text?: string;
+  checked_by_default?: boolean | undefined;
+  key?: string | undefined;
+  required?: boolean | undefined;
+  text?: string | undefined;
 }
 export type CreateAdRequestLeadFormDisclaimerCheckboxesList =
   Array<CreateAdRequestLeadFormDisclaimerCheckboxesItem>;
 /** Optional custom consent disclaimer with checkboxes. */
 export interface CreateAdRequestLeadFormDisclaimer {
-  body?: string;
-  checkboxes?: CreateAdRequestLeadFormDisclaimerCheckboxesList;
-  title?: string;
+  body?: string | undefined;
+  checkboxes?: CreateAdRequestLeadFormDisclaimerCheckboxesList | undefined;
+  title?: string | undefined;
 }
 /** more_volume (default) is quickest to submit; higher_intent adds a confirmation step. */
 export type CreateAdRequestLeadFormFormType = "more_volume" | "higher_intent";
 /** Optional intro screen shown before the questions. */
 export interface CreateAdRequestLeadFormIntro {
-  description?: string;
-  headline?: string;
+  description?: string | undefined;
+  headline?: string | undefined;
 }
 /** Your privacy policy. url is required by the ad platform. */
 export interface CreateAdRequestLeadFormPrivacyPolicy {
-  link_text?: string;
-  url?: string;
+  link_text?: string | undefined;
+  url?: string | undefined;
 }
 export type CreateAdRequestLeadFormQuestionsItemFormat =
   | "short_answer"
@@ -152,14 +152,14 @@ export type CreateAdRequestLeadFormQuestionsItemOptionsItemLogicAction =
   | "submit_form"
   | "close_form";
 export interface CreateAdRequestLeadFormQuestionsItemOptionsItemLogic {
-  action?: CreateAdRequestLeadFormQuestionsItemOptionsItemLogicAction | (string & {});
-  target_end_page_index?: number;
-  target_question_index?: number;
+  action?: CreateAdRequestLeadFormQuestionsItemOptionsItemLogicAction | (string & {}) | undefined;
+  target_end_page_index?: number | undefined;
+  target_question_index?: number | undefined;
 }
 export interface CreateAdRequestLeadFormQuestionsItemOptionsItem {
-  key?: string;
-  logic?: CreateAdRequestLeadFormQuestionsItemOptionsItemLogic;
-  value?: string;
+  key?: string | undefined;
+  logic?: CreateAdRequestLeadFormQuestionsItemOptionsItemLogic | undefined;
+  value?: string | undefined;
 }
 export type CreateAdRequestLeadFormQuestionsItemOptionsList =
   Array<CreateAdRequestLeadFormQuestionsItemOptionsItem>;
@@ -186,36 +186,36 @@ export type CreateAdRequestLeadFormQuestionsItemType =
   | "date_time"
   | "custom";
 export interface CreateAdRequestLeadFormQuestionsItem {
-  format?: CreateAdRequestLeadFormQuestionsItemFormat | (string & {});
-  label?: string;
-  options?: CreateAdRequestLeadFormQuestionsItemOptionsList;
-  type?: CreateAdRequestLeadFormQuestionsItemType | (string & {});
+  format?: CreateAdRequestLeadFormQuestionsItemFormat | (string & {}) | undefined;
+  label?: string | undefined;
+  options?: CreateAdRequestLeadFormQuestionsItemOptionsList | undefined;
+  type?: CreateAdRequestLeadFormQuestionsItemType | (string & {}) | undefined;
 }
 /** The questions on the form. Standard prefill types need only a type; a custom question needs a label and a format (plus options for multiple_choice). Options carry an optional key and answer-routing logic. */
 export type CreateAdRequestLeadFormQuestionsList = Array<CreateAdRequestLeadFormQuestionsItem>;
 /** Instant lead form for the ad. Only allowed when the ad group's conversion_location is an instant-form destination (instant_forms, instant_forms_and_messenger, website_and_instant_forms). Mutually exclusive with lead_form_id. */
 export interface CreateAdRequestLeadForm {
   /** Optional completion screen shown after submission. Its button needs a destination: url for button_type website (the default), phone_number for call, file_url for download. */
-  completion?: CreateAdRequestLeadFormCompletion;
+  completion?: CreateAdRequestLeadFormCompletion | undefined;
   /** Optional custom consent disclaimer with checkboxes. */
-  disclaimer?: CreateAdRequestLeadFormDisclaimer;
+  disclaimer?: CreateAdRequestLeadFormDisclaimer | undefined;
   /** more_volume (default) is quickest to submit; higher_intent adds a confirmation step. */
-  form_type?: CreateAdRequestLeadFormFormType | (string & {});
+  form_type?: CreateAdRequestLeadFormFormType | (string & {}) | undefined;
   /** Optional intro screen shown before the questions. */
-  intro?: CreateAdRequestLeadFormIntro;
+  intro?: CreateAdRequestLeadFormIntro | undefined;
   /** Internal name for the form. Auto-generated if omitted. */
-  name?: string;
+  name?: string | undefined;
   /** Require SMS verification of the phone number (higher_intent forms). */
-  phone_verification?: boolean;
+  phone_verification?: boolean | undefined;
   /** Your privacy policy. url is required by the ad platform. */
-  privacy_policy?: CreateAdRequestLeadFormPrivacyPolicy;
+  privacy_policy?: CreateAdRequestLeadFormPrivacyPolicy | undefined;
   /** The questions on the form. Standard prefill types need only a type; a custom question needs a label and a format (plus options for multiple_choice). Options carry an optional key and answer-routing logic. */
-  questions?: CreateAdRequestLeadFormQuestionsList;
+  questions?: CreateAdRequestLeadFormQuestionsList | undefined;
 }
 /** Click-to-message welcome copy: the greeting (message) and the ice-breaker prompt (keyword). */
 export interface CreateAdRequestMessagingConfig {
-  keyword?: string;
-  message?: string;
+  keyword?: string | undefined;
+  message?: string | undefined;
 }
 /** The looping track a TikTok carousel ad plays -- an MP3 you uploaded, no larger than 10MB. Required for TikTok carousels (image creatives); TikTok-only. */
 export interface CreateAdRequestMusic {
@@ -229,7 +229,7 @@ export type CreateAdRequestPrimaryTextsItem = CreateAdRequestDescriptionsItem;
 export type CreateAdRequestPrimaryTextsList = Array<CreateAdRequestDescriptionsItem>;
 export interface CreateAdRequestSocialAccountsItem {
   /** Social account ID, prefixed `sacc_`. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The social accounts the ad runs under -- a connected Facebook page and, optionally, an Instagram profile. */
 export type CreateAdRequestSocialAccountsList = Array<CreateAdRequestSocialAccountsItem>;
@@ -238,51 +238,51 @@ export type CreateAdRequestTranslationsAutomaticLanguagesList = Array<string>;
 /** Shows a Meta ad in other languages. Each viewer sees the version for their language; everyone else sees the ad's own copy. Tag every copy and creatives entry with its language: the ad's own with `source_language`, and give every other language a `primary_texts` and `headlines` entry (a `descriptions` entry and a `creatives` entry are optional), or list it in `automatic_languages`. Needs a website destination, one image or video, and exactly one primary text and headline of the ad's own (and at most one description), with no Dynamic Creative or crops. Replaced as a whole when sent, so send `automatic_languages` with `source_language`. null turns translations off and deletes their media. Meta-only. */
 export interface CreateAdRequestTranslations {
   /** ISO 639 codes Meta translates the ad's own copy into automatically. English copy translates into `es`, `fr`, `de`, `pt`, `it`, `ar`, `nl`, `ms`, `sv`, `id`, `pl`, `hi`, `da`, `tr`, `fil`, and `ro`; `de`, `ar`, `he`, `es`, `ja`, `no`, `fr`, `nl`, and `sv` copy translate into `en`. */
-  automatic_languages?: CreateAdRequestTranslationsAutomaticLanguagesList;
+  automatic_languages?: CreateAdRequestTranslationsAutomaticLanguagesList | undefined;
   /** ISO 639 code the ad's own copy is written in, such as `en`. */
   source_language: string;
 }
 export interface CreateAdRequest {
   /** An inline ad group to create (same shape as POST /ad_groups, including ad_campaign_id). Creates the ad group and the ad together. Provide this OR ad_group_id. */
-  ad_group?: unknown;
+  ad_group?: unknown | undefined;
   /** The existing ad group to create the ad in. Provide this OR ad_group, not both. */
-  ad_group_id?: string;
+  ad_group_id?: string | undefined;
   /** The call-to-action button shown on the ad. */
-  call_to_action?: CreateAdRequestCallToAction | (string & {});
+  call_to_action?: CreateAdRequestCallToAction | (string & {}) | undefined;
   /** The ad's creative assets. Each entry is an uploaded file id with an optional format; omit format for the original asset. Entries with no format become a carousel's ordered cards, sharing the ad's copy -- 2-10 of them on Meta, while TikTok runs even a single image as a one-card carousel. */
-  creatives?: CreateAdRequestCreativesList;
+  creatives?: CreateAdRequestCreativesList | undefined;
   /** The description shown on the ad. Entries without a language are the ad's own copy; add one entry per other language on a Meta ad with `translations`. */
-  descriptions?: CreateAdRequestDescriptionsList;
+  descriptions?: CreateAdRequestDescriptionsList | undefined;
   /** Promote a post you already published instead of uploading creatives -- a Facebook post or Instagram media id. Mutually exclusive with creatives. Pair with post_source. */
-  existing_post_id?: string;
+  existing_post_id?: string | undefined;
   /** The headline shown on the ad. Entries without a language are the ad's own copy; add one entry per other language on a Meta ad with `translations`. */
-  headlines?: CreateAdRequestHeadlinesList;
+  headlines?: CreateAdRequestHeadlinesList | undefined;
   /** Instant lead form for the ad. Only allowed when the ad group's conversion_location is an instant-form destination (instant_forms, instant_forms_and_messenger, website_and_instant_forms). Mutually exclusive with lead_form_id. */
-  lead_form?: CreateAdRequestLeadForm;
+  lead_form?: CreateAdRequestLeadForm | undefined;
   /** Use an existing instant form instead of creating one -- the form's platform ID, from a form already on the ad's Facebook page. Only allowed when the ad group's conversion_location is an instant-form destination. Mutually exclusive with lead_form. */
-  lead_form_id?: string;
+  lead_form_id?: string | undefined;
   /** Click-to-message welcome copy: the greeting (message) and the ice-breaker prompt (keyword). */
-  messaging_config?: CreateAdRequestMessagingConfig;
+  messaging_config?: CreateAdRequestMessagingConfig | undefined;
   /** Whether the ad can appear alongside other advertisers' ads in the same unit. Defaults to true. */
-  multi_advertiser_ads?: boolean;
+  multi_advertiser_ads?: boolean | undefined;
   /** The looping track a TikTok carousel ad plays -- an MP3 you uploaded, no larger than 10MB. Required for TikTok carousels (image creatives); TikTok-only. */
-  music?: CreateAdRequestMusic | null;
+  music?: CreateAdRequestMusic | null | undefined;
   /** Identifies the network that owns `existing_post_id`. The source is inferred from the ID shape when omitted. */
-  post_source?: CreateAdRequestPostSource | (string & {});
+  post_source?: CreateAdRequestPostSource | (string & {}) | undefined;
   /** The primary text shown in the ad body. Entries without a language are the ad's own copy (several make text variations); add one entry per other language on a Meta ad with `translations`. */
-  primary_texts?: CreateAdRequestPrimaryTextsList;
+  primary_texts?: CreateAdRequestPrimaryTextsList | undefined;
   /** The social accounts the ad runs under -- a connected Facebook page and, optionally, an Instagram profile. */
-  social_accounts?: CreateAdRequestSocialAccountsList;
+  social_accounts?: CreateAdRequestSocialAccountsList | undefined;
   /** The display name of the ad. */
-  title?: string;
+  title?: string | undefined;
   /** Shows a Meta ad in other languages. Each viewer sees the version for their language; everyone else sees the ad's own copy. Tag every copy and creatives entry with its language: the ad's own with `source_language`, and give every other language a `primary_texts` and `headlines` entry (a `descriptions` entry and a `creatives` entry are optional), or list it in `automatic_languages`. Needs a website destination, one image or video, and exactly one primary text and headline of the ad's own (and at most one description), with no Dynamic Creative or crops. Replaced as a whole when sent, so send `automatic_languages` with `source_language`. null turns translations off and deletes their media. Meta-only. */
-  translations?: CreateAdRequestTranslations | null;
+  translations?: CreateAdRequestTranslations | null | undefined;
   /** The URL the ad links to. Query parameters are merged into url_parameters, so the stored URL is always bare. */
-  url?: string;
+  url?: string | undefined;
   /** Query parameters to append to the destination URL, keyed by parameter name. Merged with any query string on `url`. Whop adds its own click-attribution parameters; those are reserved and rejected if you set them. Which keys are reserved depends on the ad's network -- Meta: utm_meta_ad_id, utm_meta_adset_id, utm_meta_campaign_id, utm_source, utm_placement, utm_medium, utm_content, utm_adset, utm_whop, wacid, wasid, waid, tw_source, tw_adid; TikTok: waid, wasid, wacid, ad_id, adset_id, campaign_id, utm_source, utm_medium, utm_placement, utm_whop, tw_source, tw_adid. */
-  url_parameters?: unknown;
+  url_parameters?: unknown | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface AdEntityReference {
   /** The referenced entity's id. */
@@ -440,25 +440,25 @@ export interface AdLeadFormOptionLogic {
   /** What happens when the choice is selected. */
   action: AdLeadFormOptionLogicAction;
   /** Zero-based index of the ending screen to jump to. */
-  target_end_page_index?: number;
+  target_end_page_index?: number | undefined;
   /** Zero-based index of the question to jump to, for `go_to_question`. */
-  target_question_index?: number;
+  target_question_index?: number | undefined;
 }
 export interface AdLeadFormQuestionOption {
   /** Stable identifier the choice's answers are stored under. Absent for simple choices. */
-  key?: string | null;
+  key?: string | null | undefined;
   /** Where the form goes when this choice is selected. Absent when the form just continues to the next question. */
-  logic?: AdLeadFormOptionLogic;
+  logic?: AdLeadFormOptionLogic | undefined;
   /** Choice text shown to the person. */
   value: string;
 }
 export type AdLeadFormQuestionOptionsList = Array<AdLeadFormQuestionOption>;
 export interface AdLeadFormQuestion {
   /** Answer format for `custom` questions: `short_answer`, `multiple_choice`, or `appointment`. Absent otherwise. */
-  format?: string;
+  format?: string | undefined;
   /** Question text for `custom` questions. Absent for standard prefill questions. */
-  label?: string;
-  options?: AdLeadFormQuestionOptionsList;
+  label?: string | undefined;
+  options?: AdLeadFormQuestionOptionsList | undefined;
   /** Question type: a standard prefill type such as `email`, `phone`, or `full_name`, or `custom` for your own question. */
   type: string;
 }
@@ -590,9 +590,9 @@ export interface Ad {
   impressions: number;
   issues: AdIssuesList;
   /** The instant lead form shown when someone taps this ad. `null` when the ad group's conversion_location is not an instant-form destination. */
-  lead_form?: AdLeadForm | null;
+  lead_form?: AdLeadForm | null | undefined;
   /** The ad platform's ID for the instant form the ad uses. Set when the ad references an existing form via `lead_form_id`, or once a form built from `lead_form` has been created on the platform. */
-  lead_form_id?: string | null;
+  lead_form_id?: string | null | undefined;
   /** USD value attributed to lead events. Sums the value sent with each event, normalized to USD; events without a value contribute 0. */
   lead_value: number;
   /** Whop pixel-attributed leads, last-click. */
@@ -600,11 +600,11 @@ export interface Ad {
   /** Clicks on links in the ad that lead to your destination, as reported by the ad platform. A subset of clicks, which also counts likes, comments, and other interactions with the ad. */
   link_clicks: number;
   /** Welcome message for click-to-message ads, shown when the conversation opens. `null` when the ad has none. */
-  messaging_config?: AdMessagingConfig | null;
+  messaging_config?: AdMessagingConfig | null | undefined;
   /** Whether the ad can appear alongside other advertisers' ads in the same unit. Defaults to true. */
-  multi_advertiser_ads?: boolean;
+  multi_advertiser_ads?: boolean | undefined;
   /** The advertiser-uploaded MP3 a TikTok carousel ad plays. TikTok-only; `null` elsewhere and for non-carousel ads. */
-  music?: AdMusic | null;
+  music?: AdMusic | null | undefined;
   /** The ad platform this ad runs on. */
   platform: AdPlatform;
   /** The post the ad network serves for this ad, as `pageID_postID` on Meta -- the post Meta created for an uploaded creative, or the post being promoted. Use it to open the live post, or to promote the same post from another ad. `null` until the network has created the post. */
@@ -646,7 +646,7 @@ export interface Ad {
   /** Display title of the ad. */
   title: string | null;
   /** The languages a Meta ad runs in besides its own. Each viewer sees the version for their language, or the ad's own copy. `null` when the ad runs in one language. */
-  translations?: AdTranslations | null;
+  translations?: AdTranslations | null | undefined;
   /** Unique clicks divided by impressions, between 0 and 1. */
   unique_click_through_rate: number | null;
   /** People who clicked, reported by the Whop pixel, counted once per person. */
@@ -676,13 +676,13 @@ export interface DuplicateAdRequest {
   /** The ad ID. */
   id: string;
   /** Number of copies to create (1-10). Defaults to 1. */
-  count?: number;
+  count?: number | undefined;
   /** Whether the copies keep the original post's engagement (likes, comments, shares). Defaults to false. */
-  preserve_engagement?: boolean;
+  preserve_engagement?: boolean | undefined;
   /** Ad group to duplicate into. Defaults to the ad's own ad group. */
-  target_ad_group_id?: string;
+  target_ad_group_id?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export type DuplicateAdResponseDataList = Array<Ad>;
 export interface DuplicateAdResponse {
@@ -693,13 +693,13 @@ export interface GetAdRequest {
   /** The ad ID. */
   id: string;
   /** Start of the stats window. */
-  stats_from?: string;
+  stats_from?: string | undefined;
   /** End of the stats window. */
-  stats_to?: string;
+  stats_to?: string | undefined;
   /** IANA timezone the stats window is interpreted in. Defaults to UTC. */
-  time_zone?: string;
+  time_zone?: string | undefined;
   /** Attribution model the conversion stats count under (defaults to last_touch). Under both models a journey with any whop ad touch attributes to whop; the model picks which whop touch credits the entity and which non-whop source wins otherwise. */
-  attribution_model?: GetAdRequestAttributionModel | (string & {});
+  attribution_model?: GetAdRequestAttributionModel | (string & {}) | undefined;
 }
 export type ListAdsRequestAdCampaignIdsList = Array<string>;
 export type ListAdsRequestAdGroupIdsList = Array<string>;
@@ -724,43 +724,43 @@ export type ListAdsRequestDirection = "asc" | "desc";
 export type ListAdsRequestAttributionModel = "last_touch" | "first_touch";
 export interface ListAdsRequest {
   /** The account the ads belong to. Defaults to the account-scoped key's own account. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Only return ads in this ad campaign. */
-  ad_campaign_id?: string;
+  ad_campaign_id?: string | undefined;
   /** Only return ads in these ad campaigns (max 100). Repeat the parameter for each id (ad_campaign_ids=a&ad_campaign_ids=b). */
-  ad_campaign_ids?: ListAdsRequestAdCampaignIdsList;
+  ad_campaign_ids?: ListAdsRequestAdCampaignIdsList | undefined;
   /** Only return ads in this ad group. */
-  ad_group_id?: string;
+  ad_group_id?: string | undefined;
   /** Only return ads in these ad groups (max 100). Repeat the parameter for each id (ad_group_ids=a&ad_group_ids=b). */
-  ad_group_ids?: ListAdsRequestAdGroupIdsList;
+  ad_group_ids?: ListAdsRequestAdGroupIdsList | undefined;
   /** Only return ads with this status. */
-  status?: ListAdsRequestStatus | (string & {});
+  status?: ListAdsRequestStatus | (string & {}) | undefined;
   /** Filter ads by a title or ID substring. */
-  query?: string;
+  query?: string | undefined;
   /** The field to sort by. Defaults to created_at. Stat columns (spend, impressions, ...) rank over the stats_from/stats_to window across the whole list, not just the current page. results, cost_per_result and return_on_ad_spend rank by the same Whop pixel-attributed values the response reports. */
-  order?: ListAdsRequestOrder | (string & {});
+  order?: ListAdsRequestOrder | (string & {}) | undefined;
   /** The sort direction. Defaults to desc. */
-  direction?: ListAdsRequestDirection | (string & {});
+  direction?: ListAdsRequestDirection | (string & {}) | undefined;
   /** Only return ads created before this timestamp. */
-  created_before?: string;
+  created_before?: string | undefined;
   /** Only return ads created after this timestamp. */
-  created_after?: string;
+  created_after?: string | undefined;
   /** Start of the stats window. Defaults to all-time. */
-  stats_from?: string;
+  stats_from?: string | undefined;
   /** End of the stats window. Defaults to now. */
-  stats_to?: string;
+  stats_to?: string | undefined;
   /** IANA timezone (e.g. America/New_York) the stats window is interpreted in. Bare stats_from/stats_to dates resolve to day boundaries on this clock. Defaults to UTC. */
-  time_zone?: string;
+  time_zone?: string | undefined;
   /** Attribution model the conversion stats count under (defaults to last_touch). Under both models a journey with any whop ad touch attributes to whop; the model picks which whop touch credits the entity and which non-whop source wins otherwise. */
-  attribution_model?: ListAdsRequestAttributionModel | (string & {});
+  attribution_model?: ListAdsRequestAttributionModel | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
   /** Number of results to return from the end of the range. */
-  last?: number;
+  last?: number | undefined;
   /** Return results before this cursor. Use `page_info.start_cursor` from the previous response to fetch the previous page. */
-  before?: string;
+  before?: string | undefined;
 }
 export type ListAdsResponseDataList = Array<Ad>;
 export interface ListAdsResponsePageInfo {
@@ -777,13 +777,13 @@ export interface PauseAdRequest {
   /** The ad ID. */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface UnpauseAdRequest {
   /** The ad ID. */
   id: string;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 /** The call-to-action button shown on the ad. */
 export type UpdateAdRequestCallToAction =
@@ -814,12 +814,12 @@ export type UpdateAdRequestCreativesItemCrop = CreateAdRequestCreativesItemCrop;
 export type UpdateAdRequestCreativesItemFormat = "square" | "vertical" | "horizontal";
 export interface UpdateAdRequestCreativesItem {
   /** The saved crop window for this creative, in source image pixels. Omit it for the original asset or for a format that has not been cropped. */
-  crop?: CreateAdRequestCreativesItemCrop;
-  format?: UpdateAdRequestCreativesItemFormat | (string & {});
+  crop?: CreateAdRequestCreativesItemCrop | undefined;
+  format?: UpdateAdRequestCreativesItemFormat | (string & {}) | undefined;
   /** Uploaded file ID, prefixed `file_`. */
-  id?: string;
+  id?: string | undefined;
   /** ISO 639 code of the language this image or video is shown for, such as `es`. Required on every entry of an ad with `translations`, where the ad's own creative uses `translations.source_language`. Another language's creative is the same type as the ad's own, with no format. Leave it out on an ad without translations. */
-  language?: string;
+  language?: string | undefined;
 }
 /** The ad's creative assets. Each entry is an uploaded file id with an optional format; omit format for the original asset. Replaces a live ad's creative on the platform. Entries with no format replace it with a carousel's ordered cards -- 2-10 of them on Meta, while TikTok runs even a single image as a one-card carousel. */
 export type UpdateAdRequestCreativesList = Array<UpdateAdRequestCreativesItem>;
@@ -832,13 +832,13 @@ export type UpdateAdRequestHeadlinesList = Array<CreateAdRequestDescriptionsItem
 export type UpdateAdRequestLeadFormCompletionButtonType = "website" | "call" | "download";
 /** Optional completion screen shown after submission. Its button needs a destination: url for button_type website (the default), phone_number for call, file_url for download. */
 export interface UpdateAdRequestLeadFormCompletion {
-  button_text?: string;
-  button_type?: UpdateAdRequestLeadFormCompletionButtonType | (string & {});
-  description?: string;
-  file_url?: string;
-  headline?: string;
-  phone_number?: string;
-  url?: string;
+  button_text?: string | undefined;
+  button_type?: UpdateAdRequestLeadFormCompletionButtonType | (string & {}) | undefined;
+  description?: string | undefined;
+  file_url?: string | undefined;
+  headline?: string | undefined;
+  phone_number?: string | undefined;
+  url?: string | undefined;
 }
 export type UpdateAdRequestLeadFormDisclaimerCheckboxesItem =
   CreateAdRequestLeadFormDisclaimerCheckboxesItem;
@@ -846,9 +846,9 @@ export type UpdateAdRequestLeadFormDisclaimerCheckboxesList =
   Array<CreateAdRequestLeadFormDisclaimerCheckboxesItem>;
 /** Optional custom consent disclaimer with checkboxes. */
 export interface UpdateAdRequestLeadFormDisclaimer {
-  body?: string;
-  checkboxes?: UpdateAdRequestLeadFormDisclaimerCheckboxesList;
-  title?: string;
+  body?: string | undefined;
+  checkboxes?: UpdateAdRequestLeadFormDisclaimerCheckboxesList | undefined;
+  title?: string | undefined;
 }
 /** more_volume (default) is quickest to submit; higher_intent adds a confirmation step. */
 export type UpdateAdRequestLeadFormFormType = "more_volume" | "higher_intent";
@@ -865,14 +865,14 @@ export type UpdateAdRequestLeadFormQuestionsItemOptionsItemLogicAction =
   | "submit_form"
   | "close_form";
 export interface UpdateAdRequestLeadFormQuestionsItemOptionsItemLogic {
-  action?: UpdateAdRequestLeadFormQuestionsItemOptionsItemLogicAction | (string & {});
-  target_end_page_index?: number;
-  target_question_index?: number;
+  action?: UpdateAdRequestLeadFormQuestionsItemOptionsItemLogicAction | (string & {}) | undefined;
+  target_end_page_index?: number | undefined;
+  target_question_index?: number | undefined;
 }
 export interface UpdateAdRequestLeadFormQuestionsItemOptionsItem {
-  key?: string;
-  logic?: UpdateAdRequestLeadFormQuestionsItemOptionsItemLogic;
-  value?: string;
+  key?: string | undefined;
+  logic?: UpdateAdRequestLeadFormQuestionsItemOptionsItemLogic | undefined;
+  value?: string | undefined;
 }
 export type UpdateAdRequestLeadFormQuestionsItemOptionsList =
   Array<UpdateAdRequestLeadFormQuestionsItemOptionsItem>;
@@ -899,31 +899,31 @@ export type UpdateAdRequestLeadFormQuestionsItemType =
   | "date_time"
   | "custom";
 export interface UpdateAdRequestLeadFormQuestionsItem {
-  format?: UpdateAdRequestLeadFormQuestionsItemFormat | (string & {});
-  label?: string;
-  options?: UpdateAdRequestLeadFormQuestionsItemOptionsList;
-  type?: UpdateAdRequestLeadFormQuestionsItemType | (string & {});
+  format?: UpdateAdRequestLeadFormQuestionsItemFormat | (string & {}) | undefined;
+  label?: string | undefined;
+  options?: UpdateAdRequestLeadFormQuestionsItemOptionsList | undefined;
+  type?: UpdateAdRequestLeadFormQuestionsItemType | (string & {}) | undefined;
 }
 /** The questions on the form. Standard prefill types need only a type; a custom question needs a label and a format (plus options for multiple_choice). Options carry an optional key and answer-routing logic. */
 export type UpdateAdRequestLeadFormQuestionsList = Array<UpdateAdRequestLeadFormQuestionsItem>;
 /** Instant lead form for the ad. Only allowed when the ad group's conversion_location is an instant-form destination (instant_forms, instant_forms_and_messenger, website_and_instant_forms). Mutually exclusive with lead_form_id. */
 export interface UpdateAdRequestLeadForm {
   /** Optional completion screen shown after submission. Its button needs a destination: url for button_type website (the default), phone_number for call, file_url for download. */
-  completion?: UpdateAdRequestLeadFormCompletion;
+  completion?: UpdateAdRequestLeadFormCompletion | undefined;
   /** Optional custom consent disclaimer with checkboxes. */
-  disclaimer?: UpdateAdRequestLeadFormDisclaimer;
+  disclaimer?: UpdateAdRequestLeadFormDisclaimer | undefined;
   /** more_volume (default) is quickest to submit; higher_intent adds a confirmation step. */
-  form_type?: UpdateAdRequestLeadFormFormType | (string & {});
+  form_type?: UpdateAdRequestLeadFormFormType | (string & {}) | undefined;
   /** Optional intro screen shown before the questions. */
-  intro?: CreateAdRequestLeadFormIntro;
+  intro?: CreateAdRequestLeadFormIntro | undefined;
   /** Internal name for the form. Auto-generated if omitted. */
-  name?: string;
+  name?: string | undefined;
   /** Require SMS verification of the phone number (higher_intent forms). */
-  phone_verification?: boolean;
+  phone_verification?: boolean | undefined;
   /** Your privacy policy. url is required by the ad platform. */
-  privacy_policy?: CreateAdRequestLeadFormPrivacyPolicy;
+  privacy_policy?: CreateAdRequestLeadFormPrivacyPolicy | undefined;
   /** The questions on the form. Standard prefill types need only a type; a custom question needs a label and a format (plus options for multiple_choice). Options carry an optional key and answer-routing logic. */
-  questions?: UpdateAdRequestLeadFormQuestionsList;
+  questions?: UpdateAdRequestLeadFormQuestionsList | undefined;
 }
 /** Click-to-message welcome copy: the greeting (message) and the ice-breaker prompt (keyword). */
 export type UpdateAdRequestMessagingConfig = CreateAdRequestMessagingConfig;
@@ -942,7 +942,7 @@ export type UpdateAdRequestTranslationsAutomaticLanguagesList = Array<string>;
 /** Shows a Meta ad in other languages. Each viewer sees the version for their language; everyone else sees the ad's own copy. Tag every copy and creatives entry with its language: the ad's own with `source_language`, and give every other language a `primary_texts` and `headlines` entry (a `descriptions` entry and a `creatives` entry are optional), or list it in `automatic_languages`. Needs a website destination, one image or video, and exactly one primary text and headline of the ad's own (and at most one description), with no Dynamic Creative or crops. Replaced as a whole when sent, so send `automatic_languages` with `source_language`. null turns translations off and deletes their media. Meta-only. */
 export interface UpdateAdRequestTranslations {
   /** ISO 639 codes Meta translates the ad's own copy into automatically. English copy translates into `es`, `fr`, `de`, `pt`, `it`, `ar`, `nl`, `ms`, `sv`, `id`, `pl`, `hi`, `da`, `tr`, `fil`, and `ro`; `de`, `ar`, `he`, `es`, `ja`, `no`, `fr`, `nl`, and `sv` copy translate into `en`. */
-  automatic_languages?: UpdateAdRequestTranslationsAutomaticLanguagesList;
+  automatic_languages?: UpdateAdRequestTranslationsAutomaticLanguagesList | undefined;
   /** ISO 639 code the ad's own copy is written in, such as `en`. */
   source_language: string;
 }
@@ -950,39 +950,39 @@ export interface UpdateAdRequest {
   /** The ad ID. */
   id: string;
   /** The call-to-action button shown on the ad. */
-  call_to_action?: UpdateAdRequestCallToAction | (string & {});
+  call_to_action?: UpdateAdRequestCallToAction | (string & {}) | undefined;
   /** The ad's creative assets. Each entry is an uploaded file id with an optional format; omit format for the original asset. Replaces a live ad's creative on the platform. Entries with no format replace it with a carousel's ordered cards -- 2-10 of them on Meta, while TikTok runs even a single image as a one-card carousel. */
-  creatives?: UpdateAdRequestCreativesList;
+  creatives?: UpdateAdRequestCreativesList | undefined;
   /** The description shown on the ad. Entries without a language are the ad's own copy; add one entry per other language on a Meta ad with `translations`. */
-  descriptions?: UpdateAdRequestDescriptionsList;
+  descriptions?: UpdateAdRequestDescriptionsList | undefined;
   /** Promote a post you already published instead of uploading creatives -- a Facebook post or Instagram media id. Mutually exclusive with creatives. Pair with post_source. */
-  existing_post_id?: string;
+  existing_post_id?: string | undefined;
   /** The headline shown on the ad. Entries without a language are the ad's own copy; add one entry per other language on a Meta ad with `translations`. */
-  headlines?: UpdateAdRequestHeadlinesList;
+  headlines?: UpdateAdRequestHeadlinesList | undefined;
   /** Instant lead form for the ad. Only allowed when the ad group's conversion_location is an instant-form destination (instant_forms, instant_forms_and_messenger, website_and_instant_forms). Mutually exclusive with lead_form_id. */
-  lead_form?: UpdateAdRequestLeadForm;
+  lead_form?: UpdateAdRequestLeadForm | undefined;
   /** Use an existing instant form instead of creating one -- the form's platform ID, from a form already on the ad's Facebook page. Only allowed when the ad group's conversion_location is an instant-form destination. Mutually exclusive with lead_form. Replaces a stored lead_form. */
-  lead_form_id?: string;
+  lead_form_id?: string | undefined;
   /** Click-to-message welcome copy: the greeting (message) and the ice-breaker prompt (keyword). */
-  messaging_config?: CreateAdRequestMessagingConfig;
+  messaging_config?: CreateAdRequestMessagingConfig | undefined;
   /** Whether the ad can appear alongside other advertisers' ads in the same unit. Defaults to true. */
-  multi_advertiser_ads?: boolean;
+  multi_advertiser_ads?: boolean | undefined;
   /** The looping track a TikTok carousel ad plays -- an MP3 you uploaded, no larger than 10MB. Omitted leaves the ad's music untouched. Null removes it before launch; a submitted carousel takes a replacement track instead. TikTok-only. */
-  music?: CreateAdRequestMusic | null;
+  music?: CreateAdRequestMusic | null | undefined;
   /** Identifies the network that owns `existing_post_id`. The source is inferred from the ID shape when omitted. */
-  post_source?: UpdateAdRequestPostSource | (string & {});
+  post_source?: UpdateAdRequestPostSource | (string & {}) | undefined;
   /** The primary text shown in the ad body. Entries without a language are the ad's own copy (several make text variations); add one entry per other language on a Meta ad with `translations`. */
-  primary_texts?: UpdateAdRequestPrimaryTextsList;
+  primary_texts?: UpdateAdRequestPrimaryTextsList | undefined;
   /** The social accounts the ad runs under -- a connected Facebook page and, optionally, an Instagram profile. */
-  social_accounts?: UpdateAdRequestSocialAccountsList;
+  social_accounts?: UpdateAdRequestSocialAccountsList | undefined;
   /** The display name of the ad. */
-  title?: string;
+  title?: string | undefined;
   /** Shows a Meta ad in other languages. Each viewer sees the version for their language; everyone else sees the ad's own copy. Tag every copy and creatives entry with its language: the ad's own with `source_language`, and give every other language a `primary_texts` and `headlines` entry (a `descriptions` entry and a `creatives` entry are optional), or list it in `automatic_languages`. Needs a website destination, one image or video, and exactly one primary text and headline of the ad's own (and at most one description), with no Dynamic Creative or crops. Replaced as a whole when sent, so send `automatic_languages` with `source_language`. null turns translations off and deletes their media. Meta-only. */
-  translations?: UpdateAdRequestTranslations | null;
+  translations?: UpdateAdRequestTranslations | null | undefined;
   /** The URL the ad links to. Query parameters are merged into url_parameters, so the stored URL is always bare. */
-  url?: string;
+  url?: string | undefined;
   /** Query parameters to append to the destination URL, keyed by parameter name. Merged with any query string on `url`. Whop adds its own click-attribution parameters; those are reserved and rejected if you set them. Which keys are reserved depends on the ad's network -- Meta: utm_meta_ad_id, utm_meta_adset_id, utm_meta_campaign_id, utm_source, utm_placement, utm_medium, utm_content, utm_adset, utm_whop, wacid, wasid, waid, tw_source, tw_adid; TikTok: waid, wasid, wacid, ad_id, adset_id, campaign_id, utm_source, utm_medium, utm_placement, utm_whop, tw_source, tw_adid. */
-  url_parameters?: unknown;
+  url_parameters?: unknown | undefined;
 }
 export type CreateAdError = BadRequest | NotFound | Conflict | WhopOpError;
 /** Create an Ad Creates an ad in an ad group. Any campaign status other than `draft` launches the campaign, which requires an ads payment method on the account. */

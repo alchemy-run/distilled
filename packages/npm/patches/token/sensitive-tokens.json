@@ -1,0 +1,15 @@
+{
+  "description": "Mark npm tokens as sensitive. createToken returns the full token value (the spec: \"the only time you will see the complete token\"), and deleteToken's `{token}` path label can be the npm token itself (the spec: \"Can be a UUID or an npm token\"). The response value is Redacted on decode, and the label never becomes a span attribute. listTokens' `token` stays plain: the registry returns it already masked (`npm_aBcD...7890`).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.npmjs.registry.token#CreateTokenResponse/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.npmjs.registry.token#DeleteTokenRequest/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

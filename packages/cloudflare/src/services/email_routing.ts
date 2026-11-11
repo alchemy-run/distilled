@@ -112,11 +112,11 @@ export interface AccountRulesListForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
   accountId: string;
   /** Filter by enabled routing rules. */
-  enabled?: string;
+  enabled?: string | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type AccountRulesListResultItemActionsItemType = "drop" | "forward" | "worker";
 export type AccountRulesListResultItemActionsItemValueList = Array<string>;
@@ -124,7 +124,7 @@ export interface AccountRulesListResultItemActionsItem {
   /** Type of supported action. */
   type: AccountRulesListResultItemActionsItemType;
   /** List of values for the action. Currently limited to a single value. */
-  value?: AccountRulesListResultItemActionsItemValueList | null;
+  value?: AccountRulesListResultItemActionsItemValueList | null | undefined;
 }
 export type AccountRulesListResultItemActionsList = Array<AccountRulesListResultItemActionsItem>;
 export type AccountRulesListResultItemMatchersItemType = "all" | "literal";
@@ -133,37 +133,37 @@ export interface AccountRulesListResultItemMatchersItem {
   /** Type of matcher. */
   type: AccountRulesListResultItemMatchersItemType;
   /** Field for type matcher. */
-  field?: AccountRulesListResultItemMatchersItemField | null;
+  field?: AccountRulesListResultItemMatchersItemField | null | undefined;
   /** Value for matcher. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type AccountRulesListResultItemMatchersList = Array<AccountRulesListResultItemMatchersItem>;
 export type AccountRulesListResultItemSource = "api" | "wrangler";
 export interface AccountRulesListResultItemZone {
   /** Zone name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Zone tag. */
-  tag?: string | null;
+  tag?: string | null | undefined;
 }
 export interface AccountRulesListResultItem {
   /** Routing rule identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** List actions patterns. */
-  actions?: AccountRulesListResultItemActionsList | null;
+  actions?: AccountRulesListResultItemActionsList | null | undefined;
   /** Routing rule status. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** Matching patterns to forward to your actions. */
-  matchers?: AccountRulesListResultItemMatchersList | null;
+  matchers?: AccountRulesListResultItemMatchersList | null | undefined;
   /** Routing rule name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Priority of the routing rule. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Who manages the rule. `api` covers dashboard, generic API, and Terraform; `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults to `api` when omitted on write. */
-  source?: AccountRulesListResultItemSource | null;
+  source?: AccountRulesListResultItemSource | null | undefined;
   /** Routing rule tag. (Deprecated, replaced by routing rule identifier) */
-  tag?: string | null;
+  tag?: string | null | undefined;
   /** Zone information for the routing rule. */
-  zone?: AccountRulesListResultItemZone | null;
+  zone?: AccountRulesListResultItemZone | null | undefined;
 }
 export type AccountRulesListResultList = Array<AccountRulesListResultItem>;
 export type AccountRulesListResponse = AccountRulesListResultList;
@@ -171,11 +171,11 @@ export interface AccountRulesListForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
   zoneId: string;
   /** Filter by enabled routing rules. */
-  enabled?: string;
+  enabled?: string | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export interface CreateAddressRequest {
   /** Identifier. */
@@ -186,23 +186,23 @@ export interface CreateAddressRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateAddressResponse {
   /** Destination address identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The date and time the destination address has been created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** The contact email address of the user. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** The date and time the destination address was last modified. */
-  modified?: string | null;
+  modified?: string | null | undefined;
   /** Destination address tag. (Deprecated, replaced by destination address identifier) */
-  tag?: string | null;
+  tag?: string | null | undefined;
   /** The date and time the destination address has been verified. Null means not verified yet. */
-  verified?: string | null;
+  verified?: string | null | undefined;
 }
 export interface CreateDnsRequest {
   /** Identifier. */
   zoneId: string;
   /** Domain of your zone. */
-  name?: string;
+  name?: string | undefined;
 }
 export type DnsCreateResponseStatus =
   | "ready"
@@ -219,17 +219,17 @@ export interface CreateDnsResponse {
   /** Domain of your zone. */
   name: string;
   /** The date and time the settings have been created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** The date and time the settings have been modified. */
-  modified?: string | null;
+  modified?: string | null | undefined;
   /** Flag to check if the user skipped the configuration wizard. */
-  skipWizard?: boolean | null;
+  skipWizard?: boolean | null | undefined;
   /** Show the state of your account, and the type or configuration error. */
-  status?: DnsCreateResponseStatus | null;
+  status?: DnsCreateResponseStatus | null | undefined;
   /** Whether subaddressing (plus-addressing) is honored when matching incoming mail against routing rules. */
-  supportSubaddress?: boolean | null;
+  supportSubaddress?: boolean | null | undefined;
   /** Email Routing settings tag. (Deprecated, replaced by Email Routing settings identifier) */
-  tag?: string | null;
+  tag?: string | null | undefined;
 }
 export type RulesCreateRequestActionsItemType = "drop" | "forward" | "worker";
 export type RulesCreateRequestActionsItemValueList = Array<string>;
@@ -237,7 +237,7 @@ export interface RulesCreateRequestActionsItem {
   /** Type of supported action. */
   type: RulesCreateRequestActionsItemType | (string & {});
   /** List of values for the action. Currently limited to a single value. */
-  value?: RulesCreateRequestActionsItemValueList;
+  value?: RulesCreateRequestActionsItemValueList | undefined;
 }
 export type RulesCreateRequestActionsList = Array<RulesCreateRequestActionsItem>;
 export type RulesCreateRequestMatchersItemType = "all" | "literal";
@@ -246,9 +246,9 @@ export interface RulesCreateRequestMatchersItem {
   /** Type of matcher. */
   type: RulesCreateRequestMatchersItemType | (string & {});
   /** Field for type matcher. */
-  field?: RulesCreateRequestMatchersItemField | (string & {});
+  field?: RulesCreateRequestMatchersItemField | (string & {}) | undefined;
   /** Value for matcher. */
-  value?: string;
+  value?: string | undefined;
 }
 export type RulesCreateRequestMatchersList = Array<RulesCreateRequestMatchersItem>;
 export type RulesCreateRequestSource = "api" | "wrangler";
@@ -260,15 +260,15 @@ export interface CreateRuleRequest {
   /** Matching patterns to forward to your actions. */
   matchers: RulesCreateRequestMatchersList;
   /** Routing rule status. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Routing rule name. */
-  name?: string;
+  name?: string | undefined;
   /** Public tag (script_tag) of the Worker that owns this rule. Required when `source` is `wrangler`. */
-  ownerWorkerTag?: string;
+  ownerWorkerTag?: string | undefined;
   /** Priority of the routing rule. */
-  priority?: number;
+  priority?: number | undefined;
   /** Who manages the rule. `api` covers dashboard, generic API, and Terraform; `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults to `api` when omitted on write. */
-  source?: RulesCreateRequestSource | (string & {});
+  source?: RulesCreateRequestSource | (string & {}) | undefined;
 }
 export type RulesCreateResponseActionsItemType = "drop" | "forward" | "worker";
 export type RulesCreateResponseActionsItemValueList = Array<string>;
@@ -276,7 +276,7 @@ export interface RulesCreateResponseActionsItem {
   /** Type of supported action. */
   type: RulesCreateResponseActionsItemType;
   /** List of values for the action. Currently limited to a single value. */
-  value?: RulesCreateResponseActionsItemValueList | null;
+  value?: RulesCreateResponseActionsItemValueList | null | undefined;
 }
 export type RulesCreateResponseActionsList = Array<RulesCreateResponseActionsItem>;
 export type RulesCreateResponseMatchersItemType = "all" | "literal";
@@ -285,30 +285,30 @@ export interface RulesCreateResponseMatchersItem {
   /** Type of matcher. */
   type: RulesCreateResponseMatchersItemType;
   /** Field for type matcher. */
-  field?: RulesCreateResponseMatchersItemField | null;
+  field?: RulesCreateResponseMatchersItemField | null | undefined;
   /** Value for matcher. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type RulesCreateResponseMatchersList = Array<RulesCreateResponseMatchersItem>;
 export type RulesCreateResponseSource = "api" | "wrangler";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateRuleResponse {
   /** Routing rule identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** List actions patterns. */
-  actions?: RulesCreateResponseActionsList | null;
+  actions?: RulesCreateResponseActionsList | null | undefined;
   /** Routing rule status. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** Matching patterns to forward to your actions. */
-  matchers?: RulesCreateResponseMatchersList | null;
+  matchers?: RulesCreateResponseMatchersList | null | undefined;
   /** Routing rule name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Priority of the routing rule. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Who manages the rule. `api` covers dashboard, generic API, and Terraform; `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults to `api` when omitted on write. */
-  source?: RulesCreateResponseSource | null;
+  source?: RulesCreateResponseSource | null | undefined;
   /** Routing rule tag. (Deprecated, replaced by routing rule identifier) */
-  tag?: string | null;
+  tag?: string | null | undefined;
 }
 export interface DeleteAddressRequest {
   /** Identifier. */
@@ -319,17 +319,17 @@ export interface DeleteAddressRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteAddressResponse {
   /** Destination address identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The date and time the destination address has been created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** The contact email address of the user. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** The date and time the destination address was last modified. */
-  modified?: string | null;
+  modified?: string | null | undefined;
   /** Destination address tag. (Deprecated, replaced by destination address identifier) */
-  tag?: string | null;
+  tag?: string | null | undefined;
   /** The date and time the destination address has been verified. Null means not verified yet. */
-  verified?: string | null;
+  verified?: string | null | undefined;
 }
 export interface DeleteDnsRequest {
   /** Identifier. */
@@ -350,17 +350,17 @@ export interface DnsDeleteResponse {
   /** Domain of your zone. */
   name: string;
   /** The date and time the settings have been created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** The date and time the settings have been modified. */
-  modified?: string | null;
+  modified?: string | null | undefined;
   /** Flag to check if the user skipped the configuration wizard. */
-  skipWizard?: boolean | null;
+  skipWizard?: boolean | null | undefined;
   /** Show the state of your account, and the type or configuration error. */
-  status?: DnsDeleteResponseStatus | null;
+  status?: DnsDeleteResponseStatus | null | undefined;
   /** Whether subaddressing (plus-addressing) is honored when matching incoming mail against routing rules. */
-  supportSubaddress?: boolean | null;
+  supportSubaddress?: boolean | null | undefined;
   /** Email Routing settings tag. (Deprecated, replaced by Email Routing settings identifier) */
-  tag?: string | null;
+  tag?: string | null | undefined;
 }
 export interface DeleteRuleRequest {
   /** Identifier. */
@@ -374,7 +374,7 @@ export interface RulesDeleteResponseActionsItem {
   /** Type of supported action. */
   type: RulesDeleteResponseActionsItemType;
   /** List of values for the action. Currently limited to a single value. */
-  value?: RulesDeleteResponseActionsItemValueList | null;
+  value?: RulesDeleteResponseActionsItemValueList | null | undefined;
 }
 export type RulesDeleteResponseActionsList = Array<RulesDeleteResponseActionsItem>;
 export type RulesDeleteResponseMatchersItemType = "all" | "literal";
@@ -383,30 +383,30 @@ export interface RulesDeleteResponseMatchersItem {
   /** Type of matcher. */
   type: RulesDeleteResponseMatchersItemType;
   /** Field for type matcher. */
-  field?: RulesDeleteResponseMatchersItemField | null;
+  field?: RulesDeleteResponseMatchersItemField | null | undefined;
   /** Value for matcher. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type RulesDeleteResponseMatchersList = Array<RulesDeleteResponseMatchersItem>;
 export type RulesDeleteResponseSource = "api" | "wrangler";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteRuleResponse {
   /** Routing rule identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** List actions patterns. */
-  actions?: RulesDeleteResponseActionsList | null;
+  actions?: RulesDeleteResponseActionsList | null | undefined;
   /** Routing rule status. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** Matching patterns to forward to your actions. */
-  matchers?: RulesDeleteResponseMatchersList | null;
+  matchers?: RulesDeleteResponseMatchersList | null | undefined;
   /** Routing rule name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Priority of the routing rule. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Who manages the rule. `api` covers dashboard, generic API, and Terraform; `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults to `api` when omitted on write. */
-  source?: RulesDeleteResponseSource | null;
+  source?: RulesDeleteResponseSource | null | undefined;
   /** Routing rule tag. (Deprecated, replaced by routing rule identifier) */
-  tag?: string | null;
+  tag?: string | null | undefined;
 }
 export interface DisableEmailRoutingRequest {
   /** Identifier. */
@@ -427,27 +427,27 @@ export interface DisableEmailRoutingResponse {
   /** Domain of your zone. */
   name: string;
   /** The date and time the settings have been created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** The date and time the settings have been modified. */
-  modified?: string | null;
+  modified?: string | null | undefined;
   /** Flag to check if the user skipped the configuration wizard. */
-  skipWizard?: boolean | null;
+  skipWizard?: boolean | null | undefined;
   /** Show the state of your account, and the type or configuration error. */
-  status?: DisableResponseStatus | null;
+  status?: DisableResponseStatus | null | undefined;
   /** Whether subaddressing (plus-addressing) is honored when matching incoming mail against routing rules. */
-  supportSubaddress?: boolean | null;
+  supportSubaddress?: boolean | null | undefined;
   /** Email Routing settings tag. (Deprecated, replaced by Email Routing settings identifier) */
-  tag?: string | null;
+  tag?: string | null | undefined;
 }
 export interface EditRequest {
   /** Identifier. */
   zoneId: string;
   /** State of your zone Email Routing settings. No-op on this endpoint - use `POST`/`DELETE /zones/{zone_id}/email/routing/dns`. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Flag to check if the user skipped the configuration wizard. */
-  skipWizard?: boolean;
+  skipWizard?: boolean | undefined;
   /** Whether subaddressing (plus-addressing) is honored when matching incoming mail against routing rules. */
-  supportSubaddress?: boolean;
+  supportSubaddress?: boolean | undefined;
 }
 export type EditResponseStatus =
   | "ready"
@@ -464,17 +464,17 @@ export interface EditResponse {
   /** Domain of your zone. */
   name: string;
   /** The date and time the settings have been created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** The date and time the settings have been modified. */
-  modified?: string | null;
+  modified?: string | null | undefined;
   /** Flag to check if the user skipped the configuration wizard. */
-  skipWizard?: boolean | null;
+  skipWizard?: boolean | null | undefined;
   /** Show the state of your account, and the type or configuration error. */
-  status?: EditResponseStatus | null;
+  status?: EditResponseStatus | null | undefined;
   /** Whether subaddressing (plus-addressing) is honored when matching incoming mail against routing rules. */
-  supportSubaddress?: boolean | null;
+  supportSubaddress?: boolean | null | undefined;
   /** Email Routing settings tag. (Deprecated, replaced by Email Routing settings identifier) */
-  tag?: string | null;
+  tag?: string | null | undefined;
 }
 export type EditAddressRequestStatus = "unverified" | "verified";
 export interface EditAddressRequest {
@@ -488,17 +488,17 @@ export interface EditAddressRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface EditAddressResponse {
   /** Destination address identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The date and time the destination address has been created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** The contact email address of the user. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** The date and time the destination address was last modified. */
-  modified?: string | null;
+  modified?: string | null | undefined;
   /** Destination address tag. (Deprecated, replaced by destination address identifier) */
-  tag?: string | null;
+  tag?: string | null | undefined;
   /** The date and time the destination address has been verified. Null means not verified yet. */
-  verified?: string | null;
+  verified?: string | null | undefined;
 }
 export interface EnableEmailRoutingRequest {
   /** Identifier. */
@@ -519,17 +519,17 @@ export interface EnableEmailRoutingResponse {
   /** Domain of your zone. */
   name: string;
   /** The date and time the settings have been created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** The date and time the settings have been modified. */
-  modified?: string | null;
+  modified?: string | null | undefined;
   /** Flag to check if the user skipped the configuration wizard. */
-  skipWizard?: boolean | null;
+  skipWizard?: boolean | null | undefined;
   /** Show the state of your account, and the type or configuration error. */
-  status?: EnableResponseStatus | null;
+  status?: EnableResponseStatus | null | undefined;
   /** Whether subaddressing (plus-addressing) is honored when matching incoming mail against routing rules. */
-  supportSubaddress?: boolean | null;
+  supportSubaddress?: boolean | null | undefined;
   /** Email Routing settings tag. (Deprecated, replaced by Email Routing settings identifier) */
-  tag?: string | null;
+  tag?: string | null | undefined;
 }
 export interface GetAddressRequest {
   /** Identifier. */
@@ -540,23 +540,23 @@ export interface GetAddressRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetAddressResponse {
   /** Destination address identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The date and time the destination address has been created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** The contact email address of the user. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** The date and time the destination address was last modified. */
-  modified?: string | null;
+  modified?: string | null | undefined;
   /** Destination address tag. (Deprecated, replaced by destination address identifier) */
-  tag?: string | null;
+  tag?: string | null | undefined;
   /** The date and time the destination address has been verified. Null means not verified yet. */
-  verified?: string | null;
+  verified?: string | null | undefined;
 }
 export interface GetDnsRequest {
   /** Identifier. */
   zoneId: string;
   /** Deprecated. When supplied, the response shape differs from the documented default and is not modeled in generated SDKs. Do not rely on this parameter. */
-  subdomain?: string;
+  subdomain?: string | undefined;
 }
 export type DnsGetResultItemType =
   | "A"
@@ -579,15 +579,15 @@ export type DnsGetResultItemType =
   | "URI";
 export interface DnsGetResultItem {
   /** DNS record content. */
-  content?: string | null;
+  content?: string | null | undefined;
   /** DNS record name (or @ for the zone apex). */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Required for MX, SRV and URI records. Unused by other record types. Records with lower priorities are preferred. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Time to live, in seconds, of the DNS record. Must be between 60 and 86400, or 1 for 'automatic'. */
-  ttl?: number | null;
+  ttl?: number | null | undefined;
   /** DNS record type. */
-  type?: DnsGetResultItemType | null;
+  type?: DnsGetResultItemType | null | undefined;
 }
 export type DnsGetResultList = Array<DnsGetResultItem>;
 export type GetDnsResponse = DnsGetResultList;
@@ -610,17 +610,17 @@ export interface GetEmailRoutingResponse {
   /** Domain of your zone. */
   name: string;
   /** The date and time the settings have been created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** The date and time the settings have been modified. */
-  modified?: string | null;
+  modified?: string | null | undefined;
   /** Flag to check if the user skipped the configuration wizard. */
-  skipWizard?: boolean | null;
+  skipWizard?: boolean | null | undefined;
   /** Show the state of your account, and the type or configuration error. */
-  status?: GetResponseStatus | null;
+  status?: GetResponseStatus | null | undefined;
   /** Whether subaddressing (plus-addressing) is honored when matching incoming mail against routing rules. */
-  supportSubaddress?: boolean | null;
+  supportSubaddress?: boolean | null | undefined;
   /** Email Routing settings tag. (Deprecated, replaced by Email Routing settings identifier) */
-  tag?: string | null;
+  tag?: string | null | undefined;
 }
 export interface GetRuleRequest {
   /** Identifier. */
@@ -634,7 +634,7 @@ export interface RulesGetResponseActionsItem {
   /** Type of supported action. */
   type: RulesGetResponseActionsItemType;
   /** List of values for the action. Currently limited to a single value. */
-  value?: RulesGetResponseActionsItemValueList | null;
+  value?: RulesGetResponseActionsItemValueList | null | undefined;
 }
 export type RulesGetResponseActionsList = Array<RulesGetResponseActionsItem>;
 export type RulesGetResponseMatchersItemType = "all" | "literal";
@@ -643,30 +643,30 @@ export interface RulesGetResponseMatchersItem {
   /** Type of matcher. */
   type: RulesGetResponseMatchersItemType;
   /** Field for type matcher. */
-  field?: RulesGetResponseMatchersItemField | null;
+  field?: RulesGetResponseMatchersItemField | null | undefined;
   /** Value for matcher. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type RulesGetResponseMatchersList = Array<RulesGetResponseMatchersItem>;
 export type RulesGetResponseSource = "api" | "wrangler";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetRuleResponse {
   /** Routing rule identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** List actions patterns. */
-  actions?: RulesGetResponseActionsList | null;
+  actions?: RulesGetResponseActionsList | null | undefined;
   /** Routing rule status. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** Matching patterns to forward to your actions. */
-  matchers?: RulesGetResponseMatchersList | null;
+  matchers?: RulesGetResponseMatchersList | null | undefined;
   /** Routing rule name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Priority of the routing rule. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Who manages the rule. `api` covers dashboard, generic API, and Terraform; `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults to `api` when omitted on write. */
-  source?: RulesGetResponseSource | null;
+  source?: RulesGetResponseSource | null | undefined;
   /** Routing rule tag. (Deprecated, replaced by routing rule identifier) */
-  tag?: string | null;
+  tag?: string | null | undefined;
 }
 export interface GetRuleCatchAllRequest {
   /** Identifier. */
@@ -678,7 +678,7 @@ export interface RulesCatchAllsGetResponseActionsItem {
   /** Type of action for catch-all rule. */
   type: RulesCatchAllsGetResponseActionsItemType;
   /** List of values for the action. Currently limited to a single value. */
-  value?: RulesCatchAllsGetResponseActionsItemValueList | null;
+  value?: RulesCatchAllsGetResponseActionsItemValueList | null | undefined;
 }
 export type RulesCatchAllsGetResponseActionsList = Array<RulesCatchAllsGetResponseActionsItem>;
 export type RulesCatchAllsGetResponseMatchersItemType = "all";
@@ -691,74 +691,74 @@ export type RulesCatchAllsGetResponseSource = "api" | "wrangler";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetRuleCatchAllResponse {
   /** Routing rule identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** List actions for the catch-all routing rule. */
-  actions?: RulesCatchAllsGetResponseActionsList | null;
+  actions?: RulesCatchAllsGetResponseActionsList | null | undefined;
   /** Routing rule status. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** List of matchers for the catch-all routing rule. */
-  matchers?: RulesCatchAllsGetResponseMatchersList | null;
+  matchers?: RulesCatchAllsGetResponseMatchersList | null | undefined;
   /** Routing rule name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Who manages the rule. `api` covers dashboard, generic API, and Terraform; `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults to `api` when omitted on write. */
-  source?: RulesCatchAllsGetResponseSource | null;
+  source?: RulesCatchAllsGetResponseSource | null | undefined;
   /** Routing rule tag. (Deprecated, replaced by routing rule identifier) */
-  tag?: string | null;
+  tag?: string | null | undefined;
 }
 export type AddressesListRequestDirection = "asc" | "desc";
 export interface ListAddressesRequest {
   /** Identifier. */
   accountId: string;
   /** Sorts results in an ascending or descending order. */
-  direction?: AddressesListRequestDirection | (string & {});
+  direction?: AddressesListRequestDirection | (string & {}) | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Filter by verified destination addresses. */
-  verified?: string;
+  verified?: string | undefined;
 }
 export interface AddressesListResultItem {
   /** Destination address identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The date and time the destination address has been created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** The contact email address of the user. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** The date and time the destination address was last modified. */
-  modified?: string | null;
+  modified?: string | null | undefined;
   /** Destination address tag. (Deprecated, replaced by destination address identifier) */
-  tag?: string | null;
+  tag?: string | null | undefined;
   /** The date and time the destination address has been verified. Null means not verified yet. */
-  verified?: string | null;
+  verified?: string | null | undefined;
 }
 export type AddressesListResultList = Array<AddressesListResultItem>;
 export interface ListAddressesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AddressesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListRulesRequest {
   /** Identifier. */
   zoneId: string;
-  page?: number;
-  perPage?: number;
+  page?: number | undefined;
+  perPage?: number | undefined;
   /** Filter by enabled routing rules. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export type ListRulesResponseResultList = Array<GetRuleResponse>;
 export interface ListRulesResponse {
   /** Routing rules for the zone. */
   result: ListRulesResponseResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface PatchDnsRequest {
   /** Identifier. */
   zoneId: string;
   /** Domain of your zone. */
-  name?: string;
+  name?: string | undefined;
 }
 export type DnsEditResponseStatus =
   | "ready"
@@ -775,17 +775,17 @@ export interface PatchDnsResponse {
   /** Domain of your zone. */
   name: string;
   /** The date and time the settings have been created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** The date and time the settings have been modified. */
-  modified?: string | null;
+  modified?: string | null | undefined;
   /** Flag to check if the user skipped the configuration wizard. */
-  skipWizard?: boolean | null;
+  skipWizard?: boolean | null | undefined;
   /** Show the state of your account, and the type or configuration error. */
-  status?: DnsEditResponseStatus | null;
+  status?: DnsEditResponseStatus | null | undefined;
   /** Whether subaddressing (plus-addressing) is honored when matching incoming mail against routing rules. */
-  supportSubaddress?: boolean | null;
+  supportSubaddress?: boolean | null | undefined;
   /** Email Routing settings tag. (Deprecated, replaced by Email Routing settings identifier) */
-  tag?: string | null;
+  tag?: string | null | undefined;
 }
 export type RulesCatchAllsUpdateRequestActionsItemType = "drop" | "forward" | "worker";
 export type RulesCatchAllsUpdateRequestActionsItemValueList = Array<string>;
@@ -793,7 +793,7 @@ export interface RulesCatchAllsUpdateRequestActionsItem {
   /** Type of action for catch-all rule. */
   type: RulesCatchAllsUpdateRequestActionsItemType | (string & {});
   /** List of values for the action. Currently limited to a single value. */
-  value?: RulesCatchAllsUpdateRequestActionsItemValueList;
+  value?: RulesCatchAllsUpdateRequestActionsItemValueList | undefined;
 }
 export type RulesCatchAllsUpdateRequestActionsList = Array<RulesCatchAllsUpdateRequestActionsItem>;
 export type RulesCatchAllsUpdateRequestMatchersItemType = "all";
@@ -812,13 +812,13 @@ export interface PutRuleCatchAllRequest {
   /** List of matchers for the catch-all routing rule. */
   matchers: RulesCatchAllsUpdateRequestMatchersList;
   /** Routing rule status. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Routing rule name. */
-  name?: string;
+  name?: string | undefined;
   /** Public tag (script_tag) of the Worker that owns this rule. Required when `source` is `wrangler`. */
-  ownerWorkerTag?: string;
+  ownerWorkerTag?: string | undefined;
   /** Who manages the rule. `api` covers dashboard, generic API, and Terraform; `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults to `api` when omitted on write. */
-  source?: RulesCatchAllsUpdateRequestSource | (string & {});
+  source?: RulesCatchAllsUpdateRequestSource | (string & {}) | undefined;
 }
 export type RulesCatchAllsUpdateResponseActionsItemType = "drop" | "forward" | "worker";
 export type RulesCatchAllsUpdateResponseActionsItemValueList = Array<string>;
@@ -826,7 +826,7 @@ export interface RulesCatchAllsUpdateResponseActionsItem {
   /** Type of action for catch-all rule. */
   type: RulesCatchAllsUpdateResponseActionsItemType;
   /** List of values for the action. Currently limited to a single value. */
-  value?: RulesCatchAllsUpdateResponseActionsItemValueList | null;
+  value?: RulesCatchAllsUpdateResponseActionsItemValueList | null | undefined;
 }
 export type RulesCatchAllsUpdateResponseActionsList =
   Array<RulesCatchAllsUpdateResponseActionsItem>;
@@ -841,29 +841,29 @@ export type RulesCatchAllsUpdateResponseSource = "api" | "wrangler";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutRuleCatchAllResponse {
   /** Routing rule identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** List actions for the catch-all routing rule. */
-  actions?: RulesCatchAllsUpdateResponseActionsList | null;
+  actions?: RulesCatchAllsUpdateResponseActionsList | null | undefined;
   /** Routing rule status. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** List of matchers for the catch-all routing rule. */
-  matchers?: RulesCatchAllsUpdateResponseMatchersList | null;
+  matchers?: RulesCatchAllsUpdateResponseMatchersList | null | undefined;
   /** Routing rule name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Who manages the rule. `api` covers dashboard, generic API, and Terraform; `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults to `api` when omitted on write. */
-  source?: RulesCatchAllsUpdateResponseSource | null;
+  source?: RulesCatchAllsUpdateResponseSource | null | undefined;
   /** Routing rule tag. (Deprecated, replaced by routing rule identifier) */
-  tag?: string | null;
+  tag?: string | null | undefined;
 }
 export interface RulesListForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
   accountId: string;
   /** Filter by enabled routing rules. */
-  enabled?: string;
+  enabled?: string | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type RulesListResultItemActionsItemType = "drop" | "forward" | "worker";
 export type RulesListResultItemActionsItemValueList = Array<string>;
@@ -871,7 +871,7 @@ export interface RulesListResultItemActionsItem {
   /** Type of supported action. */
   type: RulesListResultItemActionsItemType;
   /** List of values for the action. Currently limited to a single value. */
-  value?: RulesListResultItemActionsItemValueList | null;
+  value?: RulesListResultItemActionsItemValueList | null | undefined;
 }
 export type RulesListResultItemActionsList = Array<RulesListResultItemActionsItem>;
 export type RulesListResultItemMatchersItemType = "all" | "literal";
@@ -880,32 +880,32 @@ export interface RulesListResultItemMatchersItem {
   /** Type of matcher. */
   type: RulesListResultItemMatchersItemType;
   /** Field for type matcher. */
-  field?: RulesListResultItemMatchersItemField | null;
+  field?: RulesListResultItemMatchersItemField | null | undefined;
   /** Value for matcher. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type RulesListResultItemMatchersList = Array<RulesListResultItemMatchersItem>;
 export type RulesListResultItemSource = "api" | "wrangler";
 export type RulesListResultItemZone = AccountRulesListResultItemZone;
 export interface RulesListResultItem {
   /** Routing rule identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** List actions patterns. */
-  actions?: RulesListResultItemActionsList | null;
+  actions?: RulesListResultItemActionsList | null | undefined;
   /** Routing rule status. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** Matching patterns to forward to your actions. */
-  matchers?: RulesListResultItemMatchersList | null;
+  matchers?: RulesListResultItemMatchersList | null | undefined;
   /** Routing rule name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Priority of the routing rule. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Who manages the rule. `api` covers dashboard, generic API, and Terraform; `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults to `api` when omitted on write. */
-  source?: RulesListResultItemSource | null;
+  source?: RulesListResultItemSource | null | undefined;
   /** Routing rule tag. (Deprecated, replaced by routing rule identifier) */
-  tag?: string | null;
+  tag?: string | null | undefined;
   /** Zone information for the routing rule. */
-  zone?: AccountRulesListResultItemZone | null;
+  zone?: AccountRulesListResultItemZone | null | undefined;
 }
 export type RulesListResultList = Array<RulesListResultItem>;
 export type RulesListResponse = RulesListResultList;
@@ -913,17 +913,17 @@ export interface RulesListForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
   zoneId: string;
   /** Filter by enabled routing rules. */
-  enabled?: string;
+  enabled?: string | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export interface UnlockRequest {
   /** Identifier. */
   zoneId: string;
   /** Domain of your zone. */
-  name?: string;
+  name?: string | undefined;
 }
 export type UnlockResponseStatus =
   | "ready"
@@ -940,27 +940,27 @@ export interface UnlockResponse {
   /** Domain of your zone. */
   name: string;
   /** The date and time the settings have been created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** The date and time the settings have been modified. */
-  modified?: string | null;
+  modified?: string | null | undefined;
   /** Flag to check if the user skipped the configuration wizard. */
-  skipWizard?: boolean | null;
+  skipWizard?: boolean | null | undefined;
   /** Show the state of your account, and the type or configuration error. */
-  status?: UnlockResponseStatus | null;
+  status?: UnlockResponseStatus | null | undefined;
   /** Whether subaddressing (plus-addressing) is honored when matching incoming mail against routing rules. */
-  supportSubaddress?: boolean | null;
+  supportSubaddress?: boolean | null | undefined;
   /** Email Routing settings tag. (Deprecated, replaced by Email Routing settings identifier) */
-  tag?: string | null;
+  tag?: string | null | undefined;
 }
 export interface UpdateRequest {
   /** Identifier. */
   zoneId: string;
   /** State of your zone Email Routing settings. No-op on this endpoint - use `POST`/`DELETE /zones/{zone_id}/email/routing/dns`. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Flag to check if the user skipped the configuration wizard. */
-  skipWizard?: boolean;
+  skipWizard?: boolean | undefined;
   /** Whether subaddressing (plus-addressing) is honored when matching incoming mail against routing rules. */
-  supportSubaddress?: boolean;
+  supportSubaddress?: boolean | undefined;
 }
 export type UpdateResponseStatus =
   | "ready"
@@ -977,17 +977,17 @@ export interface UpdateResponse {
   /** Domain of your zone. */
   name: string;
   /** The date and time the settings have been created. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** The date and time the settings have been modified. */
-  modified?: string | null;
+  modified?: string | null | undefined;
   /** Flag to check if the user skipped the configuration wizard. */
-  skipWizard?: boolean | null;
+  skipWizard?: boolean | null | undefined;
   /** Show the state of your account, and the type or configuration error. */
-  status?: UpdateResponseStatus | null;
+  status?: UpdateResponseStatus | null | undefined;
   /** Whether subaddressing (plus-addressing) is honored when matching incoming mail against routing rules. */
-  supportSubaddress?: boolean | null;
+  supportSubaddress?: boolean | null | undefined;
   /** Email Routing settings tag. (Deprecated, replaced by Email Routing settings identifier) */
-  tag?: string | null;
+  tag?: string | null | undefined;
 }
 export type RulesUpdateRequestActionsItemType = "drop" | "forward" | "worker";
 export type RulesUpdateRequestActionsItemValueList = Array<string>;
@@ -995,7 +995,7 @@ export interface RulesUpdateRequestActionsItem {
   /** Type of supported action. */
   type: RulesUpdateRequestActionsItemType | (string & {});
   /** List of values for the action. Currently limited to a single value. */
-  value?: RulesUpdateRequestActionsItemValueList;
+  value?: RulesUpdateRequestActionsItemValueList | undefined;
 }
 export type RulesUpdateRequestActionsList = Array<RulesUpdateRequestActionsItem>;
 export type RulesUpdateRequestMatchersItemType = "all" | "literal";
@@ -1004,9 +1004,9 @@ export interface RulesUpdateRequestMatchersItem {
   /** Type of matcher. */
   type: RulesUpdateRequestMatchersItemType | (string & {});
   /** Field for type matcher. */
-  field?: RulesUpdateRequestMatchersItemField | (string & {});
+  field?: RulesUpdateRequestMatchersItemField | (string & {}) | undefined;
   /** Value for matcher. */
-  value?: string;
+  value?: string | undefined;
 }
 export type RulesUpdateRequestMatchersList = Array<RulesUpdateRequestMatchersItem>;
 export type RulesUpdateRequestSource = "api" | "wrangler";
@@ -1020,15 +1020,15 @@ export interface UpdateRuleRequest {
   /** Matching patterns to forward to your actions. */
   matchers: RulesUpdateRequestMatchersList;
   /** Routing rule status. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Routing rule name. */
-  name?: string;
+  name?: string | undefined;
   /** Public tag (script_tag) of the Worker that owns this rule. Required when `source` is `wrangler`. */
-  ownerWorkerTag?: string;
+  ownerWorkerTag?: string | undefined;
   /** Priority of the routing rule. */
-  priority?: number;
+  priority?: number | undefined;
   /** Who manages the rule. `api` covers dashboard, generic API, and Terraform; `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults to `api` when omitted on write. */
-  source?: RulesUpdateRequestSource | (string & {});
+  source?: RulesUpdateRequestSource | (string & {}) | undefined;
 }
 export type RulesUpdateResponseActionsItemType = "drop" | "forward" | "worker";
 export type RulesUpdateResponseActionsItemValueList = Array<string>;
@@ -1036,7 +1036,7 @@ export interface RulesUpdateResponseActionsItem {
   /** Type of supported action. */
   type: RulesUpdateResponseActionsItemType;
   /** List of values for the action. Currently limited to a single value. */
-  value?: RulesUpdateResponseActionsItemValueList | null;
+  value?: RulesUpdateResponseActionsItemValueList | null | undefined;
 }
 export type RulesUpdateResponseActionsList = Array<RulesUpdateResponseActionsItem>;
 export type RulesUpdateResponseMatchersItemType = "all" | "literal";
@@ -1045,30 +1045,30 @@ export interface RulesUpdateResponseMatchersItem {
   /** Type of matcher. */
   type: RulesUpdateResponseMatchersItemType;
   /** Field for type matcher. */
-  field?: RulesUpdateResponseMatchersItemField | null;
+  field?: RulesUpdateResponseMatchersItemField | null | undefined;
   /** Value for matcher. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type RulesUpdateResponseMatchersList = Array<RulesUpdateResponseMatchersItem>;
 export type RulesUpdateResponseSource = "api" | "wrangler";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateRuleResponse {
   /** Routing rule identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** List actions patterns. */
-  actions?: RulesUpdateResponseActionsList | null;
+  actions?: RulesUpdateResponseActionsList | null | undefined;
   /** Routing rule status. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** Matching patterns to forward to your actions. */
-  matchers?: RulesUpdateResponseMatchersList | null;
+  matchers?: RulesUpdateResponseMatchersList | null | undefined;
   /** Routing rule name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Priority of the routing rule. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** Who manages the rule. `api` covers dashboard, generic API, and Terraform; `wrangler` means the rule is managed by a Worker's wrangler.jsonc. Defaults to `api` when omitted on write. */
-  source?: RulesUpdateResponseSource | null;
+  source?: RulesUpdateResponseSource | null | undefined;
   /** Routing rule tag. (Deprecated, replaced by routing rule identifier) */
-  tag?: string | null;
+  tag?: string | null | undefined;
 }
 export type AccountRulesListForAccountError = CloudflareOpError;
 /** Lists existing routing rules across all zones in the account or zone. */

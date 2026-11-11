@@ -46,11 +46,11 @@ export interface CheckCommunicationNameAvailabilityRequest {
 /** Output of check name availability API. */
 export interface CheckNameAvailabilityOutput {
   /** Indicates whether the name is available. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** The reason why the name is not available. */
-  reason?: string;
+  reason?: string | undefined;
   /** The detailed error message describing why the name is not available. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface CheckCommunicationsNoSubscriptionNameAvailabilityRequest {
   /** The name of the SupportTicketDetails */
@@ -77,7 +77,7 @@ export interface CheckSupportTicketsNoSubscriptionNameAvailabilityRequest {
 /** Describes the properties of a communication resource. */
 export interface CommunicationDetailsPropertiesInput {
   /** Email address of the sender. This property is required if called by a service principal. */
-  sender?: string;
+  sender?: string | undefined;
   /** Subject of the communication. */
   subject: string;
   /** Body of the communication. */
@@ -100,17 +100,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Communication type. */
 export type CommunicationType = "web" | "phone";
@@ -119,33 +119,33 @@ export type CommunicationDirection = "inbound" | "outbound";
 /** Describes the properties of a communication resource. */
 export interface CommunicationDetailsProperties {
   /** Communication type. */
-  communicationType?: CommunicationType;
+  communicationType?: CommunicationType | undefined;
   /** Direction of communication. */
-  communicationDirection?: CommunicationDirection;
+  communicationDirection?: CommunicationDirection | undefined;
   /** Email address of the sender. This property is required if called by a service principal. */
-  sender?: string;
+  sender?: string | undefined;
   /** Subject of the communication. */
   subject: string;
   /** Body of the communication. */
   body: string;
   /** Time in UTC (ISO 8601 format) when the communication was created. */
-  createdDate?: string;
+  createdDate?: string | undefined;
 }
 export interface CreateCommunicationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the resource. */
   properties: CommunicationDetailsProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CreateCommunicationsNoSubscriptionRequest {
   /** The name of the SupportTicketDetails */
@@ -157,28 +157,28 @@ export interface CreateCommunicationsNoSubscriptionRequest {
 }
 export interface CreateCommunicationsNoSubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the resource. */
   properties: CommunicationDetailsProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Describes the properties of a file. */
 export interface FileDetailsPropertiesInput {
   /** Size of each chunk. The size of each chunk should be provided in bytes and must not exceed 2.5 megabytes (MB). */
-  chunkSize?: number;
+  chunkSize?: number | undefined;
   /** Size of the file to be uploaded. The file size must not exceed 5 MB and should be provided in bytes. */
-  fileSize?: number;
+  fileSize?: number | undefined;
   /** Number of chunks to be uploaded. The maximum number of allowed chunks is 2. */
-  numberOfChunks?: number;
+  numberOfChunks?: number | undefined;
 }
 export interface CreateFileRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -188,30 +188,30 @@ export interface CreateFileRequest {
   /** The name of the FileDetails */
   fileName: string;
   /** Properties of the resource */
-  properties?: FileDetailsPropertiesInput;
+  properties?: FileDetailsPropertiesInput | undefined;
 }
 /** Describes the properties of a file. */
 export interface FileDetailsProperties {
   /** Time in UTC (ISO 8601 format) when file workspace was created. */
-  createdOn?: string;
+  createdOn?: string | undefined;
   /** Size of each chunk. The size of each chunk should be provided in bytes and must not exceed 2.5 megabytes (MB). */
-  chunkSize?: number;
+  chunkSize?: number | undefined;
   /** Size of the file to be uploaded. The file size must not exceed 5 MB and should be provided in bytes. */
-  fileSize?: number;
+  fileSize?: number | undefined;
   /** Number of chunks to be uploaded. The maximum number of allowed chunks is 2. */
-  numberOfChunks?: number;
+  numberOfChunks?: number | undefined;
 }
 export interface CreateFileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the resource */
-  properties?: FileDetailsProperties;
+  properties?: FileDetailsProperties | undefined;
 }
 export interface CreateFilesNoSubscriptionRequest {
   /** The name of the FileWorkspaceDetails */
@@ -219,19 +219,19 @@ export interface CreateFilesNoSubscriptionRequest {
   /** The name of the FileDetails */
   fileName: string;
   /** Properties of the resource */
-  properties?: FileDetailsPropertiesInput;
+  properties?: FileDetailsPropertiesInput | undefined;
 }
 export interface CreateFilesNoSubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the resource */
-  properties?: FileDetailsProperties;
+  properties?: FileDetailsProperties | undefined;
 }
 export interface CreateFileWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -242,21 +242,21 @@ export interface CreateFileWorkspaceRequest {
 /** Describes the properties of a file workspace. */
 export interface FileWorkspaceDetailsProperties {
   /** Time in UTC (ISO 8601 format) when file workspace was created. */
-  createdOn?: string;
+  createdOn?: string | undefined;
   /** Time in UTC (ISO 8601 format) when file workspace is going to expire. */
-  expirationTime?: string;
+  expirationTime?: string | undefined;
 }
 export interface CreateFileWorkspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the resource */
-  properties?: FileWorkspaceDetailsProperties;
+  properties?: FileWorkspaceDetailsProperties | undefined;
 }
 export interface CreateFileWorkspacesNoSubscriptionRequest {
   /** The name of the FileWorkspaceDetails */
@@ -264,15 +264,15 @@ export interface CreateFileWorkspacesNoSubscriptionRequest {
 }
 export interface CreateFileWorkspacesNoSubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the resource */
-  properties?: FileWorkspaceDetailsProperties;
+  properties?: FileWorkspaceDetailsProperties | undefined;
 }
 /** A value that indicates the urgency of the case, which in turn determines the response time according to the service level agreement of the technical support plan you have with Azure. Note: 'Highest critical impact', also known as the 'Emergency - Severe impact' level in the Azure portal is reserved only for our Premium customers. */
 export type SeverityLevel = "minimal" | "moderate" | "critical" | "highestcriticalimpact";
@@ -293,9 +293,9 @@ export interface ContactProfile {
   /** Primary email address. */
   primaryEmailAddress: string;
   /** Additional email addresses listed will be copied on any correspondence about the support ticket. */
-  additionalEmailAddresses?: ContactProfileAdditionalEmailAddressesList;
+  additionalEmailAddresses?: ContactProfileAdditionalEmailAddressesList | undefined;
   /** Phone number. This is required if preferred contact method is phone. It is also required when submitting 'critical' or 'highestcriticalimpact' severity cases. */
-  phoneNumber?: string;
+  phoneNumber?: string | undefined;
   /** Time zone of the user. This is the name of the time zone from [Microsoft Time Zone Index Values](https://support.microsoft.com/help/973627/microsoft-time-zone-index-values). */
   preferredTimeZone: string;
   /** Country of the user. This is the ISO 3166-1 alpha-3 code. */
@@ -310,41 +310,41 @@ export type SupportEngineerInput = ServiceLevelAgreementInput;
 /** Additional information for technical support ticket. */
 export interface TechnicalTicketDetails {
   /** This is the resource Id of the Azure service resource (For example: A virtual machine resource or an HDInsight resource) for which the support ticket is created. */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 /** This property is required for providing the region and new quota limits. */
 export interface QuotaChangeRequest {
   /** Region for which the quota increase request is being made. */
-  region?: string;
+  region?: string | undefined;
   /** Payload of the quota increase request. */
-  payload?: string;
+  payload?: string | undefined;
 }
 /** This property is required for providing the region and new quota limits. */
 export type QuotaTicketDetailsQuotaChangeRequestsList = Array<QuotaChangeRequest>;
 /** Additional set of information required for quota increase support ticket for certain quota types, e.g.: Virtual machine cores. Get complete details about Quota payload support request along with examples at [Support quota request](https://aka.ms/supportrpquotarequestpayload). */
 export interface QuotaTicketDetails {
   /** Required for certain quota types when there is a sub type, such as Batch, for which you are requesting a quota increase. */
-  quotaChangeRequestSubType?: string;
+  quotaChangeRequestSubType?: string | undefined;
   /** Quota change request version. */
-  quotaChangeRequestVersion?: string;
+  quotaChangeRequestVersion?: string | undefined;
   /** This property is required for providing the region and new quota limits. */
-  quotaChangeRequests?: QuotaTicketDetailsQuotaChangeRequestsList;
+  quotaChangeRequests?: QuotaTicketDetailsQuotaChangeRequestsList | undefined;
 }
 /** User consent value provided */
 export type UserConsent = "Yes" | "No";
 /** This property indicates secondary consent for the support ticket. */
 export interface SecondaryConsent {
   /** User consent value provided */
-  userConsent?: UserConsent | (string & {});
+  userConsent?: UserConsent | (string & {}) | undefined;
   /** The service name for which the secondary consent is being provided. The value needs to be retrieved from the Problem Classification API response. */
-  type?: string;
+  type?: string | undefined;
 }
 /** This property indicates secondary consents for the support ticket */
 export type SupportTicketDetailsPropertiesInputSecondaryConsentList = Array<SecondaryConsent>;
 /** Describes the properties of a support ticket. */
 export interface SupportTicketDetailsPropertiesInput {
   /** System generated support ticket Id that is unique. */
-  supportTicketId?: string;
+  supportTicketId?: string | undefined;
   /** Detailed description of the question or issue. */
   description: string;
   /** Each Azure service has its own set of issue categories, also known as problem classification. This parameter is the unique Id for the type of problem you are experiencing. */
@@ -352,35 +352,35 @@ export interface SupportTicketDetailsPropertiesInput {
   /** A value that indicates the urgency of the case, which in turn determines the response time according to the service level agreement of the technical support plan you have with Azure. Note: 'Highest critical impact', also known as the 'Emergency - Severe impact' level in the Azure portal is reserved only for our Premium customers. */
   severity: SeverityLevel | (string & {});
   /** Enrollment Id associated with the support ticket. */
-  enrollmentId?: string;
+  enrollmentId?: string | undefined;
   /** Indicates if this requires a 24x7 response from Azure. */
-  require24X7Response?: boolean;
+  require24X7Response?: boolean | undefined;
   /** Advanced diagnostic consent to be updated on the support ticket. */
   advancedDiagnosticConsent: Consent | (string & {});
   /** Problem scoping questions associated with the support ticket. */
-  problemScopingQuestions?: string;
+  problemScopingQuestions?: string | undefined;
   /** Support plan id associated with the support ticket. */
-  supportPlanId?: string;
+  supportPlanId?: string | undefined;
   /** Contact information of the user requesting to create a support ticket. */
   contactDetails: ContactProfile;
   /** Service Level Agreement information for this support ticket. */
-  serviceLevelAgreement?: ServiceLevelAgreementInput;
+  serviceLevelAgreement?: ServiceLevelAgreementInput | undefined;
   /** Information about the support engineer working on this support ticket. */
-  supportEngineer?: ServiceLevelAgreementInput;
+  supportEngineer?: ServiceLevelAgreementInput | undefined;
   /** Title of the support ticket. */
   title: string;
   /** Time in UTC (ISO 8601 format) when the problem started. */
-  problemStartTime?: string;
+  problemStartTime?: string | undefined;
   /** This is the resource Id of the Azure service resource associated with the support ticket. */
   serviceId: string;
   /** File workspace name. */
-  fileWorkspaceName?: string;
+  fileWorkspaceName?: string | undefined;
   /** Additional ticket details associated with a technical support ticket request. */
-  technicalTicketDetails?: TechnicalTicketDetails;
+  technicalTicketDetails?: TechnicalTicketDetails | undefined;
   /** Additional ticket details associated with a quota support ticket request. */
-  quotaTicketDetails?: QuotaTicketDetails;
+  quotaTicketDetails?: QuotaTicketDetails | undefined;
   /** This property indicates secondary consents for the support ticket */
-  secondaryConsent?: SupportTicketDetailsPropertiesInputSecondaryConsentList;
+  secondaryConsent?: SupportTicketDetailsPropertiesInputSecondaryConsentList | undefined;
 }
 export interface CreateSupportTicketRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -393,16 +393,16 @@ export interface CreateSupportTicketRequest {
 /** Service Level Agreement details for a support ticket. */
 export interface ServiceLevelAgreement {
   /** Time in UTC (ISO 8601 format) when the service level agreement starts. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Time in UTC (ISO 8601 format) when the service level agreement expires. */
-  expirationTime?: string;
+  expirationTime?: string | undefined;
   /** Service Level Agreement in minutes. */
-  slaMinutes?: number;
+  slaMinutes?: number | undefined;
 }
 /** Support engineer information. */
 export interface SupportEngineer {
   /** Email address of the Azure Support engineer assigned to the support ticket. */
-  emailAddress?: string;
+  emailAddress?: string | undefined;
 }
 /** This property indicates if support ticket is a temporary ticket. */
 export type IsTemporaryTicket = "Yes" | "No";
@@ -411,75 +411,75 @@ export type SupportTicketDetailsPropertiesSecondaryConsentList = Array<Secondary
 /** Describes the properties of a support ticket. */
 export interface SupportTicketDetailsProperties {
   /** System generated support ticket Id that is unique. */
-  supportTicketId?: string;
+  supportTicketId?: string | undefined;
   /** Detailed description of the question or issue. */
   description: string;
   /** Each Azure service has its own set of issue categories, also known as problem classification. This parameter is the unique Id for the type of problem you are experiencing. */
   problemClassificationId: string;
   /** Localized name of problem classification. */
-  problemClassificationDisplayName?: string;
+  problemClassificationDisplayName?: string | undefined;
   /** A value that indicates the urgency of the case, which in turn determines the response time according to the service level agreement of the technical support plan you have with Azure. Note: 'Highest critical impact', also known as the 'Emergency - Severe impact' level in the Azure portal is reserved only for our Premium customers. */
   severity: SeverityLevel;
   /** Enrollment Id associated with the support ticket. */
-  enrollmentId?: string;
+  enrollmentId?: string | undefined;
   /** Indicates if this requires a 24x7 response from Azure. */
-  require24X7Response?: boolean;
+  require24X7Response?: boolean | undefined;
   /** Advanced diagnostic consent to be updated on the support ticket. */
   advancedDiagnosticConsent: Consent;
   /** Problem scoping questions associated with the support ticket. */
-  problemScopingQuestions?: string;
+  problemScopingQuestions?: string | undefined;
   /** Support plan id associated with the support ticket. */
-  supportPlanId?: string;
+  supportPlanId?: string | undefined;
   /** Contact information of the user requesting to create a support ticket. */
   contactDetails: ContactProfile;
   /** Service Level Agreement information for this support ticket. */
-  serviceLevelAgreement?: ServiceLevelAgreement;
+  serviceLevelAgreement?: ServiceLevelAgreement | undefined;
   /** Information about the support engineer working on this support ticket. */
-  supportEngineer?: SupportEngineer;
+  supportEngineer?: SupportEngineer | undefined;
   /** Support plan type associated with the support ticket. */
-  supportPlanType?: string;
+  supportPlanType?: string | undefined;
   /** Support plan type associated with the support ticket. */
-  supportPlanDisplayName?: string;
+  supportPlanDisplayName?: string | undefined;
   /** Title of the support ticket. */
   title: string;
   /** Time in UTC (ISO 8601 format) when the problem started. */
-  problemStartTime?: string;
+  problemStartTime?: string | undefined;
   /** This is the resource Id of the Azure service resource associated with the support ticket. */
   serviceId: string;
   /** Localized name of the Azure service. */
-  serviceDisplayName?: string;
+  serviceDisplayName?: string | undefined;
   /** Status of the support ticket. */
-  status?: string;
+  status?: string | undefined;
   /** Time in UTC (ISO 8601 format) when the support ticket was created. */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** Time in UTC (ISO 8601 format) when the support ticket was last modified. */
-  modifiedDate?: string;
+  modifiedDate?: string | undefined;
   /** File workspace name. */
-  fileWorkspaceName?: string;
+  fileWorkspaceName?: string | undefined;
   /** This property indicates if support ticket is a temporary ticket. */
-  isTemporaryTicket?: IsTemporaryTicket;
+  isTemporaryTicket?: IsTemporaryTicket | undefined;
   /** Additional ticket details associated with a technical support ticket request. */
-  technicalTicketDetails?: TechnicalTicketDetails;
+  technicalTicketDetails?: TechnicalTicketDetails | undefined;
   /** Additional ticket details associated with a quota support ticket request. */
-  quotaTicketDetails?: QuotaTicketDetails;
+  quotaTicketDetails?: QuotaTicketDetails | undefined;
   /** This property indicates secondary consents for the support ticket */
-  secondaryConsent?: SupportTicketDetailsPropertiesSecondaryConsentList;
+  secondaryConsent?: SupportTicketDetailsPropertiesSecondaryConsentList | undefined;
 }
 export interface CreateSupportTicketResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the resource. */
   properties: SupportTicketDetailsProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CreateSupportTicketsNoSubscriptionRequest {
   /** The name of the SupportTicketDetails */
@@ -489,19 +489,19 @@ export interface CreateSupportTicketsNoSubscriptionRequest {
 }
 export interface CreateSupportTicketsNoSubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the resource. */
   properties: SupportTicketDetailsProperties;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetChatTranscriptRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -514,36 +514,36 @@ export interface GetChatTranscriptRequest {
 /** Describes the properties of a Message Details resource. */
 export interface MessageProperties {
   /** Content type. */
-  contentType?: string;
+  contentType?: string | undefined;
   /** Direction of communication. */
-  communicationDirection?: CommunicationDirection;
+  communicationDirection?: CommunicationDirection | undefined;
   /** Name of the sender. */
-  sender?: string;
+  sender?: string | undefined;
   /** Body of the communication. */
-  body?: string;
+  body?: string | undefined;
   /** Time in UTC (ISO 8601 format) when the communication was created. */
-  createdDate?: string;
+  createdDate?: string | undefined;
 }
 /** List of chat transcript communication resources. */
 export type ChatTranscriptDetailsPropertiesMessagesList = Array<MessageProperties>;
 /** Describes the properties of a Chat Transcript Details resource. */
 export interface ChatTranscriptDetailsProperties {
   /** List of chat transcript communication resources. */
-  messages?: ChatTranscriptDetailsPropertiesMessagesList;
+  messages?: ChatTranscriptDetailsPropertiesMessagesList | undefined;
   /** Time in UTC (ISO 8601 format) when the chat began. */
-  startTime?: string;
+  startTime?: string | undefined;
 }
 export interface GetChatTranscriptResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the resource. */
-  properties?: ChatTranscriptDetailsProperties;
+  properties?: ChatTranscriptDetailsProperties | undefined;
 }
 export interface GetChatTranscriptsNoSubscriptionRequest {
   /** The name of the SupportTicketDetails */
@@ -553,15 +553,15 @@ export interface GetChatTranscriptsNoSubscriptionRequest {
 }
 export interface GetChatTranscriptsNoSubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the resource. */
-  properties?: ChatTranscriptDetailsProperties;
+  properties?: ChatTranscriptDetailsProperties | undefined;
 }
 export interface GetCommunicationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -573,13 +573,13 @@ export interface GetCommunicationRequest {
 }
 export interface GetCommunicationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the resource. */
   properties: CommunicationDetailsProperties;
 }
@@ -591,13 +591,13 @@ export interface GetCommunicationsNoSubscriptionRequest {
 }
 export interface GetCommunicationsNoSubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the resource. */
   properties: CommunicationDetailsProperties;
 }
@@ -611,15 +611,15 @@ export interface GetFileRequest {
 }
 export interface GetFileResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the resource */
-  properties?: FileDetailsProperties;
+  properties?: FileDetailsProperties | undefined;
 }
 export interface GetFilesNoSubscriptionRequest {
   /** The name of the FileWorkspaceDetails */
@@ -629,15 +629,15 @@ export interface GetFilesNoSubscriptionRequest {
 }
 export interface GetFilesNoSubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the resource */
-  properties?: FileDetailsProperties;
+  properties?: FileDetailsProperties | undefined;
 }
 export interface GetFileWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -647,15 +647,15 @@ export interface GetFileWorkspaceRequest {
 }
 export interface GetFileWorkspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the resource */
-  properties?: FileWorkspaceDetailsProperties;
+  properties?: FileWorkspaceDetailsProperties | undefined;
 }
 export interface GetFileWorkspacesNoSubscriptionRequest {
   /** The name of the FileWorkspaceDetails */
@@ -663,15 +663,15 @@ export interface GetFileWorkspacesNoSubscriptionRequest {
 }
 export interface GetFileWorkspacesNoSubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the resource */
-  properties?: FileWorkspaceDetailsProperties;
+  properties?: FileWorkspaceDetailsProperties | undefined;
 }
 export interface GetProblemClassificationRequest {
   /** Name of the Azure service. */
@@ -682,9 +682,9 @@ export interface GetProblemClassificationRequest {
 /** This property indicates whether secondary consent is present for problem classification. */
 export interface SecondaryConsentEnabled {
   /** User consent description. */
-  description?: string;
+  description?: string | undefined;
   /** The Azure service for which secondary consent is needed for case creation. */
-  type?: string;
+  type?: string | undefined;
 }
 /** This property indicates whether secondary consent is present for problem classification */
 export type ProblemClassificationPropertiesSecondaryConsentEnabledList =
@@ -692,21 +692,21 @@ export type ProblemClassificationPropertiesSecondaryConsentEnabledList =
 /** Details about a problem classification available for an Azure service. */
 export interface ProblemClassificationProperties {
   /** Localized name of problem classification. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** This property indicates whether secondary consent is present for problem classification */
-  secondaryConsentEnabled?: ProblemClassificationPropertiesSecondaryConsentEnabledList;
+  secondaryConsentEnabled?: ProblemClassificationPropertiesSecondaryConsentEnabledList | undefined;
 }
 export interface GetProblemClassificationResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the resource. */
-  properties?: ProblemClassificationProperties;
+  properties?: ProblemClassificationProperties | undefined;
 }
 export interface GetServiceRequest {
   /** Name of the Azure service. */
@@ -717,21 +717,21 @@ export type ServicePropertiesResourceTypesList = Array<string>;
 /** Details about an Azure service available for support ticket creation. */
 export interface ServiceProperties {
   /** Localized name of the Azure service. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** ARM Resource types. */
-  resourceTypes?: ServicePropertiesResourceTypesList;
+  resourceTypes?: ServicePropertiesResourceTypesList | undefined;
 }
 export interface GetServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the resource. */
-  properties?: ServiceProperties;
+  properties?: ServiceProperties | undefined;
 }
 export interface GetSupportTicketRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -741,13 +741,13 @@ export interface GetSupportTicketRequest {
 }
 export interface GetSupportTicketResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the resource. */
   properties: SupportTicketDetailsProperties;
 }
@@ -757,13 +757,13 @@ export interface GetSupportTicketsNoSubscriptionRequest {
 }
 export interface GetSupportTicketsNoSubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the resource. */
   properties: SupportTicketDetailsProperties;
 }
@@ -776,24 +776,24 @@ export interface ListChatTranscriptsRequest {
 /** Object that represents a Chat Transcript resource. */
 export interface ChatTranscriptDetails {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the resource. */
-  properties?: ChatTranscriptDetailsProperties;
+  properties?: ChatTranscriptDetailsProperties | undefined;
 }
 /** [Placeholder] Description for value property */
 export type ChatTranscriptsListResultValueList = Array<ChatTranscriptDetails>;
 /** [Placeholder] Description for page model */
 export interface ChatTranscriptsListResult {
   /** [Placeholder] Description for nextLink property */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** [Placeholder] Description for value property */
-  value?: ChatTranscriptsListResultValueList;
+  value?: ChatTranscriptsListResultValueList | undefined;
 }
 export interface ListChatTranscriptsNoSubscriptionRequest {
   /** The name of the SupportTicketDetails */
@@ -805,20 +805,20 @@ export interface ListCommunicationsRequest {
   /** The name of the SupportTicketDetails */
   supportTicketName: string;
   /** The number of values to return in the collection. Default is 10 and max is 10. */
-  _top?: number;
+  _top?: number | undefined;
   /** The filter to apply on the operation. You can filter by communicationType and createdDate properties. CommunicationType supports Equals ('eq') operator and createdDate supports Greater Than ('gt') and Greater Than or Equals ('ge') operators. You may combine the CommunicationType and CreatedDate filters by Logical And ('and') operator. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Object that represents a Communication resource. */
 export interface CommunicationDetails {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the resource. */
   properties: CommunicationDetailsProperties;
 }
@@ -827,17 +827,17 @@ export type CommunicationsListResultValueList = Array<CommunicationDetails>;
 /** [Placeholder] Description for page model */
 export interface CommunicationsListResult {
   /** [Placeholder] Description for nextLink property */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** [Placeholder] Description for value property */
-  value?: CommunicationsListResultValueList;
+  value?: CommunicationsListResultValueList | undefined;
 }
 export interface ListCommunicationsNoSubscriptionRequest {
   /** The name of the SupportTicketDetails */
   supportTicketName: string;
   /** The number of values to return in the collection. Default is 10 and max is 10. */
-  _top?: number;
+  _top?: number | undefined;
   /** The filter to apply on the operation. You can filter by communicationType and createdDate properties. CommunicationType supports Equals ('eq') operator and createdDate supports Greater Than ('gt') and Greater Than or Equals ('ge') operators. You may combine the CommunicationType and CreatedDate filters by Logical And ('and') operator. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListFilesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -848,24 +848,24 @@ export interface ListFilesRequest {
 /** Object that represents File Details resource */
 export interface FileDetails {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the resource */
-  properties?: FileDetailsProperties;
+  properties?: FileDetailsProperties | undefined;
 }
 /** [Placeholder] Description for value property */
 export type FilesListResultValueList = Array<FileDetails>;
 /** [Placeholder] Description for page model */
 export interface FilesListResult {
   /** [Placeholder] Description for nextLink property */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** [Placeholder] Description for value property */
-  value?: FilesListResultValueList;
+  value?: FilesListResultValueList | undefined;
 }
 export interface ListFilesNoSubscriptionRequest {
   /** The name of the FileWorkspaceDetails */
@@ -875,13 +875,13 @@ export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -890,23 +890,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProblemClassificationsRequest {
   /** Name of the Azure service. */
@@ -915,66 +915,66 @@ export interface ListProblemClassificationsRequest {
 /** ProblemClassification resource object. */
 export interface ProblemClassification {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the resource. */
-  properties?: ProblemClassificationProperties;
+  properties?: ProblemClassificationProperties | undefined;
 }
 /** List of ProblemClassification resources. */
 export type ProblemClassificationsListResultValueList = Array<ProblemClassification>;
 /** Collection of ProblemClassification resources. */
 export interface ProblemClassificationsListResult {
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of ProblemClassification resources. */
-  value?: ProblemClassificationsListResultValueList;
+  value?: ProblemClassificationsListResultValueList | undefined;
 }
 export interface ListServicesRequest {}
 /** Object that represents a Service resource. */
 export interface Service {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the resource. */
-  properties?: ServiceProperties;
+  properties?: ServiceProperties | undefined;
 }
 /** List of Service resources. */
 export type ServicesListResultValueList = Array<Service>;
 /** Collection of Service resources. */
 export interface ServicesListResult {
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** List of Service resources. */
-  value?: ServicesListResultValueList;
+  value?: ServicesListResultValueList | undefined;
 }
 export interface ListSupportTicketsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The number of values to return in the collection. Default is 25 and max is 100. */
-  _top?: number;
+  _top?: number | undefined;
   /** The filter to apply on the operation. We support 'odata v4.0' filter semantics. [Learn more](https://docs.microsoft.com/odata/concepts/queryoptions-overview). _Status_, _ServiceId_, and _ProblemClassificationId_ filters can only be used with Equals ('eq') operator. For _CreatedDate_ filter, the supported operators are Greater Than ('gt') and Greater Than or Equals ('ge'). When using both filters, combine them using the logical 'AND'. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Object that represents SupportTicketDetails resource. */
 export interface SupportTicketDetails {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the resource. */
   properties: SupportTicketDetailsProperties;
 }
@@ -983,15 +983,15 @@ export type SupportTicketsListResultValueList = Array<SupportTicketDetails>;
 /** [Placeholder] Description for page model */
 export interface SupportTicketsListResult {
   /** [Placeholder] Description for nextLink property */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** [Placeholder] Description for value property */
-  value?: SupportTicketsListResultValueList;
+  value?: SupportTicketsListResultValueList | undefined;
 }
 export interface ListSupportTicketsNoSubscriptionRequest {
   /** The number of values to return in the collection. Default is 25 and max is 100. */
-  _top?: number;
+  _top?: number | undefined;
   /** The filter to apply on the operation. We support 'odata v4.0' filter semantics. <a target='_blank' href='https://docs.microsoft.com/odata/concepts/queryoptions-overview'>Learn more</a> <br/><i>Status</i> , <i>ServiceId</i>, and <i>ProblemClassificationId</i> filters can only be used with 'eq' operator. For <i>CreatedDate</i> filter, the supported operators are 'gt' and 'ge'. When using both filters, combine them using the logical 'AND'. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Status to be updated on the ticket. */
 export type Status = "open" | "closed";
@@ -1000,23 +1000,23 @@ export type UpdateContactProfileAdditionalEmailAddressesList = Array<string>;
 /** Contact information associated with the support ticket. */
 export interface UpdateContactProfile {
   /** First name. */
-  firstName?: string;
+  firstName?: string | undefined;
   /** Last name. */
-  lastName?: string;
+  lastName?: string | undefined;
   /** Preferred contact method. */
-  preferredContactMethod?: PreferredContactMethod | (string & {});
+  preferredContactMethod?: PreferredContactMethod | (string & {}) | undefined;
   /** Primary email address. */
-  primaryEmailAddress?: string;
+  primaryEmailAddress?: string | undefined;
   /** Email addresses listed will be copied on any correspondence about the support ticket. */
-  additionalEmailAddresses?: UpdateContactProfileAdditionalEmailAddressesList;
+  additionalEmailAddresses?: UpdateContactProfileAdditionalEmailAddressesList | undefined;
   /** Phone number. This is required if preferred contact method is phone. It is also required when submitting 'critical' or 'highestcriticalimpact' severity cases. */
-  phoneNumber?: string;
+  phoneNumber?: string | undefined;
   /** Time zone of the user. This is the name of the time zone from [Microsoft Time Zone Index Values](https://support.microsoft.com/help/973627/microsoft-time-zone-index-values). */
-  preferredTimeZone?: string;
+  preferredTimeZone?: string | undefined;
   /** Country of the user. This is the ISO 3166-1 alpha-3 code. */
-  country?: string;
+  country?: string | undefined;
   /** Preferred language of support from Azure. Support languages vary based on the severity you choose for your support ticket. Learn more at [Azure Severity and responsiveness](https://azure.microsoft.com/support/plans/response/). Use the standard language-country code. Valid values are 'en-us' for English, 'zh-hans' for Chinese, 'es-es' for Spanish, 'fr-fr' for French, 'ja-jp' for Japanese, 'ko-kr' for Korean, 'ru-ru' for Russian, 'pt-br' for Portuguese, 'it-it' for Italian, 'zh-tw' for Chinese and 'de-de' for German. */
-  preferredSupportLanguage?: string;
+  preferredSupportLanguage?: string | undefined;
 }
 /** This property indicates secondary consents for the support ticket */
 export type UpdateSupportTicketRequestSecondaryConsentList = Array<SecondaryConsent>;
@@ -1026,25 +1026,25 @@ export interface UpdateSupportTicketRequest {
   /** The name of the SupportTicketDetails */
   supportTicketName: string;
   /** Severity level. */
-  severity?: SeverityLevel | (string & {});
+  severity?: SeverityLevel | (string & {}) | undefined;
   /** Status to be updated on the ticket. */
-  status?: Status | (string & {});
+  status?: Status | (string & {}) | undefined;
   /** Contact details to be updated on the support ticket. */
-  contactDetails?: UpdateContactProfile;
+  contactDetails?: UpdateContactProfile | undefined;
   /** Advanced diagnostic consent to be updated on the support ticket. */
-  advancedDiagnosticConsent?: Consent | (string & {});
+  advancedDiagnosticConsent?: Consent | (string & {}) | undefined;
   /** This property indicates secondary consents for the support ticket */
-  secondaryConsent?: UpdateSupportTicketRequestSecondaryConsentList;
+  secondaryConsent?: UpdateSupportTicketRequestSecondaryConsentList | undefined;
 }
 export interface UpdateSupportTicketResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the resource. */
   properties: SupportTicketDetailsProperties;
 }
@@ -1054,25 +1054,25 @@ export interface UpdateSupportTicketsNoSubscriptionRequest {
   /** The name of the SupportTicketDetails */
   supportTicketName: string;
   /** Severity level. */
-  severity?: SeverityLevel | (string & {});
+  severity?: SeverityLevel | (string & {}) | undefined;
   /** Status to be updated on the ticket. */
-  status?: Status | (string & {});
+  status?: Status | (string & {}) | undefined;
   /** Contact details to be updated on the support ticket. */
-  contactDetails?: UpdateContactProfile;
+  contactDetails?: UpdateContactProfile | undefined;
   /** Advanced diagnostic consent to be updated on the support ticket. */
-  advancedDiagnosticConsent?: Consent | (string & {});
+  advancedDiagnosticConsent?: Consent | (string & {}) | undefined;
   /** This property indicates secondary consents for the support ticket */
-  secondaryConsent?: UpdateSupportTicketsNoSubscriptionRequestSecondaryConsentList;
+  secondaryConsent?: UpdateSupportTicketsNoSubscriptionRequestSecondaryConsentList | undefined;
 }
 export interface UpdateSupportTicketsNoSubscriptionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the resource. */
   properties: SupportTicketDetailsProperties;
 }
@@ -1084,9 +1084,9 @@ export interface UploadFileRequest {
   /** The name of the FileDetails */
   fileName: string;
   /** File Content in base64 encoded format */
-  content?: string;
+  content?: string | undefined;
   /** Index of the uploaded chunk (Index starts at 0) */
-  chunkIndex?: number;
+  chunkIndex?: number | undefined;
 }
 export interface UploadFileResponse {}
 export interface UploadFilesNoSubscriptionRequest {
@@ -1095,9 +1095,9 @@ export interface UploadFilesNoSubscriptionRequest {
   /** The name of the FileDetails */
   fileName: string;
   /** File Content in base64 encoded format */
-  content?: string;
+  content?: string | undefined;
   /** Index of the uploaded chunk (Index starts at 0) */
-  chunkIndex?: number;
+  chunkIndex?: number | undefined;
 }
 export interface UploadFilesNoSubscriptionResponse {}
 export type CheckCommunicationNameAvailabilityError = AzureOpError;
