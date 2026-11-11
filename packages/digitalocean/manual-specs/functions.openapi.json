@@ -541,9 +541,7 @@
       },
       "keyValue": {
         "type": "object",
-        "required": [
-          "key"
-        ],
+        "required": ["key"],
         "properties": {
           "key": {
             "type": "string"
@@ -553,9 +551,7 @@
       },
       "exec": {
         "type": "object",
-        "required": [
-          "kind"
-        ],
+        "required": ["kind"],
         "properties": {
           "kind": {
             "type": "string",
@@ -596,9 +592,7 @@
       },
       "actionPut": {
         "type": "object",
-        "required": [
-          "exec"
-        ],
+        "required": ["exec"],
         "properties": {
           "exec": {
             "$ref": "#/components/schemas/exec"
@@ -625,11 +619,7 @@
       },
       "action": {
         "type": "object",
-        "required": [
-          "name",
-          "namespace",
-          "version"
-        ],
+        "required": ["name", "namespace", "version"],
         "properties": {
           "name": {
             "type": "string"
@@ -668,9 +658,7 @@
       },
       "activationId": {
         "type": "object",
-        "required": [
-          "activationId"
-        ],
+        "required": ["activationId"],
         "properties": {
           "activationId": {
             "type": "string"

@@ -1,0 +1,19 @@
+{
+  "description": "Volume snapshots: POST /v2/volumes/{volume_id}/snapshots and GET /v2/volumes/snapshots/{snapshot_id} always return the `snapshot` they create or read (live, alchemy DigitalOcean VolumeSnapshot suite).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VolumeSnapshotsCreateResponse/members/snapshot/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VolumeSnapshotsGetByIdResponse/members/snapshot/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    }
+  ]
+}
