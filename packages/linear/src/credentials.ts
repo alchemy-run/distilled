@@ -36,8 +36,8 @@ export interface Config {
 /** Build a {@link Config} from a redacted token, filling in the defaults. */
 export const toConfig = (config: {
   readonly token: Redacted.Redacted<string>;
-  readonly tokenKind?: TokenKind;
-  readonly apiBaseUrl?: string;
+  readonly tokenKind?: TokenKind | undefined;
+  readonly apiBaseUrl?: string | undefined;
 }): Config => ({
   token: config.token,
   tokenKind: config.tokenKind ?? "apiKey",
@@ -53,8 +53,8 @@ export class Credentials
 export const CredentialsFromToken = (config: {
   readonly token: Redacted.Redacted<string>;
   /** Defaults to `"apiKey"` (the bare `Authorization` header). */
-  readonly tokenKind?: TokenKind;
-  readonly apiBaseUrl?: string;
+  readonly tokenKind?: TokenKind | undefined;
+  readonly apiBaseUrl?: string | undefined;
 }): Layer.Layer<Credentials> => Layer.succeed(Credentials, Effect.succeed(toConfig(config)));
 
 const envConfig = /*@__PURE__*/ EffectConfig.all({

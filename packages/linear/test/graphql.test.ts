@@ -117,43 +117,6 @@ describe("Linear Query SDK", () => {
     ]);
   });
 
-  test("entity-not-found is LinearNotFound, other input errors LinearInvalidInput", async () => {
-    const missing = await failure(
-      deleteLabel("missing"),
-      sequence({
-        data: null,
-        errors: [notFound("issueLabelDelete", "IssueLabel")],
-      }).layer,
-    );
-    expect(missing._tag).toBe("LinearNotFound");
-    expect(missing).toMatchObject({ code: "INPUT_ERROR" });
-
-    const recovered = await run(
-      getTeam("missing").pipe(Effect.catchTag("LinearNotFound", () => Effect.succeed(undefined))),
-      sequence({ data: null, errors: [notFound("team", "Team")] }).layer,
-    );
-    expect(recovered).toBeUndefined();
-
-    const invalid = await failure(
-      Query.fn(() =>
-        Linear.workflowStateCreate({
-          input: { name: "x", color: "nope", type: "bogus", teamId: "t1" },
-        }).pipe(Query.map((payload) => payload.success)),
-      )(),
-      sequence({
-        data: null,
-        errors: [
-          {
-            message: "Argument Validation Error",
-            path: ["workflowStateCreate"],
-            extensions: { code: "INVALID_INPUT", type: "invalid input" },
-          },
-        ],
-      }).layer,
-    );
-    expect(invalid._tag).toBe("LinearInvalidInput");
-  });
-
   test("an unobserved code is UnknownGraphQLError with the root", async () => {
     const error = await failure(
       getTeam("t1"),

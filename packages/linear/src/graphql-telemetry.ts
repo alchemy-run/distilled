@@ -12,13 +12,11 @@ export const TELEMETRY: GraphQLTelemetry = {
   fields: {
     "query.agentActivity": { id: [{ name: "linear.agent_activity_id" }] },
     "query.agentSession": { id: [{ name: "linear.agent_session_id" }] },
-    "query.agentSessionSandbox": { agentSessionId: [{ name: "linear.agent_session_id" }] },
     "query.agentSkill": { id: [{ name: "linear.agent_skill_id" }] },
     "query.applicationInfo": { clientId: [{ name: "linear.client_id" }] },
     "query.attachment": { id: [{ name: "linear.attachment_id" }] },
     "query.attachmentIssue": { id: [{ name: "linear.issue_id" }] },
     "query.attachmentSources": { teamId: [{ name: "linear.team_id" }] },
-    "query.auditLogWebhookFailureEvents": { webhookId: [{ name: "linear.webhook_id" }] },
     "query.comment": { id: [{ name: "linear.comment_id" }] },
     "query.customer": { id: [{ name: "linear.customer_id" }] },
     "query.customerNeed": { id: [{ name: "linear.customer_need_id" }] },
@@ -29,43 +27,24 @@ export const TELEMETRY: GraphQLTelemetry = {
       id: [{ name: "linear.custom_view_has_subscribers_payload_id" }],
     },
     "query.cycle": { id: [{ name: "linear.cycle_id" }] },
-    "query.diff": { id: [{ name: "linear.diff_id" }] },
     "query.document": { id: [{ name: "linear.document_id" }] },
     "query.documentContentHistory": {
       id: [{ name: "linear.document_content_history_payload_id" }],
-    },
-    "query.documentContentHistoryTimeline": {
-      id: [{ name: "linear.document_content_history_timeline_payload_id" }],
     },
     "query.emailIntakeAddress": { id: [{ name: "linear.email_intake_address_id" }] },
     "query.emoji": { id: [{ name: "linear.emoji_id" }] },
     "query.entityExternalLink": { id: [{ name: "linear.entity_external_link_id" }] },
     "query.externalUser": { id: [{ name: "linear.external_user_id" }] },
-    "query.failuresForOauthWebhooks": { oauthClientId: [{ name: "linear.oauth_client_id" }] },
     "query.favorite": { id: [{ name: "linear.favorite_id" }] },
     "query.initiative": { id: [{ name: "linear.initiative_id" }] },
     "query.initiativeFilterSuggestion": { teamId: [{ name: "linear.team_id" }] },
     "query.initiativeLabel": { id: [{ name: "linear.initiative_label_id" }] },
-    "query.initiativeLeadTeamChangeImpact": {
-      leadTeamId: [{ name: "linear.lead_team_id" }],
-      id: [{ name: "linear.initiative_lead_team_change_impact_id" }],
-    },
     "query.initiativeRelation": { id: [{ name: "linear.initiative_relation_id" }] },
     "query.initiativeToProject": { id: [{ name: "linear.initiative_to_project_id" }] },
     "query.initiativeUpdate": { id: [{ name: "linear.initiative_update_id" }] },
     "query.integration": { id: [{ name: "linear.integration_id" }] },
     "query.integrationHasScopes": { integrationId: [{ name: "linear.integration_id" }] },
-    "query.integrationJiraProjectStatuses": {
-      projectId: [{ name: "linear.project_id" }],
-      integrationId: [{ name: "linear.integration_id" }],
-    },
-    "query.integrationJiraSyncHealthCheck": {
-      teamId: [{ name: "linear.team_id" }],
-      jiraProjectId: [{ name: "linear.jira_project_id" }],
-      integrationId: [{ name: "linear.integration_id" }],
-    },
     "query.integrationsSettings": { id: [{ name: "linear.integrations_settings_id" }] },
-    "query.integrationSyncResourceIds": { integrationId: [{ name: "linear.integration_id" }] },
     "query.integrationTemplate": { id: [{ name: "linear.integration_template_id" }] },
     "query.issue": { id: [{ name: "linear.issue_id" }] },
     "query.issueFilterSuggestion": {
@@ -84,21 +63,16 @@ export const TELEMETRY: GraphQLTelemetry = {
     "query.notification": { id: [{ name: "linear.notification_id" }] },
     "query.notificationSubscription": { id: [{ name: "linear.notification_subscription_id" }] },
     "query.oauthApplication": { id: [{ name: "linear.o_auth_application_id" }] },
-    "query.organizationDomainClaimRequest": {
-      id: [{ name: "linear.organization_domain_claim_payload_id" }],
-    },
     "query.organizationInvite": { id: [{ name: "linear.organization_invite_id" }] },
     "query.organizationInviteDetails": {
       id: [{ name: "linear.organization_invite_details_payload_id" }],
     },
-    "query.originInstallation": { installationId: [{ name: "linear.installation_id" }] },
     "query.project": { id: [{ name: "linear.project_id" }] },
     "query.projectFilterSuggestion": { teamId: [{ name: "linear.team_id" }] },
     "query.projectLabel": { id: [{ name: "linear.project_label_id" }] },
     "query.projectMilestone": { id: [{ name: "linear.project_milestone_id" }] },
     "query.projectRelation": { id: [{ name: "linear.project_relation_id" }] },
     "query.projectStatus": { id: [{ name: "linear.project_status_id" }] },
-    "query.projectStatusProjectCount": { id: [{ name: "linear.project_status_count_payload_id" }] },
     "query.projectUpdate": {
       projectId: [{ name: "linear.project_id" }],
       id: [{ name: "linear.project_update_id" }],
@@ -126,12 +100,6 @@ export const TELEMETRY: GraphQLTelemetry = {
     },
     "query.webhook": { id: [{ name: "linear.webhook_id" }] },
     "query.workflowState": { id: [{ name: "linear.workflow_state_id" }] },
-    "mutation.agentActivityDeleteQueued": { id: [{ name: "linear.agent_activity_payload_id" }] },
-    "mutation.agentActivitySendQueued": { id: [{ name: "linear.agent_activity_payload_id" }] },
-    "mutation.agentSessionCreate": { pullRequestId: [{ name: "linear.pull_request_id" }] },
-    "mutation.agentSessionRestartWithDefaultModel": {
-      id: [{ name: "linear.agent_session_payload_id" }],
-    },
     "mutation.agentSessionUpdate": { id: [{ name: "linear.agent_session_payload_id" }] },
     "mutation.agentSessionUpdateExternalUrl": { id: [{ name: "linear.agent_session_payload_id" }] },
     "mutation.agentSkillDelete": { id: [{ name: "linear.delete_payload_id" }] },
@@ -201,7 +169,6 @@ export const TELEMETRY: GraphQLTelemetry = {
       userId: [{ name: "linear.user_id" }],
       initiativeId: [{ name: "linear.initiative_id" }],
     },
-    "mutation.createOrganizationFromOnboarding": { sessionId: [{ name: "linear.session_id" }] },
     "mutation.createProjectUpdateReminder": {
       userId: [{ name: "linear.user_id" }],
       projectId: [{ name: "linear.project_id" }],
@@ -230,12 +197,9 @@ export const TELEMETRY: GraphQLTelemetry = {
       ifParentDocumentId: [{ name: "linear.if_parent_document_id" }],
       id: [{ name: "linear.document_archive_payload_id" }],
     },
-    "mutation.documentShare": { id: [{ name: "linear.document_payload_id" }] },
     "mutation.documentUnarchive": { id: [{ name: "linear.document_archive_payload_id" }] },
-    "mutation.documentUnshare": { id: [{ name: "linear.document_payload_id" }] },
     "mutation.documentUpdate": { id: [{ name: "linear.document_payload_id" }] },
-    "mutation.documentUpdateCollaboratorRole": { id: [{ name: "linear.document_payload_id" }] },
-    "mutation.documentUpdateGeneralAccess": { id: [{ name: "linear.document_payload_id" }] },
+    "mutation.documentUpdateWorkspaceAccess": { id: [{ name: "linear.document_payload_id" }] },
     "mutation.emailIntakeAddressDelete": { id: [{ name: "linear.delete_payload_id" }] },
     "mutation.emailIntakeAddressRefreshSesDomainStatus": {
       id: [{ name: "linear.email_intake_address_refresh_ses_domain_status_payload_id" }],
@@ -274,10 +238,6 @@ export const TELEMETRY: GraphQLTelemetry = {
     "mutation.initiativeLabelRestore": { id: [{ name: "linear.initiative_label_payload_id" }] },
     "mutation.initiativeLabelRetire": { id: [{ name: "linear.initiative_label_payload_id" }] },
     "mutation.initiativeLabelUpdate": { id: [{ name: "linear.initiative_label_payload_id" }] },
-    "mutation.initiativeLeadTeamUpdate": {
-      leadTeamId: [{ name: "linear.lead_team_id" }],
-      id: [{ name: "linear.initiative_lead_team_update_payload_id" }],
-    },
     "mutation.initiativeRelationDelete": { id: [{ name: "linear.delete_payload_id" }] },
     "mutation.initiativeRelationUpdate": {
       id: [{ name: "linear.initiative_relation_payload_id" }],
@@ -300,7 +260,6 @@ export const TELEMETRY: GraphQLTelemetry = {
     },
     "mutation.initiativeUpdateUpdate": { id: [{ name: "linear.initiative_update_payload_id" }] },
     "mutation.integrationArchive": { id: [{ name: "linear.delete_payload_id" }] },
-    "mutation.integrationDatadogConnect": { environmentId: [{ name: "linear.environment_id" }] },
     "mutation.integrationDelete": { id: [{ name: "linear.delete_payload_id" }] },
     "mutation.integrationGithubConnect": { installationId: [{ name: "linear.installation_id" }] },
     "mutation.integrationGithubImportConnect": {
@@ -321,48 +280,22 @@ export const TELEMETRY: GraphQLTelemetry = {
     "mutation.integrationJiraPersonal": {
       workspaceIntegrationId: [{ name: "linear.workspace_integration_id" }],
     },
-    "mutation.integrationMcpServerConnect": {
-      mcpServerDefinitionId: [{ name: "linear.mcp_server_definition_id" }],
-      workflowDefinitionDraftId: [{ name: "linear.workflow_definition_draft_id" }],
-      workflowDefinitionId: [{ name: "linear.workflow_definition_id" }],
-      teamId: [{ name: "linear.team_id" }],
-    },
-    "mutation.integrationMcpServerPersonalConnect": {
-      mcpServerDefinitionId: [{ name: "linear.mcp_server_definition_id" }],
-    },
-    "mutation.integrationMicrosoftTeamsProjectPost": {
-      channelId: [{ name: "linear.channel_id" }],
-      teamId: [{ name: "linear.team_id" }],
-      projectId: [{ name: "linear.project_id" }],
-    },
-    "mutation.integrationOriginConnectInstallation": {
-      installationId: [{ name: "linear.installation_id" }],
-    },
-    "mutation.integrationSalesforceMetadataRefresh": {
-      id: [{ name: "linear.integration_payload_id" }],
-    },
     "mutation.integrationSentryConnect": { installationId: [{ name: "linear.installation_id" }] },
-    "mutation.integrationSettingsUpdate": { id: [{ name: "linear.integration_payload_id" }] },
     "mutation.integrationSlackCustomerChannelLink": {
       customerId: [{ name: "linear.customer_id" }],
     },
     "mutation.integrationSlackCustomViewNotifications": {
       customViewId: [{ name: "linear.custom_view_id" }],
     },
-    "mutation.integrationSlackInitiativePost": { initiativeId: [{ name: "linear.initiative_id" }] },
     "mutation.integrationSlackOrAsksUpdateSlackTeamName": {
       integrationId: [{ name: "linear.integration_id" }],
     },
     "mutation.integrationSlackPost": { teamId: [{ name: "linear.team_id" }] },
     "mutation.integrationSlackProjectPost": { projectId: [{ name: "linear.project_id" }] },
-    "mutation.integrationSlackWorkflowAccessUpdate": {
-      integrationId: [{ name: "linear.integration_id" }],
-    },
     "mutation.integrationsSettingsUpdate": {
       id: [{ name: "linear.integrations_settings_payload_id" }],
     },
     "mutation.integrationTemplateDelete": { id: [{ name: "linear.delete_payload_id" }] },
-    "mutation.integrationUpdate": { id: [{ name: "linear.integration_payload_id" }] },
     "mutation.integrationZendesk": { botUserId: [{ name: "linear.bot_user_id" }] },
     "mutation.issueAddLabel": {
       labelId: [{ name: "linear.label_id" }],
@@ -370,9 +303,7 @@ export const TELEMETRY: GraphQLTelemetry = {
     },
     "mutation.issueArchive": { id: [{ name: "linear.issue_archive_payload_id" }] },
     "mutation.issueDelete": { id: [{ name: "linear.issue_archive_payload_id" }] },
-    "mutation.issueDescriptionUpdateFromFront": { id: [{ name: "linear.issue_payload_id" }] },
     "mutation.issueExternalSyncDisable": { attachmentId: [{ name: "linear.attachment_id" }] },
-    "mutation.issueGitHubSyncFailureDismiss": { id: [{ name: "linear.issue_payload_id" }] },
     "mutation.issueImportCreateAsana": {
       teamId: [{ name: "linear.team_id" }],
       id: [{ name: "linear.issue_import_payload_id" }],
@@ -385,10 +316,6 @@ export const TELEMETRY: GraphQLTelemetry = {
     "mutation.issueImportCreateGithub": { teamId: [{ name: "linear.team_id" }] },
     "mutation.issueImportCreateJira": {
       teamId: [{ name: "linear.team_id" }],
-      id: [{ name: "linear.issue_import_payload_id" }],
-    },
-    "mutation.issueImportCreateLinearV2": {
-      linearSourceOrganizationId: [{ name: "linear.linear_source_organization_id" }],
       id: [{ name: "linear.issue_import_payload_id" }],
     },
     "mutation.issueImportDelete": { issueImportId: [{ name: "linear.issue_import_id" }] },
@@ -405,7 +332,6 @@ export const TELEMETRY: GraphQLTelemetry = {
       labelId: [{ name: "linear.label_id" }],
       id: [{ name: "linear.issue_payload_id" }],
     },
-    "mutation.issueRequestSolubilityPrediction": { id: [{ name: "linear.success_payload_id" }] },
     "mutation.issueShare": {
       userId: [{ name: "linear.user_id" }],
       id: [{ name: "linear.issue_payload_id" }],
@@ -429,7 +355,6 @@ export const TELEMETRY: GraphQLTelemetry = {
       id: [{ name: "linear.issue_payload_id" }],
     },
     "mutation.issueUpdate": { id: [{ name: "linear.issue_payload_id" }] },
-    "mutation.leaveOrganization": { organizationId: [{ name: "linear.organization_id" }] },
     "mutation.logoutSession": { sessionId: [{ name: "linear.session_id" }] },
     "mutation.notificationArchive": { id: [{ name: "linear.notification_archive_payload_id" }] },
     "mutation.notificationSubscriptionDelete": { id: [{ name: "linear.delete_payload_id" }] },
@@ -448,21 +373,11 @@ export const TELEMETRY: GraphQLTelemetry = {
       id: [{ name: "linear.o_auth_application_rotate_webhook_secret_payload_id" }],
     },
     "mutation.oauthApplicationUpdate": { id: [{ name: "linear.o_auth_application_payload_id" }] },
-    "mutation.organizationDomainClaim": {
-      id: [{ name: "linear.organization_domain_simple_payload_id" }],
-    },
     "mutation.organizationDomainDelete": { id: [{ name: "linear.delete_payload_id" }] },
-    "mutation.organizationDomainUpdate": {
-      id: [{ name: "linear.organization_domain_payload_id" }],
-    },
     "mutation.organizationInviteDelete": { id: [{ name: "linear.delete_payload_id" }] },
     "mutation.organizationInviteUpdate": {
       id: [{ name: "linear.organization_invite_payload_id" }],
     },
-    "mutation.originInstallationCancel": { installationId: [{ name: "linear.installation_id" }] },
-    "mutation.partnerOfferRedeem": { organizationId: [{ name: "linear.organization_id" }] },
-    "mutation.passkeyLoginFinish": { authId: [{ name: "linear.auth_id" }] },
-    "mutation.passkeyLoginStart": { authId: [{ name: "linear.auth_id" }] },
     "mutation.projectAddLabel": {
       labelId: [{ name: "linear.label_id" }],
       id: [{ name: "linear.project_payload_id" }],
@@ -472,26 +387,14 @@ export const TELEMETRY: GraphQLTelemetry = {
       aiConversationId: [{ name: "linear.ai_conversation_id" }],
       projectDraftId: [{ name: "linear.project_draft_id" }],
     },
-    "mutation.projectCreateSlackChannel": {
-      integrationId: [{ name: "linear.integration_id" }],
-      id: [{ name: "linear.project_payload_id" }],
-    },
     "mutation.projectDelete": { id: [{ name: "linear.project_archive_payload_id" }] },
-    "mutation.projectDismissSlackChannelCreationFailure": {
-      id: [{ name: "linear.project_payload_id" }],
-    },
     "mutation.projectExternalSyncDisable": { projectId: [{ name: "linear.project_id" }] },
     "mutation.projectLabelDelete": { id: [{ name: "linear.delete_payload_id" }] },
     "mutation.projectLabelRestore": { id: [{ name: "linear.project_label_payload_id" }] },
     "mutation.projectLabelRetire": { id: [{ name: "linear.project_label_payload_id" }] },
     "mutation.projectLabelUpdate": { id: [{ name: "linear.project_label_payload_id" }] },
     "mutation.projectMilestoneDelete": { id: [{ name: "linear.delete_payload_id" }] },
-    "mutation.projectMilestoneMove": { id: [{ name: "linear.project_milestone_move_payload_id" }] },
     "mutation.projectMilestoneUpdate": { id: [{ name: "linear.project_milestone_payload_id" }] },
-    "mutation.projectReassignStatus": {
-      newProjectStatusId: [{ name: "linear.new_project_status_id" }],
-      originalProjectStatusId: [{ name: "linear.original_project_status_id" }],
-    },
     "mutation.projectRelationDelete": { id: [{ name: "linear.delete_payload_id" }] },
     "mutation.projectRelationUpdate": { id: [{ name: "linear.project_relation_payload_id" }] },
     "mutation.projectRemoveLabel": {
@@ -562,7 +465,6 @@ export const TELEMETRY: GraphQLTelemetry = {
     "mutation.triageResponsibilityUpdate": {
       id: [{ name: "linear.triage_responsibility_payload_id" }],
     },
-    "mutation.updateIntegrationSlackScopes": { integrationId: [{ name: "linear.integration_id" }] },
     "mutation.userChangeRole": { id: [{ name: "linear.user_admin_payload_id" }] },
     "mutation.userExternalUserDisconnect": {
       workspaceIntegrationId: [{ name: "linear.workspace_integration_id" }],
