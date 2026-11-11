@@ -513,3 +513,8 @@ shallow = true
 	url = https://github.com/distilled-mirror/spec-mirror-steel.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/revenuecat/specs/spec-mirror-revenuecat"]
+	path = packages/revenuecat/specs/spec-mirror-revenuecat
+	url = https://github.com/distilled-mirror/spec-mirror-revenuecat.git
+	ignore = dirty
+	shallow = true

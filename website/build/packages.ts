@@ -125,6 +125,7 @@ export const GROUPS: ReadonlyArray<readonly [string, ReadonlyArray<string>]> = [
       "polar",
       "whop",
       "gusto",
+      "revenuecat",
     ],
   ],
   [
@@ -213,6 +214,7 @@ export const SEARCH_HINTS: Record<string, string> = {
   polar: "payments open source",
   whop: "payments",
   gusto: "payroll",
+  revenuecat: "in-app purchases subscriptions entitlements",
   datadog: "metrics logs",
   sentry: "errors tracing",
   axiom: "logs otel",

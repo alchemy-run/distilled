@@ -122,6 +122,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "remote" },
   { package: "render" },
   { package: "resend" },
+  { package: "revenuecat" },
   { package: "rivet" },
   { package: "s2" },
   { package: "sentry" },
