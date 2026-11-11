@@ -112,6 +112,9 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "porkbun" },
   { package: "posthog" },
   { package: "prisma", mirror: "prisma-postgres" },
+  // Questrade publishes no API description: the mirror transcribes its
+  // documentation pages.
+  { package: "questrade" },
   { package: "railway" },
   { package: "redis-cloud" },
   { package: "remote" },
