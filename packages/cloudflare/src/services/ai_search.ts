@@ -6623,7 +6623,7 @@ export const patchNamespaceInstanceJob: API.OperationMethod<
 
 export type ReadInstanceError =
   | ValidationError
-  | NotFound
+  | AiSearchInstanceNotFound
   | InvalidRoute
   | Forbidden
   | CloudflareOpError;
@@ -6638,7 +6638,7 @@ export const readInstance: API.OperationMethod<
   output: __S(243, __c15, 3) as any as S.Schema<ReadInstanceResponse>,
   errors: [
     ValidationError,
-    NotFound,
+    AiSearchInstanceNotFound,
     InvalidRoute,
     Forbidden,
     CloudflareRateLimited,

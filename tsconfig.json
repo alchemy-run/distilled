@@ -153,6 +153,13 @@
       "path": "./packages/polar/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/polymarket/tsconfig.json"
+    },
+    { "path": "./packages/polymarket/tsconfig.test.json" },
+    {
+      "path": "./packages/polymarket/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/posthog/tsconfig.json"
     },
     {
@@ -337,6 +344,12 @@
       "path": "./packages/docker/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/dokploy/tsconfig.json"
+    },
+    {
+      "path": "./packages/dokploy/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/doppler/tsconfig.json"
     },
     {
@@ -347,6 +360,12 @@
     },
     {
       "path": "./packages/elasticsearch/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/exa/tsconfig.json"
+    },
+    {
+      "path": "./packages/exa/tsconfig.scripts.json"
     },
     {
       "path": "./packages/gusto/tsconfig.json"
@@ -444,6 +463,13 @@
     },
     {
       "path": "./packages/temporal/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/tencentcloud/tsconfig.json"
+    },
+    { "path": "./packages/tencentcloud/tsconfig.test.json" },
+    {
+      "path": "./packages/tencentcloud/tsconfig.scripts.json"
     },
     {
       "path": "./packages/trigger-dev/tsconfig.json"
@@ -570,6 +596,18 @@
     },
     {
       "path": "./packages/notion/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/npm/tsconfig.json"
+    },
+    {
+      "path": "./packages/npm/tsconfig.scripts.json"
+    },
+    {
+      "path": "./packages/anthropic/tsconfig.json"
+    },
+    {
+      "path": "./packages/anthropic/tsconfig.scripts.json"
     }
   ]
 }

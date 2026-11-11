@@ -463,3 +463,33 @@ shallow = true
 	url = https://github.com/distilled-mirror/spec-mirror-coinflow.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/npm/specs/spec-mirror-npm"]
+	path = packages/npm/specs/spec-mirror-npm
+	url = https://github.com/distilled-mirror/spec-mirror-npm.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/exa/specs/spec-mirror-exa"]
+	path = packages/exa/specs/spec-mirror-exa
+	url = https://github.com/distilled-mirror/spec-mirror-exa.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/polymarket/specs/spec-mirror-polymarket"]
+	path = packages/polymarket/specs/spec-mirror-polymarket
+	url = https://github.com/distilled-mirror/spec-mirror-polymarket.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/dokploy/specs/spec-mirror-dokploy"]
+	path = packages/dokploy/specs/spec-mirror-dokploy
+	url = https://github.com/distilled-mirror/spec-mirror-dokploy.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/anthropic/specs/spec-mirror-anthropic"]
+	path = packages/anthropic/specs/spec-mirror-anthropic
+	url = https://github.com/distilled-mirror/spec-mirror-anthropic.git
+	ignore = dirty
+	shallow = true
+[submodule "packages/tencentcloud/specs/spec-mirror-tencentcloud"]
+	path = packages/tencentcloud/specs/spec-mirror-tencentcloud
+	url = https://github.com/distilled-mirror/spec-mirror-tencentcloud.git
+	ignore = dirty
+	shallow = true
