@@ -3389,22 +3389,22 @@ export interface CreateCdnEndpointRequest {
 export type CdnEndpointTtl = 60 | 600 | 3600 | 86400 | 604800;
 export interface CdnEndpoint {
   /** A unique ID that can be used to identify and reference a CDN endpoint. */
-  id?: string | undefined;
+  id: string;
   /** The fully qualified domain name (FQDN) for the origin server which provides the content for the CDN. This is currently restricted to a Space. */
   origin: string;
   /** The fully qualified domain name (FQDN) from which the CDN-backed content is served. */
-  endpoint?: string | undefined;
+  endpoint: string;
   /** The amount of time the content is cached by the CDN's edge servers in seconds. TTL must be one of 60, 600, 3600, 86400, or 604800. Defaults to 3600 (one hour) when excluded. */
-  ttl?: CdnEndpointTtl | undefined;
+  ttl: CdnEndpointTtl;
   /** The ID of a DigitalOcean managed TLS certificate used for SSL when a custom subdomain is provided. */
   certificate_id?: string | undefined;
   /** The fully qualified domain name (FQDN) of the custom subdomain used with the CDN endpoint. */
   custom_domain?: string | undefined;
   /** A time value given in ISO8601 combined date and time format that represents when the CDN endpoint was created. */
-  created_at?: string | undefined;
+  created_at: string;
 }
 export interface CreateCdnEndpointResponse {
-  endpoint?: CdnEndpoint | undefined;
+  endpoint: CdnEndpoint;
 }
 /** A string representing the type of the certificate. The value will be `custom` for a user-uploaded certificate or `lets_encrypt` for one automatically generated with Let's Encrypt. */
 export type CertificateRequestLetsEncryptType = "custom" | "lets_encrypt";
@@ -3444,24 +3444,24 @@ export type CertificateState = "pending" | "verified" | "error";
 export type CertificateType = "custom" | "lets_encrypt";
 export interface Certificate {
   /** A unique ID that can be used to identify and reference a certificate. */
-  id?: string | undefined;
+  id: string;
   /** A unique human-readable name referring to a certificate. */
-  name?: string | undefined;
+  name: string;
   /** A time value given in ISO8601 combined date and time format that represents the certificate's expiration date. */
   not_after?: string | undefined;
   /** A unique identifier generated from the SHA-1 fingerprint of the certificate. */
   sha1_fingerprint?: string | undefined;
   /** A time value given in ISO8601 combined date and time format that represents when the certificate was created. */
-  created_at?: string | undefined;
+  created_at: string;
   /** An array of fully qualified domain names (FQDNs) for which the certificate was issued. */
   dns_names?: CertificateDnsNamesList | undefined;
   /** A string representing the current state of the certificate. It may be `pending`, `verified`, or `error`. */
-  state?: CertificateState | undefined;
+  state: CertificateState;
   /** A string representing the type of the certificate. The value will be `custom` for a user-uploaded certificate or `lets_encrypt` for one automatically generated with Let's Encrypt. */
-  type?: CertificateType | undefined;
+  type: CertificateType;
 }
 export interface CreateCertificateResponse {
-  certificate?: Certificate | undefined;
+  certificate: Certificate;
 }
 /** Optional OAuth scopes to request. Defaults to every scope the provider offers; scopes outside that set are rejected. Ignored for API-key credentials. */
 export type CreateConnectionRequestScopesList = Array<string>;
@@ -6720,18 +6720,18 @@ export type ImageType = "base" | "snapshot" | "backup" | "custom" | "admin";
 export type ImageStatus = "NEW" | "available" | "pending" | "deleted" | "retired";
 export interface Image {
   /** A unique number that can be used to identify and reference a specific image. */
-  id?: number | undefined;
-  name?: string | undefined;
+  id: number;
+  name: string;
   /** Describes the kind of image. It may be one of `base`, `snapshot`, `backup`, `custom`, or `admin`. Respectively, this specifies whether an image is a DigitalOcean base OS image, user-generated Droplet snapshot, automatically created Droplet backup, user-provided virtual machine image, or an image used for DigitalOcean managed resources (e.g. DOKS worker nodes). */
-  type?: ImageType | undefined;
+  type: ImageType;
   distribution?: Distribution | undefined;
   /** A uniquely identifying string that is associated with each of the DigitalOcean-provided public images. These can be used to reference a public image as an alternative to the numeric id. */
   slug?: string | null | undefined;
   /** This is a boolean value that indicates whether the image in question is public or not. An image that is public is available to all accounts. A non-public image is only accessible from your account. */
   public?: boolean | undefined;
-  regions?: RegionsArray | undefined;
+  regions: RegionsArray;
   /** A time value given in ISO8601 combined date and time format that represents when the image was created. */
-  created_at?: string | undefined;
+  created_at: string;
   /** The minimum disk size in GB required for a Droplet to use this image. */
   min_disk_size?: number | null | undefined;
   /** The size of the image in gigabytes. */
@@ -6739,12 +6739,12 @@ export interface Image {
   description?: string | undefined;
   tags?: TagsArray | null | undefined;
   /** A status string indicating the state of a custom image. This may be `NEW`, `available`, `pending`, `deleted`, or `retired`. */
-  status?: ImageStatus | undefined;
+  status: ImageStatus;
   /** A string containing information about errors that may occur when importing a custom image. */
   error_message?: string | undefined;
 }
 export interface CreateImageCustomResponse {
-  image?: Image | undefined;
+  image: Image;
 }
 /** The inference provider whose JSONL schema the input file conforms to. `openai` follows the OpenAI Batch API input schema (`custom_id`, `method`, `url`, `body`); `anthropic` follows the Anthropic Message Batches JSONL conventions. */
 export type CreateInferenceBatchRequestProvider = "openai" | "anthropic";
@@ -8347,9 +8347,9 @@ export interface LoadBalancerRegion {
 export type LoadBalancerDropletIdsList = Array<number>;
 export interface LoadBalancer {
   /** A unique ID that can be used to identify and reference a load balancer. */
-  id?: string | undefined;
+  id: string;
   /** A human-readable name for a load balancer instance. */
-  name?: string | undefined;
+  name: string;
   /** The ID of the project that the load balancer is associated with. If no ID is provided at creation, the load balancer associates with the user's default project. If an invalid project ID is provided, the load balancer will not be created. */
   project_id?: string | undefined;
   /** An attribute containing the public-facing IPv6 address of the load balancer. */
@@ -8361,9 +8361,9 @@ export interface LoadBalancer {
   /** This field has been deprecated. You can no longer specify an algorithm for load balancers. */
   algorithm?: LoadBalancerAlgorithm | undefined;
   /** A status string indicating the current state of the load balancer. This can be `new`, `active`, or `errored`. */
-  status?: LoadBalancerStatus | undefined;
+  status: LoadBalancerStatus;
   /** A time value given in ISO8601 combined date and time format that represents when the load balancer was created. */
-  created_at?: string | undefined;
+  created_at: string;
   /** An array of objects specifying the forwarding rules for a load balancer. */
   forwarding_rules: LoadBalancerForwardingRulesList;
   health_check?: HealthCheck | undefined;
@@ -8398,14 +8398,14 @@ export interface LoadBalancer {
   tls_cipher_policy?: LoadBalancerTlsCipherPolicy | undefined;
   /** An attribute containing the public-facing IP address of the load balancer. */
   ip?: string | undefined;
-  region?: LoadBalancerRegion | undefined;
+  region: LoadBalancerRegion;
   /** An array containing the IDs of the Droplets assigned to the load balancer. */
-  droplet_ids?: LoadBalancerDropletIdsList | undefined;
+  droplet_ids: LoadBalancerDropletIdsList;
   /** The name of a Droplet tag corresponding to Droplets assigned to the load balancer. */
   tag?: string | undefined;
 }
 export interface CreateLoadBalancerResponse {
-  load_balancer?: LoadBalancer | undefined;
+  load_balancer: LoadBalancer;
 }
 /** Optional. `streamable_http`, the default and only accepted value. */
 export type CreateMcpServerRequestTransport = "streamable_http";
@@ -9463,9 +9463,9 @@ export interface CreateRegistryRequest {
 }
 export interface RegistryBase {
   /** A globally unique name for the container registry. Must be lowercase and be composed only of numbers, letters and `-`, up to a limit of 63 characters. */
-  name?: string | undefined;
+  name: string;
   /** A time value given in ISO8601 combined date and time format that represents when the registry was created. */
-  created_at?: string | undefined;
+  created_at: string;
   /** Slug of the region where registry data is stored */
   region?: string | undefined;
   /** The amount of storage used in the registry in bytes. */
@@ -9474,7 +9474,7 @@ export interface RegistryBase {
   storage_usage_bytes_updated_at?: string | undefined;
 }
 export interface CreateRegistryResponse {
-  registry?: RegistryBase | undefined;
+  registry: RegistryBase;
 }
 export interface ReservedIpCreateCase0 {
   /** The ID of the Droplet that the reserved IP will be assigned to. */
@@ -9712,18 +9712,18 @@ export interface CreateSpacesKeyRequest {
 export type KeyCreateResponseGrantsList = Array<Grant>;
 export interface KeyCreateResponse {
   /** The secret key used to access the bucket. We return secret keys only once upon creation. Make sure to copy the key and securely store it. */
-  secret_key?: string | Redacted.Redacted<string> | undefined;
+  secret_key: string | Redacted.Redacted<string>;
   /** The access key's name. */
-  name?: string | undefined;
+  name: string;
   /** The list of permissions for the access key. */
-  grants?: KeyCreateResponseGrantsList | undefined;
+  grants: KeyCreateResponseGrantsList;
   /** The Access Key ID used to access a bucket. */
-  access_key?: string | undefined;
+  access_key: string;
   /** The date and time the key was created. */
-  created_at?: string | undefined;
+  created_at: string;
 }
 export interface CreateSpacesKeyResponse {
-  key?: KeyCreateResponse | undefined;
+  key: KeyCreateResponse;
 }
 export interface CreateSshKeyRequest {
   /** The entire public key string that was uploaded. Embedded into the root user's `authorized_keys` file if you include this key during Droplet creation. */
@@ -9836,21 +9836,21 @@ export type AlertComparison = "greater_than" | "less_than";
 export type AlertPeriod = "2m" | "3m" | "5m" | "10m" | "15m" | "30m" | "1h";
 export interface Alert {
   /** A unique ID that can be used to identify and reference the alert. */
-  id?: string | undefined;
+  id: string;
   /** A human-friendly display name. */
-  name?: string | undefined;
+  name: string;
   /** The type of alert. */
-  type?: AlertType | undefined;
+  type: AlertType;
   /** The threshold at which the alert will enter a trigger state. The specific threshold is dependent on the alert type. */
   threshold?: number | undefined;
   /** The comparison operator used against the alert's threshold. */
-  comparison?: AlertComparison | undefined;
-  notifications?: Notification | undefined;
+  comparison: AlertComparison;
+  notifications: Notification;
   /** Period of time the threshold must be exceeded to trigger the alert. */
-  period?: AlertPeriod | undefined;
+  period: AlertPeriod;
 }
 export interface CreateUptimeAlertResponse {
-  alert?: Alert | undefined;
+  alert: Alert;
 }
 /** The type of health check to perform. */
 export type CreateUptimeCheckRequestType = "ping" | "http" | "https";
@@ -9878,20 +9878,20 @@ export type CheckRegionsItem = "us_east" | "us_west" | "eu_west" | "se_asia";
 export type CheckRegionsList = Array<CheckRegionsItem>;
 export interface Check {
   /** A unique ID that can be used to identify and reference the check. */
-  id?: string | undefined;
+  id: string;
   /** A human-friendly display name. */
-  name?: string | undefined;
+  name: string;
   /** The type of health check to perform. */
-  type?: CheckType | undefined;
+  type: CheckType;
   /** The endpoint to perform healthchecks on. */
-  target?: string | undefined;
+  target: string;
   /** An array containing the selected regions to perform healthchecks from. */
-  regions?: CheckRegionsList | undefined;
+  regions: CheckRegionsList;
   /** A boolean value indicating whether the check is enabled/disabled. */
-  enabled?: boolean | undefined;
+  enabled: boolean;
 }
 export interface CreateUptimeCheckResponse {
-  check?: Check | undefined;
+  check: Check;
 }
 /** A set of arbitrary tags to organize your vector database */
 export type CreateVectorDatabaseRequestTagsList = Array<string>;
@@ -12050,14 +12050,14 @@ export interface GetCdnEndpointRequest {
   cdn_id: string;
 }
 export interface GetCdnEndpointResponse {
-  endpoint?: CdnEndpoint | undefined;
+  endpoint: CdnEndpoint;
 }
 export interface GetCertificateRequest {
   /** A unique identifier for a certificate. */
   certificate_id: string;
 }
 export interface GetCertificateResponse {
-  certificate?: Certificate | undefined;
+  certificate: Certificate;
 }
 export interface GetConnectionRequest {
   /** Connection ID. */
@@ -15320,7 +15320,7 @@ export interface GetLoadBalancerRequest {
   lb_id: string;
 }
 export interface GetLoadBalancerResponse {
-  load_balancer?: LoadBalancer | undefined;
+  load_balancer: LoadBalancer;
 }
 export interface GetMcpServerRequest {
   /** Server identifier (`serverRef`) of one of your team's MCP servers. */
@@ -16130,7 +16130,7 @@ export interface GetRegistryRequest {
   registry_name: string;
 }
 export interface GetRegistryResponse {
-  registry?: RegistryBase | undefined;
+  registry: RegistryBase;
 }
 export interface GetRegistryDockerCredentialsRequest {
   /** The name of a container registry. */
@@ -16544,14 +16544,14 @@ export interface GetUptimeAlertRequest {
   alert_id: string;
 }
 export interface GetUptimeAlertResponse {
-  alert?: Alert | undefined;
+  alert: Alert;
 }
 export interface GetUptimeCheckRequest {
   /** A unique identifier for a check. */
   check_id: string;
 }
 export interface GetUptimeCheckResponse {
-  check?: Check | undefined;
+  check: Check;
 }
 export interface GetUptimeCheckStateRequest {
   /** A unique identifier for a check. */
@@ -22699,7 +22699,7 @@ export interface PatchSpacesKeyRequest {
   grants?: PatchSpacesKeyRequestGrantsList | undefined;
 }
 export interface PatchSpacesKeyResponse {
-  key?: Key | undefined;
+  key: Key;
 }
 export interface PatchVpcRequest {
   /** A unique identifier for a VPC. */
@@ -23788,7 +23788,7 @@ export interface UpdateCdnEndpointsRequest {
   custom_domain?: string | undefined;
 }
 export interface UpdateCdnEndpointsResponse {
-  endpoint?: CdnEndpoint | undefined;
+  endpoint: CdnEndpoint;
 }
 export type UpdateDatabaseAutoscaleRequestStorage = DatabaseAutoscaleParamsStorage;
 export interface UpdateDatabaseAutoscaleRequest {
@@ -24782,7 +24782,7 @@ export interface UpdateLoadBalancerRequest {
   body: LoadBalancerUpdateInput;
 }
 export interface UpdateLoadBalancerResponse {
-  load_balancer?: LoadBalancer | undefined;
+  load_balancer: LoadBalancer;
 }
 /** The complete set of tool slugs (`<server_ref>_<name>`) to enable; every other tool of the server is disabled. Empty disables every tool. */
 export type UpdateMcpServerToolsRequestEnabledToolSlugsList = Array<string>;
@@ -25010,7 +25010,7 @@ export interface UpdateSpacesKeyRequest {
   grants?: UpdateSpacesKeyRequestGrantsList | undefined;
 }
 export interface UpdateSpacesKeyResponse {
-  key?: Key | undefined;
+  key: Key;
 }
 export interface UpdateSshKeyRequest {
   /** Either the ID or the fingerprint of an existing SSH key. */
@@ -25044,7 +25044,7 @@ export interface UpdateUptimeAlertRequest {
   period: UpdateUptimeAlertRequestPeriod | (string & {});
 }
 export interface UpdateUptimeAlertResponse {
-  alert?: Alert | undefined;
+  alert: Alert;
 }
 /** The type of health check to perform. */
 export type UpdateUptimeCheckRequestType = "ping" | "http" | "https";
@@ -25068,7 +25068,7 @@ export interface UpdateUptimeCheckRequest {
   enabled?: boolean | undefined;
 }
 export interface UpdateUptimeCheckResponse {
-  check?: Check | undefined;
+  check: Check;
 }
 export interface UpdateVectorDatabaseRequest {
   /** ID of the vector database. */
@@ -25398,8 +25398,8 @@ export const addDatabase: API.OperationMethod<
   AddDatabaseError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34688, __c1084, 0) as any as S.Schema<AddDatabaseRequest>,
-  output: __S(34720, __c1085, 0) as any as S.Schema<AddDatabaseResponse>,
+  input: __S(34624, __c1082, 0) as any as S.Schema<AddDatabaseRequest>,
+  output: __S(34656, __c1083, 0) as any as S.Schema<AddDatabaseResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -25415,8 +25415,8 @@ export const addDatabaseConnectionPool: API.OperationMethod<
   AddDatabaseConnectionPoolError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(38528, __c1204, 0) as any as S.Schema<AddDatabaseConnectionPoolRequest>,
-  output: __S(38592, __c1206, 0) as any as S.Schema<AddDatabaseConnectionPoolResponse>,
+  input: __S(38464, __c1202, 0) as any as S.Schema<AddDatabaseConnectionPoolRequest>,
+  output: __S(38528, __c1204, 0) as any as S.Schema<AddDatabaseConnectionPoolResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -25450,7 +25450,7 @@ export const addFirewallRules: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<AddFirewallRulesRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<AddFirewallRulesResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<AddFirewallRulesResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -25467,7 +25467,7 @@ export const addFirewallTags: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<AddFirewallTagsRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<AddFirewallTagsResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<AddFirewallTagsResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -25501,7 +25501,7 @@ export const addKubernetesRegistries: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3456, __c108, 0) as any as S.Schema<AddKubernetesRegistriesRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<AddKubernetesRegistriesResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<AddKubernetesRegistriesResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -25518,7 +25518,7 @@ export const addKubernetesRegistry: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4352, __c136, 0) as any as S.Schema<AddKubernetesRegistryRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<AddKubernetesRegistryResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<AddKubernetesRegistryResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -25535,7 +25535,7 @@ export const addLoadBalancerDroplets: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4768, __c149, 0) as any as S.Schema<AddLoadBalancerDropletsRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<AddLoadBalancerDropletsResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<AddLoadBalancerDropletsResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -25552,7 +25552,7 @@ export const addLoadBalancerForwardingRules: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5120, __c160, 0) as any as S.Schema<AddLoadBalancerForwardingRulesRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<AddLoadBalancerForwardingRulesResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<AddLoadBalancerForwardingRulesResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -25654,7 +25654,7 @@ export const assignFirewallDroplets: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7744, __c242, 0) as any as S.Schema<AssignFirewallDropletsRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<AssignFirewallDropletsResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<AssignFirewallDropletsResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -25705,7 +25705,7 @@ export const assignTagResources: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8864, __c277, 0) as any as S.Schema<AssignTagResourcesRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<AssignTagResourcesResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<AssignTagResourcesResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -25913,8 +25913,8 @@ export const cancelHarnessSessionWorkspaceTransfer: API.OperationMethod<
   CancelHarnessSessionWorkspaceTransferError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15520, __c485, 0) as any as S.Schema<CancelHarnessSessionWorkspaceTransferRequest>,
-  output: __S(15521, __c485, 1) as any as S.Schema<WorkspaceTransferCancelled>,
+  input: __S(15488, __c484, 0) as any as S.Schema<CancelHarnessSessionWorkspaceTransferRequest>,
+  output: __S(15489, __c484, 1) as any as S.Schema<WorkspaceTransferCancelled>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -25930,8 +25930,8 @@ export const cancelInferenceBatch: API.OperationMethod<
   CancelInferenceBatchError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15904, __c497, 0) as any as S.Schema<CancelInferenceBatchRequest>,
-  output: __S(15939, __c498, 3) as any as S.Schema<Batch>,
+  input: __S(15872, __c496, 0) as any as S.Schema<CancelInferenceBatchRequest>,
+  output: __S(15907, __c497, 3) as any as S.Schema<Batch>,
   errors: [Forbidden, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -25947,8 +25947,8 @@ export const commitAppRollback: API.OperationMethod<
   CommitAppRollbackError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16512, __c516, 0) as any as S.Schema<CommitAppRollbackRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<CommitAppRollbackResponse>,
+  input: __S(16480, __c515, 0) as any as S.Schema<CommitAppRollbackRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<CommitAppRollbackResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -25968,8 +25968,8 @@ export const commitHarnessSessionWorkspaceTransfer: API.OperationMethod<
   CommitHarnessSessionWorkspaceTransferError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16928, __c529, 0) as any as S.Schema<CommitHarnessSessionWorkspaceTransferRequest>,
-  output: __S(16929, __c529, 1) as any as S.Schema<WorkspaceUploadCommitted>,
+  input: __S(16896, __c528, 0) as any as S.Schema<CommitHarnessSessionWorkspaceTransferRequest>,
+  output: __S(16897, __c528, 1) as any as S.Schema<WorkspaceUploadCommitted>,
   errors: [BadRequest, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -25985,8 +25985,8 @@ export const createAddon: API.OperationMethod<
   CreateAddonError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17312, __c541, 0) as any as S.Schema<CreateAddonRequest>,
-  output: __S(17376, __c543, 0) as any as S.Schema<CreateAddonResponse>,
+  input: __S(17280, __c540, 0) as any as S.Schema<CreateAddonRequest>,
+  output: __S(17344, __c542, 0) as any as S.Schema<CreateAddonResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26002,8 +26002,8 @@ export const createAgentInferenceChatCompletion: API.OperationMethod<
   CreateAgentInferenceChatCompletionError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17728, __c554, 0) as any as S.Schema<CreateAgentInferenceChatCompletionRequest>,
-  output: __S(17778, __c555, 18) as any as S.Schema<ChatCompletionResponse>,
+  input: __S(17696, __c553, 0) as any as S.Schema<CreateAgentInferenceChatCompletionRequest>,
+  output: __S(17746, __c554, 18) as any as S.Schema<ChatCompletionResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26019,8 +26019,8 @@ export const createApp: API.OperationMethod<
   CreateAppError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18208, __c569, 0) as any as S.Schema<CreateAppRequest>,
-  output: __S(18304, __c572, 0) as any as S.Schema<AppResponse>,
+  input: __S(18176, __c568, 0) as any as S.Schema<CreateAppRequest>,
+  output: __S(18272, __c571, 0) as any as S.Schema<AppResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26036,7 +26036,7 @@ export const createAppDeployment: API.OperationMethod<
   CreateAppDeploymentError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18688, __c584, 0) as any as S.Schema<CreateAppDeploymentRequest>,
+  input: __S(18656, __c583, 0) as any as S.Schema<CreateAppDeploymentRequest>,
   output: __S(7008, __c219, 0) as any as S.Schema<AppsDeploymentResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -26053,7 +26053,7 @@ export const createAppRollback: API.OperationMethod<
   CreateAppRollbackError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19040, __c595, 0) as any as S.Schema<CreateAppRollbackRequest>,
+  input: __S(19008, __c594, 0) as any as S.Schema<CreateAppRollbackRequest>,
   output: __S(7008, __c219, 0) as any as S.Schema<AppsDeploymentResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -26070,8 +26070,8 @@ export const createAutoscalepool: API.OperationMethod<
   CreateAutoscalepoolError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19392, __c606, 0) as any as S.Schema<CreateAutoscalepoolRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<CreateAutoscalepoolResponse>,
+  input: __S(19360, __c605, 0) as any as S.Schema<CreateAutoscalepoolRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<CreateAutoscalepoolResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26087,8 +26087,8 @@ export const createByoipPrefix: API.OperationMethod<
   CreateByoipPrefixError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19904, __c622, 0) as any as S.Schema<CreateByoipPrefixRequest>,
-  output: __S(19905, __c622, 1) as any as S.Schema<CreateByoipPrefixResponse>,
+  input: __S(19872, __c621, 0) as any as S.Schema<CreateByoipPrefixRequest>,
+  output: __S(19873, __c621, 1) as any as S.Schema<CreateByoipPrefixResponse>,
   errors: [UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26104,8 +26104,8 @@ export const createCdnEndpoint: API.OperationMethod<
   CreateCdnEndpointError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20384, __c637, 0) as any as S.Schema<CreateCdnEndpointRequest>,
-  output: __S(20448, __c639, 0) as any as S.Schema<CreateCdnEndpointResponse>,
+  input: __S(20352, __c636, 0) as any as S.Schema<CreateCdnEndpointRequest>,
+  output: __S(20416, __c638, 0) as any as S.Schema<CreateCdnEndpointResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26121,8 +26121,8 @@ export const createCertificate: API.OperationMethod<
   CreateCertificateError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20896, __c653, 0) as any as S.Schema<CreateCertificateRequest>,
-  output: __S(20928, __c654, 0) as any as S.Schema<CreateCertificateResponse>,
+  input: __S(20864, __c652, 0) as any as S.Schema<CreateCertificateRequest>,
+  output: __S(20896, __c653, 0) as any as S.Schema<CreateCertificateResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26138,8 +26138,8 @@ export const createConnection: API.OperationMethod<
   CreateConnectionError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21476, __c671, 4) as any as S.Schema<CreateConnectionRequest>,
-  output: __S(21568, __c674, 0) as any as S.Schema<ConnectionResponse>,
+  input: __S(21444, __c670, 4) as any as S.Schema<CreateConnectionRequest>,
+  output: __S(21536, __c673, 0) as any as S.Schema<ConnectionResponse>,
   errors: [BadRequest, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26155,8 +26155,8 @@ export const createDatabaseCluster: API.OperationMethod<
   CreateDatabaseClusterError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22114, __c691, 2) as any as S.Schema<CreateDatabaseClusterRequest>,
-  output: __S(22208, __c694, 0) as any as S.Schema<CreateDatabaseClusterResponse>,
+  input: __S(22082, __c690, 2) as any as S.Schema<CreateDatabaseClusterRequest>,
+  output: __S(22176, __c693, 0) as any as S.Schema<CreateDatabaseClusterResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26172,8 +26172,8 @@ export const createDatabaseKafkaSchema: API.OperationMethod<
   CreateDatabaseKafkaSchemaError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22816, __c713, 0) as any as S.Schema<CreateDatabaseKafkaSchemaRequest>,
-  output: __S(22817, __c713, 1) as any as S.Schema<CreateDatabaseKafkaSchemaResponse>,
+  input: __S(22784, __c712, 0) as any as S.Schema<CreateDatabaseKafkaSchemaRequest>,
+  output: __S(22785, __c712, 1) as any as S.Schema<CreateDatabaseKafkaSchemaResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26189,8 +26189,8 @@ export const createDatabaseKafkaTopic: API.OperationMethod<
   CreateDatabaseKafkaTopicError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23168, __c724, 0) as any as S.Schema<CreateDatabaseKafkaTopicRequest>,
-  output: __S(23206, __c725, 6) as any as S.Schema<CreateDatabaseKafkaTopicResponse>,
+  input: __S(23136, __c723, 0) as any as S.Schema<CreateDatabaseKafkaTopicRequest>,
+  output: __S(23174, __c724, 6) as any as S.Schema<CreateDatabaseKafkaTopicResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26206,8 +26206,8 @@ export const createDatabaseLogsink: API.OperationMethod<
   CreateDatabaseLogsinkError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23616, __c738, 0) as any as S.Schema<CreateDatabaseLogsinkRequest>,
-  output: __S(23617, __c738, 1) as any as S.Schema<CreateDatabaseLogsinkResponse>,
+  input: __S(23584, __c737, 0) as any as S.Schema<CreateDatabaseLogsinkRequest>,
+  output: __S(23585, __c737, 1) as any as S.Schema<CreateDatabaseLogsinkResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26223,8 +26223,8 @@ export const createDatabaseReplica: API.OperationMethod<
   CreateDatabaseReplicaError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24064, __c752, 0) as any as S.Schema<CreateDatabaseReplicaRequest>,
-  output: __S(24096, __c753, 0) as any as S.Schema<CreateDatabaseReplicaResponse>,
+  input: __S(24032, __c751, 0) as any as S.Schema<CreateDatabaseReplicaRequest>,
+  output: __S(24064, __c752, 0) as any as S.Schema<CreateDatabaseReplicaResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26240,8 +26240,8 @@ export const createDedicatedInference: API.OperationMethod<
   CreateDedicatedInferenceError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24512, __c766, 0) as any as S.Schema<CreateDedicatedInferenceRequest>,
-  output: __S(24513, __c766, 1) as any as S.Schema<CreateDedicatedInferenceResponse>,
+  input: __S(24480, __c765, 0) as any as S.Schema<CreateDedicatedInferenceRequest>,
+  output: __S(24481, __c765, 1) as any as S.Schema<CreateDedicatedInferenceResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26257,8 +26257,8 @@ export const createDedicatedInferenceTokens: API.OperationMethod<
   CreateDedicatedInferenceTokensError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24960, __c780, 0) as any as S.Schema<CreateDedicatedInferenceTokensRequest>,
-  output: __S(24961, __c780, 1) as any as S.Schema<CreateDedicatedInferenceTokensResponse>,
+  input: __S(24928, __c779, 0) as any as S.Schema<CreateDedicatedInferenceTokensRequest>,
+  output: __S(24929, __c779, 1) as any as S.Schema<CreateDedicatedInferenceTokensResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26274,8 +26274,8 @@ export const createDomain: API.OperationMethod<
   CreateDomainError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25312, __c791, 0) as any as S.Schema<CreateDomainRequest>,
-  output: __S(25344, __c792, 0) as any as S.Schema<CreateDomainResponse>,
+  input: __S(25280, __c790, 0) as any as S.Schema<CreateDomainRequest>,
+  output: __S(25312, __c791, 0) as any as S.Schema<CreateDomainResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26291,8 +26291,8 @@ export const createDomainRecord: API.OperationMethod<
   CreateDomainRecordError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25792, __c806, 0) as any as S.Schema<CreateDomainRecordRequest>,
-  output: __S(25856, __c808, 0) as any as S.Schema<CreateDomainRecordResponse>,
+  input: __S(25760, __c805, 0) as any as S.Schema<CreateDomainRecordRequest>,
+  output: __S(25824, __c807, 0) as any as S.Schema<CreateDomainRecordResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26308,8 +26308,8 @@ export const createDroplet: API.OperationMethod<
   CreateDropletError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26336, __c823, 0) as any as S.Schema<CreateDropletRequest>,
-  output: __S(26338, __c823, 2) as any as S.Schema<CreateDropletResponse>,
+  input: __S(26304, __c822, 0) as any as S.Schema<CreateDropletRequest>,
+  output: __S(26306, __c822, 2) as any as S.Schema<CreateDropletResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26325,8 +26325,8 @@ export const createEndpoint: API.OperationMethod<
   CreateEndpointError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27009, __c844, 1) as any as S.Schema<CreateEndpointRequest>,
-  output: __S(27072, __c846, 0) as any as S.Schema<EndpointPublishResponse>,
+  input: __S(26945, __c842, 1) as any as S.Schema<CreateEndpointRequest>,
+  output: __S(27008, __c844, 0) as any as S.Schema<EndpointPublishResponse>,
   errors: [BadRequest, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26342,8 +26342,8 @@ export const createEndpointVersion: API.OperationMethod<
   CreateEndpointVersionError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27584, __c862, 0) as any as S.Schema<CreateEndpointVersionRequest>,
-  output: __S(27072, __c846, 0) as any as S.Schema<EndpointPublishResponse>,
+  input: __S(27520, __c860, 0) as any as S.Schema<CreateEndpointVersionRequest>,
+  output: __S(27008, __c844, 0) as any as S.Schema<EndpointPublishResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26359,8 +26359,8 @@ export const createEndpointVersionPromotion: API.OperationMethod<
   CreateEndpointVersionPromotionError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27936, __c873, 0) as any as S.Schema<CreateEndpointVersionPromotionRequest>,
-  output: __S(27072, __c846, 0) as any as S.Schema<EndpointPublishResponse>,
+  input: __S(27872, __c871, 0) as any as S.Schema<CreateEndpointVersionPromotionRequest>,
+  output: __S(27008, __c844, 0) as any as S.Schema<EndpointPublishResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26380,8 +26380,8 @@ export const createFirewall: API.OperationMethod<
   CreateFirewallError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28352, __c886, 0) as any as S.Schema<CreateFirewallRequest>,
-  output: __S(28416, __c888, 0) as any as S.Schema<CreateFirewallResponse>,
+  input: __S(28288, __c884, 0) as any as S.Schema<CreateFirewallRequest>,
+  output: __S(28352, __c886, 0) as any as S.Schema<CreateFirewallResponse>,
   errors: [BadRequest, UnprocessableEntity, FirewallTagNotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26397,8 +26397,8 @@ export const createFloatingIP: API.OperationMethod<
   CreateFloatingIPError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28768, __c899, 0) as any as S.Schema<CreateFloatingIPRequest>,
-  output: __S(28769, __c899, 1) as any as S.Schema<CreateFloatingIPResponse>,
+  input: __S(28704, __c897, 0) as any as S.Schema<CreateFloatingIPRequest>,
+  output: __S(28705, __c897, 1) as any as S.Schema<CreateFloatingIPResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26414,8 +26414,8 @@ export const createFunctionNamespace: API.OperationMethod<
   CreateFunctionNamespaceError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29184, __c912, 0) as any as S.Schema<CreateFunctionNamespaceRequest>,
-  output: __S(29216, __c913, 0) as any as S.Schema<CreateFunctionNamespaceResponse>,
+  input: __S(29120, __c910, 0) as any as S.Schema<CreateFunctionNamespaceRequest>,
+  output: __S(29152, __c911, 0) as any as S.Schema<CreateFunctionNamespaceResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26431,8 +26431,8 @@ export const createFunctionsAccessKey: API.OperationMethod<
   CreateFunctionsAccessKeyError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29664, __c927, 0) as any as S.Schema<CreateFunctionsAccessKeyRequest>,
-  output: __S(29666, __c927, 2) as any as S.Schema<CreateFunctionsAccessKeyResponse>,
+  input: __S(29600, __c925, 0) as any as S.Schema<CreateFunctionsAccessKeyRequest>,
+  output: __S(29602, __c925, 2) as any as S.Schema<CreateFunctionsAccessKeyResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26448,7 +26448,7 @@ export const createGenaiAgent: API.OperationMethod<
   CreateGenaiAgentError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30016, __c938, 0) as any as S.Schema<CreateGenaiAgentRequest>,
+  input: __S(29952, __c936, 0) as any as S.Schema<CreateGenaiAgentRequest>,
   output: __S(10016, __c313, 0) as any as S.Schema<ApiCreateAgentOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -26465,8 +26465,8 @@ export const createGenaiAgentApiKey: API.OperationMethod<
   CreateGenaiAgentApiKeyError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30400, __c950, 0) as any as S.Schema<CreateGenaiAgentApiKeyRequest>,
-  output: __S(30432, __c951, 0) as any as S.Schema<ApiCreateAgentAPIKeyOutput>,
+  input: __S(30336, __c948, 0) as any as S.Schema<CreateGenaiAgentApiKeyRequest>,
+  output: __S(30368, __c949, 0) as any as S.Schema<ApiCreateAgentAPIKeyOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26482,8 +26482,8 @@ export const createGenaiAnthropicApiKey: API.OperationMethod<
   CreateGenaiAnthropicApiKeyError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30912, __c966, 0) as any as S.Schema<CreateGenaiAnthropicApiKeyRequest>,
-  output: __S(30944, __c967, 0) as any as S.Schema<ApiCreateAnthropicAPIKeyOutput>,
+  input: __S(30848, __c964, 0) as any as S.Schema<CreateGenaiAnthropicApiKeyRequest>,
+  output: __S(30880, __c965, 0) as any as S.Schema<ApiCreateAnthropicAPIKeyOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26499,8 +26499,8 @@ export const createGenaiCustomEvaluationMetric: API.OperationMethod<
   CreateGenaiCustomEvaluationMetricError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31360, __c980, 0) as any as S.Schema<CreateGenaiCustomEvaluationMetricRequest>,
-  output: __S(31392, __c981, 0) as any as S.Schema<ApiCreateCustomEvaluationMetricOutput>,
+  input: __S(31296, __c978, 0) as any as S.Schema<CreateGenaiCustomEvaluationMetricRequest>,
+  output: __S(31328, __c979, 0) as any as S.Schema<ApiCreateCustomEvaluationMetricOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26516,8 +26516,8 @@ export const createGenaiEvaluationDataset: API.OperationMethod<
   CreateGenaiEvaluationDatasetError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31808, __c994, 0) as any as S.Schema<CreateGenaiEvaluationDatasetRequest>,
-  output: __S(31809, __c994, 1) as any as S.Schema<ApiCreateEvaluationDatasetOutput>,
+  input: __S(31744, __c992, 0) as any as S.Schema<CreateGenaiEvaluationDatasetRequest>,
+  output: __S(31745, __c992, 1) as any as S.Schema<ApiCreateEvaluationDatasetOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26533,8 +26533,8 @@ export const createGenaiEvaluationTestCase: API.OperationMethod<
   CreateGenaiEvaluationTestCaseError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32288, __c1009, 0) as any as S.Schema<CreateGenaiEvaluationTestCaseRequest>,
-  output: __S(32289, __c1009, 1) as any as S.Schema<ApiCreateEvaluationTestCaseOutput>,
+  input: __S(32224, __c1007, 0) as any as S.Schema<CreateGenaiEvaluationTestCaseRequest>,
+  output: __S(32225, __c1007, 1) as any as S.Schema<ApiCreateEvaluationTestCaseOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26550,8 +26550,8 @@ export const createGenaiGeneratedScenarioSet: API.OperationMethod<
   CreateGenaiGeneratedScenarioSetError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32640, __c1020, 0) as any as S.Schema<CreateGenaiGeneratedScenarioSetRequest>,
-  output: __S(32704, __c1022, 0) as any as S.Schema<ApiGenerateScenarioSetOutput>,
+  input: __S(32576, __c1018, 0) as any as S.Schema<CreateGenaiGeneratedScenarioSetRequest>,
+  output: __S(32640, __c1020, 0) as any as S.Schema<ApiGenerateScenarioSetOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26567,7 +26567,7 @@ export const createGenaiIndexingJob: API.OperationMethod<
   CreateGenaiIndexingJobError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33088, __c1034, 0) as any as S.Schema<CreateGenaiIndexingJobRequest>,
+  input: __S(33024, __c1032, 0) as any as S.Schema<CreateGenaiIndexingJobRequest>,
   output: __S(14080, __c440, 0) as any as S.Schema<ApiStartKnowledgeBaseIndexingJobOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -26584,8 +26584,8 @@ export const createGenaiKnowledgeBase: API.OperationMethod<
   CreateGenaiKnowledgeBaseError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33444, __c1045, 4) as any as S.Schema<CreateGenaiKnowledgeBaseRequest>,
-  output: __S(33536, __c1048, 0) as any as S.Schema<ApiCreateKnowledgeBaseOutput>,
+  input: __S(33380, __c1043, 4) as any as S.Schema<CreateGenaiKnowledgeBaseRequest>,
+  output: __S(33472, __c1046, 0) as any as S.Schema<ApiCreateKnowledgeBaseOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26601,8 +26601,8 @@ export const createGenaiKnowledgeBaseDataSource: API.OperationMethod<
   CreateGenaiKnowledgeBaseDataSourceError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33888, __c1059, 0) as any as S.Schema<CreateGenaiKnowledgeBaseDataSourceRequest>,
-  output: __S(33952, __c1061, 0) as any as S.Schema<ApiCreateKnowledgeBaseDataSourceOutput>,
+  input: __S(33824, __c1057, 0) as any as S.Schema<CreateGenaiKnowledgeBaseDataSourceRequest>,
+  output: __S(33888, __c1059, 0) as any as S.Schema<ApiCreateKnowledgeBaseDataSourceOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26618,8 +26618,8 @@ export const createGenaiModelEvaluationRun: API.OperationMethod<
   CreateGenaiModelEvaluationRunError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34304, __c1072, 0) as any as S.Schema<CreateGenaiModelEvaluationRunRequest>,
-  output: __S(34305, __c1072, 1) as any as S.Schema<ApiCreateModelEvaluationRunOutput>,
+  input: __S(34240, __c1070, 0) as any as S.Schema<CreateGenaiModelEvaluationRunRequest>,
+  output: __S(34241, __c1070, 1) as any as S.Schema<ApiCreateModelEvaluationRunOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26635,8 +26635,8 @@ export const createGenaiModelRouter: API.OperationMethod<
   CreateGenaiModelRouterError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34784, __c1087, 0) as any as S.Schema<CreateGenaiModelRouterRequest>,
-  output: __S(34816, __c1088, 0) as any as S.Schema<ApiCreateModelRouterOutput>,
+  input: __S(34720, __c1085, 0) as any as S.Schema<CreateGenaiModelRouterRequest>,
+  output: __S(34752, __c1086, 0) as any as S.Schema<ApiCreateModelRouterOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26652,8 +26652,8 @@ export const createGenaiOauth2DropboxTokens: API.OperationMethod<
   CreateGenaiOauth2DropboxTokensError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35168, __c1099, 0) as any as S.Schema<CreateGenaiOauth2DropboxTokensRequest>,
-  output: __S(35169, __c1099, 1) as any as S.Schema<ApiDropboxOauth2GetTokensOutput>,
+  input: __S(35104, __c1097, 0) as any as S.Schema<CreateGenaiOauth2DropboxTokensRequest>,
+  output: __S(35105, __c1097, 1) as any as S.Schema<ApiDropboxOauth2GetTokensOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26669,8 +26669,8 @@ export const createGenaiOpenaiApiKey: API.OperationMethod<
   CreateGenaiOpenaiApiKeyError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35520, __c1110, 0) as any as S.Schema<CreateGenaiOpenaiApiKeyRequest>,
-  output: __S(35552, __c1111, 0) as any as S.Schema<ApiCreateOpenAIAPIKeyOutput>,
+  input: __S(35456, __c1108, 0) as any as S.Schema<CreateGenaiOpenaiApiKeyRequest>,
+  output: __S(35488, __c1109, 0) as any as S.Schema<ApiCreateOpenAIAPIKeyOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26686,8 +26686,8 @@ export const createGenaiScenarioSet: API.OperationMethod<
   CreateGenaiScenarioSetError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35904, __c1122, 0) as any as S.Schema<CreateGenaiScenarioSetRequest>,
-  output: __S(32704, __c1022, 0) as any as S.Schema<ApiCreateScenarioSetOutput>,
+  input: __S(35840, __c1120, 0) as any as S.Schema<CreateGenaiScenarioSetRequest>,
+  output: __S(32640, __c1020, 0) as any as S.Schema<ApiCreateScenarioSetOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26703,8 +26703,8 @@ export const createGenaiScenarioSetFromLibrary: API.OperationMethod<
   CreateGenaiScenarioSetFromLibraryError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36320, __c1135, 0) as any as S.Schema<CreateGenaiScenarioSetFromLibraryRequest>,
-  output: __S(32704, __c1022, 0) as any as S.Schema<ApiCreateScenarioSetFromLibraryOutput>,
+  input: __S(36256, __c1133, 0) as any as S.Schema<CreateGenaiScenarioSetFromLibraryRequest>,
+  output: __S(32640, __c1020, 0) as any as S.Schema<ApiCreateScenarioSetFromLibraryOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26720,8 +26720,8 @@ export const createGenaiScheduledIndexing: API.OperationMethod<
   CreateGenaiScheduledIndexingError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36672, __c1146, 0) as any as S.Schema<CreateGenaiScheduledIndexingRequest>,
-  output: __S(36705, __c1147, 1) as any as S.Schema<ApiCreateScheduledIndexingOutput>,
+  input: __S(36608, __c1144, 0) as any as S.Schema<CreateGenaiScheduledIndexingRequest>,
+  output: __S(36641, __c1145, 1) as any as S.Schema<ApiCreateScheduledIndexingOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26737,8 +26737,8 @@ export const createGenaiSimulationRun: API.OperationMethod<
   CreateGenaiSimulationRunError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37057, __c1158, 1) as any as S.Schema<CreateGenaiSimulationRunRequest>,
-  output: __S(37152, __c1161, 0) as any as S.Schema<ApiCreateSimulationRunOutput>,
+  input: __S(36993, __c1156, 1) as any as S.Schema<CreateGenaiSimulationRunRequest>,
+  output: __S(37088, __c1159, 0) as any as S.Schema<ApiCreateSimulationRunOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26754,8 +26754,8 @@ export const createGenaiWorkspace: API.OperationMethod<
   CreateGenaiWorkspaceError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37504, __c1172, 0) as any as S.Schema<CreateGenaiWorkspaceRequest>,
-  output: __S(37536, __c1173, 0) as any as S.Schema<ApiCreateWorkspaceOutput>,
+  input: __S(37440, __c1170, 0) as any as S.Schema<CreateGenaiWorkspaceRequest>,
+  output: __S(37472, __c1171, 0) as any as S.Schema<ApiCreateWorkspaceOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26771,8 +26771,8 @@ export const createHarnessConfig: API.OperationMethod<
   CreateHarnessConfigError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37920, __c1185, 0) as any as S.Schema<CreateHarnessConfigRequest>,
-  output: __S(37986, __c1187, 2) as any as S.Schema<AgentConfigResponse>,
+  input: __S(37856, __c1183, 0) as any as S.Schema<CreateHarnessConfigRequest>,
+  output: __S(37922, __c1185, 2) as any as S.Schema<AgentConfigResponse>,
   errors: [BadRequest, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26788,8 +26788,8 @@ export const createHarnessProviderConnection: API.OperationMethod<
   CreateHarnessProviderConnectionError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(38336, __c1198, 0) as any as S.Schema<CreateHarnessProviderConnectionRequest>,
-  output: __S(38401, __c1200, 1) as any as S.Schema<ProviderConnectionResponse>,
+  input: __S(38272, __c1196, 0) as any as S.Schema<CreateHarnessProviderConnectionRequest>,
+  output: __S(38337, __c1198, 1) as any as S.Schema<ProviderConnectionResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26810,8 +26810,8 @@ export const createHarnessSession: API.OperationMethod<
   CreateHarnessSessionError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(38688, __c1209, 0) as any as S.Schema<CreateHarnessSessionRequest>,
-  output: __S(38720, __c1210, 0) as any as S.Schema<DefinitionsCreateSessionResponse>,
+  input: __S(38624, __c1207, 0) as any as S.Schema<CreateHarnessSessionRequest>,
+  output: __S(38656, __c1208, 0) as any as S.Schema<DefinitionsCreateSessionResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26831,8 +26831,8 @@ export const createHarnessSessionCheckpoint: API.OperationMethod<
   CreateHarnessSessionCheckpointError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(38784, __c1212, 0) as any as S.Schema<CreateHarnessSessionCheckpointRequest>,
-  output: __S(38816, __c1213, 0) as any as S.Schema<CreateCheckpointResponse>,
+  input: __S(38720, __c1210, 0) as any as S.Schema<CreateHarnessSessionCheckpointRequest>,
+  output: __S(38752, __c1211, 0) as any as S.Schema<CreateCheckpointResponse>,
   errors: [Forbidden, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26848,8 +26848,8 @@ export const createHarnessSessionFork: API.OperationMethod<
   CreateHarnessSessionForkError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(38880, __c1215, 0) as any as S.Schema<CreateHarnessSessionForkRequest>,
-  output: __S(38881, __c1215, 1) as any as S.Schema<ForkSessionResponse>,
+  input: __S(38816, __c1213, 0) as any as S.Schema<CreateHarnessSessionForkRequest>,
+  output: __S(38817, __c1213, 1) as any as S.Schema<ForkSessionResponse>,
   errors: [Forbidden, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26870,8 +26870,8 @@ export const createHarnessSessionInput: API.OperationMethod<
   CreateHarnessSessionInputError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(38944, __c1217, 0) as any as S.Schema<CreateHarnessSessionInputRequest>,
-  output: __S(38976, __c1218, 0) as any as S.Schema<SendInputResponse>,
+  input: __S(38880, __c1215, 0) as any as S.Schema<CreateHarnessSessionInputRequest>,
+  output: __S(38912, __c1216, 0) as any as S.Schema<SendInputResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26892,8 +26892,8 @@ export const createHarnessSessionWorkspaceTransfer: API.OperationMethod<
   CreateHarnessSessionWorkspaceTransferError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(39008, __c1219, 0) as any as S.Schema<CreateHarnessSessionWorkspaceTransferRequest>,
-  output: __S(39009, __c1219, 1) as any as S.Schema<WorkspaceTransferCreated>,
+  input: __S(38944, __c1217, 0) as any as S.Schema<CreateHarnessSessionWorkspaceTransferRequest>,
+  output: __S(38945, __c1217, 1) as any as S.Schema<WorkspaceTransferCreated>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26909,8 +26909,8 @@ export const createHarnessTemplate: API.OperationMethod<
   CreateHarnessTemplateError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(39040, __c1220, 0) as any as S.Schema<CreateHarnessTemplateRequest>,
-  output: __S(39136, __c1223, 0) as any as S.Schema<CreateTemplateResponse>,
+  input: __S(38976, __c1218, 0) as any as S.Schema<CreateHarnessTemplateRequest>,
+  output: __S(39072, __c1221, 0) as any as S.Schema<CreateTemplateResponse>,
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26931,8 +26931,8 @@ export const createHarnessWorkspace: API.OperationMethod<
   CreateHarnessWorkspaceError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(39168, __c1224, 0) as any as S.Schema<CreateHarnessWorkspaceRequest>,
-  output: __S(39200, __c1225, 0) as any as S.Schema<CreateWorkspaceResponse>,
+  input: __S(39104, __c1222, 0) as any as S.Schema<CreateHarnessWorkspaceRequest>,
+  output: __S(39136, __c1223, 0) as any as S.Schema<CreateWorkspaceResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26948,8 +26948,8 @@ export const createImageCustom: API.OperationMethod<
   CreateImageCustomError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(39264, __c1227, 0) as any as S.Schema<CreateImageCustomRequest>,
-  output: __S(39265, __c1227, 1) as any as S.Schema<CreateImageCustomResponse>,
+  input: __S(39200, __c1225, 0) as any as S.Schema<CreateImageCustomRequest>,
+  output: __S(39264, __c1227, 0) as any as S.Schema<CreateImageCustomResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -26972,7 +26972,7 @@ export const createInferenceBatch: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(39296, __c1228, 0) as any as S.Schema<CreateInferenceBatchRequest>,
-  output: __S(15939, __c498, 3) as any as S.Schema<Batch>,
+  output: __S(15907, __c497, 3) as any as S.Schema<Batch>,
   errors: [
     BadRequest,
     Forbidden,
@@ -27017,7 +27017,7 @@ export const createInferenceChatCompletion: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<CreateInferenceChatCompletionRequest>,
-  output: __S(17778, __c555, 18) as any as S.Schema<ChatCompletionResponse>,
+  output: __S(17746, __c554, 18) as any as S.Schema<ChatCompletionResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -27327,7 +27327,7 @@ export const createMonitoringSink: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<CreateMonitoringSinkRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<CreateMonitoringSinkResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<CreateMonitoringSinkResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -27570,7 +27570,7 @@ export const createSecurityScanRule: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2880, __c90, 0) as any as S.Schema<CreateSecurityScanRuleRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<CreateSecurityScanRuleResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<CreateSecurityScanRuleResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -27897,7 +27897,7 @@ export const databasesDeleteOpensearchIndex: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4480, __c140, 0) as any as S.Schema<DatabasesDeleteOpensearchIndexRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DatabasesDeleteOpensearchIndexResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DatabasesDeleteOpensearchIndexResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -27914,7 +27914,7 @@ export const databasesDestroyCluster: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4512, __c141, 0) as any as S.Schema<DatabasesDestroyClusterRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DatabasesDestroyClusterResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DatabasesDestroyClusterResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -27931,7 +27931,7 @@ export const databasesDestroyReplica: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4544, __c142, 0) as any as S.Schema<DatabasesDestroyReplicaRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DatabasesDestroyReplicaResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DatabasesDestroyReplicaResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -27948,7 +27948,7 @@ export const databasesInstallUpdate: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4576, __c143, 0) as any as S.Schema<DatabasesInstallUpdateRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DatabasesInstallUpdateResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DatabasesInstallUpdateResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -27982,7 +27982,7 @@ export const deleteAddon: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4640, __c145, 0) as any as S.Schema<DeleteAddonRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteAddonResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteAddonResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28016,7 +28016,7 @@ export const deleteAutoscalepool: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4704, __c147, 0) as any as S.Schema<DeleteAutoscalepoolRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteAutoscalepoolResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteAutoscalepoolResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28033,7 +28033,7 @@ export const deleteAutoscalepoolDangerous: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c148, 0) as any as S.Schema<DeleteAutoscalepoolDangerousRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteAutoscalepoolDangerousResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteAutoscalepoolDangerousResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28050,7 +28050,7 @@ export const deleteByoipPrefix: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4800, __c150, 0) as any as S.Schema<DeleteByoipPrefixRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteByoipPrefixResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteByoipPrefixResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28067,7 +28067,7 @@ export const deleteCdnEndpoint: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4832, __c151, 0) as any as S.Schema<DeleteCdnEndpointRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteCdnEndpointResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteCdnEndpointResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28084,7 +28084,7 @@ export const deleteCertificate: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4864, __c152, 0) as any as S.Schema<DeleteCertificateRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteCertificateResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteCertificateResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28118,7 +28118,7 @@ export const deleteDatabase: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4928, __c154, 0) as any as S.Schema<DeleteDatabaseRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteDatabaseResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteDatabaseResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28135,7 +28135,7 @@ export const deleteDatabaseConnectionPool: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4960, __c155, 0) as any as S.Schema<DeleteDatabaseConnectionPoolRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteDatabaseConnectionPoolResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteDatabaseConnectionPoolResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28152,7 +28152,7 @@ export const deleteDatabaseKafkaSchema: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4992, __c156, 0) as any as S.Schema<DeleteDatabaseKafkaSchemaRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteDatabaseKafkaSchemaResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteDatabaseKafkaSchemaResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28169,7 +28169,7 @@ export const deleteDatabaseKafkaTopic: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5024, __c157, 0) as any as S.Schema<DeleteDatabaseKafkaTopicRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteDatabaseKafkaTopicResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteDatabaseKafkaTopicResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28186,7 +28186,7 @@ export const deleteDatabaseLogsink: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5056, __c158, 0) as any as S.Schema<DeleteDatabaseLogsinkRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteDatabaseLogsinkResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteDatabaseLogsinkResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28203,7 +28203,7 @@ export const deleteDatabaseOnlineMigration: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5088, __c159, 0) as any as S.Schema<DeleteDatabaseOnlineMigrationRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteDatabaseOnlineMigrationResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteDatabaseOnlineMigrationResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28220,7 +28220,7 @@ export const deleteDatabaseUser: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5184, __c162, 0) as any as S.Schema<DeleteDatabaseUserRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteDatabaseUserResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteDatabaseUserResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28237,7 +28237,7 @@ export const deleteDedicatedInference: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5216, __c163, 0) as any as S.Schema<DeleteDedicatedInferenceRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteDedicatedInferenceResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteDedicatedInferenceResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28254,7 +28254,7 @@ export const deleteDedicatedInferenceTokens: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5248, __c164, 0) as any as S.Schema<DeleteDedicatedInferenceTokensRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteDedicatedInferenceTokensResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteDedicatedInferenceTokensResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28271,7 +28271,7 @@ export const deleteDomain: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5280, __c165, 0) as any as S.Schema<DeleteDomainRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteDomainResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteDomainResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28288,7 +28288,7 @@ export const deleteDomainRecord: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5312, __c166, 0) as any as S.Schema<DeleteDomainRecordRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteDomainRecordResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteDomainRecordResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28305,7 +28305,7 @@ export const deleteEndpoint: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5344, __c167, 0) as any as S.Schema<DeleteEndpointRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteEndpointResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteEndpointResponse>,
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28322,7 +28322,7 @@ export const deleteEndpointVersion: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5376, __c168, 0) as any as S.Schema<DeleteEndpointVersionRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteEndpointVersionResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteEndpointVersionResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28339,7 +28339,7 @@ export const deleteFirewall: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5408, __c169, 0) as any as S.Schema<DeleteFirewallRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteFirewallResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteFirewallResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28356,7 +28356,7 @@ export const deleteFirewallDroplets: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5440, __c170, 0) as any as S.Schema<DeleteFirewallDropletsRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteFirewallDropletsResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteFirewallDropletsResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28373,7 +28373,7 @@ export const deleteFirewallRules: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5472, __c171, 0) as any as S.Schema<DeleteFirewallRulesRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteFirewallRulesResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteFirewallRulesResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28390,7 +28390,7 @@ export const deleteFirewallTags: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5600, __c175, 0) as any as S.Schema<DeleteFirewallTagsRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteFirewallTagsResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteFirewallTagsResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28407,7 +28407,7 @@ export const deleteFloatingIP: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5632, __c176, 0) as any as S.Schema<DeleteFloatingIPRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteFloatingIPResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteFloatingIPResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28424,7 +28424,7 @@ export const deleteFunctionNamespace: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5664, __c177, 0) as any as S.Schema<DeleteFunctionNamespaceRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteFunctionNamespaceResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteFunctionNamespaceResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28475,7 +28475,7 @@ export const deleteGenaiAgentApiKey: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5760, __c180, 0) as any as S.Schema<DeleteGenaiAgentApiKeyRequest>,
-  output: __S(30432, __c951, 0) as any as S.Schema<ApiDeleteAgentAPIKeyOutput>,
+  output: __S(30368, __c949, 0) as any as S.Schema<ApiDeleteAgentAPIKeyOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28492,7 +28492,7 @@ export const deleteGenaiAnthropicApiKey: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5792, __c181, 0) as any as S.Schema<DeleteGenaiAnthropicApiKeyRequest>,
-  output: __S(30944, __c967, 0) as any as S.Schema<ApiDeleteAnthropicAPIKeyOutput>,
+  output: __S(30880, __c965, 0) as any as S.Schema<ApiDeleteAnthropicAPIKeyOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28594,7 +28594,7 @@ export const deleteGenaiModelApiKey: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6112, __c191, 0) as any as S.Schema<DeleteGenaiModelApiKeyRequest>,
-  output: __S(30432, __c951, 0) as any as S.Schema<ApiDeleteModelAPIKeyOutput>,
+  output: __S(30368, __c949, 0) as any as S.Schema<ApiDeleteModelAPIKeyOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28662,7 +28662,7 @@ export const deleteGenaiOpenaiApiKey: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6240, __c195, 0) as any as S.Schema<DeleteGenaiOpenaiApiKeyRequest>,
-  output: __S(35552, __c1111, 0) as any as S.Schema<ApiDeleteOpenAIAPIKeyOutput>,
+  output: __S(35488, __c1109, 0) as any as S.Schema<ApiDeleteOpenAIAPIKeyOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28696,7 +28696,7 @@ export const deleteGenaiScheduledIndexing: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6304, __c197, 0) as any as S.Schema<DeleteGenaiScheduledIndexingRequest>,
-  output: __S(36705, __c1147, 1) as any as S.Schema<ApiDeleteScheduledIndexingOutput>,
+  output: __S(36641, __c1145, 1) as any as S.Schema<ApiDeleteScheduledIndexingOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28747,7 +28747,7 @@ export const deleteHarnessConfig: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6432, __c201, 0) as any as S.Schema<DeleteHarnessConfigRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteHarnessConfigResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteHarnessConfigResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28764,7 +28764,7 @@ export const deleteHarnessProviderConnection: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6464, __c202, 0) as any as S.Schema<DeleteHarnessProviderConnectionRequest>,
-  output: __S(38401, __c1200, 1) as any as S.Schema<ProviderConnectionResponse>,
+  output: __S(38337, __c1198, 1) as any as S.Schema<ProviderConnectionResponse>,
   errors: [NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28781,7 +28781,7 @@ export const deleteHarnessSession: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6496, __c203, 0) as any as S.Schema<DeleteHarnessSessionRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteHarnessSessionResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteHarnessSessionResponse>,
   errors: [Forbidden, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28832,7 +28832,7 @@ export const deleteHarnessWorkspace: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6592, __c206, 0) as any as S.Schema<DeleteHarnessWorkspaceRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteHarnessWorkspaceResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteHarnessWorkspaceResponse>,
   errors: [Forbidden, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28849,7 +28849,7 @@ export const deleteImage: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6624, __c207, 0) as any as S.Schema<DeleteImageRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteImageResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteImageResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28866,7 +28866,7 @@ export const deleteInsightAlertRule: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(6656, __c208, 0) as any as S.Schema<DeleteInsightAlertRuleRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteInsightAlertRuleResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteInsightAlertRuleResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28900,7 +28900,7 @@ export const deleteInsightNotificationChannel: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7040, __c220, 0) as any as S.Schema<DeleteInsightNotificationChannelRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteInsightNotificationChannelResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteInsightNotificationChannelResponse>,
   errors: [NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28917,7 +28917,7 @@ export const deleteKubernetesCluster: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7072, __c221, 0) as any as S.Schema<DeleteKubernetesClusterRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteKubernetesClusterResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteKubernetesClusterResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28934,7 +28934,7 @@ export const deleteKubernetesNode: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7104, __c222, 0) as any as S.Schema<DeleteKubernetesNodeRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteKubernetesNodeResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteKubernetesNodeResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28951,7 +28951,7 @@ export const deleteKubernetesNodePool: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7136, __c223, 0) as any as S.Schema<DeleteKubernetesNodePoolRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteKubernetesNodePoolResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteKubernetesNodePoolResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28968,7 +28968,7 @@ export const deleteLoadBalancer: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7168, __c224, 0) as any as S.Schema<DeleteLoadBalancerRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteLoadBalancerResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteLoadBalancerResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -28985,7 +28985,7 @@ export const deleteLoadBalancerCache: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7200, __c225, 0) as any as S.Schema<DeleteLoadBalancerCacheRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteLoadBalancerCacheResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteLoadBalancerCacheResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29019,7 +29019,7 @@ export const deleteMicrovm: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7264, __c227, 0) as any as S.Schema<DeleteMicrovmRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteMicrovmResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteMicrovmResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29036,7 +29036,7 @@ export const deleteMicrovmCheckpoint: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7296, __c228, 0) as any as S.Schema<DeleteMicrovmCheckpointRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteMicrovmCheckpointResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteMicrovmCheckpointResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29053,7 +29053,7 @@ export const deleteMonitoringAlertPolicy: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7328, __c229, 0) as any as S.Schema<DeleteMonitoringAlertPolicyRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteMonitoringAlertPolicyResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteMonitoringAlertPolicyResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29070,7 +29070,7 @@ export const deleteMonitoringDestination: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7424, __c232, 0) as any as S.Schema<DeleteMonitoringDestinationRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteMonitoringDestinationResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteMonitoringDestinationResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29087,7 +29087,7 @@ export const deleteMonitoringSink: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7456, __c233, 0) as any as S.Schema<DeleteMonitoringSinkRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteMonitoringSinkResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteMonitoringSinkResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29104,7 +29104,7 @@ export const deleteNfs: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7488, __c234, 0) as any as S.Schema<DeleteNfsRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteNfsResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteNfsResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29138,7 +29138,7 @@ export const deleteNfsSnapshot: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7552, __c236, 0) as any as S.Schema<DeleteNfsSnapshotRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteNfsSnapshotResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteNfsSnapshotResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29189,7 +29189,7 @@ export const deleteProject: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7648, __c239, 0) as any as S.Schema<DeleteProjectRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteProjectResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteProjectResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29227,7 +29227,7 @@ export const deleteRegistry: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7712, __c241, 0) as any as S.Schema<DeleteRegistryRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteRegistryResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteRegistryResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29244,7 +29244,7 @@ export const deleteRegistryRepository: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7776, __c243, 0) as any as S.Schema<DeleteRegistryRepositoryRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteRegistryRepositoryResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteRegistryRepositoryResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29261,7 +29261,7 @@ export const deleteRegistryRepositoryManifest: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7808, __c244, 0) as any as S.Schema<DeleteRegistryRepositoryManifestRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteRegistryRepositoryManifestResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteRegistryRepositoryManifestResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29278,7 +29278,7 @@ export const deleteRegistryRepositoryTag: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7840, __c245, 0) as any as S.Schema<DeleteRegistryRepositoryTagRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteRegistryRepositoryTagResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteRegistryRepositoryTagResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29295,7 +29295,7 @@ export const deleteReservedIP: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7872, __c246, 0) as any as S.Schema<DeleteReservedIPRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteReservedIPResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteReservedIPResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29312,7 +29312,7 @@ export const deleteReservedIPv6: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7904, __c247, 0) as any as S.Schema<DeleteReservedIPv6Request>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteReservedIPv6Response>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteReservedIPv6Response>,
   errors: [NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29334,7 +29334,7 @@ export const deleteSecuritySecret: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7936, __c248, 0) as any as S.Schema<DeleteSecuritySecretRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteSecuritySecretResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteSecuritySecretResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29351,7 +29351,7 @@ export const deleteSecuritySuppression: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(7968, __c249, 0) as any as S.Schema<DeleteSecuritySuppressionRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteSecuritySuppressionResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteSecuritySuppressionResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29368,7 +29368,7 @@ export const deleteSnapshot: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8000, __c250, 0) as any as S.Schema<DeleteSnapshotRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteSnapshotResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteSnapshotResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29389,7 +29389,7 @@ export const deleteSnapshotRegion: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8032, __c251, 0) as any as S.Schema<DeleteSnapshotRegionRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteSnapshotRegionResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteSnapshotRegionResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29406,7 +29406,7 @@ export const deleteSpacesKey: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8064, __c252, 0) as any as S.Schema<DeleteSpacesKeyRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteSpacesKeyResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteSpacesKeyResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29423,7 +29423,7 @@ export const deleteSshKey: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8192, __c256, 0) as any as S.Schema<DeleteSshKeyRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteSshKeyResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteSshKeyResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29440,7 +29440,7 @@ export const deleteTag: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8224, __c257, 0) as any as S.Schema<DeleteTagRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteTagResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteTagResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29491,7 +29491,7 @@ export const deleteUptimeAlert: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8320, __c260, 0) as any as S.Schema<DeleteUptimeAlertRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteUptimeAlertResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteUptimeAlertResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29508,7 +29508,7 @@ export const deleteUptimeCheck: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8352, __c261, 0) as any as S.Schema<DeleteUptimeCheckRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteUptimeCheckResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteUptimeCheckResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29525,7 +29525,7 @@ export const deleteVectorDatabase: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8384, __c262, 0) as any as S.Schema<DeleteVectorDatabaseRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteVectorDatabaseResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteVectorDatabaseResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29542,7 +29542,7 @@ export const deleteVolume: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8416, __c263, 0) as any as S.Schema<DeleteVolumeRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteVolumeResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteVolumeResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29559,7 +29559,7 @@ export const deleteVolumeByName: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8448, __c264, 0) as any as S.Schema<DeleteVolumeByNameRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteVolumeByNameResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteVolumeByNameResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29576,7 +29576,7 @@ export const deleteVolumeSnapshotById: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8480, __c265, 0) as any as S.Schema<DeleteVolumeSnapshotByIdRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteVolumeSnapshotByIdResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteVolumeSnapshotByIdResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29593,7 +29593,7 @@ export const deleteVpc: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8544, __c267, 0) as any as S.Schema<DeleteVpcRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteVpcResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteVpcResponse>,
   errors: [NotFound, VpcHasMembers, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29610,7 +29610,7 @@ export const deleteVpcnatgateway: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8576, __c268, 0) as any as S.Schema<DeleteVpcnatgatewayRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteVpcnatgatewayResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteVpcnatgatewayResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29644,7 +29644,7 @@ export const deleteVpcSubnet: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8640, __c270, 0) as any as S.Schema<DeleteVpcSubnetRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteVpcSubnetResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteVpcSubnetResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29661,7 +29661,7 @@ export const deleteVpcSubnetRoute: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8672, __c271, 0) as any as S.Schema<DeleteVpcSubnetRouteRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DeleteVpcSubnetRouteResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DeleteVpcSubnetRouteResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29746,7 +29746,7 @@ export const dropletsDestroy: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8832, __c276, 0) as any as S.Schema<DropletsDestroyRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DropletsDestroyResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DropletsDestroyResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29763,7 +29763,7 @@ export const dropletsDestroyByTag: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8928, __c279, 0) as any as S.Schema<DropletsDestroyByTagRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<DropletsDestroyByTagResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<DropletsDestroyByTagResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29785,8 +29785,8 @@ export const dropletsDestroyWithAssociatedResourcesDangerous: API.OperationMetho
     0,
   ) as any as S.Schema<DropletsDestroyWithAssociatedResourcesDangerousRequest>,
   output: __S(
-    38560,
-    __c1205,
+    38496,
+    __c1203,
     0,
   ) as any as S.Schema<DropletsDestroyWithAssociatedResourcesDangerousResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
@@ -29810,8 +29810,8 @@ export const dropletsDestroyWithAssociatedResourcesSelective: API.OperationMetho
     0,
   ) as any as S.Schema<DropletsDestroyWithAssociatedResourcesSelectiveRequest>,
   output: __S(
-    38560,
-    __c1205,
+    38496,
+    __c1203,
     0,
   ) as any as S.Schema<DropletsDestroyWithAssociatedResourcesSelectiveResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
@@ -29868,7 +29868,7 @@ export const functionsDeleteTrigger: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9184, __c287, 0) as any as S.Schema<FunctionsDeleteTriggerRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<FunctionsDeleteTriggerResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<FunctionsDeleteTriggerResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -29957,7 +29957,7 @@ export const genaiCreateDuplicateScenarioSet: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9472, __c296, 0) as any as S.Schema<GenaiCreateDuplicateScenarioSetRequest>,
-  output: __S(32704, __c1022, 0) as any as S.Schema<ApiDuplicateScenarioSetOutput>,
+  output: __S(32640, __c1020, 0) as any as S.Schema<ApiDuplicateScenarioSetOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -30090,7 +30090,7 @@ export const genaiPatchCancelSimulationRun: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(9728, __c304, 0) as any as S.Schema<GenaiPatchCancelSimulationRunRequest>,
-  output: __S(37152, __c1161, 0) as any as S.Schema<ApiCancelSimulationRunOutput>,
+  output: __S(37088, __c1159, 0) as any as S.Schema<ApiCancelSimulationRunOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -30175,7 +30175,7 @@ export const getAddon: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10848, __c339, 0) as any as S.Schema<GetAddonRequest>,
-  output: __S(17376, __c543, 0) as any as S.Schema<GetAddonResponse>,
+  output: __S(17344, __c542, 0) as any as S.Schema<GetAddonResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -30226,7 +30226,7 @@ export const getApp: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(10944, __c342, 0) as any as S.Schema<GetAppRequest>,
-  output: __S(18304, __c572, 0) as any as S.Schema<AppResponse>,
+  output: __S(18272, __c571, 0) as any as S.Schema<AppResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -30464,7 +30464,7 @@ export const getAutoscalepool: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11520, __c360, 0) as any as S.Schema<GetAutoscalepoolRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<GetAutoscalepoolResponse>,
+  output: __S(19456, __c608, 0) as any as S.Schema<GetAutoscalepoolResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -30515,7 +30515,7 @@ export const getCdnEndpoint: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11712, __c366, 0) as any as S.Schema<GetCdnEndpointRequest>,
-  output: __S(20448, __c639, 0) as any as S.Schema<GetCdnEndpointResponse>,
+  output: __S(20416, __c638, 0) as any as S.Schema<GetCdnEndpointResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -30532,7 +30532,7 @@ export const getCertificate: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11744, __c367, 0) as any as S.Schema<GetCertificateRequest>,
-  output: __S(20928, __c654, 0) as any as S.Schema<GetCertificateResponse>,
+  output: __S(20896, __c653, 0) as any as S.Schema<GetCertificateResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -30549,7 +30549,7 @@ export const getConnection: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11776, __c368, 0) as any as S.Schema<GetConnectionRequest>,
-  output: __S(21568, __c674, 0) as any as S.Schema<GetConnectionResponse>,
+  output: __S(21536, __c673, 0) as any as S.Schema<GetConnectionResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -30566,7 +30566,7 @@ export const getDatabase: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11808, __c369, 0) as any as S.Schema<GetDatabaseRequest>,
-  output: __S(34720, __c1085, 0) as any as S.Schema<GetDatabaseResponse>,
+  output: __S(34656, __c1083, 0) as any as S.Schema<GetDatabaseResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -30617,7 +30617,7 @@ export const getDatabaseCluster: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(11904, __c372, 0) as any as S.Schema<GetDatabaseClusterRequest>,
-  output: __S(22208, __c694, 0) as any as S.Schema<GetDatabaseClusterResponse>,
+  output: __S(22176, __c693, 0) as any as S.Schema<GetDatabaseClusterResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -30668,7 +30668,7 @@ export const getDatabaseConnectionPool: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12064, __c377, 0) as any as S.Schema<GetDatabaseConnectionPoolRequest>,
-  output: __S(38592, __c1206, 0) as any as S.Schema<GetDatabaseConnectionPoolResponse>,
+  output: __S(38528, __c1204, 0) as any as S.Schema<GetDatabaseConnectionPoolResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -30787,7 +30787,7 @@ export const getDatabaseKafkaTopic: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12384, __c387, 0) as any as S.Schema<GetDatabaseKafkaTopicRequest>,
-  output: __S(23206, __c725, 6) as any as S.Schema<GetDatabaseKafkaTopicResponse>,
+  output: __S(23174, __c724, 6) as any as S.Schema<GetDatabaseKafkaTopicResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -30838,7 +30838,7 @@ export const getDatabaseReplica: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12544, __c392, 0) as any as S.Schema<GetDatabaseReplicaRequest>,
-  output: __S(24096, __c753, 0) as any as S.Schema<GetDatabaseReplicaResponse>,
+  output: __S(24064, __c752, 0) as any as S.Schema<GetDatabaseReplicaResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -30957,7 +30957,7 @@ export const getDomain: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12832, __c401, 0) as any as S.Schema<GetDomainRequest>,
-  output: __S(25344, __c792, 0) as any as S.Schema<GetDomainResponse>,
+  output: __S(25312, __c791, 0) as any as S.Schema<GetDomainResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -30974,7 +30974,7 @@ export const getDomainRecord: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12864, __c402, 0) as any as S.Schema<GetDomainRecordRequest>,
-  output: __S(25856, __c808, 0) as any as S.Schema<GetDomainRecordResponse>,
+  output: __S(25824, __c807, 0) as any as S.Schema<GetDomainRecordResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -31097,7 +31097,7 @@ export const getFirewall: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13248, __c414, 0) as any as S.Schema<GetFirewallRequest>,
-  output: __S(28416, __c888, 0) as any as S.Schema<GetFirewallResponse>,
+  output: __S(28352, __c886, 0) as any as S.Schema<GetFirewallResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -31148,7 +31148,7 @@ export const getFunctionNamespace: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13408, __c419, 0) as any as S.Schema<GetFunctionNamespaceRequest>,
-  output: __S(29216, __c913, 0) as any as S.Schema<GetFunctionNamespaceResponse>,
+  output: __S(29152, __c911, 0) as any as S.Schema<GetFunctionNamespaceResponse>,
   errors: [Forbidden, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -31216,7 +31216,7 @@ export const getGenaiAnthropicApiKey: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(13632, __c426, 0) as any as S.Schema<GetGenaiAnthropicApiKeyRequest>,
-  output: __S(30944, __c967, 0) as any as S.Schema<ApiGetAnthropicAPIKeyOutput>,
+  output: __S(30880, __c965, 0) as any as S.Schema<ApiGetAnthropicAPIKeyOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -31437,7 +31437,7 @@ export const getGenaiModelRouter: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14432, __c451, 0) as any as S.Schema<GetGenaiModelRouterRequest>,
-  output: __S(34816, __c1088, 0) as any as S.Schema<ApiGetModelRouterOutput>,
+  output: __S(34752, __c1086, 0) as any as S.Schema<ApiGetModelRouterOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -31471,7 +31471,7 @@ export const getGenaiOpenaiApiKey: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14496, __c453, 0) as any as S.Schema<GetGenaiOpenaiApiKeyRequest>,
-  output: __S(35552, __c1111, 0) as any as S.Schema<ApiGetOpenAIAPIKeyOutput>,
+  output: __S(35488, __c1109, 0) as any as S.Schema<ApiGetOpenAIAPIKeyOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -31488,7 +31488,7 @@ export const getGenaiScenarioSet: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14528, __c454, 0) as any as S.Schema<GetGenaiScenarioSetRequest>,
-  output: __S(32704, __c1022, 0) as any as S.Schema<ApiGetScenarioSetOutput>,
+  output: __S(32640, __c1020, 0) as any as S.Schema<ApiGetScenarioSetOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -31505,7 +31505,7 @@ export const getGenaiScheduledIndexing: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14688, __c459, 0) as any as S.Schema<GetGenaiScheduledIndexingRequest>,
-  output: __S(36705, __c1147, 1) as any as S.Schema<ApiGetScheduledIndexingOutput>,
+  output: __S(36641, __c1145, 1) as any as S.Schema<ApiGetScheduledIndexingOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -31590,7 +31590,7 @@ export const getGenaiWorkspace: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(14880, __c465, 0) as any as S.Schema<GetGenaiWorkspaceRequest>,
-  output: __S(37536, __c1173, 0) as any as S.Schema<ApiGetWorkspaceOutput>,
+  output: __S(37472, __c1171, 0) as any as S.Schema<ApiGetWorkspaceOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -31628,7 +31628,7 @@ export const getHarnessConfig: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15008, __c469, 0) as any as S.Schema<GetHarnessConfigRequest>,
-  output: __S(37986, __c1187, 2) as any as S.Schema<AgentConfigResponse>,
+  output: __S(37922, __c1185, 2) as any as S.Schema<AgentConfigResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -31645,7 +31645,7 @@ export const getHarnessProviderConnection: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15040, __c470, 0) as any as S.Schema<GetHarnessProviderConnectionRequest>,
-  output: __S(38401, __c1200, 1) as any as S.Schema<ProviderConnectionResponse>,
+  output: __S(38337, __c1198, 1) as any as S.Schema<ProviderConnectionResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -31662,7 +31662,7 @@ export const getHarnessSession: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15072, __c471, 0) as any as S.Schema<GetHarnessSessionRequest>,
-  output: __S(38720, __c1210, 0) as any as S.Schema<GetSessionResponse>,
+  output: __S(38656, __c1208, 0) as any as S.Schema<GetSessionResponse>,
   errors: [Forbidden, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -31679,7 +31679,7 @@ export const getHarnessSessionCheckpoint: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15136, __c473, 0) as any as S.Schema<GetHarnessSessionCheckpointRequest>,
-  output: __S(38816, __c1213, 0) as any as S.Schema<GetCheckpointResponse>,
+  output: __S(38752, __c1211, 0) as any as S.Schema<GetCheckpointResponse>,
   errors: [Forbidden, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -31696,7 +31696,7 @@ export const getHarnessSessionEvents: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15168, __c474, 0) as any as S.Schema<GetHarnessSessionEventsRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<GetHarnessSessionEventsResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<GetHarnessSessionEventsResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -31756,7 +31756,7 @@ export const getHarnessSessionPortForward: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15264, __c477, 0) as any as S.Schema<GetHarnessSessionPortForwardRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<GetHarnessSessionPortForwardResponse>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<GetHarnessSessionPortForwardResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -31790,7 +31790,7 @@ export const getHarnessTemplate: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15328, __c479, 0) as any as S.Schema<GetHarnessTemplateRequest>,
-  output: __S(39136, __c1223, 0) as any as S.Schema<GetTemplateResponse>,
+  output: __S(39072, __c1221, 0) as any as S.Schema<GetTemplateResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -31824,7 +31824,7 @@ export const getHarnessWorkspace: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15424, __c482, 0) as any as S.Schema<GetHarnessWorkspaceRequest>,
-  output: __S(39200, __c1225, 0) as any as S.Schema<GetWorkspaceResponse>,
+  output: __S(39136, __c1223, 0) as any as S.Schema<GetWorkspaceResponse>,
   errors: [Forbidden, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -31841,7 +31841,7 @@ export const getImage: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(15456, __c483, 0) as any as S.Schema<GetImageRequest>,
-  output: __S(15488, __c484, 0) as any as S.Schema<GetImageResponse>,
+  output: __S(39264, __c1227, 0) as any as S.Schema<GetImageResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -31857,7 +31857,7 @@ export const getImageAction: API.OperationMethod<
   GetImageActionError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15552, __c486, 0) as any as S.Schema<GetImageActionRequest>,
+  input: __S(15520, __c485, 0) as any as S.Schema<GetImageActionRequest>,
   output: __S(10720, __c335, 0) as any as S.Schema<Action>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -31874,8 +31874,8 @@ export const getInferenceBatch: API.OperationMethod<
   GetInferenceBatchError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15584, __c487, 0) as any as S.Schema<GetInferenceBatchRequest>,
-  output: __S(15939, __c498, 3) as any as S.Schema<Batch>,
+  input: __S(15552, __c486, 0) as any as S.Schema<GetInferenceBatchRequest>,
+  output: __S(15907, __c497, 3) as any as S.Schema<Batch>,
   errors: [Forbidden, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -31891,8 +31891,8 @@ export const getInferenceBatchResults: API.OperationMethod<
   GetInferenceBatchResultsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15616, __c488, 0) as any as S.Schema<GetInferenceBatchResultsRequest>,
-  output: __S(15617, __c488, 1) as any as S.Schema<BatchResultsResponse>,
+  input: __S(15584, __c487, 0) as any as S.Schema<GetInferenceBatchResultsRequest>,
+  output: __S(15585, __c487, 1) as any as S.Schema<BatchResultsResponse>,
   errors: [Forbidden, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -31908,7 +31908,7 @@ export const getInferenceVideo: API.OperationMethod<
   GetInferenceVideoError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15648, __c489, 0) as any as S.Schema<GetInferenceVideoRequest>,
+  input: __S(15616, __c488, 0) as any as S.Schema<GetInferenceVideoRequest>,
   output: __S(384, __c12, 0) as any as S.Schema<VideoGeneration>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -31925,8 +31925,8 @@ export const getInferenceVideoContent: API.OperationMethod<
   GetInferenceVideoContentError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15680, __c490, 0) as any as S.Schema<GetInferenceVideoContentRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<GetInferenceVideoContentResponse>,
+  input: __S(15648, __c489, 0) as any as S.Schema<GetInferenceVideoContentRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<GetInferenceVideoContentResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -31942,8 +31942,8 @@ export const getInsightAlertInstance: API.OperationMethod<
   GetInsightAlertInstanceError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15712, __c491, 0) as any as S.Schema<GetInsightAlertInstanceRequest>,
-  output: __S(15713, __c491, 1) as any as S.Schema<GetInsightAlertInstanceResponse>,
+  input: __S(15680, __c490, 0) as any as S.Schema<GetInsightAlertInstanceRequest>,
+  output: __S(15681, __c490, 1) as any as S.Schema<GetInsightAlertInstanceResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -31959,7 +31959,7 @@ export const getInsightAlertRule: API.OperationMethod<
   GetInsightAlertRuleError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15776, __c493, 0) as any as S.Schema<GetInsightAlertRuleRequest>,
+  input: __S(15744, __c492, 0) as any as S.Schema<GetInsightAlertRuleRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<GetInsightAlertRuleResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -31976,7 +31976,7 @@ export const getInsightDashboard: API.OperationMethod<
   GetInsightDashboardError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15808, __c494, 0) as any as S.Schema<GetInsightDashboardRequest>,
+  input: __S(15776, __c493, 0) as any as S.Schema<GetInsightDashboardRequest>,
   output: __S(576, __c18, 0) as any as S.Schema<GetInsightDashboardResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -31993,8 +31993,8 @@ export const getInsightDashboardSchema: API.OperationMethod<
   GetInsightDashboardSchemaError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15840, __c495, 0) as any as S.Schema<GetInsightDashboardSchemaRequest>,
-  output: __S(15841, __c495, 1) as any as S.Schema<GetInsightDashboardSchemaResponse>,
+  input: __S(15808, __c494, 0) as any as S.Schema<GetInsightDashboardSchemaRequest>,
+  output: __S(15809, __c494, 1) as any as S.Schema<GetInsightDashboardSchemaResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32010,7 +32010,7 @@ export const getInsightNotificationChannel: API.OperationMethod<
   GetInsightNotificationChannelError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15872, __c496, 0) as any as S.Schema<GetInsightNotificationChannelRequest>,
+  input: __S(15840, __c495, 0) as any as S.Schema<GetInsightNotificationChannelRequest>,
   output: __S(768, __c24, 0) as any as S.Schema<GetInsightNotificationChannelResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -32032,8 +32032,8 @@ export const getInsightPromLabels: API.OperationMethod<
   GetInsightPromLabelsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(15968, __c499, 0) as any as S.Schema<GetInsightPromLabelsRequest>,
-  output: __S(16000, __c500, 0) as any as S.Schema<PromStringListResponse>,
+  input: __S(15936, __c498, 0) as any as S.Schema<GetInsightPromLabelsRequest>,
+  output: __S(15968, __c499, 0) as any as S.Schema<PromStringListResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32054,8 +32054,8 @@ export const getInsightPromLabelValues: API.OperationMethod<
   GetInsightPromLabelValuesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16032, __c501, 0) as any as S.Schema<GetInsightPromLabelValuesRequest>,
-  output: __S(16000, __c500, 0) as any as S.Schema<PromStringListResponse>,
+  input: __S(16000, __c500, 0) as any as S.Schema<GetInsightPromLabelValuesRequest>,
+  output: __S(15968, __c499, 0) as any as S.Schema<PromStringListResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32076,8 +32076,8 @@ export const getInsightPromQuery: API.OperationMethod<
   GetInsightPromQueryError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16064, __c502, 0) as any as S.Schema<GetInsightPromQueryRequest>,
-  output: __S(16097, __c503, 1) as any as S.Schema<PromQueryResponse>,
+  input: __S(16032, __c501, 0) as any as S.Schema<GetInsightPromQueryRequest>,
+  output: __S(16065, __c502, 1) as any as S.Schema<PromQueryResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32098,8 +32098,8 @@ export const getInsightPromQueryRange: API.OperationMethod<
   GetInsightPromQueryRangeError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16128, __c504, 0) as any as S.Schema<GetInsightPromQueryRangeRequest>,
-  output: __S(16165, __c505, 5) as any as S.Schema<PromQueryRangeResponse>,
+  input: __S(16096, __c503, 0) as any as S.Schema<GetInsightPromQueryRangeRequest>,
+  output: __S(16133, __c504, 5) as any as S.Schema<PromQueryRangeResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32120,8 +32120,8 @@ export const getInsightPromSeries: API.OperationMethod<
   GetInsightPromSeriesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16192, __c506, 0) as any as S.Schema<GetInsightPromSeriesRequest>,
-  output: __S(16225, __c507, 1) as any as S.Schema<PromSeriesResponse>,
+  input: __S(16160, __c505, 0) as any as S.Schema<GetInsightPromSeriesRequest>,
+  output: __S(16193, __c506, 1) as any as S.Schema<PromSeriesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32137,8 +32137,8 @@ export const getInsightResource: API.OperationMethod<
   GetInsightResourceError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16256, __c508, 0) as any as S.Schema<GetInsightResourceRequest>,
-  output: __S(16320, __c510, 0) as any as S.Schema<ResourceResponse>,
+  input: __S(16224, __c507, 0) as any as S.Schema<GetInsightResourceRequest>,
+  output: __S(16288, __c509, 0) as any as S.Schema<ResourceResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32154,8 +32154,8 @@ export const getInsightTrace: API.OperationMethod<
   GetInsightTraceError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16352, __c511, 0) as any as S.Schema<GetInsightTraceRequest>,
-  output: __S(16355, __c511, 3) as any as S.Schema<TracesTraceResponse>,
+  input: __S(16320, __c510, 0) as any as S.Schema<GetInsightTraceRequest>,
+  output: __S(16323, __c510, 3) as any as S.Schema<TracesTraceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32171,8 +32171,8 @@ export const getInvoiceByUUID: API.OperationMethod<
   GetInvoiceByUUIDError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16384, __c512, 0) as any as S.Schema<GetInvoiceByUUIDRequest>,
-  output: __S(16387, __c512, 3) as any as S.Schema<GetInvoiceByUUIDResponse>,
+  input: __S(16352, __c511, 0) as any as S.Schema<GetInvoiceByUUIDRequest>,
+  output: __S(16355, __c511, 3) as any as S.Schema<GetInvoiceByUUIDResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32188,8 +32188,8 @@ export const getInvoiceCsvByUUID: API.OperationMethod<
   GetInvoiceCsvByUUIDError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16448, __c514, 0) as any as S.Schema<GetInvoiceCsvByUUIDRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<GetInvoiceCsvByUUIDResponse>,
+  input: __S(16416, __c513, 0) as any as S.Schema<GetInvoiceCsvByUUIDRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<GetInvoiceCsvByUUIDResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32205,8 +32205,8 @@ export const getInvoicePdfByUUID: API.OperationMethod<
   GetInvoicePdfByUUIDError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16480, __c515, 0) as any as S.Schema<GetInvoicePdfByUUIDRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<GetInvoicePdfByUUIDResponse>,
+  input: __S(16448, __c514, 0) as any as S.Schema<GetInvoicePdfByUUIDRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<GetInvoicePdfByUUIDResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32222,8 +32222,8 @@ export const getInvoiceSummaryByUUID: API.OperationMethod<
   GetInvoiceSummaryByUUIDError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16544, __c517, 0) as any as S.Schema<GetInvoiceSummaryByUUIDRequest>,
-  output: __S(16550, __c517, 6) as any as S.Schema<InvoiceSummary>,
+  input: __S(16512, __c516, 0) as any as S.Schema<GetInvoiceSummaryByUUIDRequest>,
+  output: __S(16518, __c516, 6) as any as S.Schema<InvoiceSummary>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32239,8 +32239,8 @@ export const getKubernetesAvailableUpgrades: API.OperationMethod<
   GetKubernetesAvailableUpgradesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16576, __c518, 0) as any as S.Schema<GetKubernetesAvailableUpgradesRequest>,
-  output: __S(16577, __c518, 1) as any as S.Schema<GetKubernetesAvailableUpgradesResponse>,
+  input: __S(16544, __c517, 0) as any as S.Schema<GetKubernetesAvailableUpgradesRequest>,
+  output: __S(16545, __c517, 1) as any as S.Schema<GetKubernetesAvailableUpgradesResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32256,8 +32256,8 @@ export const getKubernetesCluster: API.OperationMethod<
   GetKubernetesClusterError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16640, __c520, 0) as any as S.Schema<GetKubernetesClusterRequest>,
-  output: __S(16641, __c520, 1) as any as S.Schema<GetKubernetesClusterResponse>,
+  input: __S(16608, __c519, 0) as any as S.Schema<GetKubernetesClusterRequest>,
+  output: __S(16609, __c519, 1) as any as S.Schema<GetKubernetesClusterResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32273,8 +32273,8 @@ export const getKubernetesClusterLintResults: API.OperationMethod<
   GetKubernetesClusterLintResultsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16704, __c522, 0) as any as S.Schema<GetKubernetesClusterLintResultsRequest>,
-  output: __S(16708, __c522, 4) as any as S.Schema<ClusterlintResults>,
+  input: __S(16672, __c521, 0) as any as S.Schema<GetKubernetesClusterLintResultsRequest>,
+  output: __S(16676, __c521, 4) as any as S.Schema<ClusterlintResults>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32290,8 +32290,8 @@ export const getKubernetesClusterUser: API.OperationMethod<
   GetKubernetesClusterUserError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16736, __c523, 0) as any as S.Schema<GetKubernetesClusterUserRequest>,
-  output: __S(16738, __c523, 2) as any as S.Schema<User2>,
+  input: __S(16704, __c522, 0) as any as S.Schema<GetKubernetesClusterUserRequest>,
+  output: __S(16706, __c522, 2) as any as S.Schema<User2>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32307,8 +32307,8 @@ export const getKubernetesCredentials: API.OperationMethod<
   GetKubernetesCredentialsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16768, __c524, 0) as any as S.Schema<GetKubernetesCredentialsRequest>,
-  output: __S(16769, __c524, 1) as any as S.Schema<Credentials>,
+  input: __S(16736, __c523, 0) as any as S.Schema<GetKubernetesCredentialsRequest>,
+  output: __S(16737, __c523, 1) as any as S.Schema<Credentials>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32324,8 +32324,8 @@ export const getKubernetesKubeconfig: API.OperationMethod<
   GetKubernetesKubeconfigError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16800, __c525, 0) as any as S.Schema<GetKubernetesKubeconfigRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<GetKubernetesKubeconfigResponse>,
+  input: __S(16768, __c524, 0) as any as S.Schema<GetKubernetesKubeconfigRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<GetKubernetesKubeconfigResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32341,7 +32341,7 @@ export const getKubernetesNodePool: API.OperationMethod<
   GetKubernetesNodePoolError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16832, __c526, 0) as any as S.Schema<GetKubernetesNodePoolRequest>,
+  input: __S(16800, __c525, 0) as any as S.Schema<GetKubernetesNodePoolRequest>,
   output: __S(2720, __c85, 0) as any as S.Schema<GetKubernetesNodePoolResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -32358,8 +32358,8 @@ export const getKubernetesStatusMessages: API.OperationMethod<
   GetKubernetesStatusMessagesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16864, __c527, 0) as any as S.Schema<GetKubernetesStatusMessagesRequest>,
-  output: __S(16867, __c527, 3) as any as S.Schema<GetKubernetesStatusMessagesResponse>,
+  input: __S(16832, __c526, 0) as any as S.Schema<GetKubernetesStatusMessagesRequest>,
+  output: __S(16835, __c526, 3) as any as S.Schema<GetKubernetesStatusMessagesResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32375,7 +32375,7 @@ export const getLoadBalancer: API.OperationMethod<
   GetLoadBalancerError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16896, __c528, 0) as any as S.Schema<GetLoadBalancerRequest>,
+  input: __S(16864, __c527, 0) as any as S.Schema<GetLoadBalancerRequest>,
   output: __S(1024, __c32, 0) as any as S.Schema<GetLoadBalancerResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -32392,7 +32392,7 @@ export const getMcpServer: API.OperationMethod<
   GetMcpServerError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16960, __c530, 0) as any as S.Schema<GetMcpServerRequest>,
+  input: __S(16928, __c529, 0) as any as S.Schema<GetMcpServerRequest>,
   output: __S(1120, __c35, 0) as any as S.Schema<McpServerResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -32409,7 +32409,7 @@ export const getMicrovm: API.OperationMethod<
   GetMicrovmError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16992, __c531, 0) as any as S.Schema<GetMicrovmRequest>,
+  input: __S(16960, __c530, 0) as any as S.Schema<GetMicrovmRequest>,
   output: __S(1248, __c39, 0) as any as S.Schema<GetMicrovmResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -32426,7 +32426,7 @@ export const getMicrovmCheckpoint: API.OperationMethod<
   GetMicrovmCheckpointError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17024, __c532, 0) as any as S.Schema<GetMicrovmCheckpointRequest>,
+  input: __S(16992, __c531, 0) as any as S.Schema<GetMicrovmCheckpointRequest>,
   output: __S(1312, __c41, 0) as any as S.Schema<GetMicrovmCheckpointResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -32443,8 +32443,8 @@ export const getMicrovmConsole: API.OperationMethod<
   GetMicrovmConsoleError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17056, __c533, 0) as any as S.Schema<GetMicrovmConsoleRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<GetMicrovmConsoleResponse>,
+  input: __S(17024, __c532, 0) as any as S.Schema<GetMicrovmConsoleRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<GetMicrovmConsoleResponse>,
   errors: [Forbidden, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32465,8 +32465,8 @@ export const getMicrovmFile: API.OperationMethod<
   GetMicrovmFileError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17088, __c534, 0) as any as S.Schema<GetMicrovmFileRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<GetMicrovmFileResponse>,
+  input: __S(17056, __c533, 0) as any as S.Schema<GetMicrovmFileRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<GetMicrovmFileResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32482,8 +32482,8 @@ export const getMicrovmOptions: API.OperationMethod<
   GetMicrovmOptionsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17120, __c535, 0) as any as S.Schema<GetMicrovmOptionsRequest>,
-  output: __S(17128, __c535, 8) as any as S.Schema<MicrovmOptions>,
+  input: __S(17088, __c534, 0) as any as S.Schema<GetMicrovmOptionsRequest>,
+  output: __S(17096, __c534, 8) as any as S.Schema<MicrovmOptions>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32499,7 +32499,7 @@ export const getMonitoringAlertPolicy: API.OperationMethod<
   GetMonitoringAlertPolicyError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17152, __c536, 0) as any as S.Schema<GetMonitoringAlertPolicyRequest>,
+  input: __S(17120, __c535, 0) as any as S.Schema<GetMonitoringAlertPolicyRequest>,
   output: __S(1472, __c46, 0) as any as S.Schema<GetMonitoringAlertPolicyResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -32516,8 +32516,8 @@ export const getMonitoringAppCPUPercentageMetrics: API.OperationMethod<
   GetMonitoringAppCPUPercentageMetricsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17184, __c537, 0) as any as S.Schema<GetMonitoringAppCPUPercentageMetricsRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  input: __S(17152, __c536, 0) as any as S.Schema<GetMonitoringAppCPUPercentageMetricsRequest>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32533,8 +32533,8 @@ export const getMonitoringAppMemoryPercentageMetrics: API.OperationMethod<
   GetMonitoringAppMemoryPercentageMetricsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17248, __c539, 0) as any as S.Schema<GetMonitoringAppMemoryPercentageMetricsRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  input: __S(17216, __c538, 0) as any as S.Schema<GetMonitoringAppMemoryPercentageMetricsRequest>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32550,8 +32550,8 @@ export const getMonitoringDatabaseMysqlCpuUsage: API.OperationMethod<
   GetMonitoringDatabaseMysqlCpuUsageError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17280, __c540, 0) as any as S.Schema<GetMonitoringDatabaseMysqlCpuUsageRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  input: __S(17248, __c539, 0) as any as S.Schema<GetMonitoringDatabaseMysqlCpuUsageRequest>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32567,8 +32567,8 @@ export const getMonitoringDatabaseMysqlDiskUsage: API.OperationMethod<
   GetMonitoringDatabaseMysqlDiskUsageError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17408, __c544, 0) as any as S.Schema<GetMonitoringDatabaseMysqlDiskUsageRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  input: __S(17376, __c543, 0) as any as S.Schema<GetMonitoringDatabaseMysqlDiskUsageRequest>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32584,8 +32584,8 @@ export const getMonitoringDatabaseMysqlLoad: API.OperationMethod<
   GetMonitoringDatabaseMysqlLoadError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17440, __c545, 0) as any as S.Schema<GetMonitoringDatabaseMysqlLoadRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  input: __S(17408, __c544, 0) as any as S.Schema<GetMonitoringDatabaseMysqlLoadRequest>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32601,8 +32601,8 @@ export const getMonitoringDatabaseMysqlMemoryUsage: API.OperationMethod<
   GetMonitoringDatabaseMysqlMemoryUsageError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17472, __c546, 0) as any as S.Schema<GetMonitoringDatabaseMysqlMemoryUsageRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  input: __S(17440, __c545, 0) as any as S.Schema<GetMonitoringDatabaseMysqlMemoryUsageRequest>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32618,8 +32618,8 @@ export const getMonitoringDatabaseMysqlOpRates: API.OperationMethod<
   GetMonitoringDatabaseMysqlOpRatesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17504, __c547, 0) as any as S.Schema<GetMonitoringDatabaseMysqlOpRatesRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  input: __S(17472, __c546, 0) as any as S.Schema<GetMonitoringDatabaseMysqlOpRatesRequest>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32635,8 +32635,8 @@ export const getMonitoringDatabaseMysqlSchemaLatency: API.OperationMethod<
   GetMonitoringDatabaseMysqlSchemaLatencyError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17536, __c548, 0) as any as S.Schema<GetMonitoringDatabaseMysqlSchemaLatencyRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  input: __S(17504, __c547, 0) as any as S.Schema<GetMonitoringDatabaseMysqlSchemaLatencyRequest>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32653,11 +32653,11 @@ export const getMonitoringDatabaseMysqlSchemaThroughput: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17568,
-    __c549,
+    17536,
+    __c548,
     0,
   ) as any as S.Schema<GetMonitoringDatabaseMysqlSchemaThroughputRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32673,8 +32673,8 @@ export const getMonitoringDatabaseMysqlThreadsActive: API.OperationMethod<
   GetMonitoringDatabaseMysqlThreadsActiveError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17600, __c550, 0) as any as S.Schema<GetMonitoringDatabaseMysqlThreadsActiveRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  input: __S(17568, __c549, 0) as any as S.Schema<GetMonitoringDatabaseMysqlThreadsActiveRequest>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32691,11 +32691,11 @@ export const getMonitoringDatabaseMysqlThreadsConnected: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17632,
-    __c551,
+    17600,
+    __c550,
     0,
   ) as any as S.Schema<GetMonitoringDatabaseMysqlThreadsConnectedRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32712,11 +32712,11 @@ export const getMonitoringDatabaseMysqlThreadsCreatedRate: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17664,
-    __c552,
+    17632,
+    __c551,
     0,
   ) as any as S.Schema<GetMonitoringDatabaseMysqlThreadsCreatedRateRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32732,7 +32732,7 @@ export const getMonitoringDestination: API.OperationMethod<
   GetMonitoringDestinationError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17696, __c553, 0) as any as S.Schema<GetMonitoringDestinationRequest>,
+  input: __S(17664, __c552, 0) as any as S.Schema<GetMonitoringDestinationRequest>,
   output: __S(1536, __c48, 0) as any as S.Schema<GetMonitoringDestinationResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -32750,11 +32750,11 @@ export const getMonitoringDropletAutoscaleCurrentCpuUtilizationYml: API.Operatio
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17888,
-    __c559,
+    17856,
+    __c558,
     0,
   ) as any as S.Schema<GetMonitoringDropletAutoscaleCurrentCpuUtilizationYmlRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32771,11 +32771,11 @@ export const getMonitoringDropletAutoscaleCurrentInstances: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17920,
-    __c560,
+    17888,
+    __c559,
     0,
   ) as any as S.Schema<GetMonitoringDropletAutoscaleCurrentInstancesRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32792,11 +32792,11 @@ export const getMonitoringDropletAutoscaleCurrentMemoryUtilization: API.Operatio
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17952,
-    __c561,
+    17920,
+    __c560,
     0,
   ) as any as S.Schema<GetMonitoringDropletAutoscaleCurrentMemoryUtilizationRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32813,11 +32813,11 @@ export const getMonitoringDropletAutoscaleTargetCpuUtilization: API.OperationMet
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    17984,
-    __c562,
+    17952,
+    __c561,
     0,
   ) as any as S.Schema<GetMonitoringDropletAutoscaleTargetCpuUtilizationRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32834,11 +32834,11 @@ export const getMonitoringDropletAutoscaleTargetInstances: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18016,
-    __c563,
+    17984,
+    __c562,
     0,
   ) as any as S.Schema<GetMonitoringDropletAutoscaleTargetInstancesRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32855,11 +32855,11 @@ export const getMonitoringDropletAutoscaleTargetMemoryUtilization: API.Operation
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18048,
-    __c564,
+    18016,
+    __c563,
     0,
   ) as any as S.Schema<GetMonitoringDropletAutoscaleTargetMemoryUtilizationRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32875,8 +32875,8 @@ export const getMonitoringDropletBandwidthMetrics: API.OperationMethod<
   GetMonitoringDropletBandwidthMetricsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18080, __c565, 0) as any as S.Schema<GetMonitoringDropletBandwidthMetricsRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  input: __S(18048, __c564, 0) as any as S.Schema<GetMonitoringDropletBandwidthMetricsRequest>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32892,8 +32892,8 @@ export const getMonitoringDropletCpuMetrics: API.OperationMethod<
   GetMonitoringDropletCpuMetricsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18112, __c566, 0) as any as S.Schema<GetMonitoringDropletCpuMetricsRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  input: __S(18080, __c565, 0) as any as S.Schema<GetMonitoringDropletCpuMetricsRequest>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32909,8 +32909,8 @@ export const getMonitoringDropletFilesystemFreeMetrics: API.OperationMethod<
   GetMonitoringDropletFilesystemFreeMetricsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18144, __c567, 0) as any as S.Schema<GetMonitoringDropletFilesystemFreeMetricsRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  input: __S(18112, __c566, 0) as any as S.Schema<GetMonitoringDropletFilesystemFreeMetricsRequest>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32926,8 +32926,8 @@ export const getMonitoringDropletFilesystemSizeMetrics: API.OperationMethod<
   GetMonitoringDropletFilesystemSizeMetricsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18176, __c568, 0) as any as S.Schema<GetMonitoringDropletFilesystemSizeMetricsRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  input: __S(18144, __c567, 0) as any as S.Schema<GetMonitoringDropletFilesystemSizeMetricsRequest>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32943,8 +32943,8 @@ export const getMonitoringDropletLoad15Metrics: API.OperationMethod<
   GetMonitoringDropletLoad15MetricsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18368, __c574, 0) as any as S.Schema<GetMonitoringDropletLoad15MetricsRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  input: __S(18336, __c573, 0) as any as S.Schema<GetMonitoringDropletLoad15MetricsRequest>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32960,8 +32960,8 @@ export const getMonitoringDropletLoad1Metrics: API.OperationMethod<
   GetMonitoringDropletLoad1MetricsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18400, __c575, 0) as any as S.Schema<GetMonitoringDropletLoad1MetricsRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  input: __S(18368, __c574, 0) as any as S.Schema<GetMonitoringDropletLoad1MetricsRequest>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32977,8 +32977,8 @@ export const getMonitoringDropletLoad5Metrics: API.OperationMethod<
   GetMonitoringDropletLoad5MetricsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18432, __c576, 0) as any as S.Schema<GetMonitoringDropletLoad5MetricsRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  input: __S(18400, __c575, 0) as any as S.Schema<GetMonitoringDropletLoad5MetricsRequest>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -32995,11 +32995,11 @@ export const getMonitoringDropletMemoryAvailableMetrics: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18464,
-    __c577,
+    18432,
+    __c576,
     0,
   ) as any as S.Schema<GetMonitoringDropletMemoryAvailableMetricsRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33015,8 +33015,8 @@ export const getMonitoringDropletMemoryCachedMetrics: API.OperationMethod<
   GetMonitoringDropletMemoryCachedMetricsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18496, __c578, 0) as any as S.Schema<GetMonitoringDropletMemoryCachedMetricsRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  input: __S(18464, __c577, 0) as any as S.Schema<GetMonitoringDropletMemoryCachedMetricsRequest>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33032,8 +33032,8 @@ export const getMonitoringDropletMemoryFreeMetrics: API.OperationMethod<
   GetMonitoringDropletMemoryFreeMetricsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18528, __c579, 0) as any as S.Schema<GetMonitoringDropletMemoryFreeMetricsRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  input: __S(18496, __c578, 0) as any as S.Schema<GetMonitoringDropletMemoryFreeMetricsRequest>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33049,8 +33049,8 @@ export const getMonitoringDropletMemoryTotalMetrics: API.OperationMethod<
   GetMonitoringDropletMemoryTotalMetricsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18560, __c580, 0) as any as S.Schema<GetMonitoringDropletMemoryTotalMetricsRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  input: __S(18528, __c579, 0) as any as S.Schema<GetMonitoringDropletMemoryTotalMetricsRequest>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33066,8 +33066,8 @@ export const getMonitoringLbDropletsConnections: API.OperationMethod<
   GetMonitoringLbDropletsConnectionsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18592, __c581, 0) as any as S.Schema<GetMonitoringLbDropletsConnectionsRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  input: __S(18560, __c580, 0) as any as S.Schema<GetMonitoringLbDropletsConnectionsRequest>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33083,8 +33083,8 @@ export const getMonitoringLbDropletsDowntime: API.OperationMethod<
   GetMonitoringLbDropletsDowntimeError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18624, __c582, 0) as any as S.Schema<GetMonitoringLbDropletsDowntimeRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  input: __S(18592, __c581, 0) as any as S.Schema<GetMonitoringLbDropletsDowntimeRequest>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33100,8 +33100,8 @@ export const getMonitoringLbDropletsHealthChecks: API.OperationMethod<
   GetMonitoringLbDropletsHealthChecksError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18656, __c583, 0) as any as S.Schema<GetMonitoringLbDropletsHealthChecksRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  input: __S(18624, __c582, 0) as any as S.Schema<GetMonitoringLbDropletsHealthChecksRequest>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33117,8 +33117,8 @@ export const getMonitoringLbDropletsHttpResponses: API.OperationMethod<
   GetMonitoringLbDropletsHttpResponsesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18720, __c585, 0) as any as S.Schema<GetMonitoringLbDropletsHttpResponsesRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  input: __S(18688, __c584, 0) as any as S.Schema<GetMonitoringLbDropletsHttpResponsesRequest>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33135,11 +33135,11 @@ export const getMonitoringLbDropletsHttpResponseTime50p: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18752,
-    __c586,
+    18720,
+    __c585,
     0,
   ) as any as S.Schema<GetMonitoringLbDropletsHttpResponseTime50pRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33156,11 +33156,11 @@ export const getMonitoringLbDropletsHttpResponseTime95p: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18784,
-    __c587,
+    18752,
+    __c586,
     0,
   ) as any as S.Schema<GetMonitoringLbDropletsHttpResponseTime95pRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33177,11 +33177,11 @@ export const getMonitoringLbDropletsHttpResponseTime99p: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18816,
-    __c588,
+    18784,
+    __c587,
     0,
   ) as any as S.Schema<GetMonitoringLbDropletsHttpResponseTime99pRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33198,11 +33198,11 @@ export const getMonitoringLbDropletsHttpResponseTimeAvg: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18848,
-    __c589,
+    18816,
+    __c588,
     0,
   ) as any as S.Schema<GetMonitoringLbDropletsHttpResponseTimeAvgRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33219,11 +33219,11 @@ export const getMonitoringLbDropletsHttpSessionDuration50p: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18880,
-    __c590,
+    18848,
+    __c589,
     0,
   ) as any as S.Schema<GetMonitoringLbDropletsHttpSessionDuration50pRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33240,11 +33240,11 @@ export const getMonitoringLbDropletsHttpSessionDuration95p: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18912,
-    __c591,
+    18880,
+    __c590,
     0,
   ) as any as S.Schema<GetMonitoringLbDropletsHttpSessionDuration95pRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33261,11 +33261,11 @@ export const getMonitoringLbDropletsHttpSessionDurationAvg: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    18944,
-    __c592,
+    18912,
+    __c591,
     0,
   ) as any as S.Schema<GetMonitoringLbDropletsHttpSessionDurationAvgRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33281,8 +33281,8 @@ export const getMonitoringLbDropletsQueueSize: API.OperationMethod<
   GetMonitoringLbDropletsQueueSizeError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(18976, __c593, 0) as any as S.Schema<GetMonitoringLbDropletsQueueSizeRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  input: __S(18944, __c592, 0) as any as S.Schema<GetMonitoringLbDropletsQueueSizeRequest>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33298,8 +33298,8 @@ export const getMonitoringLbFrontendConnectionsCurrent: API.OperationMethod<
   GetMonitoringLbFrontendConnectionsCurrentError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19008, __c594, 0) as any as S.Schema<GetMonitoringLbFrontendConnectionsCurrentRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  input: __S(18976, __c593, 0) as any as S.Schema<GetMonitoringLbFrontendConnectionsCurrentRequest>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33315,8 +33315,8 @@ export const getMonitoringLbFrontendConnectionsLimit: API.OperationMethod<
   GetMonitoringLbFrontendConnectionsLimitError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19072, __c596, 0) as any as S.Schema<GetMonitoringLbFrontendConnectionsLimitRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  input: __S(19040, __c595, 0) as any as S.Schema<GetMonitoringLbFrontendConnectionsLimitRequest>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33332,8 +33332,8 @@ export const getMonitoringLbFrontendCpuUtilization: API.OperationMethod<
   GetMonitoringLbFrontendCpuUtilizationError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19104, __c597, 0) as any as S.Schema<GetMonitoringLbFrontendCpuUtilizationRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  input: __S(19072, __c596, 0) as any as S.Schema<GetMonitoringLbFrontendCpuUtilizationRequest>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33350,11 +33350,11 @@ export const getMonitoringLbFrontendFirewallDroppedBytes: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19136,
-    __c598,
+    19104,
+    __c597,
     0,
   ) as any as S.Schema<GetMonitoringLbFrontendFirewallDroppedBytesRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33371,11 +33371,11 @@ export const getMonitoringLbFrontendFirewallDroppedPackets: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19168,
-    __c599,
+    19136,
+    __c598,
     0,
   ) as any as S.Schema<GetMonitoringLbFrontendFirewallDroppedPacketsRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33392,11 +33392,11 @@ export const getMonitoringLbFrontendHttpRequestsPerSecond: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19200,
-    __c600,
+    19168,
+    __c599,
     0,
   ) as any as S.Schema<GetMonitoringLbFrontendHttpRequestsPerSecondRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33412,8 +33412,8 @@ export const getMonitoringLbFrontendHttpResponses: API.OperationMethod<
   GetMonitoringLbFrontendHttpResponsesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19232, __c601, 0) as any as S.Schema<GetMonitoringLbFrontendHttpResponsesRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  input: __S(19200, __c600, 0) as any as S.Schema<GetMonitoringLbFrontendHttpResponsesRequest>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33430,11 +33430,11 @@ export const getMonitoringLbFrontendNetworkThroughputHttp: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19264,
-    __c602,
+    19232,
+    __c601,
     0,
   ) as any as S.Schema<GetMonitoringLbFrontendNetworkThroughputHttpRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33451,11 +33451,11 @@ export const getMonitoringLbFrontendNetworkThroughputTcp: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19296,
-    __c603,
+    19264,
+    __c602,
     0,
   ) as any as S.Schema<GetMonitoringLbFrontendNetworkThroughputTcpRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33472,11 +33472,11 @@ export const getMonitoringLbFrontendNetworkThroughputUdp: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19328,
-    __c604,
+    19296,
+    __c603,
     0,
   ) as any as S.Schema<GetMonitoringLbFrontendNetworkThroughputUdpRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33493,11 +33493,11 @@ export const getMonitoringLbFrontendNlbTcpNetworkThroughput: API.OperationMethod
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19360,
-    __c605,
+    19328,
+    __c604,
     0,
   ) as any as S.Schema<GetMonitoringLbFrontendNlbTcpNetworkThroughputRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33514,11 +33514,11 @@ export const getMonitoringLbFrontendNlbUdpNetworkThroughput: API.OperationMethod
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19520,
-    __c610,
+    19488,
+    __c609,
     0,
   ) as any as S.Schema<GetMonitoringLbFrontendNlbUdpNetworkThroughputRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33535,11 +33535,11 @@ export const getMonitoringLbFrontendTlsConnectionsCurrent: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19552,
-    __c611,
+    19520,
+    __c610,
     0,
   ) as any as S.Schema<GetMonitoringLbFrontendTlsConnectionsCurrentRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33556,11 +33556,11 @@ export const getMonitoringLbFrontendTlsConnectionsExceedingRateLimit: API.Operat
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19584,
-    __c612,
+    19552,
+    __c611,
     0,
   ) as any as S.Schema<GetMonitoringLbFrontendTlsConnectionsExceedingRateLimitRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33577,11 +33577,11 @@ export const getMonitoringLbFrontendTlsConnectionsLimit: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    19616,
-    __c613,
+    19584,
+    __c612,
     0,
   ) as any as S.Schema<GetMonitoringLbFrontendTlsConnectionsLimitRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33597,8 +33597,8 @@ export const getMonitoringSink: API.OperationMethod<
   GetMonitoringSinkError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19648, __c614, 0) as any as S.Schema<GetMonitoringSinkRequest>,
-  output: __S(19649, __c614, 1) as any as S.Schema<GetMonitoringSinkResponse>,
+  input: __S(19616, __c613, 0) as any as S.Schema<GetMonitoringSinkRequest>,
+  output: __S(19617, __c613, 1) as any as S.Schema<GetMonitoringSinkResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33614,7 +33614,7 @@ export const getNfs: API.OperationMethod<
   GetNfsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19712, __c616, 0) as any as S.Schema<GetNfsRequest>,
+  input: __S(19680, __c615, 0) as any as S.Schema<GetNfsRequest>,
   output: __S(1792, __c56, 0) as any as S.Schema<NfsGetResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -33631,8 +33631,8 @@ export const getNfsAccessPoint: API.OperationMethod<
   GetNfsAccessPointError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19744, __c617, 0) as any as S.Schema<GetNfsAccessPointRequest>,
-  output: __S(19745, __c617, 1) as any as S.Schema<AccessPointGetResponse>,
+  input: __S(19712, __c616, 0) as any as S.Schema<GetNfsAccessPointRequest>,
+  output: __S(19713, __c616, 1) as any as S.Schema<AccessPointGetResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33648,8 +33648,8 @@ export const getNfsSnapshot: API.OperationMethod<
   GetNfsSnapshotError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19776, __c618, 0) as any as S.Schema<GetNfsSnapshotRequest>,
-  output: __S(19777, __c618, 1) as any as S.Schema<NfsSnapshotGetResponse>,
+  input: __S(19744, __c617, 0) as any as S.Schema<GetNfsSnapshotRequest>,
+  output: __S(19745, __c617, 1) as any as S.Schema<NfsSnapshotGetResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33665,7 +33665,7 @@ export const getOutputView: API.OperationMethod<
   GetOutputViewError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19840, __c620, 0) as any as S.Schema<GetOutputViewRequest>,
+  input: __S(19808, __c619, 0) as any as S.Schema<GetOutputViewRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<OutputViewResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -33682,7 +33682,7 @@ export const getPartnerAttachment: API.OperationMethod<
   GetPartnerAttachmentError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19872, __c621, 0) as any as S.Schema<GetPartnerAttachmentRequest>,
+  input: __S(19840, __c620, 0) as any as S.Schema<GetPartnerAttachmentRequest>,
   output: __S(2240, __c70, 0) as any as S.Schema<GetPartnerAttachmentResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -33699,8 +33699,8 @@ export const getPartnerAttachmentBgpAuthKey: API.OperationMethod<
   GetPartnerAttachmentBgpAuthKeyError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19936, __c623, 0) as any as S.Schema<GetPartnerAttachmentBgpAuthKeyRequest>,
-  output: __S(19937, __c623, 1) as any as S.Schema<GetPartnerAttachmentBgpAuthKeyResponse>,
+  input: __S(19904, __c622, 0) as any as S.Schema<GetPartnerAttachmentBgpAuthKeyRequest>,
+  output: __S(19905, __c622, 1) as any as S.Schema<GetPartnerAttachmentBgpAuthKeyResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33716,8 +33716,8 @@ export const getPartnerAttachmentServiceKey: API.OperationMethod<
   GetPartnerAttachmentServiceKeyError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(19968, __c624, 0) as any as S.Schema<GetPartnerAttachmentServiceKeyRequest>,
-  output: __S(19969, __c624, 1) as any as S.Schema<GetPartnerAttachmentServiceKeyResponse>,
+  input: __S(19936, __c623, 0) as any as S.Schema<GetPartnerAttachmentServiceKeyRequest>,
+  output: __S(19937, __c623, 1) as any as S.Schema<GetPartnerAttachmentServiceKeyResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33733,8 +33733,8 @@ export const getPrepaymentConfig: API.OperationMethod<
   GetPrepaymentConfigError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20000, __c625, 0) as any as S.Schema<GetPrepaymentConfigRequest>,
-  output: __S(20002, __c625, 2) as any as S.Schema<PrepaymentConfigResponse>,
+  input: __S(19968, __c624, 0) as any as S.Schema<GetPrepaymentConfigRequest>,
+  output: __S(19970, __c624, 2) as any as S.Schema<PrepaymentConfigResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33750,8 +33750,8 @@ export const getPrepaymentStatus: API.OperationMethod<
   GetPrepaymentStatusError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20064, __c627, 0) as any as S.Schema<GetPrepaymentStatusRequest>,
-  output: __S(20065, __c627, 1) as any as S.Schema<PrepaymentStatusResponse>,
+  input: __S(20032, __c626, 0) as any as S.Schema<GetPrepaymentStatusRequest>,
+  output: __S(20033, __c626, 1) as any as S.Schema<PrepaymentStatusResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33767,7 +33767,7 @@ export const getProject: API.OperationMethod<
   GetProjectError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20096, __c628, 0) as any as S.Schema<GetProjectRequest>,
+  input: __S(20064, __c627, 0) as any as S.Schema<GetProjectRequest>,
   output: __S(2400, __c75, 0) as any as S.Schema<GetProjectResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -33784,8 +33784,8 @@ export const getProjectDefault: API.OperationMethod<
   GetProjectDefaultError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20128, __c629, 0) as any as S.Schema<GetProjectDefaultRequest>,
-  output: __S(20160, __c630, 0) as any as S.Schema<GetProjectDefaultResponse>,
+  input: __S(20096, __c628, 0) as any as S.Schema<GetProjectDefaultRequest>,
+  output: __S(20128, __c629, 0) as any as S.Schema<GetProjectDefaultResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33801,7 +33801,7 @@ export const getProviderCredentials: API.OperationMethod<
   GetProviderCredentialsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20192, __c631, 0) as any as S.Schema<GetProviderCredentialsRequest>,
+  input: __S(20160, __c630, 0) as any as S.Schema<GetProviderCredentialsRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<ProviderCredentialResponse>,
   errors: [Forbidden, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -33818,7 +33818,7 @@ export const getRegistry: API.OperationMethod<
   GetRegistryError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20224, __c632, 0) as any as S.Schema<GetRegistryRequest>,
+  input: __S(20192, __c631, 0) as any as S.Schema<GetRegistryRequest>,
   output: __S(2561, __c80, 1) as any as S.Schema<GetRegistryResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -33835,8 +33835,8 @@ export const getRegistryDockerCredentials: API.OperationMethod<
   GetRegistryDockerCredentialsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20256, __c633, 0) as any as S.Schema<GetRegistryDockerCredentialsRequest>,
-  output: __S(20259, __c633, 3) as any as S.Schema<DockerCredentials>,
+  input: __S(20224, __c632, 0) as any as S.Schema<GetRegistryDockerCredentialsRequest>,
+  output: __S(20227, __c632, 3) as any as S.Schema<DockerCredentials>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33852,8 +33852,8 @@ export const getRegistryGarbageCollection: API.OperationMethod<
   GetRegistryGarbageCollectionError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20288, __c634, 0) as any as S.Schema<GetRegistryGarbageCollectionRequest>,
-  output: __S(20352, __c636, 0) as any as S.Schema<GetRegistryGarbageCollectionResponse>,
+  input: __S(20256, __c633, 0) as any as S.Schema<GetRegistryGarbageCollectionRequest>,
+  output: __S(20320, __c635, 0) as any as S.Schema<GetRegistryGarbageCollectionResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33869,8 +33869,8 @@ export const getRegistryOptions: API.OperationMethod<
   GetRegistryOptionsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20480, __c640, 0) as any as S.Schema<GetRegistryOptionsRequest>,
-  output: __S(20484, __c640, 4) as any as S.Schema<GetRegistryOptionsResponse>,
+  input: __S(20448, __c639, 0) as any as S.Schema<GetRegistryOptionsRequest>,
+  output: __S(20452, __c639, 4) as any as S.Schema<GetRegistryOptionsResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33886,8 +33886,8 @@ export const getRegistrySubscription: API.OperationMethod<
   GetRegistrySubscriptionError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20512, __c641, 0) as any as S.Schema<GetRegistrySubscriptionRequest>,
-  output: __S(20576, __c643, 0) as any as S.Schema<GetRegistrySubscriptionResponse>,
+  input: __S(20480, __c640, 0) as any as S.Schema<GetRegistrySubscriptionRequest>,
+  output: __S(20544, __c642, 0) as any as S.Schema<GetRegistrySubscriptionResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33903,8 +33903,8 @@ export const getReservedIP: API.OperationMethod<
   GetReservedIPError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20608, __c644, 0) as any as S.Schema<GetReservedIPRequest>,
-  output: __S(20609, __c644, 1) as any as S.Schema<GetReservedIPResponse>,
+  input: __S(20576, __c643, 0) as any as S.Schema<GetReservedIPRequest>,
+  output: __S(20577, __c643, 1) as any as S.Schema<GetReservedIPResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33920,8 +33920,8 @@ export const getReservedIPsAction: API.OperationMethod<
   GetReservedIPsActionError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20640, __c645, 0) as any as S.Schema<GetReservedIPsActionRequest>,
-  output: __S(20672, __c646, 0) as any as S.Schema<GetReservedIPsActionResponse>,
+  input: __S(20608, __c644, 0) as any as S.Schema<GetReservedIPsActionRequest>,
+  output: __S(20640, __c645, 0) as any as S.Schema<GetReservedIPsActionResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33937,8 +33937,8 @@ export const getReservedIPv6: API.OperationMethod<
   GetReservedIPv6Error,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20704, __c647, 0) as any as S.Schema<GetReservedIPv6Request>,
-  output: __S(20706, __c647, 2) as any as S.Schema<GetReservedIPv6Response>,
+  input: __S(20672, __c646, 0) as any as S.Schema<GetReservedIPv6Request>,
+  output: __S(20674, __c646, 2) as any as S.Schema<GetReservedIPv6Response>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -33954,7 +33954,7 @@ export const getSecurityLatestScan: API.OperationMethod<
   GetSecurityLatestScanError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20736, __c648, 0) as any as S.Schema<GetSecurityLatestScanRequest>,
+  input: __S(20704, __c647, 0) as any as S.Schema<GetSecurityLatestScanRequest>,
   output: __S(2816, __c88, 0) as any as S.Schema<GetSecurityLatestScanResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -33971,7 +33971,7 @@ export const getSecurityScan: API.OperationMethod<
   GetSecurityScanError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20768, __c649, 0) as any as S.Schema<GetSecurityScanRequest>,
+  input: __S(20736, __c648, 0) as any as S.Schema<GetSecurityScanRequest>,
   output: __S(2816, __c88, 0) as any as S.Schema<GetSecurityScanResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -33988,8 +33988,8 @@ export const getSecuritySecret: API.OperationMethod<
   GetSecuritySecretError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20800, __c650, 0) as any as S.Schema<GetSecuritySecretRequest>,
-  output: __S(20801, __c650, 1) as any as S.Schema<Secret>,
+  input: __S(20768, __c649, 0) as any as S.Schema<GetSecuritySecretRequest>,
+  output: __S(20769, __c649, 1) as any as S.Schema<Secret>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34005,8 +34005,8 @@ export const getSignalConsent: API.OperationMethod<
   GetSignalConsentError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20832, __c651, 0) as any as S.Schema<GetSignalConsentRequest>,
-  output: __S(20833, __c651, 1) as any as S.Schema<AgentConsent>,
+  input: __S(20800, __c650, 0) as any as S.Schema<GetSignalConsentRequest>,
+  output: __S(20801, __c650, 1) as any as S.Schema<AgentConsent>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34022,7 +34022,7 @@ export const getSignalDeletion: API.OperationMethod<
   GetSignalDeletionError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20864, __c652, 0) as any as S.Schema<GetSignalDeletionRequest>,
+  input: __S(20832, __c651, 0) as any as S.Schema<GetSignalDeletionRequest>,
   output: __S(3136, __c98, 0) as any as S.Schema<DeletionJob>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -34039,7 +34039,7 @@ export const getSnapshot: API.OperationMethod<
   GetSnapshotError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20992, __c656, 0) as any as S.Schema<GetSnapshotRequest>,
+  input: __S(20960, __c655, 0) as any as S.Schema<GetSnapshotRequest>,
   output: __S(3904, __c122, 0) as any as S.Schema<GetSnapshotResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -34056,8 +34056,8 @@ export const getSpacesKey: API.OperationMethod<
   GetSpacesKeyError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21024, __c657, 0) as any as S.Schema<GetSpacesKeyRequest>,
-  output: __S(21025, __c657, 1) as any as S.Schema<GetSpacesKeyResponse>,
+  input: __S(20992, __c656, 0) as any as S.Schema<GetSpacesKeyRequest>,
+  output: __S(20993, __c656, 1) as any as S.Schema<GetSpacesKeyResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34073,7 +34073,7 @@ export const getSshKey: API.OperationMethod<
   GetSshKeyError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21120, __c660, 0) as any as S.Schema<GetSshKeyRequest>,
+  input: __S(21088, __c659, 0) as any as S.Schema<GetSshKeyRequest>,
   output: __S(3296, __c103, 0) as any as S.Schema<GetSshKeyResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -34090,7 +34090,7 @@ export const getTag: API.OperationMethod<
   GetTagError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21152, __c661, 0) as any as S.Schema<GetTagRequest>,
+  input: __S(21120, __c660, 0) as any as S.Schema<GetTagRequest>,
   output: __S(3360, __c105, 0) as any as S.Schema<GetTagResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -34107,8 +34107,8 @@ export const getToolbelt: API.OperationMethod<
   GetToolbeltError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21184, __c662, 0) as any as S.Schema<GetToolbeltRequest>,
-  output: __S(21185, __c662, 1) as any as S.Schema<GetToolbeltResponse>,
+  input: __S(21152, __c661, 0) as any as S.Schema<GetToolbeltRequest>,
+  output: __S(21153, __c661, 1) as any as S.Schema<GetToolbeltResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34124,8 +34124,8 @@ export const getToolHealth: API.OperationMethod<
   GetToolHealthError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21248, __c664, 0) as any as S.Schema<GetToolHealthRequest>,
-  output: __S(21252, __c664, 4) as any as S.Schema<GetToolHealthResponse>,
+  input: __S(21216, __c663, 0) as any as S.Schema<GetToolHealthRequest>,
+  output: __S(21220, __c663, 4) as any as S.Schema<GetToolHealthResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34141,7 +34141,7 @@ export const getUptimeAlert: API.OperationMethod<
   GetUptimeAlertError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21344, __c667, 0) as any as S.Schema<GetUptimeAlertRequest>,
+  input: __S(21312, __c666, 0) as any as S.Schema<GetUptimeAlertRequest>,
   output: __S(3552, __c111, 0) as any as S.Schema<GetUptimeAlertResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -34158,7 +34158,7 @@ export const getUptimeCheck: API.OperationMethod<
   GetUptimeCheckError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21376, __c668, 0) as any as S.Schema<GetUptimeCheckRequest>,
+  input: __S(21344, __c667, 0) as any as S.Schema<GetUptimeCheckRequest>,
   output: __S(3648, __c114, 0) as any as S.Schema<GetUptimeCheckResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -34175,8 +34175,8 @@ export const getUptimeCheckState: API.OperationMethod<
   GetUptimeCheckStateError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21408, __c669, 0) as any as S.Schema<GetUptimeCheckStateRequest>,
-  output: __S(21413, __c669, 5) as any as S.Schema<GetUptimeCheckStateResponse>,
+  input: __S(21376, __c668, 0) as any as S.Schema<GetUptimeCheckStateRequest>,
+  output: __S(21381, __c668, 5) as any as S.Schema<GetUptimeCheckStateResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34192,8 +34192,8 @@ export const getUser: API.OperationMethod<
   GetUserError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21440, __c670, 0) as any as S.Schema<GetUserRequest>,
-  output: __S(21446, __c670, 6) as any as S.Schema<GetUserResponse>,
+  input: __S(21408, __c669, 0) as any as S.Schema<GetUserRequest>,
+  output: __S(21414, __c669, 6) as any as S.Schema<GetUserResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34209,7 +34209,7 @@ export const getVectorDatabase: API.OperationMethod<
   GetVectorDatabaseError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21632, __c676, 0) as any as S.Schema<GetVectorDatabaseRequest>,
+  input: __S(21600, __c675, 0) as any as S.Schema<GetVectorDatabaseRequest>,
   output: __S(3744, __c117, 0) as any as S.Schema<VectordbGetVectorDBResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -34226,8 +34226,8 @@ export const getVectorDatabaseCredentials: API.OperationMethod<
   GetVectorDatabaseCredentialsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21664, __c677, 0) as any as S.Schema<GetVectorDatabaseCredentialsRequest>,
-  output: __S(21665, __c677, 1) as any as S.Schema<VectordbGetVectorDBAdminCredentialsResponse>,
+  input: __S(21632, __c676, 0) as any as S.Schema<GetVectorDatabaseCredentialsRequest>,
+  output: __S(21633, __c676, 1) as any as S.Schema<VectordbGetVectorDBAdminCredentialsResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34243,7 +34243,7 @@ export const getVolume: API.OperationMethod<
   GetVolumeError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21696, __c678, 0) as any as S.Schema<GetVolumeRequest>,
+  input: __S(21664, __c677, 0) as any as S.Schema<GetVolumeRequest>,
   output: __S(3808, __c119, 0) as any as S.Schema<GetVolumeResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -34260,8 +34260,8 @@ export const getVolumeAction: API.OperationMethod<
   GetVolumeActionError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21728, __c679, 0) as any as S.Schema<GetVolumeActionRequest>,
-  output: __S(21792, __c681, 0) as any as S.Schema<GetVolumeActionResponse>,
+  input: __S(21696, __c678, 0) as any as S.Schema<GetVolumeActionRequest>,
+  output: __S(21760, __c680, 0) as any as S.Schema<GetVolumeActionResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34277,7 +34277,7 @@ export const getVolumeSnapshotById: API.OperationMethod<
   GetVolumeSnapshotByIdError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21824, __c682, 0) as any as S.Schema<GetVolumeSnapshotByIdRequest>,
+  input: __S(21792, __c681, 0) as any as S.Schema<GetVolumeSnapshotByIdRequest>,
   output: __S(3904, __c122, 0) as any as S.Schema<GetVolumeSnapshotByIdResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -34294,7 +34294,7 @@ export const getVpc: API.OperationMethod<
   GetVpcError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21856, __c683, 0) as any as S.Schema<GetVpcRequest>,
+  input: __S(21824, __c682, 0) as any as S.Schema<GetVpcRequest>,
   output: __S(4032, __c126, 0) as any as S.Schema<GetVpcResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -34311,8 +34311,8 @@ export const getVpcnatgateway: API.OperationMethod<
   GetVpcnatgatewayError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21888, __c684, 0) as any as S.Schema<GetVpcnatgatewayRequest>,
-  output: __S(21889, __c684, 1) as any as S.Schema<GetVpcnatgatewayResponse>,
+  input: __S(21856, __c683, 0) as any as S.Schema<GetVpcnatgatewayRequest>,
+  output: __S(21857, __c683, 1) as any as S.Schema<GetVpcnatgatewayResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34328,7 +34328,7 @@ export const getVpcPeering: API.OperationMethod<
   GetVpcPeeringError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21952, __c686, 0) as any as S.Schema<GetVpcPeeringRequest>,
+  input: __S(21920, __c685, 0) as any as S.Schema<GetVpcPeeringRequest>,
   output: __S(4160, __c130, 0) as any as S.Schema<GetVpcPeeringResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -34345,7 +34345,7 @@ export const getVpcSubnet: API.OperationMethod<
   GetVpcSubnetError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(21984, __c687, 0) as any as S.Schema<GetVpcSubnetRequest>,
+  input: __S(21952, __c686, 0) as any as S.Schema<GetVpcSubnetRequest>,
   output: __S(4320, __c135, 0) as any as S.Schema<GetVpcSubnetResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -34362,8 +34362,8 @@ export const harnessCancelTriggerExecution: API.OperationMethod<
   HarnessCancelTriggerExecutionError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22016, __c688, 0) as any as S.Schema<HarnessCancelTriggerExecutionRequest>,
-  output: __S(22048, __c689, 0) as any as S.Schema<GetTriggerExecutionResponse>,
+  input: __S(21984, __c687, 0) as any as S.Schema<HarnessCancelTriggerExecutionRequest>,
+  output: __S(22016, __c688, 0) as any as S.Schema<GetTriggerExecutionResponse>,
   errors: [NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34379,8 +34379,8 @@ export const harnessCreateConfigClone: API.OperationMethod<
   HarnessCreateConfigCloneError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22400, __c700, 0) as any as S.Schema<HarnessCreateConfigCloneRequest>,
-  output: __S(37986, __c1187, 2) as any as S.Schema<AgentConfigResponse>,
+  input: __S(22368, __c699, 0) as any as S.Schema<HarnessCreateConfigCloneRequest>,
+  output: __S(37922, __c1185, 2) as any as S.Schema<AgentConfigResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34396,8 +34396,8 @@ export const harnessCreateProviderConnect: API.OperationMethod<
   HarnessCreateProviderConnectError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22432, __c701, 0) as any as S.Schema<HarnessCreateProviderConnectRequest>,
-  output: __S(22433, __c701, 1) as any as S.Schema<StartProviderConnectResponse>,
+  input: __S(22400, __c700, 0) as any as S.Schema<HarnessCreateProviderConnectRequest>,
+  output: __S(22401, __c700, 1) as any as S.Schema<StartProviderConnectResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34418,11 +34418,11 @@ export const harnessCreateSessionWorkspacePartUploadUrls: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    22464,
-    __c702,
+    22432,
+    __c701,
     0,
   ) as any as S.Schema<HarnessCreateSessionWorkspacePartUploadUrlsRequest>,
-  output: __S(22467, __c702, 3) as any as S.Schema<WorkspacePartUploadUrls>,
+  output: __S(22435, __c701, 3) as any as S.Schema<WorkspacePartUploadUrls>,
   errors: [BadRequest, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34443,8 +34443,8 @@ export const harnessCreateSessionWorkspaceUpload: API.OperationMethod<
   HarnessCreateSessionWorkspaceUploadError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22496, __c703, 0) as any as S.Schema<HarnessCreateSessionWorkspaceUploadRequest>,
-  output: __S(22497, __c703, 1) as any as S.Schema<WorkspaceUploadResponse>,
+  input: __S(22464, __c702, 0) as any as S.Schema<HarnessCreateSessionWorkspaceUploadRequest>,
+  output: __S(22465, __c702, 1) as any as S.Schema<WorkspaceUploadResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34465,8 +34465,8 @@ export const harnessCreateTrigger: API.OperationMethod<
   HarnessCreateTriggerError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22529, __c704, 1) as any as S.Schema<HarnessCreateTriggerRequest>,
-  output: __S(22530, __c704, 2) as any as S.Schema<CreateTriggerResponse>,
+  input: __S(22497, __c703, 1) as any as S.Schema<HarnessCreateTriggerRequest>,
+  output: __S(22498, __c703, 2) as any as S.Schema<CreateTriggerResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34482,8 +34482,8 @@ export const harnessDeleteTrigger: API.OperationMethod<
   HarnessDeleteTriggerError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22624, __c707, 0) as any as S.Schema<HarnessDeleteTriggerRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<HarnessDeleteTriggerResponse>,
+  input: __S(22592, __c706, 0) as any as S.Schema<HarnessDeleteTriggerRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<HarnessDeleteTriggerResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34499,8 +34499,8 @@ export const harnessGetProviderConnect: API.OperationMethod<
   HarnessGetProviderConnectError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22656, __c708, 0) as any as S.Schema<HarnessGetProviderConnectRequest>,
-  output: __S(22657, __c708, 1) as any as S.Schema<PollProviderConnectResponse>,
+  input: __S(22624, __c707, 0) as any as S.Schema<HarnessGetProviderConnectRequest>,
+  output: __S(22625, __c707, 1) as any as S.Schema<PollProviderConnectResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34521,8 +34521,8 @@ export const harnessGetSessionWorkspaceDownload: API.OperationMethod<
   HarnessGetSessionWorkspaceDownloadError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22688, __c709, 0) as any as S.Schema<HarnessGetSessionWorkspaceDownloadRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<HarnessGetSessionWorkspaceDownloadResponse>,
+  input: __S(22656, __c708, 0) as any as S.Schema<HarnessGetSessionWorkspaceDownloadRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<HarnessGetSessionWorkspaceDownloadResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34538,8 +34538,8 @@ export const harnessGetTrigger: API.OperationMethod<
   HarnessGetTriggerError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22720, __c710, 0) as any as S.Schema<HarnessGetTriggerRequest>,
-  output: __S(22752, __c711, 0) as any as S.Schema<GetTriggerResponse>,
+  input: __S(22688, __c709, 0) as any as S.Schema<HarnessGetTriggerRequest>,
+  output: __S(22720, __c710, 0) as any as S.Schema<GetTriggerResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34555,8 +34555,8 @@ export const harnessGetTriggerBySession: API.OperationMethod<
   HarnessGetTriggerBySessionError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22784, __c712, 0) as any as S.Schema<HarnessGetTriggerBySessionRequest>,
-  output: __S(22752, __c711, 0) as any as S.Schema<GetTriggerResponse>,
+  input: __S(22752, __c711, 0) as any as S.Schema<HarnessGetTriggerBySessionRequest>,
+  output: __S(22720, __c710, 0) as any as S.Schema<GetTriggerResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34572,8 +34572,8 @@ export const harnessGetTriggerExecution: API.OperationMethod<
   HarnessGetTriggerExecutionError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22848, __c714, 0) as any as S.Schema<HarnessGetTriggerExecutionRequest>,
-  output: __S(22048, __c689, 0) as any as S.Schema<GetTriggerExecutionResponse>,
+  input: __S(22816, __c713, 0) as any as S.Schema<HarnessGetTriggerExecutionRequest>,
+  output: __S(22016, __c688, 0) as any as S.Schema<GetTriggerExecutionResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34589,8 +34589,8 @@ export const harnessListTriggerExecutions: API.OperationMethod<
   HarnessListTriggerExecutionsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22880, __c715, 0) as any as S.Schema<HarnessListTriggerExecutionsRequest>,
-  output: __S(22882, __c715, 2) as any as S.Schema<ListTriggerExecutionsResponse>,
+  input: __S(22848, __c714, 0) as any as S.Schema<HarnessListTriggerExecutionsRequest>,
+  output: __S(22850, __c714, 2) as any as S.Schema<ListTriggerExecutionsResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34606,8 +34606,8 @@ export const harnessPostSessionResume: API.OperationMethod<
   HarnessPostSessionResumeError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22912, __c716, 0) as any as S.Schema<HarnessPostSessionResumeRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<HarnessPostSessionResumeResponse>,
+  input: __S(22880, __c715, 0) as any as S.Schema<HarnessPostSessionResumeRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<HarnessPostSessionResumeResponse>,
   errors: [Forbidden, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34628,8 +34628,8 @@ export const harnessPostSessionSandboxExec: API.OperationMethod<
   HarnessPostSessionSandboxExecError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22944, __c717, 0) as any as S.Schema<HarnessPostSessionSandboxExecRequest>,
-  output: __S(22945, __c717, 1) as any as S.Schema<ExecInSandboxResponse>,
+  input: __S(22912, __c716, 0) as any as S.Schema<HarnessPostSessionSandboxExecRequest>,
+  output: __S(22913, __c716, 1) as any as S.Schema<ExecInSandboxResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34649,8 +34649,8 @@ export const harnessPostTriggerRotateSecret: API.OperationMethod<
   HarnessPostTriggerRotateSecretError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(22976, __c718, 0) as any as S.Schema<HarnessPostTriggerRotateSecretRequest>,
-  output: __S(22977, __c718, 1) as any as S.Schema<RotateSecretResponse>,
+  input: __S(22944, __c717, 0) as any as S.Schema<HarnessPostTriggerRotateSecretRequest>,
+  output: __S(22945, __c717, 1) as any as S.Schema<RotateSecretResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34666,8 +34666,8 @@ export const harnessPostTriggerWebhook: API.OperationMethod<
   HarnessPostTriggerWebhookError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23008, __c719, 0) as any as S.Schema<HarnessPostTriggerWebhookRequest>,
-  output: __S(23009, __c719, 1) as any as S.Schema<WebhookAcceptedResponse>,
+  input: __S(22976, __c718, 0) as any as S.Schema<HarnessPostTriggerWebhookRequest>,
+  output: __S(22977, __c718, 1) as any as S.Schema<WebhookAcceptedResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34687,8 +34687,8 @@ export const harnessRevertSessionCheckpoint: API.OperationMethod<
   HarnessRevertSessionCheckpointError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23040, __c720, 0) as any as S.Schema<HarnessRevertSessionCheckpointRequest>,
-  output: __S(38720, __c1210, 0) as any as S.Schema<RollbackToCheckpointResponse>,
+  input: __S(23008, __c719, 0) as any as S.Schema<HarnessRevertSessionCheckpointRequest>,
+  output: __S(38656, __c1208, 0) as any as S.Schema<RollbackToCheckpointResponse>,
   errors: [Forbidden, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34710,8 +34710,8 @@ export const harnessUpdateTrigger: API.OperationMethod<
   HarnessUpdateTriggerError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23072, __c721, 0) as any as S.Schema<HarnessUpdateTriggerRequest>,
-  output: __S(22752, __c711, 0) as any as S.Schema<GetTriggerResponse>,
+  input: __S(23040, __c720, 0) as any as S.Schema<HarnessUpdateTriggerRequest>,
+  output: __S(22720, __c710, 0) as any as S.Schema<GetTriggerResponse>,
   errors: [
     BadRequest,
     Forbidden,
@@ -34734,8 +34734,8 @@ export const imagesPostAccountTransferAccept: API.OperationMethod<
   ImagesPostAccountTransferAcceptError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23104, __c722, 0) as any as S.Schema<ImagesPostAccountTransferAcceptRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<ImagesPostAccountTransferAcceptResponse>,
+  input: __S(23072, __c721, 0) as any as S.Schema<ImagesPostAccountTransferAcceptRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<ImagesPostAccountTransferAcceptResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34751,8 +34751,8 @@ export const imagesPostAccountTransferCancel: API.OperationMethod<
   ImagesPostAccountTransferCancelError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23136, __c723, 0) as any as S.Schema<ImagesPostAccountTransferCancelRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<ImagesPostAccountTransferCancelResponse>,
+  input: __S(23104, __c722, 0) as any as S.Schema<ImagesPostAccountTransferCancelRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<ImagesPostAccountTransferCancelResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34768,8 +34768,8 @@ export const imagesPostAccountTransferCreate2: API.OperationMethod<
   ImagesPostAccountTransferCreate2Error,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23232, __c726, 0) as any as S.Schema<ImagesPostAccountTransferCreateRequest>,
-  output: __S(23233, __c726, 1) as any as S.Schema<ImagesPostAccountTransferCreateResponse>,
+  input: __S(23200, __c725, 0) as any as S.Schema<ImagesPostAccountTransferCreateRequest>,
+  output: __S(23201, __c725, 1) as any as S.Schema<ImagesPostAccountTransferCreateResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34785,8 +34785,8 @@ export const importGenaiCustomModel: API.OperationMethod<
   ImportGenaiCustomModelError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23264, __c727, 0) as any as S.Schema<ImportGenaiCustomModelRequest>,
-  output: __S(23268, __c727, 4) as any as S.Schema<ApiImportCustomModelOutputPublic>,
+  input: __S(23232, __c726, 0) as any as S.Schema<ImportGenaiCustomModelRequest>,
+  output: __S(23236, __c726, 4) as any as S.Schema<ApiImportCustomModelOutputPublic>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34802,8 +34802,8 @@ export const inferenceCreateAsyncInvoke: API.OperationMethod<
   InferenceCreateAsyncInvokeError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23299, __c728, 3) as any as S.Schema<InferenceCreateAsyncInvokeRequest>,
-  output: __S(23300, __c728, 4) as any as S.Schema<AsyncInvokeResponse>,
+  input: __S(23267, __c727, 3) as any as S.Schema<InferenceCreateAsyncInvokeRequest>,
+  output: __S(23268, __c727, 4) as any as S.Schema<AsyncInvokeResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34819,8 +34819,8 @@ export const insightsPostLogsSearch: API.OperationMethod<
   InsightsPostLogsSearchError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23339, __c729, 11) as any as S.Schema<InsightsPostLogsSearchRequest>,
-  output: __S(23343, __c729, 15) as any as S.Schema<LogsSearchResponse>,
+  input: __S(23307, __c728, 11) as any as S.Schema<InsightsPostLogsSearchRequest>,
+  output: __S(23311, __c728, 15) as any as S.Schema<LogsSearchResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34836,8 +34836,8 @@ export const insightsPostSpansSearch: API.OperationMethod<
   InsightsPostSpansSearchError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23394, __c731, 2) as any as S.Schema<InsightsPostSpansSearchRequest>,
-  output: __S(23398, __c731, 6) as any as S.Schema<SpansSearchResponse>,
+  input: __S(23362, __c730, 2) as any as S.Schema<InsightsPostSpansSearchRequest>,
+  output: __S(23366, __c730, 6) as any as S.Schema<SpansSearchResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34853,8 +34853,8 @@ export const insightsPostTracesSearch: API.OperationMethod<
   InsightsPostTracesSearchError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23458, __c733, 2) as any as S.Schema<InsightsPostTracesSearchRequest>,
-  output: __S(23462, __c733, 6) as any as S.Schema<TracesSearchResponse>,
+  input: __S(23426, __c732, 2) as any as S.Schema<InsightsPostTracesSearchRequest>,
+  output: __S(23430, __c732, 6) as any as S.Schema<TracesSearchResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34870,8 +34870,8 @@ export const installOneClickKubernetes: API.OperationMethod<
   InstallOneClickKubernetesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23488, __c734, 0) as any as S.Schema<InstallOneClickKubernetesRequest>,
-  output: __S(23489, __c734, 1) as any as S.Schema<InstallOneClickKubernetesResponse>,
+  input: __S(23456, __c733, 0) as any as S.Schema<InstallOneClickKubernetesRequest>,
+  output: __S(23457, __c733, 1) as any as S.Schema<InstallOneClickKubernetesResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34888,13 +34888,13 @@ export const kubernetesDestroyAssociatedResourcesDangerous: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23520,
-    __c735,
+    23488,
+    __c734,
     0,
   ) as any as S.Schema<KubernetesDestroyAssociatedResourcesDangerousRequest>,
   output: __S(
-    38560,
-    __c1205,
+    38496,
+    __c1203,
     0,
   ) as any as S.Schema<KubernetesDestroyAssociatedResourcesDangerousResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
@@ -34913,13 +34913,13 @@ export const kubernetesDestroyAssociatedResourcesSelective: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    23552,
-    __c736,
+    23520,
+    __c735,
     0,
   ) as any as S.Schema<KubernetesDestroyAssociatedResourcesSelectiveRequest>,
   output: __S(
-    38560,
-    __c1205,
+    38496,
+    __c1203,
     0,
   ) as any as S.Schema<KubernetesDestroyAssociatedResourcesSelectiveResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
@@ -34937,8 +34937,8 @@ export const kubernetesUpgradeCluster: API.OperationMethod<
   KubernetesUpgradeClusterError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23584, __c737, 0) as any as S.Schema<KubernetesUpgradeClusterRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<KubernetesUpgradeClusterResponse>,
+  input: __S(23552, __c736, 0) as any as S.Schema<KubernetesUpgradeClusterRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<KubernetesUpgradeClusterResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34956,8 +34956,8 @@ export const listActions: API.PaginatedOperationMethod<
   Action
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(23680, __c740, 0) as any as S.Schema<ListActionsRequest>,
-    output: __S(23712, __c741, 0) as any as S.Schema<ListActionsResponse>,
+    input: __S(23648, __c739, 0) as any as S.Schema<ListActionsRequest>,
+    output: __S(23680, __c740, 0) as any as S.Schema<ListActionsResponse>,
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -34982,8 +34982,8 @@ export const listAddons: API.OperationMethod<
   ListAddonsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23776, __c743, 0) as any as S.Schema<ListAddonsRequest>,
-  output: __S(23778, __c743, 2) as any as S.Schema<ListAddonsResponse>,
+  input: __S(23744, __c742, 0) as any as S.Schema<ListAddonsRequest>,
+  output: __S(23746, __c742, 2) as any as S.Schema<ListAddonsResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -34999,8 +34999,8 @@ export const listAppAlerts: API.OperationMethod<
   ListAppAlertsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23808, __c744, 0) as any as S.Schema<ListAppAlertsRequest>,
-  output: __S(23810, __c744, 2) as any as S.Schema<AppsListAlertsResponse>,
+  input: __S(23776, __c743, 0) as any as S.Schema<ListAppAlertsRequest>,
+  output: __S(23778, __c743, 2) as any as S.Schema<AppsListAlertsResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -35018,8 +35018,8 @@ export const listAppDeployments: API.PaginatedOperationMethod<
   AppsDeployment
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(23840, __c745, 0) as any as S.Schema<ListAppDeploymentsRequest>,
-    output: __S(23842, __c745, 2) as any as S.Schema<ListAppDeploymentsResponse>,
+    input: __S(23808, __c744, 0) as any as S.Schema<ListAppDeploymentsRequest>,
+    output: __S(23810, __c744, 2) as any as S.Schema<ListAppDeploymentsResponse>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -35046,8 +35046,8 @@ export const listAppEvents: API.PaginatedOperationMethod<
   AppEvent
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(23872, __c746, 0) as any as S.Schema<ListAppEventsRequest>,
-    output: __S(23874, __c746, 2) as any as S.Schema<ListAppEventsResponse>,
+    input: __S(23840, __c745, 0) as any as S.Schema<ListAppEventsRequest>,
+    output: __S(23842, __c745, 2) as any as S.Schema<ListAppEventsResponse>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -35072,8 +35072,8 @@ export const listAppInstanceSizes: API.OperationMethod<
   ListAppInstanceSizesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23904, __c747, 0) as any as S.Schema<ListAppInstanceSizesRequest>,
-  output: __S(23906, __c747, 2) as any as S.Schema<AppsListInstanceSizesResponse>,
+  input: __S(23872, __c746, 0) as any as S.Schema<ListAppInstanceSizesRequest>,
+  output: __S(23874, __c746, 2) as any as S.Schema<AppsListInstanceSizesResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -35091,8 +35091,8 @@ export const listAppJobInvocations: API.PaginatedOperationMethod<
   AppJobInvocation
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(23936, __c748, 0) as any as S.Schema<ListAppJobInvocationsRequest>,
-    output: __S(23938, __c748, 2) as any as S.Schema<ListAppJobInvocationsResponse>,
+    input: __S(23904, __c747, 0) as any as S.Schema<ListAppJobInvocationsRequest>,
+    output: __S(23906, __c747, 2) as any as S.Schema<ListAppJobInvocationsResponse>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -35117,7 +35117,7 @@ export const listAppMetricsBandwidthDaily: API.OperationMethod<
   ListAppMetricsBandwidthDailyError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(23968, __c749, 0) as any as S.Schema<ListAppMetricsBandwidthDailyRequest>,
+  input: __S(23936, __c748, 0) as any as S.Schema<ListAppMetricsBandwidthDailyRequest>,
   output: __S(11490, __c359, 2) as any as S.Schema<AppMetricsBandwidthUsage>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -35134,8 +35134,8 @@ export const listAppRegions: API.OperationMethod<
   ListAppRegionsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24000, __c750, 0) as any as S.Schema<ListAppRegionsRequest>,
-  output: __S(24002, __c750, 2) as any as S.Schema<AppsListRegionsResponse>,
+  input: __S(23968, __c749, 0) as any as S.Schema<ListAppRegionsRequest>,
+  output: __S(23970, __c749, 2) as any as S.Schema<AppsListRegionsResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -35153,8 +35153,8 @@ export const listApps: API.PaginatedOperationMethod<
   App
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(24032, __c751, 0) as any as S.Schema<ListAppsRequest>,
-    output: __S(24034, __c751, 2) as any as S.Schema<ListAppsResponse>,
+    input: __S(24000, __c750, 0) as any as S.Schema<ListAppsRequest>,
+    output: __S(24002, __c750, 2) as any as S.Schema<ListAppsResponse>,
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -35181,8 +35181,8 @@ export const listAutoscalepoolHistory: API.PaginatedOperationMethod<
   History
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(24160, __c755, 0) as any as S.Schema<ListAutoscalepoolHistoryRequest>,
-    output: __S(24163, __c755, 3) as any as S.Schema<ListAutoscalepoolHistoryResponse>,
+    input: __S(24128, __c754, 0) as any as S.Schema<ListAutoscalepoolHistoryRequest>,
+    output: __S(24131, __c754, 3) as any as S.Schema<ListAutoscalepoolHistoryResponse>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -35209,8 +35209,8 @@ export const listAutoscalepoolMembers: API.PaginatedOperationMethod<
   Member
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(24192, __c756, 0) as any as S.Schema<ListAutoscalepoolMembersRequest>,
-    output: __S(24195, __c756, 3) as any as S.Schema<ListAutoscalepoolMembersResponse>,
+    input: __S(24160, __c755, 0) as any as S.Schema<ListAutoscalepoolMembersRequest>,
+    output: __S(24163, __c755, 3) as any as S.Schema<ListAutoscalepoolMembersResponse>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -35237,8 +35237,8 @@ export const listAutoscalepools: API.PaginatedOperationMethod<
   AutoscalePool
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(24224, __c757, 0) as any as S.Schema<ListAutoscalepoolsRequest>,
-    output: __S(24226, __c757, 2) as any as S.Schema<ListAutoscalepoolsResponse>,
+    input: __S(24192, __c756, 0) as any as S.Schema<ListAutoscalepoolsRequest>,
+    output: __S(24194, __c756, 2) as any as S.Schema<ListAutoscalepoolsResponse>,
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -35263,8 +35263,8 @@ export const listBillingHistory: API.OperationMethod<
   ListBillingHistoryError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24256, __c758, 0) as any as S.Schema<ListBillingHistoryRequest>,
-  output: __S(24260, __c758, 4) as any as S.Schema<ListBillingHistoryResponse>,
+  input: __S(24224, __c757, 0) as any as S.Schema<ListBillingHistoryRequest>,
+  output: __S(24228, __c757, 4) as any as S.Schema<ListBillingHistoryResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -35280,8 +35280,8 @@ export const listBillingInsights: API.OperationMethod<
   ListBillingInsightsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24288, __c759, 0) as any as S.Schema<ListBillingInsightsRequest>,
-  output: __S(24291, __c759, 3) as any as S.Schema<ListBillingInsightsResponse>,
+  input: __S(24256, __c758, 0) as any as S.Schema<ListBillingInsightsRequest>,
+  output: __S(24259, __c758, 3) as any as S.Schema<ListBillingInsightsResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -35299,8 +35299,8 @@ export const listByoipPrefixes: API.PaginatedOperationMethod<
   ByoipPrefix
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(24320, __c760, 0) as any as S.Schema<ListByoipPrefixesRequest>,
-    output: __S(24322, __c760, 2) as any as S.Schema<ListByoipPrefixesResponse>,
+    input: __S(24288, __c759, 0) as any as S.Schema<ListByoipPrefixesRequest>,
+    output: __S(24290, __c759, 2) as any as S.Schema<ListByoipPrefixesResponse>,
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -35327,8 +35327,8 @@ export const listByoipPrefixResources: API.PaginatedOperationMethod<
   ByoipPrefixResource
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(24352, __c761, 0) as any as S.Schema<ListByoipPrefixResourcesRequest>,
-    output: __S(24355, __c761, 3) as any as S.Schema<ListByoipPrefixResourcesResponse>,
+    input: __S(24320, __c760, 0) as any as S.Schema<ListByoipPrefixResourcesRequest>,
+    output: __S(24323, __c760, 3) as any as S.Schema<ListByoipPrefixResourcesResponse>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -35355,8 +35355,8 @@ export const listCdnEndpoints: API.PaginatedOperationMethod<
   CdnEndpoint
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(24384, __c762, 0) as any as S.Schema<ListCdnEndpointsRequest>,
-    output: __S(24386, __c762, 2) as any as S.Schema<ListCdnEndpointsResponse>,
+    input: __S(24352, __c761, 0) as any as S.Schema<ListCdnEndpointsRequest>,
+    output: __S(24354, __c761, 2) as any as S.Schema<ListCdnEndpointsResponse>,
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -35383,8 +35383,8 @@ export const listCertificates: API.PaginatedOperationMethod<
   Certificate
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(24416, __c763, 0) as any as S.Schema<ListCertificatesRequest>,
-    output: __S(24418, __c763, 2) as any as S.Schema<ListCertificatesResponse>,
+    input: __S(24384, __c762, 0) as any as S.Schema<ListCertificatesRequest>,
+    output: __S(24386, __c762, 2) as any as S.Schema<ListCertificatesResponse>,
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -35409,8 +35409,8 @@ export const listConnections: API.OperationMethod<
   ListConnectionsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24448, __c764, 0) as any as S.Schema<ListConnectionsRequest>,
-  output: __S(24450, __c764, 2) as any as S.Schema<ListConnectionsResponse>,
+  input: __S(24416, __c763, 0) as any as S.Schema<ListConnectionsRequest>,
+  output: __S(24418, __c763, 2) as any as S.Schema<ListConnectionsResponse>,
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -35426,8 +35426,8 @@ export const listDatabaseBackups: API.OperationMethod<
   ListDatabaseBackupsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24640, __c770, 0) as any as S.Schema<ListDatabaseBackupsRequest>,
-  output: __S(24644, __c770, 4) as any as S.Schema<ListDatabaseBackupsResponse>,
+  input: __S(24608, __c769, 0) as any as S.Schema<ListDatabaseBackupsRequest>,
+  output: __S(24612, __c769, 4) as any as S.Schema<ListDatabaseBackupsResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -35443,8 +35443,8 @@ export const listDatabaseClusters: API.OperationMethod<
   ListDatabaseClustersError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24672, __c771, 0) as any as S.Schema<ListDatabaseClustersRequest>,
-  output: __S(24674, __c771, 2) as any as S.Schema<ListDatabaseClustersResponse>,
+  input: __S(24640, __c770, 0) as any as S.Schema<ListDatabaseClustersRequest>,
+  output: __S(24642, __c770, 2) as any as S.Schema<ListDatabaseClustersResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -35460,8 +35460,8 @@ export const listDatabaseConnectionPools: API.OperationMethod<
   ListDatabaseConnectionPoolsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24704, __c772, 0) as any as S.Schema<ListDatabaseConnectionPoolsRequest>,
-  output: __S(24706, __c772, 2) as any as S.Schema<ConnectionPools>,
+  input: __S(24672, __c771, 0) as any as S.Schema<ListDatabaseConnectionPoolsRequest>,
+  output: __S(24674, __c771, 2) as any as S.Schema<ConnectionPools>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -35477,8 +35477,8 @@ export const listDatabaseEventsLogs: API.OperationMethod<
   ListDatabaseEventsLogsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24736, __c773, 0) as any as S.Schema<ListDatabaseEventsLogsRequest>,
-  output: __S(24739, __c773, 3) as any as S.Schema<ListDatabaseEventsLogsResponse>,
+  input: __S(24704, __c772, 0) as any as S.Schema<ListDatabaseEventsLogsRequest>,
+  output: __S(24707, __c772, 3) as any as S.Schema<ListDatabaseEventsLogsResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -35494,8 +35494,8 @@ export const listDatabaseFirewallRules: API.OperationMethod<
   ListDatabaseFirewallRulesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24768, __c774, 0) as any as S.Schema<ListDatabaseFirewallRulesRequest>,
-  output: __S(24769, __c774, 1) as any as S.Schema<ListDatabaseFirewallRulesResponse>,
+  input: __S(24736, __c773, 0) as any as S.Schema<ListDatabaseFirewallRulesRequest>,
+  output: __S(24737, __c773, 1) as any as S.Schema<ListDatabaseFirewallRulesResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -35511,8 +35511,8 @@ export const listDatabaseKafkaSchemas: API.OperationMethod<
   ListDatabaseKafkaSchemasError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24800, __c775, 0) as any as S.Schema<ListDatabaseKafkaSchemasRequest>,
-  output: __S(24803, __c775, 3) as any as S.Schema<ListDatabaseKafkaSchemasResponse>,
+  input: __S(24768, __c774, 0) as any as S.Schema<ListDatabaseKafkaSchemasRequest>,
+  output: __S(24771, __c774, 3) as any as S.Schema<ListDatabaseKafkaSchemasResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -35528,8 +35528,8 @@ export const listDatabaseKafkaTopics: API.OperationMethod<
   ListDatabaseKafkaTopicsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24832, __c776, 0) as any as S.Schema<ListDatabaseKafkaTopicsRequest>,
-  output: __S(24835, __c776, 3) as any as S.Schema<ListDatabaseKafkaTopicsResponse>,
+  input: __S(24800, __c775, 0) as any as S.Schema<ListDatabaseKafkaTopicsRequest>,
+  output: __S(24803, __c775, 3) as any as S.Schema<ListDatabaseKafkaTopicsResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -35545,8 +35545,8 @@ export const listDatabaseLogsink: API.OperationMethod<
   ListDatabaseLogsinkError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24864, __c777, 0) as any as S.Schema<ListDatabaseLogsinkRequest>,
-  output: __S(24866, __c777, 2) as any as S.Schema<ListDatabaseLogsinkResponse>,
+  input: __S(24832, __c776, 0) as any as S.Schema<ListDatabaseLogsinkRequest>,
+  output: __S(24834, __c776, 2) as any as S.Schema<ListDatabaseLogsinkResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -35562,8 +35562,8 @@ export const listDatabaseOpeasearchIndexes: API.OperationMethod<
   ListDatabaseOpeasearchIndexesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24896, __c778, 0) as any as S.Schema<ListDatabaseOpeasearchIndexesRequest>,
-  output: __S(24899, __c778, 3) as any as S.Schema<ListDatabaseOpeasearchIndexesResponse>,
+  input: __S(24864, __c777, 0) as any as S.Schema<ListDatabaseOpeasearchIndexesRequest>,
+  output: __S(24867, __c777, 3) as any as S.Schema<ListDatabaseOpeasearchIndexesResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -35579,8 +35579,8 @@ export const listDatabaseOptions: API.OperationMethod<
   ListDatabaseOptionsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24928, __c779, 0) as any as S.Schema<ListDatabaseOptionsRequest>,
-  output: __S(24936, __c779, 8) as any as S.Schema<Options>,
+  input: __S(24896, __c778, 0) as any as S.Schema<ListDatabaseOptionsRequest>,
+  output: __S(24904, __c778, 8) as any as S.Schema<Options>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -35596,8 +35596,8 @@ export const listDatabaseReplicas: API.OperationMethod<
   ListDatabaseReplicasError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24992, __c781, 0) as any as S.Schema<ListDatabaseReplicasRequest>,
-  output: __S(24994, __c781, 2) as any as S.Schema<ListDatabaseReplicasResponse>,
+  input: __S(24960, __c780, 0) as any as S.Schema<ListDatabaseReplicasRequest>,
+  output: __S(24962, __c780, 2) as any as S.Schema<ListDatabaseReplicasResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -35613,8 +35613,8 @@ export const listDatabases: API.OperationMethod<
   ListDatabasesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25024, __c782, 0) as any as S.Schema<ListDatabasesRequest>,
-  output: __S(25026, __c782, 2) as any as S.Schema<ListDatabasesResponse>,
+  input: __S(24992, __c781, 0) as any as S.Schema<ListDatabasesRequest>,
+  output: __S(24994, __c781, 2) as any as S.Schema<ListDatabasesResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -35630,8 +35630,8 @@ export const listDatabaseUsers: API.OperationMethod<
   ListDatabaseUsersError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25056, __c783, 0) as any as S.Schema<ListDatabaseUsersRequest>,
-  output: __S(25057, __c783, 1) as any as S.Schema<ListDatabaseUsersResponse>,
+  input: __S(25024, __c782, 0) as any as S.Schema<ListDatabaseUsersRequest>,
+  output: __S(25025, __c782, 1) as any as S.Schema<ListDatabaseUsersResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -35649,8 +35649,8 @@ export const listDedicatedInferenceAccelerators: API.PaginatedOperationMethod<
   DedicatedInferenceAccelerator
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(25088, __c784, 0) as any as S.Schema<ListDedicatedInferenceAcceleratorsRequest>,
-    output: __S(25090, __c784, 2) as any as S.Schema<ListDedicatedInferenceAcceleratorsResponse>,
+    input: __S(25056, __c783, 0) as any as S.Schema<ListDedicatedInferenceAcceleratorsRequest>,
+    output: __S(25058, __c783, 2) as any as S.Schema<ListDedicatedInferenceAcceleratorsResponse>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -35675,8 +35675,8 @@ export const listDedicatedInferences: API.OperationMethod<
   ListDedicatedInferencesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25120, __c785, 0) as any as S.Schema<ListDedicatedInferencesRequest>,
-  output: __S(25123, __c785, 3) as any as S.Schema<ListDedicatedInferencesResponse>,
+  input: __S(25088, __c784, 0) as any as S.Schema<ListDedicatedInferencesRequest>,
+  output: __S(25091, __c784, 3) as any as S.Schema<ListDedicatedInferencesResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -35692,8 +35692,8 @@ export const listDedicatedInferenceSizes: API.OperationMethod<
   ListDedicatedInferenceSizesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25152, __c786, 0) as any as S.Schema<ListDedicatedInferenceSizesRequest>,
-  output: __S(25155, __c786, 3) as any as S.Schema<DedicatedInferenceSizesResponse>,
+  input: __S(25120, __c785, 0) as any as S.Schema<ListDedicatedInferenceSizesRequest>,
+  output: __S(25123, __c785, 3) as any as S.Schema<DedicatedInferenceSizesResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -35711,8 +35711,8 @@ export const listDedicatedInferenceTokens: API.PaginatedOperationMethod<
   DedicatedInferenceAccessToken
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(25184, __c787, 0) as any as S.Schema<ListDedicatedInferenceTokensRequest>,
-    output: __S(25186, __c787, 2) as any as S.Schema<ListDedicatedInferenceTokensResponse>,
+    input: __S(25152, __c786, 0) as any as S.Schema<ListDedicatedInferenceTokensRequest>,
+    output: __S(25154, __c786, 2) as any as S.Schema<ListDedicatedInferenceTokensResponse>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -35739,8 +35739,8 @@ export const listDomainRecords: API.PaginatedOperationMethod<
   DomainRecord
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(25216, __c788, 0) as any as S.Schema<ListDomainRecordsRequest>,
-    output: __S(25218, __c788, 2) as any as S.Schema<ListDomainRecordsResponse>,
+    input: __S(25184, __c787, 0) as any as S.Schema<ListDomainRecordsRequest>,
+    output: __S(25186, __c787, 2) as any as S.Schema<ListDomainRecordsResponse>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -35767,8 +35767,8 @@ export const listDomains: API.PaginatedOperationMethod<
   DomainOutput
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(25248, __c789, 0) as any as S.Schema<ListDomainsRequest>,
-    output: __S(25250, __c789, 2) as any as S.Schema<ListDomainsResponse>,
+    input: __S(25216, __c788, 0) as any as S.Schema<ListDomainsRequest>,
+    output: __S(25218, __c788, 2) as any as S.Schema<ListDomainsResponse>,
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -35795,8 +35795,8 @@ export const listDropletActions: API.PaginatedOperationMethod<
   Action
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(25280, __c790, 0) as any as S.Schema<ListDropletActionsRequest>,
-    output: __S(23712, __c741, 0) as any as S.Schema<ListDropletActionsResponse>,
+    input: __S(25248, __c789, 0) as any as S.Schema<ListDropletActionsRequest>,
+    output: __S(23680, __c740, 0) as any as S.Schema<ListDropletActionsResponse>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -35821,8 +35821,8 @@ export const listDropletAssociatedResources: API.OperationMethod<
   ListDropletAssociatedResourcesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25408, __c794, 0) as any as S.Schema<ListDropletAssociatedResourcesRequest>,
-  output: __S(25411, __c794, 3) as any as S.Schema<ListDropletAssociatedResourcesResponse>,
+  input: __S(25376, __c793, 0) as any as S.Schema<ListDropletAssociatedResourcesRequest>,
+  output: __S(25379, __c793, 3) as any as S.Schema<ListDropletAssociatedResourcesResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -35838,8 +35838,8 @@ export const listDropletBackupPolicies: API.OperationMethod<
   ListDropletBackupPoliciesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25440, __c795, 0) as any as S.Schema<ListDropletBackupPoliciesRequest>,
-  output: __S(25442, __c795, 2) as any as S.Schema<ListDropletBackupPoliciesResponse>,
+  input: __S(25408, __c794, 0) as any as S.Schema<ListDropletBackupPoliciesRequest>,
+  output: __S(25410, __c794, 2) as any as S.Schema<ListDropletBackupPoliciesResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -35857,8 +35857,8 @@ export const listDropletBackups: API.PaginatedOperationMethod<
   DropletSnapshot
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(25472, __c796, 0) as any as S.Schema<ListDropletBackupsRequest>,
-    output: __S(25473, __c796, 1) as any as S.Schema<ListDropletBackupsResponse>,
+    input: __S(25440, __c795, 0) as any as S.Schema<ListDropletBackupsRequest>,
+    output: __S(25441, __c795, 1) as any as S.Schema<ListDropletBackupsResponse>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -35885,8 +35885,8 @@ export const listDropletFirewalls: API.PaginatedOperationMethod<
   Firewall
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(25536, __c798, 0) as any as S.Schema<ListDropletFirewallsRequest>,
-    output: __S(25569, __c799, 1) as any as S.Schema<ListDropletFirewallsResponse>,
+    input: __S(25504, __c797, 0) as any as S.Schema<ListDropletFirewallsRequest>,
+    output: __S(25537, __c798, 1) as any as S.Schema<ListDropletFirewallsResponse>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -35913,8 +35913,8 @@ export const listDropletKernels: API.PaginatedOperationMethod<
   Kernel
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(25600, __c800, 0) as any as S.Schema<ListDropletKernelsRequest>,
-    output: __S(25602, __c800, 2) as any as S.Schema<ListDropletKernelsResponse>,
+    input: __S(25568, __c799, 0) as any as S.Schema<ListDropletKernelsRequest>,
+    output: __S(25570, __c799, 2) as any as S.Schema<ListDropletKernelsResponse>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -35939,8 +35939,8 @@ export const listDropletNeighbors: API.OperationMethod<
   ListDropletNeighborsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25632, __c801, 0) as any as S.Schema<ListDropletNeighborsRequest>,
-  output: __S(25633, __c801, 1) as any as S.Schema<ListDropletNeighborsResponse>,
+  input: __S(25600, __c800, 0) as any as S.Schema<ListDropletNeighborsRequest>,
+  output: __S(25601, __c800, 1) as any as S.Schema<ListDropletNeighborsResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -35956,8 +35956,8 @@ export const listDropletNeighborsIds: API.OperationMethod<
   ListDropletNeighborsIdsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25664, __c802, 0) as any as S.Schema<ListDropletNeighborsIdsRequest>,
-  output: __S(25666, __c802, 2) as any as S.Schema<NeighborIds>,
+  input: __S(25632, __c801, 0) as any as S.Schema<ListDropletNeighborsIdsRequest>,
+  output: __S(25634, __c801, 2) as any as S.Schema<NeighborIds>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -35975,8 +35975,8 @@ export const listDroplets: API.PaginatedOperationMethod<
   Droplet
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(25696, __c803, 0) as any as S.Schema<ListDropletsRequest>,
-    output: __S(25697, __c803, 1) as any as S.Schema<ListDropletsResponse>,
+    input: __S(25664, __c802, 0) as any as S.Schema<ListDropletsRequest>,
+    output: __S(25665, __c802, 1) as any as S.Schema<ListDropletsResponse>,
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -36003,8 +36003,8 @@ export const listDropletSnapshots: API.PaginatedOperationMethod<
   DropletSnapshot
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(25728, __c804, 0) as any as S.Schema<ListDropletSnapshotsRequest>,
-    output: __S(25729, __c804, 1) as any as S.Schema<ListDropletSnapshotsResponse>,
+    input: __S(25696, __c803, 0) as any as S.Schema<ListDropletSnapshotsRequest>,
+    output: __S(25697, __c803, 1) as any as S.Schema<ListDropletSnapshotsResponse>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -36029,8 +36029,8 @@ export const listDropletSupportedBackupPolicies: API.OperationMethod<
   ListDropletSupportedBackupPoliciesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25760, __c805, 0) as any as S.Schema<ListDropletSupportedBackupPoliciesRequest>,
-  output: __S(25763, __c805, 3) as any as S.Schema<ListDropletSupportedBackupPoliciesResponse>,
+  input: __S(25728, __c804, 0) as any as S.Schema<ListDropletSupportedBackupPoliciesRequest>,
+  output: __S(25731, __c804, 3) as any as S.Schema<ListDropletSupportedBackupPoliciesResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -36046,7 +36046,7 @@ export const listEndpoints: API.OperationMethod<
   ListEndpointsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25888, __c809, 0) as any as S.Schema<ListEndpointsRequest>,
+  input: __S(25856, __c808, 0) as any as S.Schema<ListEndpointsRequest>,
   output: __S(9057, __c283, 1) as any as S.Schema<EndpointsResponse>,
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -36063,8 +36063,8 @@ export const listEndpointVersions: API.OperationMethod<
   ListEndpointVersionsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(25920, __c810, 0) as any as S.Schema<ListEndpointVersionsRequest>,
-  output: __S(25922, __c810, 2) as any as S.Schema<EndpointVersionsResponse>,
+  input: __S(25888, __c809, 0) as any as S.Schema<ListEndpointVersionsRequest>,
+  output: __S(25890, __c809, 2) as any as S.Schema<EndpointVersionsResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -36082,8 +36082,8 @@ export const listFirewalls: API.PaginatedOperationMethod<
   Firewall
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(25952, __c811, 0) as any as S.Schema<ListFirewallsRequest>,
-    output: __S(25569, __c799, 1) as any as S.Schema<ListFirewallsResponse>,
+    input: __S(25920, __c810, 0) as any as S.Schema<ListFirewallsRequest>,
+    output: __S(25537, __c798, 1) as any as S.Schema<ListFirewallsResponse>,
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -36110,8 +36110,8 @@ export const listFloatingIPs: API.PaginatedOperationMethod<
   FloatingIp
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(25984, __c812, 0) as any as S.Schema<ListFloatingIPsRequest>,
-    output: __S(25986, __c812, 2) as any as S.Schema<ListFloatingIPsResponse>,
+    input: __S(25952, __c811, 0) as any as S.Schema<ListFloatingIPsRequest>,
+    output: __S(25954, __c811, 2) as any as S.Schema<ListFloatingIPsResponse>,
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -36136,8 +36136,8 @@ export const listFloatingIPsAction: API.OperationMethod<
   ListFloatingIPsActionError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26016, __c813, 0) as any as S.Schema<ListFloatingIPsActionRequest>,
-  output: __S(26048, __c814, 0) as any as S.Schema<ListFloatingIPsActionResponse>,
+  input: __S(25984, __c812, 0) as any as S.Schema<ListFloatingIPsActionRequest>,
+  output: __S(26016, __c813, 0) as any as S.Schema<ListFloatingIPsActionResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -36153,8 +36153,8 @@ export const listFunctionNamespaces: API.OperationMethod<
   ListFunctionNamespacesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26080, __c815, 0) as any as S.Schema<ListFunctionNamespacesRequest>,
-  output: __S(26082, __c815, 2) as any as S.Schema<ListFunctionNamespacesResponse>,
+  input: __S(26048, __c814, 0) as any as S.Schema<ListFunctionNamespacesRequest>,
+  output: __S(26050, __c814, 2) as any as S.Schema<ListFunctionNamespacesResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -36170,8 +36170,8 @@ export const listFunctionsAccessKey: API.OperationMethod<
   ListFunctionsAccessKeyError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26112, __c816, 0) as any as S.Schema<ListFunctionsAccessKeyRequest>,
-  output: __S(26114, __c816, 2) as any as S.Schema<ListFunctionsAccessKeyResponse>,
+  input: __S(26080, __c815, 0) as any as S.Schema<ListFunctionsAccessKeyRequest>,
+  output: __S(26082, __c815, 2) as any as S.Schema<ListFunctionsAccessKeyResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -36187,8 +36187,8 @@ export const listFunctionTriggers: API.OperationMethod<
   ListFunctionTriggersError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26176, __c818, 0) as any as S.Schema<ListFunctionTriggersRequest>,
-  output: __S(26178, __c818, 2) as any as S.Schema<ListFunctionTriggersResponse>,
+  input: __S(26144, __c817, 0) as any as S.Schema<ListFunctionTriggersRequest>,
+  output: __S(26146, __c817, 2) as any as S.Schema<ListFunctionTriggersResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -36204,8 +36204,8 @@ export const listGatewayTools: API.OperationMethod<
   ListGatewayToolsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26208, __c819, 0) as any as S.Schema<ListGatewayToolsRequest>,
-  output: __S(26211, __c819, 3) as any as S.Schema<ListSessionToolsResponse>,
+  input: __S(26176, __c818, 0) as any as S.Schema<ListGatewayToolsRequest>,
+  output: __S(26179, __c818, 3) as any as S.Schema<ListSessionToolsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -36223,8 +36223,8 @@ export const listGenaiAgentApiKeys: API.PaginatedOperationMethod<
   ApiAgentAPIKeyInfo
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(26272, __c821, 0) as any as S.Schema<ListGenaiAgentApiKeysRequest>,
-    output: __S(26304, __c822, 0) as any as S.Schema<ApiListAgentAPIKeysOutput>,
+    input: __S(26240, __c820, 0) as any as S.Schema<ListGenaiAgentApiKeysRequest>,
+    output: __S(26272, __c821, 0) as any as S.Schema<ApiListAgentAPIKeysOutput>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -36251,8 +36251,8 @@ export const listGenaiAgents: API.PaginatedOperationMethod<
   ApiAgentPublic
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(26624, __c832, 0) as any as S.Schema<ListGenaiAgentsRequest>,
-    output: __S(26627, __c832, 3) as any as S.Schema<ApiListAgentsOutputPublic>,
+    input: __S(26560, __c830, 0) as any as S.Schema<ListGenaiAgentsRequest>,
+    output: __S(26563, __c830, 3) as any as S.Schema<ApiListAgentsOutputPublic>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -36279,8 +36279,8 @@ export const listGenaiAgentsByAnthropicKey: API.PaginatedOperationMethod<
   ApiAgent
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(26656, __c833, 0) as any as S.Schema<ListGenaiAgentsByAnthropicKeyRequest>,
-    output: __S(26688, __c834, 0) as any as S.Schema<ApiListAgentsByAnthropicKeyOutput>,
+    input: __S(26592, __c831, 0) as any as S.Schema<ListGenaiAgentsByAnthropicKeyRequest>,
+    output: __S(26624, __c832, 0) as any as S.Schema<ApiListAgentsByAnthropicKeyOutput>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -36307,8 +36307,8 @@ export const listGenaiAgentsByOpenaiKey: API.PaginatedOperationMethod<
   ApiAgent
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(26720, __c835, 0) as any as S.Schema<ListGenaiAgentsByOpenaiKeyRequest>,
-    output: __S(26688, __c834, 0) as any as S.Schema<ApiListAgentsByOpenAIKeyOutput>,
+    input: __S(26656, __c833, 0) as any as S.Schema<ListGenaiAgentsByOpenaiKeyRequest>,
+    output: __S(26624, __c832, 0) as any as S.Schema<ApiListAgentsByOpenAIKeyOutput>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -36335,8 +36335,8 @@ export const listGenaiAgentsByWorkspace: API.PaginatedOperationMethod<
   ApiAgent
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(26752, __c836, 0) as any as S.Schema<ListGenaiAgentsByWorkspaceRequest>,
-    output: __S(26688, __c834, 0) as any as S.Schema<ApiListAgentsByWorkspaceOutput>,
+    input: __S(26688, __c834, 0) as any as S.Schema<ListGenaiAgentsByWorkspaceRequest>,
+    output: __S(26624, __c832, 0) as any as S.Schema<ApiListAgentsByWorkspaceOutput>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -36363,8 +36363,8 @@ export const listGenaiAgentVersions: API.PaginatedOperationMethod<
   ApiAgentVersion
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(26784, __c837, 0) as any as S.Schema<ListGenaiAgentVersionsRequest>,
-    output: __S(26795, __c837, 11) as any as S.Schema<ApiListAgentVersionsOutput>,
+    input: __S(26720, __c835, 0) as any as S.Schema<ListGenaiAgentVersionsRequest>,
+    output: __S(26731, __c835, 11) as any as S.Schema<ApiListAgentVersionsOutput>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -36391,8 +36391,8 @@ export const listGenaiAnthropicApiKeys: API.PaginatedOperationMethod<
   ApiAnthropicAPIKeyInfo
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(26816, __c838, 0) as any as S.Schema<ListGenaiAnthropicApiKeysRequest>,
-    output: __S(26818, __c838, 2) as any as S.Schema<ApiListAnthropicAPIKeysOutput>,
+    input: __S(26752, __c836, 0) as any as S.Schema<ListGenaiAnthropicApiKeysRequest>,
+    output: __S(26754, __c836, 2) as any as S.Schema<ApiListAnthropicAPIKeysOutput>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -36419,8 +36419,8 @@ export const listGenaiCustomModels: API.PaginatedOperationMethod<
   ApiCustomModel
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(26848, __c839, 0) as any as S.Schema<ListGenaiCustomModelsRequest>,
-    output: __S(26850, __c839, 2) as any as S.Schema<ApiListCustomModelsOutputPublic>,
+    input: __S(26784, __c837, 0) as any as S.Schema<ListGenaiCustomModelsRequest>,
+    output: __S(26786, __c837, 2) as any as S.Schema<ApiListCustomModelsOutputPublic>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -36445,8 +36445,8 @@ export const listGenaiDatacenterRegions: API.OperationMethod<
   ListGenaiDatacenterRegionsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26880, __c840, 0) as any as S.Schema<ListGenaiDatacenterRegionsRequest>,
-  output: __S(26883, __c840, 3) as any as S.Schema<ApiListRegionsOutput>,
+  input: __S(26816, __c838, 0) as any as S.Schema<ListGenaiDatacenterRegionsRequest>,
+  output: __S(26819, __c838, 3) as any as S.Schema<ApiListRegionsOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -36462,8 +36462,8 @@ export const listGenaiEvaluationDatasets: API.OperationMethod<
   ListGenaiEvaluationDatasetsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26912, __c841, 0) as any as S.Schema<ListGenaiEvaluationDatasetsRequest>,
-  output: __S(26914, __c841, 2) as any as S.Schema<ApiListEvaluationDatasetsOutput>,
+  input: __S(26848, __c839, 0) as any as S.Schema<ListGenaiEvaluationDatasetsRequest>,
+  output: __S(26850, __c839, 2) as any as S.Schema<ApiListEvaluationDatasetsOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -36479,8 +36479,8 @@ export const listGenaiEvaluationMetrics: API.OperationMethod<
   ListGenaiEvaluationMetricsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(26944, __c842, 0) as any as S.Schema<ListGenaiEvaluationMetricsRequest>,
-  output: __S(26976, __c843, 0) as any as S.Schema<ApiListEvaluationMetricsOutput>,
+  input: __S(26880, __c840, 0) as any as S.Schema<ListGenaiEvaluationMetricsRequest>,
+  output: __S(26912, __c841, 0) as any as S.Schema<ApiListEvaluationMetricsOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -36496,8 +36496,8 @@ export const listGenaiEvaluationRunsByTestCase: API.OperationMethod<
   ListGenaiEvaluationRunsByTestCaseError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27200, __c850, 0) as any as S.Schema<ListGenaiEvaluationRunsByTestCaseRequest>,
-  output: __S(27202, __c850, 2) as any as S.Schema<ApiListEvaluationRunsByTestCaseOutput>,
+  input: __S(27136, __c848, 0) as any as S.Schema<ListGenaiEvaluationRunsByTestCaseRequest>,
+  output: __S(27138, __c848, 2) as any as S.Schema<ApiListEvaluationRunsByTestCaseOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -36513,8 +36513,8 @@ export const listGenaiEvaluationTestCases: API.OperationMethod<
   ListGenaiEvaluationTestCasesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27232, __c851, 0) as any as S.Schema<ListGenaiEvaluationTestCasesRequest>,
-  output: __S(27264, __c852, 0) as any as S.Schema<ApiListEvaluationTestCasesOutput>,
+  input: __S(27168, __c849, 0) as any as S.Schema<ListGenaiEvaluationTestCasesRequest>,
+  output: __S(27200, __c850, 0) as any as S.Schema<ApiListEvaluationTestCasesOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -36530,8 +36530,8 @@ export const listGenaiEvaluationTestCasesByWorkspace: API.OperationMethod<
   ListGenaiEvaluationTestCasesByWorkspaceError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27296, __c853, 0) as any as S.Schema<ListGenaiEvaluationTestCasesByWorkspaceRequest>,
-  output: __S(27264, __c852, 0) as any as S.Schema<ApiListEvaluationTestCasesByWorkspaceOutput>,
+  input: __S(27232, __c851, 0) as any as S.Schema<ListGenaiEvaluationTestCasesByWorkspaceRequest>,
+  output: __S(27200, __c850, 0) as any as S.Schema<ApiListEvaluationTestCasesByWorkspaceOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -36547,8 +36547,8 @@ export const listGenaiIndexingJobDataSources: API.OperationMethod<
   ListGenaiIndexingJobDataSourcesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27328, __c854, 0) as any as S.Schema<ListGenaiIndexingJobDataSourcesRequest>,
-  output: __S(27329, __c854, 1) as any as S.Schema<ApiListIndexingJobDataSourcesOutput>,
+  input: __S(27264, __c852, 0) as any as S.Schema<ListGenaiIndexingJobDataSourcesRequest>,
+  output: __S(27265, __c852, 1) as any as S.Schema<ApiListIndexingJobDataSourcesOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -36566,8 +36566,8 @@ export const listGenaiIndexingJobs: API.PaginatedOperationMethod<
   ApiIndexingJob
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(27360, __c855, 0) as any as S.Schema<ListGenaiIndexingJobsRequest>,
-    output: __S(27393, __c856, 1) as any as S.Schema<ApiListKnowledgeBaseIndexingJobsOutput>,
+    input: __S(27296, __c853, 0) as any as S.Schema<ListGenaiIndexingJobsRequest>,
+    output: __S(27329, __c854, 1) as any as S.Schema<ApiListKnowledgeBaseIndexingJobsOutput>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -36592,8 +36592,8 @@ export const listGenaiIndexingJobsByKnowledgeBase: API.OperationMethod<
   ListGenaiIndexingJobsByKnowledgeBaseError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27424, __c857, 0) as any as S.Schema<ListGenaiIndexingJobsByKnowledgeBaseRequest>,
-  output: __S(27393, __c856, 1) as any as S.Schema<ApiListKnowledgeBaseIndexingJobsOutput>,
+  input: __S(27360, __c855, 0) as any as S.Schema<ListGenaiIndexingJobsByKnowledgeBaseRequest>,
+  output: __S(27329, __c854, 1) as any as S.Schema<ApiListKnowledgeBaseIndexingJobsOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -36611,8 +36611,8 @@ export const listGenaiKnowledgeBaseDataSources: API.PaginatedOperationMethod<
   ApiKnowledgeBaseDataSource
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(27456, __c858, 0) as any as S.Schema<ListGenaiKnowledgeBaseDataSourcesRequest>,
-    output: __S(27458, __c858, 2) as any as S.Schema<ApiListKnowledgeBaseDataSourcesOutput>,
+    input: __S(27392, __c856, 0) as any as S.Schema<ListGenaiKnowledgeBaseDataSourcesRequest>,
+    output: __S(27394, __c856, 2) as any as S.Schema<ApiListKnowledgeBaseDataSourcesOutput>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -36639,8 +36639,8 @@ export const listGenaiKnowledgeBases: API.PaginatedOperationMethod<
   ApiKnowledgeBase
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(27488, __c859, 0) as any as S.Schema<ListGenaiKnowledgeBasesRequest>,
-    output: __S(27489, __c859, 1) as any as S.Schema<ApiListKnowledgeBasesOutput>,
+    input: __S(27424, __c857, 0) as any as S.Schema<ListGenaiKnowledgeBasesRequest>,
+    output: __S(27425, __c857, 1) as any as S.Schema<ApiListKnowledgeBasesOutput>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -36667,8 +36667,8 @@ export const listGenaiModelApiKeys: API.PaginatedOperationMethod<
   ApiAgentAPIKeyInfo
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(27520, __c860, 0) as any as S.Schema<ListGenaiModelApiKeysRequest>,
-    output: __S(26304, __c822, 0) as any as S.Schema<ApiListModelAPIKeysOutput>,
+    input: __S(27456, __c858, 0) as any as S.Schema<ListGenaiModelApiKeysRequest>,
+    output: __S(26272, __c821, 0) as any as S.Schema<ApiListModelAPIKeysOutput>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -36693,8 +36693,8 @@ export const listGenaiModelCatalog: API.OperationMethod<
   ListGenaiModelCatalogError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27552, __c861, 0) as any as S.Schema<ListGenaiModelCatalogRequest>,
-  output: __S(27555, __c861, 3) as any as S.Schema<ApiListModelCatalogOutput>,
+  input: __S(27488, __c859, 0) as any as S.Schema<ListGenaiModelCatalogRequest>,
+  output: __S(27491, __c859, 3) as any as S.Schema<ApiListModelCatalogOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -36710,8 +36710,8 @@ export const listGenaiModelCatalogV2: API.OperationMethod<
   ListGenaiModelCatalogV2Error,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27616, __c863, 0) as any as S.Schema<ListGenaiModelCatalogV2Request>,
-  output: __S(27618, __c863, 2) as any as S.Schema<ApiListModelCatalogV2Output>,
+  input: __S(27552, __c861, 0) as any as S.Schema<ListGenaiModelCatalogV2Request>,
+  output: __S(27554, __c861, 2) as any as S.Schema<ApiListModelCatalogV2Output>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -36727,8 +36727,8 @@ export const listGenaiModelEvaluationMetrics: API.OperationMethod<
   ListGenaiModelEvaluationMetricsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27648, __c864, 0) as any as S.Schema<ListGenaiModelEvaluationMetricsRequest>,
-  output: __S(26976, __c843, 0) as any as S.Schema<ApiListModelEvaluationMetricsOutput>,
+  input: __S(27584, __c862, 0) as any as S.Schema<ListGenaiModelEvaluationMetricsRequest>,
+  output: __S(26912, __c841, 0) as any as S.Schema<ApiListModelEvaluationMetricsOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -36744,8 +36744,8 @@ export const listGenaiModelEvaluationPresets: API.OperationMethod<
   ListGenaiModelEvaluationPresetsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(27680, __c865, 0) as any as S.Schema<ListGenaiModelEvaluationPresetsRequest>,
-  output: __S(27682, __c865, 2) as any as S.Schema<ApiListModelEvaluationPresetsOutput>,
+  input: __S(27616, __c863, 0) as any as S.Schema<ListGenaiModelEvaluationPresetsRequest>,
+  output: __S(27618, __c863, 2) as any as S.Schema<ApiListModelEvaluationPresetsOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -36763,8 +36763,8 @@ export const listGenaiModelEvaluationRuns: API.PaginatedOperationMethod<
   ApiModelEvaluationRunSummary
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(27712, __c866, 0) as any as S.Schema<ListGenaiModelEvaluationRunsRequest>,
-    output: __S(27714, __c866, 2) as any as S.Schema<ApiListModelEvaluationRunsOutput>,
+    input: __S(27648, __c864, 0) as any as S.Schema<ListGenaiModelEvaluationRunsRequest>,
+    output: __S(27650, __c864, 2) as any as S.Schema<ApiListModelEvaluationRunsOutput>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -36791,8 +36791,8 @@ export const listGenaiModelRouterPresets: API.PaginatedOperationMethod<
   ApiModelRouterPreset
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(27744, __c867, 0) as any as S.Schema<ListGenaiModelRouterPresetsRequest>,
-    output: __S(27747, __c867, 3) as any as S.Schema<ApiListModelRouterPresetsOutput>,
+    input: __S(27680, __c865, 0) as any as S.Schema<ListGenaiModelRouterPresetsRequest>,
+    output: __S(27683, __c865, 3) as any as S.Schema<ApiListModelRouterPresetsOutput>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -36819,8 +36819,8 @@ export const listGenaiModelRouters: API.PaginatedOperationMethod<
   ApiModelRouter
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(27776, __c868, 0) as any as S.Schema<ListGenaiModelRoutersRequest>,
-    output: __S(27778, __c868, 2) as any as S.Schema<ApiListModelRoutersOutput>,
+    input: __S(27712, __c866, 0) as any as S.Schema<ListGenaiModelRoutersRequest>,
+    output: __S(27714, __c866, 2) as any as S.Schema<ApiListModelRoutersOutput>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -36847,8 +36847,8 @@ export const listGenaiModelRouterTaskPresets: API.PaginatedOperationMethod<
   ApiModelRouterTaskPreset
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(27808, __c869, 0) as any as S.Schema<ListGenaiModelRouterTaskPresetsRequest>,
-    output: __S(27811, __c869, 3) as any as S.Schema<ApiListModelRouterTaskPresetsOutput>,
+    input: __S(27744, __c867, 0) as any as S.Schema<ListGenaiModelRouterTaskPresetsRequest>,
+    output: __S(27747, __c867, 3) as any as S.Schema<ApiListModelRouterTaskPresetsOutput>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -36875,8 +36875,8 @@ export const listGenaiModels: API.PaginatedOperationMethod<
   ApiModelPublic
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(27840, __c870, 0) as any as S.Schema<ListGenaiModelsRequest>,
-    output: __S(27843, __c870, 3) as any as S.Schema<ApiListModelsOutputPublic>,
+    input: __S(27776, __c868, 0) as any as S.Schema<ListGenaiModelsRequest>,
+    output: __S(27779, __c868, 3) as any as S.Schema<ApiListModelsOutputPublic>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -36903,8 +36903,8 @@ export const listGenaiOpenaiApiKeys: API.PaginatedOperationMethod<
   ApiOpenAIAPIKeyInfo
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(27872, __c871, 0) as any as S.Schema<ListGenaiOpenaiApiKeysRequest>,
-    output: __S(27874, __c871, 2) as any as S.Schema<ApiListOpenAIAPIKeysOutput>,
+    input: __S(27808, __c869, 0) as any as S.Schema<ListGenaiOpenaiApiKeysRequest>,
+    output: __S(27810, __c869, 2) as any as S.Schema<ApiListOpenAIAPIKeysOutput>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -36931,8 +36931,8 @@ export const listGenaiScenarioLibrary: API.PaginatedOperationMethod<
   ApiScenarioLibraryEntry
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(27904, __c872, 0) as any as S.Schema<ListGenaiScenarioLibraryRequest>,
-    output: __S(27907, __c872, 3) as any as S.Schema<ApiListScenarioLibraryOutput>,
+    input: __S(27840, __c870, 0) as any as S.Schema<ListGenaiScenarioLibraryRequest>,
+    output: __S(27843, __c870, 3) as any as S.Schema<ApiListScenarioLibraryOutput>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -36959,8 +36959,8 @@ export const listGenaiScenarioLibraryScenarios: API.PaginatedOperationMethod<
   ApiScenario
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(27968, __c874, 0) as any as S.Schema<ListGenaiScenarioLibraryScenariosRequest>,
-    output: __S(28000, __c875, 0) as any as S.Schema<ApiListScenariosOutput>,
+    input: __S(27904, __c872, 0) as any as S.Schema<ListGenaiScenarioLibraryScenariosRequest>,
+    output: __S(27936, __c873, 0) as any as S.Schema<ApiListScenariosOutput>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -36987,8 +36987,8 @@ export const listGenaiScenarios: API.PaginatedOperationMethod<
   ApiScenario
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(28032, __c876, 0) as any as S.Schema<ListGenaiScenariosRequest>,
-    output: __S(28000, __c875, 0) as any as S.Schema<ApiListScenariosOutput>,
+    input: __S(27968, __c874, 0) as any as S.Schema<ListGenaiScenariosRequest>,
+    output: __S(27936, __c873, 0) as any as S.Schema<ApiListScenariosOutput>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -37015,8 +37015,8 @@ export const listGenaiScenarioSets: API.PaginatedOperationMethod<
   ApiScenarioSet
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(28064, __c877, 0) as any as S.Schema<ListGenaiScenarioSetsRequest>,
-    output: __S(28066, __c877, 2) as any as S.Schema<ApiListScenarioSetsOutput>,
+    input: __S(28000, __c875, 0) as any as S.Schema<ListGenaiScenarioSetsRequest>,
+    output: __S(28002, __c875, 2) as any as S.Schema<ApiListScenarioSetsOutput>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -37043,8 +37043,8 @@ export const listGenaiSimulationEpisodes: API.PaginatedOperationMethod<
   ApiSimulationEpisode
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(28096, __c878, 0) as any as S.Schema<ListGenaiSimulationEpisodesRequest>,
-    output: __S(28098, __c878, 2) as any as S.Schema<ApiListSimulationEpisodesOutput>,
+    input: __S(28032, __c876, 0) as any as S.Schema<ListGenaiSimulationEpisodesRequest>,
+    output: __S(28034, __c876, 2) as any as S.Schema<ApiListSimulationEpisodesOutput>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -37071,8 +37071,8 @@ export const listGenaiSimulationRuns: API.PaginatedOperationMethod<
   ApiSimulationRun
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(28128, __c879, 0) as any as S.Schema<ListGenaiSimulationRunsRequest>,
-    output: __S(28130, __c879, 2) as any as S.Schema<ApiListSimulationRunsOutput>,
+    input: __S(28064, __c877, 0) as any as S.Schema<ListGenaiSimulationRunsRequest>,
+    output: __S(28066, __c877, 2) as any as S.Schema<ApiListSimulationRunsOutput>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -37097,8 +37097,8 @@ export const listGenaiWorkspaces: API.OperationMethod<
   ListGenaiWorkspacesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28160, __c880, 0) as any as S.Schema<ListGenaiWorkspacesRequest>,
-  output: __S(28162, __c880, 2) as any as S.Schema<ApiListWorkspacesOutput>,
+  input: __S(28096, __c878, 0) as any as S.Schema<ListGenaiWorkspacesRequest>,
+  output: __S(28098, __c878, 2) as any as S.Schema<ApiListWorkspacesOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37114,8 +37114,8 @@ export const listHarnessConfigs: API.OperationMethod<
   ListHarnessConfigsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28192, __c881, 0) as any as S.Schema<ListHarnessConfigsRequest>,
-  output: __S(28195, __c881, 3) as any as S.Schema<ListAgentConfigsResponse>,
+  input: __S(28128, __c879, 0) as any as S.Schema<ListHarnessConfigsRequest>,
+  output: __S(28131, __c879, 3) as any as S.Schema<ListAgentConfigsResponse>,
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37131,8 +37131,8 @@ export const listHarnessConfigSessions: API.OperationMethod<
   ListHarnessConfigSessionsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28224, __c882, 0) as any as S.Schema<ListHarnessConfigSessionsRequest>,
-  output: __S(28256, __c883, 0) as any as S.Schema<DefinitionsListSessionsResponse>,
+  input: __S(28160, __c880, 0) as any as S.Schema<ListHarnessConfigSessionsRequest>,
+  output: __S(28192, __c881, 0) as any as S.Schema<DefinitionsListSessionsResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37148,8 +37148,8 @@ export const listHarnessImageMessages: API.OperationMethod<
   ListHarnessImageMessagesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28288, __c884, 0) as any as S.Schema<ListHarnessImageMessagesRequest>,
-  output: __S(28290, __c884, 2) as any as S.Schema<ListImageMessagesResponse>,
+  input: __S(28224, __c882, 0) as any as S.Schema<ListHarnessImageMessagesRequest>,
+  output: __S(28226, __c882, 2) as any as S.Schema<ListImageMessagesResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37165,8 +37165,8 @@ export const listHarnessProviderConnections: API.OperationMethod<
   ListHarnessProviderConnectionsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28320, __c885, 0) as any as S.Schema<ListHarnessProviderConnectionsRequest>,
-  output: __S(28322, __c885, 2) as any as S.Schema<ListProviderConnectionsResponse>,
+  input: __S(28256, __c883, 0) as any as S.Schema<ListHarnessProviderConnectionsRequest>,
+  output: __S(28258, __c883, 2) as any as S.Schema<ListProviderConnectionsResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37182,8 +37182,8 @@ export const listHarnessRegions: API.OperationMethod<
   ListHarnessRegionsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28448, __c889, 0) as any as S.Schema<ListHarnessRegionsRequest>,
-  output: __S(28451, __c889, 3) as any as S.Schema<HarnessRegionsResponse>,
+  input: __S(28384, __c887, 0) as any as S.Schema<ListHarnessRegionsRequest>,
+  output: __S(28387, __c887, 3) as any as S.Schema<HarnessRegionsResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37199,8 +37199,8 @@ export const listHarnessReusableSessions: API.OperationMethod<
   ListHarnessReusableSessionsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28480, __c890, 0) as any as S.Schema<ListHarnessReusableSessionsRequest>,
-  output: __S(28483, __c890, 3) as any as S.Schema<ListReusableSessionsResponse>,
+  input: __S(28416, __c888, 0) as any as S.Schema<ListHarnessReusableSessionsRequest>,
+  output: __S(28419, __c888, 3) as any as S.Schema<ListReusableSessionsResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37220,8 +37220,8 @@ export const listHarnessSessionCheckpoints: API.OperationMethod<
   ListHarnessSessionCheckpointsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28512, __c891, 0) as any as S.Schema<ListHarnessSessionCheckpointsRequest>,
-  output: __S(28514, __c891, 2) as any as S.Schema<ListCheckpointsResponse>,
+  input: __S(28448, __c889, 0) as any as S.Schema<ListHarnessSessionCheckpointsRequest>,
+  output: __S(28450, __c889, 2) as any as S.Schema<ListCheckpointsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37237,8 +37237,8 @@ export const listHarnessSessions: API.OperationMethod<
   ListHarnessSessionsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28544, __c892, 0) as any as S.Schema<ListHarnessSessionsRequest>,
-  output: __S(28256, __c883, 0) as any as S.Schema<DefinitionsListSessionsResponse>,
+  input: __S(28480, __c890, 0) as any as S.Schema<ListHarnessSessionsRequest>,
+  output: __S(28192, __c881, 0) as any as S.Schema<DefinitionsListSessionsResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37254,8 +37254,8 @@ export const listHarnessSessionSandboxSizes: API.OperationMethod<
   ListHarnessSessionSandboxSizesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28576, __c893, 0) as any as S.Schema<ListHarnessSessionSandboxSizesRequest>,
-  output: __S(28579, __c893, 3) as any as S.Schema<SandboxSizesResponse>,
+  input: __S(28512, __c891, 0) as any as S.Schema<ListHarnessSessionSandboxSizesRequest>,
+  output: __S(28515, __c891, 3) as any as S.Schema<SandboxSizesResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37271,8 +37271,8 @@ export const listHarnessTemplateBuilds: API.OperationMethod<
   ListHarnessTemplateBuildsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28608, __c894, 0) as any as S.Schema<ListHarnessTemplateBuildsRequest>,
-  output: __S(28610, __c894, 2) as any as S.Schema<ListTemplateBuildsResponse>,
+  input: __S(28544, __c892, 0) as any as S.Schema<ListHarnessTemplateBuildsRequest>,
+  output: __S(28546, __c892, 2) as any as S.Schema<ListTemplateBuildsResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37288,8 +37288,8 @@ export const listHarnessTemplates: API.OperationMethod<
   ListHarnessTemplatesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28640, __c895, 0) as any as S.Schema<ListHarnessTemplatesRequest>,
-  output: __S(28642, __c895, 2) as any as S.Schema<ListTemplatesResponse>,
+  input: __S(28576, __c893, 0) as any as S.Schema<ListHarnessTemplatesRequest>,
+  output: __S(28578, __c893, 2) as any as S.Schema<ListTemplatesResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37305,8 +37305,8 @@ export const listHarnessTriggers: API.OperationMethod<
   ListHarnessTriggersError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28672, __c896, 0) as any as S.Schema<ListHarnessTriggersRequest>,
-  output: __S(28674, __c896, 2) as any as S.Schema<ListTriggersResponse>,
+  input: __S(28608, __c894, 0) as any as S.Schema<ListHarnessTriggersRequest>,
+  output: __S(28610, __c894, 2) as any as S.Schema<ListTriggersResponse>,
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37322,8 +37322,8 @@ export const listHarnessWebhookProviders: API.OperationMethod<
   ListHarnessWebhookProvidersError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28704, __c897, 0) as any as S.Schema<ListHarnessWebhookProvidersRequest>,
-  output: __S(28708, __c897, 4) as any as S.Schema<ListWebhookProvidersResponse>,
+  input: __S(28640, __c895, 0) as any as S.Schema<ListHarnessWebhookProvidersRequest>,
+  output: __S(28644, __c895, 4) as any as S.Schema<ListWebhookProvidersResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37339,8 +37339,8 @@ export const listHarnessWorkspaces: API.OperationMethod<
   ListHarnessWorkspacesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28736, __c898, 0) as any as S.Schema<ListHarnessWorkspacesRequest>,
-  output: __S(28738, __c898, 2) as any as S.Schema<ListWorkspacesResponse>,
+  input: __S(28672, __c896, 0) as any as S.Schema<ListHarnessWorkspacesRequest>,
+  output: __S(28674, __c896, 2) as any as S.Schema<ListWorkspacesResponse>,
   errors: [BadRequest, Forbidden, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37356,8 +37356,8 @@ export const listImageActions: API.OperationMethod<
   ListImageActionsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28864, __c902, 0) as any as S.Schema<ListImageActionsRequest>,
-  output: __S(26048, __c814, 0) as any as S.Schema<ListImageActionsResponse>,
+  input: __S(28800, __c900, 0) as any as S.Schema<ListImageActionsRequest>,
+  output: __S(26016, __c813, 0) as any as S.Schema<ListImageActionsResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37375,8 +37375,8 @@ export const listImages: API.PaginatedOperationMethod<
   Image
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(28896, __c903, 0) as any as S.Schema<ListImagesRequest>,
-    output: __S(28898, __c903, 2) as any as S.Schema<ListImagesResponse>,
+    input: __S(28832, __c901, 0) as any as S.Schema<ListImagesRequest>,
+    output: __S(28834, __c901, 2) as any as S.Schema<ListImagesResponse>,
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -37401,8 +37401,8 @@ export const listInferenceBatches: API.OperationMethod<
   ListInferenceBatchesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28928, __c904, 0) as any as S.Schema<ListInferenceBatchesRequest>,
-  output: __S(28930, __c904, 2) as any as S.Schema<BatchListResponse>,
+  input: __S(28864, __c902, 0) as any as S.Schema<ListInferenceBatchesRequest>,
+  output: __S(28866, __c902, 2) as any as S.Schema<BatchListResponse>,
   errors: [Forbidden, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37418,8 +37418,8 @@ export const listInferenceModels: API.OperationMethod<
   ListInferenceModelsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28960, __c905, 0) as any as S.Schema<ListInferenceModelsRequest>,
-  output: __S(28963, __c905, 3) as any as S.Schema<ListModelsResponse>,
+  input: __S(28896, __c903, 0) as any as S.Schema<ListInferenceModelsRequest>,
+  output: __S(28899, __c903, 3) as any as S.Schema<ListModelsResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37437,8 +37437,8 @@ export const listInsightAlertInstances: API.PaginatedOperationMethod<
   AlertInstance
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(28992, __c906, 0) as any as S.Schema<ListInsightAlertInstancesRequest>,
-    output: __S(28994, __c906, 2) as any as S.Schema<ListInsightAlertInstancesResponse>,
+    input: __S(28928, __c904, 0) as any as S.Schema<ListInsightAlertInstancesRequest>,
+    output: __S(28930, __c904, 2) as any as S.Schema<ListInsightAlertInstancesResponse>,
     errors: [BadRequest, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -37465,8 +37465,8 @@ export const listInsightAlertRules: API.PaginatedOperationMethod<
   AlertRule
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(29024, __c907, 0) as any as S.Schema<ListInsightAlertRulesRequest>,
-    output: __S(29026, __c907, 2) as any as S.Schema<ListInsightAlertRulesResponse>,
+    input: __S(28960, __c905, 0) as any as S.Schema<ListInsightAlertRulesRequest>,
+    output: __S(28962, __c905, 2) as any as S.Schema<ListInsightAlertRulesResponse>,
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -37491,8 +37491,8 @@ export const listInsightDashboards: API.OperationMethod<
   ListInsightDashboardsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29056, __c908, 0) as any as S.Schema<ListInsightDashboardsRequest>,
-  output: __S(29059, __c908, 3) as any as S.Schema<ListDashboardsResponse>,
+  input: __S(28992, __c906, 0) as any as S.Schema<ListInsightDashboardsRequest>,
+  output: __S(28995, __c906, 3) as any as S.Schema<ListDashboardsResponse>,
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37510,8 +37510,8 @@ export const listInsightNotificationChannels: API.PaginatedOperationMethod<
   NotificationChannel
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(29088, __c909, 0) as any as S.Schema<ListInsightNotificationChannelsRequest>,
-    output: __S(29090, __c909, 2) as any as S.Schema<ListInsightNotificationChannelsResponse>,
+    input: __S(29024, __c907, 0) as any as S.Schema<ListInsightNotificationChannelsRequest>,
+    output: __S(29026, __c907, 2) as any as S.Schema<ListInsightNotificationChannelsResponse>,
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -37536,8 +37536,8 @@ export const listInsightResources: API.OperationMethod<
   ListInsightResourcesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29120, __c910, 0) as any as S.Schema<ListInsightResourcesRequest>,
-  output: __S(29123, __c910, 3) as any as S.Schema<ListResourcesResponse>,
+  input: __S(29056, __c908, 0) as any as S.Schema<ListInsightResourcesRequest>,
+  output: __S(29059, __c908, 3) as any as S.Schema<ListResourcesResponse>,
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37555,8 +37555,8 @@ export const listInvoices: API.PaginatedOperationMethod<
   InvoicePreview
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(29152, __c911, 0) as any as S.Schema<ListInvoicesRequest>,
-    output: __S(29155, __c911, 3) as any as S.Schema<ListInvoicesResponse>,
+    input: __S(29088, __c909, 0) as any as S.Schema<ListInvoicesRequest>,
+    output: __S(29091, __c909, 3) as any as S.Schema<ListInvoicesResponse>,
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -37581,8 +37581,8 @@ export const listKubernetesAssociatedResources: API.OperationMethod<
   ListKubernetesAssociatedResourcesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29280, __c915, 0) as any as S.Schema<ListKubernetesAssociatedResourcesRequest>,
-  output: __S(29283, __c915, 3) as any as S.Schema<AssociatedKubernetesResources>,
+  input: __S(29216, __c913, 0) as any as S.Schema<ListKubernetesAssociatedResourcesRequest>,
+  output: __S(29219, __c913, 3) as any as S.Schema<AssociatedKubernetesResources>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37600,8 +37600,8 @@ export const listKubernetesClusters: API.PaginatedOperationMethod<
   ClusterRead
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(29312, __c916, 0) as any as S.Schema<ListKubernetesClustersRequest>,
-    output: __S(29314, __c916, 2) as any as S.Schema<ListKubernetesClustersResponse>,
+    input: __S(29248, __c914, 0) as any as S.Schema<ListKubernetesClustersRequest>,
+    output: __S(29250, __c914, 2) as any as S.Schema<ListKubernetesClustersResponse>,
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -37626,8 +37626,8 @@ export const listKubernetesNodePools: API.OperationMethod<
   ListKubernetesNodePoolsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29344, __c917, 0) as any as S.Schema<ListKubernetesNodePoolsRequest>,
-  output: __S(29345, __c917, 1) as any as S.Schema<ListKubernetesNodePoolsResponse>,
+  input: __S(29280, __c915, 0) as any as S.Schema<ListKubernetesNodePoolsRequest>,
+  output: __S(29281, __c915, 1) as any as S.Schema<ListKubernetesNodePoolsResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37643,8 +37643,8 @@ export const listKubernetesOptions: API.OperationMethod<
   ListKubernetesOptionsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29376, __c918, 0) as any as S.Schema<ListKubernetesOptionsRequest>,
-  output: __S(29380, __c918, 4) as any as S.Schema<KubernetesOptions>,
+  input: __S(29312, __c916, 0) as any as S.Schema<ListKubernetesOptionsRequest>,
+  output: __S(29316, __c916, 4) as any as S.Schema<KubernetesOptions>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37662,8 +37662,8 @@ export const listLoadBalancers: API.PaginatedOperationMethod<
   LoadBalancer
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(29408, __c919, 0) as any as S.Schema<ListLoadBalancersRequest>,
-    output: __S(29410, __c919, 2) as any as S.Schema<ListLoadBalancersResponse>,
+    input: __S(29344, __c917, 0) as any as S.Schema<ListLoadBalancersRequest>,
+    output: __S(29346, __c917, 2) as any as S.Schema<ListLoadBalancersResponse>,
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -37688,8 +37688,8 @@ export const listMcpServers: API.OperationMethod<
   ListMcpServersError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29440, __c920, 0) as any as S.Schema<ListMcpServersRequest>,
-  output: __S(29442, __c920, 2) as any as S.Schema<ListMcpServersResponse>,
+  input: __S(29376, __c918, 0) as any as S.Schema<ListMcpServersRequest>,
+  output: __S(29378, __c918, 2) as any as S.Schema<ListMcpServersResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37705,8 +37705,8 @@ export const listMcpServerTools: API.OperationMethod<
   ListMcpServerToolsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29472, __c921, 0) as any as S.Schema<ListMcpServerToolsRequest>,
-  output: __S(29536, __c923, 0) as any as S.Schema<ListMcpServerToolsResponse>,
+  input: __S(29408, __c919, 0) as any as S.Schema<ListMcpServerToolsRequest>,
+  output: __S(29472, __c921, 0) as any as S.Schema<ListMcpServerToolsResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37724,8 +37724,8 @@ export const listMicrovmCheckpoints: API.PaginatedOperationMethod<
   Checkpoint2
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(29568, __c924, 0) as any as S.Schema<ListMicrovmCheckpointsRequest>,
-    output: __S(29570, __c924, 2) as any as S.Schema<ListMicrovmCheckpointsResponse>,
+    input: __S(29504, __c922, 0) as any as S.Schema<ListMicrovmCheckpointsRequest>,
+    output: __S(29506, __c922, 2) as any as S.Schema<ListMicrovmCheckpointsResponse>,
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -37752,8 +37752,8 @@ export const listMicrovms: API.PaginatedOperationMethod<
   Microvm
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(29600, __c925, 0) as any as S.Schema<ListMicrovmsRequest>,
-    output: __S(29602, __c925, 2) as any as S.Schema<ListMicrovmsResponse>,
+    input: __S(29536, __c923, 0) as any as S.Schema<ListMicrovmsRequest>,
+    output: __S(29538, __c923, 2) as any as S.Schema<ListMicrovmsResponse>,
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -37780,8 +37780,8 @@ export const listMonitoringAlertPolicy: API.PaginatedOperationMethod<
   AlertPolicy
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(29632, __c926, 0) as any as S.Schema<ListMonitoringAlertPolicyRequest>,
-    output: __S(29634, __c926, 2) as any as S.Schema<ListMonitoringAlertPolicyResponse>,
+    input: __S(29568, __c924, 0) as any as S.Schema<ListMonitoringAlertPolicyRequest>,
+    output: __S(29570, __c924, 2) as any as S.Schema<ListMonitoringAlertPolicyResponse>,
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -37806,8 +37806,8 @@ export const listMonitoringDestinations: API.OperationMethod<
   ListMonitoringDestinationsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29696, __c928, 0) as any as S.Schema<ListMonitoringDestinationsRequest>,
-  output: __S(29698, __c928, 2) as any as S.Schema<ListMonitoringDestinationsResponse>,
+  input: __S(29632, __c926, 0) as any as S.Schema<ListMonitoringDestinationsRequest>,
+  output: __S(29634, __c926, 2) as any as S.Schema<ListMonitoringDestinationsResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37823,8 +37823,8 @@ export const listMonitoringSinks: API.OperationMethod<
   ListMonitoringSinksError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29728, __c929, 0) as any as S.Schema<ListMonitoringSinksRequest>,
-  output: __S(29730, __c929, 2) as any as S.Schema<ListMonitoringSinksResponse>,
+  input: __S(29664, __c927, 0) as any as S.Schema<ListMonitoringSinksRequest>,
+  output: __S(29666, __c927, 2) as any as S.Schema<ListMonitoringSinksResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37840,8 +37840,8 @@ export const listNfs: API.OperationMethod<
   ListNfsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29760, __c930, 0) as any as S.Schema<ListNfsRequest>,
-  output: __S(29762, __c930, 2) as any as S.Schema<NfsListResponse>,
+  input: __S(29696, __c928, 0) as any as S.Schema<ListNfsRequest>,
+  output: __S(29698, __c928, 2) as any as S.Schema<NfsListResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37857,8 +37857,8 @@ export const listNfsAccessPoints: API.OperationMethod<
   ListNfsAccessPointsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29792, __c931, 0) as any as S.Schema<ListNfsAccessPointsRequest>,
-  output: __S(29793, __c931, 1) as any as S.Schema<AccessPointListResponse>,
+  input: __S(29728, __c929, 0) as any as S.Schema<ListNfsAccessPointsRequest>,
+  output: __S(29729, __c929, 1) as any as S.Schema<AccessPointListResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37874,8 +37874,8 @@ export const listNfsSnapshot: API.OperationMethod<
   ListNfsSnapshotError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29824, __c932, 0) as any as S.Schema<ListNfsSnapshotRequest>,
-  output: __S(29826, __c932, 2) as any as S.Schema<NfsSnapshotListResponse>,
+  input: __S(29760, __c930, 0) as any as S.Schema<ListNfsSnapshotRequest>,
+  output: __S(29762, __c930, 2) as any as S.Schema<NfsSnapshotListResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37891,8 +37891,8 @@ export const listOneClicks: API.OperationMethod<
   ListOneClicksError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29856, __c933, 0) as any as S.Schema<ListOneClicksRequest>,
-  output: __S(29859, __c933, 3) as any as S.Schema<ListOneClicksResponse>,
+  input: __S(29792, __c931, 0) as any as S.Schema<ListOneClicksRequest>,
+  output: __S(29795, __c931, 3) as any as S.Schema<ListOneClicksResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37908,8 +37908,8 @@ export const listOrganizationTeams: API.OperationMethod<
   ListOrganizationTeamsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29888, __c934, 0) as any as S.Schema<ListOrganizationTeamsRequest>,
-  output: __S(29891, __c934, 3) as any as S.Schema<ListOrganizationTeamsResponse>,
+  input: __S(29824, __c932, 0) as any as S.Schema<ListOrganizationTeamsRequest>,
+  output: __S(29827, __c932, 3) as any as S.Schema<ListOrganizationTeamsResponse>,
   errors: [Forbidden, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37925,8 +37925,8 @@ export const listOutputViews: API.OperationMethod<
   ListOutputViewsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(29920, __c935, 0) as any as S.Schema<ListOutputViewsRequest>,
-  output: __S(29922, __c935, 2) as any as S.Schema<ListOutputViewsResponse>,
+  input: __S(29856, __c933, 0) as any as S.Schema<ListOutputViewsRequest>,
+  output: __S(29858, __c933, 2) as any as S.Schema<ListOutputViewsResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -37944,8 +37944,8 @@ export const listPartnerAttachmentRemoteRoutes: API.PaginatedOperationMethod<
   PartnerAttachmentRemoteRoute
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(29952, __c936, 0) as any as S.Schema<ListPartnerAttachmentRemoteRoutesRequest>,
-    output: __S(29955, __c936, 3) as any as S.Schema<ListPartnerAttachmentRemoteRoutesResponse>,
+    input: __S(29888, __c934, 0) as any as S.Schema<ListPartnerAttachmentRemoteRoutesRequest>,
+    output: __S(29891, __c934, 3) as any as S.Schema<ListPartnerAttachmentRemoteRoutesResponse>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -37972,8 +37972,8 @@ export const listPartnerAttachments: API.PaginatedOperationMethod<
   PartnerAttachment
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(29984, __c937, 0) as any as S.Schema<ListPartnerAttachmentsRequest>,
-    output: __S(29986, __c937, 2) as any as S.Schema<ListPartnerAttachmentsResponse>,
+    input: __S(29920, __c935, 0) as any as S.Schema<ListPartnerAttachmentsRequest>,
+    output: __S(29922, __c935, 2) as any as S.Schema<ListPartnerAttachmentsResponse>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -38000,8 +38000,8 @@ export const listProjectResources: API.PaginatedOperationMethod<
   Resource
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(30048, __c939, 0) as any as S.Schema<ListProjectResourcesRequest>,
-    output: __S(30049, __c939, 1) as any as S.Schema<ListProjectResourcesResponse>,
+    input: __S(29984, __c937, 0) as any as S.Schema<ListProjectResourcesRequest>,
+    output: __S(29985, __c937, 1) as any as S.Schema<ListProjectResourcesResponse>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -38026,8 +38026,8 @@ export const listProjectResourcesDefault: API.OperationMethod<
   ListProjectResourcesDefaultError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30080, __c940, 0) as any as S.Schema<ListProjectResourcesDefaultRequest>,
-  output: __S(30081, __c940, 1) as any as S.Schema<ListProjectResourcesDefaultResponse>,
+  input: __S(30016, __c938, 0) as any as S.Schema<ListProjectResourcesDefaultRequest>,
+  output: __S(30017, __c938, 1) as any as S.Schema<ListProjectResourcesDefaultResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -38045,8 +38045,8 @@ export const listProjects: API.PaginatedOperationMethod<
   Project
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(30112, __c941, 0) as any as S.Schema<ListProjectsRequest>,
-    output: __S(30114, __c941, 2) as any as S.Schema<ListProjectsResponse>,
+    input: __S(30048, __c939, 0) as any as S.Schema<ListProjectsRequest>,
+    output: __S(30050, __c939, 2) as any as S.Schema<ListProjectsResponse>,
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -38071,8 +38071,8 @@ export const listProviderCredentials: API.OperationMethod<
   ListProviderCredentialsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30144, __c942, 0) as any as S.Schema<ListProviderCredentialsRequest>,
-  output: __S(30146, __c942, 2) as any as S.Schema<ProviderCredentialsListResponse>,
+  input: __S(30080, __c940, 0) as any as S.Schema<ListProviderCredentialsRequest>,
+  output: __S(30082, __c940, 2) as any as S.Schema<ProviderCredentialsListResponse>,
   errors: [Forbidden, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -38090,8 +38090,8 @@ export const listRegions: API.PaginatedOperationMethod<
   Region
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(30176, __c943, 0) as any as S.Schema<ListRegionsRequest>,
-    output: __S(30178, __c943, 2) as any as S.Schema<ListRegionsResponse>,
+    input: __S(30112, __c941, 0) as any as S.Schema<ListRegionsRequest>,
+    output: __S(30114, __c941, 2) as any as S.Schema<ListRegionsResponse>,
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -38116,8 +38116,8 @@ export const listRegistries: API.OperationMethod<
   ListRegistriesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30208, __c944, 0) as any as S.Schema<ListRegistriesRequest>,
-  output: __S(30211, __c944, 3) as any as S.Schema<ListRegistriesResponse>,
+  input: __S(30144, __c942, 0) as any as S.Schema<ListRegistriesRequest>,
+  output: __S(30147, __c942, 3) as any as S.Schema<ListRegistriesResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -38133,8 +38133,8 @@ export const listRegistryGarbageCollections: API.OperationMethod<
   ListRegistryGarbageCollectionsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30240, __c945, 0) as any as S.Schema<ListRegistryGarbageCollectionsRequest>,
-  output: __S(30242, __c945, 2) as any as S.Schema<ListRegistryGarbageCollectionsResponse>,
+  input: __S(30176, __c943, 0) as any as S.Schema<ListRegistryGarbageCollectionsRequest>,
+  output: __S(30178, __c943, 2) as any as S.Schema<ListRegistryGarbageCollectionsResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -38152,8 +38152,8 @@ export const listRegistryRepositoriesV2: API.PaginatedOperationMethod<
   RepositoryV2
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(30272, __c946, 0) as any as S.Schema<ListRegistryRepositoriesV2Request>,
-    output: __S(30275, __c946, 3) as any as S.Schema<ListRegistryRepositoriesV2Response>,
+    input: __S(30208, __c944, 0) as any as S.Schema<ListRegistryRepositoriesV2Request>,
+    output: __S(30211, __c944, 3) as any as S.Schema<ListRegistryRepositoriesV2Response>,
     errors: [BadRequest, NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -38180,8 +38180,8 @@ export const listRegistryRepositoryManifests: API.PaginatedOperationMethod<
   RepositoryManifest
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(30336, __c948, 0) as any as S.Schema<ListRegistryRepositoryManifestsRequest>,
-    output: __S(30338, __c948, 2) as any as S.Schema<ListRegistryRepositoryManifestsResponse>,
+    input: __S(30272, __c946, 0) as any as S.Schema<ListRegistryRepositoryManifestsRequest>,
+    output: __S(30274, __c946, 2) as any as S.Schema<ListRegistryRepositoryManifestsResponse>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -38208,8 +38208,8 @@ export const listRegistryRepositoryTags: API.PaginatedOperationMethod<
   RepositoryTag
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(30368, __c949, 0) as any as S.Schema<ListRegistryRepositoryTagsRequest>,
-    output: __S(30371, __c949, 3) as any as S.Schema<ListRegistryRepositoryTagsResponse>,
+    input: __S(30304, __c947, 0) as any as S.Schema<ListRegistryRepositoryTagsRequest>,
+    output: __S(30307, __c947, 3) as any as S.Schema<ListRegistryRepositoryTagsResponse>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -38236,8 +38236,8 @@ export const listReservedIPs: API.PaginatedOperationMethod<
   ReservedIp
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(30464, __c952, 0) as any as S.Schema<ListReservedIPsRequest>,
-    output: __S(30466, __c952, 2) as any as S.Schema<ListReservedIPsResponse>,
+    input: __S(30400, __c950, 0) as any as S.Schema<ListReservedIPsRequest>,
+    output: __S(30402, __c950, 2) as any as S.Schema<ListReservedIPsResponse>,
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -38262,8 +38262,8 @@ export const listReservedIPsActions: API.OperationMethod<
   ListReservedIPsActionsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30496, __c953, 0) as any as S.Schema<ListReservedIPsActionsRequest>,
-  output: __S(26048, __c814, 0) as any as S.Schema<ListReservedIPsActionsResponse>,
+  input: __S(30432, __c951, 0) as any as S.Schema<ListReservedIPsActionsRequest>,
+  output: __S(26016, __c813, 0) as any as S.Schema<ListReservedIPsActionsResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -38281,8 +38281,8 @@ export const listReservedIPv6: API.PaginatedOperationMethod<
   ListReservedIPv6ResponseReservedIpv6sItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(30528, __c954, 0) as any as S.Schema<ListReservedIPv6Request>,
-    output: __S(30531, __c954, 3) as any as S.Schema<ListReservedIPv6Response>,
+    input: __S(30464, __c952, 0) as any as S.Schema<ListReservedIPv6Request>,
+    output: __S(30467, __c952, 3) as any as S.Schema<ListReservedIPv6Response>,
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -38307,10 +38307,10 @@ export const listSecurityScanFindingAffectedResources: API.OperationMethod<
   ListSecurityScanFindingAffectedResourcesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30560, __c955, 0) as any as S.Schema<ListSecurityScanFindingAffectedResourcesRequest>,
+  input: __S(30496, __c953, 0) as any as S.Schema<ListSecurityScanFindingAffectedResourcesRequest>,
   output: __S(
-    30563,
-    __c955,
+    30499,
+    __c953,
     3,
   ) as any as S.Schema<ListSecurityScanFindingAffectedResourcesResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
@@ -38330,8 +38330,8 @@ export const listSecurityScans: API.PaginatedOperationMethod<
   Scan
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(30592, __c956, 0) as any as S.Schema<ListSecurityScansRequest>,
-    output: __S(30594, __c956, 2) as any as S.Schema<ListSecurityScansResponse>,
+    input: __S(30528, __c954, 0) as any as S.Schema<ListSecurityScansRequest>,
+    output: __S(30530, __c954, 2) as any as S.Schema<ListSecurityScansResponse>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -38358,8 +38358,8 @@ export const listSecuritySecrets: API.PaginatedOperationMethod<
   SecretListItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(30624, __c957, 0) as any as S.Schema<ListSecuritySecretsRequest>,
-    output: __S(30626, __c957, 2) as any as S.Schema<ListSecuritySecretsResponse>,
+    input: __S(30560, __c955, 0) as any as S.Schema<ListSecuritySecretsRequest>,
+    output: __S(30562, __c955, 2) as any as S.Schema<ListSecuritySecretsResponse>,
     errors: [Forbidden, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -38388,8 +38388,8 @@ export const listSecuritySecretVersions: API.OperationMethod<
   ListSecuritySecretVersionsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30688, __c959, 0) as any as S.Schema<ListSecuritySecretVersionsRequest>,
-  output: __S(30691, __c959, 3) as any as S.Schema<ListSecuritySecretVersionsResponse>,
+  input: __S(30624, __c957, 0) as any as S.Schema<ListSecuritySecretVersionsRequest>,
+  output: __S(30627, __c957, 3) as any as S.Schema<ListSecuritySecretVersionsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -38405,8 +38405,8 @@ export const listSecuritySettings: API.OperationMethod<
   ListSecuritySettingsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30720, __c960, 0) as any as S.Schema<ListSecuritySettingsRequest>,
-  output: __S(30724, __c960, 4) as any as S.Schema<Settings>,
+  input: __S(30656, __c958, 0) as any as S.Schema<ListSecuritySettingsRequest>,
+  output: __S(30660, __c958, 4) as any as S.Schema<Settings>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -38422,8 +38422,8 @@ export const listSignalAgentSessions: API.OperationMethod<
   ListSignalAgentSessionsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30784, __c962, 0) as any as S.Schema<ListSignalAgentSessionsRequest>,
-  output: __S(30788, __c962, 4) as any as S.Schema<ListSignalAgentSessionsResponse>,
+  input: __S(30720, __c960, 0) as any as S.Schema<ListSignalAgentSessionsRequest>,
+  output: __S(30724, __c960, 4) as any as S.Schema<ListSignalAgentSessionsResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -38439,8 +38439,8 @@ export const listSignalConsents: API.OperationMethod<
   ListSignalConsentsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30848, __c964, 0) as any as S.Schema<ListSignalConsentsRequest>,
-  output: __S(30850, __c964, 2) as any as S.Schema<ListConsents>,
+  input: __S(30784, __c962, 0) as any as S.Schema<ListSignalConsentsRequest>,
+  output: __S(30786, __c962, 2) as any as S.Schema<ListConsents>,
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -38456,8 +38456,8 @@ export const listSignalDeletions: API.OperationMethod<
   ListSignalDeletionsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(30976, __c968, 0) as any as S.Schema<ListSignalDeletionsRequest>,
-  output: __S(30980, __c968, 4) as any as S.Schema<ListSignalDeletionsResponse>,
+  input: __S(30912, __c966, 0) as any as S.Schema<ListSignalDeletionsRequest>,
+  output: __S(30916, __c966, 4) as any as S.Schema<ListSignalDeletionsResponse>,
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -38473,8 +38473,8 @@ export const listSignalExports: API.OperationMethod<
   ListSignalExportsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31008, __c969, 0) as any as S.Schema<ListSignalExportsRequest>,
-  output: __S(31011, __c969, 3) as any as S.Schema<ListSignalExportsResponse>,
+  input: __S(30944, __c967, 0) as any as S.Schema<ListSignalExportsRequest>,
+  output: __S(30947, __c967, 3) as any as S.Schema<ListSignalExportsResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -38490,8 +38490,8 @@ export const listSignalSessionDialogues: API.OperationMethod<
   ListSignalSessionDialoguesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31072, __c971, 0) as any as S.Schema<ListSignalSessionDialoguesRequest>,
-  output: __S(31076, __c971, 4) as any as S.Schema<ListSignalSessionDialoguesResponse>,
+  input: __S(31008, __c969, 0) as any as S.Schema<ListSignalSessionDialoguesRequest>,
+  output: __S(31012, __c969, 4) as any as S.Schema<ListSignalSessionDialoguesResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -38509,8 +38509,8 @@ export const listSizes: API.PaginatedOperationMethod<
   Size
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(31104, __c972, 0) as any as S.Schema<ListSizesRequest>,
-    output: __S(31106, __c972, 2) as any as S.Schema<ListSizesResponse>,
+    input: __S(31040, __c970, 0) as any as S.Schema<ListSizesRequest>,
+    output: __S(31042, __c970, 2) as any as S.Schema<ListSizesResponse>,
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -38537,8 +38537,8 @@ export const listSnapshots: API.PaginatedOperationMethod<
   Snapshots
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(31136, __c973, 0) as any as S.Schema<ListSnapshotsRequest>,
-    output: __S(31169, __c974, 1) as any as S.Schema<ListSnapshotsResponse>,
+    input: __S(31072, __c971, 0) as any as S.Schema<ListSnapshotsRequest>,
+    output: __S(31105, __c972, 1) as any as S.Schema<ListSnapshotsResponse>,
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -38565,8 +38565,8 @@ export const listSpacesKey: API.PaginatedOperationMethod<
   Key
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(31200, __c975, 0) as any as S.Schema<ListSpacesKeyRequest>,
-    output: __S(31201, __c975, 1) as any as S.Schema<ListSpacesKeyResponse>,
+    input: __S(31136, __c973, 0) as any as S.Schema<ListSpacesKeyRequest>,
+    output: __S(31137, __c973, 1) as any as S.Schema<ListSpacesKeyResponse>,
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -38593,8 +38593,8 @@ export const listSshKeys: API.PaginatedOperationMethod<
   SshKeys
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(31232, __c976, 0) as any as S.Schema<ListSshKeysRequest>,
-    output: __S(31234, __c976, 2) as any as S.Schema<ListSshKeysResponse>,
+    input: __S(31168, __c974, 0) as any as S.Schema<ListSshKeysRequest>,
+    output: __S(31170, __c974, 2) as any as S.Schema<ListSshKeysResponse>,
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -38621,8 +38621,8 @@ export const listTags: API.PaginatedOperationMethod<
   Tags
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(31264, __c977, 0) as any as S.Schema<ListTagsRequest>,
-    output: __S(31266, __c977, 2) as any as S.Schema<ListTagsResponse>,
+    input: __S(31200, __c975, 0) as any as S.Schema<ListTagsRequest>,
+    output: __S(31202, __c975, 2) as any as S.Schema<ListTagsResponse>,
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -38647,8 +38647,8 @@ export const listToolbeltProviders: API.OperationMethod<
   ListToolbeltProvidersError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31296, __c978, 0) as any as S.Schema<ListToolbeltProvidersRequest>,
-  output: __S(31299, __c978, 3) as any as S.Schema<ListToolbeltProvidersResponse>,
+  input: __S(31232, __c976, 0) as any as S.Schema<ListToolbeltProvidersRequest>,
+  output: __S(31235, __c976, 3) as any as S.Schema<ListToolbeltProvidersResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -38664,8 +38664,8 @@ export const listToolbeltProviderTools: API.OperationMethod<
   ListToolbeltProviderToolsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31328, __c979, 0) as any as S.Schema<ListToolbeltProviderToolsRequest>,
-  output: __S(31329, __c979, 1) as any as S.Schema<ListToolbeltProviderToolsResponse>,
+  input: __S(31264, __c977, 0) as any as S.Schema<ListToolbeltProviderToolsRequest>,
+  output: __S(31265, __c977, 1) as any as S.Schema<ListToolbeltProviderToolsResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -38681,8 +38681,8 @@ export const listToolbelts: API.OperationMethod<
   ListToolbeltsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31424, __c982, 0) as any as S.Schema<ListToolbeltsRequest>,
-  output: __S(31425, __c982, 1) as any as S.Schema<ToolbeltsResponse>,
+  input: __S(31360, __c980, 0) as any as S.Schema<ListToolbeltsRequest>,
+  output: __S(31361, __c980, 1) as any as S.Schema<ToolbeltsResponse>,
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -38698,8 +38698,8 @@ export const listToolHealth: API.OperationMethod<
   ListToolHealthError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31488, __c984, 0) as any as S.Schema<ListToolHealthRequest>,
-  output: __S(31490, __c984, 2) as any as S.Schema<ListToolHealthResponse>,
+  input: __S(31424, __c982, 0) as any as S.Schema<ListToolHealthRequest>,
+  output: __S(31426, __c982, 2) as any as S.Schema<ListToolHealthResponse>,
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -38715,8 +38715,8 @@ export const listToolHealthProviders: API.OperationMethod<
   ListToolHealthProvidersError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31520, __c985, 0) as any as S.Schema<ListToolHealthProvidersRequest>,
-  output: __S(31523, __c985, 3) as any as S.Schema<ListProviderHealthResponse>,
+  input: __S(31456, __c983, 0) as any as S.Schema<ListToolHealthProvidersRequest>,
+  output: __S(31459, __c983, 3) as any as S.Schema<ListProviderHealthResponse>,
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -38732,8 +38732,8 @@ export const listToolProviders: API.OperationMethod<
   ListToolProvidersError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31552, __c986, 0) as any as S.Schema<ListToolProvidersRequest>,
-  output: __S(31553, __c986, 1) as any as S.Schema<ListProvidersResponse>,
+  input: __S(31488, __c984, 0) as any as S.Schema<ListToolProvidersRequest>,
+  output: __S(31489, __c984, 1) as any as S.Schema<ListProvidersResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -38749,8 +38749,8 @@ export const listTools: API.OperationMethod<
   ListToolsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31616, __c988, 0) as any as S.Schema<ListToolsRequest>,
-  output: __S(31623, __c988, 7) as any as S.Schema<ListToolsResponse>,
+  input: __S(31552, __c986, 0) as any as S.Schema<ListToolsRequest>,
+  output: __S(31559, __c986, 7) as any as S.Schema<ListToolsResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -38766,8 +38766,8 @@ export const listToolToolkits: API.OperationMethod<
   ListToolToolkitsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31648, __c989, 0) as any as S.Schema<ListToolToolkitsRequest>,
-  output: __S(31651, __c989, 3) as any as S.Schema<ListToolkitsResponse>,
+  input: __S(31584, __c987, 0) as any as S.Schema<ListToolToolkitsRequest>,
+  output: __S(31587, __c987, 3) as any as S.Schema<ListToolkitsResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -38785,8 +38785,8 @@ export const listUptimeAlerts: API.PaginatedOperationMethod<
   Alert
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(31680, __c990, 0) as any as S.Schema<ListUptimeAlertsRequest>,
-    output: __S(31682, __c990, 2) as any as S.Schema<ListUptimeAlertsResponse>,
+    input: __S(31616, __c988, 0) as any as S.Schema<ListUptimeAlertsRequest>,
+    output: __S(31618, __c988, 2) as any as S.Schema<ListUptimeAlertsResponse>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -38813,8 +38813,8 @@ export const listUptimeChecks: API.PaginatedOperationMethod<
   Check
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(31712, __c991, 0) as any as S.Schema<ListUptimeChecksRequest>,
-    output: __S(31714, __c991, 2) as any as S.Schema<ListUptimeChecksResponse>,
+    input: __S(31648, __c989, 0) as any as S.Schema<ListUptimeChecksRequest>,
+    output: __S(31650, __c989, 2) as any as S.Schema<ListUptimeChecksResponse>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -38839,8 +38839,8 @@ export const listUsers: API.OperationMethod<
   ListUsersError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31744, __c992, 0) as any as S.Schema<ListUsersRequest>,
-  output: __S(31745, __c992, 1) as any as S.Schema<ListUsersResponse>,
+  input: __S(31680, __c990, 0) as any as S.Schema<ListUsersRequest>,
+  output: __S(31681, __c990, 1) as any as S.Schema<ListUsersResponse>,
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -38856,8 +38856,8 @@ export const listVectorDatabaseBackups: API.OperationMethod<
   ListVectorDatabaseBackupsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31776, __c993, 0) as any as S.Schema<ListVectorDatabaseBackupsRequest>,
-  output: __S(31779, __c993, 3) as any as S.Schema<VectordbListBackupsResponse>,
+  input: __S(31712, __c991, 0) as any as S.Schema<ListVectorDatabaseBackupsRequest>,
+  output: __S(31715, __c991, 3) as any as S.Schema<VectordbListBackupsResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -38873,8 +38873,8 @@ export const listVectorDatabases: API.OperationMethod<
   ListVectorDatabasesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(31872, __c996, 0) as any as S.Schema<ListVectorDatabasesRequest>,
-  output: __S(31874, __c996, 2) as any as S.Schema<VectordbListVectorDBsResponse>,
+  input: __S(31808, __c994, 0) as any as S.Schema<ListVectorDatabasesRequest>,
+  output: __S(31810, __c994, 2) as any as S.Schema<VectordbListVectorDBsResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -38892,8 +38892,8 @@ export const listVolumeActions: API.PaginatedOperationMethod<
   VolumeAction
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(31904, __c997, 0) as any as S.Schema<ListVolumeActionsRequest>,
-    output: __S(31906, __c997, 2) as any as S.Schema<ListVolumeActionsResponse>,
+    input: __S(31840, __c995, 0) as any as S.Schema<ListVolumeActionsRequest>,
+    output: __S(31842, __c995, 2) as any as S.Schema<ListVolumeActionsResponse>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -38920,8 +38920,8 @@ export const listVolumes: API.PaginatedOperationMethod<
   VolumeFull
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(31936, __c998, 0) as any as S.Schema<ListVolumesRequest>,
-    output: __S(31938, __c998, 2) as any as S.Schema<ListVolumesResponse>,
+    input: __S(31872, __c996, 0) as any as S.Schema<ListVolumesRequest>,
+    output: __S(31874, __c996, 2) as any as S.Schema<ListVolumesResponse>,
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -38948,8 +38948,8 @@ export const listVolumeSnapshots: API.PaginatedOperationMethod<
   Snapshots
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(31968, __c999, 0) as any as S.Schema<ListVolumeSnapshotsRequest>,
-    output: __S(31169, __c974, 1) as any as S.Schema<ListVolumeSnapshotsResponse>,
+    input: __S(31904, __c997, 0) as any as S.Schema<ListVolumeSnapshotsRequest>,
+    output: __S(31105, __c972, 1) as any as S.Schema<ListVolumeSnapshotsResponse>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -38976,8 +38976,8 @@ export const listVpcMembers: API.PaginatedOperationMethod<
   VpcMember
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(32000, __c1000, 0) as any as S.Schema<ListVpcMembersRequest>,
-    output: __S(32034, __c1001, 2) as any as S.Schema<ListVpcMembersResponse>,
+    input: __S(31936, __c998, 0) as any as S.Schema<ListVpcMembersRequest>,
+    output: __S(31970, __c999, 2) as any as S.Schema<ListVpcMembersResponse>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -39004,8 +39004,8 @@ export const listVpcnatgateways: API.PaginatedOperationMethod<
   VpcNatGatewayGet
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(32064, __c1002, 0) as any as S.Schema<ListVpcnatgatewaysRequest>,
-    output: __S(32066, __c1002, 2) as any as S.Schema<ListVpcnatgatewaysResponse>,
+    input: __S(32000, __c1000, 0) as any as S.Schema<ListVpcnatgatewaysRequest>,
+    output: __S(32002, __c1000, 2) as any as S.Schema<ListVpcnatgatewaysResponse>,
     errors: [UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -39032,8 +39032,8 @@ export const listVpcPeerings: API.PaginatedOperationMethod<
   VpcPeering
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(32096, __c1003, 0) as any as S.Schema<ListVpcPeeringsRequest>,
-    output: __S(32097, __c1003, 1) as any as S.Schema<ListVpcPeeringsResponse>,
+    input: __S(32032, __c1001, 0) as any as S.Schema<ListVpcPeeringsRequest>,
+    output: __S(32033, __c1001, 1) as any as S.Schema<ListVpcPeeringsResponse>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -39060,8 +39060,8 @@ export const listVpcPeerings2: API.PaginatedOperationMethod<
   VpcPeering
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(32160, __c1005, 0) as any as S.Schema<ListVpcPeeringsRequest2>,
-    output: __S(32161, __c1005, 1) as any as S.Schema<ListVpcPeeringsResponse2>,
+    input: __S(32096, __c1003, 0) as any as S.Schema<ListVpcPeeringsRequest2>,
+    output: __S(32097, __c1003, 1) as any as S.Schema<ListVpcPeeringsResponse2>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -39088,8 +39088,8 @@ export const listVpcRoutes: API.PaginatedOperationMethod<
   Route
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(32192, __c1006, 0) as any as S.Schema<ListVpcRoutesRequest>,
-    output: __S(32225, __c1007, 1) as any as S.Schema<ListVpcRoutesResponse>,
+    input: __S(32128, __c1004, 0) as any as S.Schema<ListVpcRoutesRequest>,
+    output: __S(32161, __c1005, 1) as any as S.Schema<ListVpcRoutesResponse>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -39116,8 +39116,8 @@ export const listVpcs: API.PaginatedOperationMethod<
   Vpc
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(32256, __c1008, 0) as any as S.Schema<ListVpcsRequest>,
-    output: __S(32258, __c1008, 2) as any as S.Schema<ListVpcsResponse>,
+    input: __S(32192, __c1006, 0) as any as S.Schema<ListVpcsRequest>,
+    output: __S(32194, __c1006, 2) as any as S.Schema<ListVpcsResponse>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -39144,8 +39144,8 @@ export const listVpcSubnetMembers: API.PaginatedOperationMethod<
   VpcMember
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(32320, __c1010, 0) as any as S.Schema<ListVpcSubnetMembersRequest>,
-    output: __S(32034, __c1001, 2) as any as S.Schema<ListVpcSubnetMembersResponse>,
+    input: __S(32256, __c1008, 0) as any as S.Schema<ListVpcSubnetMembersRequest>,
+    output: __S(31970, __c999, 2) as any as S.Schema<ListVpcSubnetMembersResponse>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -39172,8 +39172,8 @@ export const listVpcSubnetRoutes: API.PaginatedOperationMethod<
   Route
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(32352, __c1011, 0) as any as S.Schema<ListVpcSubnetRoutesRequest>,
-    output: __S(32225, __c1007, 1) as any as S.Schema<ListVpcSubnetRoutesResponse>,
+    input: __S(32288, __c1009, 0) as any as S.Schema<ListVpcSubnetRoutesRequest>,
+    output: __S(32161, __c1005, 1) as any as S.Schema<ListVpcSubnetRoutesResponse>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -39200,8 +39200,8 @@ export const listVpcSubnets: API.PaginatedOperationMethod<
   VpcSubnet
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(32384, __c1012, 0) as any as S.Schema<ListVpcSubnetsRequest>,
-    output: __S(32386, __c1012, 2) as any as S.Schema<ListVpcSubnetsResponse>,
+    input: __S(32320, __c1010, 0) as any as S.Schema<ListVpcSubnetsRequest>,
+    output: __S(32322, __c1010, 2) as any as S.Schema<ListVpcSubnetsResponse>,
     errors: [NotFound, UnknownDigitalOceanError],
     protocol: DigitalOceanProtocol,
     retry: Retry.Retry,
@@ -39226,7 +39226,7 @@ export const microvmsPostResume: API.OperationMethod<
   MicrovmsPostResumeError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32416, __c1013, 0) as any as S.Schema<MicrovmsPostResumeRequest>,
+  input: __S(32352, __c1011, 0) as any as S.Schema<MicrovmsPostResumeRequest>,
   output: __S(1248, __c39, 0) as any as S.Schema<MicrovmsPostResumeResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -39243,8 +39243,8 @@ export const monitoringGetAppRestartCountMetricsYml: API.OperationMethod<
   MonitoringGetAppRestartCountMetricsYmlError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32448, __c1014, 0) as any as S.Schema<MonitoringGetAppRestartCountMetricsYmlRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  input: __S(32384, __c1012, 0) as any as S.Schema<MonitoringGetAppRestartCountMetricsYmlRequest>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -39261,11 +39261,11 @@ export const monitoringGetDatabaseMysqlIndexVsSequentialReads: API.OperationMeth
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    32480,
-    __c1015,
+    32416,
+    __c1013,
     0,
   ) as any as S.Schema<MonitoringGetDatabaseMysqlIndexVsSequentialReadsRequest>,
-  output: __S(17221, __c538, 5) as any as S.Schema<Metrics2>,
+  output: __S(17189, __c537, 5) as any as S.Schema<Metrics2>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -39281,8 +39281,8 @@ export const patchAddon: API.OperationMethod<
   PatchAddonError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32512, __c1016, 0) as any as S.Schema<PatchAddonRequest>,
-  output: __S(17376, __c543, 0) as any as S.Schema<PatchAddonResponse>,
+  input: __S(32448, __c1014, 0) as any as S.Schema<PatchAddonRequest>,
+  output: __S(17344, __c542, 0) as any as S.Schema<PatchAddonResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -39298,8 +39298,8 @@ export const patchAddonPlan: API.OperationMethod<
   PatchAddonPlanError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32544, __c1017, 0) as any as S.Schema<PatchAddonPlanRequest>,
-  output: __S(17376, __c543, 0) as any as S.Schema<PatchAddonPlanResponse>,
+  input: __S(32480, __c1015, 0) as any as S.Schema<PatchAddonPlanRequest>,
+  output: __S(17344, __c542, 0) as any as S.Schema<PatchAddonPlanResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -39315,7 +39315,7 @@ export const patchByoipPrefix: API.OperationMethod<
   PatchByoipPrefixError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32576, __c1018, 0) as any as S.Schema<PatchByoipPrefixRequest>,
+  input: __S(32512, __c1016, 0) as any as S.Schema<PatchByoipPrefixRequest>,
   output: __S(11680, __c365, 0) as any as S.Schema<PatchByoipPrefixResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -39332,8 +39332,8 @@ export const patchDatabaseConfig: API.OperationMethod<
   PatchDatabaseConfigError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32608, __c1019, 0) as any as S.Schema<PatchDatabaseConfigRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<PatchDatabaseConfigResponse>,
+  input: __S(32544, __c1017, 0) as any as S.Schema<PatchDatabaseConfigRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<PatchDatabaseConfigResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -39349,7 +39349,7 @@ export const patchDedicatedInference: API.OperationMethod<
   PatchDedicatedInferenceError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32737, __c1023, 1) as any as S.Schema<PatchDedicatedInferenceRequest>,
+  input: __S(32673, __c1021, 1) as any as S.Schema<PatchDedicatedInferenceRequest>,
   output: __S(12672, __c396, 0) as any as S.Schema<PatchDedicatedInferenceResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -39366,8 +39366,8 @@ export const patchDomainRecord: API.OperationMethod<
   PatchDomainRecordError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32768, __c1024, 0) as any as S.Schema<PatchDomainRecordRequest>,
-  output: __S(25856, __c808, 0) as any as S.Schema<PatchDomainRecordResponse>,
+  input: __S(32704, __c1022, 0) as any as S.Schema<PatchDomainRecordRequest>,
+  output: __S(25824, __c807, 0) as any as S.Schema<PatchDomainRecordResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -39383,7 +39383,7 @@ export const patchEndpoint: API.OperationMethod<
   PatchEndpointError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32800, __c1025, 0) as any as S.Schema<PatchEndpointRequest>,
+  input: __S(32736, __c1023, 0) as any as S.Schema<PatchEndpointRequest>,
   output: __S(13184, __c412, 0) as any as S.Schema<EndpointResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -39400,7 +39400,7 @@ export const patchMcpServer: API.OperationMethod<
   PatchMcpServerError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32832, __c1026, 0) as any as S.Schema<PatchMcpServerRequest>,
+  input: __S(32768, __c1024, 0) as any as S.Schema<PatchMcpServerRequest>,
   output: __S(1120, __c35, 0) as any as S.Schema<McpServerResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -39417,7 +39417,7 @@ export const patchPartnerAttachment: API.OperationMethod<
   PatchPartnerAttachmentError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32864, __c1027, 0) as any as S.Schema<PatchPartnerAttachmentRequest>,
+  input: __S(32800, __c1025, 0) as any as S.Schema<PatchPartnerAttachmentRequest>,
   output: __S(2240, __c70, 0) as any as S.Schema<PatchPartnerAttachmentResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -39434,7 +39434,7 @@ export const patchProject: API.OperationMethod<
   PatchProjectError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32896, __c1028, 0) as any as S.Schema<PatchProjectRequest>,
+  input: __S(32832, __c1026, 0) as any as S.Schema<PatchProjectRequest>,
   output: __S(2400, __c75, 0) as any as S.Schema<PatchProjectResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -39451,8 +39451,8 @@ export const patchProjectDefault: API.OperationMethod<
   PatchProjectDefaultError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32928, __c1029, 0) as any as S.Schema<PatchProjectDefaultRequest>,
-  output: __S(20160, __c630, 0) as any as S.Schema<PatchProjectDefaultResponse>,
+  input: __S(32864, __c1027, 0) as any as S.Schema<PatchProjectDefaultRequest>,
+  output: __S(20128, __c629, 0) as any as S.Schema<PatchProjectDefaultResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -39468,8 +39468,8 @@ export const patchSpacesKey: API.OperationMethod<
   PatchSpacesKeyError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32960, __c1030, 0) as any as S.Schema<PatchSpacesKeyRequest>,
-  output: __S(32992, __c1031, 0) as any as S.Schema<PatchSpacesKeyResponse>,
+  input: __S(32896, __c1028, 0) as any as S.Schema<PatchSpacesKeyRequest>,
+  output: __S(32928, __c1029, 0) as any as S.Schema<PatchSpacesKeyResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -39485,7 +39485,7 @@ export const patchVpc: API.OperationMethod<
   PatchVpcError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33024, __c1032, 0) as any as S.Schema<PatchVpcRequest>,
+  input: __S(32960, __c1030, 0) as any as S.Schema<PatchVpcRequest>,
   output: __S(4032, __c126, 0) as any as S.Schema<PatchVpcResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -39502,7 +39502,7 @@ export const patchVpcPeering: API.OperationMethod<
   PatchVpcPeeringError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33056, __c1033, 0) as any as S.Schema<PatchVpcPeeringRequest>,
+  input: __S(32992, __c1031, 0) as any as S.Schema<PatchVpcPeeringRequest>,
   output: __S(4160, __c130, 0) as any as S.Schema<PatchVpcPeeringResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -39519,7 +39519,7 @@ export const patchVpcPeerings: API.OperationMethod<
   PatchVpcPeeringsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33120, __c1035, 0) as any as S.Schema<PatchVpcPeeringsRequest>,
+  input: __S(33056, __c1033, 0) as any as S.Schema<PatchVpcPeeringsRequest>,
   output: __S(4224, __c132, 0) as any as S.Schema<PatchVpcPeeringsResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -39536,7 +39536,7 @@ export const postDropletAction: API.OperationMethod<
   PostDropletActionError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33152, __c1036, 0) as any as S.Schema<PostDropletActionRequest>,
+  input: __S(33088, __c1034, 0) as any as S.Schema<PostDropletActionRequest>,
   output: __S(10752, __c336, 0) as any as S.Schema<PostDropletActionResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -39553,8 +39553,8 @@ export const postDropletActionByTag: API.OperationMethod<
   PostDropletActionByTagError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33184, __c1037, 0) as any as S.Schema<PostDropletActionByTagRequest>,
-  output: __S(33185, __c1037, 1) as any as S.Schema<PostDropletActionByTagResponse>,
+  input: __S(33120, __c1035, 0) as any as S.Schema<PostDropletActionByTagRequest>,
+  output: __S(33121, __c1035, 1) as any as S.Schema<PostDropletActionByTagResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -39570,7 +39570,7 @@ export const postFloatingIPsAction: API.OperationMethod<
   PostFloatingIPsActionError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33216, __c1038, 0) as any as S.Schema<PostFloatingIPsActionRequest>,
+  input: __S(33152, __c1036, 0) as any as S.Schema<PostFloatingIPsActionRequest>,
   output: __S(13376, __c418, 0) as any as S.Schema<PostFloatingIPsActionResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -39587,8 +39587,8 @@ export const postHarnessProviderConnectionReconnect: API.OperationMethod<
   PostHarnessProviderConnectionReconnectError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33248, __c1039, 0) as any as S.Schema<PostHarnessProviderConnectionReconnectRequest>,
-  output: __S(38401, __c1200, 1) as any as S.Schema<ProviderConnectionResponse>,
+  input: __S(33184, __c1037, 0) as any as S.Schema<PostHarnessProviderConnectionReconnectRequest>,
+  output: __S(38337, __c1198, 1) as any as S.Schema<ProviderConnectionResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -39604,8 +39604,8 @@ export const postHarnessSessionHitl: API.OperationMethod<
   PostHarnessSessionHitlError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33280, __c1040, 0) as any as S.Schema<PostHarnessSessionHitlRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<PostHarnessSessionHitlResponse>,
+  input: __S(33216, __c1038, 0) as any as S.Schema<PostHarnessSessionHitlRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<PostHarnessSessionHitlResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -39621,8 +39621,8 @@ export const postHarnessSessionPause: API.OperationMethod<
   PostHarnessSessionPauseError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33312, __c1041, 0) as any as S.Schema<PostHarnessSessionPauseRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<PostHarnessSessionPauseResponse>,
+  input: __S(33248, __c1039, 0) as any as S.Schema<PostHarnessSessionPauseRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<PostHarnessSessionPauseResponse>,
   errors: [Forbidden, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -39638,8 +39638,8 @@ export const postImageAccountTransferDecline: API.OperationMethod<
   PostImageAccountTransferDeclineError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33344, __c1042, 0) as any as S.Schema<PostImageAccountTransferDeclineRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<PostImageAccountTransferDeclineResponse>,
+  input: __S(33280, __c1040, 0) as any as S.Schema<PostImageAccountTransferDeclineRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<PostImageAccountTransferDeclineResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -39655,7 +39655,7 @@ export const postImageAction: API.OperationMethod<
   PostImageActionError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33376, __c1043, 0) as any as S.Schema<PostImageActionRequest>,
+  input: __S(33312, __c1041, 0) as any as S.Schema<PostImageActionRequest>,
   output: __S(10720, __c335, 0) as any as S.Schema<Action>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -39677,8 +39677,8 @@ export const postInsightPromLabels: API.OperationMethod<
   PostInsightPromLabelsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33408, __c1044, 0) as any as S.Schema<PostInsightPromLabelsRequest>,
-  output: __S(16000, __c500, 0) as any as S.Schema<PromStringListResponse>,
+  input: __S(33344, __c1042, 0) as any as S.Schema<PostInsightPromLabelsRequest>,
+  output: __S(15968, __c499, 0) as any as S.Schema<PromStringListResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -39699,8 +39699,8 @@ export const postInsightPromQuery: API.OperationMethod<
   PostInsightPromQueryError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33568, __c1049, 0) as any as S.Schema<PostInsightPromQueryRequest>,
-  output: __S(16097, __c503, 1) as any as S.Schema<PromQueryResponse>,
+  input: __S(33504, __c1047, 0) as any as S.Schema<PostInsightPromQueryRequest>,
+  output: __S(16065, __c502, 1) as any as S.Schema<PromQueryResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -39721,8 +39721,8 @@ export const postInsightPromQueryRange: API.OperationMethod<
   PostInsightPromQueryRangeError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33600, __c1050, 0) as any as S.Schema<PostInsightPromQueryRangeRequest>,
-  output: __S(16165, __c505, 5) as any as S.Schema<PromQueryRangeResponse>,
+  input: __S(33536, __c1048, 0) as any as S.Schema<PostInsightPromQueryRangeRequest>,
+  output: __S(16133, __c504, 5) as any as S.Schema<PromQueryRangeResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -39743,8 +39743,8 @@ export const postInsightPromSeries: API.OperationMethod<
   PostInsightPromSeriesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33632, __c1051, 0) as any as S.Schema<PostInsightPromSeriesRequest>,
-  output: __S(16225, __c507, 1) as any as S.Schema<PromSeriesResponse>,
+  input: __S(33568, __c1049, 0) as any as S.Schema<PostInsightPromSeriesRequest>,
+  output: __S(16193, __c506, 1) as any as S.Schema<PromSeriesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -39760,7 +39760,7 @@ export const postMicrovmPause: API.OperationMethod<
   PostMicrovmPauseError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33664, __c1052, 0) as any as S.Schema<PostMicrovmPauseRequest>,
+  input: __S(33600, __c1050, 0) as any as S.Schema<PostMicrovmPauseRequest>,
   output: __S(1248, __c39, 0) as any as S.Schema<PostMicrovmPauseResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -39777,8 +39777,8 @@ export const postReservedIPsAction: API.OperationMethod<
   PostReservedIPsActionError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33696, __c1053, 0) as any as S.Schema<PostReservedIPsActionRequest>,
-  output: __S(20672, __c646, 0) as any as S.Schema<PostReservedIPsActionResponse>,
+  input: __S(33632, __c1051, 0) as any as S.Schema<PostReservedIPsActionRequest>,
+  output: __S(20640, __c645, 0) as any as S.Schema<PostReservedIPsActionResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -39794,8 +39794,8 @@ export const postReservedIPv6Action: API.OperationMethod<
   PostReservedIPv6ActionError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33728, __c1054, 0) as any as S.Schema<PostReservedIPv6ActionRequest>,
-  output: __S(33729, __c1054, 1) as any as S.Schema<PostReservedIPv6ActionResponse>,
+  input: __S(33664, __c1052, 0) as any as S.Schema<PostReservedIPv6ActionRequest>,
+  output: __S(33665, __c1052, 1) as any as S.Schema<PostReservedIPv6ActionResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -39811,8 +39811,8 @@ export const postVolumeAction: API.OperationMethod<
   PostVolumeActionError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33760, __c1055, 0) as any as S.Schema<PostVolumeActionRequest>,
-  output: __S(33761, __c1055, 1) as any as S.Schema<PostVolumeActionResponse>,
+  input: __S(33696, __c1053, 0) as any as S.Schema<PostVolumeActionRequest>,
+  output: __S(33697, __c1053, 1) as any as S.Schema<PostVolumeActionResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -39828,8 +39828,8 @@ export const postVolumeActionById: API.OperationMethod<
   PostVolumeActionByIdError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33792, __c1056, 0) as any as S.Schema<PostVolumeActionByIdRequest>,
-  output: __S(21792, __c681, 0) as any as S.Schema<PostVolumeActionByIdResponse>,
+  input: __S(33728, __c1054, 0) as any as S.Schema<PostVolumeActionByIdRequest>,
+  output: __S(21760, __c680, 0) as any as S.Schema<PostVolumeActionByIdResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -39845,8 +39845,8 @@ export const promoteDatabaseReplica: API.OperationMethod<
   PromoteDatabaseReplicaError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33824, __c1057, 0) as any as S.Schema<PromoteDatabaseReplicaRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<PromoteDatabaseReplicaResponse>,
+  input: __S(33760, __c1055, 0) as any as S.Schema<PromoteDatabaseReplicaRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<PromoteDatabaseReplicaResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -39862,8 +39862,8 @@ export const purgeCdnCache: API.OperationMethod<
   PurgeCdnCacheError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33856, __c1058, 0) as any as S.Schema<PurgeCdnCacheRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<PurgeCdnCacheResponse>,
+  input: __S(33792, __c1056, 0) as any as S.Schema<PurgeCdnCacheRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<PurgeCdnCacheResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -39879,8 +39879,8 @@ export const regenerateGenaiAgentApiKey: API.OperationMethod<
   RegenerateGenaiAgentApiKeyError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(33984, __c1062, 0) as any as S.Schema<RegenerateGenaiAgentApiKeyRequest>,
-  output: __S(30432, __c951, 0) as any as S.Schema<ApiRegenerateAgentAPIKeyOutput>,
+  input: __S(33920, __c1060, 0) as any as S.Schema<RegenerateGenaiAgentApiKeyRequest>,
+  output: __S(30368, __c949, 0) as any as S.Schema<ApiRegenerateAgentAPIKeyOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -39896,8 +39896,8 @@ export const regenerateGenaiModelApiKey: API.OperationMethod<
   RegenerateGenaiModelApiKeyError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34016, __c1063, 0) as any as S.Schema<RegenerateGenaiModelApiKeyRequest>,
-  output: __S(30432, __c951, 0) as any as S.Schema<ApiRegenerateModelAPIKeyOutput>,
+  input: __S(33952, __c1061, 0) as any as S.Schema<RegenerateGenaiModelApiKeyRequest>,
+  output: __S(30368, __c949, 0) as any as S.Schema<ApiRegenerateModelAPIKeyOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -39913,8 +39913,8 @@ export const removeKubernetesRegistries: API.OperationMethod<
   RemoveKubernetesRegistriesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34048, __c1064, 0) as any as S.Schema<RemoveKubernetesRegistriesRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<RemoveKubernetesRegistriesResponse>,
+  input: __S(33984, __c1062, 0) as any as S.Schema<RemoveKubernetesRegistriesRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<RemoveKubernetesRegistriesResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -39930,8 +39930,8 @@ export const removeKubernetesRegistry: API.OperationMethod<
   RemoveKubernetesRegistryError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34080, __c1065, 0) as any as S.Schema<RemoveKubernetesRegistryRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<RemoveKubernetesRegistryResponse>,
+  input: __S(34016, __c1063, 0) as any as S.Schema<RemoveKubernetesRegistryRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<RemoveKubernetesRegistryResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -39947,8 +39947,8 @@ export const removeLoadBalancerDroplets: API.OperationMethod<
   RemoveLoadBalancerDropletsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34112, __c1066, 0) as any as S.Schema<RemoveLoadBalancerDropletsRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<RemoveLoadBalancerDropletsResponse>,
+  input: __S(34048, __c1064, 0) as any as S.Schema<RemoveLoadBalancerDropletsRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<RemoveLoadBalancerDropletsResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -39964,8 +39964,8 @@ export const removeLoadBalancerForwardingRules: API.OperationMethod<
   RemoveLoadBalancerForwardingRulesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34144, __c1067, 0) as any as S.Schema<RemoveLoadBalancerForwardingRulesRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<RemoveLoadBalancerForwardingRulesResponse>,
+  input: __S(34080, __c1065, 0) as any as S.Schema<RemoveLoadBalancerForwardingRulesRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<RemoveLoadBalancerForwardingRulesResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -39981,7 +39981,7 @@ export const resetDatabaseAuth: API.OperationMethod<
   ResetDatabaseAuthError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34176, __c1068, 0) as any as S.Schema<ResetDatabaseAuthRequest>,
+  input: __S(34112, __c1066, 0) as any as S.Schema<ResetDatabaseAuthRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<ResetDatabaseAuthResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -39998,7 +39998,7 @@ export const restartApp: API.OperationMethod<
   RestartAppError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34208, __c1069, 0) as any as S.Schema<RestartAppRequest>,
+  input: __S(34144, __c1067, 0) as any as S.Schema<RestartAppRequest>,
   output: __S(7008, __c219, 0) as any as S.Schema<AppsDeploymentResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -40019,13 +40019,13 @@ export const retryDropletsDestroyWithAssociatedResources: API.OperationMethod<
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    34240,
-    __c1070,
+    34176,
+    __c1068,
     0,
   ) as any as S.Schema<RetryDropletsDestroyWithAssociatedResourcesRequest>,
   output: __S(
-    38560,
-    __c1205,
+    38496,
+    __c1203,
     0,
   ) as any as S.Schema<RetryDropletsDestroyWithAssociatedResourcesResponse>,
   errors: [NotFound, Conflict, UnknownDigitalOceanError],
@@ -40043,8 +40043,8 @@ export const runGatewayCode: API.OperationMethod<
   RunGatewayCodeError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34272, __c1071, 0) as any as S.Schema<RunGatewayCodeRequest>,
-  output: __S(34274, __c1071, 2) as any as S.Schema<RunGatewayCodeResponse>,
+  input: __S(34208, __c1069, 0) as any as S.Schema<RunGatewayCodeRequest>,
+  output: __S(34210, __c1069, 2) as any as S.Schema<RunGatewayCodeResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40060,8 +40060,8 @@ export const runGatewayTool: API.OperationMethod<
   RunGatewayToolError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34371, __c1074, 3) as any as S.Schema<RunGatewayToolRequest>,
-  output: __S(34375, __c1074, 7) as any as S.Schema<InvokeToolsResponse>,
+  input: __S(34307, __c1072, 3) as any as S.Schema<RunGatewayToolRequest>,
+  output: __S(34311, __c1072, 7) as any as S.Schema<InvokeToolsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40077,8 +40077,8 @@ export const runGenaiEvaluationTestCase: API.OperationMethod<
   RunGenaiEvaluationTestCaseError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34400, __c1075, 0) as any as S.Schema<RunGenaiEvaluationTestCaseRequest>,
-  output: __S(34401, __c1075, 1) as any as S.Schema<ApiRunEvaluationTestCaseOutput>,
+  input: __S(34336, __c1073, 0) as any as S.Schema<RunGenaiEvaluationTestCaseRequest>,
+  output: __S(34337, __c1073, 1) as any as S.Schema<ApiRunEvaluationTestCaseOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40094,8 +40094,8 @@ export const runKubernetesClusterLint: API.OperationMethod<
   RunKubernetesClusterLintError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34432, __c1076, 0) as any as S.Schema<RunKubernetesClusterLintRequest>,
-  output: __S(38976, __c1218, 0) as any as S.Schema<RunKubernetesClusterLintResponse>,
+  input: __S(34368, __c1074, 0) as any as S.Schema<RunKubernetesClusterLintRequest>,
+  output: __S(38912, __c1216, 0) as any as S.Schema<RunKubernetesClusterLintResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40111,8 +40111,8 @@ export const runMcpServerResync: API.OperationMethod<
   RunMcpServerResyncError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34464, __c1077, 0) as any as S.Schema<RunMcpServerResyncRequest>,
-  output: __S(34465, __c1077, 1) as any as S.Schema<ResyncMcpServerResponse>,
+  input: __S(34400, __c1075, 0) as any as S.Schema<RunMcpServerResyncRequest>,
+  output: __S(34401, __c1075, 1) as any as S.Schema<ResyncMcpServerResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40128,8 +40128,8 @@ export const runMicrovmCommand: API.OperationMethod<
   RunMicrovmCommandError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34496, __c1078, 0) as any as S.Schema<RunMicrovmCommandRequest>,
-  output: __S(34497, __c1078, 1) as any as S.Schema<ExecResponse>,
+  input: __S(34432, __c1076, 0) as any as S.Schema<RunMicrovmCommandRequest>,
+  output: __S(34433, __c1076, 1) as any as S.Schema<ExecResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40145,8 +40145,8 @@ export const runRegistryGarbageCollection: API.OperationMethod<
   RunRegistryGarbageCollectionError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34528, __c1079, 0) as any as S.Schema<RunRegistryGarbageCollectionRequest>,
-  output: __S(20352, __c636, 0) as any as S.Schema<RunRegistryGarbageCollectionResponse>,
+  input: __S(34464, __c1077, 0) as any as S.Schema<RunRegistryGarbageCollectionRequest>,
+  output: __S(20320, __c635, 0) as any as S.Schema<RunRegistryGarbageCollectionResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40167,8 +40167,8 @@ export const securityPostRestoreSecret: API.OperationMethod<
   SecurityPostRestoreSecretError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34560, __c1080, 0) as any as S.Schema<SecurityPostRestoreSecretRequest>,
-  output: __S(30656, __c958, 0) as any as S.Schema<SecretListItem>,
+  input: __S(34496, __c1078, 0) as any as S.Schema<SecurityPostRestoreSecretRequest>,
+  output: __S(30592, __c956, 0) as any as S.Schema<SecretListItem>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40189,7 +40189,7 @@ export const securityRevertSecret: API.OperationMethod<
   SecurityRevertSecretError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34592, __c1081, 0) as any as S.Schema<SecurityRevertSecretRequest>,
+  input: __S(34528, __c1079, 0) as any as S.Schema<SecurityRevertSecretRequest>,
   output: __S(2944, __c92, 0) as any as S.Schema<CreateSecretResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -40206,8 +40206,8 @@ export const signalsCreateExport: API.OperationMethod<
   SignalsCreateExportError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34624, __c1082, 0) as any as S.Schema<SignalsCreateExportRequest>,
-  output: __S(31041, __c970, 1) as any as S.Schema<ExportJob>,
+  input: __S(34560, __c1080, 0) as any as S.Schema<SignalsCreateExportRequest>,
+  output: __S(30977, __c968, 1) as any as S.Schema<ExportJob>,
   errors: [BadRequest, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40223,8 +40223,8 @@ export const signalsGetExport: API.OperationMethod<
   SignalsGetExportError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34656, __c1083, 0) as any as S.Schema<SignalsGetExportRequest>,
-  output: __S(31041, __c970, 1) as any as S.Schema<ExportJob>,
+  input: __S(34592, __c1081, 0) as any as S.Schema<SignalsGetExportRequest>,
+  output: __S(30977, __c968, 1) as any as S.Schema<ExportJob>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40240,8 +40240,8 @@ export const signalsGetExportDownload: API.OperationMethod<
   SignalsGetExportDownloadError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34848, __c1089, 0) as any as S.Schema<SignalsGetExportDownloadRequest>,
-  output: __S(34849, __c1089, 1) as any as S.Schema<ExportDownload>,
+  input: __S(34784, __c1087, 0) as any as S.Schema<SignalsGetExportDownloadRequest>,
+  output: __S(34785, __c1087, 1) as any as S.Schema<ExportDownload>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40257,8 +40257,8 @@ export const signalsGetExportOptions: API.OperationMethod<
   SignalsGetExportOptionsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34880, __c1090, 0) as any as S.Schema<SignalsGetExportOptionsRequest>,
-  output: __S(34882, __c1090, 2) as any as S.Schema<ExportOptions>,
+  input: __S(34816, __c1088, 0) as any as S.Schema<SignalsGetExportOptionsRequest>,
+  output: __S(34818, __c1088, 2) as any as S.Schema<ExportOptions>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40274,8 +40274,8 @@ export const toolbeltsListSearch: API.OperationMethod<
   ToolbeltsListSearchError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34912, __c1091, 0) as any as S.Schema<ToolbeltsListSearchRequest>,
-  output: __S(34913, __c1091, 1) as any as S.Schema<SearchToolbeltsResponse>,
+  input: __S(34848, __c1089, 0) as any as S.Schema<ToolbeltsListSearchRequest>,
+  output: __S(34849, __c1089, 1) as any as S.Schema<SearchToolbeltsResponse>,
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40291,8 +40291,8 @@ export const toolsListSearch: API.OperationMethod<
   ToolsListSearchError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34944, __c1092, 0) as any as S.Schema<ToolsListSearchRequest>,
-  output: __S(34945, __c1092, 1) as any as S.Schema<SearchToolsResponse>,
+  input: __S(34880, __c1090, 0) as any as S.Schema<ToolsListSearchRequest>,
+  output: __S(34881, __c1090, 1) as any as S.Schema<SearchToolsResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40308,8 +40308,8 @@ export const toolsListSearchProviders: API.OperationMethod<
   ToolsListSearchProvidersError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34976, __c1093, 0) as any as S.Schema<ToolsListSearchProvidersRequest>,
-  output: __S(34977, __c1093, 1) as any as S.Schema<SearchProvidersResponse>,
+  input: __S(34912, __c1091, 0) as any as S.Schema<ToolsListSearchProvidersRequest>,
+  output: __S(34913, __c1091, 1) as any as S.Schema<SearchProvidersResponse>,
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40325,8 +40325,8 @@ export const unassignTagResources: API.OperationMethod<
   UnassignTagResourcesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35008, __c1094, 0) as any as S.Schema<UnassignTagResourcesRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<UnassignTagResourcesResponse>,
+  input: __S(34944, __c1092, 0) as any as S.Schema<UnassignTagResourcesRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<UnassignTagResourcesResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40342,7 +40342,7 @@ export const updateActorLimit: API.OperationMethod<
   UpdateActorLimitError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35040, __c1095, 0) as any as S.Schema<UpdateActorLimitRequest>,
+  input: __S(34976, __c1093, 0) as any as S.Schema<UpdateActorLimitRequest>,
   output: __S(2304, __c72, 0) as any as S.Schema<UpdateActorLimitResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -40359,8 +40359,8 @@ export const updateApp: API.OperationMethod<
   UpdateAppError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35072, __c1096, 0) as any as S.Schema<UpdateAppRequest>,
-  output: __S(18304, __c572, 0) as any as S.Schema<AppResponse>,
+  input: __S(35008, __c1094, 0) as any as S.Schema<UpdateAppRequest>,
+  output: __S(18272, __c571, 0) as any as S.Schema<AppResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40376,8 +40376,8 @@ export const updateAutoscalepool: API.OperationMethod<
   UpdateAutoscalepoolError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35104, __c1097, 0) as any as S.Schema<UpdateAutoscalepoolRequest>,
-  output: __S(19488, __c609, 0) as any as S.Schema<UpdateAutoscalepoolResponse>,
+  input: __S(35040, __c1095, 0) as any as S.Schema<UpdateAutoscalepoolRequest>,
+  output: __S(19456, __c608, 0) as any as S.Schema<UpdateAutoscalepoolResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40393,8 +40393,8 @@ export const updateCdnEndpoints: API.OperationMethod<
   UpdateCdnEndpointsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35136, __c1098, 0) as any as S.Schema<UpdateCdnEndpointsRequest>,
-  output: __S(20448, __c639, 0) as any as S.Schema<UpdateCdnEndpointsResponse>,
+  input: __S(35072, __c1096, 0) as any as S.Schema<UpdateCdnEndpointsRequest>,
+  output: __S(20416, __c638, 0) as any as S.Schema<UpdateCdnEndpointsResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40410,8 +40410,8 @@ export const updateDatabaseAutoscale: API.OperationMethod<
   UpdateDatabaseAutoscaleError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35200, __c1100, 0) as any as S.Schema<UpdateDatabaseAutoscaleRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<UpdateDatabaseAutoscaleResponse>,
+  input: __S(35136, __c1098, 0) as any as S.Schema<UpdateDatabaseAutoscaleRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<UpdateDatabaseAutoscaleResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40427,10 +40427,10 @@ export const updateDatabaseClusterMetricsCredentials: API.OperationMethod<
   UpdateDatabaseClusterMetricsCredentialsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35232, __c1101, 0) as any as S.Schema<UpdateDatabaseClusterMetricsCredentialsRequest>,
+  input: __S(35168, __c1099, 0) as any as S.Schema<UpdateDatabaseClusterMetricsCredentialsRequest>,
   output: __S(
-    38560,
-    __c1205,
+    38496,
+    __c1203,
     0,
   ) as any as S.Schema<UpdateDatabaseClusterMetricsCredentialsResponse>,
   errors: [UnknownDigitalOceanError],
@@ -40448,8 +40448,8 @@ export const updateDatabaseClusterSize: API.OperationMethod<
   UpdateDatabaseClusterSizeError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35264, __c1102, 0) as any as S.Schema<UpdateDatabaseClusterSizeRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<UpdateDatabaseClusterSizeResponse>,
+  input: __S(35200, __c1100, 0) as any as S.Schema<UpdateDatabaseClusterSizeRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<UpdateDatabaseClusterSizeResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40465,8 +40465,8 @@ export const updateDatabaseConnectionPool: API.OperationMethod<
   UpdateDatabaseConnectionPoolError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35296, __c1103, 0) as any as S.Schema<UpdateDatabaseConnectionPoolRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<UpdateDatabaseConnectionPoolResponse>,
+  input: __S(35232, __c1101, 0) as any as S.Schema<UpdateDatabaseConnectionPoolRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<UpdateDatabaseConnectionPoolResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40486,8 +40486,8 @@ export const updateDatabaseDoSettings: API.OperationMethod<
   UpdateDatabaseDoSettingsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35328, __c1104, 0) as any as S.Schema<UpdateDatabaseDoSettingsRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<UpdateDatabaseDoSettingsResponse>,
+  input: __S(35264, __c1102, 0) as any as S.Schema<UpdateDatabaseDoSettingsRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<UpdateDatabaseDoSettingsResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40503,8 +40503,8 @@ export const updateDatabaseEvictionPolicy: API.OperationMethod<
   UpdateDatabaseEvictionPolicyError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35360, __c1105, 0) as any as S.Schema<UpdateDatabaseEvictionPolicyRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<UpdateDatabaseEvictionPolicyResponse>,
+  input: __S(35296, __c1103, 0) as any as S.Schema<UpdateDatabaseEvictionPolicyRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<UpdateDatabaseEvictionPolicyResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40520,8 +40520,8 @@ export const updateDatabaseFirewallRules: API.OperationMethod<
   UpdateDatabaseFirewallRulesError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35392, __c1106, 0) as any as S.Schema<UpdateDatabaseFirewallRulesRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<UpdateDatabaseFirewallRulesResponse>,
+  input: __S(35328, __c1104, 0) as any as S.Schema<UpdateDatabaseFirewallRulesRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<UpdateDatabaseFirewallRulesResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40537,7 +40537,7 @@ export const updateDatabaseKafkaSchemaConfig: API.OperationMethod<
   UpdateDatabaseKafkaSchemaConfigError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35424, __c1107, 0) as any as S.Schema<UpdateDatabaseKafkaSchemaConfigRequest>,
+  input: __S(35360, __c1105, 0) as any as S.Schema<UpdateDatabaseKafkaSchemaConfigRequest>,
   output: __S(12256, __c383, 0) as any as S.Schema<UpdateDatabaseKafkaSchemaConfigResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -40554,7 +40554,7 @@ export const updateDatabaseKafkaSchemaSubjectConfig: API.OperationMethod<
   UpdateDatabaseKafkaSchemaSubjectConfigError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35456, __c1108, 0) as any as S.Schema<UpdateDatabaseKafkaSchemaSubjectConfigRequest>,
+  input: __S(35392, __c1106, 0) as any as S.Schema<UpdateDatabaseKafkaSchemaSubjectConfigRequest>,
   output: __S(12320, __c385, 0) as any as S.Schema<UpdateDatabaseKafkaSchemaSubjectConfigResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -40571,8 +40571,8 @@ export const updateDatabaseKafkaTopic: API.OperationMethod<
   UpdateDatabaseKafkaTopicError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35488, __c1109, 0) as any as S.Schema<UpdateDatabaseKafkaTopicRequest>,
-  output: __S(23206, __c725, 6) as any as S.Schema<UpdateDatabaseKafkaTopicResponse>,
+  input: __S(35424, __c1107, 0) as any as S.Schema<UpdateDatabaseKafkaTopicRequest>,
+  output: __S(23174, __c724, 6) as any as S.Schema<UpdateDatabaseKafkaTopicResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40588,8 +40588,8 @@ export const updateDatabaseLogsink: API.OperationMethod<
   UpdateDatabaseLogsinkError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35584, __c1112, 0) as any as S.Schema<UpdateDatabaseLogsinkRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<UpdateDatabaseLogsinkResponse>,
+  input: __S(35520, __c1110, 0) as any as S.Schema<UpdateDatabaseLogsinkRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<UpdateDatabaseLogsinkResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40605,8 +40605,8 @@ export const updateDatabaseMaintenanceWindow: API.OperationMethod<
   UpdateDatabaseMaintenanceWindowError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35616, __c1113, 0) as any as S.Schema<UpdateDatabaseMaintenanceWindowRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<UpdateDatabaseMaintenanceWindowResponse>,
+  input: __S(35552, __c1111, 0) as any as S.Schema<UpdateDatabaseMaintenanceWindowRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<UpdateDatabaseMaintenanceWindowResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40622,8 +40622,8 @@ export const updateDatabaseMajorVersion: API.OperationMethod<
   UpdateDatabaseMajorVersionError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35648, __c1114, 0) as any as S.Schema<UpdateDatabaseMajorVersionRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<UpdateDatabaseMajorVersionResponse>,
+  input: __S(35584, __c1112, 0) as any as S.Schema<UpdateDatabaseMajorVersionRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<UpdateDatabaseMajorVersionResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40639,7 +40639,7 @@ export const updateDatabaseOnlineMigration: API.OperationMethod<
   UpdateDatabaseOnlineMigrationError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35681, __c1115, 1) as any as S.Schema<UpdateDatabaseOnlineMigrationRequest>,
+  input: __S(35617, __c1113, 1) as any as S.Schema<UpdateDatabaseOnlineMigrationRequest>,
   output: __S(12512, __c391, 0) as any as S.Schema<OnlineMigration>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -40656,8 +40656,8 @@ export const updateDatabaseRegion: API.OperationMethod<
   UpdateDatabaseRegionError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35712, __c1116, 0) as any as S.Schema<UpdateDatabaseRegionRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<UpdateDatabaseRegionResponse>,
+  input: __S(35648, __c1114, 0) as any as S.Schema<UpdateDatabaseRegionRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<UpdateDatabaseRegionResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40673,8 +40673,8 @@ export const updateDatabaseSqlMode: API.OperationMethod<
   UpdateDatabaseSqlModeError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35744, __c1117, 0) as any as S.Schema<UpdateDatabaseSqlModeRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<UpdateDatabaseSqlModeResponse>,
+  input: __S(35680, __c1115, 0) as any as S.Schema<UpdateDatabaseSqlModeRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<UpdateDatabaseSqlModeResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40690,7 +40690,7 @@ export const updateDatabaseUser: API.OperationMethod<
   UpdateDatabaseUserError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35777, __c1118, 1) as any as S.Schema<UpdateDatabaseUserRequest>,
+  input: __S(35713, __c1116, 1) as any as S.Schema<UpdateDatabaseUserRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<UpdateDatabaseUserResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -40707,8 +40707,8 @@ export const updateDomainRecord: API.OperationMethod<
   UpdateDomainRecordError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35808, __c1119, 0) as any as S.Schema<UpdateDomainRecordRequest>,
-  output: __S(25856, __c808, 0) as any as S.Schema<UpdateDomainRecordResponse>,
+  input: __S(35744, __c1117, 0) as any as S.Schema<UpdateDomainRecordRequest>,
+  output: __S(25824, __c807, 0) as any as S.Schema<UpdateDomainRecordResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40729,8 +40729,8 @@ export const updateFirewall: API.OperationMethod<
   UpdateFirewallError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35840, __c1120, 0) as any as S.Schema<UpdateFirewallRequest>,
-  output: __S(28416, __c888, 0) as any as S.Schema<UpdateFirewallResponse>,
+  input: __S(35776, __c1118, 0) as any as S.Schema<UpdateFirewallRequest>,
+  output: __S(28352, __c886, 0) as any as S.Schema<UpdateFirewallResponse>,
   errors: [
     BadRequest,
     NotFound,
@@ -40752,8 +40752,8 @@ export const updateFunctionsAccessKey: API.OperationMethod<
   UpdateFunctionsAccessKeyError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35872, __c1121, 0) as any as S.Schema<UpdateFunctionsAccessKeyRequest>,
-  output: __S(35873, __c1121, 1) as any as S.Schema<UpdateFunctionsAccessKeyResponse>,
+  input: __S(35808, __c1119, 0) as any as S.Schema<UpdateFunctionsAccessKeyRequest>,
+  output: __S(35809, __c1119, 1) as any as S.Schema<UpdateFunctionsAccessKeyResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40774,8 +40774,8 @@ export const updateGatewayApproval: API.OperationMethod<
   UpdateGatewayApprovalError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(35968, __c1124, 0) as any as S.Schema<UpdateGatewayApprovalRequest>,
-  output: __S(36000, __c1125, 0) as any as S.Schema<ApprovalDecisionResponse>,
+  input: __S(35904, __c1122, 0) as any as S.Schema<UpdateGatewayApprovalRequest>,
+  output: __S(35936, __c1123, 0) as any as S.Schema<ApprovalDecisionResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40796,8 +40796,8 @@ export const updateGatewaySessionApproval: API.OperationMethod<
   UpdateGatewaySessionApprovalError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36032, __c1126, 0) as any as S.Schema<UpdateGatewaySessionApprovalRequest>,
-  output: __S(36000, __c1125, 0) as any as S.Schema<ApprovalDecisionResponse>,
+  input: __S(35968, __c1124, 0) as any as S.Schema<UpdateGatewaySessionApprovalRequest>,
+  output: __S(35936, __c1123, 0) as any as S.Schema<ApprovalDecisionResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40813,7 +40813,7 @@ export const updateGenaiAgent: API.OperationMethod<
   UpdateGenaiAgentError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36064, __c1127, 0) as any as S.Schema<UpdateGenaiAgentRequest>,
+  input: __S(36000, __c1125, 0) as any as S.Schema<UpdateGenaiAgentRequest>,
   output: __S(10016, __c313, 0) as any as S.Schema<ApiUpdateAgentOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -40830,8 +40830,8 @@ export const updateGenaiAgentApiKey: API.OperationMethod<
   UpdateGenaiAgentApiKeyError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36096, __c1128, 0) as any as S.Schema<UpdateGenaiAgentApiKeyRequest>,
-  output: __S(30432, __c951, 0) as any as S.Schema<ApiUpdateAgentAPIKeyOutput>,
+  input: __S(36032, __c1126, 0) as any as S.Schema<UpdateGenaiAgentApiKeyRequest>,
+  output: __S(30368, __c949, 0) as any as S.Schema<ApiUpdateAgentAPIKeyOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40847,7 +40847,7 @@ export const updateGenaiAgentDeploymentVisibility: API.OperationMethod<
   UpdateGenaiAgentDeploymentVisibilityError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36128, __c1129, 0) as any as S.Schema<UpdateGenaiAgentDeploymentVisibilityRequest>,
+  input: __S(36064, __c1127, 0) as any as S.Schema<UpdateGenaiAgentDeploymentVisibilityRequest>,
   output: __S(10016, __c313, 0) as any as S.Schema<ApiUpdateAgentDeploymentVisbilityOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -40864,7 +40864,7 @@ export const updateGenaiAgentFunction: API.OperationMethod<
   UpdateGenaiAgentFunctionError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36160, __c1130, 0) as any as S.Schema<UpdateGenaiAgentFunctionRequest>,
+  input: __S(36096, __c1128, 0) as any as S.Schema<UpdateGenaiAgentFunctionRequest>,
   output: __S(10016, __c313, 0) as any as S.Schema<ApiUpdateAgentFunctionOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -40881,8 +40881,8 @@ export const updateGenaiAgentsWorkspace: API.OperationMethod<
   UpdateGenaiAgentsWorkspaceError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36192, __c1131, 0) as any as S.Schema<UpdateGenaiAgentsWorkspaceRequest>,
-  output: __S(37536, __c1173, 0) as any as S.Schema<ApiMoveAgentsToWorkspaceOutput>,
+  input: __S(36128, __c1129, 0) as any as S.Schema<UpdateGenaiAgentsWorkspaceRequest>,
+  output: __S(37472, __c1171, 0) as any as S.Schema<ApiMoveAgentsToWorkspaceOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40898,8 +40898,8 @@ export const updateGenaiAnthropicApiKey: API.OperationMethod<
   UpdateGenaiAnthropicApiKeyError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36224, __c1132, 0) as any as S.Schema<UpdateGenaiAnthropicApiKeyRequest>,
-  output: __S(30944, __c967, 0) as any as S.Schema<ApiUpdateAnthropicAPIKeyOutput>,
+  input: __S(36160, __c1130, 0) as any as S.Schema<UpdateGenaiAnthropicApiKeyRequest>,
+  output: __S(30880, __c965, 0) as any as S.Schema<ApiUpdateAnthropicAPIKeyOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40915,8 +40915,8 @@ export const updateGenaiAttachedAgent: API.OperationMethod<
   UpdateGenaiAttachedAgentError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36256, __c1133, 0) as any as S.Schema<UpdateGenaiAttachedAgentRequest>,
-  output: __S(36257, __c1133, 1) as any as S.Schema<ApiUpdateLinkedAgentOutput>,
+  input: __S(36192, __c1131, 0) as any as S.Schema<UpdateGenaiAttachedAgentRequest>,
+  output: __S(36193, __c1131, 1) as any as S.Schema<ApiUpdateLinkedAgentOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40932,8 +40932,8 @@ export const updateGenaiCustomEvaluationMetric: API.OperationMethod<
   UpdateGenaiCustomEvaluationMetricError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36288, __c1134, 0) as any as S.Schema<UpdateGenaiCustomEvaluationMetricRequest>,
-  output: __S(31392, __c981, 0) as any as S.Schema<ApiUpdateCustomEvaluationMetricOutput>,
+  input: __S(36224, __c1132, 0) as any as S.Schema<UpdateGenaiCustomEvaluationMetricRequest>,
+  output: __S(31328, __c979, 0) as any as S.Schema<ApiUpdateCustomEvaluationMetricOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40949,7 +40949,7 @@ export const updateGenaiCustomModelMetadata: API.OperationMethod<
   UpdateGenaiCustomModelMetadataError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36352, __c1136, 0) as any as S.Schema<UpdateGenaiCustomModelMetadataRequest>,
+  input: __S(36288, __c1134, 0) as any as S.Schema<UpdateGenaiCustomModelMetadataRequest>,
   output: __S(13728, __c429, 0) as any as S.Schema<ApiUpdateCustomModelMetadataOutputPublic>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -40966,8 +40966,8 @@ export const updateGenaiEvaluationTestCase: API.OperationMethod<
   UpdateGenaiEvaluationTestCaseError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36385, __c1137, 1) as any as S.Schema<UpdateGenaiEvaluationTestCaseRequest>,
-  output: __S(36386, __c1137, 2) as any as S.Schema<ApiUpdateEvaluationTestCaseOutput>,
+  input: __S(36321, __c1135, 1) as any as S.Schema<UpdateGenaiEvaluationTestCaseRequest>,
+  output: __S(36322, __c1135, 2) as any as S.Schema<ApiUpdateEvaluationTestCaseOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -40983,8 +40983,8 @@ export const updateGenaiKnowledgeBase: API.OperationMethod<
   UpdateGenaiKnowledgeBaseError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36416, __c1138, 0) as any as S.Schema<UpdateGenaiKnowledgeBaseRequest>,
-  output: __S(33536, __c1048, 0) as any as S.Schema<ApiUpdateKnowledgeBaseOutput>,
+  input: __S(36352, __c1136, 0) as any as S.Schema<UpdateGenaiKnowledgeBaseRequest>,
+  output: __S(33472, __c1046, 0) as any as S.Schema<ApiUpdateKnowledgeBaseOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -41000,8 +41000,8 @@ export const updateGenaiKnowledgeBaseDataSource: API.OperationMethod<
   UpdateGenaiKnowledgeBaseDataSourceError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36448, __c1139, 0) as any as S.Schema<UpdateGenaiKnowledgeBaseDataSourceRequest>,
-  output: __S(33952, __c1061, 0) as any as S.Schema<ApiUpdateKnowledgeBaseDataSourceOutput>,
+  input: __S(36384, __c1137, 0) as any as S.Schema<UpdateGenaiKnowledgeBaseDataSourceRequest>,
+  output: __S(33888, __c1059, 0) as any as S.Schema<ApiUpdateKnowledgeBaseDataSourceOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -41017,8 +41017,8 @@ export const updateGenaiModelApiKey: API.OperationMethod<
   UpdateGenaiModelApiKeyError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36480, __c1140, 0) as any as S.Schema<UpdateGenaiModelApiKeyRequest>,
-  output: __S(30432, __c951, 0) as any as S.Schema<ApiUpdateModelAPIKeyOutput>,
+  input: __S(36416, __c1138, 0) as any as S.Schema<UpdateGenaiModelApiKeyRequest>,
+  output: __S(30368, __c949, 0) as any as S.Schema<ApiUpdateModelAPIKeyOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -41034,7 +41034,7 @@ export const updateGenaiModelEvaluationRun: API.OperationMethod<
   UpdateGenaiModelEvaluationRunError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36512, __c1141, 0) as any as S.Schema<UpdateGenaiModelEvaluationRunRequest>,
+  input: __S(36448, __c1139, 0) as any as S.Schema<UpdateGenaiModelEvaluationRunRequest>,
   output: __S(14656, __c458, 0) as any as S.Schema<ApiUpdateModelEvaluationRunOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -41051,8 +41051,8 @@ export const updateGenaiModelRouter: API.OperationMethod<
   UpdateGenaiModelRouterError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36544, __c1142, 0) as any as S.Schema<UpdateGenaiModelRouterRequest>,
-  output: __S(34816, __c1088, 0) as any as S.Schema<ApiUpdateModelRouterOutput>,
+  input: __S(36480, __c1140, 0) as any as S.Schema<UpdateGenaiModelRouterRequest>,
+  output: __S(34752, __c1086, 0) as any as S.Schema<ApiUpdateModelRouterOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -41068,8 +41068,8 @@ export const updateGenaiOpenaiApiKey: API.OperationMethod<
   UpdateGenaiOpenaiApiKeyError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36576, __c1143, 0) as any as S.Schema<UpdateGenaiOpenaiApiKeyRequest>,
-  output: __S(35552, __c1111, 0) as any as S.Schema<ApiUpdateOpenAIAPIKeyOutput>,
+  input: __S(36512, __c1141, 0) as any as S.Schema<UpdateGenaiOpenaiApiKeyRequest>,
+  output: __S(35488, __c1109, 0) as any as S.Schema<ApiUpdateOpenAIAPIKeyOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -41085,8 +41085,8 @@ export const updateGenaiScenarioSet: API.OperationMethod<
   UpdateGenaiScenarioSetError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36608, __c1144, 0) as any as S.Schema<UpdateGenaiScenarioSetRequest>,
-  output: __S(32704, __c1022, 0) as any as S.Schema<ApiUpdateScenarioSetOutput>,
+  input: __S(36544, __c1142, 0) as any as S.Schema<UpdateGenaiScenarioSetRequest>,
+  output: __S(32640, __c1020, 0) as any as S.Schema<ApiUpdateScenarioSetOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -41102,8 +41102,8 @@ export const updateGenaiSimulationRun: API.OperationMethod<
   UpdateGenaiSimulationRunError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36640, __c1145, 0) as any as S.Schema<UpdateGenaiSimulationRunRequest>,
-  output: __S(37152, __c1161, 0) as any as S.Schema<ApiUpdateSimulationRunOutput>,
+  input: __S(36576, __c1143, 0) as any as S.Schema<UpdateGenaiSimulationRunRequest>,
+  output: __S(37088, __c1159, 0) as any as S.Schema<ApiUpdateSimulationRunOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -41119,8 +41119,8 @@ export const updateGenaiWorkspace: API.OperationMethod<
   UpdateGenaiWorkspaceError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36736, __c1148, 0) as any as S.Schema<UpdateGenaiWorkspaceRequest>,
-  output: __S(37536, __c1173, 0) as any as S.Schema<ApiUpdateWorkspaceOutput>,
+  input: __S(36672, __c1146, 0) as any as S.Schema<UpdateGenaiWorkspaceRequest>,
+  output: __S(37472, __c1171, 0) as any as S.Schema<ApiUpdateWorkspaceOutput>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -41141,8 +41141,8 @@ export const updateHarnessSession: API.OperationMethod<
   UpdateHarnessSessionError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36768, __c1149, 0) as any as S.Schema<UpdateHarnessSessionRequest>,
-  output: __S(38720, __c1210, 0) as any as S.Schema<GetSessionResponse>,
+  input: __S(36704, __c1147, 0) as any as S.Schema<UpdateHarnessSessionRequest>,
+  output: __S(38656, __c1208, 0) as any as S.Schema<GetSessionResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -41158,8 +41158,8 @@ export const updateHarnessTemplate: API.OperationMethod<
   UpdateHarnessTemplateError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36800, __c1150, 0) as any as S.Schema<UpdateHarnessTemplateRequest>,
-  output: __S(39136, __c1223, 0) as any as S.Schema<CreateTemplateResponse>,
+  input: __S(36736, __c1148, 0) as any as S.Schema<UpdateHarnessTemplateRequest>,
+  output: __S(39072, __c1221, 0) as any as S.Schema<CreateTemplateResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -41175,8 +41175,8 @@ export const updateImage: API.OperationMethod<
   UpdateImageError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36832, __c1151, 0) as any as S.Schema<UpdateImageRequest>,
-  output: __S(15488, __c484, 0) as any as S.Schema<UpdateImageResponse>,
+  input: __S(36768, __c1149, 0) as any as S.Schema<UpdateImageRequest>,
+  output: __S(39264, __c1227, 0) as any as S.Schema<UpdateImageResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -41196,7 +41196,7 @@ export const updateInsightAlertRule: API.OperationMethod<
   UpdateInsightAlertRuleError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36864, __c1152, 0) as any as S.Schema<UpdateInsightAlertRuleRequest>,
+  input: __S(36800, __c1150, 0) as any as S.Schema<UpdateInsightAlertRuleRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<UpdateInsightAlertRuleResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -41213,7 +41213,7 @@ export const updateInsightDashboard: API.OperationMethod<
   UpdateInsightDashboardError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36896, __c1153, 0) as any as S.Schema<UpdateInsightDashboardRequest>,
+  input: __S(36832, __c1151, 0) as any as S.Schema<UpdateInsightDashboardRequest>,
   output: __S(576, __c18, 0) as any as S.Schema<UpdateInsightDashboardResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -41230,7 +41230,7 @@ export const updateInsightNotificationChannel: API.OperationMethod<
   UpdateInsightNotificationChannelError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36928, __c1154, 0) as any as S.Schema<UpdateInsightNotificationChannelRequest>,
+  input: __S(36864, __c1152, 0) as any as S.Schema<UpdateInsightNotificationChannelRequest>,
   output: __S(768, __c24, 0) as any as S.Schema<UpdateInsightNotificationChannelResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -41247,8 +41247,8 @@ export const updateInsightResourceSignals: API.OperationMethod<
   UpdateInsightResourceSignalsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36960, __c1155, 0) as any as S.Schema<UpdateInsightResourceSignalsRequest>,
-  output: __S(16320, __c510, 0) as any as S.Schema<ResourceResponse>,
+  input: __S(36896, __c1153, 0) as any as S.Schema<UpdateInsightResourceSignalsRequest>,
+  output: __S(16288, __c509, 0) as any as S.Schema<ResourceResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -41264,7 +41264,7 @@ export const updateKubernetesCluster: API.OperationMethod<
   UpdateKubernetesClusterError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36992, __c1156, 0) as any as S.Schema<UpdateKubernetesClusterRequest>,
+  input: __S(36928, __c1154, 0) as any as S.Schema<UpdateKubernetesClusterRequest>,
   output: __S(930, __c29, 2) as any as S.Schema<UpdateKubernetesClusterResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -41281,7 +41281,7 @@ export const updateKubernetesNodePool: API.OperationMethod<
   UpdateKubernetesNodePoolError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37024, __c1157, 0) as any as S.Schema<UpdateKubernetesNodePoolRequest>,
+  input: __S(36960, __c1155, 0) as any as S.Schema<UpdateKubernetesNodePoolRequest>,
   output: __S(2720, __c85, 0) as any as S.Schema<UpdateKubernetesNodePoolResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -41298,7 +41298,7 @@ export const updateLoadBalancer: API.OperationMethod<
   UpdateLoadBalancerError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37184, __c1162, 0) as any as S.Schema<UpdateLoadBalancerRequest>,
+  input: __S(37120, __c1160, 0) as any as S.Schema<UpdateLoadBalancerRequest>,
   output: __S(1024, __c32, 0) as any as S.Schema<UpdateLoadBalancerResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -41315,8 +41315,8 @@ export const updateMcpServerTools: API.OperationMethod<
   UpdateMcpServerToolsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37216, __c1163, 0) as any as S.Schema<UpdateMcpServerToolsRequest>,
-  output: __S(29536, __c923, 0) as any as S.Schema<ListMcpServerToolsResponse>,
+  input: __S(37152, __c1161, 0) as any as S.Schema<UpdateMcpServerToolsRequest>,
+  output: __S(29472, __c921, 0) as any as S.Schema<ListMcpServerToolsResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -41332,7 +41332,7 @@ export const updateMonitoringAlertPolicy: API.OperationMethod<
   UpdateMonitoringAlertPolicyError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37248, __c1164, 0) as any as S.Schema<UpdateMonitoringAlertPolicyRequest>,
+  input: __S(37184, __c1162, 0) as any as S.Schema<UpdateMonitoringAlertPolicyRequest>,
   output: __S(1472, __c46, 0) as any as S.Schema<UpdateMonitoringAlertPolicyResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -41349,8 +41349,8 @@ export const updateMonitoringDestination: API.OperationMethod<
   UpdateMonitoringDestinationError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37280, __c1165, 0) as any as S.Schema<UpdateMonitoringDestinationRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<UpdateMonitoringDestinationResponse>,
+  input: __S(37216, __c1163, 0) as any as S.Schema<UpdateMonitoringDestinationRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<UpdateMonitoringDestinationResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -41366,7 +41366,7 @@ export const updateProject: API.OperationMethod<
   UpdateProjectError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37312, __c1166, 0) as any as S.Schema<UpdateProjectRequest>,
+  input: __S(37248, __c1164, 0) as any as S.Schema<UpdateProjectRequest>,
   output: __S(2400, __c75, 0) as any as S.Schema<UpdateProjectResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -41383,8 +41383,8 @@ export const updateProjectDefault: API.OperationMethod<
   UpdateProjectDefaultError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37344, __c1167, 0) as any as S.Schema<UpdateProjectDefaultRequest>,
-  output: __S(20160, __c630, 0) as any as S.Schema<UpdateProjectDefaultResponse>,
+  input: __S(37280, __c1165, 0) as any as S.Schema<UpdateProjectDefaultRequest>,
+  output: __S(20128, __c629, 0) as any as S.Schema<UpdateProjectDefaultResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -41405,7 +41405,7 @@ export const updateProviderCredentials: API.OperationMethod<
   UpdateProviderCredentialsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37376, __c1168, 0) as any as S.Schema<UpdateProviderCredentialsRequest>,
+  input: __S(37312, __c1166, 0) as any as S.Schema<UpdateProviderCredentialsRequest>,
   output: __S(2496, __c78, 0) as any as S.Schema<ProviderCredentialResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -41422,8 +41422,8 @@ export const updateRegistryGarbageCollection: API.OperationMethod<
   UpdateRegistryGarbageCollectionError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37408, __c1169, 0) as any as S.Schema<UpdateRegistryGarbageCollectionRequest>,
-  output: __S(20352, __c636, 0) as any as S.Schema<UpdateRegistryGarbageCollectionResponse>,
+  input: __S(37344, __c1167, 0) as any as S.Schema<UpdateRegistryGarbageCollectionRequest>,
+  output: __S(20320, __c635, 0) as any as S.Schema<UpdateRegistryGarbageCollectionResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -41439,8 +41439,8 @@ export const updateRegistrySubscription: API.OperationMethod<
   UpdateRegistrySubscriptionError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37440, __c1170, 0) as any as S.Schema<UpdateRegistrySubscriptionRequest>,
-  output: __S(20576, __c643, 0) as any as S.Schema<UpdateRegistrySubscriptionResponse>,
+  input: __S(37376, __c1168, 0) as any as S.Schema<UpdateRegistrySubscriptionRequest>,
+  output: __S(20544, __c642, 0) as any as S.Schema<UpdateRegistrySubscriptionResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -41461,7 +41461,7 @@ export const updateSecuritySecret: API.OperationMethod<
   UpdateSecuritySecretError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37472, __c1171, 0) as any as S.Schema<UpdateSecuritySecretRequest>,
+  input: __S(37408, __c1169, 0) as any as S.Schema<UpdateSecuritySecretRequest>,
   output: __S(2944, __c92, 0) as any as S.Schema<CreateSecretResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -41478,8 +41478,8 @@ export const updateSecuritySettingsPlan: API.OperationMethod<
   UpdateSecuritySettingsPlanError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37568, __c1174, 0) as any as S.Schema<UpdateSecuritySettingsPlanRequest>,
-  output: __S(37569, __c1174, 1) as any as S.Schema<UpdateSecuritySettingsPlanResponse>,
+  input: __S(37504, __c1172, 0) as any as S.Schema<UpdateSecuritySettingsPlanRequest>,
+  output: __S(37505, __c1172, 1) as any as S.Schema<UpdateSecuritySettingsPlanResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -41495,8 +41495,8 @@ export const updateSignalConsent: API.OperationMethod<
   UpdateSignalConsentError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37600, __c1175, 0) as any as S.Schema<UpdateSignalConsentRequest>,
-  output: __S(37632, __c1176, 0) as any as S.Schema<UpdateSignalConsentResponse>,
+  input: __S(37536, __c1173, 0) as any as S.Schema<UpdateSignalConsentRequest>,
+  output: __S(37568, __c1174, 0) as any as S.Schema<UpdateSignalConsentResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -41512,8 +41512,8 @@ export const updateSignalTeamConsent: API.OperationMethod<
   UpdateSignalTeamConsentError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37664, __c1177, 0) as any as S.Schema<UpdateSignalTeamConsentRequest>,
-  output: __S(37632, __c1176, 0) as any as S.Schema<UpdateSignalTeamConsentResponse>,
+  input: __S(37600, __c1175, 0) as any as S.Schema<UpdateSignalTeamConsentRequest>,
+  output: __S(37568, __c1174, 0) as any as S.Schema<UpdateSignalTeamConsentResponse>,
   errors: [BadRequest, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -41529,8 +41529,8 @@ export const updateSpacesKey: API.OperationMethod<
   UpdateSpacesKeyError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37696, __c1178, 0) as any as S.Schema<UpdateSpacesKeyRequest>,
-  output: __S(32992, __c1031, 0) as any as S.Schema<UpdateSpacesKeyResponse>,
+  input: __S(37632, __c1176, 0) as any as S.Schema<UpdateSpacesKeyRequest>,
+  output: __S(32928, __c1029, 0) as any as S.Schema<UpdateSpacesKeyResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -41546,7 +41546,7 @@ export const updateSshKey: API.OperationMethod<
   UpdateSshKeyError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37728, __c1179, 0) as any as S.Schema<UpdateSshKeyRequest>,
+  input: __S(37664, __c1177, 0) as any as S.Schema<UpdateSshKeyRequest>,
   output: __S(3296, __c103, 0) as any as S.Schema<UpdateSshKeyResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -41563,7 +41563,7 @@ export const updateUptimeAlert: API.OperationMethod<
   UpdateUptimeAlertError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37760, __c1180, 0) as any as S.Schema<UpdateUptimeAlertRequest>,
+  input: __S(37696, __c1178, 0) as any as S.Schema<UpdateUptimeAlertRequest>,
   output: __S(3552, __c111, 0) as any as S.Schema<UpdateUptimeAlertResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -41580,7 +41580,7 @@ export const updateUptimeCheck: API.OperationMethod<
   UpdateUptimeCheckError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37792, __c1181, 0) as any as S.Schema<UpdateUptimeCheckRequest>,
+  input: __S(37728, __c1179, 0) as any as S.Schema<UpdateUptimeCheckRequest>,
   output: __S(3648, __c114, 0) as any as S.Schema<UpdateUptimeCheckResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -41597,7 +41597,7 @@ export const updateVectorDatabase: API.OperationMethod<
   UpdateVectorDatabaseError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37824, __c1182, 0) as any as S.Schema<UpdateVectorDatabaseRequest>,
+  input: __S(37760, __c1180, 0) as any as S.Schema<UpdateVectorDatabaseRequest>,
   output: __S(3744, __c117, 0) as any as S.Schema<VectordbUpdateVectorDBResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -41614,7 +41614,7 @@ export const updateVectorDatabaseTags: API.OperationMethod<
   UpdateVectorDatabaseTagsError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37856, __c1183, 0) as any as S.Schema<UpdateVectorDatabaseTagsRequest>,
+  input: __S(37792, __c1181, 0) as any as S.Schema<UpdateVectorDatabaseTagsRequest>,
   output: __S(3744, __c117, 0) as any as S.Schema<VectordbUpdateVectorDBTagsResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -41631,7 +41631,7 @@ export const updateVpc: API.OperationMethod<
   UpdateVpcError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37888, __c1184, 0) as any as S.Schema<UpdateVpcRequest>,
+  input: __S(37824, __c1182, 0) as any as S.Schema<UpdateVpcRequest>,
   output: __S(4032, __c126, 0) as any as S.Schema<UpdateVpcResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -41648,8 +41648,8 @@ export const updateVpcnatgateway: API.OperationMethod<
   UpdateVpcnatgatewayError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(38018, __c1188, 2) as any as S.Schema<UpdateVpcnatgatewayRequest>,
-  output: __S(38020, __c1188, 4) as any as S.Schema<UpdateVpcnatgatewayResponse>,
+  input: __S(37954, __c1186, 2) as any as S.Schema<UpdateVpcnatgatewayRequest>,
+  output: __S(37956, __c1186, 4) as any as S.Schema<UpdateVpcnatgatewayResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -41665,7 +41665,7 @@ export const updateVpcSubnet: API.OperationMethod<
   UpdateVpcSubnetError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(38048, __c1189, 0) as any as S.Schema<UpdateVpcSubnetRequest>,
+  input: __S(37984, __c1187, 0) as any as S.Schema<UpdateVpcSubnetRequest>,
   output: __S(4320, __c135, 0) as any as S.Schema<UpdateVpcSubnetResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -41686,7 +41686,7 @@ export const updateVpcSubnetRoute: API.OperationMethod<
   UpdateVpcSubnetRouteError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(38080, __c1190, 0) as any as S.Schema<UpdateVpcSubnetRouteRequest>,
+  input: __S(38016, __c1188, 0) as any as S.Schema<UpdateVpcSubnetRouteRequest>,
   output: __S(4448, __c139, 0) as any as S.Schema<UpdateVpcSubnetRouteResponse>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -41703,8 +41703,8 @@ export const uploadInferenceBatchFile: API.OperationMethod<
   UploadInferenceBatchFileError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(38112, __c1191, 0) as any as S.Schema<UploadInferenceBatchFileRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<UploadInferenceBatchFileResponse>,
+  input: __S(38048, __c1189, 0) as any as S.Schema<UploadInferenceBatchFileRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<UploadInferenceBatchFileResponse>,
   errors: [Forbidden, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -41726,8 +41726,8 @@ export const uploadMicrovmFile: API.OperationMethod<
   UploadMicrovmFileError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(38144, __c1192, 0) as any as S.Schema<UploadMicrovmFileRequest>,
-  output: __S(38145, __c1192, 1) as any as S.Schema<FileInfo>,
+  input: __S(38080, __c1190, 0) as any as S.Schema<UploadMicrovmFileRequest>,
+  output: __S(38081, __c1190, 1) as any as S.Schema<FileInfo>,
   errors: [
     BadRequest,
     Forbidden,
@@ -41750,8 +41750,8 @@ export const validateAppAppSpec: API.OperationMethod<
   ValidateAppAppSpecError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(38176, __c1193, 0) as any as S.Schema<ValidateAppAppSpecRequest>,
-  output: __S(38177, __c1193, 1) as any as S.Schema<AppProposeResponse>,
+  input: __S(38112, __c1191, 0) as any as S.Schema<ValidateAppAppSpecRequest>,
+  output: __S(38113, __c1191, 1) as any as S.Schema<AppProposeResponse>,
   errors: [UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -41767,8 +41767,8 @@ export const validateAppRollback: API.OperationMethod<
   ValidateAppRollbackError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(38208, __c1194, 0) as any as S.Schema<ValidateAppRollbackRequest>,
-  output: __S(38211, __c1194, 3) as any as S.Schema<ValidateAppRollbackResponse>,
+  input: __S(38144, __c1192, 0) as any as S.Schema<ValidateAppRollbackRequest>,
+  output: __S(38147, __c1192, 3) as any as S.Schema<ValidateAppRollbackResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -41784,8 +41784,8 @@ export const validateHarnessSessionPolicy: API.OperationMethod<
   ValidateHarnessSessionPolicyError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(38240, __c1195, 0) as any as S.Schema<ValidateHarnessSessionPolicyRequest>,
-  output: __S(38244, __c1195, 4) as any as S.Schema<ValidationResult>,
+  input: __S(38176, __c1193, 0) as any as S.Schema<ValidateHarnessSessionPolicyRequest>,
+  output: __S(38180, __c1193, 4) as any as S.Schema<ValidationResult>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -41801,7 +41801,7 @@ export const validateOutputView: API.OperationMethod<
   ValidateOutputViewError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(38272, __c1196, 0) as any as S.Schema<ValidateOutputViewRequest>,
+  input: __S(38208, __c1194, 0) as any as S.Schema<ValidateOutputViewRequest>,
   output: __S(2144, __c67, 0) as any as S.Schema<OutputViewResponse>,
   errors: [BadRequest, NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -41818,8 +41818,8 @@ export const validateRegistryName: API.OperationMethod<
   ValidateRegistryNameError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(38304, __c1197, 0) as any as S.Schema<ValidateRegistryNameRequest>,
-  output: __S(38560, __c1205, 0) as any as S.Schema<ValidateRegistryNameResponse>,
+  input: __S(38240, __c1195, 0) as any as S.Schema<ValidateRegistryNameRequest>,
+  output: __S(38496, __c1203, 0) as any as S.Schema<ValidateRegistryNameResponse>,
   errors: [Conflict, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -41835,8 +41835,8 @@ export const vectorDatabasesGetRestoreStatus: API.OperationMethod<
   VectorDatabasesGetRestoreStatusError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(38432, __c1201, 0) as any as S.Schema<VectorDatabasesGetRestoreStatusRequest>,
-  output: __S(38433, __c1201, 1) as any as S.Schema<VectordbGetRestoreStatusResponse>,
+  input: __S(38368, __c1199, 0) as any as S.Schema<VectorDatabasesGetRestoreStatusRequest>,
+  output: __S(38369, __c1199, 1) as any as S.Schema<VectordbGetRestoreStatusResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -41852,7 +41852,7 @@ export const vectorDatabasesPostResize: API.OperationMethod<
   VectorDatabasesPostResizeError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(38464, __c1202, 0) as any as S.Schema<VectorDatabasesPostResizeRequest>,
+  input: __S(38400, __c1200, 0) as any as S.Schema<VectorDatabasesPostResizeRequest>,
   output: __S(3744, __c117, 0) as any as S.Schema<VectordbResizeVectorDBResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
@@ -41869,8 +41869,8 @@ export const vectorDatabasesPostRestoreBackup: API.OperationMethod<
   VectorDatabasesPostRestoreBackupError,
   DigitalOceanOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(38496, __c1203, 0) as any as S.Schema<VectorDatabasesPostRestoreBackupRequest>,
-  output: __S(38497, __c1203, 1) as any as S.Schema<VectordbRestoreBackupResponse>,
+  input: __S(38432, __c1201, 0) as any as S.Schema<VectorDatabasesPostRestoreBackupRequest>,
+  output: __S(38433, __c1201, 1) as any as S.Schema<VectordbRestoreBackupResponse>,
   errors: [NotFound, UnknownDigitalOceanError],
   protocol: DigitalOceanProtocol,
   retry: Retry.Retry,
@@ -41973,21 +41973,21 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          messages: __S(17764, __c555, 4),
+          messages: __S(17732, __c554, 4),
           model: S.String,
           max_tokens: S.optional(S.NullOr(S.Number)),
           max_completion_tokens: S.optional(S.NullOr(S.Number)),
           frequency_penalty: S.optional(S.NullOr(S.Number)),
           presence_penalty: S.optional(S.NullOr(S.Number)),
           top_logprobs: S.optional(S.NullOr(S.Number)),
-          tools: S.optional(__S(17767, __c555, 7)),
+          tools: S.optional(__S(17735, __c554, 7)),
           tool_choice: S.optional(S.Unknown),
           stream: S.optional(S.NullOr(S.Boolean)),
           stop: S.optional(S.Unknown),
-          logit_bias: S.optional(S.NullOr(__S(17824, __c557, 0))),
+          logit_bias: S.optional(S.NullOr(__S(17792, __c556, 0))),
           logprobs: S.optional(S.NullOr(S.Boolean)),
           n: S.optional(S.NullOr(S.Number)),
-          stream_options: S.optional(S.NullOr(__S(17792, __c556, 0))),
+          stream_options: S.optional(S.NullOr(__S(17760, __c555, 0))),
           reasoning_effort: S.optional(S.NullOr(S.String)),
           seed: S.optional(S.NullOr(S.Number)),
           metadata: S.optional(S.NullOr(__S(9952, __c311, 0))),
@@ -42111,7 +42111,7 @@ function __c7(j: number): any {
         S.Struct({
           name: S.String,
           description: S.optional(S.String),
-          input_schema: __S(17856, __c558, 0),
+          input_schema: __S(17824, __c557, 0),
         }),
       ).annotate({ identifier: "MessagesToolDefinitionParam" });
     case 3:
@@ -42192,7 +42192,7 @@ function __c8(j: number): any {
           type: S.String,
           name: S.optional(S.String),
           description: S.optional(S.String),
-          parameters: S.optional(__S(17856, __c558, 0)),
+          parameters: S.optional(__S(17824, __c557, 0)),
         }),
       ).annotate({ identifier: "CreateInferenceResponseRequestToolsItem" });
     case 3:
@@ -42207,7 +42207,7 @@ function __c8(j: number): any {
           stream: S.optional(S.NullOr(S.Boolean)),
           instructions: S.optional(S.NullOr(S.String)),
           top_p: S.optional(S.NullOr(S.Number)),
-          stream_options: S.optional(S.NullOr(__S(17792, __c556, 0))),
+          stream_options: S.optional(S.NullOr(__S(17760, __c555, 0))),
           tools: S.optional(S.NullOr(__S(259, __c8, 3))),
           tool_choice: S.optional(S.Unknown),
           stop: S.optional(S.NullOr(S.Unknown)),
@@ -42330,8 +42330,8 @@ function __c10(j: number): any {
           noul: S.optional(S.Number),
           choice: S.optional(S.String),
           score: S.optional(S.Number),
-          legend: S.optional(__S(17856, __c558, 0)),
-          probabilities: S.optional(__S(17824, __c557, 0)),
+          legend: S.optional(__S(17824, __c557, 0)),
+          probabilities: S.optional(__S(17792, __c556, 0)),
           confidence: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SystemoneAnswer" });
@@ -42378,7 +42378,7 @@ function __c12(j: number): any {
           model: S.optional(S.String),
           status: S.String,
           output: S.optional(S.NullOr(__S(5984, __c187, 0))),
-          error: S.optional(S.NullOr(__S(17856, __c558, 0))),
+          error: S.optional(S.NullOr(__S(17824, __c557, 0))),
           x_request_id: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "VideoGeneration" });
@@ -42921,22 +42921,22 @@ function __c31(j: number): any {
           target_protocol: S.optional(S.String),
           target_port: S.optional(S.Number),
           cdn: S.optional(__S(997, __c31, 5)),
-          region_priorities: S.optional(__S(17824, __c557, 0)),
+          region_priorities: S.optional(__S(17792, __c556, 0)),
           failover_threshold: S.optional(S.Number),
         }),
       ).annotate({ identifier: "GlbSettings" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
+          id: S.String,
+          name: S.String,
           project_id: S.optional(S.String),
           ipv6: S.optional(S.String),
           size_unit: S.optional(S.Number),
           size: S.optional(S.String),
           algorithm: S.optional(S.String),
-          status: S.optional(S.String),
-          created_at: S.optional(S.String),
+          status: S.String,
+          created_at: S.String,
           forwarding_rules: __S(5153, __c161, 1),
           health_check: S.optional(__S(992, __c31, 0)),
           sticky_sessions: S.optional(__S(993, __c31, 1)),
@@ -42956,8 +42956,8 @@ function __c31(j: number): any {
           target_load_balancer_ids: S.optional(__S(32, __c1, 0)),
           tls_cipher_policy: S.optional(S.String),
           ip: S.optional(S.String),
-          region: S.optional(__S(26528, __c829, 0)),
-          droplet_ids: S.optional(__S(640, __c20, 0)),
+          region: __S(26496, __c828, 0),
+          droplet_ids: __S(640, __c20, 0),
           tag: S.optional(S.String),
         }),
       ).annotate({ identifier: "LoadBalancer" });
@@ -42968,7 +42968,7 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          load_balancer: S.optional(__S(999, __c31, 7)),
+          load_balancer: __S(999, __c31, 7),
         }),
       ).annotate({ identifier: "CreateLoadBalancerResponse" });
   }
@@ -43725,7 +43725,7 @@ function __c76(j: number): any {
           client_id: S.optional(S.String),
           client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           base_url: S.optional(S.String),
-          credential_parameters: S.optional(__S(17856, __c558, 0)),
+          credential_parameters: S.optional(__S(17824, __c557, 0)),
           reusable_by_team: S.optional(S.Boolean),
           redirect_url: S.optional(S.String),
         }).pipe(
@@ -43793,8 +43793,8 @@ function __c80(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          created_at: S.optional(S.String),
+          name: S.String,
+          created_at: S.String,
           region: S.optional(S.String),
           storage_usage_bytes: S.optional(S.Number),
           storage_usage_bytes_updated_at: S.optional(S.String),
@@ -43803,7 +43803,7 @@ function __c80(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          registry: S.optional(__S(2560, __c80, 0)),
+          registry: __S(2560, __c80, 0),
         }),
       ).annotate({ identifier: "CreateRegistryResponse" });
   }
@@ -43820,7 +43820,7 @@ function __c81(j: number): any {
       return S.suspend(() =>
         S.Struct({
           reserved_ip: __S(2624, __c82, 0),
-          links: S.optional(__S(28800, __c900, 0)),
+          links: S.optional(__S(28736, __c898, 0)),
         }),
       ).annotate({ identifier: "CreateReservedIPResponse" });
   }
@@ -43831,8 +43831,8 @@ function __c82(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ip: S.String,
-          region: __S(26528, __c829, 0),
-          droplet: S.optional(S.NullOr(__S(26437, __c826, 5))),
+          region: __S(26496, __c828, 0),
+          droplet: S.optional(S.NullOr(__S(26406, __c825, 6))),
           locked: S.Boolean,
           project_id: S.optional(S.String),
         }),
@@ -44150,17 +44150,17 @@ function __c99(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          secret_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          name: S.optional(S.String),
-          grants: S.optional(__S(3201, __c100, 1)),
-          access_key: S.optional(S.String),
-          created_at: S.optional(S.String),
+          secret_key: S.String.pipe(T.SensitiveValue({})),
+          name: S.String,
+          grants: __S(3201, __c100, 1),
+          access_key: S.String,
+          created_at: S.String,
         }),
       ).annotate({ identifier: "KeyCreateResponse" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          key: S.optional(__S(3169, __c99, 1)),
+          key: __S(3169, __c99, 1),
         }),
       ).annotate({ identifier: "CreateSpacesKeyResponse" });
   }
@@ -44308,13 +44308,13 @@ function __c110(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
+          id: S.String,
+          name: S.String,
+          type: S.String,
           threshold: S.optional(S.Number),
-          comparison: S.optional(S.String),
-          notifications: S.optional(__S(1410, __c44, 2)),
-          period: S.optional(S.String),
+          comparison: S.String,
+          notifications: __S(1410, __c44, 2),
+          period: S.String,
         }),
       ).annotate({ identifier: "Alert" });
   }
@@ -44324,7 +44324,7 @@ function __c111(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          alert: S.optional(__S(3520, __c110, 0)),
+          alert: __S(3520, __c110, 0),
         }),
       ).annotate({ identifier: "CreateUptimeAlertResponse" });
   }
@@ -44348,12 +44348,12 @@ function __c113(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          target: S.optional(S.String),
-          regions: S.optional(__S(9984, __c312, 0)),
-          enabled: S.optional(S.Boolean),
+          id: S.String,
+          name: S.String,
+          type: S.String,
+          target: S.String,
+          regions: __S(9984, __c312, 0),
+          enabled: S.Boolean,
         }),
       ).annotate({ identifier: "Check" });
   }
@@ -44363,7 +44363,7 @@ function __c114(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          check: S.optional(__S(3616, __c113, 0)),
+          check: __S(3616, __c113, 0),
         }),
       ).annotate({ identifier: "CreateUptimeCheckResponse" });
   }
@@ -44462,7 +44462,7 @@ function __c120(j: number): any {
           size_gigabytes: S.Number,
           created_at: S.String,
           tags: S.NullOr(__S(32, __c1, 0)),
-          region: __S(26528, __c829, 0),
+          region: __S(26496, __c828, 0),
           filesystem_type: S.optional(S.String),
           filesystem_label: S.optional(S.String),
         }),
@@ -44686,7 +44686,7 @@ function __c134(j: number): any {
       return S.suspend(() =>
         S.Struct({
           members: S.optional(S.Number),
-          resources: S.optional(__S(17824, __c557, 0)),
+          resources: S.optional(__S(17792, __c556, 0)),
         }),
       ).annotate({ identifier: "VpcSubnetStatistics" });
     case 1:
@@ -44968,7 +44968,7 @@ function __c153(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          connection: S.optional(__S(21537, __c673, 1)),
+          connection: S.optional(__S(21505, __c672, 1)),
         }),
       ).annotate({ identifier: "DeleteConnectionResponse" });
   }
@@ -47243,7 +47243,7 @@ function __c282(j: number): any {
 function __c283(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(27136, __c848, 0));
+      return S.Array(__S(27072, __c846, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -47409,7 +47409,7 @@ function __c290(j: number): any {
           version: S.optional(S.String),
           title: S.optional(S.String),
           description: S.optional(S.String),
-          inputSchema: S.optional(__S(17856, __c558, 0)),
+          inputSchema: S.optional(__S(17824, __c557, 0)),
           score: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SearchToolsResult" });
@@ -48451,7 +48451,7 @@ function __c335(j: number): any {
           completed_at: S.optional(S.NullOr(S.String)),
           resource_id: S.optional(S.NullOr(S.Number)),
           resource_type: S.optional(S.String),
-          region: S.optional(__S(26528, __c829, 0)),
+          region: S.optional(__S(26496, __c828, 0)),
           region_slug: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "Action" });
@@ -49150,7 +49150,7 @@ function __c370(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          autoscale: S.optional(__S(22144, __c692, 0)),
+          autoscale: S.optional(__S(22112, __c691, 0)),
         }),
       ).annotate({ identifier: "GetDatabaseAutoscaleResponse" });
   }
@@ -49290,7 +49290,7 @@ function __c378(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          do_settings: __S(22336, __c698, 0),
+          do_settings: __S(22304, __c697, 0),
         }),
       ).annotate({ identifier: "GetDatabaseDoSettingsResponse" });
   }
@@ -49585,7 +49585,7 @@ function __c396(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dedicated_inference: S.optional(__S(24552, __c767, 8)),
+          dedicated_inference: S.optional(__S(24520, __c766, 8)),
         }),
       ).annotate({ identifier: "GetDedicatedInferenceResponse" });
   }
@@ -49764,7 +49764,7 @@ function __c406(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          droplet: __S(26437, __c826, 5),
+          droplet: __S(26406, __c825, 6),
         }),
       ).annotate({ identifier: "GetDropletResponse" });
   }
@@ -49822,7 +49822,7 @@ function __c409(j: number): any {
           droplet_id: S.optional(S.Number),
           backup_enabled: S.optional(S.Boolean),
           backup_policy: S.optional(__S(13088, __c409, 0)),
-          next_backup_window: S.optional(__S(26368, __c824, 0)),
+          next_backup_window: S.optional(__S(26336, __c823, 0)),
         }),
       ).annotate({ identifier: "DropletBackupPolicyRecord" });
   }
@@ -49890,7 +49890,7 @@ function __c412(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          endpoint: __S(27136, __c848, 0),
+          endpoint: __S(27072, __c846, 0),
         }),
       ).annotate({ identifier: "EndpointResponse" });
   }
@@ -49912,7 +49912,7 @@ function __c413(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          version: __S(27112, __c847, 8),
+          version: __S(27048, __c845, 8),
         }),
       ).annotate({ identifier: "EndpointVersionResponse" });
   }
@@ -49938,7 +49938,7 @@ function __c415(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          floating_ip: S.optional(__S(28832, __c901, 0)),
+          floating_ip: S.optional(__S(28768, __c899, 0)),
         }),
       ).annotate({ identifier: "GetFloatingIPResponse" });
   }
@@ -49972,7 +49972,7 @@ function __c417(j: number): any {
           completed_at: S.optional(S.NullOr(S.String)),
           resource_id: S.optional(S.NullOr(S.Number)),
           resource_type: S.optional(S.String),
-          region: S.optional(__S(26528, __c829, 0)),
+          region: S.optional(__S(26496, __c828, 0)),
           region_slug: S.optional(S.NullOr(S.String)),
           project_id: S.optional(S.String),
         }),
@@ -50861,7 +50861,7 @@ function __c449(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          candidate_inference_config: S.optional(__S(34336, __c1073, 0)),
+          candidate_inference_config: S.optional(__S(34272, __c1071, 0)),
           candidate_model_name: S.optional(S.String),
           candidate_model_source: S.optional(S.String),
           candidate_model_uuid: S.optional(S.String),
@@ -51084,7 +51084,7 @@ function __c450(j: number): any {
     case 25:
       return S.suspend(() =>
         S.Struct({
-          candidate_inference_config: S.optional(__S(34336, __c1073, 0)),
+          candidate_inference_config: S.optional(__S(34272, __c1071, 0)),
           candidate_model_name: S.optional(S.String),
           candidate_model_source: S.optional(S.String),
           candidate_model_uuid: S.optional(S.String),
@@ -51275,7 +51275,7 @@ function __c461(j: number): any {
           scenario_uuid: S.optional(S.String),
           session_id: S.optional(S.String),
           status: S.optional(S.String),
-          token_usage: S.optional(__S(37088, __c1159, 0)),
+          token_usage: S.optional(__S(37024, __c1157, 0)),
           trajectory_bucket_name: S.optional(S.String),
           trajectory_bucket_region: S.optional(S.String),
           trajectory_spaces_key: S.optional(S.String),
@@ -51370,7 +51370,7 @@ function __c462(j: number): any {
           session_id: S.optional(S.String),
           started_at: S.optional(S.String),
           status: S.optional(S.String),
-          token_usage: S.optional(__S(37088, __c1159, 0)),
+          token_usage: S.optional(__S(37024, __c1157, 0)),
           turn_count: S.optional(S.Number),
           verdict: S.optional(S.String),
         }),
@@ -51414,7 +51414,7 @@ function __c464(j: number): any {
           episodes_finished: S.optional(S.Number),
           scenario_uuid: S.optional(S.String),
           total_episodes: S.optional(S.Number),
-          verdict_counts: S.optional(__S(37121, __c1160, 1)),
+          verdict_counts: S.optional(__S(37057, __c1158, 1)),
         }),
       ).annotate({ identifier: "ApiSimulationScenarioResult" });
     case 2:
@@ -51423,7 +51423,7 @@ function __c464(j: number): any {
       return S.suspend(() =>
         S.Struct({
           scenario_results: S.optional(__S(14850, __c464, 2)),
-          simulation_run: S.optional(__S(37123, __c1160, 3)),
+          simulation_run: S.optional(__S(37059, __c1158, 3)),
         }),
       ).annotate({ identifier: "ApiGetSimulationRunOutput" });
   }
@@ -51721,7 +51721,7 @@ function __c481(j: number): any {
           build_id: S.String,
           template_id: S.optional(S.String),
           name: S.optional(S.String),
-          spec: S.optional(__S(39073, __c1221, 1)),
+          spec: S.optional(__S(39009, __c1219, 1)),
           status: S.String,
           error: S.optional(S.String),
           created_at: S.String,
@@ -51755,16 +51755,6 @@ function __c484(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          image: __S(26592, __c831, 0),
-        }),
-      ).annotate({ identifier: "GetImageResponse" });
-  }
-}
-function __c485(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           session_id: S.String.pipe(T.Label()),
           transfer_id: S.String.pipe(T.Label()),
           reason: S.optional(S.String),
@@ -51786,7 +51776,7 @@ function __c485(j: number): any {
       ).annotate({ identifier: "WorkspaceTransferCancelled" });
   }
 }
-function __c486(j: number): any {
+function __c485(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51799,7 +51789,7 @@ function __c486(j: number): any {
       ).annotate({ identifier: "GetImageActionRequest" });
   }
 }
-function __c487(j: number): any {
+function __c486(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51809,7 +51799,7 @@ function __c487(j: number): any {
       ).annotate({ identifier: "GetInferenceBatchRequest" });
   }
 }
-function __c488(j: number): any {
+function __c487(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51829,7 +51819,7 @@ function __c488(j: number): any {
       ).annotate({ identifier: "BatchResultsResponse" });
   }
 }
-function __c489(j: number): any {
+function __c488(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51839,7 +51829,7 @@ function __c489(j: number): any {
       ).annotate({ identifier: "GetInferenceVideoRequest" });
   }
 }
-function __c490(j: number): any {
+function __c489(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51849,7 +51839,7 @@ function __c490(j: number): any {
       ).annotate({ identifier: "GetInferenceVideoContentRequest" });
   }
 }
-function __c491(j: number): any {
+function __c490(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51860,12 +51850,12 @@ function __c491(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          alert_instance: __S(15744, __c492, 0),
+          alert_instance: __S(15712, __c491, 0),
         }),
       ).annotate({ identifier: "GetInsightAlertInstanceResponse" });
   }
 }
-function __c492(j: number): any {
+function __c491(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51884,7 +51874,7 @@ function __c492(j: number): any {
       ).annotate({ identifier: "AlertInstance" });
   }
 }
-function __c493(j: number): any {
+function __c492(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51894,7 +51884,7 @@ function __c493(j: number): any {
       ).annotate({ identifier: "GetInsightAlertRuleRequest" });
   }
 }
-function __c494(j: number): any {
+function __c493(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51904,7 +51894,7 @@ function __c494(j: number): any {
       ).annotate({ identifier: "GetInsightDashboardRequest" });
   }
 }
-function __c495(j: number): any {
+function __c494(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51913,12 +51903,12 @@ function __c495(j: number): any {
         ),
       ).annotate({ identifier: "GetInsightDashboardSchemaRequest" });
     case 1:
-      return S.suspend(() => __S(17856, __c558, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(17824, __c557, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetInsightDashboardSchemaResponse",
       });
   }
 }
-function __c496(j: number): any {
+function __c495(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51930,7 +51920,7 @@ function __c496(j: number): any {
       ).annotate({ identifier: "GetInsightNotificationChannelRequest" });
   }
 }
-function __c497(j: number): any {
+function __c496(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51940,7 +51930,7 @@ function __c497(j: number): any {
       ).annotate({ identifier: "CancelInferenceBatchRequest" });
   }
 }
-function __c498(j: number): any {
+function __c497(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -51959,7 +51949,7 @@ function __c498(j: number): any {
         }),
       ).annotate({ identifier: "BatchErrorsItem" });
     case 2:
-      return S.Array(__S(15937, __c498, 1));
+      return S.Array(__S(15905, __c497, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -51971,10 +51961,10 @@ function __c498(j: number): any {
           input_file_id: S.String,
           output_file_id: S.optional(S.NullOr(S.String)),
           error_file_id: S.optional(S.NullOr(S.String)),
-          request_counts: S.optional(__S(15936, __c498, 0)),
+          request_counts: S.optional(__S(15904, __c497, 0)),
           request_id: S.optional(S.String),
           metadata: S.optional(S.NullOr(__S(9952, __c311, 0))),
-          errors: S.optional(S.NullOr(__S(15938, __c498, 2))),
+          errors: S.optional(S.NullOr(__S(15906, __c497, 2))),
           created_at: S.String,
           in_progress_at: S.optional(S.NullOr(S.String)),
           finalizing_at: S.optional(S.NullOr(S.String)),
@@ -51986,7 +51976,7 @@ function __c498(j: number): any {
       ).annotate({ identifier: "Batch" });
   }
 }
-function __c499(j: number): any {
+function __c498(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52005,7 +51995,7 @@ function __c499(j: number): any {
       ).annotate({ identifier: "GetInsightPromLabelsRequest" });
   }
 }
-function __c500(j: number): any {
+function __c499(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52016,7 +52006,7 @@ function __c500(j: number): any {
       ).annotate({ identifier: "PromStringListResponse" });
   }
 }
-function __c501(j: number): any {
+function __c500(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52036,7 +52026,7 @@ function __c501(j: number): any {
       ).annotate({ identifier: "GetInsightPromLabelValuesRequest" });
   }
 }
-function __c502(j: number): any {
+function __c501(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52055,7 +52045,7 @@ function __c502(j: number): any {
       ).annotate({ identifier: "GetInsightPromQueryRequest" });
   }
 }
-function __c503(j: number): any {
+function __c502(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52068,12 +52058,12 @@ function __c503(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.String,
-          data: __S(16096, __c503, 0),
+          data: __S(16064, __c502, 0),
         }),
       ).annotate({ identifier: "PromQueryResponse" });
   }
 }
-function __c504(j: number): any {
+function __c503(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52094,38 +52084,38 @@ function __c504(j: number): any {
       ).annotate({ identifier: "GetInsightPromQueryRangeRequest" });
   }
 }
-function __c505(j: number): any {
+function __c504(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
     case 1:
-      return S.Array(__S(16160, __c505, 0));
+      return S.Array(__S(16128, __c504, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           metric: __S(9952, __c311, 0),
-          values: __S(16161, __c505, 1),
+          values: __S(16129, __c504, 1),
         }),
       ).annotate({ identifier: "PromMatrixSample" });
     case 3:
-      return S.Array(__S(16162, __c505, 2));
+      return S.Array(__S(16130, __c504, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           resultType: S.String,
-          result: __S(16163, __c505, 3),
+          result: __S(16131, __c504, 3),
         }),
       ).annotate({ identifier: "PromMatrixData" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
-          data: __S(16164, __c505, 4),
+          data: __S(16132, __c504, 4),
         }),
       ).annotate({ identifier: "PromQueryRangeResponse" });
   }
 }
-function __c506(j: number): any {
+function __c505(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52144,7 +52134,7 @@ function __c506(j: number): any {
       ).annotate({ identifier: "GetInsightPromSeriesRequest" });
   }
 }
-function __c507(j: number): any {
+function __c506(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(9952, __c311, 0));
@@ -52152,12 +52142,12 @@ function __c507(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.String,
-          data: __S(16224, __c507, 0),
+          data: __S(16192, __c506, 0),
         }),
       ).annotate({ identifier: "PromSeriesResponse" });
   }
 }
-function __c508(j: number): any {
+function __c507(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52167,7 +52157,7 @@ function __c508(j: number): any {
       ).annotate({ identifier: "GetInsightResourceRequest" });
   }
 }
-function __c509(j: number): any {
+function __c508(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52182,24 +52172,24 @@ function __c509(j: number): any {
           resource_urn: S.String,
           product_type: S.String,
           region: S.optional(S.String),
-          metrics: S.optional(__S(16288, __c509, 0)),
-          logs: S.optional(__S(16288, __c509, 0)),
-          traces: S.optional(__S(16288, __c509, 0)),
+          metrics: S.optional(__S(16256, __c508, 0)),
+          logs: S.optional(__S(16256, __c508, 0)),
+          traces: S.optional(__S(16256, __c508, 0)),
         }),
       ).annotate({ identifier: "EnablementResource" });
   }
 }
-function __c510(j: number): any {
+function __c509(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: __S(16289, __c509, 1),
+          resource: __S(16257, __c508, 1),
         }),
       ).annotate({ identifier: "ResourceResponse" });
   }
 }
-function __c511(j: number): any {
+function __c510(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52235,18 +52225,18 @@ function __c511(j: number): any {
         }),
       ).annotate({ identifier: "TracesSpanRecord" });
     case 2:
-      return S.Array(__S(16353, __c511, 1));
+      return S.Array(__S(16321, __c510, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           trace_id: S.optional(S.String),
-          spans: S.optional(__S(16354, __c511, 2)),
+          spans: S.optional(__S(16322, __c510, 2)),
           truncated: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "TracesTraceResponse" });
   }
 }
-function __c512(j: number): any {
+function __c511(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52275,18 +52265,18 @@ function __c512(j: number): any {
         }),
       ).annotate({ identifier: "InvoiceItem" });
     case 2:
-      return S.Array(__S(16385, __c512, 1));
+      return S.Array(__S(16353, __c511, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          invoice_items: S.optional(__S(16386, __c512, 2)),
+          invoice_items: S.optional(__S(16354, __c511, 2)),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "GetInvoiceByUUIDResponse" });
   }
 }
-function __c513(j: number): any {
+function __c512(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52296,7 +52286,7 @@ function __c513(j: number): any {
       ).annotate({ identifier: "GetInvoiceByUUIDResponseMeta" });
   }
 }
-function __c514(j: number): any {
+function __c513(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52308,7 +52298,7 @@ function __c514(j: number): any {
       ).annotate({ identifier: "GetInvoiceCsvByUUIDRequest" });
   }
 }
-function __c515(j: number): any {
+function __c514(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52320,7 +52310,7 @@ function __c515(j: number): any {
       ).annotate({ identifier: "GetInvoicePdfByUUIDRequest" });
   }
 }
-function __c516(j: number): any {
+function __c515(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52330,7 +52320,7 @@ function __c516(j: number): any {
       ).annotate({ identifier: "CommitAppRollbackRequest" });
   }
 }
-function __c517(j: number): any {
+function __c516(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52366,13 +52356,13 @@ function __c517(j: number): any {
         }),
       ).annotate({ identifier: "ProductChargeItem" });
     case 3:
-      return S.Array(__S(16546, __c517, 2));
+      return S.Array(__S(16514, __c516, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           amount: S.optional(S.String),
-          items: S.optional(__S(16547, __c517, 3)),
+          items: S.optional(__S(16515, __c516, 3)),
         }),
       ).annotate({ identifier: "InvoiceSummaryProductCharges" });
     case 5:
@@ -52390,18 +52380,18 @@ function __c517(j: number): any {
           billing_period: S.optional(S.String),
           amount: S.optional(S.String),
           user_name: S.optional(S.String),
-          user_billing_address: S.optional(__S(16545, __c517, 1)),
+          user_billing_address: S.optional(__S(16513, __c516, 1)),
           user_company: S.optional(S.String),
           user_email: S.optional(S.String),
-          product_charges: S.optional(__S(16548, __c517, 4)),
-          overages: S.optional(__S(16549, __c517, 5)),
-          taxes: S.optional(__S(16549, __c517, 5)),
-          credits_and_adjustments: S.optional(__S(16549, __c517, 5)),
+          product_charges: S.optional(__S(16516, __c516, 4)),
+          overages: S.optional(__S(16517, __c516, 5)),
+          taxes: S.optional(__S(16517, __c516, 5)),
+          credits_and_adjustments: S.optional(__S(16517, __c516, 5)),
         }),
       ).annotate({ identifier: "InvoiceSummary" });
   }
 }
-function __c518(j: number): any {
+function __c517(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52418,12 +52408,12 @@ function __c518(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          available_upgrade_versions: S.optional(S.NullOr(__S(16609, __c519, 1))),
+          available_upgrade_versions: S.optional(S.NullOr(__S(16577, __c518, 1))),
         }),
       ).annotate({ identifier: "GetKubernetesAvailableUpgradesResponse" });
   }
 }
-function __c519(j: number): any {
+function __c518(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52434,10 +52424,10 @@ function __c519(j: number): any {
         }),
       ).annotate({ identifier: "KubernetesVersion" });
     case 1:
-      return S.Array(__S(16608, __c519, 0));
+      return S.Array(__S(16576, __c518, 0));
   }
 }
-function __c520(j: number): any {
+function __c519(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52448,12 +52438,12 @@ function __c520(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          kubernetes_cluster: S.optional(__S(16672, __c521, 0)),
+          kubernetes_cluster: S.optional(__S(16640, __c520, 0)),
         }),
       ).annotate({ identifier: "GetKubernetesClusterResponse" });
   }
 }
-function __c521(j: number): any {
+function __c520(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52498,7 +52488,7 @@ function __c521(j: number): any {
       ).annotate({ identifier: "ClusterRead" });
   }
 }
-function __c522(j: number): any {
+function __c521(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52527,23 +52517,23 @@ function __c522(j: number): any {
           check_name: S.optional(S.String),
           severity: S.optional(S.String),
           message: S.optional(S.String),
-          object: S.optional(__S(16705, __c522, 1)),
+          object: S.optional(__S(16673, __c521, 1)),
         }),
       ).annotate({ identifier: "ClusterlintResultsDiagnosticsItem" });
     case 3:
-      return S.Array(__S(16706, __c522, 2));
+      return S.Array(__S(16674, __c521, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           run_id: S.optional(S.String),
           requested_at: S.optional(S.String),
           completed_at: S.optional(S.String),
-          diagnostics: S.optional(__S(16707, __c522, 3)),
+          diagnostics: S.optional(__S(16675, __c521, 3)),
         }),
       ).annotate({ identifier: "ClusterlintResults" });
   }
 }
-function __c523(j: number): any {
+function __c522(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52563,12 +52553,12 @@ function __c523(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          kubernetes_cluster_user: S.optional(__S(16737, __c523, 1)),
+          kubernetes_cluster_user: S.optional(__S(16705, __c522, 1)),
         }),
       ).annotate({ identifier: "User2" });
   }
 }
-function __c524(j: number): any {
+function __c523(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52596,7 +52586,7 @@ function __c524(j: number): any {
       ).annotate({ identifier: "Credentials" });
   }
 }
-function __c525(j: number): any {
+function __c524(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52614,7 +52604,7 @@ function __c525(j: number): any {
       ).annotate({ identifier: "GetKubernetesKubeconfigRequest" });
   }
 }
-function __c526(j: number): any {
+function __c525(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52631,7 +52621,7 @@ function __c526(j: number): any {
       ).annotate({ identifier: "GetKubernetesNodePoolRequest" });
   }
 }
-function __c527(j: number): any {
+function __c526(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52654,16 +52644,16 @@ function __c527(j: number): any {
         }),
       ).annotate({ identifier: "StatusMessages" });
     case 2:
-      return S.Array(__S(16865, __c527, 1));
+      return S.Array(__S(16833, __c526, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          messages: S.optional(__S(16866, __c527, 2)),
+          messages: S.optional(__S(16834, __c526, 2)),
         }),
       ).annotate({ identifier: "GetKubernetesStatusMessagesResponse" });
   }
 }
-function __c528(j: number): any {
+function __c527(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52673,7 +52663,7 @@ function __c528(j: number): any {
       ).annotate({ identifier: "GetLoadBalancerRequest" });
   }
 }
-function __c529(j: number): any {
+function __c528(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52699,7 +52689,7 @@ function __c529(j: number): any {
       ).annotate({ identifier: "WorkspaceUploadCommitted" });
   }
 }
-function __c530(j: number): any {
+function __c529(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52711,7 +52701,7 @@ function __c530(j: number): any {
       ).annotate({ identifier: "GetMcpServerRequest" });
   }
 }
-function __c531(j: number): any {
+function __c530(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52721,7 +52711,7 @@ function __c531(j: number): any {
       ).annotate({ identifier: "GetMicrovmRequest" });
   }
 }
-function __c532(j: number): any {
+function __c531(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52733,7 +52723,7 @@ function __c532(j: number): any {
       ).annotate({ identifier: "GetMicrovmCheckpointRequest" });
   }
 }
-function __c533(j: number): any {
+function __c532(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52745,7 +52735,7 @@ function __c533(j: number): any {
       ).annotate({ identifier: "GetMicrovmConsoleRequest" });
   }
 }
-function __c534(j: number): any {
+function __c533(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52756,7 +52746,7 @@ function __c534(j: number): any {
       ).annotate({ identifier: "GetMicrovmFileRequest" });
   }
 }
-function __c535(j: number): any {
+function __c534(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52777,11 +52767,11 @@ function __c535(j: number): any {
           disk: S.optional(S.Number),
           available: S.optional(S.Boolean),
           regions: S.optional(__S(32, __c1, 0)),
-          pricing: S.optional(__S(17121, __c535, 1)),
+          pricing: S.optional(__S(17089, __c534, 1)),
         }),
       ).annotate({ identifier: "MicrovmOptionsSizesItem" });
     case 3:
-      return S.Array(__S(17122, __c535, 2));
+      return S.Array(__S(17090, __c534, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -52808,20 +52798,20 @@ function __c535(j: number): any {
         }),
       ).annotate({ identifier: "MicrovmOptionsFeaturesItem" });
     case 7:
-      return S.Array(__S(17126, __c535, 6));
+      return S.Array(__S(17094, __c534, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           default_region: S.optional(S.String),
-          sizes: S.optional(__S(17123, __c535, 3)),
-          resource_pricing: S.optional(__S(17124, __c535, 4)),
-          account_limits: S.optional(__S(17125, __c535, 5)),
-          features: S.optional(__S(17127, __c535, 7)),
+          sizes: S.optional(__S(17091, __c534, 3)),
+          resource_pricing: S.optional(__S(17092, __c534, 4)),
+          account_limits: S.optional(__S(17093, __c534, 5)),
+          features: S.optional(__S(17095, __c534, 7)),
         }),
       ).annotate({ identifier: "MicrovmOptions" });
   }
 }
-function __c536(j: number): any {
+function __c535(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52831,7 +52821,7 @@ function __c536(j: number): any {
       ).annotate({ identifier: "GetMonitoringAlertPolicyRequest" });
   }
 }
-function __c537(j: number): any {
+function __c536(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52846,38 +52836,38 @@ function __c537(j: number): any {
       ).annotate({ identifier: "GetMonitoringAppCPUPercentageMetricsRequest" });
   }
 }
-function __c538(j: number): any {
+function __c537(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
     case 1:
-      return S.Array(__S(17216, __c538, 0));
+      return S.Array(__S(17184, __c537, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           metric: __S(9952, __c311, 0),
-          values: __S(17217, __c538, 1),
+          values: __S(17185, __c537, 1),
         }),
       ).annotate({ identifier: "MetricsResult" });
     case 3:
-      return S.Array(__S(17218, __c538, 2));
+      return S.Array(__S(17186, __c537, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          result: __S(17219, __c538, 3),
+          result: __S(17187, __c537, 3),
           resultType: S.String,
         }),
       ).annotate({ identifier: "MetricsData" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: __S(17220, __c538, 4),
+          data: __S(17188, __c537, 4),
           status: S.String,
         }),
       ).annotate({ identifier: "Metrics2" });
   }
 }
-function __c539(j: number): any {
+function __c538(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52896,7 +52886,7 @@ function __c539(j: number): any {
       ).annotate({ identifier: "GetMonitoringAppMemoryPercentageMetricsRequest" });
   }
 }
-function __c540(j: number): any {
+function __c539(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52915,7 +52905,7 @@ function __c540(j: number): any {
       ).annotate({ identifier: "GetMonitoringDatabaseMysqlCpuUsageRequest" });
   }
 }
-function __c541(j: number): any {
+function __c540(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52923,14 +52913,14 @@ function __c541(j: number): any {
           app_slug: S.String,
           plan_slug: S.String,
           name: S.String,
-          metadata: __S(17345, __c542, 1),
+          metadata: __S(17313, __c541, 1),
           linked_droplet_id: S.optional(S.Number),
           fleet_uuid: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/v2/add-ons/saas", code: 200 })),
       ).annotate({ identifier: "CreateAddonRequest" });
   }
 }
-function __c542(j: number): any {
+function __c541(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52940,7 +52930,7 @@ function __c542(j: number): any {
         }),
       ).annotate({ identifier: "AddonsResourceMetadata" });
     case 1:
-      return S.Array(__S(17344, __c542, 0));
+      return S.Array(__S(17312, __c541, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -52953,24 +52943,24 @@ function __c542(j: number): any {
           plan_slug: S.String,
           plan_price_per_month: S.optional(S.Number),
           has_config: S.Boolean,
-          metadata: S.optional(__S(17345, __c542, 1)),
+          metadata: S.optional(__S(17313, __c541, 1)),
           sso_url: S.optional(S.String),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "AddonsResource" });
   }
 }
-function __c543(j: number): any {
+function __c542(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.optional(__S(17346, __c542, 2)),
+          resource: S.optional(__S(17314, __c541, 2)),
         }),
       ).annotate({ identifier: "CreateAddonResponse" });
   }
 }
-function __c544(j: number): any {
+function __c543(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -52989,7 +52979,7 @@ function __c544(j: number): any {
       ).annotate({ identifier: "GetMonitoringDatabaseMysqlDiskUsageRequest" });
   }
 }
-function __c545(j: number): any {
+function __c544(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53005,7 +52995,7 @@ function __c545(j: number): any {
       ).annotate({ identifier: "GetMonitoringDatabaseMysqlLoadRequest" });
   }
 }
-function __c546(j: number): any {
+function __c545(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53024,7 +53014,7 @@ function __c546(j: number): any {
       ).annotate({ identifier: "GetMonitoringDatabaseMysqlMemoryUsageRequest" });
   }
 }
-function __c547(j: number): any {
+function __c546(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53043,7 +53033,7 @@ function __c547(j: number): any {
       ).annotate({ identifier: "GetMonitoringDatabaseMysqlOpRatesRequest" });
   }
 }
-function __c548(j: number): any {
+function __c547(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53063,7 +53053,7 @@ function __c548(j: number): any {
       ).annotate({ identifier: "GetMonitoringDatabaseMysqlSchemaLatencyRequest" });
   }
 }
-function __c549(j: number): any {
+function __c548(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53083,7 +53073,7 @@ function __c549(j: number): any {
       ).annotate({ identifier: "GetMonitoringDatabaseMysqlSchemaThroughputRequest" });
   }
 }
-function __c550(j: number): any {
+function __c549(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53101,7 +53091,7 @@ function __c550(j: number): any {
       ).annotate({ identifier: "GetMonitoringDatabaseMysqlThreadsActiveRequest" });
   }
 }
-function __c551(j: number): any {
+function __c550(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53119,7 +53109,7 @@ function __c551(j: number): any {
       ).annotate({ identifier: "GetMonitoringDatabaseMysqlThreadsConnectedRequest" });
   }
 }
-function __c552(j: number): any {
+function __c551(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53137,7 +53127,7 @@ function __c552(j: number): any {
       ).annotate({ identifier: "GetMonitoringDatabaseMysqlThreadsCreatedRateRequest" });
   }
 }
-function __c553(j: number): any {
+function __c552(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53153,27 +53143,27 @@ function __c553(j: number): any {
       ).annotate({ identifier: "GetMonitoringDestinationRequest" });
   }
 }
-function __c554(j: number): any {
+function __c553(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           agent: S.Boolean.pipe(T.Query()),
-          messages: __S(17764, __c555, 4),
+          messages: __S(17732, __c554, 4),
           model: S.String,
           max_tokens: S.optional(S.NullOr(S.Number)),
           max_completion_tokens: S.optional(S.NullOr(S.Number)),
           frequency_penalty: S.optional(S.NullOr(S.Number)),
           presence_penalty: S.optional(S.NullOr(S.Number)),
           top_logprobs: S.optional(S.NullOr(S.Number)),
-          tools: S.optional(__S(17767, __c555, 7)),
+          tools: S.optional(__S(17735, __c554, 7)),
           tool_choice: S.optional(S.Unknown),
           stream: S.optional(S.NullOr(S.Boolean)),
           stop: S.optional(S.Unknown),
-          logit_bias: S.optional(S.NullOr(__S(17824, __c557, 0))),
+          logit_bias: S.optional(S.NullOr(__S(17792, __c556, 0))),
           logprobs: S.optional(S.NullOr(S.Boolean)),
           n: S.optional(S.NullOr(S.Number)),
-          stream_options: S.optional(S.NullOr(__S(17792, __c556, 0))),
+          stream_options: S.optional(S.NullOr(__S(17760, __c555, 0))),
           reasoning_effort: S.optional(S.NullOr(S.String)),
           seed: S.optional(S.NullOr(S.Number)),
           metadata: S.optional(S.NullOr(__S(9952, __c311, 0))),
@@ -53184,7 +53174,7 @@ function __c554(j: number): any {
       ).annotate({ identifier: "CreateAgentInferenceChatCompletionRequest" });
   }
 }
-function __c555(j: number): any {
+function __c554(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53198,47 +53188,47 @@ function __c555(j: number): any {
         S.Struct({
           id: S.String,
           type: S.String,
-          function: __S(17760, __c555, 0),
+          function: __S(17728, __c554, 0),
         }),
       ).annotate({ identifier: "ChatCompletionToolCall" });
     case 2:
-      return S.Array(__S(17761, __c555, 1));
+      return S.Array(__S(17729, __c554, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           role: S.String,
           content: S.optional(S.NullOr(S.String)),
           refusal: S.optional(S.NullOr(S.String)),
-          tool_calls: S.optional(__S(17762, __c555, 2)),
+          tool_calls: S.optional(__S(17730, __c554, 2)),
           tool_call_id: S.optional(S.String),
           reasoning_content: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ChatMessage" });
     case 4:
-      return S.Array(__S(17763, __c555, 3));
+      return S.Array(__S(17731, __c554, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           description: S.optional(S.String),
-          parameters: S.optional(__S(17856, __c558, 0)),
+          parameters: S.optional(__S(17824, __c557, 0)),
         }),
       ).annotate({ identifier: "FunctionObject" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          function: __S(17765, __c555, 5),
+          function: __S(17733, __c554, 5),
         }),
       ).annotate({ identifier: "ChatCompletionTool" });
     case 7:
-      return S.Array(__S(17766, __c555, 6));
+      return S.Array(__S(17734, __c554, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           content: S.NullOr(S.String),
           refusal: S.NullOr(S.String),
-          tool_calls: S.optional(__S(17762, __c555, 2)),
+          tool_calls: S.optional(__S(17730, __c554, 2)),
           reasoning_content: S.NullOr(S.String),
           role: S.String,
         }),
@@ -53252,23 +53242,23 @@ function __c555(j: number): any {
         }),
       ).annotate({ identifier: "ChatCompletionTopLogprobItem" });
     case 10:
-      return S.Array(__S(17769, __c555, 9));
+      return S.Array(__S(17737, __c554, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           token: S.String,
           logprob: S.Number,
           bytes: S.NullOr(__S(640, __c20, 0)),
-          top_logprobs: __S(17770, __c555, 10),
+          top_logprobs: __S(17738, __c554, 10),
         }),
       ).annotate({ identifier: "ChatCompletionTokenLogprob" });
     case 12:
-      return S.Array(__S(17771, __c555, 11));
+      return S.Array(__S(17739, __c554, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          content: S.NullOr(__S(17772, __c555, 12)),
-          refusal: S.NullOr(__S(17772, __c555, 12)),
+          content: S.NullOr(__S(17740, __c554, 12)),
+          refusal: S.NullOr(__S(17740, __c554, 12)),
         }),
       ).annotate({ identifier: "ChatCompletionResponseChoicesItemLogprobs" });
     case 14:
@@ -53276,12 +53266,12 @@ function __c555(j: number): any {
         S.Struct({
           finish_reason: S.String,
           index: S.Number,
-          message: __S(17768, __c555, 8),
-          logprobs: S.NullOr(__S(17773, __c555, 13)),
+          message: __S(17736, __c554, 8),
+          logprobs: S.NullOr(__S(17741, __c554, 13)),
         }),
       ).annotate({ identifier: "ChatCompletionResponseChoicesItem" });
     case 15:
-      return S.Array(__S(17774, __c555, 14));
+      return S.Array(__S(17742, __c554, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
@@ -53295,7 +53285,7 @@ function __c555(j: number): any {
           completion_tokens: S.Number,
           prompt_tokens: S.Number,
           cache_created_input_tokens: S.Number,
-          cache_creation: __S(17776, __c555, 16),
+          cache_creation: __S(17744, __c554, 16),
           cache_read_input_tokens: S.Number,
           total_tokens: S.Number,
         }),
@@ -53304,16 +53294,16 @@ function __c555(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          choices: __S(17775, __c555, 15),
+          choices: __S(17743, __c554, 15),
           created: S.Number,
           model: S.String,
           object: S.String,
-          usage: S.optional(__S(17777, __c555, 17)),
+          usage: S.optional(__S(17745, __c554, 17)),
         }),
       ).annotate({ identifier: "ChatCompletionResponse" });
   }
 }
-function __c556(j: number): any {
+function __c555(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53323,19 +53313,19 @@ function __c556(j: number): any {
       ).annotate({ identifier: "CreateAgentInferenceChatCompletionRequestStreamOptions" });
   }
 }
-function __c557(j: number): any {
+function __c556(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Number);
   }
 }
-function __c558(j: number): any {
+function __c557(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c559(j: number): any {
+function __c558(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53353,7 +53343,7 @@ function __c559(j: number): any {
       ).annotate({ identifier: "GetMonitoringDropletAutoscaleCurrentCpuUtilizationYmlRequest" });
   }
 }
-function __c560(j: number): any {
+function __c559(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53371,7 +53361,7 @@ function __c560(j: number): any {
       ).annotate({ identifier: "GetMonitoringDropletAutoscaleCurrentInstancesRequest" });
   }
 }
-function __c561(j: number): any {
+function __c560(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53389,7 +53379,7 @@ function __c561(j: number): any {
       ).annotate({ identifier: "GetMonitoringDropletAutoscaleCurrentMemoryUtilizationRequest" });
   }
 }
-function __c562(j: number): any {
+function __c561(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53407,7 +53397,7 @@ function __c562(j: number): any {
       ).annotate({ identifier: "GetMonitoringDropletAutoscaleTargetCpuUtilizationRequest" });
   }
 }
-function __c563(j: number): any {
+function __c562(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53425,7 +53415,7 @@ function __c563(j: number): any {
       ).annotate({ identifier: "GetMonitoringDropletAutoscaleTargetInstancesRequest" });
   }
 }
-function __c564(j: number): any {
+function __c563(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53443,7 +53433,7 @@ function __c564(j: number): any {
       ).annotate({ identifier: "GetMonitoringDropletAutoscaleTargetMemoryUtilizationRequest" });
   }
 }
-function __c565(j: number): any {
+function __c564(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53459,7 +53449,7 @@ function __c565(j: number): any {
       ).annotate({ identifier: "GetMonitoringDropletBandwidthMetricsRequest" });
   }
 }
-function __c566(j: number): any {
+function __c565(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53471,7 +53461,7 @@ function __c566(j: number): any {
       ).annotate({ identifier: "GetMonitoringDropletCpuMetricsRequest" });
   }
 }
-function __c567(j: number): any {
+function __c566(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53489,7 +53479,7 @@ function __c567(j: number): any {
       ).annotate({ identifier: "GetMonitoringDropletFilesystemFreeMetricsRequest" });
   }
 }
-function __c568(j: number): any {
+function __c567(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53507,18 +53497,18 @@ function __c568(j: number): any {
       ).annotate({ identifier: "GetMonitoringDropletFilesystemSizeMetricsRequest" });
   }
 }
-function __c569(j: number): any {
+function __c568(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          spec: __S(18336, __c573, 0),
+          spec: __S(18304, __c572, 0),
           project_id: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/v2/apps", code: 200 })),
       ).annotate({ identifier: "CreateAppRequest" });
   }
 }
-function __c570(j: number): any {
+function __c569(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53535,7 +53525,7 @@ function __c570(j: number): any {
       ).annotate({ identifier: "AppsRegion" });
   }
 }
-function __c571(j: number): any {
+function __c570(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53551,21 +53541,21 @@ function __c571(j: number): any {
         }),
       ).annotate({ identifier: "AppDomainValidation" });
     case 2:
-      return S.Array(__S(18273, __c571, 1));
+      return S.Array(__S(18241, __c570, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           phase: S.optional(S.String),
-          progress: S.optional(__S(18272, __c571, 0)),
+          progress: S.optional(__S(18240, __c570, 0)),
           spec: S.optional(__S(6944, __c217, 0)),
-          validations: S.optional(__S(18274, __c571, 2)),
+          validations: S.optional(__S(18242, __c570, 2)),
           rotate_validation_records: S.optional(S.Boolean),
           certificate_expires_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "AppsDomain" });
     case 4:
-      return S.Array(__S(18275, __c571, 3));
+      return S.Array(__S(18243, __c570, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -53575,14 +53565,14 @@ function __c571(j: number): any {
         }),
       ).annotate({ identifier: "AppsDedicatedEgressIp" });
     case 6:
-      return S.Array(__S(18277, __c571, 5));
+      return S.Array(__S(18245, __c570, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           active_deployment: S.optional(__S(6919, __c216, 7)),
           created_at: S.optional(S.String),
           default_ingress: S.optional(S.String),
-          domains: S.optional(__S(18276, __c571, 4)),
+          domains: S.optional(__S(18244, __c570, 4)),
           id: S.optional(S.String),
           in_progress_deployment: S.optional(__S(6919, __c216, 7)),
           last_deployment_created_at: S.optional(S.String),
@@ -53592,28 +53582,28 @@ function __c571(j: number): any {
           owner_uuid: S.optional(S.String),
           pending_deployment: S.optional(__S(6919, __c216, 7)),
           project_id: S.optional(S.String),
-          region: S.optional(__S(18240, __c570, 0)),
+          region: S.optional(__S(18208, __c569, 0)),
           spec: __S(6998, __c218, 22),
           tier_slug: S.optional(S.String),
           updated_at: S.optional(S.String),
           pinned_deployment: S.optional(__S(6919, __c216, 7)),
-          dedicated_ips: S.optional(__S(18278, __c571, 6)),
+          dedicated_ips: S.optional(__S(18246, __c570, 6)),
           vpc: S.optional(__S(6997, __c218, 21)),
         }),
       ).annotate({ identifier: "App" });
   }
 }
-function __c572(j: number): any {
+function __c571(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          app: S.optional(__S(18279, __c571, 7)),
+          app: S.optional(__S(18247, __c570, 7)),
         }),
       ).annotate({ identifier: "AppResponse" });
   }
 }
-function __c573(j: number): any {
+function __c572(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53637,7 +53627,7 @@ function __c573(j: number): any {
       ).annotate({ identifier: "AppSpecInput" });
   }
 }
-function __c574(j: number): any {
+function __c573(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53651,7 +53641,7 @@ function __c574(j: number): any {
       ).annotate({ identifier: "GetMonitoringDropletLoad15MetricsRequest" });
   }
 }
-function __c575(j: number): any {
+function __c574(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53663,7 +53653,7 @@ function __c575(j: number): any {
       ).annotate({ identifier: "GetMonitoringDropletLoad1MetricsRequest" });
   }
 }
-function __c576(j: number): any {
+function __c575(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53675,7 +53665,7 @@ function __c576(j: number): any {
       ).annotate({ identifier: "GetMonitoringDropletLoad5MetricsRequest" });
   }
 }
-function __c577(j: number): any {
+function __c576(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53693,7 +53683,7 @@ function __c577(j: number): any {
       ).annotate({ identifier: "GetMonitoringDropletMemoryAvailableMetricsRequest" });
   }
 }
-function __c578(j: number): any {
+function __c577(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53707,7 +53697,7 @@ function __c578(j: number): any {
       ).annotate({ identifier: "GetMonitoringDropletMemoryCachedMetricsRequest" });
   }
 }
-function __c579(j: number): any {
+function __c578(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53721,7 +53711,7 @@ function __c579(j: number): any {
       ).annotate({ identifier: "GetMonitoringDropletMemoryFreeMetricsRequest" });
   }
 }
-function __c580(j: number): any {
+function __c579(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53735,7 +53725,7 @@ function __c580(j: number): any {
       ).annotate({ identifier: "GetMonitoringDropletMemoryTotalMetricsRequest" });
   }
 }
-function __c581(j: number): any {
+function __c580(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53753,7 +53743,7 @@ function __c581(j: number): any {
       ).annotate({ identifier: "GetMonitoringLbDropletsConnectionsRequest" });
   }
 }
-function __c582(j: number): any {
+function __c581(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53771,7 +53761,7 @@ function __c582(j: number): any {
       ).annotate({ identifier: "GetMonitoringLbDropletsDowntimeRequest" });
   }
 }
-function __c583(j: number): any {
+function __c582(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53789,7 +53779,7 @@ function __c583(j: number): any {
       ).annotate({ identifier: "GetMonitoringLbDropletsHealthChecksRequest" });
   }
 }
-function __c584(j: number): any {
+function __c583(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53800,7 +53790,7 @@ function __c584(j: number): any {
       ).annotate({ identifier: "CreateAppDeploymentRequest" });
   }
 }
-function __c585(j: number): any {
+function __c584(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53818,7 +53808,7 @@ function __c585(j: number): any {
       ).annotate({ identifier: "GetMonitoringLbDropletsHttpResponsesRequest" });
   }
 }
-function __c586(j: number): any {
+function __c585(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53836,7 +53826,7 @@ function __c586(j: number): any {
       ).annotate({ identifier: "GetMonitoringLbDropletsHttpResponseTime50pRequest" });
   }
 }
-function __c587(j: number): any {
+function __c586(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53854,7 +53844,7 @@ function __c587(j: number): any {
       ).annotate({ identifier: "GetMonitoringLbDropletsHttpResponseTime95pRequest" });
   }
 }
-function __c588(j: number): any {
+function __c587(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53872,7 +53862,7 @@ function __c588(j: number): any {
       ).annotate({ identifier: "GetMonitoringLbDropletsHttpResponseTime99pRequest" });
   }
 }
-function __c589(j: number): any {
+function __c588(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53890,7 +53880,7 @@ function __c589(j: number): any {
       ).annotate({ identifier: "GetMonitoringLbDropletsHttpResponseTimeAvgRequest" });
   }
 }
-function __c590(j: number): any {
+function __c589(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53908,7 +53898,7 @@ function __c590(j: number): any {
       ).annotate({ identifier: "GetMonitoringLbDropletsHttpSessionDuration50pRequest" });
   }
 }
-function __c591(j: number): any {
+function __c590(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53926,7 +53916,7 @@ function __c591(j: number): any {
       ).annotate({ identifier: "GetMonitoringLbDropletsHttpSessionDuration95pRequest" });
   }
 }
-function __c592(j: number): any {
+function __c591(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53944,7 +53934,7 @@ function __c592(j: number): any {
       ).annotate({ identifier: "GetMonitoringLbDropletsHttpSessionDurationAvgRequest" });
   }
 }
-function __c593(j: number): any {
+function __c592(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53962,7 +53952,7 @@ function __c593(j: number): any {
       ).annotate({ identifier: "GetMonitoringLbDropletsQueueSizeRequest" });
   }
 }
-function __c594(j: number): any {
+function __c593(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53980,7 +53970,7 @@ function __c594(j: number): any {
       ).annotate({ identifier: "GetMonitoringLbFrontendConnectionsCurrentRequest" });
   }
 }
-function __c595(j: number): any {
+function __c594(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -53992,7 +53982,7 @@ function __c595(j: number): any {
       ).annotate({ identifier: "CreateAppRollbackRequest" });
   }
 }
-function __c596(j: number): any {
+function __c595(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54010,7 +54000,7 @@ function __c596(j: number): any {
       ).annotate({ identifier: "GetMonitoringLbFrontendConnectionsLimitRequest" });
   }
 }
-function __c597(j: number): any {
+function __c596(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54028,7 +54018,7 @@ function __c597(j: number): any {
       ).annotate({ identifier: "GetMonitoringLbFrontendCpuUtilizationRequest" });
   }
 }
-function __c598(j: number): any {
+function __c597(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54046,7 +54036,7 @@ function __c598(j: number): any {
       ).annotate({ identifier: "GetMonitoringLbFrontendFirewallDroppedBytesRequest" });
   }
 }
-function __c599(j: number): any {
+function __c598(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54064,7 +54054,7 @@ function __c599(j: number): any {
       ).annotate({ identifier: "GetMonitoringLbFrontendFirewallDroppedPacketsRequest" });
   }
 }
-function __c600(j: number): any {
+function __c599(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54082,7 +54072,7 @@ function __c600(j: number): any {
       ).annotate({ identifier: "GetMonitoringLbFrontendHttpRequestsPerSecondRequest" });
   }
 }
-function __c601(j: number): any {
+function __c600(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54100,7 +54090,7 @@ function __c601(j: number): any {
       ).annotate({ identifier: "GetMonitoringLbFrontendHttpResponsesRequest" });
   }
 }
-function __c602(j: number): any {
+function __c601(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54118,7 +54108,7 @@ function __c602(j: number): any {
       ).annotate({ identifier: "GetMonitoringLbFrontendNetworkThroughputHttpRequest" });
   }
 }
-function __c603(j: number): any {
+function __c602(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54136,7 +54126,7 @@ function __c603(j: number): any {
       ).annotate({ identifier: "GetMonitoringLbFrontendNetworkThroughputTcpRequest" });
   }
 }
-function __c604(j: number): any {
+function __c603(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54154,7 +54144,7 @@ function __c604(j: number): any {
       ).annotate({ identifier: "GetMonitoringLbFrontendNetworkThroughputUdpRequest" });
   }
 }
-function __c605(j: number): any {
+function __c604(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54172,19 +54162,19 @@ function __c605(j: number): any {
       ).annotate({ identifier: "GetMonitoringLbFrontendNlbTcpNetworkThroughputRequest" });
   }
 }
-function __c606(j: number): any {
+function __c605(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           config: S.Unknown,
-          droplet_template: __S(19456, __c608, 0),
+          droplet_template: __S(19424, __c607, 0),
         }).pipe(T.Http({ method: "POST", uri: "/v2/droplets/autoscale", code: 200 })),
       ).annotate({ identifier: "CreateAutoscalepoolRequest" });
   }
 }
-function __c607(j: number): any {
+function __c606(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54195,7 +54185,7 @@ function __c607(j: number): any {
       ).annotate({ identifier: "CurrentUtilization" });
   }
 }
-function __c608(j: number): any {
+function __c607(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54220,8 +54210,8 @@ function __c608(j: number): any {
           id: S.String,
           name: S.String,
           config: S.Unknown,
-          droplet_template: __S(19456, __c608, 0),
-          current_utilization: S.optional(__S(19424, __c607, 0)),
+          droplet_template: __S(19424, __c607, 0),
+          current_utilization: S.optional(__S(19392, __c606, 0)),
           created_at: S.String,
           updated_at: S.String,
           status: S.String,
@@ -54230,17 +54220,17 @@ function __c608(j: number): any {
       ).annotate({ identifier: "AutoscalePool" });
   }
 }
-function __c609(j: number): any {
+function __c608(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          autoscale_pool: S.optional(__S(19457, __c608, 1)),
+          autoscale_pool: S.optional(__S(19425, __c607, 1)),
         }),
       ).annotate({ identifier: "CreateAutoscalepoolResponse" });
   }
 }
-function __c610(j: number): any {
+function __c609(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54258,7 +54248,7 @@ function __c610(j: number): any {
       ).annotate({ identifier: "GetMonitoringLbFrontendNlbUdpNetworkThroughputRequest" });
   }
 }
-function __c611(j: number): any {
+function __c610(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54276,7 +54266,7 @@ function __c611(j: number): any {
       ).annotate({ identifier: "GetMonitoringLbFrontendTlsConnectionsCurrentRequest" });
   }
 }
-function __c612(j: number): any {
+function __c611(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54294,7 +54284,7 @@ function __c612(j: number): any {
       ).annotate({ identifier: "GetMonitoringLbFrontendTlsConnectionsExceedingRateLimitRequest" });
   }
 }
-function __c613(j: number): any {
+function __c612(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54312,7 +54302,7 @@ function __c613(j: number): any {
       ).annotate({ identifier: "GetMonitoringLbFrontendTlsConnectionsLimitRequest" });
   }
 }
-function __c614(j: number): any {
+function __c613(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54323,12 +54313,12 @@ function __c614(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sink: S.optional(__S(19682, __c615, 2)),
+          sink: S.optional(__S(19650, __c614, 2)),
         }),
       ).annotate({ identifier: "GetMonitoringSinkResponse" });
   }
 }
-function __c615(j: number): any {
+function __c614(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54348,19 +54338,19 @@ function __c615(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
-          config: __S(19680, __c615, 0),
+          config: __S(19648, __c614, 0),
         }),
       ).annotate({ identifier: "Destination" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          destination: S.optional(__S(19681, __c615, 1)),
+          destination: S.optional(__S(19649, __c614, 1)),
           resources: S.optional(__S(1697, __c53, 1)),
         }),
       ).annotate({ identifier: "SinksResponse" });
   }
 }
-function __c616(j: number): any {
+function __c615(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54371,7 +54361,7 @@ function __c616(j: number): any {
       ).annotate({ identifier: "GetNfsRequest" });
   }
 }
-function __c617(j: number): any {
+function __c616(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54389,7 +54379,7 @@ function __c617(j: number): any {
       ).annotate({ identifier: "AccessPointGetResponse" });
   }
 }
-function __c618(j: number): any {
+function __c617(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54401,12 +54391,12 @@ function __c618(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          snapshot: S.optional(__S(19808, __c619, 0)),
+          snapshot: S.optional(__S(19776, __c618, 0)),
         }),
       ).annotate({ identifier: "NfsSnapshotGetResponse" });
   }
 }
-function __c619(j: number): any {
+function __c618(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54422,7 +54412,7 @@ function __c619(j: number): any {
       ).annotate({ identifier: "NfsSnapshotResponse" });
   }
 }
-function __c620(j: number): any {
+function __c619(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54434,7 +54424,7 @@ function __c620(j: number): any {
       ).annotate({ identifier: "GetOutputViewRequest" });
   }
 }
-function __c621(j: number): any {
+function __c620(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54450,7 +54440,7 @@ function __c621(j: number): any {
       ).annotate({ identifier: "GetPartnerAttachmentRequest" });
   }
 }
-function __c622(j: number): any {
+function __c621(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54470,7 +54460,7 @@ function __c622(j: number): any {
       ).annotate({ identifier: "CreateByoipPrefixResponse" });
   }
 }
-function __c623(j: number): any {
+function __c622(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54492,7 +54482,7 @@ function __c623(j: number): any {
       ).annotate({ identifier: "GetPartnerAttachmentBgpAuthKeyResponse" });
   }
 }
-function __c624(j: number): any {
+function __c623(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54514,7 +54504,7 @@ function __c624(j: number): any {
       ).annotate({ identifier: "GetPartnerAttachmentServiceKeyResponse" });
   }
 }
-function __c625(j: number): any {
+function __c624(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54536,13 +54526,13 @@ function __c625(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          config: S.optional(__S(20001, __c625, 1)),
-          status: S.optional(__S(20032, __c626, 0)),
+          config: S.optional(__S(19969, __c624, 1)),
+          status: S.optional(__S(20000, __c625, 0)),
         }),
       ).annotate({ identifier: "PrepaymentConfigResponse" });
   }
 }
-function __c626(j: number): any {
+function __c625(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54556,7 +54546,7 @@ function __c626(j: number): any {
       ).annotate({ identifier: "PrepaymentStatus" });
   }
 }
-function __c627(j: number): any {
+function __c626(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54567,12 +54557,12 @@ function __c627(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          status: S.optional(__S(20032, __c626, 0)),
+          status: S.optional(__S(20000, __c625, 0)),
         }),
       ).annotate({ identifier: "PrepaymentStatusResponse" });
   }
 }
-function __c628(j: number): any {
+function __c627(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54582,7 +54572,7 @@ function __c628(j: number): any {
       ).annotate({ identifier: "GetProjectRequest" });
   }
 }
-function __c629(j: number): any {
+function __c628(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54590,7 +54580,7 @@ function __c629(j: number): any {
       ).annotate({ identifier: "GetProjectDefaultRequest" });
   }
 }
-function __c630(j: number): any {
+function __c629(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54600,7 +54590,7 @@ function __c630(j: number): any {
       ).annotate({ identifier: "GetProjectDefaultResponse" });
   }
 }
-function __c631(j: number): any {
+function __c630(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54612,7 +54602,7 @@ function __c631(j: number): any {
       ).annotate({ identifier: "GetProviderCredentialsRequest" });
   }
 }
-function __c632(j: number): any {
+function __c631(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54622,7 +54612,7 @@ function __c632(j: number): any {
       ).annotate({ identifier: "GetRegistryRequest" });
   }
 }
-function __c633(j: number): any {
+function __c632(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54646,19 +54636,19 @@ function __c633(j: number): any {
       return S.suspend(() =>
         S.Struct({
           registry_digitalocean_com: S.optional(
-            __S(20257, __c633, 1).pipe(T.Body("registry.digitalocean.com")),
+            __S(20225, __c632, 1).pipe(T.Body("registry.digitalocean.com")),
           ),
         }),
       ).annotate({ identifier: "DockerCredentialsAuths" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          auths: S.optional(__S(20258, __c633, 2)),
+          auths: S.optional(__S(20226, __c632, 2)),
         }),
       ).annotate({ identifier: "DockerCredentials" });
   }
 }
-function __c634(j: number): any {
+function __c633(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54674,7 +54664,7 @@ function __c634(j: number): any {
       ).annotate({ identifier: "GetRegistryGarbageCollectionRequest" });
   }
 }
-function __c635(j: number): any {
+function __c634(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54690,17 +54680,17 @@ function __c635(j: number): any {
       ).annotate({ identifier: "GarbageCollection" });
   }
 }
-function __c636(j: number): any {
+function __c635(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          garbage_collection: S.optional(__S(20320, __c635, 0)),
+          garbage_collection: S.optional(__S(20288, __c634, 0)),
         }),
       ).annotate({ identifier: "GetRegistryGarbageCollectionResponse" });
   }
 }
-function __c637(j: number): any {
+function __c636(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54713,33 +54703,33 @@ function __c637(j: number): any {
       ).annotate({ identifier: "CreateCdnEndpointRequest" });
   }
 }
+function __c637(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          origin: S.String,
+          endpoint: S.String,
+          ttl: S.Number,
+          certificate_id: S.optional(S.String),
+          custom_domain: S.optional(S.String),
+          created_at: S.String,
+        }),
+      ).annotate({ identifier: "CdnEndpoint" });
+  }
+}
 function __c638(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          origin: S.String,
-          endpoint: S.optional(S.String),
-          ttl: S.optional(S.Number),
-          certificate_id: S.optional(S.String),
-          custom_domain: S.optional(S.String),
-          created_at: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CdnEndpoint" });
-  }
-}
-function __c639(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          endpoint: S.optional(__S(20416, __c638, 0)),
+          endpoint: __S(20384, __c637, 0),
         }),
       ).annotate({ identifier: "CreateCdnEndpointResponse" });
   }
 }
-function __c640(j: number): any {
+function __c639(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54761,23 +54751,23 @@ function __c640(j: number): any {
         }),
       ).annotate({ identifier: "GetRegistryOptionsResponseOptionsSubscriptionTiersItem" });
     case 2:
-      return S.Array(__S(20481, __c640, 1));
+      return S.Array(__S(20449, __c639, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           available_regions: S.optional(__S(32, __c1, 0)),
-          subscription_tiers: S.optional(__S(20482, __c640, 2)),
+          subscription_tiers: S.optional(__S(20450, __c639, 2)),
         }),
       ).annotate({ identifier: "GetRegistryOptionsResponseOptions" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          options: S.optional(__S(20483, __c640, 3)),
+          options: S.optional(__S(20451, __c639, 3)),
         }),
       ).annotate({ identifier: "GetRegistryOptionsResponse" });
   }
 }
-function __c641(j: number): any {
+function __c640(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54785,7 +54775,7 @@ function __c641(j: number): any {
       ).annotate({ identifier: "GetRegistrySubscriptionRequest" });
   }
 }
-function __c642(j: number): any {
+function __c641(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54803,24 +54793,24 @@ function __c642(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tier: S.optional(__S(20544, __c642, 0)),
+          tier: S.optional(__S(20512, __c641, 0)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "Subscription" });
   }
 }
-function __c643(j: number): any {
+function __c642(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          subscription: S.optional(__S(20545, __c642, 1)),
+          subscription: S.optional(__S(20513, __c641, 1)),
         }),
       ).annotate({ identifier: "GetRegistrySubscriptionResponse" });
   }
 }
-function __c644(j: number): any {
+function __c643(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54836,7 +54826,7 @@ function __c644(j: number): any {
       ).annotate({ identifier: "GetReservedIPResponse" });
   }
 }
-function __c645(j: number): any {
+function __c644(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54853,7 +54843,7 @@ function __c645(j: number): any {
       ).annotate({ identifier: "GetReservedIPsActionRequest" });
   }
 }
-function __c646(j: number): any {
+function __c645(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54863,7 +54853,7 @@ function __c646(j: number): any {
       ).annotate({ identifier: "GetReservedIPsActionResponse" });
   }
 }
-function __c647(j: number): any {
+function __c646(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54883,12 +54873,12 @@ function __c647(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          reserved_ipv6: S.optional(__S(20705, __c647, 1)),
+          reserved_ipv6: S.optional(__S(20673, __c646, 1)),
         }),
       ).annotate({ identifier: "GetReservedIPv6Response" });
   }
 }
-function __c648(j: number): any {
+function __c647(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54901,7 +54891,7 @@ function __c648(j: number): any {
       ).annotate({ identifier: "GetSecurityLatestScanRequest" });
   }
 }
-function __c649(j: number): any {
+function __c648(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54915,7 +54905,7 @@ function __c649(j: number): any {
       ).annotate({ identifier: "GetSecurityScanRequest" });
   }
 }
-function __c650(j: number): any {
+function __c649(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54938,7 +54928,7 @@ function __c650(j: number): any {
       ).annotate({ identifier: "Secret" });
   }
 }
-function __c651(j: number): any {
+function __c650(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54960,7 +54950,7 @@ function __c651(j: number): any {
       ).annotate({ identifier: "AgentConsent" });
   }
 }
-function __c652(j: number): any {
+function __c651(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54970,7 +54960,7 @@ function __c652(j: number): any {
       ).annotate({ identifier: "GetSignalDeletionRequest" });
   }
 }
-function __c653(j: number): any {
+function __c652(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -54980,34 +54970,34 @@ function __c653(j: number): any {
       ).annotate({ identifier: "CreateCertificateRequest" });
   }
 }
+function __c653(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          certificate: __S(20928, __c654, 0),
+        }),
+      ).annotate({ identifier: "CreateCertificateResponse" });
+  }
+}
 function __c654(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          certificate: S.optional(__S(20960, __c655, 0)),
-        }),
-      ).annotate({ identifier: "CreateCertificateResponse" });
-  }
-}
-function __c655(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
+          id: S.String,
+          name: S.String,
           not_after: S.optional(S.String),
           sha1_fingerprint: S.optional(S.String),
-          created_at: S.optional(S.String),
+          created_at: S.String,
           dns_names: S.optional(__S(32, __c1, 0)),
-          state: S.optional(S.String),
-          type: S.optional(S.String),
+          state: S.String,
+          type: S.String,
         }),
       ).annotate({ identifier: "Certificate" });
   }
 }
-function __c656(j: number): any {
+function __c655(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55017,7 +55007,7 @@ function __c656(j: number): any {
       ).annotate({ identifier: "GetSnapshotRequest" });
   }
 }
-function __c657(j: number): any {
+function __c656(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55028,18 +55018,18 @@ function __c657(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          keys: S.optional(__S(21056, __c658, 0)),
+          keys: S.optional(__S(21024, __c657, 0)),
         }),
       ).annotate({ identifier: "GetSpacesKeyResponse" });
   }
 }
-function __c658(j: number): any {
+function __c657(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(21088, __c659, 0));
+      return S.Array(__S(21056, __c658, 0));
   }
 }
-function __c659(j: number): any {
+function __c658(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55052,7 +55042,7 @@ function __c659(j: number): any {
       ).annotate({ identifier: "Key" });
   }
 }
-function __c660(j: number): any {
+function __c659(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55062,7 +55052,7 @@ function __c660(j: number): any {
       ).annotate({ identifier: "GetSshKeyRequest" });
   }
 }
-function __c661(j: number): any {
+function __c660(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55072,7 +55062,7 @@ function __c661(j: number): any {
       ).annotate({ identifier: "GetTagRequest" });
   }
 }
-function __c662(j: number): any {
+function __c661(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55088,13 +55078,13 @@ function __c662(j: number): any {
       return S.suspend(() =>
         S.Struct({
           toolbelt: S.optional(__S(5568, __c174, 0)),
-          tool_details: S.optional(__S(21217, __c663, 1)),
+          tool_details: S.optional(__S(21185, __c662, 1)),
           next_page_token: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetToolbeltResponse" });
   }
 }
-function __c663(j: number): any {
+function __c662(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55109,10 +55099,10 @@ function __c663(j: number): any {
         }),
       ).annotate({ identifier: "ToolbeltToolDetail" });
     case 1:
-      return S.Array(__S(21216, __c663, 0));
+      return S.Array(__S(21184, __c662, 0));
   }
 }
-function __c664(j: number): any {
+function __c663(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55132,42 +55122,42 @@ function __c664(j: number): any {
       return S.suspend(() =>
         S.Struct({
           bucket_start: S.optional(S.String),
-          health: S.optional(__S(21313, __c666, 1)),
+          health: S.optional(__S(21281, __c665, 1)),
         }),
       ).annotate({ identifier: "GetToolHealthResponseHistoryPointsItem" });
     case 2:
-      return S.Array(__S(21249, __c664, 1));
+      return S.Array(__S(21217, __c663, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           resolution: S.optional(S.String),
           stale: S.optional(S.Boolean),
-          points: S.optional(__S(21250, __c664, 2)),
+          points: S.optional(__S(21218, __c663, 2)),
         }),
       ).annotate({ identifier: "GetToolHealthResponseHistory" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          snapshot: S.optional(__S(21312, __c666, 0)),
-          tool: S.optional(__S(21280, __c665, 0)),
-          history: S.optional(S.NullOr(__S(21251, __c664, 3))),
+          snapshot: S.optional(__S(21280, __c665, 0)),
+          tool: S.optional(__S(21248, __c664, 0)),
+          history: S.optional(S.NullOr(__S(21219, __c663, 3))),
         }),
       ).annotate({ identifier: "GetToolHealthResponse" });
   }
 }
-function __c665(j: number): any {
+function __c664(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           tool_slug: S.optional(S.String),
           provider: S.optional(S.String),
-          health: S.optional(__S(21313, __c666, 1)),
+          health: S.optional(__S(21281, __c665, 1)),
         }),
       ).annotate({ identifier: "ToolHealth" });
   }
 }
-function __c666(j: number): any {
+function __c665(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55188,7 +55178,7 @@ function __c666(j: number): any {
       ).annotate({ identifier: "HealthMetrics" });
   }
 }
-function __c667(j: number): any {
+function __c666(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55205,7 +55195,7 @@ function __c667(j: number): any {
       ).annotate({ identifier: "GetUptimeAlertRequest" });
   }
 }
-function __c668(j: number): any {
+function __c667(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55215,7 +55205,7 @@ function __c668(j: number): any {
       ).annotate({ identifier: "GetUptimeCheckRequest" });
   }
 }
-function __c669(j: number): any {
+function __c668(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55234,8 +55224,8 @@ function __c669(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          us_east: S.optional(__S(21409, __c669, 1)),
-          eu_west: S.optional(__S(21409, __c669, 1)),
+          us_east: S.optional(__S(21377, __c668, 1)),
+          eu_west: S.optional(__S(21377, __c668, 1)),
         }),
       ).annotate({ identifier: "RegionalState" });
     case 3:
@@ -55250,19 +55240,19 @@ function __c669(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          regions: S.optional(__S(21410, __c669, 2)),
-          previous_outage: S.optional(__S(21411, __c669, 3)),
+          regions: S.optional(__S(21378, __c668, 2)),
+          previous_outage: S.optional(__S(21379, __c668, 3)),
         }),
       ).annotate({ identifier: "State" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          state: S.optional(__S(21412, __c669, 4)),
+          state: S.optional(__S(21380, __c668, 4)),
         }),
       ).annotate({ identifier: "GetUptimeCheckStateResponse" });
   }
 }
-function __c670(j: number): any {
+function __c669(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55280,7 +55270,7 @@ function __c670(j: number): any {
         }),
       ).annotate({ identifier: "UserSessionsItem" });
     case 2:
-      return S.Array(__S(21441, __c670, 1));
+      return S.Array(__S(21409, __c669, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -55297,29 +55287,29 @@ function __c670(j: number): any {
           connection_parameters: S.optional(S.NullOr(S.Unknown)),
           credential_kind: S.optional(S.String),
           credential_id: S.optional(S.String),
-          network: S.optional(S.NullOr(__S(21507, __c672, 3))),
+          network: S.optional(S.NullOr(__S(21475, __c671, 3))),
           owning_user_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserConnectionsItem" });
     case 4:
-      return S.Array(__S(21443, __c670, 3));
+      return S.Array(__S(21411, __c669, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           user_id: S.optional(S.String),
-          sessions: S.optional(__S(21442, __c670, 2)),
-          connections: S.optional(__S(21444, __c670, 4)),
+          sessions: S.optional(__S(21410, __c669, 2)),
+          connections: S.optional(__S(21412, __c669, 4)),
         }),
       ).annotate({ identifier: "User" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          user: S.optional(__S(21445, __c670, 5)),
+          user: S.optional(__S(21413, __c669, 5)),
         }),
       ).annotate({ identifier: "GetUserResponse" });
   }
 }
-function __c671(j: number): any {
+function __c670(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55331,20 +55321,20 @@ function __c671(j: number): any {
       return S.suspend(() =>
         S.Struct({
           digitalocean_oauth: S.optional(S.Unknown),
-          team_credential: S.optional(__S(21472, __c671, 0)),
+          team_credential: S.optional(__S(21440, __c670, 0)),
         }),
       ).annotate({ identifier: "CreateConnectionRequestCredential" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           vpc_uuid: S.optional(S.String),
-          destinations: S.optional(__S(21505, __c672, 1)),
+          destinations: S.optional(__S(21473, __c671, 1)),
         }),
       ).annotate({ identifier: "CreateConnectionRequestNetworkVpc" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          vpc: S.optional(__S(21474, __c671, 2)),
+          vpc: S.optional(__S(21442, __c670, 2)),
         }),
       ).annotate({ identifier: "CreateConnectionRequestNetwork" });
     case 4:
@@ -55354,13 +55344,13 @@ function __c671(j: number): any {
           user_id: S.String,
           scopes: S.optional(__S(32, __c1, 0)),
           connection_parameters: S.optional(S.Unknown),
-          credential: S.optional(__S(21473, __c671, 1)),
-          network: S.optional(__S(21475, __c671, 3)),
+          credential: S.optional(__S(21441, __c670, 1)),
+          network: S.optional(__S(21443, __c670, 3)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/action-gateway/connections", code: 200 })),
       ).annotate({ identifier: "CreateConnectionRequest" });
   }
 }
-function __c672(j: number): any {
+function __c671(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55371,24 +55361,24 @@ function __c672(j: number): any {
         }),
       ).annotate({ identifier: "CreateConnectionRequestNetworkVpcDestinationsItem" });
     case 1:
-      return S.Array(__S(21504, __c672, 0));
+      return S.Array(__S(21472, __c671, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           vpc_uuid: S.optional(S.String),
           region: S.optional(S.String),
-          destinations: S.optional(__S(21505, __c672, 1)),
+          destinations: S.optional(__S(21473, __c671, 1)),
         }),
       ).annotate({ identifier: "ConnectionNetworkVpc" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          vpc: S.optional(__S(21506, __c672, 2)),
+          vpc: S.optional(__S(21474, __c671, 2)),
         }),
       ).annotate({ identifier: "ConnectionNetwork" });
   }
 }
-function __c673(j: number): any {
+function __c672(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55411,8 +55401,8 @@ function __c673(j: number): any {
           connection_parameters: S.optional(S.NullOr(S.Unknown)),
           credential_kind: S.optional(S.String),
           credential_id: S.optional(S.String),
-          network: S.optional(S.NullOr(__S(21507, __c672, 3))),
-          oauth: S.optional(__S(21536, __c673, 0)),
+          network: S.optional(S.NullOr(__S(21475, __c671, 3))),
+          oauth: S.optional(__S(21504, __c672, 0)),
           api_key: S.optional(S.Unknown),
           scopes: S.optional(__S(32, __c1, 0)),
           granted_at: S.optional(S.NullOr(S.String)),
@@ -55421,18 +55411,18 @@ function __c673(j: number): any {
       ).annotate({ identifier: "Connection" });
   }
 }
-function __c674(j: number): any {
+function __c673(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          connection: S.optional(__S(21537, __c673, 1)),
-          authorization: S.optional(S.NullOr(__S(21600, __c675, 0))),
+          connection: S.optional(__S(21505, __c672, 1)),
+          authorization: S.optional(S.NullOr(__S(21568, __c674, 0))),
         }),
       ).annotate({ identifier: "ConnectionResponse" });
   }
 }
-function __c675(j: number): any {
+function __c674(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55445,7 +55435,7 @@ function __c675(j: number): any {
       ).annotate({ identifier: "ConnectionAuthorization" });
   }
 }
-function __c676(j: number): any {
+function __c675(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55455,7 +55445,7 @@ function __c676(j: number): any {
       ).annotate({ identifier: "GetVectorDatabaseRequest" });
   }
 }
-function __c677(j: number): any {
+function __c676(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55472,7 +55462,7 @@ function __c677(j: number): any {
       ).annotate({ identifier: "VectordbGetVectorDBAdminCredentialsResponse" });
   }
 }
-function __c678(j: number): any {
+function __c677(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55482,7 +55472,7 @@ function __c678(j: number): any {
       ).annotate({ identifier: "GetVolumeRequest" });
   }
 }
-function __c679(j: number): any {
+function __c678(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55497,7 +55487,7 @@ function __c679(j: number): any {
       ).annotate({ identifier: "GetVolumeActionRequest" });
   }
 }
-function __c680(j: number): any {
+function __c679(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55509,23 +55499,23 @@ function __c680(j: number): any {
           started_at: S.optional(S.String),
           completed_at: S.optional(S.NullOr(S.String)),
           resource_type: S.optional(S.String),
-          region: S.optional(__S(26528, __c829, 0)),
+          region: S.optional(__S(26496, __c828, 0)),
           region_slug: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "VolumeAction" });
   }
 }
-function __c681(j: number): any {
+function __c680(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          action: __S(21760, __c680, 0),
+          action: __S(21728, __c679, 0),
         }),
       ).annotate({ identifier: "GetVolumeActionResponse" });
   }
 }
-function __c682(j: number): any {
+function __c681(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55535,7 +55525,7 @@ function __c682(j: number): any {
       ).annotate({ identifier: "GetVolumeSnapshotByIdRequest" });
   }
 }
-function __c683(j: number): any {
+function __c682(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55545,7 +55535,7 @@ function __c683(j: number): any {
       ).annotate({ identifier: "GetVpcRequest" });
   }
 }
-function __c684(j: number): any {
+function __c683(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55556,12 +55546,12 @@ function __c684(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          vpc_nat_gateway: S.optional(__S(21925, __c685, 5)),
+          vpc_nat_gateway: S.optional(__S(21893, __c684, 5)),
         }),
       ).annotate({ identifier: "GetVpcnatgatewayResponse" });
   }
 }
-function __c685(j: number): any {
+function __c684(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55572,7 +55562,7 @@ function __c685(j: number): any {
         }),
       ).annotate({ identifier: "VpcNatGatewayGetVpcsItem" });
     case 1:
-      return S.Array(__S(21920, __c685, 0));
+      return S.Array(__S(21888, __c684, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -55580,11 +55570,11 @@ function __c685(j: number): any {
         }),
       ).annotate({ identifier: "VpcNatGatewayGetEgressesPublicGatewaysItem" });
     case 3:
-      return S.Array(__S(21922, __c685, 2));
+      return S.Array(__S(21890, __c684, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          public_gateways: S.optional(__S(21923, __c685, 3)),
+          public_gateways: S.optional(__S(21891, __c684, 3)),
         }),
       ).annotate({ identifier: "VpcNatGatewayGetEgresses" });
     case 5:
@@ -55596,8 +55586,8 @@ function __c685(j: number): any {
           state: S.optional(S.String),
           region: S.optional(S.String),
           size: S.optional(S.Number),
-          vpcs: S.optional(__S(21921, __c685, 1)),
-          egresses: S.optional(__S(21924, __c685, 4)),
+          vpcs: S.optional(__S(21889, __c684, 1)),
+          egresses: S.optional(__S(21892, __c684, 4)),
           udp_timeout_seconds: S.optional(S.Number),
           icmp_timeout_seconds: S.optional(S.Number),
           tcp_timeout_seconds: S.optional(S.Number),
@@ -55607,7 +55597,7 @@ function __c685(j: number): any {
       ).annotate({ identifier: "VpcNatGatewayGet" });
   }
 }
-function __c686(j: number): any {
+function __c685(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55617,7 +55607,7 @@ function __c686(j: number): any {
       ).annotate({ identifier: "GetVpcPeeringRequest" });
   }
 }
-function __c687(j: number): any {
+function __c686(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55630,7 +55620,7 @@ function __c687(j: number): any {
       ).annotate({ identifier: "GetVpcSubnetRequest" });
   }
 }
-function __c688(j: number): any {
+function __c687(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55648,17 +55638,17 @@ function __c688(j: number): any {
       ).annotate({ identifier: "HarnessCancelTriggerExecutionRequest" });
   }
 }
-function __c689(j: number): any {
+function __c688(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          execution: S.optional(__S(22080, __c690, 0)),
+          execution: S.optional(__S(22048, __c689, 0)),
         }),
       ).annotate({ identifier: "GetTriggerExecutionResponse" });
   }
 }
-function __c690(j: number): any {
+function __c689(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55678,7 +55668,7 @@ function __c690(j: number): any {
       ).annotate({ identifier: "TriggerExecution" });
   }
 }
-function __c691(j: number): any {
+function __c690(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55705,34 +55695,34 @@ function __c691(j: number): any {
           region: S.String,
           private_network_uuid: S.optional(S.String),
           tags: S.optional(S.NullOr(__S(32, __c1, 0))),
-          ui_connection: S.optional(__S(38560, __c1205, 0)),
-          schema_registry_connection: S.optional(__S(38560, __c1205, 0)),
-          connection: S.optional(__S(38560, __c1205, 0)),
-          private_connection: S.optional(__S(38560, __c1205, 0)),
-          standby_connection: S.optional(__S(38560, __c1205, 0)),
-          standby_private_connection: S.optional(__S(38560, __c1205, 0)),
-          maintenance_window: S.optional(__S(22112, __c691, 0)),
+          ui_connection: S.optional(__S(38496, __c1203, 0)),
+          schema_registry_connection: S.optional(__S(38496, __c1203, 0)),
+          connection: S.optional(__S(38496, __c1203, 0)),
+          private_connection: S.optional(__S(38496, __c1203, 0)),
+          standby_connection: S.optional(__S(38496, __c1203, 0)),
+          standby_private_connection: S.optional(__S(38496, __c1203, 0)),
+          maintenance_window: S.optional(__S(22080, __c690, 0)),
           project_id: S.optional(S.String),
-          rules: S.optional(__S(22369, __c699, 1)),
+          rules: S.optional(__S(22337, __c698, 1)),
           storage_size_mib: S.optional(S.Number),
-          autoscale: S.optional(__S(22144, __c692, 0)),
-          do_settings: S.optional(__S(22336, __c698, 0)),
-          backup_restore: S.optional(__S(22113, __c691, 1)),
+          autoscale: S.optional(__S(22112, __c691, 0)),
+          do_settings: S.optional(__S(22304, __c697, 0)),
+          backup_restore: S.optional(__S(22081, __c690, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/databases", code: 200 })),
       ).annotate({ identifier: "CreateDatabaseClusterRequest" });
   }
 }
-function __c692(j: number): any {
+function __c691(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          storage: S.optional(__S(22176, __c693, 0)),
+          storage: S.optional(__S(22144, __c692, 0)),
         }),
       ).annotate({ identifier: "DatabaseAutoscaleParams" });
   }
 }
-function __c693(j: number): any {
+function __c692(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55744,17 +55734,17 @@ function __c693(j: number): any {
       ).annotate({ identifier: "DatabaseAutoscaleParamsStorage" });
   }
 }
-function __c694(j: number): any {
+function __c693(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          database: __S(22244, __c695, 4),
+          database: __S(22212, __c694, 4),
         }),
       ).annotate({ identifier: "CreateDatabaseClusterResponse" });
   }
 }
-function __c695(j: number): any {
+function __c694(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55784,7 +55774,7 @@ function __c695(j: number): any {
         }),
       ).annotate({ identifier: "DatabaseServiceEndpoint" });
     case 3:
-      return S.Array(__S(22242, __c695, 2));
+      return S.Array(__S(22210, __c694, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -55801,26 +55791,26 @@ function __c695(j: number): any {
           private_network_uuid: S.optional(S.String),
           tags: S.optional(S.NullOr(__S(32, __c1, 0))),
           db_names: S.optional(S.NullOr(__S(32, __c1, 0))),
-          ui_connection: S.optional(__S(22240, __c695, 0)),
-          schema_registry_connection: S.optional(__S(22240, __c695, 0)),
-          connection: S.optional(__S(38656, __c1208, 0)),
-          private_connection: S.optional(__S(38656, __c1208, 0)),
-          standby_connection: S.optional(__S(38656, __c1208, 0)),
-          standby_private_connection: S.optional(__S(38656, __c1208, 0)),
-          users: S.optional(S.NullOr(__S(22304, __c697, 0))),
-          maintenance_window: S.optional(__S(22241, __c695, 1)),
+          ui_connection: S.optional(__S(22208, __c694, 0)),
+          schema_registry_connection: S.optional(__S(22208, __c694, 0)),
+          connection: S.optional(__S(38592, __c1206, 0)),
+          private_connection: S.optional(__S(38592, __c1206, 0)),
+          standby_connection: S.optional(__S(38592, __c1206, 0)),
+          standby_private_connection: S.optional(__S(38592, __c1206, 0)),
+          users: S.optional(S.NullOr(__S(22272, __c696, 0))),
+          maintenance_window: S.optional(__S(22209, __c694, 1)),
           project_id: S.optional(S.String),
-          rules: S.optional(__S(22273, __c696, 1)),
+          rules: S.optional(__S(22241, __c695, 1)),
           version_end_of_life: S.optional(S.String),
           version_end_of_availability: S.optional(S.String),
           storage_size_mib: S.optional(S.Number),
-          metrics_endpoints: S.optional(__S(22243, __c695, 3)),
-          do_settings: S.optional(__S(22336, __c698, 0)),
+          metrics_endpoints: S.optional(__S(22211, __c694, 3)),
+          do_settings: S.optional(__S(22304, __c697, 0)),
         }),
       ).annotate({ identifier: "DatabaseClusterRead" });
   }
 }
-function __c696(j: number): any {
+function __c695(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55834,16 +55824,16 @@ function __c696(j: number): any {
         }),
       ).annotate({ identifier: "FirewallRule" });
     case 1:
-      return S.Array(__S(22272, __c696, 0));
+      return S.Array(__S(22240, __c695, 0));
   }
 }
-function __c697(j: number): any {
+function __c696(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(103, __c3, 7));
   }
 }
-function __c698(j: number): any {
+function __c697(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55853,7 +55843,7 @@ function __c698(j: number): any {
       ).annotate({ identifier: "CreateDatabaseClusterRequestDoSettings" });
   }
 }
-function __c699(j: number): any {
+function __c698(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55865,10 +55855,10 @@ function __c699(j: number): any {
         }),
       ).annotate({ identifier: "FirewallRuleInput" });
     case 1:
-      return S.Array(__S(22368, __c699, 0));
+      return S.Array(__S(22336, __c698, 0));
   }
 }
-function __c700(j: number): any {
+function __c699(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55881,7 +55871,7 @@ function __c700(j: number): any {
       ).annotate({ identifier: "HarnessCreateConfigCloneRequest" });
   }
 }
-function __c701(j: number): any {
+function __c700(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55903,7 +55893,7 @@ function __c701(j: number): any {
       ).annotate({ identifier: "StartProviderConnectResponse" });
   }
 }
-function __c702(j: number): any {
+function __c701(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55927,18 +55917,18 @@ function __c702(j: number): any {
         }),
       ).annotate({ identifier: "WorkspacePartUploadUrl" });
     case 2:
-      return S.Array(__S(22465, __c702, 1));
+      return S.Array(__S(22433, __c701, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           transfer_id: S.optional(S.String),
-          part_urls: S.optional(__S(22466, __c702, 2)),
+          part_urls: S.optional(__S(22434, __c701, 2)),
           expires_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkspacePartUploadUrls" });
   }
 }
-function __c703(j: number): any {
+function __c702(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55963,7 +55953,7 @@ function __c703(j: number): any {
       ).annotate({ identifier: "WorkspaceUploadResponse" });
   }
 }
-function __c704(j: number): any {
+function __c703(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -55978,23 +55968,23 @@ function __c704(j: number): any {
           name: S.String,
           session_mode: S.String,
           prompt_template: S.String,
-          output: __S(22593, __c706, 1),
+          output: __S(22561, __c705, 1),
           session_template: S.optional(S.String),
           bound_session_id: S.optional(S.String),
-          webhook: S.optional(__S(22528, __c704, 0)),
-          cron: S.optional(__S(22594, __c706, 2)),
+          webhook: S.optional(__S(22496, __c703, 0)),
+          cron: S.optional(__S(22562, __c705, 2)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/agents/triggers", code: 200 })),
       ).annotate({ identifier: "HarnessCreateTriggerRequest" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          trigger: S.optional(__S(22563, __c705, 3)),
+          trigger: S.optional(__S(22531, __c704, 3)),
           webhook_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CreateTriggerResponse" });
   }
 }
-function __c705(j: number): any {
+function __c704(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56029,18 +56019,18 @@ function __c705(j: number): any {
           session_mode: S.optional(S.String),
           agent_kind: S.optional(S.String),
           prompt_template: S.optional(S.String),
-          output: S.optional(__S(22560, __c705, 0)),
+          output: S.optional(__S(22528, __c704, 0)),
           session_template: S.optional(S.String),
           bound_session_id: S.optional(S.String),
-          webhook: S.optional(__S(22561, __c705, 1)),
-          cron: S.optional(__S(22562, __c705, 2)),
+          webhook: S.optional(__S(22529, __c704, 1)),
+          cron: S.optional(__S(22530, __c704, 2)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "Trigger" });
   }
 }
-function __c706(j: number): any {
+function __c705(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56053,7 +56043,7 @@ function __c706(j: number): any {
         S.Struct({
           mode: S.String,
           email: S.optional(S.String),
-          slack: S.optional(__S(22592, __c706, 0)),
+          slack: S.optional(__S(22560, __c705, 0)),
         }),
       ).annotate({ identifier: "TriggerOutputWrite" });
     case 2:
@@ -56065,7 +56055,7 @@ function __c706(j: number): any {
       ).annotate({ identifier: "CreateCronConfig" });
   }
 }
-function __c707(j: number): any {
+function __c706(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56075,7 +56065,7 @@ function __c707(j: number): any {
       ).annotate({ identifier: "HarnessDeleteTriggerRequest" });
   }
 }
-function __c708(j: number): any {
+function __c707(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56094,7 +56084,7 @@ function __c708(j: number): any {
       ).annotate({ identifier: "PollProviderConnectResponse" });
   }
 }
-function __c709(j: number): any {
+function __c708(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56112,7 +56102,7 @@ function __c709(j: number): any {
       ).annotate({ identifier: "HarnessGetSessionWorkspaceDownloadRequest" });
   }
 }
-function __c710(j: number): any {
+function __c709(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56122,17 +56112,17 @@ function __c710(j: number): any {
       ).annotate({ identifier: "HarnessGetTriggerRequest" });
   }
 }
-function __c711(j: number): any {
+function __c710(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          trigger: S.optional(__S(22563, __c705, 3)),
+          trigger: S.optional(__S(22531, __c704, 3)),
         }),
       ).annotate({ identifier: "GetTriggerResponse" });
   }
 }
-function __c712(j: number): any {
+function __c711(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56144,7 +56134,7 @@ function __c712(j: number): any {
       ).annotate({ identifier: "HarnessGetTriggerBySessionRequest" });
   }
 }
-function __c713(j: number): any {
+function __c712(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56172,7 +56162,7 @@ function __c713(j: number): any {
       ).annotate({ identifier: "CreateDatabaseKafkaSchemaResponse" });
   }
 }
-function __c714(j: number): any {
+function __c713(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56189,7 +56179,7 @@ function __c714(j: number): any {
       ).annotate({ identifier: "HarnessGetTriggerExecutionRequest" });
   }
 }
-function __c715(j: number): any {
+function __c714(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56203,17 +56193,17 @@ function __c715(j: number): any {
         ),
       ).annotate({ identifier: "HarnessListTriggerExecutionsRequest" });
     case 1:
-      return S.Array(__S(22080, __c690, 0));
+      return S.Array(__S(22048, __c689, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          executions: S.optional(__S(22881, __c715, 1)),
+          executions: S.optional(__S(22849, __c714, 1)),
           next_page_token: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTriggerExecutionsResponse" });
   }
 }
-function __c716(j: number): any {
+function __c715(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56225,7 +56215,7 @@ function __c716(j: number): any {
       ).annotate({ identifier: "HarnessPostSessionResumeRequest" });
   }
 }
-function __c717(j: number): any {
+function __c716(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56254,7 +56244,7 @@ function __c717(j: number): any {
       ).annotate({ identifier: "ExecInSandboxResponse" });
   }
 }
-function __c718(j: number): any {
+function __c717(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56279,7 +56269,7 @@ function __c718(j: number): any {
       ).annotate({ identifier: "RotateSecretResponse" });
   }
 }
-function __c719(j: number): any {
+function __c718(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56297,7 +56287,7 @@ function __c719(j: number): any {
       ).annotate({ identifier: "WebhookAcceptedResponse" });
   }
 }
-function __c720(j: number): any {
+function __c719(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56314,7 +56304,7 @@ function __c720(j: number): any {
       ).annotate({ identifier: "HarnessRevertSessionCheckpointRequest" });
   }
 }
-function __c721(j: number): any {
+function __c720(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56323,15 +56313,15 @@ function __c721(j: number): any {
           name: S.optional(S.String),
           status: S.optional(S.String),
           prompt_template: S.optional(S.String),
-          output: S.optional(__S(22593, __c706, 1)),
+          output: S.optional(__S(22561, __c705, 1)),
           session_template: S.optional(S.String),
           bound_session_id: S.optional(S.String),
-          cron: S.optional(__S(22594, __c706, 2)),
+          cron: S.optional(__S(22562, __c705, 2)),
         }).pipe(T.Http({ method: "PATCH", uri: "/v2/agents/triggers/{trigger_id}", code: 200 })),
       ).annotate({ identifier: "HarnessUpdateTriggerRequest" });
   }
 }
-function __c722(j: number): any {
+function __c721(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56349,7 +56339,7 @@ function __c722(j: number): any {
       ).annotate({ identifier: "ImagesPostAccountTransferAcceptRequest" });
   }
 }
-function __c723(j: number): any {
+function __c722(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56366,7 +56356,7 @@ function __c723(j: number): any {
       ).annotate({ identifier: "ImagesPostAccountTransferCancelRequest" });
   }
 }
-function __c724(j: number): any {
+function __c723(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56375,7 +56365,7 @@ function __c724(j: number): any {
           name: S.String,
           replication_factor: S.optional(S.Number),
           partition_count: S.optional(S.Number),
-          config: S.optional(__S(23200, __c725, 0)),
+          config: S.optional(__S(23168, __c724, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -56386,7 +56376,7 @@ function __c724(j: number): any {
       ).annotate({ identifier: "CreateDatabaseKafkaTopicRequest" });
   }
 }
-function __c725(j: number): any {
+function __c724(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56422,7 +56412,7 @@ function __c725(j: number): any {
         }),
       ).annotate({ identifier: "KafkaTopicPartitionConsumerGroupsItem" });
     case 2:
-      return S.Array(__S(23201, __c725, 1));
+      return S.Array(__S(23169, __c724, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -56430,30 +56420,30 @@ function __c725(j: number): any {
           id: S.optional(S.Number),
           in_sync_replicas: S.optional(S.Number),
           earliest_offset: S.optional(S.Number),
-          consumer_groups: S.optional(S.NullOr(__S(23202, __c725, 2))),
+          consumer_groups: S.optional(S.NullOr(__S(23170, __c724, 2))),
         }),
       ).annotate({ identifier: "KafkaTopicPartition" });
     case 4:
-      return S.Array(__S(23203, __c725, 3));
+      return S.Array(__S(23171, __c724, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           state: S.optional(S.String),
           replication_factor: S.optional(S.Number),
-          partitions: S.optional(__S(23204, __c725, 4)),
-          config: S.optional(__S(23200, __c725, 0)),
+          partitions: S.optional(__S(23172, __c724, 4)),
+          config: S.optional(__S(23168, __c724, 0)),
         }),
       ).annotate({ identifier: "KafkaTopicVerbose" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          topic: S.optional(__S(23205, __c725, 5)),
+          topic: S.optional(__S(23173, __c724, 5)),
         }),
       ).annotate({ identifier: "CreateDatabaseKafkaTopicResponse" });
   }
 }
-function __c726(j: number): any {
+function __c725(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56472,7 +56462,7 @@ function __c726(j: number): any {
       ).annotate({ identifier: "ImagesPostAccountTransferCreateResponse" });
   }
 }
-function __c727(j: number): any {
+function __c726(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56512,19 +56502,19 @@ function __c727(j: number): any {
         }),
       ).annotate({ identifier: "ApiImportValidationStep" });
     case 3:
-      return S.Array(__S(23266, __c727, 2));
+      return S.Array(__S(23234, __c726, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           error: S.optional(S.String),
-          import_job: S.optional(__S(23265, __c727, 1)),
+          import_job: S.optional(__S(23233, __c726, 1)),
           model: S.optional(__S(13701, __c428, 5)),
-          validation_steps: S.optional(__S(23267, __c727, 3)),
+          validation_steps: S.optional(__S(23235, __c726, 3)),
         }),
       ).annotate({ identifier: "ApiImportCustomModelOutputPublic" });
   }
 }
-function __c728(j: number): any {
+function __c727(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56550,13 +56540,13 @@ function __c728(j: number): any {
         }),
       ).annotate({ identifier: "InferenceCreateAsyncInvokeRequestTagsItem" });
     case 2:
-      return S.Array(__S(23297, __c728, 1));
+      return S.Array(__S(23265, __c727, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           model_id: S.String,
-          input: __S(23296, __c728, 0),
-          tags: S.optional(S.NullOr(__S(23298, __c728, 2))),
+          input: __S(23264, __c727, 0),
+          tags: S.optional(S.NullOr(__S(23266, __c727, 2))),
         }).pipe(T.Http({ method: "POST", uri: "/v1/async-invoke", code: 200 })),
       ).annotate({ identifier: "InferenceCreateAsyncInvokeRequest" });
     case 4:
@@ -56568,13 +56558,13 @@ function __c728(j: number): any {
           created_at: S.String,
           started_at: S.optional(S.NullOr(S.String)),
           completed_at: S.optional(S.NullOr(S.String)),
-          output: S.optional(S.NullOr(__S(17856, __c558, 0))),
+          output: S.optional(S.NullOr(__S(17824, __c557, 0))),
           error: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "AsyncInvokeResponse" });
   }
 }
-function __c729(j: number): any {
+function __c728(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56587,8 +56577,8 @@ function __c729(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          from: __S(23328, __c729, 0),
-          to: __S(23328, __c729, 0),
+          from: __S(23296, __c728, 0),
+          to: __S(23296, __c728, 0),
         }),
       ).annotate({ identifier: "LogsTimeRange" });
     case 2:
@@ -56609,24 +56599,24 @@ function __c729(j: number): any {
           string_value: S.optional(S.String),
           number_value: S.optional(S.Number),
           bool_value: S.optional(S.Boolean),
-          string_array_value: S.optional(__S(23330, __c729, 2)),
-          number_array_value: S.optional(__S(23331, __c729, 3)),
+          string_array_value: S.optional(__S(23298, __c728, 2)),
+          number_array_value: S.optional(__S(23299, __c728, 3)),
         }),
       ).annotate({ identifier: "LogsFilterValue" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          field: __S(23360, __c730, 0),
+          field: __S(23328, __c729, 0),
           operator: S.String,
-          value: S.optional(__S(23332, __c729, 4)),
+          value: S.optional(__S(23300, __c728, 4)),
         }),
       ).annotate({ identifier: "LogsFilterCondition" });
     case 6:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(23337, __c729, 9)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(23305, __c728, 9)));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          expressions: __S(23334, __c729, 6),
+          expressions: __S(23302, __c728, 6),
         }),
       ).annotate({ identifier: "LogsFilterExpressionAnd" });
     case 8:
@@ -56638,11 +56628,11 @@ function __c729(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          condition: S.optional(__S(23333, __c729, 5)),
-          and: S.optional(__S(23335, __c729, 7)),
-          or: S.optional(__S(23335, __c729, 7)),
-          not: S.optional(__S(23337, __c729, 9)),
-          text_search: S.optional(__S(23336, __c729, 8)),
+          condition: S.optional(__S(23301, __c728, 5)),
+          and: S.optional(__S(23303, __c728, 7)),
+          or: S.optional(__S(23303, __c728, 7)),
+          not: S.optional(__S(23305, __c728, 9)),
+          text_search: S.optional(__S(23304, __c728, 8)),
         }),
       ).annotate({ identifier: "LogsFilterExpression" });
     case 10:
@@ -56656,10 +56646,10 @@ function __c729(j: number): any {
       return S.suspend(() =>
         S.Struct({
           region: S.String.pipe(T.Label()),
-          time_range: __S(23329, __c729, 1),
-          filter: S.optional(__S(23337, __c729, 9)),
-          order_by: S.optional(__S(23362, __c730, 2)),
-          pagination: S.optional(__S(23338, __c729, 10)),
+          time_range: __S(23297, __c728, 1),
+          filter: S.optional(__S(23305, __c728, 9)),
+          order_by: S.optional(__S(23330, __c729, 2)),
+          pagination: S.optional(__S(23306, __c728, 10)),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/insights/query/{region}/logs/search", code: 200 }),
         ),
@@ -56679,7 +56669,7 @@ function __c729(j: number): any {
         }),
       ).annotate({ identifier: "LogsLogRecord" });
     case 13:
-      return S.Array(__S(23340, __c729, 12));
+      return S.Array(__S(23308, __c728, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -56690,13 +56680,13 @@ function __c729(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(23341, __c729, 13)),
-          pagination: S.optional(__S(23342, __c729, 14)),
+          data: S.optional(__S(23309, __c728, 13)),
+          pagination: S.optional(__S(23310, __c728, 14)),
         }),
       ).annotate({ identifier: "LogsSearchResponse" });
   }
 }
-function __c730(j: number): any {
+function __c729(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56708,15 +56698,15 @@ function __c730(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          field: __S(23360, __c730, 0),
+          field: __S(23328, __c729, 0),
           direction: S.optional(S.String),
         }),
       ).annotate({ identifier: "LogsOrderBy" });
     case 2:
-      return S.Array(__S(23361, __c730, 1));
+      return S.Array(__S(23329, __c729, 1));
   }
 }
-function __c731(j: number): any {
+function __c730(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56728,18 +56718,18 @@ function __c731(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          from: __S(23392, __c731, 0),
-          to: __S(23392, __c731, 0),
+          from: __S(23360, __c730, 0),
+          to: __S(23360, __c730, 0),
         }),
       ).annotate({ identifier: "SpansTimeRange" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           region: S.String.pipe(T.Label()),
-          time_range: __S(23393, __c731, 1),
+          time_range: __S(23361, __c730, 1),
           filter: S.optional(S.Unknown),
-          order_by: S.optional(__S(23362, __c730, 2)),
-          pagination: S.optional(__S(23424, __c732, 0)),
+          order_by: S.optional(__S(23330, __c729, 2)),
+          pagination: S.optional(__S(23392, __c731, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/insights/query/{region}/spans/search", code: 200 }),
         ),
@@ -56764,7 +56754,7 @@ function __c731(j: number): any {
         }),
       ).annotate({ identifier: "SpanRecord" });
     case 4:
-      return S.Array(__S(23395, __c731, 3));
+      return S.Array(__S(23363, __c730, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -56774,13 +56764,13 @@ function __c731(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(23396, __c731, 4)),
-          pagination: S.optional(__S(23397, __c731, 5)),
+          data: S.optional(__S(23364, __c730, 4)),
+          pagination: S.optional(__S(23365, __c730, 5)),
         }),
       ).annotate({ identifier: "SpansSearchResponse" });
   }
 }
-function __c732(j: number): any {
+function __c731(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56790,7 +56780,7 @@ function __c732(j: number): any {
       ).annotate({ identifier: "SpansPaginationRequest" });
   }
 }
-function __c733(j: number): any {
+function __c732(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56802,18 +56792,18 @@ function __c733(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          from: __S(23456, __c733, 0),
-          to: __S(23456, __c733, 0),
+          from: __S(23424, __c732, 0),
+          to: __S(23424, __c732, 0),
         }),
       ).annotate({ identifier: "TracesTimeRange" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           region: S.String.pipe(T.Label()),
-          time_range: __S(23457, __c733, 1),
+          time_range: __S(23425, __c732, 1),
           filter: S.optional(S.Unknown),
-          order_by: S.optional(__S(23362, __c730, 2)),
-          pagination: S.optional(__S(23424, __c732, 0)),
+          order_by: S.optional(__S(23330, __c729, 2)),
+          pagination: S.optional(__S(23392, __c731, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/insights/query/{region}/traces/search", code: 200 }),
         ),
@@ -56832,7 +56822,7 @@ function __c733(j: number): any {
         }),
       ).annotate({ identifier: "TracesTraceSummary" });
     case 4:
-      return S.Array(__S(23459, __c733, 3));
+      return S.Array(__S(23427, __c732, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -56842,13 +56832,13 @@ function __c733(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          data: __S(23460, __c733, 4),
-          pagination: __S(23461, __c733, 5),
+          data: __S(23428, __c732, 4),
+          pagination: __S(23429, __c732, 5),
         }),
       ).annotate({ identifier: "TracesSearchResponse" });
   }
 }
-function __c734(j: number): any {
+function __c733(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56865,7 +56855,7 @@ function __c734(j: number): any {
       ).annotate({ identifier: "InstallOneClickKubernetesResponse" });
   }
 }
-function __c735(j: number): any {
+function __c734(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56881,7 +56871,7 @@ function __c735(j: number): any {
       ).annotate({ identifier: "KubernetesDestroyAssociatedResourcesDangerousRequest" });
   }
 }
-function __c736(j: number): any {
+function __c735(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56900,7 +56890,7 @@ function __c736(j: number): any {
       ).annotate({ identifier: "KubernetesDestroyAssociatedResourcesSelectiveRequest" });
   }
 }
-function __c737(j: number): any {
+function __c736(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56917,7 +56907,7 @@ function __c737(j: number): any {
       ).annotate({ identifier: "KubernetesUpgradeClusterRequest" });
   }
 }
-function __c738(j: number): any {
+function __c737(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56937,12 +56927,12 @@ function __c738(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sink: S.optional(__S(23648, __c739, 0)),
+          sink: S.optional(__S(23616, __c738, 0)),
         }),
       ).annotate({ identifier: "CreateDatabaseLogsinkResponse" });
   }
 }
-function __c739(j: number): any {
+function __c738(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56955,7 +56945,7 @@ function __c739(j: number): any {
       ).annotate({ identifier: "LogsinkVerbose" });
   }
 }
-function __c740(j: number): any {
+function __c739(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -56966,41 +56956,41 @@ function __c740(j: number): any {
       ).annotate({ identifier: "ListActionsRequest" });
   }
 }
-function __c741(j: number): any {
+function __c740(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          actions: __S(23744, __c742, 0),
+          actions: __S(23712, __c741, 0),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListActionsResponse" });
   }
 }
-function __c742(j: number): any {
+function __c741(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(10720, __c335, 0));
   }
 }
-function __c743(j: number): any {
+function __c742(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/add-ons/saas", code: 200 })),
       ).annotate({ identifier: "ListAddonsRequest" });
     case 1:
-      return S.Array(__S(17346, __c542, 2));
+      return S.Array(__S(17314, __c541, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          resources: S.optional(__S(23777, __c743, 1)),
+          resources: S.optional(__S(23745, __c742, 1)),
         }),
       ).annotate({ identifier: "ListAddonsResponse" });
   }
 }
-function __c744(j: number): any {
+function __c743(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57013,12 +57003,12 @@ function __c744(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          alerts: S.optional(__S(23809, __c744, 1)),
+          alerts: S.optional(__S(23777, __c743, 1)),
         }),
       ).annotate({ identifier: "AppsListAlertsResponse" });
   }
 }
-function __c745(j: number): any {
+function __c744(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57034,14 +57024,14 @@ function __c745(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          deployments: __S(23841, __c745, 1),
+          deployments: __S(23809, __c744, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListAppDeploymentsResponse" });
   }
 }
-function __c746(j: number): any {
+function __c745(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57057,13 +57047,13 @@ function __c746(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          events: __S(23873, __c746, 1),
+          events: __S(23841, __c745, 1),
           links: S.optional(__S(3041, __c95, 1)),
         }),
       ).annotate({ identifier: "ListAppEventsResponse" });
   }
 }
-function __c747(j: number): any {
+function __c746(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57077,12 +57067,12 @@ function __c747(j: number): any {
       return S.suspend(() =>
         S.Struct({
           discount_percent: S.optional(S.Number),
-          instance_sizes: S.optional(__S(23905, __c747, 1)),
+          instance_sizes: S.optional(__S(23873, __c746, 1)),
         }),
       ).annotate({ identifier: "AppsListInstanceSizesResponse" });
   }
 }
-function __c748(j: number): any {
+function __c747(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57099,13 +57089,13 @@ function __c748(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          job_invocations: __S(23937, __c748, 1),
+          job_invocations: __S(23905, __c747, 1),
           links: S.optional(__S(3041, __c95, 1)),
         }),
       ).annotate({ identifier: "ListAppJobInvocationsResponse" });
   }
 }
-function __c749(j: number): any {
+function __c748(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57116,23 +57106,23 @@ function __c749(j: number): any {
       ).annotate({ identifier: "ListAppMetricsBandwidthDailyRequest" });
   }
 }
-function __c750(j: number): any {
+function __c749(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/apps/regions", code: 200 })),
       ).annotate({ identifier: "ListAppRegionsRequest" });
     case 1:
-      return S.Array(__S(18240, __c570, 0));
+      return S.Array(__S(18208, __c569, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          regions: S.optional(__S(24001, __c750, 1)),
+          regions: S.optional(__S(23969, __c749, 1)),
         }),
       ).annotate({ identifier: "AppsListRegionsResponse" });
   }
 }
-function __c751(j: number): any {
+function __c750(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57143,18 +57133,18 @@ function __c751(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/apps", code: 200 })),
       ).annotate({ identifier: "ListAppsRequest" });
     case 1:
-      return S.Array(__S(18279, __c571, 7));
+      return S.Array(__S(18247, __c570, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          apps: __S(24033, __c751, 1),
+          apps: __S(24001, __c750, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListAppsResponse" });
   }
 }
-function __c752(j: number): any {
+function __c751(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57165,10 +57155,10 @@ function __c752(j: number): any {
           size: S.String,
           tags: S.optional(__S(32, __c1, 0)),
           private_network_uuid: S.optional(S.String),
-          connection: S.optional(__S(38560, __c1205, 0)),
-          private_connection: S.optional(__S(38560, __c1205, 0)),
+          connection: S.optional(__S(38496, __c1203, 0)),
+          private_connection: S.optional(__S(38496, __c1203, 0)),
           storage_size_mib: S.optional(S.Number),
-          do_settings: S.optional(__S(22336, __c698, 0)),
+          do_settings: S.optional(__S(22304, __c697, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -57179,17 +57169,17 @@ function __c752(j: number): any {
       ).annotate({ identifier: "CreateDatabaseReplicaRequest" });
   }
 }
-function __c753(j: number): any {
+function __c752(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          replica: S.optional(__S(24128, __c754, 0)),
+          replica: S.optional(__S(24096, __c753, 0)),
         }),
       ).annotate({ identifier: "CreateDatabaseReplicaResponse" });
   }
 }
-function __c754(j: number): any {
+function __c753(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57202,15 +57192,15 @@ function __c754(j: number): any {
           tags: S.optional(__S(32, __c1, 0)),
           created_at: S.optional(S.String),
           private_network_uuid: S.optional(S.String),
-          connection: S.optional(__S(38656, __c1208, 0)),
-          private_connection: S.optional(__S(38656, __c1208, 0)),
+          connection: S.optional(__S(38592, __c1206, 0)),
+          private_connection: S.optional(__S(38592, __c1206, 0)),
           storage_size_mib: S.optional(S.Number),
-          do_settings: S.optional(__S(22336, __c698, 0)),
+          do_settings: S.optional(__S(22304, __c697, 0)),
         }),
       ).annotate({ identifier: "DatabaseReplicaRead" });
   }
 }
-function __c755(j: number): any {
+function __c754(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57239,18 +57229,18 @@ function __c755(j: number): any {
         }),
       ).annotate({ identifier: "History" });
     case 2:
-      return S.Array(__S(24161, __c755, 1));
+      return S.Array(__S(24129, __c754, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          history: __S(24162, __c755, 2),
+          history: __S(24130, __c754, 2),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListAutoscalepoolHistoryResponse" });
   }
 }
-function __c756(j: number): any {
+function __c755(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57275,22 +57265,22 @@ function __c756(j: number): any {
           health_status: S.String,
           unhealthy_reason: S.optional(S.String),
           status: S.String,
-          current_utilization: __S(19424, __c607, 0),
+          current_utilization: __S(19392, __c606, 0),
         }),
       ).annotate({ identifier: "Member" });
     case 2:
-      return S.Array(__S(24193, __c756, 1));
+      return S.Array(__S(24161, __c755, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          droplets: __S(24194, __c756, 2),
+          droplets: __S(24162, __c755, 2),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListAutoscalepoolMembersResponse" });
   }
 }
-function __c757(j: number): any {
+function __c756(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57301,18 +57291,18 @@ function __c757(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/droplets/autoscale", code: 200 })),
       ).annotate({ identifier: "ListAutoscalepoolsRequest" });
     case 1:
-      return S.Array(__S(19457, __c608, 1));
+      return S.Array(__S(19425, __c607, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          autoscale_pools: __S(24225, __c757, 1),
+          autoscale_pools: __S(24193, __c756, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListAutoscalepoolsResponse" });
   }
 }
-function __c758(j: number): any {
+function __c757(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57332,7 +57322,7 @@ function __c758(j: number): any {
         }),
       ).annotate({ identifier: "BillingHistory" });
     case 2:
-      return S.Array(__S(24257, __c758, 1));
+      return S.Array(__S(24225, __c757, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -57342,14 +57332,14 @@ function __c758(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          billing_history: S.optional(__S(24258, __c758, 2)),
+          billing_history: S.optional(__S(24226, __c757, 2)),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(24259, __c758, 3),
+          meta: __S(24227, __c757, 3),
         }),
       ).annotate({ identifier: "ListBillingHistoryResponse" });
   }
 }
-function __c759(j: number): any {
+function __c758(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57380,11 +57370,11 @@ function __c759(j: number): any {
         }),
       ).annotate({ identifier: "BillingDataPoint" });
     case 2:
-      return S.Array(__S(24289, __c759, 1));
+      return S.Array(__S(24257, __c758, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data_points: __S(24290, __c759, 2),
+          data_points: __S(24258, __c758, 2),
           total_items: S.Number,
           total_pages: S.Number,
           current_page: S.Number,
@@ -57392,7 +57382,7 @@ function __c759(j: number): any {
       ).annotate({ identifier: "ListBillingInsightsResponse" });
   }
 }
-function __c760(j: number): any {
+function __c759(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57406,14 +57396,14 @@ function __c760(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          byoip_prefixes: __S(24321, __c760, 1),
+          byoip_prefixes: __S(24289, __c759, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListByoipPrefixesResponse" });
   }
 }
-function __c761(j: number): any {
+function __c760(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57436,18 +57426,18 @@ function __c761(j: number): any {
         }),
       ).annotate({ identifier: "ByoipPrefixResource" });
     case 2:
-      return S.Array(__S(24353, __c761, 1));
+      return S.Array(__S(24321, __c760, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ips: __S(24354, __c761, 2),
+          ips: __S(24322, __c760, 2),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListByoipPrefixResourcesResponse" });
   }
 }
-function __c762(j: number): any {
+function __c761(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57457,18 +57447,18 @@ function __c762(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/cdn/endpoints", code: 200 })),
       ).annotate({ identifier: "ListCdnEndpointsRequest" });
     case 1:
-      return S.Array(__S(20416, __c638, 0));
+      return S.Array(__S(20384, __c637, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          endpoints: __S(24385, __c762, 1),
+          endpoints: __S(24353, __c761, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListCdnEndpointsResponse" });
   }
 }
-function __c763(j: number): any {
+function __c762(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57479,18 +57469,18 @@ function __c763(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/certificates", code: 200 })),
       ).annotate({ identifier: "ListCertificatesRequest" });
     case 1:
-      return S.Array(__S(20960, __c655, 0));
+      return S.Array(__S(20928, __c654, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          certificates: __S(24417, __c763, 1),
+          certificates: __S(24385, __c762, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListCertificatesResponse" });
   }
 }
-function __c764(j: number): any {
+function __c763(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57505,17 +57495,17 @@ function __c764(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/action-gateway/connections", code: 200 })),
       ).annotate({ identifier: "ListConnectionsRequest" });
     case 1:
-      return S.Array(__S(21537, __c673, 1));
+      return S.Array(__S(21505, __c672, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          connections: S.optional(__S(24449, __c764, 1)),
-          pagination: S.optional(__S(24480, __c765, 0)),
+          connections: S.optional(__S(24417, __c763, 1)),
+          pagination: S.optional(__S(24448, __c764, 0)),
         }),
       ).annotate({ identifier: "ListConnectionsResponse" });
   }
 }
-function __c765(j: number): any {
+function __c764(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57527,25 +57517,25 @@ function __c765(j: number): any {
       ).annotate({ identifier: "Pagination" });
   }
 }
-function __c766(j: number): any {
+function __c765(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          spec: __S(24612, __c769, 4),
+          spec: __S(24580, __c768, 4),
           access_tokens: S.optional(__S(9952, __c311, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/dedicated-inferences", code: 200 })),
       ).annotate({ identifier: "CreateDedicatedInferenceRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          dedicated_inference: S.optional(__S(24552, __c767, 8)),
-          token: S.optional(__S(24576, __c768, 0)),
+          dedicated_inference: S.optional(__S(24520, __c766, 8)),
+          token: S.optional(__S(24544, __c767, 0)),
         }),
       ).annotate({ identifier: "CreateDedicatedInferenceResponse" });
   }
 }
-function __c767(j: number): any {
+function __c766(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57563,7 +57553,7 @@ function __c767(j: number): any {
         }),
       ).annotate({ identifier: "AcceleratorConfigSpec" });
     case 2:
-      return S.Array(__S(24545, __c767, 1));
+      return S.Array(__S(24513, __c766, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -57571,20 +57561,20 @@ function __c767(j: number): any {
           model_slug: S.optional(S.String),
           model_provider: S.optional(S.String),
           workload_config: S.optional(S.Unknown),
-          accelerators: S.optional(__S(24546, __c767, 2)),
+          accelerators: S.optional(__S(24514, __c766, 2)),
         }),
       ).annotate({ identifier: "ModelDeploymentSpec" });
     case 4:
-      return S.Array(__S(24547, __c767, 3));
+      return S.Array(__S(24515, __c766, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           version: S.Number,
           name: S.String,
           region: S.String,
-          vpc: __S(24544, __c767, 0),
+          vpc: __S(24512, __c766, 0),
           enable_public_endpoint: S.Boolean,
-          model_deployments: __S(24548, __c767, 4),
+          model_deployments: __S(24516, __c766, 4),
         }),
       ).annotate({ identifier: "DedicatedInferenceSpec" });
     case 6:
@@ -57594,9 +57584,9 @@ function __c767(j: number): any {
           version: S.optional(S.Number),
           name: S.optional(S.String),
           status: S.optional(S.String),
-          vpc: S.optional(__S(24544, __c767, 0)),
+          vpc: S.optional(__S(24512, __c766, 0)),
           enable_public_endpoint: S.optional(S.Boolean),
-          model_deployments: S.optional(__S(24548, __c767, 4)),
+          model_deployments: S.optional(__S(24516, __c766, 4)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
         }),
@@ -57615,16 +57605,16 @@ function __c767(j: number): any {
           status: S.optional(S.String),
           region: S.optional(S.String),
           vpc_uuid: S.optional(S.String),
-          spec: S.optional(__S(24549, __c767, 5)),
-          pending_deployment_spec: S.optional(__S(24550, __c767, 6)),
-          endpoints: S.optional(__S(24551, __c767, 7)),
+          spec: S.optional(__S(24517, __c766, 5)),
+          pending_deployment_spec: S.optional(__S(24518, __c766, 6)),
+          endpoints: S.optional(__S(24519, __c766, 7)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
         }),
       ).annotate({ identifier: "DedicatedInference" });
   }
 }
-function __c768(j: number): any {
+function __c767(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57638,7 +57628,7 @@ function __c768(j: number): any {
       ).annotate({ identifier: "DedicatedInferenceAccessToken" });
   }
 }
-function __c769(j: number): any {
+function __c768(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57649,7 +57639,7 @@ function __c769(j: number): any {
         }),
       ).annotate({ identifier: "AcceleratorConfigSpecInput" });
     case 1:
-      return S.Array(__S(24608, __c769, 0));
+      return S.Array(__S(24576, __c768, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -57657,25 +57647,25 @@ function __c769(j: number): any {
           model_slug: S.optional(S.String),
           model_provider: S.optional(S.String),
           workload_config: S.optional(S.Unknown),
-          accelerators: S.optional(__S(24609, __c769, 1)),
+          accelerators: S.optional(__S(24577, __c768, 1)),
         }),
       ).annotate({ identifier: "ModelDeploymentSpecInput" });
     case 3:
-      return S.Array(__S(24610, __c769, 2));
+      return S.Array(__S(24578, __c768, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           version: S.Number,
           name: S.String,
           region: S.String,
-          vpc: __S(24544, __c767, 0),
+          vpc: __S(24512, __c766, 0),
           enable_public_endpoint: S.Boolean,
-          model_deployments: __S(24611, __c769, 3),
+          model_deployments: __S(24579, __c768, 3),
         }),
       ).annotate({ identifier: "DedicatedInferenceSpecInput" });
   }
 }
-function __c770(j: number): any {
+function __c769(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57698,7 +57688,7 @@ function __c770(j: number): any {
         }),
       ).annotate({ identifier: "Backup" });
     case 2:
-      return S.Array(__S(24641, __c770, 1));
+      return S.Array(__S(24609, __c769, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -57710,14 +57700,14 @@ function __c770(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          backups: __S(24642, __c770, 2),
-          scheduled_backup_time: S.optional(__S(24643, __c770, 3)),
+          backups: __S(24610, __c769, 2),
+          scheduled_backup_time: S.optional(__S(24611, __c769, 3)),
           backup_progress: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDatabaseBackupsResponse" });
   }
 }
-function __c771(j: number): any {
+function __c770(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57726,16 +57716,16 @@ function __c771(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/databases", code: 200 })),
       ).annotate({ identifier: "ListDatabaseClustersRequest" });
     case 1:
-      return S.Array(__S(22244, __c695, 4));
+      return S.Array(__S(22212, __c694, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          databases: S.optional(__S(24673, __c771, 1)),
+          databases: S.optional(__S(24641, __c770, 1)),
         }),
       ).annotate({ identifier: "ListDatabaseClustersResponse" });
   }
 }
-function __c772(j: number): any {
+function __c771(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57746,16 +57736,16 @@ function __c772(j: number): any {
         ),
       ).annotate({ identifier: "ListDatabaseConnectionPoolsRequest" });
     case 1:
-      return S.Array(__S(38624, __c1207, 0));
+      return S.Array(__S(38560, __c1205, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          pools: S.optional(__S(24705, __c772, 1)),
+          pools: S.optional(__S(24673, __c771, 1)),
         }),
       ).annotate({ identifier: "ConnectionPools" });
   }
 }
-function __c773(j: number): any {
+function __c772(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57775,16 +57765,16 @@ function __c773(j: number): any {
         }),
       ).annotate({ identifier: "EventsLogs" });
     case 2:
-      return S.Array(__S(24737, __c773, 1));
+      return S.Array(__S(24705, __c772, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          events: S.optional(__S(24738, __c773, 2)),
+          events: S.optional(__S(24706, __c772, 2)),
         }),
       ).annotate({ identifier: "ListDatabaseEventsLogsResponse" });
   }
 }
-function __c774(j: number): any {
+function __c773(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57801,12 +57791,12 @@ function __c774(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          rules: S.optional(__S(22273, __c696, 1)),
+          rules: S.optional(__S(22241, __c695, 1)),
         }),
       ).annotate({ identifier: "ListDatabaseFirewallRulesResponse" });
   }
 }
-function __c775(j: number): any {
+function __c774(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57830,16 +57820,16 @@ function __c775(j: number): any {
         }),
       ).annotate({ identifier: "KafkaSchemaVerbose" });
     case 2:
-      return S.Array(__S(24801, __c775, 1));
+      return S.Array(__S(24769, __c774, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          subjects: S.optional(__S(24802, __c775, 2)),
+          subjects: S.optional(__S(24770, __c774, 2)),
         }),
       ).annotate({ identifier: "ListDatabaseKafkaSchemasResponse" });
   }
 }
-function __c776(j: number): any {
+function __c775(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57859,16 +57849,16 @@ function __c776(j: number): any {
         }),
       ).annotate({ identifier: "KafkaTopic" });
     case 2:
-      return S.Array(__S(24833, __c776, 1));
+      return S.Array(__S(24801, __c775, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          topics: S.optional(__S(24834, __c776, 2)),
+          topics: S.optional(__S(24802, __c775, 2)),
         }),
       ).annotate({ identifier: "ListDatabaseKafkaTopicsResponse" });
   }
 }
-function __c777(j: number): any {
+function __c776(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57883,16 +57873,16 @@ function __c777(j: number): any {
         ),
       ).annotate({ identifier: "ListDatabaseLogsinkRequest" });
     case 1:
-      return S.Array(__S(23648, __c739, 0));
+      return S.Array(__S(23616, __c738, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          sinks: S.optional(__S(24865, __c777, 1)),
+          sinks: S.optional(__S(24833, __c776, 1)),
         }),
       ).annotate({ identifier: "ListDatabaseLogsinkResponse" });
   }
 }
-function __c778(j: number): any {
+function __c777(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57919,16 +57909,16 @@ function __c778(j: number): any {
         }),
       ).annotate({ identifier: "OpensearchIndex" });
     case 2:
-      return S.Array(__S(24897, __c778, 1));
+      return S.Array(__S(24865, __c777, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          indexes: S.optional(__S(24898, __c778, 2)),
+          indexes: S.optional(__S(24866, __c777, 2)),
         }),
       ).annotate({ identifier: "ListDatabaseOpeasearchIndexesResponse" });
   }
 }
-function __c779(j: number): any {
+function __c778(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -57942,27 +57932,27 @@ function __c779(j: number): any {
         }),
       ).annotate({ identifier: "DatabaseLayoutOption" });
     case 2:
-      return S.Array(__S(24929, __c779, 1));
+      return S.Array(__S(24897, __c778, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           regions: S.optional(__S(32, __c1, 0)),
           versions: S.optional(__S(32, __c1, 0)),
-          layouts: S.optional(__S(24930, __c779, 2)),
+          layouts: S.optional(__S(24898, __c778, 2)),
         }),
       ).annotate({ identifier: "OptionsOptionsKafka" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          kafka: S.optional(__S(24931, __c779, 3)),
-          mongodb: S.optional(__S(24931, __c779, 3)),
-          pg: S.optional(__S(24931, __c779, 3)),
-          mysql: S.optional(__S(24931, __c779, 3)),
-          redis: S.optional(__S(24931, __c779, 3)),
-          valkey: S.optional(__S(24931, __c779, 3)),
-          opensearch: S.optional(__S(24931, __c779, 3)),
-          advanced_pg: S.optional(__S(24931, __c779, 3)),
-          advanced_mysql: S.optional(__S(24931, __c779, 3)),
+          kafka: S.optional(__S(24899, __c778, 3)),
+          mongodb: S.optional(__S(24899, __c778, 3)),
+          pg: S.optional(__S(24899, __c778, 3)),
+          mysql: S.optional(__S(24899, __c778, 3)),
+          redis: S.optional(__S(24899, __c778, 3)),
+          valkey: S.optional(__S(24899, __c778, 3)),
+          opensearch: S.optional(__S(24899, __c778, 3)),
+          advanced_pg: S.optional(__S(24899, __c778, 3)),
+          advanced_mysql: S.optional(__S(24899, __c778, 3)),
         }),
       ).annotate({ identifier: "OptionsOptions" });
     case 5:
@@ -57974,31 +57964,31 @@ function __c779(j: number): any {
         }),
       ).annotate({ identifier: "DatabaseVersionAvailability" });
     case 6:
-      return S.Array(__S(24933, __c779, 5));
+      return S.Array(__S(24901, __c778, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          kafka: S.optional(__S(24934, __c779, 6)),
-          pg: S.optional(__S(24934, __c779, 6)),
-          mysql: S.optional(__S(24934, __c779, 6)),
-          redis: S.optional(__S(24934, __c779, 6)),
-          valkey: S.optional(__S(24934, __c779, 6)),
-          mongodb: S.optional(__S(24934, __c779, 6)),
-          opensearch: S.optional(__S(24934, __c779, 6)),
-          advanced_pg: S.optional(__S(24934, __c779, 6)),
-          advanced_mysql: S.optional(__S(24934, __c779, 6)),
+          kafka: S.optional(__S(24902, __c778, 6)),
+          pg: S.optional(__S(24902, __c778, 6)),
+          mysql: S.optional(__S(24902, __c778, 6)),
+          redis: S.optional(__S(24902, __c778, 6)),
+          valkey: S.optional(__S(24902, __c778, 6)),
+          mongodb: S.optional(__S(24902, __c778, 6)),
+          opensearch: S.optional(__S(24902, __c778, 6)),
+          advanced_pg: S.optional(__S(24902, __c778, 6)),
+          advanced_mysql: S.optional(__S(24902, __c778, 6)),
         }),
       ).annotate({ identifier: "OptionsVersionAvailability" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          options: S.optional(__S(24932, __c779, 4)),
-          version_availability: S.optional(__S(24935, __c779, 7)),
+          options: S.optional(__S(24900, __c778, 4)),
+          version_availability: S.optional(__S(24903, __c778, 7)),
         }),
       ).annotate({ identifier: "Options" });
   }
 }
-function __c780(j: number): any {
+function __c779(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58016,12 +58006,12 @@ function __c780(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(__S(24576, __c768, 0)),
+          token: S.optional(__S(24544, __c767, 0)),
         }),
       ).annotate({ identifier: "CreateDedicatedInferenceTokensResponse" });
   }
 }
-function __c781(j: number): any {
+function __c780(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58036,16 +58026,16 @@ function __c781(j: number): any {
         ),
       ).annotate({ identifier: "ListDatabaseReplicasRequest" });
     case 1:
-      return S.Array(__S(24128, __c754, 0));
+      return S.Array(__S(24096, __c753, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          replicas: S.optional(__S(24993, __c781, 1)),
+          replicas: S.optional(__S(24961, __c780, 1)),
         }),
       ).annotate({ identifier: "ListDatabaseReplicasResponse" });
   }
 }
-function __c782(j: number): any {
+function __c781(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58056,16 +58046,16 @@ function __c782(j: number): any {
         ),
       ).annotate({ identifier: "ListDatabasesRequest" });
     case 1:
-      return S.Array(__S(34752, __c1086, 0));
+      return S.Array(__S(34688, __c1084, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          dbs: S.optional(__S(25025, __c782, 1)),
+          dbs: S.optional(__S(24993, __c781, 1)),
         }),
       ).annotate({ identifier: "ListDatabasesResponse" });
   }
 }
-function __c783(j: number): any {
+function __c782(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58078,12 +58068,12 @@ function __c783(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          users: S.optional(__S(22304, __c697, 0)),
+          users: S.optional(__S(22272, __c696, 0)),
         }),
       ).annotate({ identifier: "ListDatabaseUsersResponse" });
   }
 }
-function __c784(j: number): any {
+function __c783(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58105,14 +58095,14 @@ function __c784(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          accelerators: __S(25089, __c784, 1),
+          accelerators: __S(25057, __c783, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListDedicatedInferenceAcceleratorsResponse" });
   }
 }
-function __c785(j: number): any {
+function __c784(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58123,7 +58113,7 @@ function __c785(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/dedicated-inferences", code: 200 })),
       ).annotate({ identifier: "ListDedicatedInferencesRequest" });
     case 1:
-      return S.Array(__S(24552, __c767, 8));
+      return S.Array(__S(24520, __c766, 8));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -58133,14 +58123,14 @@ function __c785(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          dedicated_inferences: __S(25121, __c785, 1),
-          links: __S(25122, __c785, 2),
-          meta: __S(16416, __c513, 0),
+          dedicated_inferences: __S(25089, __c784, 1),
+          links: __S(25090, __c784, 2),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListDedicatedInferencesResponse" });
   }
 }
-function __c786(j: number): any {
+function __c785(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58158,17 +58148,17 @@ function __c786(j: number): any {
         }),
       ).annotate({ identifier: "DedicatedInferenceSize" });
     case 2:
-      return S.Array(__S(25153, __c786, 1));
+      return S.Array(__S(25121, __c785, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           enabled_regions: S.optional(__S(32, __c1, 0)),
-          sizes: S.optional(__S(25154, __c786, 2)),
+          sizes: S.optional(__S(25122, __c785, 2)),
         }),
       ).annotate({ identifier: "DedicatedInferenceSizesResponse" });
   }
 }
-function __c787(j: number): any {
+function __c786(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58185,18 +58175,18 @@ function __c787(j: number): any {
         ),
       ).annotate({ identifier: "ListDedicatedInferenceTokensRequest" });
     case 1:
-      return S.Array(__S(24576, __c768, 0));
+      return S.Array(__S(24544, __c767, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          tokens: __S(25185, __c787, 1),
+          tokens: __S(25153, __c786, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListDedicatedInferenceTokensResponse" });
   }
 }
-function __c788(j: number): any {
+function __c787(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58209,18 +58199,18 @@ function __c788(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/domains/{domain_name}/records", code: 200 })),
       ).annotate({ identifier: "ListDomainRecordsRequest" });
     case 1:
-      return S.Array(__S(25824, __c807, 0));
+      return S.Array(__S(25792, __c806, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          domain_records: __S(25217, __c788, 1),
+          domain_records: __S(25185, __c787, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListDomainRecordsResponse" });
   }
 }
-function __c789(j: number): any {
+function __c788(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58230,18 +58220,18 @@ function __c789(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/domains", code: 200 })),
       ).annotate({ identifier: "ListDomainsRequest" });
     case 1:
-      return S.Array(__S(25376, __c793, 0));
+      return S.Array(__S(25344, __c792, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          domains: __S(25249, __c789, 1),
+          domains: __S(25217, __c788, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListDomainsResponse" });
   }
 }
-function __c790(j: number): any {
+function __c789(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58253,7 +58243,7 @@ function __c790(j: number): any {
       ).annotate({ identifier: "ListDropletActionsRequest" });
   }
 }
-function __c791(j: number): any {
+function __c790(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58264,17 +58254,17 @@ function __c791(j: number): any {
       ).annotate({ identifier: "CreateDomainRequest" });
   }
 }
-function __c792(j: number): any {
+function __c791(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          domain: __S(25376, __c793, 0),
+          domain: __S(25344, __c792, 0),
         }),
       ).annotate({ identifier: "CreateDomainResponse" });
   }
 }
-function __c793(j: number): any {
+function __c792(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58286,7 +58276,7 @@ function __c793(j: number): any {
       ).annotate({ identifier: "DomainOutput" });
   }
 }
-function __c794(j: number): any {
+function __c793(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58309,20 +58299,20 @@ function __c794(j: number): any {
         }),
       ).annotate({ identifier: "AssociatedResource" });
     case 2:
-      return S.Array(__S(25409, __c794, 1));
+      return S.Array(__S(25377, __c793, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          reserved_ips: S.optional(__S(25410, __c794, 2)),
-          floating_ips: S.optional(__S(25410, __c794, 2)),
-          snapshots: S.optional(__S(25410, __c794, 2)),
-          volumes: S.optional(__S(25410, __c794, 2)),
-          volume_snapshots: S.optional(__S(25410, __c794, 2)),
+          reserved_ips: S.optional(__S(25378, __c793, 2)),
+          floating_ips: S.optional(__S(25378, __c793, 2)),
+          snapshots: S.optional(__S(25378, __c793, 2)),
+          volumes: S.optional(__S(25378, __c793, 2)),
+          volume_snapshots: S.optional(__S(25378, __c793, 2)),
         }),
       ).annotate({ identifier: "ListDropletAssociatedResourcesResponse" });
   }
 }
-function __c795(j: number): any {
+function __c794(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58336,14 +58326,14 @@ function __c795(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          policies: S.optional(__S(25441, __c795, 1)),
+          policies: S.optional(__S(25409, __c794, 1)),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListDropletBackupPoliciesResponse" });
   }
 }
-function __c796(j: number): any {
+function __c795(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58356,14 +58346,14 @@ function __c796(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          backups: __S(25505, __c797, 1),
+          backups: __S(25473, __c796, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListDropletBackupsResponse" });
   }
 }
-function __c797(j: number): any {
+function __c796(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58378,10 +58368,10 @@ function __c797(j: number): any {
         }),
       ).annotate({ identifier: "DropletSnapshot" });
     case 1:
-      return S.Array(__S(25504, __c797, 0));
+      return S.Array(__S(25472, __c796, 0));
   }
 }
-function __c798(j: number): any {
+function __c797(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58393,21 +58383,21 @@ function __c798(j: number): any {
       ).annotate({ identifier: "ListDropletFirewallsRequest" });
   }
 }
-function __c799(j: number): any {
+function __c798(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(28386, __c887, 2));
+      return S.Array(__S(28322, __c885, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          firewalls: __S(25568, __c799, 0),
+          firewalls: __S(25536, __c798, 0),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListDropletFirewallsResponse" });
   }
 }
-function __c800(j: number): any {
+function __c799(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58418,18 +58408,18 @@ function __c800(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/droplets/{droplet_id}/kernels", code: 200 })),
       ).annotate({ identifier: "ListDropletKernelsRequest" });
     case 1:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(26400, __c825, 0)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(26368, __c824, 0)));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          kernels: __S(25601, __c800, 1),
+          kernels: __S(25569, __c799, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListDropletKernelsResponse" });
   }
 }
-function __c801(j: number): any {
+function __c800(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58440,12 +58430,12 @@ function __c801(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          droplets: S.optional(__S(26496, __c828, 0)),
+          droplets: S.optional(__S(26464, __c827, 0)),
         }),
       ).annotate({ identifier: "ListDropletNeighborsResponse" });
   }
 }
-function __c802(j: number): any {
+function __c801(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58458,12 +58448,12 @@ function __c802(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          neighbor_ids: S.optional(__S(25665, __c802, 1)),
+          neighbor_ids: S.optional(__S(25633, __c801, 1)),
         }),
       ).annotate({ identifier: "NeighborIds" });
   }
 }
-function __c803(j: number): any {
+function __c802(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58478,14 +58468,14 @@ function __c803(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          droplets: __S(26496, __c828, 0),
+          droplets: __S(26464, __c827, 0),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListDropletsResponse" });
   }
 }
-function __c804(j: number): any {
+function __c803(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58498,14 +58488,14 @@ function __c804(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          snapshots: __S(25505, __c797, 1),
+          snapshots: __S(25473, __c796, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListDropletSnapshotsResponse" });
   }
 }
-function __c805(j: number): any {
+function __c804(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58524,16 +58514,16 @@ function __c805(j: number): any {
         }),
       ).annotate({ identifier: "SupportedDropletBackupPolicy" });
     case 2:
-      return S.Array(__S(25761, __c805, 1));
+      return S.Array(__S(25729, __c804, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          supported_policies: S.optional(__S(25762, __c805, 2)),
+          supported_policies: S.optional(__S(25730, __c804, 2)),
         }),
       ).annotate({ identifier: "ListDropletSupportedBackupPoliciesResponse" });
   }
 }
-function __c806(j: number): any {
+function __c805(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58544,7 +58534,7 @@ function __c806(j: number): any {
       ).annotate({ identifier: "CreateDomainRecordRequest" });
   }
 }
-function __c807(j: number): any {
+function __c806(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58563,17 +58553,17 @@ function __c807(j: number): any {
       ).annotate({ identifier: "DomainRecord" });
   }
 }
-function __c808(j: number): any {
+function __c807(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          domain_record: __S(25824, __c807, 0),
+          domain_record: __S(25792, __c806, 0),
         }),
       ).annotate({ identifier: "CreateDomainRecordResponse" });
   }
 }
-function __c809(j: number): any {
+function __c808(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58586,7 +58576,7 @@ function __c809(j: number): any {
       ).annotate({ identifier: "ListEndpointsRequest" });
   }
 }
-function __c810(j: number): any {
+function __c809(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58603,17 +58593,17 @@ function __c810(j: number): any {
         ),
       ).annotate({ identifier: "ListEndpointVersionsRequest" });
     case 1:
-      return S.Array(__S(27112, __c847, 8));
+      return S.Array(__S(27048, __c845, 8));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          versions: __S(25921, __c810, 1),
+          versions: __S(25889, __c809, 1),
           next_page_token: S.String,
         }),
       ).annotate({ identifier: "EndpointVersionsResponse" });
   }
 }
-function __c811(j: number): any {
+function __c810(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58624,7 +58614,7 @@ function __c811(j: number): any {
       ).annotate({ identifier: "ListFirewallsRequest" });
   }
 }
-function __c812(j: number): any {
+function __c811(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58634,18 +58624,18 @@ function __c812(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/floating_ips", code: 200 })),
       ).annotate({ identifier: "ListFloatingIPsRequest" });
     case 1:
-      return S.Array(__S(28832, __c901, 0));
+      return S.Array(__S(28768, __c899, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          floating_ips: __S(25985, __c812, 1),
+          floating_ips: __S(25953, __c811, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListFloatingIPsResponse" });
   }
 }
-function __c813(j: number): any {
+function __c812(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58657,35 +58647,35 @@ function __c813(j: number): any {
       ).annotate({ identifier: "ListFloatingIPsActionRequest" });
   }
 }
-function __c814(j: number): any {
+function __c813(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          actions: S.optional(__S(23744, __c742, 0)),
+          actions: S.optional(__S(23712, __c741, 0)),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListFloatingIPsActionResponse" });
   }
 }
-function __c815(j: number): any {
+function __c814(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/v2/functions/namespaces", code: 200 })),
       ).annotate({ identifier: "ListFunctionNamespacesRequest" });
     case 1:
-      return S.Array(__S(29248, __c914, 0));
+      return S.Array(__S(29184, __c912, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          namespaces: S.optional(__S(26081, __c815, 1)),
+          namespaces: S.optional(__S(26049, __c814, 1)),
         }),
       ).annotate({ identifier: "ListFunctionNamespacesResponse" });
   }
 }
-function __c816(j: number): any {
+function __c815(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58696,17 +58686,17 @@ function __c816(j: number): any {
         ),
       ).annotate({ identifier: "ListFunctionsAccessKeyRequest" });
     case 1:
-      return S.Array(__S(26144, __c817, 0));
+      return S.Array(__S(26112, __c816, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          access_keys: S.optional(__S(26113, __c816, 1)),
+          access_keys: S.optional(__S(26081, __c815, 1)),
           count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ListFunctionsAccessKeyResponse" });
   }
 }
-function __c817(j: number): any {
+function __c816(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58720,7 +58710,7 @@ function __c817(j: number): any {
       ).annotate({ identifier: "AccessKey" });
   }
 }
-function __c818(j: number): any {
+function __c817(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58739,12 +58729,12 @@ function __c818(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          triggers: S.optional(__S(26177, __c818, 1)),
+          triggers: S.optional(__S(26145, __c817, 1)),
         }),
       ).annotate({ identifier: "ListFunctionTriggersResponse" });
   }
 }
-function __c819(j: number): any {
+function __c818(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58759,28 +58749,28 @@ function __c819(j: number): any {
           name: S.optional(S.String),
           title: S.optional(S.String),
           description: S.optional(S.String),
-          inputSchema: S.optional(__S(17856, __c558, 0)),
-          outputSchema: S.optional(__S(17856, __c558, 0)),
-          annotations: S.optional(S.NullOr(__S(26240, __c820, 0))),
-          _meta: S.optional(__S(17856, __c558, 0)),
+          inputSchema: S.optional(__S(17824, __c557, 0)),
+          outputSchema: S.optional(__S(17824, __c557, 0)),
+          annotations: S.optional(S.NullOr(__S(26208, __c819, 0))),
+          _meta: S.optional(__S(17824, __c557, 0)),
           version: S.optional(S.String),
           parallelizable: S.optional(S.Boolean),
           streamingSafe: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SessionTool" });
     case 2:
-      return S.Array(__S(26209, __c819, 1));
+      return S.Array(__S(26177, __c818, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           version: S.optional(S.String),
-          tools: S.optional(__S(26210, __c819, 2)),
+          tools: S.optional(__S(26178, __c818, 2)),
           next_page_token: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListSessionToolsResponse" });
   }
 }
-function __c820(j: number): any {
+function __c819(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58794,7 +58784,7 @@ function __c820(j: number): any {
       ).annotate({ identifier: "ToolAnnotations" });
   }
 }
-function __c821(j: number): any {
+function __c820(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58808,7 +58798,7 @@ function __c821(j: number): any {
       ).annotate({ identifier: "ListGenaiAgentApiKeysRequest" });
   }
 }
-function __c822(j: number): any {
+function __c821(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58820,7 +58810,7 @@ function __c822(j: number): any {
       ).annotate({ identifier: "ApiListAgentAPIKeysOutput" });
   }
 }
-function __c823(j: number): any {
+function __c822(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58831,20 +58821,20 @@ function __c823(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          actions: S.optional(__S(26561, __c830, 1)),
+          actions: S.optional(__S(26529, __c829, 1)),
         }),
       ).annotate({ identifier: "CreateDropletResponseLinks" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          droplet: S.optional(__S(26437, __c826, 5)),
-          droplets: S.optional(__S(26496, __c828, 0)),
-          links: S.optional(__S(26337, __c823, 1)),
+          droplet: S.optional(__S(26406, __c825, 6)),
+          droplets: S.optional(__S(26464, __c827, 0)),
+          links: S.optional(__S(26305, __c822, 1)),
         }),
       ).annotate({ identifier: "CreateDropletResponse" });
   }
 }
-function __c824(j: number): any {
+function __c823(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58855,7 +58845,7 @@ function __c824(j: number): any {
       ).annotate({ identifier: "DropletNextBackupWindow" });
   }
 }
-function __c825(j: number): any {
+function __c824(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -58867,150 +58857,7 @@ function __c825(j: number): any {
       ).annotate({ identifier: "Kernel" });
   }
 }
-function __c826(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ip_address: S.optional(S.String),
-          netmask: S.optional(S.String),
-          gateway: S.optional(S.String),
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "NetworkV4" });
-    case 1:
-      return S.Array(__S(26432, __c826, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          ip_address: S.optional(S.String),
-          netmask: S.optional(S.Number),
-          gateway: S.optional(S.String),
-          type: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "NetworkV6" });
-    case 3:
-      return S.Array(__S(26434, __c826, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          v4: S.optional(__S(26433, __c826, 1)),
-          v6: S.optional(__S(26435, __c826, 3)),
-        }),
-      ).annotate({ identifier: "DropletNetworks" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Number,
-          name: S.String,
-          memory: S.Number,
-          vcpus: S.Number,
-          disk: S.Number,
-          disk_info: S.optional(__S(26466, __c827, 2)),
-          locked: S.Boolean,
-          status: S.String,
-          kernel: S.optional(S.NullOr(__S(26400, __c825, 0))),
-          created_at: S.String,
-          features: __S(32, __c1, 0),
-          backup_ids: __S(640, __c20, 0),
-          next_backup_window: __S(26368, __c824, 0),
-          snapshot_ids: __S(640, __c20, 0),
-          image: __S(26592, __c831, 0),
-          volume_ids: __S(32, __c1, 0),
-          size: __S(26468, __c827, 4),
-          size_slug: S.String,
-          networks: __S(26436, __c826, 4),
-          region: __S(26528, __c829, 0),
-          tags: __S(32, __c1, 0),
-          vpc_uuid: S.optional(S.String),
-          subnet_uuid: S.optional(S.String),
-          gpu_info: S.optional(__S(26467, __c827, 3)),
-        }),
-      ).annotate({ identifier: "Droplet" });
-  }
-}
-function __c827(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          amount: S.optional(S.Number),
-          unit: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DiskInfoSize" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          size: S.optional(__S(26464, __c827, 0)),
-          ephemeral: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "DiskInfo" });
-    case 2:
-      return S.Array(__S(26465, __c827, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.optional(S.Number),
-          fabric: S.optional(S.Boolean),
-          model: S.optional(S.String),
-          vram: S.optional(__S(26464, __c827, 0)),
-        }),
-      ).annotate({ identifier: "GpuInfo" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          slug: S.String,
-          memory: S.Number,
-          vcpus: S.Number,
-          disk: S.Number,
-          transfer: S.Number,
-          price_monthly: S.Number,
-          price_hourly: S.Number,
-          regions: __S(32, __c1, 0),
-          available: S.Boolean,
-          description: S.String,
-          disk_info: S.optional(__S(26466, __c827, 2)),
-          gpu_info: S.optional(__S(26467, __c827, 3)),
-        }),
-      ).annotate({ identifier: "Size" });
-  }
-}
-function __c828(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(26437, __c826, 5));
-  }
-}
-function __c829(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          slug: S.String,
-          features: __S(32, __c1, 0),
-          available: S.Boolean,
-          sizes: __S(32, __c1, 0),
-        }),
-      ).annotate({ identifier: "Region" });
-  }
-}
-function __c830(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          rel: S.optional(S.String),
-          href: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ActionLink" });
-    case 1:
-      return S.Array(__S(26560, __c830, 0));
-  }
-}
-function __c831(j: number): any {
+function __c825(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59031,9 +58878,148 @@ function __c831(j: number): any {
           error_message: S.optional(S.String),
         }),
       ).annotate({ identifier: "DropletImage" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ip_address: S.optional(S.String),
+          netmask: S.optional(S.String),
+          gateway: S.optional(S.String),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NetworkV4" });
+    case 2:
+      return S.Array(__S(26401, __c825, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ip_address: S.optional(S.String),
+          netmask: S.optional(S.Number),
+          gateway: S.optional(S.String),
+          type: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NetworkV6" });
+    case 4:
+      return S.Array(__S(26403, __c825, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          v4: S.optional(__S(26402, __c825, 2)),
+          v6: S.optional(__S(26404, __c825, 4)),
+        }),
+      ).annotate({ identifier: "DropletNetworks" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          name: S.String,
+          memory: S.Number,
+          vcpus: S.Number,
+          disk: S.Number,
+          disk_info: S.optional(__S(26434, __c826, 2)),
+          locked: S.Boolean,
+          status: S.String,
+          kernel: S.optional(S.NullOr(__S(26368, __c824, 0))),
+          created_at: S.String,
+          features: __S(32, __c1, 0),
+          backup_ids: __S(640, __c20, 0),
+          next_backup_window: __S(26336, __c823, 0),
+          snapshot_ids: __S(640, __c20, 0),
+          image: __S(26400, __c825, 0),
+          volume_ids: __S(32, __c1, 0),
+          size: __S(26436, __c826, 4),
+          size_slug: S.String,
+          networks: __S(26405, __c825, 5),
+          region: __S(26496, __c828, 0),
+          tags: __S(32, __c1, 0),
+          vpc_uuid: S.optional(S.String),
+          subnet_uuid: S.optional(S.String),
+          gpu_info: S.optional(__S(26435, __c826, 3)),
+        }),
+      ).annotate({ identifier: "Droplet" });
   }
 }
-function __c832(j: number): any {
+function __c826(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.optional(S.Number),
+          unit: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DiskInfoSize" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          size: S.optional(__S(26432, __c826, 0)),
+          ephemeral: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "DiskInfo" });
+    case 2:
+      return S.Array(__S(26433, __c826, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.optional(S.Number),
+          fabric: S.optional(S.Boolean),
+          model: S.optional(S.String),
+          vram: S.optional(__S(26432, __c826, 0)),
+        }),
+      ).annotate({ identifier: "GpuInfo" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          slug: S.String,
+          memory: S.Number,
+          vcpus: S.Number,
+          disk: S.Number,
+          transfer: S.Number,
+          price_monthly: S.Number,
+          price_hourly: S.Number,
+          regions: __S(32, __c1, 0),
+          available: S.Boolean,
+          description: S.String,
+          disk_info: S.optional(__S(26434, __c826, 2)),
+          gpu_info: S.optional(__S(26435, __c826, 3)),
+        }),
+      ).annotate({ identifier: "Size" });
+  }
+}
+function __c827(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(26406, __c825, 6));
+  }
+}
+function __c828(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          slug: S.String,
+          features: __S(32, __c1, 0),
+          available: S.Boolean,
+          sizes: __S(32, __c1, 0),
+        }),
+      ).annotate({ identifier: "Region" });
+  }
+}
+function __c829(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          rel: S.optional(S.String),
+          href: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ActionLink" });
+    case 1:
+      return S.Array(__S(26528, __c829, 0));
+  }
+}
+function __c830(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59083,18 +59069,18 @@ function __c832(j: number): any {
         }),
       ).annotate({ identifier: "ApiAgentPublic" });
     case 2:
-      return S.Array(__S(26625, __c832, 1));
+      return S.Array(__S(26561, __c830, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          agents: __S(26626, __c832, 2),
+          agents: __S(26562, __c830, 2),
           links: S.optional(__S(13953, __c436, 1)),
           meta: S.optional(__S(3008, __c94, 0)),
         }),
       ).annotate({ identifier: "ApiListAgentsOutputPublic" });
   }
 }
-function __c833(j: number): any {
+function __c831(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59108,7 +59094,7 @@ function __c833(j: number): any {
       ).annotate({ identifier: "ListGenaiAgentsByAnthropicKeyRequest" });
   }
 }
-function __c834(j: number): any {
+function __c832(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59120,7 +59106,7 @@ function __c834(j: number): any {
       ).annotate({ identifier: "ApiListAgentsByAnthropicKeyOutput" });
   }
 }
-function __c835(j: number): any {
+function __c833(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59132,7 +59118,7 @@ function __c835(j: number): any {
       ).annotate({ identifier: "ListGenaiAgentsByOpenaiKeyRequest" });
   }
 }
-function __c836(j: number): any {
+function __c834(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59151,7 +59137,7 @@ function __c836(j: number): any {
       ).annotate({ identifier: "ListGenaiAgentsByWorkspaceRequest" });
   }
 }
-function __c837(j: number): any {
+function __c835(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59172,7 +59158,7 @@ function __c837(j: number): any {
         }),
       ).annotate({ identifier: "ApiAgentChildRelationshipVerion" });
     case 2:
-      return S.Array(__S(26785, __c837, 1));
+      return S.Array(__S(26721, __c835, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -59184,7 +59170,7 @@ function __c837(j: number): any {
         }),
       ).annotate({ identifier: "ApiAgentFunctionVersion" });
     case 4:
-      return S.Array(__S(26787, __c837, 3));
+      return S.Array(__S(26723, __c835, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -59195,7 +59181,7 @@ function __c837(j: number): any {
         }),
       ).annotate({ identifier: "ApiAgentGuardrailVersion" });
     case 6:
-      return S.Array(__S(26789, __c837, 5));
+      return S.Array(__S(26725, __c835, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -59205,15 +59191,15 @@ function __c837(j: number): any {
         }),
       ).annotate({ identifier: "ApiAgentKnowledgeBaseVersion" });
     case 8:
-      return S.Array(__S(26791, __c837, 7));
+      return S.Array(__S(26727, __c835, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           agent_uuid: S.optional(S.String),
-          attached_child_agents: S.optional(__S(26786, __c837, 2)),
-          attached_functions: S.optional(__S(26788, __c837, 4)),
-          attached_guardrails: S.optional(__S(26790, __c837, 6)),
-          attached_knowledgebases: S.optional(__S(26792, __c837, 8)),
+          attached_child_agents: S.optional(__S(26722, __c835, 2)),
+          attached_functions: S.optional(__S(26724, __c835, 4)),
+          attached_guardrails: S.optional(__S(26726, __c835, 6)),
+          attached_knowledgebases: S.optional(__S(26728, __c835, 8)),
           can_rollback: S.optional(S.Boolean),
           created_at: S.optional(S.String),
           created_by_email: S.optional(S.String),
@@ -59235,18 +59221,18 @@ function __c837(j: number): any {
         }),
       ).annotate({ identifier: "ApiAgentVersion" });
     case 10:
-      return S.Array(__S(26793, __c837, 9));
+      return S.Array(__S(26729, __c835, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          agent_versions: __S(26794, __c837, 10),
+          agent_versions: __S(26730, __c835, 10),
           links: S.optional(__S(13953, __c436, 1)),
           meta: S.optional(__S(3008, __c94, 0)),
         }),
       ).annotate({ identifier: "ApiListAgentVersionsOutput" });
   }
 }
-function __c838(j: number): any {
+function __c836(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59260,14 +59246,14 @@ function __c838(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          api_key_infos: __S(26817, __c838, 1),
+          api_key_infos: __S(26753, __c836, 1),
           links: S.optional(__S(13953, __c436, 1)),
           meta: S.optional(__S(3008, __c94, 0)),
         }),
       ).annotate({ identifier: "ApiListAnthropicAPIKeysOutput" });
   }
 }
-function __c839(j: number): any {
+function __c837(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59285,12 +59271,12 @@ function __c839(j: number): any {
           links: S.optional(__S(13953, __c436, 1)),
           max_threshold: S.optional(S.Number),
           meta: S.optional(__S(3008, __c94, 0)),
-          models: __S(26849, __c839, 1),
+          models: __S(26785, __c837, 1),
         }),
       ).annotate({ identifier: "ApiListCustomModelsOutputPublic" });
   }
 }
-function __c840(j: number): any {
+function __c838(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59310,16 +59296,16 @@ function __c840(j: number): any {
         }),
       ).annotate({ identifier: "GenaiapiRegion" });
     case 2:
-      return S.Array(__S(26881, __c840, 1));
+      return S.Array(__S(26817, __c838, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          regions: S.optional(__S(26882, __c840, 2)),
+          regions: S.optional(__S(26818, __c838, 2)),
         }),
       ).annotate({ identifier: "ApiListRegionsOutput" });
   }
 }
-function __c841(j: number): any {
+function __c839(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59334,12 +59320,12 @@ function __c841(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          evaluation_datasets: S.optional(__S(26913, __c841, 1)),
+          evaluation_datasets: S.optional(__S(26849, __c839, 1)),
         }),
       ).annotate({ identifier: "ApiListEvaluationDatasetsOutput" });
   }
 }
-function __c842(j: number): any {
+function __c840(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59349,7 +59335,7 @@ function __c842(j: number): any {
       ).annotate({ identifier: "ListGenaiEvaluationMetricsRequest" });
   }
 }
-function __c843(j: number): any {
+function __c841(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59359,30 +59345,30 @@ function __c843(j: number): any {
       ).annotate({ identifier: "ApiListEvaluationMetricsOutput" });
   }
 }
-function __c844(j: number): any {
+function __c842(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           actor_id: S.optional(S.String),
-          policy: S.optional(S.NullOr(__S(27106, __c847, 2))),
+          policy: S.optional(S.NullOr(__S(27042, __c845, 2))),
           tools: S.optional(__S(32, __c1, 0)),
-          config: S.optional(__S(27107, __c847, 3)),
-          network: S.optional(__S(27040, __c845, 0)),
-          insights: S.optional(S.NullOr(__S(27168, __c849, 0))),
+          config: S.optional(__S(27043, __c845, 3)),
+          network: S.optional(__S(26976, __c843, 0)),
+          insights: S.optional(S.NullOr(__S(27104, __c847, 0))),
         }),
       ).annotate({ identifier: "EndpointVersionSpec" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          version: __S(27008, __c844, 0),
-          insights: S.optional(S.NullOr(__S(27168, __c849, 0))),
+          version: __S(26944, __c842, 0),
+          insights: S.optional(S.NullOr(__S(27104, __c847, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/v2/action-gateway/endpoints", code: 200 })),
       ).annotate({ identifier: "CreateEndpointRequest" });
   }
 }
-function __c845(j: number): any {
+function __c843(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59392,20 +59378,20 @@ function __c845(j: number): any {
       ).annotate({ identifier: "EndpointNetwork" });
   }
 }
-function __c846(j: number): any {
+function __c844(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          endpoint: __S(27136, __c848, 0),
-          version: __S(27112, __c847, 8),
+          endpoint: __S(27072, __c846, 0),
+          version: __S(27048, __c845, 8),
           mcp_url: S.String,
           version_mcp_url: S.String,
         }),
       ).annotate({ identifier: "EndpointPublishResponse" });
   }
 }
-function __c847(j: number): any {
+function __c845(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59416,12 +59402,12 @@ function __c847(j: number): any {
         }),
       ).annotate({ identifier: "EndpointPolicyRulesItem" });
     case 1:
-      return S.Array(__S(27104, __c847, 0));
+      return S.Array(__S(27040, __c845, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           defaultAction: S.optional(S.String),
-          rules: S.optional(__S(27105, __c847, 1)),
+          rules: S.optional(__S(27041, __c845, 1)),
         }),
       ).annotate({ identifier: "EndpointPolicy" });
     case 3:
@@ -59445,11 +59431,11 @@ function __c847(j: number): any {
         }),
       ).annotate({ identifier: "ToolsReferencesItem" });
     case 5:
-      return S.Array(__S(27108, __c847, 4));
+      return S.Array(__S(27044, __c845, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          references: S.optional(__S(27109, __c847, 5)),
+          references: S.optional(__S(27045, __c845, 5)),
         }),
       ).annotate({ identifier: "Tools" });
     case 7:
@@ -59468,11 +59454,11 @@ function __c847(j: number): any {
           promoted_from_version_number: S.optional(S.Number),
           name: S.String,
           actor_id: S.String,
-          policy: S.NullOr(__S(27106, __c847, 2)),
-          tools: S.optional(__S(27110, __c847, 6)),
-          config: S.optional(__S(27107, __c847, 3)),
-          network: S.optional(__S(27111, __c847, 7)),
-          insights: S.optional(__S(27168, __c849, 0)),
+          policy: S.NullOr(__S(27042, __c845, 2)),
+          tools: S.optional(__S(27046, __c845, 6)),
+          config: S.optional(__S(27043, __c845, 3)),
+          network: S.optional(__S(27047, __c845, 7)),
+          insights: S.optional(__S(27104, __c847, 0)),
           mcp_url: S.optional(S.String),
           created_at: S.String,
           updated_at: S.String,
@@ -59480,7 +59466,7 @@ function __c847(j: number): any {
       ).annotate({ identifier: "EndpointVersion" });
   }
 }
-function __c848(j: number): any {
+function __c846(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59489,8 +59475,8 @@ function __c848(j: number): any {
           name: S.String,
           actor_id: S.String,
           is_default: S.optional(S.Boolean),
-          head_version: S.optional(S.NullOr(__S(27112, __c847, 8))),
-          insights: S.optional(S.NullOr(__S(27168, __c849, 0))),
+          head_version: S.optional(S.NullOr(__S(27048, __c845, 8))),
+          insights: S.optional(S.NullOr(__S(27104, __c847, 0))),
           mcp_url: S.optional(S.String),
           created_at: S.String,
           updated_at: S.String,
@@ -59498,7 +59484,7 @@ function __c848(j: number): any {
       ).annotate({ identifier: "Endpoint" });
   }
 }
-function __c849(j: number): any {
+function __c847(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59510,7 +59496,7 @@ function __c849(j: number): any {
       ).annotate({ identifier: "EndpointInsights" });
   }
 }
-function __c850(j: number): any {
+function __c848(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59530,12 +59516,12 @@ function __c850(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          evaluation_runs: S.optional(__S(27201, __c850, 1)),
+          evaluation_runs: S.optional(__S(27137, __c848, 1)),
         }),
       ).annotate({ identifier: "ApiListEvaluationRunsByTestCaseOutput" });
   }
 }
-function __c851(j: number): any {
+function __c849(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59545,7 +59531,7 @@ function __c851(j: number): any {
       ).annotate({ identifier: "ListGenaiEvaluationTestCasesRequest" });
   }
 }
-function __c852(j: number): any {
+function __c850(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59555,7 +59541,7 @@ function __c852(j: number): any {
       ).annotate({ identifier: "ApiListEvaluationTestCasesOutput" });
   }
 }
-function __c853(j: number): any {
+function __c851(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59571,7 +59557,7 @@ function __c853(j: number): any {
       ).annotate({ identifier: "ListGenaiEvaluationTestCasesByWorkspaceRequest" });
   }
 }
-function __c854(j: number): any {
+function __c852(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59593,7 +59579,7 @@ function __c854(j: number): any {
       ).annotate({ identifier: "ApiListIndexingJobDataSourcesOutput" });
   }
 }
-function __c855(j: number): any {
+function __c853(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59604,21 +59590,21 @@ function __c855(j: number): any {
       ).annotate({ identifier: "ListGenaiIndexingJobsRequest" });
   }
 }
-function __c856(j: number): any {
+function __c854(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(9920, __c310, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          jobs: __S(27392, __c856, 0),
+          jobs: __S(27328, __c854, 0),
           links: S.optional(__S(13953, __c436, 1)),
           meta: S.optional(__S(3008, __c94, 0)),
         }),
       ).annotate({ identifier: "ApiListKnowledgeBaseIndexingJobsOutput" });
   }
 }
-function __c857(j: number): any {
+function __c855(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59634,7 +59620,7 @@ function __c857(j: number): any {
       ).annotate({ identifier: "ListGenaiIndexingJobsByKnowledgeBaseRequest" });
   }
 }
-function __c858(j: number): any {
+function __c856(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59651,18 +59637,18 @@ function __c858(j: number): any {
         ),
       ).annotate({ identifier: "ListGenaiKnowledgeBaseDataSourcesRequest" });
     case 1:
-      return S.Array(__S(33922, __c1060, 2));
+      return S.Array(__S(33858, __c1058, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          knowledge_base_data_sources: __S(27457, __c858, 1),
+          knowledge_base_data_sources: __S(27393, __c856, 1),
           links: S.optional(__S(13953, __c436, 1)),
           meta: S.optional(__S(3008, __c94, 0)),
         }),
       ).annotate({ identifier: "ApiListKnowledgeBaseDataSourcesOutput" });
   }
 }
-function __c859(j: number): any {
+function __c857(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59681,7 +59667,7 @@ function __c859(j: number): any {
       ).annotate({ identifier: "ApiListKnowledgeBasesOutput" });
   }
 }
-function __c860(j: number): any {
+function __c858(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59692,7 +59678,7 @@ function __c860(j: number): any {
       ).annotate({ identifier: "ListGenaiModelApiKeysRequest" });
   }
 }
-function __c861(j: number): any {
+function __c859(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59734,7 +59720,7 @@ function __c861(j: number): any {
         }),
       ).annotate({ identifier: "ApiModelCatalogEntry" });
     case 2:
-      return S.Array(__S(27553, __c861, 1));
+      return S.Array(__S(27489, __c859, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -59744,24 +59730,24 @@ function __c861(j: number): any {
           available_providers: S.optional(__S(32, __c1, 0)),
           available_sort_by: S.optional(__S(9984, __c312, 0)),
           available_sort_directions: S.optional(__S(9984, __c312, 0)),
-          data: S.optional(__S(27554, __c861, 2)),
+          data: S.optional(__S(27490, __c859, 2)),
           meta: S.optional(__S(3008, __c94, 0)),
         }),
       ).annotate({ identifier: "ApiListModelCatalogOutput" });
   }
 }
-function __c862(j: number): any {
+function __c860(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           endpoint_id: S.String.pipe(T.Label()),
           actor_id: S.optional(S.String),
-          policy: S.optional(S.NullOr(__S(27106, __c847, 2))),
+          policy: S.optional(S.NullOr(__S(27042, __c845, 2))),
           tools: S.optional(__S(32, __c1, 0)),
-          config: S.optional(__S(27107, __c847, 3)),
-          network: S.optional(__S(27040, __c845, 0)),
-          insights: S.optional(S.NullOr(__S(27168, __c849, 0))),
+          config: S.optional(__S(27043, __c845, 3)),
+          network: S.optional(__S(26976, __c843, 0)),
+          insights: S.optional(S.NullOr(__S(27104, __c847, 0))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -59772,7 +59758,7 @@ function __c862(j: number): any {
       ).annotate({ identifier: "CreateEndpointVersionRequest" });
   }
 }
-function __c863(j: number): any {
+function __c861(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59806,14 +59792,14 @@ function __c863(j: number): any {
           available_serving: S.optional(__S(9984, __c312, 0)),
           available_sort_by: S.optional(__S(9984, __c312, 0)),
           available_sort_directions: S.optional(__S(9984, __c312, 0)),
-          data: S.optional(__S(27617, __c863, 1)),
+          data: S.optional(__S(27553, __c861, 1)),
           links: S.optional(__S(13953, __c436, 1)),
           meta: S.optional(__S(3008, __c94, 0)),
         }),
       ).annotate({ identifier: "ApiListModelCatalogV2Output" });
   }
 }
-function __c864(j: number): any {
+function __c862(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59823,7 +59809,7 @@ function __c864(j: number): any {
       ).annotate({ identifier: "ListGenaiModelEvaluationMetricsRequest" });
   }
 }
-function __c865(j: number): any {
+function __c863(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59836,12 +59822,12 @@ function __c865(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          presets: S.optional(__S(27681, __c865, 1)),
+          presets: S.optional(__S(27617, __c863, 1)),
         }),
       ).annotate({ identifier: "ApiListModelEvaluationPresetsOutput" });
   }
 }
-function __c866(j: number): any {
+function __c864(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59866,12 +59852,12 @@ function __c866(j: number): any {
           available_statuses: S.optional(__S(9984, __c312, 0)),
           links: S.optional(__S(13953, __c436, 1)),
           meta: S.optional(__S(3008, __c94, 0)),
-          runs: __S(27713, __c866, 1),
+          runs: __S(27649, __c864, 1),
         }),
       ).annotate({ identifier: "ApiListModelEvaluationRunsOutput" });
   }
 }
-function __c867(j: number): any {
+function __c865(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59891,18 +59877,18 @@ function __c867(j: number): any {
         }),
       ).annotate({ identifier: "ApiModelRouterPreset" });
     case 2:
-      return S.Array(__S(27745, __c867, 1));
+      return S.Array(__S(27681, __c865, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           links: S.optional(__S(13953, __c436, 1)),
           meta: S.optional(__S(3008, __c94, 0)),
-          presets: __S(27746, __c867, 2),
+          presets: __S(27682, __c865, 2),
         }),
       ).annotate({ identifier: "ApiListModelRouterPresetsOutput" });
   }
 }
-function __c868(j: number): any {
+function __c866(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59918,12 +59904,12 @@ function __c868(j: number): any {
         S.Struct({
           links: S.optional(__S(13953, __c436, 1)),
           meta: S.optional(__S(3008, __c94, 0)),
-          model_routers: __S(27777, __c868, 1),
+          model_routers: __S(27713, __c866, 1),
         }),
       ).annotate({ identifier: "ApiListModelRoutersOutput" });
   }
 }
-function __c869(j: number): any {
+function __c867(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -59947,18 +59933,18 @@ function __c869(j: number): any {
         }),
       ).annotate({ identifier: "ApiModelRouterTaskPreset" });
     case 2:
-      return S.Array(__S(27809, __c869, 1));
+      return S.Array(__S(27745, __c867, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           links: S.optional(__S(13953, __c436, 1)),
           meta: S.optional(__S(3008, __c94, 0)),
-          tasks: __S(27810, __c869, 2),
+          tasks: __S(27746, __c867, 2),
         }),
       ).annotate({ identifier: "ApiListModelRouterTaskPresetsOutput" });
   }
 }
-function __c870(j: number): any {
+function __c868(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60004,18 +59990,18 @@ function __c870(j: number): any {
         }),
       ).annotate({ identifier: "ApiModelPublic" });
     case 2:
-      return S.Array(__S(27841, __c870, 1));
+      return S.Array(__S(27777, __c868, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           links: S.optional(__S(13953, __c436, 1)),
           meta: S.optional(__S(3008, __c94, 0)),
-          models: __S(27842, __c870, 2),
+          models: __S(27778, __c868, 2),
         }),
       ).annotate({ identifier: "ApiListModelsOutputPublic" });
   }
 }
-function __c871(j: number): any {
+function __c869(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60029,14 +60015,14 @@ function __c871(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          api_key_infos: __S(27873, __c871, 1),
+          api_key_infos: __S(27809, __c869, 1),
           links: S.optional(__S(13953, __c436, 1)),
           meta: S.optional(__S(3008, __c94, 0)),
         }),
       ).annotate({ identifier: "ApiListOpenAIAPIKeysOutput" });
   }
 }
-function __c872(j: number): any {
+function __c870(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60064,7 +60050,7 @@ function __c872(j: number): any {
         }),
       ).annotate({ identifier: "ApiScenarioLibraryEntry" });
     case 2:
-      return S.Array(__S(27905, __c872, 1));
+      return S.Array(__S(27841, __c870, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -60073,12 +60059,12 @@ function __c872(j: number): any {
           available_sort_directions: S.optional(__S(9984, __c312, 0)),
           links: S.optional(__S(13953, __c436, 1)),
           meta: S.optional(__S(3008, __c94, 0)),
-          scenarios: __S(27906, __c872, 2),
+          scenarios: __S(27842, __c870, 2),
         }),
       ).annotate({ identifier: "ApiListScenarioLibraryOutput" });
   }
 }
-function __c873(j: number): any {
+function __c871(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60095,7 +60081,7 @@ function __c873(j: number): any {
       ).annotate({ identifier: "CreateEndpointVersionPromotionRequest" });
   }
 }
-function __c874(j: number): any {
+function __c872(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60116,7 +60102,7 @@ function __c874(j: number): any {
       ).annotate({ identifier: "ListGenaiScenarioLibraryScenariosRequest" });
   }
 }
-function __c875(j: number): any {
+function __c873(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60125,12 +60111,12 @@ function __c875(j: number): any {
           available_sort_directions: S.optional(__S(9984, __c312, 0)),
           links: S.optional(__S(13953, __c436, 1)),
           meta: S.optional(__S(3008, __c94, 0)),
-          scenarios: __S(35937, __c1123, 1),
+          scenarios: __S(35873, __c1121, 1),
         }),
       ).annotate({ identifier: "ApiListScenariosOutput" });
   }
 }
-function __c876(j: number): any {
+function __c874(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60151,7 +60137,7 @@ function __c876(j: number): any {
       ).annotate({ identifier: "ListGenaiScenariosRequest" });
   }
 }
-function __c877(j: number): any {
+function __c875(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60166,7 +60152,7 @@ function __c877(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/gen-ai/scenario_sets", code: 200 })),
       ).annotate({ identifier: "ListGenaiScenarioSetsRequest" });
     case 1:
-      return S.Array(__S(32672, __c1021, 0));
+      return S.Array(__S(32608, __c1019, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -60176,12 +60162,12 @@ function __c877(j: number): any {
           available_statuses: S.optional(__S(9984, __c312, 0)),
           links: S.optional(__S(13953, __c436, 1)),
           meta: S.optional(__S(3008, __c94, 0)),
-          scenario_sets: __S(28065, __c877, 1),
+          scenario_sets: __S(28001, __c875, 1),
         }),
       ).annotate({ identifier: "ApiListScenarioSetsOutput" });
   }
 }
-function __c878(j: number): any {
+function __c876(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60212,14 +60198,14 @@ function __c878(j: number): any {
           available_sort_directions: S.optional(__S(9984, __c312, 0)),
           available_statuses: S.optional(__S(9984, __c312, 0)),
           available_verdicts: S.optional(__S(9984, __c312, 0)),
-          episodes: __S(28097, __c878, 1),
+          episodes: __S(28033, __c876, 1),
           links: S.optional(__S(13953, __c436, 1)),
           meta: S.optional(__S(3008, __c94, 0)),
         }),
       ).annotate({ identifier: "ApiListSimulationEpisodesOutput" });
   }
 }
-function __c879(j: number): any {
+function __c877(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60234,7 +60220,7 @@ function __c879(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/gen-ai/simulation_runs", code: 200 })),
       ).annotate({ identifier: "ListGenaiSimulationRunsRequest" });
     case 1:
-      return S.Array(__S(37123, __c1160, 3));
+      return S.Array(__S(37059, __c1158, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -60243,12 +60229,12 @@ function __c879(j: number): any {
           available_statuses: S.optional(__S(9984, __c312, 0)),
           links: S.optional(__S(13953, __c436, 1)),
           meta: S.optional(__S(3008, __c94, 0)),
-          simulation_runs: __S(28129, __c879, 1),
+          simulation_runs: __S(28065, __c877, 1),
         }),
       ).annotate({ identifier: "ApiListSimulationRunsOutput" });
   }
 }
-function __c880(j: number): any {
+function __c878(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60259,12 +60245,12 @@ function __c880(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          workspaces: S.optional(__S(28161, __c880, 1)),
+          workspaces: S.optional(__S(28097, __c878, 1)),
         }),
       ).annotate({ identifier: "ApiListWorkspacesOutput" });
   }
 }
-function __c881(j: number): any {
+function __c879(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60288,17 +60274,17 @@ function __c881(j: number): any {
         }),
       ).annotate({ identifier: "AgentConfigSummary" });
     case 2:
-      return S.Array(__S(28193, __c881, 1));
+      return S.Array(__S(28129, __c879, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          configs: S.optional(__S(28194, __c881, 2)),
+          configs: S.optional(__S(28130, __c879, 2)),
           next_page_token: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAgentConfigsResponse" });
   }
 }
-function __c882(j: number): any {
+function __c880(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60313,18 +60299,18 @@ function __c882(j: number): any {
       ).annotate({ identifier: "ListHarnessConfigSessionsRequest" });
   }
 }
-function __c883(j: number): any {
+function __c881(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sessions: S.optional(__S(38912, __c1216, 0)),
+          sessions: S.optional(__S(38848, __c1214, 0)),
           next_page_token: S.optional(S.String),
         }),
       ).annotate({ identifier: "DefinitionsListSessionsResponse" });
   }
 }
-function __c884(j: number): any {
+function __c882(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60341,13 +60327,13 @@ function __c884(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          resources: S.optional(__S(28289, __c884, 1)),
+          resources: S.optional(__S(28225, __c882, 1)),
           next_page_token: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListImageMessagesResponse" });
   }
 }
-function __c885(j: number): any {
+function __c883(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60362,17 +60348,17 @@ function __c885(j: number): any {
         ),
       ).annotate({ identifier: "ListHarnessProviderConnectionsRequest" });
     case 1:
-      return S.Array(__S(38369, __c1199, 1));
+      return S.Array(__S(38305, __c1197, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          connections: S.optional(__S(28321, __c885, 1)),
-          pagination: S.optional(__S(24480, __c765, 0)),
+          connections: S.optional(__S(28257, __c883, 1)),
+          pagination: S.optional(__S(24448, __c764, 0)),
         }),
       ).annotate({ identifier: "ListProviderConnectionsResponse" });
   }
 }
-function __c886(j: number): any {
+function __c884(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60386,7 +60372,7 @@ function __c886(j: number): any {
       ).annotate({ identifier: "CreateFirewallRequest" });
   }
 }
-function __c887(j: number): any {
+function __c885(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60397,14 +60383,14 @@ function __c887(j: number): any {
         }),
       ).annotate({ identifier: "FirewallPendingChangesItem" });
     case 1:
-      return S.Array(__S(28384, __c887, 0));
+      return S.Array(__S(28320, __c885, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           status: S.String,
           created_at: S.String,
-          pending_changes: S.optional(__S(28385, __c887, 1)),
+          pending_changes: S.optional(__S(28321, __c885, 1)),
           name: S.String,
           droplet_ids: S.optional(S.NullOr(__S(640, __c20, 0))),
           tags: S.optional(S.NullOr(__S(32, __c1, 0))),
@@ -60414,17 +60400,17 @@ function __c887(j: number): any {
       ).annotate({ identifier: "Firewall" });
   }
 }
-function __c888(j: number): any {
+function __c886(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          firewall: __S(28386, __c887, 2),
+          firewall: __S(28322, __c885, 2),
         }),
       ).annotate({ identifier: "CreateFirewallResponse" });
   }
 }
-function __c889(j: number): any {
+function __c887(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60438,16 +60424,16 @@ function __c889(j: number): any {
         }),
       ).annotate({ identifier: "HarnessRegion" });
     case 2:
-      return S.Array(__S(28449, __c889, 1));
+      return S.Array(__S(28385, __c887, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          regions: S.optional(__S(28450, __c889, 2)),
+          regions: S.optional(__S(28386, __c887, 2)),
         }),
       ).annotate({ identifier: "HarnessRegionsResponse" });
   }
 }
-function __c890(j: number): any {
+function __c888(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60468,17 +60454,17 @@ function __c890(j: number): any {
         }),
       ).annotate({ identifier: "ReusableSession" });
     case 2:
-      return S.Array(__S(28481, __c890, 1));
+      return S.Array(__S(28417, __c888, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          sessions: S.optional(__S(28482, __c890, 2)),
+          sessions: S.optional(__S(28418, __c888, 2)),
           next_page_token: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListReusableSessionsResponse" });
   }
 }
-function __c891(j: number): any {
+function __c889(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60491,17 +60477,17 @@ function __c891(j: number): any {
         ),
       ).annotate({ identifier: "ListHarnessSessionCheckpointsRequest" });
     case 1:
-      return S.Array(__S(38848, __c1214, 0));
+      return S.Array(__S(38784, __c1212, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          checkpoints: S.optional(__S(28513, __c891, 1)),
+          checkpoints: S.optional(__S(28449, __c889, 1)),
           next_page_token: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCheckpointsResponse" });
   }
 }
-function __c892(j: number): any {
+function __c890(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60515,7 +60501,7 @@ function __c892(j: number): any {
       ).annotate({ identifier: "ListHarnessSessionsRequest" });
   }
 }
-function __c893(j: number): any {
+function __c891(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60534,16 +60520,16 @@ function __c893(j: number): any {
         }),
       ).annotate({ identifier: "SandboxSize" });
     case 2:
-      return S.Array(__S(28577, __c893, 1));
+      return S.Array(__S(28513, __c891, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          sizes: S.optional(__S(28578, __c893, 2)),
+          sizes: S.optional(__S(28514, __c891, 2)),
         }),
       ).annotate({ identifier: "SandboxSizesResponse" });
   }
 }
-function __c894(j: number): any {
+function __c892(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60560,13 +60546,13 @@ function __c894(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          builds: S.optional(__S(28609, __c894, 1)),
+          builds: S.optional(__S(28545, __c892, 1)),
           next_page_token: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTemplateBuildsResponse" });
   }
 }
-function __c895(j: number): any {
+function __c893(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60576,17 +60562,17 @@ function __c895(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/agents/templates", code: 200 })),
       ).annotate({ identifier: "ListHarnessTemplatesRequest" });
     case 1:
-      return S.Array(__S(39104, __c1222, 0));
+      return S.Array(__S(39040, __c1220, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          templates: S.optional(__S(28641, __c895, 1)),
+          templates: S.optional(__S(28577, __c893, 1)),
           next_page_token: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTemplatesResponse" });
   }
 }
-function __c896(j: number): any {
+function __c894(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60598,17 +60584,17 @@ function __c896(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/agents/triggers", code: 200 })),
       ).annotate({ identifier: "ListHarnessTriggersRequest" });
     case 1:
-      return S.Array(__S(22563, __c705, 3));
+      return S.Array(__S(22531, __c704, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          triggers: S.optional(__S(28673, __c896, 1)),
+          triggers: S.optional(__S(28609, __c894, 1)),
           next_page_token: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListTriggersResponse" });
   }
 }
-function __c897(j: number): any {
+function __c895(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60631,20 +60617,20 @@ function __c897(j: number): any {
           description: S.optional(S.String),
           docs_url: S.optional(S.String),
           paste_hint: S.optional(S.String),
-          signature: S.optional(__S(28705, __c897, 1)),
+          signature: S.optional(__S(28641, __c895, 1)),
         }),
       ).annotate({ identifier: "WebhookProvider" });
     case 3:
-      return S.Array(__S(28706, __c897, 2));
+      return S.Array(__S(28642, __c895, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          providers: S.optional(__S(28707, __c897, 3)),
+          providers: S.optional(__S(28643, __c895, 3)),
         }),
       ).annotate({ identifier: "ListWebhookProvidersResponse" });
   }
 }
-function __c898(j: number): any {
+function __c896(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60655,17 +60641,17 @@ function __c898(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/agents/workspaces", code: 200 })),
       ).annotate({ identifier: "ListHarnessWorkspacesRequest" });
     case 1:
-      return S.Array(__S(39232, __c1226, 0));
+      return S.Array(__S(39168, __c1224, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          workspaces: S.optional(__S(28737, __c898, 1)),
+          workspaces: S.optional(__S(28673, __c896, 1)),
           next_page_token: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListWorkspacesResponse" });
   }
 }
-function __c899(j: number): any {
+function __c897(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60676,30 +60662,30 @@ function __c899(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          floating_ip: S.optional(__S(28832, __c901, 0)),
-          links: S.optional(__S(28800, __c900, 0)),
+          floating_ip: S.optional(__S(28768, __c899, 0)),
+          links: S.optional(__S(28736, __c898, 0)),
         }),
       ).annotate({ identifier: "CreateFloatingIPResponse" });
   }
 }
-function __c900(j: number): any {
+function __c898(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          droplets: S.optional(__S(26561, __c830, 1)),
-          actions: S.optional(__S(26561, __c830, 1)),
+          droplets: S.optional(__S(26529, __c829, 1)),
+          actions: S.optional(__S(26529, __c829, 1)),
         }),
       ).annotate({ identifier: "CreateFloatingIPResponseLinks" });
   }
 }
-function __c901(j: number): any {
+function __c899(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ip: S.optional(S.String),
-          region: S.optional(__S(26528, __c829, 0)),
+          region: S.optional(__S(26496, __c828, 0)),
           droplet: S.optional(S.Unknown),
           locked: S.optional(S.Boolean),
           project_id: S.optional(S.String),
@@ -60707,7 +60693,7 @@ function __c901(j: number): any {
       ).annotate({ identifier: "FloatingIp" });
   }
 }
-function __c902(j: number): any {
+function __c900(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60717,7 +60703,7 @@ function __c902(j: number): any {
       ).annotate({ identifier: "ListImageActionsRequest" });
   }
 }
-function __c903(j: number): any {
+function __c901(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60730,18 +60716,18 @@ function __c903(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/images", code: 200 })),
       ).annotate({ identifier: "ListImagesRequest" });
     case 1:
-      return S.Array(__S(26592, __c831, 0));
+      return S.Array(__S(39232, __c1226, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          images: __S(28897, __c903, 1),
+          images: __S(28833, __c901, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListImagesResponse" });
   }
 }
-function __c904(j: number): any {
+function __c902(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60752,12 +60738,12 @@ function __c904(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/batches", code: 200 })),
       ).annotate({ identifier: "ListInferenceBatchesRequest" });
     case 1:
-      return S.Array(__S(15939, __c498, 3));
+      return S.Array(__S(15907, __c497, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          data: __S(28929, __c904, 1),
+          data: __S(28865, __c902, 1),
           first_id: S.optional(S.NullOr(S.String)),
           last_id: S.optional(S.NullOr(S.String)),
           has_more: S.Boolean,
@@ -60765,7 +60751,7 @@ function __c904(j: number): any {
       ).annotate({ identifier: "BatchListResponse" });
   }
 }
-function __c905(j: number): any {
+function __c903(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60781,17 +60767,17 @@ function __c905(j: number): any {
         }),
       ).annotate({ identifier: "Model" });
     case 2:
-      return S.Array(__S(28961, __c905, 1));
+      return S.Array(__S(28897, __c903, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           object: S.String,
-          data: __S(28962, __c905, 2),
+          data: __S(28898, __c903, 2),
         }),
       ).annotate({ identifier: "ListModelsResponse" });
   }
 }
-function __c906(j: number): any {
+function __c904(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60804,18 +60790,18 @@ function __c906(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/insights/alert-instances", code: 200 })),
       ).annotate({ identifier: "ListInsightAlertInstancesRequest" });
     case 1:
-      return S.Array(__S(15744, __c492, 0));
+      return S.Array(__S(15712, __c491, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          alert_instances: __S(28993, __c906, 1),
+          alert_instances: __S(28929, __c904, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListInsightAlertInstancesResponse" });
   }
 }
-function __c907(j: number): any {
+function __c905(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60830,14 +60816,14 @@ function __c907(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          alert_rules: __S(29025, __c907, 1),
+          alert_rules: __S(28961, __c905, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListInsightAlertRulesResponse" });
   }
 }
-function __c908(j: number): any {
+function __c906(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60864,13 +60850,13 @@ function __c908(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          dashboards: S.optional(__S(29057, __c908, 1)),
-          pagination: __S(29058, __c908, 2),
+          dashboards: S.optional(__S(28993, __c906, 1)),
+          pagination: __S(28994, __c906, 2),
         }),
       ).annotate({ identifier: "ListDashboardsResponse" });
   }
 }
-function __c909(j: number): any {
+function __c907(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60884,14 +60870,14 @@ function __c909(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          notification_channels: __S(29089, __c909, 1),
+          notification_channels: __S(29025, __c907, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListInsightNotificationChannelsResponse" });
   }
 }
-function __c910(j: number): any {
+function __c908(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60907,7 +60893,7 @@ function __c910(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/insights/resources", code: 200 })),
       ).annotate({ identifier: "ListInsightResourcesRequest" });
     case 1:
-      return S.Array(__S(16289, __c509, 1));
+      return S.Array(__S(16257, __c508, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -60920,13 +60906,13 @@ function __c910(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          resources: S.optional(__S(29121, __c910, 1)),
-          pagination: S.optional(__S(29122, __c910, 2)),
+          resources: S.optional(__S(29057, __c908, 1)),
+          pagination: S.optional(__S(29058, __c908, 2)),
         }),
       ).annotate({ identifier: "ListResourcesResponse" });
   }
 }
-function __c911(j: number): any {
+function __c909(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60946,19 +60932,19 @@ function __c911(j: number): any {
         }),
       ).annotate({ identifier: "InvoicePreview" });
     case 2:
-      return S.Array(__S(29153, __c911, 1));
+      return S.Array(__S(29089, __c909, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          invoices: __S(29154, __c911, 2),
-          invoice_preview: S.optional(__S(29153, __c911, 1)),
+          invoices: __S(29090, __c909, 2),
+          invoice_preview: S.optional(__S(29089, __c909, 1)),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListInvoicesResponse" });
   }
 }
-function __c912(j: number): any {
+function __c910(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60969,17 +60955,17 @@ function __c912(j: number): any {
       ).annotate({ identifier: "CreateFunctionNamespaceRequest" });
   }
 }
-function __c913(j: number): any {
+function __c911(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          namespace: S.optional(__S(29248, __c914, 0)),
+          namespace: S.optional(__S(29184, __c912, 0)),
         }),
       ).annotate({ identifier: "CreateFunctionNamespaceResponse" });
   }
 }
-function __c914(j: number): any {
+function __c912(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -60996,7 +60982,7 @@ function __c914(j: number): any {
       ).annotate({ identifier: "NamespaceInfo" });
   }
 }
-function __c915(j: number): any {
+function __c913(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61018,18 +61004,18 @@ function __c915(j: number): any {
         }),
       ).annotate({ identifier: "AssociatedKubernetesResource" });
     case 2:
-      return S.Array(__S(29281, __c915, 1));
+      return S.Array(__S(29217, __c913, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          load_balancers: S.optional(__S(29282, __c915, 2)),
-          volumes: S.optional(__S(29282, __c915, 2)),
-          volume_snapshots: S.optional(__S(29282, __c915, 2)),
+          load_balancers: S.optional(__S(29218, __c913, 2)),
+          volumes: S.optional(__S(29218, __c913, 2)),
+          volume_snapshots: S.optional(__S(29218, __c913, 2)),
         }),
       ).annotate({ identifier: "AssociatedKubernetesResources" });
   }
 }
-function __c916(j: number): any {
+function __c914(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61039,18 +61025,18 @@ function __c916(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/kubernetes/clusters", code: 200 })),
       ).annotate({ identifier: "ListKubernetesClustersRequest" });
     case 1:
-      return S.Array(__S(16672, __c521, 0));
+      return S.Array(__S(16640, __c520, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          kubernetes_clusters: __S(29313, __c916, 1),
+          kubernetes_clusters: __S(29249, __c914, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListKubernetesClustersResponse" });
   }
 }
-function __c917(j: number): any {
+function __c915(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61072,7 +61058,7 @@ function __c917(j: number): any {
       ).annotate({ identifier: "ListKubernetesNodePoolsResponse" });
   }
 }
-function __c918(j: number): any {
+function __c916(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61086,24 +61072,24 @@ function __c918(j: number): any {
         }),
       ).annotate({ identifier: "KubernetesRegion" });
     case 2:
-      return S.Array(__S(29377, __c918, 1));
+      return S.Array(__S(29313, __c916, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          regions: S.optional(__S(29378, __c918, 2)),
-          versions: S.optional(__S(16609, __c519, 1)),
-          sizes: S.optional(__S(29378, __c918, 2)),
+          regions: S.optional(__S(29314, __c916, 2)),
+          versions: S.optional(__S(16577, __c518, 1)),
+          sizes: S.optional(__S(29314, __c916, 2)),
         }),
       ).annotate({ identifier: "KubernetesOptionsOptions" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          options: S.optional(__S(29379, __c918, 3)),
+          options: S.optional(__S(29315, __c916, 3)),
         }),
       ).annotate({ identifier: "KubernetesOptions" });
   }
 }
-function __c919(j: number): any {
+function __c917(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61117,14 +61103,14 @@ function __c919(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          load_balancers: __S(29409, __c919, 1),
+          load_balancers: __S(29345, __c917, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListLoadBalancersResponse" });
   }
 }
-function __c920(j: number): any {
+function __c918(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61137,12 +61123,12 @@ function __c920(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          mcpServers: S.optional(__S(29441, __c920, 1)),
+          mcpServers: S.optional(__S(29377, __c918, 1)),
         }),
       ).annotate({ identifier: "ListMcpServersResponse" });
   }
 }
-function __c921(j: number): any {
+function __c919(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61158,7 +61144,7 @@ function __c921(j: number): any {
       ).annotate({ identifier: "ListMcpServerToolsRequest" });
   }
 }
-function __c922(j: number): any {
+function __c920(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61172,20 +61158,20 @@ function __c922(j: number): any {
         }),
       ).annotate({ identifier: "McpServerTool" });
     case 1:
-      return S.Array(__S(29504, __c922, 0));
+      return S.Array(__S(29440, __c920, 0));
   }
 }
-function __c923(j: number): any {
+function __c921(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          tools: S.optional(__S(29505, __c922, 1)),
+          tools: S.optional(__S(29441, __c920, 1)),
         }),
       ).annotate({ identifier: "ListMcpServerToolsResponse" });
   }
 }
-function __c924(j: number): any {
+function __c922(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61200,14 +61186,14 @@ function __c924(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          checkpoints: __S(29569, __c924, 1),
+          checkpoints: __S(29505, __c922, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListMicrovmCheckpointsResponse" });
   }
 }
-function __c925(j: number): any {
+function __c923(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61224,14 +61210,14 @@ function __c925(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          microvms: __S(29601, __c925, 1),
+          microvms: __S(29537, __c923, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListMicrovmsResponse" });
   }
 }
-function __c926(j: number): any {
+function __c924(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61245,14 +61231,14 @@ function __c926(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          policies: __S(29633, __c926, 1),
+          policies: __S(29569, __c924, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListMonitoringAlertPolicyResponse" });
   }
 }
-function __c927(j: number): any {
+function __c925(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61282,12 +61268,12 @@ function __c927(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          access_key: S.optional(__S(29665, __c927, 1)),
+          access_key: S.optional(__S(29601, __c925, 1)),
         }),
       ).annotate({ identifier: "CreateFunctionsAccessKeyResponse" });
   }
 }
-function __c928(j: number): any {
+function __c926(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61300,12 +61286,12 @@ function __c928(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          destinations: S.optional(__S(29697, __c928, 1)),
+          destinations: S.optional(__S(29633, __c926, 1)),
         }),
       ).annotate({ identifier: "ListMonitoringDestinationsResponse" });
   }
 }
-function __c929(j: number): any {
+function __c927(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61314,16 +61300,16 @@ function __c929(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/monitoring/sinks", code: 200 })),
       ).annotate({ identifier: "ListMonitoringSinksRequest" });
     case 1:
-      return S.Array(__S(19682, __c615, 2));
+      return S.Array(__S(19650, __c614, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          sinks: S.optional(__S(29729, __c929, 1)),
+          sinks: S.optional(__S(29665, __c927, 1)),
         }),
       ).annotate({ identifier: "ListMonitoringSinksResponse" });
   }
 }
-function __c930(j: number): any {
+function __c928(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61336,12 +61322,12 @@ function __c930(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          shares: S.optional(__S(29761, __c930, 1)),
+          shares: S.optional(__S(29697, __c928, 1)),
         }),
       ).annotate({ identifier: "NfsListResponse" });
   }
 }
-function __c931(j: number): any {
+function __c929(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61360,7 +61346,7 @@ function __c931(j: number): any {
       ).annotate({ identifier: "AccessPointListResponse" });
   }
 }
-function __c932(j: number): any {
+function __c930(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61370,16 +61356,16 @@ function __c932(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/nfs/snapshots", code: 200 })),
       ).annotate({ identifier: "ListNfsSnapshotRequest" });
     case 1:
-      return S.Array(__S(19808, __c619, 0));
+      return S.Array(__S(19776, __c618, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          snapshots: S.optional(__S(29825, __c932, 1)),
+          snapshots: S.optional(__S(29761, __c930, 1)),
         }),
       ).annotate({ identifier: "NfsSnapshotListResponse" });
   }
 }
-function __c933(j: number): any {
+function __c931(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61395,16 +61381,16 @@ function __c933(j: number): any {
         }),
       ).annotate({ identifier: "OneClicks" });
     case 2:
-      return S.Array(__S(29857, __c933, 1));
+      return S.Array(__S(29793, __c931, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          _1_clicks: S.optional(__S(29858, __c933, 2).pipe(T.Body("1_clicks"))),
+          _1_clicks: S.optional(__S(29794, __c931, 2).pipe(T.Body("1_clicks"))),
         }),
       ).annotate({ identifier: "ListOneClicksResponse" });
   }
 }
-function __c934(j: number): any {
+function __c932(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61424,16 +61410,16 @@ function __c934(j: number): any {
         }),
       ).annotate({ identifier: "OrganizationTeam" });
     case 2:
-      return S.Array(__S(29889, __c934, 1));
+      return S.Array(__S(29825, __c932, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          teams: __S(29890, __c934, 2),
+          teams: __S(29826, __c932, 2),
         }),
       ).annotate({ identifier: "ListOrganizationTeamsResponse" });
   }
 }
-function __c935(j: number): any {
+function __c933(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61449,7 +61435,7 @@ function __c935(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          views: S.optional(__S(29921, __c935, 1)),
+          views: S.optional(__S(29857, __c933, 1)),
           tool_id: S.optional(S.String),
           tool: S.optional(S.String),
           version: S.optional(S.String),
@@ -61458,7 +61444,7 @@ function __c935(j: number): any {
       ).annotate({ identifier: "ListOutputViewsResponse" });
   }
 }
-function __c936(j: number): any {
+function __c934(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61481,18 +61467,18 @@ function __c936(j: number): any {
         }),
       ).annotate({ identifier: "PartnerAttachmentRemoteRoute" });
     case 2:
-      return S.Array(__S(29953, __c936, 1));
+      return S.Array(__S(29889, __c934, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          remote_routes: __S(29954, __c936, 2),
+          remote_routes: __S(29890, __c934, 2),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListPartnerAttachmentRemoteRoutesResponse" });
   }
 }
-function __c937(j: number): any {
+function __c935(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61508,14 +61494,14 @@ function __c937(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          partner_attachments: __S(29985, __c937, 1),
+          partner_attachments: __S(29921, __c935, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListPartnerAttachmentsResponse" });
   }
 }
-function __c938(j: number): any {
+function __c936(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61543,7 +61529,7 @@ function __c938(j: number): any {
       ).annotate({ identifier: "CreateGenaiAgentRequest" });
   }
 }
-function __c939(j: number): any {
+function __c937(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61558,12 +61544,12 @@ function __c939(j: number): any {
         S.Struct({
           resources: __S(8162, __c255, 2),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListProjectResourcesResponse" });
   }
 }
-function __c940(j: number): any {
+function __c938(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61576,12 +61562,12 @@ function __c940(j: number): any {
         S.Struct({
           resources: S.optional(__S(8162, __c255, 2)),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListProjectResourcesDefaultResponse" });
   }
 }
-function __c941(j: number): any {
+function __c939(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61595,14 +61581,14 @@ function __c941(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          projects: __S(30113, __c941, 1),
+          projects: __S(30049, __c939, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListProjectsResponse" });
   }
 }
-function __c942(j: number): any {
+function __c940(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61617,12 +61603,12 @@ function __c942(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          credentials: S.optional(__S(30145, __c942, 1)),
+          credentials: S.optional(__S(30081, __c940, 1)),
         }),
       ).annotate({ identifier: "ProviderCredentialsListResponse" });
   }
 }
-function __c943(j: number): any {
+function __c941(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61632,18 +61618,18 @@ function __c943(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/regions", code: 200 })),
       ).annotate({ identifier: "ListRegionsRequest" });
     case 1:
-      return S.Array(__S(26528, __c829, 0));
+      return S.Array(__S(26496, __c828, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          regions: __S(30177, __c943, 1),
+          regions: __S(30113, __c941, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListRegionsResponse" });
   }
 }
-function __c944(j: number): any {
+function __c942(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61657,20 +61643,20 @@ function __c944(j: number): any {
           region: S.optional(S.String),
           storage_usage_bytes: S.optional(S.Number),
           storage_usage_bytes_updated_at: S.optional(S.String),
-          subscription: S.optional(__S(20545, __c642, 1)),
+          subscription: S.optional(__S(20513, __c641, 1)),
         }),
       ).annotate({ identifier: "Registry" });
     case 2:
-      return S.Array(__S(30209, __c944, 1));
+      return S.Array(__S(30145, __c942, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          registries: S.optional(__S(30210, __c944, 2)),
+          registries: S.optional(__S(30146, __c942, 2)),
         }),
       ).annotate({ identifier: "ListRegistriesResponse" });
   }
 }
-function __c945(j: number): any {
+function __c943(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61687,16 +61673,16 @@ function __c945(j: number): any {
         ),
       ).annotate({ identifier: "ListRegistryGarbageCollectionsRequest" });
     case 1:
-      return S.Array(__S(20320, __c635, 0));
+      return S.Array(__S(20288, __c634, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          garbage_collections: S.optional(__S(30241, __c945, 1)),
+          garbage_collections: S.optional(__S(30177, __c943, 1)),
         }),
       ).annotate({ identifier: "ListRegistryGarbageCollectionsResponse" });
   }
 }
-function __c946(j: number): any {
+function __c944(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61718,24 +61704,24 @@ function __c946(j: number): any {
         S.Struct({
           registry_name: S.optional(S.String),
           name: S.optional(S.String),
-          latest_manifest: S.optional(__S(30306, __c947, 2)),
+          latest_manifest: S.optional(__S(30242, __c945, 2)),
           tag_count: S.optional(S.Number),
           manifest_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "RepositoryV2" });
     case 2:
-      return S.Array(__S(30273, __c946, 1));
+      return S.Array(__S(30209, __c944, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          repositories: __S(30274, __c946, 2),
+          repositories: __S(30210, __c944, 2),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListRegistryRepositoriesV2Response" });
   }
 }
-function __c947(j: number): any {
+function __c945(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61745,7 +61731,7 @@ function __c947(j: number): any {
         }),
       ).annotate({ identifier: "RepositoryBlob" });
     case 1:
-      return S.Array(__S(30304, __c947, 0));
+      return S.Array(__S(30240, __c945, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -61756,12 +61742,12 @@ function __c947(j: number): any {
           size_bytes: S.optional(S.Number),
           updated_at: S.optional(S.String),
           tags: S.optional(__S(32, __c1, 0)),
-          blobs: S.optional(__S(30305, __c947, 1)),
+          blobs: S.optional(__S(30241, __c945, 1)),
         }),
       ).annotate({ identifier: "RepositoryManifest" });
   }
 }
-function __c948(j: number): any {
+function __c946(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61779,18 +61765,18 @@ function __c948(j: number): any {
         ),
       ).annotate({ identifier: "ListRegistryRepositoryManifestsRequest" });
     case 1:
-      return S.Array(__S(30306, __c947, 2));
+      return S.Array(__S(30242, __c945, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          manifests: __S(30337, __c948, 1),
+          manifests: __S(30273, __c946, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListRegistryRepositoryManifestsResponse" });
   }
 }
-function __c949(j: number): any {
+function __c947(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61820,18 +61806,18 @@ function __c949(j: number): any {
         }),
       ).annotate({ identifier: "RepositoryTag" });
     case 2:
-      return S.Array(__S(30369, __c949, 1));
+      return S.Array(__S(30305, __c947, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          tags: __S(30370, __c949, 2),
+          tags: __S(30306, __c947, 2),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListRegistryRepositoryTagsResponse" });
   }
 }
-function __c950(j: number): any {
+function __c948(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61844,7 +61830,7 @@ function __c950(j: number): any {
       ).annotate({ identifier: "CreateGenaiAgentApiKeyRequest" });
   }
 }
-function __c951(j: number): any {
+function __c949(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61854,7 +61840,7 @@ function __c951(j: number): any {
       ).annotate({ identifier: "ApiCreateAgentAPIKeyOutput" });
   }
 }
-function __c952(j: number): any {
+function __c950(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61868,14 +61854,14 @@ function __c952(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          reserved_ips: __S(30465, __c952, 1),
+          reserved_ips: __S(30401, __c950, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListReservedIPsResponse" });
   }
 }
-function __c953(j: number): any {
+function __c951(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61887,7 +61873,7 @@ function __c953(j: number): any {
       ).annotate({ identifier: "ListReservedIPsActionsRequest" });
   }
 }
-function __c954(j: number): any {
+function __c952(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61906,18 +61892,18 @@ function __c954(j: number): any {
         }),
       ).annotate({ identifier: "ListReservedIPv6ResponseReservedIpv6sItem" });
     case 2:
-      return S.Array(__S(30529, __c954, 1));
+      return S.Array(__S(30465, __c952, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          reserved_ipv6s: __S(30530, __c954, 2),
+          reserved_ipv6s: __S(30466, __c952, 2),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListReservedIPv6Response" });
   }
 }
-function __c955(j: number): any {
+function __c953(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61943,16 +61929,16 @@ function __c955(j: number): any {
         }),
       ).annotate({ identifier: "AffectedResource" });
     case 2:
-      return S.Array(__S(30561, __c955, 1));
+      return S.Array(__S(30497, __c953, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          affected_resources: S.optional(__S(30562, __c955, 2)),
+          affected_resources: S.optional(__S(30498, __c953, 2)),
         }),
       ).annotate({ identifier: "ListSecurityScanFindingAffectedResourcesResponse" });
   }
 }
-function __c956(j: number): any {
+function __c954(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61966,14 +61952,14 @@ function __c956(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          scans: __S(30593, __c956, 1),
+          scans: __S(30529, __c954, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListSecurityScansResponse" });
   }
 }
-function __c957(j: number): any {
+function __c955(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -61985,11 +61971,11 @@ function __c957(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/security/secrets", code: 200 })),
       ).annotate({ identifier: "ListSecuritySecretsRequest" });
     case 1:
-      return S.Array(__S(30656, __c958, 0));
+      return S.Array(__S(30592, __c956, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          secrets: __S(30625, __c957, 1),
+          secrets: __S(30561, __c955, 1),
           meta: S.optional(__S(3008, __c94, 0)),
           links: S.optional(__S(3041, __c95, 1)),
           unavailable_regions: S.optional(__S(32, __c1, 0)),
@@ -61997,7 +61983,7 @@ function __c957(j: number): any {
       ).annotate({ identifier: "ListSecuritySecretsResponse" });
   }
 }
-function __c958(j: number): any {
+function __c956(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62012,7 +61998,7 @@ function __c958(j: number): any {
       ).annotate({ identifier: "SecretListItem" });
   }
 }
-function __c959(j: number): any {
+function __c957(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62032,16 +62018,16 @@ function __c959(j: number): any {
         }),
       ).annotate({ identifier: "SecretVersion" });
     case 2:
-      return S.Array(__S(30689, __c959, 1));
+      return S.Array(__S(30625, __c957, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          versions: S.optional(__S(30690, __c959, 2)),
+          versions: S.optional(__S(30626, __c957, 2)),
         }),
       ).annotate({ identifier: "ListSecuritySecretVersionsResponse" });
   }
 }
-function __c960(j: number): any {
+function __c958(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62064,18 +62050,18 @@ function __c960(j: number): any {
         }),
       ).annotate({ identifier: "PlanDowngrades" });
     case 3:
-      return S.Record(S.String, __S(30722, __c960, 2));
+      return S.Record(S.String, __S(30658, __c958, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          settings: S.optional(__S(30721, __c960, 1)),
-          tier_coverage: S.optional(__S(30753, __c961, 1)),
-          plan_downgrades: S.optional(__S(30723, __c960, 3)),
+          settings: S.optional(__S(30657, __c958, 1)),
+          tier_coverage: S.optional(__S(30689, __c959, 1)),
+          plan_downgrades: S.optional(__S(30659, __c958, 3)),
         }),
       ).annotate({ identifier: "Settings" });
   }
 }
-function __c961(j: number): any {
+function __c959(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62085,10 +62071,10 @@ function __c961(j: number): any {
         }),
       ).annotate({ identifier: "SettingsTierCoverageValue" });
     case 1:
-      return S.Record(S.String, __S(30752, __c961, 0));
+      return S.Record(S.String, __S(30688, __c959, 0));
   }
 }
-function __c962(j: number): any {
+function __c960(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62117,21 +62103,21 @@ function __c962(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cursor: S.optional(S.String),
-          node: S.optional(__S(30785, __c962, 1)),
+          node: S.optional(__S(30721, __c960, 1)),
         }),
       ).annotate({ identifier: "ListSignalAgentSessionsResponseEdgesItem" });
     case 3:
-      return S.Array(__S(30786, __c962, 2));
+      return S.Array(__S(30722, __c960, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          edges: S.optional(__S(30787, __c962, 3)),
-          page_info: S.optional(__S(30816, __c963, 0)),
+          edges: S.optional(__S(30723, __c960, 3)),
+          page_info: S.optional(__S(30752, __c961, 0)),
         }),
       ).annotate({ identifier: "ListSignalAgentSessionsResponse" });
   }
 }
-function __c963(j: number): any {
+function __c961(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62141,7 +62127,7 @@ function __c963(j: number): any {
       ).annotate({ identifier: "ListSignalAgentSessionsResponsePageInfo" });
   }
 }
-function __c964(j: number): any {
+function __c962(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62150,17 +62136,17 @@ function __c964(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v1/consent", code: 200 })),
       ).annotate({ identifier: "ListSignalConsentsRequest" });
     case 1:
-      return S.Array(__S(30880, __c965, 0));
+      return S.Array(__S(30816, __c963, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          consents: __S(30849, __c964, 1),
+          consents: __S(30785, __c962, 1),
           source: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListConsents" });
   }
 }
-function __c965(j: number): any {
+function __c963(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62176,7 +62162,7 @@ function __c965(j: number): any {
       ).annotate({ identifier: "ConsentRecord" });
   }
 }
-function __c966(j: number): any {
+function __c964(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62187,7 +62173,7 @@ function __c966(j: number): any {
       ).annotate({ identifier: "CreateGenaiAnthropicApiKeyRequest" });
   }
 }
-function __c967(j: number): any {
+function __c965(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62197,7 +62183,7 @@ function __c967(j: number): any {
       ).annotate({ identifier: "ApiCreateAnthropicAPIKeyOutput" });
   }
 }
-function __c968(j: number): any {
+function __c966(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62214,7 +62200,7 @@ function __c968(j: number): any {
         }),
       ).annotate({ identifier: "ListSignalDeletionsResponseEdgesItem" });
     case 2:
-      return S.Array(__S(30977, __c968, 1));
+      return S.Array(__S(30913, __c966, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -62225,13 +62211,13 @@ function __c968(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          edges: S.optional(__S(30978, __c968, 2)),
-          page_info: S.optional(__S(30979, __c968, 3)),
+          edges: S.optional(__S(30914, __c966, 2)),
+          page_info: S.optional(__S(30915, __c966, 3)),
         }),
       ).annotate({ identifier: "ListSignalDeletionsResponse" });
   }
 }
-function __c969(j: number): any {
+function __c967(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62246,21 +62232,21 @@ function __c969(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cursor: S.optional(S.String),
-          node: S.optional(__S(31041, __c970, 1)),
+          node: S.optional(__S(30977, __c968, 1)),
         }),
       ).annotate({ identifier: "ListSignalExportsResponseEdgesItem" });
     case 2:
-      return S.Array(__S(31009, __c969, 1));
+      return S.Array(__S(30945, __c967, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          edges: S.optional(__S(31010, __c969, 2)),
-          page_info: S.optional(__S(30816, __c963, 0)),
+          edges: S.optional(__S(30946, __c967, 2)),
+          page_info: S.optional(__S(30752, __c961, 0)),
         }),
       ).annotate({ identifier: "ListSignalExportsResponse" });
   }
 }
-function __c970(j: number): any {
+function __c968(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62277,7 +62263,7 @@ function __c970(j: number): any {
           agent_id: S.optional(S.String),
           environment_id: S.optional(S.String),
           status: S.String,
-          filters: __S(31040, __c970, 0),
+          filters: __S(30976, __c968, 0),
           created_at: S.Number,
           completed_at: S.optional(S.NullOr(S.Number)),
           expires_at: S.optional(S.NullOr(S.Number)),
@@ -62286,7 +62272,7 @@ function __c970(j: number): any {
       ).annotate({ identifier: "ExportJob" });
   }
 }
-function __c971(j: number): any {
+function __c969(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62315,21 +62301,21 @@ function __c971(j: number): any {
       return S.suspend(() =>
         S.Struct({
           cursor: S.optional(S.String),
-          node: S.optional(__S(31073, __c971, 1)),
+          node: S.optional(__S(31009, __c969, 1)),
         }),
       ).annotate({ identifier: "ListSignalSessionDialoguesResponseEdgesItem" });
     case 3:
-      return S.Array(__S(31074, __c971, 2));
+      return S.Array(__S(31010, __c969, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          edges: S.optional(__S(31075, __c971, 3)),
-          page_info: S.optional(__S(30816, __c963, 0)),
+          edges: S.optional(__S(31011, __c969, 3)),
+          page_info: S.optional(__S(30752, __c961, 0)),
         }),
       ).annotate({ identifier: "ListSignalSessionDialoguesResponse" });
   }
 }
-function __c972(j: number): any {
+function __c970(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62350,18 +62336,18 @@ function __c972(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/sizes", code: 200 })),
       ).annotate({ identifier: "ListSizesRequest" });
     case 1:
-      return S.Array(__S(26468, __c827, 4));
+      return S.Array(__S(26436, __c826, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          sizes: __S(31105, __c972, 1),
+          sizes: __S(31041, __c970, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListSizesResponse" });
   }
 }
-function __c973(j: number): any {
+function __c971(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62373,21 +62359,21 @@ function __c973(j: number): any {
       ).annotate({ identifier: "ListSnapshotsRequest" });
   }
 }
-function __c974(j: number): any {
+function __c972(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(3936, __c123, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          snapshots: __S(31168, __c974, 0),
+          snapshots: __S(31104, __c972, 0),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListSnapshotsResponse" });
   }
 }
-function __c975(j: number): any {
+function __c973(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62404,14 +62390,14 @@ function __c975(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          keys: __S(21056, __c658, 0),
+          keys: __S(21024, __c657, 0),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListSpacesKeyResponse" });
   }
 }
-function __c976(j: number): any {
+function __c974(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62425,14 +62411,14 @@ function __c976(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ssh_keys: __S(31233, __c976, 1),
+          ssh_keys: __S(31169, __c974, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListSshKeysResponse" });
   }
 }
-function __c977(j: number): any {
+function __c975(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62446,14 +62432,14 @@ function __c977(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          tags: __S(31265, __c977, 1),
+          tags: __S(31201, __c975, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListTagsResponse" });
   }
 }
-function __c978(j: number): any {
+function __c976(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62484,18 +62470,18 @@ function __c978(j: number): any {
         }),
       ).annotate({ identifier: "ToolbeltProviderSummary" });
     case 2:
-      return S.Array(__S(31297, __c978, 1));
+      return S.Array(__S(31233, __c976, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           toolbelt: S.optional(__S(5568, __c174, 0)),
-          providers: S.optional(__S(31298, __c978, 2)),
-          pagination: S.optional(__S(24480, __c765, 0)),
+          providers: S.optional(__S(31234, __c976, 2)),
+          pagination: S.optional(__S(24448, __c764, 0)),
         }),
       ).annotate({ identifier: "ListToolbeltProvidersResponse" });
   }
 }
-function __c979(j: number): any {
+function __c977(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62517,13 +62503,13 @@ function __c979(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tools: S.optional(__S(21217, __c663, 1)),
-          pagination: S.optional(__S(24480, __c765, 0)),
+          tools: S.optional(__S(21185, __c662, 1)),
+          pagination: S.optional(__S(24448, __c764, 0)),
         }),
       ).annotate({ identifier: "ListToolbeltProviderToolsResponse" });
   }
 }
-function __c980(j: number): any {
+function __c978(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62535,7 +62521,7 @@ function __c980(j: number): any {
       ).annotate({ identifier: "CreateGenaiCustomEvaluationMetricRequest" });
   }
 }
-function __c981(j: number): any {
+function __c979(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62545,7 +62531,7 @@ function __c981(j: number): any {
       ).annotate({ identifier: "ApiCreateCustomEvaluationMetricOutput" });
   }
 }
-function __c982(j: number): any {
+function __c980(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62558,13 +62544,13 @@ function __c982(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          toolbelts: S.optional(__S(31457, __c983, 1)),
-          pagination: S.optional(__S(24480, __c765, 0)),
+          toolbelts: S.optional(__S(31393, __c981, 1)),
+          pagination: S.optional(__S(24448, __c764, 0)),
         }),
       ).annotate({ identifier: "ToolbeltsResponse" });
   }
 }
-function __c983(j: number): any {
+function __c981(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62581,10 +62567,10 @@ function __c983(j: number): any {
         }),
       ).annotate({ identifier: "ToolbeltSummary" });
     case 1:
-      return S.Array(__S(31456, __c983, 0));
+      return S.Array(__S(31392, __c981, 0));
   }
 }
-function __c984(j: number): any {
+function __c982(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62596,18 +62582,18 @@ function __c984(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/action-gateway/tools/health", code: 200 })),
       ).annotate({ identifier: "ListToolHealthRequest" });
     case 1:
-      return S.Array(__S(21280, __c665, 0));
+      return S.Array(__S(21248, __c664, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          snapshot: S.optional(__S(21312, __c666, 0)),
-          tools: S.optional(__S(31489, __c984, 1)),
-          pagination: S.optional(__S(24480, __c765, 0)),
+          snapshot: S.optional(__S(21280, __c665, 0)),
+          tools: S.optional(__S(31425, __c982, 1)),
+          pagination: S.optional(__S(24448, __c764, 0)),
         }),
       ).annotate({ identifier: "ListToolHealthResponse" });
   }
 }
-function __c985(j: number): any {
+function __c983(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62624,22 +62610,22 @@ function __c985(j: number): any {
       return S.suspend(() =>
         S.Struct({
           provider: S.optional(S.String),
-          health: S.optional(__S(21313, __c666, 1)),
+          health: S.optional(__S(21281, __c665, 1)),
         }),
       ).annotate({ identifier: "ProviderHealth" });
     case 2:
-      return S.Array(__S(31521, __c985, 1));
+      return S.Array(__S(31457, __c983, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          snapshot: S.optional(__S(21312, __c666, 0)),
-          providers: S.optional(__S(31522, __c985, 2)),
-          pagination: S.optional(__S(24480, __c765, 0)),
+          snapshot: S.optional(__S(21280, __c665, 0)),
+          providers: S.optional(__S(31458, __c983, 2)),
+          pagination: S.optional(__S(24448, __c764, 0)),
         }),
       ).annotate({ identifier: "ListProviderHealthResponse" });
   }
 }
-function __c986(j: number): any {
+function __c984(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62650,12 +62636,12 @@ function __c986(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          providers: S.optional(__S(31587, __c987, 3)),
+          providers: S.optional(__S(31523, __c985, 3)),
         }),
       ).annotate({ identifier: "ListProvidersResponse" });
   }
 }
-function __c987(j: number): any {
+function __c985(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62673,7 +62659,7 @@ function __c987(j: number): any {
         }),
       ).annotate({ identifier: "ConnectionParameterSpec" });
     case 1:
-      return S.Array(__S(31584, __c987, 0));
+      return S.Array(__S(31520, __c985, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -62683,17 +62669,17 @@ function __c987(j: number): any {
           auth_types: S.optional(__S(32, __c1, 0)),
           auth_type: S.optional(S.String),
           scopes: S.optional(__S(32, __c1, 0)),
-          connection_parameters: S.optional(__S(31585, __c987, 1)),
-          credential_parameters: S.optional(__S(31585, __c987, 1)),
+          connection_parameters: S.optional(__S(31521, __c985, 1)),
+          credential_parameters: S.optional(__S(31521, __c985, 1)),
           oauth_redirect_url: S.optional(S.String),
           oauth_client_setup_url: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProviderSummary" });
     case 3:
-      return S.Array(__S(31586, __c987, 2));
+      return S.Array(__S(31522, __c985, 2));
   }
 }
-function __c988(j: number): any {
+function __c986(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62714,13 +62700,13 @@ function __c988(j: number): any {
           version: S.optional(S.String),
           inputSchema: S.optional(S.NullOr(S.Unknown)),
           outputSchema: S.optional(S.NullOr(S.Unknown)),
-          annotations: S.optional(S.NullOr(__S(26240, __c820, 0))),
+          annotations: S.optional(S.NullOr(__S(26208, __c819, 0))),
           parallelizable: S.optional(S.Boolean),
           streamingSafe: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Tool" });
     case 2:
-      return S.Array(__S(31617, __c988, 1));
+      return S.Array(__S(31553, __c986, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -62739,7 +62725,7 @@ function __c988(j: number): any {
       return S.suspend(() =>
         S.Struct({
           toolId: S.optional(S.String),
-          cache: S.optional(__S(31619, __c988, 3)),
+          cache: S.optional(__S(31555, __c986, 3)),
           name: S.optional(S.String),
           toolkitId: S.optional(S.String),
           toolSlug: S.optional(S.String),
@@ -62747,26 +62733,26 @@ function __c988(j: number): any {
           description: S.optional(S.String),
           inputSchema: S.optional(S.NullOr(S.Unknown)),
           outputSchema: S.optional(S.NullOr(S.Unknown)),
-          annotations: S.optional(S.NullOr(__S(26240, __c820, 0))),
+          annotations: S.optional(S.NullOr(__S(26208, __c819, 0))),
           version: S.optional(S.String),
-          auth: S.optional(S.NullOr(__S(31620, __c988, 4))),
+          auth: S.optional(S.NullOr(__S(31556, __c986, 4))),
           providerKind: S.optional(S.String),
         }),
       ).annotate({ identifier: "ToolDefinition" });
     case 6:
-      return S.Array(__S(31621, __c988, 5));
+      return S.Array(__S(31557, __c986, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           version: S.optional(S.String),
-          tools: S.optional(__S(31618, __c988, 2)),
-          definitions: S.optional(__S(31622, __c988, 6)),
-          pagination: S.optional(__S(24480, __c765, 0)),
+          tools: S.optional(__S(31554, __c986, 2)),
+          definitions: S.optional(__S(31558, __c986, 6)),
+          pagination: S.optional(__S(24448, __c764, 0)),
         }),
       ).annotate({ identifier: "ListToolsResponse" });
   }
 }
-function __c989(j: number): any {
+function __c987(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62786,17 +62772,17 @@ function __c989(j: number): any {
         }),
       ).annotate({ identifier: "Toolkit" });
     case 2:
-      return S.Array(__S(31649, __c989, 1));
+      return S.Array(__S(31585, __c987, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           version: S.optional(S.String),
-          toolkits: S.optional(__S(31650, __c989, 2)),
+          toolkits: S.optional(__S(31586, __c987, 2)),
         }),
       ).annotate({ identifier: "ListToolkitsResponse" });
   }
 }
-function __c990(j: number): any {
+function __c988(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62811,14 +62797,14 @@ function __c990(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          alerts: __S(31681, __c990, 1),
+          alerts: __S(31617, __c988, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListUptimeAlertsResponse" });
   }
 }
-function __c991(j: number): any {
+function __c989(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62832,14 +62818,14 @@ function __c991(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          checks: __S(31713, __c991, 1),
+          checks: __S(31649, __c989, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListUptimeChecksResponse" });
   }
 }
-function __c992(j: number): any {
+function __c990(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62855,12 +62841,12 @@ function __c992(j: number): any {
       return S.suspend(() =>
         S.Struct({
           user_ids: S.optional(__S(32, __c1, 0)),
-          pagination: S.optional(__S(24480, __c765, 0)),
+          pagination: S.optional(__S(24448, __c764, 0)),
         }),
       ).annotate({ identifier: "ListUsersResponse" });
   }
 }
-function __c993(j: number): any {
+function __c991(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62878,23 +62864,23 @@ function __c993(j: number): any {
         }),
       ).annotate({ identifier: "VectordbBackup" });
     case 2:
-      return S.Array(__S(31777, __c993, 1));
+      return S.Array(__S(31713, __c991, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          backups: S.optional(__S(31778, __c993, 2)),
+          backups: S.optional(__S(31714, __c991, 2)),
         }),
       ).annotate({ identifier: "VectordbListBackupsResponse" });
   }
 }
-function __c994(j: number): any {
+function __c992(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           dataset_paradigm: S.optional(S.String),
           dataset_type: S.optional(S.String),
-          file_upload_dataset: S.optional(__S(31840, __c995, 0)),
+          file_upload_dataset: S.optional(__S(31776, __c993, 0)),
           name: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/v2/gen-ai/evaluation_datasets", code: 200 })),
       ).annotate({ identifier: "CreateGenaiEvaluationDatasetRequest" });
@@ -62906,7 +62892,7 @@ function __c994(j: number): any {
       ).annotate({ identifier: "ApiCreateEvaluationDatasetOutput" });
   }
 }
-function __c995(j: number): any {
+function __c993(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62918,7 +62904,7 @@ function __c995(j: number): any {
       ).annotate({ identifier: "ApiFileUploadDataSource" });
   }
 }
-function __c996(j: number): any {
+function __c994(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62933,12 +62919,12 @@ function __c996(j: number): any {
       return S.suspend(() =>
         S.Struct({
           total: S.optional(S.Number),
-          vector_dbs: S.optional(__S(31873, __c996, 1)),
+          vector_dbs: S.optional(__S(31809, __c994, 1)),
         }),
       ).annotate({ identifier: "VectordbListVectorDBsResponse" });
   }
 }
-function __c997(j: number): any {
+function __c995(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62949,18 +62935,18 @@ function __c997(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/volumes/{volume_id}/actions", code: 200 })),
       ).annotate({ identifier: "ListVolumeActionsRequest" });
     case 1:
-      return S.Array(__S(21760, __c680, 0));
+      return S.Array(__S(21728, __c679, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          actions: __S(31905, __c997, 1),
+          actions: __S(31841, __c995, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListVolumeActionsResponse" });
   }
 }
-function __c998(j: number): any {
+function __c996(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62976,14 +62962,14 @@ function __c998(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          volumes: __S(31937, __c998, 1),
+          volumes: __S(31873, __c996, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListVolumesResponse" });
   }
 }
-function __c999(j: number): any {
+function __c997(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -62995,7 +62981,7 @@ function __c999(j: number): any {
       ).annotate({ identifier: "ListVolumeSnapshotsRequest" });
   }
 }
-function __c1000(j: number): any {
+function __c998(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63008,7 +62994,7 @@ function __c1000(j: number): any {
       ).annotate({ identifier: "ListVpcMembersRequest" });
   }
 }
-function __c1001(j: number): any {
+function __c999(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63019,18 +63005,18 @@ function __c1001(j: number): any {
         }),
       ).annotate({ identifier: "VpcMember" });
     case 1:
-      return S.Array(__S(32032, __c1001, 0));
+      return S.Array(__S(31968, __c999, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          members: __S(32033, __c1001, 1),
+          members: __S(31969, __c999, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListVpcMembersResponse" });
   }
 }
-function __c1002(j: number): any {
+function __c1000(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63044,18 +63030,18 @@ function __c1002(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/v2/vpc_nat_gateways", code: 200 })),
       ).annotate({ identifier: "ListVpcnatgatewaysRequest" });
     case 1:
-      return S.Array(__S(21925, __c685, 5));
+      return S.Array(__S(21893, __c684, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          vpc_nat_gateways: __S(32065, __c1002, 1),
+          vpc_nat_gateways: __S(32001, __c1000, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListVpcnatgatewaysResponse" });
   }
 }
-function __c1003(j: number): any {
+function __c1001(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63068,20 +63054,20 @@ function __c1003(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          peerings: __S(32128, __c1004, 0),
+          peerings: __S(32064, __c1002, 0),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListVpcPeeringsResponse" });
   }
 }
-function __c1004(j: number): any {
+function __c1002(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(4128, __c129, 0));
   }
 }
-function __c1005(j: number): any {
+function __c1003(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63094,14 +63080,14 @@ function __c1005(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          vpc_peerings: __S(32128, __c1004, 0),
+          vpc_peerings: __S(32064, __c1002, 0),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListVpcPeeringsResponse2" });
   }
 }
-function __c1006(j: number): any {
+function __c1004(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63113,21 +63099,21 @@ function __c1006(j: number): any {
       ).annotate({ identifier: "ListVpcRoutesRequest" });
   }
 }
-function __c1007(j: number): any {
+function __c1005(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(4416, __c138, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          routes: __S(32224, __c1007, 0),
+          routes: __S(32160, __c1005, 0),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListVpcRoutesResponse" });
   }
 }
-function __c1008(j: number): any {
+function __c1006(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63141,14 +63127,14 @@ function __c1008(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          vpcs: __S(32257, __c1008, 1),
+          vpcs: __S(32193, __c1006, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListVpcsResponse" });
   }
 }
-function __c1009(j: number): any {
+function __c1007(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63170,7 +63156,7 @@ function __c1009(j: number): any {
       ).annotate({ identifier: "ApiCreateEvaluationTestCaseOutput" });
   }
 }
-function __c1010(j: number): any {
+function __c1008(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63190,7 +63176,7 @@ function __c1010(j: number): any {
       ).annotate({ identifier: "ListVpcSubnetMembersRequest" });
   }
 }
-function __c1011(j: number): any {
+function __c1009(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63209,7 +63195,7 @@ function __c1011(j: number): any {
       ).annotate({ identifier: "ListVpcSubnetRoutesRequest" });
   }
 }
-function __c1012(j: number): any {
+function __c1010(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63224,14 +63210,14 @@ function __c1012(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          vpc_subnet: __S(32385, __c1012, 1),
+          vpc_subnet: __S(32321, __c1010, 1),
           links: S.optional(__S(3041, __c95, 1)),
-          meta: __S(16416, __c513, 0),
+          meta: __S(16384, __c512, 0),
         }),
       ).annotate({ identifier: "ListVpcSubnetsResponse" });
   }
 }
-function __c1013(j: number): any {
+function __c1011(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63241,7 +63227,7 @@ function __c1013(j: number): any {
       ).annotate({ identifier: "MicrovmsPostResumeRequest" });
   }
 }
-function __c1014(j: number): any {
+function __c1012(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63256,7 +63242,7 @@ function __c1014(j: number): any {
       ).annotate({ identifier: "MonitoringGetAppRestartCountMetricsYmlRequest" });
   }
 }
-function __c1015(j: number): any {
+function __c1013(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63274,7 +63260,7 @@ function __c1015(j: number): any {
       ).annotate({ identifier: "MonitoringGetDatabaseMysqlIndexVsSequentialReadsRequest" });
   }
 }
-function __c1016(j: number): any {
+function __c1014(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63285,7 +63271,7 @@ function __c1016(j: number): any {
       ).annotate({ identifier: "PatchAddonRequest" });
   }
 }
-function __c1017(j: number): any {
+function __c1015(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63298,7 +63284,7 @@ function __c1017(j: number): any {
       ).annotate({ identifier: "PatchAddonPlanRequest" });
   }
 }
-function __c1018(j: number): any {
+function __c1016(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63311,7 +63297,7 @@ function __c1018(j: number): any {
       ).annotate({ identifier: "PatchByoipPrefixRequest" });
   }
 }
-function __c1019(j: number): any {
+function __c1017(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63328,7 +63314,7 @@ function __c1019(j: number): any {
       ).annotate({ identifier: "PatchDatabaseConfigRequest" });
   }
 }
-function __c1020(j: number): any {
+function __c1018(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63341,7 +63327,7 @@ function __c1020(j: number): any {
       ).annotate({ identifier: "CreateGenaiGeneratedScenarioSetRequest" });
   }
 }
-function __c1021(j: number): any {
+function __c1019(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63368,17 +63354,17 @@ function __c1021(j: number): any {
       ).annotate({ identifier: "ApiScenarioSet" });
   }
 }
-function __c1022(j: number): any {
+function __c1020(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          scenario_set: S.optional(__S(32672, __c1021, 0)),
+          scenario_set: S.optional(__S(32608, __c1019, 0)),
         }),
       ).annotate({ identifier: "ApiGenerateScenarioSetOutput" });
   }
 }
-function __c1023(j: number): any {
+function __c1021(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63390,8 +63376,8 @@ function __c1023(j: number): any {
       return S.suspend(() =>
         S.Struct({
           dedicated_inference_id: S.String.pipe(T.Label()),
-          spec: S.optional(__S(24612, __c769, 4)),
-          access_tokens: S.optional(__S(32736, __c1023, 0)),
+          spec: S.optional(__S(24580, __c768, 4)),
+          access_tokens: S.optional(__S(32672, __c1021, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -63402,7 +63388,7 @@ function __c1023(j: number): any {
       ).annotate({ identifier: "PatchDedicatedInferenceRequest" });
   }
 }
-function __c1024(j: number): any {
+function __c1022(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63428,21 +63414,21 @@ function __c1024(j: number): any {
       ).annotate({ identifier: "PatchDomainRecordRequest" });
   }
 }
-function __c1025(j: number): any {
+function __c1023(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           endpoint_id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          insights: S.optional(S.NullOr(__S(27168, __c849, 0))),
+          insights: S.optional(S.NullOr(__S(27104, __c847, 0))),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/v2/action-gateway/endpoints/{endpoint_id}", code: 200 }),
         ),
       ).annotate({ identifier: "PatchEndpointRequest" });
   }
 }
-function __c1026(j: number): any {
+function __c1024(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63459,7 +63445,7 @@ function __c1026(j: number): any {
       ).annotate({ identifier: "PatchMcpServerRequest" });
   }
 }
-function __c1027(j: number): any {
+function __c1025(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63476,7 +63462,7 @@ function __c1027(j: number): any {
       ).annotate({ identifier: "PatchPartnerAttachmentRequest" });
   }
 }
-function __c1028(j: number): any {
+function __c1026(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63491,7 +63477,7 @@ function __c1028(j: number): any {
       ).annotate({ identifier: "PatchProjectRequest" });
   }
 }
-function __c1029(j: number): any {
+function __c1027(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63505,7 +63491,7 @@ function __c1029(j: number): any {
       ).annotate({ identifier: "PatchProjectDefaultRequest" });
   }
 }
-function __c1030(j: number): any {
+function __c1028(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63517,17 +63503,17 @@ function __c1030(j: number): any {
       ).annotate({ identifier: "PatchSpacesKeyRequest" });
   }
 }
-function __c1031(j: number): any {
+function __c1029(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          key: S.optional(__S(21088, __c659, 0)),
+          key: __S(21056, __c658, 0),
         }),
       ).annotate({ identifier: "PatchSpacesKeyResponse" });
   }
 }
-function __c1032(j: number): any {
+function __c1030(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63540,7 +63526,7 @@ function __c1032(j: number): any {
       ).annotate({ identifier: "PatchVpcRequest" });
   }
 }
-function __c1033(j: number): any {
+function __c1031(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63551,7 +63537,7 @@ function __c1033(j: number): any {
       ).annotate({ identifier: "PatchVpcPeeringRequest" });
   }
 }
-function __c1034(j: number): any {
+function __c1032(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63562,7 +63548,7 @@ function __c1034(j: number): any {
       ).annotate({ identifier: "CreateGenaiIndexingJobRequest" });
   }
 }
-function __c1035(j: number): any {
+function __c1033(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63580,7 +63566,7 @@ function __c1035(j: number): any {
       ).annotate({ identifier: "PatchVpcPeeringsRequest" });
   }
 }
-function __c1036(j: number): any {
+function __c1034(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63591,7 +63577,7 @@ function __c1036(j: number): any {
       ).annotate({ identifier: "PostDropletActionRequest" });
   }
 }
-function __c1037(j: number): any {
+function __c1035(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63603,12 +63589,12 @@ function __c1037(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          actions: S.optional(__S(23744, __c742, 0)),
+          actions: S.optional(__S(23712, __c741, 0)),
         }),
       ).annotate({ identifier: "PostDropletActionByTagResponse" });
   }
 }
-function __c1038(j: number): any {
+function __c1036(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63621,7 +63607,7 @@ function __c1038(j: number): any {
       ).annotate({ identifier: "PostFloatingIPsActionRequest" });
   }
 }
-function __c1039(j: number): any {
+function __c1037(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63638,7 +63624,7 @@ function __c1039(j: number): any {
       ).annotate({ identifier: "PostHarnessProviderConnectionReconnectRequest" });
   }
 }
-function __c1040(j: number): any {
+function __c1038(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63658,7 +63644,7 @@ function __c1040(j: number): any {
       ).annotate({ identifier: "PostHarnessSessionHitlRequest" });
   }
 }
-function __c1041(j: number): any {
+function __c1039(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63670,7 +63656,7 @@ function __c1041(j: number): any {
       ).annotate({ identifier: "PostHarnessSessionPauseRequest" });
   }
 }
-function __c1042(j: number): any {
+function __c1040(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63687,7 +63673,7 @@ function __c1042(j: number): any {
       ).annotate({ identifier: "PostImageAccountTransferDeclineRequest" });
   }
 }
-function __c1043(j: number): any {
+function __c1041(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63698,7 +63684,7 @@ function __c1043(j: number): any {
       ).annotate({ identifier: "PostImageActionRequest" });
   }
 }
-function __c1044(j: number): any {
+function __c1042(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63717,7 +63703,7 @@ function __c1044(j: number): any {
       ).annotate({ identifier: "PostInsightPromLabelsRequest" });
   }
 }
-function __c1045(j: number): any {
+function __c1043(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63736,26 +63722,26 @@ function __c1045(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          aws_data_source: S.optional(__S(33472, __c1046, 0)),
+          aws_data_source: S.optional(__S(33408, __c1044, 0)),
           bucket_name: S.optional(S.String),
           bucket_region: S.optional(S.String),
           chunking_algorithm: S.optional(S.String),
-          chunking_options: S.optional(__S(33504, __c1047, 0)),
-          dropbox_data_source: S.optional(__S(33440, __c1045, 0)),
-          file_upload_data_source: S.optional(__S(31840, __c995, 0)),
-          google_drive_data_source: S.optional(__S(33441, __c1045, 1)),
+          chunking_options: S.optional(__S(33440, __c1045, 0)),
+          dropbox_data_source: S.optional(__S(33376, __c1043, 0)),
+          file_upload_data_source: S.optional(__S(31776, __c993, 0)),
+          google_drive_data_source: S.optional(__S(33377, __c1043, 1)),
           item_path: S.optional(S.String),
-          spaces_data_source: S.optional(__S(33505, __c1047, 1)),
-          web_crawler_data_source: S.optional(__S(33506, __c1047, 2)),
+          spaces_data_source: S.optional(__S(33441, __c1045, 1)),
+          web_crawler_data_source: S.optional(__S(33442, __c1045, 2)),
         }),
       ).annotate({ identifier: "ApiKBDataSource" });
     case 3:
-      return S.Array(__S(33442, __c1045, 2));
+      return S.Array(__S(33378, __c1043, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           database_id: S.optional(S.String),
-          datasources: S.optional(__S(33443, __c1045, 3)),
+          datasources: S.optional(__S(33379, __c1043, 3)),
           embedding_model_uuid: S.optional(S.String),
           name: S.optional(S.String),
           project_id: S.optional(S.String),
@@ -63768,7 +63754,7 @@ function __c1045(j: number): any {
       ).annotate({ identifier: "CreateGenaiKnowledgeBaseRequest" });
   }
 }
-function __c1046(j: number): any {
+function __c1044(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63782,7 +63768,7 @@ function __c1046(j: number): any {
       ).annotate({ identifier: "ApiAWSDataSource" });
   }
 }
-function __c1047(j: number): any {
+function __c1045(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63812,7 +63798,7 @@ function __c1047(j: number): any {
       ).annotate({ identifier: "ApiWebCrawlerDataSource" });
   }
 }
-function __c1048(j: number): any {
+function __c1046(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63822,7 +63808,7 @@ function __c1048(j: number): any {
       ).annotate({ identifier: "ApiCreateKnowledgeBaseOutput" });
   }
 }
-function __c1049(j: number): any {
+function __c1047(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63841,7 +63827,7 @@ function __c1049(j: number): any {
       ).annotate({ identifier: "PostInsightPromQueryRequest" });
   }
 }
-function __c1050(j: number): any {
+function __c1048(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63862,7 +63848,7 @@ function __c1050(j: number): any {
       ).annotate({ identifier: "PostInsightPromQueryRangeRequest" });
   }
 }
-function __c1051(j: number): any {
+function __c1049(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63881,7 +63867,7 @@ function __c1051(j: number): any {
       ).annotate({ identifier: "PostInsightPromSeriesRequest" });
   }
 }
-function __c1052(j: number): any {
+function __c1050(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63891,7 +63877,7 @@ function __c1052(j: number): any {
       ).annotate({ identifier: "PostMicrovmPauseRequest" });
   }
 }
-function __c1053(j: number): any {
+function __c1051(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63904,7 +63890,7 @@ function __c1053(j: number): any {
       ).annotate({ identifier: "PostReservedIPsActionRequest" });
   }
 }
-function __c1054(j: number): any {
+function __c1052(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63923,7 +63909,7 @@ function __c1054(j: number): any {
       ).annotate({ identifier: "PostReservedIPv6ActionResponse" });
   }
 }
-function __c1055(j: number): any {
+function __c1053(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63936,12 +63922,12 @@ function __c1055(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          action: S.optional(__S(21760, __c680, 0)),
+          action: S.optional(__S(21728, __c679, 0)),
         }),
       ).annotate({ identifier: "PostVolumeActionResponse" });
   }
 }
-function __c1056(j: number): any {
+function __c1054(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63954,7 +63940,7 @@ function __c1056(j: number): any {
       ).annotate({ identifier: "PostVolumeActionByIdRequest" });
   }
 }
-function __c1057(j: number): any {
+function __c1055(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63971,7 +63957,7 @@ function __c1057(j: number): any {
       ).annotate({ identifier: "PromoteDatabaseReplicaRequest" });
   }
 }
-function __c1058(j: number): any {
+function __c1056(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -63982,17 +63968,17 @@ function __c1058(j: number): any {
       ).annotate({ identifier: "PurgeCdnCacheRequest" });
   }
 }
-function __c1059(j: number): any {
+function __c1057(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           knowledge_base_uuid: S.String.pipe(T.Label()),
-          aws_data_source: S.optional(__S(33472, __c1046, 0)),
+          aws_data_source: S.optional(__S(33408, __c1044, 0)),
           chunking_algorithm: S.optional(S.String),
-          chunking_options: S.optional(__S(33504, __c1047, 0)),
-          spaces_data_source: S.optional(__S(33505, __c1047, 1)),
-          web_crawler_data_source: S.optional(__S(33506, __c1047, 2)),
+          chunking_options: S.optional(__S(33440, __c1045, 0)),
+          spaces_data_source: S.optional(__S(33441, __c1045, 1)),
+          web_crawler_data_source: S.optional(__S(33442, __c1045, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -64003,7 +63989,7 @@ function __c1059(j: number): any {
       ).annotate({ identifier: "CreateGenaiKnowledgeBaseDataSourceRequest" });
   }
 }
-function __c1060(j: number): any {
+function __c1058(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64021,36 +64007,36 @@ function __c1060(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          aws_data_source: S.optional(__S(33505, __c1047, 1)),
+          aws_data_source: S.optional(__S(33441, __c1045, 1)),
           bucket_name: S.optional(S.String),
           chunking_algorithm: S.optional(S.String),
-          chunking_options: S.optional(__S(33504, __c1047, 0)),
+          chunking_options: S.optional(__S(33440, __c1045, 0)),
           created_at: S.optional(S.String),
-          dropbox_data_source: S.optional(__S(33920, __c1060, 0)),
-          file_upload_data_source: S.optional(__S(31840, __c995, 0)),
-          google_drive_data_source: S.optional(__S(33921, __c1060, 1)),
+          dropbox_data_source: S.optional(__S(33856, __c1058, 0)),
+          file_upload_data_source: S.optional(__S(31776, __c993, 0)),
+          google_drive_data_source: S.optional(__S(33857, __c1058, 1)),
           item_path: S.optional(S.String),
           last_datasource_indexing_job: S.optional(__S(9856, __c308, 0)),
           region: S.optional(S.String),
-          spaces_data_source: S.optional(__S(33505, __c1047, 1)),
+          spaces_data_source: S.optional(__S(33441, __c1045, 1)),
           updated_at: S.optional(S.String),
           uuid: S.optional(S.String),
-          web_crawler_data_source: S.optional(__S(33506, __c1047, 2)),
+          web_crawler_data_source: S.optional(__S(33442, __c1045, 2)),
         }),
       ).annotate({ identifier: "ApiKnowledgeBaseDataSource" });
   }
 }
-function __c1061(j: number): any {
+function __c1059(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          knowledge_base_data_source: S.optional(__S(33922, __c1060, 2)),
+          knowledge_base_data_source: S.optional(__S(33858, __c1058, 2)),
         }),
       ).annotate({ identifier: "ApiCreateKnowledgeBaseDataSourceOutput" });
   }
 }
-function __c1062(j: number): any {
+function __c1060(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64067,7 +64053,7 @@ function __c1062(j: number): any {
       ).annotate({ identifier: "RegenerateGenaiAgentApiKeyRequest" });
   }
 }
-function __c1063(j: number): any {
+function __c1061(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64083,7 +64069,7 @@ function __c1063(j: number): any {
       ).annotate({ identifier: "RegenerateGenaiModelApiKeyRequest" });
   }
 }
-function __c1064(j: number): any {
+function __c1062(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64094,7 +64080,7 @@ function __c1064(j: number): any {
       ).annotate({ identifier: "RemoveKubernetesRegistriesRequest" });
   }
 }
-function __c1065(j: number): any {
+function __c1063(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64104,7 +64090,7 @@ function __c1065(j: number): any {
       ).annotate({ identifier: "RemoveKubernetesRegistryRequest" });
   }
 }
-function __c1066(j: number): any {
+function __c1064(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64117,7 +64103,7 @@ function __c1066(j: number): any {
       ).annotate({ identifier: "RemoveLoadBalancerDropletsRequest" });
   }
 }
-function __c1067(j: number): any {
+function __c1065(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64134,7 +64120,7 @@ function __c1067(j: number): any {
       ).annotate({ identifier: "RemoveLoadBalancerForwardingRulesRequest" });
   }
 }
-function __c1068(j: number): any {
+function __c1066(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64152,7 +64138,7 @@ function __c1068(j: number): any {
       ).annotate({ identifier: "ResetDatabaseAuthRequest" });
   }
 }
-function __c1069(j: number): any {
+function __c1067(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64163,7 +64149,7 @@ function __c1069(j: number): any {
       ).annotate({ identifier: "RestartAppRequest" });
   }
 }
-function __c1070(j: number): any {
+function __c1068(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64179,7 +64165,7 @@ function __c1070(j: number): any {
       ).annotate({ identifier: "RetryDropletsDestroyWithAssociatedResourcesRequest" });
   }
 }
-function __c1071(j: number): any {
+function __c1069(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64202,7 +64188,7 @@ function __c1071(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.String,
-          output: S.optional(__S(34273, __c1071, 1)),
+          output: S.optional(__S(34209, __c1069, 1)),
           error: S.optional(__S(9312, __c291, 0)),
           call_id: S.String,
           _meta: S.optional(__S(9314, __c291, 2)),
@@ -64210,12 +64196,12 @@ function __c1071(j: number): any {
       ).annotate({ identifier: "RunGatewayCodeResponse" });
   }
 }
-function __c1072(j: number): any {
+function __c1070(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          candidate_inference_config: S.optional(__S(34336, __c1073, 0)),
+          candidate_inference_config: S.optional(__S(34272, __c1071, 0)),
           candidate_model_name: S.optional(S.String),
           candidate_model_source: S.optional(S.String),
           candidate_model_uuid: S.optional(S.String),
@@ -64240,7 +64226,7 @@ function __c1072(j: number): any {
       ).annotate({ identifier: "ApiCreateModelEvaluationRunOutput" });
   }
 }
-function __c1073(j: number): any {
+function __c1071(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64253,7 +64239,7 @@ function __c1073(j: number): any {
       ).annotate({ identifier: "ApiCandidateInferenceConfig" });
   }
 }
-function __c1074(j: number): any {
+function __c1072(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64265,26 +64251,26 @@ function __c1074(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          cache: S.optional(__S(34368, __c1074, 0)),
+          cache: S.optional(__S(34304, __c1072, 0)),
           tool: S.String,
           version: S.optional(S.String),
-          arguments: S.optional(__S(17856, __c558, 0)),
+          arguments: S.optional(__S(17824, __c557, 0)),
         }),
       ).annotate({ identifier: "ToolCall" });
     case 2:
-      return S.Array(__S(34369, __c1074, 1));
+      return S.Array(__S(34305, __c1072, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           rationale: S.optional(S.String),
-          tools: __S(34370, __c1074, 2),
+          tools: __S(34306, __c1072, 2),
         }).pipe(T.Http({ method: "POST", uri: "/tools/invoke", code: 200 })),
       ).annotate({ identifier: "RunGatewayToolRequest" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
-          output: S.optional(__S(17856, __c558, 0)),
+          output: S.optional(__S(17824, __c557, 0)),
           error: S.optional(__S(9312, __c291, 0)),
           call_id: S.String,
           _meta: S.optional(__S(9314, __c291, 2)),
@@ -64296,23 +64282,23 @@ function __c1074(j: number): any {
           index: S.optional(S.Number),
           tool: S.optional(S.String),
           version: S.optional(S.String),
-          result: S.optional(__S(34372, __c1074, 4)),
+          result: S.optional(__S(34308, __c1072, 4)),
         }),
       ).annotate({ identifier: "InvokeToolsItem" });
     case 6:
-      return S.Array(__S(34373, __c1074, 5));
+      return S.Array(__S(34309, __c1072, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           total_count: S.optional(S.Number),
           success_count: S.optional(S.Number),
           error_count: S.optional(S.Number),
-          results: S.optional(__S(34374, __c1074, 6)),
+          results: S.optional(__S(34310, __c1072, 6)),
         }),
       ).annotate({ identifier: "InvokeToolsResponse" });
   }
 }
-function __c1075(j: number): any {
+function __c1073(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64331,7 +64317,7 @@ function __c1075(j: number): any {
       ).annotate({ identifier: "ApiRunEvaluationTestCaseOutput" });
   }
 }
-function __c1076(j: number): any {
+function __c1074(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64351,7 +64337,7 @@ function __c1076(j: number): any {
       ).annotate({ identifier: "RunKubernetesClusterLintRequest" });
   }
 }
-function __c1077(j: number): any {
+function __c1075(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64370,14 +64356,14 @@ function __c1077(j: number): any {
       return S.suspend(() =>
         S.Struct({
           mcpServer: S.optional(__S(1088, __c34, 0)),
-          tools: S.optional(__S(29505, __c922, 1)),
+          tools: S.optional(__S(29441, __c920, 1)),
           pending: S.optional(S.Boolean),
-          authorization: S.optional(S.NullOr(__S(21600, __c675, 0))),
+          authorization: S.optional(S.NullOr(__S(21568, __c674, 0))),
         }),
       ).annotate({ identifier: "ResyncMcpServerResponse" });
   }
 }
-function __c1078(j: number): any {
+function __c1076(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64398,7 +64384,7 @@ function __c1078(j: number): any {
       ).annotate({ identifier: "ExecResponse" });
   }
 }
-function __c1079(j: number): any {
+function __c1077(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64414,7 +64400,7 @@ function __c1079(j: number): any {
       ).annotate({ identifier: "RunRegistryGarbageCollectionRequest" });
   }
 }
-function __c1080(j: number): any {
+function __c1078(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64427,7 +64413,7 @@ function __c1080(j: number): any {
       ).annotate({ identifier: "SecurityPostRestoreSecretRequest" });
   }
 }
-function __c1081(j: number): any {
+function __c1079(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64446,7 +64432,7 @@ function __c1081(j: number): any {
       ).annotate({ identifier: "SecurityRevertSecretRequest" });
   }
 }
-function __c1082(j: number): any {
+function __c1080(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64462,7 +64448,7 @@ function __c1082(j: number): any {
       ).annotate({ identifier: "SignalsCreateExportRequest" });
   }
 }
-function __c1083(j: number): any {
+function __c1081(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64472,7 +64458,7 @@ function __c1083(j: number): any {
       ).annotate({ identifier: "SignalsGetExportRequest" });
   }
 }
-function __c1084(j: number): any {
+function __c1082(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64485,17 +64471,17 @@ function __c1084(j: number): any {
       ).annotate({ identifier: "AddDatabaseRequest" });
   }
 }
-function __c1085(j: number): any {
+function __c1083(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          db: __S(34752, __c1086, 0),
+          db: __S(34688, __c1084, 0),
         }),
       ).annotate({ identifier: "AddDatabaseResponse" });
   }
 }
-function __c1086(j: number): any {
+function __c1084(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64505,7 +64491,7 @@ function __c1086(j: number): any {
       ).annotate({ identifier: "Database" });
   }
 }
-function __c1087(j: number): any {
+function __c1085(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64519,7 +64505,7 @@ function __c1087(j: number): any {
       ).annotate({ identifier: "CreateGenaiModelRouterRequest" });
   }
 }
-function __c1088(j: number): any {
+function __c1086(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64529,7 +64515,7 @@ function __c1088(j: number): any {
       ).annotate({ identifier: "ApiCreateModelRouterOutput" });
   }
 }
-function __c1089(j: number): any {
+function __c1087(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64548,7 +64534,7 @@ function __c1089(j: number): any {
       ).annotate({ identifier: "ExportDownload" });
   }
 }
-function __c1090(j: number): any {
+function __c1088(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64563,12 +64549,12 @@ function __c1090(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          filters: __S(34881, __c1090, 1),
+          filters: __S(34817, __c1088, 1),
         }),
       ).annotate({ identifier: "ExportOptions" });
   }
 }
-function __c1091(j: number): any {
+function __c1089(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64582,13 +64568,13 @@ function __c1091(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          toolbelts: S.optional(__S(31457, __c983, 1)),
+          toolbelts: S.optional(__S(31393, __c981, 1)),
           next_page_token: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchToolbeltsResponse" });
   }
 }
-function __c1092(j: number): any {
+function __c1090(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64603,13 +64589,13 @@ function __c1092(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tools: S.optional(__S(21217, __c663, 1)),
+          tools: S.optional(__S(21185, __c662, 1)),
           next_page_token: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchToolsResponse" });
   }
 }
-function __c1093(j: number): any {
+function __c1091(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64624,13 +64610,13 @@ function __c1093(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          providers: S.optional(__S(31587, __c987, 3)),
+          providers: S.optional(__S(31523, __c985, 3)),
           next_page_token: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchProvidersResponse" });
   }
 }
-function __c1094(j: number): any {
+function __c1092(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64641,7 +64627,7 @@ function __c1094(j: number): any {
       ).annotate({ identifier: "UnassignTagResourcesRequest" });
   }
 }
-function __c1095(j: number): any {
+function __c1093(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64658,19 +64644,19 @@ function __c1095(j: number): any {
       ).annotate({ identifier: "UpdateActorLimitRequest" });
   }
 }
-function __c1096(j: number): any {
+function __c1094(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
-          spec: __S(18336, __c573, 0),
+          spec: __S(18304, __c572, 0),
           update_all_source_versions: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "PUT", uri: "/v2/apps/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateAppRequest" });
   }
 }
-function __c1097(j: number): any {
+function __c1095(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64678,14 +64664,14 @@ function __c1097(j: number): any {
           autoscale_pool_id: S.String.pipe(T.Label()),
           name: S.String,
           config: S.Unknown,
-          droplet_template: __S(19456, __c608, 0),
+          droplet_template: __S(19424, __c607, 0),
         }).pipe(
           T.Http({ method: "PUT", uri: "/v2/droplets/autoscale/{autoscale_pool_id}", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateAutoscalepoolRequest" });
   }
 }
-function __c1098(j: number): any {
+function __c1096(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64698,7 +64684,7 @@ function __c1098(j: number): any {
       ).annotate({ identifier: "UpdateCdnEndpointsRequest" });
   }
 }
-function __c1099(j: number): any {
+function __c1097(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64716,13 +64702,13 @@ function __c1099(j: number): any {
       ).annotate({ identifier: "ApiDropboxOauth2GetTokensOutput" });
   }
 }
-function __c1100(j: number): any {
+function __c1098(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           database_cluster_uuid: S.String.pipe(T.Label()),
-          storage: S.optional(__S(22176, __c693, 0)),
+          storage: S.optional(__S(22144, __c692, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -64733,7 +64719,7 @@ function __c1100(j: number): any {
       ).annotate({ identifier: "UpdateDatabaseAutoscaleRequest" });
   }
 }
-function __c1101(j: number): any {
+function __c1099(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64743,7 +64729,7 @@ function __c1101(j: number): any {
       ).annotate({ identifier: "UpdateDatabaseClusterMetricsCredentialsRequest" });
   }
 }
-function __c1102(j: number): any {
+function __c1100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64758,7 +64744,7 @@ function __c1102(j: number): any {
       ).annotate({ identifier: "UpdateDatabaseClusterSizeRequest" });
   }
 }
-function __c1103(j: number): any {
+function __c1101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64779,13 +64765,13 @@ function __c1103(j: number): any {
       ).annotate({ identifier: "UpdateDatabaseConnectionPoolRequest" });
   }
 }
-function __c1104(j: number): any {
+function __c1102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           database_cluster_uuid: S.String.pipe(T.Label()),
-          do_settings: __S(22336, __c698, 0),
+          do_settings: __S(22304, __c697, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -64796,7 +64782,7 @@ function __c1104(j: number): any {
       ).annotate({ identifier: "UpdateDatabaseDoSettingsRequest" });
   }
 }
-function __c1105(j: number): any {
+function __c1103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64813,13 +64799,13 @@ function __c1105(j: number): any {
       ).annotate({ identifier: "UpdateDatabaseEvictionPolicyRequest" });
   }
 }
-function __c1106(j: number): any {
+function __c1104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           database_cluster_uuid: S.String.pipe(T.Label()),
-          rules: S.optional(__S(22369, __c699, 1)),
+          rules: S.optional(__S(22337, __c698, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -64830,7 +64816,7 @@ function __c1106(j: number): any {
       ).annotate({ identifier: "UpdateDatabaseFirewallRulesRequest" });
   }
 }
-function __c1107(j: number): any {
+function __c1105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64847,7 +64833,7 @@ function __c1107(j: number): any {
       ).annotate({ identifier: "UpdateDatabaseKafkaSchemaConfigRequest" });
   }
 }
-function __c1108(j: number): any {
+function __c1106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64865,7 +64851,7 @@ function __c1108(j: number): any {
       ).annotate({ identifier: "UpdateDatabaseKafkaSchemaSubjectConfigRequest" });
   }
 }
-function __c1109(j: number): any {
+function __c1107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64874,7 +64860,7 @@ function __c1109(j: number): any {
           topic_name: S.String.pipe(T.Label()),
           replication_factor: S.optional(S.Number),
           partition_count: S.optional(S.Number),
-          config: S.optional(__S(23200, __c725, 0)),
+          config: S.optional(__S(23168, __c724, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -64885,7 +64871,7 @@ function __c1109(j: number): any {
       ).annotate({ identifier: "UpdateDatabaseKafkaTopicRequest" });
   }
 }
-function __c1110(j: number): any {
+function __c1108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64896,7 +64882,7 @@ function __c1110(j: number): any {
       ).annotate({ identifier: "CreateGenaiOpenaiApiKeyRequest" });
   }
 }
-function __c1111(j: number): any {
+function __c1109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64906,7 +64892,7 @@ function __c1111(j: number): any {
       ).annotate({ identifier: "ApiCreateOpenAIAPIKeyOutput" });
   }
 }
-function __c1112(j: number): any {
+function __c1110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64924,7 +64910,7 @@ function __c1112(j: number): any {
       ).annotate({ identifier: "UpdateDatabaseLogsinkRequest" });
   }
 }
-function __c1113(j: number): any {
+function __c1111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64942,7 +64928,7 @@ function __c1113(j: number): any {
       ).annotate({ identifier: "UpdateDatabaseMaintenanceWindowRequest" });
   }
 }
-function __c1114(j: number): any {
+function __c1112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64959,7 +64945,7 @@ function __c1114(j: number): any {
       ).annotate({ identifier: "UpdateDatabaseMajorVersionRequest" });
   }
 }
-function __c1115(j: number): any {
+function __c1113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -64975,7 +64961,7 @@ function __c1115(j: number): any {
       return S.suspend(() =>
         S.Struct({
           database_cluster_uuid: S.String.pipe(T.Label()),
-          source: __S(35680, __c1115, 0),
+          source: __S(35616, __c1113, 0),
           disable_ssl: S.optional(S.Boolean),
           ignore_dbs: S.optional(__S(32, __c1, 0)),
         }).pipe(
@@ -64988,7 +64974,7 @@ function __c1115(j: number): any {
       ).annotate({ identifier: "UpdateDatabaseOnlineMigrationRequest" });
   }
 }
-function __c1116(j: number): any {
+function __c1114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65005,7 +64991,7 @@ function __c1116(j: number): any {
       ).annotate({ identifier: "UpdateDatabaseRegionRequest" });
   }
 }
-function __c1117(j: number): any {
+function __c1115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65022,7 +65008,7 @@ function __c1117(j: number): any {
       ).annotate({ identifier: "UpdateDatabaseSqlModeRequest" });
   }
 }
-function __c1118(j: number): any {
+function __c1116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65037,7 +65023,7 @@ function __c1118(j: number): any {
         S.Struct({
           database_cluster_uuid: S.String.pipe(T.Label()),
           username: S.String.pipe(T.Label()),
-          settings: __S(35776, __c1118, 0),
+          settings: __S(35712, __c1116, 0),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -65048,7 +65034,7 @@ function __c1118(j: number): any {
       ).annotate({ identifier: "UpdateDatabaseUserRequest" });
   }
 }
-function __c1119(j: number): any {
+function __c1117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65074,7 +65060,7 @@ function __c1119(j: number): any {
       ).annotate({ identifier: "UpdateDomainRecordRequest" });
   }
 }
-function __c1120(j: number): any {
+function __c1118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65089,7 +65075,7 @@ function __c1120(j: number): any {
       ).annotate({ identifier: "UpdateFirewallRequest" });
   }
 }
-function __c1121(j: number): any {
+function __c1119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65108,24 +65094,24 @@ function __c1121(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          access_key: S.optional(__S(26144, __c817, 0)),
+          access_key: S.optional(__S(26112, __c816, 0)),
         }),
       ).annotate({ identifier: "UpdateFunctionsAccessKeyResponse" });
   }
 }
-function __c1122(j: number): any {
+function __c1120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          file_upload_scenario_set: S.optional(__S(31840, __c995, 0)),
+          file_upload_scenario_set: S.optional(__S(31776, __c993, 0)),
           name: S.optional(S.String),
-          scenarios: S.optional(__S(35937, __c1123, 1)),
+          scenarios: S.optional(__S(35873, __c1121, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/gen-ai/scenario_sets", code: 200 })),
       ).annotate({ identifier: "CreateGenaiScenarioSetRequest" });
   }
 }
-function __c1123(j: number): any {
+function __c1121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65140,10 +65126,10 @@ function __c1123(j: number): any {
         }),
       ).annotate({ identifier: "ApiScenario" });
     case 1:
-      return S.Array(__S(35936, __c1123, 0));
+      return S.Array(__S(35872, __c1121, 0));
   }
 }
-function __c1124(j: number): any {
+function __c1122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65154,7 +65140,7 @@ function __c1124(j: number): any {
       ).annotate({ identifier: "UpdateGatewayApprovalRequest" });
   }
 }
-function __c1125(j: number): any {
+function __c1123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65166,7 +65152,7 @@ function __c1125(j: number): any {
       ).annotate({ identifier: "ApprovalDecisionResponse" });
   }
 }
-function __c1126(j: number): any {
+function __c1124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65184,7 +65170,7 @@ function __c1126(j: number): any {
       ).annotate({ identifier: "UpdateGatewaySessionApprovalRequest" });
   }
 }
-function __c1127(j: number): any {
+function __c1125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65220,7 +65206,7 @@ function __c1127(j: number): any {
       ).annotate({ identifier: "UpdateGenaiAgentRequest" });
   }
 }
-function __c1128(j: number): any {
+function __c1126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65238,7 +65224,7 @@ function __c1128(j: number): any {
       ).annotate({ identifier: "UpdateGenaiAgentApiKeyRequest" });
   }
 }
-function __c1129(j: number): any {
+function __c1127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65255,7 +65241,7 @@ function __c1129(j: number): any {
       ).annotate({ identifier: "UpdateGenaiAgentDeploymentVisibilityRequest" });
   }
 }
-function __c1130(j: number): any {
+function __c1128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65278,7 +65264,7 @@ function __c1130(j: number): any {
       ).annotate({ identifier: "UpdateGenaiAgentFunctionRequest" });
   }
 }
-function __c1131(j: number): any {
+function __c1129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65295,7 +65281,7 @@ function __c1131(j: number): any {
       ).annotate({ identifier: "UpdateGenaiAgentsWorkspaceRequest" });
   }
 }
-function __c1132(j: number): any {
+function __c1130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65309,7 +65295,7 @@ function __c1132(j: number): any {
       ).annotate({ identifier: "UpdateGenaiAnthropicApiKeyRequest" });
   }
 }
-function __c1133(j: number): any {
+function __c1131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65338,7 +65324,7 @@ function __c1133(j: number): any {
       ).annotate({ identifier: "ApiUpdateLinkedAgentOutput" });
   }
 }
-function __c1134(j: number): any {
+function __c1132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65357,7 +65343,7 @@ function __c1134(j: number): any {
       ).annotate({ identifier: "UpdateGenaiCustomEvaluationMetricRequest" });
   }
 }
-function __c1135(j: number): any {
+function __c1133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65374,7 +65360,7 @@ function __c1135(j: number): any {
       ).annotate({ identifier: "CreateGenaiScenarioSetFromLibraryRequest" });
   }
 }
-function __c1136(j: number): any {
+function __c1134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65393,7 +65379,7 @@ function __c1136(j: number): any {
       ).annotate({ identifier: "UpdateGenaiCustomModelMetadataRequest" });
   }
 }
-function __c1137(j: number): any {
+function __c1135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65407,7 +65393,7 @@ function __c1137(j: number): any {
           test_case_uuid: S.String.pipe(T.Label()),
           dataset_uuid: S.optional(S.String),
           description: S.optional(S.String),
-          metrics: S.optional(__S(36384, __c1137, 0)),
+          metrics: S.optional(__S(36320, __c1135, 0)),
           name: S.optional(S.String),
           star_metric: S.optional(__S(10144, __c317, 0)),
         }).pipe(
@@ -65427,7 +65413,7 @@ function __c1137(j: number): any {
       ).annotate({ identifier: "ApiUpdateEvaluationTestCaseOutput" });
   }
 }
-function __c1138(j: number): any {
+function __c1136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65442,7 +65428,7 @@ function __c1138(j: number): any {
       ).annotate({ identifier: "UpdateGenaiKnowledgeBaseRequest" });
   }
 }
-function __c1139(j: number): any {
+function __c1137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65450,7 +65436,7 @@ function __c1139(j: number): any {
           knowledge_base_uuid: S.String.pipe(T.Label()),
           data_source_uuid: S.String.pipe(T.Label()),
           chunking_algorithm: S.optional(S.String),
-          chunking_options: S.optional(__S(33504, __c1047, 0)),
+          chunking_options: S.optional(__S(33440, __c1045, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -65461,7 +65447,7 @@ function __c1139(j: number): any {
       ).annotate({ identifier: "UpdateGenaiKnowledgeBaseDataSourceRequest" });
   }
 }
-function __c1140(j: number): any {
+function __c1138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65474,7 +65460,7 @@ function __c1140(j: number): any {
       ).annotate({ identifier: "UpdateGenaiModelApiKeyRequest" });
   }
 }
-function __c1141(j: number): any {
+function __c1139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65491,7 +65477,7 @@ function __c1141(j: number): any {
       ).annotate({ identifier: "UpdateGenaiModelEvaluationRunRequest" });
   }
 }
-function __c1142(j: number): any {
+function __c1140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65506,7 +65492,7 @@ function __c1142(j: number): any {
       ).annotate({ identifier: "UpdateGenaiModelRouterRequest" });
   }
 }
-function __c1143(j: number): any {
+function __c1141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65518,21 +65504,21 @@ function __c1143(j: number): any {
       ).annotate({ identifier: "UpdateGenaiOpenaiApiKeyRequest" });
   }
 }
-function __c1144(j: number): any {
+function __c1142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           scenario_set_uuid: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          scenarios: S.optional(__S(35937, __c1123, 1)),
+          scenarios: S.optional(__S(35873, __c1121, 1)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/v2/gen-ai/scenario_sets/{scenario_set_uuid}", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateGenaiScenarioSetRequest" });
   }
 }
-function __c1145(j: number): any {
+function __c1143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65543,7 +65529,7 @@ function __c1145(j: number): any {
       ).annotate({ identifier: "UpdateGenaiSimulationRunRequest" });
   }
 }
-function __c1146(j: number): any {
+function __c1144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65555,7 +65541,7 @@ function __c1146(j: number): any {
       ).annotate({ identifier: "CreateGenaiScheduledIndexingRequest" });
   }
 }
-function __c1147(j: number): any {
+function __c1145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65575,12 +65561,12 @@ function __c1147(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          indexing_info: S.optional(__S(36704, __c1147, 0)),
+          indexing_info: S.optional(__S(36640, __c1145, 0)),
         }),
       ).annotate({ identifier: "ApiCreateScheduledIndexingOutput" });
   }
 }
-function __c1148(j: number): any {
+function __c1146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65594,7 +65580,7 @@ function __c1148(j: number): any {
       ).annotate({ identifier: "UpdateGenaiWorkspaceRequest" });
   }
 }
-function __c1149(j: number): any {
+function __c1147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65605,7 +65591,7 @@ function __c1149(j: number): any {
       ).annotate({ identifier: "UpdateHarnessSessionRequest" });
   }
 }
-function __c1150(j: number): any {
+function __c1148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65617,7 +65603,7 @@ function __c1150(j: number): any {
       ).annotate({ identifier: "UpdateHarnessTemplateRequest" });
   }
 }
-function __c1151(j: number): any {
+function __c1149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65630,7 +65616,7 @@ function __c1151(j: number): any {
       ).annotate({ identifier: "UpdateImageRequest" });
   }
 }
-function __c1152(j: number): any {
+function __c1150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65642,7 +65628,7 @@ function __c1152(j: number): any {
       ).annotate({ identifier: "UpdateInsightAlertRuleRequest" });
   }
 }
-function __c1153(j: number): any {
+function __c1151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65653,7 +65639,7 @@ function __c1153(j: number): any {
       ).annotate({ identifier: "UpdateInsightDashboardRequest" });
   }
 }
-function __c1154(j: number): any {
+function __c1152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65669,7 +65655,7 @@ function __c1154(j: number): any {
       ).annotate({ identifier: "UpdateInsightNotificationChannelRequest" });
   }
 }
-function __c1155(j: number): any {
+function __c1153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65689,7 +65675,7 @@ function __c1155(j: number): any {
       ).annotate({ identifier: "UpdateInsightResourceSignalsRequest" });
   }
 }
-function __c1156(j: number): any {
+function __c1154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65719,7 +65705,7 @@ function __c1156(j: number): any {
       ).annotate({ identifier: "UpdateKubernetesClusterRequest" });
   }
 }
-function __c1157(j: number): any {
+function __c1155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65744,7 +65730,7 @@ function __c1157(j: number): any {
       ).annotate({ identifier: "UpdateKubernetesNodePoolRequest" });
   }
 }
-function __c1158(j: number): any {
+function __c1156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65756,8 +65742,8 @@ function __c1158(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          agent_config: S.optional(__S(37120, __c1160, 0)),
-          evaluation_config: S.optional(__S(37056, __c1158, 0)),
+          agent_config: S.optional(__S(37056, __c1158, 0)),
+          evaluation_config: S.optional(__S(36992, __c1156, 0)),
           exploration_budget: S.optional(S.Number),
           judge_model_uuid: S.optional(S.String),
           max_turns: S.optional(S.Number),
@@ -65769,7 +65755,7 @@ function __c1158(j: number): any {
       ).annotate({ identifier: "CreateGenaiSimulationRunRequest" });
   }
 }
-function __c1159(j: number): any {
+function __c1157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65783,7 +65769,7 @@ function __c1159(j: number): any {
       ).annotate({ identifier: "ApiSimulationTokenUsage" });
   }
 }
-function __c1160(j: number): any {
+function __c1158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65804,15 +65790,15 @@ function __c1160(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          token_usage: S.optional(__S(37088, __c1159, 0)),
+          token_usage: S.optional(__S(37024, __c1157, 0)),
           total_duration_sec: S.optional(S.String),
-          verdict_counts: S.optional(__S(37121, __c1160, 1)),
+          verdict_counts: S.optional(__S(37057, __c1158, 1)),
         }),
       ).annotate({ identifier: "ApiSimulationRunResultSummary" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          agent_config: S.optional(__S(37120, __c1160, 0)),
+          agent_config: S.optional(__S(37056, __c1158, 0)),
           created_at: S.optional(S.String),
           created_by_user_email: S.optional(S.String),
           created_by_user_id: S.optional(S.String),
@@ -65825,7 +65811,7 @@ function __c1160(j: number): any {
           judge_model_uuid: S.optional(S.String),
           max_turns: S.optional(S.Number),
           name: S.optional(S.String),
-          result_summary: S.optional(__S(37122, __c1160, 2)),
+          result_summary: S.optional(__S(37058, __c1158, 2)),
           run_uuid: S.optional(S.String),
           scenario_count: S.optional(S.Number),
           scenario_set_uuid: S.optional(S.String),
@@ -65840,17 +65826,17 @@ function __c1160(j: number): any {
       ).annotate({ identifier: "ApiSimulationRun" });
   }
 }
-function __c1161(j: number): any {
+function __c1159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          simulation_run: S.optional(__S(37123, __c1160, 3)),
+          simulation_run: S.optional(__S(37059, __c1158, 3)),
         }),
       ).annotate({ identifier: "ApiCreateSimulationRunOutput" });
   }
 }
-function __c1162(j: number): any {
+function __c1160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65861,7 +65847,7 @@ function __c1162(j: number): any {
       ).annotate({ identifier: "UpdateLoadBalancerRequest" });
   }
 }
-function __c1163(j: number): any {
+function __c1161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65879,7 +65865,7 @@ function __c1163(j: number): any {
       ).annotate({ identifier: "UpdateMcpServerToolsRequest" });
   }
 }
-function __c1164(j: number): any {
+function __c1162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65898,7 +65884,7 @@ function __c1164(j: number): any {
       ).annotate({ identifier: "UpdateMonitoringAlertPolicyRequest" });
   }
 }
-function __c1165(j: number): any {
+function __c1163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65917,7 +65903,7 @@ function __c1165(j: number): any {
       ).annotate({ identifier: "UpdateMonitoringDestinationRequest" });
   }
 }
-function __c1166(j: number): any {
+function __c1164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65932,7 +65918,7 @@ function __c1166(j: number): any {
       ).annotate({ identifier: "UpdateProjectRequest" });
   }
 }
-function __c1167(j: number): any {
+function __c1165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65946,7 +65932,7 @@ function __c1167(j: number): any {
       ).annotate({ identifier: "UpdateProjectDefaultRequest" });
   }
 }
-function __c1168(j: number): any {
+function __c1166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65957,7 +65943,7 @@ function __c1168(j: number): any {
           client_id: S.optional(S.String),
           client_secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
           base_url: S.optional(S.String),
-          credential_parameters: S.optional(__S(17856, __c558, 0)),
+          credential_parameters: S.optional(__S(17824, __c557, 0)),
           reusable_by_team: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -65969,7 +65955,7 @@ function __c1168(j: number): any {
       ).annotate({ identifier: "UpdateProviderCredentialsRequest" });
   }
 }
-function __c1169(j: number): any {
+function __c1167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65987,7 +65973,7 @@ function __c1169(j: number): any {
       ).annotate({ identifier: "UpdateRegistryGarbageCollectionRequest" });
   }
 }
-function __c1170(j: number): any {
+function __c1168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -65997,7 +65983,7 @@ function __c1170(j: number): any {
       ).annotate({ identifier: "UpdateRegistrySubscriptionRequest" });
   }
 }
-function __c1171(j: number): any {
+function __c1169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66010,7 +65996,7 @@ function __c1171(j: number): any {
       ).annotate({ identifier: "UpdateSecuritySecretRequest" });
   }
 }
-function __c1172(j: number): any {
+function __c1170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66022,7 +66008,7 @@ function __c1172(j: number): any {
       ).annotate({ identifier: "CreateGenaiWorkspaceRequest" });
   }
 }
-function __c1173(j: number): any {
+function __c1171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66032,23 +66018,23 @@ function __c1173(j: number): any {
       ).annotate({ identifier: "ApiCreateWorkspaceOutput" });
   }
 }
-function __c1174(j: number): any {
+function __c1172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          tier_coverage: S.optional(__S(30753, __c961, 1)),
+          tier_coverage: S.optional(__S(30689, __c959, 1)),
         }).pipe(T.Http({ method: "PUT", uri: "/v2/security/settings/plan", code: 200 })),
       ).annotate({ identifier: "UpdateSecuritySettingsPlanRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          tier_coverage: S.optional(__S(30753, __c961, 1)),
+          tier_coverage: S.optional(__S(30689, __c959, 1)),
         }),
       ).annotate({ identifier: "UpdateSecuritySettingsPlanResponse" });
   }
 }
-function __c1175(j: number): any {
+function __c1173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66059,17 +66045,17 @@ function __c1175(j: number): any {
       ).annotate({ identifier: "UpdateSignalConsentRequest" });
   }
 }
-function __c1176(j: number): any {
+function __c1174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          consent: __S(30880, __c965, 0),
+          consent: __S(30816, __c963, 0),
         }),
       ).annotate({ identifier: "UpdateSignalConsentResponse" });
   }
 }
-function __c1177(j: number): any {
+function __c1175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66080,7 +66066,7 @@ function __c1177(j: number): any {
       ).annotate({ identifier: "UpdateSignalTeamConsentRequest" });
   }
 }
-function __c1178(j: number): any {
+function __c1176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66092,7 +66078,7 @@ function __c1178(j: number): any {
       ).annotate({ identifier: "UpdateSpacesKeyRequest" });
   }
 }
-function __c1179(j: number): any {
+function __c1177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66103,7 +66089,7 @@ function __c1179(j: number): any {
       ).annotate({ identifier: "UpdateSshKeyRequest" });
   }
 }
-function __c1180(j: number): any {
+function __c1178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66126,7 +66112,7 @@ function __c1180(j: number): any {
       ).annotate({ identifier: "UpdateUptimeAlertRequest" });
   }
 }
-function __c1181(j: number): any {
+function __c1179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66141,7 +66127,7 @@ function __c1181(j: number): any {
       ).annotate({ identifier: "UpdateUptimeCheckRequest" });
   }
 }
-function __c1182(j: number): any {
+function __c1180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66153,7 +66139,7 @@ function __c1182(j: number): any {
       ).annotate({ identifier: "UpdateVectorDatabaseRequest" });
   }
 }
-function __c1183(j: number): any {
+function __c1181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66164,7 +66150,7 @@ function __c1183(j: number): any {
       ).annotate({ identifier: "UpdateVectorDatabaseTagsRequest" });
   }
 }
-function __c1184(j: number): any {
+function __c1182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66177,19 +66163,19 @@ function __c1184(j: number): any {
       ).annotate({ identifier: "UpdateVpcRequest" });
   }
 }
-function __c1185(j: number): any {
+function __c1183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           manifest_yaml: S.String,
-          insights: S.optional(__S(27168, __c849, 0)),
+          insights: S.optional(__S(27104, __c847, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/v2/agents/configs", code: 200 })),
       ).annotate({ identifier: "CreateHarnessConfigRequest" });
   }
 }
-function __c1186(j: number): any {
+function __c1184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66209,7 +66195,7 @@ function __c1186(j: number): any {
         }),
       ).annotate({ identifier: "PermissionRule" });
     case 2:
-      return S.Array(__S(37953, __c1186, 1));
+      return S.Array(__S(37889, __c1184, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -66228,9 +66214,9 @@ function __c1186(j: number): any {
       return S.suspend(() =>
         S.Struct({
           defaultAction: S.optional(S.String),
-          rules: S.optional(__S(37954, __c1186, 2)),
-          filesystem: S.optional(__S(37955, __c1186, 3)),
-          network: S.optional(__S(37956, __c1186, 4)),
+          rules: S.optional(__S(37890, __c1184, 2)),
+          filesystem: S.optional(__S(37891, __c1184, 3)),
+          network: S.optional(__S(37892, __c1184, 4)),
         }),
       ).annotate({ identifier: "Permissions" });
     case 6:
@@ -66244,8 +66230,8 @@ function __c1186(j: number): any {
       return S.suspend(() =>
         S.Struct({
           adapter: S.String,
-          custom: S.optional(__S(37958, __c1186, 6)),
-          config: S.optional(__S(17856, __c558, 0)),
+          custom: S.optional(__S(37894, __c1184, 6)),
+          config: S.optional(__S(17824, __c557, 0)),
         }),
       ).annotate({ identifier: "AgentManifestSpecRuntime" });
     case 8:
@@ -66267,7 +66253,7 @@ function __c1186(j: number): any {
         }),
       ).annotate({ identifier: "AgentManifestSpecSandboxMountsItem" });
     case 10:
-      return S.Array(__S(37961, __c1186, 9));
+      return S.Array(__S(37897, __c1184, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -66275,11 +66261,11 @@ function __c1186(j: number): any {
         }),
       ).annotate({ identifier: "AgentManifestSpecSandboxEgressAllowItem" });
     case 12:
-      return S.Array(__S(37963, __c1186, 11));
+      return S.Array(__S(37899, __c1184, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          allow: S.optional(__S(37964, __c1186, 12)),
+          allow: S.optional(__S(37900, __c1184, 12)),
           allowIps: S.optional(__S(32, __c1, 0)),
           vpcUuid: S.optional(S.String),
           subnetUuid: S.optional(S.String),
@@ -66294,8 +66280,8 @@ function __c1186(j: number): any {
           idleTimeoutSeconds: S.optional(S.Number),
           maxLifetimeSeconds: S.optional(S.Number),
           sizeSlug: S.optional(S.String),
-          mounts: S.optional(__S(37962, __c1186, 10)),
-          egress: S.optional(__S(37965, __c1186, 13)),
+          mounts: S.optional(__S(37898, __c1184, 10)),
+          egress: S.optional(__S(37901, __c1184, 13)),
         }),
       ).annotate({ identifier: "AgentManifestSpecSandbox" });
     case 15:
@@ -66321,15 +66307,15 @@ function __c1186(j: number): any {
           url: S.optional(S.String),
           tools: S.optional(__S(32, __c1, 0)),
           preloadTools: S.optional(__S(32, __c1, 0)),
-          auth: S.optional(__S(37968, __c1186, 16)),
+          auth: S.optional(__S(37904, __c1184, 16)),
         }),
       ).annotate({ identifier: "AgentManifestSpecToolsMcpServersItem" });
     case 18:
-      return S.Array(__S(37969, __c1186, 17));
+      return S.Array(__S(37905, __c1184, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
-          mcpServers: S.optional(__S(37970, __c1186, 18)),
+          mcpServers: S.optional(__S(37906, __c1184, 18)),
           bundle: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgentManifestSpecTools" });
@@ -66345,7 +66331,7 @@ function __c1186(j: number): any {
         }),
       ).annotate({ identifier: "AgentManifestSpecSkillsItem" });
     case 21:
-      return S.Array(__S(37972, __c1186, 20));
+      return S.Array(__S(37908, __c1184, 20));
     case 22:
       return S.suspend(() =>
         S.Struct({
@@ -66365,7 +66351,7 @@ function __c1186(j: number): any {
         }),
       ).annotate({ identifier: "AgentManifestSpecSecretsItem" });
     case 24:
-      return S.Array(__S(37975, __c1186, 23));
+      return S.Array(__S(37911, __c1184, 23));
     case 25:
       return S.suspend(() =>
         S.Struct({
@@ -66378,7 +66364,7 @@ function __c1186(j: number): any {
     case 26:
       return S.suspend(() =>
         S.Struct({
-          budget: S.optional(__S(37977, __c1186, 25)),
+          budget: S.optional(__S(37913, __c1184, 25)),
         }),
       ).annotate({ identifier: "AgentManifestSpecDefaults" });
     case 27:
@@ -66393,25 +66379,25 @@ function __c1186(j: number): any {
           minReplicas: S.optional(S.Number),
           maxReplicas: S.optional(S.Number),
           targetConcurrency: S.optional(S.Number),
-          scaleToZero: S.optional(__S(37979, __c1186, 27)),
+          scaleToZero: S.optional(__S(37915, __c1184, 27)),
         }),
       ).annotate({ identifier: "AgentManifestSpecServing" });
     case 29:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(37957, __c1186, 5)),
+          permissions: S.optional(__S(37893, __c1184, 5)),
           mode: S.optional(S.String),
-          runtime: __S(37959, __c1186, 7),
-          workspace: S.optional(__S(37960, __c1186, 8)),
-          sandbox: S.optional(__S(37966, __c1186, 14)),
-          model: S.optional(__S(37967, __c1186, 15)),
-          tools: S.optional(__S(37971, __c1186, 19)),
-          skills: S.optional(__S(37973, __c1186, 21)),
+          runtime: __S(37895, __c1184, 7),
+          workspace: S.optional(__S(37896, __c1184, 8)),
+          sandbox: S.optional(__S(37902, __c1184, 14)),
+          model: S.optional(__S(37903, __c1184, 15)),
+          tools: S.optional(__S(37907, __c1184, 19)),
+          skills: S.optional(__S(37909, __c1184, 21)),
           env: S.optional(__S(9952, __c311, 0)),
-          memory: S.optional(__S(37974, __c1186, 22)),
-          secrets: S.optional(__S(37976, __c1186, 24)),
-          defaults: S.optional(__S(37978, __c1186, 26)),
-          serving: S.optional(__S(37980, __c1186, 28)),
+          memory: S.optional(__S(37910, __c1184, 22)),
+          secrets: S.optional(__S(37912, __c1184, 24)),
+          defaults: S.optional(__S(37914, __c1184, 26)),
+          serving: S.optional(__S(37916, __c1184, 28)),
         }),
       ).annotate({ identifier: "AgentManifestSpec" });
     case 30:
@@ -66419,8 +66405,8 @@ function __c1186(j: number): any {
         S.Struct({
           apiVersion: S.optional(S.String),
           kind: S.optional(S.String),
-          metadata: S.optional(__S(37952, __c1186, 0)),
-          spec: S.optional(__S(37981, __c1186, 29)),
+          metadata: S.optional(__S(37888, __c1184, 0)),
+          spec: S.optional(__S(37917, __c1184, 29)),
         }),
       ).annotate({ identifier: "AgentManifest" });
     case 31:
@@ -66433,35 +66419,35 @@ function __c1186(j: number): any {
       ).annotate({ identifier: "AgentConfigCredentialSlot" });
   }
 }
-function __c1187(j: number): any {
+function __c1185(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(37983, __c1186, 31));
+      return S.Array(__S(37919, __c1184, 31));
     case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           name: S.String,
           agentspec_schema_version: S.String,
-          manifest: __S(37982, __c1186, 30),
+          manifest: __S(37918, __c1184, 30),
           content_hash: S.String,
-          insights: S.optional(__S(27168, __c849, 0)),
+          insights: S.optional(__S(27104, __c847, 0)),
           created_by: S.String,
           created_at: S.String,
           updated_at: S.String,
-          credentials: S.optional(__S(37984, __c1187, 0)),
+          credentials: S.optional(__S(37920, __c1185, 0)),
           region: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgentConfig" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          config: S.optional(__S(37985, __c1187, 1)),
+          config: S.optional(__S(37921, __c1185, 1)),
         }),
       ).annotate({ identifier: "AgentConfigResponse" });
   }
 }
-function __c1188(j: number): any {
+function __c1186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66472,14 +66458,14 @@ function __c1188(j: number): any {
         }),
       ).annotate({ identifier: "UpdateVpcnatgatewayRequestVpcsItem" });
     case 1:
-      return S.Array(__S(38016, __c1188, 0));
+      return S.Array(__S(37952, __c1186, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           name: S.String,
           size: S.Number,
-          vpcs: S.optional(__S(38017, __c1188, 1)),
+          vpcs: S.optional(__S(37953, __c1186, 1)),
           udp_timeout_seconds: S.optional(S.Number),
           icmp_timeout_seconds: S.optional(S.Number),
           tcp_timeout_seconds: S.optional(S.Number),
@@ -66490,7 +66476,7 @@ function __c1188(j: number): any {
         S.Struct({
           name: S.String,
           size: S.Number,
-          vpcs: S.optional(__S(38017, __c1188, 1)),
+          vpcs: S.optional(__S(37953, __c1186, 1)),
           udp_timeout_seconds: S.optional(S.Number),
           icmp_timeout_seconds: S.optional(S.Number),
           tcp_timeout_seconds: S.optional(S.Number),
@@ -66499,12 +66485,12 @@ function __c1188(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          vpc_nat_gateway: S.optional(__S(38019, __c1188, 3)),
+          vpc_nat_gateway: S.optional(__S(37955, __c1186, 3)),
         }),
       ).annotate({ identifier: "UpdateVpcnatgatewayResponse" });
   }
 }
-function __c1189(j: number): any {
+function __c1187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66518,7 +66504,7 @@ function __c1189(j: number): any {
       ).annotate({ identifier: "UpdateVpcSubnetRequest" });
   }
 }
-function __c1190(j: number): any {
+function __c1188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66537,7 +66523,7 @@ function __c1190(j: number): any {
       ).annotate({ identifier: "UpdateVpcSubnetRouteRequest" });
   }
 }
-function __c1191(j: number): any {
+function __c1189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66545,7 +66531,7 @@ function __c1191(j: number): any {
       ).annotate({ identifier: "UploadInferenceBatchFileRequest" });
   }
 }
-function __c1192(j: number): any {
+function __c1190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66571,12 +66557,12 @@ function __c1192(j: number): any {
       ).annotate({ identifier: "FileInfo" });
   }
 }
-function __c1193(j: number): any {
+function __c1191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          spec: __S(18336, __c573, 0),
+          spec: __S(18304, __c572, 0),
           app_id: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/v2/apps/propose", code: 200 })),
       ).annotate({ identifier: "ValidateAppAppSpecRequest" });
@@ -66594,7 +66580,7 @@ function __c1193(j: number): any {
       ).annotate({ identifier: "AppProposeResponse" });
   }
 }
-function __c1194(j: number): any {
+function __c1192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66613,18 +66599,18 @@ function __c1194(j: number): any {
         }),
       ).annotate({ identifier: "ValidateAppRollbackResponseError" });
     case 2:
-      return S.Array(__S(38209, __c1194, 1));
+      return S.Array(__S(38145, __c1192, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           valid: S.optional(S.Boolean),
-          error: S.optional(__S(38209, __c1194, 1)),
-          warnings: S.optional(__S(38210, __c1194, 2)),
+          error: S.optional(__S(38145, __c1192, 1)),
+          warnings: S.optional(__S(38146, __c1192, 2)),
         }),
       ).annotate({ identifier: "ValidateAppRollbackResponse" });
   }
 }
-function __c1195(j: number): any {
+function __c1193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66645,7 +66631,7 @@ function __c1195(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          rule: S.optional(__S(38241, __c1195, 1)),
+          rule: S.optional(__S(38177, __c1193, 1)),
           verdict: S.optional(S.String),
           rendered: S.optional(S.String),
           reason: S.optional(S.String),
@@ -66653,7 +66639,7 @@ function __c1195(j: number): any {
         }),
       ).annotate({ identifier: "RuleVerdict" });
     case 3:
-      return S.Array(__S(38242, __c1195, 2));
+      return S.Array(__S(38178, __c1193, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -66664,12 +66650,12 @@ function __c1195(j: number): any {
           defaultActionVerdict: S.optional(S.String),
           defaultActionRendered: S.optional(S.String),
           defaultActionReason: S.optional(S.String),
-          verdicts: S.optional(__S(38243, __c1195, 3)),
+          verdicts: S.optional(__S(38179, __c1193, 3)),
         }),
       ).annotate({ identifier: "ValidationResult" });
   }
 }
-function __c1196(j: number): any {
+function __c1194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66685,7 +66671,7 @@ function __c1196(j: number): any {
       ).annotate({ identifier: "ValidateOutputViewRequest" });
   }
 }
-function __c1197(j: number): any {
+function __c1195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66695,7 +66681,7 @@ function __c1197(j: number): any {
       ).annotate({ identifier: "ValidateRegistryNameRequest" });
   }
 }
-function __c1198(j: number): any {
+function __c1196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66709,7 +66695,7 @@ function __c1198(j: number): any {
       ).annotate({ identifier: "CreateHarnessProviderConnectionRequest" });
   }
 }
-function __c1199(j: number): any {
+function __c1197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66730,12 +66716,12 @@ function __c1199(j: number): any {
           deletion_protected: S.optional(S.Boolean),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
-          oauth: S.optional(__S(38368, __c1199, 0)),
+          oauth: S.optional(__S(38304, __c1197, 0)),
         }),
       ).annotate({ identifier: "ProviderConnection" });
   }
 }
-function __c1200(j: number): any {
+function __c1198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66749,13 +66735,13 @@ function __c1200(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          connection: S.optional(__S(38369, __c1199, 1)),
-          authorization: S.optional(__S(38400, __c1200, 0)),
+          connection: S.optional(__S(38305, __c1197, 1)),
+          authorization: S.optional(__S(38336, __c1198, 0)),
         }),
       ).annotate({ identifier: "ProviderConnectionResponse" });
   }
 }
-function __c1201(j: number): any {
+function __c1199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66780,7 +66766,7 @@ function __c1201(j: number): any {
       ).annotate({ identifier: "VectordbGetRestoreStatusResponse" });
   }
 }
-function __c1202(j: number): any {
+function __c1200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66791,7 +66777,7 @@ function __c1202(j: number): any {
       ).annotate({ identifier: "VectorDatabasesPostResizeRequest" });
   }
 }
-function __c1203(j: number): any {
+function __c1201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66815,7 +66801,7 @@ function __c1203(j: number): any {
       ).annotate({ identifier: "VectordbRestoreBackupResponse" });
   }
 }
-function __c1204(j: number): any {
+function __c1202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66826,17 +66812,17 @@ function __c1204(j: number): any {
           size: S.Number,
           db: S.String,
           user: S.optional(S.String),
-          connection: S.optional(__S(38560, __c1205, 0)),
-          private_connection: S.optional(__S(38560, __c1205, 0)),
-          standby_connection: S.optional(__S(38560, __c1205, 0)),
-          standby_private_connection: S.optional(__S(38560, __c1205, 0)),
+          connection: S.optional(__S(38496, __c1203, 0)),
+          private_connection: S.optional(__S(38496, __c1203, 0)),
+          standby_connection: S.optional(__S(38496, __c1203, 0)),
+          standby_private_connection: S.optional(__S(38496, __c1203, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/v2/databases/{database_cluster_uuid}/pools", code: 200 }),
         ),
       ).annotate({ identifier: "AddDatabaseConnectionPoolRequest" });
   }
 }
-function __c1205(j: number): any {
+function __c1203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -66844,17 +66830,17 @@ function __c1205(j: number): any {
       });
   }
 }
-function __c1206(j: number): any {
+function __c1204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pool: __S(38624, __c1207, 0),
+          pool: __S(38560, __c1205, 0),
         }),
       ).annotate({ identifier: "AddDatabaseConnectionPoolResponse" });
   }
 }
-function __c1207(j: number): any {
+function __c1205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66864,15 +66850,15 @@ function __c1207(j: number): any {
           size: S.Number,
           db: S.String,
           user: S.optional(S.String),
-          connection: S.optional(__S(38656, __c1208, 0)),
-          private_connection: S.optional(__S(38656, __c1208, 0)),
-          standby_connection: S.optional(__S(38656, __c1208, 0)),
-          standby_private_connection: S.optional(__S(38656, __c1208, 0)),
+          connection: S.optional(__S(38592, __c1206, 0)),
+          private_connection: S.optional(__S(38592, __c1206, 0)),
+          standby_connection: S.optional(__S(38592, __c1206, 0)),
+          standby_private_connection: S.optional(__S(38592, __c1206, 0)),
         }),
       ).annotate({ identifier: "ConnectionPool" });
   }
 }
-function __c1208(j: number): any {
+function __c1206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66888,7 +66874,7 @@ function __c1208(j: number): any {
       ).annotate({ identifier: "ConnectionPoolConnection" });
   }
 }
-function __c1209(j: number): any {
+function __c1207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66903,17 +66889,17 @@ function __c1209(j: number): any {
       ).annotate({ identifier: "CreateHarnessSessionRequest" });
   }
 }
-function __c1210(j: number): any {
+function __c1208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          session: S.optional(__S(38752, __c1211, 0)),
+          session: S.optional(__S(38688, __c1209, 0)),
         }),
       ).annotate({ identifier: "DefinitionsCreateSessionResponse" });
   }
 }
-function __c1211(j: number): any {
+function __c1209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66943,7 +66929,7 @@ function __c1211(j: number): any {
       ).annotate({ identifier: "DefinitionsSession" });
   }
 }
-function __c1212(j: number): any {
+function __c1210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66960,17 +66946,17 @@ function __c1212(j: number): any {
       ).annotate({ identifier: "CreateHarnessSessionCheckpointRequest" });
   }
 }
-function __c1213(j: number): any {
+function __c1211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          checkpoint: S.optional(__S(38848, __c1214, 0)),
+          checkpoint: S.optional(__S(38784, __c1212, 0)),
         }),
       ).annotate({ identifier: "CreateCheckpointResponse" });
   }
 }
-function __c1214(j: number): any {
+function __c1212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -66988,7 +66974,7 @@ function __c1214(j: number): any {
       ).annotate({ identifier: "Checkpoint" });
   }
 }
-function __c1215(j: number): any {
+function __c1213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -67003,18 +66989,18 @@ function __c1215(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sessions: S.optional(__S(38912, __c1216, 0)),
+          sessions: S.optional(__S(38848, __c1214, 0)),
         }),
       ).annotate({ identifier: "ForkSessionResponse" });
   }
 }
-function __c1216(j: number): any {
+function __c1214(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(38752, __c1211, 0));
+      return S.Array(__S(38688, __c1209, 0));
   }
 }
-function __c1217(j: number): any {
+function __c1215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -67027,7 +67013,7 @@ function __c1217(j: number): any {
       ).annotate({ identifier: "CreateHarnessSessionInputRequest" });
   }
 }
-function __c1218(j: number): any {
+function __c1216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -67037,7 +67023,7 @@ function __c1218(j: number): any {
       ).annotate({ identifier: "SendInputResponse" });
   }
 }
-function __c1219(j: number): any {
+function __c1217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -67070,7 +67056,7 @@ function __c1219(j: number): any {
       ).annotate({ identifier: "WorkspaceTransferCreated" });
   }
 }
-function __c1220(j: number): any {
+function __c1218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -67082,7 +67068,7 @@ function __c1220(j: number): any {
       ).annotate({ identifier: "CreateHarnessTemplateRequest" });
   }
 }
-function __c1221(j: number): any {
+function __c1219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -67097,19 +67083,19 @@ function __c1221(j: number): any {
       return S.suspend(() =>
         S.Struct({
           base_template: S.optional(S.String),
-          image: S.optional(__S(39072, __c1221, 0)),
+          image: S.optional(__S(39008, __c1219, 0)),
         }),
       ).annotate({ identifier: "SandboxTemplateSpec" });
   }
 }
-function __c1222(j: number): any {
+function __c1220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           template_id: S.String,
           name: S.String,
-          spec: S.optional(__S(39073, __c1221, 1)),
+          spec: S.optional(__S(39009, __c1219, 1)),
           status: S.String,
           created_at: S.String,
           updated_at: S.String,
@@ -67117,17 +67103,17 @@ function __c1222(j: number): any {
       ).annotate({ identifier: "SandboxTemplate" });
   }
 }
-function __c1223(j: number): any {
+function __c1221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          template: S.optional(__S(39104, __c1222, 0)),
+          template: S.optional(__S(39040, __c1220, 0)),
         }),
       ).annotate({ identifier: "CreateTemplateResponse" });
   }
 }
-function __c1224(j: number): any {
+function __c1222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -67138,17 +67124,17 @@ function __c1224(j: number): any {
       ).annotate({ identifier: "CreateHarnessWorkspaceRequest" });
   }
 }
-function __c1225(j: number): any {
+function __c1223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          workspace: S.optional(__S(39232, __c1226, 0)),
+          workspace: S.optional(__S(39168, __c1224, 0)),
         }),
       ).annotate({ identifier: "CreateWorkspaceResponse" });
   }
 }
-function __c1226(j: number): any {
+function __c1224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -67168,7 +67154,7 @@ function __c1226(j: number): any {
       ).annotate({ identifier: "Workspace" });
   }
 }
-function __c1227(j: number): any {
+function __c1225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -67181,10 +67167,37 @@ function __c1227(j: number): any {
           tags: S.optional(S.NullOr(__S(32, __c1, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/v2/images", code: 200 })),
       ).annotate({ identifier: "CreateImageCustomRequest" });
-    case 1:
+  }
+}
+function __c1226(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
-          image: S.optional(__S(26592, __c831, 0)),
+          id: S.Number,
+          name: S.String,
+          type: S.String,
+          distribution: S.optional(S.String),
+          slug: S.optional(S.NullOr(S.String)),
+          public: S.optional(S.Boolean),
+          regions: __S(9984, __c312, 0),
+          created_at: S.String,
+          min_disk_size: S.optional(S.NullOr(S.Number)),
+          size_gigabytes: S.optional(S.NullOr(S.Number)),
+          description: S.optional(S.String),
+          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
+          status: S.String,
+          error_message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Image" });
+  }
+}
+function __c1227(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          image: __S(39232, __c1226, 0),
         }),
       ).annotate({ identifier: "CreateImageCustomResponse" });
   }
