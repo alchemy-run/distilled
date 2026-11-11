@@ -25,6 +25,22 @@ const digitaloceanSpec: SdkSpec = {
   nullableTrait: NULLABLE_TRAIT,
   errorMatchersTrait: ERROR_MATCHERS_TRAIT,
 
+  // A response whose sole member is a raw Blob body is the bytes themselves
+  // (audio from Serverless Inference's speech endpoint).
+  shapeOverride: ({ name, def }) => {
+    if (
+      def.type === "structure" &&
+      Object.keys(def.members ?? {}).length === 1 &&
+      def.members.body?.target === "smithy.api#Blob" &&
+      RAW_RESPONSE_TRAIT in (def.members.body.traits ?? {})
+    ) {
+      return [
+        `export type ${name} = Uint8Array;`,
+        `export const ${name} = S.instanceOf(Uint8Array).pipe(T.BinaryResponse()) as S.Schema<${name}>;`,
+      ];
+    }
+  },
+
   extraBindings: [
     {
       // Sole member of a synthesized wrapper for bare array/scalar response
