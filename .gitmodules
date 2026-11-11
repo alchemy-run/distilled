@@ -18,6 +18,11 @@
 	url = https://github.com/distilled-mirror/spec-mirror-coinbase.git
 	shallow = true
 	ignore = dirty
+[submodule "packages/convex/specs/spec-mirror-convex"]
+	path = packages/convex/specs/spec-mirror-convex
+	url = https://github.com/distilled-mirror/spec-mirror-convex.git
+	ignore = dirty
+	shallow = true
 [submodule "packages/discord/specs/spec-mirror-discord"]
 	path = packages/discord/specs/spec-mirror-discord
 	url = https://github.com/distilled-mirror/spec-mirror-discord.git
