@@ -1,0 +1,10 @@
+{
+  "description": "Mark the PEM-encoded client key the Bazel cache hands out sensitive.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.bazel.cache#EnsureBazelCacheResponse/members/clientKeyPem/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

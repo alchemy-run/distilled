@@ -1,0 +1,15 @@
+{
+  "description": "Mark the upload finalize token sensitive: it is a `bytes` capability token that authorises FinalizeUploadResult, base64 on the Connect-JSON wire.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.experimental.remote.results#PrepareUploadResultResponse/members/finalizeToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.experimental.remote.results#FinalizeUploadResultRequest/members/finalizeToken/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

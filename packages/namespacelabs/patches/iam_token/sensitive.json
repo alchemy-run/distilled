@@ -1,0 +1,30 @@
+{
+  "description": "Mark the tokens TokenService mints and accepts sensitive: the bearer tokens IssueTenantToken, IssueTenantTokenWithOIDC and CreateRevokableToken return, the OIDC ID token IssueIdToken returns, and the external OIDC token IssueTenantTokenWithOIDC takes.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.iam.token#IssueTenantTokenResponse/members/bearerToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.iam.token#IssueTenantTokenWithOIDCResponse/members/bearerToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.iam.token#CreateRevokableTokenResponse/members/bearerToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.iam.token#IssueIdTokenResponse/members/idToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.iam.token#IssueTenantTokenWithOIDCRequest/members/oidcToken/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

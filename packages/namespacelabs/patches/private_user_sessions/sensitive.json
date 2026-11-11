@@ -1,0 +1,12 @@
+{
+  "description": "Mark the tenant token issued from a user session sensitive.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.private.user.sessions#IssueTenantTokenFromSessionResponse/members/tenantToken/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    }
+  ]
+}

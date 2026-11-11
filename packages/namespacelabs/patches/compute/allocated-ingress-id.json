@@ -1,0 +1,12 @@
+{
+  "description": "`ListIngresses` returns each ingress's `ingressId`, which the published proto does not declare on `AllocatedIngress`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.compute#AllocatedIngress/members/ingressId",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    }
+  ]
+}

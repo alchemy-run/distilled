@@ -1,0 +1,10 @@
+{
+  "description": "Mark the builder client certificate's private key sensitive.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.builder#BuilderCredentials/members/privateKeyPem/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

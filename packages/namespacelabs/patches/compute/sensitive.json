@@ -1,0 +1,27 @@
+{
+  "description": "Mark the instance SSH private keys, the Kubernetes client key and the kubeconfig sensitive: `bytes` fields are base64 strings on the Connect-JSON wire, so the converter's name patterns do not see them.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.compute#GetSSHConfigResponse/members/sshPrivateKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.compute#InstanceExtendedMetadataSshMetadata/members/sshPrivateKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.compute#InstanceExtendedMetadataKubernetesInstanceMetadata/members/clientKeyData/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.compute#GetKubernetesConfigResponse/members/kubeconfig/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    }
+  ]
+}

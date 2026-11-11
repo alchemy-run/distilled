@@ -1,0 +1,20 @@
+{
+  "description": "Mark vault secret values sensitive: the value stored by create and update, and the decrypted value a revealable object returns.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.vault#CreateObjectRequest/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.vault#UpdateObjectRequest/members/newValue/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.vault#DescribeObjectResponse/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

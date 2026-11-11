@@ -1,0 +1,15 @@
+{
+  "description": "Mark the tenant bearer token IssueTenantToken returns and the private key IssueTenantClientCertificate generates sensitive.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.iam.tenant#IssueTenantTokenResponse/members/bearerToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.iam.tenant#IssueTenantClientCertificateResponse/members/privateKeyPem/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}
