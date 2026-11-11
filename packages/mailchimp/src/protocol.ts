@@ -3,7 +3,7 @@ import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/cor
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
- * MailchimpProtocol — hand-written.
+ * MailchimpProtocol -- hand-written.
  *
  * Plain JSON REST with no response envelope. Failures are RFC 7807 problem
  * documents:

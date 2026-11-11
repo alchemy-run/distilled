@@ -40,7 +40,7 @@ const ProblemFields = {
 };
 
 /**
- * A problem document on a status the core map does not cover (405, 414, …).
+ * A problem document on a status the core map does not cover (405, 414, ...).
  * Not categorised as a server error: those retry, and these never succeed.
  */
 export class MailchimpApiError
